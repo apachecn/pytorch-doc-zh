@@ -3,24 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-:github_url: https://github.com/pytorch/pytorch
+:github_url: https://github.com/apachecn/pytorch-doc-zh
 
-PyTorch documentation
+PyTorch 0.3.0 中文文档
 ===================================
 
-PyTorch is an optimized tensor library for deep learning using GPUs and CPUs.
+PyTorch 是一个针对 deep learning（深度学习）, 并且使用 GPU 和 CPU 来优化的 tensor library（张量库）.
 
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: Notes
+   :caption: 介绍
 
    notes/*
 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Package Reference
+   :caption: Package 参考
 
    torch
    tensors
@@ -42,13 +42,18 @@ PyTorch is an optimized tensor library for deep learning using GPUs and CPUs.
 .. toctree::
    :glob:
    :maxdepth: 2
-   :caption: torchvision Reference
+   :caption: torchvision 参考
 
    torchvision/index
 
 
-Indices and tables
+索引表
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
+
+相关链接
+==================
+-  GitHub: `apachecn/pytorch-doc-zh <https://github.com/apachecn/pytorch-doc-zh>`__
+-  组织学习交流群: `<http://www.apachecn.org/organization/348.html>`__
