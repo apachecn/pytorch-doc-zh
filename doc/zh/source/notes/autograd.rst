@@ -41,11 +41,11 @@
     model = torchvision.models.resnet18(pretrained=True)
     for param in model.parameters():
         param.requires_grad = False
-    # Replace the last fully-connected layer
-    # Parameters of newly constructed modules have requires_grad=True by default
+    # 替换最后一个 fully-connected layer（全连接层）
+    # 新构造的模块默认情况下参数默认 requires_grad=True
     model.fc = nn.Linear(512, 100)
 
-    # Optimize only the classifier
+    # 仅用于分类器的优化器
     optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
 
 ``volatile``
