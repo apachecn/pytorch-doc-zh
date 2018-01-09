@@ -45,7 +45,7 @@
     # 新构造的模块默认情况下参数默认 requires_grad=True
     model.fc = nn.Linear(512, 100)
 
-    # 仅用于分类器的优化
+    # 仅用于分类器的优化器
     optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
 
 ``volatile``
