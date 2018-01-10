@@ -89,7 +89,7 @@ def save_image(tensor, filename, nrow=8, padding=2,
 
     Args:
         tensor (Tensor or list): 被保存的图片. 如果给定的是 mini-batch tensor,
-            saves the tensor as a grid of images 通过调用 ``make_grid`` 将 tensor 保存为网格图像.
+            通过调用 ``make_grid`` 将 tensor 保存为网格图像.
         **kwargs: 其它参数记录在 ``make_grid`` 中.
     """
     from PIL import Image
