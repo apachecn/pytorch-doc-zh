@@ -5,7 +5,7 @@ irange = range
 
 def make_grid(tensor, nrow=8, padding=2,
               normalize=False, range=None, scale_each=False, pad_value=0):
-    """Make a grid of images.
+    """制作一个图形网格.
 
     Args:
         tensor (Tensor or list): 4D mini-batch Tensor of shape (B x C x H x W)
@@ -23,7 +23,7 @@ def make_grid(tensor, nrow=8, padding=2,
         pad_value (float, optional): Value for the padded pixels.
 
     Example:
-        See this notebook `here <https://gist.github.com/anonymous/bf16430f7750c023141c562f3e9f2a91>`_
+        请参阅 `这里的 <https://gist.github.com/anonymous/bf16430f7750c023141c562f3e9f2a91>`_ 手册
 
     """
     if not (torch.is_tensor(tensor) or
@@ -85,12 +85,12 @@ def make_grid(tensor, nrow=8, padding=2,
 
 def save_image(tensor, filename, nrow=8, padding=2,
                normalize=False, range=None, scale_each=False, pad_value=0):
-    """Save a given Tensor into an image file.
+    """将一个给定的 Tensor 保存为 image（图像）文件.
 
     Args:
-        tensor (Tensor or list): Image to be saved. If given a mini-batch tensor,
-            saves the tensor as a grid of images by calling ``make_grid``.
-        **kwargs: Other arguments are documented in ``make_grid``.
+        tensor (Tensor or list): 被保存的图片. 如果给定的是 mini-batch tensor,
+            saves the tensor as a grid of images 通过调用 ``make_grid`` 将 tensor 保存为网格图像.
+        **kwargs: 其它参数记录在 ``make_grid`` 中.
     """
     from PIL import Image
     tensor = tensor.cpu()
