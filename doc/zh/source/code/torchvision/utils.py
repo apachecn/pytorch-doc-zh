@@ -23,7 +23,7 @@ def make_grid(tensor, nrow=8, padding=2,
         pad_value (float, optional): Value for the padded pixels.
 
     Example:
-        请参阅 `这里的 <https://gist.github.com/anonymous/bf16430f7750c023141c562f3e9f2a91>`_ 手册
+        请参阅 `这里 <https://gist.github.com/anonymous/bf16430f7750c023141c562f3e9f2a91>`_ 的手册
 
     """
     if not (torch.is_tensor(tensor) or
