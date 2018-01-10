@@ -19,9 +19,8 @@ torchvision.datasets
 .. contents:: Datasets
     :local:
 
-All the datasets have almost similar API. They all have two common arguments:
-``transform`` and  ``target_transform`` to transform the input and target respectively.
-
+所有的数据集都有简单的API。他们都有两个通用参数：
+``transform``和``target_transform``，可分别对输入和目标进行变换。
 
 .. currentmodule:: torchvision.datasets 
 
@@ -82,7 +81,7 @@ Imagenet-12
 数据预处理过程如下：
 <https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset>`__
 
-`示例程序 
+`点击获取示例程序 
 <https://github.com/pytorch/examples/blob/27e2a46c1d1505324032b1d94fc6ce24d5b67e97/imagenet/main.py#L48-L62>`__.
 
 CIFAR
