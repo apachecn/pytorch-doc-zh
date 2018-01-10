@@ -1,11 +1,12 @@
 torchvision.datasets
 ====================
 
-All datasets are subclasses of :class:`torch.utils.data.Dataset`
-i.e, they have ``__getitem__`` and ``__len__`` methods implemented.
-Hence, they can all be passed to a :class:`torch.utils.data.DataLoader`
-which can load multiple samples parallelly using ``torch.multiprocessing`` workers. 
-For example: ::
+所有的数据集都是:class:`torch.utils.data.Dataset`类的子类，也就是说，
+他们内部都实现了``__getitem__``和``__len__``这两个方法。
+同时，他们也都可以传递给类:class:`torch.utils.data.Dataset`，而我们
+可以通过类:class:`torch.utils.data.Dataset`以及``torch.multiprocessing``
+来并行地读入多个样本。
+例如： ::
     
     imagenet_data = torchvision.datasets.ImageFolder('path/to/imagenet_root/')
     data_loader = torch.utils.data.DataLoader(imagenet_data, 
@@ -13,7 +14,7 @@ For example: ::
                                               shuffle=True,
                                               num_workers=args.nThreads)
 
-The following datasets are available:
+可用的数据集如下：
 
 .. contents:: Datasets
     :local:
@@ -38,10 +39,10 @@ Fashion-MNIST
 COCO
 ~~~~
 
-.. note ::
-    These require the `COCO API to be installed`_
-
-.. _COCO API to be installed: https://github.com/pdollar/coco/tree/master/PythonAPI
+.. 注意 ::
+    需要预先安装 `COCO API to be installed`_
+    
+.. _COCO API to be installed 预先安装地址: https://github.com/pdollar/coco/tree/master/PythonAPI
 
 
 Captions
@@ -77,12 +78,12 @@ ImageFolder
 Imagenet-12
 ~~~~~~~~~~~
 
-This should simply be implemented with an ``ImageFolder`` dataset.
-The data is preprocessed `as described
-here <https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset>`__
+这个可以通过一个``ImageFolder``数据集轻易实现。
+数据预处理过程如下：
+<https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset>`__
 
-`Here is an
-example <https://github.com/pytorch/examples/blob/27e2a46c1d1505324032b1d94fc6ce24d5b67e97/imagenet/main.py#L48-L62>`__.
+`示例程序 
+<https://github.com/pytorch/examples/blob/27e2a46c1d1505324032b1d94fc6ce24d5b67e97/imagenet/main.py#L48-L62>`__.
 
 CIFAR
 ~~~~~
