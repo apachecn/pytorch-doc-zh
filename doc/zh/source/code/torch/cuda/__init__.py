@@ -1,11 +1,11 @@
 """
-This package adds support for CUDA tensor types, that implement the same
-function as CPU tensors, but they utilize GPUs for computation.
+这个包增加了对CUDA tensor(张量)类型的支持,利用GPUs计算实现了与CPU tensors相同的类型.
 
-It is lazily initialized, so you can always import it, and use
-:func:`is_available()` to determine if your system supports CUDA.
 
-:ref:`cuda-semantics` has more details about working with CUDA.
+这个是lazily initialized(懒加载，延迟加载), 所以你可以一直导入它,并且可以用:func:`is_available()`来判断
+你的系统是否支持CUDA.
+
+:ref:`cuda-semantics` 有更多关于使用CUDA的细节.
 """
 
 import contextlib
@@ -19,14 +19,14 @@ from torch._six import raise_from
 from multiprocessing.util import register_after_fork as _register_after_fork
 
 _initialized = False
-_queued_calls = []  # don't invoke these until initialization occurs
-_in_bad_fork = False  # this global is also used in torch.manual_seed
+_queued_calls = []  # 在初始化发生之前不要调用这个
+_in_bad_fork = False  # 这个全局变量也用于 torch.manual_seed
 _original_pid = False
 _cudart = None
 
 
 def is_available():
-    """Returns a bool indicating if CUDA is currently available."""
+    """返回一个bool值表示CUDA目前是否可用."""
     if (not hasattr(torch._C, '_cuda_isDriverSufficient') or
             not torch._C._cuda_isDriverSufficient()):
         return False
@@ -38,7 +38,7 @@ def _sleep(cycles):
 
 
 def _load_cudart():
-    # First check the main program for CUDA symbols
+    # 首先检查CUDA符号的主程序
     lib = ctypes.cdll.LoadLibrary(None)
     if hasattr(lib, 'cudaGetErrorName'):
         return lib
@@ -47,7 +47,7 @@ def _load_cudart():
         "couldn't find libcudart. Make sure CUDA libraries are installed in a"
         "default location, or that they're in {}."
         .format('DYLD_LIBRARY_PATH' if platform.system() == 'Darwin' else
-                'LD_LIBRARY_PATH'))
+                'LD_LIBRARY_PATH'))#找不到libcudart.确保CUDA库安装在默认路径或者在path路径
 
 
 def _check_driver():
@@ -55,20 +55,20 @@ def _check_driver():
         raise AssertionError("Torch not compiled with CUDA enabled")
     if not torch._C._cuda_isDriverSufficient():
         if torch._C._cuda_getDriverVersion() == 0:
-            # found no NVIDIA driver on the system
+            # found no NVIDIA driver on the system(在系统上找不到NVIDIA驱动程序)
             raise AssertionError("""
 Found no NVIDIA driver on your system. Please check that you
 have an NVIDIA GPU and installed a driver from
-http://www.nvidia.com/Download/index.aspx""")
+http://www.nvidia.com/Download/index.aspx""")#在您的系统上找不到NVIDIA驱动程序.请检查是否有NVIDIA GPU,并从http://www.nvidia.com/Download/index.aspx 安装了驱动程序
         else:
-            # TODO: directly link to the alternative bin that needs install
+            # TODO: directly link to the alternative bin that needs install(直接链接到需要安装的备用bin)
             raise AssertionError("""
 The NVIDIA driver on your system is too old (found version {}).
 Please update your GPU driver by downloading and installing a new
 version from the URL: http://www.nvidia.com/Download/index.aspx
 Alternatively, go to: http://pytorch.org to install
 a PyTorch version that has been compiled with your version
-of the CUDA driver.""".format(str(torch._C._cuda_getDriverVersion())))
+of the CUDA driver.""".format(str(torch._C._cuda_getDriverVersion())))#电脑上的NVIDIA驱动程序太旧了.从网页下载并安装更新你的驱动,或者去PyTorch官网安装一个与你编译的CUDA驱动匹配的版本
 
 
 def _check_capability():
@@ -78,6 +78,7 @@ def _check_capability():
      with CUDA_VERSION %d. Please install the correct PyTorch binary
      using instructions from http://pytorch.org
     """
+    #GPU需要CUDA_VERSION大于某个版本来获得最佳性能和快速的启动时间，但是你的PyTorch编译的CUDA_VERSION版本是xxx.请根据官网的操作说明安装正确的PyTorch编译文件.
 
     CUDA_VERSION = torch._C._cuda_getCompiledVersion()
     for d in range(device_count()):
@@ -93,7 +94,7 @@ def _lazy_call(callable):
     if _initialized:
         callable()
     else:
-        # Don't store the actual traceback to avoid memory cycle
+        # Don't store the actual traceback to avoid memory cycle(不要存储实际的回溯避免内存循环)
         _queued_calls.append((callable, traceback.format_stack()))
 
 _lazy_call(_check_capability)
@@ -111,12 +112,12 @@ def _lazy_init():
         from sys import version_info
         if version_info < (3, 4):
             msg = ("To use CUDA with multiprocessing, you must use Python "
-                   "3.4+ and the 'spawn' start method")
+                   "3.4+ and the 'spawn' start method")#要使用CUDA多线程,你的Python版本必须是3.4+,通过'spawn'启动方法
         else:
             msg = ("To use CUDA with multiprocessing, you must use the "
-                   "'spawn' start method")
+                   "'spawn' start method")#要使用CUDA多线程,通过'spawn'启动方法
         raise RuntimeError(
-            "Cannot re-initialize CUDA in forked subprocess. " + msg)
+            "Cannot re-initialize CUDA in forked subprocess. " + msg)#无法重新初始化CUDA分叉子进程
     _check_driver()
     torch._C._cuda_init()
     torch._C._cuda_sparse_init()
@@ -125,14 +126,14 @@ def _lazy_init():
     _cudart.cudaGetErrorString.restype = ctypes.c_char_p
     _original_pid = os.getpid()
     _initialized = True
-    # Important to do this after _initialized, since some queued calls
-    # may themselves call _lazy_init()
+    # 当某些队列调用时，_initialized之后很重要的去做这个
+    # 或许他们叫 _lazy_init
     for queued_call, orig_traceback in _queued_calls:
         try:
             queued_call()
         except Exception as e:
-            msg = ("CUDA call failed lazily at initialization with error: {}\n\n"
-                   "CUDA call was originally invoked at:\n\n{}").format(str(e), orig_traceback)
+            msg = ("CUDA call failed lazily at initialization with error: {}\n\n"    #CUDA调用延迟初始化失败
+                   "CUDA call was originally invoked at:\n\n{}").format(str(e), orig_traceback)#CUDA最初调用在
             raise_from(DeferredCudaCallError(msg), e)
 
 
@@ -169,11 +170,10 @@ def check_error(res):
 
 
 class device(object):
-    """Context-manager that changes the selected device.
+    """更改选定设备的上下文管理器.
 
     Arguments:
-        idx (int): device index to select. It's a no-op if this argument
-            is negative.
+        idx (int): 选择设备编号.如果参数无效,则是无效操作.
     """
 
     def __init__(self, idx):
@@ -195,13 +195,12 @@ class device(object):
 
 
 class device_of(device):
-    """Context-manager that changes the current device to that of given object.
+    """将当前设备更改为给定对象的上下文管理器.
 
-    You can use both tensors and storages as arguments. If a given object is
-    not allocated on a GPU, this is a no-op.
+    可以使用张量和存储作为参数,如果给定的对象不是在GPU上分配的,这是一个无效操作.
 
     Arguments:
-        obj (Tensor or Storage): object allocated on the selected device.
+        obj (Tensor or Storage): 在选定设备上分配的对象.
     """
 
     def __init__(self, obj):
@@ -210,38 +209,35 @@ class device_of(device):
 
 
 def set_device(device):
-    """Sets the current device.
+    """设置当前设备.
 
-    Usage of this function is discouraged in favor of :any:`device`. In most
-    cases it's better to use ``CUDA_VISIBLE_DEVICES`` environmental variable.
+    不鼓励使用这个函数 :any:`device`. 
+    在大多数情况下，最好使用 ``CUDA_VISIBLE_DEVICES`` 环境变量.
 
     Arguments:
-        device (int): selected device. This function is a no-op if this
-            argument is negative.
+        device (int): 选择设备. 参数无效时，则是无效操作.
     """
     if device >= 0:
         torch._C._cuda_setDevice(device)
 
 
 def get_device_name(device):
-    """Gets the name of a device.
+    """获取设备名.
 
     Arguments:
-        device (int): device for which to return the name. This function is a
-            no-op if this argument is negative.
+        device (int): 返回设备名. 参数无效时，则是无效操作.
     """
     if device >= 0:
         return torch._C._cuda_getDeviceName(device)
 
 
 def get_device_capability(device):
-    """Gets the cuda capability of a device.
+    """获取设备的CUDA算力.
 
     Arguments:
-        device (int): device for which to return the name. This function is a
-            no-op if this argument is negative.
+        device (int): 返回设备名，参数无效时，方法失效.
     Returns:
-        tuple(int, int): the major and minor cuda capability of the device
+        tuple(int, int):设备的主次要CUDA算力。
     """
     if device >= 0:
         return torch._C._cuda_getDeviceCapability(device)
@@ -249,14 +245,13 @@ def get_device_capability(device):
 
 @contextlib.contextmanager
 def stream(stream):
-    """Context-manager that selects a given stream.
+    """选择给定流的上下文管理器.
 
     All CUDA kernels queued within its context will be enqueued on a selected
-    stream.
+    stream在选定的流上,所有的CUDA内核在其上下文内排队.
 
     Arguments:
-        stream (Stream): selected stream. This manager is a no-op if it's
-            ``None``.
+        stream (Stream): 选择流. 如果是``None``,管理器无效.
     """
     if stream is None:
         yield
@@ -270,7 +265,7 @@ def stream(stream):
 
 
 def device_count():
-    """Returns the number of GPUs available."""
+    """返回可用的GPU数量."""
     if is_available():
         _lazy_init()
         return torch._C._cuda_getDeviceCount()
@@ -279,32 +274,30 @@ def device_count():
 
 
 def current_device():
-    """Returns the index of a currently selected device."""
+    """返回当前选择的设备的索引."""
     _lazy_init()
     return torch._C._cuda_getDevice()
 
 
 def synchronize():
-    """Waits for all kernels in all streams on current device to complete."""
+    """等待当前设备上所有流中的所有内核完成."""
     _lazy_init()
     return torch._C._cuda_synchronize()
 
 
 def current_stream():
-    """Returns a currently selected :class:`Stream`."""
+    """返回当前选择的 :class:`Stream`."""
     _lazy_init()
     return torch.cuda.Stream(_cdata=torch._C._cuda_getCurrentStream())
 
 
 def current_blas_handle():
-    """Returns cublasHandle_t pointer to current cuBLAS handle"""
+    """返回指向当前 cuBLAS 句柄的 cublasHandle_t 指针"""
     return torch._C._cuda_getCurrentBlasHandle()
 
 
 def empty_cache():
-    """Releases all unoccupied cached memory currently held by the caching
-    allocator so that those can be used in other GPU application and visible in
-    `nvidia-smi`."""
+    """释放当前由缓存持有的所有未占用缓存内存分配器,以便可以在其他GPU应用程序中使用并在 `nvidia-smi`中可见."""
     return torch._C._cuda_emptyCache()
 
 
@@ -325,7 +318,7 @@ def _free_mutex():
 from .random import *
 
 ################################################################################
-# Define Storage and Tensor classes
+# 定义存储和张量类
 ################################################################################
 
 
@@ -337,12 +330,12 @@ def _dummy_type(name):
     def init_err(self):
         class_name = self.__class__.__name__
         raise RuntimeError(
-            "Tried to instantiate dummy base class {}".format(class_name))
+            "Tried to instantiate dummy base class {}".format(class_name))#试图实例化虚拟基类
     return type(storage_name, (object,), {"__init__": init_err})
 
 
 if not hasattr(torch._C, 'CudaDoubleStorageBase'):
-    # Define dummy base classes
+    # 定义虚拟基类
     for t in ['Double', 'Float', 'Long', 'Int', 'Short', 'Char', 'Byte', 'Half']:
         storage_name = 'Cuda{0}StorageBase'.format(t)
         tensor_name = 'Cuda{0}TensorBase'.format(t)
@@ -356,7 +349,7 @@ if not hasattr(torch._C, 'CudaDoubleStorageBase'):
 @staticmethod
 def _lazy_new(cls, *args, **kwargs):
     _lazy_init()
-    # We need this method only for lazy init, so we can remove it
+    #我们只需要这个方法的惰性init(lazy init)，所以我们可以删除它。
     del _CudaBase.__new__
     return super(_CudaBase, cls).__new__(cls, *args, **kwargs)
 
