@@ -1335,7 +1335,7 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-返回对角线位置全1，其它位置全0的 2-D tensor.
+返回对角线位置全1，其它位置全0的二维 tensor.
 
 Args:
     n (int): 行数
@@ -1343,7 +1343,7 @@ Args:
     out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: 一个对角线位置全1，其它位置全0的 2-D tensor.
+    Tensor: 一个对角线位置全1，其它位置全0的二维 tensor.
 
 Example::
 
@@ -1974,9 +1974,9 @@ add_docstr(torch._C.linspace,
            """
 linspace(start, end, steps=100, out=None) -> Tensor
 
-返回 :attr:`start` 和 :attr:`end` 之间等 :attr:`steps` 点 的 1维 Tensor.
+返回 :attr:`start` 和 :attr:`end` 之间等 :attr:`steps` 点的一维 Tensor.
 
-输出 tensor 是尺寸 :attr:`steps` 为 1D的
+输出 是尺寸 :attr:`steps` 为一维 tensor 
 
 Args:
     start (float): 点集合的起始值
@@ -3687,7 +3687,7 @@ add_docstr(torch._C.arange,
            """
 arange(start=0, end, step=1, out=None) -> Tensor
 
-从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的 一维 Tensor.
+从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
 
 Args:
     start (float): 点集合的起始值
