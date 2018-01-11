@@ -35,7 +35,7 @@ torchvision.models 模块的子模块中包含以下模型结构:
     densenet = models.densenet161(pretrained=True)
     inception = models.inception_v3(pretrained=True)
 
-所有预训练（pretrain）模型需要输入图像使用相同的标准化处理，
+所有预训练（pre-train）模型要求输入图像使用相同的标准化处理，
 例如： mini-batches 中 RGB 三通道图像的 shape （3 x H x W),
 H 和 W 需要至少为 224， 图像必须被加载在 [0, 1] 的范围内
 然后使用``mean = [0.485, 0.456, 0.406]`` 和 ``std = [0.229, 0.224, 0.225]``进行标准化处理。
@@ -44,7 +44,7 @@ H 和 W 需要至少为 224， 图像必须被加载在 [0, 1] 的范围内
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
-一个使用这种标准化处理的imagenet样例
+一个使用这种标准化处理的 imagenet 样例
 `here <https://github.com/pytorch/examples/blob/42e5b996718797e45c46a25c55b031e6768f8440/imagenet/main.py#L89-L101>`_
 
 ImageNet 1-crop error rates (224x224)
