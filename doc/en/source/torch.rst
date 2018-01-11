@@ -24,7 +24,7 @@ Creation Ops
 .. autofunction:: zeros
 .. autofunction:: zeros_like
 
-Indexing, Slicing, Joining, Mutating Ops
+索引，切片，连接，换位
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cat
 .. autofunction:: chunk
