@@ -1676,7 +1676,7 @@ add_docstr(torch._C.get_num_threads,
            """
 get_num_threads() -> int
 
-Gets the number of OpenMP threads used for parallelizing CPU operations
+获得 OpenMP 并行化操作的线程数目
 """)
 
 add_docstr(torch._C.gt,
@@ -3868,7 +3868,7 @@ add_docstr(torch._C.set_num_threads,
            """
 set_num_threads(int)
 
-Sets the number of OpenMP threads used for parallelizing CPU operations
+设置 OpenMP 并行化操作的线程数目
 """)
 
 add_docstr(torch._C.sigmoid,
