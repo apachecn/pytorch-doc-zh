@@ -2,12 +2,11 @@ torch.onnx
 ============
 .. automodule:: torch.onnx
 
-Example: End-to-end AlexNet from PyTorch to Caffe2
+示例：端对端AlexNet模型从Pytorch转化为Caffe2
 --------------------------------------------------
 
-Here is a simple script which exports a pretrained AlexNet as defined in
-torchvision into ONNX.  It runs a single round of inference and then
-saves the resulting traced model to ``alexnet.proto``::
+这里是一个简单的脚本程序，它将一个在torchvision中已经定义的预训练AlexNet模型导出到ONNX格式。
+它会运行一次，然后把模型保存至 ``alexnet.proto``::
 
     from torch.autograd import Variable
     import torch.onnx
@@ -17,10 +16,8 @@ saves the resulting traced model to ``alexnet.proto``::
     model = torchvision.models.alexnet(pretrained=True).cuda()
     torch.onnx.export(model, dummy_input, "alexnet.proto", verbose=True)
 
-The resulting ``alexnet.proto`` is a binary protobuf file which contains both
-the network structure and parameters of the model you exported
-(in this case, AlexNet).  The keyword argument ``verbose=True`` causes the
-exporter to print out a human-readable representation of the network::
+得到的 ``alexnet.proto`` 是一个protobuf二值文件，它包含所导出模型（这里是AlexNet）中网络架构和网络参数。
+关键参数 ``verbose=True`` 会使导出过程中打印出该网络的可读表示::
 
     # All parameters are encoded explicitly as inputs.  By convention,
     # learned parameters (ala nn.Module.state_dict) are first, and the
@@ -50,12 +47,12 @@ exporter to print out a human-readable representation of the network::
       return (%58);
     }
 
-You can also verify the protobuf using the `onnx <https://github.com/onnx/onnx/>`_ library.
-You can install ``onnx`` with conda::
+你可以验证使用 `onnx <https://github.com/onnx/onnx/>`_ 库验证 protobuf.
+你可以用 conda 安装 ``onnx`` ::
 
     conda install -c conda-forge onnx
 
-Then, you can run::
+然后运行::
 
     import onnx
 
@@ -68,18 +65,17 @@ Then, you can run::
     # Print a human readable representation of the graph
     onnx.helper.printable_graph(model.graph)
 
-To run the exported script with `caffe2 <https://caffe2.ai/>`_, you will need three things:
+为了能够使用 `caffe2 <https://caffe2.ai/>`_运行脚本, 你需要三样东西:
 
-1. You'll need an install of Caffe2.  If you don't have one already, Please
-   `follow the install instructions <https://caffe2.ai/docs/getting-started.html>`_.
+1. 你需要安装Caffe。如果你之前没有安装，请
+   `参照安装指南 <https://caffe2.ai/docs/getting-started.html>`_.
 
-2. You'll need `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_, a
-   pure-Python library which provides a Caffe2 backend for ONNX.  You can install ``onnx-caffe2``
-   with pip::
+2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_, 一个纯Python的库，它为ONNX提供了Caffe2的
+   后端。你可以使用pip安装 ``onnx-caffe2``::
 
       pip install onnx-caffe2
 
-Once these are installed, you can use the backend for Caffe2::
+一旦这些安装完成，你就可以使用Caffe2的后端::
 
     # ...continuing from above
     import onnx_caffe2.backend as backend
@@ -95,32 +91,25 @@ Once these are installed, you can use the backend for Caffe2::
     # rather than a single numpy ndarray.
     print(outputs[0])
 
-In the future, there will be backends for other frameworks as well.
+之后，我们还会提供其它深度学习框架的后端支持。
 
-Limitations
+局限
 -----------
 
-* The ONNX exporter is a *trace-based* exporter, which means that it
-  operates by executing your model once, and exporting the operators which
-  were actually run during this run.  This means that if your model is
-  dynamic, e.g., changes behavior depending on input data, the export
-  won't be accurate.  Similarly, a trace is likely to be valid only
-  for a specific input size (which is one reason why we require explicit inputs
-  on tracing.)  We recommend examining the model trace and making sure
-  the traced operators look reasonable.
+* ONNX导出器是一个基本轨迹的导出器，这意味着它执行时需要运行你的模型一次，然后导出实际运算的运算符。
+  这也意味着，如果你的模型是动态的，例如，改变一些依赖于输入数据的操作，这时的导出是不准确的。同样，一
+  个轨迹可能只对一个具体的输入尺寸有效（这是为什么我们在轨迹中需要明确的输入的原因之一。）我们推荐检查
+  模型的轨迹，确保被追踪的运算符是可行的。
 
-* PyTorch and Caffe2 often have implementations of operators with some
-  numeric differences.  Depending on model structure, these differences
-  may be negligible, but they can also cause major divergences in behavior
-  (especially on untrained models.)  In a future release, we plan to
-  allow Caffe2 to call directly to Torch implementations of operators, to
-  help you smooth over these differences when precision is important,
-  and to also document these differences.
+* Pytorch和Caffe2中的一些运算符经常有着数值上的差异。根据模型的结构，这些差异可能是微小的，但它们会在
+  表现上产生很大的差异（尤其是对未训练的模型。）之后，为了帮助你在准确度要求很高的时候，能够轻松地避免这
+  些差异带来的影响，我们计划让Caffe2能够直接调用Torch的运算符。
 
-Supported operators
+
+支持的运算符
 -------------------
 
-The following operators are supported:
+以下是已经被支持的运算符:
 
 * add (nonzero alpha not supported)
 * sub (nonzero alpha not supported)
@@ -161,21 +150,18 @@ The following operators are supported:
 * Index (constant integer and tuple indices supported)
 * Negate
 
-The operator set above is sufficient to export the following models:
+上面的运算符足够导出下面的模型:
 
 * AlexNet
 * DCGAN
 * DenseNet
-* Inception (warning: this model is highly sensitive to changes in operator
-  implementation)
+* Inception (注意: 这个模型对操作符十分敏感)
 * ResNet
 * SuperResolution
 * VGG
 * `word_language_model <https://github.com/pytorch/examples/tree/master/word_language_model>`_
 
-The interface for specifying operator definitions is highly experimental
-and undocumented; adventurous users should note that the APIs will probably
-change in a future interface.
+用于指定运算符定义的接口是高度实验性的，并且还没有记录;喜欢探索的用户应该注意，这些API可能会在之后中被修改。
 
 Functions
 --------------------------
