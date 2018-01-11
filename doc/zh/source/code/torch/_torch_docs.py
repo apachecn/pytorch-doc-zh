@@ -1335,7 +1335,7 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-返回对角线位置全1，其它位置全0的二维 tensor.
+返回对角线位置全为1，其它位置全为0的二维 tensor.
 
 Args:
     n (int): 行数
@@ -1343,7 +1343,7 @@ Args:
     out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: 一个对角线位置全1，其它位置全0的二维 tensor.
+    Tensor: 一个对角线位置全为1，其它位置全为0的二维 tensor.
 
 Example::
 
