@@ -5,21 +5,19 @@ from torch.distributed import get_world_size, get_rank
 
 
 class DistributedSampler(Sampler):
-    """Sampler that restricts data loading to a subset of the dataset.
+    """将数据加载限制为数据集子集的采样器.
 
-    It is especially useful in conjunction with
-    :class:`torch.nn.parallel.DistributedDataParallel`. In such case, each
-    process can pass a DistributedSampler instance as a DataLoader sampler,
-    and load a subset of the original dataset that is exclusive to it.
+    当与:class:`torch.nn.parallel.DistributedDataParallel` 组合使用时, 特别有用.
+    在这种情况下, 每个进程都可以将分布式采样器实例作为Data Loader采样器,
+    并且加载一个原始数据集的子集并独占该数据子集.
 
-    .. note::
-        Dataset is assumed to be of constant size.
+    .. 注意::
+        数据集被假定为不变的大小.
 
-    Arguments:
-        dataset: Dataset used for sampling.
-        num_replicas (optional): Number of processes participating in
-            distributed training.
-        rank (optional): Rank of the current process within num_replicas.
+    参数:
+        dataset: 采样的数据集.
+        num_replicas (optional): 参与分布式训练的进程数量.
+        rank (optional): 在 num_replicas 中, 当前进程的等级.
     """
 
     def __init__(self, dataset, num_replicas=None, rank=None):
