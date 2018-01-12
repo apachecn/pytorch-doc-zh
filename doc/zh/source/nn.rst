@@ -81,7 +81,7 @@ Convolution Layers
     :members:
 
 
-Pooling Layers
+池化层
 ----------------------------------
 
 :hidden:`MaxPool1d`

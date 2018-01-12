@@ -1,7 +1,7 @@
+# -*- coding: UTF-8 -*-
 """
-The torch.onnx module contains functions to export models into the ONNX
-IR format.  These models can be loaded with the ONNX library and then
-converted to models which run on other deep learning frameworks.
+torch.onnx 模块可以将模型导出成ONNX IR形式。被导出的模型可以通过ONNX库被重新导入，
+然后转化为可以在其它的深度学习框架上运行的模型。
 """
 
 import torch
@@ -42,35 +42,24 @@ def set_training(model, mode):
 
 def export(model, args, f, export_params=True, verbose=False, training=False):
     """
-    Export a model into ONNX format.  This exporter runs your model
-    once in order to get a trace of its execution to be exported; at the
-    moment, it does not support dynamic models (e.g., RNNs.)
+    将一个模型导出成ONNX格式。这个导出器为了得到一次模型运行的轨迹，会运行一次你的模型。同时，它不支持动态模型（如RNN。）
 
-    See also: :ref:`onnx-export`
+    也可参考 :ref:`onnx-export`
 
-    Arguments:
-        model (torch.nn.Module): the model to be exported.
-        args (tuple of arguments): the inputs to
-            the model, e.g., such that ``model(*args)`` is a valid
-            invocation of the model.  Any non-Variable arguments will
-            be hard-coded into the exported model; any Variable arguments
-            will become inputs of the exported model, in the order they
-            occur in args.  If args is a Variable, this is equivalent
-            to having called it with a 1-ary tuple of that Variable.
-            (Note: passing keyword arguments to the model is not currently
-            supported.  Give us a shout if you need it.)
-        f: a file-like object (has to implement fileno that returns a file descriptor)
-            or a string containing a file name.  A binary Protobuf will be written
-            to this file.
-        export_params (bool, default True): if specified, all parameters will
-            be exported.  Set this to False if you want to export an untrained model.
-            In this case, the exported model will first take all of its parameters
-            as arguments, the ordering as specified by ``model.state_dict().values()``
-        verbose (bool, default False): if specified, we will print out a debug
-            description of the trace being exported.
-        training (bool, default False): export the model in training mode.  At
-            the moment, ONNX is oriented towards exporting models for inference
-            only, so you will generally not need to set this to True.
+    参数:
+        model (torch.nn.Module): 将被导出模型。
+        args (tuple of arguments): 模型的输入，必须使model(*args)是对模型有效的调用。
+            任何非变量参数将被硬编码到导出的模型中;任何变量参数都将成为输出模型的输入，按照它们在
+            参数中出现的顺序。 如果args是一个变量，相当于用该变量的一个元组来调用它。（注意：目前
+            还不支持将关键参数传递给模型，如果需要，请联系我们）
+        f: 一个类文件对象（必须实现返回文件描述的fileno）或一个包含文件名的字符串。一个二进
+            制Protobuf将被写入这个文件。
+        export_params (bool, default True):如果指定，所有参数将被导出。如果要导出未经训练的模
+            型，请将其设置为False。在这种情况下，导出的模型将首先将其所有参数作为参数， 顺序由
+            ``model.state_dict().values()``指定。
+        verbose (bool, default False): 如果指定，会打印出正在导出的轨迹的调式描述。
+        training (bool, default False):在训练模式下输出模型。目前，ONNX只是作为导出模型的接
+            口，所以你通常不需要将其设为 True.
     """
     _export(model, args, f, export_params, verbose, training)
 
