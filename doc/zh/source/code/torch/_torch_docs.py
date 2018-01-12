@@ -1335,15 +1335,15 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.
+返回对角线位置全为1，其它位置全为0的二维 tensor.
 
 Args:
-    n (int): Number of rows
-    m (int, optional): Number of columns. If None, defaults to `n`
-    out (Tensor, optional): Output tensor
+    n (int): 行数
+    m (int, optional): 列数. 如果为 None,则默认为 `n`
+    out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: a 2-D tensor with ones on the diagonal and zeros elsewhere
+    Tensor: 一个对角线位置全为1，其它位置全为0的二维 tensor.
 
 Example::
 
@@ -1434,11 +1434,11 @@ add_docstr(torch._C.from_numpy,
            """
 from_numpy(ndarray) -> Tensor
 
-Creates a :class:`Tensor` from a :class:`numpy.ndarray`.
+从 :class:`numpy.ndarray` 类 创建一个 :class:`Tensor` 类.
 
-The returned tensor and `ndarray` share the same memory. Modifications to the
-tensor will be reflected in the `ndarray` and vice versa. The returned tensor
-is not resizable.
+返回 tensor 和 `ndarray` 共享相同的内存。 
+对 tensor 的修改将反映在 `ndarray` 中，反之亦然。 
+返回 tensor 不可调整大小。
 
 Example::
 
@@ -1974,17 +1974,15 @@ add_docstr(torch._C.linspace,
            """
 linspace(start, end, steps=100, out=None) -> Tensor
 
-Returns a one-dimensional Tensor of :attr:`steps`
-equally spaced points between :attr:`start` and :attr:`end`
+返回 :attr:`start` 和 :attr:`end` 之间等 :attr:`steps` 点的一维 Tensor.
 
-The output tensor is 1D of size :attr:`steps`
+输出 是尺寸 :attr:`steps` 为一维 tensor 
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    steps (int): Number of points to sample between :attr:`start`
-        and :attr:`end`
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    steps (int): 在 :attr:`start` 和 :attr:`end` 之间采样的点数
+    out (Tensor, optional): 输出结果的 `Tensor`
 
 Example::
 
@@ -2093,17 +2091,15 @@ add_docstr(torch._C.logspace,
            """
 logspace(start, end, steps=100, out=None) -> Tensor
 
-Returns a one-dimensional Tensor of :attr:`steps` points
-logarithmically spaced between :math:`10^{start}` and :math:`10^{end}`
+返回一个在 :math:`10^{start}` 和 :math:`10^{end}` 之间的对数间隔 :attr:`steps` 点的一维 Tensor
 
-The output is a 1D tensor of size :attr:`steps`
+输出是尺寸 :attr:`steps` 的一维 tensor
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    steps (int): Number of points to sample between
-        :attr:`start` and :attr:`end`
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    steps (int): 在 :attr:`start` 和 :attr:`end` 之间采样点的数量
+    out (Tensor, optional): 输出结果`Tensor`
 
 Example::
 
@@ -3094,12 +3090,11 @@ add_docstr(torch._C.ones,
            """
 ones(*sizes, out=None) -> Tensor
 
-Returns a Tensor filled with the scalar value `1`, with the shape defined
-by the varargs :attr:`sizes`.
+返回填充了标量值 `1` 的 Tensor, 其形状由可变参数 :attr:`sizes` 定义.
 
 Args:
-    sizes (int...): a set of ints defining the shape of the output Tensor.
-    out (Tensor, optional): the result Tensor
+    sizes (int...): 一组定义输出 Tensor 形状的整数
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 
@@ -3124,11 +3119,11 @@ add_docstr(torch._C.ones_like,
            """
 ones_like(input, out=None) -> Tensor
 
-Returns a Tensor filled with the scalar value `1`, with the same size as :attr:`input`.
+返回一个用标量值 `1` 填充的张量，大小与 :attr:`input` 相同.
 
 Args:
-    input (Tensor): The size of the input will determine the size of the output.
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入的大小将决定输出的大小.
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 
@@ -3653,18 +3648,17 @@ add_docstr(torch._C.range,
            """
 range(start, end, step=1, out=None) -> Tensor
 
-Returns a 1D Tensor of size :math:`floor((end - start) / step) + 1` with values
-from :attr:`start` to :attr:`end` with step :attr:`step`. Step is the gap
-between two values in the tensor. :math:`x_{i+1} = x_i + step`
+返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内，大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
+步长是 tensor 中两个值之间的差距. :math:`x_{i+1} = x_i + step`
 
 Warning:
-    This function is deprecated in favor of :func:`torch.arange`.
+    此功能已被弃用，以支持 :func:`torch.arange`.
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    step (float): The gap between each pair of adjacent points
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    step (float): 每对相邻点之间的间隔
+    out (Tensor, optional): 输出结果 `Tensor`
 
 Example::
 
@@ -3693,15 +3687,13 @@ add_docstr(torch._C.arange,
            """
 arange(start=0, end, step=1, out=None) -> Tensor
 
-Returns a 1D Tensor of size :math:`floor((end - start) / step)` with values
-from the interval ``[start, end)`` taken with step :attr:`step` starting
-from `start`.
+从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    step (float): The gap between each pair of adjacent points
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    step (float): 每对相邻点之间的间隔
+    out (Tensor, optional): 输出结果 `Tensor`
 
 Example::
 
@@ -4890,11 +4882,11 @@ add_docstr(torch._C.zeros_like,
            """
 zeros_like(input, out=None) -> Tensor
 
-Returns a Tensor filled with the scalar value `0`, with the same size as :attr:`input`.
+返回一个用标量值 `0` 填充的 Tensor，其大小与 :attr:`input` 相同.
 
 Args:
-    input (Tensor): The size of the input will determine the size of the output.
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入的大小将决定输出的大小.
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 
