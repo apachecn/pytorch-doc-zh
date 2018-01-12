@@ -9,7 +9,7 @@ required = object()
 
 
 class Optimizer(object):
-    """Base class for all optimizers.
+    """优化器的基类.
 
     Arguments:
         params (iterable): an iterable of :class:`Variable` s or
