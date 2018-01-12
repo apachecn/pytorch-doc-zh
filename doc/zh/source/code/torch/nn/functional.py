@@ -527,7 +527,7 @@ def dropout(input, p=0.5, training=False, inplace=False):
 
 
 def alpha_dropout(input, p=0.5, training=False):
-    r"""将dropout(alpha删除) 应用于输入数据。
+    r"""将 dropout 应用于输入数据( dropou 是指在深度学习网络的训练过程中，对于神经网络单元，按照一定的概率将其暂时从网络中丢弃,防止过拟合)。
 
     有关详细信息，请参阅 :class:`~torch.nn.AlphaDropout`
 
