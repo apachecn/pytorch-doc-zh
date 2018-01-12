@@ -577,14 +577,14 @@ add_docstr(torch._C.cat,
            """
 cat(seq, dim=0, out=None) -> Tensor
 
-在给定维度上对输入的张量序列 :attr:`seq` 进行连接操作。
+在给定维度上对输入的张量序列 :attr:`seq` 进行连接操作.
 
-:func:`torch.cat` 可以看做是 :func:`torch.split` 和 :func:`torch.chunk` 的逆操作。
+:func:`torch.cat` 可以看做是 :func:`torch.split` 和 :func:`torch.chunk` 的逆操作.
 
-:func:`cat` 可以通过下面的例子更好地理解。
+:func:`cat` 可以通过下面的例子更好地理解.
 
 Args:
-    seq (sequence of Tensors): 可以是任何相同类型的 `Tensor` 的 Python 序列。
+    seq (sequence of Tensors): 可以是任何相同类型的 `Tensor` 的 Python 序列.
     dim (int, optional): tensors 级联的维数
     out (Tensor, optional): 输出参数
 
@@ -1453,15 +1453,15 @@ add_docstr(torch._C.gather,
            """
 gather(input, dim, index, out=None) -> Tensor
 
-沿给定轴 `dim` ，将输入索引张量 `index` 指定位置的值进行聚合。
+沿给定轴 `dim` ,将输入索引张量 `index` 指定位置的值进行聚合.
 
-对一个 3 维张量，输出可以定义为::
+对一个 3 维张量,输出可以定义为::
 
     out[i][j][k] = input[index[i][j][k]][j][k]  # if dim == 0
     out[i][j][k] = input[i][index[i][j][k]][k]  # if dim == 1
     out[i][j][k] = input[i][j][index[i][j][k]]  # if dim == 2
 
-如果 :attr:`input` 是 size 为 :math:`(x_0, x_1..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})` 且 :attr:`dim` = i 的 n 维张量，则 :attr:`index` 必须是具有 size 为 :math:`(x_0, x_1, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})` 的 n 维张量，其中 y >= 1 ，并且 :attr:`out` 将与 :attr:`index` 的 size 相同。
+如果 :attr:`input` 是 size 为 :math:`(x_0, x_1..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})` 且 :attr:`dim` = i 的 n 维张量,则 :attr:`index` 必须是具有 size 为 :math:`(x_0, x_1, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})` 的 n 维张量,其中 y >= 1 ,并且 :attr:`out` 将与 :attr:`index` 的 size 相同.
 
 Args:
     input (Tensor): 源张量
@@ -1730,11 +1730,11 @@ add_docstr(torch._C.index_select,
            """
 index_select(input, dim, index, out=None) -> Tensor
 
-沿着指定维度 :attr:`dim` 对输入进行切片，取 :attr:`index` 中指定的相应项（ :attr:`index`  为一个 `LongTensor`），然后返回到一个新的张量。
+沿着指定维度 :attr:`dim` 对输入进行切片,取 :attr:`index` 中指定的相应项（ :attr:`index`  为一个 `LongTensor`）,然后返回到一个新的张量.
 
- 返回的张量与原始张量 `Tensor` 有相同的维度(在指定轴上)。
+ 返回的张量与原始张量 `Tensor` 有相同的维度(在指定轴上).
 
-.. note:: 返回的张量不与原始张量共享内存空间。
+.. note:: 返回的张量不与原始张量共享内存空间.
 
 Args:
     input (Tensor): 输入张量
@@ -2149,15 +2149,15 @@ add_docstr(torch._C.masked_select,
            """
 masked_select(input, mask, out=None) -> Tensor
 
-根据掩码张量 :attr:`mask` 中的二元值，取输入张量中的指定项（ :attr:`mask` 为一个 `ByteTensor` ），将取值返回到一个新的一维张量。
+根据掩码张量 :attr:`mask` 中的二元值,取输入张量中的指定项（ :attr:`mask` 为一个 `ByteTensor` ）,将取值返回到一个新的一维张量.
 
-张量 :attr:`mask` 与 :attr:`input` 的 shape 或维度不需要相同，但是他们必须是 :ref:`broadcastable <broadcasting-semantics>` 。
+张量 :attr:`mask` 与 :attr:`input` 的 shape 或维度不需要相同,但是他们必须是 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. note:: 返回的张量不与原始张量共享内存空间。
+.. note:: 返回的张量不与原始张量共享内存空间.
 
 Args:
     input (Tensor): 输入张量
-    mask  (ByteTensor): 掩码张量，包含了二元索引值
+    mask  (ByteTensor): 掩码张量,包含了二元索引值
     out (Tensor, optional): 输出参数/目标张量
 
 Example::
@@ -2872,9 +2872,9 @@ add_docstr(torch._C.nonzero,
            """
 nonzero(input, out=None) -> LongTensor
 
-返回一个包含输入 :attr:`input` 中非零元素索引的张量。输出张量中的每行包含 :attr:`input` 中非零元素的索引。
+返回一个包含输入 :attr:`input` 中非零元素索引的张量.输出张量中的每行包含 :attr:`input` 中非零元素的索引.
 
-如果输入 :attr:`input` 有 `n` 维，则输出的索引张量 :attr:`out` 的 size 为 `z x n` ， 这里 `z` 是输入张量 :attr:`input` 中所有非零元素的个数。
+如果输入 :attr:`input` 有 `n` 维,则输出的索引张量 :attr:`out` 的 size 为 `z x n` , 这里 `z` 是输入张量 :attr:`input` 中所有非零元素的个数.
 
 Args:
     input (Tensor): 输入张量/源张量
@@ -4066,19 +4066,19 @@ add_docstr(torch._C.squeeze,
            """
 squeeze(input, dim=None, out=None)
 
-将 :attr:`input` 张量 size 中的 `1` 去除并返回。 
+将 :attr:`input` 张量 size 中的 `1` 去除并返回. 
 
-如果 `input` 是 shape 如 :math:`(A x 1 x B x C x 1 x D)` ，那么输出 shape 就为： :math:`(A x B x C x D)`
+如果 `input` 是 shape 如 :math:`(A x 1 x B x C x 1 x D)` ,那么输出 shape 就为： :math:`(A x B x C x D)`
 
-当给定 :attr:`dim` 时，那么挤压操作只在给定维度上。例如， `input` 的 shape 为: :math:`(A x 1 x B)` ， `squeeze(input, 0)` 将会保持张量不变，只有用 `squeeze(input, 1)` ， shape 会变成 :math:`(A x B)` 。
+当给定 :attr:`dim` 时,那么挤压操作只在给定维度上.例如, `input` 的 shape 为: :math:`(A x 1 x B)` , `squeeze(input, 0)` 将会保持张量不变,只有用 `squeeze(input, 1)` , shape 会变成 :math:`(A x B)` .
 
-.. note:: 作为上述的一个例外，size 为 1 的一维张量不会改变维度。
+.. note:: 作为上述的一个例外,size 为 1 的一维张量不会改变维度.
 
-.. note:: 返回张量与输入张量共享内存，所以改变其中一个的内容会改变另一个。
+.. note:: 返回张量与输入张量共享内存,所以改变其中一个的内容会改变另一个.
 
 Args:
     input (Tensor): 输入张量
-    dim (int, optional): 如果给定，则 `input` 只会在给定维度执行挤压
+    dim (int, optional): 如果给定,则 `input` 只会在给定维度执行挤压
     out (Tensor, optional): 结果张量
 
 Example::
@@ -4364,9 +4364,9 @@ add_docstr(torch._C.t,
            """
 t(input, out=None) -> Tensor
 
-预期 :attr:`input` 为一个矩阵（2 维张量），并转置 0， 1 维。 
+预期 :attr:`input` 为一个矩阵（2 维张量）,并转置 0, 1 维. 
 
-可以被视为函数 `transpose(input, 0, 1)` 的简写函数。
+可以被视为函数 `transpose(input, 0, 1)` 的简写函数.
 
 Args:
     input (Tensor): 输入张量
@@ -4393,8 +4393,8 @@ Example::
 add_docstr(torch._C.take, """\
 take(input, indices) -> Tensor
 
-在给定的索引处返回一个新的 `Tensor` ，其元素为 :attr:`input` 。
-输入张量被看作是一维张量。结果与索引具有相同的 shape 。
+在给定的索引处返回一个新的 `Tensor` ,其元素为 :attr:`input` .
+输入张量被看作是一维张量.结果与索引具有相同的 shape .
 
 Args:
     input (Tensor): 输入张量
@@ -4560,9 +4560,9 @@ add_docstr(torch._C.transpose,
            """
 transpose(input, dim0, dim1, out=None) -> Tensor
 
-返回输入矩阵 :attr:`input` 的转置。交换给定维度 :attr:`dim0` 和 :attr:`dim1` 。
+返回输入矩阵 :attr:`input` 的转置.交换给定维度 :attr:`dim0` 和 :attr:`dim1` .
 
-:attr:`out` 张量与 :attr:`input` 张量共享内存，所以改变其中一个会导致另外一个也被修改。
+:attr:`out` 张量与 :attr:`input` 张量共享内存,所以改变其中一个会导致另外一个也被修改.
 
 Args:
     input (Tensor): 输入张量
@@ -4736,11 +4736,11 @@ add_docstr(torch._C.unsqueeze,
            """
 unsqueeze(input, dim, out=None)
 
-返回在指定位置插入维度 size 为 1 的新张量。
+返回在指定位置插入维度 size 为 1 的新张量.
 
-返回张量与输入张量共享内存，所以改变其中一个的内容会改变另一个。
+返回张量与输入张量共享内存,所以改变其中一个的内容会改变另一个.
 
-如果 `dim` 为负，则将会被转化 :math:`dim + input.dim() + 1` 。
+如果 `dim` 为负,则将会被转化 :math:`dim + input.dim() + 1` .
 
 Args:
     input (Tensor): 输入张量
