@@ -7,32 +7,32 @@ from .. import functional as F
 
 
 class Embedding(Module):
-    r""" 一个简单的查找表，存储了固定字典和大小的 embedding
+    r""" 一个简单的查找表, 存储了固定字典和大小的 embedding.
 
-    这个模块经常用来存储 word embeddings，并用通过索引来检索
-    模块的输入是索引的列表，输出是对应的 word embeddings
+    这个模块经常用来存储 word embeddings, 并通过索引来检索,
+    模块的输入是索引构成的列表, 输出是对应的 word embeddings.
 
 
     Args:
         num_embeddings (int): embeddings 字典的大小
         embedding_dim (int): 每个 embedding 向量的大小
-        padding_idx (int, optional): 如果给出, 在索引处，输出补零
-        max_norm (float, optional): 如果给出, 重新归一化 embeddings，使其范数小于该值
-        norm_type (float, optional): 为 max_norm 选项计算 p 范数时的 P
-        scale_grad_by_freq (boolean, optional): 如果给出，会根据 words 在 mini-batch 中的频率缩放梯度                                              
-        sparse (boolean, optional): 如果为 ``True``,  关于权重矩阵的梯度是一个稀疏张量，详情请参考稀疏梯度
+        padding_idx (int, optional): 如果给出, 在索引处, 输出补零
+        max_norm (float, optional): 如果给出, 重新归一化 embeddings, 使其范数小于该值
+        norm_type (float, optional): 为 max_norm 选项计算 p 范数时 P
+        scale_grad_by_freq (boolean, optional): 如果给出, 会根据 words 在 mini-batch 中的频率缩放梯度                                              
+        sparse (boolean, optional): 如果为 ``True``, 关于权重矩阵的梯度是一个稀疏张量, 详情请参考稀疏梯度
                                     
 
     Attributes:
         weight (Tensor): shape 为 (num_embeddings, embedding_dim) 的模块的可学习权重
 
     Shape:
-        - Input: LongTensor `(N, W)`, N = mini-batch, W =  每个 mini-batch 中用来提取的索引数
+        - Input: LongTensor `(N, W)`,  N = mini-batch,  W =  每个 mini-batch 中用来提取的索引数
         - Output: `(N, W, embedding_dim)`
 
     Notes:
-        请注意，只支持有限数量的优化器
-        稀疏梯度: 当前是  (`cuda`  和  `cpu`) 版本的 `optim.SGD` 和 (`cpu`) 版本的 `optim.Adagrad`
+        请注意, 只支持有限数量的优化器. 
+        稀疏梯度:  当前是  (`cuda`  和  `cpu`) 版本的 `optim.SGD`, 和 (`cpu`) 版本的 `optim.Adagrad`.
         
 
     Examples::
@@ -119,50 +119,51 @@ class Embedding(Module):
 
 
 class EmbeddingBag(Module):
-    r""" 计算一 'bags' 的 embedding s的均值或和，不用实例化中间的 embeddings
+    r""" 计算一 个'bags' 里的 embedding s的均值或和, 不用实例化中间的 embeddings
     
 
     对于固定长度的 bags
         * nn.EmbeddingBag  和  `mode=sum`  相当于 nn.Embedding 与之后的 `torch.sum(dim=1)`
-        * 和 `mode=mean` 相当于 nn.Embedding 与之后的 `torch.mean(dim=1)`
+        * 其与 `mode=mean` 相当于 nn.Embedding 与之后的 `torch.mean(dim=1)`
 
     
-    然而，比起一连串这样的操作，nn.EmbeddingBag 在时间和内存上更加高效 
+    然而, 比起一连串这样的操作, nn.EmbeddingBag 在时间和内存上更加高效. 
     
 
     Args:
         num_embeddings (int): embeddings 字典的大小
         embedding_dim (int): 每个 embedding 向量的大小
-        max_norm (float, optional): 如果给出, 重新归一化 embeddings，使其范数小于该值
+        max_norm (float, optional): 如果给出, 重新归一化 embeddings, 使其范数小于该值
         norm_type (float, optional): 为 max_norm 选项计算 p 范数时的 P
-        scale_grad_by_freq (boolean, optional): 如果给出，会根据 words 在 mini-batch 中的频率缩放梯度
+        scale_grad_by_freq (boolean, optional): 如果给出, 会根据 words 在 mini-batch 中的频率缩放梯度
                                                 
-        mode (string, optional): 'sum' | 'mean'. 指定减少 bag 的方式. 默认: 'mean'
+        mode (string, optional): 'sum' | 'mean'.  指定减少 bag 的方式.  默认: 'mean'
 
     Attributes:
         weight (Tensor): shape 为 (num_embeddings, embedding_dim) 的模块的可学习权重
 
     Inputs: input, offsets
-        - **input** (N or BxN): LongTensor，包括要提取的 embeddings 的索引，
-                                当 `input` 是形状为 `N`的 1D 张量时,
-                                一个给出的 `offsets` 张量中包括 mini-batch 中每个新序列的起始位置
+        - **input** (N or BxN): LongTensor, 包括要提取的 embeddings 的索引, 
+                                当 `input` 是形状为  `N` 的 1D 张量时, 
+                                一个给出的 `offsets` 张量中包括:  mini-batch 中每个新序列的起始位置
                                 
                                 
-        - **offsets** (B or None): LongTensor，包括一个 mini-batch 的可变长度序列中的每个新样本的起始位置                                  
-                                    如果 `input` 是 2D (BxN) 的, offset 就不用再给出，
-                                    如果 `input` 是一个 mini-batch 的固定长度的序列，每个序列的长度为 `N`
+        - **offsets** (B or None): LongTensor, 包括一个 mini-batch 的可变长度序列中的每个新样本的起始位置                                  
+                                    如果 `input` 是 2D (BxN) 的,  offset 就不用再给出; 
+                                    如果 `input` 是一个 mini-batch 的固定长度的序列, 每个序列的长度为 `N`
 
 
                                    
 
 
     Shape:
-        - Input: LongTensor `N`, N = 要提取的 embeddings 的数量，
-          或是 LongTensor `BxN`,B = mini-batch 中序列的数量,
-                                N = 每个序列中 embeddings 的数量
+        - Input: LongTensor `N`,  N = 要提取的 embeddings 的数量, 
+         或者是 LongTensor `BxN`,  B = mini-batch 中序列的数量,  N = 每个序列中 embeddings 的数量
 
-        - Offsets: LongTensor `B`, B = bags 的数量，值为每个 bag 中 `input` 的 offset，i.e. 是长度的累加. 
-                    Offsets 不会给出，如果 Input是 2D 的`BxN` 张量, 输入被认为是固定长度的序列
+
+
+        - Offsets: LongTensor `B`,  B = bags 的数量, 值为每个 bag 中 `input` 的 offset, i.e. 是长度的累加. 
+                    Offsets 不会给出, 如果 Input是 2D 的`BxN` 张量,  输入被认为是固定长度的序列
 
                    
         - Output: `(B, embedding_dim)`
