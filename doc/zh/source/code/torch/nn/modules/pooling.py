@@ -31,8 +31,8 @@ class MaxPool1d(Module):
         ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
     Shape:
-        - 输入: :math:`(N, C, L_{in})`
-        - 输出: :math:`(N, C, L_{out})` 遵从如下关系
+        - Input: :math:`(N, C, L_{in})`
+        - Output: :math:`(N, C, L_{out})` 遵从如下关系
           :math:`L_{out} = floor((L_{in}  + 2 * padding - dilation * (kernel\_size - 1) - 1) / stride + 1)`
 
     Examples::
