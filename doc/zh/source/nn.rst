@@ -80,6 +80,7 @@ Convolution Layers
 .. autoclass:: ConvTranspose3d
     :members:
 
+.. _pooling-layers:
 
 池化层
 ----------------------------------
