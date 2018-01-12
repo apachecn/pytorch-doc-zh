@@ -18,7 +18,7 @@ def get_rng_state(device=-1):
 
 
 def get_rng_state_all():
-    r"""返回ByteTensor的元组，表示所有设备的随机数状态."""
+    r"""返回ByteTensor的元组,表示所有设备的随机数状态."""
 
     results = []
     for i in range(device_count()):
@@ -58,14 +58,14 @@ def set_rng_state_all(new_states):
 
 def manual_seed(seed):
     r"""设置用于当前GPU生成随机数的种子.
-    如果CUDA不可用，调用这个函数是安全的; 在这种情况下，它将被忽略.
+    如果CUDA不可用,调用这个函数是安全的;在这种情况下,它将被忽略.
 
     Args:
         seed (int or long): 所需的种子.
 
     .. warning::
-        如果您正在使用多GPU模型，则此功能不足以获得确定性.  
-        seef作用于所有GPUs, 使用 :func:`manual_seed_all`.
+        如果您正在使用多GPU模型,则此功能不足以获得确定性.  
+        seef作用于所有GPUs, 使用 :func: `manual_seed_all` .
     """
     _lazy_call(lambda: _C._cuda_manualSeed(seed))
 

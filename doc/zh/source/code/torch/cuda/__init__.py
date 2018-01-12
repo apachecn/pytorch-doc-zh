@@ -235,9 +235,9 @@ def get_device_capability(device):
     """获取设备的CUDA算力.
 
     Arguments:
-        device (int): 返回设备名，参数无效时，方法失效.
+        device (int): 返回设备名,参数无效时,方法失效.
     Returns:
-        tuple(int, int):设备的主次要CUDA算力。
+        tuple(int, int):设备的主次要CUDA算力.
     """
     if device >= 0:
         return torch._C._cuda_getDeviceCapability(device)
@@ -251,7 +251,7 @@ def stream(stream):
     stream在选定的流上,所有的CUDA内核在其上下文内排队.
 
     Arguments:
-        stream (Stream): 选择流. 如果是``None``,管理器无效.
+        stream (Stream): 选择流. 如果是 ``None`` ,管理器无效.
     """
     if stream is None:
         yield
@@ -286,7 +286,7 @@ def synchronize():
 
 
 def current_stream():
-    """返回当前选择的 :class:`Stream`."""
+    """返回当前选择的 :class: `Stream` ."""
     _lazy_init()
     return torch.cuda.Stream(_cdata=torch._C._cuda_getCurrentStream())
 
@@ -297,7 +297,7 @@ def current_blas_handle():
 
 
 def empty_cache():
-    """释放当前由缓存持有的所有未占用缓存内存分配器,以便可以在其他GPU应用程序中使用并在 `nvidia-smi`中可见."""
+    """释放当前由缓存持有的所有未占用缓存内存分配器,以便可以在其他GPU应用程序中使用并在 `nvidia-smi` 中可见."""
     return torch._C._cuda_emptyCache()
 
 

@@ -14,7 +14,7 @@ def broadcast(tensor, devices):
           请注意, 它应该像 (src, dst1, dst2, ...), 其中的第一个元素是来至其广播的源设备.
 
     Returns:
-        一个元组, 包含 ``tensor``副本,放置在与设备的索引相对应的设备上.
+        一个元组, 包含 ``tensor`` 副本,放置在与设备的索引相对应的设备上.
     """
     tensors = [tensor]
     if nccl.is_available(tensors) and len(set(devices)) == len(devices):
@@ -146,9 +146,9 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
 
     Arguments:
         tensor (Tensor): 需要分散的张量.
-        devices (Iterable[int]): 整数的迭代，指定张量应分散在哪些设备之间.
+        devices (Iterable[int]): 整数的迭代,指定张量应分散在哪些设备之间.
         chunk_sizes (Iterable[int], optional): 要放在每个设备上的块的大小. 应该匹配 ``设备`` 长度和
-            ``tensor.size(dim)``的和. 如果未指定, 张量将被划分成相等的块.
+            ``tensor.size(dim)``的和. 如果未指定,张量将被划分成相等的块.
         dim (int, optional): 分块张量沿着的维度
 
     Returns:

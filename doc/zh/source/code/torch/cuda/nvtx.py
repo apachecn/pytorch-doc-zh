@@ -15,7 +15,7 @@ def _libnvToolsExt():
 
 def range_push(msg):
     """
-    设置一个固定范围的堆栈，返回的堆栈范围深度从0开始.
+    设置一个固定范围的堆栈,返回的堆栈范围深度从0开始.
 
     Arguments:
         msg (string): 范围(用ASCII编码设置)
@@ -27,7 +27,7 @@ def range_push(msg):
 
 def range_pop():
     """
-    弹出一个固定范围的堆栈，返回的堆栈范围深度从0结束.
+    弹出一个固定范围的堆栈,返回的堆栈范围深度从0结束.
     """
     if _libnvToolsExt() is None:
         raise RuntimeError('Unable to load nvToolsExt library')
