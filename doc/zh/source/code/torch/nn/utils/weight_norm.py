@@ -71,7 +71,7 @@ def weight_norm(module, name='weight', dim=0):
     参见 https://arxiv.org/abs/1602.07868
 
     Args:
-        module (nn.Module): module
+        module (nn.Module): 给定的module
         name (str, optional): 权重参数的name
         dim (int, optional): 进行范数计算的维度
 
@@ -93,11 +93,11 @@ def weight_norm(module, name='weight', dim=0):
 
 
 def remove_weight_norm(module, name='weight'):
-    r"""Removes the weight normalization reparameterization from a module.
+    r"""从模块中移除权重归一化/再参数化.
 
     Args:
-        module (nn.Module): containing module
-        name (str, optional): name of weight parameter
+        module (nn.Module): 给定的module
+        name (str, optional): 权重参数的name
 
     Example:
         >>> m = weight_norm(nn.Linear(20, 40))
