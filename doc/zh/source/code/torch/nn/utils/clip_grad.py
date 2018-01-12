@@ -2,7 +2,7 @@
 def clip_grad_norm(parameters, max_norm, norm_type=2):
     r"""接收一个包含 Variable 的可迭代对象, 对 Variable 的梯度按范数进行裁剪.
 
-    范数是对所有梯度进行计算的, 等价于把所有输入变量的梯度连接成一个向量, 对这个向量按范数进行裁剪. 梯度将会被原地修改.
+    范数是对所有梯度进行计算的, 等价于把所有输入变量的梯度连接成一个向量, 然后对这个向量按范数进行裁剪. 梯度将会被原地修改.
 
     Arguments:
         parameters (Iterable[Variable]): 一个可迭代对象, 其包含将要进行梯度正规化的 Variable
