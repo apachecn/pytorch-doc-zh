@@ -20,7 +20,7 @@ def densenet121(pretrained=False, **kwargs):
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上训练好的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
     """
     model = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
                      **kwargs)
@@ -34,7 +34,7 @@ def densenet169(pretrained=False, **kwargs):
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上训练好的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
     """
     model = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 32, 32),
                      **kwargs)
@@ -48,7 +48,7 @@ def densenet201(pretrained=False, **kwargs):
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上训练好的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
     """
     model = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 48, 32),
                      **kwargs)
@@ -62,7 +62,7 @@ def densenet161(pretrained=False, **kwargs):
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上训练好的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
     """
     model = DenseNet(num_init_features=96, growth_rate=48, block_config=(6, 12, 36, 24),
                      **kwargs)
