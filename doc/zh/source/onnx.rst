@@ -65,10 +65,10 @@ torch.onnx
     # Print a human readable representation of the graph
     onnx.helper.printable_graph(model.graph)
 
-为了能够使用 `caffe2 <https://caffe2.ai/>`_运行脚本, 你需要三样东西:
+为了能够使用 `caffe2 <https://caffe2.ai/>`_ 运行脚本, 你需要三样东西:
 
-1. 你需要安装Caffe。如果你之前没有安装，请
-   `参照安装指南 <https://caffe2.ai/docs/getting-started.html>`_.
+1. 你需要安装Caffe。如果你之前没有安装，请参照
+   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_.
 
 2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_, 一个纯Python的库，它为ONNX提供了Caffe2的
    后端。你可以使用pip安装 ``onnx-caffe2``::
