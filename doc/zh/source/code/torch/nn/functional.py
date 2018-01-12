@@ -493,13 +493,13 @@ def dropout(input, p=0.5, training=False, inplace=False):
 
 
 def alpha_dropout(input, p=0.5, training=False):
-    r"""Applies alpha dropout to the input.
+    r"""将 dropout 应用于输入数据( dropou 是指在深度学习网络的训练过程中，对于神经网络单元，按照一定的概率将其暂时从网络中丢弃,防止过拟合)。
 
-    See :class:`~torch.nn.AlphaDropout` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.AlphaDropout`
 
     Args:
-        p (float, optional): the drop probability. Default: 0.5
-        training (bool, optional): switch between training and evaluation mode. Default: ``False``
+        p (float, optional): 丢弃的概率。默认值: 0.5
+        training (bool, optional): 决定是否在训练和测试模式之间的切换. 默认值: ``False``
     """
     if p < 0 or p > 1:
         raise ValueError("dropout probability has to be between 0 and 1, "
@@ -787,11 +787,10 @@ def sigmoid(input):
 
 def linear(input, weight, bias=None):
     """
-    Applies a linear transformation to the incoming data: :math:`y = xA^T + b`.
+    对输入的数据应用线性转换: :math:`y = xA^T + b`.
 
     Shape:
-        - Input: :math:`(N, *, in\_features)` where `*` means any number of
-          additional dimensions
+        - Input: :math:`(N, *, in\_features)` 其中 * 表示任意数量的附加维度
         - Weight: :math:`(out\_features, in\_features)`
         - Bias: :math:`(out\_features)`
         - Output: :math:`(N, *, out\_features)`
@@ -1510,19 +1509,19 @@ def pad(input, pad, mode='constant', value=0):
 
 def pairwise_distance(x1, x2, p=2, eps=1e-6):
     r"""
-    Computes the batchwise pairwise distance between vectors v1,v2:
+    计算向量 v1,v2 之间的分批成对距离(意思是可以计算多个，可以参看后面的参数):
 
     .. math ::
         \Vert x \Vert _p := \left( \sum_{i=1}^n  \vert x_i \vert ^ p \right) ^ {1/p}
 
     Args:
-        x1: first input tensor
-        x2: second input tensor
-        p: the norm degree. Default: 2
-        eps (float, optional): Small value to avoid division by zero. Default: 1e-6
+        x1: 第一个输入张量
+        x2: 第二个输入张量
+        p: 矩阵范数的维度。默认值是2，即二范数
+        eps (float, optional): 指定一个很小的值以避免被零除. 默认值: 1e-6
 
     Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
+        - Input: :math:`(N, D)` 其中 `D = vector dimension (矢量维数)`
         - Output: :math:`(N, 1)`
 
     Example::
@@ -1540,21 +1539,20 @@ def pairwise_distance(x1, x2, p=2, eps=1e-6):
 
 
 def cosine_similarity(x1, x2, dim=1, eps=1e-8):
-    r"""Returns cosine similarity between x1 and x2, computed along dim.
+    r"""返回沿着 dim(矢量的维度) 计算的 x1 和 x2 之间的余弦相似度。
 
     .. math ::
         \text{similarity} = \dfrac{x_1 \cdot x_2}{\max(\Vert x_1 \Vert _2 \cdot \Vert x_2 \Vert _2, \epsilon)}
 
     Args:
-        x1 (Variable): First input.
-        x2 (Variable): Second input (of size matching x1).
-        dim (int, optional): Dimension of vectors. Default: 1
-        eps (float, optional): Small value to avoid division by zero.
-            Default: 1e-8
+        x1 (Variable): 第一个输入。
+        x2 (Variable): 第二个输入。 (大小和 x1 匹配).
+        dim (int, optional): 矢量的维度。 默认: 1
+        eps (float, optional): 指定一个很小的值以避免被零除. 默认值: 1e-8
 
     Shape:
-        - Input: :math:`(\ast_1, D, \ast_2)` where D is at position `dim`.
-        - Output: :math:`(\ast_1, \ast_2)` where 1 is at position `dim`.
+        - Input: :math:`(\ast_1, D, \ast_2)` 其中 D 位于 `dim` 位置.
+        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于`dim`位置.
 
     Example::
 
@@ -1627,24 +1625,20 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
 
 
 def normalize(input, p=2, dim=1, eps=1e-12):
-    r"""Performs :math:`L_p` normalization of inputs over specified dimension.
-
+    r"""  对指定维度的输入执行 :math:`L_p` 规则化。
     Does:
 
     .. math::
         v = \frac{v}{\max(\lVert v \rVert_p, \epsilon)}
 
-    for each subtensor v over dimension dim of input. Each subtensor is
-    flattened into a vector, i.e. :math:`\lVert v \rVert_p` is not a matrix
-    norm.
+    对于输入的维度的每个 subtensor(子张量) V 扩展。每个子张量展开成一个向量, i.e. :math:`\lVert v \rVert_p` 不是一个规则的矩阵。
 
-    With default arguments normalizes over the second dimension with Euclidean
-    norm.
+    使用默认参数在第二个维度上用欧几里得范数规则化。
 
     Args:
-        input: input tensor of any shape
-        p (float): the exponent value in the norm formulation. Default: 2
-        dim (int): the dimension to reduce. Default: 1
-        eps (float): small value to avoid division by zero. Default: 1e-12
+        input: 输入任何 shape(形状) 的张量
+        p (float): 规范化公式中的指数值。默认值: 2
+        dim (int): 要减少的维度。默认值: 1
+        eps (float): 指定一个很小的值，避免被零除。默认值: 1e-12
     """
     return input / input.norm(p, dim, True).clamp(min=eps).expand_as(input)
