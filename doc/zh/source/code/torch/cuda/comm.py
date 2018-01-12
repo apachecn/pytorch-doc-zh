@@ -39,7 +39,7 @@ def broadcast_coalesced(tensors, devices, buffer_size=10485760):
         buffer_size (int): 用于合并的最大缓冲区大小.
 
     Returns:
-        一个元组, 包含 ``tensor``副本,放置在与设备的索引相对应的设备上.
+        一个元组, 包含 ``tensor`` 副本,放置在与设备的索引相对应的设备上.
     """
     for tensor in tensors:
         if tensor.get_device() != devices[0]:
@@ -75,7 +75,7 @@ def reduce_add(inputs, destination=None):
         destination (int, optional): 放置输出的设备 (默认: 当前设备).
 
     Returns:
-        包含所有输入的元素和的张量, 存放在``destination(目标)`` 设备.
+        包含所有输入的元素和的张量, 存放在 ``destination(目标)`` 设备.
     """
     # TODO: 尝试在另一个 gpu 上找到一个输入, 复制它并添加到副本中.
     if destination is None:
@@ -148,11 +148,11 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
         tensor (Tensor): 需要分散的张量.
         devices (Iterable[int]): 整数的迭代,指定张量应分散在哪些设备之间.
         chunk_sizes (Iterable[int], optional): 要放在每个设备上的块的大小. 应该匹配 ``设备`` 长度和
-            ``tensor.size(dim)``的和. 如果未指定,张量将被划分成相等的块.
+             ``tensor.size(dim)`` 的和. 如果未指定,张量将被划分成相等的块.
         dim (int, optional): 分块张量沿着的维度
 
     Returns:
-        一个元组包含 ``tensor``块, 传递给``devices``.
+        一个元组包含 ``tensor``块, 传递给 ``devices``.
     """
     if chunk_sizes is None:
         chunks = tensor.chunk(len(devices), dim)
@@ -177,7 +177,7 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
 def gather(tensors, dim=0, destination=None):
     """从多个GPU收集张量.
 
-    张量尺寸在不同于``dim``的维度上都应该匹配.
+    张量尺寸在不同于 ``dim`` 的维度上都应该匹配.
 
     Arguments:
         tensors (Iterable[Tensor]): 张量集合的迭代器.
@@ -186,7 +186,7 @@ def gather(tensors, dim=0, destination=None):
             当前设备)
 
     Returns:
-        一个位于``目标`` 设备上的张量, 将``tensors`` 沿着 ``dim``连接起来的结果.
+        一个位于 ``目标`` 设备上的张量, 将 ``tensors`` 沿着 ``dim`` 连接起来的结果.
     """
     total_size = 0
     expected_size = list(tensors[0].size())

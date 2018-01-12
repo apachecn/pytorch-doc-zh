@@ -105,7 +105,7 @@ class Event(object):
     Arguments:
         enable_timing (bool): 指示事件是否应测量时间
             (默认: ``False``)
-        blocking (bool): 如果 ``True``, :meth:`wait` 将阻塞 (默认: ``False``)
+        blocking (bool): 如果 ``True``, :meth: `wait` 将阻塞 (默认: ``False``)
         interprocess (bool): 如果 ``True``, 事件可以在进程之间共享
             (默认: ``False``)
     """
