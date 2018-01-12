@@ -11,7 +11,7 @@ class DistributedSampler(Sampler):
     在这种情况下, 每个进程都可以将分布式采样器实例作为Data Loader采样器,
     并且加载一个原始数据集的子集并独占该数据子集.
 
-    .. 注意::
+    .. note::
         数据集被假定为不变的大小.
 
     参数:
