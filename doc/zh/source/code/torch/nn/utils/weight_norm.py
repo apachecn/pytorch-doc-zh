@@ -64,19 +64,19 @@ def weight_norm(module, name='weight', dim=0):
     .. math::
          \mathbf{w} = g \dfrac{\mathbf{v}}{\|\mathbf{v}\|}
 
-    权重归一化是将权重张量的大小和方向分离的再参数化. 该函数会用两个参数代替 `name` (e.g. "weight")所指定的参数. 在新的参数中, 一个指定参数的大小(e.g. "weight_g"), 一个指定参数的方向. 权重归一化是通过一个钩子实现的, 该钩子会在 `~Module.forward` 的每次调用之前根据大小和方向(两个新参数)重新计算权重张量.
+    权重归一化是将权重张量的大小和方向分离的再参数化. 该函数会用两个参数代替 `name` (e.g. "weight")所指定的参数. 在新的参数中, 一个指定参数的大小 (e.g. "weight_g"), 一个指定参数的方向. 权重归一化是通过一个钩子实现的, 该钩子会在 `~Module.forward` 的每次调用之前根据大小和方向(两个新参数)重新计算权重张量.
 
-    默认情况下, `dim=0`, 范数会在每一个输出的channel/plane上分别计算. 若要对整个权重张量计算范数, 使用 `dim=None`.
+    默认情况下, `dim=0`, 范数会在每一个输出的 channel/plane 上分别计算. 若要对整个权重张量计算范数, 使用 `dim=None`.
 
     参见 https://arxiv.org/abs/1602.07868
 
     Args:
-        module (nn.Module): 给定的module
-        name (str, optional): 权重参数的name
+        module (nn.Module): 给定的 module
+        name (str, optional): 权重参数的 name
         dim (int, optional): 进行范数计算的维度
 
     Returns:
-        添加了权重归一化钩子的原module
+        添加了权重归一化钩子的原 module
 
     Example::
 
@@ -96,8 +96,8 @@ def remove_weight_norm(module, name='weight'):
     r"""从模块中移除权重归一化/再参数化.
 
     Args:
-        module (nn.Module): 给定的module
-        name (str, optional): 权重参数的name
+        module (nn.Module): 给定的 module
+        name (str, optional): 权重参数的 name
 
     Example:
         >>> m = weight_norm(nn.Linear(20, 40))
