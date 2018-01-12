@@ -157,12 +157,13 @@ class EmbeddingBag(Module):
 
 
     Shape:
-        - Input: LongTensor `N`, N = 要提取的 embeddings 的数量，或是 LongTensor `BxN`,
-                                        B = mini-batch 中序列的数量,
-                                        N = 每个序列中 embeddings 的数量
+        - Input: LongTensor `N`, N = 要提取的 embeddings 的数量，
+          或是 LongTensor `BxN`,B = mini-batch 中序列的数量,
+                                N = 每个序列中 embeddings 的数量
+
         - Offsets: LongTensor `B`, B = bags 的数量，值为每个 bag 中 `input` 的 offset，i.e. 是长度的累加. 
                     Offsets 不会给出，如果 Input是 2D 的`BxN` 张量, 输入被认为是固定长度的序列
-                    
+
                    
         - Output: `(B, embedding_dim)`
 
