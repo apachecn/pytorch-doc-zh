@@ -29,24 +29,22 @@ HASH_REGEX = re.compile(r'-([a-f0-9]*)\.')
 
 
 def load_url(url, model_dir=None, map_location=None):
-    r"""Loads the Torch serialized object at the given URL.
+    r"""从给定的 URL 处加载 Torch 序列化对象.
+    如果该对象已经存在于 `model_dir` 中, 则将被反序列化并返回. 
+    URL 的文件名部分应该遵循命名约定
+    ``filename-<sha256>.ext`` 其中 ``<sha256>`` 是文件内容的 SHA256 哈希的前八位或更多位数.
+    哈希用于确保唯一的名称并验证文件的内容.
 
-    If the object is already present in `model_dir`, it's deserialized and
-    returned. The filename part of the URL should follow the naming convention
-    ``filename-<sha256>.ext`` where ``<sha256>`` is the first eight or more
-    digits of the SHA256 hash of the contents of the file. The hash is used to
-    ensure unique names and to verify the contents of the file.
+    `model_dir` 的默认值为 ``$TORCH_HOME/models`` 其中
+    ``$TORCH_HOME`` 默认值为 ``~/.torch``. 可以使用
+    ``$TORCH_MODEL_ZOO`` 环境变量来覆盖默认目录.
 
-    The default value of `model_dir` is ``$TORCH_HOME/models`` where
-    ``$TORCH_HOME`` defaults to ``~/.torch``. The default directory can be
-    overriden with the ``$TORCH_MODEL_ZOO`` environment variable.
+    参数:
+        url (string): 需要下载对象的 URL
+        model_dir (string, optional): 保存对象的目录
+        map_location (optional): 一个函数或者一个字典,指定如何重新映射存储位置 (详情查阅 torch.load)
 
-    Args:
-        url (string): URL of the object to download
-        model_dir (string, optional): directory in which to save the object
-        map_location (optional): a function or a dict specifying how to remap storage locations (see torch.load)
-
-    Example:
+    例子:
         >>> state_dict = torch.utils.model_zoo.load_url('https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth')
 
     """

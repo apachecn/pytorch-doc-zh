@@ -227,23 +227,17 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 # Pooling
 def avg_pool1d(input, kernel_size, stride=None, padding=0,
                ceil_mode=False, count_include_pad=True):
-    r"""Applies a 1D average pooling over an input signal composed of several
-    input planes.
+    r"""对由几个输入平面组成的输入信号进行一维平均池化。
 
-    See :class:`~torch.nn.AvgPool1d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool1d` 。
 
     Args:
-        input: input tensor (minibatch x in_channels x iW)
-        kernel_size: the size of the window. Can be a single number or a
-          tuple (kW,)
-        stride: the stride of the window. Can be a single number or a tuple
-          (sW,). Default: :attr:`kernel_size`
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padW,). Default: 0
-        ceil_mode: when True, will use `ceil` instead of `floor` to compute the
-            output shape. Default: ``False``
-        count_include_pad: when True, will include the zero-padding in the
-            averaging calculation. Default: ``True``
+        input: 输入张量 (minibatch x in_channels x iW)
+        kernel_size: 窗口的大小。可以是单个数字或者 tuple (kW,)
+        stride: 窗口的步长。可以是单个数字或者 tuple (sW,)。 默认值: :attr:`kernel_size`
+        padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padW,)。默认值: 0
+        ceil_mode: 当为 True 时, 将使用 `ceil` 代替 `floor` 来计算输出的 shape。默认值: ``False``
+        count_include_pad: 当为 True 时, 在平均计算时将包括零填充。默认值: ``True``
 
     Example:
         >>> # pool of square window of size=3, stride=2
@@ -267,57 +261,43 @@ def avg_pool1d(input, kernel_size, stride=None, padding=0,
 avg_pool2d = _add_docstr(torch._C._nn.avg_pool2d, r"""
 avg_pool2d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-Applies 2D average-pooling operation in kh x kw regions by step size
-dh x dw steps. The number of output features is equal to the number of
-input planes.
+在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入平面的数量。
 
-See :class:`~torch.nn.AvgPool2d` for details and output shape.
+有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool2d` 。
 
 Args:
-    input: input tensor (minibatch x in_channels x iH x iW)
-    kernel_size: size of the pooling region. Can be a single number or a
-      tuple (kH x kW)
-    stride: stride of the pooling operation. Can be a single number or a
-      tuple (sH, sW). Default is equal to kernel size
-    padding: implicit zero paddings on both sides of the input. Can be a
-      single number or a tuple (padH, padW). Default: 0
-    ceil_mode: when True, will use `ceil` instead of `floor` in the formula
-        to compute the output shape. Default: ``False``
-    count_include_pad: when True, will include the zero-padding in th
-        averaging calculation. Default: ``True``
+    input: 输入张量 (minibatch x in_channels x iH x iW)
+    kernel_size: 池化区域的大小。可以是单个数字或者 tuple (kH x kW)
+    stride: 池化操作的步长。 可以是单个数字或者 tuple (sH, sW)。默认等于 kernel 的大小
+    padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padH, padW)。默认值: 0
+    ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape。默认值: ``False``
+    count_include_pad: 当为 True 时, 在平均计算时将包括零填充。默认值: ``True``
 """)
 
 avg_pool3d = _add_docstr(torch._C._nn.avg_pool3d, r"""
 avg_pool3d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-Applies 3D average-pooling operation in kt x kh x kw regions by step
-size dt x dh x dw steps. The number of output features is equal to the
-number of input planes / dt.
+在 kt x kh x kw 区域中应用步长为 dt x dh x dw 的三维平均池化操作。
+输出特征的数量等于输入平面的数量/dt。
 
-See :class:`~torch.nn.AvgPool3d` for details and output shape.
+有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool3d` 。
 
 Args:
-    input: input tensor (minibatch x in_channels x iT x iH x iW)
-    kernel_size: size of the pooling region. Can be a single number or a
-      tuple (kT x kH x kW)
-    stride: stride of the pooling operation. Can be a single number or a
-      tuple (sT, sH, sW). Default is equal to kernel size
-    padding: implicit zero paddings on both sides of the input. Can be a
-      single number or a tuple (padT, padH, padW), Default: 0
-    ceil_mode: when True, will use `ceil` instead of `floor` in the formula
-        to compute the output shape
-    count_include_pad: when True, will include the zero-padding in th
-        averaging calculation
+    input: 输入张量 (minibatch x in_channels x iT x iH x iW)
+    kernel_size: 池化区域的大小。可以是单个数字或者 tuple (kT x kH x kW)
+    stride: 池化操作的步长。 可以是单个数字或者 tuple (sT, sH, sW). 默认等于 kernel 的大小
+    padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padT, padH, padW), 默认值: 0
+    ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape
+    count_include_pad: 当为 True 时, 在平均计算时将包括零填充
 """)
 
 
 # share the same interface
 def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """Applies a 1D max pooling over an input signal composed of several input
-    planes.
+    """对由几个输入平面组成的输入信号进行一维最大池化。
 
-    See :class:`~torch.nn.MaxPool1d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxPool1d` 。
     """
     ret = _functions.thnn.MaxPool1d.apply(input, kernel_size, stride, padding, dilation,
                                           ceil_mode)
@@ -326,10 +306,9 @@ def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """Applies a 2D max pooling over an input signal composed of several input
-    planes.
+    """对由几个输入平面组成的输入信号进行二维最大池化。
 
-    See :class:`~torch.nn.MaxPool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
     ret = torch._C._nn.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
     return ret if return_indices else ret[0]
@@ -337,10 +316,9 @@ def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool3d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """Applies a 3D max pooling over an input signal composed of several input
-    planes.
+    """对由几个输入平面组成的输入信号进行三维最大池化。
 
-    See :class:`~torch.nn.MaxPool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
     ret = _functions.thnn.MaxPool3d.apply(input, kernel_size, stride, padding, dilation,
                                           ceil_mode)
@@ -377,9 +355,9 @@ def _unpool_output_size(input, kernel_size, stride, padding, output_size):
 
 def max_unpool1d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """Computes a partial inverse of :class:`MaxPool1d`.
+    """计算 :class:`MaxPool1d` 的部分逆
 
-    See :class:`~torch.nn.MaxUnpool1d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool1d` 。
     """
     kernel_size = _single(kernel_size)
     stride = _single(stride)
@@ -391,9 +369,9 @@ def max_unpool1d(input, indices, kernel_size, stride=None, padding=0,
 
 def max_unpool2d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """Computes a partial inverse of :class:`MaxPool2d`.
+    """计算 :class:`MaxPool2d` 的部分逆。
 
-    See :class:`~torch.nn.MaxUnpool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool2d` 。
     """
     kernel_size = _pair(kernel_size)
     stride = _pair(stride)
@@ -405,9 +383,9 @@ def max_unpool2d(input, indices, kernel_size, stride=None, padding=0,
 
 def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """Computes a partial inverse of :class:`MaxPool3d`.
+    """计算 :class:`MaxPool3d` 的部分逆。
 
-    See :class:`~torch.nn.MaxUnpool3d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool3d` 。
     """
     kernel_size = _triple(kernel_size)
     stride = _triple(stride)
@@ -418,10 +396,9 @@ def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
 
 
 def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """Applies a 2D power-average pooling over an input signal composed of
-    several input planes.
+    """对由几个输入平面组成的输入信号进行二维幂平均池化。
 
-    See :class:`~torch.nn.LPPool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.LPPool2d` 。
     """
     kw, kh = utils._pair(kernel_size)
     out = avg_pool2d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
@@ -429,93 +406,82 @@ def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """Applies a 1D power-average pooling over an input signal composed of
-    several input planes.
+    """对由几个输入平面组成的输入信号进行一维幂平均池化。
 
-    See :class:`~torch.nn.LPPool1d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.LPPool1d` 。
     """
     out = avg_pool1d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
     return out.mul(kernel_size).pow(1. / norm_type)
 
 
 def adaptive_max_pool1d(input, output_size, return_indices=False):
-    r"""Applies a 1D adaptive max pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入平面组成的输入信号进行一维自适应最大池化。
 
-    See :class:`~torch.nn.AdaptiveMaxPool1d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool1d` 。
 
     Args:
-        output_size: the target output size (single integer)
-        return_indices: whether to return pooling indices. Default: ``False``
+        output_size: 目标输出大小（单个整数）
+        return_indices: 是否返回池化索引。 默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool1d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_max_pool2d(input, output_size, return_indices=False):
-    r"""Applies a 2D adaptive max pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入平面组成的输入信号进行二维自适应最大池化。
 
-    See :class:`~torch.nn.AdaptiveMaxPool2d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool2d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            double-integer tuple)
-        return_indices: whether to return pooling indices. Default: ``False``
+        output_size: 目标输出大小（单个整数或者两个整数的 tuple ）
+        return_indices: 是否返回池化索引。 默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool2d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_max_pool3d(input, output_size, return_indices=False):
-    r"""Applies a 3D adaptive max pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入平面组成的输入信号进行三维自适应最大池化。
 
-    See :class:`~torch.nn.AdaptiveMaxPool3d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool3d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            triple-integer tuple)
-        return_indices: whether to return pooling indices. Default: ``False``
+        output_size: 目标输出大小（单个整数或者三个整数的 tuple ）
+        return_indices: 是否返回池化索引。 默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool3d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_avg_pool1d(input, output_size):
-    r"""Applies a 1D adaptive average pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入平面组成的输入信号进行一维自适应平均池化。
 
-    See :class:`~torch.nn.AdaptiveAvgPool1d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool1d` 。
 
     Args:
-        output_size: the target output size (single integer)
+        output_size: 目标输出大小（单个整数）
     """
     return _functions.thnn.AdaptiveAvgPool1d.apply(input, output_size)
 
 
 def adaptive_avg_pool2d(input, output_size):
-    r"""Applies a 2D adaptive average pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入平面组成的输入信号进行二维自适应平均池化。
 
-    See :class:`~torch.nn.AdaptiveAvgPool2d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool2d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            double-integer tuple)
+        output_size: 目标输出大小（单个整数或者两个整数的 tuple ）
     """
     return _functions.thnn.AdaptiveAvgPool2d.apply(input, output_size)
 
 
 def adaptive_avg_pool3d(input, output_size):
-    r"""Applies a 3D adaptive average pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入平面组成的输入信号进行三维自适应平均池化。
 
-    See :class:`~torch.nn.AdaptiveAvgPool3d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool3d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            triple-integer tuple)
+        output_size: 目标输出大小（单个整数或者三个整数的 tuple ）
     """
     return _functions.thnn.AdaptiveAvgPool3d.apply(input, output_size)
 
