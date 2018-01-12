@@ -2,7 +2,7 @@ torch.onnx
 ============
 .. automodule:: torch.onnx
 
-示例：从Pytorch到为Caffe2的端对端AlexNet模型
+示例：从Pytorch到Caffe2的端对端AlexNet模型
 --------------------------------------------------
 
 这里是一个简单的脚本程序，它将一个在torchvision中已经定义的预训练AlexNet模型导出到ONNX格式。
