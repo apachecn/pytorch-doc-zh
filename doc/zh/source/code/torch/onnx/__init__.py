@@ -55,7 +55,7 @@ def export(model, args, f, export_params=True, verbose=False, training=False):
         export_params (bool, default True): 如果指定，所有参数将被导出。如果要导出未经训练的模型，请将其设置为 False。
         在这种情况下，导出的模型将首先将其所有参数作为参数，顺序由 ``model.state_dict().values()`` 指定。
         verbose (bool, default False): 如果指定，会打印出正在导出轨迹的调式描述。
-        training (bool, default False): 在训练模式下输出模型。目前，ONNX只是作为导出模型的接口，所以你通常不需要将其设为 True.
+        training (bool, default False): 在训练模式下输出模型。目前，ONNX只是作为导出模型的接口，所以你通常不需要将其设为 True。
     """
     _export(model, args, f, export_params, verbose, training)
 
