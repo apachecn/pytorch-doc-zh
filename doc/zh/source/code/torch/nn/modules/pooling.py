@@ -7,9 +7,9 @@ from .. import functional as F
 
 
 class MaxPool1d(Module):
-    r"""对于多个输入通道组成的输入信号，应用一维的最大池化``max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用一维的最大池化 ``max pooling`` 操作
 
-    最简单的例子, 如果输入大小为 :math:`(N, C, L)`, 输出大小为 :math:`(N, C, L_{out})`，
+    最简单的例子, 如果输入大小为 :math:`(N, C, L)`, 输出大小为 :math:`(N, C, L_{out})`,
     该层输出值可以用下式精确计算:
 
     .. math::
@@ -18,17 +18,17 @@ class MaxPool1d(Module):
         out(N_i, C_j, k)  = \max_{{m}=0}^{{kernel\_size}-1} input(N_i, C_j, stride * k + m)
         \end{array}
 
-    | 如果 :attr:`padding` 不是0，那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
-    | :attr:`dilation` 用于控制内核点之间的间隔， `link`_ 很好地可视化展示了 :attr:`dilation` 的功能
+    | 如果 :attr:`padding` 不是0,那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
+    | :attr:`dilation` 用于控制内核点之间的间隔, `link`_ 很好地可视化展示了 :attr:`dilation` 的功能
 
     Args:
         kernel_size: 最大池化操作时的窗口大小
-        stride: 最大池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride: 最大池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding: 输入的每条边隐式补0的数量
         dilation: 用于控制窗口中元素的步长的参数
-        return_indices: 如果等于 ``True``, 在返回max pooling结果的同时返回最大值的索引。
-                        这在之后的Unpooling时很有用
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
+        return_indices: 如果等于 ``True``, 在返回 max pooling 结果的同时返回最大值的索引.
+                        这在之后的 Unpooling 时很有用
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
     Shape:
         - 输入: :math:`(N, C, L_{in})`
@@ -71,9 +71,9 @@ class MaxPool1d(Module):
 
 
 class MaxPool2d(Module):
-    r"""对于多个输入通道组成的输入信号，应用二维的最大池化``max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用二维的最大池化 ``max pooling`` 操作
 
-    最简单的例子， 如果输入大小为 :math:`(N, C, H, W)`， 输出大小为 :math:`(N, C, H_{out}, W_{out})`，
+    最简单的例子, 如果输入大小为 :math:`(N, C, H, W)`, 输出大小为 :math:`(N, C, H_{out}, W_{out})`,
     池化窗口大小 :attr:`kernel_size` 为 :math:`(kH, kW)`
     该层输出值可以用下式精确计算:
 
@@ -84,24 +84,24 @@ class MaxPool2d(Module):
                                input(N_i, C_j, stride[0] * h + m, stride[1] * w + n)
         \end{array}
 
-    | 如果 :attr:`padding` 不是0， 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
-    | :attr:`dilation` 用于控制内核点之间的间隔， `link`_ 很好地可视化展示了 :attr:`dilation` 的功能
+    | 如果 :attr:`padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
+    | :attr:`dilation` 用于控制内核点之间的间隔, `link`_ 很好地可视化展示了 :attr:`dilation` 的功能
 
     参数 :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`dilation` 
     可以是以下任意一种数据类型:
 
-        - 单个 ``int`` 类型数据 -- 此时在height和width维度上将使用相同的值
-        - 包含两个int类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示height维度上的数值， 
-        第二个 `int` 数据表示width维度上的数值
+        - 单个 ``int`` 类型数据 -- 此时在 height 和 width 维度上将使用相同的值
+        - 包含两个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 height 维度上的数值,
+        第二个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 最大池化操作时的窗口大小
-        stride: 最大池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride: 最大池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding: 输入的每条边隐式补0的数量
         dilation: 用于控制窗口中元素的步长的参数
-        return_indices: 如果等于 ``True``， 在返回max pooling结果的同时返回最大值的索引
-                        这在之后的Unpooling时很有用
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
+        return_indices: 如果等于 ``True``, 在返回 max pooling 结果的同时返回最大值的索引
+                        这在之后的 Unpooling 时很有用
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
     Shape:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -155,22 +155,22 @@ class MaxPool2d(Module):
 class MaxUnpool1d(Module):
     r""" :class:`MaxPool1d` 的逆过程
 
-    要注意的是 :class:`MaxPool1d` 并不是完全可逆的， 因为在 `` max pooling `` 过程中非最大值已经丢失
+    要注意的是 :class:`MaxPool1d` 并不是完全可逆的, 因为在 `` max pooling `` 过程中非最大值已经丢失
 
-    :class:`MaxUnpool1d` 以 :class:`MaxPool1d` 的输出， 包含最大值的索引作为输入
-    计算`` max poooling `` 的部分逆过程(对于那些最大值区域)， 对于那些非最大值区域将设置为0值
+    :class:`MaxUnpool1d` 以 :class:`MaxPool1d` 的输出, 包含最大值的索引作为输入
+    计算 `` max poooling `` 的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
-    .. note:: `MaxPool1d` 可以将多个输入大小映射到相同的输出大小， 因此反演过程可能会模棱两可
-              为适应这一点， 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入。
-              具体用法，请参阅下面的输入和示例
+    .. note:: `MaxPool1d` 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可
+              为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入.
+              具体用法,请参阅下面的输入和示例
 
     Args:
         kernel_size (int or tuple): 最大池化操作时的窗口大小
-        stride (int or tuple): 最大池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride (int or tuple): 最大池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding (int or tuple): 输入的每条边填充0值的个数
 
     Inputs:
-        - `input`: 需要转化的输入的Tensor
+        - `input`: 需要转化的输入的 Tensor
         - `indices`: `MaxPool1d` 提供的最大值索引
         - `output_size` (可选) : `torch.Size` 类型的数据指定输出的大小
 
@@ -229,22 +229,22 @@ class MaxUnpool1d(Module):
 class MaxUnpool2d(Module):
     r""" :class:`MaxPool2d` 的逆过程
 
-    要注意的是 :class:`MaxPool2d` 并不是完全可逆的， 因为在 `` max pooling `` 过程中非最大值已经丢失
+    要注意的是 :class:`MaxPool2d` 并不是完全可逆的, 因为在 `` max pooling `` 过程中非最大值已经丢失
 
-    :class:`MaxUnpool2d` 以 :class:`MaxPool2d` 的输出， 包含最大值的索引作为输入
-    计算`` max poooling `` 的部分逆过程(对于那些最大值区域)， 对于那些非最大值区域将设置为0值
+    :class:`MaxUnpool2d` 以 :class:`MaxPool2d` 的输出, 包含最大值的索引作为输入
+    计算 `` max poooling `` 的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
-    .. note:: `MaxPool2d` 可以将多个输入大小映射到相同的输出大小， 因此反演过程可能会模棱两可。
-              为适应这一点， 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入。
-              具体用法，请参阅下面的输入和示例
+    .. note:: `MaxPool2d` 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可.
+              为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入.
+              具体用法,请参阅下面的输入和示例
 
     Args:
         kernel_size (int or tuple): 最大池化操作时的窗口大小
-        stride (int or tuple): 最大池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride (int or tuple): 最大池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding (int or tuple): 输入的每条边填充0值的个数
 
     Inputs:
-        - `input`: 需要转化的输入的Tensor
+        - `input`: 需要转化的输入的 Tensor
         - `indices`: `MaxPool2d` 提供的最大值索引
         - `output_size` (可选) : `torch.Size` 类型的数据指定输出的大小
 
@@ -306,21 +306,21 @@ class MaxUnpool2d(Module):
 class MaxUnpool3d(Module):
     r""" :class:`MaxPool3d` 的逆过程
 
-    要注意的是 :class:`MaxPool3d` 并不是完全可逆的， 因为在 `` max pooling `` 过程中非最大值已经丢失
-    :class:`MaxUnpool3d` 以 :class:`MaxPool3d` 的输出， 包含最大值的索引作为输入
-    计算`` max poooling `` 的部分逆过程(对于那些最大值区域)， 对于那些非最大值区域将设置为0值
+    要注意的是 :class:`MaxPool3d` 并不是完全可逆的, 因为在 `` max pooling `` 过程中非最大值已经丢失
+    :class:`MaxUnpool3d` 以 :class:`MaxPool3d` 的输出, 包含最大值的索引作为输入
+    计算 `` max poooling `` 的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
-    .. note:: `MaxPool3d` 可以将多个输入大小映射到相同的输出大小， 因此反演过程可能会模棱两可。
-              为适应这一点， 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入。
-              具体用法，请参阅下面的输入和示例
+    .. note:: `MaxPool3d` 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可.
+              为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入.
+              具体用法,请参阅下面的输入和示例
 
     Args:
         kernel_size (int or tuple): 最大池化操作时的窗口大小
-        stride (int or tuple): 最大池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride (int or tuple): 最大池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding (int or tuple): 输入的每条边填充0值的个数
 
     Inputs:
-        - `input`: 需要转化的输入的Tensor
+        - `input`: 需要转化的输入的 Tensor
         - `indices`: `MaxPool3d` 提供的最大值索引
         - `output_size` (可选) : `torch.Size` 类型的数据指定输出的大小
 
@@ -361,9 +361,9 @@ class MaxUnpool3d(Module):
 
 
 class AvgPool1d(Module):
-    r"""对于多个输入通道组成的输入信号，应用一维的平均池化``average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用一维的平均池化 ``average pooling`` 操作
 
-    最简单的例子, 如果输入大小为 :math:`(N, C, L)`， 输出大小为 :math:`(N, C, L_{out})`，
+    最简单的例子, 如果输入大小为 :math:`(N, C, L)`, 输出大小为 :math:`(N, C, L_{out})`,
     池化窗口大小 :attr:`kernel_size` 为 :math:`k`
     该层输出值可以用下式精确计算:
 
@@ -374,17 +374,17 @@ class AvgPool1d(Module):
                                input(N_i, C_j, stride * l + m)
         \end{array}
 
-    | 如果 :attr:`padding` 不是0， 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
+    | 如果 :attr:`padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
 
     参数 :attr:`kernel_size`, :attr:`stride`, :attr:`padding` 可以为单个 ``int`` 类型的数据
     或者是一个单元素的tuple元组
 
     Args:
         kernel_size: 平均池化操作时取平均值的窗口的大小
-        stride: 平均池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride: 平均池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding: 输入的每条边隐式补0的数量
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
-        count_include_pad: 如果等于 ``True``， 在计算平均池化的值时，将考虑 ``padding`` 填充的0
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
+        count_include_pad: 如果等于 ``True``, 在计算平均池化的值时,将考虑 ``padding`` 填充的0
 
     Shape:
         - Input: :math:`(N, C, L_{in})`
@@ -426,9 +426,9 @@ class AvgPool1d(Module):
 
 
 class AvgPool2d(Module):
-    r"""对于多个输入通道组成的输入信号，应用二维的平均池化``average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用二维的平均池化 ``average pooling`` 操作
 
-    最简单的例子，如果输入大小为 :math:`(N, C, H, W)`，输出大小为 :math:`(N, C, H_{out}, W_{out})`，
+    最简单的例子,如果输入大小为 :math:`(N, C, H, W)`,输出大小为 :math:`(N, C, H_{out}, W_{out})`,
     池化窗口大小 :attr:`kernel_size` 为 :math:`(kH, kW)`
     该层输出值可以用下式精确计算:
 
@@ -439,21 +439,21 @@ class AvgPool2d(Module):
                                input(N_i, C_j, stride[0] * h + m, stride[1] * w + n)
         \end{array}
 
-    | 如果 :attr:`padding` 不是0， 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
+    | 如果 :attr:`padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
 
     参数 :attr:`kernel_size`, :attr:`stride`, :attr:`padding`
     可以是以下任意一种数据类型:
 
-        - 单个 ``int`` 类型数据 -- 此时在height和width维度上将使用相同的值
-        - 包含两个int类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示height维度上的数值， 
-        第二个 `int` 数据表示width维度上的数值
+        - 单个 ``int`` 类型数据 -- 此时在 height 和 width 维度上将使用相同的值
+        - 包含两个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 height 维度上的数值, 
+        第二个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 平均池化操作时取平均值的窗口的大小
-        stride: 平均池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride: 平均池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding: 输入的每条边隐式补0的数量
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
-        count_include_pad: 如果等于 ``True``， 在计算平均池化的值时，将考虑 ``padding`` 填充的0
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
+        count_include_pad: 如果等于 ``True``, 在计算平均池化的值时,将考虑 ``padding`` 填充的0
 
     Shape:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -494,9 +494,9 @@ class AvgPool2d(Module):
 
 
 class MaxPool3d(Module):
-    r"""对于多个输入通道组成的输入信号，应用三维的最大池化``max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用三维的最大池化 ``max pooling`` 操作
 
-    最简单的例子， 如果输入大小为 :math:`(N, C, D, H, W)`，输出大小为 :math:`(N, C, D_{out}, H_{out}, W_{out})`
+    最简单的例子, 如果输入大小为 :math:`(N, C, D, H, W)`,输出大小为 :math:`(N, C, D_{out}, H_{out}, W_{out})`
     池化窗口大小 :attr:`kernel_size` 为 :math:`(kD, kH, kW)`
     该层输出值可以用下式精确计算:
 
@@ -507,24 +507,24 @@ class MaxPool3d(Module):
                          input(N_i, C_j, stride[0] * k + d, stride[1] * h + m, stride[2] * w + n)
         \end{array}
 
-    | 如果 :attr:`padding` 不是0， 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
-    | :attr:`dilation` 用于控制内核点之间的间隔， `link`_ 很好地可视化展示了 :attr:`dilation` 的功能
+    | 如果 :attr:`padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
+    | :attr:`dilation` 用于控制内核点之间的间隔, `link`_ 很好地可视化展示了 :attr:`dilation` 的功能
 
     参数 :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`dilation`
     可以是以下任意一种数据类型:
 
-        - 单个 ``int`` 类型数据 -- 此时在depth，height和width维度上将使用相同的值
-        - 包含三个int类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示depth维度上的数值， 
-        第二个 `int` 数据表示height维度上的数值，第三个 `int` 数据表示width维度上的数值
+        - 单个 ``int`` 类型数据 -- 此时在 depth, height 和 width 维度上将使用相同的值
+        - 包含三个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 depth 维度上的数值, 
+        第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 最大池化操作时的窗口大小
-        stride: 最大池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride: 最大池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding: 输入所有三条边上隐式补0的数量
         dilation: 用于控制窗口中元素的步长的参数
-        return_indices: 如果等于 ``True``， 在返回max pooling结果的同时返回最大值的索引
-                        这在之后的Unpooling时很有用
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
+        return_indices: 如果等于 ``True``, 在返回 max pooling 结果的同时返回最大值的索引
+                        这在之后的 Unpooling 时很有用
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
     Shape:
         - Input: :math:`(N, C, D_{in}, H_{in}, W_{in})`
@@ -571,9 +571,9 @@ class MaxPool3d(Module):
 
 
 class AvgPool3d(Module):
-    r"""对于多个输入通道组成的输入信号，应用三维的平均池化``average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用三维的平均池化 ``average pooling`` 操作
 
-    最简单的例子, 如果输入大小为 :math:`(N, C, D, H, W)`，输出大小为 :math:`(N, C, D_{out}, H_{out}, W_{out})`
+    最简单的例子, 如果输入大小为 :math:`(N, C, D, H, W)`,输出大小为 :math:`(N, C, D_{out}, H_{out}, W_{out})`
     池化窗口大小 :attr:`kernel_size` 为 :math:`(kD, kH, kW)`
     该层输出值可以用下式精确计算:
 
@@ -584,20 +584,20 @@ class AvgPool3d(Module):
                                input(N_i, C_j, stride[0] * d + k, stride[1] * h + m, stride[2] * w + n)
         \end{array}
 
-    | 如果 :attr:`padding` 不是0， 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
+    | 如果 :attr:`padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 :attr:`padding` 数量的0值点
 
     参数 :attr:`kernel_size`, :attr:`stride` 可以是以下任意一种数据类型:
 
-        - 单个 ``int`` 类型数据 -- 此时在depth，height和width维度上将使用相同的值
-        - 包含三个int类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示depth维度上的数值， 
-        第二个 `int` 数据表示height维度上的数值，第三个 `int` 数据表示width维度上的数值
+        - 单个 ``int`` 类型数据 -- 此时在 depth, height 和 width 维度上将使用相同的值
+        - 包含三个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 depth 维度上的数值, 
+        第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 平均池化操作时取平均值的窗口的大小
-        stride: 平均池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
+        stride: 平均池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
         padding: 输入的每条边隐式补0的数量
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
-        count_include_pad: 如果等于 ``True``， 在计算平均池化的值时，将考虑 ``padding`` 填充的0
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
+        count_include_pad: 如果等于 ``True``, 在计算平均池化的值时,将考虑 ``padding`` 填充的0
 
     Shape:
         - Input: :math:`(N, C, D_{in}, H_{in}, W_{in})`
@@ -645,22 +645,22 @@ class AvgPool3d(Module):
 
 
 class FractionalMaxPool2d(Module):
-    r"""对于多个输入通道组成的输入信号，应用二维的分数最大池化 ``fractional max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用二维的分数最大池化 ``fractional max pooling`` 操作
 
-    分数最大池化 ``Fractiona MaxPooling`` 的具体细节描述，详见Ben Graham论文 `Fractional MaxPooling`_
+    分数最大池化 ``Fractiona MaxPooling`` 的具体细节描述,详见Ben Graham论文 `Fractional MaxPooling`_
 
-    由目标输出大小确定随机步长，在 kHxkW 区域内进行最大池化的操作
+    由目标输出大小确定随机步长,在 kH x kW 区域内进行最大池化的操作
     输出特征的数量与输入通道的数量相同
 
     Args:
         kernel_size: 最大池化操作时窗口的大小.
                      可以是单个数字 k (等价于 k x k 的正方形窗口) 或者是 一个元组 tuple (kh x kw)
         output_size: oH x oW 形式的输出图像的尺寸.
-                     可以用 一个 tuple元组 (oH, oW) 表示 oH x oW 的输出尺寸， 
+                     可以用 一个 tuple 元组 (oH, oW) 表示 oH x oW 的输出尺寸, 
                      或者是单个的数字 oH 表示 oH x oH 的输出尺寸
-        output_ratio: 如果想用输入图像的百分比来指定输出图像的大小，可选用该选项。
+        output_ratio: 如果想用输入图像的百分比来指定输出图像的大小,可选用该选项.
                       使用范围在 (0,1) 之间的一个值来指定.
-        return_indices: 如果等于 ``True``，在返回输出结果的同时返回最大值的索引，该索引对 nn.MaxUnpool2d 有用。
+        return_indices: 如果等于 ``True``,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool2d 有用.
                         默认情况下该值等于 ``False``
 
     Examples:
@@ -707,23 +707,23 @@ class FractionalMaxPool2d(Module):
 
 
 class LPPool2d(Module):
-    r"""对于多个输入通道组成的输入信号，应用二维的幂平均池化 ``power-average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用二维的幂平均池化 ``power-average pooling`` 操作
 
     在每个窗口内, 输出的计算方式: :math:`f(X) = pow(sum(pow(X, p)), 1/p)`
 
-        - 当p无穷大时，等价于最大池化 ``Max Pooling`` 操作
+        - 当 p 无穷大时,等价于最大池化 ``Max Pooling`` 操作
         - 当 ``p=1`` 时, 等价于平均池化 ``Average Pooling`` 操作
 
     参数 :attr:`kernel_size`, :attr:`stride` 可以是以下任意一种数据类型:
 
         - 单个 ``int`` 类型数据 -- 此时在height和width维度上将使用相同的值
-        - 包含两个int类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示height维度上的数值， 
-        第二个 `int` 数据表示width维度上的数值
+        - 包含两个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 height 维度上的数值, 
+        第二个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 幂平均池化时窗口的大小
-        stride: 幂平均池化操作时窗口移动的步长， 默认值是 :attr:`kernel_size`
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
+        stride: 幂平均池化操作时窗口移动的步长, 默认值是 :attr:`kernel_size`
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
     Shape:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -762,17 +762,17 @@ class LPPool2d(Module):
 
 
 class LPPool1d(Module):
-    r"""对于多个输入通道组成的输入信号，应用一维的幂平均池化 ``power-average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用一维的幂平均池化 ``power-average pooling`` 操作
 
     在每个窗口内, 输出的计算方式: :math:`f(X) = pow(sum(pow(X, p)), 1/p)`
 
-        - 当p无穷大时，等价于最大池化 ``Max Pooling`` 操作
+        - 当 p 无穷大时,等价于最大池化 ``Max Pooling`` 操作
         - 当 ``p=1`` 时, 等价于平均池化 ``Average Pooling`` 操作
 
     Args:
-        kernel_size: 单个 ``int`` 类型的数据，池化窗口的大小
+        kernel_size: 单个 ``int`` 类型的数据,池化窗口的大小
         stride: 单个 ``int`` 类型的数据, 池化操作时窗口移动的步长. 默认值是 :attr:`kernel_size`
-        ceil_mode: 如果等于 ``True``， 在计算输出大小时，将采用向上取整来代替默认的向下取整的方式
+        ceil_mode: 如果等于 ``True``, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
     Shape:
         - Input: :math:`(N, C, L_{in})`
@@ -806,14 +806,14 @@ class LPPool1d(Module):
 
 
 class AdaptiveMaxPool1d(Module):
-    r"""对于多个输入通道组成的输入信号，应用一维的自适应最大池化 ``adaptive max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用一维的自适应最大池化 ``adaptive max pooling`` 操作
 
-    对于任意大小的输入，可以指定输出的尺寸为H
-    输出特征的数量与输入通道的数量相同。
+    对于任意大小的输入,可以指定输出的尺寸为 H
+    输出特征的数量与输入通道的数量相同.
 
     Args:
-        output_size: 目标输出的尺寸H
-        return_indices: 如果等于 ``True``，在返回输出结果的同时返回最大值的索引，该索引对 nn.MaxUnpool1d 有用。
+        output_size: 目标输出的尺寸 H
+        return_indices: 如果等于 ``True``,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool1d 有用.
                         默认情况下该值等于 ``False``
 
     Examples:
@@ -838,16 +838,16 @@ class AdaptiveMaxPool1d(Module):
 
 
 class AdaptiveMaxPool2d(Module):
-    r"""对于多个输入通道组成的输入信号，应用二维的自适应最大池化 ``adaptive max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用二维的自适应最大池化 ``adaptive max pooling`` 操作
 
-    对于任意大小的输入，可以指定输出的尺寸为 H x W
-    输出特征的数量与输入通道的数量相同。
+    对于任意大小的输入,可以指定输出的尺寸为 H x W
+    输出特征的数量与输入通道的数量相同.
 
     Args:
         output_size: H x W 形式的输出图像的尺寸.
-                     可以用 一个 tuple元组 (H, W) 表示 H x W 的输出尺寸， 
+                     可以用 一个 tuple 元组 (H, W) 表示 H x W 的输出尺寸, 
                      或者是单个的数字 H 表示 H x H 的输出尺寸
-        return_indices: 如果等于 ``True``，在返回输出结果的同时返回最大值的索引，该索引对 nn.MaxUnpool2d 有用。
+        return_indices: 如果等于 ``True``,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool2d 有用.
                         默认情况下该值等于 ``False``
 
     Examples:
@@ -876,16 +876,16 @@ class AdaptiveMaxPool2d(Module):
 
 
 class AdaptiveMaxPool3d(Module):
-    r"""对于多个输入通道组成的输入信号，应用三维的自适应最大池化 ``adaptive max pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用三维的自适应最大池化 ``adaptive max pooling`` 操作
 
-    对于任意大小的输入，可以指定输出的尺寸为 D x H x W
-    输出特征的数量与输入通道的数量相同。
+    对于任意大小的输入,可以指定输出的尺寸为 D x H x W
+    输出特征的数量与输入通道的数量相同.
 
     Args:
         output_size: D x H x W 形式的输出图像的尺寸.
-                     可以用 一个 tuple元组 (D, H, W) 表示 D x H x W 的输出尺寸， 
-                     或者是单个的数字 D 表示 D x D x D的输出尺寸
-        return_indices: 如果等于 ``True``，在返回输出结果的同时返回最大值的索引，该索引对 nn.MaxUnpool3d 有用。
+                     可以用 一个 tuple 元组 (D, H, W) 表示 D x H x W 的输出尺寸, 
+                     或者是单个的数字 D 表示 D x D x D 的输出尺寸
+        return_indices: 如果等于 ``True``,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool3d 有用.
                         默认情况下该值等于 ``False``
 
     Examples:
@@ -914,13 +914,13 @@ class AdaptiveMaxPool3d(Module):
 
 
 class AdaptiveAvgPool1d(Module):
-    r"""对于多个输入通道组成的输入信号，应用一维的自适应平均池化 ``adaptive average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用一维的自适应平均池化 ``adaptive average pooling`` 操作
 
-    对于任意大小的输入，可以指定输出的尺寸为H
-    输出特征的数量与输入通道的数量相同。
+    对于任意大小的输入,可以指定输出的尺寸为 H
+    输出特征的数量与输入通道的数量相同.
 
     Args:
-        output_size: 目标输出的尺寸H
+        output_size: 目标输出的尺寸 H
 
     Examples:
         >>> # target output size of 5
@@ -943,14 +943,14 @@ class AdaptiveAvgPool1d(Module):
 
 
 class AdaptiveAvgPool2d(Module):
-    r"""对于多个输入通道组成的输入信号，应用二维的自适应平均池化 ``adaptive average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用二维的自适应平均池化 ``adaptive average pooling`` 操作
 
-    对于任意大小的输入，可以指定输出的尺寸为 H x W
-    输出特征的数量与输入通道的数量相同。
+    对于任意大小的输入,可以指定输出的尺寸为 H x W
+    输出特征的数量与输入通道的数量相同.
 
     Args:
         output_size: H x W 形式的输出图像的尺寸.
-                     可以用 一个 tuple元组 (H, W) 表示 H x W 的输出尺寸， 
+                     可以用 一个 tuple 元组 (H, W) 表示 H x W 的输出尺寸, 
                      或者是单个的数字 H 表示 H x H 的输出尺寸
 
     Examples:
@@ -978,15 +978,15 @@ class AdaptiveAvgPool2d(Module):
 
 
 class AdaptiveAvgPool3d(Module):
-    r"""对于多个输入通道组成的输入信号，应用三维的自适应平均池化 ``adaptive average pooling``操作
+    r"""对于多个输入通道组成的输入信号,应用三维的自适应平均池化 ``adaptive average pooling`` 操作
 
-    对于任意大小的输入，可以指定输出的尺寸为 D x H x W
-    输出特征的数量与输入通道的数量相同。
+    对于任意大小的输入,可以指定输出的尺寸为 D x H x W
+    输出特征的数量与输入通道的数量相同.
 
     Args:
         output_size: D x H x W 形式的输出图像的尺寸.
-                     可以用 一个 tuple元组 (D, H, W) 表示 D x H x W 的输出尺寸， 
-                     或者是单个的数字 D 表示 D x D x D的输出尺寸
+                     可以用 一个 tuple 元组 (D, H, W) 表示 D x H x W 的输出尺寸, 
+                     或者是单个的数字 D 表示 D x D x D 的输出尺寸
 
     Examples:
         >>> # target output size of 5x7x9
