@@ -235,30 +235,20 @@ class RNN(RNNBase):
         bidirectional:  如果 ``True`` ，将会变成一个双向RNN，默认为 ``False``.
 
     Inputs: input, h_0
-        - **input** (seq_len, batch, input_size): tensor containing the features
-          of the input sequence. The input can also be a packed variable length
-          sequence. See :func:`torch.nn.utils.rnn.pack_padded_sequence`
-          for details.
-        - **h_0** (num_layers * num_directions, batch, hidden_size): tensor
-          containing the initial hidden state for each element in the batch.
+        - **input** (seq_len, batch, input_size): 包含输入序列特征的 ``tensor`` ,
+          ``input`` 可以是被填充的变长序列。细节请看 :func:`torch.nn.utils.rnn.pack_padded_sequence`
+        - **h_0** (num_layers * num_directions, batch, hidden_size): 为 ``batch`` 中每个元素保存着初始隐状态的``tensor``
 
     Outputs: output, h_n
-        - **output** (seq_len, batch, hidden_size * num_directions): tensor
-          containing the output features (h_k) from the last layer of the RNN,
-          for each k.  If a :class:`torch.nn.utils.rnn.PackedSequence` has
-          been given as the input, the output will also be a packed sequence.
-        - **h_n** (num_layers * num_directions, batch, hidden_size): tensor
-          containing the hidden state for k=seq_len.
+        - **output** (seq_len, batch, hidden_size * num_directions): 包含 RNN 最后一层输出特征 (h_k) 的 ``tensor``
+          对于每个 k ,如果输入是一个 :class:`torch.nn.utils.rnn.PackedSequence` , 那么输出也是一个可以是被填充的变长序列.
+        - **h_n** (num_layers * num_directions, batch, hidden_size): 保存 k= seq_len 隐状态的 ``tensor``.
 
     Attributes:
-        weight_ih_l[k]: the learnable input-hidden weights of the k-th layer,
-            of shape `(input_size x hidden_size)`
-        weight_hh_l[k]: the learnable hidden-hidden weights of the k-th layer,
-            of shape `(hidden_size x hidden_size)`
-        bias_ih_l[k]: the learnable input-hidden bias of the k-th layer,
-            of shape `(hidden_size)`
-        bias_hh_l[k]: the learnable hidden-hidden bias of the k-th layer,
-            of shape `(hidden_size)`
+        weight_ih_l[k]: 第 k 层的 input-hidden 权重,可学习, shape 是 `(input_size x hidden_size)`
+        weight_hh_l[k]: 第 k 层的 hidden-hidden 权重, 可学习, shape 是 `(hidden_size x hidden_size)`
+        bias_ih_l[k]: 第 k 层的 input-hidden 偏置, 可学习, shape 是 `(hidden_size)`
+        bias_hh_l[k]: 第 k 层的 hidden-hidden 偏置, 可学习, shape 是 `(hidden_size)`
 
     Examples::
 
@@ -285,8 +275,7 @@ class RNN(RNNBase):
 
 
 class LSTM(RNNBase):
-    r"""Applies a multi-layer long short-term memory (LSTM) RNN to an input
-    sequence.
+    r"""对于输入序列使用一个多层的 ``LSTM`` ( long short-term memory ).
 
 
     For each element in the input sequence, each layer computes the following
