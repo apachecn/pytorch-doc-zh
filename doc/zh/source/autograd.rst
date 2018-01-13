@@ -17,31 +17,30 @@ Variable
 API compatibility
 ^^^^^^^^^^^^^^^^^
 
-Variable API is nearly the same as regular Tensor API (with the exception
-of a couple in-place methods, that would overwrite inputs required for
-gradient computation). In most cases Tensors can be safely replaced with
-Variables and the code will remain to work just fine. Because of this,
-we're not documenting all the operations on variables, and you should
-refer to :class:`torch.Tensor` docs for this purpose.
+变量API几乎与常规Tensor API相同（除了例外）
+一对元祖更改的方法，这将覆盖输入所需的
+梯度计算）。 在大多数情况下，张量可以安全地替换
+变量和代码将保持正常工作。 因为这个，
+我们没有记录变量上的所有操作，你应该这样做
+请参阅：class：`torch.Tensor` docs为此目的。
 
 In-place operations on Variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Supporting in-place operations in autograd is a hard matter, and we discourage
-their use in most cases. Autograd's aggressive buffer freeing and reuse makes
-it very efficient and there are very few occasions when in-place operations
-actually lower memory usage by any significant amount. Unless you're operating
-under heavy memory pressure, you might never need to use them.
+在autograd支持就地操作是一件困难的事情，我们不鼓励
+他们在大多数情况下使用。 Autograd积极的缓冲区释放和重用使得
+它非常高效，而且就地操作的场合也很少
+实际上降低了大量的内存使用量。 除非你正在操作
+在大量的的记忆下，你可能永远不需要使用它们。
 
 In-place correctness checks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All :class:`Variable` s keep track of in-place operations applied to them, and
-if the implementation detects that a variable was saved for backward in one of
-the functions, but it was modified in-place afterwards, an error will be raised
-once backward pass is started. This ensures that if you're using in-place
-functions and not seeing any errors, you can be sure that the computed
-gradients are correct.
+所有的：class：`Variable`s跟踪适用于它们的就地操作，并且
+如果实现检测到一个变量被保存在后面的一个
+这个函数，但是之后它被修改了，会在开始求导时会报出异常。 这确保了如果你在就地使用
+函数并没有看到任何错误，你可以肯定的是计算
+变量是正确的。
 
 
 .. autoclass:: Variable
@@ -56,11 +55,11 @@ gradients are correct.
 Profiler
 --------
 
-Autograd includes a profiler that lets you inspect the cost of different
-operators inside your model - both on the CPU and GPU. There are two modes
-implemented at the moment - CPU-only using :class:`~torch.autograd.profiler.profile`.
-and nvprof based (registers both CPU and GPU activity) using
-:class:`~torch.autograd.profiler.emit_nvtx`.
+Autograd包含一个分析器，可以让你检查不同的成本
+在你的模型中的运算符 - 在CPU和GPU上。 有两种模式
+目前实现 - 只使用CPU：class：`〜torch.autograd.profiler.profile`。
+和基于nvprof（注册CPU和GPU活动）使用
+产品类别：`〜torch.autograd.profiler.emit_nvtx`。
 
 .. autoclass:: torch.autograd.profiler.profile
     :members:

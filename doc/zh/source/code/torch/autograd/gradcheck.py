@@ -137,27 +137,23 @@ def _differentiable_outputs(x):
 
 
 def gradcheck(func, inputs, eps=1e-6, atol=1e-5, rtol=1e-3, raise_exception=True):
-    """Check gradients computed via small finite differences
-       against analytical gradients
+    """检查梯度是否计算正确
 
-    The check between numerical and analytical has the same behaviour as
+    这个函数与
     numpy.allclose https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
-    meaning it check that
+    具有相同的功能用来检查
         absolute(a - n) <= (atol + rtol * absolute(n))
-    is true for all elements of analytical jacobian a and numerical jacobian n.
+    当所有的元素都符合该条件即为真。
 
-    Args:
-        func: Python function that takes Variable inputs and returns
-            a tuple of Variables
-        inputs: tuple of Variables
-        eps: perturbation for finite differences
-        atol: absolute tolerance
-        rtol: relative tolerance
-        raise_exception: bool indicating whether to raise an exception if
-            gradcheck fails. The exception gives more information about the
-            exact nature of the failure. This is helpful when debugging gradchecks.
-    Returns:
-        True if all differences satisfy allclose condition
+    属性:
+        func: 一个Python函数，用来计算导数
+        inputs: 变量元祖
+        eps: 有限差分
+        atol: 误差容忍
+        rtol: 相对容忍度
+        raise_exception: bool指示如果gradcheck失败，是否引发异常。 例外提供了更多有关gradcheck的信息。
+    返回:
+        如果所有差异满足所有关闭条件，则为真
     """
     output = _differentiable_outputs(func(*inputs))
 
@@ -204,30 +200,23 @@ def gradcheck(func, inputs, eps=1e-6, atol=1e-5, rtol=1e-3, raise_exception=True
 
 
 def gradgradcheck(func, inputs, grad_outputs=None, eps=1e-6, atol=1e-5, rtol=1e-3):
-    """Check gradients of gradients computed via small finite differences
-       against analytical gradients
-    This function checks that backpropagating through the gradients computed
-    to the given grad_outputs are correct.
+    """检查通过对分析梯度的小有限差异计算的梯度梯度此函数检查通过对给定grad_outputs计算的梯度的反向传播是否正确。
 
-    The check between numerical and analytical has the same behaviour as
+    T这个函数与
     numpy.allclose https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
-    meaning it check that
+    具有相同功能用来计算
         absolute(a - n) <= (atol + rtol * absolute(n))
-    is true for all elements of analytical gradient a and numerical gradient n.
+    当所有的元素都符合该条件即为真。
 
-    Args:
-        func (function): Python function that takes Variable inputs and returns
-            a tuple of Variables
-        inputs (tuple of Variable): inputs to the function
-        grad_outputs (tuple of Variable, optional): The gradients with respect to
-            the function's outputs.
-        eps (float, optional): perturbation for finite differences
-        atol (float, optional): absolute tolerance
-        rtol (float, optional): relative tolerance
-
-    Returns:
-        True if all differences satisfy allclose condition. Raises an exception
-        otherwise.
+    属性:
+        func: 一个Python函数，用来计算导数
+        inputs: 变量元祖
+        eps: 有限差分
+        atol: 误差容忍
+        rtol: 相对容忍度
+        raise_exception: bool指示如果gradcheck失败，是否引发异常。 例外提供了更多有关gradcheck的信息。
+    返回:
+        如果所有差异满足所有关闭条件，则为真
     """
     if grad_outputs is None:
         # If grad_outputs is not specified, create random variables of the same
