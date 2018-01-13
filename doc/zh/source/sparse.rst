@@ -105,7 +105,7 @@ An empty sparse tensor can be constructed by specifying its size:
     uncoalesced sparse tensors; generally speaking, it is safest
     to explicitly coalesce before working with these operators.
     其次,一些操作符会产生不同的值这取决于它们是否是被 coalesced 的
-    (例如,:func:`torch.sparse.FloatTensor._values` 
+    (例如, :func:`torch.sparse.FloatTensor._values` 
     和 :func:`torch.sparse.FloatTensor._indices`,
     还有 :func:`torch.Tensor._sparse_mask`),这些操作符前面加了一个下划线,表明了
     它们的内部实现,并且应当谨慎使用,因为 coalesced 的稀疏张量和 uncoalesced 的
@@ -119,7 +119,7 @@ An empty sparse tensor can be constructed by specifying its size:
     cannot be implemented directly, since ``sqrt(a + b) != sqrt(a) +
     sqrt(b)`` (which is what would be computed if you were given an
     uncoalesced tensor.)
-    例如,假设我们想通过直接操作 torch.sparse.FloatTensor._values() 的一个实现.
+    例如,假设我们想通过直接操作 :func:`torch.sparse.FloatTensor._values` 的一个实现.
     随着乘法分布的增加,标量的乘法可以以明显的方式实现; 然而,平方根不能直接实现,
     ``sqrt(a + b) != sqrt(a) +sqrt(b)`` (如果你赋予了一个 uncoalesced 的张量
     那会发生什么.)
