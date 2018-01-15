@@ -279,6 +279,7 @@ class LSTM(RNNBase):
 
 
     对输入序列的每个元素, ``LSTM`` 的每层都会执行以下计算:
+
     .. math::
 
             \begin{array}{ll}
