@@ -7,14 +7,13 @@ class FakeData(data.Dataset):
     """A fake dataset that returns randomly generated images and returns them as PIL images
 
     Args:
-        size (int, optional): 数据集的大小. 默认: 1000 张图片
-        image_size(tuple, optional): 返回图像的尺寸. 默认: (3, 224, 224)
-        num_classes(int, optional): 数据集中类别的数量. 默认: 10
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
-
+        size (int, optional): Size of the dataset. Default: 1000 images
+        image_size(tuple, optional): Size if the returned images. Default: (3, 224, 224)
+        num_classes(int, optional): Number of classes in the datset. Default: 10
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
 
     """
 
