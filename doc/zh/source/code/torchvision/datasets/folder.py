@@ -70,7 +70,7 @@ def default_loader(path):
 
 
 class ImageFolder(data.Dataset):
-    """A generic data loader where the images are arranged in this way: ::
+    """一个通用的数据加载器, 数据集中的数据以以下方式组织: ::
 
         root/dog/xxx.png
         root/dog/xxy.png
@@ -81,17 +81,17 @@ class ImageFolder(data.Dataset):
         root/cat/asd932_.png
 
     Args:
-        root (string): Root directory path.
-        transform (callable, optional): A function/transform that  takes in an PIL image
-            and returns a transformed version. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): A function/transform that takes in the
-            target and transforms it.
-        loader (callable, optional): A function to load an image given its path.
+        root (string): 主目录.
+        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
+        transformed 版本. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换它.
+        loader (callable, optional): 一个从给定路径载入图像的函数.    
 
      Attributes:
-        classes (list): List of the class names.
-        class_to_idx (dict): Dict with items (class_name, class_index).
-        imgs (list): List of (image path, class_index) tuples
+        classes (list): 类名的列表
+        class_to_idx (dict): 以如下格式存放的字典 (class_name, class_index).
+        imgs (list): 如下格式 (image path, class_index) 元组的列表
     """
 
     def __init__(self, root, transform=None, target_transform=None,

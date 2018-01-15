@@ -1,11 +1,18 @@
 torchvision.datasets
 ====================
+torchvision.datasets中包含了以下数据集
 
-All datasets are subclasses of :class:`torch.utils.data.Dataset`
-i.e, they have ``__getitem__`` and ``__len__`` methods implemented.
-Hence, they can all be passed to a :class:`torch.utils.data.DataLoader`
-which can load multiple samples parallelly using ``torch.multiprocessing`` workers. 
-For example: ::
+.. contents:: Datasets
+    :local:
+
+
+Datasets 拥有以下的API:
+__getitem__ 和 __len__
+
+由于以上Datasets都是 torch.utils.data.Dataset的子类，所以，
+他们也可以通过torch.utils.data.DataLoader使用多线程（python的多进程）。
+
+举例说明: ::
     
     imagenet_data = torchvision.datasets.ImageFolder('path/to/imagenet_root/')
     data_loader = torch.utils.data.DataLoader(imagenet_data, 
@@ -13,17 +20,12 @@ For example: ::
                                               shuffle=True,
                                               num_workers=args.nThreads)
 
-The following datasets are available:
-
-.. contents:: Datasets
-    :local:
-
-All the datasets have almost similar API. They all have two common arguments:
-``transform`` and  ``target_transform`` to transform the input and target respectively.
+在构造函数中，不同的数据集直接的构造函数会有些许不同, 但是他们都拥有下面的 keyword 参数:
+``transform``: 输入原始图片，返回转换后的图片。
+``target_transform``: 输入为 target, 返回转换后的 target.
 
 
 .. currentmodule:: torchvision.datasets 
-
 
 MNIST
 ~~~~~
@@ -39,7 +41,7 @@ COCO
 ~~~~
 
 .. note ::
-    These require the `COCO API to be installed`_
+    需要安装 `COCO API`_
 
 .. _COCO API to be installed: https://github.com/pdollar/coco/tree/master/PythonAPI
 
