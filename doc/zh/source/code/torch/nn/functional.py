@@ -227,7 +227,7 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 # Pooling
 def avg_pool1d(input, kernel_size, stride=None, padding=0,
                ceil_mode=False, count_include_pad=True):
-    r"""对由几个输入平面组成的输入信号进行一维平均池化。
+    r"""对由几个输入通道组成的输入信号进行一维平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool1d` 。
 
@@ -261,7 +261,7 @@ def avg_pool1d(input, kernel_size, stride=None, padding=0,
 avg_pool2d = _add_docstr(torch._C._nn.avg_pool2d, r"""
 avg_pool2d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入平面的数量。
+在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入通道的数量。
 
 有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool2d` 。
 
@@ -278,7 +278,7 @@ avg_pool3d = _add_docstr(torch._C._nn.avg_pool3d, r"""
 avg_pool3d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
 在 kt x kh x kw 区域中应用步长为 dt x dh x dw 的三维平均池化操作。
-输出特征的数量等于输入平面的数量/dt。
+输出特征的数量等于输入通道的数量/dt。
 
 有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool3d` 。
 
@@ -295,7 +295,7 @@ Args:
 # share the same interface
 def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入平面组成的输入信号进行一维最大池化。
+    """对由几个输入通道组成的输入信号进行一维最大池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.MaxPool1d` 。
     """
@@ -306,7 +306,7 @@ def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入平面组成的输入信号进行二维最大池化。
+    """对由几个输入通道组成的输入信号进行二维最大池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
@@ -316,7 +316,7 @@ def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool3d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入平面组成的输入信号进行三维最大池化。
+    """对由几个输入通道组成的输入信号进行三维最大池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
@@ -396,7 +396,7 @@ def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
 
 
 def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """对由几个输入平面组成的输入信号进行二维幂平均池化。
+    """对由几个输入通道组成的输入信号进行二维幂平均池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.LPPool2d` 。
     """
@@ -406,7 +406,7 @@ def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """对由几个输入平面组成的输入信号进行一维幂平均池化。
+    """对由几个输入通道组成的输入信号进行一维幂平均池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.LPPool1d` 。
     """
@@ -415,7 +415,7 @@ def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def adaptive_max_pool1d(input, output_size, return_indices=False):
-    r"""对由几个输入平面组成的输入信号进行一维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行一维自适应最大池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool1d` 。
 
@@ -428,7 +428,7 @@ def adaptive_max_pool1d(input, output_size, return_indices=False):
 
 
 def adaptive_max_pool2d(input, output_size, return_indices=False):
-    r"""对由几个输入平面组成的输入信号进行二维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行二维自适应最大池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool2d` 。
 
@@ -441,7 +441,7 @@ def adaptive_max_pool2d(input, output_size, return_indices=False):
 
 
 def adaptive_max_pool3d(input, output_size, return_indices=False):
-    r"""对由几个输入平面组成的输入信号进行三维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行三维自适应最大池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool3d` 。
 
@@ -454,7 +454,7 @@ def adaptive_max_pool3d(input, output_size, return_indices=False):
 
 
 def adaptive_avg_pool1d(input, output_size):
-    r"""对由几个输入平面组成的输入信号进行一维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行一维自适应平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool1d` 。
 
@@ -465,7 +465,7 @@ def adaptive_avg_pool1d(input, output_size):
 
 
 def adaptive_avg_pool2d(input, output_size):
-    r"""对由几个输入平面组成的输入信号进行二维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行二维自适应平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool2d` 。
 
@@ -476,7 +476,7 @@ def adaptive_avg_pool2d(input, output_size):
 
 
 def adaptive_avg_pool3d(input, output_size):
-    r"""对由几个输入平面组成的输入信号进行三维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行三维自适应平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool3d` 。
 
