@@ -7,16 +7,16 @@ from .. import functional as F
 
 
 class Threshold(Module):
-    r"""基于Tensor中的每个元素创造阈值函数
+    r"""基于 Tensor 中的每个元素创造阈值函数
 
-    Threshold被定义为 ::
+    Threshold 被定义为 ::
 
          y =  x        if x >  threshold
               value    if x <= threshold
 
     Args:
         threshold: 阈值
-        value: 输入值小于阈值则会被value代替
+        value: 输入值小于阈值则会被 value 代替
         inplace: 选择是否进行覆盖运算. 默认值: ``False``
         
     Shape:
@@ -100,7 +100,7 @@ class RReLU(Module):
 class Hardtanh(Module):
     r"""对输入的每一个元素运用 HardTanh
 
-    HardTanh被定义为::
+    HardTanh 被定义为::
 
        f(x) = +1, if x  >  1
        f(x) = -1, if x  < -1
@@ -113,7 +113,7 @@ class Hardtanh(Module):
         max_val: 线性区域范围最大值.  默认值: 1
         inplace: 选择是否进行覆盖运算. 默认值: ``False``
 
-    关键字参数 :attr:`min_value` 以及 :attr:`max_value` 已被弃用，
+    关键字参数 :attr:`min_value` 以及 :attr:`max_value` 已被弃用. 
     更改为 :attr:`min_val` 和 :attr:`max_val`
 
     Shape:
@@ -181,7 +181,7 @@ class ReLU6(Hardtanh):
 
 
 class Sigmoid(Module):
-    r"""对每个元素运用 Sigmoid 函数，Sigmoid 定义如下 :math:`f(x) = 1 / ( 1 + exp(-x))`
+    r"""对每个元素运用 Sigmoid 函数. Sigmoid 定义如下 :math:`f(x) = 1 / ( 1 + exp(-x))`
 
     Shape:
         - Input: :math:`(N, *)` `*` 表示任意维度组合
@@ -230,12 +230,12 @@ class ELU(Module):
     :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`
 
     Args:
-        alpha: ELU定义公式中的alpha值. 默认值: 1.0
+        alpha: ELU 定义公式中的 alpha 值. 默认值: 1.0
         inplace: 选择是否进行覆盖运算 默认值: ``False``
 
     Shape:
         - Input: :math:`(N, *)` `*` 代表任意数目附加维度
-        - Output: :math:`(N, *)`, 与输入拥有同样的shape属性
+        - Output: :math:`(N, *)`, 与输入拥有同样的 shape 属性
 
     Examples::
 
@@ -269,7 +269,7 @@ class SELU(Module):
     更多地细节可以参阅论文 `Self-Normalizing Neural Networks`_ .
 
     Args:
-        inplace (bool, optional): 选择是否进行覆盖运算. Default: ``False``
+        inplace (bool, optional): 选择是否进行覆盖运算. 默认值: ``False``
 
     Shape:
         - Input: :math:`(N, *)` where `*` means, any number of additional
@@ -330,7 +330,7 @@ class GLU(Module):
 
 
 class Hardshrink(Module):
-    r"""对每个元素运用hard shrinkages函数, hard shrinkage定义如下::
+    r"""对每个元素运用 hard shrinkages 函数, hard shrinkage 定义如下::
         f(x) = x, if x >  lambda
         f(x) = x, if x < -lambda
         f(x) = 0, otherwise
@@ -340,7 +340,7 @@ class Hardshrink(Module):
 
     Shape:
         - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
 
     例::
 
@@ -424,12 +424,12 @@ class Softplus(Module):
     r"""对每个元素运用Softplus函数, Softplus 定义如下 ::
     :math:`f(x) = 1/beta * log(1 + exp(beta * x_i))`
 
-    Softplus函数是ReLU函数的平滑逼近，Softplus函数可以使得输出值限定为正数.
+    Softplus 函数是ReLU函数的平滑逼近. Softplus 函数可以使得输出值限定为正数.
 
-    为了保证数值稳定性，线性函数的转换可以使输出大于某个值.
+    为了保证数值稳定性. 线性函数的转换可以使输出大于某个值.
 
     Args:
-        beta: Softplus公式中的beta值. 默认值: 1
+        beta: Softplus 公式中的 beta 值. 默认值: 1
         threshold: 阈值. 当输入到该值以上时我们的SoftPlus实现将还原为线性函数. 默认值: 20
 
     Shape:
@@ -460,7 +460,7 @@ class Softplus(Module):
 
 
 class Softshrink(Module):
-    r"""对输入的每一个元素运用soft shrinkage函数
+    r"""对输入的每一个元素运用 soft shrinkage 函数
 
     SoftShrinkage 运算符定义为::
 
@@ -468,11 +468,11 @@ class Softshrink(Module):
         f(x) = 0, otherwise
 
     Args:
-        lambd: Softshrink公式中的lambda值. Default: 0.5
+        lambd: Softshrink 公式中的 lambda 值. 默认值: 0.5
 
     Shape:
         - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
 
     例::
 
@@ -497,16 +497,16 @@ class Softshrink(Module):
 class PReLU(Module):
     r"""对输入的每一个元素运用函数
     :math:`PReLU(x) = max(0,x) + a * min(0,x)` 这里的 "a" 是自学习的参数.
-    当不带参数地调用时, nn.PReLU()在所有输入通道中使用单个参数 "a" . 
-    而如果用nn.PReLU(nChannels)调用, "a" 将应用到每个输入.
+    当不带参数地调用时, nn.PReLU() 在所有输入通道中使用单个参数 "a" . 
+    而如果用 nn.PReLU(nChannels) 调用, "a" 将应用到每个输入.
 
 
     .. note::
-        当为了表现更佳的模型而学习参数 "a" 时不要使用权重衰减（weight decay）
+        当为了表现更佳的模型而学习参数 "a" 时不要使用权重衰减 (weight decay)
 
     Args:
-        num_parameters: 需要学习的 "a" 的个数，默认等于1
-        init: "a" 的初始值，默认等于0.25
+        num_parameters: 需要学习的 "a" 的个数. 默认等于1
+        init: "a" 的初始值. 默认等于0.25
 
     Shape:
         - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
@@ -588,7 +588,7 @@ class Softmin(Module):
         - Output: 和输入相同
 
     Arguments:
-        dim (int): 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1).
+        dim (int): 这是将计算 Softmax 的维度 (所以每个沿着 dim 的切片和为 1).
 
     Returns:
         返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间.
@@ -613,7 +613,7 @@ class Softmin(Module):
 
 class Softmax(Module):
     r"""对n维输入张量运用 Softmax 函数, 将张量的每个元素缩放到
-    (0,1) 区间且和为1. Softmax 函数定义如下
+    (0,1) 区间且和为 1. Softmax 函数定义如下
     :math:`f_i(x) = \frac{\exp(x_i)}{\sum_j \exp(x_j)}`
 
     Shape:
@@ -621,15 +621,15 @@ class Softmax(Module):
         - Output: 和输入相同
 
     Returns:
-        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在[0, 1]区间. 
+        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间. 
 
     Arguments:
-        dim (int): 这是将计算Softmax的那个维度 (所以每个沿着dim的切片和为1).
+        dim (int): 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1).
 
     .. note::
 
         如果你想对原始 Softmax 数据计算 Log 进行收缩, 并不能使该模块直接使用 NLLLoss 负对数似然损失函数.
-        取而代之, 应该使用 Logsoftmax （它有更快的运算速度和更好的数值性质）.
+        取而代之, 应该使用 Logsoftmax (它有更快的运算速度和更好的数值性质).
 
     例::
 
@@ -663,7 +663,7 @@ class Softmax2d(Module):
 
     Shape:
         - Input: :math:`(N, C, H, W)`
-        - Output: :math:`(N, C, H, W)` (格式shape与输入相同)
+        - Output: :math:`(N, C, H, W)` (格式 shape 与输入相同)
 
     Returns:
         一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在[0, 1]
@@ -678,7 +678,7 @@ class Softmax2d(Module):
     """
 
     def forward(self, input):
-        assert input.dim() == 4, 'Softmax2d需要的输入是4D tensor'
+        assert input.dim() == 4, 'Softmax2d 需要的输入是 4D tensor'
         return F.softmax(input, 1, _stacklevel=5)
 
     def __repr__(self):
@@ -692,14 +692,14 @@ class LogSoftmax(Module):
     :math:`f_i(x) = log(exp(x_i) / sum_j exp(x_j) )`
 
     Shape:
-        - Input: 任意格式shape
-        - Output: 和输入的格式shape一致
+        - Input: 任意格式 shape
+        - Output: 和输入的格式 shape 一致
 
     Arguments:
-        dim (int): 这是将计算Softmax的那个维度（所以每个沿着dim的切片和为1）.
+        dim (int): 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为1).
 
     Returns:
-        一个维度及格式shape都和输入相同的Tensor, 取值范围在 [-inf, 0)
+        一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在 [-inf, 0)
 
     例::
 
