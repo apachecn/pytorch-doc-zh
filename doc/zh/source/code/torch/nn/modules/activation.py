@@ -330,13 +330,13 @@ class GLU(Module):
 
 
 class Hardshrink(Module):
-    r"""对每个元素运用hard shrinkages函数，hard shrinkage定义如下::
+    r"""对每个元素运用hard shrinkages函数, hard shrinkage定义如下::
         f(x) = x, if x >  lambda
         f(x) = x, if x < -lambda
         f(x) = 0, otherwise
 
     Args:
-        lambd: Hardshrink公式中的beta值。默认值: 0.5
+        lambd: Hardshrink公式中的beta值. 默认值: 0.5
 
     Shape:
         - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
@@ -367,7 +367,7 @@ class LeakyReLU(Module):
     :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
     Args:
-        negative_slope: 控制负斜率的角度，默认值: 1e-2
+        negative_slope: 控制负斜率的角度, 默认值: 1e-2
         inplace: 选择是否进行覆盖运算 默认值: ``False``
 
     Shape:
@@ -421,16 +421,16 @@ class LogSigmoid(Module):
 
 
 class Softplus(Module):
-    r"""对每个元素运用Softplus函数，Softplus 定义如下::
+    r"""对每个元素运用Softplus函数, Softplus 定义如下 ::
     :math:`f(x) = 1/beta * log(1 + exp(beta * x_i))`
 
-    Softplus函数是ReLU函数的平滑逼近，Softplus函数可以使得输出值限定为正数。
+    Softplus函数是ReLU函数的平滑逼近，Softplus函数可以使得输出值限定为正数.
 
-    为了保证数值稳定性，线性函数的转换可以使输出大于某个值。
+    为了保证数值稳定性，线性函数的转换可以使输出大于某个值.
 
     Args:
-        beta: Softplus公式中的beta值。默认值: 1
-        threshold: 阈值。当输入到该值以上时我们的SoftPlus实现将还原为线性函数。默认值: 20
+        beta: Softplus公式中的beta值. 默认值: 1
+        threshold: 阈值. 当输入到该值以上时我们的SoftPlus实现将还原为线性函数. 默认值: 20
 
     Shape:
         - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
@@ -496,9 +496,9 @@ class Softshrink(Module):
 
 class PReLU(Module):
     r"""对输入的每一个元素运用函数
-    :math:`PReLU(x) = max(0,x) + a * min(0,x)` 这里的 "a" 是自学习的参数。 
-    当不带参数地调用时，nn.PReLU()在所有输入通道中使用单个参数 "a" 。 
-    而如果用nn.PReLU(nChannels)调用，"a" 将应用到每个输入。
+    :math:`PReLU(x) = max(0,x) + a * min(0,x)` 这里的 "a" 是自学习的参数.
+    当不带参数地调用时, nn.PReLU()在所有输入通道中使用单个参数 "a" 。 
+    而如果用nn.PReLU(nChannels)调用, "a" 将应用到每个输入。
 
 
     .. note::
@@ -578,7 +578,7 @@ class Tanhshrink(Module):
 
 
 class Softmin(Module):
-    r"""对n维输入张量运用Softmin函数，将张量的每个元素缩放到
+    r"""对n维输入张量运用Softmin函数, 将张量的每个元素缩放到
     （0,1）区间且和为1。
 
     :math:`f(x) = \frac{\exp(-x_i)}{\sum_j \exp(-x_j)}`
@@ -588,10 +588,10 @@ class Softmin(Module):
         - Output: 和输入相同
 
     Arguments:
-        dim (int): 这是将计算Softmax的那个维度（所以每个沿着dim的切片和为1）。
+        dim (int): 这是将计算Softmax的那个维度 (所以每个沿着dim的切片和为1).
 
     Returns:
-        返回结果是一个与输入维度相同的张量，每个元素的取值范围在[0, 1]区间。
+        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间。
 
     例::
 
@@ -612,7 +612,7 @@ class Softmin(Module):
 
 
 class Softmax(Module):
-    r"""对n维输入张量运用Softmax函数，将张量的每个元素缩放到
+    r"""对n维输入张量运用Softmax函数, 将张量的每个元素缩放到
     （0,1）区间且和为1。Softmax函数定义如下
     :math:`f_i(x) = \frac{\exp(x_i)}{\sum_j \exp(x_j)}`
 
@@ -621,15 +621,15 @@ class Softmax(Module):
         - Output: 和输入相同
 
     Returns:
-        返回结果是一个与输入维度相同的张量，每个元素的取值范围在[0, 1]区间。
+        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在[0, 1]区间. 
 
     Arguments:
-        dim (int): 这是将计算Softmax的那个维度（所以每个沿着dim的切片和为1）。
+        dim (int): 这是将计算Softmax的那个维度 (所以每个沿着dim的切片和为1).
 
     .. note::
 
-        如果你想对原始Softmax数据计算Log进行收缩，并不能使该模块直接使用NLLLoss负对数似然损失函数。
-        取而代之，应该使用Logsoftmax（它有更快的运算速度和更好的数值性质）。
+        如果你想对原始Softmax数据计算Log进行收缩, 并不能使该模块直接使用NLLLoss负对数似然损失函数.
+        取而代之, 应该使用Logsoftmax（它有更快的运算速度和更好的数值性质）.
 
     例::
 
@@ -656,7 +656,7 @@ class Softmax(Module):
 
 
 class Softmax2d(Module):
-    r"""把SoftMax应用于每个空间位置的特征。
+    r"""把SoftMax应用于每个空间位置的特征. 
 
     给定图片的 通道数Channels x 高Height x 宽Width, 它将对图片的每一个位置
     使用Softmax :math:`(Channels, h_i, w_j)`
@@ -666,7 +666,7 @@ class Softmax2d(Module):
         - Output: :math:`(N, C, H, W)` (格式shape与输入相同)
 
     Returns:
-        一个维度及格式shape都和输入相同的Tensor，取值范围在[0, 1]
+        一个维度及格式shape都和输入相同的Tensor, 取值范围在[0, 1]
 
     例::
 
@@ -686,7 +686,7 @@ class Softmax2d(Module):
 
 
 class LogSoftmax(Module):
-    r"""对每个输入的n维Tensor使用Log(Softmax(x))。
+    r"""对每个输入的n维Tensor使用Log(Softmax(x)). 
     LogSoftmax 公式可简化为
 
     :math:`f_i(x) = log(exp(x_i) / sum_j exp(x_j) )`
@@ -696,10 +696,10 @@ class LogSoftmax(Module):
         - Output: 和输入的格式shape一致
 
     Arguments:
-        dim (int): 这是将计算Softmax的那个维度（所以每个沿着dim的切片和为1）。
+        dim (int): 这是将计算Softmax的那个维度（所以每个沿着dim的切片和为1）.
 
     Returns:
-        一个维度及格式shape都和输入相同的Tensor，取值范围在[-inf, 0)
+        一个维度及格式shape都和输入相同的Tensor, 取值范围在 [-inf, 0)
 
     例::
 
