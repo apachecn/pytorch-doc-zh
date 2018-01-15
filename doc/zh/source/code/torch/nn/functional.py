@@ -21,25 +21,20 @@ _ConvNd = torch._C._functions.ConvNd
 
 def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
            groups=1):
-    r"""Applies a 1D convolution over an input signal composed of several input
-    planes.
+    r"""对几个输入平面组成的输入信号应用一个1D卷积.
 
-    See :class:`~torch.nn.Conv1d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv1d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iW)
-        weight: filters of shape (out_channels x in_channels x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or
-          a tuple (sW,). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padW,). Default: 0
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dW,). Default: 1
-        groups: split input into groups, in_channels should be divisible by
-          the number of groups. Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sW, ). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padW, ). 默认值: 0
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    Examples::
+    例子::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50))
@@ -56,26 +51,21 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
            groups=1):
-    r"""Applies a 2D convolution over an input image composed of several input
-    planes.
+    r"""对几个输入平面组成的输入信号应用一个2D卷积.
 
-    See :class:`~torch.nn.Conv2d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv2d`. 
 
-    Args:
-        input: input tensor (minibatch x in_channels x iH x iW)
-        weight: filters tensor (out_channels x in_channels/groups x kH x kW)
-        bias: optional bias tensor (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padH, padW). Default: 0
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dH, dW). Default: 1
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels/groups x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padH, padW). 默认值: 0
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    Examples::
-
+    例子::
+    
         >>> # With square kernels and equal stride
         >>> filters = autograd.Variable(torch.randn(8,4,3,3))
         >>> inputs = autograd.Variable(torch.randn(1,4,5,5))
@@ -92,25 +82,20 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
            groups=1):
-    r"""Applies a 3D convolution over an input image composed of several input
-    planes.
+    r"""对几个输入平面组成的输入信号应用一个3D卷积.
 
-    See :class:`~torch.nn.Conv3d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv3d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iT x iH x iW)
-        weight: filters tensor of shape (out_channels x in_channels x kT x kH x kW)
-        bias: optional bias tensor of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sT, sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padT, padH, padW). Default: 0
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dT, dH, dW). Default: 1
-        groups: split input into groups, in_channels should be divisible by
-          the number of groups. Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels/groups x kT x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sT, sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padT, padH, padW). 默认值: 0
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    Examples::
+    例子::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3, 3, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50, 10, 20))
@@ -128,26 +113,20 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""Applies a 1D transposed convolution operator over an input signal
-    composed of several input planes, sometimes also called "deconvolution".
+    r"""对几个输入平面组成的输入信号应用一个1D转置卷积,该操作有的时候也被称为“反卷积”.
 
-    See :class:`~torch.nn.ConvTranspose1d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose1d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iW)
-        weight: filters of shape (in_channels x out_channels x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sW,). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padW,). Default: 0
-        output_padding: implicit zero-paddings of 0 <= padding < stride on both
-          sides of the output. Can be a single number or a tuple (out_padW,).
-          Default: 0
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dW,). Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sW, ). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padW, ). 默认值: 0
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
+        可以是单个数字, 也可以是一个元组 (out_padW, ). 默认值: 0
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
     """
     if input is not None and input.dim() != 3:
         raise ValueError("Expected 3D tensor as input, got {}D tensor instead.".format(input.dim()))
@@ -161,28 +140,21 @@ def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
 
 def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""Applies a 2D transposed convolution operator over an input image
-    composed of several input planes, sometimes also called "deconvolution".
+    r"""对几个输入平面组成的输入信号应用一个2D转置卷积,该操作有的时候也被称为 "反卷积".
 
-    See :class:`~torch.nn.ConvTranspose2d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose2d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iH x iW)
-        weight: filters of shape (in_channels x out_channels x kH x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padH, padW). Default: 0
-        output_padding: implicit zero-paddings of 0 <= padding < stride on both
-          sides of the output. Can be a single number or a tuple
-          (out_padH, out_padW). Default: 0
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dH, dW). Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padH, padW). 默认值: 0
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
+        可以是单个数字, 也可以是一个元组 (out_padH, out_padW). 默认值: 0
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
     """
-
     if input is not None and input.dim() != 4:
         raise ValueError("Expected 4D tensor as input, got {}D tensor instead.".format(input.dim()))
 
@@ -194,26 +166,20 @@ def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
 
 def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""Applies a 3D transposed convolution operator over an input image
-    composed of several input planes, sometimes also called "deconvolution"
+    r"""对几个输入平面组成的输入信号应用一个3D转置卷积, 该操作有的时候也被称为 "反卷积".
 
-    See :class:`~torch.nn.ConvTranspose3d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose3d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iT x iH x iW)
-        weight: filters of shape (in_channels x out_channels x kH x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sT, sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padT, padH, padW). Default: 0
-        output_padding: implicit zero-paddings of 0 <= padding < stride on both
-          sides of the output. Can be a single number or a tuple
-          (out_padT, out_padH, out_padW). Default: 0
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dT, dH, dW). Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sT, sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padT, padH, padW). 默认值: 0
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
+        可以是单个数字, 也可以是一个元组 (out_padT, out_padH, out_padW). 默认值: 0
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
     """
     if input is not None and input.dim() != 5:
         raise ValueError("Expected 5D tensor as input, got {}D tensor instead.".format(input.dim()))
