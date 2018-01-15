@@ -212,7 +212,7 @@ class RNNBase(Module):
 
 
 class RNN(RNNBase):
-    r"""对于输入序列使用一个多层的 ``Elman RNN``,它的激活函数为``tanh``或者``ReLU`` .
+    r"""对于输入序列使用一个多层的 ``Elman RNN``, 它的激活函数为 ``tanh`` 或者 ``ReLU`` .
 
     对输入序列中每个元素，每层计算公式为:
 
@@ -221,23 +221,23 @@ class RNN(RNNBase):
 
         h_t = \tanh(w_{ih} * x_t + b_{ih}  +  w_{hh} * h_{(t-1)} + b_{hh})
 
-    这里 :math:`h_t` 是当前在时刻 `t`的隐状态(), 并且 :math:`x_t` 是之前一层在 `t` 时刻的隐状态，或者是第一层的输入。
-    如果 ``nonlinearity='relu'`` ,那么将使用relu代替tanh作为激活函数。
+    这里 :math:`h_t` 是当前在时刻 `t` 的隐状态, 并且 :math:`x_t` 是之前一层在 `t` 时刻的隐状态，或者是第一层的输入.
+    如果 ``nonlinearity='relu'`` ,那么将使用 relu 代替 tanh 作为激活函数.
 
     Args:
-        input_size: 输入x的特征数量
+        input_size: 输入 x 的特征数量
         hidden_size:  隐状态 ``h`` 中的特征数量
-        num_layers: RNN的层数
-        nonlinearity: 指定非线性函数使用['tanh'|'relu']. 默认: 'tanh'
-        bias:  如果是 ``False`` , 那么RNN层就不会使用偏置权重 b_ih 和 b_hh,默认: ``True``
-        batch_first: 如果 ``True``, 那么输入 ``Tensor`` 的shape应该是(batch, seq, feature),并且输出也是一样
+        num_layers: RNN 的层数
+        nonlinearity: 指定非线性函数使用 ['tanh'|'relu']. 默认: 'tanh'
+        bias:  如果是 ``False`` , 那么 RNN 层就不会使用偏置权重 b_ih 和 b_hh, 默认: ``True``
+        batch_first: 如果 ``True``, 那么输入 ``Tensor`` 的 shape 应该是 (batch, seq, feature),并且输出也是一样
         dropout:  如果值非零, 那么除了最后一层外，其它层的输出都会套上一个 ``dropout`` 层
-        bidirectional:  如果 ``True`` ，将会变成一个双向RNN，默认为 ``False``
+        bidirectional:  如果 ``True`` ，将会变成一个双向 RNN，默认为 ``False``
 
     Inputs: input, h_0
         - **input** (seq_len, batch, input_size): 包含输入序列特征的 ``tensor`` ,
-          ``input`` 可以是被填充的变长序列。细节请看 :func:`torch.nn.utils.rnn.pack_padded_sequence` .
-        - **h_0** (num_layers * num_directions, batch, hidden_size): 包含 ``batch`` 中每个元素保存着初始隐状态的``tensor``
+          ``input`` 可以是被填充的变长序列.细节请看 :func:`torch.nn.utils.rnn.pack_padded_sequence` .
+        - **h_0** (num_layers * num_directions, batch, hidden_size): 包含 ``batch`` 中每个元素保存着初始隐状态的 ``tensor``
 
     Outputs: output, h_n
         - **output** (seq_len, batch, hidden_size * num_directions): 包含 RNN 最后一层输出特征 (h_k) 的 ``tensor``
@@ -290,18 +290,18 @@ class LSTM(RNNBase):
             h_t = o_t * \tanh(c_t)
             \end{array}
 
-    这里 :math:`h_t` 是在时刻 `t` 的隐状态, :math:`c_t` 是在时刻 `t` 的细胞状态(cell state),
+    这里 :math:`h_t` 是在时刻 `t` 的隐状态, :math:`c_t` 是在时刻 `t` 的细胞状态 (cell state),
     :math:`x_t` 是上一层的在时刻 `t` 的隐状态或者是第一层的 :math:`input_t` , 而 :math:`i_t`,
-    :math:`f_t`, :math:`g_t`, :math:`o_t` 分别代表 输入门，遗忘门，细胞和输出门.
+    :math:`f_t`, :math:`g_t`, :math:`o_t` 分别代表 输入门,遗忘门,细胞和输出门.
 
     Args:
         input_size: 输入的特征维度
         hidden_size: 隐状态的特征维度
         num_layers: 层数(和时序展开要区分开)
         bias: 如果为 ``False`` ,那么 LSTM 将不会使用 b_ih 和 b_hh ,默认: ``True``
-        batch_first: 如果为``True`` , 那么输入和输出 Tensor 的形状为 (batch, seq, feature)
+        batch_first: 如果为 ``True`` , 那么输入和输出 Tensor 的形状为 (batch, seq, feature)
         dropout: 如果非零的话, 将会在 RNN 的输出上加个 dropout , 最后一层除外
-        bidirectional: 如果为 ``True``，将会变成一个双向 RNN ,默认为 ``False``
+        bidirectional: 如果为 ``True``,将会变成一个双向 RNN ,默认为 ``False``
 
     Inputs: input, (h_0, c_0)
         - **input** (seq_len, batch, input_size): 包含输入序列特征的 ``tensor`` .
@@ -312,8 +312,8 @@ class LSTM(RNNBase):
 
 
     Outputs: output, (h_n, c_n)
-        - **output** (seq_len, batch, hidden_size * num_directions): 包含 RNN 最后一层的输出特征`(h_t)` 的 ``tensor`` ,
-          对于每个 t . 如果输入是 :class:`torch.nn.utils.rnn.PackedSequence`
+        - **output** (seq_len, batch, hidden_size * num_directions): 包含 RNN 最后一层的输出特征 `(h_t)` 的 ``tensor`` ,
+          对于每个 t . 如果输入是  :class:`torch.nn.utils.rnn.PackedSequence`
           那么输出也是一个可以是被填充的变长序列.
         - **h_n** (num_layers * num_directions, batch, hidden_size): 包含 t=seq_len 隐状态的 ``tensor``.
         - **c_n** (num_layers * num_directions, batch, hidden_size): 包含 t=seq_len 细胞状态的 ``tensor``.
@@ -357,7 +357,7 @@ class GRU(RNNBase):
             \end{array}
 
     这里 :math:`h_t` 是在时刻 `t` 的隐状态, :math:`x_t` 是前一层在时刻 `t` 的隐状态或者是第一层的 :math:`input_t` ,
-    而 :math:`r_t`, :math:`z_t`, :math:`n_t` 分别是重置门，输入门和新门.
+    而 :math:`r_t`, :math:`z_t`, :math:`n_t` 分别是重置门,输入门和新门.
 
     Args:
         input_size: 输入的特征维度
@@ -366,7 +366,7 @@ class GRU(RNNBase):
         bias: 如果为 ``False``, 那么RNN层将不会使用偏置权重 b_ih 和 b_hh
             默认: ``True``
         batch_first: 如果为 ``True``, 那么输入和输出的 ``tensor`` 的形状是 (batch, seq, feature)
-        dropout:  如果非零的话，将会在 RNN 的输出上加个 dropout ,最后一层除外
+        dropout:  如果非零的话,将会在 RNN 的输出上加个 dropout ,最后一层除外
         bidirectional: 如果为 ``True``, 将会变成一个双向 RNN . 默认: ``False``
 
     Inputs: input, h_0
@@ -376,7 +376,7 @@ class GRU(RNNBase):
         - **h_0** (num_layers * num_directions, batch, hidden_size): 包含 batch 中每个元素的初始化隐状态的 ``tensor``
 
     Outputs: output, h_n
-        - **output** (seq_len, batch, hidden_size * num_directions): 包含 RNN 最后一层的输出特征`(h_t)` 的 ``tensor`` ,
+        - **output** (seq_len, batch, hidden_size * num_directions): 包含 RNN 最后一层的输出特征 `(h_t)` 的 ``tensor`` ,
           对于每个 t . 如果输入是 :class:`torch.nn.utils.rnn.PackedSequence`
           那么输出也是一个可以是被填充的变长序列.
         - **h_n** (num_layers * num_directions, batch, hidden_size): 包含 t=seq_len 隐状态的 ``tensor``.
@@ -514,10 +514,10 @@ class LSTMCell(RNNCellBase):
     Inputs: input, (h_0, c_0)
         - **input** (batch, input_size): 包含输入特征的 ``tensor`` .
         - **h_0** (batch, hidden_size): 包含 batch 中每个元素的初始化隐状态的 ``tensor``.
-        - **c_0** (batch. hidden_size): 包含 batch 中每个元素的初始化细胞状态的 ``tensor`` .
+        - **c_0** (batch. hidden_size): 包含 batch 中每个元素的初始化细胞状态的 ``tensor``
 
     Outputs: h_1, c_1
-        - **h_1** (batch, hidden_size): 保存着 batch 中每个元素的下一层隐状态的 ``tensor`` .
+        - **h_1** (batch, hidden_size): 保存着 batch 中每个元素的下一层隐状态的 ``tensor``
         - **c_1** (batch, hidden_size): 保存着 batch 中每个元素的下一细胞状态的 ``tensor``
 
     Attributes:
@@ -567,7 +567,7 @@ class LSTMCell(RNNCellBase):
 
 
 class GRUCell(RNNCellBase):
-    r"""GRU 细胞
+    r""" GRU 细胞
 
     .. math::
 
