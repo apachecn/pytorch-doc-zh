@@ -552,8 +552,8 @@ def relu(input, inplace=False):
 glu = _add_docstr(torch._C._nn.glu, r"""
 glu(input, dim=-1) -> Variable
 
-门控线性单元. Computes:
-
+The gated linear unit. Computes:
+门控线性单元
 .. math ::
 
     H = A \times \sigma(B)
