@@ -15,11 +15,10 @@ def _libnvToolsExt():
 
 def range_push(msg):
     """
-    Pushes a range onto a stack of nested range span.  Returns zero-based
-    depth of the range that is started.
+    设置一个固定范围的堆栈,返回的堆栈范围深度从0开始.
 
     Arguments:
-        msg (string): ASCII message to associate with range
+        msg (string): 范围(用ASCII编码设置)
     """
     if _libnvToolsExt() is None:
         raise RuntimeError('Unable to load nvToolsExt library')
@@ -28,8 +27,7 @@ def range_push(msg):
 
 def range_pop():
     """
-    Pops a range off of a stack of nested range spans.  Returns the
-    zero-based depth of the range that is ended.
+    弹出一个固定范围的堆栈,返回的堆栈范围深度从0结束.
     """
     if _libnvToolsExt() is None:
         raise RuntimeError('Unable to load nvToolsExt library')
@@ -38,10 +36,10 @@ def range_pop():
 
 def mark(msg):
     """
-    Describe an instantaneous event that occurred at some point.
+    描述在某个时刻发生的瞬间事件.
 
     Arguments:
-        msg (string): ASCII message to associate with the event.
+        msg (string): 事件(用ASCII编码表示).
     """
     if _libnvToolsExt() is None:
         raise RuntimeError('Unable to load nvToolsExt library')

@@ -2,10 +2,10 @@
 这个包增加了对CUDA tensor(张量)类型的支持,利用GPUs计算实现了与CPU tensors相同的类型.
 
 
-这个是lazily initialized(懒加载，延迟加载), 所以你可以一直导入它,并且可以用:func:`is_available()`来判断
+这个是lazily initialized(懒加载，延迟加载), 所以你可以一直导入它,并且可以用 :func: `is_available()` 来判断
 你的系统是否支持CUDA.
 
-:ref:`cuda-semantics` 有更多关于使用CUDA的细节.
+:ref: `cuda-semantics` 有更多关于使用CUDA的细节.
 """
 
 import contextlib
@@ -55,13 +55,13 @@ def _check_driver():
         raise AssertionError("Torch not compiled with CUDA enabled")
     if not torch._C._cuda_isDriverSufficient():
         if torch._C._cuda_getDriverVersion() == 0:
-            # found no NVIDIA driver on the system(在系统上找不到NVIDIA驱动程序)
+            # 在系统上找不到NVIDIA驱动程序
             raise AssertionError("""
 Found no NVIDIA driver on your system. Please check that you
 have an NVIDIA GPU and installed a driver from
 http://www.nvidia.com/Download/index.aspx""")#在您的系统上找不到NVIDIA驱动程序.请检查是否有NVIDIA GPU,并从http://www.nvidia.com/Download/index.aspx 安装了驱动程序
         else:
-            # TODO: directly link to the alternative bin that needs install(直接链接到需要安装的备用bin)
+            # TODO: 直接链接到需要安装的备用bin
             raise AssertionError("""
 The NVIDIA driver on your system is too old (found version {}).
 Please update your GPU driver by downloading and installing a new
@@ -211,7 +211,7 @@ class device_of(device):
 def set_device(device):
     """设置当前设备.
 
-    不鼓励使用这个函数 :any:`device`. 
+    不鼓励使用这个函数 :any: `device` . 
     在大多数情况下，最好使用 ``CUDA_VISIBLE_DEVICES`` 环境变量.
 
     Arguments:
@@ -235,9 +235,9 @@ def get_device_capability(device):
     """获取设备的CUDA算力.
 
     Arguments:
-        device (int): 返回设备名，参数无效时，方法失效.
+        device (int): 返回设备名,参数无效时,方法失效.
     Returns:
-        tuple(int, int):设备的主次要CUDA算力。
+        tuple(int, int):设备的主次要CUDA算力.
     """
     if device >= 0:
         return torch._C._cuda_getDeviceCapability(device)
@@ -247,11 +247,10 @@ def get_device_capability(device):
 def stream(stream):
     """选择给定流的上下文管理器.
 
-    All CUDA kernels queued within its context will be enqueued on a selected
-    stream在选定的流上,所有的CUDA内核在其上下文内排队.
+    在选定的流上,所有的CUDA内核在其上下文内排队.
 
     Arguments:
-        stream (Stream): 选择流. 如果是``None``,管理器无效.
+        stream (Stream): 选择流. 如果是 ``None`` ,管理器无效.
     """
     if stream is None:
         yield
@@ -286,7 +285,7 @@ def synchronize():
 
 
 def current_stream():
-    """返回当前选择的 :class:`Stream`."""
+    """返回当前选择的 :class: `Stream` ."""
     _lazy_init()
     return torch.cuda.Stream(_cdata=torch._C._cuda_getCurrentStream())
 
@@ -297,7 +296,7 @@ def current_blas_handle():
 
 
 def empty_cache():
-    """释放当前由缓存持有的所有未占用缓存内存分配器,以便可以在其他GPU应用程序中使用并在 `nvidia-smi`中可见."""
+    """释放当前由缓存持有的所有未占用缓存内存分配器,以便可以在其他GPU应用程序中使用并在 `nvidia-smi` 中可见."""
     return torch._C._cuda_emptyCache()
 
 

@@ -6,17 +6,15 @@ from torch._utils import _accumulate, _take_tensors, _flatten_dense_tensors, \
 
 
 def broadcast(tensor, devices):
-    """Broadcasts a tensor to a number of GPUs.
+    """将张量广播给多个GPU.
 
     Arguments:
-        tensor (Tensor): tensor to broadcast.
-        devices (Iterable): an iterable of devices among which to broadcast.
-          Note that it should be like (src, dst1, dst2, ...), the first element
-          of which is the source device to broadcast from.
+        tensor (Tensor): 需要广播的张量.
+        devices (Iterable): 在一个可迭代设备中广播.
+          请注意, 它应该像 (src, dst1, dst2, ...), 其中的第一个元素是来至其广播的源设备.
 
     Returns:
-        A tuple containing copies of the ``tensor``, placed on devices
-        corresponding to indices from ``devices``.
+        一个元组, 包含 ``tensor`` 副本,放置在与设备的索引相对应的设备上.
     """
     tensors = [tensor]
     if nccl.is_available(tensors) and len(set(devices)) == len(devices):
@@ -30,21 +28,18 @@ def broadcast(tensor, devices):
 
 
 def broadcast_coalesced(tensors, devices, buffer_size=10485760):
-    """Broadcasts a sequence tensors to the specified GPUs.
+    """将序列张量广播到指定的GPUs.
 
-    Small tensors are first coalesced into a buffer to reduce the number
-    of synchronizations.
+    小张量首先合并到一个缓冲区中以减少同步的次数.
 
     Arguments:
-        tensors (sequence): tensors to broadcast.
-        devices (Iterable): an iterable of devices among which to broadcast.
-          Note that it should be like (src, dst1, dst2, ...), the first element
-          of which is the source device to broadcast from.
-        buffer_size (int): maximum size of the buffer used for coalescing
+        tensors (sequence): 要广播的张量.
+        devices (Iterable): 在一个可迭代设备中广播.
+          请注意, 它应该像 (src, dst1, dst2, ...), 其中的第一个元素是来至其广播的源设备.
+        buffer_size (int): 用于合并的最大缓冲区大小.
 
     Returns:
-        A tuple containing copies of the ``tensor``, placed on devices
-        corresponding to indices from ``devices``.
+        一个元组, 包含 ``tensor`` 副本,放置在与设备的索引相对应的设备上.
     """
     for tensor in tensors:
         if tensor.get_device() != devices[0]:
@@ -71,36 +66,33 @@ def broadcast_coalesced(tensors, devices, buffer_size=10485760):
 
 
 def reduce_add(inputs, destination=None):
-    """Sums tensors from multiple GPUs.
+    """从多个GPU中收集张量.
 
-    All inputs should have matching shapes.
+    所有的输入应该有匹配的shapes(形状).
 
     Arguments:
-        inputs (Iterable[Tensor]): an iterable of tensors to add.
-        destination (int, optional): a device on which the output will be
-            placed (default: current device).
+        inputs (Iterable[Tensor]): 添加一个可迭代的张量.
+        destination (int, optional): 放置输出的设备 (默认: 当前设备).
 
     Returns:
-        A tensor containing an elementwise sum of all inputs, placed on the
-        ``destination`` device.
+        包含所有输入的元素和的张量, 存放在 ``destination(目标)`` 设备.
     """
-    # TODO: try to find an input on another gpu, copy it,
-    # and accumulate into the copy
+    # TODO: 尝试在另一个 gpu 上找到一个输入, 复制它并添加到副本中.
     if destination is None:
         destination = torch.cuda.current_device()
     input_size = inputs[0].size()
     is_sparse = inputs[0].is_sparse
     nccl_root = None
     for i, inp in enumerate(inputs):
-        assert inp.is_cuda, "reduce_add expects all inputs to be on GPUs"
+        assert inp.is_cuda, "reduce_add expects all inputs to be on GPUs"#reduce_add 希望所有的输入都在 gpu 上.
         if inp.get_device() == destination:
             nccl_root = i
         if inp.size() != input_size:
             got = 'x'.join(str(x) for x in inp.size())
             expected = 'x'.join(str(x) for x in input_size)
             raise ValueError("input {} has invalid size: got {}, but expected "
-                             "{}".format(i, got, expected))
-    assert nccl_root is not None, "reduce_add expects destination to be on the same GPU with one of the tensors"
+                             "{}".format(i, got, expected))#输入大小无效,期望是xx,得到的是xx
+    assert nccl_root is not None, "reduce_add expects destination to be on the same GPU with one of the tensors"#reduce_add期望目标位于与张量之一相同的GPU上
     with torch.cuda.device(destination):
         result = type(inp)().resize_as_(inp).zero_()
 
@@ -115,26 +107,22 @@ def reduce_add(inputs, destination=None):
 
 
 def reduce_add_coalesced(inputs, destination=None, buffer_size=10485760):
-    """Sums tensors from multiple GPUs.
+    """从多个GPU中收集张量.
 
-    Small tensors are first coalesced into a buffer to reduce the number
-    of synchronizations.
+    小张量首先合并到一个缓冲区中以减少同步的次数.
 
     Arguments:
-        inputs (Iterable[Iterable[Tensor]]): iterable of iterables that
-            contain tensors from a single device.
-        destination (int, optional): a device on which the output will be
-            placed (default: current device).
-        buffer_size (int): maximum size of the buffer used for coalescing
+        inputs (Iterable[Iterable[Tensor]]): 包含张量来至单一的设备可迭代对象的迭代器.
+        destination (int, optional): 放置输出的设备 (默认: 当前设备).
+        buffer_size (int): 合并缓冲区的最大值
 
     Returns:
-        A tuple of tensors containing an elementwise sum of each group of
-        inputs, placed on the ``destination`` device.
+        张量元组包含每组输入的元素和, 放置在 ``目标`` 设备上.
     """
-    dense_tensors = [[] for _ in inputs]  # shape (num_gpus, num_tensors)
+    dense_tensors = [[] for _ in inputs]  # shape (num_gpus, num_tensors) 
     output = []
     ref_order = []
-    # process sparse ones first since they may have different sizes on different gpus
+    # 先处理稀疏问题因为他们可能有不同的大小在不同的GPU上.
     for tensor_at_gpus in zip(*inputs):
         if all(t.is_sparse for t in tensor_at_gpus):
             result = reduce_add(tensor_at_gpus, destination)
@@ -145,7 +133,7 @@ def reduce_add_coalesced(inputs, destination=None, buffer_size=10485760):
                 coll.append(t.to_dense() if t.is_sparse else t)
             ref_order.append(dense_tensors[0][-1])
     itrs = [_take_tensors(tensors, buffer_size) for tensors in dense_tensors]
-    # now the dense ones, which have consistent sizes
+    # 现在的稠密度大小一致
     for chunks in zip(*itrs):
         flat_tensors = [_flatten_dense_tensors(chunk) for chunk in chunks]
         flat_result = reduce_add(flat_tensors, destination)
@@ -154,21 +142,17 @@ def reduce_add_coalesced(inputs, destination=None, buffer_size=10485760):
 
 
 def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
-    """Scatters tensor across multiple GPUs.
+    """分散张量到多个GPU.
 
     Arguments:
-        tensor (Tensor): tensor to scatter.
-        devices (Iterable[int]): iterable of ints, specifying among which
-            devices the tensor should be scattered.
-        chunk_sizes (Iterable[int], optional): sizes of chunks to be placed on
-            each device. It should match ``devices`` in length and sum to
-            ``tensor.size(dim)``. If not specified, the tensor will be divided
-            into equal chunks.
-        dim (int, optional): A dimension along which to chunk the tensor.
+        tensor (Tensor): 需要分散的张量.
+        devices (Iterable[int]): 整数的迭代,指定张量应分散在哪些设备之间.
+        chunk_sizes (Iterable[int], optional): 要放在每个设备上的块的大小. 应该匹配 ``设备`` 长度和
+             ``tensor.size(dim)`` 的和. 如果未指定,张量将被划分成相等的块.
+        dim (int, optional): 分块张量沿着的维度
 
     Returns:
-        A tuple containing chunks of the ``tensor``, spread across given
-        ``devices``.
+        一个元组包含 ``tensor``块, 传递给 ``devices``.
     """
     if chunk_sizes is None:
         chunks = tensor.chunk(len(devices), dim)
@@ -180,7 +164,7 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
         chunks = [tensor.narrow(dim, start - size, size)
                   for start, size in zip(_accumulate(chunk_sizes), chunk_sizes)]
     chunks = tuple(chunk.contiguous() for chunk in chunks)
-    # TODO: copy to a pinned buffer first (if copying from CPU)
+    # TODO: 首先复制到固定缓冲区（如果从CPU复制）
     if streams is None:
         streams = [None] * len(devices)
     outputs = []
@@ -191,30 +175,29 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
 
 
 def gather(tensors, dim=0, destination=None):
-    """Gathers tensors from multiple GPUs.
+    """从多个GPU收集张量.
 
-    Tensor sizes in all dimension different than ``dim`` have to match.
+    张量尺寸在不同于 ``dim`` 的维度上都应该匹配.
 
     Arguments:
-        tensors (Iterable[Tensor]): iterable of tensors to gather.
-        dim (int): a dimension along which the tensors will be concatenated.
-        destination (int, optional): output device (-1 means CPU, default:
-            current device)
+        tensors (Iterable[Tensor]): 张量集合的迭代器.
+        dim (int): 张量被连接的维度.
+        destination (int, optional): 输出设备 (-1 代表 CPU, 默认:
+            当前设备)
 
     Returns:
-        A tensor located on ``destination`` device, that is a result of
-        concatenating ``tensors`` along ``dim``.
+        一个位于 ``目标`` 设备上的张量, 将 ``tensors`` 沿着 ``dim`` 连接起来的结果.
     """
     total_size = 0
     expected_size = list(tensors[0].size())
     for tensor in tensors:
-        assert tensor.is_cuda, "gather expects all inputs to be on GPUs"
+        assert tensor.is_cuda, "gather expects all inputs to be on GPUs"#在GPUs上收集所有的预期输入
         expected_size[dim] = tensor.size(dim)
         if list(tensor.size()) != expected_size:
             got = 'x'.join(str(x) for x in tensor.size())
             expected = 'x'.join(str(x) for x in expected_size)
             raise ValueError("gather got an input of invalid size: got {}, "
-                             "but expected {}".format(got, expected))
+                             "but expected {}".format(got, expected))#在预期输入时xx,得到的输入时xx
         total_size += tensor.size(dim)
     expected_size[dim] = total_size
     expected_size = torch.Size(expected_size)
@@ -227,8 +210,7 @@ def gather(tensors, dim=0, destination=None):
             result = type(tensors[0])(expected_size)
 
     chunk_start = 0
-    # TODO: if copying to CPU, allocate a pinned buffer, do async copies to it,
-    # and copy it to regular memory
+    # TODO: 如果复制到CPU,分配一个固定缓冲,做异步拷贝,并将其复制到常规内存.
     for tensor in tensors:
         result.narrow(dim, chunk_start, tensor.size(dim)).copy_(tensor, True)
         chunk_start += tensor.size(dim)
