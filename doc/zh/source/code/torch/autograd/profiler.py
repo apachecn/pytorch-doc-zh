@@ -20,7 +20,7 @@ class EventList(list):
         """打印操作表
 
         参数:
-            sort_by (str, 可选): 用来对参数进行排序. 默认情况下，它们以与登记相同的顺序打印。
+            sort_by (str, 可选): 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印.
                 有效的键: ``cpu_time``, ``cuda_time``, ``cpu_time_total``,
                 ``cuda_time_total``, ``count``.
 
@@ -30,7 +30,7 @@ class EventList(list):
         return build_table(self, sort_by)
 
     def export_chrome_trace(self, path):
-        """将EventList导出为Chrome跟踪工具文件。
+        """将EventList导出为Chrome跟踪工具文件.
 
         断点能够通过 ``chrome://tracing`` URL来读取.
 
@@ -56,7 +56,7 @@ class EventList(list):
         """平均所有的功能指标通过他们的键.
 
         返回:
-            包含FunctionEventAvg对象的EventList。
+            包含 FunctionEventAvg 对象的 EventList.
         """
         stats = defaultdict(FunctionEventAvg)
         for evt in self:
@@ -67,7 +67,7 @@ class EventList(list):
         """所有事件的平均指标.
 
         返回:
-            一个FunctionEventAvg对象.
+            一个 FunctionEventAvg 对象.
         """
         total_stat = FunctionEventAvg()
         for evt in self:
@@ -81,11 +81,11 @@ class profile(object):
     """结果的评价指标.
 
     参数:
-        enabled (bool, 可选): 如果设置为False，则没有评价指标.
+        enabled (bool, 可选): 如果设置为 False ,则没有评价指标.
             Default: ``True``.
 
     .. 警告:
-        不应该递归地调用这个上下文管理器，即最多一个实例应该在任何给定的时间启用。
+        不应该递归地调用这个上下文管理器,即最多一个实例应该在任何给定的时间启用.
 
     Example:
         >>> x = Variable(torch.randn(1, 1), requires_grad=True)
@@ -166,22 +166,22 @@ class profile(object):
 
 
 class emit_nvtx(object):
-    """使每个autograd操作都发出一个NVTX范围的上下文管理器。
+    """使每个autograd操作都发出一个NVTX范围的上下文管理器.
 
     如下使用是正确的::
 
         nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
-    不幸的是，没有办法强制nvprof刷新收集到的数据到磁盘，因此对于CUDA分析，必须使用此上下文管理器进行注释
-     nvprof跟踪并等待进程在检查之前退出。
-     然后，可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴，或者
-     ：func：`torch.autograd.profiler.load_nvprof`可以加载检查结果。
+    不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释
+     nvprof 跟踪并等待进程在检查之前退出.
+     然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 
+     :func:`torch.autograd.profiler.load_nvprof` 可以加载检查结果.
 
     .. 警告:
-        不应该递归地调用这个上下文管理器，即最多一个实例应该在任何给定的时间启用。
+        不应该递归地调用这个上下文管理器,即最多一个实例应该在任何给定的时间启用.
 
     参数:
-        enabled (bool, 可选): 如果设置为False，则没有评价指标.
+        enabled (bool, 可选): 如果设置为 False ,则没有评价指标.
             默认: ``True``.
 
     Example:
@@ -213,10 +213,10 @@ class emit_nvtx(object):
 
 
 def load_nvprof(path):
-    """打卡nvprof trace 文件。
+    """打开 nvprof trace 文件.
 
     参数:
-        path (str): nvprof trace文件路径。
+        path (str): nvprof trace 文件路径.
     """
     return EventList(parse_nvprof_trace(path))
 
@@ -225,7 +225,7 @@ def load_nvprof(path):
 # FunctionEvent
 
 def format_time(time_ns):
-    """定义FunctionEvent格式"""
+    """定义 FunctionEvent 格式"""
     return '{:.3f}us'.format(time_ns / 1000)
 
 
@@ -234,9 +234,9 @@ def attr_formatter(name):
 
 
 class FormattedTimesMixin(object):
-    """Helpers for FunctionEvent and FunctionEventAvg.
+    """FunctionEvent and FunctionEventAvg 方法的帮助.
 
-    The subclass should define `*_time_total` and `count` attributes.
+   这个子类应该定义 `*_time_total` 和 `count` 属性.
     """
     cpu_time_str = attr_formatter('cpu_time')
     cuda_time_str = attr_formatter('cuda_time')

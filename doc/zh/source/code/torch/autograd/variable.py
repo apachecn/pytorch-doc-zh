@@ -13,23 +13,21 @@ class Variable(_C._VariableBase):
     """封装一个张量用来各种操作.
 
     变量是张量对象周围的轻包装,能够拥有导数等数据, 这个引用允许回溯整个操作链创建数据.
-    如果变量已经由用户创建, 它的grad_fn
-    为``None``我们称之为叶子节点。
+    如果变量已经由用户创建, 它的 grad_fn
+    为 ``None`` 我们称之为叶子节点.
 
-    由于autograd只支持标量值函数微分，grad大小始终与数据大小匹配。 此外，导数通常只分配
-    叶变量，否则将始终为零。
+    由于 autograd 只支持标量值函数微分, grad 大小始终与数据大小匹配. 此外,导数通常只分配
+    叶变量,否则将始终为零.
 
     参数说明:
         data: 包裹任何类型的张量.
-        grad: 变量保持类型和位置匹配的易变``.data``。 这个属性是懒惰的分配，不能被重新分配。
-        requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建，需要它。
-        有关更多详细信息，请参阅：ref：`excluded-subgraphs`。
-        只能在叶变量上进行更改。
-        volatile: 布尔值表示应该使用变量
-             推理模式，即不保存历史。 看到
-             ：ref：`excluding-subgraphs`的更多细节。
-             只能在叶变量上进行更改。
-        is_leaf: 指示是否为叶子节点，即是否由用户创建的节点。
+        grad: 变量保持类型和位置匹配的变量 ``.data``. 这个属性是懒惰的分配,不能被重新分配.
+        requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它.
+        有关更多详细信息,请参阅 :ref:`excluded-subgraphs`.
+        只能在叶变量上进行更改.
+        volatile: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 :ref:`excluding-subgraphs` 更多细节.
+        只能在叶变量上进行更改.
+        is_leaf: 指示是否为叶子节点,即是否由用户创建的节点.
         grad_fn: 导数函数跟踪.
 
     参数:
@@ -131,34 +129,34 @@ class Variable(_C._VariableBase):
     def backward(self, gradient=None, retain_graph=None, create_graph=None, retain_variables=None):
         """给定图叶子节点计算导数.
 
-       该图使用链式规则进行计算。 如果变量是非标量（即其数据具有多个元素）并且需要
-       改变，该功能另外需要指定“梯度”。它应该是一个包含匹配类型和位置的张量
-       微分函数的梯度w.r.t.``self``。
+       该图使用链式规则进行计算. 如果变量是非标量（即其数据具有多个元素）并且需要
+       改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量
+       微分函数的梯度w.r.t. ``self`` .
 
-        这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零。
+        这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
 
         参数:
-            gradient (Tensor, Variable or None):计算变量的梯度. 如果是张量，则会自动转换
-            到一个变量，这是挥发性的，除非``create_graph``为真。没有值可以被指定为标量变量或那些
-            不要求毕业。 如果一个None值是可以接受的这个参数是可选的。
-            retain_graph (bool, 可选): 如果“False”，则用于计算的图形导数将被释放。 请注意，在几
-            乎所有情况下设置这个选项为True是不需要的，通常可以解决在一个更有效的方式。 默认值为
-            ``create_graph``。
-            create_graph (bool, optional): 如果“真”，派生图将会被构造，允许计算更高阶的导数。
-            默认为``False``，除非``gradient``是一个volatile变量。
+            gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
+            到一个变量,这是挥发性的,除非 ``create_graph`` 为真.没有值可以被指定为标量变量或那些
+            不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
+            retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
+            乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为
+            ``create_graph``.
+            create_graph (bool, optional): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
+            默认为 ``False``,除非 ``gradient`` 是一个volatile变量.
         """
         torch.autograd.backward(self, gradient, retain_graph, create_graph, retain_variables)
 
     def register_hook(self, hook):
-        """注册一个backward钩子。
+        """注册一个backward钩子.
 
-        每次gradients被计算的时候，这个hook都被调用。hook应该拥有以下签名：
+        每次gradients被计算的时候,这个 hook 都被调用 .hook 应该拥有以下签名:
 
             hook(grad) -> Variable or None
 
-        hook不应该修改它的输入，但是它可以选择性的返回一个替代当前梯度的新梯度。
+        hook不应该修改它的输入,但是它可以选择性的返回一个替代当前梯度的新梯度.
 
-        这个函数返回一个 句柄(handle)。它有一个方法 handle.remove()，可以用这个方法将hook从module移除。
+        这个函数返回一个 句柄 (handle).它有一个方法 handle.remove(),可以用这个方法将 hook 从 module 移除.
 
         Example:
             >>> v = Variable(torch.Tensor([0, 0, 0]), requires_grad=True)
@@ -212,26 +210,26 @@ class Variable(_C._VariableBase):
         """))
 
     def detach(self):
-        """将一个Variable从创建它的图中分离，并把它设置成leaf variable。
+        """将一个Variable从创建它的图中分离,并把它设置成 leaf variable.
 
 
         .. 注意::
 
-        返回变量使用与原始数据张量相同的数据张量，其中任何一个的就地修改都将被看到，并可能触发
-        错误在正确性检查。
+        返回变量使用与原始数据张量相同的数据张量,其中任何一个的就地修改都将被看到,并可能触发
+        错误在正确性检查.
         """
         result = NoGrad()(self)  # this is needed, because it merges version counters
         result._grad_fn = None
         return result
 
     def detach_(self):
-        """将一个Variable从创建它的图中分离，并把它设置成leaf variable。
+        """将一个 Variable 从创建它的图中分离,并把它设置成 leaf variable.
         """
         self._grad_fn = None
         self.requires_grad = False
 
     def retain_grad(self):
-        """为非叶变量启用.grad属性。"""
+        """为非叶变量启用 .grad 属性."""
         if self.grad_fn is None:  # no-op for leaves
             return
         if not self.requires_grad:

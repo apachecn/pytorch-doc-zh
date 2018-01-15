@@ -140,20 +140,20 @@ def gradcheck(func, inputs, eps=1e-6, atol=1e-5, rtol=1e-3, raise_exception=True
     """检查梯度是否计算正确
 
     这个函数与
-    numpy.allclose https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
+     numpy.allclose https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
     具有相同的功能用来检查
         absolute(a - n) <= (atol + rtol * absolute(n))
-    当所有的元素都符合该条件即为真。
+    当所有的元素都符合该条件即为真.
 
     属性:
-        func: 一个Python函数，用来计算导数
+        func: 一个Python函数,用来计算导数
         inputs: 变量元祖
         eps: 有限差分
         atol: 误差容忍
         rtol: 相对容忍度
-        raise_exception: bool指示如果gradcheck失败，是否引发异常。 例外提供了更多有关gradcheck的信息。
+        raise_exception: bool指示如果gradcheck失败,是否引发异常. 例外提供了更多有关gradcheck的信息.
     返回:
-        如果所有差异满足所有关闭条件，则为真
+        如果所有差异满足所有关闭条件,则为真.
     """
     output = _differentiable_outputs(func(*inputs))
 
@@ -200,23 +200,23 @@ def gradcheck(func, inputs, eps=1e-6, atol=1e-5, rtol=1e-3, raise_exception=True
 
 
 def gradgradcheck(func, inputs, grad_outputs=None, eps=1e-6, atol=1e-5, rtol=1e-3):
-    """检查通过对分析梯度的小有限差异计算的梯度梯度此函数检查通过对给定grad_outputs计算的梯度的反向传播是否正确。
+    """检查通过对分析梯度的小有限差异计算的梯度梯度此函数检查通过对给定grad_outputs计算的梯度的反向传播是否正确.
 
     T这个函数与
     numpy.allclose https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html
     具有相同功能用来计算
         absolute(a - n) <= (atol + rtol * absolute(n))
-    当所有的元素都符合该条件即为真。
+    当所有的元素都符合该条件即为真.
 
     属性:
-        func: 一个Python函数，用来计算导数
+        func: 一个Python函数,用来计算导数
         inputs: 变量元祖
         eps: 有限差分
         atol: 误差容忍
         rtol: 相对容忍度
-        raise_exception: bool指示如果gradcheck失败，是否引发异常。 例外提供了更多有关gradcheck的信息。
+        raise_exception: bool指示如果gradcheck失败,是否引发异常. 例外提供了更多有关gradcheck的信息.
     返回:
-        如果所有差异满足所有关闭条件，则为真
+        如果所有差异满足所有关闭条件,则为真.
     """
     if grad_outputs is None:
         # If grad_outputs is not specified, create random variables of the same
