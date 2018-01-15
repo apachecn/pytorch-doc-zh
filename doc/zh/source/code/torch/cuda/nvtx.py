@@ -18,7 +18,7 @@ def range_push(msg):
     设置一个固定范围的堆栈,返回的堆栈范围深度从0开始.
 
     Arguments:
-        msg (string): 范围(用ASCII编码设置)
+        msg (string): 范围(用 ASCII 编码设置)
     """
     if _libnvToolsExt() is None:
         raise RuntimeError('Unable to load nvToolsExt library')
@@ -39,7 +39,7 @@ def mark(msg):
     描述在某个时刻发生的瞬间事件.
 
     Arguments:
-        msg (string): 事件(用ASCII编码表示).
+        msg (string): 事件(用 ASCII 编码表示).
     """
     if _libnvToolsExt() is None:
         raise RuntimeError('Unable to load nvToolsExt library')

@@ -4,7 +4,7 @@ from . import cudart, check_error, cudaStatus
 
 
 class Stream(torch._C._CudaStreamBase):
-    """CUDA流的包装.
+    """ CUDA 流的包装.
 
     Arguments:
         device(int, optional): 分配流的设备.
@@ -19,7 +19,7 @@ class Stream(torch._C._CudaStreamBase):
         """将所有未来的工作提交到流等待事件.
 
         Arguments:
-            event (Event): a等待的事件.
+            event (Event): 等待的事件.
         """
         check_error(cudart().cudaStreamWaitEvent(self, event, ctypes.c_int(0)))
 
@@ -51,7 +51,7 @@ class Stream(torch._C._CudaStreamBase):
         """检查事件是否已被记录.
 
         Returns:
-            一个布尔值，指示事件是否已被记录.
+            一个 BOOL 值，指示事件是否已被记录.
         """
         res = cudart().cudaStreamQuery(self)
         if res == cudaStatus.ERROR_NOT_READY:
@@ -100,7 +100,7 @@ class EventHandle(ctypes.Structure):
 
 
 class Event(object):
-    """CUDA事件包装器.
+    """ CUDA 事件包装器.
 
     Arguments:
         enable_timing (bool): 指示事件是否应测量时间
@@ -154,7 +154,7 @@ class Event(object):
         """检查事件是否已记录.
 
         Returns:
-            一个布尔值，指示事件是否已被记录.
+            一个 BOOL 值，指示事件是否已被记录.
         """
         res = cudart().cudaEventQuery(self)
         if res == cudaStatus.ERROR_NOT_READY:
@@ -174,7 +174,7 @@ class Event(object):
         check_error(cudart().cudaEventSynchronize(self))
 
     def ipc_handle(self):
-        """返回此事件的IPC句柄."""
+        """返回此事件的 IPC 句柄."""
         handle = EventHandle()
         check_error(cudart().cudaIpcGetEventHandle(ctypes.byref(handle), self))
         return handle

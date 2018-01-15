@@ -1,11 +1,11 @@
 """
-这个包增加了对CUDA tensor(张量)类型的支持,利用GPUs计算实现了与CPU tensors相同的类型.
+这个包增加了对 CUDA tensor (张量) 类型的支持,利用 GPUs 计算实现了与 CPU tensors 相同的类型.
 
 
-这个是lazily initialized(懒加载，延迟加载), 所以你可以一直导入它,并且可以用 :func:`is_available()` 来判断
-你的系统是否支持CUDA.
+这个是 lazily initialized (懒加载,延迟加载), 所以你可以一直导入它,并且可以用 :func:`is_available()` 来判断
+你的系统是否支持 CUDA.
 
-:ref:`cuda-semantics` 有更多关于使用CUDA的细节.
+:ref:`cuda-semantics` 有更多关于使用 CUDA 的细节.
 """
 
 import contextlib
@@ -26,7 +26,7 @@ _cudart = None
 
 
 def is_available():
-    """返回一个bool值表示CUDA目前是否可用."""
+    """返回一个 bool 值表示 CUDA 目前是否可用."""
     if (not hasattr(torch._C, '_cuda_isDriverSufficient') or
             not torch._C._cuda_isDriverSufficient()):
         return False
@@ -38,7 +38,7 @@ def _sleep(cycles):
 
 
 def _load_cudart():
-    # 首先检查CUDA符号的主程序
+    # 首先检查 CUDA 符号的主程序
     lib = ctypes.cdll.LoadLibrary(None)
     if hasattr(lib, 'cudaGetErrorName'):
         return lib
@@ -78,7 +78,7 @@ def _check_capability():
      with CUDA_VERSION %d. Please install the correct PyTorch binary
      using instructions from http://pytorch.org
     """
-    #GPU需要CUDA_VERSION大于某个版本来获得最佳性能和快速的启动时间，但是你的PyTorch编译的CUDA_VERSION版本是xxx.请根据官网的操作说明安装正确的PyTorch编译文件.
+    #GPU需要CUDA_VERSION大于某个版本来获得最佳性能和快速的启动时间,但是你的PyTorch编译的CUDA_VERSION版本是xxx.请根据官网的操作说明安装正确的PyTorch编译文件.
 
     CUDA_VERSION = torch._C._cuda_getCompiledVersion()
     for d in range(device_count()):
@@ -126,7 +126,7 @@ def _lazy_init():
     _cudart.cudaGetErrorString.restype = ctypes.c_char_p
     _original_pid = os.getpid()
     _initialized = True
-    # 当某些队列调用时，_initialized之后很重要的去做这个
+    # 当某些队列调用时,_initialized之后很重要的去做这个
     # 或许他们叫 _lazy_init
     for queued_call, orig_traceback in _queued_calls:
         try:
@@ -173,7 +173,7 @@ class device(object):
     """更改选定设备的上下文管理器.
 
     Arguments:
-        idx (int): 选择设备编号.如果参数无效,则是无效操作.
+        idx (int): 选择设备编号. 如果参数无效,则是无效操作.
     """
 
     def __init__(self, idx):
@@ -197,7 +197,7 @@ class device(object):
 class device_of(device):
     """将当前设备更改为给定对象的上下文管理器.
 
-    可以使用张量和存储作为参数,如果给定的对象不是在GPU上分配的,这是一个无效操作.
+    可以使用张量和存储作为参数,如果给定的对象不是在 GPU 上分配的,这是一个无效操作.
 
     Arguments:
         obj (Tensor or Storage): 在选定设备上分配的对象.
@@ -212,10 +212,10 @@ def set_device(device):
     """设置当前设备.
 
     不鼓励使用这个函数 :any:`device` . 
-    在大多数情况下，最好使用 ``CUDA_VISIBLE_DEVICES`` 环境变量.
+    在大多数情况下,最好使用 ``CUDA_VISIBLE_DEVICES`` 环境变量.
 
     Arguments:
-        device (int): 选择设备. 参数无效时，则是无效操作.
+        device (int): 选择设备. 参数无效时,则是无效操作.
     """
     if device >= 0:
         torch._C._cuda_setDevice(device)
@@ -225,19 +225,19 @@ def get_device_name(device):
     """获取设备名.
 
     Arguments:
-        device (int): 返回设备名. 参数无效时，则是无效操作.
+        device (int): 返回设备名. 参数无效时,则是无效操作.
     """
     if device >= 0:
         return torch._C._cuda_getDeviceName(device)
 
 
 def get_device_capability(device):
-    """获取设备的CUDA算力.
+    """获取设备的 CUDA 算力.
 
     Arguments:
-        device (int): 返回设备名,参数无效时,方法失效.
+        device (int): 返回设备名, 参数无效时, 方法失效.
     Returns:
-        tuple(int, int):设备的主次要CUDA算力.
+        tuple(int, int):设备的主次要 CUDA 算力.
     """
     if device >= 0:
         return torch._C._cuda_getDeviceCapability(device)
@@ -247,10 +247,10 @@ def get_device_capability(device):
 def stream(stream):
     """选择给定流的上下文管理器.
 
-    在选定的流上,所有的CUDA内核在其上下文内排队.
+    在选定的流上, 所有的CUDA内核在其上下文内排队.
 
     Arguments:
-        stream (Stream): 选择流. 如果是 ``None`` ,管理器无效.
+        stream (Stream): 选择流. 如果是 ``None`` , 管理器无效.
     """
     if stream is None:
         yield
@@ -264,7 +264,7 @@ def stream(stream):
 
 
 def device_count():
-    """返回可用的GPU数量."""
+    """返回可用的 GPU 数量."""
     if is_available():
         _lazy_init()
         return torch._C._cuda_getDeviceCount()
@@ -348,7 +348,7 @@ if not hasattr(torch._C, 'CudaDoubleStorageBase'):
 @staticmethod
 def _lazy_new(cls, *args, **kwargs):
     _lazy_init()
-    #我们只需要这个方法的惰性init(lazy init)，所以我们可以删除它。
+    #我们只需要这个方法的惰性init(lazy init),所以我们可以删除它。
     del _CudaBase.__new__
     return super(_CudaBase, cls).__new__(cls, *args, **kwargs)
 
