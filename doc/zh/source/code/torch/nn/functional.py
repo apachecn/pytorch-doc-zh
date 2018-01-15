@@ -32,7 +32,7 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sW, ). 默认值: 1
         padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padW, ). 默认值: 0
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
-        groups: 将输入分成的组的个数. in_channels的值要求能够被groups的值整除. 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
     例子::
 
@@ -62,7 +62,7 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sH, sW). 默认值: 1
         padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padH, padW). 默认值: 0
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
-        groups: 将输入分成的组的个数. in_channels的值要求能够被groups的值整除. 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
     例子::
     
@@ -93,7 +93,7 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sT, sH, sW). 默认值: 1
         padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padT, padH, padW). 默认值: 0
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
-        groups: 将输入分成的组的个数. in_channels的值要求能够被groups的值整除. 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
     例子::
 
@@ -123,9 +123,9 @@ def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
         stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sW, ). 默认值: 1
         padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padW, ). 默认值: 0
-        output_padding: 输出两端隐式零填充的个数,范围为0 <= padding < stride.
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
         可以是单个数字, 也可以是一个元组 (out_padW, ). 默认值: 0
-        groups: 将输入分成的组的个数. in_channels的值要求能够被groups的值整除. 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
     """
     if input is not None and input.dim() != 3:
@@ -140,7 +140,7 @@ def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
 
 def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""对几个输入平面组成的输入信号应用一个2D转置卷积,该操作有的时候也被称为“反卷积”.
+    r"""对几个输入平面组成的输入信号应用一个2D转置卷积,该操作有的时候也被称为 "反卷积".
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose2d`. 
 
@@ -150,9 +150,9 @@ def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
         stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sH, sW). 默认值: 1
         padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padH, padW). 默认值: 0
-        output_padding: 输出两端隐式零填充的个数,范围为0 <= padding < stride.
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
         可以是单个数字, 也可以是一个元组 (out_padH, out_padW). 默认值: 0
-        groups: 将输入分成的组的个数. in_channels的值要求能够被groups的值整除. 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
     """
     if input is not None and input.dim() != 4:
@@ -166,7 +166,7 @@ def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
 
 def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""对几个输入平面组成的输入信号应用一个3D转置卷积, 该操作有的时候也被称为“反卷积”.
+    r"""对几个输入平面组成的输入信号应用一个3D转置卷积, 该操作有的时候也被称为 "反卷积".
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose3d`. 
 
@@ -176,9 +176,9 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
         stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sT, sH, sW). 默认值: 1
         padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padT, padH, padW). 默认值: 0
-        output_padding: 输出两端隐式零填充的个数,范围为0 <= padding < stride.
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
         可以是单个数字, 也可以是一个元组 (out_padT, out_padH, out_padW). 默认值: 0
-        groups: 将输入分成的组的个数. in_channels的值要求能够被groups的值整除. 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
     """
     if input is not None and input.dim() != 5:
