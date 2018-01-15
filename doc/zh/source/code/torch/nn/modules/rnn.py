@@ -363,7 +363,7 @@ class GRU(RNNBase):
         input_size: 输入的特征维度
         hidden_size: 隐状态的特征维度
         num_layers: RNN 的层数
-        bias: 如果为 ``False``, 那么RNN层将不会使用偏置权重 b_ih 和 b_hh
+        bias: 如果为 ``False``, 那么 RNN 层将不会使用偏置权重 b_ih 和 b_hh
             默认: ``True``
         batch_first: 如果为 ``True``, 那么输入和输出的 ``tensor`` 的形状是 (batch, seq, feature)
         dropout:  如果非零的话,将会在 RNN 的输出上加个 dropout ,最后一层除外
