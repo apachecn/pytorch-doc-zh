@@ -543,8 +543,8 @@ See :class:`~torch.nn.Threshold` for more details.
 def relu(input, inplace=False):
     """relu(input, threshold, value, inplace=False) -> Variable
 
-    Applies the rectified linear unit function element-wise. See
-    :class:`~torch.nn.ReLU` for more details.
+    以元素的方式应用修正线性单元函数. 见类
+    `~torch.nn.ReLU` 可以获取更多细节.
     """
     return threshold(input, 0, 0, inplace)
 
@@ -552,19 +552,19 @@ def relu(input, inplace=False):
 glu = _add_docstr(torch._C._nn.glu, r"""
 glu(input, dim=-1) -> Variable
 
-The gated linear unit. Computes:
+门限线性单元. Computes:
 
 .. math ::
 
     H = A \times \sigma(B)
 
-where `input` is split in half along `dim` to form `A` and `B`.
+其中输入沿着轴拆分为A和B两部分.
 
-See `Language Modeling with Gated Convolutional Networks <https://arxiv.org/abs/1612.08083>`_.
+请参阅 使用门控卷积网络进行语言建模 <https://arxiv.org/abs/1612.08083>.
 
 Args:
-    input (Variable): input variable
-    dim (int): dimension on which to split the input
+    input (Variable): 输入变量
+    dim (int): 指定分裂的轴
 """)
 
 hardtanh = _add_docstr(torch._C._nn.hardtanh, r"""
@@ -578,9 +578,9 @@ details.
 def relu6(input, inplace=False):
     r"""relu6(input, inplace=False) -> Variable
 
-    Applies the element-wise function :math:`{ReLU6}(x) = min(max(0,x), 6)`.
+    以元素方式应用HardTanh函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
 
-    See :class:`~torch.nn.ReLU6` for more details.
+    请参阅 :class:`~torch.nn.ReLU6` 可以获取更多细节.
     """
     return hardtanh(input, 0, 6, inplace)
 
@@ -588,22 +588,22 @@ def relu6(input, inplace=False):
 elu = _add_docstr(torch._C._nn.elu, r"""
 elu(input, alpha=1., inplace=False) -> Variable
 
-Applies element-wise,
+以元素方式使用,
 :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`.
 
-See :class:`~torch.nn.ELU` for more details.
+请参阅 :class:`~torch.nn.ELU` 可以获取更多细节.
 """)
 
 
 def selu(input, inplace=False):
     r"""selu(input, inplace=False) -> Variable
 
-    Applies element-wise,
+    以元素方式使用,
     :math:`f(x) = scale * (\max(0,x) + \min(0, alpha * (\exp(x) - 1)))`,
     with ``alpha=1.6732632423543772848170429916717`` and
     ``scale=1.0507009873554804934193349852946``.
 
-    See :class:`~torch.nn.SELU` for more details.
+    请参阅 :class:`~torch.nn.SELU` 可以获取更多细节.
     """
     return _functions.thnn.SELU.apply(input, inplace)
 
@@ -611,10 +611,10 @@ def selu(input, inplace=False):
 leaky_relu = _add_docstr(torch._C._nn.leaky_relu, r"""
 leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 
-Applies element-wise,
+以元素方式使用,
 :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
-See :class:`~torch.nn.LeakyReLU` for more details.
+请参阅 :class:`~torch.nn.LeakyReLU` 可以获取更多细节.
 """)
 
 
@@ -624,11 +624,11 @@ See :class:`~torch.nn.LeakyReLU` for more details.
 def prelu(input, weight):
     r"""prelu(input, weight) -> Variable
 
-    Applies element-wise the function
+    以元素方式使用方法
     :math:`PReLU(x) = max(0,x) + weight * min(0,x)` where weight is a
     learnable parameter.
 
-    See :class:`~torch.nn.PReLU` for more details.
+    请参阅 :class:`~torch.nn.PReLU` 可以获取更多细节.
     """
     return _functions.thnn.PReLU.apply(input, weight)
 
@@ -640,17 +640,17 @@ rrelu(input, lower=1./8, upper=1./3, training=False, inplace=False) -> Variable
 logsigmoid = _add_docstr(torch._C._nn.log_sigmoid, r"""
 logsigmoid(input) -> Variable
 
-Applies element-wise :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
+以元素方式使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
-See :class:`~torch.nn.LogSigmoid` for more details.
+请参阅 :class:`~torch.nn.LogSigmoid` 可以获取更多细节.
 """)
 
 hardshrink = _add_docstr(torch._C._nn.hardshrink, r"""
 hardshrink(input, lambd=0.5) -> Variable
 
-Applies the hard shrinkage function element-wise
+以元素方式使用 hard shrinkage 方法
 
-See :class:`~torch.nn.Hardshrink` for more details.
+请参阅 :class:`~torch.nn.Hardshrink` 可以获取更多细节.
 
 
 """)
@@ -659,9 +659,9 @@ See :class:`~torch.nn.Hardshrink` for more details.
 def tanhshrink(input):
     r"""tanhshrink(input) -> Variable
 
-    Applies element-wise, :math:`Tanhshrink(x) = x - Tanh(x)`
+    以元素方式使用, :math:`Tanhshrink(x) = x - Tanh(x)`
 
-    See :class:`~torch.nn.Tanhshrink` for more details.
+    请参阅 :class:`~torch.nn.Tanhshrink` 可以获取更多细节.
     """
     return input - input.tanh()
 
@@ -669,9 +669,9 @@ def tanhshrink(input):
 def softsign(input):
     r"""softsign(input) -> Variable
 
-    Applies element-wise, the function :math:`f(x) = x / (1 + |x|)`
+    以元素方式使用方法 :math:`f(x) = x / (1 + |x|)`
 
-    See :class:`~torch.nn.Softsign` for more details.
+    请参阅 :class:`~torch.nn.Softsign` 可以获取更多细节.
     """
     return input / (input.abs() + 1)
 
@@ -691,16 +691,15 @@ def _get_softmax_dim(name, ndim, stacklevel):
 
 
 def softmin(input, dim=None, _stacklevel=3):
-    r"""Applies a softmin function.
+    r"""使用一个 softmin 函数.
 
-    Note that softmin(x) = softmax(-x). See softmax definition for mathematical formula.
+    注意 softmin(x) = softmax(-x). 请参阅 softmax 数学公式的定义.
 
-    See :class:`~torch.nn.Softmin` for more details.
+    请参阅 :class:`~torch.nn.Softmin` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which softmin will be computed (so every slice
-            along dim will sum to 1).
+        input (Variable): 输入
+        dim (int): softmin 将沿着指定轴 dim 计算(所以沿着轴的切片累加和为 1).
     """
     if dim is None:
         dim = _get_softmax_dim('softmin', input.dim(), _stacklevel)
@@ -708,25 +707,24 @@ def softmin(input, dim=None, _stacklevel=3):
 
 
 def softmax(input, dim=None, _stacklevel=3):
-    r"""Applies a softmax function.
+    r"""使用一个 softmax 函数.
 
-    Softmax is defined as:
+    Softmax被定义为:
 
     :math:`softmax(x) = \frac{exp(x_i)}{\sum_j exp(x_j)}`
 
-    It is applied to all slices along dim, and will rescale them so that the elements
-    lie in the range `(0, 1)` and sum to 1.
+    函数会应用于沿着指定轴的所有切片，并且会标准化结果让每个切片的计算结果映射到（0,1）范围内，让总和为 1.
 
-    See :class:`~torch.nn.Softmax` for more details.
+    请参阅 :class:`~torch.nn.Softmax` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which softmax will be computed.
+        input (Variable): 输入
+        dim (int): softmax 将沿着指定轴 dim 计算.
 
     .. note::
-        This function doesn't work directly with NLLLoss,
-        which expects the Log to be computed between the Softmax and itself.
-        Use log_softmax instead (it's faster and has better numerical properties).
+        该函数不直接与 NLLLoss 一起工作，
+        NLLLoss 期望在 Softmax 和它自身之间计算对数.
+        使用 log_softmax 代替（log_softmax 更快并且对数值型支持度更好）.
 
     """
     if dim is None:
@@ -735,17 +733,17 @@ def softmax(input, dim=None, _stacklevel=3):
 
 
 def log_softmax(input, dim=None, _stacklevel=3):
-    r"""Applies a softmax followed by a logarithm.
+    r"""使用对数形式的 softmax 函数.
 
-    While mathematically equivalent to log(softmax(x)), doing these two
-    operations separately is slower, and numerically unstable. This function
-    uses an alternative formulation to compute the output and gradient correctly.
+    虽然在数学上等同于 log（softmax（x）），但单独执行这两个
+    操作的速度较慢，而且数值不稳定。
+    这个功能使用另一个公式来正确计算输出和梯度。
 
-    See :class:`~torch.nn.LogSoftmax` for more details.
+    请参阅 :class:`~torch.nn.LogSoftmax` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which log_softmax will be computed.
+        input (Variable): 输入
+        dim (int): log_softmax 将沿着指定轴dim计算.
     """
     if dim is None:
         dim = _get_softmax_dim('log_softmax', input.dim(), _stacklevel)
@@ -755,9 +753,9 @@ def log_softmax(input, dim=None, _stacklevel=3):
 def softshrink(input, lambd=0.5):
     r"""softshrink(input, lambd=0.5) -> Variable
 
-    Applies the soft shrinkage function elementwise
+    以元素的方式使用 soft shrinkage 函数
 
-    See :class:`~torch.nn.Softshrink` for more details.
+    请参阅 :class:`~torch.nn.Softshrink` 可以获取更多细节.
     """
     return _functions.thnn.auto.Softshrink.apply(input, lambd)
 
@@ -765,10 +763,10 @@ def softshrink(input, lambd=0.5):
 def tanh(input):
     r"""tanh(input) -> Variable
 
-    Applies element-wise,
+    以元素的方式使用,
     :math:`f(x) = (exp(x) - exp(-x)) / (exp(x) + exp(-x))`
 
-    See :class:`~torch.nn.Tanh` for more details.
+    请参阅 :class:`~torch.nn.Tanh` 可以获取更多细节.
     """
     return input.tanh()
 
@@ -776,9 +774,9 @@ def tanh(input):
 def sigmoid(input):
     r"""sigmoid(input) -> Variable
 
-    Applies the element-wise function :math:`f(x) = 1 / ( 1 + exp(-x))`
+    以元素的方式使用函数 :math:`f(x) = 1 / ( 1 + exp(-x))`
 
-    See :class:`~torch.nn.Sigmoid` for more details.
+    请参阅 :class:`~torch.nn.Sigmoid` 可以获取更多细节.
     """
     return input.sigmoid()
 
