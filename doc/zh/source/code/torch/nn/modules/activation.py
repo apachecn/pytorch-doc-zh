@@ -17,11 +17,11 @@ class Threshold(Module):
     Args:
         threshold: 阈值
         value: 输入值小于阈值则会被value代替
-        inplace: 选择是否进行覆盖运算。默认值: ``False``
+        inplace: 选择是否进行覆盖运算. 默认值: ``False``
         
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
+        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
 
 
     例::
@@ -58,8 +58,8 @@ class ReLU(Threshold):
         inplace: 选择是否进行覆盖运算 Default: ``False``
 
     Shape:
-        - Input: :math:`(N, *)` `*`代表任意数目附加维度
-        - Output: :math:`(N, *)`, 与输入拥有同样的shape属性
+        - Input: :math:`(N, *)` `*` 代表任意数目附加维度
+        - Output: :math:`(N, *)`, 与输入拥有同样的 shape 属性
 
     Examples::
 
@@ -98,7 +98,7 @@ class RReLU(Module):
 
 
 class Hardtanh(Module):
-    r"""对输入的每一个元素运用HardTanh
+    r"""对输入的每一个元素运用 HardTanh
 
     HardTanh被定义为::
 
@@ -109,16 +109,16 @@ class Hardtanh(Module):
     线性区域的范围 :math:`[-1, 1]` 可以被调整
 
     Args:
-        min_val: 线性区域范围最小值。 默认值: -1
-        max_val: 线性区域范围最大值。  默认值: 1
-        inplace: 选择是否进行覆盖运算。 默认值: ``False``
+        min_val: 线性区域范围最小值. 默认值: -1
+        max_val: 线性区域范围最大值.  默认值: 1
+        inplace: 选择是否进行覆盖运算. 默认值: ``False``
 
     关键字参数 :attr:`min_value` 以及 :attr:`max_value` 已被弃用，
     更改为 :attr:`min_val` 和 :attr:`max_val`
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意维度组合
-        - Output: :math:`(N, *)`, 与输入有相同的shape属性
+        - Input: :math:`(N, *)` 其中 `*` 代表任意维度组合
+        - Output: :math:`(N, *)`, 与输入有相同的 shape 属性
 
     例 ::
 
@@ -161,7 +161,7 @@ class ReLU6(Hardtanh):
 
     Shape:
         - Input: :math:`(N, *)`, `*` 代表任意数目附加维度
-        - Output: :math:`(N, *)`, 与输入拥有同样的shape属性
+        - Output: :math:`(N, *)`, 与输入拥有同样的 shape 属性
 
     Examples::
 
@@ -181,11 +181,11 @@ class ReLU6(Hardtanh):
 
 
 class Sigmoid(Module):
-    r"""对每个元素运用Sigmoid函数，Sigmoid 定义如下 :math:`f(x) = 1 / ( 1 + exp(-x))`
+    r"""对每个元素运用 Sigmoid 函数，Sigmoid 定义如下 :math:`f(x) = 1 / ( 1 + exp(-x))`
 
     Shape:
         - Input: :math:`(N, *)` `*` 表示任意维度组合
-        - Output: :math:`(N, *)`, 与输入有相同的shape属性
+        - Output: :math:`(N, *)`, 与输入有相同的 shape 属性
 
     Examples::
 
@@ -208,7 +208,7 @@ class Tanh(Module):
 
     Shape:
         - Input: :math:`(N, *)` `*` 表示任意维度组合
-        - Output: :math:`(N, *)`, 与输入有相同的shape属性
+        - Output: :math:`(N, *)`, 与输入有相同的 shape 属性
 
     Examples::
 
@@ -307,7 +307,7 @@ class GLU(Module):
         dim (int): the dimension on which to split the input. Default: -1
 
     Shape:
-        - Input: :math:`(*, N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(*, N, *)` 其中 `*` 代表任意数目的附加维度
         - Output: :math:`(*, N / 2, *)`
 
     Examples::
@@ -336,10 +336,10 @@ class Hardshrink(Module):
         f(x) = 0, otherwise
 
     Args:
-        lambd: Hardshrink公式中的beta值. 默认值: 0.5
+        lambd: Hardshrink 公式中的 beta 值. 默认值: 0.5
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
         - Output: :math:`(N, *)`, 和输入的格式shape一致
 
     例::
@@ -371,7 +371,7 @@ class LeakyReLU(Module):
         inplace: 选择是否进行覆盖运算 默认值: ``False``
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
         - Output: :math:`(N, *)`, 和输入的格式shape一致
 
     例::
@@ -433,7 +433,7 @@ class Softplus(Module):
         threshold: 阈值. 当输入到该值以上时我们的SoftPlus实现将还原为线性函数. 默认值: 20
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
           dimensions
         - Output: :math:`(N, *)`, 和输入的格式shape一致
 
@@ -471,7 +471,7 @@ class Softshrink(Module):
         lambd: Softshrink公式中的lambda值. Default: 0.5
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
         - Output: :math:`(N, *)`, 和输入的格式shape一致
 
     例::
@@ -497,8 +497,8 @@ class Softshrink(Module):
 class PReLU(Module):
     r"""对输入的每一个元素运用函数
     :math:`PReLU(x) = max(0,x) + a * min(0,x)` 这里的 "a" 是自学习的参数.
-    当不带参数地调用时, nn.PReLU()在所有输入通道中使用单个参数 "a" 。 
-    而如果用nn.PReLU(nChannels)调用, "a" 将应用到每个输入。
+    当不带参数地调用时, nn.PReLU()在所有输入通道中使用单个参数 "a" . 
+    而如果用nn.PReLU(nChannels)调用, "a" 将应用到每个输入.
 
 
     .. note::
@@ -509,8 +509,8 @@ class PReLU(Module):
         init: "a" 的初始值，默认等于0.25
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
+        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
 
     例::
 
@@ -537,8 +537,8 @@ class Softsign(Module):
     r"""对输入的每一个元素运用函数 :math:`f(x) = x / (1 + |x|)`
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
+        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
 
     例::
 
@@ -578,8 +578,8 @@ class Tanhshrink(Module):
 
 
 class Softmin(Module):
-    r"""对n维输入张量运用Softmin函数, 将张量的每个元素缩放到
-    （0,1）区间且和为1。
+    r"""对n维输入张量运用 Softmin 函数, 将张量的每个元素缩放到
+    (0,1) 区间且和为 1.
 
     :math:`f(x) = \frac{\exp(-x_i)}{\sum_j \exp(-x_j)}`
 
@@ -588,10 +588,10 @@ class Softmin(Module):
         - Output: 和输入相同
 
     Arguments:
-        dim (int): 这是将计算Softmax的那个维度 (所以每个沿着dim的切片和为1).
+        dim (int): 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1).
 
     Returns:
-        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间。
+        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间.
 
     例::
 
@@ -612,8 +612,8 @@ class Softmin(Module):
 
 
 class Softmax(Module):
-    r"""对n维输入张量运用Softmax函数, 将张量的每个元素缩放到
-    （0,1）区间且和为1。Softmax函数定义如下
+    r"""对n维输入张量运用 Softmax 函数, 将张量的每个元素缩放到
+    (0,1) 区间且和为1. Softmax 函数定义如下
     :math:`f_i(x) = \frac{\exp(x_i)}{\sum_j \exp(x_j)}`
 
     Shape:
@@ -628,8 +628,8 @@ class Softmax(Module):
 
     .. note::
 
-        如果你想对原始Softmax数据计算Log进行收缩, 并不能使该模块直接使用NLLLoss负对数似然损失函数.
-        取而代之, 应该使用Logsoftmax（它有更快的运算速度和更好的数值性质）.
+        如果你想对原始 Softmax 数据计算 Log 进行收缩, 并不能使该模块直接使用 NLLLoss 负对数似然损失函数.
+        取而代之, 应该使用 Logsoftmax （它有更快的运算速度和更好的数值性质）.
 
     例::
 
@@ -656,17 +656,17 @@ class Softmax(Module):
 
 
 class Softmax2d(Module):
-    r"""把SoftMax应用于每个空间位置的特征. 
+    r"""把 SoftMax 应用于每个空间位置的特征. 
 
-    给定图片的 通道数Channels x 高Height x 宽Width, 它将对图片的每一个位置
-    使用Softmax :math:`(Channels, h_i, w_j)`
+    给定图片的 通道数 Channels x 高 Height x 宽 Width, 它将对图片的每一个位置
+    使用 Softmax :math:`(Channels, h_i, w_j)`
 
     Shape:
         - Input: :math:`(N, C, H, W)`
         - Output: :math:`(N, C, H, W)` (格式shape与输入相同)
 
     Returns:
-        一个维度及格式shape都和输入相同的Tensor, 取值范围在[0, 1]
+        一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在[0, 1]
 
     例::
 
@@ -686,7 +686,7 @@ class Softmax2d(Module):
 
 
 class LogSoftmax(Module):
-    r"""对每个输入的n维Tensor使用Log(Softmax(x)). 
+    r"""对每个输入的 n 维 Tensor 使用 Log(Softmax(x)). 
     LogSoftmax 公式可简化为
 
     :math:`f_i(x) = log(exp(x_i) / sum_j exp(x_j) )`
