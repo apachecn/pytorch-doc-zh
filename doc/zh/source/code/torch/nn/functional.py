@@ -552,7 +552,7 @@ def relu(input, inplace=False):
 glu = _add_docstr(torch._C._nn.glu, r"""
 glu(input, dim=-1) -> Variable
 
-门限线性单元. Computes:
+门控线性单元. Computes:
 
 .. math ::
 
