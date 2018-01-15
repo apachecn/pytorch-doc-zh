@@ -2,10 +2,10 @@
 这个包增加了对CUDA tensor(张量)类型的支持,利用GPUs计算实现了与CPU tensors相同的类型.
 
 
-这个是lazily initialized(懒加载，延迟加载), 所以你可以一直导入它,并且可以用 :func: `is_available()` 来判断
+这个是lazily initialized(懒加载，延迟加载), 所以你可以一直导入它,并且可以用 :func:`is_available()` 来判断
 你的系统是否支持CUDA.
 
-:ref: `cuda-semantics` 有更多关于使用CUDA的细节.
+:ref:`cuda-semantics` 有更多关于使用CUDA的细节.
 """
 
 import contextlib
@@ -211,7 +211,7 @@ class device_of(device):
 def set_device(device):
     """设置当前设备.
 
-    不鼓励使用这个函数 :any: `device` . 
+    不鼓励使用这个函数 :any:`device` . 
     在大多数情况下，最好使用 ``CUDA_VISIBLE_DEVICES`` 环境变量.
 
     Arguments:
@@ -285,7 +285,7 @@ def synchronize():
 
 
 def current_stream():
-    """返回当前选择的 :class: `Stream` ."""
+    """返回当前选择的 :class:`Stream` ."""
     _lazy_init()
     return torch.cuda.Stream(_cdata=torch._C._cuda_getCurrentStream())
 

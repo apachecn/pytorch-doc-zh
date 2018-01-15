@@ -152,7 +152,7 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
         dim (int, optional): 分块张量沿着的维度
 
     Returns:
-        一个元组包含 ``tensor``块, 传递给 ``devices``.
+        一个元组包含 ``tensor`` 块, 传递给 ``devices`` .
     """
     if chunk_sizes is None:
         chunks = tensor.chunk(len(devices), dim)

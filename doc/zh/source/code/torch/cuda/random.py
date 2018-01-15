@@ -65,7 +65,7 @@ def manual_seed(seed):
 
     .. warning::
         如果您正在使用多GPU模型,则此功能不足以获得确定性.  
-        seef作用于所有GPUs, 使用 :func: `manual_seed_all` .
+        seef作用于所有GPUs, 使用 :func:`manual_seed_all` .
     """
     _lazy_call(lambda: _C._cuda_manualSeed(seed))
 
@@ -86,7 +86,7 @@ def seed():
 
     .. warning::
         如果您正在使用多GPU模型，则此功能不足以获得确定性.  
-        seef作用于所有GPUs, 使用 :func: `manual_seed_all` .
+        seef作用于所有GPUs, 使用 :func:`manual_seed_all` .
     """
     _lazy_call(lambda: _C._cuda_seed())
 
