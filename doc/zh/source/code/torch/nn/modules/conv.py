@@ -64,81 +64,52 @@ class _ConvNd(Module):
 
 
 class Conv1d(_ConvNd):
-    r"""Applies a 1D convolution over an input signal composed of several input
-    planes.
-
-    In the simplest case, the output value of the layer with input size
-    :math:`(N, C_{in}, L)` and output :math:`(N, C_{out}, L_{out})` can be
-    precisely described as:
+    r"""一维卷基层
+    输入矩阵的维度为 :math:`(N, C_{in}, L)`, 输出矩阵维度为:math:`(N, C_{out}, L_{out})`。其中N为输入数量，C为向量长度，L为卷积层数
+    算法如下：
 
     .. math::
 
         \begin{array}{ll}
         out(N_i, C_{out_j})  = bias(C_{out_j})
-                       + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
+                       + \sum_{{k}=0}^{C_{in}-1} wight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    where :math:`\star` is the valid `cross-correlation`_ operator
+    :math:`\star` 是互相关运算符，上式带:math:`\star`项为卷积项。
 
-    | :attr:`stride` controls the stride for the cross-correlation, a single
-      number or a tuple.
-    | :attr:`padding` controls the amount of implicit zero-paddings on both
-    |  sides for :attr:`padding` number of points.
-    | :attr:`dilation` controls the spacing between the kernel points; also
-      known as the à trous algorithm. It is harder to describe, but this `link`_
-      has a nice visualization of what :attr:`dilation` does.
-    | :attr:`groups` controls the connections between inputs and outputs.
-      `in_channels` and `out_channels` must both be divisible by `groups`.
-    |       At groups=1, all inputs are convolved to all outputs.
-    |       At groups=2, the operation becomes equivalent to having two conv
-                 layers side by side, each seeing half the input channels,
-                 and producing half the output channels, and both subsequently
-                 concatenated.
-            At groups=`in_channels`, each input channel is convolved with its
-                 own set of filters (of size `out_channels // in_channels`).
+    | :attr:`stride` 计算相关系数的步长，可以为 tuple 。
+    | :attr:`padding` 处理边界时在两侧补0数量  
+    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样，如对(a,b,c,d,e)采样时，若池化规模为2，
+    dilation 为1时，使用(a,b);(b,c)...进行池化，dilation为1时，使用(a,c);(b,d)...进行池化。
+    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
+    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出。
+         `in_channels` 和 `out_channels`都要可以被 groups 整除。
 
-    .. note::
 
-         Depending of the size of your kernel, several (of the last)
-         columns of the input might be lost, because it is a valid
-         `cross-correlation`_, and not a full `cross-correlation`_.
-         It is up to the user to add proper padding.
 
-    .. note::
+    参数:
+        in_channels (int):  输入信号的通道数。
+        out_channels (int): 卷积后输出结果的通道数。
+        kernel_size (int or tuple): 卷积核的形状。
+        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
+        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
+        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
+        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
+        bias (bool, optional): 为 ``True`` 时， 添加偏置。
 
-         The configuration when `groups == in_channels` and `out_channels = K * in_channels`
-         where `K` is a positive integer is termed in literature as depthwise convolution.
-
-         In other words, for an input of size :math:`(N, C_{in}, L_{in})`, if you want a
-         depthwise convolution with a depthwise multiplier `K`,
-         then you use the constructor arguments
-         :math:`(in\_channels=C_{in}, out\_channels=C_{in} * K, ..., groups=C_{in})`
-
-    Args:
-        in_channels (int): Number of channels in the input image
-        out_channels (int): Number of channels produced by the convolution
-        kernel_size (int or tuple): Size of the convolving kernel
-        stride (int or tuple, optional): Stride of the convolution. Default: 1
-        padding (int or tuple, optional): Zero-padding added to both sides of
-            the input. Default: 0
-        dilation (int or tuple, optional): Spacing between kernel
-            elements. Default: 1
-        groups (int, optional): Number of blocked connections from input
-            channels to output channels. Default: 1
-        bias (bool, optional): If ``True``, adds a learnable bias to the output. Default: ``True``
-
-    Shape:
-        - Input: :math:`(N, C_{in}, L_{in})`
-        - Output: :math:`(N, C_{out}, L_{out})` where
+    形状:
+        - 输入 Input: :math:`(N, C_{in}, L_{in})`
+        - 输出 Output: :math:`(N, C_{out}, L_{out})` 其中 
           :math:`L_{out} = floor((L_{in}  + 2 * padding - dilation * (kernel\_size - 1) - 1) / stride + 1)`
 
-    Attributes:
-        weight (Tensor): the learnable weights of the module of shape
+    变量:
+        weight (Tensor): 卷积的权重，是模型需要学习的变量，形状为
             (out_channels, in_channels, kernel_size)
-        bias (Tensor):   the learnable bias of the module of shape
+        bias (Tensor):   偏置，是模型需要学习的变量，形状为
             (out_channels)
 
-    Examples::
+    样例::
 
         >>> m = nn.Conv1d(16, 33, 3, stride=2)
         >>> input = autograd.Variable(torch.randn(20, 16, 50))
