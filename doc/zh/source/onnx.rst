@@ -2,11 +2,11 @@ torch.onnx
 ============
 .. automodule:: torch.onnx
 
-示例：端对端AlexNet模型从Pytorch转化为Caffe2
+示例:从Pytorch到Caffe2的端对端AlexNet模型
 --------------------------------------------------
 
-这里是一个简单的脚本程序，它将一个在torchvision中已经定义的预训练AlexNet模型导出到ONNX格式。
-它会运行一次，然后把模型保存至 ``alexnet.proto``::
+这里是一个简单的脚本程序,它将一个在 torchvision 中已经定义的预训练 AlexNet 模型导出到 ONNX 格式.
+它会运行一次,然后把模型保存至 ``alexnet.proto``::
 
     from torch.autograd import Variable
     import torch.onnx
@@ -16,7 +16,7 @@ torch.onnx
     model = torchvision.models.alexnet(pretrained=True).cuda()
     torch.onnx.export(model, dummy_input, "alexnet.proto", verbose=True)
 
-得到的 ``alexnet.proto`` 是一个protobuf二值文件，它包含所导出模型（这里是AlexNet）中网络架构和网络参数。
+得到的 ``alexnet.proto`` 是一个 protobuf 二值文件，它包含所导出模型 ( 这里是 AlexNet )中网络架构和网络参数.
 关键参数 ``verbose=True`` 会使导出过程中打印出该网络的可读表示::
 
     # All parameters are encoded explicitly as inputs.  By convention,
@@ -47,8 +47,8 @@ torch.onnx
       return (%58);
     }
 
-你可以验证使用 `onnx <https://github.com/onnx/onnx/>`_ 库验证 protobuf.
-你可以用 conda 安装 ``onnx`` ::
+你可以使用 `onnx <https://github.com/onnx/onnx/>`_ 库验证 protobuf,
+并且用 conda 安装 ``onnx`` ::
 
     conda install -c conda-forge onnx
 
@@ -67,15 +67,15 @@ torch.onnx
 
 为了能够使用 `caffe2 <https://caffe2.ai/>`_ 运行脚本, 你需要三样东西:
 
-1. 你需要安装Caffe。如果你之前没有安装，请参照
-   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_.
+1. 你需要安装 Caffe2. 如果你之前没有安装,请参照
+   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_。
 
-2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_, 一个纯Python的库，它为ONNX提供了Caffe2的
-   后端。你可以使用pip安装 ``onnx-caffe2``::
+2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_,一个纯 Python 的库,它为 ONNX 提供了 Caffe2 的
+   后端.你可以使用 pip 安装 ``onnx-caffe2``::
 
       pip install onnx-caffe2
 
-一旦这些安装完成，你就可以使用Caffe2的后端::
+一旦这些安装完成,你就可以使用 Caffe2 的后端::
 
     # ...continuing from above
     import onnx_caffe2.backend as backend
@@ -91,19 +91,19 @@ torch.onnx
     # rather than a single numpy ndarray.
     print(outputs[0])
 
-之后，我们还会提供其它深度学习框架的后端支持。
+之后,我们还会提供其它深度学习框架的后端支持.
 
 局限
 -----------
 
-* ONNX导出器是一个基本轨迹的导出器，这意味着它执行时需要运行你的模型一次，然后导出实际运算的运算符。
-  这也意味着，如果你的模型是动态的，例如，改变一些依赖于输入数据的操作，这时的导出是不准确的。同样，一
-  个轨迹可能只对一个具体的输入尺寸有效（这是为什么我们在轨迹中需要明确的输入的原因之一。）我们推荐检查
-  模型的轨迹，确保被追踪的运算符是可行的。
+* ONNX 导出器是一个基于轨迹的导出器,这意味着它执行时需要运行一次模型,然后导出实际参与运算的运算符.
+  这也意味着，如果你的模型是动态的,例如,改变一些依赖于输入数据的操作,这时的导出结果是不准确的.同样,一
+  个轨迹可能只对一个具体的输入尺寸有效（这是为什么我们在轨迹中需要有明确的输入的原因之一.）我们建议检查
+  模型的轨迹,确保被追踪的运算符是合理的.
 
-* Pytorch和Caffe2中的一些运算符经常有着数值上的差异。根据模型的结构，这些差异可能是微小的，但它们会在
-  表现上产生很大的差异（尤其是对未训练的模型。）之后，为了帮助你在准确度要求很高的时候，能够轻松地避免这
-  些差异带来的影响，我们计划让Caffe2能够直接调用Torch的运算符。
+* Pytorch 和 Caffe2 中的一些运算符经常有着数值上的差异.根据模型的结构,这些差异可能是微小的,但它们会在
+  表现上产生很大的差别（尤其是对于未训练的模型.）之后,为了帮助你在准确度要求很高的情况中,能够轻松地避免这
+  些差异带来的影响,我们计划让 Caffe2 能够直接调用 Torch 的运算符.
 
 
 支持的运算符
@@ -155,13 +155,13 @@ torch.onnx
 * AlexNet
 * DCGAN
 * DenseNet
-* Inception (注意: 这个模型对操作符十分敏感)
+* Inception (注意:该模型对操作符十分敏感)
 * ResNet
 * SuperResolution
 * VGG
 * `word_language_model <https://github.com/pytorch/examples/tree/master/word_language_model>`_
 
-用于指定运算符定义的接口是高度实验性的，并且还没有记录;喜欢探索的用户应该注意，这些API可能会在之后中被修改。
+用于指定运算符定义的接口是高度实验性的,并且还没有记录.喜欢探索的用户应该注意,这些API可能会在之后被修改.
 
 Functions
 --------------------------
