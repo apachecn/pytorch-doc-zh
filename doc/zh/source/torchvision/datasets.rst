@@ -9,8 +9,8 @@ torchvision.datasets中包含了以下数据集
 Datasets 拥有以下的API:
 __getitem__ 和 __len__
 
-由于以上Datasets都是 torch.utils.data.Dataset的子类，所以，
-他们也可以通过torch.utils.data.DataLoader使用多线程（python的多进程）。
+由于以上Datasets都是 torch.utils.data.Dataset的子类，所以他们也
+可以通过torch.utils.data.DataLoader使用多线程(python的多进程).
 
 举例说明: ::
     
@@ -21,7 +21,7 @@ __getitem__ 和 __len__
                                               num_workers=args.nThreads)
 
 在构造函数中，不同的数据集直接的构造函数会有些许不同, 但是他们都拥有下面的 keyword 参数:
-``transform``: 输入原始图片，返回转换后的图片。
+``transform``: 输入原始图片，返回转换后的图片.
 ``target_transform``: 输入为 target, 返回转换后的 target.
 
 
