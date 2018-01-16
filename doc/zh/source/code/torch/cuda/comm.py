@@ -6,7 +6,7 @@ from torch._utils import _accumulate, _take_tensors, _flatten_dense_tensors, \
 
 
 def broadcast(tensor, devices):
-    """将张量广播给多个GPU.
+    """将张量广播给多个 GPU .
 
     Arguments:
         tensor (Tensor): 需要广播的张量.
@@ -28,7 +28,7 @@ def broadcast(tensor, devices):
 
 
 def broadcast_coalesced(tensors, devices, buffer_size=10485760):
-    """将序列张量广播到指定的GPUs.
+    """将序列张量广播到指定的 GPUs .
 
     小张量首先合并到一个缓冲区中以减少同步的次数.
 
@@ -66,9 +66,9 @@ def broadcast_coalesced(tensors, devices, buffer_size=10485760):
 
 
 def reduce_add(inputs, destination=None):
-    """从多个GPU中收集张量.
+    """从多个 GPU 中收集张量.
 
-    所有的输入应该有匹配的shapes(形状).
+    所有的输入应该有匹配的 shapes (形状).
 
     Arguments:
         inputs (Iterable[Tensor]): 添加一个可迭代的张量.
@@ -107,7 +107,7 @@ def reduce_add(inputs, destination=None):
 
 
 def reduce_add_coalesced(inputs, destination=None, buffer_size=10485760):
-    """从多个GPU中收集张量.
+    """从多个 GPU 中收集张量.
 
     小张量首先合并到一个缓冲区中以减少同步的次数.
 
@@ -142,7 +142,7 @@ def reduce_add_coalesced(inputs, destination=None, buffer_size=10485760):
 
 
 def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
-    """分散张量到多个GPU.
+    """分散张量到多个 GPU.
 
     Arguments:
         tensor (Tensor): 需要分散的张量.
@@ -152,7 +152,7 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
         dim (int, optional): 分块张量沿着的维度
 
     Returns:
-        一个元组包含 ``tensor``块, 传递给 ``devices``.
+        一个元组包含 ``tensor`` 块, 传递给 ``devices`` .
     """
     if chunk_sizes is None:
         chunks = tensor.chunk(len(devices), dim)
@@ -175,7 +175,7 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
 
 
 def gather(tensors, dim=0, destination=None):
-    """从多个GPU收集张量.
+    """从多个 GPU 收集张量.
 
     张量尺寸在不同于 ``dim`` 的维度上都应该匹配.
 
