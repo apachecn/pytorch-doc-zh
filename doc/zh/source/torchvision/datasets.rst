@@ -4,7 +4,7 @@ torchvision.datasets
 所有的数据集都是 :class:`torch.utils.data.Dataset` 类的子类,
 也就是说, 他们内部都实现了 ``__getitem__`` 和 ``__len__`` 这两个方法.
 同时, 他们也都可以传递给类 :class:`torch.utils.data.Dataset`,
-它可以使用 ``torch.multiprocessing`` 工作起来并行的加载多个样本.
+它可以使用 ``torch.multiprocessing`` 工作器来并行的加载多个样本.
 
 例子: ::
     
