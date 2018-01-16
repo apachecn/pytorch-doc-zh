@@ -64,7 +64,7 @@ class _ConvNd(Module):
 
 
 class Conv1d(_ConvNd):
-    r"""一维卷基层
+    r"""一维卷积层
     输入矩阵的维度为 :math:`(N, C_{in}, L)`, 输出矩阵维度为:math:`(N, C_{out}, L_{out})`。其中N为输入数量，C为向量长度，L为卷积层数
     算法如下：
 
