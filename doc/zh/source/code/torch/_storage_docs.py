@@ -28,16 +28,14 @@ add_docstr_all('from_file',
                """
 from_file(filename, shared=False, size=0) -> Storage
 
-If shared is True then memory is shared between all processes. All changes are
-written to the file. If shared is False then the changes on the storage do not
-affect the file.
+如果shared为True，那么内存将会在所有进程间共享。所有的更改都会被写入文件。如果shared为False，
+那么对于内存的修改，则不会影响到文件。
 
-Size is the number of elements in the storage. If shared is False then the file
-must contain at least `size * sizeof(Type)` bytes (`Type` is the type of
-storage). If shared is True the file will be created if needed.
+size是存储中所包含的元素个数。如果shared为False则文件必须包含至少`size * sizeof(Type)`字节
+（`Type`是所存储的类型）。如果shared为True，文件会在需要的时候被创建。
 
 Args:
-    filename (str): file name to map
-    shared (bool): whether to share memory
-    size (int): number of elements in the storage
+    filename (str): 要映射到的文件名
+    shared (bool): 是否共享内存
+    size (int): 存储中包含元素的个数
 """)

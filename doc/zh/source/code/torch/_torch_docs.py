@@ -577,18 +577,16 @@ add_docstr(torch._C.cat,
            """
 cat(seq, dim=0, out=None) -> Tensor
 
-Concatenates the given sequence of :attr:`seq` Tensors in the given dimension.
+在给定维度上对输入的张量序列 :attr:`seq` 进行连接操作.
 
-:func:`torch.cat` can be seen as an inverse operation for :func:`torch.split`
-and :func:`torch.chunk`
+:func:`torch.cat` 可以看做是 :func:`torch.split` 和 :func:`torch.chunk` 的逆操作.
 
-:func:`cat` can be best understood via examples.
+:func:`cat` 可以通过下面的例子更好地理解.
 
 Args:
-    seq (sequence of Tensors): Can be any python sequence of `Tensor`
-        of the same type.
-    dim (int, optional): The dimension over which the tensors are concatenated
-    out (Tensor, optional): Output argument
+    seq (sequence of Tensors): 可以是任何相同类型的 `Tensor` 的 Python 序列.
+    dim (int, optional): tensors 级联的维数
+    out (Tensor, optional): 输出参数
 
 Example::
 
@@ -1335,15 +1333,15 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.
+返回对角线位置全为1，其它位置全为0的二维 tensor.
 
 Args:
-    n (int): Number of rows
-    m (int, optional): Number of columns. If None, defaults to `n`
-    out (Tensor, optional): Output tensor
+    n (int): 行数
+    m (int, optional): 列数. 如果为 None,则默认为 `n`
+    out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: a 2-D tensor with ones on the diagonal and zeros elsewhere
+    Tensor: 一个对角线位置全为1，其它位置全为0的二维 tensor.
 
 Example::
 
@@ -1434,11 +1432,11 @@ add_docstr(torch._C.from_numpy,
            """
 from_numpy(ndarray) -> Tensor
 
-Creates a :class:`Tensor` from a :class:`numpy.ndarray`.
+从 :class:`numpy.ndarray` 类 创建一个 :class:`Tensor` 类.
 
-The returned tensor and `ndarray` share the same memory. Modifications to the
-tensor will be reflected in the `ndarray` and vice versa. The returned tensor
-is not resizable.
+返回 tensor 和 `ndarray` 共享相同的内存。 
+对 tensor 的修改将反映在 `ndarray` 中，反之亦然。 
+返回 tensor 不可调整大小。
 
 Example::
 
@@ -1455,25 +1453,21 @@ add_docstr(torch._C.gather,
            """
 gather(input, dim, index, out=None) -> Tensor
 
-Gathers values along an axis specified by `dim`.
+沿给定轴 `dim` ,将输入索引张量 `index` 指定位置的值进行聚合.
 
-For a 3-D tensor the output is specified by::
+对一个 3 维张量,输出可以定义为::
 
     out[i][j][k] = input[index[i][j][k]][j][k]  # if dim == 0
     out[i][j][k] = input[i][index[i][j][k]][k]  # if dim == 1
     out[i][j][k] = input[i][j][index[i][j][k]]  # if dim == 2
 
-If :attr:`input` is an n-dimensional tensor with size
-:math:`(x_0, x_1..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})`
-and :attr:`dim` = i, then :attr:`index` must be an n-dimensional tensor with
-size :math:`(x_0, x_1, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})` where y >= 1 and
-:attr:`out` will have the same size as :attr:`index`.
+如果 :attr:`input` 是 size 为 :math:`(x_0, x_1..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})` 且 :attr:`dim` = i 的 n 维张量,则 :attr:`index` 必须是具有 size 为 :math:`(x_0, x_1, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})` 的 n 维张量,其中 y >= 1 ,并且 :attr:`out` 将与 :attr:`index` 的 size 相同.
 
 Args:
-    input (Tensor): The source tensor
-    dim (int): The axis along which to index
-    index (LongTensor): The indices of elements to gather
-    out (Tensor, optional): Destination tensor
+    input (Tensor): 源张量
+    dim (int): 索引的轴
+    index (LongTensor): 聚合元素的下标
+    out (Tensor, optional): 目标张量
 
 Example::
 
@@ -1736,20 +1730,17 @@ add_docstr(torch._C.index_select,
            """
 index_select(input, dim, index, out=None) -> Tensor
 
-Returns a new `Tensor` which indexes the :attr:`input` `Tensor` along dimension
-:attr:`dim` using the entries in :attr:`index` which is a `LongTensor`.
+沿着指定维度 :attr:`dim` 对输入进行切片,取 :attr:`index` 中指定的相应项（ :attr:`index`  为一个 `LongTensor`）,然后返回到一个新的张量.
 
-The returned `Tensor` has the same number of dimensions as
-the original `Tensor`.
+ 返回的张量与原始张量 `Tensor` 有相同的维度(在指定轴上).
 
-.. note:: The returned `Tensor` does **not** use the same storage as
-          the original `Tensor`
+.. note:: 返回的张量不与原始张量共享内存空间.
 
 Args:
-    input (Tensor): Input data
-    dim (int): the dimension in which we index
-    index (LongTensor): the 1D tensor containing the indices to index
-    out (Tensor, optional): Output argument
+    input (Tensor): 输入张量
+    dim (int): 索引的轴
+    index (LongTensor): 包含索引下标的一维张量
+    out (Tensor, optional): 输出参数/目标张量
 
 Example::
 
@@ -1974,17 +1965,15 @@ add_docstr(torch._C.linspace,
            """
 linspace(start, end, steps=100, out=None) -> Tensor
 
-Returns a one-dimensional Tensor of :attr:`steps`
-equally spaced points between :attr:`start` and :attr:`end`
+返回 :attr:`start` 和 :attr:`end` 之间等 :attr:`steps` 点的一维 Tensor.
 
-The output tensor is 1D of size :attr:`steps`
+输出 是尺寸 :attr:`steps` 为一维 tensor 
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    steps (int): Number of points to sample between :attr:`start`
-        and :attr:`end`
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    steps (int): 在 :attr:`start` 和 :attr:`end` 之间采样的点数
+    out (Tensor, optional): 输出结果的 `Tensor`
 
 Example::
 
@@ -2093,17 +2082,15 @@ add_docstr(torch._C.logspace,
            """
 logspace(start, end, steps=100, out=None) -> Tensor
 
-Returns a one-dimensional Tensor of :attr:`steps` points
-logarithmically spaced between :math:`10^{start}` and :math:`10^{end}`
+返回一个在 :math:`10^{start}` 和 :math:`10^{end}` 之间的对数间隔 :attr:`steps` 点的一维 Tensor
 
-The output is a 1D tensor of size :attr:`steps`
+输出是尺寸 :attr:`steps` 的一维 tensor
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    steps (int): Number of points to sample between
-        :attr:`start` and :attr:`end`
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    steps (int): 在 :attr:`start` 和 :attr:`end` 之间采样点的数量
+    out (Tensor, optional): 输出结果`Tensor`
 
 Example::
 
@@ -2158,19 +2145,16 @@ add_docstr(torch._C.masked_select,
            """
 masked_select(input, mask, out=None) -> Tensor
 
-Returns a new 1D `Tensor` which indexes the :attr:`input` `Tensor` according to
-the binary mask :attr:`mask` which is a `ByteTensor`.
+根据掩码张量 :attr:`mask` 中的二元值,取输入张量中的指定项（ :attr:`mask` 为一个 `ByteTensor` ）,将取值返回到一个新的一维张量.
 
-The shapes of the :attr:`mask` tensor and the :attr:`input` tensor don't need
-to match, but they must be :ref:`broadcastable <broadcasting-semantics>`.
+张量 :attr:`mask` 与 :attr:`input` 的 shape 或维度不需要相同,但是他们必须是 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. note:: The returned `Tensor` does **not** use the same storage
-          as the original `Tensor`
+.. note:: 返回的张量不与原始张量共享内存空间.
 
 Args:
-    input (Tensor): Input data
-    mask  (ByteTensor): the tensor containing the binary mask to index with
-    out (Tensor, optional): Output argument
+    input (Tensor): 输入张量
+    mask  (ByteTensor): 掩码张量,包含了二元索引值
+    out (Tensor, optional): 输出参数/目标张量
 
 Example::
 
@@ -2884,17 +2868,13 @@ add_docstr(torch._C.nonzero,
            """
 nonzero(input, out=None) -> LongTensor
 
-Returns a tensor containing the indices of all non-zero elements of
-:attr:`input`.  Each row in the result contains the indices of a non-zero
-element in :attr:`input`.
+返回一个包含输入 :attr:`input` 中非零元素索引的张量.输出张量中的每行包含 :attr:`input` 中非零元素的索引.
 
-If :attr:`input` has `n` dimensions, then the resulting indices Tensor
-:attr:`out` is of size `z x n`, where `z` is the total number of non-zero
-elements in the :attr:`input` Tensor.
+如果输入 :attr:`input` 有 `n` 维,则输出的索引张量 :attr:`out` 的 size 为 `z x n` , 这里 `z` 是输入张量 :attr:`input` 中所有非零元素的个数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (LongTensor, optional): The result `Tensor` containing indices
+    input (Tensor): 输入张量/源张量
+    out (LongTensor, optional): 包含索引值的结果张量
 
 Example::
 
@@ -3094,12 +3074,11 @@ add_docstr(torch._C.ones,
            """
 ones(*sizes, out=None) -> Tensor
 
-Returns a Tensor filled with the scalar value `1`, with the shape defined
-by the varargs :attr:`sizes`.
+返回填充了标量值 `1` 的 Tensor, 其形状由可变参数 :attr:`sizes` 定义.
 
 Args:
-    sizes (int...): a set of ints defining the shape of the output Tensor.
-    out (Tensor, optional): the result Tensor
+    sizes (int...): 一组定义输出 Tensor 形状的整数
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 
@@ -3124,11 +3103,11 @@ add_docstr(torch._C.ones_like,
            """
 ones_like(input, out=None) -> Tensor
 
-Returns a Tensor filled with the scalar value `1`, with the same size as :attr:`input`.
+返回一个用标量值 `1` 填充的张量，大小与 :attr:`input` 相同.
 
 Args:
-    input (Tensor): The size of the input will determine the size of the output.
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入的大小将决定输出的大小.
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 
@@ -3653,18 +3632,17 @@ add_docstr(torch._C.range,
            """
 range(start, end, step=1, out=None) -> Tensor
 
-Returns a 1D Tensor of size :math:`floor((end - start) / step) + 1` with values
-from :attr:`start` to :attr:`end` with step :attr:`step`. Step is the gap
-between two values in the tensor. :math:`x_{i+1} = x_i + step`
+返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内，大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
+步长是 tensor 中两个值之间的差距. :math:`x_{i+1} = x_i + step`
 
 Warning:
-    This function is deprecated in favor of :func:`torch.arange`.
+    此功能已被弃用，以支持 :func:`torch.arange`.
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    step (float): The gap between each pair of adjacent points
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    step (float): 每对相邻点之间的间隔
+    out (Tensor, optional): 输出结果 `Tensor`
 
 Example::
 
@@ -3693,15 +3671,13 @@ add_docstr(torch._C.arange,
            """
 arange(start=0, end, step=1, out=None) -> Tensor
 
-Returns a 1D Tensor of size :math:`floor((end - start) / step)` with values
-from the interval ``[start, end)`` taken with step :attr:`step` starting
-from `start`.
+从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
 
 Args:
-    start (float): The starting value for the set of points
-    end (float): The ending value for the set of points
-    step (float): The gap between each pair of adjacent points
-    out (Tensor, optional): The result `Tensor`
+    start (float): 点集合的起始值
+    end (float): 点集合的结束值
+    step (float): 每对相邻点之间的间隔
+    out (Tensor, optional): 输出结果 `Tensor`
 
 Example::
 
@@ -4082,27 +4058,20 @@ add_docstr(torch._C.squeeze,
            """
 squeeze(input, dim=None, out=None)
 
-Returns a `Tensor` with all the dimensions of :attr:`input` of size `1` removed.
+将 :attr:`input` 张量 size 中的 `1` 去除并返回. 
 
-If `input` is of shape: :math:`(A x 1 x B x C x 1 x D)` then the `out` Tensor
-will be of shape: :math:`(A x B x C x D)`
+如果 `input` 是 shape 如 :math:`(A x 1 x B x C x 1 x D)` ,那么输出 shape 就为： :math:`(A x B x C x D)`
 
-When :attr:`dim` is given, a squeeze operation is done only in the given
-dimension. If `input` is of shape: :math:`(A x 1 x B)`, `squeeze(input, 0)`
-leaves the Tensor unchanged, but `squeeze(input, 1)` will squeeze the tensor
-to the shape :math:`(A x B)`.
+当给定 :attr:`dim` 时,那么挤压操作只在给定维度上.例如, `input` 的 shape 为: :math:`(A x 1 x B)` , `squeeze(input, 0)` 将会保持张量不变,只有用 `squeeze(input, 1)` , shape 会变成 :math:`(A x B)` .
 
-.. note:: As an exception to the above, a 1-dimensional tensor of size 1 will
-          not have its dimensions changed.
+.. note:: 作为上述的一个例外,size 为 1 的一维张量不会改变维度.
 
-.. note:: The returned Tensor shares the storage with the input Tensor,
-          so changing the contents of one will change the contents of the other.
+.. note:: 返回张量与输入张量共享内存,所以改变其中一个的内容会改变另一个.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int, optional): if given, the input will be squeezed only in
-           this dimension
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入张量
+    dim (int, optional): 如果给定,则 `input` 只会在给定维度执行挤压
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -4387,14 +4356,13 @@ add_docstr(torch._C.t,
            """
 t(input, out=None) -> Tensor
 
-Expects :attr:`input` to be a matrix (2D Tensor) and transposes
-dimensions 0 and 1.
+预期 :attr:`input` 为一个矩阵（2 维张量）,并转置 0, 1 维. 
 
-Can be seen as a short-hand function for `transpose(input, 0, 1)`
+可以被视为函数 `transpose(input, 0, 1)` 的简写函数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入张量
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -4417,13 +4385,12 @@ Example::
 add_docstr(torch._C.take, """\
 take(input, indices) -> Tensor
 
-Returns a new `Tensor` with the elements of :attr:`input` at the given indices.
-The input tensor is treated as if it were viewed as a 1D tensor. The result
-takes the same shape as the indices.
+在给定的索引处返回一个新的 `Tensor` ,其元素为 :attr:`input` .
+输入张量被看作是一维张量.结果与索引具有相同的 shape .
 
 Args:
-    input (Tensor): the input `Tensor`
-    indices (LongTensor): the indices into `Tensor`
+    input (Tensor): 输入张量
+    indices (LongTensor): 进入 `Tensor` 的索引
 
 Example::
 
@@ -4585,17 +4552,14 @@ add_docstr(torch._C.transpose,
            """
 transpose(input, dim0, dim1, out=None) -> Tensor
 
-Returns a `Tensor` that is a transposed version of :attr:`input`.
-The given dimensions :attr:`dim0` and :attr:`dim1` are swapped.
+返回输入矩阵 :attr:`input` 的转置.交换给定维度 :attr:`dim0` 和 :attr:`dim1` .
 
-The resulting :attr:`out` Tensor shares it's underlying storage with the
-:attr:`input` Tensor, so changing the content of one would change the content
-of the other.
+:attr:`out` 张量与 :attr:`input` 张量共享内存,所以改变其中一个会导致另外一个也被修改.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim0 (int): The first dimension to be transposed
-    dim1 (int): The second dimension to be transposed
+    input (Tensor): 输入张量
+    dim0 (int): 转置的第一个维度
+    dim1 (int): 转置的第二个维度
 
 Example::
 
@@ -4764,18 +4728,16 @@ add_docstr(torch._C.unsqueeze,
            """
 unsqueeze(input, dim, out=None)
 
-Returns a new tensor with a dimension of size one inserted at the
-specified position.
+返回在指定位置插入维度 size 为 1 的新张量.
 
-The returned tensor shares the same underlying data with this tensor.
+返回张量与输入张量共享内存,所以改变其中一个的内容会改变另一个.
 
-A negative dim value can be used and will correspond to
-:math:`dim + input.dim() + 1`
+如果 `dim` 为负,则将会被转化 :math:`dim + input.dim() + 1` .
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): The index at which to insert the singleton dimension
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入张量
+    dim (int): 插入维度的索引
+    out (Tensor, optional): 结果张量
 
 Example:
     >>> x = torch.Tensor([1, 2, 3, 4])
@@ -4890,11 +4852,11 @@ add_docstr(torch._C.zeros_like,
            """
 zeros_like(input, out=None) -> Tensor
 
-Returns a Tensor filled with the scalar value `0`, with the same size as :attr:`input`.
+返回一个用标量值 `0` 填充的 Tensor，其大小与 :attr:`input` 相同.
 
 Args:
-    input (Tensor): The size of the input will determine the size of the output.
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入的大小将决定输出的大小.
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 

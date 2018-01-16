@@ -1,19 +1,16 @@
 
 def clip_grad_norm(parameters, max_norm, norm_type=2):
-    r"""Clips gradient norm of an iterable of parameters.
+    r"""接收一个包含 Variable 的可迭代对象, 对 Variable 的梯度按范数进行裁剪.
 
-    The norm is computed over all gradients together, as if they were
-    concatenated into a single vector. Gradients are modified in-place.
+    范数是对所有梯度进行计算的, 等价于把所有输入变量的梯度连接成一个向量, 然后对这个向量按范数进行裁剪. 梯度将会被原地修改.
 
     Arguments:
-        parameters (Iterable[Variable]): an iterable of Variables that will have
-            gradients normalized
-        max_norm (float or int): max norm of the gradients
-        norm_type (float or int): type of the used p-norm. Can be ``'inf'`` for
-            infinity norm.
+        parameters (Iterable[Variable]): 一个可迭代对象, 其包含将要进行梯度正规化的 Variable
+        max_norm (float or int): 梯度的最大范数
+        norm_type (float or int): p 范数(指定 p ). 用 ``'inf'`` 表示无穷范数
 
     Returns:
-        Total norm of the parameters (viewed as a single vector).
+        梯度的范数 (视为单个向量的).
     """
     parameters = list(filter(lambda p: p.grad is not None, parameters))
     max_norm = float(max_norm)

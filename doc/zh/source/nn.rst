@@ -80,8 +80,9 @@ Convolution Layers
 .. autoclass:: ConvTranspose3d
     :members:
 
+.. _pooling-layers:
 
-Pooling Layers
+池化层
 ----------------------------------
 
 :hidden:`MaxPool1d`
