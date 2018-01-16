@@ -543,8 +543,8 @@ See :class:`~torch.nn.Threshold` for more details.
 def relu(input, inplace=False):
     """relu(input, threshold, value, inplace=False) -> Variable
 
-    以元素的方式应用修正线性单元函数. 见类
-    `~torch.nn.ReLU` 可以获取更多细节.
+    以元素的方式应用修正线性单元函数. 请参阅
+    :class:`~torch.nn.ReLU` 可以获取更多细节.
     """
     return threshold(input, 0, 0, inplace)
 
