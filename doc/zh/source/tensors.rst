@@ -3,7 +3,7 @@
 torch.Tensor
 ===================================
 
-:class:`torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
+ :class:`torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
 
 Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 
@@ -20,7 +20,7 @@ Data type                CPU tensor                    GPU tensor
 64-bit integer (signed)  :class:`torch.LongTensor`     :class:`torch.cuda.LongTensor`
 ======================== ===========================   ================================
 
-:class:`torch.Tensor` 是默认的 tensor 类型(:class:`torch.FloatTensor`)的简称.
+ :class:`torch.Tensor` 是默认的 tensor 类型(:class:`torch.FloatTensor`)的简称.
 
 一个 tensor 对象可以从 Python 的 :class:`list` 或者序列构建:
 
