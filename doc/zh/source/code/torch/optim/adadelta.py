@@ -6,7 +6,7 @@ from .optimizer import Optimizer
 class Adadelta(Optimizer):
     """实施 Adadelta 算法.
 
-    它在`ADADELTA: 一种可调节学习率的方法`__ 中提出
+    它在 `ADADELTA: 一种可调节学习率的方法`__ 中提出
 
     参数:
         params (iterable): 通过参数迭代去优化或者字典的形式定义参数组.
