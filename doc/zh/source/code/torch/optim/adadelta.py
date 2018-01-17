@@ -4,12 +4,12 @@ from .optimizer import Optimizer
 
 
 class Adadelta(Optimizer):
-    """实施 Adadelta 算法。
+    """实施 Adadelta 算法.
 
-    它在`ADADELTA: 一种可调节学习率的方法`__中提出
+    它在`ADADELTA: 一种可调节学习率的方法`__ 中提出
 
     参数:
-        params (iterable): 通过参数迭代去优化或者字典的形式定义参数组。
+        params (iterable): 通过参数迭代去优化或者字典的形式定义参数组.
         rho (float, optional): 用来计算平均平方梯度的系数(默认值：0.9)
         eps (float, optional): 增加分母来确保数值稳定性(默认值: 1e-6)
         lr (float, optional): 在将 delta 应用于参数之前对其进行系数的缩放(默认值: 1.0)
@@ -26,7 +26,7 @@ class Adadelta(Optimizer):
         """实行单步优化。
 
         参数:
-            closure (callable, optional): 重新评估模型并返回误差损失的闭包。
+            closure (callable, optional): 重新评估模型并返回误差损失的闭包.
         """
         loss = None
         if closure is not None:

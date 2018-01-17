@@ -6,10 +6,10 @@ from .optimizer import Optimizer
 class Adam(Optimizer):
     """实现 Adam 算法。
 
-    它在 `Adam: A Method for Stochastic Optimization`_中被提出。
+    它在 `Adam: A Method for Stochastic Optimization`_ 中被提出。
 
     参数:
-        params (iterable): 迭代的优化参数或者以字典的形式定义参数组。
+        params (iterable): 迭代的优化参数或者以字典的形式定义参数组.
         lr (float, optional): 学习率 (默认值: 1e-3)
         betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
         eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
@@ -29,7 +29,7 @@ class Adam(Optimizer):
         """进行单步优化.
 
         参数:
-            closure (callable, optional): 一个重新评价模型并返回误差的闭包。
+            closure (callable, optional): 一个重新评价模型并返回误差的闭包.
         """
         loss = None
         if closure is not None:
