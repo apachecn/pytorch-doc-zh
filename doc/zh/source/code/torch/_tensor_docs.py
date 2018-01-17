@@ -28,237 +28,235 @@ add_docstr_all('abs',
                """
 abs() -> Tensor
 
-See :func:`torch.abs`
+请查看 :func:`torch.abs`
 """)
 
 add_docstr_all('abs_',
                """
 abs_() -> Tensor
 
-In-place version of :meth:`~Tensor.abs`
+ :meth:`~Tensor.abs` 的 in-place 运算形式
 """)
 
 add_docstr_all('acos',
                """
 acos() -> Tensor
 
-See :func:`torch.acos`
+请查看 :func:`torch.acos`
 """)
 
 add_docstr_all('acos_',
                """
 acos_() -> Tensor
 
-In-place version of :meth:`~Tensor.acos`
+:meth:`~Tensor.acos` 的 in-place 运算形式
 """)
 
 add_docstr_all('add',
                """
 add(value)
 
-See :func:`torch.add`
+请查看 :func:`torch.add`
 """)
 
 add_docstr_all('add_',
                """
 add_(value)
 
-In-place version of :meth:`~Tensor.add`
+ :meth:`~Tensor.add` 的 in-place 运算形式
 """)
 
 add_docstr_all('addbmm',
                """
 addbmm(beta=1, mat, alpha=1, batch1, batch2) -> Tensor
 
-See :func:`torch.addbmm`
+请查看 :func:`torch.addbmm`
 """)
 
 add_docstr_all('addbmm_',
                """
 addbmm_(beta=1, mat, alpha=1, batch1, batch2) -> Tensor
 
-In-place version of :meth:`~Tensor.addbmm`
+ :meth:`~Tensor.addbmm` 的 in-place 运算形式
 """)
 
 add_docstr_all('addcdiv',
                """
 addcdiv(value=1, tensor1, tensor2) -> Tensor
 
-See :func:`torch.addcdiv`
+请查看 :func:`torch.addcdiv`
 """)
 
 add_docstr_all('addcdiv_',
                """
 addcdiv_(value=1, tensor1, tensor2) -> Tensor
 
-In-place version of :meth:`~Tensor.addcdiv`
+ :meth:`~Tensor.addcdiv` 的 in-place 运算形式
 """)
 
 add_docstr_all('addcmul',
                """
 addcmul(value=1, tensor1, tensor2) -> Tensor
 
-See :func:`torch.addcmul`
+请查看 :func:`torch.addcmul`
 """)
 
 add_docstr_all('addcmul_',
                """
 addcmul_(value=1, tensor1, tensor2) -> Tensor
 
-In-place version of :meth:`~Tensor.addcmul`
+ :meth:`~Tensor.addcmul` 的 in-place 运算形式
 """)
 
 add_docstr_all('addmm',
                """
 addmm(beta=1, mat, alpha=1, mat1, mat2) -> Tensor
 
-See :func:`torch.addmm`
+请查看 :func:`torch.addmm`
 """)
 
 add_docstr_all('addmm_',
                """
 addmm_(beta=1, mat, alpha=1, mat1, mat2) -> Tensor
 
-In-place version of :meth:`~Tensor.addmm`
+ :meth:`~Tensor.addmm` 的 in-place 运算形式
 """)
 
 add_docstr_all('addmv',
                """
 addmv(beta=1, tensor, alpha=1, mat, vec) -> Tensor
 
-See :func:`torch.addmv`
+请查看 :func:`torch.addmv`
 """)
 
 add_docstr_all('addmv_',
                """
 addmv_(beta=1, tensor, alpha=1, mat, vec) -> Tensor
 
-In-place version of :meth:`~Tensor.addmv`
+ :meth:`~Tensor.addmv` 的 in-place 运算形式
 """)
 
 add_docstr_all('addr',
                """
 addr(beta=1, alpha=1, vec1, vec2) -> Tensor
 
-See :func:`torch.addr`
+请查看 :func:`torch.addr`
 """)
 
 add_docstr_all('addr_',
                """
 addr_(beta=1, alpha=1, vec1, vec2) -> Tensor
 
-In-place version of :meth:`~Tensor.addr`
+ :meth:`~Tensor.addr` 的 in-place 运算形式
 """)
 
 add_docstr_all('all',
                """
 all() -> bool
 
-Returns True if all elements in the tensor are non-zero, False otherwise.
+如果 tensor 里的所有元素都是非零的，则返回 True, 否在返回 False.
 """)
 
 add_docstr_all('any',
                """
 any() -> bool
 
-Returns True if any elements in the tensor are non-zero, False otherwise.
+如果 tensor 里的存在元素是非零的，则返回 True, 否在返回 False.
 """)
 
 add_docstr_all('apply_',
                """
 apply_(callable) -> Tensor
 
-Applies the function :attr:`callable` to each element in the tensor, replacing
-each element with the value returned by :attr:`callable`.
+将函数 :attr:`callable` 作用于 tensor 的每一个元素, 并将每个元素用 :attr:`callable` 的返回值替换.
 
 .. note::
 
-    This function only works with CPU tensors and should not be used in code
-    sections that require high performance.
+    该函数只能在 CPU tensor 中使用, 并且不应该用在较高性能的要求的代码块.
 """)
 
 add_docstr_all('asin',
                """
 asin() -> Tensor
 
-See :func:`torch.asin`
+请查看 :func:`torch.asin`
 """)
 
 add_docstr_all('asin_',
                """
 asin_() -> Tensor
 
-In-place version of :meth:`~Tensor.asin`
+ :meth:`~Tensor.asin` 的 in-place 运算形式
 """)
 
 add_docstr_all('atan',
                """
 atan() -> Tensor
 
-See :func:`torch.atan`
+请查看 :func:`torch.atan`
 """)
 
 add_docstr_all('atan2',
                """
 atan2(other) -> Tensor
 
-See :func:`torch.atan2`
+请查看 :func:`torch.atan2`
 """)
 
 add_docstr_all('atan2_',
                """
 atan2_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.atan2`
+ :meth:`~Tensor.atan2` 的 in-place 运算形式
 """)
 
 add_docstr_all('atan_',
                """
 atan_() -> Tensor
 
-In-place version of :meth:`~Tensor.atan`
+ :meth:`~Tensor.atan` 的 in-place 运算形式
 """)
 
 add_docstr_all('baddbmm',
                """
 baddbmm(beta=1, alpha=1, batch1, batch2) -> Tensor
 
-See :func:`torch.baddbmm`
+请查看 :func:`torch.baddbmm`
 """)
 
 add_docstr_all('baddbmm_',
                """
 baddbmm_(beta=1, alpha=1, batch1, batch2) -> Tensor
 
-In-place version of :meth:`~Tensor.baddbmm`
+ :meth:`~Tensor.baddbmm` 的 in-place 运算形式
 """)
 
 add_docstr_all('bernoulli',
                """
 bernoulli() -> Tensor
 
-See :func:`torch.bernoulli`
+请查看 :func:`torch.bernoulli`
 """)
 
 add_docstr_all('bernoulli_',
                """
 bernoulli_() -> Tensor
 
-In-place version of :meth:`~Tensor.bernoulli`
+ :meth:`~Tensor.bernoulli` 的 in-place 运算形式
 """)
 
 add_docstr_all('bmm',
                """
 bmm(batch2) -> Tensor
 
-See :func:`torch.bmm`
+请查看 :func:`torch.bmm`
 """)
 
 add_docstr_all('cauchy_',
                """
 cauchy_(median=0, sigma=1, *, generator=None) -> Tensor
 
-Fills the tensor with numbers drawn from the Cauchy distribution:
+将 tensor 中元素用柯西分布得到的数值填充:
 
 .. math::
 
@@ -269,176 +267,170 @@ add_docstr_all('ceil',
                """
 ceil() -> Tensor
 
-See :func:`torch.ceil`
+请查看 :func:`torch.ceil`
 """)
 
 add_docstr_all('ceil_',
                """
 ceil_() -> Tensor
 
-In-place version of :meth:`~Tensor.ceil`
+ :meth:`~Tensor.ceil` 的 in-place 运算形式
 """)
 
 add_docstr_all('clamp',
                """
 clamp(min, max) -> Tensor
 
-See :func:`torch.clamp`
+请查看 :func:`torch.clamp`
 """)
 
 add_docstr_all('clamp_',
                """
 clamp_(min, max) -> Tensor
 
-In-place version of :meth:`~Tensor.clamp`
+ :meth:`~Tensor.clamp` 的 in-place 运算形式
 """)
 
 add_docstr_all('clone',
                """
 clone() -> Tensor
 
-Returns a copy of the tensor. The copy has the same size and data type as the
-original tensor.
+返回与原 tensor 具有相同大小和数据类型的 tensor.
 """)
 
 add_docstr_all('contiguous',
                """
 contiguous() -> Tensor
 
-Returns a contiguous Tensor containing the same data as this tensor. If this
-tensor is contiguous, this function returns the original tensor.
+返回一个内存连续的有相同数据的 tensor, 如果原 tensor 内存连续则返回原 tensor.
 """)
 
 add_docstr_all('copy_',
                """
 copy_(src, async=False, broadcast=True) -> Tensor
 
-Copies the elements from :attr:`src` into this tensor and returns this tensor.
+将 :attr:`src` 中的元素复制到这个 tensor 中并返回这个 tensor
 
-If :attr:`broadcast` is True, the source tensor must be
-:ref:`broadcastable <broadcasting-semantics>` with this tensor. Otherwise,
-source tensor should have the same number of elements as this tensor.
-It may be of a different data type or reside on a different device.
+如果 :attr:`broadcast` 是 True, 源 tensor 一定和这个 tensor :ref:`broadcastable <broadcasting-semantics>`.
+另外, 源 tensor 的元素数量应该和这个 tensor 的元素个数一致.
+源 tensor 可以是另一种数据类型, 或者在别的的设备上.
 
 Args:
-    src (Tensor): Source tensor to copy
-    async (bool): If ``True`` and this copy is between CPU and GPU, then the copy
-        may occur asynchronously with respect to the host. For other
-        copies, this argument has no effect.
-    broadcast (bool): If ``True``, :attr:`src` will be broadcast to the shape of
-        the underlying tensor.
+    src (Tensor): 被复制的源 tensor
+    async (bool): 如果值为 ``True`` 并且这个复制操作在 CPU 和 GPU 之间进行, 则拷贝的副本与源信息可能会出现异步(asynchronously). 对于其他类型的复制操作，这个参数不起作用.
+    broadcast (bool): 如果值为 ``True``, :attr:`src` 将广播基础的 tensor 的形状.
 """)
 
 add_docstr_all('cos',
                """
 cos() -> Tensor
 
-See :func:`torch.cos`
+请查看 :func:`torch.cos`
 """)
 
 add_docstr_all('cos_',
                """
 cos_() -> Tensor
 
-In-place version of :meth:`~Tensor.cos`
+ :meth:`~Tensor.cos` 的 in-place 运算形式
 """)
 
 add_docstr_all('cosh',
                """
 cosh() -> Tensor
 
-See :func:`torch.cosh`
+请查看 :func:`torch.cosh`
 """)
 
 add_docstr_all('cosh_',
                """
 cosh_() -> Tensor
 
-In-place version of :meth:`~Tensor.cosh`
+ :meth:`~Tensor.cosh` 的 in-place 运算形式
 """)
 
 add_docstr_all('cross',
                """
 cross(other, dim=-1) -> Tensor
 
-See :func:`torch.cross`
+请查看 :func:`torch.cross`
 """)
 
 add_docstr_all('cumprod',
                """
 cumprod(dim) -> Tensor
 
-See :func:`torch.cumprod`
+请查看 :func:`torch.cumprod`
 """)
 
 add_docstr_all('cumsum',
                """
 cumsum(dim) -> Tensor
 
-See :func:`torch.cumsum`
+请查看 :func:`torch.cumsum`
 """)
 
 add_docstr_all('data_ptr',
                """
 data_ptr() -> int
 
-Returns the address of the first element of this tensor.
+返回 tensor 第一个元素的地址.
 """)
 
 add_docstr_all('diag',
                """
 diag(diagonal=0) -> Tensor
 
-See :func:`torch.diag`
+请查看 :func:`torch.diag`
 """)
 
 add_docstr_all('dim',
                """
 dim() -> int
 
-Returns the number of dimensions of this tensor.
+返回 tensor 的维数.
 """)
 
 add_docstr_all('dist',
                """
 dist(other, p=2) -> float
 
-See :func:`torch.dist`
+请查看 :func:`torch.dist`
 """)
 
 add_docstr_all('div',
                """
 div(value)
 
-See :func:`torch.div`
+请查看 :func:`torch.div`
 """)
 
 add_docstr_all('div_',
                """
 div_(value)
 
-In-place version of :meth:`~Tensor.div`
+ :meth:`~Tensor.div` 的 in-place 运算形式
 """)
 
 add_docstr_all('dot',
                """
 dot(tensor2) -> float
 
-See :func:`torch.dot`
+请查看 :func:`torch.dot`
 """)
 
 add_docstr_all('eig',
                """
 eig(eigenvectors=False) -> (Tensor, Tensor)
 
-See :func:`torch.eig`
+请查看 :func:`torch.eig`
 """)
 
 add_docstr_all('element_size',
                """
 element_size() -> int
 
-Returns the size in bytes of an individual element.
+返回单个元素的字节大小.
 
 Example:
     >>> torch.FloatTensor().element_size()
@@ -451,56 +443,56 @@ add_docstr_all('eq',
                """
 eq(other) -> Tensor
 
-See :func:`torch.eq`
+请查看 :func:`torch.eq`
 """)
 
 add_docstr_all('eq_',
                """
 eq_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.eq`
+ :meth:`~Tensor.eq` 的 in-place 运算形式
 """)
 
 add_docstr_all('equal',
                """
 equal(other) -> bool
 
-See :func:`torch.equal`
+请查看 :func:`torch.equal`
 """)
 
 add_docstr_all('erf',
                """
 erf() -> Tensor
 
-See :func:`torch.erf`
+请查看 :func:`torch.erf`
 """)
 
 add_docstr_all('erfinv',
                """
 erfinv() -> Tensor
 
-See :func:`torch.erfinv`
+请查看 :func:`torch.erfinv`
 """)
 
 add_docstr_all('exp',
                """
 exp() -> Tensor
 
-See :func:`torch.exp`
+请查看 :func:`torch.exp`
 """)
 
 add_docstr_all('exp_',
                """
 exp_() -> Tensor
 
-In-place version of :meth:`~Tensor.exp`
+ :meth:`~Tensor.exp` 的 in-place 运算形式
 """)
 
 add_docstr_all('exponential_',
                """
 exponential_(lambd=1, *, generator=None) -> Tensor
 
-Fills this tensor with elements drawn from the exponential distribution:
+将该 tensor 用指数分布得到的元素填充:
 
 .. math::
 
@@ -511,84 +503,84 @@ add_docstr_all('fill_',
                """
 fill_(value) -> Tensor
 
-Fills this tensor with the specified value.
+将该 tensor 用指定的数值填充.
 """)
 
 add_docstr_all('floor',
                """
 floor() -> Tensor
 
-See :func:`torch.floor`
+请查看 :func:`torch.floor`
 """)
 
 add_docstr_all('floor_',
                """
 floor_() -> Tensor
 
-In-place version of :meth:`~Tensor.floor`
+ :meth:`~Tensor.floor` 的 in-place 运算形式
 """)
 
 add_docstr_all('fmod',
                """
 fmod(divisor) -> Tensor
 
-See :func:`torch.fmod`
+请查看 :func:`torch.fmod`
 """)
 
 add_docstr_all('fmod_',
                """
 fmod_(divisor) -> Tensor
 
-In-place version of :meth:`~Tensor.fmod`
+ :meth:`~Tensor.fmod` 的 in-place 运算形式
 """)
 
 add_docstr_all('frac',
                """
 frac() -> Tensor
 
-See :func:`torch.frac`
+请查看 :func:`torch.frac`
 """)
 
 add_docstr_all('frac_',
                """
 frac_() -> Tensor
 
-In-place version of :meth:`~Tensor.frac`
+ :meth:`~Tensor.frac` 的 in-place 运算形式
 """)
 
 add_docstr_all('gather',
                """
 gather(dim, index) -> Tensor
 
-See :func:`torch.gather`
+请查看 :func:`torch.gather`
 """)
 
 add_docstr_all('ge',
                """
 ge(other) -> Tensor
 
-See :func:`torch.ge`
+请查看 :func:`torch.ge`
 """)
 
 add_docstr_all('ge_',
                """
 ge_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.ge`
+ :meth:`~Tensor.ge` 的 in-place 运算形式
 """)
 
 add_docstr_all('gels',
                """
 gels(A) -> Tensor
 
-See :func:`torch.gels`
+请查看 :func:`torch.gels`
 """)
 
 add_docstr_all('geometric_',
                """
 geometric_(p, *, generator=None) -> Tensor
 
-Fills this tensor with elements drawn from the geometric distribution:
+将该 tensor 用几何分布得到的元素填充:
 
 .. math::
 
@@ -600,67 +592,65 @@ add_docstr_all('geqrf',
                """
 geqrf() -> (Tensor, Tensor)
 
-See :func:`torch.geqrf`
+请查看 :func:`torch.geqrf`
 """)
 
 add_docstr_all('ger',
                """
 ger(vec2) -> Tensor
 
-See :func:`torch.ger`
+请查看 :func:`torch.ger`
 """)
 
 add_docstr_all('gesv',
                """
 gesv(A) -> Tensor, Tensor
 
-See :func:`torch.gesv`
+请查看 :func:`torch.gesv`
 """)
 
 add_docstr_all('gt',
                """
 gt(other) -> Tensor
 
-See :func:`torch.gt`
+请查看 :func:`torch.gt`
 """)
 
 add_docstr_all('gt_',
                """
 gt_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.gt`
+ :meth:`~Tensor.gt` 的 in-place 运算形式
 """)
 
 add_docstr_all('histc',
                """
 histc(bins=100, min=0, max=0) -> Tensor
 
-See :func:`torch.histc`
+请查看 :func:`torch.histc`
 """)
 
 add_docstr_all('index',
                """
 index(m) -> Tensor
 
-Selects elements from this tensor using a binary mask or along a given
-dimension. The expression ``tensor.index(m)`` is equivalent to ``tensor[m]``.
+用一个二进制的掩码或沿着一个给定的维度从 tensor 中选取元素. ``tensor.index(m)`` 等同于 ``tensor[m]``.
 
 Args:
-    m (int or ByteTensor or slice): The dimension or mask used to select elements
+    m (int or ByteTensor or slice): 用来选取元素的维度或掩码
 """)
 
 add_docstr_all('index_add_',
                """
 index_add_(dim, index, tensor) -> Tensor
 
-Accumulate the elements of tensor into the original tensor by adding to the
-indices in the order given in index. The shape of tensor must exactly match the
-elements indexed or an error will be raised.
+按参数 index 给出的索引序列，将参数 tensor 中的元素加到原来的 tensor 中.
+参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误.
 
 Args:
-    dim (int): Dimension along which to index
-    index (LongTensor): Indices to select from tensor
-    tensor (Tensor): Tensor containing values to add
+    dim (int): 索引 index 所指向的维度
+    index (LongTensor): 从参数 tensor 中选取数据的索引序列
+    tensor (Tensor): 包含需要相加的元素的 tensor
 
 Example:
     >>> x = torch.Tensor([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
@@ -678,14 +668,13 @@ add_docstr_all('index_copy_',
                """
 index_copy_(dim, index, tensor) -> Tensor
 
-Copies the elements of tensor into the original tensor by selecting the
-indices in the order given in index. The shape of tensor must exactly match the
-elements indexed or an error will be raised.
+按参数 index 给出的索引序列，将参数 tensor 中的元素复制到原来的 tensor 中.
+参数 tensor 的尺寸必须严格地与原 tensor 匹配，否则会发生错误。
 
 Args:
-    dim (int): Dimension along which to index
-    index (LongTensor): Indices to select from tensor
-    tensor (Tensor): Tensor containing values to copy
+    dim (int): 索引 index 所指向的维度
+    index (LongTensor): 从参数 tensor 中选取数据的索引序列
+    tensor (Tensor): 包含需要复制的元素的 tensor
 
 Example:
     >>> x = torch.Tensor(3, 3)
@@ -703,13 +692,12 @@ add_docstr_all('index_fill_',
                """
 index_fill_(dim, index, val) -> Tensor
 
-Fills the elements of the original tensor with value :attr:`val` by selecting
-the indices in the order given in index.
+按参数 index 给出的索引序列，将原 tensor 中的元素用 :attr:`val` 填充.
 
 Args:
-    dim (int): Dimension along which to index
-    index (LongTensor): Indices
-    val (float): Value to fill
+    dim (int): 索引 index 所指向的维度
+    index (LongTensor): 从参数 val 中选取数据的索引序列
+    val (float): 用来填充的值
 
 Example:
     >>> x = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -726,100 +714,97 @@ add_docstr_all('index_select',
                """
 index_select(dim, index) -> Tensor
 
-See :func:`torch.index_select`
+请查看 :func:`torch.index_select`
 """)
 
 add_docstr_all('inverse',
                """
 inverse() -> Tensor
 
-See :func:`torch.inverse`
+请查看 :func:`torch.inverse`
 """)
 
 add_docstr_all('is_contiguous',
                """
 is_contiguous() -> bool
 
-Returns True if this tensor is contiguous in memory in C order.
+以 C 语言的内存模型为原则, 如果该 tensor 在内如果该 tensor 在内存中连续的, 则返回 True.
 """)
 
 add_docstr_all('is_set_to',
                """
 is_set_to(tensor) -> bool
 
-Returns True if this object refers to the same ``THTensor`` object from the
-Torch C API as the given tensor.
+如果此对象从 Torch C API 引用的 ``THTensor`` 对象与参数 tensor 引用的对象一致, 则返回True.
 """)
 
 add_docstr_all('kthvalue',
                """
 kthvalue(k, dim=None, keepdim=False) -> (Tensor, LongTensor)
 
-See :func:`torch.kthvalue`
+请查看 :func:`torch.kthvalue`
 """)
 
 add_docstr_all('le',
                """
 le(other) -> Tensor
 
-See :func:`torch.le`
+请查看 :func:`torch.le`
 """)
 
 add_docstr_all('le_',
                """
 le_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.le`
+ :meth:`~Tensor.le` 的 in-place 运算形式
 """)
 
 add_docstr_all('lerp',
                """
 lerp(start, end, weight)
 
-See :func:`torch.lerp`
+请查看 :func:`torch.lerp`
 """)
 
 add_docstr_all('lerp_',
                """
 lerp_(start, end, weight)
 
-In-place version of :meth:`~Tensor.lerp`
+ :meth:`~Tensor.lerp` 的 in-place 运算形式
 """)
 
 add_docstr_all('log',
                """
 log() -> Tensor
 
-See :func:`torch.log`
+请查看 :func:`torch.log`
 """)
 
 add_docstr_all('log1p',
                """
 log1p() -> Tensor
 
-See :func:`torch.log1p`
+请查看 :func:`torch.log1p`
 """)
 
 add_docstr_all('log1p_',
                """
 log1p_() -> Tensor
 
-In-place version of :meth:`~Tensor.log1p`
+ :meth:`~Tensor.log1p` 的 in-place 运算形式
 """)
 
 add_docstr_all('log_', """
 log_() -> Tensor
 
-In-place version of :meth:`~Tensor.log`
+ :meth:`~Tensor.log` 的 in-place 运算形式
 """)
 
 add_docstr_all('log_normal_', u"""
 log_normal_(mean=1, std=2, *, generator=None)
 
-Fills this tensor with numbers samples from the log-normal distribution
-parameterized by the given mean (\u00B5) and standard deviation (\u03C3).
-Note that :attr:`mean` and :attr:`stdv` are the mean and standard deviation of
-the underlying normal distribution, and not of the returned distribution:
+将该 tensor 用均值为 mean (\u00B5), 标准差为 std (\u03C3) 的对数正态分布得到的元素填充。
+要注意 :attr:`mean` 和 :attr:`stdv` 是基本正态分布的均值和标准差，不是返回的分布:
 
 .. math::
 
@@ -830,25 +815,24 @@ add_docstr_all('lt',
                """
 lt(other) -> Tensor
 
-See :func:`torch.lt`
+请查看 :func:`torch.lt`
 """)
 
 add_docstr_all('lt_',
                """
 lt_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.lt`
+ :meth:`~Tensor.lt` 的 in-place 运算形式
 """)
 
 add_docstr_all('map_',
                """
 map_(tensor, callable)
 
-Applies :attr:`callable` for each element in this tensor and the given tensor
-and stores the results in this tensor.  This tensor and the given tensor must be
-:ref:`broadcastable <broadcasting-semantics>`.
+将 :attr:`callable` 作用于本 tensor 和参数 tensor 中的每一个元素, 并将结果存放在本 tensor 中。
+本 tensor 和参数 tensor 都必须是 :ref:`broadcastable <broadcasting-semantics>`.
 
-The :attr:`callable` should have the signature::
+ :attr:`callable` 应该有下列标志::
 
     def callable(a, b) -> number
 """)
@@ -857,123 +841,121 @@ add_docstr_all('masked_scatter_',
                """
 masked_scatter_(mask, source)
 
-Copies elements from :attr:`source` into this tensor at positions where the
-:attr:`mask` is one.
-The shape of :attr:`mask` must be :ref:`broadcastable <broadcasting-semantics>`
-with the shape of the underlying tensor. The :attr:`source` should have at least
-as many elements as the number of ones in :attr:`mask`
+
+复制 :attr:`source` 的元素到本 tensor 被:attr:`mask` 中值为 1 的元素标记的位置中.
+ :attr:`mask` 的形状和本 tensor 的形状必须是可广播的 ( :ref:`broadcastable <broadcasting-semantics>` ).
+ :attr:`source` 中元素的个数最少为 :attr:`mask` 中值为1的元素的个数.
 
 Args:
-    mask (ByteTensor): The binary mask
-    source (Tensor): The tensor to copy from
+    mask (ByteTensor): 二进制掩码
+    source (Tensor): 复制的源 tensor
 
 .. note::
 
-    The :attr:`mask` operates on the :attr:`self` tensor, not on the given
-    :attr:`source` tensor.
+     :attr:`mask` 作用于 :attr:`self` 自身的 tensor, 而不是参数 :attr:`source` 的 tensor.
 """)
 
 add_docstr_all('masked_fill_',
                """
 masked_fill_(mask, value)
 
+将本 tensor 被 :attr:`mask` 中值为 1 的元素标记的位置，用 :attr:`value` 填充.
+ :attr:`mask` 的形状和本 tensor 的形状必须是可广播的 (:ref:`broadcastable <broadcasting-semantics>`).
 Fills elements of this tensor with :attr:`value` where :attr:`mask` is one.
-The shape of :attr:`mask` must be :ref:`broadcastable <broadcasting-semantics>`
-with the shape of the underlying tensor.
 
 Args:
-    mask (ByteTensor): The binary mask
-    value (float): The value to fill
+    mask (ByteTensor): 二进制掩码
+    value (float): 用来填充的值
 """)
 
 add_docstr_all('masked_select',
                """
 masked_select(mask) -> Tensor
 
-See :func:`torch.masked_select`
+请查看 :func:`torch.masked_select`
 """)
 
 add_docstr_all('max',
                """
 max(dim=None, keepdim=False) -> float or (Tensor, Tensor)
 
-See :func:`torch.max`
+请查看 :func:`torch.max`
 """)
 
 add_docstr_all('mean',
                """
 mean(dim=None, keepdim=False) -> float or (Tensor, Tensor)
 
-See :func:`torch.mean`
+请查看 :func:`torch.mean`
 """)
 
 add_docstr_all('median',
                """
 median(dim=None, keepdim=False) -> (Tensor, LongTensor)
 
-See :func:`torch.median`
+请查看 :func:`torch.median`
 """)
 
 add_docstr_all('min',
                """
 min(dim=None, keepdim=False) -> float or (Tensor, Tensor)
 
-See :func:`torch.min`
+请查看 :func:`torch.min`
 """)
 
 add_docstr_all('mm',
                """
 mm(mat2) -> Tensor
 
-See :func:`torch.mm`
+请查看 :func:`torch.mm`
 """)
 
 add_docstr_all('mode',
                """
 mode(dim=None, keepdim=False) -> (Tensor, LongTensor)
 
-See :func:`torch.mode`
+请查看 :func:`torch.mode`
 """)
 
 add_docstr_all('mul',
                """
 mul(value) -> Tensor
 
-See :func:`torch.mul`
+请查看 :func:`torch.mul`
 """)
 
 add_docstr_all('mul_',
                """
 mul_(value)
 
-In-place version of :meth:`~Tensor.mul`
+ :meth:`~Tensor.mul` 的 in-place 运算形式
 """)
 
 add_docstr_all('multinomial',
                """
 multinomial(num_samples, replacement=False, *, generator=None)
 
-See :func:`torch.multinomial`
+请查看 :func:`torch.multinomial`
 """)
 
 add_docstr_all('mv',
                """
 mv(vec) -> Tensor
 
-See :func:`torch.mv`
+请查看 :func:`torch.mv`
 """)
 
 add_docstr_all('narrow',
                """
 narrow(dimension, start, length) -> Tensor
 
-Returns a new tensor that is a narrowed version of this tensor. The dimension
-:attr:`dim` is narrowed from :attr:`start` to :attr:`start + length`. The
-returned tensor and this tensor share the same underlying storage.
+返回一个本 tensor 经过缩小后的 tensor.
+维度 dim 缩小范围是 :attr:`start` 到 :attr:`start + length`.
+原 tensor 与返回的 tensor 共享相同的底层存储.
 
 Args:
-    dimension (int): The dimension along which to narrow
-    start (int): The starting dimension
+    dimension (int): 需要缩小的维度
+    start (int): 起始维度
     length (int):
 
 Example:
@@ -993,161 +975,157 @@ add_docstr_all('ndimension',
                """
 ndimension() -> int
 
-Alias for :meth:`~Tensor.dim()`
+ :meth:`~Tensor.dim()` 的另一种表示
 """)
 
 add_docstr_all('ne',
                """
 ne(other) -> Tensor
 
-See :func:`torch.ne`
+请查看 :func:`torch.ne`
 """)
 
 add_docstr_all('ne_',
                """
 ne_(other) -> Tensor
 
-In-place version of :meth:`~Tensor.ne`
+ :meth:`~Tensor.ne` 的 in-place 运算形式
 """)
 
 add_docstr_all('neg',
                """
 neg() -> Tensor
 
-See :func:`torch.neg`
+请查看 :func:`torch.neg`
 """)
 
 add_docstr_all('neg_',
                """
 neg_() -> Tensor
 
-In-place version of :meth:`~Tensor.neg`
+ :meth:`~Tensor.neg` 的 in-place 运算形式
 """)
 
 add_docstr_all('nelement',
                """
 nelement() -> int
 
-Alias for :meth:`~Tensor.numel`
+ :meth:`~Tensor.numel` 的另一种表示
 """)
 
 add_docstr_all('nonzero',
                """
 nonzero() -> LongTensor
 
-See :func:`torch.nonzero`
+请查看 :func:`torch.nonzero`
 """)
 
 add_docstr_all('norm',
                """
 norm(p=2, dim=None, keepdim=False) -> float
 
-See :func:`torch.norm`
+请查看 :func:`torch.norm`
 """)
 
 add_docstr_all('normal_',
                """
 normal_(mean=0, std=1, *, generator=None)
 
-Fills this tensor with elements samples from the normal distribution
-parameterized by :attr:`mean` and :attr:`std`.
+将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std`的正态分布填充.
 """)
 
 add_docstr_all('numel',
                """
 numel() -> int
 
-See :func:`torch.numel`
+请查看 :func:`torch.numel`
 """)
 
 add_docstr_all('numpy',
                """
 numpy() -> ndarray
 
-Returns this tensor as a NumPy :class:`ndarray`. This tensor and the returned
-:class:`ndarray` share the same underlying storage. Changes to this tensor will
-be reflected in the :class:`ndarray` and vice versa.
+将该 tensor 以 NumPy :class:`ndarray` 的形式返回. 两者共享相同的底层存储. 
+原 tensor 的改变会影响到 :class:`ndarray`，反之也一样.
 """)
 
 add_docstr_all('orgqr',
                """
 orgqr(input2) -> Tensor
 
-See :func:`torch.orgqr`
+请查看 :func:`torch.orgqr`
 """)
 
 add_docstr_all('ormqr',
                """
 ormqr(input2, input3, left=True, transpose=False) -> Tensor
 
-See :func:`torch.ormqr`
+请查看 :func:`torch.ormqr`
 """)
 
 add_docstr_all('potrf',
                """
 potrf(upper=True) -> Tensor
 
-See :func:`torch.potrf`
+请查看 :func:`torch.potrf`
 """)
 
 add_docstr_all('potri',
                """
 potri(upper=True) -> Tensor
 
-See :func:`torch.potri`
+请查看 :func:`torch.potri`
 """)
 
 add_docstr_all('potrs',
                """
 potrs(input2, upper=True) -> Tensor
 
-See :func:`torch.potrs`
+请查看 :func:`torch.potrs`
 """)
 
 add_docstr_all('pow',
                """
 pow(exponent)
 
-See :func:`torch.pow`
+请查看 :func:`torch.pow`
 """)
 
 add_docstr_all('pow_',
                """
 pow_(exponent)
 
-In-place version of :meth:`~Tensor.pow`
+ :meth:`~Tensor.pow` 的 in-place 运算形式
 """)
 
 add_docstr_all('prod',
                """
 prod(dim=None, keepdim=False) -> float
 
-See :func:`torch.prod`
+请查看 :func:`torch.prod`
 """)
 
 add_docstr_all('pstrf',
                """
 pstrf(upper=True, tol=-1) -> (Tensor, IntTensor)
 
-See :func:`torch.pstrf`
+请查看 :func:`torch.pstrf`
 """)
 
 add_docstr_all('put_',
                """
 put_(indices, tensor, accumulate=False) -> Tensor
 
-Copies the elements from :attr:`tensor` into the positions specified by
-indices. For the puropose of indexing, the ``self`` tensor is treated as if it
-were a 1D tensor.
+复制 :attr:`tensor` 内的元素到 indices 指定的位置.
+为了达到索引的目的, ``self`` tensor 被当做一维 (1D) 的 tensor.
 
-If :attr:`accumulate` is ``True``, the elements in :attr:`tensor` are added to
-:attr:`self`. If accumulate is ``False``, the behavior is undefined if indices
-contains duplicate elements.
+如果 :attr:`accumulate` 是 ``True``, :attr:`tensor` 内的元素累加到 :attr:`self` 中.
+如果 :attr:`accumulate` 是 ``False``, 在索引包含重复的值时, 行为未定义.
 
 Args:
-    indices (LongTensor): the indices into self
-    tensor (Tensor): Tensor containing values to copy
-    accumulate (bool): True to accumulate into self
+    indices (LongTensor): self 的索引
+    tensor (Tensor): 包含需要复制值的 tensor
+    accumulate (bool): 如果是 True, 元素累加到 self
 
 Example::
 
@@ -1163,74 +1141,72 @@ add_docstr_all('qr',
                """
 qr() -> (Tensor, Tensor)
 
-See :func:`torch.qr`
+请查看 :func:`torch.qr`
 """)
 
 add_docstr_all('random_',
                """
 random_(from=0, to=None, *, generator=None)
 
-Fills this tensor with numbers sampled from the discrete uniform distribution
-over [from, to - 1]. If not specified, the values are usually only bounded by
-this tensor's data type. However, for floating point types, if unspecified,
-range will be [0, 2^mantissa] to ensure that every value is representable.
-For example, `torch.DoubleTensor(1).random_()` will be uniform in [0, 2^53].
+将 tensor 用在 [from, to - 1] 上的离散均匀分布进行填充.
+如果没有特别说明, 填入的值由本 tensor 的数据类型限定范围.
+但是, 对于浮点类型 (floating point types), 如果没有特别说明，取值范围是[0, 2^mantissa](mantissa,小数部分的长度), 以确保每个数都是可表示的.
+例如, `torch.DoubleTensor(1).random_()` 将均匀分布在[0, 2^53].
 """)
 
 add_docstr_all('reciprocal',
                """
 reciprocal() -> Tensor
 
-See :func:`torch.reciprocal`
+请查看 :func:`torch.reciprocal`
 """)
 
 add_docstr_all('reciprocal_',
                """
 reciprocal_() -> Tensor
 
-In-place version of :meth:`~Tensor.reciprocal`
+ :meth:`~Tensor.reciprocal` 的 in-place 运算形式
 """)
 
 add_docstr_all('remainder',
                """
 remainder(divisor) -> Tensor
 
-See :func:`torch.remainder`
+请查看 :func:`torch.remainder`
 """)
 
 add_docstr_all('remainder_',
                """
 remainder_(divisor) -> Tensor
 
-In-place version of :meth:`~Tensor.remainder`
+ :meth:`~Tensor.remainder` 的 in-place 运算形式
 """)
 
 add_docstr_all('renorm',
                """
 renorm(p, dim, maxnorm) -> Tensor
 
-See :func:`torch.renorm`
+请查看 :func:`torch.renorm`
 """)
 
 add_docstr_all('renorm_',
                """
 renorm_(p, dim, maxnorm) -> Tensor
 
-In-place version of :meth:`~Tensor.renorm`
+ :meth:`~Tensor.renorm` 的 in-place 运算形式
 """)
 
 add_docstr_all('resize_',
                """
 resize_(*sizes)
 
-Resizes this tensor to the specified size. If the number of elements is
-larger than the current storage size, then the underlying storage is resized
-to fit the new number of elements. If the number of elements is smaller, the
-underlying storage is not changed. Existing elements are preserved but any new
-memory is uninitialized.
+将 tensor 的大小调整为指定的大小. 
+如果元素个数比当前的内存大小大, 就将底层存储大小调整为与新元素数目一致的大小.
+如果元素个数比当前内存小, 则底层存储不会被改变.
+原来tensor中被保存下来的元素将保持不变，但新内存将不会被初始化。
 
 Args:
-    sizes (torch.Size or int...): The desired size
+    sizes (torch.Size or int...): 期望的大小
 
 Example:
     >>> x = torch.Tensor([[1, 2], [3, 4], [5, 6]])
@@ -1245,8 +1221,8 @@ add_docstr_all('resize_as_',
                """
 resize_as_(tensor)
 
-Resizes the current tensor to be the same size as the specified tensor. This is
-equivalent to::
+将本 tensor 的大小调整为参数 tensor 的大小.
+等效于::
 
     self.resize_(tensor.size())
 """)
@@ -1255,47 +1231,45 @@ add_docstr_all('round',
                """
 round() -> Tensor
 
-See :func:`torch.round`
+请查看 :func:`torch.round`
 """)
 
 add_docstr_all('round_',
                """
 round_() -> Tensor
 
-In-place version of :meth:`~Tensor.round`
+ :meth:`~Tensor.round` 的 in-place 运算形式
 """)
 
 add_docstr_all('rsqrt',
                """
 rsqrt() -> Tensor
 
-See :func:`torch.rsqrt`
+请查看 :func:`torch.rsqrt`
 """)
 
 add_docstr_all('rsqrt_',
                """
 rsqrt_() -> Tensor
 
-In-place version of :meth:`~Tensor.rsqrt`
+ :meth:`~Tensor.rsqrt` 的 in-place 运算形式
 """)
 
 add_docstr_all('scatter_',
                """
 scatter_(dim, index, src) -> Tensor
 
-Writes all values from the Tensor :attr:`src` into self at the indices specified
-in the :attr:`index` Tensor. The indices are specified with respect to the
-given dimension, dim, in the manner described in :meth:`~Tensor.gather`.
+将 :attr:`src` 中的所有值按照 :attr:`index` 确定的索引顺序写入本 tensor 中.
+给定的 dim 声明索引的维度, dim 按照 :meth:`~Tensor.gather` 中的描述的规则来确定.
 
-Note that, as for gather, the values of index must be between `0` and
-`(self.size(dim) -1)` inclusive and all values in a row along the specified
-dimension must be unique.
+注意，关于 gather, index 的值必须是 `0` 到 `(self.size(dim) -1)` 区间,
+而且, 属于同一维度的一行的值必须是唯一的.
 
 Args:
-    input (Tensor): The source tensor
-    dim (int): The axis along which to index
-    index (LongTensor): The indices of elements to scatter
-    src (Tensor or float): The source element(s) to scatter
+    input (Tensor): 源 tensor (貌似没有这个参数, /(ㄒoㄒ)/~~ )
+    dim (int): 索引的轴向
+    index (LongTensor):散射元素的索引指数
+    src (Tensor or float): 散射的源元素
 
 Example::
 
@@ -1326,102 +1300,98 @@ add_docstr_all('select',
                """
 select(dim, index) -> Tensor or number
 
-Slices the tensor along the selected dimension at the given index. If this
-tensor is one dimensional, this function returns a number. Otherwise, it
-returns a tensor with the given dimension removed.
+沿着 dim 给定的维度, 按照 index 切片.
+如果这个 tensor 是一维的, 返回一个数字. 否则, 返回一个给定维度已经被移除的 tensor.
 
 Args:
-    dim (int): Dimension to slice
-    index (int): Index to select
+    dim (int): 切片的维度
+    index (int): 用来选取的索引
 
 .. note::
 
-    :meth:`select` is equivalent to slicing. For example,
-    ``tensor.select(0, index)`` is equivalent to ``tensor[index]`` and
-    ``tensor.select(2, index)`` is equivalent to ``tensor[:,:,index]``.
+    :meth:`select`等效于切片. 例如,
+    ``tensor.select(0, index)`` 等效于 ``tensor[index]`` 和
+    ``tensor.select(2, index)`` 等效于 ``tensor[:,:,index]``.
 """)
 
 add_docstr_all('set_',
                """
 set_(source=None, storage_offset=0, size=None, stride=None)
 
-Sets the underlying storage, size, and strides. If :attr:`source` is a tensor,
-this tensor will share the same storage and have the same size and strides
-as the given tensor. Changes to elements in one tensor will be reflected in the
-other.
+设置底层存储, 大小, 和步长.
+如果 :attr:`source` 是一个 tensor 对象, 本 tensor 和该 tensor 共享底层存储, 并且大小和步长一样.
+在其中一个 tensor 中改变元素, 会音响到另一个 tensor.
 
-If :attr:`source` is a :class:`~torch.Storage`, the method sets the underlying
-storage, offset, size, and stride.
+如果 :attr:`source` 是一个 :class:`~torch.Storage`, 则将设置底层内存, 偏移量, 大小和步长.
 
 Args:
-    source (Tensor or Storage): The tensor or storage to use
-    storage_offset (int): The offset in the storage
-    size (torch.Size): The desired size. Defaults to the size of the source.
-    stride (tuple): The desired stride. Defaults to C-contiguous strides.
+    source (Tensor or Storage): 用到的 tensor 或 storage
+    storage_offset (int): storage 的偏移量
+    size (torch.Size): 期望的大小. 默认为源 tensor 的大小.
+    stride (tuple): 期望的步长. 默认为 C 相邻内存的步长.
 """)
 
 add_docstr_all('sigmoid',
                """
 sigmoid() -> Tensor
 
-See :func:`torch.sigmoid`
+请查看 :func:`torch.sigmoid`
 """)
 
 add_docstr_all('sigmoid_',
                """
 sigmoid_() -> Tensor
 
-In-place version of :meth:`~Tensor.sigmoid`
+ :meth:`~Tensor.sigmoid` 的 in-place 运算形式
 """)
 
 add_docstr_all('sign',
                """
 sign() -> Tensor
 
-See :func:`torch.sign`
+请查看 :func:`torch.sign`
 """)
 
 add_docstr_all('sign_',
                """
 sign_() -> Tensor
 
-In-place version of :meth:`~Tensor.sign`
+ :meth:`~Tensor.sign` 的 in-place 运算形式
 """)
 
 add_docstr_all('sin',
                """
 sin() -> Tensor
 
-See :func:`torch.sin`
+请查看 :func:`torch.sin`
 """)
 
 add_docstr_all('sin_',
                """
 sin_() -> Tensor
 
-In-place version of :meth:`~Tensor.sin`
+ :meth:`~Tensor.sin` 的 in-place 运算形式
 """)
 
 add_docstr_all('sinh',
                """
 sinh() -> Tensor
 
-See :func:`torch.sinh`
+请查看 :func:`torch.sinh`
 """)
 
 add_docstr_all('sinh_',
                """
 sinh_() -> Tensor
 
-In-place version of :meth:`~Tensor.sinh`
+ :meth:`~Tensor.sinh` 的 in-place 运算形式
 """)
 
 add_docstr_all('size',
                """
 size() -> torch.Size
 
-Returns the size of the tensor. The returned value is a subclass of
-:class:`tuple`.
+返回 tensor 的大小. 返回的值是 :class:`tuple` 的子类。
 
 Example:
     >>> torch.Tensor(3, 4, 5).size()
@@ -1432,57 +1402,56 @@ add_docstr_all('sort',
                """
 sort(dim=None, descending=False) -> (Tensor, LongTensor)
 
-See :func:`torch.sort`
+请查看 :func:`torch.sort`
 """)
 
 add_docstr_all('sqrt',
                """
 sqrt() -> Tensor
 
-See :func:`torch.sqrt`
+请查看 :func:`torch.sqrt`
 """)
 
 add_docstr_all('sqrt_',
                """
 sqrt_() -> Tensor
 
-In-place version of :meth:`~Tensor.sqrt`
+ :meth:`~Tensor.sqrt` 的 in-place 运算形式
 """)
 
 add_docstr_all('squeeze',
                """
 squeeze(dim=None)
 
-See :func:`torch.squeeze`
+请查看 :func:`torch.squeeze`
 """)
 
 add_docstr_all('squeeze_',
                """
 squeeze_(dim=None)
 
-In-place version of :meth:`~Tensor.squeeze`
+ :meth:`~Tensor.squeeze` 的 in-place 运算形式
 """)
 
 add_docstr_all('std',
                """
 std(dim=None, unbiased=True, keepdim=False) -> float
 
-See :func:`torch.std`
+请查看 :func:`torch.std`
 """)
 
 add_docstr_all('storage',
                """
 storage() -> torch.Storage
 
-Returns the underlying storage
+返回底层存储
 """)
 
 add_docstr_all('storage_offset',
                """
 storage_offset() -> int
 
-Returns this tensor's offset in the underlying storage in terms of number of
-storage elements (not bytes).
+按照储存元素个数的偏移返回 tensor 在底层存储中的偏移量(不是按照字节计算).
 
 Example:
     >>> x = torch.Tensor([1, 2, 3, 4, 5])
@@ -1496,13 +1465,13 @@ add_docstr_all('stride',
                """
 stride(dim) -> tuple or int
 
-Returns the stride of the tensor.
-Stride is the jump necessary to go from one element to the next one in the specified dimension dim.
-Tuple is returned when no Argument is passed. So we get stride in all dimensions.
-Integer value is returned when we desire stride in particular dimension.
+返回 tesnor 的步长。
+步长是指按照 dim 指定的维度，从一个元素到下一个元素需要跳跃的距离.
+当没有指定维度, 会计算所有维度的步长, 并返回一个 tuple.
+当给定维度时, 返回这个维度的步长.
 
 Args:
-    dim (int): The desired dimension in which stride is required.
+    dim (int): 期望的需要计算步长的维度.
 
 Example:
     >>> x = torch.Tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -1518,13 +1487,10 @@ add_docstr_all('sub',
                """
 sub(value, other) -> Tensor
 
-Subtracts a scalar or tensor from this tensor. If both :attr:`value` and
-:attr:`other` are specified, each element of :attr:`other` is scaled by
-:attr:`value` before being used.
+从 tensor 中抽取一个标量或张量. 
+如果 :attr:`value` 和 :attr:`other` 都是给定的，则在使用之前 :attr:`other`的每一个元素都会被 :attr:`value` 缩放。
 
-When :attr:`other` is a tensor, the shape of :attr:`other` must be
-:ref:`broadcastable <broadcasting-semantics>` with the shape of the underlying
-tensor.
+如果 :attr:`other` 是一个tensor,  :attr:`other` 的形状必须于基础 tensor 的形状是可广播的 ( :ref:`broadcastable <broadcasting-semantics>` ).
 
 """)
 
@@ -1532,167 +1498,165 @@ add_docstr_all('sub_',
                """
 sub_(x) -> Tensor
 
-In-place version of :meth:`~Tensor.sub`
+ :meth:`~Tensor.sub` 的 in-place 运算形式
 """)
 
 add_docstr_all('sum',
                """
 sum(dim=None, keepdim=False) -> float
 
-See :func:`torch.sum`
+请查看 :func:`torch.sum`
 """)
 
 add_docstr_all('svd',
                """
 svd(some=True) -> (Tensor, Tensor, Tensor)
 
-See :func:`torch.svd`
+请查看 :func:`torch.svd`
 """)
 
 add_docstr_all('symeig',
                """
 symeig(eigenvectors=False, upper=True) -> (Tensor, Tensor)
 
-See :func:`torch.symeig`
+请查看 :func:`torch.symeig`
 """)
 
 add_docstr_all('t',
                """
 t() -> Tensor
 
-See :func:`torch.t`
+请查看 :func:`torch.t`
 """)
 
 add_docstr_all('t_',
                """
 t_() -> Tensor
 
-In-place version of :meth:`~Tensor.t`
+ :meth:`~Tensor.t` 的 in-place 运算形式
 """)
 
 add_docstr_all('take',
                """
 take(indices) -> Tensor
 
-See :func:`torch.take`
+请查看 :func:`torch.take`
 """)
 
 add_docstr_all('tan_',
                """
 tan_() -> Tensor
 
-In-place version of :meth:`~Tensor.tan`
+ :meth:`~Tensor.tan` 的 in-place 运算形式
 """)
 
 add_docstr_all('tanh',
                """
 tanh() -> Tensor
 
-See :func:`torch.tanh`
+请查看 :func:`torch.tanh`
 """)
 
 add_docstr_all('tanh_',
                """
 tanh_() -> Tensor
 
-In-place version of :meth:`~Tensor.tanh`
+ :meth:`~Tensor.tanh` 的 in-place 运算形式
 """)
 
 add_docstr_all('topk',
                """
 topk(k, dim=None, largest=True, sorted=True) -> (Tensor, LongTensor)
 
-See :func:`torch.topk`
+请查看 :func:`torch.topk`
 """)
 
 add_docstr_all('trace',
                """
 trace() -> float
 
-See :func:`torch.trace`
+请查看 :func:`torch.trace`
 """)
 
 add_docstr_all('transpose',
                """
 transpose(dim0, dim1) -> Tensor
 
-See :func:`torch.transpose`
+请查看 :func:`torch.transpose`
 """)
 
 add_docstr_all('transpose_',
                """
 transpose_(dim0, dim1) -> Tensor
 
-In-place version of :meth:`~Tensor.transpose`
+ :meth:`~Tensor.transpose` 的 in-place 运算形式
 """)
 
 add_docstr_all('tril',
                """
 tril(k=0) -> Tensor
 
-See :func:`torch.tril`
+请查看 :func:`torch.tril`
 """)
 
 add_docstr_all('tril_',
                """
 tril_(k=0) -> Tensor
 
-In-place version of :meth:`~Tensor.tril`
+ :meth:`~Tensor.tril`
 """)
 
 add_docstr_all('triu',
                """
 triu(k=0) -> Tensor
 
-See :func:`torch.triu`
+请查看 :func:`torch.triu`
 """)
 
 add_docstr_all('triu_',
                """
 triu_(k=0) -> Tensor
 
-In-place version of :meth:`~Tensor.triu`
+ :meth:`~Tensor.triu` 的 in-place 运算形式
 """)
 
 add_docstr_all('trtrs',
                """
 trtrs(A, upper=True, transpose=False, unitriangular=False) -> (Tensor, Tensor)
 
-See :func:`torch.trtrs`
+请查看 :func:`torch.trtrs`
 """)
 
 add_docstr_all('trunc',
                """
 trunc() -> Tensor
 
-See :func:`torch.trunc`
+请查看 :func:`torch.trunc`
 """)
 
 add_docstr_all('trunc_',
                """
 trunc_() -> Tensor
 
-In-place version of :meth:`~Tensor.trunc`
+ :meth:`~Tensor.trunc` 的 in-place 运算形式
 """)
 
 add_docstr_all('unfold',
                """
 unfold(dim, size, step) -> Tensor
 
-Returns a tensor which contains all slices of size :attr:`size` in
-the dimension :attr:`dim`.
+返回一个在 :attr:`dim` 维度上包含所有 :attr:`size` 大小切片的 tensor.
 
-Step between two slices is given by :attr:`step`.
+ :attr:`step` 说明两个切片之间的步长.
 
-If `sizedim` is the original size of dimension dim, the size of dimension `dim`
-in the returned tensor will be `(sizedim - size) / step + 1`
+如果 `sizedim` 是原tensor在 dim 维度原来的大小, 则返回的 tensor 在 `dim` 维度的大小是 `(sizedim - size) / step + 1`
 
-An additional dimension of size size is appended in the returned tensor.
+一个额外的切片大小的维度已经添加在返回的 tensor 中.
 
 Args:
-    dim (int): dimension in which unfolding happens
-    size (int): size of each slice that is unfolded
-    step (int): the step between each slice
+    dim (int): 需要展开的维度
+    size (int): 每一个分片需要展开的大小
+    step (int): 相邻分片之间的步长
 
 Example::
 
@@ -1731,7 +1695,7 @@ add_docstr_all('uniform_',
                """
 uniform_(from=0, to=1) -> Tensor
 
-Fills this tensor with numbers sampled from the uniform distribution:
+将 tensor 用从均匀分布中抽样得到的值填充:
 
 .. math:
 
@@ -1742,35 +1706,34 @@ add_docstr_all('unsqueeze',
                """
 unsqueeze(dim)
 
-See :func:`torch.unsqueeze`
+请查看 :func:`torch.unsqueeze`
 """)
 
 add_docstr_all('unsqueeze_',
                """
 unsqueeze_(dim)
 
-In-place version of :meth:`~Tensor.unsqueeze`
+ :meth:`~Tensor.unsqueeze` 的 in-place 运算形式
 """)
 
 add_docstr_all('var',
                """
 var(dim=None, unbiased=True, keepdim=False) -> float
 
-See :func:`torch.var`
+请查看 :func:`torch.var`
 """)
 
 add_docstr_all('view',
                """
 view(*args) -> Tensor
 
-Returns a new tensor with the same data but different size.
+返回一个有相同数据但大小不同的新的 tensor.
 
-The returned tensor shares the same data and must have the same number
-of elements, but may have a different size. A tensor must be
-:func:`contiguous` to be viewed.
+返回的 tensor 与原 tensor 共享相同的数据，一定有相同数目的元素，但大小不同.
+一个 tensor 必须是连续的 ( :func:`contiguous` ) 才能被查看.
 
 Args:
-    args (torch.Size or int...): Desired size
+    args (torch.Size or int...): 期望的大小
 
 Example:
     >>> x = torch.randn(4, 4)
@@ -1788,24 +1751,17 @@ add_docstr_all('expand',
                """
 expand(*sizes) -> Tensor
 
-Returns a new view of the tensor with singleton dimensions expanded
-to a larger size.
+返回 tensor 单个维度扩展到大的一个新的视图.
 
-Passing -1 as the size for a dimension means not changing the size of
-that dimension.
+传递 -1 作为一个维度的大小, 表示这个维度的大小不做改变.
 
-Tensor can be also expanded to a larger number of dimensions, and the
-new ones will be appended at the front. (For the new dimensions, the
-size cannot be set to -1.)
+Tensor 也可以扩展到一个很大的维数, 新添加的维度将放在前面. (对于新的维度，大小不能设置为 -1 .)
 
-Expanding a tensor does not allocate new memory, but only creates a
-new view on the existing tensor where a dimension of size one is
-expanded to a larger size by setting the ``stride`` to 0. Any dimension
-of size 1 can be expanded to an arbitrary value without allocating new
-memory.
+扩展一个 tensor 不是分配一个新的内存, 而只是在这个存在的 tensor 上, 通过设置 ``stride`` 为 0, 创建一个新的某个维度从 1 扩展到很大的视图.
+任何大小为 1 的维度, 在不用重新分配内存的情况下，可以扩展到随意任何一个值.
 
 Args:
-    *sizes (torch.Size or int...): The desired expanded size
+    *sizes (torch.Size or int...): 期望扩展的大小
 
 Example:
     >>> x = torch.Tensor([[1], [2], [3]])
@@ -1827,5 +1783,5 @@ add_docstr_all('zero_',
                """
 zero_()
 
-Fills this tensor with zeros.
+用0填充该 tensor.
 """)
