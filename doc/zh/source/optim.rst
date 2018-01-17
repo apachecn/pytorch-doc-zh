@@ -32,9 +32,9 @@ torch.optim
 ^^^^^^^^^^^^^^^^^^^
 
 :class:`Optimizer` s也支持为每个参数单独设置选项。若要这么做，不要直接
-使用:class:`~torch.autograd.Variable` s的迭代，而是使用:class:`dict` s
-的迭代。每一个dict都分别定 义了一组参数, 并且应该要包含``params`` 键,这个键对应列表的参数。 
-其他的键应该与optimizer所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化。
+使用 :class: `~torch.autograd.Variable` s 的迭代，而是使用 :class :`dict` s
+的迭代。每一个 dict 都分别定 义了一组参数, 并且应该要包含 ``params`` 键,这个键对应列表的参数。 
+其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化。
 
 .. note::
 
@@ -49,18 +49,18 @@ torch.optim
                     {'params': model.classifier.parameters(), 'lr': 1e-3}
                 ], lr=1e-2, momentum=0.9)
 
-这意味着``model.base``的参数将会使用``1e-2``的学习率,``model.classifier``的参数 将会使用``1e-3``的学习率,
-并且``0.9``的momentum 将应用于所有参数。
+这意味着 ``model.base`` 的参数将会使用 ``1e-2`` 的学习率,``model.classifier`` 的参数 将会使用 ``1e-3`` 的学习率,
+并且 ``0.9`` 的 momentum 将应用于所有参数。
 
 进行单步优化
 ^^^^^^^^^^
 
-所有的优化器都实现了:func:`~Optimizer.step`方法, 且更新到所有的参数。它可以通过以下两种方式来使用:
+所有的优化器都实现了 :func:`~Optimizer.step` 方法, 且更新到所有的参数。它可以通过以下两种方式来使用:
 
 ``optimizer.step()``
 ~~~~~~~~~~~~~~~~~~~~
 
-这是大多数optimizer所支持的简化版本。一旦使用:func:`~torch.autograd.Variable.backward`之类的函数
+这是大多数optimizer所支持的简化版本。一旦使用 :func:`~torch.autograd.Variable.backward` 之类的函数
 计算出来梯度之后我们就可以调用这个函数了。
 
 例子::
@@ -75,7 +75,7 @@ torch.optim
 ``optimizer.step(closure)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-一些优化算法例如Conjugate Gradient和LBFGS需要重复多次计算函数, 因此你需要传入一个闭包去
+一些优化算法例如 Conjugate Gradient 和 LBFGS 需要重复多次计算函数, 因此你需要传入一个闭包去
 允许它们重新计算你的模型。这个闭包应当清空梯度，计算损失，然后返回。
 
 例子::
@@ -118,8 +118,8 @@ torch.optim
 如何调整学习率
 ---------------------------
 
-:mod:`torch.optim.lr_scheduler` 基于循环的次数提供了一些方法来调节学习率。
-:class:`torch.optim.lr_scheduler.ReduceLROnPlateau`基于验证测量结果来设置不同的学习率。
+:mod: `torch.optim.lr_scheduler` 基于循环的次数提供了一些方法来调节学习率。
+:class: `torch.optim.lr_scheduler.ReduceLROnPlateau` 基于验证测量结果来设置不同的学习率。
 
 .. autoclass:: torch.optim.lr_scheduler.LambdaLR
     :members:
