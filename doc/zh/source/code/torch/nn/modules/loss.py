@@ -649,19 +649,19 @@ class CosineEmbeddingLoss(Module):
 
 
 class MarginRankingLoss(Module):
-    r"""创建一个衡量小批量(mini-batch)中的2个1维`Tensor`的输入`x1`和`x2`，
-    和1个1维`Tensor`的目标`y`(`y`的取值是`1`或者`-1`)之间损失的标准。
+    r"""创建一个衡量 mini-batch(小批量) 中的2个1维 `Tensor` 的输入 `x1` 和 `x2`,
+    和1个1维 `Tensor` 的目标 `y`(`y` 的取值是 `1` 或者 `-1`) 之间损失的标准.
 
-    如果`y == 1`则认为第一个输入值应该排列在第二个输入值之上(即值更大)，`y == -1`时则相反。
+    如果 `y == 1` 则认为第一个输入值应该排列在第二个输入值之上(即值更大), `y == -1` 时则相反.
 
-    对于小批量(mini-batch)中每个实例的损失函数如下::
+    对于 mini-batch(小批量) 中每个实例的损失函数如下::
 
 
         loss(x, y) = max(0, -y * (x1 - x2) + margin)
 
-    如果内部变量`size_average = True`，则损失函数计算批次中所有实例的损失值的平均值；
-    如果`size_average = False`， 则损失函数计算批次中所有实例的损失至的合计。
-    `size_average`默认值为``True``。
+    如果内部变量 `size_average = True`, 则损失函数计算批次中所有实例的损失值的平均值;
+    如果 `size_average = False`, 则损失函数计算批次中所有实例的损失至的合计.
+    `size_average` 默认值为 ``True``.
     """
 
     def __init__(self, margin=0, size_average=True):
