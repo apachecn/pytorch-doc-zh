@@ -65,9 +65,9 @@ class _ConvNd(Module):
 
 class Conv1d(_ConvNd):
     r"""一维卷积层
-    输入矩阵的维度为 :math:`(N, C_{in}, L)`, 输出矩阵维度为:math:`(N, C_{out}, L_{out})`。
-    其中N为输入数量，C为每个输入样本的通道数量， L为样本中一个通道下的数据的长度。
-    算法如下：
+    输入矩阵的维度为 :math:`(N, C_{in}, L)`, 输出矩阵维度为:math:`(N, C_{out}, L_{out})`.
+    其中N为输入数量, C为每个输入样本的通道数量,  L为样本中一个通道下的数据的长度.
+    算法如下:
 
     .. 计算公式::
 
@@ -76,28 +76,28 @@ class Conv1d(_ConvNd):
                        + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    :math:`\star` 是互相关运算符，上式带:math:`\star`项为卷积项。
+    :math:`\star` 是互相关运算符, 上式带:math:`\star`项为卷积项.
 
-    | :attr:`stride` 计算相关系数的步长，可以为 tuple 。
+    | :attr:`stride` 计算相关系数的步长, 可以为 tuple .
     | :attr:`padding` 处理边界时在两侧补0数量  
-    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样，如对(a,b,c,d,e)采样时，若池化规模为2，
-    dilation 为1时，使用(a,b);(b,c)...进行池化，dilation为1时，使用(a,c);(b,d)...进行池化。
-    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
-    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
-    输出通道简单的首尾相接作为结果输出。
-         `in_channels` 和 `out_channels`都要可以被 groups 整除。
+    | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样, 如对(a,b,c,d,e)采样时, 若池化规模为2, 
+    dilation 为1时, 使用(a,b);(b,c)...进行池化, dilation为1时, 使用(a,c);(b,d)...进行池化.
+    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
+    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出.
+         `in_channels` 和 `out_channels`都要可以被 groups 整除.
 
 
 
     参数:
-        in_channels (int):  输入信号的通道数。
-        out_channels (int): 卷积后输出结果的通道数。
-        kernel_size (int or tuple): 卷积核的形状。
-        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
-        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
-        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
-        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
-        bias (bool, optional): 为 ``True`` 时， 添加偏置。
+        in_channels (int):  输入信号的通道数.
+        out_channels (int): 卷积后输出结果的通道数.
+        kernel_size (int or tuple): 卷积核的形状.
+        stride (int or tuple, optional): 卷积每次移动的步长, 默认为1.
+        padding (int or tuple, optional): 处理边界时填充0的数量, 默认为0(不填充).
+        dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样.
+        groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
+        bias (bool, optional): 为 ``True`` 时,  添加偏置.
 
     形状:
         - 输入 Input: :math:`(N, C_{in}, L_{in})`
@@ -105,9 +105,9 @@ class Conv1d(_ConvNd):
           :math:`L_{out} = floor((L_{in}  + 2 * padding - dilation * (kernel\_size - 1) - 1) / stride + 1)`
 
     模型的属性:
-        weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为
+        weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size)
-        bias (Tensor):   偏置，是模型需要学习的变量，形状为
+        bias (Tensor):   偏置, 是模型需要学习的变量, 形状为
             (out_channels)
 
     样例::
@@ -140,9 +140,9 @@ class Conv1d(_ConvNd):
 
 class Conv2d(_ConvNd):
     r"""二维卷积层
-    输入矩阵的维度为 :math:`(N, C_{in}, H, W)`, 输出矩阵维度为:math:`(N, C_{out}, H_{out}, W_{out})`。
-    其中N为输入数量，C为每个输入样本的通道数量， H， W 分别为样本中一个通道下的数据的形状。
-    算法如下：
+    输入矩阵的维度为 :math:`(N, C_{in}, H, W)`, 输出矩阵维度为:math:`(N, C_{out}, H_{out}, W_{out})`.
+    其中N为输入数量, C为每个输入样本的通道数量,  H,  W 分别为样本中一个通道下的数据的形状. 
+    算法如下: 
 
     .. 计算公式::
 
@@ -151,30 +151,30 @@ class Conv2d(_ConvNd):
                        + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    :math:`\star` 是互相关运算符，上式带:math:`\star`项为卷积项。
+    :math:`\star` 是互相关运算符, 上式带:math:`\star`项为卷积项. 
 
-    | :attr:`stride` 计算相关系数的步长，可以为 tuple 。
-    | :attr:`padding` 处理边界时在每个维度首尾补0数量。
-    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样。
-    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
-    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
-    输出通道简单的首尾相接作为结果输出。
-            `in_channels` 和 `out_channels`都要可以被 groups 整除。
+    | :attr:`stride` 计算相关系数的步长, 可以为 tuple . 
+    | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
+    | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样. 
+    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
+    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出. 
+            `in_channels` 和 `out_channels`都要可以被 groups 整除. 
     
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`dilation` 可以为:
 
-        -  单个 ``int`` 值  -- 宽和高均被设定为此值。
-        -  由两个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为高， 第二个``int`` 为宽。
+        -  单个 ``int`` 值  -- 宽和高均被设定为此值. 
+        -  由两个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为高,  第二个``int`` 为宽. 
 
     参数:
-        in_channels (int): 输入信号的通道数。
-        out_channels (int): 卷积后输出结果的通道数。
-        kernel_size (int or tuple): 卷积核的形状。
-        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
-        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
-        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
-        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
-        bias (bool, optional): 为 ``True`` 时， 添加偏置。
+        in_channels (int): 输入信号的通道数. 
+        out_channels (int): 卷积后输出结果的通道数. 
+        kernel_size (int or tuple): 卷积核的形状. 
+        stride (int or tuple, optional): 卷积每次移动的步长, 默认为1. 
+        padding (int or tuple, optional): 处理边界时填充0的数量, 默认为0(不填充). 
+        dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
+        groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
+        bias (bool, optional): 为 ``True`` 时,  添加偏置. 
 
     形状:
         - 输入 Input: :math:`(N, C_{in}, H_{in}, W_{in})`
@@ -183,9 +183,9 @@ class Conv2d(_ConvNd):
           :math:`W_{out} = floor((W_{in}  + 2 * padding[1] - dilation[1] * (kernel\_size[1] - 1) - 1) / stride[1] + 1)`
 
     模型的属性:
-        weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为
+        weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size[0], kernel_size[1])
-        bias (Tensor):   偏置，是模型需要学习的变量，形状为 (out_channels)
+        bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
        
 
     样例::
@@ -223,9 +223,9 @@ class Conv2d(_ConvNd):
 
 class Conv3d(_ConvNd):
     r"""三维卷基层
-    输入矩阵的维度为 :math:`(N, C_{in}, D, H, W)`, 输出矩阵维度为::math:`(N, C_{out}, D_{out}, H_{out}, W_{out})`。
-    其中N为输入数量，C为每个输入样本的通道数量， D， H， W 分别为样本中一个通道下的数据的形状。
-    算法如下：
+    输入矩阵的维度为 :math:`(N, C_{in}, D, H, W)`, 输出矩阵维度为::math:`(N, C_{out}, D_{out}, H_{out}, W_{out})`. 
+    其中N为输入数量, C为每个输入样本的通道数量,  D,  H,  W 分别为样本中一个通道下的数据的形状. 
+    算法如下: 
 
     .. 计算公式::
 
@@ -234,31 +234,31 @@ class Conv3d(_ConvNd):
                        + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    :math:`\star` 是互相关运算符，上式带:math:`\star`项为卷积项。
+    :math:`\star` 是互相关运算符, 上式带:math:`\star`项为卷积项. 
 
-    | :attr:`stride` 计算相关系数的步长，可以为 tuple 。
-    | :attr:`padding` 处理边界时在每个维度首尾补0数量。
-    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样。
-    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
-    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
-    输出通道简单的首尾相接作为结果输出。
-            `in_channels` 和 `out_channels`都要可以被 groups 整除。
+    | :attr:`stride` 计算相关系数的步长, 可以为 tuple . 
+    | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
+    | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样. 
+    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
+    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出. 
+            `in_channels` 和 `out_channels`都要可以被 groups 整除. 
     
     
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`dilation` 可以为:
 
-        -  单个 ``int`` 值  -- 宽和高和深度均被设定为此值。
-        -  由三个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为深度， 第二个 ``int`` 为高度，第三个 ``int`` 为宽度。
+        -  单个 ``int`` 值  -- 宽和高和深度均被设定为此值. 
+        -  由三个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为深度,  第二个 ``int`` 为高度, 第三个 ``int`` 为宽度. 
         
     参数:
-        in_channels (int): 输入信号的通道数。
-        out_channels (int): 卷积后输出结果的通道数。
-        kernel_size (int or tuple): 卷积核的形状。
-        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
-        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
-        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
-        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
-        bias (bool, optional): 为 ``True`` 时， 添加偏置。
+        in_channels (int): 输入信号的通道数. 
+        out_channels (int): 卷积后输出结果的通道数. 
+        kernel_size (int or tuple): 卷积核的形状. 
+        stride (int or tuple, optional): 卷积每次移动的步长, 默认为1. 
+        padding (int or tuple, optional): 处理边界时填充0的数量, 默认为0(不填充). 
+        dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
+        groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
+        bias (bool, optional): 为 ``True`` 时,  添加偏置. 
         
     形状:
         -输入 Input: :math:`(N, C_{in}, D_{in}, H_{in}, W_{in})`
@@ -268,9 +268,9 @@ class Conv3d(_ConvNd):
           :math:`W_{out} = floor((W_{in}  + 2 * padding[2] - dilation[2] * (kernel\_size[2] - 1) - 1) / stride[2] + 1)`
 
     模型的属性:
-        weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为
+        weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2])
-        bias (Tensor): 偏置，是模型需要学习的变量，形状为 (out_channels)
+        bias (Tensor): 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
     样例::
 
@@ -346,37 +346,37 @@ class _ConvTransposeMixin(object):
 
 class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
     r"""一维反卷积层
-    反卷积层可以理解为```输入的数据和卷积核的位置反转的卷积操作```。
-    反卷积有时候也会被翻译成解卷积。
+    反卷积层可以理解为```输入的数据和卷积核的位置反转的卷积操作```. 
+    反卷积有时候也会被翻译成解卷积. 
 
-    | :attr:`stride` 计算相关系数的步长。
-    | :attr:`padding` 处理边界时在每个维度首尾补0数量。
-    | :attr:`output_padding` 输出时候在首尾补0的数量。（卷积时，形状不同的输入数据
-    对相同的核函数可以产生形状相同的结果；反卷积时，同一个输入对相同的核函数可以产生多
-    个形状不同的输出，而输出结果只能有一个，因此必须对输出形状进行约束）
-    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样。
-    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
-    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
-    输出通道简单的首尾相接作为结果输出。
-            `in_channels` 和 `out_channels`都要可以被 groups 整除。
+    | :attr:`stride` 计算相关系数的步长. 
+    | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
+    | :attr:`output_padding` 输出时候在首尾补0的数量. （卷积时, 形状不同的输入数据
+    对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多
+    个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）
+    | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样. 
+    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
+    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出. 
+            `in_channels` 和 `out_channels`都要可以被 groups 整除. 
     
     .. 注意::
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
-        整除的时候，适当的 padding 可以避免这个问题）。
+        整除的时候, 适当的 padding 可以避免这个问题）. 
         
 
     参数:
-        in_channels (int): 输入信号的通道数。
-        out_channels (int): 卷积后输出结果的通道数。
-        kernel_size (int or tuple): 卷积核的形状。
-        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
-        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
-        output_padding (int or tuple, optional): 输出时候在首尾补值的数量，默认为0。（卷积时，形状不同的输入数据
-        对相同的核函数可以产生形状相同的结果；反卷积时，同一个输入对相同的核函数可以产生多
-        个形状不同的输出，而输出结果只能有一个，因此必须对输出形状进行约束）
-        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
-        bias (bool, optional): 为 ``True`` 时， 添加偏置。
-        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
+        in_channels (int): 输入信号的通道数. 
+        out_channels (int): 卷积后输出结果的通道数. 
+        kernel_size (int or tuple): 卷积核的形状. 
+        stride (int or tuple, optional): 卷积每次移动的步长, 默认为1. 
+        padding (int or tuple, optional): 处理边界时填充0的数量, 默认为0(不填充). 
+        output_padding (int or tuple, optional): 输出时候在首尾补值的数量, 默认为0. （卷积时, 形状不同的输入数据
+        对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多
+        个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）
+        groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
+        bias (bool, optional): 为 ``True`` 时,  添加偏置. 
+        dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
         
     
 
@@ -386,9 +386,9 @@ class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
           :math:`L_{out} = (L_{in} - 1) * stride - 2 * padding + kernel\_size + output\_padding`
 
     模型的属性:
-        weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为
+        weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
                          (in_channels, out_channels, kernel_size[0], kernel_size[1])
-        bias (Tensor):   偏置，是模型需要学习的变量，形状为 (out_channels)
+        bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
     """
 
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
@@ -411,41 +411,41 @@ class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
 
 class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
     r"""二维反卷积层
-    反卷积层可以理解为```输入的数据和卷积核的位置反转的卷积操作```。
-    反卷积有时候也会被翻译成解卷积。
+    反卷积层可以理解为```输入的数据和卷积核的位置反转的卷积操作```. 
+    反卷积有时候也会被翻译成解卷积. 
     
-    | :attr:`stride` 计算相关系数的步长。
-    | :attr:`padding` 处理边界时在每个维度首尾补0数量。
-    | :attr:`output_padding` 输出时候在每一个维度首尾补0的数量。（卷积时，形状不同的输入数据
-    对相同的核函数可以产生形状相同的结果；反卷积时，同一个输入对相同的核函数可以产生多
-    个形状不同的输出，而输出结果只能有一个，因此必须对输出形状进行约束）
-    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样。
-    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
-    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
-    输出通道简单的首尾相接作为结果输出。
-            `in_channels` 和 `out_channels`都应当可以被 groups 整除。
+    | :attr:`stride` 计算相关系数的步长. 
+    | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
+    | :attr:`output_padding` 输出时候在每一个维度首尾补0的数量. （卷积时, 形状不同的输入数据
+    对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多
+    个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）
+    | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样. 
+    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
+    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出. 
+            `in_channels` 和 `out_channels`都应当可以被 groups 整除. 
    
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`output_padding` 可以为:
 
-        - 单个 ``int`` 值  -- 宽和高均被设定为此值。
-        - 由两个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为高度， 第二个 ``int`` 为宽度。
+        - 单个 ``int`` 值  -- 宽和高均被设定为此值. 
+        - 由两个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为高度,  第二个 ``int`` 为宽度. 
 
     .. 注意::
     数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
-    整除的时候，适当的 padding 可以避免这个问题）。
+    整除的时候, 适当的 padding 可以避免这个问题）. 
 
     参数:
-        in_channels (int): 输入信号的通道数。
-        out_channels (int): 卷积后输出结果的通道数。
-        kernel_size (int or tuple): 卷积核的形状。
-        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
-        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
-        output_padding (int or tuple, optional): 输出时候在首尾补值的数量，默认为0。（卷积时，形状不同的输入数据
-        对相同的核函数可以产生形状相同的结果；反卷积时，同一个输入对相同的核函数可以产生多
-        个形状不同的输出，而输出结果只能有一个，因此必须对输出形状进行约束）
-        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
-        bias (bool, optional): 为 ``True`` 时， 添加偏置。
-        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
+        in_channels (int): 输入信号的通道数. 
+        out_channels (int): 卷积后输出结果的通道数. 
+        kernel_size (int or tuple): 卷积核的形状. 
+        stride (int or tuple, optional): 卷积每次移动的步长, 默认为1. 
+        padding (int or tuple, optional): 处理边界时填充0的数量, 默认为0(不填充). 
+        output_padding (int or tuple, optional): 输出时候在首尾补值的数量, 默认为0. （卷积时, 形状不同的输入数据
+        对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多
+        个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）
+        groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
+        bias (bool, optional): 为 ``True`` 时,  添加偏置. 
+        dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
     
     形状:
         -输入 Input: :math:`(N, C_{in}, H_{in}, W_{in})`
@@ -454,9 +454,9 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
           :math:`W_{out} = (W_{in} - 1) * stride[1] - 2 * padding[1] + kernel\_size[1] + output\_padding[1]`
 
     模型的属性:
-        weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为
+        weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
                          (in_channels, out_channels, kernel_size[0], kernel_size[1])
-        bias (Tensor):   偏置，是模型需要学习的变量，形状为 (out_channels)
+        bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
     样例::
 
@@ -504,41 +504,41 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
 
 class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
     r"""三维反卷积层
-    反卷积层可以理解为```输入的数据和卷积核的位置反转的卷积操作```。
-    反卷积有时候也会被翻译成解卷积。
+    反卷积层可以理解为```输入的数据和卷积核的位置反转的卷积操作```. 
+    反卷积有时候也会被翻译成解卷积. 
 
-    | :attr:`stride` 计算相关系数的步长。
-    | :attr:`padding` 处理边界时在每个维度首尾补0数量。
-    | :attr:`output_padding` 输出时候在每一个维度首尾补0的数量。（卷积时，形状不同的输入数据
-    对相同的核函数可以产生形状相同的结果；反卷积时，同一个输入对相同的核函数可以产生多
-    个形状不同的输出，而输出结果只能有一个，因此必须对输出形状进行约束）
-    | :attr:`dilation` 采样间隔数量。大于1时为非致密采样。
-    | :attr:`groups` 控制输入和输出之间的连接， group=1, 输出是所有输入的卷积； group=2，此时
-    相当于有并排的两个卷基层，每个卷积层只在对应的输入通道和输出通道之间计算，并且输出时会将所有
-    输出通道简单的首尾相接作为结果输出。
-            `in_channels` 和 `out_channels`都应当可以被 groups 整除。
+    | :attr:`stride` 计算相关系数的步长. 
+    | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
+    | :attr:`output_padding` 输出时候在每一个维度首尾补0的数量. （卷积时, 形状不同的输入数据
+    对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多
+    个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）
+    | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样. 
+    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
+    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    输出通道简单的首尾相接作为结果输出. 
+            `in_channels` 和 `out_channels`都应当可以被 groups 整除. 
 
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`output_padding` 可以为:
 
-        - 单个 ``int`` 值  -- 深和宽和高均被设定为此值。
-        - 由三个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为深度， 第二个 ``int`` 为高度,第三个 ``int`` 为宽度。
+        - 单个 ``int`` 值  -- 深和宽和高均被设定为此值. 
+        - 由三个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为深度,  第二个 ``int`` 为高度,第三个 ``int`` 为宽度. 
 
     .. 注意::
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
-        整除的时候，适当的 padding 可以避免这个问题）。
+        整除的时候, 适当的 padding 可以避免这个问题）. 
 
     参数:
-        in_channels (int): 输入信号的通道数。
-        out_channels (int): 卷积后输出结果的通道数。
-        kernel_size (int or tuple): 卷积核的形状。
-        stride (int or tuple, optional): 卷积每次移动的步长，默认为1。
-        padding (int or tuple, optional): 处理边界时填充0的数量，默认为0(不填充)。
-        output_padding (int or tuple, optional): 输出时候在首尾补值的数量，默认为0。（卷积时，形状不同的输入数据
-        对相同的核函数可以产生形状相同的结果；反卷积时，同一个输入对相同的核函数可以产生多
-        个形状不同的输出，而输出结果只能有一个，因此必须对输出形状进行约束）
-        groups (int, optional): 输入与输出通道的分组数量。当不为1时，默认为1(全连接)。
-        bias (bool, optional): 为 ``True`` 时， 添加偏置。
-        dilation (int or tuple, optional): 采样间隔数量，默认为1，无间隔采样。
+        in_channels (int): 输入信号的通道数. 
+        out_channels (int): 卷积后输出结果的通道数. 
+        kernel_size (int or tuple): 卷积核的形状. 
+        stride (int or tuple, optional): 卷积每次移动的步长, 默认为1. 
+        padding (int or tuple, optional): 处理边界时填充0的数量, 默认为0(不填充). 
+        output_padding (int or tuple, optional): 输出时候在首尾补值的数量, 默认为0. （卷积时, 形状不同的输入数据
+        对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多
+        个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）
+        groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
+        bias (bool, optional): 为 ``True`` 时,  添加偏置. 
+        dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
 
     形状:
         -输入 Input: :math:`(N, C_{in}, D_{in}, H_{in}, W_{in})`
@@ -548,9 +548,9 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
           :math:`W_{out} = (W_{in} - 1) * stride[2] - 2 * padding[2] + kernel\_size[2] + output\_padding[2]`
 
     模型的属性:
-        卷积网络层间连接的权重，是模型需要学习的变量，形状为weight (Tensor): 卷积网络层间连接的权重，是模型需要学习的变量，形状为
+        卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
                          (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2])
-        bias (Tensor):   偏置，是模型需要学习的变量，形状为 (out_channels)
+        bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
     样例::
 
