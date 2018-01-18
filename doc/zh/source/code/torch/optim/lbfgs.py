@@ -71,7 +71,7 @@ class LBFGS(Optimizer):
     def step(self, closure):
         """进行单步优化.
 
-        算法:
+        参数:
             closure (callable): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
         """
         assert len(self.param_groups) == 1
