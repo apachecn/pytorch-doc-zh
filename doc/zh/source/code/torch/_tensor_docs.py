@@ -1266,7 +1266,6 @@ scatter_(dim, index, src) -> Tensor
 而且, 属于同一维度的一行的值必须是唯一的.
 
 Args:
-    input (Tensor): 源 tensor (貌似没有这个参数, /(ㄒoㄒ)/~~ )
     dim (int): 索引的轴向
     index (LongTensor):散射元素的索引指数
     src (Tensor or float): 散射的源元素
