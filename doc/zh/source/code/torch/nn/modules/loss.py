@@ -37,12 +37,12 @@ class L1Loss(_Loss):
     如果构造函数中的参数被设置为 `size_average=False`, 那么除以 n 的操作将不会被执行.
 
     参数:
-        size_average (bool, optional): 在默认情况下, loss 是通过对每批 (即上述公
-           式中的 :math:`|x_i - y_i|`)求平均数. 然而, 如果 size_average 被设置
-           为 ``False``, 那么 loss 就变成了对每批求和 (即除以 n 的操作将不会执行). 
-           当 reduce 是 ``False`` 时， 此函数会被忽略. 默认: ``True``
-        reduce (bool, optional): 在默认情况下, loss 是对每批求平均或求和. 当 reduce
-           是 ``False`` 时, loss 函数返回各个批自己的损失同时忽略 size_average.
+        size_average (bool, optional): 在默认情况下, loss 是通过对各组 (即上述公
+           式中的 :math:`|x_i - y_i|`)求平均. 然而, 如果 size_average 被设置
+           为 ``False``, 那么 loss 就变成了对各组求和 (即除以 n 的操作将不会执行). 
+           当 reduce 是 ``False`` 时， 此参数取值会被忽略. 默认: ``True``
+        reduce (bool, optional): 在默认情况下, loss 是对各组求平均或求和. 当 reduce
+           是 ``False`` 时, loss 函数返回各组自己的损失同时忽略 size_average 的取值.
            默认: ``True``
 
     形状:
@@ -278,38 +278,33 @@ class KLDivLoss(_Loss):
 
 
 class MSELoss(_Loss):
-    r"""Creates a criterion that measures the mean squared error between
-    `n` elements in the input `x` and target `y`:
+    r"""创建一个标准. 此标准被用作衡量输入 `x` 和目标 `y` 之间的均方误差:
 
     :math:`{loss}(x, y)  = 1/n \sum |x_i - y_i|^2`
 
-    `x` and `y` arbitrary shapes with a total of `n` elements each.
+    `x` 和 `y` 可以是拥有 n 个元素的任意形状.
 
-    The sum operation still operates over all the elements, and divides by `n`.
+    求和运算 (即上述公式中的 :math:`\sum`) 会遍历所有元素, 然后除以 n.
 
-    The division by `n` can be avoided if one sets the internal variable
-    `size_average` to ``False``.
+    如果构造函数中的参数被设置为 `size_average=False`, 那么除以 n 的操作将不会被执行.
 
-    To get a batch of losses, a loss per batch element, set `reduce` to
-    ``False``. These losses are not averaged and are not affected by
-    `size_average`.
+    设置 `reduce' 为 ``False`` 可以得到一组损失, 即每组各自的损失. 这些损失不会被
+    参数 `size_average` 的值影响.
 
-    Args:
-        size_average (bool, optional): By default, the losses are averaged
-           over observations for each minibatch. However, if the field
-           size_average is set to ``False``, the losses are instead summed for
-           each minibatch. Only applies when reduce is ``True``. Default: ``True``
-        reduce (bool, optional): By default, the losses are averaged
-           over observations for each minibatch, or summed, depending on
-           size_average. When reduce is ``False``, returns a loss per batch
-           element instead and ignores size_average. Default: ``True``
+    参数:
+        size_average (bool, optional): 在默认情况下, loss 是通过对各组 (即上述公
+           式中的 :math:`|x_i - y_i|^2`)求平均. 然而, 如果 size_average 被设置
+           为 ``False``, 那么 loss 就变成了对各组求和 (即除以 n 的操作将不会执行). 
+           只有当 reduce 是 ``True`` 时， 此函数才会被执行. 默认: ``True``
+        reduce (bool, optional): 在默认情况下, loss 是取决于 size_average, 对各
+           组求平均或求和. 当 reduce 是 ``False`` 时, loss 函数返回各组自己的损失
+           同时忽略 size_average 的取值. 默认: ``True``
 
-    Shape:
-        - Input: :math:`(N, *)` where `*` means, any number of additional
-          dimensions
-        - Target: :math:`(N, *)`, same shape as the input
+    形状:
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 目标: :math:`(N, *)`, 和输入形状相同
 
-    Examples::
+    实例::
 
         >>> loss = nn.MSELoss()
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
