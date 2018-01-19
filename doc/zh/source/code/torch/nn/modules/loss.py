@@ -70,58 +70,51 @@ class L1Loss(_Loss):
 
 
 class NLLLoss(_WeightedLoss):
-    r"""The negative log likelihood loss. It is useful to train a classification
-    problem with `C` classes.
+    r"""负对数似然损失 (negative log likelihood loss). 当训练一个类数为 `C` 的分类器
+    时很有用.
 
-    If provided, the optional argument `weight` should be a 1D Tensor assigning
-    weight to each of the classes. This is particularly useful when you have an
-    unbalanced training set.
+    如果已经提供了的话, 参数 `weight` 应该是一个一维的 `Tensor`, 对每个类赋值权重. 当训练
+    一个不平衡的训练集时,这个参数十分有用.
 
-    The input given through a forward call is expected to contain
-    log-probabilities of each class: input has to be a 2D Tensor of size
-    `(minibatch, C)`
+    输入需要包含每个类别的 `log-probabilities`: 输入必须是一个二维 `Tensor`, 形状是
+     `(minibatch, C)`
 
-    Obtaining log-probabilities in a neural network is easily achieved by
-    adding a  `LogSoftmax`  layer in the last layer of your network.
-    You may use `CrossEntropyLoss` instead, if you prefer not to add an extra
-    layer.
+    在一个神经网络中的 `log-probabilities`, 是可以通过在网络中最后一层后面添加一个 
+    `LogSoftmax` 层获得的. 或者如果您不想额外添加一层的话, 也可以使用 
+    `CrossEntropyLoss` 代替.
+  
+    此 loss 期望的 target 是一个类的索引 `(0 to C-1)`, C 是类的数量. 
 
-    The target that this loss expects is a class index
-    `(0 to C-1, where C = number of classes)`
-
-    The loss can be described as::
+    Loss 可以被表述为::
 
         loss(x, class) = -x[class]
 
-    or in the case of the weight argument it is specified as follows::
+    或者如果 weight 参数被指定的话::
 
         loss(x, class) = -weight[class] * x[class]
 
-    or in the case of ignore_index::
+    或 ignore_index::
 
         loss(x, class) = class != ignoreIndex ? -weight[class] * x[class] : 0
 
-    Args:
-        weight (Tensor, optional): a manual rescaling weight given to each
-           class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-           over observations for each minibatch. However, if the field
-           size_average is set to ``False``, the losses are instead summed for
-           each minibatch. Ignored when reduce is ``False``. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-            and does not contribute to the input gradient. When size_average
-            is ``True``, the loss is averaged over non-ignored targets.
-        reduce (bool, optional): By default, the losses are averaged or summed
-            for each minibatch. When reduce is ``False``, the loss function returns
-            a loss per batch element instead and ignores size_average.
-            Default: ``True``
+    参数:
+        weight (Tensor, optional): 手工调节的各个类的权重. 如果有的话, 必须是大小为
+           `C` 的 `Tensor`.
+        size_average (bool, optional): Loss 默认为对每个 `minibatch` 求平均.
+           然而， 如果 size_average 被设置为 ``False``, loss 会变为对每个 `minibatch`
+           求和. 如果 reduce 是 ``False``. 此参数会被忽略. 默认: ``True``
+        ignore_index (int, optional): 指定一个被忽略的目标值并且不影响输入梯度. 当
+           size_average 是 ``True`` 时, loss 通过对没有被忽略的目标求平均.
+        reduce (bool, optional):  Loss 默认为取决于 size_average 的取值, 对每个 
+           `minibatch` 求平均或求和. 当 reduce 是 ``False`` 时, 返回每个 batch 元素
+           的 loss 并忽略 size_average 参数. 默认: ``True``
 
-    Shape:
-        - Input: :math:`(N, C)` where `C = number of classes`
-        - Target: :math:`(N)` where each value is `0 <= targets[i] <= C-1`
-        - Output: scalar. If reduce is ``False``, then :math:`(N)` instead.
+    形状:
+        - 输入: :math:`(N, C)`. `C` 是类的数量
+        - 目标: :math:`(N)` 每个值必须是 `0 <= targets[i] <= C-1`
+        - 输出: 标量. 如果 reduce 是 ``False``, 那么 :math:`(N)`.
 
-    Examples::
+    实例::
 
         >>> m = nn.LogSoftmax()
         >>> loss = nn.NLLLoss()
