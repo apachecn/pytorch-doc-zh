@@ -25,36 +25,33 @@ class _WeightedLoss(_Loss):
 
 
 class L1Loss(_Loss):
-    r"""Creates a criterion that measures the mean absolute value of the
-    element-wise difference between input `x` and target `y`:
+    r"""创建一个标准. 此标准被用作衡量输入 `x` 和目标 `y` 之间对应元素差的绝对值的
+    平均数:
 
     :math:`{loss}(x, y)  = 1/n \sum |x_i - y_i|`
 
-    `x` and `y` arbitrary shapes with a total of `n` elements each.
+    `x` 和 `y` 可以是拥有 n 个元素的任意形状.
 
-    The sum operation still operates over all the elements, and divides by `n`.
+    求和运算 (即上述公式中的 :math:`\sum`) 会遍历所有元素, 然后除以 n.
 
-    The division by `n` can be avoided if one sets the constructor argument
-    `size_average=False`.
+    如果构造函数中的参数被设置为 `size_average=False`, 那么除以 n 的操作将不会被执行.
 
-    Args:
-        size_average (bool, optional): By default, the losses are averaged
-           over observations for each minibatch. However, if the field
-           size_average is set to ``False``, the losses are instead summed for
-           each minibatch. Ignored when reduce is ``False``. Default: ``True``
-        reduce (bool, optional): By default, the losses are averaged or summed
-           for each minibatch. When reduce is ``False``, the loss function returns
-           a loss per batch element instead and ignores size_average.
-           Default: ``True``
+    参数:
+        size_average (bool, optional): 在默认情况下, loss 是通过对每批 (即上述公
+           式中的 :math:`|x_i - y_i|`)求平均数. 然而, 如果 size_average 被设置
+           为 ``False``, 那么 loss 就变成了对每批求和 (即除以 n 的操作将不会执行). 
+           当 reduce 是 ``False`` 时， 此函数会被忽略. 默认: ``True``
+        reduce (bool, optional): 在默认情况下, loss 是对每批求平均或求和. 当 reduce
+           是 ``False`` 时, loss 函数返回各个批自己的损失同时忽略 size_average.
+           默认: ``True``
 
-    Shape:
-        - Input: :math:`(N, *)` where `*` means, any number of additional
-          dimensions
-        - Target: :math:`(N, *)`, same shape as the input
-        - Output: scalar. If reduce is ``False``, then
-          :math:`(N, *)`, same shape as the input
+    形状:
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 目标: :math:`(N, *)`, 和输入形状相同
+        - 输出: 标量. 如果 reduce 是 ``False``, 那么
+          :math:`(N, *)`, 和输入形状相同
 
-    Examples::
+    实例::
 
         >>> loss = nn.L1Loss()
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
