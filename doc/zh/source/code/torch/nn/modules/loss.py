@@ -612,22 +612,17 @@ class CosineEmbeddingLoss(Module):
 
 
 class MarginRankingLoss(Module):
-    r"""Creates a criterion that measures the loss given
-    inputs `x1`, `x2`, two 1D mini-batch `Tensor`s,
-    and a label 1D mini-batch tensor `y` with values (`1` or `-1`).
+    r"""创建一个标准, 给定输入 `x1`, `x2`, 两个 1-D mini-batch `Tensor`, 和一个
+    1-D mini-batch `Tensor` `y`, `y` 里面的值只能是-1或1.
 
-    If `y == 1` then it assumed the first input should be ranked higher
-    (have a larger value) than the second input, and vice-versa for `y == -1`.
+    如果 `y=1`, 代表第一个输入的值应该大于第二个输入的值, 如果 `y=-1` 的话, 则相反.
 
-    The loss function for each sample in the mini-batch is::
+    `mini-batch` 中每个样本的loss的计算公式如下::
 
         loss(x, y) = max(0, -y * (x1 - x2) + margin)
 
-    if the internal variable `size_average = True`,
-    the loss function averages the loss over the batch samples;
-    if `size_average = False`, then the loss function sums over the batch
-    samples.
-    By default, `size_average` equals to ``True``.
+    如果 `size_average=True`, 那么求出的loss将会对 `mini-batch` 求平均. 反之, 求出
+    的loss会累加. 默认情况下, size_average=True. 
     """
 
     def __init__(self, margin=0, size_average=True):
