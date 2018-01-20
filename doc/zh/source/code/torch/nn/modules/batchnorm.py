@@ -43,26 +43,26 @@ class _BatchNorm(Module):
 
 
 class BatchNorm1d(_BatchNorm):
-    r"""对2d或者3d的小批量(mini-batch)数据进行批标准化(Batch Normalization)操作.
+    r""" 对2d或者3d的小批量(mini-batch)数据进行批标准化(Batch Normalization)操作.
 
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x] + \epsilon}} * gamma + beta
 
-    每个小批量数据中,计算各个维度的均值和标准差,并且gamma和beta是大小为C的可学习,
-    可改变的仿射参数向量(C为输入大小).
+    每个小批量数据中,计算各个维度的均值和标准差,并且 gamma 和 beta 是大小为C的可学习,
+    可改变的仿射参数向量( C 为输入大小).
 
-    在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为0.1.
 
     在验证时,训练得到的均值/方差,用于标准化.
 
-    BatchNorm在'C'维上处理,即'(N,L)'部分运行,被称作'Temporal BatchNorm'
+    BatchNorm 在 'C' 维上处理,即 '(N,L)' 部分运行,被称作'Temporal BatchNorm'
 
     Args:
-        num_features: 预期输入的特征数,大小为'batch_size x num_features [x width]'
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features [x width]'
         eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为1e-5
         momentum: 动态均值和动态方差使用的移动动量值,默认为0.1
-        affine: 布尔值,设为True时,表示该层添加可学习,可改变的仿射参数,即gamma和beta,默认为True
+        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
     Shape:
         - Input: :math:`(N, C)` or :math:`(N, C, L)`
@@ -92,19 +92,19 @@ class BatchNorm2d(_BatchNorm):
         y = \frac{x - mean[x]}{ \sqrt{Var[x] + \epsilon}} * gamma + beta
 
     每个小批量数据中,计算各个维度的均值和标准差,
-    并且gamma和beta是大小为C的可学习,可改变的仿射参数向量(C为输入大小).
+    并且 gamma 和 beta 是大小为C的可学习,可改变的仿射参数向量(C为输入大小).
 
     在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为0.1.
 
     在验证时,训练得到的均值/方差,用于标准化.
 
-    BatchNorm在'C'维上处理,即'(N, H, W)'部分运行,被称作'Spatial BatchNorm'.
+    BatchNorm 在 'C' 维上处理,即 '(N, H, W)' 部分运行,被称作 'Spatial BatchNorm'.
 
     Args:
-        num_features: 预期输入的特征数,大小为'batch_size x num_features x height x width'
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x height x width'
         eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为1e-5
         momentum: 动态均值和动态方差使用的移动动量值,默认为0.1
-        affine: 布尔值,设为True时,表示该层添加可学习,可改变的仿射参数,即gamma和beta,默认为True
+        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
     Shape:
         - Input: :math:`(N, C, H, W)`
@@ -134,19 +134,19 @@ class BatchNorm3d(_BatchNorm):
         y = \frac{x - mean[x]}{ \sqrt{Var[x] + \epsilon}} * gamma + beta
 
     每个小批量数据中,计算各个维度的均值和标准差,
-    并且gamma和beta是大小为C的可学习,可改变的仿射参数向量(C为输入大小).
+    并且 gamma 和 beta 是大小为C的可学习,可改变的仿射参数向量(C为输入大小).
 
     在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为0.1.
 
     在验证时,训练得到的均值/方差,用于标准化.
 
-    BatchNorm在'C'维上处理,即'(N, D, H, W)'部分运行,被称作'Volumetric BatchNorm'或者'Spatio-temporal BatchNorm'
+    BatchNorm 在 'C' 维上处理,即 '(N, D, H, W)' 部分运行,被称作 'Volumetric BatchNorm' 或者 'Spatio-temporal BatchNorm'
 
     Args:
-        num_features: 预期输入的特征数,大小为'batch_size x num_features x depth x height x width'
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x depth x height x width'
         eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为1e-5
         momentum: 动态均值和动态方差使用的移动动量值,默认为0.1
-        affine: 布尔值,设为True时,表示该层添加可学习,可改变的仿射参数,即gamma和beta,默认为True
+        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
     Shape:
         - Input: :math:`(N, C, D, H, W)`
