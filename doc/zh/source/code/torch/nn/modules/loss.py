@@ -46,7 +46,7 @@ class L1Loss(_Loss):
            默认: ``True``
 
     形状:
-        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多的维度数
         - 目标: :math:`(N, *)`, 和输入形状相同
         - 输出: 标量. 如果 reduce 是 ``False``, 那么
           :math:`(N, *)`, 和输入形状相同
@@ -240,7 +240,7 @@ class KLDivLoss(_Loss):
            的 loss 并忽略 size_average 参数. 默认: ``True``
 
     形状:
-        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多的维度数
         - 目标: :math:`(N, *)`, 和输入相同
         - 输出: 标量. 如果 `reduce` 是 ``True``, 那么 :math:`(N, *)`,
             和输入相同
@@ -279,7 +279,7 @@ class MSELoss(_Loss):
            同时忽略 size_average 的取值. 默认: ``True``
 
     形状:
-        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多的维度数
         - 目标: :math:`(N, *)`, 和输入形状相同
 
     实例::
@@ -315,11 +315,11 @@ class BCELoss(_WeightedLoss):
         weight (Tensor, optional): 手动对各个类权重的调节. 如果给予, weight 必须是
             一个具有和类相同数量的元素的 Tensor. 如果指定, 必须是一个有 "nbatch" 大小的
             Tensor. 
-        size_average (bool, optional): oss 默认是对所有 minibatch 求平均. 然而, 
+        size_average (bool, optional): 默认是对所有 minibatch 求平均. 然而, 
             如果 size_average 设置为 ``False``, loss 会变为对 minibatch 求和. 默认
             为 `True`.
     形状:
-        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多的维度数
         - 目标: :math:`(N, *)`, 和输入相同
 
     实例::
@@ -442,36 +442,34 @@ class MultiLabelMarginLoss(_Loss):
 
 
 class SmoothL1Loss(_Loss):
-    r"""Creates a criterion that uses a squared term if the absolute
-    element-wise error falls below 1 and an L1 term otherwise.
-    It is less sensitive to outliers than the `MSELoss` and in some cases
-    prevents exploding gradients (e.g. see "Fast R-CNN" paper by Ross Girshick).
-    Also known as the Huber loss::
+    r"""创建一个标准. 如果基于元素的 error 降到小于1和 L1 项的话, 则使用一个平方项. 
+    
+    相比于 `MSELoss`, `SmoothL1Loss` 对于 outliers 并不敏感且有时会防止梯度爆炸 (参看
+    Ross Girshick 的论文 "Fast R_CNN").
+    也被称为 Huber loss::
 
                               { 0.5 * (x_i - y_i)^2, if |x_i - y_i| < 1
         loss(x, y) = 1/n \sum {
                               { |x_i - y_i| - 0.5,   otherwise
 
-    `x` and `y` arbitrary shapes with a total of `n` elements each
-    the sum operation still operates over all the elements, and divides by `n`.
+    `x` 和 `y` 可以是任意形状, 且都有n的元素. 
+    loss的求和操作作用在所有的元素上, 然后除以n.
 
-    The division by `n` can be avoided if one sets the internal variable
-    `size_average` to ``False``
+    如果 `size_average=False`, 除以 n 的操作将不会执行.
 
-    Args:
-        size_average (bool, optional): By default, the losses are averaged
-           over all elements. However, if the field size_average is set to ``False``,
-           the losses are instead summed. Ignored when reduce is ``False``. Default: ``True``
-        reduce (bool, optional): By default, the losses are averaged or summed
-           over elements. When reduce is ``False``, the loss function returns
-           a loss per element instead and ignores size_average. Default: ``True``
+    参数:
+        size_average (bool, optional): 默认是对所有 minibatch 求平均. 然而, 
+            如果 size_average 设置为 ``False``, loss 会变为对 minibatch 求和. 默认
+            为 `True`.
+        reduce (bool, optional): 在默认情况下, loss 是取决于 size_average, 对各
+           组求平均或求和. 当 reduce 是 ``False`` 时, loss 函数返回各组自己的损失
+           同时忽略 size_average 的取值. 默认: ``True``
 
-    Shape:
-        - Input: :math:`(N, *)` where `*` means, any number of additional
-          dimensions
-        - Target: :math:`(N, *)`, same shape as the input
-        - Output: scalar. If reduce is ``False``, then
-          :math:`(N, *)`, same shape as the input
+    形状:
+        - 输入: :math:`(N, *)` `*` 的意思是任意多的维度数
+        - 目标: :math:`(N, *)`, 和输入相同
+        - 输出: scalar. 如果 reduce 是 ``False``, 那么
+          :math:`(N, *)`, 和输入相同
 
     """
     def __init__(self, size_average=True, reduce=True):
