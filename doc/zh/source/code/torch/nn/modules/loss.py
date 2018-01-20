@@ -662,31 +662,29 @@ class MultiMarginLoss(Module):
 
 
 class TripletMarginLoss(Module):
-    r"""Creates a criterion that measures the triplet loss given an input
-    tensors x1, x2, x3 and a margin with a value greater than 0.
-    This is used for measuring a relative similarity between samples. A triplet
-    is composed by `a`, `p` and `n`: anchor, positive examples and negative
-    example respectively. The shape of all input variables should be
-    :math:`(N, D)`.
+    r"""创建一个标准, 给定输入 `Tensor` `x1`, `x2`, `x3`, 和一个取值大于0的 margin,
+    用以测量 `triplet loss`.
 
-    The distance swap is described in detail in the paper `Learning shallow
-    convolutional feature descriptors with triplet losses`_ by
-    V. Balntas, E. Riba et al.
+    此标准是用来测量样本之间的相对相似性. 一个 `triplet` 是由 `a`, `p` 和 `n` 组成: 
+    锚, 正样本, 对应负样本. 所有输入变量的形状应该是: :math:`(N, D)`.
+
+    距离交换 (distance swap) 在 V. Balntas, E. Riba et al 的论文 `Learning shallow
+    convolutional feature descriptors with triplet losses` 中有详细的讲解.
 
     .. math::
         L(a, p, n) = \frac{1}{N} \left( \sum_{i=1}^N \max \{d(a_i, p_i) - d(a_i, n_i) + {\rm margin}, 0\} \right)
 
-    where :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
+    其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
-    Args:
-        anchor: anchor input tensor
-        positive: positive input tensor
-        negative: negative input tensor
-        p: the norm degree. Default: 2
+    参数:
+        anchor: 锚输入 `tensor`
+        positive: 正输入 `tensor`
+        negative: 负输入 `tensor`
+        p: 规范程度. 默认: 2
 
-    Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
-        - Output: :math:`(N, 1)`
+    形状:
+        - 输入: :math:`(N, D)` 其中 `D` 是向量维度
+        - 输出: :math:`(N, 1)`
 
     >>> triplet_loss = nn.TripletMarginLoss(margin=1.0, p=2)
     >>> input1 = autograd.Variable(torch.randn(100, 128))
