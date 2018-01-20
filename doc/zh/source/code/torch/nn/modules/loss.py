@@ -626,26 +626,24 @@ class MarginRankingLoss(Module):
 
 
 class MultiMarginLoss(Module):
-    r"""Creates a criterion that optimizes a multi-class classification hinge
-    loss (margin-based loss) between input `x` (a 2D mini-batch `Tensor`) and
-    output `y` (which is a 1D tensor of target class indices,
-    `0` <= `y` <= `x.size(1)`):
+    r"""创建一个标准, 用来计算输入 `x` (2D mini-batch `Tensor`) 和输出 `y` (包含目标
+    参数索引的 1D `Tensor`, `0` <= `y` <= `x.size(1)`) 之间, 多类分类器的 hinge 
+    loss（magin-based loss).
 
-    For each mini-batch sample::
+    对于每个 mini-batch 样本::
 
         loss(x, y) = sum_i(max(0, (margin - x[y] + x[i]))^p) / x.size(0)
                      where `i == 0` to `x.size(0)` and `i != y`.
 
-    Optionally, you can give non-equal weighting on the classes by passing
-    a 1D `weight` tensor into the constructor.
+    如果您不想所有的类拥有同样的权重的话, 您可以通过在构造函数中传入 1D `weights` 参数来
+    随意对其赋值.
 
-    The loss function then becomes:
+    loss 会变为:
 
         loss(x, y) = sum_i(max(0, w[y] * (margin - x[y] - x[i]))^p) / x.size(0)
 
-    By default, the losses are averaged over observations for each minibatch.
-    However, if the field `size_average` is set to ``False``,
-    the losses are instead summed.
+    默认情况下, 求出的 loss 会对 mini-batch 取平均, 可以通过设置 `size_average=False` 
+    来取消取平均操作.
     """
 
     def __init__(self, p=1, margin=1, weight=None, size_average=True):
