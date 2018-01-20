@@ -391,23 +391,23 @@ class BCEWithLogitsLoss(Module):
 
 
 class HingeEmbeddingLoss(_Loss):
-    r"""Measures the loss given an input tensor `x` and a labels tensor `y`
-    containing values (`1` or `-1`).
+    r"""给定一个输入 `x` 和对应的标签 `y`, `y` 的值只能是 1 或 -1. 此函数用来计算
+    之间的损失值.
+
+    这个 `loss` 通常用来测量两个输入是否相似. 例如, 使用 L1 成对距离为 `x`, 
     This is usually used for measuring whether two inputs are similar or
-    dissimilar, e.g. using the L1 pairwise distance as `x`, and is typically
-    used for learning nonlinear embeddings or semi-supervised learning::
+    dissimilar, e.g. using the L1 pairwise distance as `x`, 主要是用在学习非线
+    性 `embedding` 或者半监督学习中::
 
                          { x_i,                  if y_i ==  1
         loss(x, y) = 1/n {
                          { max(0, margin - x_i), if y_i == -1
 
-    `x` and `y` can be of arbitrary shapes with a total of `n` elements each.
-    The sum operation operates over all the elements.
+    `x` 和 `y` 可以是任意形状, 且都有n的元素. loss的求和操作作用在所有的元素上, 然后除以n.
 
-    The division by `n` can be avoided if one sets the internal
-    variable `size_average=False`.
+    如果 `size_average=False`, 除以 n 的操作将不会执行.
 
-    The `margin` has a default value of `1`, or can be set in the constructor.
+    `margin` 的默认值为1,可以通过构造函数来设置.
     """
 
     def __init__(self, margin=1.0, size_average=True):
