@@ -576,25 +576,21 @@ class MultiLabelSoftMarginLoss(_WeightedLoss):
 
 
 class CosineEmbeddingLoss(Module):
-    r"""Creates a criterion that measures the loss given  an input tensors
-    x1, x2 and a `Tensor` label `y` with values 1 or -1.
-    This is used for measuring whether two inputs are similar or dissimilar,
-    using the cosine distance, and is typically used for learning nonlinear
-    embeddings or semi-supervised learning.
+    r"""给定输入 `Tensors` `x1`, `x2` 和一个标签 `Tensor` `y` (取值1或-1).
+    此标准采用cosine距离, 判断两个输入是否相似, 一般用作学习非线性 embedding 或者半监
+    督学习。
 
-    `margin` should be a number from `-1` to `1`, `0` to `0.5` is suggested.
-    If `margin` is missing, the default value is `0`.
+    `margin` 应该是-1到1之间的值，建议使用0到0.5。
+    如果没有传入 `margin` 实参，默认值为0。
 
-    The loss function for each sample is::
+    每个样本的loss是::
 
                      { 1 - cos(x1, x2),              if y ==  1
         loss(x, y) = {
                      { max(0, cos(x1, x2) - margin), if y == -1
 
-    If the internal variable `size_average` is equal to ``True``,
-    the loss function averages the loss over the batch samples;
-    if `size_average` is ``False``, then the loss function sums over the
-    batch samples. By default, `size_average = True`.
+    如果 `size_average=True` 求出的loss会对batch求均值, 如果 `size_average=False` 的话,
+    则会累加loss, 默认情况 `size_average=True`.
     """
 
     def __init__(self, margin=0, size_average=True):
