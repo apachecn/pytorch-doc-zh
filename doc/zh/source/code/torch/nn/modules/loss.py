@@ -483,16 +483,13 @@ class SmoothL1Loss(_Loss):
 
 
 class SoftMarginLoss(_Loss):
-    r"""Creates a criterion that optimizes a two-class classification
-    logistic loss between input `x` (a 2D mini-batch Tensor) and
-    target `y` (which is a tensor containing either `1` or `-1`).
-
+    r"""创建一个标准, 用来优化2分类的 logistic loss. 输入为 `x`（一个 2-D mini-batch 
+    Tensor）和目标 `y`（一个取值为1或-1的 Tensor）
     ::
 
         loss(x, y) = sum_i (log(1 + exp(-y[i]*x[i]))) / x.nelement()
 
-    The normalization by the number of elements in the input can be disabled by
-    setting `self.size_average` to ``False``.
+    如果求出的 loss 不想被平均可以通过设置 `size_average=False` 取消.
     """
     def forward(self, input, target):
         _assert_no_grad(target)
