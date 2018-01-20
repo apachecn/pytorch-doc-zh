@@ -214,45 +214,36 @@ class PoissonNLLLoss(_Loss):
 
 
 class KLDivLoss(_Loss):
-    r"""The `Kullback-Leibler divergence`_ Loss
+    r"""`Kullback-Leibler` 散度损失
 
-    KL divergence is a useful distance measure for continuous distributions
-    and is often useful when performing direct regression over the space of
-    (discretely sampled) continuous output distributions.
+    KL散度常用来描述两个分布的距离，并在输出分布的空间上执行直接回归时是有用的.
 
-    As with `NLLLoss`, the `input` given is expected to contain
-    *log-probabilities*, however unlike `ClassNLLLoss`, `input` is not
-    restricted to a 2D Tensor, because the criterion is applied element-wise.
+    与 `NLLLoss` 一样, `input` 需要包含 `log-probabilities`. 然而， 与 
+    `ClassNLLLoss` 不同的是, `input` 不仅限于一个 2D Tensor, 因为这个标准是基于元素的.
 
-    This criterion expects a `target` `Tensor` of the same size as the
-    `input` `Tensor`.
+    `target` 应该和 `input` 形状相同.
 
-    The loss can be described as:
+    Loss 可以表述为:
 
     .. math:: loss(x, target) = 1/n \sum(target_i * (log(target_i) - x_i))
 
-    By default, the losses are averaged for each minibatch over observations
-    **as well as** over dimensions. However, if the field
-    `size_average` is set to ``False``, the losses are instead summed.
+    默认情况下, loss会基于元素求平均. 如果 `size_average=False`, loss会被累加.
 
     .. _Kullback-Leibler divergence:
         https://en.wikipedia.org/wiki/Kullback-Leibler_divergence
 
-    Args:
-        size_average (bool, optional: By default, the losses are averaged
-            for each minibatch over observations **as well as** over
-            dimensions. However, if ``False`` the losses are instead summed.
-        reduce (bool, optional): By default, the losses are averaged
-            over observations for each minibatch, or summed, depending on
-            size_average. When reduce is ``False``, returns a loss per batch
-            element instead and ignores size_average. Default: ``True``
+    参数:
+        size_average (bool, optional: loss 默认是对所有 minibatch 求平均. 然而, 
+            如果 size_average 设置为 ``False``, loss 会变为对 minibatch 求和.
+        reduce (bool, optional): Loss 默认为取决于 size_average 的取值, 对每个 
+           `minibatch` 求平均或求和. 当 reduce 是 ``False`` 时, 返回每个 batch 元素
+           的 loss 并忽略 size_average 参数. 默认: ``True``
 
-    Shape:
-        - input: :math:`(N, *)` where `*` means, any number of additional
-          dimensions
-        - target: :math:`(N, *)`, same shape as the input
-        - output: scalar. If `reduce` is ``True``, then :math:`(N, *)`,
-            same shape as the input
+    形状:
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 目标: :math:`(N, *)`, 和输入相同
+        - 输出: 标量. 如果 `reduce` 是 ``True``, 那么 :math:`(N, *)`,
+            和输入相同
 
     """
     def __init__(self, size_average=True, reduce=True):
