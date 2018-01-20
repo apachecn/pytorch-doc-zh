@@ -420,21 +420,21 @@ class HingeEmbeddingLoss(_Loss):
 
 
 class MultiLabelMarginLoss(_Loss):
-    r"""Creates a criterion that optimizes a multi-class multi-classification
-    hinge loss (margin-based loss) between input `x`  (a 2D mini-batch `Tensor`)
-    and output `y` (which is a 2D `Tensor` of target class indices).
-    For each sample in the mini-batch::
+    r"""计算多标签分类的 `hinge loss` (margin-based loss), 计算loss时需要: 输入 `x` 
+    (2-D mini-batch Tensor), 和输出 `y` (2-D Tensor 表示 `mini-batch` 中样本类别的索引).
+    `mini-batch` 中每个样本::
 
         loss(x, y) = sum_ij(max(0, 1 - (x[y[j]] - x[i]))) / x.size(0)
 
-    where `i == 0` to `x.size(0)`, `j == 0` to `y.size(0)`,
-    `y[j] >= 0`, and `i != y[j]` for all `i` and `j`.
+    其中 `i == 0` 到 `x.size(0)`, `j == 0` 到 `y.size(0)`.
 
-    `y` and `x` must have the same size.
+    `y[j] >= 0`, 且 `i != y[j]` 对于所有 `i` and `j`.
 
-    The criterion only considers the first non zero `y[j]` targets.
+    `y` 和 `x` 必须大小相同.
 
-    This allows for different samples to have variable amounts of target classes
+    这个标准仅考虑了第一个非零目标 `y[j]`.
+
+    此标准允许每个样本可以有不同类别.
     """
     def forward(self, input, target):
         _assert_no_grad(target)
