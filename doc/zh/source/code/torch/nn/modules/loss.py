@@ -300,34 +300,29 @@ class MSELoss(_Loss):
 
 
 class BCELoss(_WeightedLoss):
-    r"""Creates a criterion that measures the Binary Cross Entropy
-    between the target and the output:
+    r"""计算 `target` 与 `output` 之间的二进制交叉熵. 
+    输出为:
 
     .. math:: loss(o, t) = - 1/n \sum_i (t[i] * log(o[i]) + (1 - t[i]) * log(1 - o[i]))
 
-    or in the case of the weight argument being specified:
+    如果 `weight` 被指定:
 
     .. math:: loss(o, t) = - 1/n \sum_i weight[i] * (t[i] * log(o[i]) + (1 - t[i]) * log(1 - o[i]))
 
-    This is used for measuring the error of a reconstruction in for example
-    an auto-encoder. Note that the targets `t[i]` should be numbers
-    between 0 and 1.
+    这个用于计算 `auto-encoder` 的 `reconstruction error`. 注意 0<=target[i]<=1.
 
-    Args:
-        weight (Tensor, optional): a manual rescaling weight given to the loss
-            of each batch element. If given, has to be a Tensor of size
-            "nbatch".
-        size_average (bool, optional): By default, the losses are averaged
-            over observations for each minibatch. However, if the field
-            size_average is set to ``False``, the losses are instead summed for
-            each minibatch. Default: ``True``
+    参数:
+        weight (Tensor, optional): 手动对各个类权重的调节. 如果给予, weight 必须是
+            一个具有和类相同数量的元素的 Tensor. 如果指定, 必须是一个有 "nbatch" 大小的
+            Tensor. 
+        size_average (bool, optional): oss 默认是对所有 minibatch 求平均. 然而, 
+            如果 size_average 设置为 ``False``, loss 会变为对 minibatch 求和. 默认
+            为 `True`.
+    形状:
+        - 输入: :math:`(N, *)`. `*` 的意思是任意多出的维度数
+        - 目标: :math:`(N, *)`, 和输入相同
 
-    Shape:
-        - Input: :math:`(N, *)` where `*` means, any number of additional
-          dimensions
-        - Target: :math:`(N, *)`, same shape as the input
-
-    Examples::
+    实例::
 
         >>> m = nn.Sigmoid()
         >>> loss = nn.BCELoss()
