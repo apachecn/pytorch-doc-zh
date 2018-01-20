@@ -138,29 +138,26 @@ class NLLLoss(_WeightedLoss):
 
 
 class NLLLoss2d(NLLLoss):
-    r"""This is negative log likehood loss, but for image inputs. It computes
-    NLL loss per-pixel.
+    r"""这是负对数似然损失 (negative log likehood loss). 但是, 对于图像输入, 计算
+    每个像素的 NLL 损失.
 
-    Args:
-        weight (Tensor, optional): a manual rescaling weight given to each
-            class. If given, has to be a 1D Tensor having as many elements,
-            as there are classes.
-        size_average: By default, the losses are averaged over observations
-            for each minibatch. However, if the field size_average is set to
-            ``False``, the losses are instead summed for each minibatch.
-            Ignored when reduce is ``False``. Default: ``True``
-        reduce (bool, optional): By default, the losses are averaged or summed
-            for each minibatch depending on size_average. When reduce is ``False``,
-            the loss function returns a loss per batch element instead and
-            ignores size_average. Default: ``True``
+    参数:
+        weight (Tensor, optional): 手动对各个类权重的调节. 如果给予, weight 必须是
+            一个具有和类相同数量的元素的 1D Tensor.
+        size_average (bool, optional): Loss 默认为对每个 `minibatch` 求平均.
+           然而， 如果 size_average 被设置为 ``False``, loss 会变为对每个 `minibatch`
+           求和. 如果 reduce 是 ``False``. 此参数会被忽略. 默认: ``True``
+        reduce (bool, optional):  Loss 默认为取决于 size_average 的取值, 对每个 
+           `minibatch` 求平均或求和. 当 reduce 是 ``False`` 时, 返回每个 batch 元素
+           的 loss 并忽略 size_average 参数. 默认: ``True``
 
 
-    Shape:
-        - Input: :math:`(N, C, H, W)` where `C = number of classes`
-        - Target: :math:`(N, H, W)` where each value is `0 <= targets[i] <= C-1`
-        - Output: scalar. If reduce is ``False``, then :math:`(N, H, W)` instead.
+    形状:
+        - 输入: :math:`(N, C, H, W)`. `C` 是类的数量
+        - 目标: :math:`(N, H, W)` 每个值必须是 `0 <= targets[i] <= C-1`
+        - 输出: 标量. 如果 reduce 是 ``False``, 那么改为 :math:`(N, H, W)`.
 
-    Examples::
+    实例::
 
         >>> m = nn.Conv2d(16, 32, (3, 3)).float()
         >>> loss = nn.NLLLoss2d()
