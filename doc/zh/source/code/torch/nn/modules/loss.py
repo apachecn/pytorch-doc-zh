@@ -387,23 +387,19 @@ class BCEWithLogitsLoss(Module):
 
 
 class HingeEmbeddingLoss(_Loss):
-    r"""Measures the loss given an input tensor `x` and a labels tensor `y`
-    containing values (`1` or `-1`).
-    This is usually used for measuring whether two inputs are similar or
-    dissimilar, e.g. using the L1 pairwise distance as `x`, and is typically
-    used for learning nonlinear embeddings or semi-supervised learning::
+    r"""衡量输入 Tensor(张量) `x` 和 目标 Tensor(张量) `y` (取值为 `1` 和 `-1`) 之间的损失值.
+    此方法通常用来衡量两个输入值是否相似, 例如使用L1成对距离作为 `x`, 并且通常用来进行非线性嵌入学习或者
+    半监督学习::
 
                          { x_i,                  if y_i ==  1
         loss(x, y) = 1/n {
                          { max(0, margin - x_i), if y_i == -1
 
-    `x` and `y` can be of arbitrary shapes with a total of `n` elements each.
-    The sum operation operates over all the elements.
+    `x` 和 `y` 分别可以是具有 `n` 个元素的任意形状. 合计操作对所有元素进行计算.
 
-    The division by `n` can be avoided if one sets the internal
-    variable `size_average=False`.
+    如果 `size_average=False`, 则计算时不会除以 `n` 取平均值.
 
-    The `margin` has a default value of `1`, or can be set in the constructor.
+    `margin` 的默认值是 `1`, 或者可以通过构造函数来设置.
     """
 
     def __init__(self, margin=1.0, size_average=True):
@@ -416,21 +412,21 @@ class HingeEmbeddingLoss(_Loss):
 
 
 class MultiLabelMarginLoss(_Loss):
-    r"""Creates a criterion that optimizes a multi-class multi-classification
-    hinge loss (margin-based loss) between input `x`  (a 2D mini-batch `Tensor`)
-    and output `y` (which is a 2D `Tensor` of target class indices).
-    For each sample in the mini-batch::
+    r"""创建一个标准, 用以优化多元分类问题的合页损失函数 (基于空白的损失), 计算损失值时
+    需要2个参数分别为输入，`x` (一个2维小批量 `Tensor`) 和输出 `y` 
+    (一个2维 `Tensor`, 其值为 `x` 的索引值)。
+    对于mini-batch(小批量) 中的每个样本按如下公式计算损失::
 
         loss(x, y) = sum_ij(max(0, 1 - (x[y[j]] - x[i]))) / x.size(0)
 
-    where `i == 0` to `x.size(0)`, `j == 0` to `y.size(0)`,
-    `y[j] >= 0`, and `i != y[j]` for all `i` and `j`.
+    其中 `i` 的取值范围是 `0` 到 `x.size(0)`, `j` 的取值范围是 `0` 到 `y.size(0)`,
+    `y[j] >= 0`, 并且对于所有 `i` 和 `j` 有 `i != y[j]`.
 
-    `y` and `x` must have the same size.
+    `y` 和 `x` 必须有相同的元素数量.
 
-    The criterion only considers the first non zero `y[j]` targets.
+    此标准仅考虑 `y[j]` 中最先出现的非零值.
 
-    This allows for different samples to have variable amounts of target classes
+    如此可以允许每个样本可以有数量不同的目标类别.
     """
     def forward(self, input, target):
         _assert_no_grad(target)
@@ -440,34 +436,34 @@ class MultiLabelMarginLoss(_Loss):
 class SmoothL1Loss(_Loss):
     r"""Creates a criterion that uses a squared term if the absolute
     element-wise error falls below 1 and an L1 term otherwise.
+    创建一个标准，当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算.
     It is less sensitive to outliers than the `MSELoss` and in some cases
     prevents exploding gradients (e.g. see "Fast R-CNN" paper by Ross Girshick).
-    Also known as the Huber loss::
+    此方法创建的标准对于异常值不如 `MSELoss`敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如
+    参见论文 "Fast R-CNN" 作者 Ross Girshick).
+    也被称为 Huber 损失函数::
 
                               { 0.5 * (x_i - y_i)^2, if |x_i - y_i| < 1
         loss(x, y) = 1/n \sum {
                               { |x_i - y_i| - 0.5,   otherwise
 
-    `x` and `y` arbitrary shapes with a total of `n` elements each
-    the sum operation still operates over all the elements, and divides by `n`.
+    `x` 和 `y` 可以是任意形状只要都具备总计 `n` 个元素
+    合计仍然针对所有元素进行计算, 并且最后除以 `n`.
 
-    The division by `n` can be avoided if one sets the internal variable
-    `size_average` to ``False``
+    如果把内部变量 `size_average` 设置为 ``False``, 则不会被除以 `n`.
 
     Args:
-        size_average (bool, optional): By default, the losses are averaged
-           over all elements. However, if the field size_average is set to ``False``,
-           the losses are instead summed. Ignored when reduce is ``False``. Default: ``True``
-        reduce (bool, optional): By default, the losses are averaged or summed
-           over elements. When reduce is ``False``, the loss function returns
-           a loss per element instead and ignores size_average. Default: ``True``
+        size_average (bool, optional): 损失值默认会按照所有元素取平均值. 但是, 如果 size_average 被
+           设置为 ``False``, 则损失值为所有元素的合计. 如果 reduce 参数设为 ``False``, 则忽略此参数的值.
+           默认: ``True`` 
+        reduce (bool, optional): 损失值默认会按照所有元素取平均值或者取合计值. 当 reduce 设置为 ``False``
+           时, 损失函数对于每个元素都返回损失值并且忽略 size_average 参数. 默认: ``True``
 
     Shape:
-        - Input: :math:`(N, *)` where `*` means, any number of additional
-          dimensions
-        - Target: :math:`(N, *)`, same shape as the input
-        - Output: scalar. If reduce is ``False``, then
-          :math:`(N, *)`, same shape as the input
+        - 输入: :math:`(N, *)` `*` 代表任意个其他维度
+        - 目标: :math:`(N, *)`, 同输入
+        - 输出: 标量. 如果 reduce 设为 ``False`` 则为
+          :math:`(N, *)`, 同输入
 
     """
     def __init__(self, size_average=True, reduce=True):
@@ -481,16 +477,14 @@ class SmoothL1Loss(_Loss):
 
 
 class SoftMarginLoss(_Loss):
-    r"""Creates a criterion that optimizes a two-class classification
-    logistic loss between input `x` (a 2D mini-batch Tensor) and
-    target `y` (which is a tensor containing either `1` or `-1`).
+    r"""创建一个标准, 用以优化两分类的 logistic loss. 输入为 `x` (一个2维 mini-batch Tensor)和
+    目标 `y` (一个包含 `1` 或者 `-1` 的 Tensor).
 
     ::
 
         loss(x, y) = sum_i (log(1 + exp(-y[i]*x[i]))) / x.nelement()
 
-    The normalization by the number of elements in the input can be disabled by
-    setting `self.size_average` to ``False``.
+    可以通过设置 `self.size_average` 为 ``False`` 来禁用按照元素数量取平均的正则化操作.
     """
     def forward(self, input, target):
         _assert_no_grad(target)
@@ -564,12 +558,15 @@ class MultiLabelSoftMarginLoss(_WeightedLoss):
     r"""Creates a criterion that optimizes a multi-label one-versus-all
     loss based on max-entropy, between input `x`  (a 2D mini-batch `Tensor`) and
     target `y` (a binary 2D `Tensor`). For each sample in the minibatch::
+    创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
+    输入 `x` 为一个2维 mini-batch `Tensor`, 目标 `y` 为2进制2维 `Tensor`.
+    对每个 mini-batch 中的样本，对应的 loss 为::
 
        loss(x, y) = - sum_i (y[i] * log( 1 / (1 + exp(-x[i])) )
                          + ( (1-y[i]) * log(exp(-x[i]) / (1 + exp(-x[i])) ) )
 
-    where `i == 0` to `x.nElement()-1`, `y[i]  in {0,1}`.
-    `y` and `x` must have the same size.
+    其中 `i == 0` 至 `x.nElement()-1`, `y[i]  in {0,1}`.
+    `y` 和 `x` 必须具有相同的维度.
     """
 
     def forward(self, input, target):
@@ -608,22 +605,19 @@ class CosineEmbeddingLoss(Module):
 
 
 class MarginRankingLoss(Module):
-    r"""Creates a criterion that measures the loss given
-    inputs `x1`, `x2`, two 1D mini-batch `Tensor`s,
-    and a label 1D mini-batch tensor `y` with values (`1` or `-1`).
+    r"""创建一个衡量 mini-batch(小批量) 中的2个1维 `Tensor` 的输入 `x1` 和 `x2`,
+    和1个1维 `Tensor` 的目标 `y`(`y` 的取值是 `1` 或者 `-1`) 之间损失的标准.
 
-    If `y == 1` then it assumed the first input should be ranked higher
-    (have a larger value) than the second input, and vice-versa for `y == -1`.
+    如果 `y == 1` 则认为第一个输入值应该排列在第二个输入值之上(即值更大), `y == -1` 时则相反.
 
-    The loss function for each sample in the mini-batch is::
+    对于 mini-batch(小批量) 中每个实例的损失函数如下::
+
 
         loss(x, y) = max(0, -y * (x1 - x2) + margin)
 
-    if the internal variable `size_average = True`,
-    the loss function averages the loss over the batch samples;
-    if `size_average = False`, then the loss function sums over the batch
-    samples.
-    By default, `size_average` equals to ``True``.
+    如果内部变量 `size_average = True`, 则损失函数计算批次中所有实例的损失值的平均值;
+    如果 `size_average = False`, 则损失函数计算批次中所有实例的损失至的合计.
+    `size_average` 默认值为 ``True``.
     """
 
     def __init__(self, margin=0, size_average=True):
