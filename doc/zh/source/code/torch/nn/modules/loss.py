@@ -560,15 +560,15 @@ class CrossEntropyLoss(_WeightedLoss):
 
 
 class MultiLabelSoftMarginLoss(_WeightedLoss):
-    r"""Creates a criterion that optimizes a multi-label one-versus-all
-    loss based on max-entropy, between input `x`  (a 2D mini-batch `Tensor`) and
-    target `y` (a binary 2D `Tensor`). For each sample in the minibatch::
+    r"""创建一个标准，基于输入 `x` (一个 2D mini-batch `Tensor`) 和目标 `y` (一个二元
+    2D `Tensor`) 之间的最大熵 (max-entropy) 和优化多标签一对全部 (one-versus-all) 的损失.
+    对每个mini-batch中的样本, 对应的loss为::
 
        loss(x, y) = - sum_i (y[i] * log( 1 / (1 + exp(-x[i])) )
                          + ( (1-y[i]) * log(exp(-x[i]) / (1 + exp(-x[i])) ) )
 
-    where `i == 0` to `x.nElement()-1`, `y[i]  in {0,1}`.
-    `y` and `x` must have the same size.
+    其中 `i == 0` 到 `x.nElement()-1`, `y[i]` 取值 0 或 1.
+    `y` 和 `x` 必须有同样大小.
     """
 
     def forward(self, input, target):
