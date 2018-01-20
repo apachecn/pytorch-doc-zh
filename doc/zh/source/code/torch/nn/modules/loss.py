@@ -615,25 +615,23 @@ class MultiLabelSoftMarginLoss(_WeightedLoss):
 
 
 class CosineEmbeddingLoss(Module):
-    r"""Creates a criterion that measures the loss given  an input tensors
-    x1, x2 and a `Tensor` label `y` with values 1 or -1.
-    This is used for measuring whether two inputs are similar or dissimilar,
-    using the cosine distance, and is typically used for learning nonlinear
-    embeddings or semi-supervised learning.
+    r"""新建一个标准, 用以衡量输入 `Tensor` x1, x2 和取值为 1 或者 -1 的标签 `Tensor` `y`之间的
+    损失值.
+    此标准用 cosine 距离来衡量2个输入参数之间是否相似, 并且一般用来学习非线性 embedding 或者半监督
+    学习.
 
-    `margin` should be a number from `-1` to `1`, `0` to `0.5` is suggested.
-    If `margin` is missing, the default value is `0`.
+    `margin` 应该取 `-1` 到 `1` 之间的值, 建议取值范围是 `0` 到 `0.5`.
+    如果没有设置 `margin` 参数, 则默认值取 `0`.
 
-    The loss function for each sample is::
+    每个样本的损失函数如下::
 
                      { 1 - cos(x1, x2),              if y ==  1
         loss(x, y) = {
                      { max(0, cos(x1, x2) - margin), if y == -1
 
-    If the internal variable `size_average` is equal to ``True``,
-    the loss function averages the loss over the batch samples;
-    if `size_average` is ``False``, then the loss function sums over the
-    batch samples. By default, `size_average = True`.
+    如果内部变量 `size_average` 设置为 ``True``, 则损失函数以 batch 中所有的样本数取平均值;
+    如果 `size_average` 设置为 ``False``, 则损失函数对 batch 中所有的样本求和. 默认情况下, 
+    `size_average = True`.
     """
 
     def __init__(self, margin=0, size_average=True):
@@ -671,26 +669,24 @@ class MarginRankingLoss(Module):
 
 
 class MultiMarginLoss(Module):
-    r"""Creates a criterion that optimizes a multi-class classification hinge
-    loss (margin-based loss) between input `x` (a 2D mini-batch `Tensor`) and
-    output `y` (which is a 1D tensor of target class indices,
-    `0` <= `y` <= `x.size(1)`):
+    r"""创建一个标准, 用以优化多元分类问题的合页损失函数 (基于空白的损失), 计算损失值时
+    需要2个参数分别为输入，`x` (一个2维小批量 `Tensor`) 和输出 `y` 
+    (一个1维 `Tensor`, 其值为 `x` 的索引值, `0` <= `y` <= `x.size(1)`):
 
-    For each mini-batch sample::
+    对于每个 mini-batch(小批量) 样本::
 
         loss(x, y) = sum_i(max(0, (margin - x[y] + x[i]))^p) / x.size(0)
-                     where `i == 0` to `x.size(0)` and `i != y`.
+                     其中 `i == 0` 至 `x.size(0)` 并且 `i != y`.
 
-    Optionally, you can give non-equal weighting on the classes by passing
-    a 1D `weight` tensor into the constructor.
+    可选择的, 如果您不想所有的类拥有同样的权重的话，您可以通过在构造函数中传入 `weight` 参数来
+    解决这个问题, `weight` 是一个1维 Tensor.
 
-    The loss function then becomes:
+    传入 `weight` 后, 损失函数变为:
 
         loss(x, y) = sum_i(max(0, w[y] * (margin - x[y] - x[i]))^p) / x.size(0)
 
-    By default, the losses are averaged over observations for each minibatch.
-    However, if the field `size_average` is set to ``False``,
-    the losses are instead summed.
+    默认情况下, 求出的损失值会对每个 minibatch 样本的结果取平均. 可以通过设置 `size_average`
+    为 ``False`` 来用合计操作取代取平均操作.
     """
 
     def __init__(self, p=1, margin=1, weight=None, size_average=True):
@@ -709,30 +705,27 @@ class MultiMarginLoss(Module):
 
 
 class TripletMarginLoss(Module):
-    r"""Creates a criterion that measures the triplet loss given an input
-    tensors x1, x2, x3 and a margin with a value greater than 0.
-    This is used for measuring a relative similarity between samples. A triplet
-    is composed by `a`, `p` and `n`: anchor, positive examples and negative
-    example respectively. The shape of all input variables should be
-    :math:`(N, D)`.
+    r"""创建一个标准, 用以衡量三元组合的损失值, 计算损失值时需要3个输入张量 `x1`, `x2`, `x3` 和
+    一个大于零的 `margin` 值.
+    此标准可以用来衡量输入样本间的相对相似性. 一个三元输入组合由 `a`, `p` 和 `n`: anchor,
+    positive 样本 和 negative 样本组成. 所有输入变量的形式必须为 :math:`(N, D)`.
 
-    The distance swap is described in detail in the paper `Learning shallow
-    convolutional feature descriptors with triplet losses`_ by
-    V. Balntas, E. Riba et al.
+    距离交换的详细说明请参考论文 `Learning shallow convolutional feature descriptors with
+    triplet losses`_ by V. Balntas, E. Riba et al.
 
     .. math::
         L(a, p, n) = \frac{1}{N} \left( \sum_{i=1}^N \max \{d(a_i, p_i) - d(a_i, n_i) + {\rm margin}, 0\} \right)
 
-    where :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
+    其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
     Args:
-        anchor: anchor input tensor
-        positive: positive input tensor
-        negative: negative input tensor
-        p: the norm degree. Default: 2
+        anchor: anchor 输入 tensor
+        positive: positive 输入 tensor
+        negative: negative 输入 tensor
+        p: 正则化率. Default: 2
 
     Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
+        - Input: :math:`(N, D)` 其中 `D = vector dimension`
         - Output: :math:`(N, 1)`
 
     >>> triplet_loss = nn.TripletMarginLoss(margin=1.0, p=2)
