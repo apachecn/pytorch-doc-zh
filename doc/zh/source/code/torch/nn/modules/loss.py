@@ -175,31 +175,28 @@ class NLLLoss2d(NLLLoss):
 
 
 class PoissonNLLLoss(_Loss):
-    r"""Negative log likelihood loss with Poisson distribution of target.
+    r"""泊松分布的负对数似然损失 (Negative log likelihood loss)
 
-    The loss can be described as::
+    Loss 可以被表述为::
 
         target ~ Pois(input)
         loss(input, target) = input - target * log(input) + log(target!)
 
-    The last term can be omitted or approximised with Stirling formula. The
-    approximation is used for target values more than 1. For targets less or
-    equal to 1 zeros are added to the loss.
+    最后一项可以被忽略或用 Stirling formula 估算. 估算只对多余一的目标取值使用. 
+    少于或等于一个零的目标会被加到loss中.
 
-    Args:
-        log_input (bool, optional): if ``True`` the loss is computed as
-            `exp(input) - target * input`, if ``False`` the loss is
-            `input - target * log(input+eps)`.
-        full (bool, optional): whether to compute full loss, i. e. to add the
-            Stirling approximation term
+    参数:
+        log_input (bool, optional): 如果是 ``True``, loss 用表达式
+            `exp(input) - target * input` 计算, 如果是 ``False``, loss 用表达式
+            `input - target * log(input+eps)` 计算.
+        full (bool, optional): 是否计算full loss, 例如, 加入Stirling formula项
             `target * log(target) - target + 0.5 * log(2 * pi * target)`.
-        size_average (bool, optional): By default, the losses are averaged over
-            observations for each minibatch. However, if the field size_average
-            is set to ``False``, the losses are instead summed for each minibatch.
-        eps (float, optional): Small value to avoid evaluation of log(0) when
-            log_input==``False``. Default: 1e-8
+        size_average (bool, optional): loss 默认是对所有 minibatch 求平均. 然而, 
+            如果 size_average 设置为 ``False``, loss 会变为对 minibatch 求和.
+        eps (float, optional): 当 log_input==``False`` 时, 为避免 log(0) 运算而
+            加入的很小值. 默认: 1e-8
 
-    Examples::
+    实例::
 
         >>> loss = nn.PoissonNLLLoss()
         >>> log_input = autograd.Variable(torch.randn(5, 2), requires_grad=True)
