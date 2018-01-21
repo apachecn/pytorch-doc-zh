@@ -7,7 +7,7 @@
 
 .. note::
         
-    当一个 :class:`~torch.autograd.Variable` 被发送到另一个进程中, the :attr:`Variable.data` 和 :attr:`Variable.grad.data` 都将被共享.
+    当一个 :class:`~torch.autograd.Variable` 被发送到另一个进程中, :attr:`Variable.data` 和 :attr:`Variable.grad.data` 都将被共享.
 
 这里允许实现各种训练方法, 例如 Hogwild, A3C, 或者其他需要异步操作的方法.
 
