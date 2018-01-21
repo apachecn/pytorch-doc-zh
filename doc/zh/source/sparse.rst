@@ -76,7 +76,7 @@ An empty sparse tensor can be constructed by specifying its size:
     the interpretation is that the value at that index is the sum of all
     duplicate value entries. Uncoalesced tensors permit us to implement
     certain operators more efficiently.
-    我们的稀疏张量格式允许 *uncoalesced* 稀疏张量, 其中索引可能有重复的坐标; 在这
+    我们的稀疏张量格式允许 *uncoalesced* 稀疏张量, 索引可能对应有重复的坐标; 在这
     种情况下, 该索引处的值代表所有重复条目值的总和. Uncoalesced 张量允许我们更
     有效地实现确定的操作符. 
  
@@ -107,9 +107,9 @@ An empty sparse tensor can be constructed by specifying its size:
     其次, 一些操作符会产生不同的值这取决于它们是否是被 coalesced 的
     (例如, :func:`torch.sparse.FloatTensor._values` 
     和 :func:`torch.sparse.FloatTensor._indices` ,
-    还有 :func:`torch.Tensor._sparse_mask`), 这些操作符前面加了一个下划线,表明了
-    它们的内部实现,并且应当谨慎使用 , 因为 coalesced 的稀疏张量和 uncoalesced 的
-    稀疏张量可能不能一起使用; 一般来说,在运用这些操作符之前, 最安全的方式是明确的
+    还有 :func:`torch.Tensor._sparse_mask`), 这些操作符前面加了一个下划线,表示
+    它们的内部实现, 应当谨慎使用, 对于这些操作符， coalesced 的稀疏张量和 uncoalesced 的
+    稀疏张量可能不能一起使用; 通常, 在运用这些操作符之前, 最安全的方式是明确的
     coalesced .
 
     For example, suppose that we wanted to implement an operator
@@ -120,7 +120,7 @@ An empty sparse tensor can be constructed by specifying its size:
     sqrt(b)`` (which is what would be computed if you were given an
     uncoalesced tensor.)
     例如, 假设我们想通过直接操作 :func:`torch.sparse.FloatTensor._values` 的一个实现.
-    随着乘法分布的增加, 标量的乘法可以以明显的方式实现; 然而, 平方根不能直接实现, 
+    随着乘法分布的增加, 标量的乘法可以轻易实现; 然而, 平方根不能直接实现, 
     ``sqrt(a + b) != sqrt(a) +sqrt(b)`` (如果你赋予了一个 uncoalesced 的张量
     那会发生什么. )
 
