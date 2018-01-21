@@ -6,10 +6,10 @@ from .optimizer import Optimizer
 class LBFGS(Optimizer):
     """实现 L-BFGS 算法.
 
-    .. 警告::
+    .. warning::
         这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
 
-    .. 警告::
+    .. warning::
         目前所有的参数不得不都在同一设备上。这在将来会得到改进.
 
     .. note::
