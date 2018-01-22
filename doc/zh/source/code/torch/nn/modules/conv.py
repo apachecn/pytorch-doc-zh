@@ -65,29 +65,31 @@ class _ConvNd(Module):
 
 class Conv1d(_ConvNd):
     r"""一维卷积层
-    输入矩阵的维度为 :math:`(N, C_{in}, L)`, 输出矩阵维度为:math:`(N, C_{out}, L_{out})`.
+    输入矩阵的维度为 :math:`(N, C_{in}, L)`, 输出矩阵维度为 :math:`(N, C_{out}, L_{out})`.
     其中N为输入数量, C为每个输入样本的通道数量,  L为样本中一个通道下的数据的长度.
     算法如下:
 
-    .. 计算公式::
+    .. math::
 
         \begin{array}{ll}
         out(N_i, C_{out_j})  = bias(C_{out_j})
                        + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    :math:`\star` 是互相关运算符, 上式带:math:`\star`项为卷积项.
+    :math:`\star` 是互相关运算符, 上式带 :math:`\star` 项为卷积项.
 
     | :attr:`stride` 计算相关系数的步长, 可以为 tuple .
     | :attr:`padding` 处理边界时在两侧补0数量  
     | :attr:`dilation` 采样间隔数量. 大于1时为非致密采样, 如对(a,b,c,d,e)采样时, 若池化规模为2, 
-    dilation 为1时, 使用(a,b);(b,c)...进行池化, dilation为1时, 使用(a,c);(b,d)...进行池化.
-    | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
-    相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
+    dilation 为1时, 使用 (a,b);(b,c)... 进行池化, dilation 为1时, 使用 (a,c);(b,d)... 进行池化.
+    | :attr:`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积；group=2, 此时相当于
+    有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出.
-         `in_channels` 和 `out_channels`都要可以被 groups 整除.
+     `in_channels` 和 `out_channels`都要可以被 groups 整除.
 
-
+    .. note::
+        数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
+        整除的时候, 适当的 padding 可以避免这个问题）. 
 
     参数:
         in_channels (int):  输入信号的通道数.
@@ -107,16 +109,16 @@ class Conv1d(_ConvNd):
     模型的属性:
         weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size)
-        bias (Tensor):   偏置, 是模型需要学习的变量, 形状为
+        bias (Tensor): 偏置, 是模型需要学习的变量, 形状为
             (out_channels)
 
-    样例::
+    Examples::
 
         >>> m = nn.Conv1d(16, 33, 3, stride=2)
         >>> input = autograd.Variable(torch.randn(20, 16, 50))
         >>> output = m(input)
 
-    .. _互相关:
+    .. _cross-correlation:
         https://en.wikipedia.org/wiki/Cross-correlation
 
     .. _link:
@@ -140,11 +142,11 @@ class Conv1d(_ConvNd):
 
 class Conv2d(_ConvNd):
     r"""二维卷积层
-    输入矩阵的维度为 :math:`(N, C_{in}, H, W)`, 输出矩阵维度为:math:`(N, C_{out}, H_{out}, W_{out})`.
-    其中N为输入数量, C为每个输入样本的通道数量,  H,  W 分别为样本中一个通道下的数据的形状. 
+    输入矩阵的维度为 :math:`(N, C_{in}, H, W)` , 输出矩阵维度为 :math:`(N, C_{out}, H_{out}, W_{out})` .
+    其中N为输入数量, C为每个输入样本的通道数量, H, W 分别为样本中一个通道下的数据的形状. 
     算法如下: 
 
-    .. 计算公式::
+    .. math::
 
         \begin{array}{ll}
         out(N_i, C_{out_j})  = bias(C_{out_j})
@@ -166,6 +168,10 @@ class Conv2d(_ConvNd):
         -  单个 ``int`` 值  -- 宽和高均被设定为此值. 
         -  由两个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为高,  第二个``int`` 为宽. 
 
+    .. note::
+        数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
+        整除的时候, 适当的 padding 可以避免这个问题）. 
+        
     参数:
         in_channels (int): 输入信号的通道数. 
         out_channels (int): 卷积后输出结果的通道数. 
@@ -188,7 +194,7 @@ class Conv2d(_ConvNd):
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
        
 
-    样例::
+    Examples::
 
         >>> # With square kernels and equal stride
         >>> m = nn.Conv2d(16, 33, 3, stride=2)
@@ -199,7 +205,7 @@ class Conv2d(_ConvNd):
         >>> input = autograd.Variable(torch.randn(20, 16, 50, 100))
         >>> output = m(input)
 
-    .. _互相关:
+    .. _cross-correlation:
         https://en.wikipedia.org/wiki/Cross-correlation
 
     .. _link:
@@ -227,7 +233,7 @@ class Conv3d(_ConvNd):
     其中N为输入数量, C为每个输入样本的通道数量,  D,  H,  W 分别为样本中一个通道下的数据的形状. 
     算法如下: 
 
-    .. 计算公式::
+    .. math::
 
         \begin{array}{ll}
         out(N_i, C_{out_j})  = bias(C_{out_j})
@@ -249,7 +255,11 @@ class Conv3d(_ConvNd):
 
         -  单个 ``int`` 值  -- 宽和高和深度均被设定为此值. 
         -  由三个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为深度,  第二个 ``int`` 为高度, 第三个 ``int`` 为宽度. 
-        
+
+    .. note::
+        数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
+        整除的时候, 适当的 padding 可以避免这个问题）. 
+           
     参数:
         in_channels (int): 输入信号的通道数. 
         out_channels (int): 卷积后输出结果的通道数. 
@@ -272,7 +282,7 @@ class Conv3d(_ConvNd):
             (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2])
         bias (Tensor): 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
-    样例::
+    Examples::
 
         >>> # With square kernels and equal stride
         >>> m = nn.Conv3d(16, 33, 3, stride=2)
@@ -281,7 +291,7 @@ class Conv3d(_ConvNd):
         >>> input = autograd.Variable(torch.randn(20, 16, 10, 50, 100))
         >>> output = m(input)
 
-    .. _互相关:
+    .. _cross-correlation:
         https://en.wikipedia.org/wiki/Cross-correlation
 
     .. _link:
@@ -360,7 +370,7 @@ class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
     输出通道简单的首尾相接作为结果输出. 
             `in_channels` 和 `out_channels`都要可以被 groups 整除. 
     
-    .. 注意::
+    .. note::
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
         
@@ -430,9 +440,9 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
         - 单个 ``int`` 值  -- 宽和高均被设定为此值. 
         - 由两个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为高度,  第二个 ``int`` 为宽度. 
 
-    .. 注意::
-    数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
-    整除的时候, 适当的 padding 可以避免这个问题）. 
+    .. note::
+        数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
+        整除的时候, 适当的 padding 可以避免这个问题）.  
 
     参数:
         in_channels (int): 输入信号的通道数. 
@@ -458,7 +468,7 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
                          (in_channels, out_channels, kernel_size[0], kernel_size[1])
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
-    样例::
+    Examples::
 
         >>> # With square kernels and equal stride
         >>> m = nn.ConvTranspose2d(16, 33, 3, stride=2)
@@ -477,7 +487,7 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
         >>> output.size()
         torch.Size([1, 16, 12, 12])
 
-    .. _互相关:
+    .. _cross-correlation:
         https://en.wikipedia.org/wiki/Cross-correlation
 
     .. _link:
@@ -523,7 +533,7 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
         - 单个 ``int`` 值  -- 深和宽和高均被设定为此值. 
         - 由三个 ``int`` 组成的 ``tuple``  -- 第一个 ``int`` 为深度,  第二个 ``int`` 为高度,第三个 ``int`` 为宽度. 
 
-    .. 注意::
+    .. note::
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
 
@@ -552,7 +562,7 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
                          (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2])
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
-    样例::
+    Examples::
 
         >>> # With square kernels and equal stride
         >>> m = nn.ConvTranspose3d(16, 33, 3, stride=2)
@@ -561,7 +571,7 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
         >>> input = autograd.Variable(torch.randn(20, 16, 10, 50, 100))
         >>> output = m(input)
 
-    .. _互相关:
+    .. _cross-correlation:
         https://en.wikipedia.org/wiki/Cross-correlation
 
     .. _link:
