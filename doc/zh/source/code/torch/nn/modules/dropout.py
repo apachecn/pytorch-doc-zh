@@ -3,26 +3,26 @@ from .. import functional as F
 
 
 class Dropout(Module):
-    r"""Dropout在训练期间，按照伯努利概率分布，以概率p随机地将输入张量中的部分元素
+    r"""Dropout 在训练期间，按照伯努利概率分布，以概率p随机地将输入张量中的部分元素
 	置为0，在每次调用中，被置为0的元素是随机的。
 
-	Dropout已被证明是正则化的一个行之有效的技术，并且在防止神经元之间互适应问题上
-	也卓有成效。（神经元互适应问题详见论文“Improving neural networks by preventing 
+	Dropout 已被证明是正则化的一个行之有效的技术，并且在防止神经元之间互适应问题上
+	也卓有成效。（神经元互适应问题详见论文 “Improving neural networks by preventing 
 	co-adaptation of feature detectors”）
 
-	并且，Dropout的输出均与*1/(1-p)*的比例系数进行了相乘，保证了求值时函数的归一化。
+	并且， Dropout 的输出均与*1/(1-p)*的比例系数进行了相乘，保证了求值时函数的归一化。
     
 	参数：
 		p：元素被置为0的概率，默认值：0.5
-		inplace：如果为“True”，置0操作将直接发生在传入的元素上。默认值：“false”
+		inplace：如果为 True，置0操作将直接发生在传入的元素上。默认值： false
     
 	数据大小：
-		- Input：'any'。输入数据可以是任何大小
-		- Output：'Same'。输出数据大小与输入相同
+		- Input： any。输入数据可以是任何大小
+		- Output： Same。输出数据大小与输入相同
     
 	示例：
 
-		>>> m = nn.Dropout(p=0.2)
+	>>> m = nn.Dropout(p=0.2)
         >>> input = autograd.Variable(torch.randn(20, 16))
         >>> output = m(input)
 
@@ -49,16 +49,16 @@ class Dropout(Module):
 
 
 class Dropout2d(Module):
-    r"""Dropout2d将输入张量的所有通道随机地置为0。被置为0的通道在每次调用时
+    r"""Dropout2d 将输入张量的所有通道随机地置为0。被置为0的通道在每次调用时
 	是随机地。
 	
-	通常输入数据来自Conv2d模块。
+	通常输入数据来自 Conv2d 模块。
 
-	在论文“Efficient Object Localization Using Convolutional Networks`_ ”中有如下
+	在论文 “ Efficient Object Localization Using Convolutional Networks ” 中有如下
 	描述：如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见），那么独立同分布
-	的dropout将不会正则化激活函数，相反其会导致有效的学习率的下降。
+	的 dropout 将不会正则化激活函数，相反其会导致有效的学习率的下降。
 
-	在这样的情况下，应该使用函数函数'nn.Dropout2d'，它能够促进特征映射之间的独立性。
+	在这样的情况下，应该使用函数函数 nn.Dropout2d ，它能够促进特征映射之间的独立性。
     
 	参数：
 		p (float,optional)：元素被置0的概率
@@ -70,7 +70,7 @@ class Dropout2d(Module):
     
 	示例：
 
-		>>> m = nn.Dropout2d(p=0.2)
+	>>> m = nn.Dropout2d(p=0.2)
         >>> input = autograd.Variable(torch.randn(20, 16, 32, 32))
         >>> output = m(input)
 
@@ -97,20 +97,20 @@ class Dropout2d(Module):
 
 
 class Dropout3d(Module):
-    r"""Dropout2d将输入张量的所有通道随机地置为0。被置为0的通道在每次调用时
+    r"""Dropout2d 将输入张量的所有通道随机地置为0。被置为0的通道在每次调用时
 	是随机地。
 	
-	通常输入数据来自Conv3d模块。
+	通常输入数据来自 Conv3d 模块。
 
-	在论文“Efficient Object Localization Using Convolutional Networks`_ ”中有如下
+	在论文 “Efficient Object Localization Using Convolutional Networks_ ” 中有如下
 	描述：如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见），那么独立同分布
-	的dropout将不会正则化激活函数，相反其会导致有效的学习率的下降。
+	的 dropout 将不会正则化激活函数，相反其会导致有效的学习率的下降。
 
-	在这样的情况下，应该使用函数函数'nn.Dropout3d'，它能够促进特征映射之间的独立性。
+	在这样的情况下，应该使用函数函数 nn.Dropout3d ，它能够促进特征映射之间的独立性。
     
 	参数：
 		p (float,optional)：元素被置0的概率
-		inplace（bool，optional）：如果被设为’True’，置0操作将直接作用在输入元素上
+		inplace（bool，optional）：如果被设为 True ，置0操作将直接作用在输入元素上
     
 	数据大小：
 		- Input：math:(N, C, H, W)
@@ -118,7 +118,7 @@ class Dropout3d(Module):
     
 	示例：
 
-		>>> m = nn.Dropout3d(p=0.2)
+	>>> m = nn.Dropout3d(p=0.2)
         >>> input = autograd.Variable(torch.randn(20, 16, 4, 32, 32))
         >>> output = m(input)
     
@@ -145,13 +145,13 @@ class Dropout3d(Module):
 
 
 class AlphaDropout(Module):
-    r"""在输入上应用Alpha Dropout。
+    r"""在输入上应用 Alpha Dropout。
 
-	Alpha Dropout是一种维持自正交性质的Dropout。对于一个均值为0和标准差为1的输入
-	来说，Alpha Dropout能保持原始数据的均值和标准差。Alpha Dropout和SELU激活函数
+	Alpha Dropout 是一种维持自正交性质的 Dropout 。对于一个均值为0和标准差为1的输入
+	来说，Alpha Dropout 能保持原始数据的均值和标准差。Alpha Dropout 和 SELU 激活函数
 	携手同行，后者也保证了输出拥有与输入相同的均值和标准差。
     
-	Alpha Dropout在训练期间，按照伯努利概率分布，以概率p随机地将输入张量中的部分元素
+	Alpha Dropout 在训练期间，按照伯努利概率分布，以概率p随机地将输入张量中的部分元素
 	置进行掩盖，在每次调用中，被掩盖的元素是随机的，并且对输出会进行缩放、变换等操作
 	以保持均值为0、标准差为1.
 
@@ -163,12 +163,12 @@ class AlphaDropout(Module):
 		p（float）：元素被掩盖的概率，默认值：0.5
     
 	数据大小：
-		- Input：'any'。输入数据可以是任何大小
-		- Output：'Same'。输出数据大小与输入相同
+		- Input： any。输入数据可以是任何大小
+		- Output： Same。输出数据大小与输入相同
 
 	示例：
 
-		>>> m = nn.AlphaDropout(p=0.2)
+	>>> m = nn.AlphaDropout(p=0.2)
         >>> input = autograd.Variable(torch.randn(20, 16))
         >>> output = m(input)
 
