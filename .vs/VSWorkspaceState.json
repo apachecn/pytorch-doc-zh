@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\doc",
+    "\\doc\\zh",
+    "\\doc\\zh\\source",
+    "\\doc\\zh\\source\\code",
+    "\\doc\\zh\\source\\code\\torch",
+    "\\doc\\zh\\source\\code\\torch\\legacy",
+    "\\doc\\zh\\source\\code\\torch\\legacy\\nn"
+  ],
+  "PreviewInSolutionExplorer": false
+}
