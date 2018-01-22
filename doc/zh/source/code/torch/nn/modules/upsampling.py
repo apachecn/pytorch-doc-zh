@@ -6,31 +6,31 @@ from .. import functional as F
 
 
 class Upsample(Module):
-    r"""Upsamples a given multi-channel 1D (temporal), 2D (spatial) or 3D (volumetric) data.
+    r"""对给定的多通道 1维时序数据, 2维空间数据，或三维容积数据进行上采样。
 
-    The input data is assumed to be of the form `minibatch x channels x [depth] x [height] x width`.
-    Hence, for spatial inputs, we expect a 4D Tensor and for volumetric inputs, we expect a 5D Tensor.
+    输入数据的格式为 `minibatch x channels x [depth] x [height] x width`。
+    因此，对于2维空间数据的输入，期望得到一个4维张量；对于3-D立体数据输入，期望得到一个5维张量。
 
+    对3D，4D，5D的输入张量进行最近邻、线性、双线性和三线性采样，可用于该上采样方法。
     The algorithms available for upsampling are nearest neighbor and linear, bilinear and trilinear
     for 3D, 4D and 5D input Tensor, respectively.
 
-    One can either give a :attr:`scale_factor` or the target output :attr:`size` to
-    calculate the output size. (You cannot give both, as it is ambiguous)
+    可以提供:attr:`scale_factor` 或目标输出的 :attr:`size` 来计算输出的大小。（不能同时都给，因为这样做是含糊不清的。）
 
-    Args:
-        size (tuple, optional): a tuple of ints ([D_out], [H_out], W_out) output sizes
-        scale_factor (int / tuple of ints, optional): the multiplier for the image height / width / depth
-        mode (string, optional): the upsampling algorithm: nearest | linear | bilinear | trilinear. Default: nearest
+    参数说明:
+        size (tuple, optional): 整型数的元组 ([D_out], [H_out], W_out) 输出大小
+        scale_factor (int / tuple of ints, optional): 图像高度/宽度/深度的乘数
+        mode (string, optional): 上采样算法: nearest | linear | bilinear | trilinear. 默认为: nearest
 
     Shape:
-        - Input: :math:`(N, C, W_{in})`, :math:`(N, C, H_{in}, W_{in})` or :math:`(N, C, D_{in}, H_{in}, W_{in})`
-        - Output: :math:`(N, C, W_{out})`, :math:`(N, C, H_{out}, W_{out})`
-          or :math:`(N, C, D_{out}, H_{out}, W_{out})` where
-          :math:`D_{out} = floor(D_{in} * scale\_factor)` or `size[-3]`
-          :math:`H_{out} = floor(H_{in} * scale\_factor)` or `size[-2]`
-          :math:`W_{out} = floor(W_{in}  * scale\_factor)` or `size[-1]`
+        - 输入: :math:`(N, C, W_{in})`, :math:`(N, C, H_{in}, W_{in})` 或 :math:`(N, C, D_{in}, H_{in}, W_{in})`
+        - 输出: :math:`(N, C, W_{out})`, :math:`(N, C, H_{out}, W_{out})`
+          或 :math:`(N, C, D_{out}, H_{out}, W_{out})` 其中：
+          :math:`D_{out} = floor(D_{in} * scale\_factor)` 或 `size[-3]`
+          :math:`H_{out} = floor(H_{in} * scale\_factor)` 或 `size[-2]`
+          :math:`W_{out} = floor(W_{in}  * scale\_factor)` 或 `size[-1]`
 
-    Examples::
+    示例::
 
         >>> inp
         Variable containing:
@@ -88,25 +88,23 @@ class Upsample(Module):
 
 
 class UpsamplingNearest2d(Upsample):
-    r"""Applies a 2D nearest neighbor upsampling to an input signal composed of several input
-    channels.
+    r"""对多个输入通道组成的输入信号进行2维最近邻上采样。
 
-    To specify the scale, it takes either the :attr:`size` or the :attr:`scale_factor`
-    as it's constructor argument.
+    为了指定采样范围，提供了:attr:`size` 或 :attr:`scale_factor` 作为构造参数。
 
-    When `size` is given, it is the output size of the image (h, w).
+    当给定 `size`, 输出图像的大小为 (h, w)。
 
-    Args:
-        size (tuple, optional): a tuple of ints (H_out, W_out) output sizes
-        scale_factor (int, optional): the multiplier for the image height / width
+    参数说明:
+        size (tuple, optional): 输出图片大小的整型元组(H_out, W_out)
+        scale_factor (int, optional): 图像的 长和宽的乘子。
 
-    Shape:
+    形状:
         - Input: :math:`(N, C, H_{in}, W_{in})`
-        - Output: :math:`(N, C, H_{out}, W_{out})` where
+        - Output: :math:`(N, C, H_{out}, W_{out})` 其中
           :math:`H_{out} = floor(H_{in} * scale\_factor)`
           :math:`W_{out} = floor(W_{in}  * scale\_factor)`
 
-    Examples::
+    示例::
 
         >>> inp
         Variable containing:
@@ -135,25 +133,23 @@ class UpsamplingNearest2d(Upsample):
 
 
 class UpsamplingBilinear2d(Upsample):
-    r"""Applies a 2D bilinear upsampling to an input signal composed of several input
-    channels.
+    r"""对多个输入通道组成的输入信号进行2维双线性上采样。
 
-    To specify the scale, it takes either the :attr:`size` or the :attr:`scale_factor`
-    as it's constructor argument.
+    为了指定采样范围，提供了:attr:`size` 或 :attr:`scale_factor` 作为构造参数。
 
-    When `size` is given, it is the output size of the image (h, w).
+    当给定 `size`, 输出图像的大小为 (h, w)。
 
-    Args:
-        size (tuple, optional): a tuple of ints (H_out, W_out) output sizes
-        scale_factor (int, optional): the multiplier for the image height / width
+    参数说明:
+        size (tuple, optional): 输出图片大小的整型元组(H_out, W_out)
+        scale_factor (int, optional): 图像的 长和宽的乘子。
 
-    Shape:
+    形状:
         - Input: :math:`(N, C, H_{in}, W_{in})`
-        - Output: :math:`(N, C, H_{out}, W_{out})` where
+        - Output: :math:`(N, C, H_{out}, W_{out})` 其中
           :math:`H_{out} = floor(H_{in} * scale\_factor)`
           :math:`W_{out} = floor(W_{in}  * scale\_factor)`
 
-    Examples::
+    示例::::
 
         >>> inp
         Variable containing:

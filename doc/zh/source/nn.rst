@@ -604,7 +604,7 @@ Loss functions
     :members:
 
 
-Vision layers
+特征表达层
 ----------------
 
 :hidden:`PixelShuffle`
