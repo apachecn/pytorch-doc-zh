@@ -43,34 +43,26 @@ class _BatchNorm(Module):
 
 
 class BatchNorm1d(_BatchNorm):
-    r"""Applies Batch Normalization over a 2d or 3d input that is seen as a
-    mini-batch.
+    r""" 对 2d 或者 3d 的小批量 (mini-batch) 数据进行批标准化 (Batch Normalization) 操作.
 
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x] + \epsilon}} * gamma + beta
 
-    The mean and standard-deviation are calculated per-dimension over
-    the mini-batches and gamma and beta are learnable parameter vectors
-    of size C (where C is the input size).
+    每个小批量数据中,计算各个维度的均值和标准差,并且 gamma 和 beta 是大小为 C 的可学习,
+    可改变的仿射参数向量( C 为输入大小).
 
-    During training, this layer keeps a running estimate of its computed mean
-    and variance. The running sum is kept with a default momentum of 0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    During evaluation, this running mean/variance is used for normalization.
+    在验证时,训练得到的均值/方差,用于标准化.
 
-    Because the BatchNorm is done over the `C` dimension, computing statistics
-    on `(N, L)` slices, it's common terminology to call this Temporal BatchNorm
+    BatchNorm 在 'C' 维上处理,即 '(N,L)' 部分运行,被称作 'Temporal BatchNorm'
 
     Args:
-        num_features: num_features from an expected input of size
-            `batch_size x num_features [x width]`
-        eps: a value added to the denominator for numerical stability.
-            Default: 1e-5
-        momentum: the value used for the running_mean and running_var
-            computation. Default: 0.1
-        affine: a boolean value that when set to ``True``, gives the layer learnable
-            affine parameters. Default: ``True``
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features [x width]'
+        eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
+        momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
+        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
     Shape:
         - Input: :math:`(N, C)` or :math:`(N, C, L)`
@@ -93,34 +85,26 @@ class BatchNorm1d(_BatchNorm):
 
 
 class BatchNorm2d(_BatchNorm):
-    r"""Applies Batch Normalization over a 4d input that is seen as a mini-batch
-    of 3d inputs
+    r""" 对小批量 (mini-batch) 3d 数据组成的 4d 输入进行标准化 (Batch Normalization) 操作.
 
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x] + \epsilon}} * gamma + beta
 
-    The mean and standard-deviation are calculated per-dimension over
-    the mini-batches and gamma and beta are learnable parameter vectors
-    of size C (where C is the input size).
+    每个小批量数据中,计算各个维度的均值和标准差,
+    并且 gamma 和 beta 是大小为 C 的可学习,可改变的仿射参数向量 (C 为输入大小).
 
-    During training, this layer keeps a running estimate of its computed mean
-    and variance. The running sum is kept with a default momentum of 0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为 0.1.
 
-    During evaluation, this running mean/variance is used for normalization.
+    在验证时,训练得到的均值/方差,用于标准化.
 
-    Because the BatchNorm is done over the `C` dimension, computing statistics
-    on `(N, H, W)` slices, it's common terminology to call this Spatial BatchNorm
+    BatchNorm 在 'C' 维上处理,即 '(N, H, W)' 部分运行,被称作 'Spatial BatchNorm'.
 
     Args:
-        num_features: num_features from an expected input of
-            size batch_size x num_features x height x width
-        eps: a value added to the denominator for numerical stability.
-            Default: 1e-5
-        momentum: the value used for the running_mean and running_var
-            computation. Default: 0.1
-        affine: a boolean value that when set to ``True``, gives the layer learnable
-            affine parameters. Default: ``True``
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x height x width'
+        eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
+        momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
+        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
     Shape:
         - Input: :math:`(N, C, H, W)`
@@ -143,35 +127,26 @@ class BatchNorm2d(_BatchNorm):
 
 
 class BatchNorm3d(_BatchNorm):
-    r"""Applies Batch Normalization over a 5d input that is seen as a mini-batch
-    of 4d inputs
+    r""" 对小批量 (mini-batch) 4d 数据组成的 5d 输入进行标准化 (Batch Normalization) 操作.
 
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x] + \epsilon}} * gamma + beta
 
-    The mean and standard-deviation are calculated per-dimension over
-    the mini-batches and gamma and beta are learnable parameter vectors
-    of size C (where C is the input size).
+    每个小批量数据中,计算各个维度的均值和标准差,
+    并且 gamma 和 beta 是大小为 C 的可学习,可改变的仿射参数向量 (C 为输入大小).
 
-    During training, this layer keeps a running estimate of its computed mean
-    and variance. The running sum is kept with a default momentum of 0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为 0.1.
 
-    During evaluation, this running mean/variance is used for normalization.
+    在验证时,训练得到的均值/方差,用于标准化.
 
-    Because the BatchNorm is done over the `C` dimension, computing statistics
-    on `(N, D, H, W)` slices, it's common terminology to call this Volumetric BatchNorm
-    or Spatio-temporal BatchNorm
+    BatchNorm 在 'C' 维上处理,即 '(N, D, H, W)' 部分运行,被称作 'Volumetric BatchNorm' 或者 'Spatio-temporal BatchNorm'
 
     Args:
-        num_features: num_features from an expected input of
-            size batch_size x num_features x depth x height x width
-        eps: a value added to the denominator for numerical stability.
-            Default: 1e-5
-        momentum: the value used for the running_mean and running_var
-            computation. Default: 0.1
-        affine: a boolean value that when set to ``True``, gives the layer learnable
-            affine parameters. Default: ``True``
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x depth x height x width'
+        eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
+        momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
+        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
     Shape:
         - Input: :math:`(N, C, D, H, W)`

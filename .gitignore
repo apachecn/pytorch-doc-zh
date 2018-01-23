@@ -100,4 +100,9 @@ ENV/
 # mypy
 .mypy_cache/
 
-.vs
+# VSCode
+.vscode/
+.vs/
+
+# IDEA
+.idea/
