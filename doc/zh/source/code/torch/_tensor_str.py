@@ -24,20 +24,20 @@ def set_printoptions(
         linewidth=None,
         profile=None,
 ):
-    """Set options for printing. Items shamelessly taken from Numpy
+    """设置打印选项. 从 Numpy 中采集数据
 
     Args:
-        precision: Number of digits of precision for floating point output
+        precision: 浮点输出精度的位数
             (default 8).
-        threshold: Total number of array elements which trigger summarization
-            rather than full repr (default 1000).
-        edgeitems: Number of array items in summary at beginning and end of
-            each dimension (default 3).
-        linewidth: The number of characters per line for the purpose of
-            inserting line breaks (default 80). Thresholded matricies will
-            ignore this parameter.
-        profile: Sane defaults for pretty printing. Can override with any of
-            the above options. (default, short, full)
+        threshold: 触发汇总而不是 full repr 的数组元素的总数
+            (default 1000).
+        edgeitems: 每个维度开始和结束时总结的数组项数
+            (default 3).
+        linewidth: 插入换行符的每行字符数
+            (default 80).
+            Thresholded matricies(阈值矩阵) 将忽略这个参数.
+        profile: Sane 默认用于漂亮格式的打印. 可以用以下任何选项来进行覆盖
+             (default, short, full)
     """
     if profile is not None:
         if profile == "default":

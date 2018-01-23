@@ -3054,10 +3054,10 @@ add_docstr(torch._C.numel,
            """
 numel(input) -> int
 
-Returns the total number of elements in the :attr:`input` Tensor.
+返回 :attr:`input` Tensor 中的元素总数.
 
 Args:
-    input (Tensor): the input `Tensor`
+    input (Tensor): 输入的 `Tensor`
 
 Example::
 
