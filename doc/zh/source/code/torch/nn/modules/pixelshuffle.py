@@ -4,13 +4,13 @@ from .. import functional as F
 
 class PixelShuffle(Module):
     r"""
-    对张量中形如:math:`(*, C * r^2, H, W]`的元素，重新排列成:math:`(C, H * r, W * r)`。
+    对张量中形如 :math:`(*, C * r^2, H, W]` 的元素, 重新排列成 :math:`(C, H * r, W * r)`.
 
-    当使用 stride = :math:`1/r`的高效子像素卷积很有用。
+    当使用 stride = :math:`1/r` 的高效子像素卷积很有用.
 
-    参考如下论文获得更多信息：
+    参考如下论文获得更多信息:
     `Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network`_
-    Shi et. al (2016) 。
+    Shi et. al (2016) . 
 
     参数:
         upscale_factor (int): 增加空间分辨率的因子
