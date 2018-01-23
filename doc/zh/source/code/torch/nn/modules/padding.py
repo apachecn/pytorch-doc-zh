@@ -156,19 +156,19 @@ class ReflectionPad1d(Module):
 
 
 class ReflectionPad2d(Module):
-    r"""Pads the input tensor using the reflection of the input boundary.
+    r"""使用输入边界的反射填充输入张量.
 
-    Args:
-        padding (int, tuple): the size of the padding. If is int, uses the same
-            padding in all boundaries. If a 4-tuple, uses (paddingLeft, paddingRight, paddingTop, paddingBottom)
-
-    Shape:
+    参数:
+        padding (int, tuple): 填充的大小。 如果是int，则在所有边界填充使用相同的.
+        如果是4-tuple，则使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
+        
+    形态:
         - Input: :math:`(N, C, H_{in}, W_{in})`
         - Output: :math:`(N, C, H_{out}, W_{out})` where
           :math:`H_{out} = H_{in} + paddingTop + paddingBottom`
           :math:`W_{out} = W_{in} + paddingLeft + paddingRight`
 
-    Examples::
+    实例::
 
         >>> m = nn.ReflectionPad2d(3)
         >>> input = autograd.Variable(torch.randn(16, 3, 320, 480))
