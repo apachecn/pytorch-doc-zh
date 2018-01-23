@@ -848,20 +848,16 @@ add_docstr(torch._C.cross,
 cross(input, other, dim=-1, out=None) -> Tensor
 
 
-Returns the cross product of vectors in dimension :attr:`dim` of :attr:`input`
-and :attr:`other`.
+返回沿着维度 `dim` 上, 两个张量 `input` 和 `other` 的向量积 (叉积), 
+`input` 和 `other` 必须有相同的形状, 且指定的 `dim` 维上 `size` 必须为 3.
 
-:attr:`input` and :attr:`other` must have the same size, and the size of their
-:attr:`dim` dimension should be 3.
-
-If :attr:`dim` is not given, it defaults to the first dimension found with the
-size 3.
+如果不指定 `dim`, 则默认为第一个尺度为 3 的维.
 
 Args:
-    input (Tensor): the input `Tensor`
-    other (Tensor): the second input `Tensor`
-    dim  (int, optional): the dimension to take the cross-product in.
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    other (Tensor): 第二个输入 `Tensor`
+    dim  (int, optional): 沿着此维进行叉积操作.
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1018,25 +1014,23 @@ add_docstr(torch._C.diag,
            """
 diag(input, diagonal=0, out=None) -> Tensor
 
-- If :attr:`input` is a vector (1D Tensor), then returns a 2D square Tensor
-  with the elements of :attr:`input` as the diagonal.
-- If :attr:`input` is a matrix (2D Tensor), then returns a 1D Tensor with
-  the diagonal elements of :attr:`input`.
+- 如果输入是一个向量( `1D` 张量), 则返回一个以 `input` 为对角线元素的 `2D` 方阵.
+- 如果输入是一个矩阵( `2D` 张量), 则返回一个包含 `input` 对角线元素的1D张量.
 
-The argument :attr:`diagonal` controls which diagonal to consider.
+参数 `diagonal` 指定对角线:
 
-- :attr:`diagonal` = 0, is the main diagonal.
-- :attr:`diagonal` > 0, is above the main diagonal.
-- :attr:`diagonal` < 0, is below the main diagonal.
+- :attr:`diagonal` = 0, 主对角线.
+- :attr:`diagonal` > 0, 主对角线之上.
+- :attr:`diagonal` < 0, 主对角线之下.
 
 Args:
-    input (Tensor): the input `Tensor`
-    diagonal (int, optional): the diagonal to consider
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入的 `Tensor`
+    diagonal (int, optional): 指定对角线
+    out (Tensor, optional): 输出 `Tensor`
 
 Example:
 
-Get the square matrix where the input vector is the diagonal::
+取得以 `input` 为对角线的方阵::
 
     >>> a = torch.randn(3)
     >>> a
@@ -1710,20 +1704,21 @@ add_docstr(torch._C.histc,
            """
 histc(input, bins=100, min=0, max=0, out=None) -> Tensor
 
-Computes the histogram of a tensor.
+计算输入张量的直方图.
 
-The elements are sorted into equal width bins between `min` and `max`. If `min`
-and `max` are both zero, the minimum and maximum values of the data are used.
+以 `min` 和 `max` 为 `range` 边界, 将其均分成 `bins` 个直条,
+然后将排序好的数据划分到各个直条 `(bins)` 中. 如果 `min` 和 `max` 都为 0, 
+则利用数据中的最大最小值作为边界.
 
 Args:
-    input (Tensor): Input data
-    bins (int): Number of histogram bins
-    min (int): Lower end of the range (inclusive)
-    max (int): Upper end of the range (inclusive)
-    out (Tensor, optional): Output argument
+    input (Tensor): 输入张量
+    bins (int): 直方图 `bins` (直条)的个数(默认100个)
+    min (int):  `range` 的下边界(包含)
+    max (int):  `range` 的上边界(包含)
+    out (Tensor, optional): 结果张量
 
 Returns:
-    Tensor: the histogram
+    Tensor: 直方图
 
 Example::
 
@@ -3766,18 +3761,16 @@ add_docstr(torch._C.renorm,
            """
 renorm(input, p, dim, maxnorm, out=None) -> Tensor
 
-Returns a Tensor where each sub-tensor of :attr:`input` along dimension
-:attr:`dim` is normalized such that the `p`-norm of the sub-tensor is lower
-than the value :attr:`maxnorm`
+返回一个张量, 包含规范化后的各个子张量, 使得沿着 `dim` 维划分的各子张量的 `p` 范数小于 `maxnorm`
 
-.. note:: If the norm of a row is lower than `maxnorm`, the row is unchanged
+.. note:: 如果 p 范数的值小于 `maxnorm`, 则当前子张量不需要修改.
 
 Args:
-    input (Tensor): The input Tensor
-    p (float): The power for the norm computation
-    dim (int): The dimension to slice over to get the sub-tensors
-    maxnorm (float): The maximum norm to keep each sub-tensor under
-    out (Tensor, optional): Output tensor
+    input (Tensor): 输入 `Tensor`
+    p (float): 范数的 `p`
+    dim (int): 沿着此维切片, 得到张量子集
+    maxnorm (float):  每个子张量的范数的最大值
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -4564,7 +4557,7 @@ add_docstr(torch._C.trace,
            """
 trace(input) -> float
 
-Returns the sum of the elements of the diagonal of the input 2D matrix.
+返回输入 2 维矩阵对角线元素的和(迹).
 
 Example::
 
@@ -4619,22 +4612,20 @@ add_docstr(torch._C.tril,
            """
 tril(input, diagonal=0, out=None) -> Tensor
 
-Returns the lower triangular part of the matrix (2D Tensor) :attr:`input`,
-the other elements of the result Tensor :attr:`out` are set to 0.
+返回一个张量, 包含输入矩阵 ( `2D` 张量)的下三角部分, 其余部分被设为 0.
 
-The lower triangular part of the matrix is defined as the elements on and
-below the diagonal.
+这里所说的下三角部分为矩阵指定对角线 `diagonal` 在线里的和下面的元素.
 
-The argument :attr:`diagonal` controls which diagonal to consider.
+参数 `diagonal` 控制对角线.
 
-- :attr:`diagonal` = 0, is the main diagonal.
-- :attr:`diagonal` > 0, is above the main diagonal.
-- :attr:`diagonal` < 0, is below the main diagonal.
+- :attr:`diagonal` = 0, 主对角线.
+- :attr:`diagonal` > 0, 主对角线之上.
+- :attr:`diagonal` < 0, 主对角线之下.
 
 Args:
-    input (Tensor): the input `Tensor`
-    diagonal (int, optional): the diagonal to consider
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    diagonal (int, optional): 指定对角线
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
@@ -4673,22 +4664,20 @@ add_docstr(torch._C.triu,
            """
 triu(input, diagonal=0, out=None) -> Tensor
 
-Returns the upper triangular part of the matrix (2D Tensor) :attr:`input`,
-the other elements of the result Tensor :attr:`out` are set to 0.
+返回一个张量, 包含输入矩阵 ( `2D` 张量)的上三角部分, 其余部分被设为 0.
 
-The upper triangular part of the matrix is defined as the elements on and
-above the diagonal.
+这里所说的下三角部分为矩阵指定对角线 `diagonal` 在线里的和上面的元素.
 
-The argument :attr:`diagonal` controls which diagonal to consider.
+参数 `diagonal` 控制对角线.
 
-- :attr:`diagonal` = 0, is the main diagonal.
-- :attr:`diagonal` > 0, is above the main diagonal.
-- :attr:`diagonal` < 0, is below the main diagonal.
+- :attr:`diagonal` = 0, 主对角线.
+- :attr:`diagonal` > 0, 主对角线之上.
+- :attr:`diagonal` < 0, 主对角线之下.
 
 Args:
-    input (Tensor): the input `Tensor`
-    diagonal (int, optional): the diagonal to consider
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    diagonal (int, optional): 指定对角线
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
