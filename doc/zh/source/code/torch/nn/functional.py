@@ -983,24 +983,23 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
 
 
 def poisson_nll_loss(input, target, log_input=True, full=False, size_average=True, eps=1e-8):
-    r"""Poisson negative log likelihood loss.
+    r"""泊松分布的负对数似然损失 (Negative log likelihood loss).
 
-    See :class:`~torch.nn.PoissonNLLLoss` for details.
+    详见 :class:`~torch.nn.PoissonNLLLoss`.
 
-    Args:
-        input: expectation of underlying Poisson distribution.
-        target: random sample :math:`target \sim Pois(input)`.
-        log_input: if ``True`` the loss is computed as
-            `exp(input) - target * input`, if ``False`` then loss is
-            `input - target * log(input+eps)`. Default: ``True``
-        full: whether to compute full loss, i. e. to add the Stirling
-            approximation term. Default: ``False``
-            `target * log(target) - target + 0.5 * log(2 * pi * target)`.
-        size_average: By default, the losses are averaged over observations for
-            each minibatch. However, if the field sizeAverage is set to False,
-            the losses are instead summed for each minibatch. Default: ``True``
-        eps (float, optional): Small value to avoid evaluation of log(0) when
-            log_input=False. Default: 1e-8
+    参数:
+        input: 泊松分布的期望值.
+        target: 随机样本 :math:`target \sim Pois(input)`.
+        log_input:  如果设置为 ``True`` , 损失将会按照公式 `exp(input) - target * input` 
+            来计算, 如果设置为 ``False`` , 损失将会按照 `input - target * log(input+eps)` 计算.
+            默认: ``True``
+        full:  是否计算全部的损失, i. e. 加上 Stirling 近似项 
+            `target * log(target) - target + 0.5 * log(2 * pi * target)`. 默认: ``False``
+        size_average:  默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 上取平均值. 
+            如果字段 size_average 被设置为  ``False``, 损失函数的值会在每 个 mini-batch（小批量）上求和.
+            默认: ``True``.
+        eps (float, optional): 当 ··log_input==False`` 时, 取一个很小的值用来
+            避免计算 log(0) . 默认: 1e-8
     """
     if log_input:
         loss = torch.exp(input) - target * input
