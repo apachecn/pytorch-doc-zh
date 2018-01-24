@@ -9,11 +9,13 @@ required = object()
 
 
 class Optimizer(object):
-    """优化器的基类.
+    """Base class for all optimizers.
 
-    参数:
-        params (iterable): :class:`Variable 或 :class:`dict 的迭代，指定了应该优化哪些参数。
-        defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值)。
+    Arguments:
+        params (iterable): an iterable of :class:`Variable` s or
+            :class:`dict` s. Specifies what Variables should be optimized.
+        defaults: (dict): a dict containing default values of optimization
+            options (used when a parameter group doesn't specify them).
     """
 
     def __init__(self, params, defaults):
@@ -46,12 +48,13 @@ class Optimizer(object):
         self.__dict__.update(state)
 
     def state_dict(self):
-        """以 :class:`dict` 的形式返回优化器的状态。
+        """Returns the state of the optimizer as a :class:`dict`.
 
-        它包含两部分内容:
+        It contains two entries:
 
-        * state - 一个包含当前优化状态的字典（dict），字典里的内容因优化器的不同而变换。
-        * param_groups - 一个包含所有参数组的字典（dict）。
+        * state - a dict holding current optimization state. Its content
+            differs between optimizer classes.
+        * param_groups - a dict containing all parameter groups
         """
         # Save ids instead of Variables
         def pack_group(group):
@@ -68,10 +71,11 @@ class Optimizer(object):
         }
 
     def load_state_dict(self, state_dict):
-        """加载优化器状态。
+        """Loads the optimizer state.
 
-        参数:
-            state_dict (dict): 优化器状态。是调用 :meth:`state_dict` 时所返回的对象。
+        Arguments:
+            state_dict (dict): optimizer state. Should be an object returned
+                from a call to :meth:`state_dict`.
         """
         # deepcopy, to be consistent with module API
         state_dict = deepcopy(state_dict)
@@ -115,20 +119,23 @@ class Optimizer(object):
                         p.grad = Variable(data.new().resize_as_(data).zero_())
 
     def step(self, closure):
-        """进行单次优化(参数更新)。
+        """Performs a single optimization step (parameter update).
 
-        参数:
-            closure (callable): 一个重新评价模型并返回 loss 的闭包大多数优化器可选择。
+        Arguments:
+            closure (callable): A closure that reevaluates the model and
+                returns the loss. Optional for most optimizers.
         """
         raise NotImplementedError
 
     def add_param_group(self, param_group):
-        """增加一组参数到 :class:`Optimizer` 的 `param_groups` 里面。
+        """Add a param group to the :class:`Optimizer` s `param_groups`.
 
-        当微调一个预训练好的网络作为冻结层时是有用的，它能够使用可训练的和可增加的参数到 :class:`Optimizer` 作为一个训练预处理。
+        This can be useful when fine tuning a pre-trained network as frozen layers can be made
+        trainable and added to the :class:`Optimizer` as training progresses.
 
-        参数:
-            param_group (dict): 指定这一组中具有特殊优化选项的那些 Variables 能够被优化。
+        Arguments:
+            param_group (dict): Specifies what Variables should be optimized along with group
+            specific optimization options.
         """
         assert isinstance(param_group, dict), "param group must be a dict"
 

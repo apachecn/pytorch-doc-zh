@@ -116,20 +116,23 @@ def _make_python_wrapper(name, cffi_wrapper_name, target_dir):
 
 def create_extension(name, headers, sources, verbose=True, with_cuda=False,
                      package=False, relative_to='.', **kwargs):
-    """创建并配置一个 cffi.FFI 对象, 用于构建 PyTorch 的扩展.
+    """Creates and configures a cffi.FFI object, that builds PyTorch extension.
 
-    参数:
-        name (str): 包名. 可以是嵌套模块, 例如. ``.ext.my_lib``.
-        headers (str or List[str]): 只包含导出函数的头文件列表.
-        sources (List[str]): 用于编译的sources列表.
-        verbose (bool, optional): 如果设置为 ``False``, 则不会打印输出
-            (默认值: True).
-        with_cuda (bool, optional): 设置为 ``True`` 以使用 CUDA 头文件进行编译
-            (默认值: False)
-        package (bool, optional): 设置为 ``True`` 以在包模式下构建 (对于要作为 pip 程序包安装的模块) (默认值: False).
-        relative_to (str, optional): 构建文件的路径. 当
-            ``package 为 True`` 时需要. 最好使用 ``__file__`` 作为参数.
-        kwargs: 传递给 ffi 以声明扩展的附件参数. 参考 `Extension API reference`_ 查阅更详细内容.
+    Arguments:
+        name (str): package name. Can be a nested module e.g. ``.ext.my_lib``.
+        headers (str or List[str]): list of headers, that contain only exported
+            functions
+        sources (List[str]): list of sources to compile.
+        verbose (bool, optional): if set to ``False``, no output will be printed
+            (default: True).
+        with_cuda (bool, optional): set to ``True`` to compile with CUDA headers
+            (default: False)
+        package (bool, optional): set to ``True`` to build in package mode (for modules
+            meant to be installed as pip packages) (default: False).
+        relative_to (str, optional): path of the build file. Required when
+            ``package is True``. It's best to use ``__file__`` for this argument.
+        kwargs: additional arguments that are passed to ffi to declare the
+            extension. See `Extension API reference`_ for details.
 
     .. _`Extension API reference`: https://docs.python.org/3/distutils/apiref.html#distutils.core.Extension
     """

@@ -9,14 +9,15 @@ __all__ = [
 
 
 def split(tensor, split_size, dim=0):
-    """将输入张量分割成相等 size 的 chunks（如果可分）. 
-    
-    如果沿指定维的张量形状大小不能被 ``split_size`` 整分, 则最后一个分块会小于其它分块.
+    """Splits the tensor into equally sized chunks (if possible).
+
+    Last chunk will be smaller if the tensor size along a given dimension
+    is not divisible by ``split_size``.
 
     Arguments:
-        tensor (Tensor): 待分割张量.
-        split_size (int): 单个分块的 size 大小.
-        dim (int): 沿着此维进行分割.
+        tensor (Tensor): tensor to split.
+        split_size (int): size of a single chunk.
+        dim (int): dimension along which to split the tensor.
     """
     if dim < 0:
         dim += tensor.dim()
@@ -31,12 +32,12 @@ def split(tensor, split_size, dim=0):
 
 
 def chunk(tensor, chunks, dim=0):
-    """在给定维度(轴)上将输入张量进行分块处理.
+    """Splits a tensor into a number of chunks along a given dimension.
 
     Arguments:
-        tensor (Tensor): 待分块的输入张量.
-        chunks (int): 要返回的分块的个数.
-        dim (int): 切分张量所需要沿着的维度.
+        tensor (Tensor): tensor to split.
+        chunks (int): number of chunks to return.
+        dim (int): dimension along which to split the tensor.
     """
     if dim < 0:
         dim += tensor.dim()
@@ -45,13 +46,14 @@ def chunk(tensor, chunks, dim=0):
 
 
 def stack(sequence, dim=0, out=None):
-    """沿着一个新维度对输入张量序列进行连接.
-    
-    序列中所有的张量都应该为相同 size .
+    """Concatenates sequence of tensors along a new dimension.
+
+    All tensors need to be of the same size.
 
     Arguments:
-        sequence (Sequence): 待连接的张量序列.
-        dim (int): 插入的维度.必须介于 0 与 待连接的张量序列数（包含）之间.
+        sequence (Sequence): sequence of tensors to concatenate.
+        dim (int): dimension to insert. Has to be between 0 and the number
+            of dimensions of concatenated tensors (inclusive).
     """
     if len(sequence) == 0:
         raise ValueError("stack expects a non-empty sequence of tensors")
@@ -65,13 +67,13 @@ def stack(sequence, dim=0, out=None):
 
 
 def unbind(tensor, dim=0):
-    """移除一个张量的维度.
-    
-    移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片（已经没有了移除的维度）.
+    """Removes a tensor dimension.
+
+    Returns a tuple of all slices along a given dimension, already without it.
 
     Arguments:
-        tensor (Tensor): 要执行 unbind 的向量/输入向量.
-        dim (int): 要移除的维度.
+        tensor (Tensor): tensor to unbind.
+        dim (int): dimension to remove.
     """
     return tuple(tensor.select(dim, i) for i in _range(tensor.size(dim)))
 

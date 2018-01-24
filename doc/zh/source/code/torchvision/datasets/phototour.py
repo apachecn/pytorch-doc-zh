@@ -12,14 +12,15 @@ from .utils import download_url, check_integrity
 class PhotoTour(data.Dataset):
     """`Learning Local Image Descriptors Data <http://phototour.cs.washington.edu/patches/default.htm>`_ Dataset.
 
-    Args:
-        root (string):  图像存放的主目录.
-        name (string): 载入的数据集的名字.
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. 
-        download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
 
+    Args:
+        root (string): Root directory where images are.
+        name (string): Name of the dataset to load.
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version.
+        download (bool, optional): If true, downloads the dataset from the internet and
+            puts it in root directory. If dataset is already downloaded, it is not
+            downloaded again.
 
     """
     urls = {

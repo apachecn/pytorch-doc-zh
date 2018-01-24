@@ -60,14 +60,13 @@ class LSUN(data.Dataset):
     `LSUN <http://lsun.cs.princeton.edu>`_ dataset.
 
     Args:
-        db_path (string): 数据集文件存放的主目录.
-        classes (string or list): {'train', 'val', 'test'} 中的一个, 或者是一个要载入种类的列表.
-        e,g. ['bedroom_train', 'church_train'].
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
-
+        db_path (string): Root directory for the database files.
+        classes (string or list): One of {'train', 'val', 'test'} or a list of
+            categories to load. e,g. ['bedroom_train', 'church_train'].
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
     """
 
     def __init__(self, db_path, classes='train',

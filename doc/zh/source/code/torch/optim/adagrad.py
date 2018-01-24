@@ -3,16 +3,17 @@ from .optimizer import Optimizer
 
 
 class Adagrad(Optimizer):
-    """实现 Adagrad 算法.
+    """Implements Adagrad algorithm.
 
-    它在 `Adaptive Subgradient Methods for Online Learning
-    and Stochastic Optimization`_ 中被提出。
+    It has been proposed in `Adaptive Subgradient Methods for Online Learning
+    and Stochastic Optimization`_.
 
-    参数:
-        params (iterable): 迭代的优化参数或者以字典的形式定义参数组
-        lr (float, optional): 学习率 (默认值: 1e-2)
-        lr_decay (float, optional): 学习率衰减 (默认值: 0)
-        weight_decay (float, optional): 权重衰减 (L2正则化) (默认值: 0)
+    Arguments:
+        params (iterable): iterable of parameters to optimize or dicts defining
+            parameter groups
+        lr (float, optional): learning rate (default: 1e-2)
+        lr_decay (float, optional): learning rate decay (default: 0)
+        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
 
     .. _Adaptive Subgradient Methods for Online Learning and Stochastic
         Optimization: http://jmlr.org/papers/v12/duchi11a.html
@@ -35,10 +36,11 @@ class Adagrad(Optimizer):
                 state['sum'].share_memory_()
 
     def step(self, closure=None):
-        """进行单步优化。
+        """Performs a single optimization step.
 
-        参数:
-            closure (callable, optional): 一个重新评价模型并返回误差的闭包.
+        Arguments:
+            closure (callable, optional): A closure that reevaluates the model
+                and returns the loss.
         """
         loss = None
         if closure is not None:

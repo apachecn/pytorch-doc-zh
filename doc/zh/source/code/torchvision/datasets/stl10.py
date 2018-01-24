@@ -13,15 +13,17 @@ class STL10(CIFAR10):
     """`STL10 <https://cs.stanford.edu/~acoates/stl10/>`_ Dataset.
 
     Args:
-        root (string):  ``stl10_binary``数据集存放的主目录.
-        split (string): {'train', 'test', 'unlabeled', 'train+unlabeled'} 中的一个.
-            它是根据数据集选择的. 
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
-        download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
+        root (string): Root directory of dataset where directory
+            ``stl10_binary`` exists.
+        split (string): One of {'train', 'test', 'unlabeled', 'train+unlabeled'}.
+            Accordingly dataset is selected.
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
+        download (bool, optional): If true, downloads the dataset from the internet and
+            puts it in root directory. If dataset is already downloaded, it is not
+            downloaded again.
 
     """
     base_folder = 'stl10_binary'

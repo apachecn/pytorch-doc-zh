@@ -9,54 +9,66 @@ from collections import OrderedDict
 class _ContextMethodMixin(object):
 
     def save_for_backward(self, *tensors):
-        """将传入的 tensor 保存起来供函数 :func:`~Function.backward` 使用.
+        """Saves given tensors for a future call to :func:`~Function.backward`.
 
-        ** 这个方法至多只能被调用一次, 只能在 **
-        :func:`forward` **method.** 中使用.
+        **This should be called at most once, and only from inside the**
+        :func:`forward` **method.**
 
-        之后,被保存的张量可以通过 :attr:`saved_tensors` 
-        属性获取; 或者, 如果变量还需要被使用 (比如二次求导), 能够被参数 :attr:`saved_variables` 获取.
-        保证这些 tensor 没有被 in-place operations 修改过.
+        Later, saved tensors can be accessed through the :attr:`saved_tensors`
+        attribute; or, if the corresponding Variable is needed (e.g. for double
+        backwards), those can be accessed through the :attr:`saved_variables`
+        attribute.  Before returning them to the user, a check is made, to ensure
+        they weren't used in any in-place operation that modified their content.
 
-        参数可以被设置为 ``None``.
+        Arguments can also be ``None``.
         """
         self.to_save = tensors
 
     def mark_dirty(self, *args):
-        """将输入的 tensors 标记为被 in-place operation 修改过.
-        **这个方法应当至多调用一次, 只能在方法 **
-        :func:`forward` ** 中用, 实参只能是 forward 的实参.**
+        """Marks given tensors as modified in an in-place operation.
 
-        每个在 forward 方法中被 in-place operations 修改的 tensor 都应该传递给这个方法.
-        这样,可以保证检查的正确性.这个方法在 tensor 修改前后调用都可以.
+        **This should be called at most once, only from inside the**
+        :func:`forward` **method, and all arguments should be inputs.**
+
+        Every tensor that's been modified in-place in a call to :func:`forward`
+        should be given to this function, to ensure correctness of our checks.
+        It doesn't matter whether the function is called before or after
+        modification.
         """
         self.dirty_tensors = args
 
     def mark_shared_storage(self, *pairs):
         """Marks that given pairs of distinct tensors are sharing storage.
 
-        **这个方法应当至多调用一次, 只能在方法 **
-        :func:`forward` ** 中用,所有的参数应该是元祖形式
-         (input, output).**
+        **This should be called at most once, only from inside the**
+        :func:`forward` **method, and all arguments should be pairs of
+        (input, output).**
 
-        如果一些 inputs 和 outputs 是共享存储空间的,所有的这样的 (input, output)对都应该传给这个函数,
-        保证 in-place operations 检查的正确性.唯一的特例就是,当 output 和 input 是同一个tensor(in-place operations 的输入和输出).
-        这种情况下,就没必要指定它们之间的依赖关系,因为这个很容易就能推断出来.
+        If some of the outputs are going to be tensors sharing storage with
+        some of the inputs, all pairs of (input_arg, output_arg) should be
+        given to this function, to ensure correctness checking of in-place
+        modification. The only exception is when an output is exactly the same
+        tensor as input (e.g. in-place ops). In such case it's easy to conclude
+        that they're sharing data, so we don't require specifying such
+        dependencies.
 
-        这个函数在很多时候都用不到,主要是用在索引 和 转置 这类的 op 中.
+        This function is not needed in most functions. It's primarily used in
+        indexing and transpose ops.
         """
         self.shared_pairs = pairs
 
     def mark_non_differentiable(self, *args):
-        """将输出标记为不可微.
+        """Marks outputs as non-differentiable.
 
-        **这个方法至多只能被调用一次,只能在方法**
-        :func:`forward` ** 中用, 而且实参只能是 forward 的返回值.**
+        **This should be called at most once, only from inside the**
+        :func:`forward` **method, and all arguments should be outputs.**
 
-        这个方法会将输出标记成不可微,会增加 backward 过程中的效率.在 backward 中,
-        你依旧需要接收 forward 输出值的梯度,但是这些梯度一直是 None.
+        This will mark outputs as not requiring gradients, increasing the
+        efficiency of backward computation. You still need to accept a gradient
+        for each output in :meth:`~Function.backward`, but it's always going to
+        be ``None``.
 
-        这用于例如对于从最大值返回的索引 :class:`Function`.
+        This is used e.g. for indices returned from a max :class:`Function`.
         """
         self.non_differentiable = args
 
@@ -109,20 +121,27 @@ class FunctionMeta(type):
 
 
 class Function(with_metaclass(FunctionMeta, _C._FunctionBase, _ContextMethodMixin, _HookMixin)):
-    """记录操作历史记录并定义区分操作的方法.
+    """Records operation history and defines formulas for differentiating ops.
 
-     每个执行在 Varaibles 上的 operation 都会创建一个 Function 对象,这个 Function 对象执行计算工作,同时记录下来.这个历史以有向无环图的形式保存下来,
-     有向图的节点为 functions ,有向图的边代表数据依赖关系 (input<-output).之后,当 backward 被调用的时候,计算图以拓扑顺序处理,通过调用每个 Function 对象的 backward(),
-     同时将返回的梯度传递给下一个 Function.
+    Every operation performed on :class:`Variable` s creates a new function
+    object, that performs the computation, and records that it happened.
+    The history is retained in the form of a DAG of functions, with edges
+    denoting data dependencies (``input <- output``). Then, when backward is
+    called, the graph is processed in the topological ordering, by calling
+    :func:`backward` methods of each :class:`Function` object, and passing
+    returned gradients on to next :class:`Function` s.
 
-    通常情况下,用户能和 Functions 交互的唯一方法就是创建 Function 的子类,定义新的 operation. 这是扩展 torch.autograd 的推荐方法.
+    Normally, the only way users interact with functions is by creating
+    subclasses and defining new operations. This is a recommended way of
+    extending torch.autograd.
 
-    每个 Function 只被使用一次(在forward过程中).
+    Each function is meant to be used only once (in the forward pass).
 
-    参数说明:
-        requires_grad: 布尔类型依赖于方法 :func:`backward` 会不会还会被使用.
+    Attributes:
+        requires_grad: Boolean indicating whether the :func:`backward` will
+            ever need to be called.
 
-    比如::
+    Examples::
 
         >>> class Exp(Function):
         >>>
@@ -146,26 +165,32 @@ class Function(with_metaclass(FunctionMeta, _C._FunctionBase, _ContextMethodMixi
 
     @staticmethod
     def forward(ctx, *args, **kwargs):
-        """进行操作.
+        """Performs the operation.
 
-        这个方法将会被继承他的所有子类覆盖.
+        This function is to be overriden by all subclasses.
 
-        第一个参数为上下文参数,接下来可以输入任何张量或变量 (张量或其他类型).
+        It must accept a context ctx as the first argument, followed by any
+        number of arguments (tensors or other types).
 
-        上下文可以用来存储可以在回传期间检索的变量.
+        The context can be used to store variables that can be then retrieved
+        during the backward pass.
         """
         raise NotImplementedError
 
     @staticmethod
     def backward(ctx, *grad_outputs):
-        """定义反向传播操作
+        """Defines a formula for differentiating the operation.
 
-        这个方法将会被继承他的所有子类覆盖.
+        This function is to be overriden by all subclasses.
 
-        第一个参数为上下文参数, 接下来可以输入任何张量或变量 (张量或其他类型), 并且有多个返回值,
-        并且为函数 :func:`forward` 的输入. 每个参数都是给定输出的导数, 并且每一个输出都是输入的导数.
+        It must accept a context ctx as the first argument, followed by as many
+        outputs did :func:`forward` return, and it should return as many
+        tensors, as there were inputs to :func:`forward`. Each argument is the
+        gradient w.r.t the given output, and each returned value should be the
+        gradient w.r.t. the corresponding input.
 
-        上下文可以用来检索转发过程中保存的变量.
+        The context can be used to retrieve variables saved during the forward
+        pass.
         """
         raise NotImplementedError
 
@@ -206,12 +231,14 @@ def once_differentiable(fn):
 
 
 def traceable(fn_cls):
-    """标记函数为 JIT (即时编译).
+    """Marks Function as traceable for the JIT.
 
-    可追踪函数有其他限制 - 它们不能传递任何依赖于数据的值到后向（例如 Prod 传递输出,这使得它不可追踪）,
-    并且它们的导数应该完全在 autograd 变量的所有情况下执行 （即使导数是不稳定的）.
+    Traceable functions have additional restrictions - they can't pass any
+    data-dependent values to backward (e.g. Prod passes the output, which makes
+    it non-traceable), and their backward should be implemented entirely in terms
+    of operations on autograd Variables in all cases (even when grads are volatile).
 
-    不要用这种装饰器. IT IS FOR INTERNAL USE ONLY AND SHOULD BE HANDLED WITH
+    DON'T USE THIS DECORATOR. IT IS FOR INTERNAL USE ONLY AND SHOULD BE HANDLED WITH
     CARE (or can give incorrect results otherwise).
     """
     fn_cls.is_traceable = True

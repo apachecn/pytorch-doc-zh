@@ -14,11 +14,11 @@ model_urls = {
 
 
 def inception_v3(pretrained=False, **kwargs):
-    r"""Inception v3 模型结构源自于
+    r"""Inception v3 model architecture from
     `"Rethinking the Inception Architecture for Computer Vision" <http://arxiv.org/abs/1512.00567>`_.
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if pretrained:
         if 'transform_input' not in kwargs:

@@ -10,30 +10,39 @@ from torch._six import imap
 
 
 class Variable(_C._VariableBase):
-    """封装一个张量用来各种操作.
+    """Wraps a tensor and records the operations applied to it.
 
-    变量是张量对象周围的轻包装,能够拥有导数等数据, 这个引用允许回溯整个操作链创建数据.
-    如果变量已经由用户创建, 它的 grad_fn
-    为 ``None`` 我们称之为叶子节点.
+    Variable is a thin wrapper around a Tensor object, that also holds
+    the gradient w.r.t. to it, and a reference to a function that created it.
+    This reference allows retracing the whole chain of operations that
+    created the data. If the Variable has been created by the user, its grad_fn
+    will be ``None`` and we call such objects *leaf* Variables.
 
-    由于 autograd 只支持标量值函数微分, grad 大小始终与数据大小匹配. 此外,导数通常只分配
-    叶变量,否则将始终为零.
+    Since autograd only supports scalar valued function differentiation, grad
+    size always matches the data size. Also, grad is normally only allocated
+    for leaf variables, and will be always zero otherwise.
 
-    参数说明:
-        data: 包裹任何类型的张量.
-        grad: 变量保持类型和位置匹配的变量 ``.data``. 这个属性是懒惰的分配,不能被重新分配.
-        requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它.
-        有关更多详细信息,请参阅 :ref:`excluded-subgraphs`.
-        只能在叶变量上进行更改.
-        volatile: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 :ref:`excluding-subgraphs` 更多细节.
-        只能在叶变量上进行更改.
-        is_leaf: 指示是否为叶子节点,即是否由用户创建的节点.
-        grad_fn: 导数函数跟踪.
+    Attributes:
+        data: Wrapped tensor of any type.
+        grad: Variable holding the gradient of type and location matching
+            the ``.data``.  This attribute is lazily allocated and can't
+            be reassigned.
+        requires_grad: Boolean indicating whether the Variable has been
+            created by a subgraph containing any Variable, that requires it.
+            See :ref:`excluding-subgraphs` for more details.
+            Can be changed only on leaf Variables.
+        volatile: Boolean indicating that the Variable should be used in
+            inference mode, i.e. don't save the history. See
+            :ref:`excluding-subgraphs` for more details.
+            Can be changed only on leaf Variables.
+        is_leaf: Boolean indicating if the Variable is a graph leaf (i.e
+            if it was created by the user).
+        grad_fn: Gradient function graph trace.
 
-    参数:
-        data (any tensor class): 用来包装的张量.
-        requires_grad (bool): 指示是否要被求导. **Keyword only.**
-        volatile (bool): 指示是否可变. **Keyword only.**
+    Parameters:
+        data (any tensor class): Tensor to wrap.
+        requires_grad (bool): Value of the requires_grad flag. **Keyword only.**
+        volatile (bool): Value of the volatile flag. **Keyword only.**
     """
 
     _fallthrough_methods = {
@@ -127,36 +136,49 @@ class Variable(_C._VariableBase):
         return float(self.data)
 
     def backward(self, gradient=None, retain_graph=None, create_graph=None, retain_variables=None):
-        """给定图叶子节点计算导数.
+        """Computes the gradient of current variable w.r.t. graph leaves.
 
-       该图使用链式规则进行计算. 如果变量是非标量（即其数据具有多个元素）并且需要
-       改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量
-       微分函数的梯度w.r.t. ``self`` .
+        The graph is differentiated using the chain rule. If the variable is
+        non-scalar (i.e. its data has more than one element) and requires
+        gradient, the function additionally requires specifying ``gradient``.
+        It should be a tensor of matching type and location, that contains
+        the gradient of the differentiated function w.r.t. ``self``.
 
-        这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
+        This function accumulates gradients in the leaves - you might need to
+        zero them before calling it.
 
-        参数:
-            gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
-            到一个变量,这是挥发性的,除非 ``create_graph`` 为真.没有值可以被指定为标量变量或那些
-            不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
-            retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
-            乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为
-            ``create_graph``.
-            create_graph (bool, optional): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
-            默认为 ``False``,除非 ``gradient`` 是一个volatile变量.
+        Arguments:
+            gradient (Tensor, Variable or None): Gradient w.r.t. the
+                variable. If it is a tensor, it will be automatically converted
+                to a Variable that is volatile unless ``create_graph`` is True.
+                None values can be specified for scalar Variables or ones that
+                don't require grad. If a None value would be acceptable then
+                this argument is optional.
+            retain_graph (bool, optional): If ``False``, the graph used to compute
+                the grads will be freed. Note that in nearly all cases setting
+                this option to True is not needed and often can be worked around
+                in a much more efficient way. Defaults to the value of
+                ``create_graph``.
+            create_graph (bool, optional): If ``True``, graph of the derivative will
+                be constructed, allowing to compute higher order derivative
+                products. Defaults to ``False``, unless ``gradient`` is a volatile
+                Variable.
         """
         torch.autograd.backward(self, gradient, retain_graph, create_graph, retain_variables)
 
     def register_hook(self, hook):
-        """注册一个backward钩子.
+        """Registers a backward hook.
 
-        每次gradients被计算的时候,这个 hook 都被调用 .hook 应该拥有以下签名:
+        The hook will be called every time a gradient with respect to the
+        variable is computed. The hook should have the following signature::
 
             hook(grad) -> Variable or None
 
-        hook不应该修改它的输入,但是它可以选择性的返回一个替代当前梯度的新梯度.
+        The hook should not modify its argument, but it can optionally return
+        a new gradient which will be used in place of :attr:`grad`.
 
-        这个函数返回一个 句柄 (handle).它有一个方法 handle.remove(),可以用这个方法将 hook 从 module 移除.
+        This function returns a handle with a method ``handle.remove()``
+        that removes the hook from the module.
 
         Example:
             >>> v = Variable(torch.Tensor([0, 0, 0]), requires_grad=True)
@@ -210,26 +232,30 @@ class Variable(_C._VariableBase):
         """))
 
     def detach(self):
-        """将一个Variable从创建它的图中分离,并把它设置成 leaf variable.
+        """Returns a new Variable, detached from the current graph.
 
+        Result will never require gradient. If the input is volatile, the output
+        will be volatile too.
 
-        .. 注意::
+        .. note::
 
-        返回变量使用与原始数据张量相同的数据张量,其中任何一个的就地修改都将被看到,并可能触发
-        错误在正确性检查.
+          Returned Variable uses the same data tensor, as the original one, and
+          in-place modifications on either of them will be seen, and may trigger
+          errors in correctness checks.
         """
         result = NoGrad()(self)  # this is needed, because it merges version counters
         result._grad_fn = None
         return result
 
     def detach_(self):
-        """将一个 Variable 从创建它的图中分离,并把它设置成 leaf variable.
+        """Detaches the Variable from the graph that created it, making it a
+        leaf.
         """
         self._grad_fn = None
         self.requires_grad = False
 
     def retain_grad(self):
-        """为非叶变量启用 .grad 属性."""
+        """Enables .grad attribute for non-leaf Variables."""
         if self.grad_fn is None:  # no-op for leaves
             return
         if not self.requires_grad:

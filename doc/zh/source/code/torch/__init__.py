@@ -1,8 +1,11 @@
 """
-torch package 包含了多维张量的数据结构, 以及基于其上的多种数学操作.
-此外, 它还提供了许多用于高效序列化 Tensor 和任意类型的实用工具包, 以及一起其它有用的实用工具包.
+The torch package contains data structures for multi-dimensional
+tensors and mathematical operations over these are defined.
+Additionally, it provides many utilities for efficient serializing of
+Tensors and arbitrary types, and other useful utilities.
 
-它有一个 CUDA 的对应实现, 它使您能够在计算能力 >=0.3 的 NVIDIA GPU 上进行张量运算.
+It has a CUDA counterpart, that enables you to run your tensor computations
+on an NVIDIA GPU with compute capability >= 3.0.
 """
 
 import sys
@@ -83,19 +86,19 @@ def typename(o):
 
 
 def is_tensor(obj):
-    r"""Returns True, 如果 `obj` 是一个 pytorch tensor.
+    r"""Returns True if `obj` is a pytorch tensor.
 
     Args:
-        obj (Object): 用于测试的 Object
+        obj (Object): Object to test
     """
     return type(obj) in _tensor_classes
 
 
 def is_storage(obj):
-    r"""Returns True, 如果 `obj` 是一个 pytorch storage object.
+    r"""Returns True if `obj` is a pytorch storage object.
 
     Args:
-        obj (Object): 用于测试的 Object
+        obj (Object): Object to test
     """
     return type(obj) in _storage_classes
 

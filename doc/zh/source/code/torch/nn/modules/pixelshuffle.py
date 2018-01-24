@@ -3,21 +3,22 @@ from .. import functional as F
 
 
 class PixelShuffle(Module):
-    r"""
-    对张量中形如 :math:`(*, C * r^2, H, W]` 的元素, 重新排列成 :math:`(C, H * r, W * r)`.
+    r"""Rearranges elements in a Tensor of shape :math:`(*, C * r^2, H, W]` to a
+    tensor of shape :math:`(C, H * r, W * r)`.
 
-    当使用 stride = :math:`1/r` 的高效子像素卷积很有用.
+    This is useful for implementing efficient sub-pixel convolution
+    with a stride of :math:`1/r`.
 
-    参考如下论文获得更多信息:
+    Look at the paper:
     `Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network`_
-    Shi et. al (2016) . 
+    by Shi et. al (2016) for more details
 
-    参数:
-        upscale_factor (int): 增加空间分辨率的因子
+    Args:
+        upscale_factor (int): factor to increase spatial resolution by
 
-    形状:
-        - 输入: :math:`(N, C * {upscale\_factor}^2, H, W)`
-        - 输出: :math:`(N, C, H * {upscale\_factor}, W * {upscale\_factor})`
+    Shape:
+        - Input: :math:`(N, C * {upscale\_factor}^2, H, W)`
+        - Output: :math:`(N, C, H * {upscale\_factor}, W * {upscale\_factor})`
 
     Examples::
 

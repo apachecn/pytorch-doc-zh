@@ -59,24 +59,32 @@ class WeightNorm(object):
 
 
 def weight_norm(module, name='weight', dim=0):
-    r"""将权重归一化应用于给定模块中的指定参数。.
+    r"""Applies weight normalization to a parameter in the given module.
 
     .. math::
          \mathbf{w} = g \dfrac{\mathbf{v}}{\|\mathbf{v}\|}
 
-    权重归一化是将权重张量的大小和方向分离的再参数化. 该函数会用两个参数代替 `name` (e.g. "weight")所指定的参数. 在新的参数中, 一个指定参数的大小 (e.g. "weight_g"), 一个指定参数的方向. 权重归一化是通过一个钩子实现的, 该钩子会在 `~Module.forward` 的每次调用之前根据大小和方向(两个新参数)重新计算权重张量.
+    Weight normalization is a reparameterization that decouples the magnitude
+    of a weight tensor from its direction. This replaces the parameter specified
+    by `name` (e.g. "weight") with two parameters: one specifying the magnitude
+    (e.g. "weight_g") and one specifying the direction (e.g. "weight_v").
+    Weight normalization is implemented via a hook that recomputes the weight
+    tensor from the magnitude and direction before every :meth:`~Module.forward`
+    call.
 
-    默认情况下, `dim=0`, 范数会在每一个输出的 channel/plane 上分别计算. 若要对整个权重张量计算范数, 使用 `dim=None`.
+    By default, with `dim=0`, the norm is computed independently per output
+    channel/plane. To compute a norm over the entire weight tensor, use
+    `dim=None`.
 
-    参见 https://arxiv.org/abs/1602.07868
+    See https://arxiv.org/abs/1602.07868
 
     Args:
-        module (nn.Module): 给定的 module
-        name (str, optional): 权重参数的 name
-        dim (int, optional): 进行范数计算的维度
+        module (nn.Module): containing module
+        name (str, optional): name of weight parameter
+        dim (int, optional): dimension over which to compute the norm
 
     Returns:
-        添加了权重归一化钩子的原 module
+        The original module with the weight norm hook
 
     Example::
 
@@ -93,11 +101,11 @@ def weight_norm(module, name='weight', dim=0):
 
 
 def remove_weight_norm(module, name='weight'):
-    r"""从模块中移除权重归一化/再参数化.
+    r"""Removes the weight normalization reparameterization from a module.
 
     Args:
-        module (nn.Module): 给定的 module
-        name (str, optional): 权重参数的 name
+        module (nn.Module): containing module
+        name (str, optional): name of weight parameter
 
     Example:
         >>> m = weight_norm(nn.Linear(20, 40))

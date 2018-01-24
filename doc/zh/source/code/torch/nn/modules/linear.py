@@ -7,20 +7,25 @@ from .module import Module
 
 
 class Linear(Module):
-    r"""对输入数据进行线性变换: :math:`y = Ax + b`
+    r"""Applies a linear transformation to the incoming data: :math:`y = Ax + b`
 
     Args:
-        in_features: 每个输入样本的大小
-        out_features: 每个输出样本的大小
-        bias: 若设置为 False，这层不会学习偏置。默认值：True
+        in_features: size of each input sample
+        out_features: size of each output sample
+        bias: If set to False, the layer will not learn an additive bias.
+            Default: ``True``
 
     Shape:
-        - Input: :math:`(N, *, in\_features)` 这里 `*` 意味着可以添加任意数量的其他维度
-        - Output: :math:`(N, *, out\_features)` 除了最后一个维度外，其余的都与输入相同
+        - Input: :math:`(N, *, in\_features)` where `*` means any number of
+          additional dimensions
+        - Output: :math:`(N, *, out\_features)` where all but the last dimension
+          are the same shape as the input.
 
     Attributes:
-        weight: 形状为 (out_features x in_features) 的模块中可学习的权值
-        bias: 形状为 (out_features) 的模块中可学习的偏置
+        weight: the learnable weights of the module of shape
+            (out_features x in_features)
+        bias:   the learnable bias of the module of shape (out_features)
+
     Examples::
 
         >>> m = nn.Linear(20, 30)
@@ -56,23 +61,24 @@ class Linear(Module):
 
 
 class Bilinear(Module):
-    r"""对输入数据进行双线性变换:
+    r"""Applies a bilinear transformation to the incoming data:
     :math:`y = x_1 * A * x_2 + b`
 
     Args:
-        in1_features: 输入一的每个输入样本的大小
-        in2_features: 输入二的每个输入样本的大小
-        out_features: 每个输出样本的大小
-        bias: 若设置为False，这层不会学习偏置。默认值：True
+        in1_features: size of each first input sample
+        in2_features: size of each second input sample
+        out_features: size of each output sample
+        bias: If set to False, the layer will not learn an additive bias.
+            Default: ``True``
 
     Shape:
         - Input: :math:`(N, in1\_features)`, :math:`(N, in2\_features)`
         - Output: :math:`(N, out\_features)`
 
     Attributes:
-        weight: 形状为 (out_features x in1_features x in2_features) 的模块中可学习的权值
-            
-        bias: 形状为 (out_features) 的模块中可学习的偏置
+        weight: the learnable weights of the module of shape
+            (out_features x in1_features x in2_features)
+        bias:   the learnable bias of the module of shape (out_features)
 
     Examples::
 

@@ -1,7 +1,8 @@
 torchvision.models
 ==================
 
-torchvision.models 模块的子模块中包含以下模型结构:
+The models subpackage contains definitions for the following model
+architectures:
 
 -  `AlexNet`_
 -  `VGG`_
@@ -10,7 +11,7 @@ torchvision.models 模块的子模块中包含以下模型结构:
 -  `DenseNet`_
 -  `Inception`_ v3
 
-你可以使用随机初始化的权重来创建这些模型：
+You can construct a model with random weights by calling its constructor:
 
 .. code:: python
 
@@ -22,8 +23,8 @@ torchvision.models 模块的子模块中包含以下模型结构:
     densenet = models.densenet161()
     inception = models.inception_v3()
 
-我们提供使用PyTorch:mod:'torch.util.model_zoo'预训练（pre-train)的模型，
-可以通过参数``pretrained=True``来构造这些预训练模型。
+We provide pre-trained models, using the PyTorch :mod:`torch.utils.model_zoo`.
+These can be constructed by passing ``pretrained=True``:
 
 .. code:: python
 
@@ -35,16 +36,17 @@ torchvision.models 模块的子模块中包含以下模型结构:
     densenet = models.densenet161(pretrained=True)
     inception = models.inception_v3(pretrained=True)
 
-所有预训练（pre-train）模型要求输入图像使用相同的标准化处理，
-例如： mini-batches 中 RGB 三通道图像的 shape （3 x H x W),
-H 和 W 需要至少为 224， 图像必须被加载在 [0, 1] 的范围内
-然后使用``mean = [0.485, 0.456, 0.406]`` 和 ``std = [0.229, 0.224, 0.225]``进行标准化处理。
-你可以使用以下转换进行预标准化预处理：：
+All pre-trained models expect input images normalized in the same way,
+i.e. mini-batches of 3-channel RGB images of shape (3 x H x W),
+where H and W are expected to be at least 224.
+The images have to be loaded in to a range of [0, 1] and then normalized
+using ``mean = [0.485, 0.456, 0.406]`` and ``std = [0.229, 0.224, 0.225]``.
+You can use the following transform to normalize::
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
-一个使用这种标准化处理的 imagenet 样例
+An example of such normalization can be found in the imagenet example
 `here <https://github.com/pytorch/examples/blob/42e5b996718797e45c46a25c55b031e6768f8440/imagenet/main.py#L89-L101>`_
 
 ImageNet 1-crop error rates (224x224)

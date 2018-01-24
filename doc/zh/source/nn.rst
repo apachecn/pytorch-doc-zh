@@ -7,13 +7,13 @@ torch.nn
 .. automodule:: torch.nn
 .. currentmodule:: torch.nn
 
-Parameters（参数）
-------------------
+Parameters
+----------
 
 .. autoclass:: Parameter
     :members:
 
-Containers（容器）
+Containers
 ----------------------------------
 
 :hidden:`Module`
@@ -40,7 +40,7 @@ Containers（容器）
 .. autoclass:: ParameterList
     :members:
 
-Convolution Layers（卷积层）
+Convolution Layers
 ----------------------------------
 
 :hidden:`Conv1d`
@@ -80,9 +80,8 @@ Convolution Layers（卷积层）
 .. autoclass:: ConvTranspose3d
     :members:
 
-.. _pooling-layers:
 
-Pooling Layers（池化层）
+Pooling Layers
 ----------------------------------
 
 :hidden:`MaxPool1d`
@@ -188,8 +187,8 @@ Pooling Layers（池化层）
     :members:
 
 
-Padding Layers（填充层）
-------------------------
+Padding Layers
+--------------
 
 :hidden:`ReflectionPad2d`
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -222,7 +221,7 @@ Padding Layers（填充层）
     :members:
 
 
-Non-linear Activations（非线性层）
+Non-linear Activations
 ----------------------------------
 
 :hidden:`ReLU`
@@ -340,7 +339,7 @@ Non-linear Activations（非线性层）
     :members:
 
 
-Normalization layers（归一化层）
+Normalization layers
 ----------------------------------
 
 :hidden:`BatchNorm1d`
@@ -379,7 +378,7 @@ Normalization layers（归一化层）
 .. autoclass:: InstanceNorm3d
     :members:
 
-Recurrent layers（循环层）
+Recurrent layers
 ----------------------------------
 
 :hidden:`RNN`
@@ -418,7 +417,7 @@ Recurrent layers（循环层）
 .. autoclass:: GRUCell
     :members:
 
-Linear layers（线性层）
+Linear layers
 ----------------------------------
 
 :hidden:`Linear`
@@ -461,7 +460,7 @@ Dropout layers
     :members:
 
 
-Sparse layers（稀疏层）
+Sparse layers
 ----------------------------------
 
 :hidden:`Embedding`
@@ -476,7 +475,7 @@ Sparse layers（稀疏层）
 .. autoclass:: EmbeddingBag
     :members:
 
-Distance functions（距离函数）
+Distance functions
 ----------------------------------
 
 :hidden:`CosineSimilarity`
@@ -492,7 +491,7 @@ Distance functions（距离函数）
     :members:
 
 
-Loss functions（损失函数）
+Loss functions
 ----------------------------------
 
 :hidden:`L1Loss`
@@ -604,8 +603,8 @@ Loss functions（损失函数）
     :members:
 
 
-Vision layers（视觉层）
------------------------
+Vision layers
+----------------
 
 :hidden:`PixelShuffle`
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -632,8 +631,8 @@ Vision layers（视觉层）
     :members:
 
 
-DataParallel layers (multi-GPU, distributed)（数据并行层, 多 GPU 的, 分布式的）
--------------------------------------------------------------------------------
+DataParallel layers (multi-GPU, distributed)
+--------------------------------------------
 
 :hidden:`DataParallel`
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -648,8 +647,8 @@ DataParallel layers (multi-GPU, distributed)（数据并行层, 多 GPU 的, 分
     :members:
 
 
-Utilities（工具包）
--------------------
+Utilities
+---------
 
 :hidden:`clip_grad_norm`
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -692,7 +691,7 @@ torch.nn.functional
 
 .. currentmodule:: torch.nn.functional
 
-Convolution functions（卷积函数）
+Convolution functions
 ----------------------------------
 
 :hidden:`conv1d`
@@ -725,7 +724,7 @@ Convolution functions（卷积函数）
 
 .. autofunction:: conv_transpose3d
 
-Pooling functions（池化函数）
+Pooling functions
 ----------------------------------
 
 :hidden:`avg_pool1d`
@@ -809,8 +808,8 @@ Pooling functions（池化函数）
 .. autofunction:: adaptive_avg_pool3d
 
 
-Non-linear activation functions（非线性激活器函数）
----------------------------------------------------
+Non-linear activation functions
+-------------------------------
 
 :hidden:`threshold`
 ~~~~~~~~~~~~~~~~~~~
@@ -918,8 +917,8 @@ Non-linear activation functions（非线性激活器函数）
 
 .. autofunction:: sigmoid
 
-Normalization functions（归一化函数）
--------------------------------------
+Normalization functions
+-----------------------
 
 :hidden:`batch_norm`
 ~~~~~~~~~~~~~~~~~~~~
@@ -931,8 +930,8 @@ Normalization functions（归一化函数）
 
 .. autofunction:: normalize
 
-Linear functions（线性函数）
-----------------------------
+Linear functions
+----------------
 
 :hidden:`linear`
 ~~~~~~~~~~~~~~~~
@@ -962,7 +961,7 @@ Dropout functions
 
 .. autofunction:: dropout3d
 
-Distance functions（距离函数）
+Distance functions
 ----------------------------------
 
 :hidden:`pairwise_distance`
@@ -976,8 +975,8 @@ Distance functions（距离函数）
 .. autofunction:: cosine_similarity
 
 
-Loss functions（损失函数）
---------------------------
+Loss functions
+--------------
 
 :hidden:`binary_cross_entropy`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1064,8 +1063,8 @@ Loss functions（损失函数）
 
 .. autofunction:: triplet_margin_loss
 
-Vision functions（视觉函数）
-----------------------------
+Vision functions
+----------------
 
 :hidden:`pixel_shuffle`
 ~~~~~~~~~~~~~~~~~~~~~~~

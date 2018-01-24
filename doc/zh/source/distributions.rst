@@ -7,25 +7,25 @@ Probability distributions - torch.distributions
 .. automodule:: torch.distributions
 .. currentmodule:: torch.distributions
 
-Distribution（概率分布）
+:hidden:`Distribution`
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: Distribution
     :members:
 
-Bernoulli（伯努利分布）
+:hidden:`Bernoulli`
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: Bernoulli
     :members:
 
-Categorical（类别分布）
+:hidden:`Categorical`
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: Categorical
     :members:
 
-Normal（正态分布）
+:hidden:`Normal`
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: Normal

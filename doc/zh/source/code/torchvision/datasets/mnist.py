@@ -12,15 +12,17 @@ class MNIST(data.Dataset):
     """`MNIST <http://yann.lecun.com/exdb/mnist/>`_ Dataset.
 
     Args:
-        root (string): ``processed/training.pt`` 和 ``processed/test.pt`` 存在的主目录.
-        train (bool, optional): 如果 True, 数据来自训练集,
-            如果 False, 数据来自测试集.
-        download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
+        root (string): Root directory of dataset where ``processed/training.pt``
+            and  ``processed/test.pt`` exist.
+        train (bool, optional): If True, creates dataset from ``training.pt``,
+            otherwise from ``test.pt``.
+        download (bool, optional): If true, downloads the dataset from the internet and
+            puts it in root directory. If dataset is already downloaded, it is not
+            downloaded again.
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
     """
     urls = [
         'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz',
@@ -141,16 +143,17 @@ class FashionMNIST(MNIST):
     """`Fashion-MNIST <https://github.com/zalandoresearch/fashion-mnist>`_ Dataset.
 
     Args:
-        root (string): ``processed/training.pt`` 和 ``processed/test.pt`` 存在的主目录.
-        train (bool, optional): 如果 True, 数据来自训练集,
-            如果 False, 数据来自测试集.
-        download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
-
+        root (string): Root directory of dataset where ``processed/training.pt``
+            and  ``processed/test.pt`` exist.
+        train (bool, optional): If True, creates dataset from ``training.pt``,
+            otherwise from ``test.pt``.
+        download (bool, optional): If true, downloads the dataset from the internet and
+            puts it in root directory. If dataset is already downloaded, it is not
+            downloaded again.
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
     """
     urls = [
         'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz',

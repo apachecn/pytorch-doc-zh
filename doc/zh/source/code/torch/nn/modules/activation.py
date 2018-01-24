@@ -7,24 +7,24 @@ from .. import functional as F
 
 
 class Threshold(Module):
-    r"""基于 Tensor 中的每个元素创造阈值函数
+    r"""Thresholds each element of the input Tensor
 
-    Threshold 被定义为 ::
+    Threshold is defined as::
 
          y =  x        if x >  threshold
               value    if x <= threshold
 
     Args:
-        threshold: 阈值
-        value: 输入值小于阈值则会被 value 代替
-        inplace: 选择是否进行覆盖运算. 默认值: ``False``
-        
+        threshold: The value to threshold at
+        value: The value to replace with
+        inplace: can optionally do the operation in-place. Default: ``False``
+
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-
-    例::
+    Examples::
 
         >>> m = nn.Threshold(0.1, 20)
         >>> input = Variable(torch.randn(2))
@@ -51,15 +51,16 @@ class Threshold(Module):
 
 
 class ReLU(Threshold):
-    r"""对输入运用修正线性单元函数
+    r"""Applies the rectified linear unit function element-wise
     :math:`{ReLU}(x)= max(0, x)`
 
     Args:
-        inplace: 选择是否进行覆盖运算 Default: ``False``
+        inplace: can optionally do the operation in-place. Default: ``False``
 
     Shape:
-        - Input: :math:`(N, *)` `*` 代表任意数目附加维度
-        - Output: :math:`(N, *)`, 与输入拥有同样的 shape 属性
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
     Examples::
 
@@ -98,29 +99,30 @@ class RReLU(Module):
 
 
 class Hardtanh(Module):
-    r"""对输入的每一个元素运用 HardTanh
+    r"""Applies the HardTanh function element-wise
 
-    HardTanh 被定义为::
+    HardTanh is defined as::
 
        f(x) = +1, if x  >  1
        f(x) = -1, if x  < -1
        f(x) =  x,  otherwise
 
-    线性区域的范围 :math:`[-1, 1]` 可以被调整
+    The range of the linear region :math:`[-1, 1]` can be adjusted
 
     Args:
-        min_val: 线性区域范围最小值. 默认值: -1
-        max_val: 线性区域范围最大值.  默认值: 1
-        inplace: 选择是否进行覆盖运算. 默认值: ``False``
+        min_val: minimum value of the linear region range. Default: -1
+        max_val: maximum value of the linear region range. Default: 1
+        inplace: can optionally do the operation in-place. Default: ``False``
 
-    关键字参数 :attr:`min_value` 以及 :attr:`max_value` 已被弃用. 
-    更改为 :attr:`min_val` 和 :attr:`max_val`
+    Keyword arguments :attr:`min_value` and :attr:`max_value`
+    have been deprecated in favor of :attr:`min_val` and :attr:`max_val`
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意维度组合
-        - Output: :math:`(N, *)`, 与输入有相同的 shape 属性
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例 ::
+    Examples::
 
         >>> m = nn.Hardtanh(-2, 2)
         >>> input = autograd.Variable(torch.randn(2))
@@ -154,14 +156,15 @@ class Hardtanh(Module):
 
 
 class ReLU6(Hardtanh):
-    r"""对输入的每一个元素运用函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`
+    r"""Applies the element-wise function :math:`{ReLU6}(x) = min(max(0,x), 6)`
 
     Args:
-        inplace: 选择是否进行覆盖运算 默认值: ``False``
+        inplace: can optionally do the operation in-place. Default: ``False``
 
     Shape:
-        - Input: :math:`(N, *)`, `*` 代表任意数目附加维度
-        - Output: :math:`(N, *)`, 与输入拥有同样的 shape 属性
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
     Examples::
 
@@ -181,11 +184,12 @@ class ReLU6(Hardtanh):
 
 
 class Sigmoid(Module):
-    r"""对每个元素运用 Sigmoid 函数. Sigmoid 定义如下 :math:`f(x) = 1 / ( 1 + exp(-x))`
+    r"""Applies the element-wise function :math:`f(x) = 1 / ( 1 + exp(-x))`
 
     Shape:
-        - Input: :math:`(N, *)` `*` 表示任意维度组合
-        - Output: :math:`(N, *)`, 与输入有相同的 shape 属性
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
     Examples::
 
@@ -203,12 +207,13 @@ class Sigmoid(Module):
 
 
 class Tanh(Module):
-    r"""对输入的每个元素, 
+    r"""Applies element-wise,
     :math:`f(x) = (exp(x) - exp(-x)) / (exp(x) + exp(-x))`
 
     Shape:
-        - Input: :math:`(N, *)` `*` 表示任意维度组合
-        - Output: :math:`(N, *)`, 与输入有相同的 shape 属性
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
     Examples::
 
@@ -226,16 +231,17 @@ class Tanh(Module):
 
 
 class ELU(Module):
-    r"""对输入的每一个元素运用函数,
+    r"""Applies element-wise,
     :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`
 
     Args:
-        alpha: ELU 定义公式中的 alpha 值. 默认值: 1.0
-        inplace: 选择是否进行覆盖运算 默认值: ``False``
+        alpha: the alpha value for the ELU formulation. Default: 1.0
+        inplace: can optionally do the operation in-place. Default: ``False``
 
     Shape:
-        - Input: :math:`(N, *)` `*` 代表任意数目附加维度
-        - Output: :math:`(N, *)`, 与输入拥有同样的 shape 属性
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
     Examples::
 
@@ -261,15 +267,15 @@ class ELU(Module):
 
 
 class SELU(Module):
-    r"""对输入的每一个元素运用函数,
+    r"""Applies element-wise,
     :math:`f(x) = scale * (\max(0,x) + \min(0, alpha * (\exp(x) - 1)))`,
-    ``alpha=1.6732632423543772848170429916717``, 
+    with ``alpha=1.6732632423543772848170429916717`` and
     ``scale=1.0507009873554804934193349852946``.
 
-    更多地细节可以参阅论文 `Self-Normalizing Neural Networks`_ .
+    More details can be found in the paper `Self-Normalizing Neural Networks`_ .
 
     Args:
-        inplace (bool, optional): 选择是否进行覆盖运算. 默认值: ``False``
+        inplace (bool, optional): can optionally do the operation in-place. Default: ``False``
 
     Shape:
         - Input: :math:`(N, *)` where `*` means, any number of additional
@@ -307,7 +313,8 @@ class GLU(Module):
         dim (int): the dimension on which to split the input. Default: -1
 
     Shape:
-        - Input: :math:`(*, N, *)` 其中 `*` 代表任意数目的附加维度
+        - Input: :math:`(*, N, *)` where `*` means, any number of additional
+          dimensions
         - Output: :math:`(*, N / 2, *)`
 
     Examples::
@@ -330,19 +337,21 @@ class GLU(Module):
 
 
 class Hardshrink(Module):
-    r"""对每个元素运用 hard shrinkages 函数, hard shrinkage 定义如下::
+    r"""Applies the hard shrinkage function element-wise
+    Hardshrink is defined as::
         f(x) = x, if x >  lambda
         f(x) = x, if x < -lambda
         f(x) = 0, otherwise
 
     Args:
-        lambd: Hardshrink 公式中的 beta 值. 默认值: 0.5
+        lambd: the lambda value for the Hardshrink formulation. Default: 0.5
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.Hardshrink()
         >>> input = autograd.Variable(torch.randn(2))
@@ -363,18 +372,19 @@ class Hardshrink(Module):
 
 
 class LeakyReLU(Module):
-    r"""对输入的每一个元素运用,
+    r"""Applies element-wise,
     :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
     Args:
-        negative_slope: 控制负斜率的角度, 默认值: 1e-2
-        inplace: 选择是否进行覆盖运算 默认值: ``False``
+        negative_slope: Controls the angle of the negative slope. Default: 1e-2
+        inplace: can optionally do the operation in-place. Default: ``False``
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.LeakyReLU(0.1)
         >>> input = autograd.Variable(torch.randn(2))
@@ -398,14 +408,14 @@ class LeakyReLU(Module):
 
 
 class LogSigmoid(Module):
-    r"""对输入的每一个元素运用函数
-    :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
+    r"""Applies element-wise :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.LogSigmoid()
         >>> input = autograd.Variable(torch.randn(2))
@@ -421,23 +431,24 @@ class LogSigmoid(Module):
 
 
 class Softplus(Module):
-    r"""对每个元素运用Softplus函数, Softplus 定义如下 ::
-    :math:`f(x) = 1/beta * log(1 + exp(beta * x_i))`
+    r"""Applies element-wise :math:`f(x) = 1/beta * log(1 + exp(beta * x_i))`
 
-    Softplus 函数是ReLU函数的平滑逼近. Softplus 函数可以使得输出值限定为正数.
+    SoftPlus is a smooth approximation to the ReLU function and can be used
+    to constrain the output of a machine to always be positive.
 
-    为了保证数值稳定性. 线性函数的转换可以使输出大于某个值.
+    For numerical stability the implementation reverts to the linear function
+    for inputs above a certain value.
 
     Args:
-        beta: Softplus 公式中的 beta 值. 默认值: 1
-        threshold: 阈值. 当输入到该值以上时我们的SoftPlus实现将还原为线性函数. 默认值: 20
+        beta: the beta value for the Softplus formulation. Default: 1
+        threshold: values above this revert to a linear function. Default: 20
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
+        - Input: :math:`(N, *)` where `*` means, any number of additional
           dimensions
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.Softplus()
         >>> input = autograd.Variable(torch.randn(2))
@@ -460,21 +471,22 @@ class Softplus(Module):
 
 
 class Softshrink(Module):
-    r"""对输入的每一个元素运用 soft shrinkage 函数
+    r"""Applies the soft shrinkage function elementwise
 
-    SoftShrinkage 运算符定义为::
+    SoftShrinkage operator is defined as::
 
         f(x) = x-lambda, if x > lambda >  f(x) = x+lambda, if x < -lambda
         f(x) = 0, otherwise
 
     Args:
-        lambd: Softshrink 公式中的 lambda 值. 默认值: 0.5
+        lambd: the lambda value for the Softshrink formulation. Default: 0.5
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.Softshrink()
         >>> input = autograd.Variable(torch.randn(2))
@@ -495,24 +507,26 @@ class Softshrink(Module):
 
 
 class PReLU(Module):
-    r"""对输入的每一个元素运用函数
-    :math:`PReLU(x) = max(0,x) + a * min(0,x)` 这里的 "a" 是自学习的参数.
-    当不带参数地调用时, nn.PReLU() 在所有输入通道中使用单个参数 "a" . 
-    而如果用 nn.PReLU(nChannels) 调用, "a" 将应用到每个输入.
+    r"""Applies element-wise the function
+    :math:`PReLU(x) = max(0,x) + a * min(0,x)` Here "a" is a learnable
+    parameter. When called without arguments, nn.PReLU() uses a single
+    parameter "a" across all input channels. If called with nn.PReLU(nChannels),
+    a separate "a" is used for each input channel.
 
 
     .. note::
-        当为了表现更佳的模型而学习参数 "a" 时不要使用权重衰减 (weight decay)
+        weight decay should not be used when learning "a" for good performance.
 
     Args:
-        num_parameters: 需要学习的 "a" 的个数. 默认等于1
-        init: "a" 的初始值. 默认等于0.25
+        num_parameters: number of "a" to learn. Default: 1
+        init: the initial value of "a". Default: 0.25
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.PReLU()
         >>> input = autograd.Variable(torch.randn(2))
@@ -534,13 +548,14 @@ class PReLU(Module):
 
 
 class Softsign(Module):
-    r"""对输入的每一个元素运用函数 :math:`f(x) = x / (1 + |x|)`
+    r"""Applies element-wise, the function :math:`f(x) = x / (1 + |x|)`
 
     Shape:
-        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式 shape 一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.Softsign()
         >>> input = autograd.Variable(torch.randn(2))
@@ -556,13 +571,14 @@ class Softsign(Module):
 
 
 class Tanhshrink(Module):
-    r"""对输入的每一个元素运用函数, :math:`Tanhshrink(x) = x - Tanh(x)`
+    r"""Applies element-wise, :math:`Tanhshrink(x) = x - Tanh(x)`
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
-        - Output: :math:`(N, *)`, 和输入的格式shape一致
+        - Input: :math:`(N, *)` where `*` means, any number of additional
+          dimensions
+        - Output: :math:`(N, *)`, same shape as the input
 
-    例::
+    Examples::
 
         >>> m = nn.Tanhshrink()
         >>> input = autograd.Variable(torch.randn(2))
@@ -578,22 +594,25 @@ class Tanhshrink(Module):
 
 
 class Softmin(Module):
-    r"""对n维输入张量运用 Softmin 函数, 将张量的每个元素缩放到
-    (0,1) 区间且和为 1.
+    r"""Applies the Softmin function to an n-dimensional input Tensor
+    rescaling them so that the elements of the n-dimensional output Tensor
+    lie in the range `(0, 1)` and sum to 1
 
     :math:`f(x) = \frac{\exp(-x_i)}{\sum_j \exp(-x_j)}`
 
     Shape:
-        - Input: 任意shape
-        - Output: 和输入相同
+        - Input: any shape
+        - Output: same as input
 
     Arguments:
-        dim (int): 这是将计算 Softmax 的维度 (所以每个沿着 dim 的切片和为 1).
+        dim (int): A dimension along which Softmax will be computed (so every slice
+            along dim will sum to 1).
 
     Returns:
-        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间.
+        a Tensor of the same dimension and shape as the input, with
+        values in the range [0, 1]
 
-    例::
+    Examples::
 
         >>> m = nn.Softmin()
         >>> input = autograd.Variable(torch.randn(2, 3))
@@ -612,26 +631,31 @@ class Softmin(Module):
 
 
 class Softmax(Module):
-    r"""对n维输入张量运用 Softmax 函数, 将张量的每个元素缩放到
-    (0,1) 区间且和为 1. Softmax 函数定义如下
+    r"""Applies the Softmax function to an n-dimensional input Tensor
+    rescaling them so that the elements of the n-dimensional output Tensor
+    lie in the range (0,1) and sum to 1
+
+    Softmax is defined as
     :math:`f_i(x) = \frac{\exp(x_i)}{\sum_j \exp(x_j)}`
 
     Shape:
-        - Input: 任意shape
-        - Output: 和输入相同
+        - Input: any shape
+        - Output: same as input
 
     Returns:
-        返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间. 
+        a Tensor of the same dimension and shape as the input with
+        values in the range [0, 1]
 
     Arguments:
-        dim (int): 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1).
+        dim (int): A dimension along which Softmax will be computed (so every slice
+            along dim will sum to 1).
 
     .. note::
+        This module doesn't work directly with NLLLoss,
+        which expects the Log to be computed between the Softmax and itself.
+        Use Logsoftmax instead (it's faster and has better numerical properties).
 
-        如果你想对原始 Softmax 数据计算 Log 进行收缩, 并不能使该模块直接使用 NLLLoss 负对数似然损失函数.
-        取而代之, 应该使用 Logsoftmax (它有更快的运算速度和更好的数值性质).
-
-    例::
+    Examples::
 
         >>> m = nn.Softmax()
         >>> input = autograd.Variable(torch.randn(2, 3))
@@ -656,19 +680,21 @@ class Softmax(Module):
 
 
 class Softmax2d(Module):
-    r"""把 SoftMax 应用于每个空间位置的特征. 
+    r"""Applies SoftMax over features to each spatial location
 
-    给定图片的 通道数 Channels x 高 Height x 宽 Width, 它将对图片的每一个位置
-    使用 Softmax :math:`(Channels, h_i, w_j)`
+    When given an image of Channels x Height x Width, it will
+
+    apply Softmax to each location :math:`(Channels, h_i, w_j)`
 
     Shape:
         - Input: :math:`(N, C, H, W)`
-        - Output: :math:`(N, C, H, W)` (格式 shape 与输入相同)
+        - Output: :math:`(N, C, H, W)` (same shape as input)
 
     Returns:
-        一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在[0, 1]
+        a Tensor of the same dimension and shape as the input with
+        values in the range [0, 1]
 
-    例::
+    Examples::
 
         >>> m = nn.Softmax2d()
         >>> # you softmax over the 2nd dimension
@@ -678,7 +704,7 @@ class Softmax2d(Module):
     """
 
     def forward(self, input):
-        assert input.dim() == 4, 'Softmax2d 需要的输入是 4D tensor'
+        assert input.dim() == 4, 'Softmax2d requires a 4D tensor as input'
         return F.softmax(input, 1, _stacklevel=5)
 
     def __repr__(self):
@@ -686,22 +712,24 @@ class Softmax2d(Module):
 
 
 class LogSoftmax(Module):
-    r"""对每个输入的 n 维 Tensor 使用 Log(Softmax(x)). 
-    LogSoftmax 公式可简化为
+    r"""Applies the Log(Softmax(x)) function to an n-dimensional input Tensor.
+    The LogSoftmax formulation can be simplified as
 
     :math:`f_i(x) = log(exp(x_i) / sum_j exp(x_j) )`
 
     Shape:
-        - Input: 任意格式 shape
-        - Output: 和输入的格式 shape 一致
+        - Input: any shape
+        - Output: same as input
 
     Arguments:
-        dim (int): 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为1).
+        dim (int): A dimension along which Softmax will be computed (so every slice
+            along dim will sum to 1).
 
     Returns:
-        一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在 [-inf, 0)
+        a Tensor of the same dimension and shape as the input with
+        values in the range [-inf, 0)
 
-    例::
+    Examples::
 
         >>> m = nn.LogSoftmax()
         >>> input = autograd.Variable(torch.randn(2, 3))
