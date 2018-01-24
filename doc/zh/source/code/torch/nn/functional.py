@@ -1035,30 +1035,25 @@ Args:
 
 
 def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-100, reduce=True):
-    r"""This criterion combines `log_softmax` and `nll_loss` in a single
-    function.
+    r"""这个标准把 `log_softmax` 和 `nll_loss` 结合到了一个方程中.
 
-    See :class:`~torch.nn.CrossEntropyLoss` for details.
+    详见 :class:`~torch.nn.CrossEntropyLoss`.
 
-    Args:
-        input: Variable :math:`(N, C)` where `C = number of classes`
-        target: Variable :math:`(N)` where each value is
-            `0 <= targets[i] <= C-1`
-        weight (Tensor, optional): a manual rescaling weight given to each
-                class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Ignored if reduce is False. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-                and does not contribute to the input gradient. When size_average is
-                True, the loss is averaged over non-ignored targets. Default: -100
-        reduce (bool, optional): By default, the losses are averaged or summed over
-                observations for each minibatch depending on size_average. When reduce
-                is False, returns a loss per batch element instead and ignores
-                size_average. Default: ``True``
+    参数:
+        input: 变量 :math:`(N, C)` 其中 `C` 为分类的数量
+        target: 变脸 :math:`(N)` 其中每个值 `0 <= targets[i] <= C-1`
+        weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个大小为 `C` 的 Tensor
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+                上取平均值. 如果字段 size_average 被设置为 ``False``, 损失函数的值会在每个 
+                mini-batch（小批量）上求和. 当 reduce 的值为 False 时会被忽略. 默认: ``True``
+        ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
+                当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 
+                默认: -100
+        reduce (bool, optional):  默认情况下, 该损失函数的值会根据 size_average 的取值, 在每个 
+                mini-batch（小批量）上求平均值或者求和. 当 reduce 是 False 时, 损失函数会对每个 
+                batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
 
-    Examples::
+    实例::
 
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(5))
