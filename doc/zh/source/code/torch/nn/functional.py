@@ -1499,36 +1499,32 @@ def cosine_similarity(x1, x2, dim=1, eps=1e-8):
 
 
 def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, swap=False):
-    r"""Creates a criterion that measures the triplet loss given an input
-    tensors x1, x2, x3 and a margin with a value greater than 0.
-    This is used for measuring a relative similarity between samples. A triplet
-    is composed by `a`, `p` and `n`: anchor, positive examples and negative
-    example respectively. The shape of all input variables should be
-    :math:`(N, D)`.
+    r"""创建一个标准, 用以衡量三元组合的损失值, 计算损失值时需要3个输入张量 x1, x2, x3 和 一个大于零的 
+    margin 值. 此标准可以用来衡量输入样本间的相对相似性. 一个三元输入组合由 `a`, `p` 和 `n`: anchor, 
+    positive 样本 和 negative 样本组成. 所有输入变量的形式必须为:math:`(N, D)`.
 
-    The distance swap is described in detail in the paper `Learning shallow
-    convolutional feature descriptors with triplet losses`_ by
+    距离交换的详细说明请参考论文`Learning shallow convolutional feature descriptors with triplet losses`_ by
     V. Balntas, E. Riba et al.
 
     .. math::
         L(a, p, n) = \frac{1}{N} \left( \sum_{i=1}^N \max \{d(a_i, p_i) - d(a_i, n_i) + {\rm margin}, 0\} \right)
 
-    where :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
+    其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
-    Args:
-        anchor: anchor input tensor
-        positive: positive input tensor
-        negative: negative input tensor
-        margin: the margin value. Default: 1
-        p: the norm degree. Default: 2
-        eps: small epsilon value to avoid numerical issues. Default: 1e-6
-        swap: compute distance swap. Default: ``False``
+    参数:
+        anchor: anchor 输入 tensor
+        positive: positive 输入 tensor
+        negative: negative 输入 tensor
+        margin: margin 值. 默认: 1
+        p: 正则化率. 默认: 2
+        eps: 小 epsilon 值, 用来避免计算数值的问题. 默认: 1e-6
+        swap: 计算距离交换. 默认: ``False``
 
-    Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
+    形状:
+        - Input: :math:`(N, D)` 其中 `D = vector dimension`
         - Output: :math:`(N, 1)`
 
-    Example::
+    实例::
 
         >>> input1 = autograd.Variable(torch.randn(100, 128))
         >>> input2 = autograd.Variable(torch.randn(100, 128))
