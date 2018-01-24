@@ -4,18 +4,14 @@ from collections import defaultdict
 
 
 def _type(self, new_type=None, async=False):
-    """Returns the type if `new_type` is not provided, else casts this object to
-    the specified type.
+    """如果 `new_type` 没有指定则返回对象的类型, 否则转换对象为指定类型.
 
-    If this is already of the correct type, no copy is performed and the
-    original object is returned.
+    如果已经是正确类型, 不会执行复制操作, 直接返回原对象.
 
     Args:
-        new_type (type or string): The desired type
-        async (bool): If ``True``, and the source is in pinned memory and
-                      destination is on the GPU or vice versa, the copy is
-                      performed asynchronously with respect to the host.
-                      Otherwise, the argument has no effect.
+        new_type (type or string): 期望的类型
+        async (bool): 如果为 ``True``, 并且源在锁定内存中而目标在GPU中——或正好相反, 
+        则复制过程对于目标设备是异步的. 否则此参数不起效果.
     """
     if new_type is None:
         return self.__module__ + '.' + self.__class__.__name__
@@ -39,16 +35,14 @@ def _type(self, new_type=None, async=False):
 
 
 def _cuda(self, device=None, async=False):
-    """Returns a copy of this object in CUDA memory.
+    """返回此对象在 CUDA 显存中的一个副本.
 
-    If this object is already in CUDA memory and on the correct device, then
-    no copy is performed and the original object is returned.
+    如果此对象已经在 CUDA 显存中并且在正确的设备上, 那么不会执行复制操作, 直接返回原对象.
 
     Args:
-        device (int): The destination GPU id. Defaults to the current device.
-        async (bool): If ``True`` and the source is in pinned memory, the copy will
-                      be asynchronous with respect to the host. Otherwise, the
-                      argument has no effect.
+        device (int): 目标 GPU 的 id. 默认值是当前设备.
+        async (bool): 如果为 ``True`` 并且源位于锁定内存中, 则复制过程对于目标设备是异步的.
+                      否则此参数不起效果.
     """
     if self.is_cuda:
         if device is None:

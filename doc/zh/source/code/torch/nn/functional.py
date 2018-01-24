@@ -193,23 +193,17 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 # Pooling
 def avg_pool1d(input, kernel_size, stride=None, padding=0,
                ceil_mode=False, count_include_pad=True):
-    r"""Applies a 1D average pooling over an input signal composed of several
-    input planes.
+    r"""对由几个输入通道组成的输入信号进行一维平均池化。
 
-    See :class:`~torch.nn.AvgPool1d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool1d` 。
 
     Args:
-        input: input tensor (minibatch x in_channels x iW)
-        kernel_size: the size of the window. Can be a single number or a
-          tuple (kW,)
-        stride: the stride of the window. Can be a single number or a tuple
-          (sW,). Default: :attr:`kernel_size`
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padW,). Default: 0
-        ceil_mode: when True, will use `ceil` instead of `floor` to compute the
-            output shape. Default: ``False``
-        count_include_pad: when True, will include the zero-padding in the
-            averaging calculation. Default: ``True``
+        input: 输入张量 (minibatch x in_channels x iW)
+        kernel_size: 窗口的大小。可以是单个数字或者 tuple (kW,)
+        stride: 窗口的步长。可以是单个数字或者 tuple (sW,)。 默认值: :attr:`kernel_size`
+        padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padW,)。默认值: 0
+        ceil_mode: 当为 True 时, 将使用 `ceil` 代替 `floor` 来计算输出的 shape。默认值: ``False``
+        count_include_pad: 当为 True 时, 在平均计算时将包括零填充。默认值: ``True``
 
     Example:
         >>> # pool of square window of size=3, stride=2
@@ -233,57 +227,43 @@ def avg_pool1d(input, kernel_size, stride=None, padding=0,
 avg_pool2d = _add_docstr(torch._C._nn.avg_pool2d, r"""
 avg_pool2d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-Applies 2D average-pooling operation in kh x kw regions by step size
-dh x dw steps. The number of output features is equal to the number of
-input planes.
+在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入通道的数量。
 
-See :class:`~torch.nn.AvgPool2d` for details and output shape.
+有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool2d` 。
 
 Args:
-    input: input tensor (minibatch x in_channels x iH x iW)
-    kernel_size: size of the pooling region. Can be a single number or a
-      tuple (kH x kW)
-    stride: stride of the pooling operation. Can be a single number or a
-      tuple (sH, sW). Default is equal to kernel size
-    padding: implicit zero paddings on both sides of the input. Can be a
-      single number or a tuple (padH, padW). Default: 0
-    ceil_mode: when True, will use `ceil` instead of `floor` in the formula
-        to compute the output shape. Default: ``False``
-    count_include_pad: when True, will include the zero-padding in th
-        averaging calculation. Default: ``True``
+    input: 输入张量 (minibatch x in_channels x iH x iW)
+    kernel_size: 池化区域的大小。可以是单个数字或者 tuple (kH x kW)
+    stride: 池化操作的步长。 可以是单个数字或者 tuple (sH, sW)。默认等于 kernel 的大小
+    padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padH, padW)。默认值: 0
+    ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape。默认值: ``False``
+    count_include_pad: 当为 True 时, 在平均计算时将包括零填充。默认值: ``True``
 """)
 
 avg_pool3d = _add_docstr(torch._C._nn.avg_pool3d, r"""
 avg_pool3d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-Applies 3D average-pooling operation in kt x kh x kw regions by step
-size dt x dh x dw steps. The number of output features is equal to the
-number of input planes / dt.
+在 kt x kh x kw 区域中应用步长为 dt x dh x dw 的三维平均池化操作。
+输出特征的数量等于输入通道的数量/dt。
 
-See :class:`~torch.nn.AvgPool3d` for details and output shape.
+有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool3d` 。
 
 Args:
-    input: input tensor (minibatch x in_channels x iT x iH x iW)
-    kernel_size: size of the pooling region. Can be a single number or a
-      tuple (kT x kH x kW)
-    stride: stride of the pooling operation. Can be a single number or a
-      tuple (sT, sH, sW). Default is equal to kernel size
-    padding: implicit zero paddings on both sides of the input. Can be a
-      single number or a tuple (padT, padH, padW), Default: 0
-    ceil_mode: when True, will use `ceil` instead of `floor` in the formula
-        to compute the output shape
-    count_include_pad: when True, will include the zero-padding in th
-        averaging calculation
+    input: 输入张量 (minibatch x in_channels x iT x iH x iW)
+    kernel_size: 池化区域的大小。可以是单个数字或者 tuple (kT x kH x kW)
+    stride: 池化操作的步长。 可以是单个数字或者 tuple (sT, sH, sW). 默认等于 kernel 的大小
+    padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padT, padH, padW), 默认值: 0
+    ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape
+    count_include_pad: 当为 True 时, 在平均计算时将包括零填充
 """)
 
 
 # share the same interface
 def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """Applies a 1D max pooling over an input signal composed of several input
-    planes.
+    """对由几个输入通道组成的输入信号进行一维最大池化。
 
-    See :class:`~torch.nn.MaxPool1d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxPool1d` 。
     """
     ret = _functions.thnn.MaxPool1d.apply(input, kernel_size, stride, padding, dilation,
                                           ceil_mode)
@@ -292,10 +272,9 @@ def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """Applies a 2D max pooling over an input signal composed of several input
-    planes.
+    """对由几个输入通道组成的输入信号进行二维最大池化。
 
-    See :class:`~torch.nn.MaxPool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
     ret = torch._C._nn.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
     return ret if return_indices else ret[0]
@@ -303,10 +282,9 @@ def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool3d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """Applies a 3D max pooling over an input signal composed of several input
-    planes.
+    """对由几个输入通道组成的输入信号进行三维最大池化。
 
-    See :class:`~torch.nn.MaxPool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
     ret = _functions.thnn.MaxPool3d.apply(input, kernel_size, stride, padding, dilation,
                                           ceil_mode)
@@ -343,9 +321,9 @@ def _unpool_output_size(input, kernel_size, stride, padding, output_size):
 
 def max_unpool1d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """Computes a partial inverse of :class:`MaxPool1d`.
+    """计算 :class:`MaxPool1d` 的部分逆
 
-    See :class:`~torch.nn.MaxUnpool1d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool1d` 。
     """
     kernel_size = _single(kernel_size)
     stride = _single(stride)
@@ -357,9 +335,9 @@ def max_unpool1d(input, indices, kernel_size, stride=None, padding=0,
 
 def max_unpool2d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """Computes a partial inverse of :class:`MaxPool2d`.
+    """计算 :class:`MaxPool2d` 的部分逆。
 
-    See :class:`~torch.nn.MaxUnpool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool2d` 。
     """
     kernel_size = _pair(kernel_size)
     stride = _pair(stride)
@@ -371,9 +349,9 @@ def max_unpool2d(input, indices, kernel_size, stride=None, padding=0,
 
 def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """Computes a partial inverse of :class:`MaxPool3d`.
+    """计算 :class:`MaxPool3d` 的部分逆。
 
-    See :class:`~torch.nn.MaxUnpool3d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool3d` 。
     """
     kernel_size = _triple(kernel_size)
     stride = _triple(stride)
@@ -384,10 +362,9 @@ def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
 
 
 def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """Applies a 2D power-average pooling over an input signal composed of
-    several input planes.
+    """对由几个输入通道组成的输入信号进行二维幂平均池化。
 
-    See :class:`~torch.nn.LPPool2d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.LPPool2d` 。
     """
     kw, kh = utils._pair(kernel_size)
     out = avg_pool2d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
@@ -395,93 +372,82 @@ def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """Applies a 1D power-average pooling over an input signal composed of
-    several input planes.
+    """对由几个输入通道组成的输入信号进行一维幂平均池化。
 
-    See :class:`~torch.nn.LPPool1d` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.LPPool1d` 。
     """
     out = avg_pool1d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
     return out.mul(kernel_size).pow(1. / norm_type)
 
 
 def adaptive_max_pool1d(input, output_size, return_indices=False):
-    r"""Applies a 1D adaptive max pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入通道组成的输入信号进行一维自适应最大池化。
 
-    See :class:`~torch.nn.AdaptiveMaxPool1d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool1d` 。
 
     Args:
-        output_size: the target output size (single integer)
-        return_indices: whether to return pooling indices. Default: ``False``
+        output_size: 目标输出大小（单个整数）
+        return_indices: 是否返回池化索引。 默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool1d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_max_pool2d(input, output_size, return_indices=False):
-    r"""Applies a 2D adaptive max pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入通道组成的输入信号进行二维自适应最大池化。
 
-    See :class:`~torch.nn.AdaptiveMaxPool2d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool2d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            double-integer tuple)
-        return_indices: whether to return pooling indices. Default: ``False``
+        output_size: 目标输出大小（单个整数或者两个整数的 tuple ）
+        return_indices: 是否返回池化索引。 默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool2d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_max_pool3d(input, output_size, return_indices=False):
-    r"""Applies a 3D adaptive max pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入通道组成的输入信号进行三维自适应最大池化。
 
-    See :class:`~torch.nn.AdaptiveMaxPool3d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool3d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            triple-integer tuple)
-        return_indices: whether to return pooling indices. Default: ``False``
+        output_size: 目标输出大小（单个整数或者三个整数的 tuple ）
+        return_indices: 是否返回池化索引。 默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool3d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_avg_pool1d(input, output_size):
-    r"""Applies a 1D adaptive average pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入通道组成的输入信号进行一维自适应平均池化。
 
-    See :class:`~torch.nn.AdaptiveAvgPool1d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool1d` 。
 
     Args:
-        output_size: the target output size (single integer)
+        output_size: 目标输出大小（单个整数）
     """
     return _functions.thnn.AdaptiveAvgPool1d.apply(input, output_size)
 
 
 def adaptive_avg_pool2d(input, output_size):
-    r"""Applies a 2D adaptive average pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入通道组成的输入信号进行二维自适应平均池化。
 
-    See :class:`~torch.nn.AdaptiveAvgPool2d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool2d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            double-integer tuple)
+        output_size: 目标输出大小（单个整数或者两个整数的 tuple ）
     """
     return _functions.thnn.AdaptiveAvgPool2d.apply(input, output_size)
 
 
 def adaptive_avg_pool3d(input, output_size):
-    r"""Applies a 3D adaptive average pooling over an input signal composed of
-    several input planes.
+    r"""对由几个输入通道组成的输入信号进行三维自适应平均池化。
 
-    See :class:`~torch.nn.AdaptiveAvgPool3d` for details and output shape.
+    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool3d` 。
 
     Args:
-        output_size: the target output size (single integer or
-            triple-integer tuple)
+        output_size: 目标输出大小（单个整数或者三个整数的 tuple ）
     """
     return _functions.thnn.AdaptiveAvgPool3d.apply(input, output_size)
 
@@ -493,13 +459,13 @@ def dropout(input, p=0.5, training=False, inplace=False):
 
 
 def alpha_dropout(input, p=0.5, training=False):
-    r"""Applies alpha dropout to the input.
+    r"""将 dropout 应用于输入数据( dropou 是指在深度学习网络的训练过程中，对于神经网络单元，按照一定的概率将其暂时从网络中丢弃,防止过拟合)。
 
-    See :class:`~torch.nn.AlphaDropout` for details.
+    有关详细信息，请参阅 :class:`~torch.nn.AlphaDropout`
 
     Args:
-        p (float, optional): the drop probability. Default: 0.5
-        training (bool, optional): switch between training and evaluation mode. Default: ``False``
+        p (float, optional): 丢弃的概率。默认值: 0.5
+        training (bool, optional): 决定是否在训练和测试模式之间的切换. 默认值: ``False``
     """
     if p < 0 or p > 1:
         raise ValueError("dropout probability has to be between 0 and 1, "
@@ -543,8 +509,8 @@ See :class:`~torch.nn.Threshold` for more details.
 def relu(input, inplace=False):
     """relu(input, threshold, value, inplace=False) -> Variable
 
-    Applies the rectified linear unit function element-wise. See
-    :class:`~torch.nn.ReLU` for more details.
+    以元素的方式应用修正线性单元函数. 请参阅
+    :class:`~torch.nn.ReLU` 可以获取更多细节.
     """
     return threshold(input, 0, 0, inplace)
 
@@ -552,19 +518,19 @@ def relu(input, inplace=False):
 glu = _add_docstr(torch._C._nn.glu, r"""
 glu(input, dim=-1) -> Variable
 
-The gated linear unit. Computes:
+门控线性单元. 计算方式如下:
 
 .. math ::
 
     H = A \times \sigma(B)
 
-where `input` is split in half along `dim` to form `A` and `B`.
+其中输入沿着轴拆分为A和B两部分.
 
-See `Language Modeling with Gated Convolutional Networks <https://arxiv.org/abs/1612.08083>`_.
+请参阅 使用门控卷积网络进行语言建模 <https://arxiv.org/abs/1612.08083>.
 
 Args:
-    input (Variable): input variable
-    dim (int): dimension on which to split the input
+    input (Variable): 输入变量
+    dim (int): 指定分裂的轴
 """)
 
 hardtanh = _add_docstr(torch._C._nn.hardtanh, r"""
@@ -578,9 +544,9 @@ details.
 def relu6(input, inplace=False):
     r"""relu6(input, inplace=False) -> Variable
 
-    Applies the element-wise function :math:`{ReLU6}(x) = min(max(0,x), 6)`.
+    以元素方式应用HardTanh函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
 
-    See :class:`~torch.nn.ReLU6` for more details.
+    请参阅 :class:`~torch.nn.ReLU6` 可以获取更多细节.
     """
     return hardtanh(input, 0, 6, inplace)
 
@@ -588,22 +554,22 @@ def relu6(input, inplace=False):
 elu = _add_docstr(torch._C._nn.elu, r"""
 elu(input, alpha=1., inplace=False) -> Variable
 
-Applies element-wise,
+以元素方式使用,
 :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`.
 
-See :class:`~torch.nn.ELU` for more details.
+请参阅 :class:`~torch.nn.ELU` 可以获取更多细节.
 """)
 
 
 def selu(input, inplace=False):
     r"""selu(input, inplace=False) -> Variable
 
-    Applies element-wise,
+    以元素方式使用,
     :math:`f(x) = scale * (\max(0,x) + \min(0, alpha * (\exp(x) - 1)))`,
     with ``alpha=1.6732632423543772848170429916717`` and
     ``scale=1.0507009873554804934193349852946``.
 
-    See :class:`~torch.nn.SELU` for more details.
+    请参阅 :class:`~torch.nn.SELU` 可以获取更多细节.
     """
     return _functions.thnn.SELU.apply(input, inplace)
 
@@ -611,10 +577,10 @@ def selu(input, inplace=False):
 leaky_relu = _add_docstr(torch._C._nn.leaky_relu, r"""
 leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 
-Applies element-wise,
+以元素方式使用,
 :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
-See :class:`~torch.nn.LeakyReLU` for more details.
+请参阅 :class:`~torch.nn.LeakyReLU` 可以获取更多细节.
 """)
 
 
@@ -624,11 +590,11 @@ See :class:`~torch.nn.LeakyReLU` for more details.
 def prelu(input, weight):
     r"""prelu(input, weight) -> Variable
 
-    Applies element-wise the function
+    以元素方式使用方法
     :math:`PReLU(x) = max(0,x) + weight * min(0,x)` where weight is a
     learnable parameter.
 
-    See :class:`~torch.nn.PReLU` for more details.
+    请参阅 :class:`~torch.nn.PReLU` 可以获取更多细节.
     """
     return _functions.thnn.PReLU.apply(input, weight)
 
@@ -640,17 +606,17 @@ rrelu(input, lower=1./8, upper=1./3, training=False, inplace=False) -> Variable
 logsigmoid = _add_docstr(torch._C._nn.log_sigmoid, r"""
 logsigmoid(input) -> Variable
 
-Applies element-wise :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
+以元素方式使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
-See :class:`~torch.nn.LogSigmoid` for more details.
+请参阅 :class:`~torch.nn.LogSigmoid` 可以获取更多细节.
 """)
 
 hardshrink = _add_docstr(torch._C._nn.hardshrink, r"""
 hardshrink(input, lambd=0.5) -> Variable
 
-Applies the hard shrinkage function element-wise
+以元素方式使用 hard shrinkage 方法
 
-See :class:`~torch.nn.Hardshrink` for more details.
+请参阅 :class:`~torch.nn.Hardshrink` 可以获取更多细节.
 
 
 """)
@@ -659,9 +625,9 @@ See :class:`~torch.nn.Hardshrink` for more details.
 def tanhshrink(input):
     r"""tanhshrink(input) -> Variable
 
-    Applies element-wise, :math:`Tanhshrink(x) = x - Tanh(x)`
+    以元素方式使用, :math:`Tanhshrink(x) = x - Tanh(x)`
 
-    See :class:`~torch.nn.Tanhshrink` for more details.
+    请参阅 :class:`~torch.nn.Tanhshrink` 可以获取更多细节.
     """
     return input - input.tanh()
 
@@ -669,9 +635,9 @@ def tanhshrink(input):
 def softsign(input):
     r"""softsign(input) -> Variable
 
-    Applies element-wise, the function :math:`f(x) = x / (1 + |x|)`
+    以元素方式使用方法 :math:`f(x) = x / (1 + |x|)`
 
-    See :class:`~torch.nn.Softsign` for more details.
+    请参阅 :class:`~torch.nn.Softsign` 可以获取更多细节.
     """
     return input / (input.abs() + 1)
 
@@ -691,16 +657,15 @@ def _get_softmax_dim(name, ndim, stacklevel):
 
 
 def softmin(input, dim=None, _stacklevel=3):
-    r"""Applies a softmin function.
+    r"""使用一个 softmin 函数.
 
-    Note that softmin(x) = softmax(-x). See softmax definition for mathematical formula.
+    注意 softmin(x) = softmax(-x). 请参阅 softmax 数学公式的定义.
 
-    See :class:`~torch.nn.Softmin` for more details.
+    请参阅 :class:`~torch.nn.Softmin` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which softmin will be computed (so every slice
-            along dim will sum to 1).
+        input (Variable): 输入
+        dim (int): softmin 将沿着指定轴 dim 计算(所以沿着轴的切片累加和为 1).
     """
     if dim is None:
         dim = _get_softmax_dim('softmin', input.dim(), _stacklevel)
@@ -708,25 +673,24 @@ def softmin(input, dim=None, _stacklevel=3):
 
 
 def softmax(input, dim=None, _stacklevel=3):
-    r"""Applies a softmax function.
+    r"""使用一个 softmax 函数.
 
-    Softmax is defined as:
+    Softmax被定义为:
 
     :math:`softmax(x) = \frac{exp(x_i)}{\sum_j exp(x_j)}`
 
-    It is applied to all slices along dim, and will rescale them so that the elements
-    lie in the range `(0, 1)` and sum to 1.
+    函数会应用于沿着指定轴的所有切片，并且会标准化结果让每个切片的计算结果映射到（0,1）范围内，让总和为 1.
 
-    See :class:`~torch.nn.Softmax` for more details.
+    请参阅 :class:`~torch.nn.Softmax` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which softmax will be computed.
+        input (Variable): 输入
+        dim (int): softmax 将沿着指定轴 dim 计算.
 
     .. note::
-        This function doesn't work directly with NLLLoss,
-        which expects the Log to be computed between the Softmax and itself.
-        Use log_softmax instead (it's faster and has better numerical properties).
+        该函数不直接与 NLLLoss 一起工作，
+        NLLLoss 期望在 Softmax 和它自身之间计算对数.
+        使用 log_softmax 代替（log_softmax 更快并且对数值型支持度更好）.
 
     """
     if dim is None:
@@ -735,17 +699,17 @@ def softmax(input, dim=None, _stacklevel=3):
 
 
 def log_softmax(input, dim=None, _stacklevel=3):
-    r"""Applies a softmax followed by a logarithm.
+    r"""使用对数形式的 softmax 函数.
 
-    While mathematically equivalent to log(softmax(x)), doing these two
-    operations separately is slower, and numerically unstable. This function
-    uses an alternative formulation to compute the output and gradient correctly.
+    虽然在数学上等同于 log（softmax（x）），但单独执行这两个
+    操作的速度较慢，而且数值不稳定。
+    这个功能使用另一个公式来正确计算输出和梯度。
 
-    See :class:`~torch.nn.LogSoftmax` for more details.
+    请参阅 :class:`~torch.nn.LogSoftmax` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which log_softmax will be computed.
+        input (Variable): 输入
+        dim (int): log_softmax 将沿着指定轴dim计算.
     """
     if dim is None:
         dim = _get_softmax_dim('log_softmax', input.dim(), _stacklevel)
@@ -755,9 +719,9 @@ def log_softmax(input, dim=None, _stacklevel=3):
 def softshrink(input, lambd=0.5):
     r"""softshrink(input, lambd=0.5) -> Variable
 
-    Applies the soft shrinkage function elementwise
+    以元素的方式使用 soft shrinkage 函数
 
-    See :class:`~torch.nn.Softshrink` for more details.
+    请参阅 :class:`~torch.nn.Softshrink` 可以获取更多细节.
     """
     return _functions.thnn.auto.Softshrink.apply(input, lambd)
 
@@ -765,10 +729,10 @@ def softshrink(input, lambd=0.5):
 def tanh(input):
     r"""tanh(input) -> Variable
 
-    Applies element-wise,
+    以元素的方式使用,
     :math:`f(x) = (exp(x) - exp(-x)) / (exp(x) + exp(-x))`
 
-    See :class:`~torch.nn.Tanh` for more details.
+    请参阅 :class:`~torch.nn.Tanh` 可以获取更多细节.
     """
     return input.tanh()
 
@@ -776,9 +740,9 @@ def tanh(input):
 def sigmoid(input):
     r"""sigmoid(input) -> Variable
 
-    Applies the element-wise function :math:`f(x) = 1 / ( 1 + exp(-x))`
+    以元素的方式使用函数 :math:`f(x) = 1 / ( 1 + exp(-x))`
 
-    See :class:`~torch.nn.Sigmoid` for more details.
+    请参阅 :class:`~torch.nn.Sigmoid` 可以获取更多细节.
     """
     return input.sigmoid()
 
@@ -787,11 +751,10 @@ def sigmoid(input):
 
 def linear(input, weight, bias=None):
     """
-    Applies a linear transformation to the incoming data: :math:`y = xA^T + b`.
+    对输入的数据应用线性转换: :math:`y = xA^T + b`.
 
     Shape:
-        - Input: :math:`(N, *, in\_features)` where `*` means any number of
-          additional dimensions
+        - Input: :math:`(N, *, in\_features)` 其中 * 表示任意数量的附加维度
         - Weight: :math:`(out\_features, in\_features)`
         - Bias: :math:`(out\_features)`
         - Output: :math:`(N, *, out\_features)`
@@ -1510,19 +1473,19 @@ def pad(input, pad, mode='constant', value=0):
 
 def pairwise_distance(x1, x2, p=2, eps=1e-6):
     r"""
-    Computes the batchwise pairwise distance between vectors v1,v2:
+    计算向量 v1,v2 之间的分批成对距离(意思是可以计算多个，可以参看后面的参数):
 
     .. math ::
         \Vert x \Vert _p := \left( \sum_{i=1}^n  \vert x_i \vert ^ p \right) ^ {1/p}
 
     Args:
-        x1: first input tensor
-        x2: second input tensor
-        p: the norm degree. Default: 2
-        eps (float, optional): Small value to avoid division by zero. Default: 1e-6
+        x1: 第一个输入张量
+        x2: 第二个输入张量
+        p: 矩阵范数的维度。默认值是2，即二范数
+        eps (float, optional): 指定一个很小的值以避免被零除. 默认值: 1e-6
 
     Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
+        - Input: :math:`(N, D)` 其中 `D = vector dimension (矢量维数)`
         - Output: :math:`(N, 1)`
 
     Example::
@@ -1540,21 +1503,20 @@ def pairwise_distance(x1, x2, p=2, eps=1e-6):
 
 
 def cosine_similarity(x1, x2, dim=1, eps=1e-8):
-    r"""Returns cosine similarity between x1 and x2, computed along dim.
+    r"""返回沿着 dim(矢量的维度) 计算的 x1 和 x2 之间的余弦相似度。
 
     .. math ::
         \text{similarity} = \dfrac{x_1 \cdot x_2}{\max(\Vert x_1 \Vert _2 \cdot \Vert x_2 \Vert _2, \epsilon)}
 
     Args:
-        x1 (Variable): First input.
-        x2 (Variable): Second input (of size matching x1).
-        dim (int, optional): Dimension of vectors. Default: 1
-        eps (float, optional): Small value to avoid division by zero.
-            Default: 1e-8
+        x1 (Variable): 第一个输入。
+        x2 (Variable): 第二个输入。 (大小和 x1 匹配).
+        dim (int, optional): 矢量的维度。 默认: 1
+        eps (float, optional): 指定一个很小的值以避免被零除. 默认值: 1e-8
 
     Shape:
-        - Input: :math:`(\ast_1, D, \ast_2)` where D is at position `dim`.
-        - Output: :math:`(\ast_1, \ast_2)` where 1 is at position `dim`.
+        - Input: :math:`(\ast_1, D, \ast_2)` 其中 D 位于 `dim` 位置.
+        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于`dim`位置.
 
     Example::
 
@@ -1627,24 +1589,20 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
 
 
 def normalize(input, p=2, dim=1, eps=1e-12):
-    r"""Performs :math:`L_p` normalization of inputs over specified dimension.
-
+    r"""  对指定维度的输入执行 :math:`L_p` 规则化。
     Does:
 
     .. math::
         v = \frac{v}{\max(\lVert v \rVert_p, \epsilon)}
 
-    for each subtensor v over dimension dim of input. Each subtensor is
-    flattened into a vector, i.e. :math:`\lVert v \rVert_p` is not a matrix
-    norm.
+    对于输入的维度的每个 subtensor(子张量) V 扩展。每个子张量展开成一个向量, i.e. :math:`\lVert v \rVert_p` 不是一个规则的矩阵。
 
-    With default arguments normalizes over the second dimension with Euclidean
-    norm.
+    使用默认参数在第二个维度上用欧几里得范数规则化。
 
     Args:
-        input: input tensor of any shape
-        p (float): the exponent value in the norm formulation. Default: 2
-        dim (int): the dimension to reduce. Default: 1
-        eps (float): small value to avoid division by zero. Default: 1e-12
+        input: 输入任何 shape(形状) 的张量
+        p (float): 规范化公式中的指数值。默认值: 2
+        dim (int): 要减少的维度。默认值: 1
+        eps (float): 指定一个很小的值，避免被零除。默认值: 1e-12
     """
     return input / input.norm(p, dim, True).clamp(min=eps).expand_as(input)
