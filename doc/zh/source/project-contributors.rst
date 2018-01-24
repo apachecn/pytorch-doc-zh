@@ -24,6 +24,7 @@
 -  `@shunshun <https://github.com/busyboxs>`__
 -  `@林嘉应 <https://github.com/garry1ng>`__
 -  `@于增源 <https://github.com/ZengyuanYu>`__
+-  `@叶舒泉 <https://github.com/pleaseconnectwifi>`__
 
 
 建议反馈
