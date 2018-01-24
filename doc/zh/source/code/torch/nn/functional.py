@@ -1130,10 +1130,9 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
 
 smooth_l1_loss = _add_docstr(torch._C._nn.smooth_l1_loss, r"""
 
-Function that uses a squared term if the absolute
-element-wise error falls below 1 and an L1 term otherwise.
+当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算. 
 
-See :class:`~torch.nn.SmoothL1Loss` for details.
+详见 :class:`~torch.nn.SmoothL1Loss`.
 """)
 
 l1_loss = _add_docstr(torch._C._nn.l1_loss, r"""
