@@ -3,24 +3,20 @@ from .optimizer import Optimizer
 
 
 class RMSprop(Optimizer):
-    """Implements RMSprop algorithm.
+    """实现 RMSprop 算法.
 
-    Proposed by G. Hinton in his
+    由 G. Hinton 在此提出
     `course <http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf>`_.
 
-    The centered version first appears in `Generating Sequences
-    With Recurrent Neural Networks <https://arxiv.org/pdf/1308.0850v5.pdf>`_.
+    中心版本首次出现在 `Generating Sequences With Recurrent Neural Networks <https://arxiv.org/pdf/1308.0850v5.pdf>`_.
 
-    Arguments:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        lr (float, optional): learning rate (default: 1e-2)
-        momentum (float, optional): momentum factor (default: 0)
-        alpha (float, optional): smoothing constant (default: 0.99)
-        eps (float, optional): term added to the denominator to improve
-            numerical stability (default: 1e-8)
-        centered (bool, optional) : if ``True``, compute the centered RMSProp,
-            the gradient is normalized by an estimation of its variance
+    算法:
+        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+        lr (float, optional): 学习率 (默认值: 1e-2)
+        momentum (float, optional): 动量因子 (默认值: 0)
+        alpha (float, optional): 平滑常量 (default: 0.99)
+        eps (float, optional): 为了增加数值计算的稳定性而加到分母里的项 (默认值: 1e-8)
+        centered (bool, optional) : 如果为 ``True``, 计算 RMSProp 的中值, 并且用它的方差预测值对梯度进行归一化
         weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
 
     """
