@@ -1133,7 +1133,6 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
 
 
 smooth_l1_loss = _add_docstr(torch._C._nn.smooth_l1_loss, r"""
-smooth_l1_loss(input, target, size_average=True) -> Variable
 
 Function that uses a squared term if the absolute
 element-wise error falls below 1 and an L1 term otherwise.
@@ -1142,11 +1141,9 @@ See :class:`~torch.nn.SmoothL1Loss` for details.
 """)
 
 l1_loss = _add_docstr(torch._C._nn.l1_loss, r"""
-l1_loss(input, target, size_average=True, reduce=True) -> Variable
+这个方程计算逐个变量的差的绝对值的平均数.
 
-Function that takes the mean element-wise absolute value difference.
-
-See :class:`~torch.nn.L1Loss` for details.
+详见 :class:`~torch.nn.L1Loss`.
 """)
 
 mse_loss = _add_docstr(torch._C._nn.mse_loss, r"""
