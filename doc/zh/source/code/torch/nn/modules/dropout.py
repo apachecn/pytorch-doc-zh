@@ -96,7 +96,6 @@ class Dropout2d(Module):
 
 
 class Dropout3d(Module):
-<<<<<<< HEAD
     r"""Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道在每次调用时是随机地.
 	
 	通常输入数据来自 Conv3d 模块.
