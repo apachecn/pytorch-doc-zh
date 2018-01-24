@@ -32,15 +32,12 @@ class _LRScheduler(object):
 
 
 class LambdaLR(_LRScheduler):
-    """Sets the learning rate of each parameter group to the initial lr
-    times a given function. When last_epoch=-1, sets initial lr as lr.
+    """将每个参数组的学习速率设置为给定函数的初始LR. 当 last_epoch=-1, 设置出事的 lr 作为 lr.
 
-    Args:
-        optimizer (Optimizer): Wrapped optimizer.
-        lr_lambda (function or list): A function which computes a multiplicative
-            factor given an integer parameter epoch, or a list of such
-            functions, one for each group in optimizer.param_groups.
-        last_epoch (int): The index of last epoch. Default: -1.
+    参数:
+        optimizer (Optimizer): 封装好的优化器.
+        lr_lambda (function or list): 计算给定整数参数历元的乘法因子的函数, 或者一系列的此类函数, 每组的一个都在 optimizer.param_groups 中.
+        last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
     Example:
         >>> # Assuming optimizer has two groups.
@@ -70,16 +67,13 @@ class LambdaLR(_LRScheduler):
 
 
 class StepLR(_LRScheduler):
-    """Sets the learning rate of each parameter group to the initial lr
-    decayed by gamma every step_size epochs. When last_epoch=-1, sets
-    initial lr as lr.
+    """通过 gamma 在每一个 epoch 里面的 step_size 设置每个参数组的初始学习率衰减变量. 当 last_epoch=-1, 设置初始 lr 为 lr.
 
-    Args:
-        optimizer (Optimizer): Wrapped optimizer.
-        step_size (int): Period of learning rate decay.
-        gamma (float): Multiplicative factor of learning rate decay.
-            Default: 0.1.
-        last_epoch (int): The index of last epoch. Default: -1.
+    参数:
+        optimizer (Optimizer): 封装好的优化器.
+        step_size (int): 学习率衰减周期.
+        gamma (float): 学习率衰减的乘法因子. 默认值: 0.1.
+        last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
     Example:
         >>> # Assuming optimizer uses lr = 0.5 for all groups
@@ -105,16 +99,15 @@ class StepLR(_LRScheduler):
 
 
 class MultiStepLR(_LRScheduler):
-    """Set the learning rate of each parameter group to the initial lr decayed
-    by gamma once the number of epoch reaches one of the milestones. When
-    last_epoch=-1, sets initial lr as lr.
+    """一旦 epoch 的数量达到了一个临界点通过 gamma 在每一个 epoch 里面的 step_size 设置每个参数
+    组的初始学习率衰减变量.当 last_epoch=-1, 设置初始 lr 作为 lr.
 
     Args:
-        optimizer (Optimizer): Wrapped optimizer.
-        milestones (list): List of epoch indices. Must be increasing.
-        gamma (float): Multiplicative factor of learning rate decay.
-            Default: 0.1.
-        last_epoch (int): The index of last epoch. Default: -1.
+        optimizer (Optimizer): 封装好的优化器.
+        milestones (list): epoch 索引列表. 必须为递增的.
+        gamma (float): 学习率衰减的乘法因子.
+            默认值: 0.1.
+        last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
     Example:
         >>> # Assuming optimizer uses lr = 0.5 for all groups
@@ -142,13 +135,12 @@ class MultiStepLR(_LRScheduler):
 
 
 class ExponentialLR(_LRScheduler):
-    """Set the learning rate of each parameter group to the initial lr decayed
-    by gamma every epoch. When last_epoch=-1, sets initial lr as lr.
-
+    """通过 gamma 在每一个 epoch 里面的 step_size 设置每个参数组的初始学习率衰减变量 . 
+    当 last_epoch=-1, 设置初始 lr 作为 lr.
     Args:
-        optimizer (Optimizer): Wrapped optimizer.
-        gamma (float): Multiplicative factor of learning rate decay.
-        last_epoch (int): The index of last epoch. Default: -1.
+        optimizer (Optimizer): 封装好的优化器.
+        gamma (float): 学习率衰减的乘法因子.
+        last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
     """
 
     def __init__(self, optimizer, gamma, last_epoch=-1):
@@ -161,39 +153,28 @@ class ExponentialLR(_LRScheduler):
 
 
 class ReduceLROnPlateau(object):
-    """Reduce learning rate when a metric has stopped improving.
-    Models often benefit from reducing the learning rate by a factor
-    of 2-10 once learning stagnates. This scheduler reads a metrics
-    quantity and if no improvement is seen for a 'patience' number
-    of epochs, the learning rate is reduced.
+    """当一个指标已经停止提升时减少学习率.模型通常受益于通过一次2-10的学习停止因素减少学习率
+     这个调度程序读取一个指标质量 以及看到 'patience' 的数量在一个 epoch 里面如果没有提升，
+     这时学习率已经减小.
 
-    Args:
-        optimizer (Optimizer): Wrapped optimizer.
-        mode (str): One of `min`, `max`. In `min` mode, lr will
-            be reduced when the quantity monitored has stopped
-            decreasing; in `max` mode it will be reduced when the
-            quantity monitored has stopped increasing. Default: 'min'.
-        factor (float): Factor by which the learning rate will be
-            reduced. new_lr = lr * factor. Default: 0.1.
-        patience (int): Number of epochs with no improvement after
-            which learning rate will be reduced. Default: 10.
-        verbose (bool): If ``True``, prints a message to stdout for
-            each update. Default: ``False``.
-        threshold (float): Threshold for measuring the new optimum,
-            to only focus on significant changes. Default: 1e-4.
-        threshold_mode (str): One of `rel`, `abs`. In `rel` mode,
-            dynamic_threshold = best * ( 1 + threshold ) in 'max'
-            mode or best * ( 1 - threshold ) in `min` mode.
-            In `abs` mode, dynamic_threshold = best + threshold in
-            `max` mode or best - threshold in `min` mode. Default: 'rel'.
-        cooldown (int): Number of epochs to wait before resuming
-            normal operation after lr has been reduced. Default: 0.
-        min_lr (float or list): A scalar or a list of scalars. A
-            lower bound on the learning rate of all param groups
-            or each group respectively. Default: 0.
-        eps (float): Minimal decay applied to lr. If the difference
-            between new and old lr is smaller than eps, the update is
-            ignored. Default: 1e-8.
+    参数:
+        optimizer (Optimizer): 封装好的优化器.
+        mode (str): `min`, `max` 其中一个. 在 `min` 模块下,当质量监测已经
+        停止下降时 lr 将被减少; 在 `max` 模块下 当质量监测已经停止上升时 lr 将
+        被减少. 默认值: 'min'.
+        factor (float): 哪个学习率将会被减少的影响因子 . 
+        new_lr = lr * factor. 默认值: 0.1.
+        patience (int): epoch 中没有改善的次数，学习率将会降低。. 默认值: 10.
+        verbose (bool): 若为 ``True``, 每次更新打印信息到控制台输出. 默认值: ``False``.
+        threshold (float): 测量新的最佳阈值，只关注有重大意义的改变. 默认值: 1e-4.
+        threshold_mode (str):  `rel`, `abs` 中的一个. 在 `rel` 模式下,
+            dynamic_threshold = best * ( 1 + threshold ) 在 'max'
+            模式下或者在 `min` 模式下 best * ( 1 - threshold ) .
+            在 `abs` 模式下, dynamic_threshold = best + threshold 在
+            `max` 模式下或者在 `min` 模式下 best - threshold . 默认值: 'rel'.
+        cooldown (int): lr 已经减少之后去等待最佳的正常操作之前的 epoch 数目. 默认值: 0.
+        min_lr (float or list): 一个列表的标量.所有参数组或每个组的学习率下限. 默认值: 0.
+        eps (float): lr 最小的衰减值适应于. 如果新 lr 和旧 lr 之间的差异小于 eps,更新可以忽略. 默认值: 1e-8.
 
     Example:
         >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)

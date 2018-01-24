@@ -7,48 +7,37 @@ PackedSequence_ = namedtuple('PackedSequence', ['data', 'batch_sizes'])
 
 
 class PackedSequence(PackedSequence_):
-    r"""Holds the data and list of batch_sizes of a packed sequence.
+    r"""保存一个打包序列的 data 和 batch_sizes.
 
-    All RNN modules accept packed sequences as inputs.
+    所有的 RNN 模块都接收这种被包裹后的序列作为它们的输入.
 
     Note:
-        Instances of this class should never be created manually. They are meant
-        to be instantiated by functions like :func:`pack_padded_sequence`.
+        永远不要手动创建这个类的实例. 它们应当被 :func:`pack_padded_sequence` 这样的函数实例化.
 
     Attributes:
-        data (Variable): Variable containing packed sequence
-        batch_sizes (list[int]): list of integers holding information about
-            the batch size at each sequence step
+        data (Variable): 包含打包后序列的 Variable
+        batch_sizes (list[int]): 包含每个序列步的 batch size 的列表
     """
     pass
 
 
 def pack_padded_sequence(input, lengths, batch_first=False):
-    r"""Packs a Variable containing padded sequences of variable length.
+    r"""将填充过的变长序列打包(压紧).
 
-    Input can be of size ``TxBx*`` where T is the length of the longest sequence
-    (equal to ``lengths[0]``), B is the batch size, and * is any number of
-    dimensions (including 0). If ``batch_first`` is True ``BxTx*`` inputs are
-    expected.
+    输入的形状可以是 ``TxBx*`` . T是最长序列长度(等于 ``lengths[0]``), B 是 batch size, *代表任意维度(可以是0). 如果 ``batch_first=True`` , 那么相应的 input size 就是 ``BxTx*`` .
 
-    The sequences should be sorted by length in a decreasing order, i.e.
-    ``input[:,0]`` should be the longest sequence, and ``input[:,B-1]`` the
-    shortest one.
+    Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前, 短的在后. 即 input[:,0] 代表的是最长的序列, input[:, B-1] 保存的是最短的序列。
 
     Note:
-        This function accept any input that has at least two dimensions. You
-        can apply it to pack the labels, and use the output of the RNN with
-        them to compute the loss directly. A Variable can be retrieved from
-        a :class:`PackedSequence` object by accessing its ``.data`` attribute.
+        只要是维度大于等于2的 input 都可以作为这个函数的参数. 你可以用它来打包 labels, 然后用 RNN 的输出和打包后的 labels 来计算 loss. 通过 :class:`PackedSequence` 对象的 ``.data`` 属性可以获取 Variable.
 
     Arguments:
-        input (Variable): padded batch of variable length sequences.
-        lengths (list[int]): list of sequences lengths of each batch element.
-        batch_first (bool, optional): if ``True``, the input is expected in BxTx*
-            format.
+        input (Variable): 变长序列被填充后的 batch
+        lengths (list[int]): Variable 中每个序列的长度.
+        batch_first (bool, optional): 如果是 ``True``, input 的形状应该是 BxTx*.
 
     Returns:
-        a :class:`PackedSequence` object
+        一个 :class:`PackedSequence` 对象.
     """
     if lengths[-1] <= 0:
         raise ValueError("length of all samples has to be greater than 0, "
@@ -77,25 +66,21 @@ def pack_padded_sequence(input, lengths, batch_first=False):
 
 
 def pad_packed_sequence(sequence, batch_first=False, padding_value=0.0):
-    r"""Pads a packed batch of variable length sequences.
+    r"""填充打包过的变长序列.
 
-    It is an inverse operation to :func:`pack_padded_sequence`.
+    这是 :func:`pack_padded_sequence` 的逆操作.
 
-    The returned Variable's data will be of size TxBx*, where T is the length
-    of the longest sequence and B is the batch size. If ``batch_first`` is True,
-    the data will be transposed into BxTx* format.
+    返回的 Varaible 的值的 size 是 TxBx*, T 是最长序列的长度, B 是 batch_size, 如果 ``batch_first=True``, 那么返回值是 BxTx*.
 
-    Batch elements will be ordered decreasingly by their length.
+    Batch中的元素将会以它们长度的逆序排列.
 
     Arguments:
-        sequence (PackedSequence): batch to pad
-        batch_first (bool, optional): if ``True``, the output will be in BxTx*
-            format.
-        padding_value (float, optional): values for padded elements
+        sequence (PackedSequence): 将要被填充的 batch
+        batch_first (bool, optional):  如果为 `True`` , 返回的数据的格式为 BxTx*.
+        padding_value (float, optional): 用来填充元素的值
 
     Returns:
-        Tuple of Variable containing the padded sequence, and a list of lengths
-        of each sequence in the batch.
+        一个 tuple, 包含被填充后的序列, 和 batch 中序列的长度列表.
     """
     var_data, batch_sizes = sequence
     max_batch_size = batch_sizes[0]
