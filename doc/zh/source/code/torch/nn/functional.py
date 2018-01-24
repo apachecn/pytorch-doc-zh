@@ -1172,9 +1172,8 @@ def margin_ranking_loss(input1, input2, target, margin=0, size_average=True):
 
 
 def hinge_embedding_loss(input, target, margin=1.0, size_average=True):
-    """hinge_embedding_loss(input, target, margin=1.0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.HingeEmbeddingLoss` for details.
+    """
+    详见 :class:`~torch.nn.HingeEmbeddingLoss`.
     """
     return _functions.loss.HingeEmbeddingLoss.apply(input, target, margin, size_average)
 
