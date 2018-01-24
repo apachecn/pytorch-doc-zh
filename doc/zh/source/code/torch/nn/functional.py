@@ -1179,9 +1179,8 @@ See :class:`~torch.nn.SoftMarginLoss` for details.
 
 
 def multilabel_soft_margin_loss(input, target, weight=None, size_average=True):
-    """multilabel_soft_margin_loss(input, target, weight=None, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MultiLabelSoftMarginLoss` for details.
+    """
+    详见 :class:`~torch.nn.MultiLabelSoftMarginLoss`.
     """
     input = torch.sigmoid(input)
     return binary_cross_entropy(input, target, weight, size_average)
