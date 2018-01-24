@@ -53,7 +53,7 @@
 
 如果您确定不会调用 `.backward()`, 则推荐使用纯粹的 inference mode（推断模式）.
 它比任何其它的 autograd（自动求导）设置更高效 - 它将使用绝对最小量的内存来评估模型.
-``volatile`` 也会确定 `` require_grad 为 False``。
+``volatile`` 也会确定 `` require_grad 为 False``.
 
 Volatile 不同与 :ref:`excluding-requires_grad` 的标记传播方式.
 如果一个操作甚至只有一个单一的 ``volatile`` 输入, 它的输出也将会是 ``volatile`` 这样的.
