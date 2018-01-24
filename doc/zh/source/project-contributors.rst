@@ -20,6 +20,7 @@
 -  `@王云峰 <https://github.com/vra>`__
 -  `@xfanplus <https://github.com/xfanplus>`__
 -  `@李雨龙 <https://github.com/sawyer7246>`__
+-  `@LeeGeong <https://github.com/LeeGeong>`__
 
 建议反馈
 --------
