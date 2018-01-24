@@ -1,28 +1,24 @@
 r"""
-The ``distributions`` package contains parameterizable probability distributions
-and sampling functions.
+该``distributions``统计分布包中含有可自定义参数的概率分布和采样函数。
 
-Policy gradient methods can be implemented using the
-:meth:`~torch.distributions.Distribution.log_prob` method, when the probability
-density function is differentiable with respect to its parameters. A basic
-method is the REINFORCE rule:
+当概率密度函数对其参数可微时，可以使用
+:meth:`~torch.distributions.Distribution.log_prob`方法来实施梯度方法Policy Gradient。
+它的一个基本方法是REINFORCE规则：
 
 .. math::
 
     \Delta\theta  = \alpha r \frac{\partial\log p(a|\pi^\theta(s))}{\partial\theta}
 
-where :math:`\theta` are the parameters, :math:`\alpha` is the learning rate,
-:math:`r` is the reward and :math:`p(a|\pi^\theta(s))` is the probability of
-taking action :math:`a` in state :math:`s` given policy :math:`\pi^\theta`.
+这其中:math:`\theta`是参数，:math:`\alpha`是学习率，:math:`r`是奖惩，:math:`p(a|\pi^\theta(s))`
+是在策略:math:`\pi^\theta`中从:math:`s`状态下采取:math:`a`行动的概率。
 
-In practice we would sample an action from the output of a network, apply this
-action in an environment, and then use ``log_prob`` to construct an equivalent
-loss function. Note that we use a negative because optimisers use gradient
-descent, whilst the rule above assumes gradient ascent. With a categorical
-policy, the code for implementing REINFORCE would be as follows::
+在实践中，我们要从神经网络的输出中采样选出一个行动，在某个环境中应用该行动，然后使用
+``log_prob``函数来构造一个等价的损失函数。请注意，这里我们使用了负号，因为优化器使用
+是是梯度下降法，然而上面的REINFORCE规则是假设了梯度上升情形。如下所示是在多项式分布下
+实现REINFORCE的代码::
 
     probs = policy_network(state)
-    # NOTE: this is equivalent to what used to be called multinomial
+    # NOTE: 等同于多项式分布
     m = Categorical(probs)
     action = m.sample()
     next_state, reward = env.step(action)
@@ -39,42 +35,38 @@ __all__ = ['Distribution', 'Bernoulli', 'Categorical', 'Normal']
 
 class Distribution(object):
     r"""
-    Distribution is the abstract base class for probability distributions.
+    Distribution是概率分布的抽象基类。
     """
 
     def sample(self):
         """
-        Generates a single sample or single batch of samples if the distribution
-        parameters are batched.
+        生成一个样本，如果分布参数有多个，就生成一批样本。
         """
         raise NotImplementedError
 
     def sample_n(self, n):
         """
-        Generates n samples or n batches of samples if the distribution parameters
-        are batched.
+        生成n个样本，如果分布参数有多个，就生成n批样本。
         """
         raise NotImplementedError
 
     def log_prob(self, value):
         """
-        Returns the log of the probability density/mass function evaluated at
-        `value`.
+        返回在`value`处的概率密度函数的对数。
 
         Args:
-            value (Tensor or Variable):
+            value (Tensor or Variable):（基类的参数，没有实际用处）
         """
         raise NotImplementedError
 
 
 class Bernoulli(Distribution):
     r"""
-    Creates a Bernoulli distribution parameterized by `probs`.
+    创建以`probs`为参数的伯努利分布。
 
-    Samples are binary (0 or 1). They take the value `1` with probability `p`
-    and `0` with probability `1 - p`.
-
-    Example::
+    样本是二进制的（0或1）。 他们以p的概率取值为1，以（1 - p）的概率取值为0。
+    
+    例:
 
         >>> m = Bernoulli(torch.Tensor([0.3]))
         >>> m.sample()  # 30% chance 1; 70% chance 0
@@ -82,7 +74,7 @@ class Bernoulli(Distribution):
         [torch.FloatTensor of size 1]
 
     Args:
-        probs (Tensor or Variable): the probabilty of sampling `1`
+        probs (Tensor or Variable): 采样到 `1`的概率
     """
 
     def __init__(self, probs):
@@ -104,21 +96,20 @@ class Bernoulli(Distribution):
 
 class Categorical(Distribution):
     r"""
-    Creates a categorical distribution parameterized by `probs`.
+    创建以`probs`为参数的类别分布。
 
     .. note::
-        It is equivalent to the distribution that ``multinomial()`` samples from.
+    它和``multinomial()``采样的分布是一样的。
 
-    Samples are integers from `0 ... K-1` where `K` is probs.size(-1).
+    样本是来自“0 ... K-1”的整数，其中“K”是probs.size(-1)。
 
-    If `probs` is 1D with length-`K`, each element is the relative probability
-    of sampling the class at that index.
+    如果`probs`是长度为`K`的一维列表，则每个元素是对该索引处的类进行抽样的相对概率。
 
-    If `probs` is 2D, it is treated as a batch of probability vectors.
+    如果`probs`是二维的，它被视为一批概率向量。
 
-    See also: :func:`torch.multinomial`
+    另见: :func:`torch.multinomial`
 
-    Example::
+    例::
 
         >>> m = Categorical(torch.Tensor([ 0.25, 0.25, 0.25, 0.25 ]))
         >>> m.sample()  # equal probability of 0, 1, 2, 3
@@ -126,7 +117,7 @@ class Categorical(Distribution):
         [torch.LongTensor of size 1]
 
     Args:
-        probs (Tensor or Variable): event probabilities
+        probs (Tensor or Variable): 事件概率
     """
 
     def __init__(self, probs):
@@ -155,10 +146,10 @@ class Categorical(Distribution):
 
 class Normal(Distribution):
     r"""
-    Creates a normal (also called Gaussian) distribution parameterized by
-    `mean` and `std`.
 
-    Example::
+    创建以`mean`和`std`为参数的正态分布（也称为高斯分布）。
+
+    例::
 
         >>> m = Normal(torch.Tensor([0.0]), torch.Tensor([1.0]))
         >>> m.sample()  # normally distributed with mean=0 and stddev=1
@@ -166,8 +157,8 @@ class Normal(Distribution):
         [torch.FloatTensor of size 1]
 
     Args:
-        mean (float or Tensor or Variable): mean of the distribution
-        std (float or Tensor or Variable): standard deviation of the distribution
+        mean (float or Tensor or Variable): 分布的均值
+        std (float or Tensor or Variable): 分布的标准差
     """
 
     def __init__(self, mean, std):
