@@ -2,7 +2,7 @@ torch
 ===================================
 .. automodule:: torch
 
-Tensors
+Tensors（张量）
 ----------------------------------
 .. autofunction:: is_tensor
 .. autofunction:: is_storage
@@ -11,7 +11,7 @@ Tensors
 .. autofunction:: set_printoptions
 
 
-Creation Ops
+Creation Ops（创建操作）
 ~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: eye
 .. autofunction:: from_numpy
@@ -24,8 +24,8 @@ Creation Ops
 .. autofunction:: zeros
 .. autofunction:: zeros_like
 
-索引, 切片, 连接, 换位
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Indexing, Slicing, Joining, Mutating Ops（索引, 切片, 连接, 换位）操作
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cat
 .. autofunction:: chunk
 .. autofunction:: gather
@@ -42,7 +42,7 @@ Creation Ops
 .. autofunction:: unsqueeze
 
 
-Random sampling
+Random sampling（随机采样）
 ----------------------------------
 .. autofunction:: manual_seed
 .. autofunction:: initial_seed
@@ -56,8 +56,8 @@ Random sampling
 .. autofunction:: randn
 .. autofunction:: randperm
 
-In-place 随机采样
-~~~~~~~~~~~~~~~~~~~~~~~~
+In-place random sampling（直接随机采样）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 在Tensors模块上还定义了许多 in-place 随机采样函数,可以点击参考它们的文档:
 
@@ -70,23 +70,23 @@ In-place 随机采样
 - :func:`torch.Tensor.random_` - 离散均匀分布中采样的数字
 - :func:`torch.Tensor.uniform_` - 正态分布中采样的数字
 
-Serialization
+Serialization（序列化）
 ----------------------------------
 .. autofunction:: save
 .. autofunction:: load
 
 
-Parallelism
+Parallelism（并行化）
 ----------------------------------
 .. autofunction:: get_num_threads
 .. autofunction:: set_num_threads
 
 
-Math operations
+Math operations（数学操作）
 ----------------------------------
 
-Pointwise Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Pointwise Ops（逐点操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: abs
 .. autofunction:: acos
@@ -127,8 +127,8 @@ Pointwise Ops
 .. autofunction:: trunc
 
 
-Reduction Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Reduction Ops（归约操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cumprod
 .. autofunction:: cumsum
 .. autofunction:: dist
@@ -142,8 +142,8 @@ Reduction Ops
 .. autofunction:: var
 
 
-Comparison Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Comparison Ops（比较操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: eq
 .. autofunction:: equal
 .. autofunction:: ge
@@ -158,8 +158,8 @@ Comparison Ops
 .. autofunction:: topk
 
 
-Other Operations
-~~~~~~~~~~~~~~~~~~~~~~
+Other Operations（其它操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cross
 .. autofunction:: diag
 .. autofunction:: histc
