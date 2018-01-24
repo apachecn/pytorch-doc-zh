@@ -4811,12 +4811,13 @@ add_docstr(torch._C.zeros,
            """
 zeros(*sizes, out=None) -> Tensor
 
+返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 :attr:`sizes` 定义。
 Returns a Tensor filled with the scalar value `0`, with the shape defined
 by the varargs :attr:`sizes`.
 
 Args:
-    sizes (int...): a set of ints defining the shape of the output Tensor.
-    out (Tensor, optional): the result Tensor
+    sizes (int...): 定义输出 Tensor 形状的一组整数.
+    out (Tensor, optional): 输出结果 Tensor
 
 Example::
 
