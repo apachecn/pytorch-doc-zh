@@ -1015,22 +1015,17 @@ def poisson_nll_loss(input, target, log_input=True, full=False, size_average=Tru
 
 
 kl_div = _add_docstr(torch._C._nn.kl_div, r"""
-kl_div(input, target, size_average=True) -> Variable
+`Kullback-Leibler divergence` 损失.
 
-The `Kullback-Leibler divergence`_ Loss.
+详见ee :class:`~torch.nn.KLDivLoss`.
 
-See :class:`~torch.nn.KLDivLoss` for details.
-
-Args:
-    input: Variable of arbitrary shape
-    target: Variable of the same shape as input
-    size_average: if ``True`` the output is divided by the number of elements
-        in input tensor. Default: ``True``
-    reduce (bool, optional): By default, the losses are averaged
-        over observations for each minibatch, or summed, depending on
-        size_average. When reduce is False, returns a loss per batch
-        element instead and ignores size_average. Default: ``True``
-
+参数:
+    input: 任意形状变量
+    target: 与输入形状相同的变量
+    size_average: 如果是 ``True`` 输出值会除以输入 tensor 的元素总数. 默认: ``True``
+    reduce (bool, optional): 默认情况下, 该损失函数的值会根据 size_average 在每个 
+            mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损
+            失函数会对每个 batch 元素都返回一个损失值并忽略 size_average. 默认: ``True``
 """)
 
 
