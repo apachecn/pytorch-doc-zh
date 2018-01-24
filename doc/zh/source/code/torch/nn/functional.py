@@ -1070,22 +1070,19 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
 
 
 def binary_cross_entropy(input, target, weight=None, size_average=True):
-    r"""Function that measures the Binary Cross Entropy
-    between the target and the output.
+    r"""计算目标 `target` 与输出 `output` 之间的二进制交叉熵 (Binary Cross Entropy).
 
-    See :class:`~torch.nn.BCELoss` for details.
+    详见 :class:`~torch.nn.BCELoss`.
 
-    Args:
-        input: Variable of arbitrary shape
-        target: Variable of the same shape as input
-        weight (Variable, optional): a manual rescaling weight
-                if provided it's repeated to match input tensor shape
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Default: ``True``
+    参数:
+        input: 任意形状的变量
+        target: 与输入形状相同的变量
+        weight (Variable, optional): 一个可手动指定每个类别的权重.如果给定的话, 会反复与
+                输入 tensor 形状相匹配.
+        size_average (bool, optional): 默认情况下, 是mini-batchloss的平均值. 然而, 
+                如果size_average=False, 则是 `mini-batch` loss的总和. 默认: ``True``
 
-    Examples::
+    实例::
 
         >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(2))
