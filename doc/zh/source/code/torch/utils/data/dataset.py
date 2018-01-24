@@ -2,11 +2,11 @@ import bisect
 
 
 class Dataset(object):
-    """An abstract class representing a Dataset.
+    """表示 Dataset 的抽象类.
 
-    All other datasets should subclass it. All subclasses should override
-    ``__len__``, that provides the size of the dataset, and ``__getitem__``,
-    supporting integer indexing in range from 0 to len(self) exclusive.
+    所有其它数据集都应继承该类. 所有子类都应该重写
+    ``__len__``, 提供数据集大小的方法, 和 ``__getitem__``,
+    支持从 0 到 len(self) 整数索引的方法.
     """
 
     def __getitem__(self, index):
@@ -20,14 +20,13 @@ class Dataset(object):
 
 
 class TensorDataset(Dataset):
-    """Dataset wrapping data and target tensors.
+    """包装数据和目标张量的数据集.
 
-    Each sample will be retrieved by indexing both tensors along the first
-    dimension.
+    通过沿着第一个维度索引两个张量来恢复每个样本.
 
-    Arguments:
-        data_tensor (Tensor): contains sample data.
-        target_tensor (Tensor): contains sample targets (labels).
+    参数:
+        data_tensor (Tensor): 包含样本数据.
+        target_tensor (Tensor): 包含样本目标 (标签).
     """
 
     def __init__(self, data_tensor, target_tensor):
@@ -44,13 +43,12 @@ class TensorDataset(Dataset):
 
 class ConcatDataset(Dataset):
     """
-    Dataset to concatenate multiple datasets.
-    Purpose: useful to assemble different existing datasets, possibly
-    large-scale datasets as the concatenation operation is done in an
-    on-the-fly manner.
+    用以连结多个数据集的数据集.
+    目的: 对于组装不同的现有数据集非常有帮助, 可能是
+    大规模的数据集, 因为串联操作是以即时方式完成的.
 
-    Arguments:
-        datasets (iterable): List of datasets to be concatenated
+    参数:
+        datasets (iterable): 需要连结的数据集列表
     """
 
     @staticmethod
