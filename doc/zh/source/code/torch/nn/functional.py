@@ -1147,11 +1147,9 @@ l1_loss = _add_docstr(torch._C._nn.l1_loss, r"""
 """)
 
 mse_loss = _add_docstr(torch._C._nn.mse_loss, r"""
-mse_loss(input, target, size_average=True, reduce=True) -> Variable
+计算变量之间的均方差.
 
-Measures the element-wise mean squared error.
-
-See :class:`~torch.nn.MSELoss` for details.
+详见 :class:`~torch.nn.MSELoss`.
 """)
 
 
