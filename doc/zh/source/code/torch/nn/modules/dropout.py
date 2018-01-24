@@ -10,7 +10,7 @@ class Dropout(Module):
 	也卓有成效。（神经元互适应问题详见论文 “Improving neural networks by preventing 
 	co-adaptation of feature detectors”）
 
-	并且， Dropout 的输出均与*1/(1-p)*的比例系数进行了相乘，保证了求值时函数的归一化。
+	并且， Dropout 的输出均与*1/(1-p)*的比例系数进行了相乘，保证了求值时函数是归一化的。
     
 	参数：
 		p：元素被置为0的概率，默认值：0.5
@@ -50,7 +50,7 @@ class Dropout(Module):
 
 class Dropout2d(Module):
     r"""Dropout2d 将输入张量的所有通道随机地置为0。被置为0的通道在每次调用时
-	是随机地。
+	是随机的。
 	
 	通常输入数据来自 Conv2d 模块。
 
@@ -98,7 +98,7 @@ class Dropout2d(Module):
 
 class Dropout3d(Module):
     r"""Dropout2d 将输入张量的所有通道随机地置为0。被置为0的通道在每次调用时
-	是随机地。
+	是随机的。
 	
 	通常输入数据来自 Conv3d 模块。
 
