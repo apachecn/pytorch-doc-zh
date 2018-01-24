@@ -25,6 +25,7 @@
 -  `@林嘉应 <https://github.com/garry1ng>`__
 -  `@于增源 <https://github.com/ZengyuanYu>`__
 -  `@吉思雨 <https://github.com/swardsman>`__
+-  `@王帅 <https://github.com/sirwangshuai>`__
 
 建议反馈
 --------
