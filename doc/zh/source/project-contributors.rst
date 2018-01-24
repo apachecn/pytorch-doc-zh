@@ -22,6 +22,7 @@
 -  `@李雨龙 <https://github.com/sawyer7246>`__
 -  `@LeeGeong <https://github.com/LeeGeong>`__
 -  `@shunshun <https://github.com/busyboxs>`__
+-  `@林嘉应 <https://github.com/garry1ng>`__
 
 建议反馈
 --------
