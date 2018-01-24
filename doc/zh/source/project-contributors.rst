@@ -17,6 +17,7 @@
 -  `@之茗 <https://github.com/mayuanucas>`__
 -  `@dabney777 <https://github.com/dabney777>`__
 -  `@hadxu`<https://github.com/Hadxu>`__
+-  `@王云峰 <https://github.com/vra>`__
 
 建议反馈
 --------
