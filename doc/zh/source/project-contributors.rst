@@ -13,6 +13,7 @@
 -  `@那伊抹微笑 <https://github.com/wangyangting>`__
 -  `@片刻 <https://github.com/jiangzhonglian>`__
 -  `@小瑶 <https://github.com/chenyyx>`__
+-  `@之茗 <https://github.com/mayuanucas>`__
 
 建议反馈
 --------
