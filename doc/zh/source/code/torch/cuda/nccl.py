@@ -24,7 +24,7 @@ def is_available(tensors):
         devices.add(device)
 
     if not hasattr(torch._C, '_nccl_all_reduce'):
-        warnings.warn('PyTorch is not compiled with NCCL support')
+        warnings.warn('PyTorch is not compiled with NCCL support')#PyTorch不支持NCCL编译
         return False
 
     return True

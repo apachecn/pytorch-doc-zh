@@ -4,20 +4,16 @@ from .optimizer import Optimizer
 
 
 class Adadelta(Optimizer):
-    """Implements Adadelta algorithm.
+    """实施 Adadelta 算法.
 
-    It has been proposed in `ADADELTA: An Adaptive Learning Rate Method`__.
+    它在 `ADADELTA: 一种可调节学习率的方法`__ 中提出
 
-    Arguments:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        rho (float, optional): coefficient used for computing a running average
-            of squared gradients (default: 0.9)
-        eps (float, optional): term added to the denominator to improve
-            numerical stability (default: 1e-6)
-        lr (float, optional): coefficient that scale delta before it is applied
-            to the parameters (default: 1.0)
-        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
+    参数:
+        params (iterable): 通过参数迭代去优化或者字典的形式定义参数组.
+        rho (float, optional): 用来计算平均平方梯度的系数(默认值：0.9)
+        eps (float, optional): 增加分母来确保数值稳定性(默认值: 1e-6)
+        lr (float, optional): 在将 delta 应用于参数之前对其进行系数的缩放(默认值: 1.0)
+        weight_decay (float, optional): 权重衰减 (L2正则化) (默认值: 0)
 
     __ https://arxiv.org/abs/1212.5701
     """
@@ -27,11 +23,10 @@ class Adadelta(Optimizer):
         super(Adadelta, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """Performs a single optimization step.
+        """实行单步优化。
 
-        Arguments:
-            closure (callable, optional): A closure that reevaluates the model
-                and returns the loss.
+        参数:
+            closure (callable, optional): 重新评估模型并返回误差损失的闭包.
         """
         loss = None
         if closure is not None:
