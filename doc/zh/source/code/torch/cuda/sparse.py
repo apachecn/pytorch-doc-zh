@@ -6,7 +6,7 @@ from . import _lazy_init, device, _dummy_type
 
 
 if not hasattr(torch._C, 'CudaSparseDoubleTensorBase'):
-    # Define dummy base classes
+    # 定义虚拟基类
     for t in ['Double', 'Float', 'Long', 'Int', 'Short', 'Char', 'Byte', 'Half']:
         tensor_name = 'CudaSparse{0}TensorBase'.format(t)
 
@@ -23,7 +23,7 @@ class _CudaSparseBase(object):
 
     def __new__(cls, *args, **kwargs):
         _lazy_init()
-        # We need this method only for lazy init, so we can remove it
+        # We need this method only for lazy init, so we can remove it 我们只需要这个方法用于延迟初始化,所以我们会移除这个方法.
         del _CudaSparseBase.__new__
         return super(_CudaSparseBase, cls).__new__(cls, *args, **kwargs)
 
