@@ -18,6 +18,7 @@
 -  `@dabney777 <https://github.com/dabney777>`__
 -  `@hadxu`<https://github.com/Hadxu>`__
 -  `@王云峰 <https://github.com/vra>`__
+-  `@李雨龙 <https://github.com/sawyer7246>`__
 
 建议反馈
 --------
