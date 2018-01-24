@@ -1154,9 +1154,8 @@ mse_loss = _add_docstr(torch._C._nn.mse_loss, r"""
 
 
 def margin_ranking_loss(input1, input2, target, margin=0, size_average=True):
-    """margin_ranking_loss(input1, input2, target, margin=0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MarginRankingLoss` for details.
+    """
+    详见 :class:`~torch.nn.MarginRankingLoss`.
     """
     return _functions.loss.MarginRankingLoss.apply(input1, input2, target, margin, size_average)
 
