@@ -13,6 +13,9 @@
 -  `@那伊抹微笑 <https://github.com/wangyangting>`__
 -  `@片刻 <https://github.com/jiangzhonglian>`__
 -  `@小瑶 <https://github.com/chenyyx>`__
+-  `@小王子 <https://github.com/VPrincekin>`__
+-  `@之茗 <https://github.com/mayuanucas>`__
+-  `@dabney777 <https://github.com/dabney777>`__
 -  `@hadxu`<https://github.com/Hadxu>`__
 
 建议反馈
