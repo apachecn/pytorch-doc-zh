@@ -1192,9 +1192,8 @@ def cosine_embedding_loss(input1, input2, target, margin=0, size_average=True):
 
 
 def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=True):
-    """multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MultiMarginLoss` for details.
+    """
+    详见 :class:`~torch.nn.MultiMarginLoss`.
     """
     if p != 1 and p != 2:
         raise ValueError('only p == 1 and p == 2 supported')
