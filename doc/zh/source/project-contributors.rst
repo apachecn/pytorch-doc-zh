@@ -28,6 +28,7 @@
 -  `@王帅 <https://github.com/sirwangshuai>`__
 -  `@谈笑风生 <https://github.com/zhu1040028623>`__
 -  `@叶舒泉 <https://github.com/pleaseconnectwifi>`__
+-  `@jizg <https://github.com/jizg>`__
 
 建议反馈
 --------
