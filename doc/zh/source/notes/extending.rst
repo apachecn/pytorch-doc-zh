@@ -1,36 +1,45 @@
-扩展 PyTorch
+Extending PyTorch
 =================
 
-在本文中, 我们将介绍如何扩展 :mod:`torch.nn`,
-:mod:`torch.autograd` 模块, 并且使用我们的 C 库来编写自定义的 C 扩展工具.
+In this note we'll cover ways of extending :mod:`torch.nn`,
+:mod:`torch.autograd`, and writing custom C extensions utilizing our C
+libraries.
 
-扩展 :mod:`torch.autograd` 模块
+Extending :mod:`torch.autograd`
 -------------------------------
 
 .. currentmodule:: torch.autograd
 
-将操作添加到 :mod:`~torch.autograd` 模块需要为每一个操作实现一个新的 :class:`Function` 类的子类.
-回想一下, :class:`Function` 函数时用来 :mod:`~torch.autograd` 模块用来计算结果和梯度的, 并对操作历史进行编码.
-每一个新的函数需要你来实现两个方法:
+Adding operations to :mod:`~torch.autograd` requires implementing a new
+:class:`Function` subclass for each operation. Recall that :class:`Function` s
+are what :mod:`~torch.autograd` uses to compute the results and gradients, and
+encode the operation history. Every new function requires you to implement 2
+methods:
 
-- :meth:`~Function.forward` - 指定操作的代码.
-  如果您指定默认值, 则可以根据需要使用任意数量的参数, 其中一些参数是可选的.
-  可接收各种类型的 Python 对象.
-  :class:`Variable` 参数在被调用之前将被转换为 :class:`Tensor` 对象,
-  并且它们的使用情况将会被注册到 graph（图）中.
-  请注意, 这个逻辑不会遍历 lists, dicts, 和任何其它的数据结构, 只会考虑作为调用的直接参数的变量.
-  如果有多个输出, 则可以考虑返回单个的 :class:`Tensor` 类格式的输出, 或者 :class:`Tensor` 类的 :class:`tuple` 类格式输出.
-  此外, 请参阅 :class:`Function` 类的文档以来查找只能从 :meth:`~Function.forward` 方法调用的有用方法的描述.
+- :meth:`~Function.forward` - the code that performs the operation. It can take
+  as many arguments as you want, with some of them being optional, if you
+  specify the default values. All kinds of Python objects are accepted here.
+  :class:`Variable` arguments will be converted to :class:`Tensor` s before the
+  call, and their use will be registered in the graph. Note that this logic won't
+  traverse lists/dicts/any other data structures and will only consider Variables
+  that are direct arguments to the call. You can return either a single
+  :class:`Tensor` output, or a :class:`tuple` of :class:`Tensor` s if there are
+  multiple outputs. Also, please refer to the docs of :class:`Function` to find
+  descriptions of useful methods that can be called only from :meth:`~Function.forward`.
+- :meth:`~Function.backward` - gradient formula. It will be given
+  as many :class:`Variable` arguments as there were outputs, with each of them
+  representing gradient w.r.t. that output. It should return as many
+  :class:`Variable` s as there were inputs, with each of them containing the
+  gradient w.r.t. its corresponding input. If your inputs didn't require
+  gradient (see :attr:`~Variable.needs_input_grad`), or were non-:class:`Variable`
+  objects, you can return :class:`python:None`. Also, if you have optional
+  arguments to :meth:`~Variable.forward` you can return more gradients than there
+  were inputs, as long as they're all :any:`python:None`.
 
-- :meth:`~Function.backward` - 计算梯度的公式. 
-  它将被赋予与输出一样多的 :class:`Variable` 参数, 其中的每一个表示对应梯度的输出.
-  它应该返回与输入一样多的 :class:`Variable`,  其中的每一个表示都包含其相应输入的梯度.
-  如果输入不需要计算梯度 (请参阅 :attr:`~Variable.needs_input_grad` 属性), 或者是非 :class:`Variable` 对象, 则可返回 :class:`python:None` 类.
-  此外, 如果你有 :meth:`~Variable.forward` 方法可选的参数, 则可以返回比输入更多的梯度, 只要它们都是 :any:`python:None` 类型即可.
+Below you can find code for a ``Linear`` function from :mod:`torch.nn`, with
+additional comments::
 
-下面你可以找到来自 :mod:`torch.nn` 模块的 ``Linear`` 函数代码, 以及注解 ::
-
-    # 继承自 Function
+    # Inherit from Function
     class LinearFunction(Function):
 
         # Note that both forward and backward are @staticmethods
@@ -67,11 +76,13 @@
 
             return grad_input, grad_weight, grad_bias
 
-现在, 为了更方便地使用这些自定义操作, 我们推荐使用 ``apply`` 方法 ::
+Now, to make it easier to use these custom ops, we recommend aliasing their
+``apply`` method::
 
     linear = LinearFunction.apply
 
-在这里, 我们给出了一个由非变量参数参数化的函数的例子 ::
+Here, we give an additional example of a function that is parametrized by
+non-Variable arguments::
 
     class MulConstant(Function):
         @staticmethod
@@ -87,8 +98,9 @@
             # Gradients of non-Tensor arguments to forward must be None.
             return grad_output * ctx.constant, None
 
-你可能想要检测你刚刚实现的 `backward` 方法是否正确的计算了梯度.
-你可以使用小而有限的微分进行数值估计 ::
+You probably want to check if the backward method you implemented actually
+computes the derivatives of your function. It is possible by comparing with
+numerical approximations using small finite differences::
 
     from torch.autograd import gradcheck
 
@@ -99,31 +111,37 @@
     test = gradcheck(Linear.apply, input, eps=1e-6, atol=1e-4)
     print(test)
 
-扩展 :mod:`torch.nn` 模块
+Extending :mod:`torch.nn`
 -------------------------
 
 .. currentmodule:: torch.nn
 
-:mod:`~torch.nn` 模块有两种类型的接口 - modules and their functional versions.
-你可以用两种方法扩展它, 但是我们推荐使用各种层的模块, 用来存放任何 parameters(参数) 或者 buffers(缓冲), 并且推荐使用一个函数形式的无参数操作, 比如激活函数, 池化等等.
+:mod:`~torch.nn` exports two kinds of interfaces - modules and their functional
+versions. You can extend it in both ways, but we recommend using modules for
+all kinds of layers, that hold any parameters or buffers, and recommend using
+a functional form parameter-less operations like activation functions, pooling,
+etc.
 
-添加操作的函数版本已经在上面的章节中完整的介绍了.
+Adding a functional version of an operation is already fully covered in the
+section above.
 
-添加 :class:`Module` 类
+Adding a :class:`Module`
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-由于 :mod:`~torch.nn` 模块大量的利用了 :mod:`~torch.autograd` 模块,
-添加一个新的 :class:`Module` 类需要实现一个 :class:`~torch.autograd.Function` 类,
-它会执行对应的操作并且计算梯度.
-从现在开始, 假设我们想要实现一个 ``Linear`` 模块, 并且我们具有如上所列实现的功能.
-有很少的代码需要添加这个.
-现在有两个函数需要实现:
+Since :mod:`~torch.nn` heavily utilizes :mod:`~torch.autograd`, adding a new
+:class:`Module` requires implementing a :class:`~torch.autograd.Function`
+that performs the operation and can compute the gradient. From now on let's
+assume that we want to implement a ``Linear`` module and we have the function
+implementated as in the listing above. There's very little code required to
+add this. Now, there are two functions that need to be implemented:
 
-- ``__init__`` (*optional*) - 接收诸如 kernel sizes（核大小）, numbers of features（特征数量）等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
-- :meth:`~Module.forward` - 实例化一个 :class:`~torch.autograd.Function` 类, 并且用于执行操作.
-  这与上面的 functional wrapper（函数的包装）非常相似.
+- ``__init__`` (*optional*) - takes in arguments such as kernel sizes, numbers
+  of features, etc. and initializes parameters and buffers.
+- :meth:`~Module.forward` - instantiates a :class:`~torch.autograd.Function` and
+  uses it to perform the operation. It's very similar to a functional wrapper
+  shown above.
 
-这就是 ``Linear`` 模块的实现方式 ::
+This is how a ``Linear`` module can be implemented::
 
     class Linear(nn.Module):
         def __init__(self, input_features, output_features, bias=True):
@@ -157,7 +175,8 @@
             return LinearFunction.apply(input, self.weight, self.bias)
 
 
-编写自定义的 C 扩展
+Writing custom C extensions
 ---------------------------
 
-现在你可以在 `GitHub <https://github.com/pytorch/extension-ffi>`_ 中找到一些例子.
+Coming soon. For now you can find an example at
+`GitHub <https://github.com/pytorch/extension-ffi>`_.

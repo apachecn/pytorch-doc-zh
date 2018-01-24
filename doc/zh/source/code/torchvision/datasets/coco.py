@@ -8,12 +8,12 @@ class CocoCaptions(data.Dataset):
     """`MS Coco Captions <http://mscoco.org/dataset/#captions-challenge2015>`_ Dataset.
 
     Args:
-        root (string):  数据集下载存放的主目录.
-        annFile (string): json 注释文件存放的路径
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.ToTensor``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
+        root (string): Root directory where images are downloaded to.
+        annFile (string): Path to json annotation file.
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.ToTensor``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
 
     Example:
 
@@ -83,12 +83,12 @@ class CocoDetection(data.Dataset):
     """`MS Coco Detection <http://mscoco.org/dataset/#detections-challenge2016>`_ Dataset.
 
     Args:
-        root (string):  数据集下载存放的主目录.
-        annFile (string): json 注释文件存放的路径
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.ToTensor``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
-            转换它.
+        root (string): Root directory where images are downloaded to.
+        annFile (string): Path to json annotation file.
+        transform (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.ToTensor``
+        target_transform (callable, optional): A function/transform that takes in the
+            target and transforms it.
     """
 
     def __init__(self, root, annFile, transform=None, target_transform=None):

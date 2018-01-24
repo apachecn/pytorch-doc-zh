@@ -3,9 +3,10 @@
 torch.Tensor
 ===================================
 
- :class:`torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
+A :class:`torch.Tensor` is a multi-dimensional matrix containing elements of
+a single data type.
 
-Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
+Torch defines seven CPU tensor types and eight GPU tensor types:
 
 ======================== ===========================   ================================
 Data type                CPU tensor                    GPU tensor
@@ -20,9 +21,10 @@ Data type                CPU tensor                    GPU tensor
 64-bit integer (signed)  :class:`torch.LongTensor`     :class:`torch.cuda.LongTensor`
 ======================== ===========================   ================================
 
- :class:`torch.Tensor` 是默认的 tensor 类型(:class:`torch.FloatTensor`)的简称.
+The :class:`torch.Tensor` constructor is an alias for the default tensor type
+(:class:`torch.FloatTensor`).
 
-一个 tensor 对象可以从 Python 的 :class:`list` 或者序列构建:
+A tensor can be constructed from a Python :class:`list` or sequence:
 
 ::
 
@@ -31,7 +33,7 @@ Data type                CPU tensor                    GPU tensor
     4  5  6
     [torch.FloatTensor of size 2x3]
 
-一个空的 tensor 对象可以通过指定其大小来构建:
+An empty tensor can be constructed by specifying its size:
 
 ::
 
@@ -40,7 +42,8 @@ Data type                CPU tensor                    GPU tensor
     0  0  0  0
     [torch.IntTensor of size 2x4]
 
-可以通过 Python 的索引或切片方式获取和修改 tensor 对象的内容:
+The contents of a tensor can be accessed and modified using Python's indexing
+and slicing notation:
 
 ::
 
@@ -53,12 +56,15 @@ Data type                CPU tensor                    GPU tensor
      4  5  6
     [torch.FloatTensor of size 2x3]
 
-每一个 tensor 对象都有一个相应的 :class:`torch.Storage`, 用来保存数据. 
-tensor 类为一个 storage 提供了多维的, 横向的 <https://en.wikipedia.org/wiki/Stride_of_an_array> 视图, 并且在视图上定义了数值运算.
+Each tensor has an associated :class:`torch.Storage`, which holds its data.
+The tensor class provides multi-dimensional, `strided <https://en.wikipedia.org/wiki/Stride_of_an_array>`_
+view of a storage and defines numeric operations on it.
 
 .. note::
-   会改变 tensor 对象的函数方法名用一个下划线后缀标识。
-   比如, :func:`torch.FloatTensor.abs_` 会在原地计算绝对值并返回改变后的 tensor. 而 :func:`torch.FloatTensor.abs` 会在一个新的 tensor 中计算结果.
+   Methods which mutate a tensor are marked with an underscore suffix.
+   For example, :func:`torch.FloatTensor.abs_` computes the absolute value
+   in-place and returns the modified tensor, while :func:`torch.FloatTensor.abs`
+   computes the result in a new tensor.
 
 .. class:: Tensor()
            Tensor(*sizes)
@@ -68,11 +74,12 @@ tensor 类为一个 storage 提供了多维的, 横向的 <https://en.wikipedia.
            Tensor(tensor)
            Tensor(storage)
 
-   可以通过提供大小或者数据来创建一个 tensor 对象.
+   Creates a new tensor from an optional size or data.
 
-   如果没有提供参数, 将返回一个空的零维的 tensor. 
-   如果提供了 :class:`numpy.ndarray`, :class:`torch.Tensor`, 或者 :class:`torch.Storage` 参数, 将返回一个与参数共享数据的 tensor 对象.
-   如果提供一个 Python 序列作为参数, 返回一个从序列的副本创建的 tensor 对象.
+   If no arguments are given, an empty zero-dimensional tensor is returned.
+   If a :class:`numpy.ndarray`, :class:`torch.Tensor`, or :class:`torch.Storage`
+   is given, a new tensor that shares the same data is returned. If a Python
+   sequence is given, a new tensor is created from a copy of the sequence.
 
    .. automethod:: abs
    .. automethod:: abs_
@@ -309,7 +316,7 @@ tensor 类为一个 storage 提供了多维的, 横向的 <https://en.wikipedia.
 
 .. class:: ByteTensor()
 
-   下面这些函数方法只存在于 :class:`torch.ByteTensor`.
+   The following methods are unique to :class:`torch.ByteTensor`.
 
    .. automethod:: all
    .. automethod:: any

@@ -1,74 +1,102 @@
-多进程的最佳实践
+Multiprocessing best practices
 ==============================
 
-:mod:`torch.multiprocessing` 是 Python 中 :mod:`python:multiprocessing` 模块的替代.
-它支持完全相同的操作, 但进一步扩展了它的功能, 使得所有张量可以通过 :class:`python:multiprocessing.Queue` 传输,
-将其数据移动到共享内存中, 并且只会向其他进程发送一个句柄. 
+:mod:`torch.multiprocessing` is a drop in replacement for Python's
+:mod:`python:multiprocessing` module. It supports the exact same operations,
+but extends it, so that all tensors sent through a
+:class:`python:multiprocessing.Queue`, will have their data moved into shared
+memory and will only send a handle to another process.
 
 .. note::
-        
-    当一个 :class:`~torch.autograd.Variable` 被发送到另一个进程中, :attr:`Variable.data` 和 :attr:`Variable.grad.data` 都将被共享.
 
-这里允许实现各种训练方法, 例如 Hogwild, A3C, 或者其他需要异步操作的方法.
+    When a :class:`~torch.autograd.Variable` is sent to another process, both
+    the :attr:`Variable.data` and :attr:`Variable.grad.data` are going to be
+    shared.
 
-共享 CUDA 向量
+This allows to implement various training methods, like Hogwild, A3C, or any
+others that require asynchronous operation.
+
+Sharing CUDA tensors
 --------------------
 
-只有 Python 3 支持使用 ``spawn`` 或 ``forkserver`` 启动方法在进程中共享 CUDA 向量. :mod:`python:multiprocessing` 在 Python 2 使用 ``fork`` 
-只能创建子进程, 但是在 CUDA 运行时不被支持.
+Sharing CUDA tensors between processes is supported only in Python 3, using
+a ``spawn`` or ``forkserver`` start methods. :mod:`python:multiprocessing` in
+Python 2 can only create subprocesses using ``fork``, and it's not supported
+by the CUDA runtime.
 
 .. warning::
 
-    CUDA API 要求导出到其他进程的分配, 只要它们被使用就要一直保持有效. 您应该小心, 确保您共享的CUDA张量只要有必要就不要超出范围. 
-    这不是共享模型参数的问题, 但传递其他类型的数据应该小心. 注意, 此限制不适用于共享 CPU 内存. 
+    CUDA API requires that the allocation exported to other processes remains
+    valid as long as it's used by them. You should be careful and ensure that
+    CUDA tensors you shared don't go out of scope as long as it's necessary.
+    This shouldn't be a problem for sharing model parameters, but passing other
+    kinds of data should be done with care. Note that this restriction doesn't
+    apply to shared CPU memory.
 
-参考: :ref:`cuda-nn-dataparallel-instead`
+See also: :ref:`cuda-nn-dataparallel-instead`
 
 
-最佳实践和提示
+Best practices and tips
 -----------------------
 
-避免和抵制死锁
+Avoiding and fighting deadlocks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-当新进程被创建时, 可能会发生很多错误, 最常见的原因就是后台线程. 如果有任何线程持有锁或导入模块, 
-并且``fork`` 将被调用, 则子进程很有可能处于毁坏的状态, 并导致死锁或在其他地方失败. 
-注意即使你自己没有这样做, Python 内置的库也会这样做 - 不需要比 :mod:`python:multiprocessing` 看得更远.
-:class:`python:multiprocessing.Queue` 事实上是一个非常复杂的库, 它可以创建多个线程, 用于序列化, 发送和接收对象, 
-但是它们也有可能引起前面提到的问题. 如果你遇到这样的问题, 可以尝试使用 :class:`~python:multiprocessing.queues.SimpleQueue`, 
-它不会使用其他额外的线程.
+There are a lot of things that can go wrong when a new process is spawned, with
+the most common cause of deadlocks being background threads. If there's any
+thread that holds a lock or imports a module, and ``fork`` is called, it's very
+likely that the subprocess will be in a corrupted state and will deadlock or
+fail in a different way. Note that even if you don't, Python built in
+libraries do - no need to look further than :mod:`python:multiprocessing`.
+:class:`python:multiprocessing.Queue` is actually a very complex class, that
+spawns multiple threads used to serialize, send and receive objects, and they
+can cause aforementioned problems too. If you find yourself in such situation
+try using a :class:`~python:multiprocessing.queues.SimpleQueue`, that doesn't
+use any additional threads.
 
-我们正在竭尽全力把它设计得更简单, 并确保这些死锁不会发生, 但有些事情无法控制. 如果有任何问题您一时无法解决, 请尝试在论坛上提出,
-我们将看看是否可以解决.
+We're trying our best to make it easy for you and ensure these deadlocks don't
+happen but some things are out of our control. If you have any issues you can't
+cope with for a while, try reaching out on forums, and we'll see if it's an
+issue we can fix.
 
-
-重用经过队列的缓冲区
+Reuse buffers passed through a Queue
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-请记住当每次将 :class:`~torch.Tensor` 放入 :class:`python:multiprocessing.Queue`, 
-它必须被移至共享内存中. 如果它已经被共享, 它是一个无效操作, 否则会产生一个额外的内存副本,
-这会减缓整个进程. 即使你有一个进程池来发送数据到一个进程, 使它返回缓冲区 —— 这几乎是没有损失的, 
-并且允许你在发送下一个 batch 时避免产生副本.
+Remember that each time you put a :class:`~torch.Tensor` into a
+:class:`python:multiprocessing.Queue`, it has to be moved into shared memory.
+If it's already shared, it is a no-op, otherwise it will incur an additional
+memory copy that can slow down the whole process. Even if you have a pool of
+processes sending data to a single one, make it send the buffers back - this
+is nearly free and will let you avoid a copy when sending next batch.
 
-异步多进程训练（例如 Hogwild）
+Asynchronous multiprocess training (e.g. Hogwild)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-使用 :mod:`torch.multiprocessing` 可以异步地训练模型, 其中参数可以一直共享, 或定期同步. 
-对于第一种情况, 我们建议传输整个模型对象, 而对于第二张情况, 我们建议只传输 :meth:`~torch.nn.Module.state_dict`.
+Using :mod:`torch.multiprocessing`, it is possible to train a model
+asynchronously, with parameters either shared all the time, or being
+periodically synchronized. In the first case, we recommend sending over the whole
+model object, while in the latter, we advise to only send the
+:meth:`~torch.nn.Module.state_dict`.
 
-我们建议使用 :class:`python:multiprocessing.Queue` 来在进程之间传输各种 PyTorch 对象.
-例如, 当使用 ``fork`` 启动方法, 有可能会继承共享内存中的张量和存储器. 但这是非常容易出错的, 
-应谨慎使用, 最好是成为深度用户以后，再使用这个方法. 队列虽然有时是一个较不优雅的解决方案, 但基本上能在所有情况下都正常工作.
+We recommend using :class:`python:multiprocessing.Queue` for passing all kinds
+of PyTorch objects between processes. It is possible to e.g. inherit the tensors
+and storages already in shared memory, when using the ``fork`` start method,
+however it is very bug prone and should be used with care, and only by advanced
+users. Queues, even though they're sometimes a less elegant solution, will work
+properly in all cases.
 
 .. warning::
 
-    当使用全局的声明时, 你应该注意, 因为它们没有被 ``if __name__ == '__main__'`` 限制. 如果使用与 ``fork`` 不同的启动方法, 
-    它们将在所有子进程中被执行.
+    You should be careful about having global statements, that are not guarded
+    with an ``if __name__ == '__main__'``. If a different start method than
+    ``fork`` is used, they will be executed in all subprocesses.
 
 Hogwild
 ~~~~~~~
 
-一个 Hogwild 的具体实现可以在 `examples repository`__ 中找到. 为了展示代码的整体结构, 下面有一个小例子::
+A concrete Hogwild implementation can be found in the `examples repository`__,
+but to showcase the overall structure of the code, there's also a minimal
+example below as well::
 
     import torch.multiprocessing as mp
     from model import MyModel

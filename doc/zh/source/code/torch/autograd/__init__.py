@@ -1,6 +1,8 @@
 """
-torch.autograd 提供了类和函数用来对任意标量函数进行求导.只需要对已有的代码进行微小的改变-只需要将所有的 tensors 包含在
- :class:`.Variable` 对象中即可.
+torch.autograd provides classes and functions implementing automatic
+differentiation of arbitrary scalar valued functions. It requires minimal
+changes to the existing code - you only need to wrap all tensors in
+:class:`.Variable` objects.
 """
 import torch
 import warnings
@@ -43,23 +45,35 @@ def _make_grads(outputs, grads, user_create_graph):
 
 
 def backward(variables, grad_variables=None, retain_graph=None, create_graph=None, retain_variables=None):
-    """给定图某一个的节点变量variables,计算对该变量求导的梯度和.
+    """Computes the sum of gradients of given variables w.r.t. graph leaves.
 
-    计算图可以通过链式法则求导.如果任何 ``variables``
-    都是非标量(比如 他们的 data 属性中有多个元素)并且需要求导, 那么此函数需要指定 ``grad_variables``.
-    它的长度应该和variables的长度匹配,里面保存了相关 variable 的梯度 (对于不需要 gradient tensor 的 variable, 应制定为 None).
+    The graph is differentiated using the chain rule. If any of ``variables``
+    are non-scalar (i.e. their data has more than one element) and require
+    gradient, the function additionally requires specifying ``grad_variables``.
+    It should be a sequence of matching length, that contains gradient of
+    the differentiated function w.r.t. corresponding variables (``None`` is an
+    acceptable value for all variables that don't need gradient tensors).
 
-    此函数累积叶子节点 variables 计算的梯度 - 调用此函数之前应先将叶子节点 variables 梯度置零.
+    This function accumulates gradients in the leaves - you might need to zero
+    them before calling it.
 
-    参数说明:
-        variables(Variable 列表): 被求微分的叶子节点.
-        grad_variables ((Tensor,Variable or None)列表):对应 variable 的梯度.任何张量将自动转换为变量除非
-         ``create_graph`` 是 ``True``. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
-        retain_graph (bool, 可选): 如果是 ``False``, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``
-        并不是必须的并且能够高效的计算.将该 ``create_graph`` 参数值设置为默认即可.
-        create_graph (bool, 可选): 如果是 ``True``, 将会建立一个梯度图, 用来求解高阶导数.
-        默认为 ``False``, 除非 ``grad_variables`` 拥有不止一个
-        易变的 Variable.
+    Arguments:
+        variables (sequence of Variable): Variables of which the derivative will be
+            computed.
+        grad_variables (sequence of (Tensor, Variable or None)): Gradients w.r.t.
+            each element of corresponding variables.  Any tensors will be
+            automatically converted to Variables that are volatile unless
+            ``create_graph`` is ``True``.  None values can be specified for scalar
+            Variables or ones that don't require grad. If a None value would
+            be acceptable for all grad_variables, then this argument is optional.
+        retain_graph (bool, optional): If ``False``, the graph used to compute the grad
+            will be freed. Note that in nearly all cases setting this option to ``True``
+            is not needed and often can be worked around in a much more efficient
+            way. Defaults to the value of ``create_graph``.
+        create_graph (bool, optional): If ``True``, graph of the derivative will
+            be constructed, allowing to compute higher order derivative products.
+            Defaults to ``False``, unless ``grad_variables`` contains at least one
+            non-volatile Variable.
     """
     variables = (variables,) if isinstance(variables, Variable) else tuple(variables)
 
@@ -87,28 +101,43 @@ def backward(variables, grad_variables=None, retain_graph=None, create_graph=Non
 
 def grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=None,
          only_inputs=True, allow_unused=False):
-    """计算并返回给定值的梯度的和.
+    """Computes and returns the sum of gradients of outputs w.r.t. the inputs.
 
-    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样，
-    存放了预先计算 input 的梯度的和. 如果
-    output 不需要被求导, 那么梯度将为 ``None``).
-    当不需要派生图时,可以将梯度作为张量,或者作为变量,在这种情况下,图将被创建.
+    ``grad_outputs`` should be a sequence of length matching ``output``
+    containing the pre-computed gradients w.r.t. each of the outputs. If an
+    output doesn't require_grad, then the gradient can be ``None``).
+    Gradients can be given as Tensors when one doesn't need the graph of the
+    derivative, or as Variables, in which case the graph will be created.
 
-    如果参数 ``only_inputs`` 为 ``True``, 该方法将会返回给定输入的梯度值列表.如果为 ``False``, 那么遗留下来的所有叶子节点的梯度都会被计算, 被且会被列加到 ``.grad``
-    参数中.
+    If ``only_inputs`` is ``True``, the function will only return a list of gradients
+    w.r.t the specified inputs. If it's ``False``, then gradient w.r.t. all remaining
+    leaves will still be computed, and will be accumulated into their ``.grad``
+    attribute.
 
-    参数说明:
-        outputs (变量序列): 梯度函数的返回值.
-        inputs (变量序列): 需要计算的梯度的输入 (并且不会被累加到 ``.grad`` 参数中).
-        grad_outputs (张量或变量序列): 每一个输出的梯度.
-            所有的张量都会变成变量并且是可变的除非参数 ``create_graph`` 为 ``True``. 没有值可以被指定为标量变量或者不需要变化的值.
-            如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
-        retain_graph (bool, 可选): 如果是 ``False``, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True``
-            并不是必须的并且能够高效地运行. 默认与 ``create_graph`` 参数一样.
-        create_graph (bool, 可选): 如果是 ``True``, 梯度图将会被建立,用来求解高阶导数.
-        默认为 `False`` , 除非参数 ``grad_variables`` 包含不只一个变量.
-        only_inputs (bool, 可选): 如果是 ``True``, 叶子节点的导数将会在图中, 但是不会出现在参数 ``inputs`` 也不会被计算以及累加. 默认为 ``True``.
-        allow_unused (bool, 可选): 如果是 ``False``, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 ``False``.
+    Arguments:
+        outputs (sequence of Variable): outputs of the differentiated function.
+        inputs (sequence of Variable): Inputs w.r.t. which the gradient will be
+            returned (and not accumulated into ``.grad``).
+        grad_outputs (sequence of Tensor or Variable): Gradients w.r.t. each output.
+            Any tensors will be automatically converted to Variables that are
+            volatile unless ``create_graph`` is ``True``. None values can be
+            specified for scalar Variables or ones that don't require grad.
+            If a None value would be acceptable for all grad_variables, then
+            this argument is optional.
+        retain_graph (bool, optional): If ``False``, the graph used to compute the grad
+            will be freed. Note that in nearly all cases setting this option to ``True``
+            is not needed and often can be worked around in a much more efficient
+            way. Defaults to the value of ``create_graph``.
+        create_graph (bool, optional): If ``True``, graph of the derivative will
+            be constructed, allowing to compute higher order derivative products.
+            Defaults to ``False``, unless ``grad_variables`` contains at least one
+            non-volatile Variable.
+        only_inputs (bool, optional): If ``True``, gradient w.r.t. leaves that are
+            part of the graph, but don't appear in ``inputs`` won't be computed
+            and accumulated. Defaults to ``True``.
+        allow_unused (bool, optional): If ``False``, specifying inputs that were not
+            used when computing outputs (and therefore their grad is always zero)
+            is an error. Defaults to ``False``.
     """
 
     outputs = (outputs,) if isinstance(outputs, Variable) else tuple(outputs)

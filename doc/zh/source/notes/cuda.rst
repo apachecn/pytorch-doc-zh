@@ -1,16 +1,23 @@
 .. _cuda-semantics:
 
-CUDA 语义
+CUDA semantics
 ==============
 
-:mod:`torch.cuda` 是用于设置和运行 CUDA 操作. 它会记录当前选择的 GPU, 并且分配的所有 CUDA 张量将默认在上面创建. 可以使用 :any:`torch.cuda.device` 上下文管理器更改所选设备.
+:mod:`torch.cuda` is used to set up and run CUDA operations. It keeps track of
+the currently selected GPU, and all CUDA tensors you allocate will by default be
+created on that device. The selected device can be changed with a
+:any:`torch.cuda.device` context manager.
 
-但是, 一旦张量被分配, 您可以直接对其进行操作, 而不考虑所选择的设备, 结果将始终放在与张量相关的设备上.
+However, once a tensor is allocated, you can do operations on it irrespective
+of the selected device, and the results will be always placed in on the same
+device as the tensor.
 
-默认情况下, 不支持跨 GPU 操作, 唯一的例外是 :meth:`~torch.Tensor.copy_`.
-除非启用对等存储器访问, 否则对分布不同设备上的张量任何启动操作的尝试都将引发错误.
+Cross-GPU operations are not allowed by default, with the only exception of
+:meth:`~torch.Tensor.copy_`. Unless you enable peer-to-peer memory access, any
+attempts to launch ops on tensors spread across different devices will raise an
+error.
 
-下面我们用一个小例子来展示::
+Below you can find a small example showcasing this::
 
     x = torch.cuda.FloatTensor(1)
     # x.get_device() == 0
@@ -35,23 +42,31 @@ CUDA 语义
         d = torch.randn(2).cuda(2)
         # d.get_device() == 2
 
-内存管理
+Memory management
 -----------------
 
-PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设备同步的情况下快速释放内存. 但是, 由分配器管理的未使用的内存仍将显示为在 `nvidia-smi` 中使用.
-调用 :meth:`~torch.cuda.empty_cache` 可以从 PyTorch 中释放所有未使用的缓存内存, 以便其他 GPU 应用程序使用这些内存.
+PyTorch use a caching memory allocator to speed up memory allocations. This
+allows fast memory deallocation without device synchronizations. However, the
+unused memory managed by the allocator will still show as if used in
+`nvidia-smi`. Calling :meth:`~torch.cuda.empty_cache` can release all unused
+cached memory from PyTorch so that those can be used by other GPU applications.
 
 
-最佳实践
+Best practices
 --------------
 
-设备无关代码
+Device-agnostic code
 ^^^^^^^^^^^^^^^^^^^^
 
-由于 PyTorch 的架构, 你可能需要明确写入设备无关（CPU 或 GPU）代码; 举个例子, 创建一个新的张量作为循环神经网络的初始隐藏状态.
+Due to the structure of PyTorch, you may need to explicitly write
+device-agnostic (CPU or GPU) code; an example may be creating a new tensor as
+the initial hidden state of a recurrent neural network.
 
-第一步先确定是否使用 GPU. 一个常见的方式是使用 Python 的 ``argparse`` 模块来读入用户参数, 并且有一个可以用来禁用 CUDA、能与 :meth:`~torch.cuda.is_available` 结合使用的标志.
-在下面的例子中, ``args.cuda`` 会产生一个当需要时能将张量和模块转换为 CUDA 的标志::
+The first step is to determine whether the GPU should be used or not. A common
+pattern is to use Python's ``argparse`` module to read in user arguments, and
+have a flag that can be used to disable CUDA, in combination with
+:meth:`~torch.cuda.is_available`. In the following, ``args.cuda`` results in a
+flag that can be used to cast tensors and modules to CUDA if desired::
 
     import argparse
     import torch
@@ -62,7 +77,8 @@ PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设�
     args = parser.parse_args()
     args.cuda = not args.disable_cuda and torch.cuda.is_available()
 
-如果需要将模块和张量发送到 GPU, ``args.cuda`` 可以使用如下::
+If modules or tensors need to be sent to the GPU, ``args.cuda`` can be used as
+follows::
 
     x = torch.Tensor(8, 42)
     net = Network()
@@ -70,24 +86,32 @@ PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设�
       x = x.cuda()
       net.cuda()
 
-创建张量时, 可以定义一个默认的数据类型来替代 if 语句, 并使用它来转换所有的张量. 使用 dataLoader 的例子如下::
+When creating tensors, an alternative to the if statement is to have a default
+datatype defined, and cast all tensors using that. An example when using a
+dataloader would be as follows::
 
     dtype = torch.cuda.FloatTensor
     for i, x in enumerate(train_loader):
         x = Variable(x.type(dtype))
 
-在系统上使用多个 GPU 时, 您可以使用 ``CUDA_VISIBLE_DEVICES`` 环境标志来管理哪些 GPU 可用于 PyTorch.
-如上所述, 要手动控制在哪个 GPU 上创建张量, 最好的方法是使用 :any:`torch.cuda.device` 上下文管理器::
+When working with multiple GPUs on a system, you can use the
+``CUDA_VISIBLE_DEVICES`` environment flag to manage which GPUs are available to
+PyTorch. As mentioned above, to manually control which GPU a tensor is created
+on, the best practice is to use a :any:`torch.cuda.device` context manager::
 
     print("Outside device is 0")  # On device 0 (default in most scenarios)
     with torch.cuda.device(1):
         print("Inside device is 1")  # On device 1
     print("Outside device is still 0")  # On device 0
 
-如果您有一个张量, 并且想在同一个设备上创建一个相同类型的张量, 那么您可以使用 :meth:`~torch.Tensor.new` 方法, 它的使用和普通的张量构造函数一样.
-虽然前面提到的方法取决于当前的 GPU 环境, 但是 :meth:`~torch.Tensor.new` 保留了原始张量的设备信息.
+If you have a tensor and would like to create a new tensor of the same type on
+the same device, then you can use the :meth:`~torch.Tensor.new` method, which
+acts the same as a normal tensor constructor. Whilst the previously mentioned
+methods depend on the current GPU context, :meth:`~torch.Tensor.new` preserves
+the device of the original tensor.
 
-当创建在向前传递期间需要在内部创建新的张量/变量的模块时，建议使用这种做法::
+This is the recommended practice when creating modules in which new
+tensors/variables need to be created internally during the forward pass::
 
     x_cpu = torch.FloatTensor(1)
     x_gpu = torch.cuda.FloatTensor(1)
@@ -97,7 +121,10 @@ PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设�
     y_gpu = x_gpu.new(x_gpu.size()).fill_(-5)
     y_cpu_long = x_cpu_long.new([[1, 2, 3]])
 
-如果你想创建一个与另一个张量有着相同类型和大小、并用 1 或 0 填充的张量, :meth:`~torch.ones_like` 或 :meth:`~torch.zeros_like` 可提供方便的辅助功能（同时保留设备信息）::
+If you want to create a tensor of the same type and size of another tensor, and
+fill it with either ones or zeros, :meth:`~torch.ones_like` or
+:meth:`~torch.zeros_like` are provided as convenient helper functions (which
+also preserve device)::
 
     x_cpu = torch.FloatTensor(1)
     x_gpu = torch.cuda.FloatTensor(1)
@@ -106,25 +133,40 @@ PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设�
     y_gpu = torch.zeros_like(x_gpu)
 
 
-使用固定的内存缓冲区
-^^^^^^^^^^^^^^^^^^^^
+Use pinned memory buffers
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. warning:
-    这是一个高级提示. 如果您将要在低 RAM 上运行, 过度使用固定内存可能会导致严重的问题, 并且您应该意识到固定是一个代价很高的操作.
 
-当副本来自固定（页锁）内存时, 主机到 GPU 的复制速度要快很多. CPU 张量和存储开放了一个 :meth:`~torch.Tensor.pin_memory` 方法, 它返回该对象的副本, 而它的数据放在固定区域中.
+    This is an advanced tip. You overuse of pinned memory can cause serious
+    problems if you'll be running low on RAM, and you should be aware that
+    pinning is often an expensive operation.
 
-另外, 一旦固定了张量或存储, 就可以使用异步的 GPU 副本. 只需传递一个额外的 ``async=True`` 参数给 :meth:`~torch.Tensor.cuda` 调用. 这可以用于重叠数据传输与计算.
+Host to GPU copies are much faster when they originate from pinned (page-locked)
+memory. CPU tensors and storages expose a :meth:`~torch.Tensor.pin_memory`
+method, that returns a copy of the object, with data put in a pinned region.
 
-通过将 ``pin_memory=True`` 传递给其构造函数, 可以使 :class:`~torch.utils.data.DataLoader` 将 batch 返回到固定内存中. 
+Also, once you pin a tensor or storage, you can use asynchronous GPU copies.
+Just pass an additional ``async=True`` argument to a :meth:`~torch.Tensor.cuda`
+call. This can be used to overlap data transfers with computation.
+
+You can make the :class:`~torch.utils.data.DataLoader` return batches placed in
+pinned memory by passing ``pin_memory=True`` to its constructor.
 
 .. _cuda-nn-dataparallel-instead:
 
-使用 nn.DataParallel 替代 multiprocessing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use nn.DataParallel instead of multiprocessing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-大多数涉及批量输入和多个 GPU 的情况应默认使用 :class:`~torch.nn.DataParallel` 来使用多个 GPU. 尽管有 GIL 的存在, 单个 Python 进程也可能使多个 GPU 饱和.
+Most use cases involving batched inputs and multiple GPUs should default to
+using :class:`~torch.nn.DataParallel` to utilize more than one GPU. Even with
+the GIL, a single Python process can saturate multiple GPUs.
 
-从 0.1.9 版本开始, 大量的 GPU（8+）可能未被充分利用. 然而, 这是一个已知的问题, 也正在积极开发中. 和往常一样, 测试您的用例吧.
+As of version 0.1.9, large numbers of GPUs (8+) might not be fully utilized.
+However, this is a known issue that is under active development. As always,
+test your use case.
 
-调用 :mod:`~torch.multiprocessing` 来利用 CUDA 模型存在重要的注意事项; 除非您足够谨慎来满足数据处理需求, 否则您的程序很可能会出现错误或未定义的行为.
+There are significant caveats to using CUDA models with
+:mod:`~torch.multiprocessing`; unless care is taken to meet the data handling
+requirements exactly, it is likely that your program will have incorrect or
+undefined behavior.

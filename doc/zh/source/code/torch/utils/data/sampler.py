@@ -2,11 +2,11 @@ import torch
 
 
 class Sampler(object):
-    """所有采样器的基类.
+    """Base class for all Samplers.
 
-    每一个 Sampler 的子类都必须提供一个  __iter__ 方法, 提供一种
-    迭代数据集元素的索引的方法, 以及一个 __len__ 方法, 用来返回
-    迭代器的长度.
+    Every Sampler subclass has to provide an __iter__ method, providing a way
+    to iterate over indices of dataset elements, and a __len__ method that
+    returns the length of the returned iterators.
     """
 
     def __init__(self, data_source):
@@ -20,10 +20,10 @@ class Sampler(object):
 
 
 class SequentialSampler(Sampler):
-    """总是以相同的顺序, 依次对元素进行采样.
+    """Samples elements sequentially, always in the same order.
 
-    参数:
-        data_source (Dataset): 采样的数据集
+    Arguments:
+        data_source (Dataset): dataset to sample from
     """
 
     def __init__(self, data_source):
@@ -37,10 +37,10 @@ class SequentialSampler(Sampler):
 
 
 class RandomSampler(Sampler):
-    """采用无放回采样法, 随机对样本元素采样.
+    """Samples elements randomly, without replacement.
 
-    参数:
-        data_source (Dataset): 采样的数据集
+    Arguments:
+        data_source (Dataset): dataset to sample from
     """
 
     def __init__(self, data_source):
@@ -54,10 +54,10 @@ class RandomSampler(Sampler):
 
 
 class SubsetRandomSampler(Sampler):
-    """采用无放回采样法, 样本元素从指定的索引列表中随机抽取.
+    """Samples elements randomly from a given list of indices, without replacement.
 
-    参数:
-        indices (list): 索引的列表
+    Arguments:
+        indices (list): a list of indices
     """
 
     def __init__(self, indices):
@@ -71,14 +71,14 @@ class SubsetRandomSampler(Sampler):
 
 
 class WeightedRandomSampler(Sampler):
-    """使用给定的概率 (权重) 对 [0,..,len(weights)-1] 范围的元素进行采样.
+    """Samples elements from [0,..,len(weights)-1] with given probabilities (weights).
 
-    参数:
-        weights (list)   : 权重列表, 没必要加起来等于 1
-        num_samples (int): 抽样数量
-        replacement (bool): 设定为 ``True``, 使用有放回采样法.
-            设定为 ``False``, 采用无放回采样法, 这意味着对于一行来说,当一个
-            样本索引被取到后, 对于改行, 这个样本索引不能再次被取到.
+    Arguments:
+        weights (list)   : a list of weights, not necessary summing up to one
+        num_samples (int): number of samples to draw
+        replacement (bool): if ``True``, samples are drawn with replacement.
+            If not, they are drawn without replacement, which means that when a
+            sample index is drawn for a row, it cannot be drawn again for that row.
     """
 
     def __init__(self, weights, num_samples, replacement=True):
@@ -94,15 +94,15 @@ class WeightedRandomSampler(Sampler):
 
 
 class BatchSampler(object):
-    """包装另一个采样器以迭代产生一个索引的 mini-batch.
+    """Wraps another sampler to yield a mini-batch of indices.
 
-    参数:
-        sampler (Sampler): 基采样器.
-        batch_size (int): mini-batch 的大小.
-        drop_last (bool): 设定为 ``True``, 如果最后一个 batch 的大小
-            比 ``batch_size`` 小, 则采样器会丢掉最后一个 batch .
+    Args:
+        sampler (Sampler): Base sampler.
+        batch_size (int): Size of mini-batch.
+        drop_last (bool): If ``True``, the sampler will drop the last batch if
+            its size would be less than ``batch_size``
 
-    例子:
+    Example:
         >>> list(BatchSampler(range(10), batch_size=3, drop_last=False))
         [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
         >>> list(BatchSampler(range(10), batch_size=3, drop_last=True))

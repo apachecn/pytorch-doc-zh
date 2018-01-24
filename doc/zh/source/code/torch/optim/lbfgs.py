@@ -4,25 +4,32 @@ from .optimizer import Optimizer
 
 
 class LBFGS(Optimizer):
-    """实现 L-BFGS 算法.
+    """Implements L-BFGS algorithm.
 
     .. warning::
-        这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
+        This optimizer doesn't support per-parameter options and parameter
+        groups (there can be only one).
 
     .. warning::
-        目前所有的参数不得不都在同一设备上。这在将来会得到改进.
+        Right now all parameters have to be on a single device. This will be
+        improved in the future.
 
     .. note::
-        这是一个内存高度密集的 optimizer (它要求额外的 ``param_bytes * (history_size + 1)`` 个字节). 
-        如果它不适应内存，尝试减小历史规格，或者使用不同的算法.
+        This is a very memory intensive optimizer (it requires additional
+        ``param_bytes * (history_size + 1)`` bytes). If it doesn't fit in memory
+        try reducing the history size, or use a different algorithm.
 
-    参数:
-        lr (float): 学习率 (默认值: 1)
-        max_iter (int): 每一步优化的最大迭代次数 (默认值: 20)
-        max_eval (int): 每一步优化的最大函数评估次数 (默认值: max_iter * 1.25).
-        tolerance_grad (float): 一阶最优的终止容忍度 (默认值: 1e-5).
-        tolerance_change (float): 在函数值/参数变化量上的终止容忍度 (默认值: 1e-9).
-        history_size (int): 更新历史尺寸 (默认值: 100).
+    Arguments:
+        lr (float): learning rate (default: 1)
+        max_iter (int): maximal number of iterations per optimization step
+            (default: 20)
+        max_eval (int): maximal number of function evaluations per optimization
+            step (default: max_iter * 1.25).
+        tolerance_grad (float): termination tolerance on first order optimality
+            (default: 1e-5).
+        tolerance_change (float): termination tolerance on function
+            value/parameter changes (default: 1e-9).
+        history_size (int): update history size (default: 100).
     """
 
     def __init__(self, params, lr=1, max_iter=20, max_eval=None,
@@ -69,10 +76,11 @@ class LBFGS(Optimizer):
         assert offset == self._numel()
 
     def step(self, closure):
-        """进行单步优化.
+        """Performs a single optimization step.
 
-        参数:
-            closure (callable): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
+        Arguments:
+            closure (callable): A closure that reevaluates the model
+                and returns the loss.
         """
         assert len(self.param_groups) == 1
 

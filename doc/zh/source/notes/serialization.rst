@@ -1,32 +1,34 @@
 
-序列化语义
+Serialization semantics
 =======================
 
-最佳实践
+Best practices
 --------------
 
 .. _recommend-saving-models:
 
-保存模型的推荐方法
+Recommended approach for saving a model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-有两种主要的方法可以用来序列化和恢复模型.
+There are two main approaches for serializing and restoring a model.
 
-第一种方法（推荐）, 只保存和加载模型的参数::
+The first (recommended) saves and loads only the model parameters::
 
     torch.save(the_model.state_dict(), PATH)
 
-然后::
+Then later::
 
     the_model = TheModelClass(*args, **kwargs)
     the_model.load_state_dict(torch.load(PATH))
 
-第二种方法, 保存和加载整个模型::
+The second saves and loads the entire model::
 
     torch.save(the_model, PATH)
 
-然后::
+Then later::
 
     the_model = torch.load(PATH)
 
-但是在这种情况下, 序列化的数据与特定的类和固定的目录结构绑定, 所以当它被用于其他项目中, 或者经过一些重大的重构之后, 可能会以各种方式崩掉.
+However in this case, the serialized data is bound to the specific classes
+and the exact directory structure used, so it can break in various ways when
+used in other projects, or after some serious refactors.

@@ -17,12 +17,13 @@ class Container(Module):
 
 
 class Sequential(Module):
-    r"""一个顺序的容器.
-    模块将按照它们在构造函数中传递的顺序添加到它. 或者, 也可以传入模块的有序字典.
+    r"""A sequential container.
+    Modules will be added to it in the order they are passed in the constructor.
+    Alternatively, an ordered dict of modules can also be passed in.
 
-    为了更容易理解, 列举小例来说明 ::
+    To make it easier to understand, given is a small example::
 
-        # 使用 Sequential 的例子
+        # Example of using Sequential
         model = nn.Sequential(
                   nn.Conv2d(1,20,5),
                   nn.ReLU(),
@@ -30,7 +31,7 @@ class Sequential(Module):
                   nn.ReLU()
                 )
 
-        # 与 OrderedDict 一起使用 Sequential 的例子
+        # Example of using Sequential with OrderedDict
         model = nn.Sequential(OrderedDict([
                   ('conv1', nn.Conv2d(1,20,5)),
                   ('relu1', nn.ReLU()),
@@ -68,12 +69,13 @@ class Sequential(Module):
 
 
 class ModuleList(Module):
-    r"""将子模块放入一个 list 中.
+    r"""Holds submodules in a list.
 
-    ModuleList 可以像普通的 Python list 一样被索引, 但是它包含的模块已经被正确的注册了, 并且所有的 Module 方法都是可见的.
+    ModuleList can be indexed like a regular Python list, but modules it
+    contains are properly registered, and will be visible by all Module methods.
 
     Arguments:
-        modules (list, optional): 要添加的模块列表
+        modules (list, optional): a list of modules to add
 
     Example::
 
@@ -114,19 +116,19 @@ class ModuleList(Module):
         return self.extend(modules)
 
     def append(self, module):
-        r"""添加一个指定的模块到 list 尾部.
+        r"""Appends a given module at the end of the list.
 
         Arguments:
-            module (nn.Module): 要被添加的模块
+            module (nn.Module): module to append
         """
         self.add_module(str(len(self)), module)
         return self
 
     def extend(self, modules):
-        r"""最后添加 Python list 中的模块.
+        r"""Appends modules from a Python list at the end.
 
         Arguments:
-            modules (list): 要被添加的模块列表
+            modules (list): list of modules to append
         """
         if not isinstance(modules, list):
             raise TypeError("ModuleList.extend should be called with a "
@@ -138,12 +140,13 @@ class ModuleList(Module):
 
 
 class ParameterList(Module):
-    r"""保存 list 中的 parameter.
+    r"""Holds parameters in a list.
 
-    ParameterList 可以像普通的 Python list 那样被索引, 但是它所包含的参数被正确的注册了, 并且所有的 Module 方法都可见的.
+    ParameterList can be indexed like a regular Python list, but parameters it
+    contains are properly registered, and will be visible by all Module methods.
 
     Arguments:
-        modules (list, optional): 要被添加的 :class:`~torch.nn.Parameter`` 列表
+        modules (list, optional): a list of :class:`~torch.nn.Parameter`` to add
 
     Example::
 
@@ -153,7 +156,7 @@ class ParameterList(Module):
                 self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) for i in range(10)])
 
             def forward(self, x):
-                # ModuleList 可以充当 iterable（迭代器）, 或者可以使用整数进行索引
+                # ModuleList can act as an iterable, or be indexed using ints
                 for i, p in enumerate(self.params):
                     x = self.params[i // 2].mm(x) + p.mm(x)
                 return x
