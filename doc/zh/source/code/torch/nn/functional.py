@@ -1093,22 +1093,20 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
 
 
 def binary_cross_entropy_with_logits(input, target, weight=None, size_average=True):
-    r"""Function that measures Binary Cross Entropy between target and output
-    logits.
+    r"""计算目标和输出之间的 Binary Cross Entropy with logits.
 
-    See :class:`~torch.nn.BCEWithLogitsLoss` for details.
+    详见 :class:`~torch.nn.BCEWithLogitsLoss`.
 
-    Args:
-        input: Variable of arbitrary shape
-        target: Variable of the same shape as input
-        weight (Variable, optional): a manual rescaling weight
-                if provided it's repeated to match input tensor shape
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Default: ``True``
+    参数:
+        input: 任意形状的变量
+        target: 与输入形状相同的变量
+        weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
+                输入 tensor 的形状.
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+                上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+                mini-batch（小批量）上求和. 默认值: ``True``
 
-    Examples::
+    实例::
 
          >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
          >>> target = autograd.Variable(torch.FloatTensor(3).random_(2))
