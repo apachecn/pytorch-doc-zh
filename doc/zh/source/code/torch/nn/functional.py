@@ -21,25 +21,20 @@ _ConvNd = torch._C._functions.ConvNd
 
 def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
            groups=1):
-    r"""Applies a 1D convolution over an input signal composed of several input
-    planes.
+    r"""对几个输入平面组成的输入信号应用一个1D卷积.
 
-    See :class:`~torch.nn.Conv1d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv1d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iW)
-        weight: filters of shape (out_channels x in_channels x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or
-          a tuple (sW,). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padW,). Default: 0
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dW,). Default: 1
-        groups: split input into groups, in_channels should be divisible by
-          the number of groups. Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sW, ). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padW, ). 默认值: 0
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    Examples::
+    例子::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50))
@@ -56,26 +51,21 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
            groups=1):
-    r"""Applies a 2D convolution over an input image composed of several input
-    planes.
+    r"""对几个输入平面组成的输入信号应用一个2D卷积.
 
-    See :class:`~torch.nn.Conv2d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv2d`. 
 
-    Args:
-        input: input tensor (minibatch x in_channels x iH x iW)
-        weight: filters tensor (out_channels x in_channels/groups x kH x kW)
-        bias: optional bias tensor (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padH, padW). Default: 0
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dH, dW). Default: 1
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels/groups x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padH, padW). 默认值: 0
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    Examples::
-
+    例子::
+    
         >>> # With square kernels and equal stride
         >>> filters = autograd.Variable(torch.randn(8,4,3,3))
         >>> inputs = autograd.Variable(torch.randn(1,4,5,5))
@@ -92,25 +82,20 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
            groups=1):
-    r"""Applies a 3D convolution over an input image composed of several input
-    planes.
+    r"""对几个输入平面组成的输入信号应用一个3D卷积.
 
-    See :class:`~torch.nn.Conv3d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv3d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iT x iH x iW)
-        weight: filters tensor of shape (out_channels x in_channels x kT x kH x kW)
-        bias: optional bias tensor of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sT, sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padT, padH, padW). Default: 0
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dT, dH, dW). Default: 1
-        groups: split input into groups, in_channels should be divisible by
-          the number of groups. Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels/groups x kT x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sT, sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padT, padH, padW). 默认值: 0
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    Examples::
+    例子::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3, 3, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50, 10, 20))
@@ -128,26 +113,20 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""Applies a 1D transposed convolution operator over an input signal
-    composed of several input planes, sometimes also called "deconvolution".
+    r"""对几个输入平面组成的输入信号应用一个1D转置卷积,该操作有的时候也被称为“反卷积”.
 
-    See :class:`~torch.nn.ConvTranspose1d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose1d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iW)
-        weight: filters of shape (in_channels x out_channels x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sW,). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padW,). Default: 0
-        output_padding: implicit zero-paddings of 0 <= padding < stride on both
-          sides of the output. Can be a single number or a tuple (out_padW,).
-          Default: 0
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dW,). Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sW, ). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padW, ). 默认值: 0
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
+        可以是单个数字, 也可以是一个元组 (out_padW, ). 默认值: 0
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
     """
     if input is not None and input.dim() != 3:
         raise ValueError("Expected 3D tensor as input, got {}D tensor instead.".format(input.dim()))
@@ -161,28 +140,21 @@ def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
 
 def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""Applies a 2D transposed convolution operator over an input image
-    composed of several input planes, sometimes also called "deconvolution".
+    r"""对几个输入平面组成的输入信号应用一个2D转置卷积,该操作有的时候也被称为 "反卷积".
 
-    See :class:`~torch.nn.ConvTranspose2d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose2d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iH x iW)
-        weight: filters of shape (in_channels x out_channels x kH x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padH, padW). Default: 0
-        output_padding: implicit zero-paddings of 0 <= padding < stride on both
-          sides of the output. Can be a single number or a tuple
-          (out_padH, out_padW). Default: 0
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dH, dW). Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padH, padW). 默认值: 0
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
+        可以是单个数字, 也可以是一个元组 (out_padH, out_padW). 默认值: 0
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
     """
-
     if input is not None and input.dim() != 4:
         raise ValueError("Expected 4D tensor as input, got {}D tensor instead.".format(input.dim()))
 
@@ -194,26 +166,20 @@ def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
 
 def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""Applies a 3D transposed convolution operator over an input image
-    composed of several input planes, sometimes also called "deconvolution"
+    r"""对几个输入平面组成的输入信号应用一个3D转置卷积, 该操作有的时候也被称为 "反卷积".
 
-    See :class:`~torch.nn.ConvTranspose3d` for details and output shape.
+    关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose3d`. 
 
-    Args:
-        input: input tensor of shape (minibatch x in_channels x iT x iH x iW)
-        weight: filters of shape (in_channels x out_channels x kH x kW)
-        bias: optional bias of shape (out_channels). Default: None
-        stride: the stride of the convolving kernel. Can be a single number or a
-          tuple (sT, sH, sW). Default: 1
-        padding: implicit zero paddings on both sides of the input. Can be a
-          single number or a tuple (padT, padH, padW). Default: 0
-        output_padding: implicit zero-paddings of 0 <= padding < stride on both
-          sides of the output. Can be a single number or a tuple
-          (out_padT, out_padH, out_padW). Default: 0
-        groups: split input into groups, in_channels should be divisible by the
-          number of groups. Default: 1
-        dilation: the spacing between kernel elements. Can be a single number or
-          a tuple (dT, dH, dW). Default: 1
+    参数:
+        input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
+        weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
+        bias: 可选的偏置,形状为 (out_channels). 默认值: None
+        stride: 卷积核的步长. 可以是单个数字, 也可以是一个元组 (sT, sH, sW). 默认值: 1
+        padding: 输入两端隐式零填充的个数. 可以是单个数字, 也可以是一个元组 (padT, padH, padW). 默认值: 0
+        output_padding: 输出两端隐式零填充的个数,范围为 0 <= padding < stride.
+        可以是单个数字, 也可以是一个元组 (out_padT, out_padH, out_padW). 默认值: 0
+        groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
+        dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
     """
     if input is not None and input.dim() != 5:
         raise ValueError("Expected 5D tensor as input, got {}D tensor instead.".format(input.dim()))
@@ -227,7 +193,7 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 # Pooling
 def avg_pool1d(input, kernel_size, stride=None, padding=0,
                ceil_mode=False, count_include_pad=True):
-    r"""对由几个输入平面组成的输入信号进行一维平均池化。
+    r"""对由几个输入通道组成的输入信号进行一维平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool1d` 。
 
@@ -261,7 +227,7 @@ def avg_pool1d(input, kernel_size, stride=None, padding=0,
 avg_pool2d = _add_docstr(torch._C._nn.avg_pool2d, r"""
 avg_pool2d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入平面的数量。
+在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入通道的数量。
 
 有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool2d` 。
 
@@ -278,7 +244,7 @@ avg_pool3d = _add_docstr(torch._C._nn.avg_pool3d, r"""
 avg_pool3d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
 在 kt x kh x kw 区域中应用步长为 dt x dh x dw 的三维平均池化操作。
-输出特征的数量等于输入平面的数量/dt。
+输出特征的数量等于输入通道的数量/dt。
 
 有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool3d` 。
 
@@ -295,7 +261,7 @@ Args:
 # share the same interface
 def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入平面组成的输入信号进行一维最大池化。
+    """对由几个输入通道组成的输入信号进行一维最大池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.MaxPool1d` 。
     """
@@ -306,7 +272,7 @@ def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入平面组成的输入信号进行二维最大池化。
+    """对由几个输入通道组成的输入信号进行二维最大池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
@@ -316,7 +282,7 @@ def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool3d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入平面组成的输入信号进行三维最大池化。
+    """对由几个输入通道组成的输入信号进行三维最大池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
     """
@@ -396,7 +362,7 @@ def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
 
 
 def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """对由几个输入平面组成的输入信号进行二维幂平均池化。
+    """对由几个输入通道组成的输入信号进行二维幂平均池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.LPPool2d` 。
     """
@@ -406,7 +372,7 @@ def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """对由几个输入平面组成的输入信号进行一维幂平均池化。
+    """对由几个输入通道组成的输入信号进行一维幂平均池化。
 
     有关详细信息，请参阅 :class:`~torch.nn.LPPool1d` 。
     """
@@ -415,7 +381,7 @@ def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def adaptive_max_pool1d(input, output_size, return_indices=False):
-    r"""对由几个输入平面组成的输入信号进行一维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行一维自适应最大池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool1d` 。
 
@@ -428,7 +394,7 @@ def adaptive_max_pool1d(input, output_size, return_indices=False):
 
 
 def adaptive_max_pool2d(input, output_size, return_indices=False):
-    r"""对由几个输入平面组成的输入信号进行二维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行二维自适应最大池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool2d` 。
 
@@ -441,7 +407,7 @@ def adaptive_max_pool2d(input, output_size, return_indices=False):
 
 
 def adaptive_max_pool3d(input, output_size, return_indices=False):
-    r"""对由几个输入平面组成的输入信号进行三维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行三维自适应最大池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool3d` 。
 
@@ -454,7 +420,7 @@ def adaptive_max_pool3d(input, output_size, return_indices=False):
 
 
 def adaptive_avg_pool1d(input, output_size):
-    r"""对由几个输入平面组成的输入信号进行一维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行一维自适应平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool1d` 。
 
@@ -465,7 +431,7 @@ def adaptive_avg_pool1d(input, output_size):
 
 
 def adaptive_avg_pool2d(input, output_size):
-    r"""对由几个输入平面组成的输入信号进行二维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行二维自适应平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool2d` 。
 
@@ -476,7 +442,7 @@ def adaptive_avg_pool2d(input, output_size):
 
 
 def adaptive_avg_pool3d(input, output_size):
-    r"""对由几个输入平面组成的输入信号进行三维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行三维自适应平均池化。
 
     有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool3d` 。
 
@@ -543,8 +509,8 @@ See :class:`~torch.nn.Threshold` for more details.
 def relu(input, inplace=False):
     """relu(input, threshold, value, inplace=False) -> Variable
 
-    Applies the rectified linear unit function element-wise. See
-    :class:`~torch.nn.ReLU` for more details.
+    以元素的方式应用修正线性单元函数. 请参阅
+    :class:`~torch.nn.ReLU` 可以获取更多细节.
     """
     return threshold(input, 0, 0, inplace)
 
@@ -552,19 +518,19 @@ def relu(input, inplace=False):
 glu = _add_docstr(torch._C._nn.glu, r"""
 glu(input, dim=-1) -> Variable
 
-The gated linear unit. Computes:
+门控线性单元. 计算方式如下:
 
 .. math ::
 
     H = A \times \sigma(B)
 
-where `input` is split in half along `dim` to form `A` and `B`.
+其中输入沿着轴拆分为A和B两部分.
 
-See `Language Modeling with Gated Convolutional Networks <https://arxiv.org/abs/1612.08083>`_.
+请参阅 使用门控卷积网络进行语言建模 <https://arxiv.org/abs/1612.08083>.
 
 Args:
-    input (Variable): input variable
-    dim (int): dimension on which to split the input
+    input (Variable): 输入变量
+    dim (int): 指定分裂的轴
 """)
 
 hardtanh = _add_docstr(torch._C._nn.hardtanh, r"""
@@ -578,9 +544,9 @@ details.
 def relu6(input, inplace=False):
     r"""relu6(input, inplace=False) -> Variable
 
-    Applies the element-wise function :math:`{ReLU6}(x) = min(max(0,x), 6)`.
+    以元素方式应用HardTanh函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
 
-    See :class:`~torch.nn.ReLU6` for more details.
+    请参阅 :class:`~torch.nn.ReLU6` 可以获取更多细节.
     """
     return hardtanh(input, 0, 6, inplace)
 
@@ -588,22 +554,22 @@ def relu6(input, inplace=False):
 elu = _add_docstr(torch._C._nn.elu, r"""
 elu(input, alpha=1., inplace=False) -> Variable
 
-Applies element-wise,
+以元素方式使用,
 :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`.
 
-See :class:`~torch.nn.ELU` for more details.
+请参阅 :class:`~torch.nn.ELU` 可以获取更多细节.
 """)
 
 
 def selu(input, inplace=False):
     r"""selu(input, inplace=False) -> Variable
 
-    Applies element-wise,
+    以元素方式使用,
     :math:`f(x) = scale * (\max(0,x) + \min(0, alpha * (\exp(x) - 1)))`,
     with ``alpha=1.6732632423543772848170429916717`` and
     ``scale=1.0507009873554804934193349852946``.
 
-    See :class:`~torch.nn.SELU` for more details.
+    请参阅 :class:`~torch.nn.SELU` 可以获取更多细节.
     """
     return _functions.thnn.SELU.apply(input, inplace)
 
@@ -611,10 +577,10 @@ def selu(input, inplace=False):
 leaky_relu = _add_docstr(torch._C._nn.leaky_relu, r"""
 leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 
-Applies element-wise,
+以元素方式使用,
 :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
-See :class:`~torch.nn.LeakyReLU` for more details.
+请参阅 :class:`~torch.nn.LeakyReLU` 可以获取更多细节.
 """)
 
 
@@ -624,11 +590,11 @@ See :class:`~torch.nn.LeakyReLU` for more details.
 def prelu(input, weight):
     r"""prelu(input, weight) -> Variable
 
-    Applies element-wise the function
+    以元素方式使用方法
     :math:`PReLU(x) = max(0,x) + weight * min(0,x)` where weight is a
     learnable parameter.
 
-    See :class:`~torch.nn.PReLU` for more details.
+    请参阅 :class:`~torch.nn.PReLU` 可以获取更多细节.
     """
     return _functions.thnn.PReLU.apply(input, weight)
 
@@ -640,17 +606,17 @@ rrelu(input, lower=1./8, upper=1./3, training=False, inplace=False) -> Variable
 logsigmoid = _add_docstr(torch._C._nn.log_sigmoid, r"""
 logsigmoid(input) -> Variable
 
-Applies element-wise :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
+以元素方式使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
-See :class:`~torch.nn.LogSigmoid` for more details.
+请参阅 :class:`~torch.nn.LogSigmoid` 可以获取更多细节.
 """)
 
 hardshrink = _add_docstr(torch._C._nn.hardshrink, r"""
 hardshrink(input, lambd=0.5) -> Variable
 
-Applies the hard shrinkage function element-wise
+以元素方式使用 hard shrinkage 方法
 
-See :class:`~torch.nn.Hardshrink` for more details.
+请参阅 :class:`~torch.nn.Hardshrink` 可以获取更多细节.
 
 
 """)
@@ -659,9 +625,9 @@ See :class:`~torch.nn.Hardshrink` for more details.
 def tanhshrink(input):
     r"""tanhshrink(input) -> Variable
 
-    Applies element-wise, :math:`Tanhshrink(x) = x - Tanh(x)`
+    以元素方式使用, :math:`Tanhshrink(x) = x - Tanh(x)`
 
-    See :class:`~torch.nn.Tanhshrink` for more details.
+    请参阅 :class:`~torch.nn.Tanhshrink` 可以获取更多细节.
     """
     return input - input.tanh()
 
@@ -669,9 +635,9 @@ def tanhshrink(input):
 def softsign(input):
     r"""softsign(input) -> Variable
 
-    Applies element-wise, the function :math:`f(x) = x / (1 + |x|)`
+    以元素方式使用方法 :math:`f(x) = x / (1 + |x|)`
 
-    See :class:`~torch.nn.Softsign` for more details.
+    请参阅 :class:`~torch.nn.Softsign` 可以获取更多细节.
     """
     return input / (input.abs() + 1)
 
@@ -691,16 +657,15 @@ def _get_softmax_dim(name, ndim, stacklevel):
 
 
 def softmin(input, dim=None, _stacklevel=3):
-    r"""Applies a softmin function.
+    r"""使用一个 softmin 函数.
 
-    Note that softmin(x) = softmax(-x). See softmax definition for mathematical formula.
+    注意 softmin(x) = softmax(-x). 请参阅 softmax 数学公式的定义.
 
-    See :class:`~torch.nn.Softmin` for more details.
+    请参阅 :class:`~torch.nn.Softmin` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which softmin will be computed (so every slice
-            along dim will sum to 1).
+        input (Variable): 输入
+        dim (int): softmin 将沿着指定轴 dim 计算(所以沿着轴的切片累加和为 1).
     """
     if dim is None:
         dim = _get_softmax_dim('softmin', input.dim(), _stacklevel)
@@ -708,25 +673,24 @@ def softmin(input, dim=None, _stacklevel=3):
 
 
 def softmax(input, dim=None, _stacklevel=3):
-    r"""Applies a softmax function.
+    r"""使用一个 softmax 函数.
 
-    Softmax is defined as:
+    Softmax被定义为:
 
     :math:`softmax(x) = \frac{exp(x_i)}{\sum_j exp(x_j)}`
 
-    It is applied to all slices along dim, and will rescale them so that the elements
-    lie in the range `(0, 1)` and sum to 1.
+    函数会应用于沿着指定轴的所有切片，并且会标准化结果让每个切片的计算结果映射到（0,1）范围内，让总和为 1.
 
-    See :class:`~torch.nn.Softmax` for more details.
+    请参阅 :class:`~torch.nn.Softmax` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which softmax will be computed.
+        input (Variable): 输入
+        dim (int): softmax 将沿着指定轴 dim 计算.
 
     .. note::
-        This function doesn't work directly with NLLLoss,
-        which expects the Log to be computed between the Softmax and itself.
-        Use log_softmax instead (it's faster and has better numerical properties).
+        该函数不直接与 NLLLoss 一起工作，
+        NLLLoss 期望在 Softmax 和它自身之间计算对数.
+        使用 log_softmax 代替（log_softmax 更快并且对数值型支持度更好）.
 
     """
     if dim is None:
@@ -735,17 +699,17 @@ def softmax(input, dim=None, _stacklevel=3):
 
 
 def log_softmax(input, dim=None, _stacklevel=3):
-    r"""Applies a softmax followed by a logarithm.
+    r"""使用对数形式的 softmax 函数.
 
-    While mathematically equivalent to log(softmax(x)), doing these two
-    operations separately is slower, and numerically unstable. This function
-    uses an alternative formulation to compute the output and gradient correctly.
+    虽然在数学上等同于 log（softmax（x）），但单独执行这两个
+    操作的速度较慢，而且数值不稳定。
+    这个功能使用另一个公式来正确计算输出和梯度。
 
-    See :class:`~torch.nn.LogSoftmax` for more details.
+    请参阅 :class:`~torch.nn.LogSoftmax` 可以获取更多细节.
 
     Arguments:
-        input (Variable): input
-        dim (int): A dimension along which log_softmax will be computed.
+        input (Variable): 输入
+        dim (int): log_softmax 将沿着指定轴dim计算.
     """
     if dim is None:
         dim = _get_softmax_dim('log_softmax', input.dim(), _stacklevel)
@@ -755,9 +719,9 @@ def log_softmax(input, dim=None, _stacklevel=3):
 def softshrink(input, lambd=0.5):
     r"""softshrink(input, lambd=0.5) -> Variable
 
-    Applies the soft shrinkage function elementwise
+    以元素的方式使用 soft shrinkage 函数
 
-    See :class:`~torch.nn.Softshrink` for more details.
+    请参阅 :class:`~torch.nn.Softshrink` 可以获取更多细节.
     """
     return _functions.thnn.auto.Softshrink.apply(input, lambd)
 
@@ -765,10 +729,10 @@ def softshrink(input, lambd=0.5):
 def tanh(input):
     r"""tanh(input) -> Variable
 
-    Applies element-wise,
+    以元素的方式使用,
     :math:`f(x) = (exp(x) - exp(-x)) / (exp(x) + exp(-x))`
 
-    See :class:`~torch.nn.Tanh` for more details.
+    请参阅 :class:`~torch.nn.Tanh` 可以获取更多细节.
     """
     return input.tanh()
 
@@ -776,9 +740,9 @@ def tanh(input):
 def sigmoid(input):
     r"""sigmoid(input) -> Variable
 
-    Applies the element-wise function :math:`f(x) = 1 / ( 1 + exp(-x))`
+    以元素的方式使用函数 :math:`f(x) = 1 / ( 1 + exp(-x))`
 
-    See :class:`~torch.nn.Sigmoid` for more details.
+    请参阅 :class:`~torch.nn.Sigmoid` 可以获取更多细节.
     """
     return input.sigmoid()
 

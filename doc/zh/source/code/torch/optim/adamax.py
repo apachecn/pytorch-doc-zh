@@ -3,19 +3,16 @@ from .optimizer import Optimizer
 
 
 class Adamax(Optimizer):
-    """Implements Adamax algorithm (a variant of Adam based on infinity norm).
+    """实现 Adamax 算法 ( Adam 的一种基于无穷范数的变种).
 
-    It has been proposed in `Adam: A Method for Stochastic Optimization`__.
+    它在 `Adam: A Method for Stochastic Optimization`__ 中被提出.
 
-    Arguments:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        lr (float, optional): learning rate (default: 2e-3)
-        betas (Tuple[float, float], optional): coefficients used for computing
-            running averages of gradient and its square
-        eps (float, optional): term added to the denominator to improve
-            numerical stability (default: 1e-8)
-        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
+    参数:
+        params (iterable): 迭代的优化参数或者以字典的形式定义参数组.
+        lr (float, optional): 学习率 (默认值: 2e-3)
+        betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数
+        eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
+        weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
 
     __ https://arxiv.org/abs/1412.6980
     """
@@ -26,11 +23,10 @@ class Adamax(Optimizer):
         super(Adamax, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """Performs a single optimization step.
+        """进行单步优化。
 
-        Arguments:
-            closure (callable, optional): A closure that reevaluates the model
-                and returns the loss.
+        参数:
+            closure (callable, optional): 一个重新评价模型并返回误差的闭包.
         """
         loss = None
         if closure is not None:
