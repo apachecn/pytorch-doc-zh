@@ -17,26 +17,25 @@ class EventList(list):
         return self.table()
 
     def table(self, sort_by=None):
-        """Prints an EventList as a nicely formatted table.
+        """打印操作表
 
-        Arguments:
-            sort_by (str, optional): Attribute used to sort entries. By default
-                they are printed in the same order as they were registered.
-                Valid keys include: ``cpu_time``, ``cuda_time``, ``cpu_time_total``,
+        参数:
+            sort_by (str, 可选): 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印.
+                有效的键: ``cpu_time``, ``cuda_time``, ``cpu_time_total``,
                 ``cuda_time_total``, ``count``.
 
-        Returns:
-            A string containing the table.
+        返回:
+            包含表的字符串.
         """
         return build_table(self, sort_by)
 
     def export_chrome_trace(self, path):
-        """Exports an EventList as a Chrome tracing tools file.
+        """将EventList导出为Chrome跟踪工具文件.
 
-        The checkpoint can be later loaded and inspected under ``chrome://tracing`` URL.
+        断点能够通过 ``chrome://tracing`` URL来读取.
 
-        Arguments:
-            path (str): Path where the trace will be written.
+        参数:
+            path (str): 制定断点写的路径.
         """
         import json
         with open(path, 'w') as f:
@@ -54,10 +53,10 @@ class EventList(list):
             json.dump(chrome_events, f)
 
     def key_averages(self):
-        """Averages all function events over their keys.
+        """平均所有的功能指标通过他们的键.
 
-        Returns:
-            An EventList containing FunctionEventAvg objects.
+        返回:
+            包含 FunctionEventAvg 对象的 EventList.
         """
         stats = defaultdict(FunctionEventAvg)
         for evt in self:
@@ -65,10 +64,10 @@ class EventList(list):
         return EventList(stats.values())
 
     def total_average(self):
-        """Averages all events.
+        """所有事件的平均指标.
 
-        Returns:
-            A FunctionEventAvg object.
+        返回:
+            一个 FunctionEventAvg 对象.
         """
         total_stat = FunctionEventAvg()
         for evt in self:
@@ -79,15 +78,14 @@ class EventList(list):
 
 
 class profile(object):
-    """Context manager that manages autograd profiler state and holds a summary of results.
+    """结果的评价指标.
 
-    Arguments:
-        enabled (bool, optional): Setting this to False makes this context manager a no-op.
+    参数:
+        enabled (bool, 可选): 如果设置为 False ,则没有评价指标.
             Default: ``True``.
 
-    .. warning:
-        This context managers should not be called recursively, i.e. at most one
-        instance should be enabled at any given time.
+    .. 警告:
+        不应该递归地调用这个上下文管理器,即最多一个实例应该在任何给定的时间启用.
 
     Example:
         >>> x = Variable(torch.randn(1, 1), requires_grad=True)
@@ -168,26 +166,23 @@ class profile(object):
 
 
 class emit_nvtx(object):
-    """Context manager that makes every autograd operation emit an NVTX range.
+    """使每个autograd操作都发出一个NVTX范围的上下文管理器.
 
-    It is useful when running the program under nvprof::
+    如下使用是正确的::
 
         nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
-    Unfortunately, there's no way to force nvprof to flush the data it collected
-    to disk, so for CUDA profiling one has to use this context manager to annotate
-    nvprof traces and wait for the process to exit before inspecting them.
-    Then, either NVIDIA Visual Profiler (nvvp) can be used to visualize the timeline, or
-    :func:`torch.autograd.profiler.load_nvprof` can load the results for inspection
-    e.g. in Python REPL.
+    不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释
+     nvprof 跟踪并等待进程在检查之前退出.
+     然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 
+     :func:`torch.autograd.profiler.load_nvprof` 可以加载检查结果.
 
-    .. warning:
-        This context manager should not be called recursively, i.e. at most one
-        instance should be enabled at any given time.
+    .. 警告:
+        不应该递归地调用这个上下文管理器,即最多一个实例应该在任何给定的时间启用.
 
-    Arguments:
-        enabled (bool, optional): Setting this to False makes this context manager a no-op.
-            Default: ``True``.
+    参数:
+        enabled (bool, 可选): 如果设置为 False ,则没有评价指标.
+            默认: ``True``.
 
     Example:
         >>> with torch.cuda.profiler.profile():
@@ -218,10 +213,10 @@ class emit_nvtx(object):
 
 
 def load_nvprof(path):
-    """Opens an nvprof trace file and parses autograd annotations.
+    """打开 nvprof trace 文件.
 
-    Arguments:
-        path (str): path to nvprof trace
+    参数:
+        path (str): nvprof trace 文件路径.
     """
     return EventList(parse_nvprof_trace(path))
 
@@ -230,7 +225,7 @@ def load_nvprof(path):
 # FunctionEvent
 
 def format_time(time_ns):
-    """Defines how to format time in FunctionEvent"""
+    """定义 FunctionEvent 格式"""
     return '{:.3f}us'.format(time_ns / 1000)
 
 
@@ -239,9 +234,9 @@ def attr_formatter(name):
 
 
 class FormattedTimesMixin(object):
-    """Helpers for FunctionEvent and FunctionEventAvg.
+    """FunctionEvent and FunctionEventAvg 方法的帮助.
 
-    The subclass should define `*_time_total` and `count` attributes.
+   这个子类应该定义 `*_time_total` 和 `count` 属性.
     """
     cpu_time_str = attr_formatter('cpu_time')
     cuda_time_str = attr_formatter('cuda_time')

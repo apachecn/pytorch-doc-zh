@@ -9,22 +9,19 @@ from .utils import download_url, check_integrity
 
 class SVHN(data.Dataset):
     """`SVHN <http://ufldl.stanford.edu/housenumbers/>`_ Dataset.
-    Note: The SVHN dataset assigns the label `10` to the digit `0`. However, in this Dataset,
-    we assign the label `0` to the digit `0` to be compatible with PyTorch loss functions which
-    expect the class labels to be in the range `[0, C-1]`
+    Note: 原始的 SVHN 数据集把标签 `10` 分给了数字 `0`. 然而在这个数据集，我们把标签 `0` 分给了数字 `0` 以便
+    和 PyTorch 的损失函数不产生冲突，它期待的类标签的范围是 `[0, C-1]`.
 
     Args:
-        root (string): Root directory of dataset where directory
-            ``SVHN`` exists.
-        split (string): One of {'train', 'test', 'extra'}.
-            Accordingly dataset is selected. 'extra' is Extra training set.
-        transform (callable, optional): A function/transform that  takes in an PIL image
-            and returns a transformed version. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): A function/transform that takes in the
-            target and transforms it.
-        download (bool, optional): If true, downloads the dataset from the internet and
-            puts it in root directory. If dataset is already downloaded, it is not
-            downloaded again.
+        root (string):  ``SVHN``数据集存放的主目录.
+        split (string): {'train', 'test', 'extra'} 中的一个.
+            它是根据数据集选择的. 'extra' 是一个额外的训练集.
+        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
+        transformed 版本. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换它.
+        download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
+        如果数据集已经下载，那么不会再次下载.
 
     """
     url = ""
