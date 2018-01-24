@@ -2,7 +2,7 @@ torch
 ===================================
 .. automodule:: torch
 
-Tensors
+Tensors（张量）
 ----------------------------------
 .. autofunction:: is_tensor
 .. autofunction:: is_storage
@@ -11,8 +11,8 @@ Tensors
 .. autofunction:: set_printoptions
 
 
-Creation Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Creation Ops（创建操作）
+~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: eye
 .. autofunction:: from_numpy
 .. autofunction:: linspace
@@ -24,8 +24,8 @@ Creation Ops
 .. autofunction:: zeros
 .. autofunction:: zeros_like
 
-Indexing, Slicing, Joining, Mutating Ops
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Indexing, Slicing, Joining, Mutating Ops（索引, 切片, 连接, 换位）操作
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cat
 .. autofunction:: chunk
 .. autofunction:: gather
@@ -42,7 +42,7 @@ Indexing, Slicing, Joining, Mutating Ops
 .. autofunction:: unsqueeze
 
 
-Random sampling
+Random sampling（随机采样）
 ----------------------------------
 .. autofunction:: manual_seed
 .. autofunction:: initial_seed
@@ -56,38 +56,37 @@ Random sampling
 .. autofunction:: randn
 .. autofunction:: randperm
 
-In-place random sampling
-~~~~~~~~~~~~~~~~~~~~~~~~
+In-place random sampling（直接随机采样）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are a few more in-place random sampling functions defined on Tensors as well. Click through to refer to their documentation:
+在Tensors模块上还定义了许多 in-place 随机采样函数,可以点击参考它们的文档:
 
-- :func:`torch.Tensor.bernoulli_` - in-place version of :func:`torch.bernoulli`
-- :func:`torch.Tensor.cauchy_` - numbers drawn from the Cauchy distribution
-- :func:`torch.Tensor.exponential_` - numbers drawn from the exponential distribution
-- :func:`torch.Tensor.geometric_` - elements drawn from the geometric distribution
-- :func:`torch.Tensor.log_normal_` - samples from the log-normal distribution
-- :func:`torch.Tensor.normal_` - in-place version of :func:`torch.normal`
-- :func:`torch.Tensor.random_` - numbers sampled from the discrete uniform distribution
-- :func:`torch.Tensor.uniform_` - numbers sampled from the uniform distribution
+- :func:`torch.Tensor.bernoulli_` - 是 :func:`torch.bernoulli` 的 in-place 版本
+- :func:`torch.Tensor.cauchy_` - 从柯西分布中抽取数字
+- :func:`torch.Tensor.exponential_` - 从指数分布中抽取数字
+- :func:`torch.Tensor.geometric_` - 从几何分布中抽取元素
+- :func:`torch.Tensor.log_normal_` - 对数正态分布中的样本
+- :func:`torch.Tensor.normal_` - 是 :func:`torch.normal` 的 in-place 版本
+- :func:`torch.Tensor.random_` - 离散均匀分布中采样的数字
+- :func:`torch.Tensor.uniform_` - 正态分布中采样的数字
 
-
-Serialization
+Serialization（序列化）
 ----------------------------------
 .. autofunction:: save
 .. autofunction:: load
 
 
-Parallelism
+Parallelism（并行化）
 ----------------------------------
 .. autofunction:: get_num_threads
 .. autofunction:: set_num_threads
 
 
-Math operations
+Math operations（数学操作）
 ----------------------------------
 
-Pointwise Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Pointwise Ops（逐点操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: abs
 .. autofunction:: acos
@@ -128,8 +127,8 @@ Pointwise Ops
 .. autofunction:: trunc
 
 
-Reduction Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Reduction Ops（归约操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cumprod
 .. autofunction:: cumsum
 .. autofunction:: dist
@@ -143,8 +142,8 @@ Reduction Ops
 .. autofunction:: var
 
 
-Comparison Ops
-~~~~~~~~~~~~~~~~~~~~~~
+Comparison Ops（比较操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: eq
 .. autofunction:: equal
 .. autofunction:: ge
@@ -159,8 +158,8 @@ Comparison Ops
 .. autofunction:: topk
 
 
-Other Operations
-~~~~~~~~~~~~~~~~~~~~~~
+Other Operations（其它操作）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cross
 .. autofunction:: diag
 .. autofunction:: histc
