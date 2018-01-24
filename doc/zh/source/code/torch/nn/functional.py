@@ -945,24 +945,22 @@ def batch_norm(input, running_mean, running_var, weight=None, bias=None,
 # loss
 
 def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, reduce=True):
-    r"""The negative log likelihood loss.
+    r"""负对数似然损失.
 
-    See :class:`~torch.nn.NLLLoss` for details.
+    详见 :class:`~torch.nn.NLLLoss`.
 
-    Args:
-        input: :math:`(N, C)` where `C = number of classes` or `(N, C, H, W)`
-            in case of 2D - Loss
-        target: :math:`(N)` where each value is `0 <= targets[i] <= C-1`
-        weight (Tensor, optional): a manual rescaling weight given to each
-            class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-            over observations for each minibatch. If size_average
-            is False, the losses are summed for each minibatch. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-            and does not contribute to the input gradient. When size_average is
-            True, the loss is averaged over non-ignored targets. Default: -100
+    参数:
+        input: :math:`(N, C)` 其中 `C = number of classes` 或 `(N, C, H, W)`, 
+            当 2D - Loss 时
+        target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
+        weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 C 的 Tensor
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+            mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
+        ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
+            当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
 
-    Example::
+    实例::
 
         >>> # input is of size N x C = 3 x 5
         >>> input = autograd.Variable(torch.randn(3, 5))
