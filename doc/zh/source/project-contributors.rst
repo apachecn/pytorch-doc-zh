@@ -16,8 +16,13 @@
 -  `@小王子 <https://github.com/VPrincekin>`__
 -  `@之茗 <https://github.com/mayuanucas>`__
 -  `@dabney777 <https://github.com/dabney777>`__
--  `@hadxu`<https://github.com/Hadxu>`__
+-  `@hadxu <https://github.com/Hadxu>`__
 -  `@王云峰 <https://github.com/vra>`__
+-  `@xfanplus <https://github.com/xfanplus>`__
+-  `@李雨龙 <https://github.com/sawyer7246>`__
+-  `@LeeGeong <https://github.com/LeeGeong>`__
+-  `@shunshun <https://github.com/busyboxs>`__
+-  `@林嘉应 <https://github.com/garry1ng>`__
 -  `@于增源 <https://github.com/ZengyuanYu>`__
 
 建议反馈
