@@ -21,12 +21,12 @@ def _addindent(s_, numSpaces):
 
 
 class Module(object):
-    r"""Base class for all neural network modules.
+    r"""所有神经网络的基类.
 
-    Your models should also subclass this class.
+    你的模型应该也是该类的子类.
 
-    Modules can also contain other Modules, allowing to nest them in
-    a tree structure. You can assign the submodules as regular attributes::
+    Modules 也可以包含其它 Modules, 允许使用树结构嵌入它们.
+    你可以将子模块赋值给模型属性 ::
 
         import torch.nn as nn
         import torch.nn.functional as F
@@ -41,8 +41,7 @@ class Module(object):
                x = F.relu(self.conv1(x))
                return F.relu(self.conv2(x))
 
-    Submodules assigned in this way will be registered, and will have their
-    parameters converted too when you call .cuda(), etc.
+    以这种方式分配的子模块将被注册, 并且在调用 .cuda() 等等方法时也将转换它们的参数.
     """
 
     dump_patches = False
@@ -58,31 +57,28 @@ class Module(object):
         self.training = True
 
     def forward(self, *input):
-        """Defines the computation performed at every call.
+        """定义每次调用时执行的计算.
 
-        Should be overriden by all subclasses.
+        应该被所有的子类重写.
 
         .. note::
-            Although the recipe for forward pass needs to be defined within
-            this function, one should call the :class:`Module` instance afterwards
-            instead of this since the former takes care of running the
-            registered hooks while the latter silently ignores them.
+            尽管需要在此函数中定义正向传递的方式,
+            但是应该事后尽量调用 :class:`Module` 实例,
+            因为前者负责运行已注册的钩子, 而后者静默的忽略它们.
         """
         raise NotImplementedError
 
     def register_buffer(self, name, tensor):
-        """Adds a persistent buffer to the module.
+        """给模块添加一个持久化的 buffer.
 
-        This is typically used to register a buffer that should not to be
-        considered a model parameter. For example, BatchNorm's ``running_mean``
-        is not a parameter, but is part of the persistent state.
+        持久化的 buffer 通常被用在这么一种情况: 我们需要保存一个状态. 但是这个状态不能看作成为模型参数.
+        例如: BatchNorm 的 ``running_mean`` 不是一个 parameter, 但是它也是需要保存的状态之一.
 
-        Buffers can be accessed as attributes using given names.
+        Buffers 可以使用指定的 name 作为属性访问.
 
         Args:
-            name (string): name of the buffer. The buffer can be accessed
-                from this module using the given name
-            tensor (Tensor): buffer to be registered.
+            name (string): buffer 的名称. 可以使用指定的 name 从该模块访问 buffer
+            tensor (Tensor): 被注册的 buffer.
 
         Example:
             >>> self.register_buffer('running_mean', torch.zeros(num_features))
@@ -93,14 +89,13 @@ class Module(object):
         self._buffers[name] = tensor
 
     def register_parameter(self, name, param):
-        """Adds a parameter to the module.
+        """添加一个参数到模块中.
 
-        The parameter can be accessed as an attribute using given name.
+        可以使用指定的 name 属性来访问参数.
 
         Args:
-            name (string): name of the parameter. The parameter can be accessed
-                from this module using the given name
-            parameter (Parameter): parameter to be added to the module.
+            name (string): 参数名. 可以使用指定的 name 来从该模块中访问参数
+            parameter (Parameter): 要被添加到模块的参数.
         """
         if '_parameters' not in self.__dict__:
             raise AttributeError(
@@ -125,14 +120,13 @@ class Module(object):
             self._parameters[name] = param
 
     def add_module(self, name, module):
-        """Adds a child module to the current module.
+        """添加一个 child module（子模块）到当前的 module（模块）中.
 
-        The module can be accessed as an attribute using the given name.
+        被添加的 module 还可以通过指定的 name 属性来获取它.
 
         Args:
-            name (string): name of the child module. The child module can be
-                accessed from this module using the given name
-            parameter (Module): child module to be added to the module.
+            name (string): 子模块的名称. 可以使用指定的 name 从该模块访问子模块
+            parameter (Module): 被添加到模块的子模块.
         """
         if not isinstance(module, Module) and module is not None:
             raise TypeError("{} is not a Module subclass".format(
@@ -160,12 +154,11 @@ class Module(object):
         return self
 
     def apply(self, fn):
-        """Applies ``fn`` recursively to every submodule (as returned by ``.children()``)
-        as well as self. Typical use includes initializing the parameters of a model
-        (see also :ref:`torch-nn-init`).
+        """将 ``fn`` 函数递归的应用到每一个子模块 (由 ``.children()`` 方法所返回的)
+        以及 self. 典型的用于包括初始化模型的参数 (也可参阅 :ref:`torch-nn-init`).
 
         Args:
-            fn (:class:`Module` -> None): function to be applied to each submodule
+            fn (:class:`Module` -> None): 要被应用到每一个子模块上的函数
 
         Returns:
             Module: self
@@ -200,15 +193,13 @@ class Module(object):
         return self
 
     def cuda(self, device=None):
-        """Moves all model parameters and buffers to the GPU.
+        """将所有的模型参数和缓冲区移动到 GPU.
 
-        This also makes associated parameters and buffers different objects. So
-        it should be called before constructing optimizer if the module will
-        live on GPU while being optimized.
+        这将会关联一些参数并且缓存不同的对象.
+        所以在构建优化器之前应该调用它, 如果模块在优化的情况下会生存在 GPU 上.
 
         Arguments:
-            device (int, optional): if specified, all parameters will be
-                copied to that device
+            device (int, optional): 如果指定, 所有参数将被复制到指定的设备上
 
         Returns:
             Module: self
@@ -216,7 +207,7 @@ class Module(object):
         return self._apply(lambda t: t.cuda(device))
 
     def cpu(self):
-        """Moves all model parameters and buffers to the CPU.
+        """将所有的模型参数和缓冲区移动到 CPU.
 
         Returns:
             Module: self
@@ -224,10 +215,10 @@ class Module(object):
         return self._apply(lambda t: t.cpu())
 
     def type(self, dst_type):
-        """Casts all parameters and buffers to dst_type.
+        """转换所有参数和缓冲区为 dst_type.
 
         Arguments:
-            dst_type (type or string): the desired type
+            dst_type (type or string): 理想的类型
 
         Returns:
             Module: self
@@ -235,7 +226,7 @@ class Module(object):
         return self._apply(lambda t: t.type(dst_type))
 
     def float(self):
-        """Casts all parameters and buffers to float datatype.
+        """将所有的 parameters 和 buffers 的数据类型转换成float.
 
         Returns:
             Module: self
@@ -243,7 +234,7 @@ class Module(object):
         return self._apply(lambda t: t.float())
 
     def double(self):
-        """Casts all parameters and buffers to double datatype.
+        """将所有的 parameters 和 buffers 的数据类型转换成 double.
 
         Returns:
             Module: self
@@ -251,7 +242,7 @@ class Module(object):
         return self._apply(lambda t: t.double())
 
     def half(self):
-        """Casts all parameters and buffers to half datatype.
+        """将所有的 parameters 和 buffers 的数据类型转换成 half.
 
         Returns:
             Module: self
@@ -259,18 +250,15 @@ class Module(object):
         return self._apply(lambda t: t.half())
 
     def register_backward_hook(self, hook):
-        """Registers a backward hook on the module.
+        """在模块上注册一个 backward hook（反向钩子）.
 
-        The hook will be called every time the gradients with respect to module
-        inputs are computed. The hook should have the following signature::
+        每次计算关于模块输入的梯度时, 都会调用该钩子.
+        钩子应该有以下结构::
 
             hook(module, grad_input, grad_output) -> Tensor or None
 
-        The :attr:`grad_input` and :attr:`grad_output` may be tuples if the
-        module has multiple inputs or outputs. The hook should not modify its
-        arguments, but it can optionally return a new gradient with respect to
-        input that will be used in place of :attr:`grad_input` in subsequent
-        computations.
+        如果 module 有多个输入输出的话, 那么 :attr:`grad_input` 和 :attr:`grad_output` 将会是个 tupl.
+        hook 不应该修改它的参数, 但是它可以选择性的返回关于输入的梯度, 这个返回的梯度在后续的计算中会替代 :attr:`grad_input`.
 
         Returns:
             :class:`torch.utils.hooks.RemovableHandle`:
@@ -282,14 +270,14 @@ class Module(object):
         return handle
 
     def register_forward_pre_hook(self, hook):
-        """Registers a forward pre-hook on the module.
+        """在模块上注册一个预前向钩子.
 
-        The hook will be called every time before :func:`forward` is invoked.
-        It should have the following signature::
+        每一次在调用 :func:`forward` 函数前都会调用该钩子.
+        它应该有以下结构::
 
             hook(module, input) -> None
 
-        The hook should not modify the input.
+        该钩子不应该修改输入.
 
         Returns:
             :class:`torch.utils.hooks.RemovableHandle`:
@@ -301,19 +289,18 @@ class Module(object):
         return handle
 
     def register_forward_hook(self, hook):
-        r"""Registers a forward hook on the module.
+        r"""在模块上注册一个 forward hook（前向钩子）.
 
-        The hook will be called every time after :func:`forward` has computed an output.
-        It should have the following signature::
+        每一次 :func:`forward` 函数计算出一个输出后, 该钩子将会被调用.
+        它应该具有以下结构 ::
 
             hook(module, input, output) -> None
 
-        The hook should not modify the input or output.
+        该钩子应该不会修改输入和输出.
 
         Returns:
             :class:`torch.utils.hooks.RemovableHandle`:
-                a handle that can be used to remove the added hook by calling
-                ``handle.remove()``
+                通过调用 ``handle.remove()`` 方法可以删除添加钩子的句柄
         """
         handle = hooks.RemovableHandle(self._forward_hooks)
         self._forward_hooks[handle.id] = hook
@@ -420,27 +407,28 @@ class Module(object):
             object.__delattr__(self, name)
 
     def state_dict(self, destination=None, prefix='', keep_vars=False):
-        """Returns a dictionary containing a whole state of the module.
+        """返回一个字典, 它包含整个模块的状态.
 
-        Both parameters and persistent buffers (e.g. running averages) are
-        included. Keys are corresponding parameter and buffer names.
+        包括参数和持久化的缓冲区 (例如. 运行中的平均值).
+        Keys 是与之对应的参数和缓冲区 name.
 
-        When keep_vars is ``True``, it returns a Variable for each parameter
-        (rather than a Tensor).
+        当 keep_vars 为 ``True`` 时, 它为每一个参数（而不是一个张量）返回一个 Variable.
 
         Args:
             destination (dict, optional):
-                if not None, the return dictionary is stored into destination.
+                如果不是 None, 该返回的字典应该被存储到 destination 中.
                 Default: None
-            prefix (string, optional): Adds a prefix to the key (name) of every
-                parameter and buffer in the result dictionary. Default: ''
-            keep_vars (bool, optional): if ``True``, returns a Variable for each
-                parameter. If ``False``, returns a Tensor for each parameter.
+            prefix (string, optional):
+                向结果字典中的每个参数和缓冲区的 key（名称）添加一个前缀.
+                Default: ''
+            keep_vars (bool, optional):
+                如果为 ``True``, 为每一个参数返回一个 Variable.
+                如果为 ``False``, 为每一个参数返回一个 Tensor.
                 Default: ``False``
 
         Returns:
             dict:
-                a dictionary containing a whole state of the module
+                包含模块整体状态的字典
 
         Example:
             >>> module.state_dict().keys()
@@ -460,17 +448,12 @@ class Module(object):
         return destination
 
     def load_state_dict(self, state_dict, strict=True):
-        """Copies parameters and buffers from :attr:`state_dict` into
-        this module and its descendants. If :attr:`strict` is ``True`` then
-        the keys of :attr:`state_dict` must exactly match the keys returned
-        by this module's :func:`state_dict()` function.
+        """将 :attr:`state_dict` 中的 parameters 和 buffers 复制到此模块和它的子后代中.
+        如果 :attr:`strict` 为 ``True``,  则 :attr:`state_dict` 的 key 必须和模块的 :func:`state_dict()` 函数返回的 key 一致.
 
         Arguments:
-            state_dict (dict): A dict containing parameters and
-                persistent buffers.
-            strict (bool): Strictly enforce that the keys in :attr:`state_dict`
-                match the keys returned by this module's `:func:`state_dict()`
-                function.
+            state_dict (dict): 一个包含 parameters 和 persistent buffers（持久化缓存的）字典.
+            strict (bool): 严格的强制 :attr:`state_dict` 属性中的 key 与该模块的函数 `:func:`state_dict()` 返回的 keys 相匹配.
         """
         own_state = self.state_dict()
         for name, param in state_dict.items():
@@ -494,12 +477,12 @@ class Module(object):
                 raise KeyError('missing keys in state_dict: "{}"'.format(missing))
 
     def parameters(self):
-        """Returns an iterator over module parameters.
+        """返回一个模块参数的迭代器.
 
-        This is typically passed to an optimizer.
+        这通常传递给优化器.
 
         Yields:
-            Parameter: module parameter
+            Parameter: 模型参数
 
         Example:
             >>> for param in model.parameters():
@@ -511,11 +494,10 @@ class Module(object):
             yield param
 
     def named_parameters(self, memo=None, prefix=''):
-        """Returns an iterator over module parameters, yielding both the
-        name of the parameter as well as the parameter itself
+        """返回模块参数的迭代器, 产生参数的名称以及参数本身
 
         Yields:
-            (string, Parameter): Tuple containing the name and parameter
+            (string, Parameter): Tuple 包含名称很参数的 Tuple（元组）
 
         Example:
             >>> for name, param in self.named_parameters():
@@ -545,20 +527,19 @@ class Module(object):
                 yield b
 
     def children(self):
-        """Returns an iterator over immediate children modules.
+        """返回一个最近子模块的 iterator（迭代器）.
 
         Yields:
-            Module: a child module
+            Module: 一个子模块
         """
         for name, module in self.named_children():
             yield module
 
     def named_children(self):
-        """Returns an iterator over immediate children modules, yielding both
-        the name of the module as well as the module itself.
+        """返回一个 iterator（迭代器）, 而不是最接近的子模块, 产生模块的 name 以及模块本身.
 
         Yields:
-            (string, Module): Tuple containing a name and child module
+            (string, Module): 包含名称和子模块的 Tuple（元组）
 
         Example:
             >>> for name, module in model.named_children():
@@ -572,7 +553,7 @@ class Module(object):
                 yield name, module
 
     def modules(self):
-        """Returns an iterator over all modules in the network.
+        """返回一个覆盖神经网络中所有模块的 iterator（迭代器）.
 
         Yields:
             Module: a module in the network
@@ -595,15 +576,13 @@ class Module(object):
             yield module
 
     def named_modules(self, memo=None, prefix=''):
-        """Returns an iterator over all modules in the network, yielding
-        both the name of the module as well as the module itself.
+        """翻译一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
 
         Yields:
-            (string, Module): Tuple of name and module
+            (string, Module): 名字和模块的 Tuple（元组）
 
         Note:
-            Duplicate modules are returned only once. In the following
-            example, ``l`` will be returned only once.
+            重复的模块只返回一次. 在下面的例子中, ``1`` 只会被返回一次.
 
             >>> l = nn.Linear(2, 2)
             >>> net = nn.Sequential(l, l)
@@ -629,9 +608,9 @@ class Module(object):
                     yield m
 
     def train(self, mode=True):
-        """Sets the module in training mode.
+        """设置模块为训练模式.
 
-        This has any effect only on modules such as Dropout or BatchNorm.
+        这只对诸如 Dropout 或 BatchNorm 等模块时才会有影响.
 
         Returns:
             Module: self
@@ -642,14 +621,14 @@ class Module(object):
         return self
 
     def eval(self):
-        """Sets the module in evaluation mode.
+        """将模块设置为评估模式.
 
-        This has any effect only on modules such as Dropout or BatchNorm.
+        这种方式只对 Dropout 或 BatchNorm 等模块有效.
         """
         return self.train(False)
 
     def zero_grad(self):
-        """Sets gradients of all model parameters to zero."""
+        """将所有模型参数的梯度设置为零."""
         for p in self.parameters():
             if p.grad is not None:
                 if p.grad.volatile:

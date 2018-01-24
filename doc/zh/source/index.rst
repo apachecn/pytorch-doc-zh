@@ -46,6 +46,14 @@ PyTorch 是一个针对 deep learning（深度学习）, 并且使用 GPU 和 CP
 
    torchvision/index
 
+.. toctree::
+   :maxdepth: 1
+   :caption: 项目相关
+
+   项目贡献者 <project-contributors>
+   组织学习交流群 <apachecn-learning-group>
+
+
 
 索引表
 ==================
