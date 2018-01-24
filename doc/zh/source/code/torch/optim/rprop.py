@@ -4,17 +4,14 @@ from .optimizer import Optimizer
 
 
 class Rprop(Optimizer):
-    """Implements the resilient backpropagation algorithm.
+    """实现弹性反向传播算法.
 
-    Arguments:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        lr (float, optional): learning rate (default: 1e-2)
-        etas (Tuple[float, float], optional): pair of (etaminus, etaplis), that
-            are multiplicative increase and decrease factors
-            (default: (0.5, 1.2))
-        step_sizes (Tuple[float, float], optional): a pair of minimal and
-            maximal allowed step sizes (default: (1e-6, 50))
+    参数:
+        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+        lr (float, optional): 学习率 (默认值: 1e-2)
+        etas (Tuple[float, float], optional): 一对 (etaminus, etaplis), t它们分别是乘法
+        的增加和减小的因子 (默认值: (0.5, 1.2))
+        step_sizes (Tuple[float, float], optional): 允许的一对最小和最大的步长 (默认值: (1e-6, 50))
     """
 
     def __init__(self, params, lr=1e-2, etas=(0.5, 1.2), step_sizes=(1e-6, 50)):
@@ -22,11 +19,10 @@ class Rprop(Optimizer):
         super(Rprop, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """Performs a single optimization step.
+        """进行单步优化.
 
-        Arguments:
-            closure (callable, optional): A closure that reevaluates the model
-                and returns the loss.
+        参数:
+            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
         """
         loss = None
         if closure is not None:

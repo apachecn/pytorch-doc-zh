@@ -3,19 +3,17 @@ from .optimizer import Optimizer, required
 
 
 class SGD(Optimizer):
-    r"""Implements stochastic gradient descent (optionally with momentum).
+    r"""实现随机梯度下降算法（ momentum 可选）.
 
-    Nesterov momentum is based on the formula from
-    `On the importance of initialization and momentum in deep learning`__.
+    Nesterov 动量基于 `On the importance of initialization and momentum in deep learning`__ 中的公式.
 
-    Args:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        lr (float): learning rate
-        momentum (float, optional): momentum factor (default: 0)
-        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
-        dampening (float, optional): dampening for momentum (default: 0)
-        nesterov (bool, optional): enables Nesterov momentum (default: False)
+    参数:
+        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+        lr (float): 学习率
+        momentum (float, optional): 动量因子 (默认值: 0)
+        weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+        dampening (float, optional): 动量的抑制因子 (默认值: 0)
+        nesterov (bool, optional): 使用 Nesterov 动量 (默认值: False)
 
     Example:
         >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
@@ -26,26 +24,22 @@ class SGD(Optimizer):
     __ http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf
 
     .. note::
-        The implementation of SGD with Momentum/Nesterov subtly differs from
-        Sutskever et. al. and implementations in some other frameworks.
-
-        Considering the specific case of Momentum, the update can be written as
+        带有动量 /Nesterov 的 SGD 的实现稍微不同于 Sutskever 等人以及其他框架中的实现.
+        考虑动量的具体情况，更新可以写成
 
         .. math::
                   v = \rho * v + g \\
                   p = p - lr * v
 
-        where p, g, v and :math:`\rho` denote the parameters, gradient,
-        velocity, and momentum respectively.
+        其中 p, g, v 和 :math:`\rho` 分别是参数、梯度、速度和动量.
 
-        This is in contrast to Sutskever et. al. and
-        other frameworks which employ an update of the form
+        这跟 Sutskever 等人以及其他框架的实现是相反的，它们采用这样的更新.
 
         .. math::
              v = \rho * v + lr * g \\
              p = p - v
 
-        The Nesterov version is analogously modified.
+        Nesterov 的版本也相应的被修改了.
     """
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
@@ -62,11 +56,10 @@ class SGD(Optimizer):
             group.setdefault('nesterov', False)
 
     def step(self, closure=None):
-        """Performs a single optimization step.
+        """进行单步优化.
 
-        Arguments:
-            closure (callable, optional): A closure that reevaluates the model
-                and returns the loss.
+        参数:
+            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
         """
         loss = None
         if closure is not None:

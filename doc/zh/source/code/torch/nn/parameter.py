@@ -2,24 +2,24 @@ from torch.autograd import Variable
 
 
 class Parameter(Variable):
-    r"""A kind of Variable that is to be considered a module parameter.
+    r"""Variable 的一种, 常被用于 module parameter（模块参数）.
 
-    Parameters are :class:`~torch.autograd.Variable` subclasses, that have a
-    very special property when used with :class:`Module` s - when they're
-    assigned as Module attributes they are automatically added to the list of
-    its parameters, and will appear e.g. in :meth:`~Module.parameters` iterator.
-    Assigning a Variable doesn't have such effect. This is because one might
-    want to cache some temporary state, like last hidden state of the RNN, in
-    the model. If there was no such class as :class:`Parameter`, these
-    temporaries would get registered too.
+    Parameters 是 :class:`~torch.autograd.Variable` 的子类, 当它和 :class:`Module`
+    一起使用的时候会有一些特殊的属性 - 当它们赋值给 Module 属性时,
+    它会自动的被加到 Module 的参数列表中, 并且会出现在 :meth:`~Module.parameters` iterator 迭代器方法中.
+    将 Varibale 赋值给 Module 属性则不会有这样的影响.
+    这样做的原因是: 我们有时候会需要缓存一些临时的 state（状态）,
+    例如: 模型 RNN 中的最后一个隐藏状态.
+    如果没有 :class:`Parameter` 这个类的话,
+    那么这些临时表了也会注册为模型变量.
 
-    Another difference is that parameters can't be volatile and that they
-    require gradient by default.
+    Variable 与 Parameter 的另一个不同之处在于,
+    Parameter 不能被 volatile (即: 无法设置 volatile=True) 而且默认 requires_grad=True.
+    Variable 默认 requires_grad=False.
 
     Arguments:
         data (Tensor): parameter tensor.
-        requires_grad (bool, optional): if the parameter requires gradient. See
-            :ref:`excluding-subgraphs` for more details.
+        requires_grad (bool, optional): 如果参数需要梯度. 更多细节请参阅 :ref:`excluding-subgraphs`.
     """
     def __new__(cls, data=None, requires_grad=True):
         return super(Parameter, cls).__new__(cls, data, requires_grad=requires_grad)

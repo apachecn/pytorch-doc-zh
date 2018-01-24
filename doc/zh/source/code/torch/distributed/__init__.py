@@ -1,7 +1,6 @@
+#coding=utf-8
 """
-torch.distributed provides an MPI-like interface for exchanging tensor
-data across multi-machine networks. It supports a few different backends
-and initialization methods.
+torch.distributed 提供类似 MPI 的前向运算机制，支持在多台机的网络中交换数据。支持不同的后段和初始化方法。
 """
 import torch
 import warnings
@@ -21,18 +20,16 @@ def is_available():
 
 
 def init_process_group(backend, init_method='env://', **kwargs):
-    """Initializes the distributed package.
+    """初始化方法.
 
     Arguments:
-        backend (str): Name of the backend to use. Depending on build-time configuration
-            valid values include: ``tcp``, ``mpi`` and ``gloo``.
-        init_method (str, optional): URL specifying how to initialize the package.
-        world_size (int, optional): Number of processes participating in the job.
-        rank (int, optional): Rank of the current process.
-        group_name (str, optional): Group name. See description of init methods.
+        backend (str): 使用后端的名字. 输入的有效值包括: ``tcp``, ``mpi`` and ``gloo``.
+        init_method (str, optional): 指定如何初始化的URL.
+        world_size (int, optional): 参与工作的进程数量.
+        rank (int, optional): 当前进程的排名.
+        group_name (str, optional): 集群的名字. 请参阅init方法的描述.
 
-    To enable ``backend == mpi``, PyTorch needs to built from source on a system that
-    supports MPI.
+    为了支持 ``backend == mpi``, PyTorch 需要在支持 MPI 的系统上用进行源码编译安装
     """
     world_size = kwargs.pop('world_size', -1)
     group_name = kwargs.pop('group_name', '')
@@ -106,30 +103,30 @@ class _DistributedRequest(object):
 
 
 def get_rank():
-    """Returns the rank of current process.
+    """返回当前进程的排名.
 
-    Rank is a unique identifier assigned to each process within a distributed
-    group. They are always consecutive integers ranging from 0 to ``world_size``.
+    排名是独一无二的
+    Rank（排名）是分配给分布式集群中每个进程的唯一标识符. 它们总是连续的整数，范围从0到``world_size``.
     """
     assert torch.distributed._initialized
     return torch._C._dist_get_rank()
 
 
 def get_world_size():
-    """Returns the number of processes in the distributed group."""
+    """返回在分布式集群中的进程数目."""
     assert torch.distributed._initialized
     return torch._C._dist_get_num_processes()
 
 
 def isend(tensor, dst):
-    """Sends a tensor asynchronously.
+    """异步发送张量数据.
 
     Arguments:
-        tensor (Tensor): Tensor to send.
-        dst (int): Destination rank.
+        tensor (Tensor): 发送的张量的数据.
+        dst (int): 指定发送到的 Rank.
 
     Returns:
-        A distributed request object.
+        分布式请求对象.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -137,14 +134,14 @@ def isend(tensor, dst):
 
 
 def irecv(tensor, src):
-    """Receives a tensor asynchronously.
+    """异步接收张量.
 
     Arguments:
-        tensor (Tensor): Tensor to fill with received data.
-        src (int): Source rank.
+        tensor (Tensor): 用收到的数据填充张量.
+        src (int): 指定发送张量的 Rank.
 
     Returns:
-        A distributed request object.
+        一个分布式请求对象.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -152,11 +149,11 @@ def irecv(tensor, src):
 
 
 def send(tensor, dst):
-    """Sends a tensor synchronously.
+    """同步发送张量.
 
     Arguments:
-        tensor (Tensor): Tensor to send.
-        dst (int): Destination rank.
+        tensor (Tensor): 发送的张量.
+        dst (int): 指定发送的目的地的 Rank.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -164,15 +161,14 @@ def send(tensor, dst):
 
 
 def recv(tensor, src=None):
-    """Receives a tensor synchronously.
+    """同步接收张量.
 
     Arguments:
-        tensor (Tensor): Tensor to fill with received data.
-        src (int, optional): Source rank. Will receive from any
-            process if unspecified.
+        tensor (Tensor): 用收到的数据填充张量.
+        src (int, optional): 发送端的Rank，如果没有指定，将会接收任何发送的数据.
 
     Returns:
-        Sender rank.
+        发送端的Rank.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -182,16 +178,14 @@ def recv(tensor, src=None):
 
 
 def broadcast(tensor, src, group=group.WORLD):
-    """Broadcasts the tensor to the whole group.
+    """向某个小组内的张量广播的方法.
 
-    ``tensor`` must have the same number of elements in all processes
-    participating in the collective.
+    ``tensor`` 在该小组处理数据的所有过程中元素的数目必须相同.
 
     Arguments:
-        tensor (Tensor): Data to be sent if ``src`` is the rank of current
-            process, and tensor to be used to save received data otherwise.
-        src (int): Source rank.
-        group (optional): Group of the collective.
+        tensor (Tensor): 如果发送端 “src” 是当前进程的 Rank，则发送数据，否则使用张量保存接收的数据。
+        src (int): 发送端的 Rank.
+        group (optional): 集群内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -199,17 +193,13 @@ def broadcast(tensor, src, group=group.WORLD):
 
 
 def all_reduce(tensor, op=reduce_op.SUM, group=group.WORLD):
-    """Reduces the tensor data across all machines in such a way that all get
-    the final result.
+    """处理所有机器上的处理的张量数据，计算最终的结果.
 
-    After the call ``tensor`` is going to be bitwise identical in all processes.
-
+    在所有进程中调用“张量”将按位相同.
     Arguments:
-        tensor (Tensor): Input and output of the collective. The function
-            operates in-place.
-        op (optional): One of the values from ``torch.distributed.reduce_op``
-            enum.  Specifies an operation used for element-wise reductions.
-        group (optional): Group of the collective.
+        tensor (Tensor): 集群的输入和输出.
+        op (optional): “torch.distributed.reduce_op”枚举值之一. 指定用于元素减少的操作.
+        group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -217,16 +207,14 @@ def all_reduce(tensor, op=reduce_op.SUM, group=group.WORLD):
 
 
 def reduce(tensor, dst, op=reduce_op.SUM, group=group.WORLD):
-    """Reduces the tensor data across all machines.
+    """减少所有机器上的张量数据.
 
-    Only the process with rank ``dst`` is going to receive the final result.
+    只有级别为“dst”的进程才会收到最终结果.
 
     Arguments:
-        tensor (Tensor): Input and output of the collective. The function
-            operates in-place.
-        op (optional): One of the values from ``torch.distributed.reduce_op``
-            enum.  Specifies an operation used for element-wise reductions.
-        group (optional): Group of the collective.
+        tensor (Tensor): 集群的输入和输出数据. 分别在每台机器上本地处理。
+        op (optional): “torch.distributed.reduce_op”枚举值之一. 指定用于元素减少的操作.
+        group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -234,13 +222,12 @@ def reduce(tensor, dst, op=reduce_op.SUM, group=group.WORLD):
 
 
 def all_gather(tensor_list, tensor, group=group.WORLD):
-    """Gathers tensors from the whole group in a list.
+    """在整个集群中收集list表格中的张量.
 
     Arguments:
-        tensor_list (list[Tensor]): Output list. It should contain
-            correctly-sized tensors to be used for output of the collective.
-        tensor (Tensor): Tensor to be broadcast from current process.
-        group (optional): Group of the collective.
+        tensor_list (list[Tensor]): 输出列表. 它应该包含正确大小的张量以用于集体的输出.
+        tensor (Tensor): 张量从当前进程中进行广播.
+        group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -248,15 +235,13 @@ def all_gather(tensor_list, tensor, group=group.WORLD):
 
 
 def gather(tensor, **kwargs):
-    """Gathers a list of tensors in a single process.
+    """收集一个张量列表从一个单一进程中.
 
     Arguments:
-        tensor (Tensor): Input tensor.
-        dst (int): Destination rank. Required in all processes except the one that
-            is receiveing the data.
-        gather_list (list[Tensor]): List of appropriately-sized tensors to
-            use for received data. Required only in the receiving process.
-        group (optional): Group of the collective.
+        tensor (Tensor): 输入的数据.
+        dst (int): 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
+        gather_list (list[Tensor]): 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
+        group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -277,18 +262,15 @@ def gather(tensor, **kwargs):
 
 
 def scatter(tensor, **kwargs):
-    """Scatters a list of tensors to all processes in a group.
+    """将张量列表散布到小组中的所有进程.
 
-    Each process will receive exactly one tensor and store its data in the
-    ``tensor`` argument.
+    每个进程只会收到一个张量，并将其数据存储在 “tensor” 的参数中。
 
     Arguments:
-        tensor (Tensor): Output tensor.
-        src (int): Source rank. Required in all processes except the one that
-            is sending the data.
-        scatter_list (list[Tensor]): List of tensors to scatter. Required only
-            in the process that is sending the data.
-        group (optional): Group of the collective.
+        tensor (Tensor): 输出的张量.
+        src (int): 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
+        scatter_list (list[Tensor]): 张量分散的列表. 仅在发送数据的过程中需要.
+        group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -309,12 +291,12 @@ def scatter(tensor, **kwargs):
 
 
 def barrier(group=group.WORLD):
-    """Synchronizes all processes.
+    """同步所有进程.
 
-    This collective blocks processes until the whole group enters this function.
+    这个集群阻塞进程，直到全部的小组的计算结果都输入进这个函数中.
 
     Arguments:
-        group (optional): Group of the collective.
+        group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -322,18 +304,17 @@ def barrier(group=group.WORLD):
 
 
 def new_group(ranks=None):
-    """Creates a new distributed group.
+    """创建一个新的分布式小组
 
-    This function requires that all processes in the main group (i.e. all
-    processes that are part of the distributed job) enter this function, even
-    if they are not going to be members of the group. Additionally, groups
-    should be created in the same order in all processes.
+    此函数要求主组中的所有进程（即作为分布式作业一部分的所有进程）都会输入此函数，即使它们不是该小组的成员.
+    此外，应该在所有的进程中以相同的顺序创建新的小组。
+
 
     Arguments:
-        ranks (list[int]): List of ranks of group members.
+        ranks (list[int]): 小组内成员的 Rank 的列表.
 
     Returns:
-        A handle of distributed group that can be given to collective calls.
+        分配组的句柄，以便在集群中调用。
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
