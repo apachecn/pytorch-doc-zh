@@ -33,4 +33,3 @@
 -  在我们的 `apachecn/pytorch-doc-zh <https://github.com/apachecn/pytorch-doc-zh>`__ github 上提 issue.
 -  发送邮件到 Email: pytorch#apachecn.org（#替换成@）.
 -  在我们的 `组织学习交流群 <./apachecn-learning-group.rst>`__ 中联系群主/管理员即可.
->>>>>>> ups/v0.3.0
