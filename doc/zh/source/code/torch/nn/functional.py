@@ -1207,9 +1207,8 @@ def multilabel_soft_margin_loss(input, target, weight=None, size_average=True):
 
 
 def cosine_embedding_loss(input1, input2, target, margin=0, size_average=True):
-    """cosine_embedding_loss(input1, input2, target, margin=0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.CosineEmbeddingLoss` for details.
+    """
+    详见 :class:`~torch.nn.CosineEmbeddingLoss`.
     """
     return _functions.loss.CosineEmbeddingLoss.apply(input1, input2, target, margin, size_average)
 
