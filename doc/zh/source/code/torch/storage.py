@@ -39,43 +39,43 @@ class _StorageBase(object):
         return [v for v in self]
 
     def cpu(self):
-        """如果当前此存储不在CPU上，则返回它在CPU上的一个副本"""
+        """如果当前此存储不在 CPU 上, 则返回它在 CPU 上的一个副本"""
         return self.type(getattr(torch, self.__class__.__name__))
 
     def double(self):
-        """将此存储转换为double类型"""
+        """将此存储转换为 double 类型"""
         return self.type(type(self).__module__ + '.DoubleStorage')
 
     def float(self):
-        """将此存储转换为float类型"""
+        """将此存储转换为 float 类型"""
         return self.type(type(self).__module__ + '.FloatStorage')
 
     def half(self):
-        """将此存储转换为half类型"""
+        """将此存储转换为 half 类型"""
         return self.type(type(self).__module__ + '.HalfStorage')
 
     def long(self):
-        """将此存储转换为long类型"""
+        """将此存储转换为 long 类型"""
         return self.type(type(self).__module__ + '.LongStorage')
 
     def int(self):
-        """将此存储转换为int类型"""
+        """将此存储转换为 int 类型"""
         return self.type(type(self).__module__ + '.IntStorage')
 
     def short(self):
-        """将此存储转换为short类型"""
+        """将此存储转换为 short 类型"""
         return self.type(type(self).__module__ + '.ShortStorage')
 
     def char(self):
-        """将此存储转换为char类型"""
+        """将此存储转换为 char 类型"""
         return self.type(type(self).__module__ + '.CharStorage')
 
     def byte(self):
-        """将此存储转换为byte类型"""
+        """将此存储转换为 byte 类型"""
         return self.type(type(self).__module__ + '.ByteStorage')
 
     def pin_memory(self):
-        """如果此存储当前未被锁定，则将它复制到锁定内存中。"""
+        """如果此存储当前未被锁定, 则将它复制到锁定内存中"""
         if self.is_cuda:
             raise TypeError("cannot pin '{0}' only CPU memory can be pinned"
                             .format(self.type()))
@@ -84,10 +84,10 @@ class _StorageBase(object):
         return type(self)(self.size(), allocator=allocator).copy_(self)
 
     def share_memory_(self):
-        """将此存储移动到共享内存中。
+        """将此存储移动到共享内存中.
 
-        对于已经在共享内存中的存储或者CUDA存储，这是一条空指令，它们不需要移动就能在进程间共享。
-        共享内存中的存储不能改变大小。
+        对于已经在共享内存中的存储或者 CUDA 存储, 这是一条空指令, 它们不需要移动就能在进程间共享.
+        共享内存中的存储不能改变大小.
 
         Returns: self
         """
