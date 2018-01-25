@@ -42,7 +42,7 @@ class _BatchNorm(Module):
                 .format(name=self.__class__.__name__, **self.__dict__))
 
 
-class BatchNorm1d(_BatchNorm):
+class (_BatchNorm):
     r""" 对 2d 或者 3d 的小批量 (mini-batch) 数据进行批标准化 (Batch Normalization) 操作.
 
     .. math::
@@ -54,7 +54,7 @@ class BatchNorm1d(_BatchNorm):
 
     在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    在验证时,训练得到的均值/方差,用于标准化.
+    在验证时,训练得到的均值/方差,用于标准化验证数据.
 
     BatchNorm 在 'C' 维上处理,即 '(N,L)' 部分运行,被称作 'Temporal BatchNorm'
 
@@ -96,7 +96,7 @@ class BatchNorm2d(_BatchNorm):
 
     在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为 0.1.
 
-    在验证时,训练得到的均值/方差,用于标准化.
+    在验证时,训练得到的均值/方差,用于标准化验证数据.
 
     BatchNorm 在 'C' 维上处理,即 '(N, H, W)' 部分运行,被称作 'Spatial BatchNorm'.
 
@@ -138,7 +138,7 @@ class BatchNorm3d(_BatchNorm):
 
     在训练过程中,该层计算均值和方差,并进行平均移动.默认的平均移动动量值为 0.1.
 
-    在验证时,训练得到的均值/方差,用于标准化.
+    在验证时,训练得到的均值/方差,用于标准化验证数据.
 
     BatchNorm 在 'C' 维上处理,即 '(N, D, H, W)' 部分运行,被称作 'Volumetric BatchNorm' 或者 'Spatio-temporal BatchNorm'
 
