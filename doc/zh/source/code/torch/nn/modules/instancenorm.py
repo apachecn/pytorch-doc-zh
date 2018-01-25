@@ -47,14 +47,14 @@ class InstanceNorm1d(_InstanceNorm):
 
     在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    在验证时 ('.eval()'),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
-    但可以用 '.train(False)' 方法强制使用存储的均值和方差.
+    在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
+    但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
     Args:
         num_features: 预期输入的特征数,大小为 'batch_size x num_features x width'
         eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
         momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
-        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 False
+        affine: 布尔值,设为 ``True`` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 ``False``
 
     Shape:
         - Input: :math:`(N, C, L)`
@@ -87,14 +87,14 @@ class InstanceNorm2d(_InstanceNorm):
 
     在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    在验证时 ('.eval()'),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
-    但可以用 '.train(False)' 方法强制使用存储的均值和方差.
+    在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
+    但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
     Args:
         num_features: 预期输入的特征数,大小为 'batch_size x num_features x height x width'
         eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
         momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
-        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 False
+        affine: 布尔值,设为 ``True`` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 ``False``
 
     Shape:
         - Input: :math:`(N, C, H, W)`
@@ -127,14 +127,14 @@ class InstanceNorm3d(_InstanceNorm):
 
     在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    在验证时 ('.eval()'),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
-    但可以用 '.train(False)' 方法强制使用存储的均值和方差.
+    在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
+    但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
     Args:
         num_features: 预期输入的特征数,大小为 'batch_size x num_features x depth x height x width'
         eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
         momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
-        affine: 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 False
+        affine: 布尔值,设为 ``True`` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 ``False``
 
     Shape:
         - Input: :math:`(N, C, D, H, W)`
