@@ -33,7 +33,7 @@
 -  `@jizg <https://github.com/jizg>`__
 -  `@小乔 <https://github.com/QiaoXie>`__
 -  `@BarrettLi <https://github.com/BarrettLi>`__
-
+-  `@谢家柯 <https://github.com/kelisiya>`__
 建议反馈
 --------
 
