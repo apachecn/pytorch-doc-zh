@@ -1503,7 +1503,7 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
     margin 值. 此标准可以用来衡量输入样本间的相对相似性. 一个三元输入组合由 `a`, `p` 和 `n`: anchor, 
     positive 样本 和 negative 样本组成. 所有输入变量的形式必须为:math:`(N, D)`.
 
-    距离交换的详细说明请参考论文`Learning shallow convolutional feature descriptors with triplet losses`_ by
+    距离交换的详细说明请参考论文 `Learning shallow convolutional feature descriptors with triplet losses`_ by
     V. Balntas, E. Riba et al.
 
     .. math::
