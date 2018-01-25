@@ -29,6 +29,7 @@
 -  `@谈笑风生 <https://github.com/zhu1040028623>`__
 -  `@叶舒泉 <https://github.com/pleaseconnectwifi>`__
 -  `@Sylvester <https://github.com/coboe>`__
+-  `@胡东瑶 <https://github.com/psubnwell>`__
 
 建议反馈
 --------
