@@ -42,7 +42,7 @@ class _BatchNorm(Module):
                 .format(name=self.__class__.__name__, **self.__dict__))
 
 
-class (_BatchNorm):
+class BatchNorm1d(_BatchNorm):
     r""" 对 2d 或者 3d 的小批量 (mini-batch) 数据进行批标准化 (Batch Normalization) 操作.
 
     .. math::
