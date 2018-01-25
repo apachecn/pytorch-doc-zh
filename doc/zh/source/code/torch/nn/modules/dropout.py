@@ -4,13 +4,13 @@ from .. import functional as F
 
 class Dropout(Module):
     r"""Dropout 在训练期间, 按照伯努利概率分布, 以概率 p 随机地将输入张量中的部分元素
-	置为 0, 在每次调用中, 被置为 0 的元素是随机的.
+	置为 0, 在每次调用时, 被置为 0 的元素是随机的.
 
 	Dropout 已被证明是正则化的一个行之有效的技术, 并且在防止神经元之间互适应问题上
 	也卓有成效.（神经元互适应问题详见论文 `Improving neural networks by preventing 
 	co-adaptation of feature detectors`_ ）
 
-	并且,  Dropout 的输出均与 *1/(1-p)* 的比例系数进行了相乘, 保证了求值时函数的归一化.
+	并且,  Dropout 的输出均与 *1/(1-p)* 的比例系数进行了相乘, 保证了求值时函数是归一化的.
     
 	Args: 
 		p: 元素被置为0的概率, 默认值: 0.5
@@ -49,7 +49,7 @@ class Dropout(Module):
 
 
 class Dropout2d(Module):
-    r"""Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道在每次调用时是随机地.
+    r"""Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道在每次调用时是随机的.
 	
 	通常输入数据来自 Conv2d 模块.
 
@@ -57,7 +57,7 @@ class Dropout2d(Module):
 	描述: 如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见）, 那么独立同分布
 	的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
 
-	在这样的情况下, 应该使用函数函数 nn.Dropout2d , 它能够促进特征映射之间的独立性.
+	在这样的情况下, 应该使用函数函数 nn.Dropout2d , 它能够提升特征映射之间的独立性.
     
 	Args: 
 		p (float,optional): 元素被置0的概率
@@ -96,7 +96,7 @@ class Dropout2d(Module):
 
 
 class Dropout3d(Module):
-    r"""Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道在每次调用时是随机地.
+    r"""Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道在每次调用时是随机的.
 	
 	通常输入数据来自 Conv3d 模块.
 
