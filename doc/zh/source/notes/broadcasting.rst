@@ -18,25 +18,25 @@
 
     >>> x=torch.FloatTensor(5,7,3)
     >>> y=torch.FloatTensor(5,7,3)
-    # 相同的形状总是满足的（上述规则总是成立的）
+    # 相同的形状总是满足的(上述规则总是成立的)
 
     >>> x=torch.FloatTensor()
     >>> y=torch.FloatTensor(2,2)
-    # x and y are not broadcastable, because x does not have at least 1 dimension
+    # x和y不是满足广播语义的,因为x至少为1维.
 
     # 可以排列尾部维度
     >>> x=torch.FloatTensor(5,3,4,1)
     >>> y=torch.FloatTensor(  3,1,1)
-    # x and y are broadcastable.
-    # 1st trailing dimension: both have size 1
-    # 2nd trailing dimension: y has size 1
-    # 3rd trailing dimension: x size == y size
-    # 4th trailing dimension: y dimension doesn't exist
+    # x和y是满足广播语义的.
+    # 尾列第一维 : 都包含1.
+    # 尾列第二维 : y的维度值为1.
+    # 尾列第三维 : x size == y size.
+    # 尾列第四维 : y维度不存在尾列第四维.
 
     # 但是:
     >>> x=torch.FloatTensor(5,2,4,1)
     >>> y=torch.FloatTensor(  3,1,1)
-    # x and y are not broadcastable, because in the 3rd trailing dimension 2 != 3
+    # x和y是不满足广播语义的, 因为尾列第三维中 2 != 3 .
 
 如果两个张量 :attr:`x`, :attr:`y` 是 `broadcastable`, 则结果张量的大小由如下方式计算:
 - 如果维度的数量 :attr:`x` 和 :attr:`y` 不相等, 在维度较少的张量的维度前置 1

@@ -945,24 +945,22 @@ def batch_norm(input, running_mean, running_var, weight=None, bias=None,
 # loss
 
 def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, reduce=True):
-    r"""The negative log likelihood loss.
+    r"""负对数似然损失.
 
-    See :class:`~torch.nn.NLLLoss` for details.
+    详见 :class:`~torch.nn.NLLLoss`.
 
-    Args:
-        input: :math:`(N, C)` where `C = number of classes` or `(N, C, H, W)`
-            in case of 2D - Loss
-        target: :math:`(N)` where each value is `0 <= targets[i] <= C-1`
-        weight (Tensor, optional): a manual rescaling weight given to each
-            class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-            over observations for each minibatch. If size_average
-            is False, the losses are summed for each minibatch. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-            and does not contribute to the input gradient. When size_average is
-            True, the loss is averaged over non-ignored targets. Default: -100
+    参数:
+        input: :math:`(N, C)` 其中 `C = number of classes` 或 `(N, C, H, W)`, 
+            当 2D - Loss 时
+        target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
+        weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 C 的 Tensor
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+            mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
+        ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
+            当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
 
-    Example::
+    实例::
 
         >>> # input is of size N x C = 3 x 5
         >>> input = autograd.Variable(torch.randn(3, 5))
@@ -983,24 +981,23 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
 
 
 def poisson_nll_loss(input, target, log_input=True, full=False, size_average=True, eps=1e-8):
-    r"""Poisson negative log likelihood loss.
+    r"""泊松分布的负对数似然损失 (Negative log likelihood loss).
 
-    See :class:`~torch.nn.PoissonNLLLoss` for details.
+    详见 :class:`~torch.nn.PoissonNLLLoss`.
 
-    Args:
-        input: expectation of underlying Poisson distribution.
-        target: random sample :math:`target \sim Pois(input)`.
-        log_input: if ``True`` the loss is computed as
-            `exp(input) - target * input`, if ``False`` then loss is
-            `input - target * log(input+eps)`. Default: ``True``
-        full: whether to compute full loss, i. e. to add the Stirling
-            approximation term. Default: ``False``
-            `target * log(target) - target + 0.5 * log(2 * pi * target)`.
-        size_average: By default, the losses are averaged over observations for
-            each minibatch. However, if the field sizeAverage is set to False,
-            the losses are instead summed for each minibatch. Default: ``True``
-        eps (float, optional): Small value to avoid evaluation of log(0) when
-            log_input=False. Default: 1e-8
+    参数:
+        input: 泊松分布的期望值.
+        target: 随机样本 :math:`target \sim Pois(input)`.
+        log_input:  如果设置为 ``True`` , 损失将会按照公式 `exp(input) - target * input` 
+            来计算, 如果设置为 ``False`` , 损失将会按照 `input - target * log(input+eps)` 计算.
+            默认: ``True``
+        full:  是否计算全部的损失, i. e. 加上 Stirling 近似项 
+            `target * log(target) - target + 0.5 * log(2 * pi * target)`. 默认: ``False``
+        size_average:  默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 上取平均值. 
+            如果字段 size_average 被设置为  ``False``, 损失函数的值会在每 个 mini-batch（小批量）上求和.
+            默认: ``True``.
+        eps (float, optional): 当 ··log_input==False`` 时, 取一个很小的值用来
+            避免计算 log(0) . 默认: 1e-8
     """
     if log_input:
         loss = torch.exp(input) - target * input
@@ -1016,50 +1013,41 @@ def poisson_nll_loss(input, target, log_input=True, full=False, size_average=Tru
 
 
 kl_div = _add_docstr(torch._C._nn.kl_div, r"""
-kl_div(input, target, size_average=True) -> Variable
+`Kullback-Leibler divergence` 损失.
 
-The `Kullback-Leibler divergence`_ Loss.
+详见ee :class:`~torch.nn.KLDivLoss`.
 
-See :class:`~torch.nn.KLDivLoss` for details.
-
-Args:
-    input: Variable of arbitrary shape
-    target: Variable of the same shape as input
-    size_average: if ``True`` the output is divided by the number of elements
-        in input tensor. Default: ``True``
-    reduce (bool, optional): By default, the losses are averaged
-        over observations for each minibatch, or summed, depending on
-        size_average. When reduce is False, returns a loss per batch
-        element instead and ignores size_average. Default: ``True``
+参数:
+    input: 任意形状变量
+    target: 与输入形状相同的变量
+    size_average: 如果是 ``True`` 输出值会除以输入 tensor 的元素总数. 默认: ``True``
+    reduce (bool, optional): 默认情况下, 该损失函数的值会根据 size_average 在每个 
+            mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损
+            失函数会对每个 batch 元素都返回一个损失值并忽略 size_average. 默认: ``True``
 
 """)
 
 
 def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-100, reduce=True):
-    r"""This criterion combines `log_softmax` and `nll_loss` in a single
-    function.
+    r"""这个标准把 `log_softmax` 和 `nll_loss` 结合到了一个方程中.
 
-    See :class:`~torch.nn.CrossEntropyLoss` for details.
+    详见 :class:`~torch.nn.CrossEntropyLoss`.
 
-    Args:
-        input: Variable :math:`(N, C)` where `C = number of classes`
-        target: Variable :math:`(N)` where each value is
-            `0 <= targets[i] <= C-1`
-        weight (Tensor, optional): a manual rescaling weight given to each
-                class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Ignored if reduce is False. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-                and does not contribute to the input gradient. When size_average is
-                True, the loss is averaged over non-ignored targets. Default: -100
-        reduce (bool, optional): By default, the losses are averaged or summed over
-                observations for each minibatch depending on size_average. When reduce
-                is False, returns a loss per batch element instead and ignores
-                size_average. Default: ``True``
+    参数:
+        input: 变量 :math:`(N, C)` 其中 `C` 为分类的数量
+        target: 变脸 :math:`(N)` 其中每个值 `0 <= targets[i] <= C-1`
+        weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个大小为 `C` 的 Tensor
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+                上取平均值. 如果字段 size_average 被设置为 ``False``, 损失函数的值会在每个 
+                mini-batch（小批量）上求和. 当 reduce 的值为 False 时会被忽略. 默认: ``True``
+        ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
+                当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 
+                默认: -100
+        reduce (bool, optional):  默认情况下, 该损失函数的值会根据 size_average 的取值, 在每个 
+                mini-batch（小批量）上求平均值或者求和. 当 reduce 是 False 时, 损失函数会对每个 
+                batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
 
-    Examples::
+    实例::
 
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(5))
@@ -1070,22 +1058,19 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
 
 
 def binary_cross_entropy(input, target, weight=None, size_average=True):
-    r"""Function that measures the Binary Cross Entropy
-    between the target and the output.
+    r"""计算目标 `target` 与输出 `output` 之间的二进制交叉熵 (Binary Cross Entropy).
 
-    See :class:`~torch.nn.BCELoss` for details.
+    详见 :class:`~torch.nn.BCELoss`.
 
-    Args:
-        input: Variable of arbitrary shape
-        target: Variable of the same shape as input
-        weight (Variable, optional): a manual rescaling weight
-                if provided it's repeated to match input tensor shape
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Default: ``True``
+    参数:
+        input: 任意形状的变量
+        target: 与输入形状相同的变量
+        weight (Variable, optional): 一个可手动指定每个类别的权重.如果给定的话, 会反复与
+                输入 tensor 形状相匹配.
+        size_average (bool, optional): 默认情况下, 是mini-batchloss的平均值. 然而, 
+                如果size_average=False, 则是 `mini-batch` loss的总和. 默认: ``True``
 
-    Examples::
+    实例::
 
         >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(2))
@@ -1109,22 +1094,20 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
 
 
 def binary_cross_entropy_with_logits(input, target, weight=None, size_average=True):
-    r"""Function that measures Binary Cross Entropy between target and output
-    logits.
+    r"""计算目标和输出之间的 Binary Cross Entropy with logits.
 
-    See :class:`~torch.nn.BCEWithLogitsLoss` for details.
+    详见 :class:`~torch.nn.BCEWithLogitsLoss`.
 
-    Args:
-        input: Variable of arbitrary shape
-        target: Variable of the same shape as input
-        weight (Variable, optional): a manual rescaling weight
-                if provided it's repeated to match input tensor shape
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Default: ``True``
+    参数:
+        input: 任意形状的变量
+        target: 与输入形状相同的变量
+        weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
+                输入 tensor 的形状.
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+                上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+                mini-batch（小批量）上求和. 默认值: ``True``
 
-    Examples::
+    实例::
 
          >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
          >>> target = autograd.Variable(torch.FloatTensor(3).random_(2))
@@ -1147,81 +1130,65 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
 
 
 smooth_l1_loss = _add_docstr(torch._C._nn.smooth_l1_loss, r"""
-smooth_l1_loss(input, target, size_average=True) -> Variable
+当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算. 
 
-Function that uses a squared term if the absolute
-element-wise error falls below 1 and an L1 term otherwise.
-
-See :class:`~torch.nn.SmoothL1Loss` for details.
+详见 :class:`~torch.nn.SmoothL1Loss`.
 """)
 
 l1_loss = _add_docstr(torch._C._nn.l1_loss, r"""
-l1_loss(input, target, size_average=True, reduce=True) -> Variable
+这个方程计算逐个变量的差的绝对值的平均数.
 
-Function that takes the mean element-wise absolute value difference.
-
-See :class:`~torch.nn.L1Loss` for details.
+详见 :class:`~torch.nn.L1Loss`.
 """)
 
 mse_loss = _add_docstr(torch._C._nn.mse_loss, r"""
-mse_loss(input, target, size_average=True, reduce=True) -> Variable
+计算变量之间的均方差.
 
-Measures the element-wise mean squared error.
-
-See :class:`~torch.nn.MSELoss` for details.
+详见 :class:`~torch.nn.MSELoss`.
 """)
 
 
 def margin_ranking_loss(input1, input2, target, margin=0, size_average=True):
-    """margin_ranking_loss(input1, input2, target, margin=0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MarginRankingLoss` for details.
+    """
+    详见 :class:`~torch.nn.MarginRankingLoss`.
     """
     return _functions.loss.MarginRankingLoss.apply(input1, input2, target, margin, size_average)
 
 
 def hinge_embedding_loss(input, target, margin=1.0, size_average=True):
-    """hinge_embedding_loss(input, target, margin=1.0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.HingeEmbeddingLoss` for details.
+    """
+    详见 :class:`~torch.nn.HingeEmbeddingLoss`.
     """
     return _functions.loss.HingeEmbeddingLoss.apply(input, target, margin, size_average)
 
 
 multilabel_margin_loss = _add_docstr(torch._C._nn.multilabel_margin_loss, r"""
-multilabel_margin_loss(input, target, size_average=True) -> Variable
-
-See :class:`~torch.nn.MultiLabelMarginLoss` for details.
+详见 :class:`~torch.nn.MultiLabelMarginLoss`.
 """)
 
 soft_margin_loss = _add_docstr(torch._C._nn.soft_margin_loss, r"""
-soft_margin_loss(input, target, size_average=True) -> Variable
-
-See :class:`~torch.nn.SoftMarginLoss` for details.
+详见 :class:`~torch.nn.SoftMarginLoss`.
 """)
 
 
 def multilabel_soft_margin_loss(input, target, weight=None, size_average=True):
-    """multilabel_soft_margin_loss(input, target, weight=None, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MultiLabelSoftMarginLoss` for details.
+    """
+    详见 :class:`~torch.nn.MultiLabelSoftMarginLoss`.
     """
     input = torch.sigmoid(input)
     return binary_cross_entropy(input, target, weight, size_average)
 
 
 def cosine_embedding_loss(input1, input2, target, margin=0, size_average=True):
-    """cosine_embedding_loss(input1, input2, target, margin=0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.CosineEmbeddingLoss` for details.
+    """
+    详见 :class:`~torch.nn.CosineEmbeddingLoss`.
     """
     return _functions.loss.CosineEmbeddingLoss.apply(input1, input2, target, margin, size_average)
 
 
 def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=True):
-    """multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MultiMarginLoss` for details.
+    """
+    详见 :class:`~torch.nn.MultiMarginLoss`.
     """
     if p != 1 and p != 2:
         raise ValueError('only p == 1 and p == 2 supported')
@@ -1532,36 +1499,32 @@ def cosine_similarity(x1, x2, dim=1, eps=1e-8):
 
 
 def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, swap=False):
-    r"""Creates a criterion that measures the triplet loss given an input
-    tensors x1, x2, x3 and a margin with a value greater than 0.
-    This is used for measuring a relative similarity between samples. A triplet
-    is composed by `a`, `p` and `n`: anchor, positive examples and negative
-    example respectively. The shape of all input variables should be
-    :math:`(N, D)`.
+    r"""创建一个标准, 用以衡量三元组合的损失值, 计算损失值时需要3个输入张量 x1, x2, x3 和 一个大于零的 
+    margin 值. 此标准可以用来衡量输入样本间的相对相似性. 一个三元输入组合由 `a`, `p` 和 `n`: anchor, 
+    positive 样本 和 negative 样本组成. 所有输入变量的形式必须为:math:`(N, D)`.
 
-    The distance swap is described in detail in the paper `Learning shallow
-    convolutional feature descriptors with triplet losses`_ by
+    距离交换的详细说明请参考论文 `Learning shallow convolutional feature descriptors with triplet losses`_ by
     V. Balntas, E. Riba et al.
 
     .. math::
         L(a, p, n) = \frac{1}{N} \left( \sum_{i=1}^N \max \{d(a_i, p_i) - d(a_i, n_i) + {\rm margin}, 0\} \right)
 
-    where :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
+    其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
-    Args:
-        anchor: anchor input tensor
-        positive: positive input tensor
-        negative: negative input tensor
-        margin: the margin value. Default: 1
-        p: the norm degree. Default: 2
-        eps: small epsilon value to avoid numerical issues. Default: 1e-6
-        swap: compute distance swap. Default: ``False``
+    参数:
+        anchor: anchor 输入 tensor
+        positive: positive 输入 tensor
+        negative: negative 输入 tensor
+        margin: margin 值. 默认: 1
+        p: 正则化率. 默认: 2
+        eps: 小 epsilon 值, 用来避免计算数值的问题. 默认: 1e-6
+        swap: 计算距离交换. 默认: ``False``
 
-    Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
+    形状:
+        - Input: :math:`(N, D)` 其中 `D = vector dimension`
         - Output: :math:`(N, 1)`
 
-    Example::
+    实例::
 
         >>> input1 = autograd.Variable(torch.randn(100, 128))
         >>> input2 = autograd.Variable(torch.randn(100, 128))
