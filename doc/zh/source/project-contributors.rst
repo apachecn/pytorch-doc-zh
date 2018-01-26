@@ -38,6 +38,7 @@
 -  `@Chriskuei <https://github.com/Chriskuei>`__
 -  `@冯斐 <https://github.com/ata123>`__
 -  `@夜神月 <https://github.com/apachecn/pytorch-doc-zh>`__
+-  `@MUSK1881 <https://github.com/JoinsenQ>`__
 
 建议反馈
 --------
