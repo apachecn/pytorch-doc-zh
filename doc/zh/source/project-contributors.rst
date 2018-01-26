@@ -36,6 +36,8 @@
 -  `@谢家柯 <https://github.com/kelisiya>`__
 -  `@buldajs <https://github.com/buldajs>`__
 -  `@Chriskuei <https://github.com/Chriskuei>`__
+-  `@冯斐 <https://github.com/ata123>`__
+
 建议反馈
 --------
 
