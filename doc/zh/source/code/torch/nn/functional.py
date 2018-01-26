@@ -1201,7 +1201,7 @@ def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=Tr
 def pixel_shuffle(input, upscale_factor):
     r"""将 shape 为 [*, C*r^2, H, W] 的 Tensor 重新排列成 shape 为 [C, H*r, W*r] 的 Tensor.
 
-    详细请看 PixelShuffle.
+    详情请参阅 :class:`~torch.nn.PixelShuffle`.
 
     参数:
         input (Variable): 输入
