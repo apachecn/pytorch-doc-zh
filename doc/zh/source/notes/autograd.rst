@@ -83,7 +83,7 @@ Autograd（自动求导）是一个反向自动微分的系统.
 通过追踪这个从 roots（根）到 leaves（叶子）的 graph（图）, 您可以使用 chain rule（链式规则）来自动的计算梯度.
 
 在其内部, autograd（自动求导）将这个 graph（图）形象的表示为 :class:`Function` 对象（真正的表达式）, 可以通过 :meth:`~torch.autograd.Function.apply` 方法来计算评估 graph（图）的结果.
-当计算 forwards pass（前向传递）时, autograd（自动求导）同时执行求情的计算, 并且构建一个图以表示计算梯度的函数（ 每个 :class:`Variable` 类的 ``.grad_fn`` 属性是该 graph 的入口点）.
+当计算 forwards pass（前向传递）时, autograd（自动求导）同时执行所请求的计算, 并且构建一个图以表示计算梯度的函数（ 每个 :class:`Variable` 类的 ``.grad_fn`` 属性是该 graph 的入口点）.
 当 forwards pass（前向传递）计算完成时, 我们通过 backwards pass（方向传递）评估该 graph（图）来计算梯度.
 
 需要注意的一点很重要. 就是每次迭代都会重新创建一个 graph（图）, 这正是允许使用任意 ``Python 控制流语句`` 的原因, 这样可以在每次迭代中改变 graph（图）的整体形状和大小. 在开始训练之前, 您不必编码所有可能的路径 - 您运行的即是您所微分的.
