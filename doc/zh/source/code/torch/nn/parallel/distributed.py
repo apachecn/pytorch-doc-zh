@@ -22,52 +22,52 @@ else:
 
 
 class DistributedDataParallel(Module):
-    r"""在模块级别实现分布式数据并行。
+    r"""在模块级别实现分布式数据并行.
 
-    此容器通过在批次维度中分块，将输入分割到指定设备上，从而并行化给定模块的应用程序。
-    该模块被复制到每台机器和每个设备上，每个这样的副本处理一部分输入。在向后传递期间，
-    来自每个节点的梯度被平均。
+    此容器通过在批次维度中分块，将输入分割到指定设备上，从而并行化给定模块的应用程序.
+    该模块被复制到每台机器和每个设备上，每个这样的副本处理一部分输入.在向后传递期间，
+    来自每个节点的梯度被平均.
 
-    batch size 应该大于GPUs的数量。同时也应该是GPU数量的整数倍，以便每个块大小相同
-    （以便每个GPU处理相同数量的样本）。
+    batch size 应该大于GPUs的数量.同时也应该是GPU数量的整数倍，以便每个块大小相同
+    （以便每个GPU处理相同数量的样本）.
 
-    引用: :ref:`distributed-basics` and :ref:`cuda-nn-dataparallel-instead`.
+    引用 ::ref:`distributed-basics`  和  :ref:`cuda-nn-dataparallel-instead`.
     对输入的约束和 :class:`torch.nn.DataParallel` 中一样.
 
     创建这个类需要分布式包已经在process group模式下被初始化
     (引用 :func:`torch.distributed.init_process_group`).
 
     .. 警告::
-        这个模块只能和``gloo``后端一起工作。
+        这个模块只能和``gloo``后端一起工作.
 
     .. 警告::
-        构造器，转发方法和输出（或者这个模块的输出功能）的区分是分布式同步点。
-        考虑到不同的进程可能会执行不同的代码。
+        构造器，转发方法和输出（或者这个模块的输出功能）的区分是分布式同步点.
+        考虑到不同的进程可能会执行不同的代码.
 
     .. 警告::
-        该模块假设所有参数在创建时都在模型中注册。之后不应该添加或删除参数。
-        同样适用于缓冲区。
+        该模块假设所有参数在创建时都在模型中注册.之后不应该添加或删除参数.
+        同样适用于缓冲区.
 
     .. 警告::
-        这个模块假定所有的缓冲区和梯度都是密集的。
+        这个模块假定所有的缓冲区和梯度都是密集的.
 
     .. 警告::
-        这个模块不能用于：func：`torch.autograd.grad`（即只有在参数的``.grad``属性中
-        累积梯度才能使用）。
+        这个模块不能用于 ：func：`torch.autograd.grad` （即只有在参数的 ``.grad`` 属性中
+        累积梯度才能使用）.
 
     .. 注意::
 
-        参数永远不会在进程之间广播。模块在梯度上执行全部优化步骤，并假定它们将以相同的
-        方式在所有进程中进行优化。缓冲区（e.g. BatchNorm stats）在等级0的过程中从模
-        块广播到系统中的每个迭代中的所有其他副本。
+        参数永远不会在进程之间广播.模块在梯度上执行全部优化步骤，并假定它们将以相同的
+        方式在所有进程中进行优化.缓冲区（e.g. BatchNorm stats）在等级0的过程中从模
+        块广播到系统中的每个迭代中的所有其他副本.
 
 
-    参数:
+    参数 :
         module: 需要并行的模型
         device_ids: CUDA devices (default: all devices)
         output_device: device location of output (default: device_ids[0])
 
-    示例::
+    示例 ::
 
         >>> torch.distributed.init_process_group(world_size=4, init_method='...')
         >>> net = torch.nn.DistributedDataParallel(model)
