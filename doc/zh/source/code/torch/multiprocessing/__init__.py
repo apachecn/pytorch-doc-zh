@@ -1,17 +1,13 @@
 """
-torch.multiprocessing is a wrapper around the native :mod:`multiprocessing`
-module. It registers custom reducers, that use shared memory to provide shared
-views on the same data in different processes. Once the tensor/storage is moved
-to shared_memory (see :func:`~torch.Tensor.share_memory_`), it will be possible
-to send it to other processes without making any copies.
+torch.multiprocessing 是本地 :mod:`multiprocessing` 多进程处理模块的一个 wrapper（包装器）. 
+它通过注册自定义的 reducers（缩减器）, 使用共享内存来提供不同进程中相同数据的共享视图.
+一旦 tensor/storage（张量/存储）移动到共享内存 (请参阅 :func:`~torch.Tensor.share_memory_`),
+就可以将其发送到其他进程而不做任何复制.
 
-The API is 100% compatible with the original module - it's enough to change
-``import multiprocessing`` to ``import torch.multiprocessing`` to have all the
-tensors sent through the queues or shared via other mechanisms, moved to shared
-memory.
+该 API 与原始模块 100% 兼容 - 只需将 ``import multiprocessing`` 更改为 `import torch.multiprocessing``
+就可以将所有张量通过队列发送, 或通过其它机制共享, 移动到共享内存.
 
-Because of the similarity of APIs we do not document most of this package
-contents, and we recommend referring to very good docs of the original module.
+由于 API 的相似性, 我们没有记录大部分这个包的内容, 我们参考引用原始模块中非常优秀的文档.
 """
 import sys
 from .reductions import init_reductions
@@ -43,11 +39,10 @@ else:
 
 
 def set_sharing_strategy(new_strategy):
-    """Sets the strategy for sharing CPU tensors.
+    """为共享的 CPU 张量来设置策略.
 
     Arguments:
-        new_strategy (str): Name of the selected strategy. Should be one of
-            the values returned by :func:`get_all_sharing_strategies()`.
+        new_strategy (str): 所选策略的名称. 必须是函数 :func:`get_all_sharing_strategies()` 所返回的值之一.
     """
     global _sharing_strategy
     assert new_strategy in _all_sharing_strategies
@@ -55,12 +50,12 @@ def set_sharing_strategy(new_strategy):
 
 
 def get_sharing_strategy():
-    """Returns the current strategy for sharing CPU tensors."""
+    """返回用于共享 CPU 张量的当前策略."""
     return _sharing_strategy
 
 
 def get_all_sharing_strategies():
-    """Returns a set of sharing strategies supported on a current system."""
+    """返回当前系统支持的一组共享策略."""
     return _all_sharing_strategies
 
 
