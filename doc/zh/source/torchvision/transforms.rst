@@ -3,12 +3,12 @@ torchvision.transforms
 
 .. currentmodule:: torchvision.transforms
 
-Transforms are common image transforms. They can be chained together using :class:`Compose`
+Transforms（变换）是常见的 image transforms（图像变换）.他们可以使用 :class:`Compose` 类以链在一起来进行操作.
 
 .. autoclass:: Compose
 
-Transforms on PIL Image
------------------------
+Transforms PIL Image 上的变换
+-----------------------------
 
 .. autoclass:: Resize
 
@@ -38,7 +38,7 @@ Transforms on PIL Image
 
 .. autoclass:: ColorJitter
 
-Transforms on torch.\*Tensor
+torch.\*Tensor 上的变换
 ----------------------------
 
 .. autoclass:: Normalize
@@ -46,7 +46,7 @@ Transforms on torch.\*Tensor
 	:special-members:
 
 
-Conversion Transforms
+转换类型的变换
 ---------------------
 
 .. autoclass:: ToTensor
@@ -57,7 +57,7 @@ Conversion Transforms
 	:members: __call__
 	:special-members:
 
-Generic Transforms
+通用的变换
 ------------------
 
 .. autoclass:: Lambda
