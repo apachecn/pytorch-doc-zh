@@ -42,7 +42,7 @@ Indexing, Slicing, Joining, Mutating Ops
 .. autofunction:: unsqueeze
 
 
-Random sampling
+Random sampling 
 ----------------------------------
 .. autofunction:: manual_seed
 .. autofunction:: initial_seed
