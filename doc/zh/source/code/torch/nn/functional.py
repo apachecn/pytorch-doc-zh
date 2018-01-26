@@ -1199,9 +1199,9 @@ def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=Tr
 
 
 def pixel_shuffle(input, upscale_factor):
-    r"""将shape为[*, C*r^2, H, W]的Tensor重新排列成shape为[C, H*r, W*r]的Tensor.
+    r"""将 shape 为 [*, C*r^2, H, W] 的 Tensor 重新排列成 shape 为 [C, H*r, W*r] 的 Tensor.
 
-    详细请看PixelShuffle.
+    详细请看 PixelShuffle.
 
     参数:
         input (Variable): 输入
@@ -1335,7 +1335,7 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
     参数:
         input (Variable): 输入一批图像 (N x C x IH x IW)
         grid (Variable): flow-field 的尺寸 (N x OH x OW x 2)
-        padding_mode (str): 用于外部网格值的填充模式'zeros' | 'border'. 
+        padding_mode (str): 用于外部网格值的填充模式 'zeros' | 'border'. 
         Default: 'zeros'
 
     返回:
@@ -1347,7 +1347,7 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
 
 
 def affine_grid(theta, size):
-    r"""生成一个2d流场，给定一批仿射矩阵：`theta`
+    r"""生成一个 2d 流场，给定一批仿射矩阵：`theta`
     一般与 `grid_sample` 配合使用来实现 Spatial Transformer Networks.
 
     参数:
@@ -1367,11 +1367,11 @@ def pad(input, pad, mode='constant', value=0):
     Nd constant padding: 需要填充的维度的数目是 len(padding) // 2
         从最后一个维度填充并向前. 例子如下.
 
-    1D, 2D 和 3D "反映"/"复制" padding:
+    1D, 2D 和 3D "reflect"/"replicate" padding:
         1D: 3D 输入采用 (pad_l, pad_r) 的形式填充
         2D: 4D 输入的 tensor 用以下形式填充
         (pad_l, pad_r, pad_t, pad_b ).
-        3D: 5D 填充 (pleft, pright, ptop, pbottom, pfront, pback). 没有"反映"应用
+        3D: 5D 填充 (pleft, pright, ptop, pbottom, pfront, pback). 没有"reflect"应用
 
     参数:
         input (Variable): Nd tensor
