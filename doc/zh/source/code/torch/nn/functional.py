@@ -1199,16 +1199,15 @@ def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=Tr
 
 
 def pixel_shuffle(input, upscale_factor):
-    r"""Rearranges elements in a tensor of shape ``[*, C*r^2, H, W]`` to a
-    tensor of shape ``[C, H*r, W*r]``.
+    r"""将 shape 为 [*, C*r^2, H, W] 的 Tensor 重新排列成 shape 为 [C, H*r, W*r] 的 Tensor.
 
-    See :class:`~torch.nn.PixelShuffle` for details.
+    详细请看 PixelShuffle.
 
-    Args:
-        input (Variable): Input
-        upscale_factor (int): factor to increase spatial resolution by
+    参数:
+        input (Variable): 输入
+        upscale_factor (int): 增加空间分辨率的因子
 
-    Examples::
+    例子:
 
         >>> ps = nn.PixelShuffle(3)
         >>> input = autograd.Variable(torch.Tensor(1, 9, 4, 4))
@@ -1231,26 +1230,24 @@ def pixel_shuffle(input, upscale_factor):
 
 
 def upsample(input, size=None, scale_factor=None, mode='nearest'):
-    r"""Upsamples the input to either the given :attr:`size` or the given
-    :attr:`scale_factor`
+    r"""将输入上采样到给定的参数 `size` 或 `scale_factor`
 
-    The algorithm used for upsampling is determined by :attr:`mode`.
+    用于上采样的算法由参数 `mode` 确定。
 
-    Currently temporal, spatial and volumetric upsampling are supported, i.e.
-    expected inputs are 3-D, 4-D or 5-D in shape.
+    当前的时间，空间和体积的 upsampleing 被支持，即预期的输入是三维，四维或五维形状。
 
-    The input dimensions are interpreted in the form:
+    输入维度用以下形式:
     `mini-batch x channels x [depth] x [height] x width`
 
-    The modes available for upsampling are: `nearest`, `linear` (3D-only),
-    `bilinear` (4D-only), `trilinear` (5D-only)
+    上采样的模式: 
+    `nearest`, `linear` (3D-only),`bilinear` (4D-only), `trilinear` (5D-only)
 
-    Args:
-        input (Variable): input
+    参数:
+        input (Variable): 输入
         size (int or Tuple[int] or Tuple[int, int] or Tuple[int, int, int]):
-            output spatial size.
-        scale_factor (int): multiplier for spatial size. Has to be an integer.
-        mode (string): algorithm used for upsampling:
+            输出空间尺寸.
+        scale_factor (int): 乘数空间尺寸，必须是整型
+        mode (string): 用于上采样的算法:
             'nearest' | 'linear' | 'bilinear' | 'trilinear'. Default: 'nearest'
     """
     if input.dim() == 3 and mode == 'nearest':
@@ -1284,18 +1281,16 @@ def upsample(input, size=None, scale_factor=None, mode='nearest'):
 
 
 def upsample_nearest(input, size=None, scale_factor=None):
-    r"""Upsamples the input, using nearest neighbours' pixel values.
+    r"""使用最邻近 nrighbours 对输入进行采样' 像素值.
 
-    **Note:: This function is deprecated. Use nn.functional.upsample instead**
+    **注意: 此功能已被弃用. 使用 nn.functional.upsample 代替**
 
-    Currently spatial and volumetric upsampling are supported (i.e. expected
-    inputs are 4 or 5 dimensional).
+    目前支持空间和体积上采样 (即预期的输入是4或5维).
 
-    Args:
-        input (Variable): input
-        size (int or Tuple[int, int] or Tuple[int, int, int]): output spatia
-            size.
-        scale_factor (int): multiplier for spatial size. Has to be an integer.
+    参数:
+        input (Variable): 输入
+        size (int or Tuple[int, int] or Tuple[int, int, int]): 输出空间尺寸.
+        scale_factor (int): 乘数空间尺寸，必须是整型.
     """
     # DeprecationWarning is ignored by default
     warnings.warn("nn.functional.upsample_nearest is deprecated. Use nn.functional.upsample instead.")
@@ -1303,17 +1298,16 @@ def upsample_nearest(input, size=None, scale_factor=None):
 
 
 def upsample_bilinear(input, size=None, scale_factor=None):
-    r"""Upscales the input, using bilinear upsampling.
+    r"""使用双线性上采样来放大输入.
 
-    **Note:: This function is deprecated. Use nn.functional.upsample instead**
+    **注意: 此功能已被弃用. 使用 nn.functional.upsample 代替**
 
-    Expected inputs are spatial (4 dimensional). Use upsample_trilinear fo
-    volumetric (5 dimensional) inputs.
+    预期的输入是4维空间. 使用 upsample_trilinear 作为容积（5维）输入.
 
-    Args:
-        input (Variable): input
-        size (int or Tuple[int, int]): output spatial size.
-        scale_factor (int or Tuple[int, int]): multiplier for spatial size
+    参数:
+        input (Variable): 输入
+        size (int or Tuple[int, int]): 输出空间尺寸
+        scale_factor (int or Tuple[int, int]): 乘数空间尺寸
     """
     # DeprecationWarning is ignored by default
     warnings.warn("nn.functional.upsample_bilinear is deprecated. Use nn.functional.upsample instead.")
@@ -1321,36 +1315,31 @@ def upsample_bilinear(input, size=None, scale_factor=None):
 
 
 def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
-    r"""Given an :attr:`input` and a flow-field :attr:`grid`, computes the
-    `output` using input pixel locations from the grid.
+    r"""给定输入和网格参数, 使用来自网格的输入像素位置计算输出.
 
-    Uses bilinear interpolation to sample the input pixels.
-    Currently, only spatial (4 dimensional) inputs are supported.
+    使用双线性插值来对输入像素进行采样.
+    目前仅支持空间（4维）输入.
 
-    For each output location, :attr:`grid` has `x` and `y`
-    input pixel locations which are used to compute output.
+    对于每个输出位置, `grid` 有 `x` 和 `y` 的输入像素位置，用于计算输出
 
-    :attr:`grid` has values in the range of `[-1, 1]`. This is because the
-    pixel locations are normalized by the input height and width.
+    `grid` 值的区间： `[-1, 1]`. 这是因为像素位置由输入高度和宽度标准化.
 
-    For example, values: x: -1, y: -1 is the left-top pixel of the input
-                 values: x: 1, y: 1 is the right-bottom pixel of the input
+    比如, 取值 x: -1, y: -1 是输入的左上角像素
+          取值: x: 1, y: 1 是输入的右下角像素
 
-    If :attr:`grid` has values outside the range of `[-1, 1]`, those locations
-    are handled as defined by `padding_mode`. Options are `zeros` or `border`,
-    defining those locations to use 0 or image border values as contribution
-    to the bilinear interpolation.
+    如果 `grid` 超出 `[-1, 1]` 的取值区间, 他们的位置取决于 `padding_mode`. 
+    选项是 `zeros` 或  `border` 定义那些使用0或图像边界值作为贡献的位置到双线性插值.
 
-    .. Note:: This function is used in building Spatial Transformer Networks
+    .. 注意:: 此功能用于构建 Spatial Transformer Networks.
 
-    Args:
-        input (Variable): input batch of images (N x C x IH x IW)
-        grid (Variable): flow-field of size (N x OH x OW x 2)
-        padding_mode (str): padding mode for outside grid values
-            'zeros' | 'border'. Default: 'zeros'
+    参数:
+        input (Variable): 输入一批图像 (N x C x IH x IW)
+        grid (Variable): flow-field 的尺寸 (N x OH x OW x 2)
+        padding_mode (str): 用于外部网格值的填充模式 'zeros' | 'border'. 
+        Default: 'zeros'
 
-    Returns:
-        output (Variable): output Tensor
+    返回:
+        output (Variable): 输出 Tensor
 
     """
     batch_size, channels, in_height, in_width = input.size()
@@ -1358,42 +1347,39 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
 
 
 def affine_grid(theta, size):
-    r"""Generates a 2d flow field, given a batch of affine matrices :attr:`theta`
-    Generally used in conjunction with :func:`grid_sample` to
-    implement Spatial Transformer Networks.
+    r"""生成一个 2d 流场，给定一批仿射矩阵：`theta`
+    一般与 `grid_sample` 配合使用来实现 Spatial Transformer Networks.
 
-    Args:
-        theta (Variable): input batch of affine matrices (N x 2 x 3)
-        size (torch.Size): the target output image size (N x C x H x W)
-                           Example: torch.Size((32, 3, 24, 24))
+    参数:
+        theta (Variable): 输入一批仿射矩阵 (N x 2 x 3)
+        size (torch.Size): 目标输出图像大小 (N x C x H x W)
+                           例子: torch.Size((32, 3, 24, 24))
 
-    Returns:
-        output (Variable): output Tensor of size (N x H x W x 2)
+    返回:
+        output (Variable): 输出 Tensor 的尺寸 (N x H x W x 2)
     """
     return AffineGridGenerator.apply(theta, size)
 
 
 def pad(input, pad, mode='constant', value=0):
-    r"""Pads tensor.
+    r"""填充 tensor.
 
-    Nd constant padding:  The number of dimensions to pad is
-        len(padding) // 2 and the dimensions that gets padded begins with the
-        last dimension and moves forward.  See below for examples.
+    Nd constant padding: 需要填充的维度的数目是 len(padding) // 2
+        从最后一个维度填充并向前. 例子如下.
 
-    1D, 2D and 3D "reflect"/"replicate" padding:
-        1D: 3D input with padding in form (pad_l, pad_r)
-        2D: 4D input tensor pad should be in form
+    1D, 2D 和 3D "reflect"/"replicate" padding:
+        1D: 3D 输入采用 (pad_l, pad_r) 的形式填充
+        2D: 4D 输入的 tensor 用以下形式填充
         (pad_l, pad_r, pad_t, pad_b ).
-        3D: 5D pad (pleft, pright, ptop, pbottom, pfront, pback). No "reflect"
-        implementation
+        3D: 5D 填充 (pleft, pright, ptop, pbottom, pfront, pback). 没有"reflect"应用
 
-    Args:
+    参数:
         input (Variable): Nd tensor
-        pad (tuple): m-elem tuple, where m // 2 <= input dimensions and m % 2 == 0
-        mode: 'constant', 'reflect' or 'replicate'. Default: 'constant'
-        value: fill value for 'constant' padding. Default: 0
+        pad (tuple): m 个元素的元组, 满足 m // 2 <= 输入维度 and m % 2 == 0
+        mode: 'constant', 'reflect' 或者 'replicate'. Default: 'constant'
+        value: 输入值为 'constant' padding. Default: 0
 
-    Examples::
+    例子:
 
         >>> t4d = torch.Tensor(3, 3, 4, 2)
         >>> p1d = (1, 1) # pad last dim by 1 on each side
