@@ -22,10 +22,10 @@ __all__ = ["Compose", "ToTensor", "ToPILImage", "Normalize", "Resize", "Scale", 
 
 
 class Compose(object):
-    """Composes several transforms together.
+    """将多个变换组合到一起.
 
     Args:
-        transforms (list of ``Transform`` objects): list of transforms to compose.
+        transforms (list of ``Transform`` objects): 要组合的变换列表.
 
     Example:
         >>> transforms.Compose([
@@ -44,25 +44,25 @@ class Compose(object):
 
 
 class ToTensor(object):
-    """Convert a ``PIL Image`` or ``numpy.ndarray`` to tensor.
+    """转换一个 ``PIL Image`` 或 ``numpy.ndarray`` 为 tensor（张量）.
 
-    Converts a PIL Image or numpy.ndarray (H x W x C) in the range
-    [0, 255] to a torch.FloatTensor of shape (C x H x W) in the range [0.0, 1.0].
+    将范围 [0, 255] 中的 PIL Image 或 numpy.ndarray (H x W x C) 转换为
+    (C x H x W) 这样范围为 [0.0, 1.0] 的形状的 torch.FloatTensor.
     """
 
     def __call__(self, pic):
         """
         Args:
-            pic (PIL Image or numpy.ndarray): Image to be converted to tensor.
+            pic (PIL Image or numpy.ndarray): 将要被转换为 tensor 的 Image.
 
         Returns:
-            Tensor: Converted image.
+            Tensor: 转换后的 image.
         """
         return F.to_tensor(pic)
 
 
 class ToPILImage(object):
-    """Convert a tensor or an ndarray to PIL Image.
+    """转换一个 tensor 或 ndarray 为 PIL Image.
 
     Converts a torch.*Tensor of shape C x H x W or a numpy ndarray of shape
     H x W x C to a PIL Image while preserving the value range.
@@ -93,14 +93,14 @@ class ToPILImage(object):
 
 
 class Normalize(object):
-    """Normalize an tensor image with mean and standard deviation.
-    Given mean: ``(M1,...,Mn)`` and std: ``(S1,..,Sn)`` for ``n`` channels, this transform
-    will normalize each channel of the input ``torch.*Tensor`` i.e.
-    ``input[channel] = (input[channel] - mean[channel]) / std[channel]``
+    """用均值和标准偏差对张量图像进行归一化.
+    给定均值: ``(M1,...,Mn)`` 和标准差: ``(S1,..,Sn)`` 用于 ``n`` 个通道,
+    该变换将标准化输入 ``torch.*Tensor`` 的每一个通道.
+    例如: ``input[channel] = (input[channel] - mean[channel]) / std[channel]``
 
     Args:
-        mean (sequence): Sequence of means for each channel.
-        std (sequence): Sequence of standard deviations for each channel.
+        mean (sequence): 每一个通道的均值序列.
+        std (sequence): 每一个通道的标准差序列.
     """
 
     def __init__(self, mean, std):
@@ -119,15 +119,16 @@ class Normalize(object):
 
 
 class Resize(object):
-    """Resize the input PIL Image to the given size.
+    """调整输入的 PIL Image 尺寸为给定的 size（尺寸）.
 
     Args:
-        size (sequence or int): Desired output size. If size is a sequence like
-            (h, w), output size will be matched to this. If size is an int,
-            smaller edge of the image will be matched to this number.
-            i.e, if height > width, then image will be rescaled to
+        size (sequence or int): 期望输出的尺寸. 如果 size（尺寸）是一个像
+            (h, w) 这样的序列, 则 output size（输出尺寸）将于此匹配.
+            如果 size（尺寸）是一个 int 类型的数字,
+            图像较小的边缘将被匹配到该数字.
+            例如, 如果 height > width, 那么图像将会被重新缩放到
             (size * height / width, size)
-        interpolation (int, optional): Desired interpolation. Default is
+        interpolation (int, optional): 期望的插值. 默认是
             ``PIL.Image.BILINEAR``
     """
 
@@ -149,7 +150,7 @@ class Resize(object):
 
 class Scale(Resize):
     """
-    Note: This transform is deprecated in favor of Resize.
+    Note: 为了支持 Resize, 该变换已经过时了.
     """
     def __init__(self, *args, **kwargs):
         warnings.warn("The use of the transforms.Scale transform is deprecated, " +
@@ -158,12 +159,10 @@ class Scale(Resize):
 
 
 class CenterCrop(object):
-    """Crops the given PIL Image at the center.
+    """在中心裁剪指定的 PIL Image.
 
     Args:
-        size (sequence or int): Desired output size of the crop. If size is an
-            int instead of sequence like (h, w), a square crop (size, size) is
-            made.
+        size (sequence or int): 期望裁剪的输出尺寸. 如果 size（尺寸）是 ``int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
     """
 
     def __init__(self, size):
@@ -184,16 +183,13 @@ class CenterCrop(object):
 
 
 class Pad(object):
-    """Pad the given PIL Image on all sides with the given "pad" value.
+    """用指定的 "pad" 值填充指定的 PIL image.
 
     Args:
-        padding (int or tuple): Padding on each border. If a single int is provided this
-            is used to pad all borders. If tuple of length 2 is provided this is the padding
-            on left/right and top/bottom respectively. If a tuple of length 4 is provided
-            this is the padding for the left, top, right and bottom borders
-            respectively.
-        fill: Pixel fill value. Default is 0. If a tuple of
-            length 3, it is used to fill R, G, B channels respectively.
+        padding (int or tuple): 填充每个边框. 如果提供了一个 int, 则用于填充所有边界.
+            如果提供长度为 2 的元组, 则这是分别在 左/右 和 上/下 的填充.
+            如果提供长度为 4 的元组, 则这是分别用于 左, 上, 右 和 下 部边界的填充.
+        fill: 像素填充.  默认值为 0. 如果长度为 3 的元组, 分别用于填充 R, G, B 通道.
     """
 
     def __init__(self, padding, fill=0):
@@ -218,10 +214,10 @@ class Pad(object):
 
 
 class Lambda(object):
-    """Apply a user-defined lambda as a transform.
+    """应用一个用户定义的 Lambda 作为变换.
 
     Args:
-        lambd (function): Lambda/function to be used for transform.
+        lambd (function): Lambda/function 以用于 transform.
     """
 
     def __init__(self, lambd):
@@ -233,16 +229,11 @@ class Lambda(object):
 
 
 class RandomCrop(object):
-    """Crop the given PIL Image at a random location.
+    """在一个随机位置裁剪指定的 PIL Image.
 
     Args:
-        size (sequence or int): Desired output size of the crop. If size is an
-            int instead of sequence like (h, w), a square crop (size, size) is
-            made.
-        padding (int or sequence, optional): Optional padding on each border
-            of the image. Default is 0, i.e no padding. If a sequence of length
-            4 is provided, it is used to pad left, top, right, bottom borders
-            respectively.
+        size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 ``int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+        padding (int or sequence, optional): 图像的每个边框上的可选填充. 缺省值是 0, 即没有填充. 如果提供长度为 4 的序列, 则分别用于填充左侧, 顶部, 右侧, 底部边界.
     """
 
     def __init__(self, size, padding=0):
@@ -289,7 +280,7 @@ class RandomCrop(object):
 
 
 class RandomHorizontalFlip(object):
-    """Horizontally flip the given PIL Image randomly with a probability of 0.5."""
+    """以 0.5 的概率随机水平翻转给定的 PIL Image."""
 
     def __call__(self, img):
         """
@@ -305,7 +296,7 @@ class RandomHorizontalFlip(object):
 
 
 class RandomVerticalFlip(object):
-    """Vertically flip the given PIL Image randomly with a probability of 0.5."""
+    """以 0.5 的概率随机垂直翻转给定的 PIL Image."""
 
     def __call__(self, img):
         """
@@ -321,17 +312,19 @@ class RandomVerticalFlip(object):
 
 
 class RandomResizedCrop(object):
-    """Crop the given PIL Image to random size and aspect ratio.
+    """将给定的 PIL 图像裁剪为随机大小和纵横比例.
 
-    A crop of random size (default: of 0.08 to 1.0) of the original size and a random
-    aspect ratio (default: of 3/4 to 4/3) of the original aspect ratio is made. This crop
-    is finally resized to given size.
-    This is popularly used to train the Inception networks.
+    原始高宽比的随机大小（默认: 0.08 到 1.0）和随机宽高比（默认: 3/4 到 4/3）的裁剪.
+    该裁剪最终会被调整为指定的尺寸.
+
+    该操作普遍用于训练 Inception networks.
+
+
 
     Args:
-        size: expected output size of each edge
-        scale: range of size of the origin size cropped
-        ratio: range of aspect ratio of the origin aspect ratio cropped
+        size: 每条边的期望的输出尺寸
+        scale: 原始尺寸大小的范围
+        ratio: 原始裁剪纵横比的纵横比范围
         interpolation: Default: PIL.Image.BILINEAR
     """
 
@@ -390,7 +383,7 @@ class RandomResizedCrop(object):
 
 class RandomSizedCrop(RandomResizedCrop):
     """
-    Note: This transform is deprecated in favor of RandomResizedCrop.
+    Note: 为了支持 RandomResizedCrop, 该变换已经被启用.
     """
     def __init__(self, *args, **kwargs):
         warnings.warn("The use of the transforms.RandomSizedCrop transform is deprecated, " +
@@ -399,16 +392,14 @@ class RandomSizedCrop(RandomResizedCrop):
 
 
 class FiveCrop(object):
-    """Crop the given PIL Image into four corners and the central crop
+    """将给定的 PIL Image 裁剪成四个角落和中心裁剪
 
     .. Note::
-         This transform returns a tuple of images and there may be a mismatch in the number of
-         inputs and targets your Dataset returns. See below for an example of how to deal with
-         this.
+         该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配.
+         请参阅下面的例子来处理这个问题.
 
     Args:
-         size (sequence or int): Desired output size of the crop. If size is an ``int``
-            instead of sequence like (h, w), a square crop of size (size, size) is made.
+         size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的..
 
     Example:
          >>> transform = Compose([
@@ -435,19 +426,15 @@ class FiveCrop(object):
 
 
 class TenCrop(object):
-    """Crop the given PIL Image into four corners and the central crop plus the flipped version of
-    these (horizontal flipping is used by default)
+    """将给定的 PIL Image 裁剪成四个角, 中心裁剪, 并加上这些的翻转版本（默认使用水平翻转）
 
     .. Note::
-         This transform returns a tuple of images and there may be a mismatch in the number of
-         inputs and targets your Dataset returns. See below for an example of how to deal with
-         this.
+         该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配.
+         请参阅下面的例子来处理这个问题.
 
     Args:
-        size (sequence or int): Desired output size of the crop. If size is an
-            int instead of sequence like (h, w), a square crop (size, size) is
-            made.
-        vertical_flip(bool): Use vertical flipping instead of horizontal
+        size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+        vertical_flip(bool): 使用垂直翻转而不是水平的方式
 
     Example:
          >>> transform = Compose([
@@ -516,7 +503,7 @@ class LinearTransformation(object):
 
 
 class ColorJitter(object):
-    """Randomly change the brightness, contrast and saturation of an image.
+    """随机更改图像的亮度, 对比度和饱和度.
 
     Args:
         brightness (float): How much to jitter brightness. brightness_factor
@@ -638,15 +625,15 @@ class RandomRotation(object):
 
 
 class Grayscale(object):
-    """Convert image to grayscale.
+    """将图像转换为灰度图像.
 
     Args:
-        num_output_channels (int): (1 or 3) number of channels desired for output image
+        num_output_channels (int): (1 or 3) 输出图像所需的通道数量
 
     Returns:
-        PIL Image: Grayscale version of the input.
-        - If num_output_channels == 1 : returned image is single channel
-        - If num_output_channels == 3 : returned image is 3 channel with r == g == b
+        PIL Image: 灰度版本的输入.
+        - If num_output_channels == 1 : 返回的图像是 1 通道
+        - If num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
 
     """
 
@@ -665,16 +652,15 @@ class Grayscale(object):
 
 
 class RandomGrayscale(object):
-    """Randomly convert image to grayscale with a probability of p (default 0.1).
+    """随机将图像转换为灰度图像, 概率为 p (default 0.1).
 
     Args:
-        p (float): probability that image should be converted to grayscale.
+        p (float): 图像应该被转换成灰度的概率.
 
     Returns:
-        PIL Image: Grayscale version of the input image with probability p and unchanged
-        with probability (1-p).
-        - If input image is 1 channel: grayscale version is 1 channel
-        - If input image is 3 channel: grayscale version is 3 channel with r == g == b
+        PIL Image: 灰度版本的输入图像的概率为 p, 不变的概率为（1-p）
+        - If input image is 1 channel: 灰度版本是 1 通道
+        - If input image is 3 channel: 灰度版本是 3 通道, 并且 r == g == b
 
     """
 
