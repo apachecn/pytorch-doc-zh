@@ -35,6 +35,7 @@
 -  `@BarrettLi <https://github.com/BarrettLi>`__
 -  `@谢家柯 <https://github.com/kelisiya>`__
 -  `@buldajs <https://github.com/buldajs>`__
+-  `@K <https://github.com/shercklo>`__
 建议反馈
 --------
 
