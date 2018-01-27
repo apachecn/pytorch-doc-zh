@@ -898,17 +898,16 @@ add_docstr(torch._C.cumprod,
            """
 cumprod(input, dim, out=None) -> Tensor
 
-Returns the cumulative product of elements of :attr:`input` in the dimension
-:attr:`dim`.
+返回元素:attr:`input` 在给定维度:attr:`dim`下的累积积。
 
-For example, if :attr:`input` is a vector of size N, the result will also be
-a vector of size N, with elements:
+例如，如果 :attr:`input` 是一个N元张量, 结果也是
+一个N元张量, 元素为:
 :math:`y_i = x_1 * x_2 * x_3 * ... * x_i`
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim  (int): the dimension to do the operation over
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    dim  (int): 进行操作的维度
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
@@ -962,17 +961,16 @@ add_docstr(torch._C.cumsum,
            """
 cumsum(input, dim, out=None) -> Tensor
 
-Returns the cumulative sum of elements of :attr:`input` in the dimension
-:attr:`dim`.
+返回元素 :attr:`input` 在给定维度 :attr:`dim`下的累积和。
 
-For example, if :attr:`input` is a vector of size N, the result will also be
-a vector of size N, with elements:
+例如，如果 :attr:`input`是一个N元张量, 结果将也是
+一个N元张量, 元素为:
 :math:`y_i = x_1 + x_2 + x_3 + ... + x_i`
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim  (int): the dimension to do the operation over
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    dim  (int): 进行操作的维度
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
@@ -1022,13 +1020,13 @@ diag(input, diagonal=0, out=None) -> Tensor
 - :attr:`diagonal` < 0, 主对角线之下.
 
 Args:
-    input (Tensor): 输入的 `Tensor`
+    input (Tensor): 输入 `Tensor`
     diagonal (int, optional): 指定对角线
     out (Tensor, optional): 输出 `Tensor`
 
-Example:
+Example::
 
-取得以 `input` 为对角线的方阵::
+获得以 `input` 为对角线的方阵::
 
     >>> a = torch.randn(3)
     >>> a
@@ -1054,7 +1052,7 @@ Example:
     [torch.FloatTensor of size 4x4]
 
 
-Get the k-th diagonal of a given matrix::
+获得给定矩阵的第k条对角线::
 
     >>> a = torch.randn(3, 3)
     >>> a
@@ -1083,15 +1081,15 @@ add_docstr(torch._C.dist,
            """
 dist(input, other, p=2) -> float
 
-Returns the p-norm of (:attr:`input` - :attr:`other`)
+返回(:attr:`input` - :attr:`other`)的p-范数
 
-The shapes of :attr:`input` and :attr:`other` must be
+:attr:`input`和:attr:`other` 的形状必须满足
 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): the input `Tensor`
-    other (Tensor): the Right-hand-side input `Tensor`
-    p (float, optional): The norm to be computed.
+    input (Tensor): 输入 `Tensor`
+    other (Tensor): 右侧输入 `Tensor`
+    p (float, optional): 所计算的范数.
 
 Example::
 
@@ -2298,10 +2296,10 @@ add_docstr(torch._C.mean,
            """
 .. function:: mean(input) -> float
 
-Returns the mean value of all elements in the :attr:`input` Tensor.
+返回张量 :attr:`input` 所有元素的均值.
 
 Args:
-    input (Tensor): the input `Tensor`
+    input (Tensor): 输入 `Tensor`
 
 Example::
 
@@ -2317,20 +2315,17 @@ Example::
 
 .. function:: mean(input, dim, keepdim=False, out=None) -> Tensor
 
-Returns the mean value of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`.
+返回张量 :attr:`input`在给定维度 :attr:`dim`上每行的均值。
 
-If :attr:`keepdim` is ``True``, the output Tensor is of the same size
-as :attr:`input` except in the dimension :attr:`dim` where it is of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in the
-output Tensor having 1 fewer dimension.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+ :attr:`input`相同，除非维度 :attr:`dim`是1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): the dimension to reduce
-    keepdim (bool, optional): whether the output tensor has :attr:`dim`
-           retained or not
-    out (Tensor): the result Tensor
+    input (Tensor): 输入 `Tensor`
+    dim (int): 要减少的维度
+    keepdim (bool, optional): 输出张量的维度 :attr:`dim`保持与否
+    out (Tensor): 输出张量
 
 Example::
 
@@ -2365,7 +2360,7 @@ add_docstr(torch._C.median,
            """
 .. function:: median(input) -> float
 
-Returns the median value of all elements in the :attr:`input` Tensor.
+返回输出张量:attr:`input` 所有元素的中位数.
 
 Args:
     input (Tensor): the input `Tensor`
@@ -2384,16 +2379,15 @@ Example::
 
 .. function:: median(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTensor)
 
-Returns the median value of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`. Also returns the index location of the median value
-as a `LongTensor`.
+返回输出张量:attr:`input` 
+在给定维度:attr:`dim`下每行的中位数.同时返回一个包含中位数的索引 `LongTensor`.
 
-By default, :attr:`dim` is the last dimension of the :attr:`input` Tensor.
+ :attr:`dim` 的缺省值为输入张量 :attr:`input`的最后一维.
 
-If :attr:`keepdim` is ``True``, the output Tensors are of the same size
-as :attr:`input` except in the dimension :attr:`dim` where they are of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in
-the outputs Tensor having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量与输入张量
+ :attr:`input`形状相同， 除非维数 :attr:`dim` 是1.
+另外，:attr:`dim`被挤压 (参看 :func:`torch.squeeze`), 导致输出张量比
+输入张量:attr:`input`少一维.
 
 Args:
     input (Tensor): the input `Tensor`
@@ -2442,10 +2436,10 @@ add_docstr(torch._C.min,
            """
 .. function:: min(input) -> float
 
-Returns the minimum value of all elements in the :attr:`input` Tensor.
+返回输入张量 :attr:`input` 所有元素的最小值.
 
 Args:
-    input (Tensor): the input `Tensor`
+    input (Tensor): 输入 `Tensor`
 
 Example::
 
@@ -2461,14 +2455,13 @@ Example::
 
 .. function:: min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
-Returns the minimum value of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`. The second return value is the index location of each
-minimum value found (argmin).
+返回输入张量:attr:`input`在给定维度
+:attr:`dim`下每行元素的最小值. 其中第二个返回值是每个被找出的最小值的索引位置(argmin).
 
-If :attr:`keepdim` is ``True``, the output Tensors are of the same size as
-:attr:`input` except in the dimension :attr:`dim` where they are of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in
-the output Tensors having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是``True``, 输出张量的大小与输入张量
+:attr:`input` 相同，除非维数 :attr:`dim` 是1.
+另外，:attr:`dim`被挤压 (参看 :func:`torch.squeeze`), 导致输出张量比输入张量
+ :attr:`input`少一维.
 
 Args:
     input (Tensor): the input `Tensor`
@@ -2581,25 +2574,23 @@ add_docstr(torch._C.mode,
            """
 mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTensor)
 
-Returns the mode value of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`. Also returns the index location of the mode value
-as a `LongTensor`.
+返回输入张量:attr:`input`在给定维数 
+ :attr:`dim`下每行元素的众数值. 同时也返回众数值的索引`LongTensor`.
 
-By default, :attr:`dim` is the last dimension of the :attr:`input` Tensor.
+维度:attr:`dim`的缺省值是输入张量:attr:`input`的最后一维。.
 
-If :attr:`keepdim` is ``True``, the output Tensors are of the same size as
-:attr:`input` except in the dimension :attr:`dim` where they are of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting
-in the output Tensors having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+ :attr:`input`相同，除非维度 :attr:`dim`是1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
-.. note:: This function is not defined for ``torch.cuda.Tensor`` yet.
+.. note:: 这个函数至今没有为 ``torch.cuda.Tensor`` 定义.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): the dimension to reduce
-    keepdim (bool): whether the output tensors have :attr:`dim` retained or not
-    values (Tensor, optional): the result Tensor
-    indices (Tensor, optional): the result index Tensor
+    input (Tensor): 输入张量 `Tensor`
+    dim (int): 要减少的维度
+    keepdim (bool): 输出张量的维度 :attr:`dim` 保持与否
+    values (Tensor, optional): 结果张量
+    indices (Tensor, optional): 结果索引张量
 
 Example::
 
@@ -2863,9 +2854,11 @@ add_docstr(torch._C.nonzero,
            """
 nonzero(input, out=None) -> LongTensor
 
-返回一个包含输入 :attr:`input` 中非零元素索引的张量.输出张量中的每行包含 :attr:`input` 中非零元素的索引.
+返回一个包含输入 :attr:`input` 中非零元素索引的张量.
+输出张量中的每行包含 :attr:`input` 中非零元素的索引.
 
-如果输入 :attr:`input` 有 `n` 维,则输出的索引张量 :attr:`out` 的 size 为 `z x n` , 这里 `z` 是输入张量 :attr:`input` 中所有非零元素的个数.
+如果输入张量 :attr:`input` 有 `n` 维,则输出的索引张量 :attr:`out` 的 size 为 `z x n` , 
+这里 `z` 是输入张量 :attr:`input` 中所有非零元素的个数.
 
 Args:
     input (Tensor): 输入张量/源张量
@@ -2898,11 +2891,11 @@ add_docstr(torch._C.norm,
            """
 .. function:: norm(input, p=2) -> float
 
-Returns the p-norm of the :attr:`input` Tensor.
+返回输入张量 :attr:`input` 的p-范数
 
 Args:
-    input (Tensor): the input `Tensor`
-    p (float, optional): the exponent value in the norm formulation
+    input (Tensor): 输入张量`Tensor`
+    p (float, optional): 范数计算中的幂指数值
 Example::
 
     >>> a = torch.randn(1, 3)
@@ -2917,20 +2910,18 @@ Example::
 
 .. function:: norm(input, p, dim, keepdim=False, out=None) -> Tensor
 
-Returns the p-norm of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`.
+返回输入张量 :attr:`input` 在给定维度 :attr:`dim`下每行元素的p-范数.
 
-If :attr:`keepdim` is ``True``, the output Tensor is of the same size as
-:attr:`input` except in the dimension :attr:`dim` where it is of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting
-in the output Tensor having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+ :attr:`input`相同，除非维度 :attr:`dim`是1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
 Args:
-    input (Tensor): the input `Tensor`
-    p (float):  the exponent value in the norm formulation
-    dim (int): the dimension to reduce
-    keepdim (bool): whether the output Tensor has :attr:`dim` retained or not
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入张量 `Tensor`
+    p (float):  范数计算中的幂指数值
+    dim (int): 要减少的维度
+    keepdim (bool): 输出张量的维度:attr:`dim`保持与否
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -3376,10 +3367,10 @@ add_docstr(torch._C.prod,
            """
 .. function:: prod(input) -> float
 
-Returns the product of all elements in the :attr:`input` Tensor.
+返回输入张量:attr:`input` 所有元素的积.
 
 Args:
-    input (Tensor): the input `Tensor`
+    input (Tensor): 输入张量 `Tensor`
 
 Example::
 
@@ -3395,19 +3386,17 @@ Example::
 
 .. function:: prod(input, dim, keepdim=False, out=None) -> Tensor
 
-Returns the product of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`.
+返回输入张量:attr:`input`在给定维度:attr:`dim`下每行元素的积.
 
-If :attr:`keepdim` is ``True``, the output Tensor is of the same size as
-:attr:`input` except in the dimension :attr:`dim` where it is of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting
-in the output Tensor having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+ :attr:`input`相同，除非维度 :attr:`dim`是1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): the dimension to reduce
-    keepdim (bool): whether the output Tensor has :attr:`dim` retained or not
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入张量 `Tensor`
+    dim (int): 要减少的维度
+    keepdim (bool): 输出张量的维度 :attr:`dim`保持与否
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -4086,14 +4075,14 @@ add_docstr(torch._C.std,
            """
 .. function:: std(input, unbiased=True) -> float
 
-Returns the standard-deviation of all elements in the :attr:`input` Tensor.
+返回输入张量:attr:`input`所有元素的标准差.
 
-If :attr:`unbiased` is ``False``, then the standard-deviation will be calculated via
-the biased estimator. Otherwise, Bessel's correction will be used.
+如果 :attr:`unbiased` 是``False``, 那么标准差将通过有偏估计计算.
+ 否则，Bessel's correction 将被使用.
 
 Args:
-    input (Tensor): the input `Tensor`
-    unbiased (bool): whether to use the unbiased estimation or not
+    input (Tensor): 输入 `Tensor`
+    unbiased (bool): 是否使用无偏估计
 
 Example::
 
@@ -4109,23 +4098,21 @@ Example::
 
 .. function:: std(input, dim, keepdim=False, unbiased=True, out=None) -> Tensor
 
-Returns the standard-deviation of each row of the :attr:`input` Tensor in the
-given dimension :attr:`dim`.
+返回输入张量 :attr:`input` 在给定维度 :attr:`dim`下每行元素的标准差.
 
-If :attr:`keepdim` is ``True``, the output Tensor is of the same size as
-:attr:`input` except in the dimension :attr:`dim` where it is of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting
-in the output Tensor having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+:attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
-If :attr:`unbiased` is ``False``, then the standard-deviation will be calculated via
-the biased estimator. Otherwise, Bessel's correction will be used.
+如果 :attr:`unbiased` 是``False``, 那么标准差将通过有偏估计来计算.
+ 否则，Bessel's correction 将被使用.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): the dimension to reduce
-    keepdim (bool): whether the output Tensor has :attr:`dim` retained or not
-    unbiased (bool): whether to use the unbiased estimation or not
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入 `Tensor`
+    dim (int): 要减少的维度
+    keepdim (bool):输出张量的维度 :attr:`dim` 保持与否
+    unbiased (bool):是否使用无偏估计
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -4151,11 +4138,10 @@ Example::
 add_docstr(torch._C.sum,
            """
 .. function:: sum(input) -> float
-
-Returns the sum of all elements in the :attr:`input` Tensor.
+返回输入张量 :attr:`input` 所有元素的和.
 
 Args:
-    input (Tensor): the input `Tensor`
+    input (Tensor): 输入张量 `Tensor`
 
 Example::
 
@@ -4171,19 +4157,17 @@ Example::
 
 .. function:: sum(input, dim, keepdim=False, out=None) -> Tensor
 
-Returns the sum of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`.
+返回输入张量 :attr:`input` 在给定维度 :attr:`dim`下每行元素的和.
 
-If :attr:`keepdim` is ``True``, the output Tensor is of the same size
-as :attr:`input` except in the dimension :attr:`dim` where it is of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in
-the output Tensor having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+:attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): the dimension to reduce
-    keepdim (bool): whether the output Tensor has :attr:`dim` retained or not
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入张量 `Tensor`
+    dim (int): 要减少的维度
+    keepdim (bool): 输出张量的维度 :attr:`dim` 保持与否
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -4745,14 +4729,14 @@ add_docstr(torch._C.var,
            """
 .. function:: var(input, unbiased=True) -> float
 
-Returns the variance of all elements in the :attr:`input` Tensor.
+返回输入张量 :attr:`input` 的方差.
 
-If :attr:`unbiased` is ``False``, then the variance will be calculated via the
-biased estimator. Otherwise, Bessel's correction will be used.
+如果 :attr:`unbiased` 是``False``, 方差的计算将通过有偏估计计算. 
+否则, Bessel's correction 将会被使用.
 
 Args:
-    input (Tensor): the input `Tensor`
-    unbiased (bool): whether to use the unbiased estimation or not
+    input (Tensor): 输入张量 `Tensor`
+    unbiased (bool): 是否使用无偏估计
 
 Example::
 
@@ -4768,23 +4752,22 @@ Example::
 
 .. function:: var(input, dim, keepdim=False, unbiased=True, out=None) -> Tensor
 
-Returns the variance of each row of the :attr:`input` Tensor in the given
-dimension :attr:`dim`.
+返回输入张量 :attr:`input` 在给定维度:attr:`dim`下每行的方差.
 
-If :attr:`keepdim` is ``True``, the output Tensors are of the same size
-as :attr:`input` except in the dimension :attr:`dim` where they are of size 1.
-Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in
-the outputs Tensor having 1 fewer dimension than :attr:`input`.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
+:attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
-If :attr:`unbiased` is ``False``, then the variance will be calculated via the
-biased estimator. Otherwise, Bessel's correction will be used.
+如果 :attr:`unbiased` 是``False``, 方差的计算将通过有偏估计计算. 
+否则, Bessel's correction 将会被使用.
+
 
 Args:
-    input (Tensor): the input `Tensor`
-    dim (int): the dimension to reduce
-    keepdim (bool): whether the output Tensor has :attr:`dim` retained or not
-    unbiased (bool): whether to use the unbiased estimation or not
-    out (Tensor, optional): the result Tensor
+    input (Tensor): 输入张量 `Tensor`
+    dim (int): 要减少的维度
+    keepdim (bool): 输出张量的维度 :attr:`dim` 保留与否
+    unbiased (bool): 是否使用无偏估计
+    out (Tensor, optional): 结果张量
 
 Example::
 
