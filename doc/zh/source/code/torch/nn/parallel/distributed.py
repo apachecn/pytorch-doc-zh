@@ -37,38 +37,36 @@ class DistributedDataParallel(Module):
     创建这个类需要分布式包已经在process group模式下被初始化
     (引用 :func:`torch.distributed.init_process_group`).
 
-    .. 警告::
+    .. warning::
         这个模块只能和``gloo``后端一起工作.
 
-    .. 警告::
+    .. warning::
         构造器，转发方法和输出（或者这个模块的输出功能）的区分是分布式同步点.
         考虑到不同的进程可能会执行不同的代码.
 
-    .. 警告::
+    .. warning::
         该模块假设所有参数在创建时都在模型中注册.之后不应该添加或删除参数.
         同样适用于缓冲区.
 
-    .. 警告::
+    .. warning::
         这个模块假定所有的缓冲区和梯度都是密集的.
 
-    .. 警告::
+    .. warning::
         这个模块不能用于 ：func：`torch.autograd.grad` （即只有在参数的 ``.grad`` 属性中
         累积梯度才能使用）.
 
-    .. 注意::
-
+    .. note::
         参数永远不会在进程之间广播.模块在梯度上执行全部优化步骤，并假定它们将以相同的
         方式在所有进程中进行优化.缓冲区（e.g. BatchNorm stats）在等级0的过程中从模
         块广播到系统中的每个迭代中的所有其他副本.
 
 
-    参数 :
+    Args :
         module: 需要并行的模型
         device_ids: CUDA devices (default: all devices)
         output_device: device location of output (default: device_ids[0])
 
-    示例 ::
-
+    示例 :: 
         >>> torch.distributed.init_process_group(world_size=4, init_method='...')
         >>> net = torch.nn.DistributedDataParallel(model)
     """
