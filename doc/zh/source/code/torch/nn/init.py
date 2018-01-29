@@ -6,8 +6,8 @@ from torch.autograd import Variable
 
 
 def calculate_gain(nonlinearity, param=None):
-    """Return the recommended gain value for the given nonlinearity function.
-    The values are as follows:
+    """返回给定非线性函数的推荐增益值.
+    它们的值如下:
 
     ============ ==========================================
     nonlinearity gain
@@ -21,8 +21,8 @@ def calculate_gain(nonlinearity, param=None):
     ============ ==========================================
 
     Args:
-        nonlinearity: the nonlinear function (`nn.functional` name)
-        param: optional parameter for the nonlinear function
+        nonlinearity: 非线性函数 (`nn.functional` name)
+        param: 非线性函数的可选参数
 
     Examples:
         >>> gain = nn.init.calculate_gain('leaky_relu')
@@ -48,13 +48,12 @@ def calculate_gain(nonlinearity, param=None):
 
 
 def uniform(tensor, a=0, b=1):
-    """Fills the input Tensor or Variable with values drawn from the uniform
-    distribution :math:`U(a, b)`.
+    """使用均匀分布 :math:`U(a, b)` 中的值填充输入的 Tensor（张量）或者 Variable（变量）.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        a: the lower bound of the uniform distribution
-        b: the upper bound of the uniform distribution
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        a: 均匀分布的下界
+        b: 均匀分布的上界
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -68,13 +67,12 @@ def uniform(tensor, a=0, b=1):
 
 
 def normal(tensor, mean=0, std=1):
-    """Fills the input Tensor or Variable with values drawn from the normal
-    distribution :math:`N(mean, std)`.
+    """使用从正态分布 :math:`N(mean, std)` 绘制的值填充输入的 Tensor（张量）或者 Variable（变量）.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        mean: the mean of the normal distribution
-        std: the standard deviation of the normal distribution
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        mean: 正态分布的均值
+        std: 正态分布的标准差
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -88,11 +86,11 @@ def normal(tensor, mean=0, std=1):
 
 
 def constant(tensor, val):
-    """Fills the input Tensor or Variable with the value `val`.
+    """使用值 `val` 填充输入的 Tensor（张量）或者 Variable（变量）.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        val: the value to fill the tensor with
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        val: 填充 tensor（张量）的值
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -106,12 +104,11 @@ def constant(tensor, val):
 
 
 def eye(tensor):
-    """Fills the 2-dimensional input Tensor or Variable with the identity
-    matrix. Preserves the identity of the inputs in Linear layers, where as
-    many inputs are preserved as possible.
+    """用单位矩阵填充 2 维输入的 Tensor（张量）或 Variable（变量）.
+    保留线性层中输入的标记, 尽可能多地保留输入.
 
     Args:
-        tensor: a 2-dimensional torch.Tensor or autograd.Variable
+        tensor: 一个 2 维的 torch.Tensor 或 autograd.Variable
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -128,12 +125,11 @@ def eye(tensor):
 
 
 def dirac(tensor):
-    """Fills the {3, 4, 5}-dimensional input Tensor or Variable with the Dirac
-    delta function. Preserves the identity of the inputs in Convolutional
-    layers, where as many input channels are preserved as possible.
+    """用狄拉克三角函数填充 {3,4,5} 维输入的张量或变量.
+    保留卷积层中输入的标记, 尽可能多地保存输入通道.
 
     Args:
-        tensor: a {3, 4, 5}-dimensional torch.Tensor or autograd.Variable
+        tensor: 一个 {3, 4, 5} 维的 torch.Tensor 或 autograd.Variable
 
     Examples:
         >>> w = torch.Tensor(3, 16, 5, 5)
@@ -182,17 +178,17 @@ def _calculate_fan_in_and_fan_out(tensor):
 
 
 def xavier_uniform(tensor, gain=1):
-    """Fills the input Tensor or Variable with values according to the method
-    described in "Understanding the difficulty of training deep feedforward
-    neural networks" - Glorot, X. & Bengio, Y. (2010), using a uniform
-    distribution. The resulting tensor will have values sampled from
-    :math:`U(-a, a)` where
+    """根据 "Understanding the difficulty of training deep feedforward
+    neural networks" - Glorot, X. & Bengio, Y. (2010)
+    中描述的方法, 使用均匀分布填充输入张量或变量.
+    作为结果的张量将具有从
+    :math:`U(-a, a)` 中取样的值, 其中
     :math:`a = gain \\times \sqrt{2 / (fan\_in + fan\_out)} \\times \sqrt{3}`.
-    Also known as Glorot initialisation.
+    也被称为 Glorot 初始化.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        gain: an optional scaling factor
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        gain: 一个可选的比例因子
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -209,17 +205,18 @@ def xavier_uniform(tensor, gain=1):
 
 
 def xavier_normal(tensor, gain=1):
-    """Fills the input Tensor or Variable with values according to the method
-    described in "Understanding the difficulty of training deep feedforward
-    neural networks" - Glorot, X. & Bengio, Y. (2010), using a normal
-    distribution. The resulting tensor will have values sampled from
-    :math:`N(0, std)` where
+    """
+    根据 "Understanding the difficulty of training deep feedforward
+    neural networks" - Glorot, X. & Bengio, Y. (2010) 中描述的方法,
+    使用正态分布填充输入张量或变量.
+    作为结果的张量将具有从
+    :math:`N(0, std)` 中取样的值, 其中
     :math:`std = gain \\times \sqrt{2 / (fan\_in + fan\_out)}`.
-    Also known as Glorot initialisation.
+    也被称为 Glorot 初始化.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        gain: an optional scaling factor
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        gain: 一个可选的比例因子
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -245,22 +242,19 @@ def _calculate_correct_fan(tensor, mode):
 
 
 def kaiming_uniform(tensor, a=0, mode='fan_in'):
-    """Fills the input Tensor or Variable with values according to the method
-    described in "Delving deep into rectifiers: Surpassing human-level
-    performance on ImageNet classification" - He, K. et al. (2015), using a
-    uniform distribution. The resulting tensor will have values sampled from
-    :math:`U(-bound, bound)` where
+    """根据 "Delving deep into rectifiers: Surpassing human-level
+    performance on ImageNet classification" - He, K. et al. (2015) 中所描述的方法, 填充输入的张量或变量
+    作为结果的张量将具有从
+    :math:`U(-bound, bound)` 中取样的值, 其中
     :math:`bound = \sqrt{2 / ((1 + a^2) \\times fan\_in)} \\times \sqrt{3}`.
-    Also known as He initialisation.
+    也被称为 Glorot 初始化.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        a: the negative slope of the rectifier used after this layer (0 for ReLU
-            by default)
-        mode: either 'fan_in' (default) or 'fan_out'. Choosing `fan_in`
-            preserves the magnitude of the variance of the weights in the
-            forward pass. Choosing `fan_out` preserves the magnitudes in the
-            backwards pass.
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        a: 在该层之后使用的 rectifier（整流器）的负斜率（默认情况下, ReLU 为 0）
+        mode: 'fan_in' (default) 或 'fan_out' 其中的一个.
+            选择 `fan_in` 保留 forward pass（前向传递）中权重方差的量级.
+            选择 `fan_out` 来保存 backwards pass（反向传递）的量级.
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -278,22 +272,20 @@ def kaiming_uniform(tensor, a=0, mode='fan_in'):
 
 
 def kaiming_normal(tensor, a=0, mode='fan_in'):
-    """Fills the input Tensor or Variable with values according to the method
-    described in "Delving deep into rectifiers: Surpassing human-level
-    performance on ImageNet classification" - He, K. et al. (2015), using a
-    normal distribution. The resulting tensor will have values sampled from
-    :math:`N(0, std)` where
-    :math:`std = \sqrt{2 / ((1 + a^2) \\times fan\_in)}`. Also known as He
-    initialisation.
+    """根据 "Delving deep into rectifiers: Surpassing human-level
+    performance on ImageNet classification" - He, K. et al. (2015) 中所描述的方法,
+    使用正态分布填充输入张量或变量值. 
+    作为结果的张量将具有从
+    :math:`N(0, std)` 中取样的值, 其中
+    :math:`std = \sqrt{2 / ((1 + a^2) \\times fan\_in)}`.
+    也被称为 Glorot 初始化.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        a: the negative slope of the rectifier used after this layer (0 for ReLU
-            by default)
-        mode: either 'fan_in' (default) or 'fan_out'. Choosing `fan_in`
-            preserves the magnitude of the variance of the weights in the
-            forward pass. Choosing `fan_out` preserves the magnitudes in the
-            backwards pass.
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        a: 在该层之后使用的 rectifier（整流器）的负斜率（默认情况下，ReLU 为 0）
+        mode: 'fan_in' (default) 或 'fan_out' 其中的一个.
+            选择 `fan_in` 保留 forward pass（前向传递）中权重方差的量级.
+            选择 `fan_out` 来保存 backwards pass（反向传递）的量级.
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -310,15 +302,14 @@ def kaiming_normal(tensor, a=0, mode='fan_in'):
 
 
 def orthogonal(tensor, gain=1):
-    """Fills the input Tensor or Variable with a (semi) orthogonal matrix, as
-    described in "Exact solutions to the nonlinear dynamics of learning in deep
-    linear neural networks" - Saxe, A. et al. (2013). The input tensor must have
-    at least 2 dimensions, and for tensors with more than 2 dimensions the
-    trailing dimensions are flattened.
+    """根据 "Exact solutions to the nonlinear dynamics of learning in deep
+    linear neural networks" - Saxe, A. et al. (2013) 中描述的那样,
+    使用（半）正交矩阵填充输入张量或变量.
+    输入张量必须至少有 2 个维度, 对于 2 维以上的张量, 后面的维度须是平坦的.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable, where n >= 2
-        gain: optional scaling factor
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable, 其中 n >= 2
+        gain: 可选比例因子
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -354,16 +345,14 @@ def orthogonal(tensor, gain=1):
 
 
 def sparse(tensor, sparsity, std=0.01):
-    """Fills the 2D input Tensor or Variable as a sparse matrix, where the
-    non-zero elements will be drawn from the normal distribution
-    :math:`N(0, 0.01)`, as described in "Deep learning via
-    Hessian-free optimization" - Martens, J. (2010).
+    """
+    根据 "Deep learning via Hessian-free optimization" - Martens, J. (2010) 中描述的那样,
+    将 2D 输入张量或变量填充为稀疏矩阵, 其中非零元素将从正态分布 :math:`N(0, 0.01)` 中绘制.
 
     Args:
-        tensor: an n-dimensional torch.Tensor or autograd.Variable
-        sparsity: The fraction of elements in each column to be set to zero
-        std: the standard deviation of the normal distribution used to generate
-        the non-zero values
+        tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
+        sparsity: 每列中元素的 fraction（部分）被设置为零
+        std: 用于生成非零值的正态分布的标准差
 
     Examples:
         >>> w = torch.Tensor(3, 5)
