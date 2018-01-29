@@ -4,12 +4,11 @@ from . import cudart, check_error, cudaStatus
 
 
 class Stream(torch._C._CudaStreamBase):
-    """Wrapper around a CUDA stream.
+    """ CUDA 流的包装.
 
     Arguments:
-        device(int, optional): a device on which to allocate the Stream.
-        priority(int, optional): priority of the stream. Lower numbers
-                                 represent higher priorities.
+        device(int, optional): 分配流的设备.
+        priority(int, optional): 流的优先级. 较低的数字代表较高的优先级.
     """
 
     def __new__(cls, device=-1, priority=0, **kwargs):
@@ -17,33 +16,31 @@ class Stream(torch._C._CudaStreamBase):
             return super(Stream, cls).__new__(cls, priority=priority, **kwargs)
 
     def wait_event(self, event):
-        """Makes all future work submitted to the stream wait for an event.
+        """将所有未来的工作提交到流等待事件.
 
         Arguments:
-            event (Event): an event to wait for.
+            event (Event): 等待的事件.
         """
         check_error(cudart().cudaStreamWaitEvent(self, event, ctypes.c_int(0)))
 
     def wait_stream(self, stream):
-        """Synchronizes with another stream.
+        """与另一个流同步.
 
-        All future work submitted to this stream will wait until all kernels
-        submitted to a given stream at the time of call complete.
+        提交到此流的所有未来工作将等待直到所有核心在调用完成时提交给给定的流.
 
         Arguments:
-            stream (Stream): a stream to synchronize.
+            stream (Stream): 同步流.
         """
         self.wait_event(stream.record_event())
 
     def record_event(self, event=None):
-        """Records an event.
+        """记录一个事件.
 
         Arguments:
-            event (Event, optional): event to record. If not given, a new one
-                will be allocated.
+            event (Event, optional): 要记录的事件.如果没有给出,将分配一个新的.
 
         Returns:
-            Recorded event.
+            记录的事件.
         """
         if event is None:
             event = Event()
@@ -51,10 +48,10 @@ class Stream(torch._C._CudaStreamBase):
         return event
 
     def query(self):
-        """Checks if all the work submitted has been completed.
+        """检查事件是否已被记录.
 
         Returns:
-            A boolean indicating if all kernels in this stream are completed.
+            一个 BOOL 值，指示事件是否已被记录.
         """
         res = cudart().cudaStreamQuery(self)
         if res == cudaStatus.ERROR_NOT_READY:
@@ -63,7 +60,7 @@ class Stream(torch._C._CudaStreamBase):
         return True
 
     def synchronize(self):
-        """Wait for all the kernels in this stream to complete."""
+        """等待流中的所有内核完成."""
         check_error(cudart().cudaStreamSynchronize(self))
 
     @staticmethod
@@ -103,14 +100,14 @@ class EventHandle(ctypes.Structure):
 
 
 class Event(object):
-    """Wrapper around CUDA event.
+    """ CUDA 事件包装器.
 
     Arguments:
-        enable_timing (bool): indicates if the event should measure time
-            (default: ``False``)
-        blocking (bool): if ``True``, :meth:`wait` will be blocking (default: ``False``)
-        interprocess (bool): if ``True``, the event can be shared between processes
-            (default: ``False``)
+        enable_timing (bool): 指示事件是否应测量时间
+            (默认: ``False``)
+        blocking (bool): 如果 ``True``, :meth:`wait` 将阻塞 (默认: ``False`` )
+        interprocess (bool): 如果 ``True``, 事件可以在进程之间共享
+            (默认: ``False``)
     """
 
     DEFAULT = 0x0
@@ -142,22 +139,22 @@ class Event(object):
             del self._as_parameter_
 
     def record(self, stream=None):
-        """Records the event in a given stream."""
+        """记录给定流中的事件."""
         if stream is None:
             stream = torch.cuda.current_stream()
         stream.record_event(self)
 
     def wait(self, stream=None):
-        """Makes a given stream wait for the event."""
+        """使给定流等待事件发生."""
         if stream is None:
             stream = torch.cuda.current_stream()
         stream.wait_event(self)
 
     def query(self):
-        """Checks if the event has been recorded.
+        """检查事件是否已记录.
 
         Returns:
-            A boolean indicating if the event has been recorded.
+            一个 BOOL 值，指示事件是否已被记录.
         """
         res = cudart().cudaEventQuery(self)
         if res == cudaStatus.ERROR_NOT_READY:
@@ -166,18 +163,18 @@ class Event(object):
         return True
 
     def elapsed_time(self, end_event):
-        """Returns the time elapsed before the event was recorded."""
+        """返回记录事件之前所经过的时间."""
         time_ms = ctypes.c_float()
         check_error(cudart().cudaEventElapsedTime(
             ctypes.byref(time_ms), self, end_event))
         return time_ms.value
 
     def synchronize(self):
-        """Synchronizes with the event."""
+        """与事件同步."""
         check_error(cudart().cudaEventSynchronize(self))
 
     def ipc_handle(self):
-        """Returns an IPC handle of this event."""
+        """返回此事件的 IPC 句柄."""
         handle = EventHandle()
         check_error(cudart().cudaIpcGetEventHandle(ctypes.byref(handle), self))
         return handle

@@ -4,21 +4,17 @@ from .optimizer import Optimizer
 
 
 class SparseAdam(Optimizer):
-    """Implements lazy version of Adam algorithm suitable for sparse tensors.
+    """实现上一版本 Adam 算法来适用于 sparse tensors.
 
-    In this variant, only moments that show up in the gradient get updated, and
-    only those portions of the gradient get applied to the parameters.
+    在这个变化下,只将显示出来的梯度进行更新存储并且只将这部分梯度应用到参数中.
 
-    Arguments:
-        params (iterable): iterable of parameters to optimize or dicts defining
-            parameter groups
-        lr (float, optional): learning rate (default: 1e-3)
-        betas (Tuple[float, float], optional): coefficients used for computing
-            running averages of gradient and its square (default: (0.9, 0.999))
-        eps (float, optional): term added to the denominator to improve
-            numerical stability (default: 1e-8)
+    参数:
+        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+        lr (float, optional): 学习率 (default: 1e-3)
+        betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
+        eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
 
-    .. _Adam\: A Method for Stochastic Optimization:
+    .. _Adam\: 一种随机优化的方法:
         https://arxiv.org/abs/1412.6980
     """
 
@@ -27,11 +23,10 @@ class SparseAdam(Optimizer):
         super(SparseAdam, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """Performs a single optimization step.
+        """进行单步优化.
 
-        Arguments:
-            closure (callable, optional): A closure that reevaluates the model
-                and returns the loss.
+        参数:
+            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
         """
         loss = None
         if closure is not None:

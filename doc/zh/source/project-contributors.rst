@@ -42,6 +42,7 @@ PyTorch 0.3.0 中文文档贡献者
 -  `@冯斐 <https://github.com/ata123>`__
 -  `@夜神月 <https://github.com/apachecn/pytorch-doc-zh>`__
 -  `@MUSK1881 <https://github.com/JoinsenQ>`__
+-  `@K <https://github.com/shercklo>`__
 -  `@Dongze Lian <https://github.com/dongzelian>`__
 
 PyTorch 0.2.0 中文文档贡献者
