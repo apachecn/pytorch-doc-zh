@@ -64,4 +64,5 @@ PyTorch 是一个针对 deep learning（深度学习）, 并且使用 GPU 和 CP
 相关链接
 ==================
 -  GitHub: `apachecn/pytorch-doc-zh <https://github.com/apachecn/pytorch-doc-zh>`__
+-  项目贡献者: `<http://pytorch.apachecn.org/cn/0.3.0/project-contributors.html>`__
 -  组织学习交流群: `<http://www.apachecn.org/organization/348.html>`__

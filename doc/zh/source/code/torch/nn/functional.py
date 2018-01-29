@@ -945,24 +945,22 @@ def batch_norm(input, running_mean, running_var, weight=None, bias=None,
 # loss
 
 def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, reduce=True):
-    r"""The negative log likelihood loss.
+    r"""负对数似然损失.
 
-    See :class:`~torch.nn.NLLLoss` for details.
+    详见 :class:`~torch.nn.NLLLoss`.
 
-    Args:
-        input: :math:`(N, C)` where `C = number of classes` or `(N, C, H, W)`
-            in case of 2D - Loss
-        target: :math:`(N)` where each value is `0 <= targets[i] <= C-1`
-        weight (Tensor, optional): a manual rescaling weight given to each
-            class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-            over observations for each minibatch. If size_average
-            is False, the losses are summed for each minibatch. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-            and does not contribute to the input gradient. When size_average is
-            True, the loss is averaged over non-ignored targets. Default: -100
+    参数:
+        input: :math:`(N, C)` 其中 `C = number of classes` 或 `(N, C, H, W)`, 
+            当 2D - Loss 时
+        target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
+        weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 C 的 Tensor
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+            mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
+        ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
+            当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
 
-    Example::
+    实例::
 
         >>> # input is of size N x C = 3 x 5
         >>> input = autograd.Variable(torch.randn(3, 5))
@@ -983,24 +981,23 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
 
 
 def poisson_nll_loss(input, target, log_input=True, full=False, size_average=True, eps=1e-8):
-    r"""Poisson negative log likelihood loss.
+    r"""泊松分布的负对数似然损失 (Negative log likelihood loss).
 
-    See :class:`~torch.nn.PoissonNLLLoss` for details.
+    详见 :class:`~torch.nn.PoissonNLLLoss`.
 
-    Args:
-        input: expectation of underlying Poisson distribution.
-        target: random sample :math:`target \sim Pois(input)`.
-        log_input: if ``True`` the loss is computed as
-            `exp(input) - target * input`, if ``False`` then loss is
-            `input - target * log(input+eps)`. Default: ``True``
-        full: whether to compute full loss, i. e. to add the Stirling
-            approximation term. Default: ``False``
-            `target * log(target) - target + 0.5 * log(2 * pi * target)`.
-        size_average: By default, the losses are averaged over observations for
-            each minibatch. However, if the field sizeAverage is set to False,
-            the losses are instead summed for each minibatch. Default: ``True``
-        eps (float, optional): Small value to avoid evaluation of log(0) when
-            log_input=False. Default: 1e-8
+    参数:
+        input: 泊松分布的期望值.
+        target: 随机样本 :math:`target \sim Pois(input)`.
+        log_input:  如果设置为 ``True`` , 损失将会按照公式 `exp(input) - target * input` 
+            来计算, 如果设置为 ``False`` , 损失将会按照 `input - target * log(input+eps)` 计算.
+            默认: ``True``
+        full:  是否计算全部的损失, i. e. 加上 Stirling 近似项 
+            `target * log(target) - target + 0.5 * log(2 * pi * target)`. 默认: ``False``
+        size_average:  默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 上取平均值. 
+            如果字段 size_average 被设置为  ``False``, 损失函数的值会在每 个 mini-batch（小批量）上求和.
+            默认: ``True``.
+        eps (float, optional): 当 ··log_input==False`` 时, 取一个很小的值用来
+            避免计算 log(0) . 默认: 1e-8
     """
     if log_input:
         loss = torch.exp(input) - target * input
@@ -1016,50 +1013,41 @@ def poisson_nll_loss(input, target, log_input=True, full=False, size_average=Tru
 
 
 kl_div = _add_docstr(torch._C._nn.kl_div, r"""
-kl_div(input, target, size_average=True) -> Variable
+`Kullback-Leibler divergence` 损失.
 
-The `Kullback-Leibler divergence`_ Loss.
+详见ee :class:`~torch.nn.KLDivLoss`.
 
-See :class:`~torch.nn.KLDivLoss` for details.
-
-Args:
-    input: Variable of arbitrary shape
-    target: Variable of the same shape as input
-    size_average: if ``True`` the output is divided by the number of elements
-        in input tensor. Default: ``True``
-    reduce (bool, optional): By default, the losses are averaged
-        over observations for each minibatch, or summed, depending on
-        size_average. When reduce is False, returns a loss per batch
-        element instead and ignores size_average. Default: ``True``
+参数:
+    input: 任意形状变量
+    target: 与输入形状相同的变量
+    size_average: 如果是 ``True`` 输出值会除以输入 tensor 的元素总数. 默认: ``True``
+    reduce (bool, optional): 默认情况下, 该损失函数的值会根据 size_average 在每个 
+            mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损
+            失函数会对每个 batch 元素都返回一个损失值并忽略 size_average. 默认: ``True``
 
 """)
 
 
 def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-100, reduce=True):
-    r"""This criterion combines `log_softmax` and `nll_loss` in a single
-    function.
+    r"""这个标准把 `log_softmax` 和 `nll_loss` 结合到了一个方程中.
 
-    See :class:`~torch.nn.CrossEntropyLoss` for details.
+    详见 :class:`~torch.nn.CrossEntropyLoss`.
 
-    Args:
-        input: Variable :math:`(N, C)` where `C = number of classes`
-        target: Variable :math:`(N)` where each value is
-            `0 <= targets[i] <= C-1`
-        weight (Tensor, optional): a manual rescaling weight given to each
-                class. If given, has to be a Tensor of size `C`
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Ignored if reduce is False. Default: ``True``
-        ignore_index (int, optional): Specifies a target value that is ignored
-                and does not contribute to the input gradient. When size_average is
-                True, the loss is averaged over non-ignored targets. Default: -100
-        reduce (bool, optional): By default, the losses are averaged or summed over
-                observations for each minibatch depending on size_average. When reduce
-                is False, returns a loss per batch element instead and ignores
-                size_average. Default: ``True``
+    参数:
+        input: 变量 :math:`(N, C)` 其中 `C` 为分类的数量
+        target: 变脸 :math:`(N)` 其中每个值 `0 <= targets[i] <= C-1`
+        weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个大小为 `C` 的 Tensor
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+                上取平均值. 如果字段 size_average 被设置为 ``False``, 损失函数的值会在每个 
+                mini-batch（小批量）上求和. 当 reduce 的值为 False 时会被忽略. 默认: ``True``
+        ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
+                当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 
+                默认: -100
+        reduce (bool, optional):  默认情况下, 该损失函数的值会根据 size_average 的取值, 在每个 
+                mini-batch（小批量）上求平均值或者求和. 当 reduce 是 False 时, 损失函数会对每个 
+                batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
 
-    Examples::
+    实例::
 
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(5))
@@ -1070,22 +1058,19 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
 
 
 def binary_cross_entropy(input, target, weight=None, size_average=True):
-    r"""Function that measures the Binary Cross Entropy
-    between the target and the output.
+    r"""计算目标 `target` 与输出 `output` 之间的二进制交叉熵 (Binary Cross Entropy).
 
-    See :class:`~torch.nn.BCELoss` for details.
+    详见 :class:`~torch.nn.BCELoss`.
 
-    Args:
-        input: Variable of arbitrary shape
-        target: Variable of the same shape as input
-        weight (Variable, optional): a manual rescaling weight
-                if provided it's repeated to match input tensor shape
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Default: ``True``
+    参数:
+        input: 任意形状的变量
+        target: 与输入形状相同的变量
+        weight (Variable, optional): 一个可手动指定每个类别的权重.如果给定的话, 会反复与
+                输入 tensor 形状相匹配.
+        size_average (bool, optional): 默认情况下, 是mini-batchloss的平均值. 然而, 
+                如果size_average=False, 则是 `mini-batch` loss的总和. 默认: ``True``
 
-    Examples::
+    实例::
 
         >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(2))
@@ -1109,22 +1094,20 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
 
 
 def binary_cross_entropy_with_logits(input, target, weight=None, size_average=True):
-    r"""Function that measures Binary Cross Entropy between target and output
-    logits.
+    r"""计算目标和输出之间的 Binary Cross Entropy with logits.
 
-    See :class:`~torch.nn.BCEWithLogitsLoss` for details.
+    详见 :class:`~torch.nn.BCEWithLogitsLoss`.
 
-    Args:
-        input: Variable of arbitrary shape
-        target: Variable of the same shape as input
-        weight (Variable, optional): a manual rescaling weight
-                if provided it's repeated to match input tensor shape
-        size_average (bool, optional): By default, the losses are averaged
-                over observations for each minibatch. However, if the field
-                sizeAverage is set to False, the losses are instead summed
-                for each minibatch. Default: ``True``
+    参数:
+        input: 任意形状的变量
+        target: 与输入形状相同的变量
+        weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
+                输入 tensor 的形状.
+        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
+                上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+                mini-batch（小批量）上求和. 默认值: ``True``
 
-    Examples::
+    实例::
 
          >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
          >>> target = autograd.Variable(torch.FloatTensor(3).random_(2))
@@ -1147,81 +1130,65 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
 
 
 smooth_l1_loss = _add_docstr(torch._C._nn.smooth_l1_loss, r"""
-smooth_l1_loss(input, target, size_average=True) -> Variable
+当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算. 
 
-Function that uses a squared term if the absolute
-element-wise error falls below 1 and an L1 term otherwise.
-
-See :class:`~torch.nn.SmoothL1Loss` for details.
+详见 :class:`~torch.nn.SmoothL1Loss`.
 """)
 
 l1_loss = _add_docstr(torch._C._nn.l1_loss, r"""
-l1_loss(input, target, size_average=True, reduce=True) -> Variable
+这个方程计算逐个变量的差的绝对值的平均数.
 
-Function that takes the mean element-wise absolute value difference.
-
-See :class:`~torch.nn.L1Loss` for details.
+详见 :class:`~torch.nn.L1Loss`.
 """)
 
 mse_loss = _add_docstr(torch._C._nn.mse_loss, r"""
-mse_loss(input, target, size_average=True, reduce=True) -> Variable
+计算变量之间的均方差.
 
-Measures the element-wise mean squared error.
-
-See :class:`~torch.nn.MSELoss` for details.
+详见 :class:`~torch.nn.MSELoss`.
 """)
 
 
 def margin_ranking_loss(input1, input2, target, margin=0, size_average=True):
-    """margin_ranking_loss(input1, input2, target, margin=0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MarginRankingLoss` for details.
+    """
+    详见 :class:`~torch.nn.MarginRankingLoss`.
     """
     return _functions.loss.MarginRankingLoss.apply(input1, input2, target, margin, size_average)
 
 
 def hinge_embedding_loss(input, target, margin=1.0, size_average=True):
-    """hinge_embedding_loss(input, target, margin=1.0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.HingeEmbeddingLoss` for details.
+    """
+    详见 :class:`~torch.nn.HingeEmbeddingLoss`.
     """
     return _functions.loss.HingeEmbeddingLoss.apply(input, target, margin, size_average)
 
 
 multilabel_margin_loss = _add_docstr(torch._C._nn.multilabel_margin_loss, r"""
-multilabel_margin_loss(input, target, size_average=True) -> Variable
-
-See :class:`~torch.nn.MultiLabelMarginLoss` for details.
+详见 :class:`~torch.nn.MultiLabelMarginLoss`.
 """)
 
 soft_margin_loss = _add_docstr(torch._C._nn.soft_margin_loss, r"""
-soft_margin_loss(input, target, size_average=True) -> Variable
-
-See :class:`~torch.nn.SoftMarginLoss` for details.
+详见 :class:`~torch.nn.SoftMarginLoss`.
 """)
 
 
 def multilabel_soft_margin_loss(input, target, weight=None, size_average=True):
-    """multilabel_soft_margin_loss(input, target, weight=None, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MultiLabelSoftMarginLoss` for details.
+    """
+    详见 :class:`~torch.nn.MultiLabelSoftMarginLoss`.
     """
     input = torch.sigmoid(input)
     return binary_cross_entropy(input, target, weight, size_average)
 
 
 def cosine_embedding_loss(input1, input2, target, margin=0, size_average=True):
-    """cosine_embedding_loss(input1, input2, target, margin=0, size_average=True) -> Variable
-
-    See :class:`~torch.nn.CosineEmbeddingLoss` for details.
+    """
+    详见 :class:`~torch.nn.CosineEmbeddingLoss`.
     """
     return _functions.loss.CosineEmbeddingLoss.apply(input1, input2, target, margin, size_average)
 
 
 def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=True):
-    """multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=True) -> Variable
-
-    See :class:`~torch.nn.MultiMarginLoss` for details.
+    """
+    详见 :class:`~torch.nn.MultiMarginLoss`.
     """
     if p != 1 and p != 2:
         raise ValueError('only p == 1 and p == 2 supported')
@@ -1232,16 +1199,15 @@ def multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=Tr
 
 
 def pixel_shuffle(input, upscale_factor):
-    r"""Rearranges elements in a tensor of shape ``[*, C*r^2, H, W]`` to a
-    tensor of shape ``[C, H*r, W*r]``.
+    r"""将 shape 为 [*, C*r^2, H, W] 的 Tensor 重新排列成 shape 为 [C, H*r, W*r] 的 Tensor.
 
-    See :class:`~torch.nn.PixelShuffle` for details.
+    详情请参阅 :class:`~torch.nn.PixelShuffle`.
 
-    Args:
-        input (Variable): Input
-        upscale_factor (int): factor to increase spatial resolution by
+    参数:
+        input (Variable): 输入
+        upscale_factor (int): 增加空间分辨率的因子
 
-    Examples::
+    例子:
 
         >>> ps = nn.PixelShuffle(3)
         >>> input = autograd.Variable(torch.Tensor(1, 9, 4, 4))
@@ -1264,26 +1230,24 @@ def pixel_shuffle(input, upscale_factor):
 
 
 def upsample(input, size=None, scale_factor=None, mode='nearest'):
-    r"""Upsamples the input to either the given :attr:`size` or the given
-    :attr:`scale_factor`
+    r"""将输入上采样到给定的参数 `size` 或 `scale_factor`
 
-    The algorithm used for upsampling is determined by :attr:`mode`.
+    用于上采样的算法由参数 `mode` 确定。
 
-    Currently temporal, spatial and volumetric upsampling are supported, i.e.
-    expected inputs are 3-D, 4-D or 5-D in shape.
+    当前的时间，空间和体积的 upsampleing 被支持，即预期的输入是三维，四维或五维形状。
 
-    The input dimensions are interpreted in the form:
+    输入维度用以下形式:
     `mini-batch x channels x [depth] x [height] x width`
 
-    The modes available for upsampling are: `nearest`, `linear` (3D-only),
-    `bilinear` (4D-only), `trilinear` (5D-only)
+    上采样的模式: 
+    `nearest`, `linear` (3D-only),`bilinear` (4D-only), `trilinear` (5D-only)
 
-    Args:
-        input (Variable): input
+    参数:
+        input (Variable): 输入
         size (int or Tuple[int] or Tuple[int, int] or Tuple[int, int, int]):
-            output spatial size.
-        scale_factor (int): multiplier for spatial size. Has to be an integer.
-        mode (string): algorithm used for upsampling:
+            输出空间尺寸.
+        scale_factor (int): 乘数空间尺寸，必须是整型
+        mode (string): 用于上采样的算法:
             'nearest' | 'linear' | 'bilinear' | 'trilinear'. Default: 'nearest'
     """
     if input.dim() == 3 and mode == 'nearest':
@@ -1317,18 +1281,16 @@ def upsample(input, size=None, scale_factor=None, mode='nearest'):
 
 
 def upsample_nearest(input, size=None, scale_factor=None):
-    r"""Upsamples the input, using nearest neighbours' pixel values.
+    r"""使用最邻近 nrighbours 对输入进行采样' 像素值.
 
-    **Note:: This function is deprecated. Use nn.functional.upsample instead**
+    **注意: 此功能已被弃用. 使用 nn.functional.upsample 代替**
 
-    Currently spatial and volumetric upsampling are supported (i.e. expected
-    inputs are 4 or 5 dimensional).
+    目前支持空间和体积上采样 (即预期的输入是4或5维).
 
-    Args:
-        input (Variable): input
-        size (int or Tuple[int, int] or Tuple[int, int, int]): output spatia
-            size.
-        scale_factor (int): multiplier for spatial size. Has to be an integer.
+    参数:
+        input (Variable): 输入
+        size (int or Tuple[int, int] or Tuple[int, int, int]): 输出空间尺寸.
+        scale_factor (int): 乘数空间尺寸，必须是整型.
     """
     # DeprecationWarning is ignored by default
     warnings.warn("nn.functional.upsample_nearest is deprecated. Use nn.functional.upsample instead.")
@@ -1336,17 +1298,16 @@ def upsample_nearest(input, size=None, scale_factor=None):
 
 
 def upsample_bilinear(input, size=None, scale_factor=None):
-    r"""Upscales the input, using bilinear upsampling.
+    r"""使用双线性上采样来放大输入.
 
-    **Note:: This function is deprecated. Use nn.functional.upsample instead**
+    **注意: 此功能已被弃用. 使用 nn.functional.upsample 代替**
 
-    Expected inputs are spatial (4 dimensional). Use upsample_trilinear fo
-    volumetric (5 dimensional) inputs.
+    预期的输入是4维空间. 使用 upsample_trilinear 作为容积（5维）输入.
 
-    Args:
-        input (Variable): input
-        size (int or Tuple[int, int]): output spatial size.
-        scale_factor (int or Tuple[int, int]): multiplier for spatial size
+    参数:
+        input (Variable): 输入
+        size (int or Tuple[int, int]): 输出空间尺寸
+        scale_factor (int or Tuple[int, int]): 乘数空间尺寸
     """
     # DeprecationWarning is ignored by default
     warnings.warn("nn.functional.upsample_bilinear is deprecated. Use nn.functional.upsample instead.")
@@ -1354,36 +1315,31 @@ def upsample_bilinear(input, size=None, scale_factor=None):
 
 
 def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
-    r"""Given an :attr:`input` and a flow-field :attr:`grid`, computes the
-    `output` using input pixel locations from the grid.
+    r"""给定输入和网格参数, 使用来自网格的输入像素位置计算输出.
 
-    Uses bilinear interpolation to sample the input pixels.
-    Currently, only spatial (4 dimensional) inputs are supported.
+    使用双线性插值来对输入像素进行采样.
+    目前仅支持空间（4维）输入.
 
-    For each output location, :attr:`grid` has `x` and `y`
-    input pixel locations which are used to compute output.
+    对于每个输出位置, `grid` 有 `x` 和 `y` 的输入像素位置，用于计算输出
 
-    :attr:`grid` has values in the range of `[-1, 1]`. This is because the
-    pixel locations are normalized by the input height and width.
+    `grid` 值的区间： `[-1, 1]`. 这是因为像素位置由输入高度和宽度标准化.
 
-    For example, values: x: -1, y: -1 is the left-top pixel of the input
-                 values: x: 1, y: 1 is the right-bottom pixel of the input
+    比如, 取值 x: -1, y: -1 是输入的左上角像素
+          取值: x: 1, y: 1 是输入的右下角像素
 
-    If :attr:`grid` has values outside the range of `[-1, 1]`, those locations
-    are handled as defined by `padding_mode`. Options are `zeros` or `border`,
-    defining those locations to use 0 or image border values as contribution
-    to the bilinear interpolation.
+    如果 `grid` 超出 `[-1, 1]` 的取值区间, 他们的位置取决于 `padding_mode`. 
+    选项是 `zeros` 或  `border` 定义那些使用0或图像边界值作为贡献的位置到双线性插值.
 
-    .. Note:: This function is used in building Spatial Transformer Networks
+    .. 注意:: 此功能用于构建 Spatial Transformer Networks.
 
-    Args:
-        input (Variable): input batch of images (N x C x IH x IW)
-        grid (Variable): flow-field of size (N x OH x OW x 2)
-        padding_mode (str): padding mode for outside grid values
-            'zeros' | 'border'. Default: 'zeros'
+    参数:
+        input (Variable): 输入一批图像 (N x C x IH x IW)
+        grid (Variable): flow-field 的尺寸 (N x OH x OW x 2)
+        padding_mode (str): 用于外部网格值的填充模式 'zeros' | 'border'. 
+        Default: 'zeros'
 
-    Returns:
-        output (Variable): output Tensor
+    返回:
+        output (Variable): 输出 Tensor
 
     """
     batch_size, channels, in_height, in_width = input.size()
@@ -1391,42 +1347,39 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
 
 
 def affine_grid(theta, size):
-    r"""Generates a 2d flow field, given a batch of affine matrices :attr:`theta`
-    Generally used in conjunction with :func:`grid_sample` to
-    implement Spatial Transformer Networks.
+    r"""生成一个 2d 流场，给定一批仿射矩阵：`theta`
+    一般与 `grid_sample` 配合使用来实现 Spatial Transformer Networks.
 
-    Args:
-        theta (Variable): input batch of affine matrices (N x 2 x 3)
-        size (torch.Size): the target output image size (N x C x H x W)
-                           Example: torch.Size((32, 3, 24, 24))
+    参数:
+        theta (Variable): 输入一批仿射矩阵 (N x 2 x 3)
+        size (torch.Size): 目标输出图像大小 (N x C x H x W)
+                           例子: torch.Size((32, 3, 24, 24))
 
-    Returns:
-        output (Variable): output Tensor of size (N x H x W x 2)
+    返回:
+        output (Variable): 输出 Tensor 的尺寸 (N x H x W x 2)
     """
     return AffineGridGenerator.apply(theta, size)
 
 
 def pad(input, pad, mode='constant', value=0):
-    r"""Pads tensor.
+    r"""填充 tensor.
 
-    Nd constant padding:  The number of dimensions to pad is
-        len(padding) // 2 and the dimensions that gets padded begins with the
-        last dimension and moves forward.  See below for examples.
+    Nd constant padding: 需要填充的维度的数目是 len(padding) // 2
+        从最后一个维度填充并向前. 例子如下.
 
-    1D, 2D and 3D "reflect"/"replicate" padding:
-        1D: 3D input with padding in form (pad_l, pad_r)
-        2D: 4D input tensor pad should be in form
+    1D, 2D 和 3D "reflect"/"replicate" padding:
+        1D: 3D 输入采用 (pad_l, pad_r) 的形式填充
+        2D: 4D 输入的 tensor 用以下形式填充
         (pad_l, pad_r, pad_t, pad_b ).
-        3D: 5D pad (pleft, pright, ptop, pbottom, pfront, pback). No "reflect"
-        implementation
+        3D: 5D 填充 (pleft, pright, ptop, pbottom, pfront, pback). 没有"reflect"应用
 
-    Args:
+    参数:
         input (Variable): Nd tensor
-        pad (tuple): m-elem tuple, where m // 2 <= input dimensions and m % 2 == 0
-        mode: 'constant', 'reflect' or 'replicate'. Default: 'constant'
-        value: fill value for 'constant' padding. Default: 0
+        pad (tuple): m 个元素的元组, 满足 m // 2 <= 输入维度 and m % 2 == 0
+        mode: 'constant', 'reflect' 或者 'replicate'. Default: 'constant'
+        value: 输入值为 'constant' padding. Default: 0
 
-    Examples::
+    例子:
 
         >>> t4d = torch.Tensor(3, 3, 4, 2)
         >>> p1d = (1, 1) # pad last dim by 1 on each side
@@ -1532,36 +1485,32 @@ def cosine_similarity(x1, x2, dim=1, eps=1e-8):
 
 
 def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, swap=False):
-    r"""Creates a criterion that measures the triplet loss given an input
-    tensors x1, x2, x3 and a margin with a value greater than 0.
-    This is used for measuring a relative similarity between samples. A triplet
-    is composed by `a`, `p` and `n`: anchor, positive examples and negative
-    example respectively. The shape of all input variables should be
-    :math:`(N, D)`.
+    r"""创建一个标准, 用以衡量三元组合的损失值, 计算损失值时需要3个输入张量 x1, x2, x3 和 一个大于零的 
+    margin 值. 此标准可以用来衡量输入样本间的相对相似性. 一个三元输入组合由 `a`, `p` 和 `n`: anchor, 
+    positive 样本 和 negative 样本组成. 所有输入变量的形式必须为:math:`(N, D)`.
 
-    The distance swap is described in detail in the paper `Learning shallow
-    convolutional feature descriptors with triplet losses`_ by
+    距离交换的详细说明请参考论文 `Learning shallow convolutional feature descriptors with triplet losses`_ by
     V. Balntas, E. Riba et al.
 
     .. math::
         L(a, p, n) = \frac{1}{N} \left( \sum_{i=1}^N \max \{d(a_i, p_i) - d(a_i, n_i) + {\rm margin}, 0\} \right)
 
-    where :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
+    其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
-    Args:
-        anchor: anchor input tensor
-        positive: positive input tensor
-        negative: negative input tensor
-        margin: the margin value. Default: 1
-        p: the norm degree. Default: 2
-        eps: small epsilon value to avoid numerical issues. Default: 1e-6
-        swap: compute distance swap. Default: ``False``
+    参数:
+        anchor: anchor 输入 tensor
+        positive: positive 输入 tensor
+        negative: negative 输入 tensor
+        margin: margin 值. 默认: 1
+        p: 正则化率. 默认: 2
+        eps: 小 epsilon 值, 用来避免计算数值的问题. 默认: 1e-6
+        swap: 计算距离交换. 默认: ``False``
 
-    Shape:
-        - Input: :math:`(N, D)` where `D = vector dimension`
+    形状:
+        - Input: :math:`(N, D)` 其中 `D = vector dimension`
         - Output: :math:`(N, 1)`
 
-    Example::
+    实例::
 
         >>> input1 = autograd.Variable(torch.randn(100, 128))
         >>> input2 = autograd.Variable(torch.randn(100, 128))

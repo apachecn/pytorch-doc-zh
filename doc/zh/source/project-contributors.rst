@@ -10,6 +10,9 @@
 贡献者
 ------
 
+PyTorch 0.3.0 中文文档贡献者
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 -  `@那伊抹微笑 <https://github.com/wangyangting>`__
 -  `@片刻 <https://github.com/jiangzhonglian>`__
 -  `@小瑶 <https://github.com/chenyyx>`__
@@ -29,6 +32,33 @@
 -  `@谈笑风生 <https://github.com/zhu1040028623>`__
 -  `@叶舒泉 <https://github.com/pleaseconnectwifi>`__
 -  `@Sylvester <https://github.com/coboe>`__
+-  `@胡东瑶 <https://github.com/psubnwell>`__
+-  `@jizg <https://github.com/jizg>`__
+-  `@小乔 <https://github.com/QiaoXie>`__
+-  `@BarrettLi <https://github.com/BarrettLi>`__
+-  `@谢家柯 <https://github.com/kelisiya>`__
+-  `@buldajs <https://github.com/buldajs>`__
+-  `@Chriskuei <https://github.com/Chriskuei>`__
+-  `@冯斐 <https://github.com/ata123>`__
+-  `@夜神月 <https://github.com/apachecn/pytorch-doc-zh>`__
+-  `@MUSK1881 <https://github.com/JoinsenQ>`__
+-  `@K <https://github.com/shercklo>`__
+-  `@Dongze Lian <https://github.com/dongzelian>`__
+
+PyTorch 0.2.0 中文文档贡献者
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+-  `@awfssv <https://github.com/awfssv>`__ （组织者）
+-  `@ycszen <https://github.com/ycszen>`__
+-  `@KeithYin <https://github.com/KeithYin>`__
+-  `@kophy <https://github.com/kophy>`__
+-  `@swordspoet <https://github.com/swordspoet>`__
+-  `@dyl745001196 <https://github.com/dyl745001196>`__
+-  `@koshinryuu <https://github.com/koshinryuu>`__
+-  `@tfygg <https://github.com/tfygg>`__
+-  `@weigp <https://github.com/weigp>`__
+-  `@ZijunDeng <https://github.com/ZijunDeng>`__
+-  `@yichuan9527 <https://github.com/yichuan9527>`__
 
 建议反馈
 --------
