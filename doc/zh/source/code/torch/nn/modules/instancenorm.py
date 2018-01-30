@@ -37,29 +37,24 @@ class _InstanceNorm(_BatchNorm):
 
 
 class InstanceNorm1d(_InstanceNorm):
-    r"""Applies Instance Normalization over a 2d or 3d input that is seen as a mini-batch.
-
+    r""" 对 2d 或者 3d 的小批量 (mini-batch) 数据进行实例标准化 (Instance Normalization) 操作.
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
-    The mean and standard-deviation are calculated per-dimension separately
-    for each object in a mini-batch. Gamma and beta are learnable parameter vectors
-    of size C (where C is the input size).
+    对小批量数据中的每一个对象,计算其各个维度的均值和标准差,并且 gamma 和 beta 是大小为 C 的可学习,
+    可改变的仿射参数向量( C 为输入大小).
 
-    During training, this layer keeps a running estimate of its computed mean
-    and variance. The running sum is kept with a default momentum of 0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    At evaluation time (`.eval()`), the default behaviour of the InstanceNorm module stays the same
-    i.e. running mean/variance is NOT used for normalization. One can force using stored
-    mean and variance with `.train(False)` method.
+    在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
+    但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
     Args:
-        num_features: num_features from an expected input of size `batch_size x num_features x width`
-        eps: a value added to the denominator for numerical stability. Default: 1e-5
-        momentum: the value used for the running_mean and running_var computation. Default: 0.1
-        affine: a boolean value that when set to ``True``, gives the layer learnable
-            affine parameters. Default: ``False``
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x width'
+        eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
+        momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
+        affine: 布尔值,设为 ``True`` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 ``False``
 
     Shape:
         - Input: :math:`(N, C, L)`
@@ -82,29 +77,24 @@ class InstanceNorm1d(_InstanceNorm):
 
 
 class InstanceNorm2d(_InstanceNorm):
-    r"""Applies Instance Normalization over a 4d input that is seen as a mini-batch of 3d inputs
-
+    r""" 对小批量 (mini-batch) 3d 数据组成的 4d 输入进行实例标准化 (Batch Normalization) 操作.
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
-    The mean and standard-deviation are calculated per-dimension separately
-    for each object in a mini-batch. Gamma and beta are learnable parameter vectors
-    of size C (where C is the input size).
+    对小批量数据中的每一个对象,计算其各个维度的均值和标准差,并且 gamma 和 beta 是大小为 C 的可学习,
+    可改变的仿射参数向量( C 为输入大小).
 
-    During training, this layer keeps a running estimate of its computed mean
-    and variance. The running sum is kept with a default momentum of 0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    At evaluation time (`.eval()`), the default behaviour of the InstanceNorm module stays the same
-    i.e. running mean/variance is NOT used for normalization. One can force using stored
-    mean and variance with `.train(False)` method.
+    在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
+    但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
     Args:
-        num_features: num_features from an expected input of size batch_size x num_features x height x width
-        eps: a value added to the denominator for numerical stability. Default: 1e-5
-        momentum: the value used for the running_mean and running_var computation. Default: 0.1
-        affine: a boolean value that when set to ``True``, gives the layer learnable
-            affine parameters. Default: ``False``
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x height x width'
+        eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
+        momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
+        affine: 布尔值,设为 ``True`` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 ``False``
 
     Shape:
         - Input: :math:`(N, C, H, W)`
@@ -127,30 +117,24 @@ class InstanceNorm2d(_InstanceNorm):
 
 
 class InstanceNorm3d(_InstanceNorm):
-    r"""Applies Instance Normalization over a 5d input that is seen as a mini-batch of 4d inputs
-
+    r""" 对小批量 (mini-batch) 4d 数据组成的 5d 输入进行实例标准化 (Batch Normalization) 操作.
     .. math::
 
         y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
-    The mean and standard-deviation are calculated per-dimension separately for each object in a mini-batch.
-    Gamma and beta are learnable parameter vectors
-    of size C (where C is the input size).
+    对小批量数据中的每一个对象,计算其各个维度的均值和标准差,并且 gamma 和 beta 是大小为 C 的可学习,
+    可改变的仿射参数向量( C 为输入大小).
 
-    During training, this layer keeps a running estimate of its computed mean
-    and variance. The running sum is kept with a default momentum of 0.1.
+    在训练过程中,该层计算均值和方差,并进行平均移动,默认的平均移动动量值为 0.1.
 
-    At evaluation time (`.eval()`), the default behaviour of the InstanceNorm module stays the same
-    i.e. running mean/variance is NOT used for normalization. One can force using stored
-    mean and variance with `.train(False)` method.
-
+    在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据,
+    但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
     Args:
-        num_features: num_features from an expected input of size batch_size x num_features x depth x height x width
-        eps: a value added to the denominator for numerical stability. Default: 1e-5
-        momentum: the value used for the running_mean and running_var computation. Default: 0.1
-        affine: a boolean value that when set to ``True``, gives the layer learnable
-            affine parameters. Default: ``False``
+        num_features: 预期输入的特征数,大小为 'batch_size x num_features x depth x height x width'
+        eps: 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
+        momentum: 动态均值和动态方差使用的移动动量值,默认为 0.1
+        affine: 布尔值,设为 ``True`` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 ``False``
 
     Shape:
         - Input: :math:`(N, C, D, H, W)`
