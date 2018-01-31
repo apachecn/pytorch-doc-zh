@@ -25,24 +25,24 @@ class _WeightedLoss(_Loss):
 
 
 class L1Loss(_Loss):
-    r"""创建一个标准用来衡量输入的 `x` 与目标 `y` 之间的区别，该函数会逐元素地求出 
-    `x` 和 `y` 之间的差值，最后返回这些差值的绝对值的平均值.
+    r"""创建一个衡量输入 `x` 与目标 `y` 之间差的绝对值的平均值的标准, 该
+    函数会逐元素地求出 `x` 和 `y` 之间差的绝对值，最后返回绝对值的平均值.
 
     :math:`{loss}(x, y)  = 1/n \sum |x_i - y_i|`
 
     `x` 和 `y` 可以是任意维度的数组，但需要有相同数量的n个元素.
 
-    求和操作会对n个元素求和，最后除以 `n`.
+    求和操作会对n个元素求和，最后除以 `n` .
 
-    在构造函数的参数中设置 `size_average=False` 可以避免最后除以 `n` 的操作.
+    在构造函数的参数中传入 `size_average=False`, 最后求出来的绝对值将不会除以 `n`.
 
     Args:
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为 ``False``, 损失函数的值会在每个 mini-batch（小批量）
-            上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
-        reduce (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）上求平均值或者
-            求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个损失值并忽略
-            size_average. 默认值: ``True``
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, `loss` 将会在每个 mini-batch（小批量）
+            上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略. 默认值: ``True``
+        reduce (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者
+            求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽
+            略 size_average 字段. 默认值: ``True``
     
 
     Shape:
@@ -71,7 +71,7 @@ class L1Loss(_Loss):
 
 
 class NLLLoss(_WeightedLoss):
-    r"""负对数似然损失. 用 `C` 个类别来训练一个分类问题是很有效的. 可选参数 `weight` 是
+    r"""负对数似然损失. 用于训练 `C` 个类别的分类问题. 可选参数 `weight` 是
     一个1维的 Tensor, 用来设置每个类别的权重. 当训练集不平衡时该参数十分有用.
 
     由前向传播得到的输入应该含有每个类别的对数概率: 输入必须是形如 `(minibatch, C)` 的
@@ -80,9 +80,9 @@ class NLLLoss(_WeightedLoss):
     在一个神经网络的最后一层添加 `LogSoftmax` 层可以得到对数概率. 如果你不希望在神经网络中
     加入额外的一层, 也可以使用 `CrossEntropyLoss` 函数.
 
-    该损失函数需要的目标值是一个类别索引 `(0 to C-1, where C = number of classes)`
+    该损失函数需要的目标值是一个类别索引 `(0 到 C-1, 其中 C 是类别数量)`
 
-    该损失值可以描述为::
+    该 loss 可以描述为::
 
         loss(x, class) = -x[class]
 
@@ -97,18 +97,19 @@ class NLLLoss(_WeightedLoss):
     Args:
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 `C` 的
             Tensor
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
-            个 mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, loss` 将会在每个 mini-batch（小批量）
+            上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略. 默认值: ``True``
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到
-            输入的梯度. 当 size_average 为 ``True`` 时, 损失函数的值将会在没有被忽略的元素上
-            取平均.
-        reduce (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）上求平均值或者
-            求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个损失值并忽略
-            size_average. 默认值: ``True``
+            输入的梯度. 当 size_average 为 ``True`` 时, loss 将会在没有被忽略的元素上
+            取平均值.
+        reduce (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者
+            求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽
+            略 size_average 字段. 默认值: ``True``
+
 
     Shape:
-        - 输入: :math:`(N, C)`, 其中 `C = number of classes`
+        - 输入: :math:`(N, C)`, 其中 `C` 是类别的数量
         - 目标: :math:`(N)`, 其中的每个元素都满足 `0 <= targets[i] <= C-1`
         - 输出: 标量. 如果 reduce 是 ``False``, 则输出为 :math:`(N)`.
 
@@ -141,12 +142,12 @@ class NLLLoss2d(NLLLoss):
     Args:
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 `C` 的
             Tensor
-        size_average: 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
-            个 mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
-        reduce (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）上求平均值或者
-            求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个损失值并忽略
-            size_average. 默认值: ``True``
+        size_average: 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, loss 将会在每个 mini-batch（小批量）
+            上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略. 默认值: ``True``
+        reduce (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者
+            求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽
+            略 size_average 字段. 默认值: ``True``
 
 
     Shape:
@@ -177,18 +178,18 @@ class PoissonNLLLoss(_Loss):
         loss(input, target) = input - target * log(input) + log(target!)
 
     最后一项可以被省略或者用 Stirling 公式来近似. 该近似用于大于1的目标值. 当目标值
-    小于或等于1时, 则将0加到损失值中.
+    小于或等于1时, 则将0加到 loss 中.
 
     Args:
-        log_input (bool, optional): 如果设置为 ``True`` , 损失将会按照公
-            式 `exp(input) - target * input` 来计算, 如果设置为 ``False`` , 损失
+        log_input (bool, optional): 如果设置为 ``True`` , loss 将会按照公
+            式 `exp(input) - target * input` 来计算, 如果设置为 ``False`` , loss
             将会按照 `input - target * log(input+eps)` 计算.
-        full (bool, optional): 是否计算全部的损失, i. e. 加上 Stirling 近似项
+        full (bool, optional): 是否计算全部的 loss, i. e. 加上 Stirling 近似项
             `target * log(target) - target + 0.5 * log(2 * pi * target)`.
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
-            个 mini-batch（小批量）上求和.
-        eps (float, optional): 当 log_input==``False`` 时, 取一个很小的值用来避免计算 log(0) .
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, loss 将会在每个 mini-batch（小批量）
+            上累加, 而不会取平均值.
+        eps (float, optional): 当 log_input==``False`` 时, 取一个很小的值用来避免计算 log(0).
             默认值: 1e-8
 
     Examples::
@@ -219,7 +220,7 @@ class KLDivLoss(_Loss):
     KL 散度可用于衡量不同的连续分布之间的距离, 在连续的输出分布的空间上(离散采样)上进行直接回归时
     很有效.
 
-    跟 `NLLLoss` 一样, `input` 需要含有*对数概率*, 不同于  `ClassNLLLoss`, `input` 可
+    跟 `NLLLoss` 一样, `input` 需要含有 *对数概率* , 不同于  `ClassNLLLoss`, `input` 可
     以不是2维的 Tensor, 因为该函数会逐元素地求值.
 
     该方法需要一个shape跟 `input` `Tensor` 一样的 `target` `Tensor`.
@@ -228,18 +229,18 @@ class KLDivLoss(_Loss):
 
     .. math:: loss(x, target) = 1/n \sum(target_i * (log(target_i) - x_i))
 
-    默认情况下, 损失会在每个 mini-batch（小批量）上和 **维度** 上取平均值. 如果字段
-    `size_average` 设置为 ``False``, 则损失会不会取平均值.
+    默认情况下, loss 会在每个 mini-batch（小批量）上和 **维度** 上取平均值. 如果字段
+    `size_average` 设置为 ``False``, 则 loss 不会取平均值.
 
     .. _Kullback-Leibler divergence:
         https://en.wikipedia.org/wiki/Kullback-Leibler_divergence
 
     Args:
-        size_average (bool, optional): 默认情况下, 损失会在每个 mini-batch（小批量）上
-            和 **维度** 上取平均值. 如果设置为 ``False``, 则损失会不会取平均值.
-        reduce (bool, optional): 默认情况下, 该损失函数的值会根据 size_average 在每
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）上
+            和 **维度** 上取平均值. 如果设置为 ``False``, 则 loss 会累加, 而不是取平均值.
+        reduce (bool, optional): 默认情况下, loss 会根据 size_average 在每
             个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损失函数会对每
-            个 batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
+            个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: ``True``
     
     Shape:
         - 输入: :math:`(N, *)`, 其中 `*` 表示任意数量的额外维度.
@@ -266,18 +267,18 @@ class MSELoss(_Loss):
 
     求和操作会对n个元素求和，最后除以 `n`.
 
-    在构造函数的参数中设置 `size_average=False` 可以避免最后除以 `n` 的操作.
+    在构造函数的参数中传入 `size_average=False` , 最后求出来的绝对值将不会除以 `n`.
 
-    要得到单个 batch 元素的损失, 设置 `reduce` 为 ``False``. 返回的损失将不会
-    被平均, 也不会被 `size_average` 影响.
+    要得到每个 batch 中每个元素的 loss, 设置 `reduce` 为 ``False``. 返回的 loss 将不会
+    取平均值, 也不会被 `size_average` 影响.
 
     Args:
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
             个 mini-batch（小批量）上求和. 只有当 reduce 的值为 ``True`` 才会生效. 默认值: ``True``
-        reduce (bool, optional): 默认情况下, 该损失函数的值会根据 size_average 在每
+        reduce (bool, optional): 默认情况下, loss 会根据 size_average 的值在每
             个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损失函数会对每
-            个 batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
+            个 batch 元素都返回一个 loss 并忽略 size_average字段. 默认值: ``True``
 
     Shape:
         - 输入: :math:`(N, *)`, 其中 `*` 表示任意数量的额外维度.
@@ -302,7 +303,7 @@ class MSELoss(_Loss):
 
 
 class BCELoss(_WeightedLoss):
-    r"""创建一个标准用于衡量目标和输出之间的二值交叉熵:
+    r"""计算目标和输出之间的二进制交叉熵:
 
     .. math:: loss(o, t) = - 1/n \sum_i (t[i] * log(o[i]) + (1 - t[i]) * log(1 - o[i]))
 
@@ -313,11 +314,11 @@ class BCELoss(_WeightedLoss):
     这可用于测量重构的误差, 例如自动编码机. 注意目标的值 `t[i]` 的范围为0到1之间.
 
     Args:
-        weight (Tensor, optional): 自定义的每个 batch 元素的损失的的权重. 必须是一个长度为 "nbatch" 的
+        weight (Tensor, optional): 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度为 "nbatch" 的
             的 Tensor
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
-            个 mini-batch（小批量）上求和. 默认值: ``True``
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: ``True``
     
     Shape:
         - 输入: :math:`(N, *)`, 其中 `*` 表示任意数量的额外维度.
@@ -355,11 +356,11 @@ class BCEWithLogitsLoss(Module):
     这可用于测量重构的误差, 例如自动编码机. 注意目标的值 `t[i]` 的范围为0到1之间.
     
     Args:
-        weight (Tensor, optional): 自定义的每个 batch 元素的损失的权重. 必须是一个长度
+        weight (Tensor, optional): 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度
             为 "nbatch" 的 Tensor
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
-            个 mini-batch（小批量）上求和. 默认值: ``True``
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: ``True``
     
     Shape:
         - 输入: :math:`(N, *)`, 其中 `*` 表示任意数量的额外维度.
@@ -498,11 +499,10 @@ class SoftMarginLoss(_Loss):
 
 
 class CrossEntropyLoss(_WeightedLoss):
-    r"""这个标准把 `LogSoftMax` 和 `NLLLoss` 结合到了一个类中
+    r"""该类把 `LogSoftMax` 和 `NLLLoss` 结合到了一个类中
 
-    当训练有  `C` 个类别的分类问题时很有效. 可选参数 `weight` 必须是一个1维 Tensor, 
-    权重将被分配给各个类别.
-    对于不平衡的训练集非常有效.
+    当训练有 `C` 个类别的分类问题时很有效. 可选参数 `weight` 必须是一个1维 Tensor, 
+    权重将被分配给各个类别. 对于不平衡的训练集非常有效.
 
     `input` 含有每个类别的分数
 
@@ -510,7 +510,7 @@ class CrossEntropyLoss(_WeightedLoss):
 
     `target` 是一个类别索引 (0 to C-1), 对应于 `minibatch` 中的每个元素
 
-    损失可以描述为::
+    loss 可以描述为::
 
         loss(x, class) = -log(exp(x[class]) / (\sum_j exp(x[j])))
                        = -x[class] + log(\sum_j exp(x[j]))
@@ -519,23 +519,23 @@ class CrossEntropyLoss(_WeightedLoss):
 
         loss(x, class) = weight[class] * (-x[class] + log(\sum_j exp(x[j])))
     
-    损失会在每个 mini-batch（小批量）上求平均.
+    loss 在每个 mini-batch（小批量）上取平均值.
 
     Args:
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 `C` 的
             Tensor
-        size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每
-            个 mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略.
+        size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, `loss` 将会在每个 mini-batch（小批量）
+            上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略.
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到
-            输入的梯度. 当 size_average 为 ``True`` 时, 损失函数的值将会在没有被忽略的元素上
+            输入的梯度. 当 size_average 字段为 ``True`` 时, loss 将会在没有被忽略的元素上
             取平均.
-        reduce (bool, optional): 默认情况下, 该损失函数的值会根据 size_average 在每
+        reduce (bool, optional): 默认情况下, loss 会根据 size_average 的值在每
             个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损失函数会对
-            每个 batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
+            每个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: ``True``
 
     Shape:
-        - 输入: :math:`(N, C)`, 其中 `C = number of classes`
+        - 输入: :math:`(N, C)`, 其中 `C` 是类别的数量
         - 目标: :math:`(N)`, 其中的每个元素都满足 `0 <= targets[i] <= C-1`
         - 输出: 标量. 如果 reduce 是 ``False``, 则输出为 :math:`(N)`.
 
