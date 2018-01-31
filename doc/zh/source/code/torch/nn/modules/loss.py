@@ -38,7 +38,7 @@ class L1Loss(_Loss):
 
     Args:
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为 ``False``, `loss` 将会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, loss 将会在每个 mini-batch（小批量）
             上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略. 默认值: ``True``
         reduce (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者
             求和. 当 reduce 是 ``False`` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽
@@ -525,7 +525,7 @@ class CrossEntropyLoss(_WeightedLoss):
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 `C` 的
             Tensor
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为 ``False``, `loss` 将会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, loss 将会在每个 mini-batch（小批量）
             上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略.
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到
             输入的梯度. 当 size_average 字段为 ``True`` 时, loss 将会在没有被忽略的元素上
