@@ -8,13 +8,12 @@ from .parallel_apply import parallel_apply
 class DataParallel(Module):
     r"""在模块级别实现数据并行性。
 
-    此容器通过在批次维度中分块，将输入分割到指定设备上，从而并行化给
-    定模块的应用程序.在正向传递中，模块被复制到每个设备上，每个副本
-    处理一部分输入.在向后传递期间，来自每个副本的梯度变化被汇总到原
-    始模块中.
+    此容器通过在批次维度中分块，将输入分割到指定设备上，从而并行化给定模块的应用程
+    序.在正向传递中，模块被复制到每个设备上，每个副本处理一部分输入.在向后传递期间，
+    来自每个副本的梯度变化被汇总到原始模块中.
 
-    batch size 应该大于GPUs的数量.同时也应该是GPU数量的整数倍，以
-    便每个块大小相同（以便每个GPU处理相同数量的样本）.
+    batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍，以
+    便每个块大小相同（以便每个 GPU 处理相同数量的样本）.
 
     引用 ::ref:`cuda-nn-dataparallel-instead`
 
@@ -77,15 +76,15 @@ class DataParallel(Module):
 
 
 def data_parallel(module, inputs, device_ids=None, output_device=None, dim=0, module_kwargs=None):
-    r"""在device_ids（设备ID）中给出的GPU上并行评估模块（输入）.
+    r"""在 device_ids（设备 ID ）中给出的 GPU 上并行评估模块（输入）.
 
     这是数据并行模块的功能版本.
 
     Args :
         module: 并行评估的模型
         inputs: 模型的输入
-        device_ids: 防止副本的GPU设备ID
-        output_device: 输出的GPU位置使用-1指示CPU。（默认 ：device_ids [0])
+        device_ids: 防止副本的 GPU 设备 ID
+        output_device: 输出的 GPU 位置使用 -1 指示 CPU.（默认 ：device_ids [0])
     return :
         包含位于输出设备上的模块（输入）结果的变量
     """
