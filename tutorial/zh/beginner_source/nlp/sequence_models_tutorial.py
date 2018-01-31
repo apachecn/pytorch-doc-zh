@@ -1,37 +1,29 @@
 # -*- coding: utf-8 -*-
 r"""
-Sequence Models and Long-Short Term Memory Networks
+序列模型和 LSTM 网络
 ===================================================
 
-At this point, we have seen various feed-forward networks. That is,
-there is no state maintained by the network at all. This might not be
-the behavior we want. Sequence models are central to NLP: they are
-models where there is some sort of dependence through time between your
-inputs. The classical example of a sequence model is the Hidden Markov
-Model for part-of-speech tagging. Another example is the conditional
-random field.
+之前我们已经学过了许多的前馈网络. 所谓前馈网络, 就是网络中不会保存状态. 然而有时
+这并不是我们想要的效果. 在自然语言处理 (NLP, Natural Language Processing)
+中, 序列模型是一个核心的概念. 所谓序列模型, 即输入依赖于时间信息的模型. 一个典型
+的序列模型是隐马尔科夫模型 (HMM, Hidden Markov Model). 另一个序列模型的例子
+是条件随机场 (CRF, Conditional Random Field).
 
-A recurrent neural network is a network that maintains some kind of
-state. For example, its output could be used as part of the next input,
-so that information can propogate along as the network passes over the
-sequence. In the case of an LSTM, for each element in the sequence,
-there is a corresponding *hidden state* :math:`h_t`, which in principle
-can contain information from arbitrary points earlier in the sequence.
-We can use the hidden state to predict words in a language model,
-part-of-speech tags, and a myriad of other things.
+递归神经网络是指可以保存某种状态的神经网络. 比如说, 网络上个时刻的输出可以作为下个
+时刻的输入, 这样信息就可以通过序列在网络中一直往后传递. 对于LSTM来说, 序列中的每
+个元素都有一个相应的隐状态 :math:`h_t`, 该隐状态原则上可以包含序列当前结点之前的
+任一节点的信息. 我们可以使用隐藏状态来预测语言模型中的单词, 词性标签以及其他各种各
+样的东西.
 
 
-LSTM's in Pytorch
-~~~~~~~~~~~~~~~~~
+Pytorch 中的 LSTM
+~~~~~~~~~~~~~~~~~~
 
-Before getting to the example, note a few things. Pytorch's LSTM expects
-all of its inputs to be 3D tensors. The semantics of the axes of these
-tensors is important. The first axis is the sequence itself, the second
-indexes instances in the mini-batch, and the third indexes elements of
-the input. We haven't discussed mini-batching, so lets just ignore that
-and assume we will always have just 1 dimension on the second axis. If
-we want to run the sequence model over the sentence "The cow jumped",
-our input should look like
+开始例子之前,有几个点说明一下. Pytorch 中, LSTM 的所有的形式固定为3D 的 tensor.
+每个维度有固定的语义含义, 不能乱掉. 其中第一维是序列本身, 第二维以 mini-batch形式
+来索引实例, 而第三维则索引输入的元素. 因为我们没有讨论过mini-batch, 所以在这里我们
+假设第二维的维度总是1. 如果我们想在句子 "The cow jumped" 上运行一个序列模型,模型
+的输入应该像这样:
 
 .. math::
 
@@ -42,12 +34,11 @@ our input should look like
    q_\text{jumped}
    \end{bmatrix}
 
-Except remember there is an additional 2nd dimension with size 1.
+除了有一个额外的大小为1的第二维度.
 
-In addition, you could go through the sequence one at a time, in which
-case the 1st axis will have size 1 also.
+此外, 你还可以向网络逐个输入序列, 在这种情况下, 第一个轴的大小也是1.
 
-Let's see a quick example.
+来看一个简单的例子.
 """
 
 # Author: Robert Guthrie
@@ -62,67 +53,58 @@ torch.manual_seed(1)
 
 ######################################################################
 
-lstm = nn.LSTM(3, 3)  # Input dim is 3, output dim is 3
+lstm = nn.LSTM(3, 3)  # 输入维度是3, 输出维度也是3
 inputs = [autograd.Variable(torch.randn((1, 3)))
-          for _ in range(5)]  # make a sequence of length 5
+          for _ in range(5)]  # 构造一个长度为5的序列
 
-# initialize the hidden state.
+# 初始化隐藏状态
 hidden = (autograd.Variable(torch.randn(1, 1, 3)),
           autograd.Variable(torch.randn((1, 1, 3))))
 for i in inputs:
-    # Step through the sequence one element at a time.
-    # after each step, hidden contains the hidden state.
+    # 将序列的元素逐个输入到LSTM
+    # 经过每步操作,hidden 的值包含了隐藏状态的信息
     out, hidden = lstm(i.view(1, 1, -1), hidden)
 
-# alternatively, we can do the entire sequence all at once.
-# the first value returned by LSTM is all of the hidden states throughout
-# the sequence. the second is just the most recent hidden state
-# (compare the last slice of "out" with "hidden" below, they are the same)
-# The reason for this is that:
-# "out" will give you access to all hidden states in the sequence
-# "hidden" will allow you to continue the sequence and backpropagate,
-# by passing it as an argument  to the lstm at a later time
-# Add the extra 2nd dimension
+# 另外, 我们还可以一次对整个序列进行训练. LSTM 返回的第一个值表示所有时刻的隐状态值,
+# 第二个值表示最近的隐状态值 (因此下面的 "out"的最后一个值和 "hidden"的值是一样的).
+# 之所以这样设计, 是为了通过 "out" 的值来获取所有的隐状态值, 而用 "hidden" 的值来
+# 进行序列的反向传播运算, 具体方式就是将它作为参数传入后面的 LSTM 网络.
+
+# 增加额外的第二个维度
 inputs = torch.cat(inputs).view(len(inputs), 1, -1)
 hidden = (autograd.Variable(torch.randn(1, 1, 3)), autograd.Variable(
-    torch.randn((1, 1, 3))))  # clean out hidden state
+    torch.randn((1, 1, 3))))  # 清空输出隐状态
 out, hidden = lstm(inputs, hidden)
 print(out)
 print(hidden)
 
 
 ######################################################################
-# Example: An LSTM for Part-of-Speech Tagging
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 例子: 用 LSTM 来进行词性标注
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# In this section, we will use an LSTM to get part of speech tags. We will
-# not use Viterbi or Forward-Backward or anything like that, but as a
-# (challenging) exercise to the reader, think about how Viterbi could be
-# used after you have seen what is going on.
+# 在这部分, 我们将会使用一个 LSTM 网络来进行词性标注. 在这里我们不会用到维特比算法,
+# 前向后向算法或者任何类似的算法, 而是将这部分内容作为一个 (有挑战) 的练习留给读者,
+# 希望读者在了解了这部分的内容后能够实现如何将维特比算法应用到 LSTM 网络中来.
 #
-# The model is as follows: let our input sentence be
-# :math:`w_1, \dots, w_M`, where :math:`w_i \in V`, our vocab. Also, let
-# :math:`T` be our tag set, and :math:`y_i` the tag of word :math:`w_i`.
-# Denote our prediction of the tag of word :math:`w_i` by
-# :math:`\hat{y}_i`.
+# 整个模型的参数定义如下: 输入的句子定义为 :math:`w_1, \dots, w_M`, 其中动词定义
+# 为 :math:`w_1, \dots, w_M`, 标签集合定义为 :math:`T`, 单词 :math:`w_i` 的实际
+# 标签为 :math:`y_i`. 定义单词 :math:`w_i` 的预测标签为 :math:`\hat{y}_i`.
 #
-# This is a structure prediction, model, where our output is a sequence
-# :math:`\hat{y}_1, \dots, \hat{y}_M`, where :math:`\hat{y}_i \in T`.
+# 这是一个结构预测模型, 我们的输出是一个序列 :math:`\hat{y}_1, \dots, \hat{y}_M`,
+# 其中 :math:`\hat{y}_i \in T`.
 #
-# To do the prediction, pass an LSTM over the sentence. Denote the hidden
-# state at timestep :math:`i` as :math:`h_i`. Also, assign each tag a
-# unique index (like how we had word\_to\_ix in the word embeddings
-# section). Then our prediction rule for :math:`\hat{y}_i` is
+# 在进行预测时, 需将句子每个词输入到一个 LSTM 网络中. 将时刻 :math:`i` 的隐状态标记
+# 为 :math:`h_i`. 同样地, 对每个标签赋一个独一无二的索引 (类似 word embeddings 部分
+# word\_to\_ix 的设置). 然后就得到了 :math:`\hat{y}_i` 的预测规则:
 #
 # .. math::  \hat{y}_i = \text{argmax}_j \  (\log \text{Softmax}(Ah_i + b))_j
 #
-# That is, take the log softmax of the affine map of the hidden state,
-# and the predicted tag is the tag that has the maximum value in this
-# vector. Note this implies immediately that the dimensionality of the
-# target space of :math:`A` is :math:`|T|`.
+# 即先对隐状态进行一个仿射变换, 然后计算一个对数 softmax, 最后得到的预测标签即为对数
+# softmax 中最大的值对应的标签. 注意, 这也意味着 :math:`A` 空间的维度是 :math:`|T|`.
 #
 #
-# Prepare data:
+# 准备数据:
 
 def prepare_sequence(seq, to_ix):
     idxs = [to_ix[w] for w in seq]
@@ -142,13 +124,13 @@ for sent, tags in training_data:
 print(word_to_ix)
 tag_to_ix = {"DET": 0, "NN": 1, "V": 2}
 
-# These will usually be more like 32 or 64 dimensional.
-# We will keep them small, so we can see how the weights change as we train.
+# 实际中通常使用更大的维度如32维, 64维.
+# 这里我们使用小的维度, 为了方便查看训练过程中权重的变化.
 EMBEDDING_DIM = 6
 HIDDEN_DIM = 6
 
 ######################################################################
-# Create the model:
+# 构造模型:
 
 
 class LSTMTagger(nn.Module):
@@ -159,19 +141,17 @@ class LSTMTagger(nn.Module):
 
         self.word_embeddings = nn.Embedding(vocab_size, embedding_dim)
 
-        # The LSTM takes word embeddings as inputs, and outputs hidden states
-        # with dimensionality hidden_dim.
+        #  LSTM 以 word_embeddings 作为输入,输出维度为 hidden_dim 的隐状态值
         self.lstm = nn.LSTM(embedding_dim, hidden_dim)
 
-        # The linear layer that maps from hidden state space to tag space
+        # 线性层将隐状态空间映射到标注空间
         self.hidden2tag = nn.Linear(hidden_dim, tagset_size)
         self.hidden = self.init_hidden()
 
     def init_hidden(self):
-        # Before we've done anything, we dont have any hidden state.
-        # Refer to the Pytorch documentation to see exactly
-        # why they have this dimensionality.
-        # The axes semantics are (num_layers, minibatch_size, hidden_dim)
+        # 开始时刻, 没有隐状态
+        # 关于维度设置的详情,请参考 Pytorch 文档
+        # 各个维度的含义是 (num_layers, minibatch_size, hidden_dim)
         return (autograd.Variable(torch.zeros(1, 1, self.hidden_dim)),
                 autograd.Variable(torch.zeros(1, 1, self.hidden_dim)))
 
@@ -184,79 +164,69 @@ class LSTMTagger(nn.Module):
         return tag_scores
 
 ######################################################################
-# Train the model:
+# 训练模型:
 
 
 model = LSTMTagger(EMBEDDING_DIM, HIDDEN_DIM, len(word_to_ix), len(tag_to_ix))
 loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.1)
 
-# See what the scores are before training
-# Note that element i,j of the output is the score for tag j for word i.
+# 查看下训练前得分的值
+# 注意: 输出的i,j元素的值表示单词i的j标签的得分
 inputs = prepare_sequence(training_data[0][0], word_to_ix)
 tag_scores = model(inputs)
 print(tag_scores)
 
-for epoch in range(300):  # again, normally you would NOT do 300 epochs, it is toy data
+for epoch in range(300):  # 再次说明下, 实际情况下你不会训练300个周期, 此例中我们只是构造了一些假数据
     for sentence, tags in training_data:
-        # Step 1. Remember that Pytorch accumulates gradients.
-        # We need to clear them out before each instance
+        # Step 1. 请记住 Pytorch 会累加梯度
+        # 每次训练前需要清空梯度值
         model.zero_grad()
 
-        # Also, we need to clear out the hidden state of the LSTM,
-        # detaching it from its history on the last instance.
+        # 此外还需要清空 LSTM 的隐状态
+        # 将其从上个实例的历史中分离出来
         model.hidden = model.init_hidden()
 
-        # Step 2. Get our inputs ready for the network, that is, turn them into
-        # Variables of word indices.
+        # Step 2. 准备网络输入,将其变为词索引的Variables类型数据
         sentence_in = prepare_sequence(sentence, word_to_ix)
         targets = prepare_sequence(tags, tag_to_ix)
 
-        # Step 3. Run our forward pass.
+        # Step 3. 执行前向传播
         tag_scores = model(sentence_in)
 
-        # Step 4. Compute the loss, gradients, and update the parameters by
-        #  calling optimizer.step()
+        # Step 4. 计算损失和梯度值,通过调用 optimizer.step() 来更新梯度
         loss = loss_function(tag_scores, targets)
         loss.backward()
         optimizer.step()
 
-# See what the scores are after training
+# 查看训练后得分的值
 inputs = prepare_sequence(training_data[0][0], word_to_ix)
 tag_scores = model(inputs)
-# The sentence is "the dog ate the apple".  i,j corresponds to score for tag j
-#  for word i. The predicted tag is the maximum scoring tag.
-# Here, we can see the predicted sequence below is 0 1 2 0 1
-# since 0 is index of the maximum value of row 1,
-# 1 is the index of maximum value of row 2, etc.
-# Which is DET NOUN VERB DET NOUN, the correct sequence!
+# 句子是 "the dog ate the apple", i,j 表示对于单词i,标签j的得分.
+# 我们采用得分最高的标签作为预测的标签. 从下面的输出我们可以看到, 预测得
+# 到的结果是0 1 2 0 1. 因为 索引是从0开始的, 因此第一个值0表示第一行的
+# 最大值, 第二个值1表示第二行的最大值, 以此类推. 所以最后的结果是 DET
+# NOUN VERB DET NOUN, 整个序列都是正确的!
 print(tag_scores)
 
 
 ######################################################################
-# Exercise: Augmenting the LSTM part-of-speech tagger with character-level features
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 练习: 使用字符级特征来增强 LSTM 词性标注器
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# In the example above, each word had an embedding, which served as the
-# inputs to our sequence model. Let's augment the word embeddings with a
-# representation derived from the characters of the word. We expect that
-# this should help significantly, since character-level information like
-# affixes have a large bearing on part-of-speech. For example, words with
-# the affix *-ly* are almost always tagged as adverbs in English.
+# 在上面的例子中, 每个词都有一个词嵌入, 作为序列模型的输入. 接下来让我们使用每个的单词的
+# 字符级别的表达来增强词嵌入. 我们期望这个操作对结果能有显著提升, 因为像词缀这样的字符级
+# 信息对于词性有很大的影响. 比如说, 像包含词缀 *-ly* 的单词基本上都是被标注为副词.
 #
-# To do this, let :math:`c_w` be the character-level representation of
-# word :math:`w`. Let :math:`x_w` be the word embedding as before. Then
-# the input to our sequence model is the concatenation of :math:`x_w` and
-# :math:`c_w`. So if :math:`x_w` has dimension 5, and :math:`c_w`
-# dimension 3, then our LSTM should accept an input of dimension 8.
+# 具体操作如下. 用 :math:`c_w` 来表示单词 :math:`w` 的字符级表达, 同之前一样, 我们使
+# 用 :math:`x_w` 来表示词嵌入. 序列模型的输入就变成了 :math:`x_w` 和 :math:`c_w` 
+# 的拼接. 因此, 如果 :math:`x_w` 的维度是5, :math:`c_w` 的维度是3, 那么我们的 LSTM
+# 网络的输入维度大小就是8.
 #
-# To get the character level representation, do an LSTM over the
-# characters of a word, and let :math:`c_w` be the final hidden state of
-# this LSTM. Hints:
+# 为了得到字符级别的表达, 将单词的每个字符输入一个 LSTM 网络, 而 :math:`c_w` 则为这个
+# LSTM 网络最后的隐状态. 一些提示:
 #
-# * There are going to be two LSTM's in your new model.
-#   The original one that outputs POS tag scores, and the new one that
-#   outputs a character-level representation of each word.
-# * To do a sequence model over characters, you will have to embed characters.
-#   The character embeddings will be the input to the character LSTM.
+# * 新模型中需要两个 LSTM, 一个跟之前一样, 用来输出词性标注的得分, 另外一个新增加的用来
+#   获取每个单词的字符级别表达.
+# * 为了在字符级别上运行序列模型, 你需要用嵌入的字符来作为字符LSTM的输入.
 #
