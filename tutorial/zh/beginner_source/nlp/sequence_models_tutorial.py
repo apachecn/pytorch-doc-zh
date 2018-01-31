@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 r"""
-序列模型和 LSTM 网络
+序列模型和 LSTM (Long-Short Term Memory) 网络
 ===================================================
 
 之前我们已经学过了许多的前馈网络. 所谓前馈网络, 就是网络中不会保存状态. 然而有时
@@ -10,20 +10,20 @@ r"""
 是条件随机场 (CRF, Conditional Random Field).
 
 递归神经网络是指可以保存某种状态的神经网络. 比如说, 网络上个时刻的输出可以作为下个
-时刻的输入, 这样信息就可以通过序列在网络中一直往后传递. 对于LSTM来说, 序列中的每
-个元素都有一个相应的隐状态 :math:`h_t`, 该隐状态原则上可以包含序列当前结点之前的
-任一节点的信息. 我们可以使用隐藏状态来预测语言模型中的单词, 词性标签以及其他各种各
-样的东西.
+时刻的输入, 这样信息就可以通过序列在网络中一直往后传递. 对于LSTM (Long-Short 
+Term Memory) 来说, 序列中的每个元素都有一个相应的隐状态 :math:`h_t`, 该隐状态
+原则上可以包含序列当前结点之前的任一节点的信息. 我们可以使用隐藏状态来预测语言模型
+中的单词, 词性标签以及其他各种各样的东西.
 
 
 Pytorch 中的 LSTM
 ~~~~~~~~~~~~~~~~~~
 
 开始例子之前,有几个点说明一下. Pytorch 中, LSTM 的所有的形式固定为3D 的 tensor.
-每个维度有固定的语义含义, 不能乱掉. 其中第一维是序列本身, 第二维以 mini-batch形式
-来索引实例, 而第三维则索引输入的元素. 因为我们没有讨论过mini-batch, 所以在这里我们
-假设第二维的维度总是1. 如果我们想在句子 "The cow jumped" 上运行一个序列模型,模型
-的输入应该像这样:
+每个维度有固定的语义含义, 不能乱掉. 其中第一维是序列本身, 第二维以 mini-batch 形式
+来索引实例, 而第三维则索引输入的元素. 因为我们没有讨论过 mini-batch, 所以在这里我们
+假设第二维的维度总是1. 如果我们想在句子 "The cow jumped" 上运行一个序列模型, 模型
+的输入类似这样:
 
 .. math::
 
@@ -66,7 +66,7 @@ for i in inputs:
     out, hidden = lstm(i.view(1, 1, -1), hidden)
 
 # 另外, 我们还可以一次对整个序列进行训练. LSTM 返回的第一个值表示所有时刻的隐状态值,
-# 第二个值表示最近的隐状态值 (因此下面的 "out"的最后一个值和 "hidden"的值是一样的).
+# 第二个值表示最近的隐状态值 (因此下面的 "out"的最后一个值和 "hidden" 的值是一样的).
 # 之所以这样设计, 是为了通过 "out" 的值来获取所有的隐状态值, 而用 "hidden" 的值来
 # 进行序列的反向传播运算, 具体方式就是将它作为参数传入后面的 LSTM 网络.
 
@@ -141,7 +141,7 @@ class LSTMTagger(nn.Module):
 
         self.word_embeddings = nn.Embedding(vocab_size, embedding_dim)
 
-        #  LSTM 以 word_embeddings 作为输入,输出维度为 hidden_dim 的隐状态值
+        #  LSTM 以 word_embeddings 作为输入, 输出维度为 hidden_dim 的隐状态值
         self.lstm = nn.LSTM(embedding_dim, hidden_dim)
 
         # 线性层将隐状态空间映射到标注空间
@@ -172,7 +172,7 @@ loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.1)
 
 # 查看下训练前得分的值
-# 注意: 输出的i,j元素的值表示单词i的j标签的得分
+# 注意: 输出的 i,j 元素的值表示单词 i 的 j 标签的得分
 inputs = prepare_sequence(training_data[0][0], word_to_ix)
 tag_scores = model(inputs)
 print(tag_scores)
@@ -187,14 +187,14 @@ for epoch in range(300):  # 再次说明下, 实际情况下你不会训练300�
         # 将其从上个实例的历史中分离出来
         model.hidden = model.init_hidden()
 
-        # Step 2. 准备网络输入,将其变为词索引的Variables类型数据
+        # Step 2. 准备网络输入, 将其变为词索引的 Variables 类型数据
         sentence_in = prepare_sequence(sentence, word_to_ix)
         targets = prepare_sequence(tags, tag_to_ix)
 
-        # Step 3. 执行前向传播
+        # Step 3. 前向传播
         tag_scores = model(sentence_in)
 
-        # Step 4. 计算损失和梯度值,通过调用 optimizer.step() 来更新梯度
+        # Step 4. 计算损失和梯度值, 通过调用 optimizer.step() 来更新梯度
         loss = loss_function(tag_scores, targets)
         loss.backward()
         optimizer.step()
@@ -202,7 +202,7 @@ for epoch in range(300):  # 再次说明下, 实际情况下你不会训练300�
 # 查看训练后得分的值
 inputs = prepare_sequence(training_data[0][0], word_to_ix)
 tag_scores = model(inputs)
-# 句子是 "the dog ate the apple", i,j 表示对于单词i,标签j的得分.
+# 句子是 "the dog ate the apple", i,j 表示对于单词 i,标签 j 的得分.
 # 我们采用得分最高的标签作为预测的标签. 从下面的输出我们可以看到, 预测得
 # 到的结果是0 1 2 0 1. 因为 索引是从0开始的, 因此第一个值0表示第一行的
 # 最大值, 第二个值1表示第二行的最大值, 以此类推. 所以最后的结果是 DET
@@ -228,5 +228,5 @@ print(tag_scores)
 #
 # * 新模型中需要两个 LSTM, 一个跟之前一样, 用来输出词性标注的得分, 另外一个新增加的用来
 #   获取每个单词的字符级别表达.
-# * 为了在字符级别上运行序列模型, 你需要用嵌入的字符来作为字符LSTM的输入.
+# * 为了在字符级别上运行序列模型, 你需要用嵌入的字符来作为字符 LSTM 的输入.
 #
