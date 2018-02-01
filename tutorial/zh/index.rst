@@ -1,18 +1,18 @@
 欢迎阅读 PyTorch 中文教程
 ============================
 
-为了开始学习 PyTorch, 从我们的初学者教程开始.
-:doc:`60 分钟极速入门教程 </beginner/deep_learning_60min_blitz>` 是常规的起点, 它可以让你快速的了解 PyTorch.
+要开始学习 PyTorch, 可以从我们的初学者教程开始.
+一般从 :doc:`60 分钟极速入门教程 </beginner/deep_learning_60min_blitz>` 开始, 它可以让你快速的了解 PyTorch.
 如果你喜欢通过例子来学习, 你会喜欢上这个
 :doc:`/beginner/pytorch_with_examples` 教程.
 
 如果您想通过 IPython / Jupyter 交互式地完成该教程,
 每个教程都有一个 Jupyter Notebook 和 Python 源代码的下载链接.
 
-我们还提供了很多高质量的例子, 涵盖图像分类, 无监督学习, 强化学习, 机器翻译以及许多其它的应用程序, 请访问 https://github.com/pytorch/examples/
+我们还提供了很多高质量的例子, 涵盖图像分类, 无监督学习, 强化学习, 机器翻译以及许多其它的应用场景, 请访问 https://github.com/pytorch/examples/
 
-你可以在 http://docs.pytorch.org 或通过内置的帮助找到 PyTorch API 和神经网络层的参考文档.
-如果您希望该教程部分有所改进, 请打开一个 github issue 附上你的反馈: https://github.com/pytorch/tutorials
+你可以在 http://pytorch.apachecn.org/cn/docs/0.3.0 或通过内置的帮助找到 PyTorch API 和神经网络层的参考文档.
+如果您希望该教程部分有所改进, 请打开一个 github issue 附上你的反馈: https://github.com/apachecn/pytorch
 
 初学者教程
 ------------------

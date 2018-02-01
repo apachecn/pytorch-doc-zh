@@ -91,7 +91,7 @@ print(x.size(), y.size(), z.size())
 #   100+ Tensor 操作, 包括换位, 索引, 切片,
 #   数学运算, 线性代数, 随机数, 等等.,
 #   都在
-#   `这里 <http://pytorch.apachecn.org/cn/docs/0.3.0/torch>`_ 有描述.
+#   `这里 <http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html>`_ 有描述.
 #
 # NumPy Bridge
 # ------------
