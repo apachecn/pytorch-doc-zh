@@ -1,17 +1,16 @@
-Deep Learning with PyTorch: A 60 Minute Blitz
+PyTorch 深度学习: 60 分钟极速入门教程
 ---------------------------------------------
 **Author**: `Soumith Chintala <http://soumith.ch>`_
 
-Goal of this tutorial:
+本教程的目标:
 
--  Understand PyTorch’s Tensor library and neural networks at a high
-   level.
--  Train a small neural network to classify images
+-  更高层次地理解 PyTorch 的 Tensor（张量）库以及神经网络.
+-  学会训练一个小的神经网络用来对图像进行分类
 
-*This tutorial assumes that you have a basic familiarity of numpy*
+*本教程假设您对 numpy 有基本的了解*
 
 .. Note:: 
-    Make sure you have the `torch`_ and `torchvision`_ packages installed.
+    请确认您已经安装了 `torch`_ 和 `torchvision`_ 包.
 
 .. _torch: https://github.com/pytorch/pytorch
 .. _torchvision: https://github.com/pytorch/vision
