@@ -1,25 +1,20 @@
-Welcome to PyTorch Tutorials
+欢迎阅读 PyTorch 中文教程
 ============================
 
-To get started with learning PyTorch, start with our Beginner Tutorials.
-The :doc:`60-minute blitz </beginner/deep_learning_60min_blitz>` is the most common
-starting point, and gives you a quick introduction to PyTorch.
-If you like learning by examples, you will like the tutorial
-:doc:`/beginner/pytorch_with_examples`
+为了开始学习 PyTorch, 从我们的初学者教程开始.
+:doc:`60 分钟极速入门教程 </beginner/deep_learning_60min_blitz>` 是常规的起点, 它可以让你快速的了解 PyTorch.
+如果你喜欢通过例子来学习, 你会喜欢上这个
+:doc:`/beginner/pytorch_with_examples` 教程.
 
-If you would like to do the tutorials interactively via IPython / Jupyter,
-each tutorial has a download link for a Jupyter Notebook and Python source code.
+如果您想通过 IPython / Jupyter 交互式地完成该教程,
+每个教程都有一个 Jupyter Notebook 和 Python 源代码的下载链接.
 
-We also provide a lot of high-quality examples covering image classification,
-unsupervised learning, reinforcement learning, machine translation and
-many other applications at https://github.com/pytorch/examples/
+我们还提供了很多高质量的例子, 涵盖图像分类, 无监督学习, 强化学习, 机器翻译以及许多其它的应用程序, 请访问 https://github.com/pytorch/examples/
 
-You can find reference documentation for PyTorch's API and layers at
-http://docs.pytorch.org or via inline help.
-If you would like the tutorials section improved, please open a github issue
-here with your feedback: https://github.com/pytorch/tutorials
+你可以在 http://docs.pytorch.org 或通过内置的帮助找到 PyTorch API 和神经网络层的参考文档.
+如果您希望该教程部分有所改进, 请打开一个 github issue 附上你的反馈: https://github.com/pytorch/tutorials
 
-Beginner Tutorials
+初学者教程
 ------------------
 
 .. customgalleryitem::
@@ -64,7 +59,7 @@ Beginner Tutorials
    beginner/data_loading_tutorial
    beginner/deep_learning_nlp_tutorial
 
-Intermediate Tutorials
+中级教程
 ----------------------
 
 .. galleryitem:: intermediate/char_rnn_classification_tutorial.py
@@ -105,7 +100,7 @@ Intermediate Tutorials
    intermediate/spatial_transformer_tutorial
 
 
-Advanced Tutorials
+高级教程
 ------------------
 
 .. galleryitem:: advanced/neural_style_tutorial.py
