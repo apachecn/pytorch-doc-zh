@@ -50,7 +50,7 @@
    :maxdepth: 2
    :hidden:
    :includehidden:
-   :caption: Beginner Tutorials
+   :caption: 初学者教程
 
    beginner/deep_learning_60min_blitz
    beginner/former_torchies_tutorial
@@ -90,7 +90,7 @@
    :maxdepth: 2
    :includehidden:
    :hidden:
-   :caption: Intermediate Tutorials
+   :caption: 中级教程
 
    intermediate/char_rnn_classification_tutorial
    intermediate/char_rnn_generation_tutorial
@@ -124,7 +124,7 @@
    :maxdepth: 2
    :includehidden:
    :hidden:
-   :caption: Advanced Tutorials
+   :caption: 高级教程
 
    advanced/neural_style_tutorial
    advanced/numpy_extensions_tutorial
