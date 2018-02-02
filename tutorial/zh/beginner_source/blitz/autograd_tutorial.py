@@ -1,86 +1,75 @@
 # -*- coding: utf-8 -*-
 """
-Autograd: automatic differentiation
+自动求导: 自动微分
 ===================================
 
-Central to all neural networks in PyTorch is the ``autograd`` package.
-Let’s first briefly visit this, and we will then go to training our
-first neural network.
+PyTorch 中所有神经网络的核心是 ``autograd`` 自动求导包.
+我们先来简单介绍一下, 然后我们会去训练我们的第一个神经网络.
 
 
-The ``autograd`` package provides automatic differentiation for all operations
-on Tensors. It is a define-by-run framework, which means that your backprop is
-defined by how your code is run, and that every single iteration can be
-different.
+``autograd`` 自动求导包针对张量上的所有操作都提供了自动微分操作.
+这是一个逐个运行的框架, 这意味着您的反向传播是由您的代码如何运行来定义的, 每个单一的迭代都可以不一样.
 
-Let us see this in more simple terms with some examples.
+让我们用一些更简单的术语与例子来了解这些套路.
 
-Variable
+Variable（变量）
 --------
 
-``autograd.Variable`` is the central class of the package. It wraps a
-Tensor, and supports nearly all of operations defined on it. Once you
-finish your computation you can call ``.backward()`` and have all the
-gradients computed automatically.
+``autograd.Variable`` 是包的核心类.
+它包装了张量, 并且支持几乎所有的操作.
+一旦你完成了你的计算, 你就可以调用 ``.backward()`` 方法, 然后所有的梯度计算会自动进行.
 
-You can access the raw tensor through the ``.data`` attribute, while the
-gradient w.r.t. this variable is accumulated into ``.grad``.
+你还可以通过 ``.data`` 属性来访问原始的张量, 而关于该 variable（变量）的梯度会被累计到 ``.grad`` 上去.
 
 .. figure:: /_static/img/Variable.png
    :alt: Variable
 
    Variable
 
-There’s one more class which is very important for autograd
-implementation - a ``Function``.
+还有一个针对自动求导实现来说非常重要的类 - ``Function``.
 
-``Variable`` and ``Function`` are interconnected and build up an acyclic
-graph, that encodes a complete history of computation. Each variable has
-a ``.grad_fn`` attribute that references a ``Function`` that has created
-the ``Variable`` (except for Variables created by the user - their
-``grad_fn is None``).
+``Variable`` 和 ``Function`` 是相互联系的, 并且它们构建了一个非循环的图, 编码了一个完整的计算历史信息.
+每一个 variable（变量）都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function``（除了用户创建的 Variable 之外 - 它们的 ``grad_fn is None``）.
 
-If you want to compute the derivatives, you can call ``.backward()`` on
-a ``Variable``. If ``Variable`` is a scalar (i.e. it holds a one element
-data), you don’t need to specify any arguments to ``backward()``,
-however if it has more elements, you need to specify a ``grad_output``
-argument that is a tensor of matching shape.
+如果你想计算倒数, 你可以在 ``Variable`` 上调用 ``.backward()`` 方法.
+如果 ``Variable`` 是标量的形式（例如, 它包含一个元素数据）, 你不必指定任何参数给 ``backward()``,
+但是, 如果它有更多的元素. 你需要去指定一个 ``grad_output`` 参数, 该参数是一个匹配 shape（形状）的张量.
 """
 
 import torch
 from torch.autograd import Variable
 
 ###############################################################
-# Create a variable:
+# 创建 variable（变量）:
 x = Variable(torch.ones(2, 2), requires_grad=True)
 print(x)
 
 ###############################################################
-# Do an operation of variable:
+# variable（变量）的操作:
 y = x + 2
 print(y)
 
 ###############################################################
-# ``y`` was created as a result of an operation, so it has a ``grad_fn``.
+# ``y`` 是由于操作而创建了,所以它有 ``grad_fn`` 属性.
 print(y.grad_fn)
 
 ###############################################################
-# Do more operations on y
+# y 的更多操作
 z = y * y * 3
 out = z.mean()
 
 print(z, out)
 
 ###############################################################
-# Gradients
+# 梯度
 # ---------
-# let's backprop now
-# ``out.backward()`` is equivalent to doing ``out.backward(torch.Tensor([1.0]))``
+# 我们现在开始了解方向传播,
+# ``out.backward()`` 与 ``out.backward(torch.Tensor([1.0])) 这样的方式一样``
 
 out.backward()
 
 ###############################################################
-# print gradients d(out)/dx
+# 但因 d(out)/dx 的梯度
 #
 
 print(x.grad)
@@ -95,7 +84,7 @@ print(x.grad)
 # :math:`\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5`.
 
 ###############################################################
-# You can do many crazy things with autograd!
+# 你可以使用自动求导来做很多脸红的事情
 
 
 x = torch.randn(3)
@@ -115,7 +104,7 @@ y.backward(gradients)
 print(x.grad)
 
 ###############################################################
-# **Read Later:**
+# **稍候阅读:**
 #
-# Documentation of ``Variable`` and ``Function`` is at
-# http://pytorch.org/docs/autograd
+# ``Variable`` 和 ``Function`` 的文档请参阅
+# http://pytorch.apachecn.org/cn/docs/0.3.0/autograd.html
