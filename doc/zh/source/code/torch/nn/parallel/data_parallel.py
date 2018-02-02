@@ -6,33 +6,27 @@ from .parallel_apply import parallel_apply
 
 
 class DataParallel(Module):
-    r"""Implements data parallelism at the module level.
+    r"""在模块级别实现数据并行性。
 
-    This container parallelizes the application of the given module by
-    splitting the input across the specified devices by chunking in the batch
-    dimension. In the forward pass, the module is replicated on each device,
-    and each replica handles a portion of the input. During the backwards
-    pass, gradients from each replica are summed into the original module.
+    此容器通过在批次维度中分块，将输入分割到指定设备上，从而并行化给定模块的应用程
+    序.在正向传递中，模块被复制到每个设备上，每个副本处理一部分输入.在向后传递期间，
+    来自每个副本的梯度变化被汇总到原始模块中.
 
-    The batch size should be larger than the number of GPUs used. It should
-    also be an integer multiple of the number of GPUs so that each chunk is the
-    same size (so that each GPU processes the same number of samples).
+    batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍，以
+    便每个块大小相同（以便每个 GPU 处理相同数量的样本）.
 
-    See also: :ref:`cuda-nn-dataparallel-instead`
+    引用 ::ref:`cuda-nn-dataparallel-instead`
 
-    Arbitrary positional and keyword inputs are allowed to be passed into
-    DataParallel EXCEPT Tensors. All variables will be scattered on dim
-    specified (default 0). Primitive types will be broadcasted, but all
-    other types will be a shallow copy and can be corrupted if written to in
-    the model's forward pass.
+    允许将任意位置和关键字输入传入 DataParallel EXCEPT Tensors. 所有的变量将被分
+    散在指定的维度（默认为0）.原始类型将被广播，但所有其他类型将是一个浅层副本，如
+    果写入模型的正向传递，可能会被损坏.
 
-    Args:
-        module: module to be parallelized
-        device_ids: CUDA devices (default: all devices)
-        output_device: device location of output (default: device_ids[0])
+    Args :
+        module: 并行的模型
+        device_ids: CUDA devices（CUDA 驱动） (default: all devices)
+        output_device: 输出设备位置 (default: device_ids[0])
 
-    Example::
-
+    示例 ::
         >>> net = torch.nn.DataParallel(model, device_ids=[0, 1, 2])
         >>> output = net(input_var)
     """
@@ -82,20 +76,19 @@ class DataParallel(Module):
 
 
 def data_parallel(module, inputs, device_ids=None, output_device=None, dim=0, module_kwargs=None):
-    r"""Evaluates module(input) in parallel across the GPUs given in device_ids.
+    r"""在 device_ids（设备 ID ）中给出的 GPU 上并行评估模块（输入）.
 
-    This is the functional version of the DataParallel module.
+    这是数据并行模块的功能版本.
 
-    Args:
-        module: the module to evaluate in parallel
-        inputs: inputs to the module
-        device_ids: GPU ids on which to replicate module
-        output_device: GPU location of the output  Use -1 to indicate the CPU.
-            (default: device_ids[0])
-    Returns:
-        a Variable containing the result of module(input) located on
-        output_device
+    Args :
+        module: 并行评估的模型
+        inputs: 模型的输入
+        device_ids: 防止副本的 GPU 设备 ID
+        output_device: 输出的 GPU 位置使用 -1 指示 CPU.（默认 ：device_ids [0])
+    return :
+        包含位于输出设备上的模块（输入）结果的变量
     """
+
     if not isinstance(inputs, tuple):
         inputs = (inputs,)
 
