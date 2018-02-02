@@ -44,7 +44,7 @@ PyTorch 0.3.0 中文文档贡献者
 -  `@MUSK1881 <https://github.com/JoinsenQ>`__
 -  `@K <https://github.com/shercklo>`__
 -  `@Dongze Lian <https://github.com/dongzelian>`__
-
+-  `@distant1219 <https://github.com/distant1219>`__
 PyTorch 0.2.0 中文文档贡献者
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -312,14 +312,12 @@ plt.show()
 # 让我们进行所有操作，来创建结合了图像变换的数据集
 # 总之，每次迭代的数据：
 #
-# -  An image is read from the file on the fly
-# -  Transforms are applied on the read image
-# -  Since one of the transforms is random, data is augmentated on
-#    sampling
+# -  从文件中读取图像
+# -  对所读的图像上应用变换
+# -  其中一个变换是随机的，所以可以增强数据样本
 #
-# We can iterate over the created dataset with a ``for i in range``
-# loop as before.
-#
+# 我们可以像之前一样用``for i in range``循环从已创建的数据集中迭代
+# 
 
 transformed_dataset = FaceLandmarksDataset(csv_file='faces/face_landmarks.csv',
                                            root_dir='faces/',
@@ -339,18 +337,17 @@ for i in range(len(transformed_dataset)):
 
 
 ######################################################################
-# However, we are losing a lot of features by using a simple ``for`` loop to
-# iterate over the data. In particular, we are missing out on:
+# 然而我们用简单的``for``循环来迭代整个数据集会丢失很多特点来，特别地，
+# 我们会丢失:
 #
-# -  Batching the data
-# -  Shuffling the data
-# -  Load the data in parallel using ``multiprocessing`` workers.
+# -  批读取数据
+# -  打乱数据顺序
+# - 使用``multiprocessing``并行加载数据
 #
-# ``torch.utils.data.DataLoader`` is an iterator which provides all these
-# features. Parameters used below should be clear. One parameter of
-# interest is ``collate_fn``. You can specify how exactly the samples need
-# to be batched using ``collate_fn``. However, default collate should work
-# fine for most use cases.
+# ``torch.utils.data.DataLoader`` 是提供了所有上述特点的迭代器。
+# 下面使用的参数应该很清晰。其中一个有趣的参数是``collate_fn``。
+# 你可以使用``collate_fn``来指定如何精确地读取一批的样本。
+# 然而，默认的collate在大部分的情况下都表现得很好
 #
 
 dataloader = DataLoader(transformed_dataset, batch_size=4,
@@ -359,7 +356,7 @@ dataloader = DataLoader(transformed_dataset, batch_size=4,
 
 # Helper function to show a batch
 def show_landmarks_batch(sample_batched):
-    """Show image with landmarks for a batch of samples."""
+    """显示一批数据样本的图片和标记点"""
     images_batch, landmarks_batch = \
             sample_batched['image'], sample_batched['landmarks']
     batch_size = len(images_batch)
@@ -379,7 +376,7 @@ for i_batch, sample_batched in enumerate(dataloader):
     print(i_batch, sample_batched['image'].size(),
           sample_batched['landmarks'].size())
 
-    # observe 4th batch and stop.
+    # 观察到第四批数据时停止
     if i_batch == 3:
         plt.figure()
         show_landmarks_batch(sample_batched)
@@ -389,14 +386,12 @@ for i_batch, sample_batched in enumerate(dataloader):
         break
 
 ######################################################################
-# Afterword: torchvision
+# 后记: torchvision
 # ----------------------
 #
-# In this tutorial, we have seen how to write and use datasets, transforms
-# and dataloader. ``torchvision`` package provides some common datasets and
-# transforms. You might not even have to write custom classes. One of the
-# more generic datasets available in torchvision is ``ImageFolder``.
-# It assumes that images are organized in the following way: ::
+# 在这个教程中, 我们学习了如何写和使用数据集，图像变换和dataloder。
+# ``torchvision`` 提供了常用的数据集和图像变换，或许你甚至不必写自定义的类和变换。
+# 在torchvision中一个最经常用的数据集是``ImageFolder``。它要求数据按下面的形式存放： ::
 #
 #     root/ants/xxx.png
 #     root/ants/xxy.jpeg
@@ -408,9 +403,9 @@ for i_batch, sample_batched in enumerate(dataloader):
 #     root/bees/nsdf3.png
 #     root/bees/asd932_.png
 #
-# where 'ants', 'bees' etc. are class labels. Similarly generic transforms
-# which operate on ``PIL.Image`` like  ``RandomHorizontalFlip``, ``Scale``,
-# are also avaiable. You can use these to write a dataloader like this: ::
+# 'ants', 'bees'等是图像的类标。同样，``PIL.Image``中出现的一般的图像变换像
+# ``RandomHorizontalFlip``，``Scale``也是可以使用的。
+# 你可以像下面这样用这些函数来写dataloader：::
 #
 #   import torch
 #   from torchvision import transforms, datasets
@@ -428,5 +423,5 @@ for i_batch, sample_batched in enumerate(dataloader):
 #                                                batch_size=4, shuffle=True,
 #                                                num_workers=4)
 #
-# For an example with training code, please see
+# 关于训练代码的例子，请看
 # :doc:`transfer_learning_tutorial`.
