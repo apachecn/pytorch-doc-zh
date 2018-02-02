@@ -50,27 +50,17 @@ plt.ion()   # interactive mode
 #
 # 我们今天要解决的问题是, 训练一个可以区分 **ants** 和 **bees** 的模型.
 # The problem we're going to solve today is to train a model to classify
-# **ants** and **bees**. 
 # 用于训练的 ants (蚂蚁)和 bees (蜜蜂)图片各120张. 每一类用于验证的图片各75张.
-# We have about 120 training images each for ants and bees.
-# There are 75 validation images for each class. 
-# Usually, this is a very small dataset to generalize upon, if trained from scratch. 
-# 通常, 如果从头开始训练, 要概括好网络, 这个数据集太小了.
-# Since we are using transfer learning, we should be able to generalize reasonably
-# well.
-# 因此我们使用迁移学习, 这样我们应该可以概括的相当好.
+# 通常, 如果从头开始训练, 要概括好, 这个数据集太小了.
+# 因为我们使用迁移学习, 这样我们应该可以概括的相当好.
 #
-# This dataset is a very small subset of imagenet.
 # 这个数据集是一个非常小的 imagenet 子集
 #
 # .. Note ::
-#    Download the data from
-#    `here <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_
-#    and extract it to the current directory.
 #    从`这里 <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_ 下载数据, 然后解压到当前目录.
 
-# Data augmentation and normalization for training
-# Just normalization for validation
+# 训练要做数据增强和数据标准化
+# 验证只做数据标准化
 data_transforms = {
     'train': transforms.Compose([
         transforms.RandomSizedCrop(224),
@@ -99,11 +89,9 @@ class_names = image_datasets['train'].classes
 use_gpu = torch.cuda.is_available()
 
 ######################################################################
-# Visualize a few images
-# 可视化一些图片
+# 显示一些图片
 # ^^^^^^^^^^^^^^^^^^^^^^
-# Let's visualize a few training images so as to understand the data
-# augmentations.
+# 让我们现实一些训练中的图片, 以便了解数据增强.
 
 def imshow(inp, title=None):
     """Imshow for Tensor."""
@@ -115,30 +103,31 @@ def imshow(inp, title=None):
     plt.imshow(inp)
     if title is not None:
         plt.title(title)
-    plt.pause(0.001)  # pause a bit so that plots are updated
+    plt.pause(0.001)  # 暂停一伙, 让 plots 更新
 
 
-# Get a batch of training data
+# 获得一批训练数据
 inputs, classes = next(iter(dataloaders['train']))
 
-# Make a grid from batch
+# 从那批数据生成一个方格
 out = torchvision.utils.make_grid(inputs)
 
 imshow(out, title=[class_names[x] for x in classes])
 
 
 ######################################################################
-# Training the model
+# 训练模型
 # ------------------
 #
 # Now, let's write a general function to train a model. Here, we will
 # illustrate:
+# 现在, 让我们写一个通用的函数来训练模型. 在这里，我们将说明:
 #
 # -  Scheduling the learning rate
-# -  Saving the best model
+# -  安排学习率
+# -  保存最好的学习模型
 #
-# In the following, parameter ``scheduler`` is an LR scheduler object from
-# ``torch.optim.lr_scheduler``.
+# 下面函数中, ``scheduler`` 参数是 ``torch.optim.lr_scheduler`` 中的 LR scheduler 对象.
 
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
@@ -151,23 +140,23 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
 
-        # Each epoch has a training and validation phase
+        # 没一个迭代都有训练和验证阶段
         for phase in ['train', 'val']:
             if phase == 'train':
                 scheduler.step()
-                model.train(True)  # Set model to training mode
+                model.train(True)  # 设置 model 为训练 (training) 模式
             else:
-                model.train(False)  # Set model to evaluate mode
+                model.train(False)  # 设置 model 为评估 (evaluate) 模式
 
             running_loss = 0.0
             running_corrects = 0
 
             # Iterate over data.
             for data in dataloaders[phase]:
-                # get the inputs
+                # get the input 获取输入
                 inputs, labels = data
 
-                # wrap them in Variable
+                # wrap them in Variable 用 Variable 包装输入数据
                 if use_gpu:
                     inputs = Variable(inputs.cuda())
                     labels = Variable(labels.cuda())
@@ -175,19 +164,21 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                     inputs, labels = Variable(inputs), Variable(labels)
 
                 # zero the parameter gradients
+                # 设置梯度参数为 0
                 optimizer.zero_grad()
 
-                # forward
+                # forward 正向传递
                 outputs = model(inputs)
                 _, preds = torch.max(outputs.data, 1)
                 loss = criterion(outputs, labels)
 
                 # backward + optimize only if in training phase
+                # 如果是训练阶段, 向后传递和优化
                 if phase == 'train':
                     loss.backward()
                     optimizer.step()
 
-                # statistics
+                # statistics 统计
                 running_loss += loss.data[0] * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
 
@@ -197,7 +188,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
 
-            # deep copy the model
+            # deep copy the model 深拷贝 model
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
@@ -209,16 +200,18 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
 
-    # load best model weights
+    # load best model weights 加载最好模型的权重
     model.load_state_dict(best_model_wts)
     return model
 
 
 ######################################################################
 # Visualizing the model predictions
+# 显示模型的预测结果
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # Generic function to display predictions for a few images
+# 给一些图片写一个显示预测结果的通用函数
 #
 
 def visualize_model(model, num_images=6):
@@ -247,9 +240,11 @@ def visualize_model(model, num_images=6):
 
 ######################################################################
 # Finetuning the convnet
+# 调整卷积网络
 # ----------------------
 #
 # Load a pretrained model and reset final fully connected layer.
+# 加载一个预训练的网络, 并重置最后一个全连接层.
 #
 
 model_ft = models.resnet18(pretrained=True)
@@ -262,17 +257,21 @@ if use_gpu:
 criterion = nn.CrossEntropyLoss()
 
 # Observe that all parameters are being optimized
+# 如你所见, 所有参数都将被优化
 optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
 
 # Decay LR by a factor of 0.1 every 7 epochs
+# 每7个迭代, 让 LR 衰减 0.1 因素
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 ######################################################################
 # Train and evaluate
+# 训练和评估
 # ^^^^^^^^^^^^^^^^^^
 #
 # It should take around 15-25 min on CPU. On GPU though, it takes less than a
 # minute.
+# 如果使用 CPU, 这将花费 15-25 分钟. 但是使用 GPU 的话, 需要的时间将少于1分钟.
 #
 
 model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
