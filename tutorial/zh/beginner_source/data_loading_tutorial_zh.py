@@ -306,12 +306,11 @@ plt.show()
 
 
 ######################################################################
-# Iterating through the dataset
+# 迭代整个数据集
 # -----------------------------
 #
-# Let's put this all together to create a dataset with composed
-# transforms. 
-# To summarize, every time this dataset is sampled:
+# 让我们进行所有操作，来创建结合了图像变换的数据集
+# 总之，每次迭代的数据：
 #
 # -  An image is read from the file on the fly
 # -  Transforms are applied on the read image
