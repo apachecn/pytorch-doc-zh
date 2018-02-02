@@ -1,33 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-Transfer Learning tutorial
+迁移学习教程
 ==========================
-**Author**: `Sasank Chilamkurthy <https://chsasank.github.io>`_
+**作者**: `Sasank Chilamkurthy <https://chsasank.github.io>`_
 
-In this tutorial, you will learn how to train your network using
-transfer learning. You can read more about the transfer learning at `cs231n
-notes <http://cs231n.github.io/transfer-learning/>`__
+这个教程将教你如何使用迁移学习训练你的网络.
+你可以在 `cs231n 笔记 <http://cs231n.github.io/transfer-learning/>`__ 中
+阅读更多有关迁移学习的信息.
 
-Quoting this notes,
+引用自该笔记,
 
-    In practice, very few people train an entire Convolutional Network
-    from scratch (with random initialization), because it is relatively
-    rare to have a dataset of sufficient size. Instead, it is common to
-    pretrain a ConvNet on a very large dataset (e.g. ImageNet, which
-    contains 1.2 million images with 1000 categories), and then use the
-    ConvNet either as an initialization or a fixed feature extractor for
-    the task of interest.
+    事实上, 很少有人从头(随机初始化)开始训练一个卷积网络, 因为拥有一个足够大的数据库是比较少见的.
+    替代的是, 通常会从一个大的数据集(例如 ImageNet, 包含120万的图片和1000个分类)预训练一个卷积神经网络,
+    这个预训练的卷积神经网络, 要不是作为初始化的网络, 就是作为感兴趣任务的固定的特征提取器.
 
-These two major transfer learning scenarios looks as follows:
+如下是两种主要的迁移学习的使用场景:
 
--  **Finetuning the convnet**: Instead of random initializaion, we
-   initialize the network with a pretrained network, like the one that is
-   trained on imagenet 1000 dataset. Rest of the training looks as
-   usual.
--  **ConvNet as fixed feature extractor**: Here, we will freeze the weights
-   for all of the network except that of the final fully connected
-   layer. This last fully connected layer is replaced with a new one
-   with random weights and only this layer is trained.
+-  **微调卷积神经网络**: 取代随机初始化网络, 我们从一个预训练的网络初始化, 
+   比如从 imagenet 1000 数据集预训练的网络. 其余的训练就像往常一样.
+-  **卷积神经网络作为固定的特征提取器**: 在这里, 我们固定网络中的所有权重, 最后的全连接层除外.
+   最后的全连接层被新的随机权重替换, 并且, 只有这一层是被训练的.
 
 """
 # License: BSD
@@ -51,25 +43,31 @@ import copy
 plt.ion()   # interactive mode
 
 ######################################################################
-# Load Data
+# 加载数据
 # ---------
 #
-# We will use torchvision and torch.utils.data packages for loading the
-# data.
+# 我们用 torchvision 和 torch.utils.data 包加载数据.
 #
+# 我们今天要解决的问题是, 训练一个可以区分 **ants** 和 **bees** 的模型.
 # The problem we're going to solve today is to train a model to classify
-# **ants** and **bees**. We have about 120 training images each for ants and bees.
-# There are 75 validation images for each class. Usually, this is a very
-# small dataset to generalize upon, if trained from scratch. Since we
-# are using transfer learning, we should be able to generalize reasonably
+# **ants** and **bees**. 
+# 用于训练的 ants (蚂蚁)和 bees (蜜蜂)图片各120张. 每一类用于验证的图片各75张.
+# We have about 120 training images each for ants and bees.
+# There are 75 validation images for each class. 
+# Usually, this is a very small dataset to generalize upon, if trained from scratch. 
+# 通常, 如果从头开始训练, 要概括好网络, 这个数据集太小了.
+# Since we are using transfer learning, we should be able to generalize reasonably
 # well.
+# 因此我们使用迁移学习, 这样我们应该可以概括的相当好.
 #
 # This dataset is a very small subset of imagenet.
+# 这个数据集是一个非常小的 imagenet 子集
 #
 # .. Note ::
 #    Download the data from
 #    `here <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_
 #    and extract it to the current directory.
+#    从`这里 <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_ 下载数据, 然后解压到当前目录.
 
 # Data augmentation and normalization for training
 # Just normalization for validation
@@ -102,6 +100,7 @@ use_gpu = torch.cuda.is_available()
 
 ######################################################################
 # Visualize a few images
+# 可视化一些图片
 # ^^^^^^^^^^^^^^^^^^^^^^
 # Let's visualize a few training images so as to understand the data
 # augmentations.
