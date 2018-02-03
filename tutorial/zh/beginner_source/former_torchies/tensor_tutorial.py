@@ -2,10 +2,9 @@
 Tensors
 =======
 
-Tensors behave almost exactly the same way in PyTorch as they do in
-Torch.
+PyTorch 中的 Tensors 与 Torch 中的操作方式几乎完全相同.
 
-Create a tensor of size (5 x 7) with uninitialized memory:
+用未初始化的内存创建一个大小为 (5 x 7) 的 tensor:
 
 """
 
@@ -13,57 +12,56 @@ import torch
 a = torch.FloatTensor(5, 7)
 
 ###############################################################
-# Initialize a tensor randomized with a normal distribution with mean=0, var=1:
+# 用 mean=0, var=1 的正态分布随机初始化一个tensor:
 
 a = torch.randn(5, 7)
 print(a)
 print(a.size())
 
-###############################################################
-# .. note::
-#     ``torch.Size`` is in fact a tuple, so it supports the same operations
+#############################################################################
+# .. 注意::
+#     ``torch.Size`` 实际上是一个 tuple, 因此它支持相同的操作
 #
 # Inplace / Out-of-place
 # ----------------------
 #
-# The first difference is that ALL operations on the tensor that operate
-# in-place on it will have an ``_`` postfix. For example, ``add`` is the
-# out-of-place version, and ``add_`` is the in-place version.
+# 第一个不同在于 tensor 上的所有操作, 如果在这个 tensor 自身上进行的操作
+# (in-place) 将会有一个 ``_`` 后缀. 例如, ``add`` 是一个 out-of-place 形式
+# 的操作, ``add_`` 是一个 in-place 形式的操作.
 
 a.fill_(3.5)
-# a has now been filled with the value 3.5
+# a 的值现在是 3.5
 
 b = a.add(4.0)
-# a is still filled with 3.5
-# new tensor b is returned with values 3.5 + 4.0 = 7.5
+# a 的值仍然是 3.5
+# 新的 tensor b 以值 3.5 + 4.0 = 7.5 返回
 
 print(a, b)
 
-###############################################################
-# Some operations like ``narrow`` do not have in-place versions, and
-# hence, ``.narrow_`` does not exist. Similarly, some operations like
-# ``fill_`` do not have an out-of-place version, so ``.fill`` does not
-# exist.
+############################################################################
+# 像 ``narrow`` 的一些操作没有 in-place 的形式, 因此 ``.narrow_`` 是不存在
+# 的. 同样的，像 ``fill_`` 的一些操作没有 out-of-place 形式. 因此，``.fill``
+# 不存在.
 #
-# Zero Indexing
-# -------------
+# Zero Indexing (零索引)
+# ------------------------
 #
-# Another difference is that Tensors are zero-indexed. (In lua, tensors are
-# one-indexed)
+# 另一个不同是 Tensors 是 zero-indexed (零索引). (在 lua 中, tensors 是
+# one-indexed (一索引))
 
-b = a[0, 3]  # select 1st row, 4th column from a
+b = a[0, 3]  # 从 a 中选择第一行第四列的值.
 
 ###############################################################
-# Tensors can be also indexed with Python's slicing
+# Tensors 也可以用 Python 的切片索引
 
-b = a[:, 3:5]  # selects all rows, 4th column and  5th column from a
+b = a[:, 3:5]  # 从 a 中选择所有行中第四列和第五列的值.
 
 ###############################################################
 # No camel casing
 # ---------------
 #
-# The next small difference is that all functions are now NOT camelCase
-# anymore. For example ``indexAdd`` is now called ``index_add_``
+# 接下来一个小的不同是所有的函数都不是 camelCase 了。
+# 例如 ``indexAdd`` 现在被称为 ``index_add_``
 
 
 x = torch.ones(5, 5)
@@ -86,11 +84,11 @@ print(x)
 # Numpy Bridge
 # ------------
 #
-# Converting a torch Tensor to a numpy array and vice versa is a breeze.
-# The torch Tensor and numpy array will share their underlying memory
-# locations, and changing one will change the other.
+#将 torch Tensor 转换为一个 numpy array, 反之亦然.
+# Torch Tensor 和 numpy array 将会共享底层的内存,
+# 改变其中一个, 另外一个也会随之改变.
 #
-# Converting torch Tensor to numpy Array
+# 将 torch Tensor 转换为 numpy Array
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 a = torch.ones(5)
@@ -106,11 +104,11 @@ print(b)
 #
 a.add_(1)
 print(a)
-print(b) 	# see how the numpy array changed in value
+print(b) 	# 看一下 numpy array 值的变化
 
 
 ###############################################################
-# Converting numpy Array to torch Tensor
+# 将 numpy Array 转换为 torch Tensor
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 import numpy as np
@@ -118,24 +116,24 @@ a = np.ones(5)
 b = torch.from_numpy(a)
 np.add(a, 1, out=a)
 print(a)
-print(b)  # see how changing the np array changed the torch Tensor automatically
+print(b)  # 看一下通过改变 np array 来自动的改变 torch Tensor 
 
-###############################################################
-# All the Tensors on the CPU except a CharTensor support converting to
-# NumPy and back.
+######################################################################
+# 除了 CharTensor 之外, 所有 CPU 上的 Tensors 支持转变为 NumPy 并且
+# 转换回来. 
 #
 # CUDA Tensors
 # ------------
 #
-# CUDA Tensors are nice and easy in pytorch, and transfering a CUDA tensor
-# from the CPU to GPU will retain its underlying type.
+# CUDA Tensors 在 pytorch 中非常好用, 并且将一个 CUDA tensor
+# 从 CPU 转换到 GPU 将保持它底层的类型.
 
-# let us run this cell only if CUDA is available
+# 让我们在 CUDA 可用的时候运行这个单元
 if torch.cuda.is_available():
-    # creates a LongTensor and transfers it
-    # to GPU as torch.cuda.LongTensor
+    # 创建一个 LongTensor 并且将其作为 torch.cuda.LongTensor
+    # 转换到 GPU.
     a = torch.LongTensor(10).fill_(3).cuda()
     print(type(a))
     b = a.cpu()
-    # transfers it to CPU, back to
-    # being a torch.LongTensor
+    # 将它转换到 CPU
+    # 类型变回 torch.LongTensor
