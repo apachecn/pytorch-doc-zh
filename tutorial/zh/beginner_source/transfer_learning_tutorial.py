@@ -121,10 +121,9 @@ imshow(out, title=[class_names[x] for x in classes])
 #
 # Now, let's write a general function to train a model. Here, we will
 # illustrate:
-# 现在, 让我们写一个通用的函数来训练模型. 在这里，我们将说明:
+# 现在, 让我们写一个通用的函数来训练模型. 这里，我们要做以下说明:
 #
-# -  Scheduling the learning rate
-# -  安排学习率
+# -  调度学习率
 # -  保存最好的学习模型
 #
 # 下面函数中, ``scheduler`` 参数是 ``torch.optim.lr_scheduler`` 中的 LR scheduler 对象.
@@ -140,7 +139,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
 
-        # 没一个迭代都有训练和验证阶段
+        # 每一个迭代都有训练和验证阶段
         for phase in ['train', 'val']:
             if phase == 'train':
                 scheduler.step()
@@ -151,34 +150,32 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             running_loss = 0.0
             running_corrects = 0
 
-            # Iterate over data.
+            # 遍历数据.
             for data in dataloaders[phase]:
-                # get the input 获取输入
+                # 获取输入
                 inputs, labels = data
 
-                # wrap them in Variable 用 Variable 包装输入数据
+                # 用 Variable 包装输入数据
                 if use_gpu:
                     inputs = Variable(inputs.cuda())
                     labels = Variable(labels.cuda())
                 else:
                     inputs, labels = Variable(inputs), Variable(labels)
 
-                # zero the parameter gradients
                 # 设置梯度参数为 0
                 optimizer.zero_grad()
 
-                # forward 正向传递
+                # 正向传递
                 outputs = model(inputs)
                 _, preds = torch.max(outputs.data, 1)
                 loss = criterion(outputs, labels)
 
-                # backward + optimize only if in training phase
                 # 如果是训练阶段, 向后传递和优化
                 if phase == 'train':
                     loss.backward()
                     optimizer.step()
 
-                # statistics 统计
+                # 统计
                 running_loss += loss.data[0] * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
 
@@ -188,7 +185,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                 phase, epoch_loss, epoch_acc))
 
-            # deep copy the model 深拷贝 model
+            # 深拷贝 model
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
@@ -200,18 +197,16 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
 
-    # load best model weights 加载最好模型的权重
+    # 加载最好模型的权重
     model.load_state_dict(best_model_wts)
     return model
 
 
 ######################################################################
-# Visualizing the model predictions
 # 显示模型的预测结果
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# Generic function to display predictions for a few images
-# 给一些图片写一个显示预测结果的通用函数
+# 写一个处理少量图片, 并显示预测结果的通用函数
 #
 
 def visualize_model(model, num_images=6):
@@ -239,11 +234,9 @@ def visualize_model(model, num_images=6):
                 return
 
 ######################################################################
-# Finetuning the convnet
 # 调整卷积网络
 # ----------------------
 #
-# Load a pretrained model and reset final fully connected layer.
 # 加载一个预训练的网络, 并重置最后一个全连接层.
 #
 
@@ -256,22 +249,17 @@ if use_gpu:
 
 criterion = nn.CrossEntropyLoss()
 
-# Observe that all parameters are being optimized
 # 如你所见, 所有参数都将被优化
 optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
 
-# Decay LR by a factor of 0.1 every 7 epochs
-# 每7个迭代, 让 LR 衰减 0.1 因素
+# 每 7 个迭代, 让 LR 衰减 0.1 因素
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 ######################################################################
-# Train and evaluate
 # 训练和评估
 # ^^^^^^^^^^^^^^^^^^
 #
-# It should take around 15-25 min on CPU. On GPU though, it takes less than a
-# minute.
-# 如果使用 CPU, 这将花费 15-25 分钟. 但是使用 GPU 的话, 需要的时间将少于1分钟.
+# 如果使用 CPU, 这将花费 15-25 分钟. 但使用 GPU 的话, 需要的时间将少于1分钟.
 #
 
 model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
@@ -284,22 +272,19 @@ visualize_model(model_ft)
 
 
 ######################################################################
-# ConvNet as fixed feature extractor
+# 卷积网络作为固定的特征提取器
 # ----------------------------------
 #
-# Here, we need to freeze all the network except the final layer. We need
-# to set ``requires_grad == False`` to freeze the parameters so that the
-# gradients are not computed in ``backward()``.
+# 这里, 我们固定网络中除最后一层外的所有权重. 为了固定这些参数, 我们需要设置 ``requires_grad == False`` ,
+# 然后在 ``backward()`` 中就不会计算梯度.
 #
-# You can read more about this in the documentation
-# `here <http://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-from-backward>`__.
-#
+# 你可以在 `这里 <http://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-from-backward>`__ 阅读更多相关信息.
 
 model_conv = torchvision.models.resnet18(pretrained=True)
 for param in model_conv.parameters():
     param.requires_grad = False
 
-# Parameters of newly constructed modules have requires_grad=True by default
+# 新构建的 module 的参数中, 默认设置了 requires_grad=True.
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Linear(num_ftrs, 2)
 
@@ -308,21 +293,19 @@ if use_gpu:
 
 criterion = nn.CrossEntropyLoss()
 
-# Observe that only parameters of final layer are being optimized as
-# opoosed to before.
+# 如你所见, 和我们前面提出的一样, 只有最后一层的参数被优化.
 optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
 
-# Decay LR by a factor of 0.1 every 7 epochs
+# 每 7 个迭代, 让 LR 衰减 0.1 因素
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
 
 ######################################################################
-# Train and evaluate
+# 训练和评估
 # ^^^^^^^^^^^^^^^^^^
 #
-# On CPU this will take about half the time compared to previous scenario.
-# This is expected as gradients don't need to be computed for most of the
-# network. However, forward does need to be computed.
+# 在使用 CPU 的情况下, 和前一个方案相比, 这将花费的时间是它的一半.
+# 期望中, 网络的大部分是不需要计算梯度的. 前向传递依然要计算梯度.
 #
 
 model_conv = train_model(model_conv, criterion, optimizer_conv,
