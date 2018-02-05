@@ -13,7 +13,7 @@ PyTorch的核心部分提供了两个主要功能：
 并将使用梯度下降训练去拟合随机数据通过最小化网络输出和真实输出之间的欧几里得距离。
 
 .. 注意::
-	你可以在这个 :ref:`页面的末尾 <examples-download>` 浏览单独的例子。
+	你可以在这个 :ref: `页面的末尾 <examples-download>` 浏览单独的例子。
 
 .. 内容:: 页面内容
   :本地:
@@ -40,9 +40,9 @@ Numpy是一个伟大的框架，但它不能利用GPU加速它数值计算。 �
 GPU往往是提供 `50倍或更大的加速 <https://github.com/jcjohnson/cnn-benchmarks>`__,
 所以不幸的是，numpy不足以满足现在深度学习的需求。
 
-这里我们介绍一下最基本的PyTorch概念：** Tensor ** 。PyTorch张量在概念上与numpy数组相同：
+这里我们介绍一下最基本的PyTorch概念： ** Tensor ** 。PyTorch张量在概念上与numpy数组相同：
 张量是一个n维数组，PyTorch提供了很多能在这些张量上运行的功能。像numpy数组一样，PyTorch
-张量不了解深度学习或计算图表或梯度;它们是科学计算的通用工具。
+张量不了解深度学习或计算图表或梯度；它们是科学计算的通用工具。
 
 然而不像numpy，PyTorch张量可以利用GPU加速他们的数字计算。要在GPU上运行
 PyTorch张量，只需将其转换为新的数据类型。
@@ -62,9 +62,9 @@ PyTorch: Variables and autograd
 在上面的例子中，我们不得不手动执行神经网络的正反向传输。手动执行反向传输对于一个
 小型的双层网络来说是没什么大问题的，但是可以很快就会变得对大型复杂网络很棘手。
 
-谢天谢地，我们可以使用`自动微分<https://en.wikipedia.org/wiki/Automatic_differentiation>`__
-自动化神经网络中的后向通道计算。该PyTorch中的** autograd **包提供了这个功能。使用autograd时，
-网络的正向传递将定义一个**计算图**; 图中的节点将是张量，边缘将是从输入张量产生输出张量的函数。
+谢天谢地，我们可以使用 `自动微分<https://en.wikipedia.org/wiki/Automatic_differentiation>`__
+自动化神经网络中的后向通道计算。该PyTorch中的 ** autograd ** 包提供了这个功能。使用autograd时，
+网络的正向传递将定义一个 ** 计算图 ** ; 图中的节点将是张量，边缘将是从输入张量产生输出张量的函数。
 通过此图表的反向传播可以让您轻松计算梯度。
 
 这听起来很复杂，在实践中使用起来相当简单。我们将PyTorch的张量包裹在 **变量** 对象；
@@ -72,7 +72,7 @@ PyTorch: Variables and autograd
 而 ``x.grad`` 是另外一个变量，其中包含 ``x`` 的梯度相对于一些标量值。
 
 PyTorch变量与PyTorch张量具有相同的API：（几乎）任何您可以在张量上执行的
-操作也适用于变量;该区别在于使用变量定义了一个计算图，允许您自动计算梯度。
+操作也适用于变量；该区别在于使用变量定义了一个计算图，允许您自动计算梯度。
 
 这里我们使用PyTorch变量和自动微分来实现我们的双层网络；现在我们不再需要手动
 执行网络的反向传播：
@@ -86,11 +86,6 @@ PyTorch: Defining new autograd functions
 函数从输入张量计算输出张量。 **后向** 函数收到输出张量相对于某个标量值的梯度，以
 及计算输入张量相对于相同标量值的梯度。
 
-In PyTorch we can easily define our own autograd operator by defining a
-subclass of ``torch.autograd.Function`` and implementing the ``forward``
-and ``backward`` functions. We can then use our new autograd operator by
-constructing an instance and calling it like a function, passing
-Variables containing input data.
 在PyTorch中，我们可以通过定义一个 ``torch.autograd.Function`` 的子类和
 执行 ``前向`` 和 ``后向`` 功能来轻松定义自己的autograd操作符。然后我们可以
 使用我们新的autograd操作符构造一个实例并将其作为一个函数调用，传递包含输入数据的变量。
@@ -149,13 +144,13 @@ PyTorch: nn
 PyTorch: optim
 --------------
 
-到目前为止，我们已经通过手动更新了模型的权重变异的``.data``成员保持可学习的变量参数。
+到目前为止，我们已经通过手动更新了模型的权重变异的 ``.data`` 成员保持可学习的变量参数。
 这对于简单的优化算法像随机梯度下降来说不是一个巨大的负担，但实际上我们经常使用更巧妙的
 优化器训练神经网络，如AdaGrad，RMSProp，Adam等。
 
 PyTorch中的 ``optim`` 包简要包含了优化思想的算法并提供常用优化的实现算法。
 
-在这个例子中，我们将像之前一样使用``nn``包来定义我们的模型，但我们将使用由
+在这个例子中，我们将像之前一样使用 ``nn`` 包来定义我们的模型，但我们将使用由
  ``optim`` 包提供的Adam算法优化模型：
 
 .. includenodoc:: /beginner/examples_nn/two_layer_net_optim.py
