@@ -12,7 +12,9 @@ PyTorch的核心部分提供了两个主要功能：
 我们将使用完全连接的ReLU网络作为我们的运行示例。该网络将有一个单一的隐藏层，
 并将使用梯度下降训练去拟合随机数据通过最小化网络输出和真实输出之间的欧几里得距离。
 
-.. Note:: You can browse the individual examples at the:ref:`end of this page <examples-download>`.
+.. Note::
+	You can browse the individual examples at the
+	:ref:`end of this page <examples-download>`.
 
 .. contents:: Table of Contents
   :local:
@@ -147,10 +149,9 @@ PyTorch: optim
 这对于简单的优化算法像随机梯度下降来说不是一个巨大的负担，但实际上我们经常使用更巧妙的
 优化器训练神经网络，如AdaGrad，RMSProp，Adam等。
 
-PyTorch中的 ``optim`` 包简要包含了优化思想的算法并提供常用优化的实现算法。
+PyTorch中的``optim``包简要包含了优化思想的算法并提供常用优化的实现算法。
 
-在这个例子中，我们将像之前一样使用 ``nn`` 包来定义我们的模型，但我们将使用由
- ``optim`` 包提供的Adam算法优化模型：
+在这个例子中，我们将像之前一样使用 ``nn`` 包来定义我们的模型，但我们将使用由 ``optim`` 包提供的Adam算法优化模型：
 
 .. includenodoc:: /beginner/examples_nn/two_layer_net_optim.py
 
