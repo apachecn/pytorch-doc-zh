@@ -13,10 +13,10 @@ PyTorch的核心部分提供了两个主要功能：
 并将使用梯度下降训练去拟合随机数据通过最小化网络输出和真实输出之间的欧几里得距离。
 
 .. 注意::
-	你可以在这个 :ref: `页面的末尾 <examples-download>` 浏览单独的例子。
+	你可以在这个 `页面的末尾 <examples-download>`_ 浏览单独的例子。
 
-.. 内容:: 页面内容
-  :本地:
+.. contents:: Table of Contents
+  :local:
 
 Tensors
 =======
@@ -40,7 +40,7 @@ Numpy是一个伟大的框架，但它不能利用GPU加速它数值计算。 �
 GPU往往是提供 `50倍或更大的加速 <https://github.com/jcjohnson/cnn-benchmarks>`__,
 所以不幸的是，numpy不足以满足现在深度学习的需求。
 
-这里我们介绍一下最基本的PyTorch概念： ** Tensor ** 。PyTorch张量在概念上与numpy数组相同：
+这里我们介绍一下最基本的PyTorch概念： **Tensor** 。PyTorch张量在概念上与numpy数组相同：
 张量是一个n维数组，PyTorch提供了很多能在这些张量上运行的功能。像numpy数组一样，PyTorch
 张量不了解深度学习或计算图表或梯度；它们是科学计算的通用工具。
 
@@ -63,8 +63,8 @@ PyTorch: Variables and autograd
 小型的双层网络来说是没什么大问题的，但是可以很快就会变得对大型复杂网络很棘手。
 
 谢天谢地，我们可以使用 `自动微分<https://en.wikipedia.org/wiki/Automatic_differentiation>`__
-自动化神经网络中的后向通道计算。该PyTorch中的 ** autograd ** 包提供了这个功能。使用autograd时，
-网络的正向传递将定义一个 ** 计算图 ** ; 图中的节点将是张量，边缘将是从输入张量产生输出张量的函数。
+自动化神经网络中的后向通道计算。该PyTorch中的 **autograd** 包提供了这个功能。使用autograd时，
+网络的正向传递将定义一个 **计算图** ; 图中的节点将是张量，边缘将是从输入张量产生输出张量的函数。
 通过此图表的反向传播可以让您轻松计算梯度。
 
 这听起来很复杂，在实践中使用起来相当简单。我们将PyTorch的张量包裹在 **变量** 对象；
