@@ -13,10 +13,8 @@ PyTorch的核心部分提供了两个主要功能：
 并将使用梯度下降训练去拟合随机数据通过最小化网络输出和真实输出之间的欧几里得距离。
 
 .. 注意::
-	你可以在这个 `页面的末尾 <examples-download>`_ 浏览单独的例子。
-.. Note::
-  You can browse the individual examples at the
-	:ref:`end of this page <examples-download>`.
+  你可以在这个
+	:ref:`页面的末尾 <examples-download>`浏览单独的例子.
 
 .. contents:: Table of Contents
   :local:
