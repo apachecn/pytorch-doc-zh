@@ -1254,10 +1254,10 @@ eq(input, other, out=None) -> Tensor
 参数：
     input (Tensor) ： 待比较张量
     other (Tensor or float) ： 比较张量或数
-    out (Tensor, optional) : 输出张量，须为 ByteTensor类型或与input (Tensor)同类型
+    out (Tensor, optional) : 输出张量，须为 ByteTensor 类型或与 input (Tensor) 同类型
 
 返回值：
-    一个 torch.ByteTensor 张量，待比较和要比较张量逐位置比较，相等为1，不等为0
+    一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0 
 
 例子::
 
@@ -1271,7 +1271,7 @@ add_docstr(torch._C.equal,
            """
 equal(tensor1, tensor2) -> bool
 
-如果两个张量有相同的形状和元素值，则返回 ``True`` ，否则 ``False`` 。
+如果两个张量有相同的形状和元素值, 则返回 ``True`` ，否则 ``False`` .
 
 例子::
 
