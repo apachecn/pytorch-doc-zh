@@ -37,15 +37,15 @@ Numpy 提供了一个n维的数组对象，并提供了许多操纵这些数组�
 PyTorch: Tensors
 ----------------
 
-Numpy 是一个伟大的框架，但它不能利用GPU加速它数值计算。 对于现代的深度神经网络，
-GPU往往是提供 `50倍或更大的加速 <https://github.com/jcjohnson/cnn-benchmarks>`__,
+Numpy 是一个伟大的框架，但它不能利用 GPU 加速它数值计算。 对于现代的深度神经网络，
+GPU 往往是提供 `50倍或更大的加速 <https://github.com/jcjohnson/cnn-benchmarks>`__,
 所以不幸的是，numpy 不足以满足现在深度学习的需求。
 
 这里我们介绍一下最基本的 PyTorch 概念： **Tensor** 。PyTorch 张量在概念上与 numpy 数组相同：
 张量是一个n维数组，PyTorch 提供了很多能在这些张量上运行的功能。像 numpy 数组一样，PyTorch 张量
 不了解深度学习或计算图表或梯度；它们是科学计算的通用工具。
 
-然而不像 numpy，PyTorch 张量可以利用GPU加速他们的数字计算。要在 GPU 上运行
+然而不像 numpy，PyTorch 张量可以利用 GPU 加速他们的数字计算。要在 GPU 上运行
 PyTorch 张量，只需将其转换为新的数据类型。
 
 在这里，我们使用 PyTorch 张量来适应随机数据的双层网络。就像上面的 numpy 例子一样，
