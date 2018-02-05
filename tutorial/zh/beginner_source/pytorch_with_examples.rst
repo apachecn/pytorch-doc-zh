@@ -63,8 +63,8 @@ PyTorch: Variables and autograd
 在上面的例子中，我们不得不手动执行神经网络的正反向传输。手动执行反向传输对于一个
 小型的双层网络来说是没什么大问题的，但是可以很快就会变得对大型复杂网络很棘手。
 
-谢天谢地，我们可以使用 `自动微分<https://en.wikipedia.org/wiki/Automatic_differentiation>`__
-自动化神经网络中的后向通道计算。该 PyTorch 中的 **autograd** 包提供了这个功能。使用 autograd 时，
+谢天谢地，我们可以使用 `自动微分<https://en.wikipedia.org/wiki/Automatic_differentiation>`__ 自
+动化神经网络中的后向通道计算。该 PyTorch 中的 **autograd** 包提供了这个功能。使用 autograd 时，
 网络的正向传递将定义一个 **计算图** ; 图中的节点将是张量，边缘将是从输入张量产生输出张量的函数。
 通过此图表的反向传播可以让您轻松计算梯度。
 
