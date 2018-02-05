@@ -1246,16 +1246,15 @@ add_docstr(torch._C.eq,
            """
 eq(input, other, out=None) -> Tensor
 
-比较元素是否相等。
+比较元素是否相等
 
-The second argument can be a number or a tensor whose shape is
 第二个元素可以是一个数字，或者广播
-:ref:`broadcastable <broadcasting-semantics>` 为与第一个参数形状相同的张量。
+ :ref:`broadcastable <broadcasting-semantics>` 为与第一个参数形状相同的张量。
 
 参数：
-    input (Tensor)：待比较张量
-    other (Tensor or float)：比较张量或数
-    out (Tensor, optional) – 输出张量，须为 ByteTensor类型或与input (Tensor)同类型
+    input (Tensor) ： 待比较张量
+    other (Tensor or float) ： 比较张量或数
+    out (Tensor, optional) : 输出张量，须为 ByteTensor类型或与input (Tensor)同类型
 
 返回值：
     一个 torch.ByteTensor 张量，待比较和要比较张量逐位置比较，相等为1，不等为0
@@ -1469,18 +1468,18 @@ add_docstr(torch._C.ge,
            """
 ge(input, other, out=None) -> Tensor
 
-逐元素比较``input``和``other``，即是否 **&input>=other&**。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **&input>=other&** .
 
 第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>`为和第一个参数相同类型的张量。  
+:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.   
 
 参数：
-    input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或float值
-    out (Tensor, optional):  输出张量。必须为``ByteTensor``或者与第一个参数``tensor``相同类型。  
+    input (Tensor) : 待对比的张量
+    other (Tensor or float) :  对比的张量或 float 值
+    out (Tensor, optional) :  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
 
 返回值：
-    张量:  一个``torch.ByteTensor``张量，包含了每个位置的比较结果(是否 input >= other )。 返回类型：Tensor
+    张量:  一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input >= other )。 返回类型：Tensor 
 
 例子::
 
@@ -1662,18 +1661,18 @@ add_docstr(torch._C.gt,
            """
 gt(input, other, out=None) -> Tensor
 
-逐元素比较``input``和``other`` ， 即是否**$input>other$** 如果两个张量有相同的形状和元素值，则返回``True`` ，否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$input>other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False``。
 
 第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>`为和第一个参数相同类型的张量。 
+:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.
 
 参数：
-    input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或float值
-    out (Tensor, optional):  输出张量。必须为``ByteTensor``或者与第一个参数``tensor``相同类型。  
+    input (Tensor) : 待对比的张量
+    other (Tensor or float) :  对比的张量或 float 值
+    out (Tensor, optional) :  输出张量。必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
 
 返回值：
-    张量:  一个``torch.ByteTensor``张量，包含了每个位置的比较结果(是否 input > other )。 返回类型：Tensor
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input > other )。 返回类型：Tensor
 
 例子::
 
@@ -1810,21 +1809,21 @@ add_docstr(torch._C.kthvalue,
            """
 kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 
-取输入张量``input``指定维上第:attr:`k` 个最小值。如果不指定``dim``，则默认为``input``的最后一维。
+取输入张量 ``input`` 指定维上第 :attr:`k` 个最小值. 如果不指定 ``dim`` , 则默认为 ``input`` 的最后一维.
 
-返回一个元组 `(values,indices)`，其中``indices``是原始输入张量``input``中沿``dim``维的第``k`` 个最小值下标。
+返回一个元组 `(values,indices)` ,其中 ``indices`` 是原始输入张量 ``input`` 中沿 ``dim`` 维的第 ``k`` 个最小值下标.
 
-如果:attr:`keepdim` 为``True``，:attr:`values`和:attr:`indices`张量都和:attr:`input`尺寸相同，
-除了在所有值都为1的:attr:`dim`维度上。如果:attr:`keepdim` 为``False``,:attr:`dim` 被压缩。
-（参见:func:`torch.squeeze`），使:attr:`values` 和:attr:`indices`两个张量比:attr:`input` 张量小一个的维度。
+如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 尺寸相同，
+除了在所有值都为1的 :attr:`dim` 维度上。如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩。
+(参见 :func:`torch.squeeze` )，使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度。
 
-Args:
-    input (Tensor): 输入 `Tensor`
-    k (int): 第``k`` 个最小值
-    dim (int, optional): 沿着此维进行排序
-    keepdim (bool): 输出张量是否保持维度:attr:`dim`不变
-    out (tuple, optional): 输出元组 (Tensor, LongTensor) 
-                           可选参数（作为输出 buffers）
+参数 :
+    input (Tensor) : 输入 `Tensor` 
+    k (int) : 第 ``k`` 个最小值
+    dim (int, optional) : 沿着此维进行排序
+    keepdim (bool) : 输出张量是否保持维度 :attr:`dim` 不变
+    out (tuple, optional) : 输出元组 ( Tensor, LongTensor ) 
+                           可选参数(作为输出 buffers )
 
 例子::
 
@@ -1868,18 +1867,18 @@ add_docstr(torch._C.le,
            """
 le(input, other, out=None) -> Tensor
 
-逐元素比较``input``和``other`` ， 即是否**$input<=other$** 如果两个张量有相同的形状和元素值，则返回``True`` ，否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<=other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` .
 
 第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>`为和第一个参数相同类型的张量。 
+ :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
 
 参数：
     input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或float值
-    out (Tensor, optional):  输出张量。必须为``ByteTensor``或者与第一个参数``tensor``相同类型。  
+    other (Tensor or float):  对比的张量或 float 值
+    out (Tensor, optional):  输出张量。必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
 
 返回值：
-    张量:  一个``torch.ByteTensor``张量，包含了每个位置的比较结果(是否 input <= other )。 返回类型：Tensor
+    张量:  一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input <= other )。 返回类型： Tensor 
 
 例子::
 
@@ -2094,18 +2093,18 @@ add_docstr(torch._C.lt,
            """
 lt(input, other, out=None) -> Tensor
 
-逐元素比较``input``和``other`` ， 即是否**$input<other$** 如果两个张量有相同的形状和元素值，则返回``True`` ，否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` . 
 
 第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>`为和第一个参数相同类型的张量。 
+:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
 
 参数：
     input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或float值
-    out (Tensor, optional):  输出张量。必须为``ByteTensor``或者与第一个参数``tensor``相同类型。  
+    other (Tensor or float):  对比的张量或 float 值
+    out (Tensor, optional):  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型. 
 
 返回值：
-    张量:  一个``torch.ByteTensor``张量，包含了每个位置的比较结果(是否 input < other )。 返回类型：Tensor
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input < other ). 返回类型： Tensor
 
 例子::
 
@@ -2165,10 +2164,10 @@ add_docstr(torch._C.max,
            """
 .. function:: max(input) -> float
 
-返回输入:attr:`input`张量所有元素的最大值。
+返回输入 :attr:`input` 张量所有元素的最大值.  
 
 参数：  
-    input (Tensor): 输入 `Tensor`
+    input (Tensor) : 输入 `Tensor` 
 
 例子::
 
@@ -2184,18 +2183,18 @@ add_docstr(torch._C.max,
 
 .. function:: max(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
-返回输入张量:attr:`input`在给定维度:attr:`dim`上每行的最大值，并同时返回每个最大值的位置索引。
+返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 上每行的最大值, 并同时返回每个最大值的位置索引.  
 
-如果:attr:`keepdim` 为``True``，:attr:`values`和:attr:`indices`张量都和:attr:`input`尺寸相同，
-除了在所有值都为1的:attr:`dim`维度上。如果:attr:`keepdim` 为``False``,:attr:`dim` 被压缩。
-（参见:func:`torch.squeeze`），使:attr:`values` 和:attr:`indices`两个张量比:attr:`input` 张量小一个的维度。
+如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 尺寸相同,
+除了在所有值都为 1 的 :attr:`dim` 维度上. 如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩.
+(参见 :func:`torch.squeeze` ), 使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度.
 
 参数：  
-    input (Tensor): 输入 `Tensor`
-    k (int): 第``k`` 个最小值
-    dim (int, optional): 沿着此维进行排序
-    keepdim (bool): 输出张量是否保持维度:attr:`dim`不变
-    out (tuple, optional): 输出元组 (max, max_indices)
+    input (Tensor) : 输入 `Tensor`  
+    k (int) : 第``k`` 个最小值
+    dim (int, optional) : 沿着此维进行排序
+    keepdim (bool) : 输出张量是否保持维度 :attr:`dim` 不变
+    out (tuple, optional) : 输出元组 (max, max_indices)
 
 例子::
 
@@ -2227,17 +2226,17 @@ add_docstr(torch._C.max,
 
  输入:attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较，留下较大的元素 `max`。
 
-要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致，
-但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>`。
+要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
+但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的shape 遵循矩阵广播特性ref:`broadcasting rules <broadcasting-semantics>`。
+.. 注意:: 当他们尺寸不同时，输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
-:math:`out_i = max(tensor_i, other_i)`
+:math:`out_i = max(tensor_i, other_i)` 
 
 参数：
     input (Tensor): 要比较张量 `Tensor`
     other (Tensor): 比较张量 `Tensor`
-    out (Tensor, optional): 输出张量`Tensor`
+    out (Tensor, optional): 输出张量 `Tensor`
 
 例子::
 
@@ -2414,7 +2413,7 @@ add_docstr(torch._C.min,
 
 返回输入张量 :attr:`input` 所有元素的最小值.
 
-Args:
+参数:
     input (Tensor): 输入 `Tensor`
 
 Example::
@@ -2432,18 +2431,18 @@ Example::
 .. function:: min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的最小值. 
- 其中第二个返回值是每个被找出的最小值的索引位置(argmin).
+其中第二个返回值是每个被找出的最小值的索引位置 ( argmin ) .
 
-如果 :attr:`keepdim` 是``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维数 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除非维数 :attr:`dim` 是 1 .
  另外，:attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比输入张量 :attr:`input` 少一维.
 
-Args:
+参数:
     input (Tensor): 输入张量 `Tensor`
     dim (int): 要减少的维度
     keepdim (bool): 输出张量的维度 :attr:`dim` 保持与否
     out (tuple, optional): 两个输出张量的结果元组 (min, min_indices)
 
-Example::
+例子::
 
     >> a = torch.randn(4, 4)
     >> a
@@ -2470,12 +2469,12 @@ Example::
 
 .. function:: min(input, other, out=None) -> Tensor
 
-输入:attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较，留下较小的元素 `min`。
+输入 :attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较, 留下较小的元素 `min` .
 
-要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致，
-但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>`。
+要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
+但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的shape 遵循矩阵广播特性ref:`broadcasting rules <broadcasting-semantics>`。
+.. 注意:: 当他们尺寸不同时，输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
 :math:`out_i = min(tensor_i, other_i)`
 
@@ -2762,18 +2761,18 @@ add_docstr(torch._C.ne,
            """
 ne(input, other, out=None) -> Tensor
 
-逐元素比较``input``和``other`` ， 即是否**$tensor != other$** 如果两个张量有相同的形状和元素值，则返回``True`` ，否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$tensor != other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` , 否则 ``False`` .
 
 第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>`为和第一个参数相同类型的张量。 
+:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量. 
 
 参数：
     input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或float值
-    out (Tensor, optional):  输出张量。必须为``ByteTensor``或者与第一个参数``tensor``相同类型。  
+    other (Tensor or float):  对比的张量或 float 值
+    out (Tensor, optional):  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.  
 
 返回值：
-    张量:  一个``torch.ByteTensor``张量，包含了每个位置的比较结果(是否 input != other )。 
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果 (是否 input != other ) .  
     
 返回类型：``Tensor``
 
@@ -3919,20 +3918,20 @@ add_docstr(torch._C.sort,
            """
 sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 
-对输入张量:attr:`input`沿着指定维按升序排序。
+对输入张量 :attr:`input` 沿着指定维按升序排序. 
 
-如果不给定:attr:`dim`，则默认为输入的最后一维。
+如果不给定 :attr:`dim` ,则默认为输入的最后一维. 
 
-如果指定参数:attr:`descending`为``True``，则按降序排序。
+如果指定参数 :attr:`descending` 为 ``True`` , 则按降序排序. 
 
 
 返回元组 (sorted_tensor, sorted_indices) ， sorted_indices 为原始输入中的下标。
 
 参数:
-    input (Tensor) – 要对比的张量
-    dim (int, optional) – 沿着此维排序
-    descending (bool, optional) – 布尔值，控制升降排序
-    out (tuple, optional) – 输出张量。必须为ByteTensor或者与第一个参数tensor相同类型。
+    input (Tensor) : 要对比的张量
+    dim (int, optional) : 沿着此维排序
+    descending (bool, optional) : 布尔值，控制升降排序
+    out (tuple, optional) : 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型。
 
 例子::
 
@@ -4403,19 +4402,15 @@ add_docstr(torch._C.topk,
            """
 topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTensor)
 
-沿给定dim维度返回输入张量:attr:`input`中:attr:`k` 个最大值。
-
-如果不指定:attr:`dim`，则默认为`input`的最后一维。
-
-如果为:attr:`largest`为``False`` ，则返回最小的`k` 个值。
-
-返回一个元组 `(values, indices)`，其中indices是原始输入张量input中测元素下标。
-
-如果设定布尔值:attr:`sorted`  为``True``，将会确保返回的`k` 个值被排序。
+沿给定 dim 维度返回输入张量 :attr:`input`中:attr:`k` 个最大值.
+如果不指定 :attr:`dim` , 则默认为 `input` 的最后一维. 
+如果为 :attr:`largest` 为 ``False`` ,则返回最小的 `k` 个值.
+返回一个元组 `(values, indices)` , 其中 indices 是原始输入张量 input 中测元素下标.
+如果设定布尔值 :attr:`sorted`  为 ``True`` , 将会确保返回的 `k` 个值被排序. 
 
 参数:  
     input (Tensor)： 输入张量
-    k (int)： “top-k”中的k
+    k (int)： "top-k" 中的 k
     dim (int, optional)： 排序的维
     largest (bool, optional)： 布尔值，控制返回最大或最小值
     sorted (bool, optional)： 布尔值，控制返回值是否排序
