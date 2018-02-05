@@ -1,120 +1,92 @@
 # -*- coding: utf-8 -*-
 r"""
-Advanced: Making Dynamic Decisions and the Bi-LSTM CRF
+高级教程: 作出动态决策和Bi-LSTM CRF
 ======================================================
 
-Dynamic versus Static Deep Learning Toolkits
+动态 VS 静态深度学习工具集
 --------------------------------------------
 
-Pytorch is a *dynamic* neural network kit. Another example of a dynamic
-kit is `Dynet <https://github.com/clab/dynet>`__ (I mention this because
-working with Pytorch and Dynet is similar. If you see an example in
-Dynet, it will probably help you implement it in Pytorch). The opposite
-is the *static* tool kit, which includes Theano, Keras, TensorFlow, etc.
-The core difference is the following:
+Pytorch是一个*动态*神经网络工具包。另一个动态工具包的例子是
+`Dynet <https://github.com/clab/dynet>`__ (我之所以提这个是因为使用Pytorch和Dynet是十分类似的。
+如果你看过Dynet中的例子，那么它将有可能对你在Pytorch下实现它有帮助）。与动态相反的是*静态*工具包，
+包括了Theano、Keras、TensorFlow等等。
+下面是这两者核心的一些区别：
 
-* In a static toolkit, you define
-  a computation graph once, compile it, and then stream instances to it.
-* In a dynamic toolkit, you define a computation graph *for each
-  instance*. It is never compiled and is executed on-the-fly
+* 在一个静态工具包中，你一次性定义好一个计算图，接着编译它，然后把数据流输实例送进去。
+* 在一个动态工具包中，你*为每一个实例*定义一个计算图，它完全不需要被编译并且是在运行中实时执行的。
 
-Without a lot of experience, it is difficult to appreciate the
-difference. One example is to suppose we want to build a deep
-constituent parser. Suppose our model involves roughly the following
-steps:
+若没有丰富的经验，你很难体会出其中的差别。举一个例子，假设我们想要构建一个深度句法分析器。
+那么我们的模型需要下列的一些步骤：
 
-* We build the tree bottom up
-* Tag the root nodes (the words of the sentence)
-* From there, use a neural network and the embeddings
-  of the words to find combinations that form constituents. Whenever you
-  form a new constituent, use some sort of technique to get an embedding
-  of the constituent. In this case, our network architecture will depend
-  completely on the input sentence. In the sentence "The green cat
-  scratched the wall", at some point in the model, we will want to combine
-  the span :math:`(i,j,r) = (1, 3, \text{NP})` (that is, an NP constituent
-  spans word 1 to word 3, in this case "The green cat").
+* 我们从下往上构建树
+* 标注根节点（句子中的词语）
+* 从那儿开始，使用一个神经网络和词向量来找到组成句法的不同组合。一旦当你形成了一个新的
+  句法，使用某种方式得到句法的嵌入表示（embedding）。在这个例子里，我们的网络架构将会
+  完全的依赖于输入的句子。来看这个句子：“绿色猫抓了墙”，在这个模型的某一节点，我们想要把范围
+  :math:`(i,j,r) = (1, 3, \text{NP})`合并起来（即，一个NP句法范围跨越词1到词3，
+  在这个例子中是“绿色猫”）。
 
-However, another sentence might be "Somewhere, the big fat cat scratched
-the wall". In this sentence, we will want to form the constituent
-:math:`(2, 4, NP)` at some point. The constituents we will want to form
-will depend on the instance. If we just compile the computation graph
-once, as in a static toolkit, it will be exceptionally difficult or
-impossible to program this logic. In a dynamic toolkit though, there
-isn't just 1 pre-defined computation graph. There can be a new
-computation graph for each instance, so this problem goes away.
+然而，另一个句子可能是“某处，那个大肥猫抓了墙。”在这个句子中，我们想要在某点形成句法
+:math:`(2, 4, NP)`。我们想要形成的句法将会依赖于这个实例。如果仅仅编译这个计算图一次，
+就像在静态工具包中那样，那么我们给这个逻辑编程将会变得十分困难或者根本不可能。然而，在一个动态工具包中，
+并不仅仅只有一个预定义的计算图。对于每一个实例，都能够有一个新的计算图，所以上面的问题就不复存在了。
 
-Dynamic toolkits also have the advantage of being easier to debug and
-the code more closely resembling the host language (by that I mean that
-Pytorch and Dynet look more like actual Python code than Keras or
-Theano).
+动态工具包也具有更容易调试和更接近所使用的编程语言的特点（我的意思是Pytorch和Dynet看上去
+比Keras和Theano更像Python）。
 
-Bi-LSTM Conditional Random Field Discussion
+
+Bi-LSTM CRF（条件随机场） 讨论
 -------------------------------------------
 
-For this section, we will see a full, complicated example of a Bi-LSTM
-Conditional Random Field for named-entity recognition. The LSTM tagger
-above is typically sufficient for part-of-speech tagging, but a sequence
-model like the CRF is really essential for strong performance on NER.
-Familiarity with CRF's is assumed. Although this name sounds scary, all
-the model is is a CRF but where an LSTM provides the features. This is
-an advanced model though, far more complicated than any earlier model in
-this tutorial. If you want to skip it, that is fine. To see if you're
-ready, see if you can:
+在这一部分，我们将会看到一个完整且复杂的Bi-LSTM CRF（条件随机场）用来命名实体识别（NER）的例子。
+上面的LSTM标注工具通常情况下对词性标注已经足够用了，但一个序列模型比如CRF对于在NER下取得
+强劲的表现是至关重要的。假设熟悉CRF。尽管这个名字听上去吓人，但所有的模型只是一个由LSTM提供
+特征的CRF。但这是一个高级的模型，远比这个教程中的其它早期的模型更加复杂。如果你要跳过这一部分，
+没有关系。想要确定你是否准备好，那看看你是不是能够：
 
--  Write the recurrence for the viterbi variable at step i for tag k.
--  Modify the above recurrence to compute the forward variables instead.
--  Modify again the above recurrence to compute the forward variables in
-   log-space (hint: log-sum-exp)
+-  复现标签k的第i步维特比变量的算法。
+-  修改上述循环来计算正向变量。
+-  再一次修改上述复现来在对数空间中计算正向变量。（提示：对数-求和-指数）
 
-If you can do those three things, you should be able to understand the
-code below. Recall that the CRF computes a conditional probability. Let
-:math:`y` be a tag sequence and :math:`x` an input sequence of words.
-Then we compute
+如果你能够完成以上三件事，那么你就不难理解下面的代码了。回想一下，CRF计算的是一个条件概率。
+让:math:`y`作为一个标注序列，:math:`x`作为某个词的输入序列。接下来我们计算：
 
 .. math::  P(y|x) = \frac{\exp{(\text{Score}(x, y)})}{\sum_{y'} \exp{(\text{Score}(x, y')})}
 
-Where the score is determined by defining some log potentials
-:math:`\log \psi_i(x,y)` such that
+上面的分数Score是由定义一些对数势能
+:math:`\log \psi_i(x,y)`而决定的。进而
 
 .. math::  \text{Score}(x,y) = \sum_i \log \psi_i(x,y)
 
-To make the partition function tractable, the potentials must look only
-at local features.
+要使分割函数易于掌控，势能必须只能集中于局部的特征。
 
-In the Bi-LSTM CRF, we define two kinds of potentials: emission and
-transition. The emission potential for the word at index :math:`i` comes
-from the hidden state of the Bi-LSTM at timestep :math:`i`. The
-transition scores are stored in a :math:`|T|x|T|` matrix
-:math:`\textbf{P}`, where :math:`T` is the tag set. In my
-implementation, :math:`\textbf{P}_{j,k}` is the score of transitioning
-to tag :math:`j` from tag :math:`k`. So:
+
+在Bi-LSTM CRF中，我们定义两种势能（potential）：释放（emission）和过渡（transition）。
+索引:math:`i`处字的释放势能来自于:math:`i`时间处的Bi-LSTM的隐藏状态。
+过渡势能的分数储存在:math:`|T|x|T|`矩阵:math:`\textbf{P}`，其中
+:math:`T`是标注集合。在我的实现中，:math:`\textbf{P}_{j,k}`是从标注:math:`k`过渡到
+标注:math:`j`的得分。因此：
 
 .. math::  \text{Score}(x,y) = \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)
 
 .. math::  = \sum_i h_i[y_i] + \textbf{P}_{y_i, y_{i-1}}
 
-where in this second expression, we think of the tags as being assigned
-unique non-negative indices.
+在上面第二个表达式中，我们认为标签被分配了独一无二的非负索引。
 
-If the above discussion was too brief, you can check out
-`this <http://www.cs.columbia.edu/%7Emcollins/crf.pdf>`__ write up from
-Michael Collins on CRFs.
+如果上面的讨论太简短了，你还可以看看`这个 <http://www.cs.columbia.edu/%7Emcollins/crf.pdf>`__ 
+由Michael Collins写的关于CRFs的文章。
 
-Implementation Notes
+具体实现笔记
 --------------------
 
-The example below implements the forward algorithm in log space to
-compute the partition function, and the viterbi algorithm to decode.
-Backpropagation will compute the gradients automatically for us. We
-don't have to do anything by hand.
+下面的例子实现了在对数空间中的前向算法来计算出分割函数和维特比算法来进行译码。
+反向传播将会为我们自动计算出梯度。我们不需要手动去实现这个。
 
-The implementation is not optimized. If you understand what is going on,
-you'll probably quickly see that iterating over the next tag in the
-forward algorithm could probably be done in one big operation. I wanted
-to code to be more readable. If you want to make the relevant change,
-you could probably use this tagger for real tasks.
+这个代码中的实现并没有优化过。如果你理解下面的过程，也许你会觉得下面的代码中，前向算法中
+的迭代下一次标注可以在一次大的运算中完成。虽然有简化的余地，但我想的是让代码可读性更好。
+如果你想进行相关的修改，也许你可以在一些真实的任务中使用这个标注器。
 """
-# Author: Robert Guthrie
+# 作者: Robert Guthrie
 
 import torch
 import torch.autograd as autograd
@@ -124,16 +96,16 @@ import torch.optim as optim
 torch.manual_seed(1)
 
 #####################################################################
-# Helper functions to make the code more readable.
+# 一些帮助函数，使代码可读性更好
 
 
 def to_scalar(var):
-    # returns a python float
+    # 返回python浮点数(float)
     return var.view(-1).data.tolist()[0]
 
 
 def argmax(vec):
-    # return the argmax as a python int
+    # 以python整数的形式返回argmax
     _, idx = torch.max(vec, 1)
     return to_scalar(idx)
 
@@ -144,7 +116,7 @@ def prepare_sequence(seq, to_ix):
     return autograd.Variable(tensor)
 
 
-# Compute log sum exp in a numerically stable way for the forward algorithm
+# 使用数值上稳定的方法为前向算法计算指数和的对数
 def log_sum_exp(vec):
     max_score = vec[0, argmax(vec)]
     max_score_broadcast = max_score.view(1, -1).expand(1, vec.size()[1])
@@ -152,7 +124,7 @@ def log_sum_exp(vec):
         torch.log(torch.sum(torch.exp(vec - max_score_broadcast)))
 
 #####################################################################
-# Create model
+# 创建模型
 
 
 class BiLSTM_CRF(nn.Module):
@@ -169,16 +141,16 @@ class BiLSTM_CRF(nn.Module):
         self.lstm = nn.LSTM(embedding_dim, hidden_dim // 2,
                             num_layers=1, bidirectional=True)
 
-        # Maps the output of the LSTM into tag space.
+        # 将LSTM的输出映射到标记空间
         self.hidden2tag = nn.Linear(hidden_dim, self.tagset_size)
 
-        # Matrix of transition parameters.  Entry i,j is the score of
-        # transitioning *to* i *from* j.
+        # 过渡参数矩阵。条目i,j是
+        # *从*j*到*i的过渡的分数
         self.transitions = nn.Parameter(
             torch.randn(self.tagset_size, self.tagset_size))
 
-        # These two statements enforce the constraint that we never transfer
-        # to the start tag and we never transfer from the stop tag 
+        # 这两句声明强制约束了我们不能
+        # 向开始标记标注传递和从结束标注传递
         self.transitions.data[tag_to_ix[START_TAG], :] = -10000
         self.transitions.data[:, tag_to_ix[STOP_TAG]] = -10000
 
@@ -189,30 +161,30 @@ class BiLSTM_CRF(nn.Module):
                 autograd.Variable(torch.randn(2, 1, self.hidden_dim // 2)))
 
     def _forward_alg(self, feats):
-        # Do the forward algorithm to compute the partition function
+        # 执行前向算法来计算分割函数
         init_alphas = torch.Tensor(1, self.tagset_size).fill_(-10000.)
-        # START_TAG has all of the score.
+        # START_TAG包含所有的分数
         init_alphas[0][self.tag_to_ix[START_TAG]] = 0.
 
-        # Wrap in a variable so that we will get automatic backprop
+        # 将其包在一个变量类型中继而得到自动的反向传播
         forward_var = autograd.Variable(init_alphas)
 
-        # Iterate through the sentence
+        # 在句子中迭代
         for feat in feats:
-            alphas_t = []  # The forward variables at this timestep
+            alphas_t = []  # 在这个时间步的前向变量
             for next_tag in range(self.tagset_size):
-                # broadcast the emission score: it is the same regardless of
-                # the previous tag
+                # 对emission得分执行广播机制： 它总是相同的，
+                # 不论前一个标注如何
                 emit_score = feat[next_tag].view(
                     1, -1).expand(1, self.tagset_size)
-                # the ith entry of trans_score is the score of transitioning to
-                # next_tag from i
+                # trans_score第i个条目是
+                # 从i过渡到next_tag的分数
                 trans_score = self.transitions[next_tag].view(1, -1)
-                # The ith entry of next_tag_var is the value for the
-                # edge (i -> next_tag) before we do log-sum-exp
+                # next_tag_var第i个条目是在我们执行 对数-求和-指数 前
+                # 边缘的值(i -> next_tag)
                 next_tag_var = forward_var + trans_score + emit_score
-                # The forward variable for this tag is log-sum-exp of all the
-                # scores.
+                # 这个标注的前向变量是
+                # 对所有的分数执行 对数-求和-指数
                 alphas_t.append(log_sum_exp(next_tag_var))
             forward_var = torch.cat(alphas_t).view(1, -1)
         terminal_var = forward_var + self.transitions[self.tag_to_ix[STOP_TAG]]
@@ -228,7 +200,7 @@ class BiLSTM_CRF(nn.Module):
         return lstm_feats
 
     def _score_sentence(self, feats, tags):
-        # Gives the score of a provided tag sequence
+        # 给出标记序列的分数
         score = autograd.Variable(torch.Tensor([0]))
         tags = torch.cat([torch.LongTensor([self.tag_to_ix[START_TAG]]), tags])
         for i, feat in enumerate(feats):
@@ -240,44 +212,44 @@ class BiLSTM_CRF(nn.Module):
     def _viterbi_decode(self, feats):
         backpointers = []
 
-        # Initialize the viterbi variables in log space
+        # 在对数空间中初始化维特比变量
         init_vvars = torch.Tensor(1, self.tagset_size).fill_(-10000.)
         init_vvars[0][self.tag_to_ix[START_TAG]] = 0
 
-        # forward_var at step i holds the viterbi variables for step i-1
+        # 在第i步的forward_var存放第i-1步的维特比变量
         forward_var = autograd.Variable(init_vvars)
         for feat in feats:
-            bptrs_t = []  # holds the backpointers for this step
-            viterbivars_t = []  # holds the viterbi variables for this step
+            bptrs_t = []  # 存放这一步的后指针
+            viterbivars_t = []  # 存放这一步的维特比变量
 
             for next_tag in range(self.tagset_size):
-                # next_tag_var[i] holds the viterbi variable for tag i at the
-                # previous step, plus the score of transitioning
-                # from tag i to next_tag.
-                # We don't include the emission scores here because the max
-                # does not depend on them (we add them in below)
+                # next_tag_var[i]存放先前一步标注i的
+                # 维特比变量，加上了从标注i到next_tag的过渡
+                # 的分数
+                # 我们在这里并没有将emission分数包含进来，因为
+                # 最大值并不依赖于它们（我们在下面对它们进行的是相加）
                 next_tag_var = forward_var + self.transitions[next_tag]
                 best_tag_id = argmax(next_tag_var)
                 bptrs_t.append(best_tag_id)
                 viterbivars_t.append(next_tag_var[0][best_tag_id])
-            # Now add in the emission scores, and assign forward_var to the set
-            # of viterbi variables we just computed
+            # 现在将所有emission得分相加，将forward_var
+            # 赋值到我们刚刚计算出来的维特比变量集合
             forward_var = (torch.cat(viterbivars_t) + feat).view(1, -1)
             backpointers.append(bptrs_t)
 
-        # Transition to STOP_TAG
+        # 过渡到STOP_TAG
         terminal_var = forward_var + self.transitions[self.tag_to_ix[STOP_TAG]]
         best_tag_id = argmax(terminal_var)
         path_score = terminal_var[0][best_tag_id]
 
-        # Follow the back pointers to decode the best path.
+        # 跟着后指针去解码最佳路径
         best_path = [best_tag_id]
         for bptrs_t in reversed(backpointers):
             best_tag_id = bptrs_t[best_tag_id]
             best_path.append(best_tag_id)
-        # Pop off the start tag (we dont want to return that to the caller)
+        # 弹出开始的标签 (我们并不希望把这个返回到调用函数)
         start = best_path.pop()
-        assert start == self.tag_to_ix[START_TAG]  # Sanity check
+        assert start == self.tag_to_ix[START_TAG]  # 健全性检查
         best_path.reverse()
         return path_score, best_path
 
@@ -287,16 +259,16 @@ class BiLSTM_CRF(nn.Module):
         gold_score = self._score_sentence(feats, tags)
         return forward_score - gold_score
 
-    def forward(self, sentence):  # dont confuse this with _forward_alg above.
-        # Get the emission scores from the BiLSTM
+    def forward(self, sentence):  # 不要把这和上面的_forward_alg混淆
+        # 得到BiLSTM输出分数
         lstm_feats = self._get_lstm_features(sentence)
 
-        # Find the best path, given the features.
+        # 给定特征，找到最好的路径
         score, tag_seq = self._viterbi_decode(lstm_feats)
         return score, tag_seq
 
 #####################################################################
-# Run training
+# 运行训练
 
 
 START_TAG = "<START>"
@@ -304,7 +276,7 @@ STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 5
 HIDDEN_DIM = 4
 
-# Make up some training data
+# 编造一些训练数据
 training_data = [(
     "the wall street journal reported today that apple corporation made money".split(),
     "B I I I O O O B I O O".split()
@@ -324,55 +296,50 @@ tag_to_ix = {"B": 0, "I": 1, "O": 2, START_TAG: 3, STOP_TAG: 4}
 model = BiLSTM_CRF(len(word_to_ix), tag_to_ix, EMBEDDING_DIM, HIDDEN_DIM)
 optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=1e-4)
 
-# Check predictions before training
+# 在训练之前检查预测结果
 precheck_sent = prepare_sequence(training_data[0][0], word_to_ix)
 precheck_tags = torch.LongTensor([tag_to_ix[t] for t in training_data[0][1]])
 print(model(precheck_sent))
 
-# Make sure prepare_sequence from earlier in the LSTM section is loaded
+# 确认从之前的LSTM部分的prepare_sequence被加载了
 for epoch in range(
-        300):  # again, normally you would NOT do 300 epochs, it is toy data
+        300):  # 又一次，正常情况下你不会训练300个epoch，这只是示例数据
     for sentence, tags in training_data:
-        # Step 1. Remember that Pytorch accumulates gradients.
-        # We need to clear them out before each instance
+        # 第一步：需要记住的是Pytorch会累积梯度
+        # 我们需要在每次实例之前把它们清除
         model.zero_grad()
 
-        # Step 2. Get our inputs ready for the network, that is,
-        # turn them into Variables of word indices.
+        # 第二步：为我们的网络准备好输入，即
+        # 把它们转变成单词索引变量（Variables）
         sentence_in = prepare_sequence(sentence, word_to_ix)
         targets = torch.LongTensor([tag_to_ix[t] for t in tags])
 
-        # Step 3. Run our forward pass.
+        # 第三步： 运行前向传递。
         neg_log_likelihood = model.neg_log_likelihood(sentence_in, targets)
 
-        # Step 4. Compute the loss, gradients, and update the parameters by
-        # calling optimizer.step()
+        # 第四步： 计算损失、梯度以及
+        # 使用optimizer.step()来更新参数
         neg_log_likelihood.backward()
         optimizer.step()
 
-# Check predictions after training
+# 在训练之后检查预测结果
 precheck_sent = prepare_sequence(training_data[0][0], word_to_ix)
 print(model(precheck_sent))
-# We got it!
+# 我们完成了！
 
 
 ######################################################################
-# Exercise: A new loss function for discriminative tagging
+# 练习： 为区别性标注定义一个新的损失函数
 # --------------------------------------------------------
 #
-# It wasn't really necessary for us to create a computation graph when
-# doing decoding, since we do not backpropagate from the viterbi path
-# score. Since we have it anyway, try training the tagger where the loss
-# function is the difference between the Viterbi path score and the score
-# of the gold-standard path. It should be clear that this function is
-# non-negative and 0 when the predicted tag sequence is the correct tag
-# sequence. This is essentially *structured perceptron*.
+# 在解码的时候，我们不一定需要创建一个计算图，因为我们并不从维特比路径分数中做反向传播。
+# 不管怎样，既然我们有了它，尝试训练这个标注器，使其损失函数是维特比路径分数和黄金标准分数之差。
+# 需要弄清楚的是，这个函数在预测标注序列是正确的时候应当大于等于0。
+# 这本质上是*结构化感知机*。
 #
-# This modification should be short, since Viterbi and score\_sentence are
-# already implemented. This is an example of the shape of the computation
-# graph *depending on the training instance*. Although I haven't tried
-# implementing this in a static toolkit, I imagine that it is possible but
-# much less straightforward.
+# 这个改动应当是很简短的，因为Viterbi和score\_sentence是已经实现好了的。
+# 这是*依赖于训练实例的*计算图的形状的一个例子。但我们并没有尝试过在一个静态工具包上实现过，
+# 我想象中这是可行的但并不是很显而易见。
 #
-# Pick up some real data and do a comparison!
+# 找一些真实数据做一下比较吧！
 #
