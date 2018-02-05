@@ -14,6 +14,9 @@ PyTorch的核心部分提供了两个主要功能：
 
 .. 注意::
 	你可以在这个 `页面的末尾 <examples-download>`_ 浏览单独的例子。
+.. Note::
+  You can browse the individual examples at the
+	:ref:`end of this page <examples-download>`.
 
 .. contents:: Table of Contents
   :local:
