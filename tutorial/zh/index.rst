@@ -130,3 +130,10 @@
    advanced/numpy_extensions_tutorial
    advanced/super_resolution_with_caffe2
    advanced/c_extension
+
+.. toctree::
+   :maxdepth: 1
+   :caption: 项目相关
+
+   项目贡献者 <project-contributors>
+   组织学习交流群 <apachecn-learning-group>
