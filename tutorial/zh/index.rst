@@ -1,25 +1,20 @@
-Welcome to PyTorch Tutorials
+欢迎阅读 PyTorch 中文教程
 ============================
 
-To get started with learning PyTorch, start with our Beginner Tutorials.
-The :doc:`60-minute blitz </beginner/deep_learning_60min_blitz>` is the most common
-starting point, and gives you a quick introduction to PyTorch.
-If you like learning by examples, you will like the tutorial
-:doc:`/beginner/pytorch_with_examples`
+要开始学习 PyTorch, 可以从我们的初学者教程开始.
+一般从 :doc:`60 分钟极速入门教程 </beginner/deep_learning_60min_blitz>` 开始, 它可以让你快速的了解 PyTorch.
+如果你喜欢通过例子来学习, 你会喜欢上这个
+:doc:`/beginner/pytorch_with_examples` 教程.
 
-If you would like to do the tutorials interactively via IPython / Jupyter,
-each tutorial has a download link for a Jupyter Notebook and Python source code.
+如果您想通过 IPython / Jupyter 交互式地完成该教程,
+每个教程都有一个 Jupyter Notebook 和 Python 源代码的下载链接.
 
-We also provide a lot of high-quality examples covering image classification,
-unsupervised learning, reinforcement learning, machine translation and
-many other applications at https://github.com/pytorch/examples/
+我们还提供了很多高质量的例子, 涵盖图像分类, 无监督学习, 强化学习, 机器翻译以及许多其它的应用场景, 请访问 https://github.com/pytorch/examples/
 
-You can find reference documentation for PyTorch's API and layers at
-http://docs.pytorch.org or via inline help.
-If you would like the tutorials section improved, please open a github issue
-here with your feedback: https://github.com/pytorch/tutorials
+你可以在 http://pytorch.apachecn.org/cn/docs/0.3.0 或通过内置的帮助找到 PyTorch API 和神经网络层的参考文档.
+如果您希望该教程部分有所改进, 请打开一个 github issue 附上你的反馈: https://github.com/apachecn/pytorch
 
-Beginner Tutorials
+初学者教程
 ------------------
 
 .. customgalleryitem::
@@ -55,7 +50,7 @@ Beginner Tutorials
    :maxdepth: 2
    :hidden:
    :includehidden:
-   :caption: Beginner Tutorials
+   :caption: 初学者教程
 
    beginner/deep_learning_60min_blitz
    beginner/former_torchies_tutorial
@@ -64,7 +59,7 @@ Beginner Tutorials
    beginner/data_loading_tutorial
    beginner/deep_learning_nlp_tutorial
 
-Intermediate Tutorials
+中级教程
 ----------------------
 
 .. galleryitem:: intermediate/char_rnn_classification_tutorial.py
@@ -95,7 +90,7 @@ Intermediate Tutorials
    :maxdepth: 2
    :includehidden:
    :hidden:
-   :caption: Intermediate Tutorials
+   :caption: 中级教程
 
    intermediate/char_rnn_classification_tutorial
    intermediate/char_rnn_generation_tutorial
@@ -105,7 +100,7 @@ Intermediate Tutorials
    intermediate/spatial_transformer_tutorial
 
 
-Advanced Tutorials
+高级教程
 ------------------
 
 .. galleryitem:: advanced/neural_style_tutorial.py
@@ -129,9 +124,16 @@ Advanced Tutorials
    :maxdepth: 2
    :includehidden:
    :hidden:
-   :caption: Advanced Tutorials
+   :caption: 高级教程
 
    advanced/neural_style_tutorial
    advanced/numpy_extensions_tutorial
    advanced/super_resolution_with_caffe2
    advanced/c_extension
+
+.. toctree::
+   :maxdepth: 1
+   :caption: 项目相关
+
+   项目贡献者 <project-contributors>
+   组织学习交流群 <apachecn-learning-group>

@@ -1,71 +1,68 @@
 # -*- coding: utf-8 -*-
 """
-What is PyTorch?
+PyTorch 是什么？
 ================
 
-It’s a Python based scientific computing package targeted at two sets of
-audiences:
+它是一个基于 Python 的科学计算包, 其主要是为了解决两类场景:
 
--  A replacement for NumPy to use the power of GPUs
--  a deep learning research platform that provides maximum flexibility
-   and speed
+-  NumPy 的替代品, 以使用 GPU 的强大加速功能
+-  一个深度学习研究平台, 提供最大的灵活性和速度
 
-Getting Started
+新手入门
 ---------------
 
-Tensors
-^^^^^^^
+Tensors（张量）
+^^^^^^^^^^^^^^^
 
-Tensors are similar to NumPy’s ndarrays, with the addition being that
-Tensors can also be used on a GPU to accelerate computing.
+Tensors 与 NumPy 的 ndarrays 非常相似, 除此之外还可以在 GPU 上使用张量来加速计算.
 """
 
 from __future__ import print_function
 import torch
 
 ###############################################################
-# Construct a 5x3 matrix, uninitialized:
+# 构建一个 5x3 的矩阵, 未初始化的:
 
 x = torch.Tensor(5, 3)
 print(x)
 
 ###############################################################
-# Construct a randomly initialized matrix:
+# 构建一个随机初始化的矩阵:
 
 x = torch.rand(5, 3)
 print(x)
 
 ###############################################################
-# Get its size:
+# 获得 size:
 
 print(x.size())
 
 ###############################################################
 # .. note::
-#     ``torch.Size`` is in fact a tuple, so it supports all tuple operations.
+#     ``torch.Size`` 实际上是一个 tuple（元组）, 所以它支持所有 tuple（元组）的操作.
 #
-# Operations
+# 操作
 # ^^^^^^^^^^
-# There are multiple syntaxes for operations. In the following
-# example, we will take a look at the addition operation.
+# 针对操作有许多语法.
+# 在下面的例子中, 我们来看看加法运算.
 #
-# Addition: syntax 1
+# 加法: 语法 1
 y = torch.rand(5, 3)
 print(x + y)
 
 ###############################################################
-# Addition: syntax 2
+# 加法: 语法 2
 
 print(torch.add(x, y))
 
 ###############################################################
-# Addition: providing an output tensor as argument
+# 加法: 提供一个 output tensor 作为参数
 result = torch.Tensor(5, 3)
 torch.add(x, y, out=result)
 print(result)
 
 ###############################################################
-# Addition: in-place
+# 加法: in-place（就地操作）
 
 # adds x to y
 y.add_(x)
@@ -73,38 +70,38 @@ print(y)
 
 ###############################################################
 # .. note::
-#     Any operation that mutates a tensor in-place is post-fixed with an ``_``.
-#     For example: ``x.copy_(y)``, ``x.t_()``, will change ``x``.
+#     任何改变张量的操作方法都是以后缀 ``_`` 结尾的.
+#     例如: ``x.copy_(y)``, ``x.t_()``, 将替换 ``x``.
 #
 # You can use standard NumPy-like indexing with all bells and whistles!
 
 print(x[:, 1])
 
 ###############################################################
-# Resizing: If you want to resize/reshape tensor, you can use ``torch.view``:
+# 改变大小: 如果你想要去 resize/reshape tensor, 可以使用 ``torch.view``:
 x = torch.randn(4, 4)
 y = x.view(16)
 z = x.view(-1, 8)  # the size -1 is inferred from other dimensions
 print(x.size(), y.size(), z.size())
 
 ###############################################################
-# **Read later:**
+# **稍候阅读:**
 #
 #
-#   100+ Tensor operations, including transposing, indexing, slicing,
-#   mathematical operations, linear algebra, random numbers, etc.,
-#   are described
-#   `here <http://pytorch.org/docs/torch>`_.
+#   100+ Tensor 操作, 包括换位, 索引, 切片,
+#   数学运算, 线性代数, 随机数, 等等.,
+#   都在
+#   `这里 <http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html>`_ 有描述.
 #
 # NumPy Bridge
 # ------------
 #
-# Converting a Torch Tensor to a NumPy array and vice versa is a breeze.
+# 将一个 Torch Tensor 转换为 NumPy 数组, 反之亦然.
 #
-# The Torch Tensor and NumPy array will share their underlying memory
-# locations, and changing one will change the other.
+# Torch Tensor 和 NumPy 数组将会共享他们的 will share their 潜在内存位置,
+# 改变一个另一个也会跟着改变.
 #
-# Converting a Torch Tensor to a NumPy Array
+# 转换一个 Torch Tensor 为 NumPy 数组
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 a = torch.ones(5)
@@ -118,16 +115,16 @@ b = a.numpy()
 print(b)
 
 ###############################################################
-# See how the numpy array changed in value.
+# 查看 numpy 数组是如何改变的.
 
 a.add_(1)
 print(a)
 print(b)
 
 ###############################################################
-# Converting NumPy Array to Torch Tensor
+# 转换 NumPy 数组为 Torch Tensor
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# See how changing the np array changed the Torch Tensor automatically
+# 看看改变 np 数组之后 Torch Tensor 是如何自动改变的
 
 import numpy as np
 a = np.ones(5)
@@ -137,15 +134,14 @@ print(a)
 print(b)
 
 ###############################################################
-# All the Tensors on the CPU except a CharTensor support converting to
-# NumPy and back.
+# 除了 CharTensor 之外, CPU 上的所有 Tensor 都支持转换为 NumPy 并且回退
 #
 # CUDA Tensors
 # ------------
 #
-# Tensors can be moved onto GPU using the ``.cuda`` method.
+# 可以使用 ``.cuda`` 方法将 Tensors 移动到 GPU 之上.
 
-# let us run this cell only if CUDA is available
+# 只要在  CUDA 是可用的情况下, 我们可以运行这段代码
 if torch.cuda.is_available():
     x = x.cuda()
     y = y.cuda()
