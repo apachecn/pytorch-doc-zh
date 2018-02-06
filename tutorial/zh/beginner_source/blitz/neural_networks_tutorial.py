@@ -3,7 +3,7 @@
 神经网络
 ===============
 
-神经网络可以使用``torch.nn``包构建.
+神经网络可以使用 ``torch.nn`` 包构建.
 
 ``autograd`` 实现了反向传播功能, 但是直接用来写深度学习的代码在很多情况下还是稍显复杂，
 ``torch.nn`` 是专门为神经网络设计的模块化接口. nn构建于 Autograd之上, 可用来定义和运行神经网络.
@@ -102,10 +102,9 @@ out.backward(torch.randn(1, 10))
 ########################################################################
 # .. note::
 #
-#     ``torch.nn`` 只支持小批量(mini-batches), 不支持一次输入一个样本, 即一次必须是一个 batch.
+#    ``torch.nn`` 只支持小批量(mini-batches), 不支持一次输入一个样本, 即一次必须是一个 batch.
 #
-#     例如, ``nn.Conv2d`` 的输入必须是 4 维的, 形如
-#     ``nSamples x nChannels x Height x Width``.
+#    例如, ``nn.Conv2d`` 的输入必须是 4 维的, 形如 ``nSamples x nChannels x Height x Width``.
 #
 #    如果你只想输入一个样本, 需要使用 ``input.unsqueeze(0)`` 将 batch_size 设置为 1.
 #
