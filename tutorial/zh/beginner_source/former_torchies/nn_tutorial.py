@@ -92,7 +92,7 @@ net = MNISTConvNet()
 print(net)
 
 ########################################################################
-# .. 注意::
+# .. note::
 #
 #     ``torch.nn`` 只支持 mini-batches, 整个 ``torch.nn`` package
 #     只支持 mini-batch 样本的输入, 而不支持单个样本.
