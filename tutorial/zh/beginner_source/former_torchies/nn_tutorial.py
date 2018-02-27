@@ -3,25 +3,24 @@
 nn package
 ==========
 
-We’ve redesigned the nn package, so that it’s fully integrated with
-autograd. Let's review the changes.
+我们重新设计了 nn package, 以便与 autograd 完全集成.
+让我们来回顾一下这些变化.
 
-**Replace containers with autograd:**
+**用 autograd 替换 containers:**
 
-    You no longer have to use Containers like ``ConcatTable``, or modules like
-    ``CAddTable``, or use and debug with nngraph. We will seamlessly use
-    autograd to define our neural networks. For example,
+    你不再需要使用像 ``ConcatTable`` 这样的 Containers, 或者像
+    ``CAddTable`` 这样的模块, 或者使用 nngraph 并且 debug. 我们将无缝地使用
+    autograd 来定义我们的神经网络. 例如,
 
-    * ``output = nn.CAddTable():forward({input1, input2})`` simply becomes
+    * ``output = nn.CAddTable():forward({input1, input2})`` 简单的变成了
       ``output = input1 + input2``
-    * ``output = nn.MulConstant(0.5):forward(input)`` simply becomes
+    * ``output = nn.MulConstant(0.5):forward(input)`` 简单的变成了
       ``output = input * 0.5``
 
-**State is no longer held in the module, but in the network graph:**
+**状态不再在模块中, 而是在网络图中:**
 
-    Using recurrent networks should be simpler because of this reason. If
-    you want to create a recurrent network, simply use the same Linear layer
-    multiple times, without having to think about sharing weights.
+    因为这个原因, 使用循环网络更加简单. 如果你想创建一个循环网络, 
+    只需多次使用相同的 Linear 层, 而不必考虑共享权重.
 
     .. figure:: /_static/img/torch-nn-vs-pytorch-nn.png
        :alt: torch-nn-vs-pytorch-nn
@@ -30,20 +29,18 @@ autograd. Let's review the changes.
 
 **Simplified debugging:**
 
-    Debugging is intuitive using Python’s pdb debugger, and **the debugger
-    and stack traces stop at exactly where an error occurred.** What you see
-    is what you get.
+    使用Python的pdb调试器进行调试是直观的, 调试器和堆栈跟踪在发生错误的地方停止.
+    What you see is what you get(你所看到的就是你得到的).
 
 Example 1: ConvNet
 ------------------
 
-Let’s see how to create a small ConvNet.
+让我们来创建一个小的 ConvNet.
 
-All of your networks are derived from the base class ``nn.Module``:
+你所有的网络都来自 ``nn.Module`` 基类:
 
--  In the constructor, you declare all the layers you want to use.
--  In the forward function, you define how your model is going to be
-   run, from input to output
+-  在构造函数中, 声明你想要使用的所有层.
+-  在 forward 函数中, 你可以定义模型从输入到输出将如何运行
 """
 
 import torch
@@ -55,9 +52,8 @@ import torch.nn.functional as F
 class MNISTConvNet(nn.Module):
 
     def __init__(self):
-        # this is the place where you instantiate all your modules
-        # you can later access them using the same names you've given them in
-        # here
+        # 这是你实例化所有模块的地方
+        # 你可以稍后使用你在此给出的相同名称访问它们
         super(MNISTConvNet, self).__init__()
         self.conv1 = nn.Conv2d(1, 10, 5)
         self.pool1 = nn.MaxPool2d(2, 2)
@@ -66,23 +62,19 @@ class MNISTConvNet(nn.Module):
         self.fc1 = nn.Linear(320, 50)
         self.fc2 = nn.Linear(50, 10)
 
-    # it's the forward function that defines the network structure
-    # we're accepting only a single input in here, but if you want,
-    # feel free to use more
+    # 这是 forward 函数, 它定义了我们在这里只接受一个输入的网络结构,
+    # 如果你愿意, 可以随意使用更多的输入.
     def forward(self, input):
         x = self.pool1(F.relu(self.conv1(input)))
         x = self.pool2(F.relu(self.conv2(x)))
 
-        # in your model definition you can go full crazy and use arbitrary
-        # python code to define your model structure
-        # all these are perfectly legal, and will be handled correctly
-        # by autograd:
+        # 在你的模型定义中, 你可以疯狂地使用任意的python代码来定义你的模型结构,
+        # 这些都是完全合法的, 并且会被autograd正确处理:
         # if x.gt(0) > x.numel() / 2:
         #      ...
         #
-        # you can even do a loop and reuse the same module inside it
-        # modules no longer hold ephemeral state, so you can use them
-        # multiple times during your forward pass
+        # 你甚至可以做一个循环, 并重复使用相同的模块, 模块内部的模块不再
+        # 处于临时状态, 所以你可以在 forward 时多次使用它们.
         # while x.norm(2) < 10:
         #    x = self.conv1(x)
 
@@ -92,8 +84,8 @@ class MNISTConvNet(nn.Module):
         return x
 
 ###############################################################
-# Let's use the defined ConvNet now.
-# You create an instance of the class first.
+# 现在让我们来使用定义好的 ConvNet.
+# 你应该先创建一个类的实例.
 
 
 net = MNISTConvNet()
@@ -102,25 +94,24 @@ print(net)
 ########################################################################
 # .. note::
 #
-#     ``torch.nn`` only supports mini-batches The entire ``torch.nn``
-#     package only supports inputs that are a mini-batch of samples, and not
-#     a single sample.
+#     ``torch.nn`` 只支持 mini-batches, 整个 ``torch.nn`` package
+#     只支持 mini-batch 样本的输入, 而不支持单个样本.
 #
-#     For example, ``nn.Conv2d`` will take in a 4D Tensor of
-#     ``nSamples x nChannels x Height x Width``.
+#     例如, ``nn.Conv2d`` 将采用 ``nSamples x nChannels x Height x Width`` 
+#     的 4D Tensor.
 #
-#     If you have a single sample, just use ``input.unsqueeze(0)`` to add
-#     a fake batch dimension.
+#     如果你有一个单个的样本, 只需使用 ``input.unsqueeze(0)`` 添加一个
+#     虚假的 batch 维度.
 #
-# Create a mini-batch containing a single sample of random data and send the
-# sample through the ConvNet.
+# 创建一个包含随机数据的单个样本的 mini-batch,
+# 并通过 ConvNet 发送样本.
 
 input = Variable(torch.randn(1, 1, 28, 28))
 out = net(input)
 print(out.size())
 
 ########################################################################
-# Define a dummy target label and compute error using a loss function.
+# 定义一个虚拟目标标签, 并使用损失函数计算 error.
 
 target = Variable(torch.LongTensor([3]))
 loss_fn = nn.CrossEntropyLoss()  # LogSoftmax + ClassNLL Loss
@@ -130,12 +121,11 @@ err.backward()
 print(err)
 
 ########################################################################
-# The output of the ConvNet ``out`` is a ``Variable``. We compute the loss
-# using that, and that results in ``err`` which is also a ``Variable``.
-# Calling ``.backward`` on ``err`` hence will propagate gradients all the
-# way through the ConvNet to it’s weights
+# ConvNet 的 ``out`` 是一个 ``Variable``. 我们使用它来计算损失,
+# 计算结果 ``err`` 也是一个 ``Variable``.
+# 在 ``err`` 上调用 ``.backward`` 将会通过 ConvNet 将梯度传播到它的权重.
 #
-# Let's access individual layer weights and gradients:
+# 让我们来访问单个层的权重和梯度:
 
 print(net.conv1.weight.grad.size())
 
@@ -147,23 +137,23 @@ print(net.conv1.weight.grad.data.norm())  # norm of the gradients
 # Forward and Backward Function Hooks
 # -----------------------------------
 #
-# We’ve inspected the weights and the gradients. But how about inspecting
-# / modifying the output and grad\_output of a layer?
+# 我们已经检查了权重和梯度. 但是如何检查
+# / 修改一个层的输出和 grad\_output?
 #
-# We introduce **hooks** for this purpose.
+# 我们为此引入了 **hooks**.
 #
-# You can register a function on a ``Module`` or a ``Variable``.
-# The hook can be a forward hook or a backward hook.
-# The forward hook will be executed when a forward call is executed.
-# The backward hook will be executed in the backward phase.
-# Let’s look at an example.
+# 你可以在一个 ``Module`` 或一个 ``Variable`` 上注册一个函数.
+# hook 可以是 forward hook 也可以是一个 backward hook.
+# 当 forward 被执行时 forward hook 将会被执行.
+# backward hook 将在 backward 阶段被执行.
+# 让我们来看一个例子.
 #
-# We register a forward hook on conv2 and print some information
+# 我们在 conv2 注册一个 forward hook 并打印一些信息
 
 
 def printnorm(self, input, output):
-    # input is a tuple of packed inputs
-    # output is a Variable. output.data is the Tensor we are interested
+    # 输入是打包输入的 tuple
+    # 输出是一个 Variable. output.data 是我们感兴趣的 Tensor
     print('Inside ' + self.__class__.__name__ + ' forward')
     print('')
     print('input: ', type(input))
@@ -181,7 +171,7 @@ out = net(input)
 
 ########################################################################
 #
-# We register a backward hook on conv2 and print some information
+# 我们在 conv2 注册一个 backward hook 并打印一些信息
 
 
 def printgradnorm(self, grad_input, grad_output):
@@ -205,22 +195,21 @@ err = loss_fn(out, target)
 err.backward()
 
 ########################################################################
-# A full and working MNIST example is located here
+# 一个完整的可以运行的 MNIST 例子在此链接中
 # https://github.com/pytorch/examples/tree/master/mnist
 #
 # Example 2: Recurrent Net
 # ------------------------
 #
-# Next, let’s look at building recurrent nets with PyTorch.
+# 接下来, 让我们看一下用 PyTorch 创建 recurrent nets.
 #
-# Since the state of the network is held in the graph and not in the
-# layers, you can simply create an nn.Linear and reuse it over and over
-# again for the recurrence.
+# 由于网络的状态是保存在图中, 而不是在 layer 中, 所以您可以简单地
+# 创建一个 nn.Linear 并重复使用它以重复执行.
 
 
 class RNN(nn.Module):
 
-    # you can also accept arguments in your model constructor
+    # 你也可以在你模型的构造函数中接收参数
     def __init__(self, data_size, hidden_size, output_size):
         super(RNN, self).__init__()
 
@@ -241,27 +230,25 @@ rnn = RNN(50, 20, 10)
 
 ########################################################################
 #
-# A more complete Language Modeling example using LSTMs and Penn Tree-bank
-# is located
+# 更完整的使用 LSTMs 和 Penn Tree-bank 的语言模型位于
 # `here <https://github.com/pytorch/examples/tree/master/word\_language\_model>`_
 #
-# PyTorch by default has seamless CuDNN integration for ConvNets and
-# Recurrent Nets
+# PyTorch 默认已经为 ConvNets 和 Recurrent Nets 提供了无缝的 CuDNN 集成.
 
 loss_fn = nn.MSELoss()
 
 batch_size = 10
 TIMESTEPS = 5
 
-# Create some fake data
+# 创建一些假数据
 batch = Variable(torch.randn(batch_size, 50))
 hidden = Variable(torch.zeros(batch_size, 20))
 target = Variable(torch.zeros(batch_size, 10))
 
 loss = 0
 for t in range(TIMESTEPS):
-    # yes! you can reuse the same network several times,
-    # sum up the losses, and call backward!
+    # 是的! 你可以多次使用同一个网络,
+    # 将损失相加, 并且 call backward!
     hidden, output = rnn(batch, hidden)
     loss += loss_fn(output, target)
 loss.backward()
