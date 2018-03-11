@@ -1,35 +1,25 @@
 # -*- coding: utf-8 -*-
 r"""
-Deep Learning with PyTorch
+PyTorch深度学习
 **************************
 
-Deep Learning Building Blocks: Affine maps, non-linearities and objectives
+深度学习构建模块: Affine maps, non-linearities and objectives
 ==========================================================================
 
-Deep learning consists of composing linearities with non-linearities in
-clever ways. The introduction of non-linearities allows for powerful
-models. In this section, we will play with these core components, make
-up an objective function, and see how the model is trained.
+深度学习由以巧妙的方式组合non-linearities的linearities组成的。non-linearities的引入允许强大的模型。 在本节中，我们将使用这些核心组件，构建一个objective函数，并且看看模型是如何训练的。
 
 
 Affine Maps
 ~~~~~~~~~~~
 
-One of the core workhorses of deep learning is the affine map, which is
-a function :math:`f(x)` where
+深度学习的核心工作之一是affine map, 这是一个函数 :math:`f(x)` 其中
 
 .. math::  f(x) = Ax + b
 
-for a matrix :math:`A` and vectors :math:`x, b`. The parameters to be
-learned here are :math:`A` and :math:`b`. Often, :math:`b` is refered to
-as the *bias* term.
+对于矩阵 :math:`A` 和向量 :math:`x, b`。 这里学习的参数是 :math:`A` and :math:`b`。 通常，:math:`b` 被称为 *偏差* 项.
 
 
-Pytorch and most other deep learning frameworks do things a little
-differently than traditional linear algebra. It maps the rows of the
-input instead of the columns. That is, the :math:`i`'th row of the
-output below is the mapping of the :math:`i`'th row of the input under
-:math:`A`, plus the bias term. Look at the example below.
+Pytorch和大多数其他深度学习框架与传统的线性代数有所不同。 它映射输入的行而不是列。 也就是说， 它映射输入的行而不是列。 也就是说，下面的输出的第 :math:`i` 行是 :math:`A` 的输入的第 :math:`i` 行加上偏置项的映射。 看下面的例子。
 
 """
 
@@ -56,38 +46,25 @@ print(lin(data))  # yes
 # Non-Linearities
 # ~~~~~~~~~~~~~~~
 #
-# First, note the following fact, which will explain why we need
-# non-linearities in the first place. Suppose we have two affine maps
-# :math:`f(x) = Ax + b` and :math:`g(x) = Cx + d`. What is
+# 首先，注意以下事实，这将解释为什么我们首先需要
+# non-linearities。假设我们有两个 maps
+# :math:`f(x) = Ax + b` and :math:`g(x) = Cx + d`. 什么是
 # :math:`f(g(x))`?
 #
 # .. math::  f(g(x)) = A(Cx + d) + b = ACx + (Ad + b)
 #
-# :math:`AC` is a matrix and :math:`Ad + b` is a vector, so we see that
-# composing affine maps gives you an affine map.
+# :math:`AC` 是一个矩阵， :math:`Ad + b` 是一个向量， 所以我们看到组合affine map给你一个affine map
 #
-# From this, you can see that if you wanted your neural network to be long
-# chains of affine compositions, that this adds no new power to your model
-# than just doing a single affine map.
+# 由此可以看出，如果你想让你的神经网络成为仿射组合的长链， 那么这不会给你的模型增加新的动力，而只是做一个affine map。
 #
-# If we introduce non-linearities in between the affine layers, this is no
-# longer the case, and we can build much more powerful models.
+# 如果我们在affine层之间引入non-linearities，则不再是这种情况，我们可以构建更强大的模型。
 #
-# There are a few core non-linearities.
-# :math:`\tanh(x), \sigma(x), \text{ReLU}(x)` are the most common. You are
-# probably wondering: "why these functions? I can think of plenty of other
-# non-linearities." The reason for this is that they have gradients that
-# are easy to compute, and computing gradients is essential for learning.
-# For example
+# 有一些核心的non-linearities。
+# :math:`\tanh(x), \sigma(x), \text{ReLU}(x)` 是最常见的。你可能想知道：“为什么这些功能？我可以想到很多其他的non-linearities。“ 其原因是他们的梯度是eassy计算的，并且计算梯度对学习是必不可少的。例如
 #
 # .. math::  \frac{d\sigma}{dx} = \sigma(x)(1 - \sigma(x))
 #
-# A quick note: although you may have learned some neural networks in your
-# intro to AI class where :math:`\sigma(x)` was the default non-linearity,
-# typically people shy away from it in practice. This is because the
-# gradient *vanishes* very quickly as the absolute value of the argument
-# grows. Small gradients means it is hard to learn. Most people default to
-# tanh or ReLU.
+# 一个简单的提示：虽然你可能已经在AI class的介绍中学习到了一些神经网络，其中 :math:`\sigma(x) 是默认的non-linearity，但通常人们在实践中会回避它。这是因为随着参数绝对值的增长，梯度会很快*消失*。小梯度意味着很难学习。大多数人默认tanh或ReLU。
 #
 
 # In pytorch, most non-linearities are in torch.functional (we have it imported as F)
@@ -102,22 +79,13 @@ print(F.relu(data))
 # Softmax and Probabilities
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# The function :math:`\text{Softmax}(x)` is also just a non-linearity, but
-# it is special in that it usually is the last operation done in a
-# network. This is because it takes in a vector of real numbers and
-# returns a probability distribution. Its definition is as follows. Let
-# :math:`x` be a vector of real numbers (positive, negative, whatever,
-# there are no constraints). Then the i'th component of
-# :math:`\text{Softmax}(x)` is
+# 函数 :math:`\text{Softmax}(x)` 也只是一个 non-linearity，但它的特殊之处在于它通常是网络中最后一次完成的操作。 这是因为它接受了一个实数向量并返回一个概率分布。 其定义如下。 让 :math:`x` 是一个实数的向量（正面，负面，不管，没有限制）。 然后，第i个 :math:`\text{Softmax}(x)` 的组成是
 #
 # .. math::  \frac{\exp(x_i)}{\sum_j \exp(x_j)}
 #
-# It should be clear that the output is a probability distribution: each
-# element is non-negative and the sum over all components is 1.
+# 应该清楚的是，输出是一个概率分布：每个元素都是非负的，并且所有组件的总和都是1。
 #
-# You could also think of it as just applying an element-wise
-# exponentiation operator to the input to make everything non-negative and
-# then dividing by the normalization constant.
+# 你也可以把它看作只是将一个元素明确的指数运算符应用于输入，以使所有内容都为非负值，然后除以归一化常数。
 #
 
 # Softmax is also in torch.nn.functional
@@ -132,24 +100,9 @@ print(F.log_softmax(data, dim=0))  # theres also log_softmax
 # Objective Functions
 # ~~~~~~~~~~~~~~~~~~~
 #
-# The objective function is the function that your network is being
-# trained to minimize (in which case it is often called a *loss function*
-# or *cost function*). This proceeds by first choosing a training
-# instance, running it through your neural network, and then computing the
-# loss of the output. The parameters of the model are then updated by
-# taking the derivative of the loss function. Intuitively, if your model
-# is completely confident in its answer, and its answer is wrong, your
-# loss will be high. If it is very confident in its answer, and its answer
-# is correct, the loss will be low.
+# objective function是您的网络正在接受培训以最小化的功能（在这种情况下，它通常被称为*损失函数*或*成本函数*）。首先选择一个训练实例，通过神经网络运行它，然后计算输出的损失。然后通过采用损失函数的导数来更新模型的参数。直观地说，如果你的模型对答案完全有信心，而且答案是错误的，你的损失就会很高。如果它的答案非常有信心，而且答案是正确的，那么损失就会很低。
 #
-# The idea behind minimizing the loss function on your training examples
-# is that your network will hopefully generalize well and have small loss
-# on unseen examples in your dev set, test set, or in production. An
-# example loss function is the *negative log likelihood loss*, which is a
-# very common objective for multi-class classification. For supervised
-# multi-class classification, this means training the network to minimize
-# the negative log probability of the correct output (or equivalently,
-# maximize the log probability of the correct output).
+# 将训练样例的损失函数最小化的想法是，您的网络希望能够很好地概括，并且在开发集，测试集或生产环境中看不见的示例有小的损失。 一个示例损失函数是*负对数似然损失*，这是多类分类的一个非常普遍的目标。 对于有监督的多类别分类，这意味着训练网络以最小化正确输出的负对数概率（或等同地，最大化正确输出的对数概率）。
 #
 
 
@@ -157,29 +110,11 @@ print(F.log_softmax(data, dim=0))  # theres also log_softmax
 # Optimization and Training
 # =========================
 #
-# So what we can compute a loss function for an instance? What do we do
-# with that? We saw earlier that autograd.Variable's know how to compute
-# gradients with respect to the things that were used to compute it. Well,
-# since our loss is an autograd.Variable, we can compute gradients with
-# respect to all of the parameters used to compute it! Then we can perform
-# standard gradient updates. Let :math:`\theta` be our parameters,
-# :math:`L(\theta)` the loss function, and :math:`\eta` a positive
-# learning rate. Then:
+# 那么我们可以计算一个实例的损失函数？我们该怎么做？我们之前看到autograd。变量知道如何计算与计算梯度有关的事物。那么，因为我们的损失是一个autograd.Variable，我们可以计算所有用于计算它的参数的梯度！然后我们可以执行标准渐变更新。让 :math:`\theta` 是我们的参数，:math:`L(\theta)` 损失函数，以及：:math:`\eta`是一个积极的学习率。然后：
 #
 # .. math::  \theta^{(t+1)} = \theta^{(t)} - \eta \nabla_\theta L(\theta)
 #
-# There are a huge collection of algorithms and active research in
-# attempting to do something more than just this vanilla gradient update.
-# Many attempt to vary the learning rate based on what is happening at
-# train time. You don't need to worry about what specifically these
-# algorithms are doing unless you are really interested. Torch provides
-# many in the torch.optim package, and they are all completely
-# transparent. Using the simplest gradient update is the same as the more
-# complicated algorithms. Trying different update algorithms and different
-# parameters for the update algorithms (like different initial learning
-# rates) is important in optimizing your network's performance. Often,
-# just replacing vanilla SGD with an optimizer like Adam or RMSProp will
-# boost performance noticably.
+# 有很多算法和积极的研究集合，试图做更多的不仅仅是这个香草梯度更新。 许多人试图根据列车时间发生的情况改变学习率。 除非你真的感兴趣，否则你不必担心这些算法具体做什么。 Torch提供了许多torch.optim包，它们都是完全透明的。 使用最简单的梯度更新与更复杂的算法相同。 尝试不同的更新算法和更新算法的不同参数（如不同的初始学习速率）对于优化网络性能非常重要。 通常，只需用Adam或RMSProp等优化器替换vanilla SGD即可显着提升性能。
 #
 
 
@@ -187,23 +122,11 @@ print(F.log_softmax(data, dim=0))  # theres also log_softmax
 # Creating Network Components in Pytorch
 # ======================================
 #
-# Before we move on to our focus on NLP, lets do an annotated example of
-# building a network in Pytorch using only affine maps and
-# non-linearities. We will also see how to compute a loss function, using
-# Pytorch's built in negative log likelihood, and update parameters by
-# backpropagation.
+# 在我们开始关注NLP之前，让我们做一个注释的例子，在Pytorch中使用affine maps和non-linearities构建网络。 我们还将看到如何使用Pytorch建立的负对数似然计算损失函数，并通过反向传播更新参数。
 #
-# All network components should inherit from nn.Module and override the
-# forward() method. That is about it, as far as the boilerplate is
-# concerned. Inheriting from nn.Module provides functionality to your
-# component. For example, it makes it keep track of its trainable
-# parameters, you can swap it between CPU and GPU with the .cuda() or
-# .cpu() functions, etc.
+# 所有网络组件都应该从nn.Module继承并重写forward()方法。 这就是关于它，就样板而言。 继承自nn.Module为您的组件提供了功能。 例如，它使它跟踪其可训练参数，可以使用.cuda()或.cpu()函数等在CPU和GPU之间交换它，等等。
 #
-# Let's write an annotated example of a network that takes in a sparse
-# bag-of-words representation and outputs a probability distribution over
-# two labels: "English" and "Spanish". This model is just logistic
-# regression.
+# 我们来编写一个带有注释的网络示例，该网络采用稀疏的词袋表示法，并输出概率分布在两个标签上：“英语”和“西班牙语”。 这个模型只是逻辑回归。
 #
 
 
@@ -211,28 +134,24 @@ print(F.log_softmax(data, dim=0))  # theres also log_softmax
 # Example: Logistic Regression Bag-of-Words classifier
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Our model will map a sparse BOW representation to log probabilities over
-# labels. We assign each word in the vocab an index. For example, say our
-# entire vocab is two words "hello" and "world", with indices 0 and 1
-# respectively. The BoW vector for the sentence "hello hello hello hello"
-# is
+# 我们的模型将映射一个稀疏的BOW表示来记录标签上的概率。 我们为词汇表中的每个单词分配一个索引。 例如，说我们的整个词汇是两个词“你好”和“世界”，分别指数为0和1。 BoW向量为句子“hello hello hello hello”"
+# 是
 #
 # .. math::  \left[ 4, 0 \right]
 #
-# For "hello world world hello", it is
+# 对于“hello world world hello”，它是
 #
 # .. math::  \left[ 2, 2 \right]
 #
-# etc. In general, it is
+# 等等。一般来说，它是
 #
 # .. math::  \left[ \text{Count}(\text{hello}), \text{Count}(\text{world}) \right]
 #
-# Denote this BOW vector as :math:`x`. The output of our network is:
+# 将这个BOW向量表示为 :math:`x`。 我们的网络输出是：
 #
 # .. math::  \log \text{Softmax}(Ax + b)
 #
-# That is, we pass the input through an affine map and then do log
-# softmax.
+# 也就是说，我们通过affine map传递输入，然后记录softmax。
 #
 
 data = [("me gusta comer en la cafeteria".split(), "SPANISH"),
@@ -310,27 +229,16 @@ print(log_probs)
 
 
 ######################################################################
-# Which of the above values corresponds to the log probability of ENGLISH,
-# and which to SPANISH? We never defined it, but we need to if we want to
-# train the thing.
+# 以上哪个值对应于英语的日志概率，以及哪个值是西班牙语？ 我们从来没有定义过它，但如果我们想要训练这个东西，我们需要。
 #
 
 label_to_ix = {"SPANISH": 0, "ENGLISH": 1}
 
 
 ######################################################################
-# So lets train! To do this, we pass instances through to get log
-# probabilities, compute a loss function, compute the gradient of the loss
-# function, and then update the parameters with a gradient step. Loss
-# functions are provided by Torch in the nn package. nn.NLLLoss() is the
-# negative log likelihood loss we want. It also defines optimization
-# functions in torch.optim. Here, we will just use SGD.
+# 所以，让训练！ 要做到这一点，我们通过实例来获取日志概率，计算损失函数，计算损失函数的梯度，然后用梯度步骤更新参数。 火炬在nn软件包中提供了丢失功能。 nn.NLLLoss()是我们想要的负对数似然损失。 它还定义了torch.optim中的优化函数。 在这里，我们只会使用SGD。
 #
-# Note that the *input* to NLLLoss is a vector of log probabilities, and a
-# target label. It doesn't compute the log probabilities for us. This is
-# why the last layer of our network is log softmax. The loss function
-# nn.CrossEntropyLoss() is the same as NLLLoss(), except it does the log
-# softmax for you.
+# 请注意，NLLLoss的*输入*是一个对数概率向量和一个目标标签。 它不会为我们计算对数概率。 这就是为什么我们网络的最后一层是log softmax。 损失函数nn.CrossEntropyLoss()与NLLLoss()相同，只是它为您记录softmax。
 #
 
 # Run on test data before we train, just to see a before-and-after
@@ -381,11 +289,7 @@ print(next(model.parameters())[:, word_to_ix["creo"]])
 
 
 ######################################################################
-# We got the right answer! You can see that the log probability for
-# Spanish is much higher in the first example, and the log probability for
-# English is much higher in the second for the test data, as it should be.
+# 我们得到了正确的答案！ 您可以看到，第一个示例中西班牙语的日志概率要高得多，而测试数据的第二个英语日志概率应该高得多。
 #
-# Now you see how to make a Pytorch component, pass some data through it
-# and do gradient updates. We are ready to dig deeper into what deep NLP
-# has to offer.
+# 现在你看看如何制作一个Pytorch组件，通过它传递一些数据并做梯度更新。 我们准备深入挖掘NLP所能提供的内容。
 #
