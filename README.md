@@ -53,6 +53,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 * [@K](https://github.com/shercklo)
 * [@Dongze Lian](https://github.com/dongzelian)
 * [@Krok Yin](https://github.com/KrokYin)
+* [@JingTao](https://github.com/jingwangfei)
 
 ### PyTorch 0.2.0 中文文档贡献者
 
