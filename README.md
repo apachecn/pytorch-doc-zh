@@ -52,7 +52,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [torchvision](http://pytorch.apachecn.org/cn/docs/0.3.0/torchvision/index.html) | [@那伊抹微笑](https://github.com/wangyangting) @dawenzi123 [@LeeGeong](https://github.com/LeeGeong) @liandongze | *[@咸鱼](https://github.com/Watermelon233)* |
 | **教程部分** | - | - |
 | **初学者教程** | - | - |
-| [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [*@李子文*](http://community.apachecn.org/?/people/liziwen) |
+| [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [@李子文](http://community.apachecn.org/?/people/liziwen) |
 | [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [*@片刻*](https://github.com/jiangzhonglian) |
 | [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [*@片刻*](https://github.com/jiangzhonglian) |
 | [迁移学习教程](http://pytorch.apachecn.org/cn/tutorials/beginner/transfer_learning_tutorial.html) | [@Sylvester](https://github.com/coboe) | [*@片刻*](https://github.com/jiangzhonglian) |
