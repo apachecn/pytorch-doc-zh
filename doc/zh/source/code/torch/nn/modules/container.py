@@ -123,7 +123,7 @@ class ModuleList(Module):
         return self
 
     def extend(self, modules):
-        r"""最后添加 Python list 中的模块.
+        r"""在最后添加 Python list 中的模块.
 
         Arguments:
             modules (list): 要被添加的模块列表
@@ -184,7 +184,7 @@ class ParameterList(Module):
         return self.extend(parameters)
 
     def append(self, parameter):
-        """Appends a given parameter at the end of the list.
+        """添加一个指定的参数到 list 尾部.
 
         Arguments:
             parameter (nn.Parameter): parameter to append
@@ -193,7 +193,7 @@ class ParameterList(Module):
         return self
 
     def extend(self, parameters):
-        """Appends parameters from a Python list at the end.
+        """在最后添加 Python list 中的参数.
 
         Arguments:
             parameters (list): list of parameters to append
