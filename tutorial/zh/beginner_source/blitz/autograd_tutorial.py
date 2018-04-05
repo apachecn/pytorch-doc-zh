@@ -29,7 +29,7 @@ Variable（变量）
 还有一个针对自动求导实现来说非常重要的类 - ``Function``.
 
 ``Variable`` 和 ``Function`` 是相互联系的, 并且它们构建了一个非循环的图, 编码了一个完整的计算历史信息.
-每一个 variable（变量）都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function``（除了用户创建的 Variable 之外 - 它们的 ``grad_fn is None``）.
+每一个 variable（变量）都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function`` （除了用户创建的  ``Variable `` 之外 - 它们的 ``grad_fn is None`` ）.
 
 如果你想计算导数, 你可以在 ``Variable`` 上调用 ``.backward()`` 方法.
 如果 ``Variable`` 是标量的形式（例如, 它包含一个元素数据）, 你不必指定任何参数给 ``backward()``,
@@ -41,7 +41,7 @@ from torch.autograd import Variable
 
 ###############################################################
 # 创建 variable（变量）:
-x = Variable(torch.ones(2, 2), requires_grad=True)
+x = Variable(torch.ones(2, 2), requires_grad = True)
 print(x)
 
 ###############################################################
@@ -50,7 +50,7 @@ y = x + 2
 print(y)
 
 ###############################################################
-# ``y`` 是由于操作而创建了,所以它有 ``grad_fn`` 属性.
+# ``y`` 由操作创建,所以它有 ``grad_fn`` 属性.
 print(y.grad_fn)
 
 ###############################################################
@@ -63,8 +63,8 @@ print(z, out)
 ###############################################################
 # 梯度
 # ---------
-# 我们现在开始了解方向传播,
-# ``out.backward()`` 与 ``out.backward(torch.Tensor([1.0])) 这样的方式一样``
+# 我们现在开始了解反向传播,
+# ``out.backward()`` 与 ``out.backward(torch.Tensor([1.0]))`` 这样的方式一样
 
 out.backward()
 
@@ -75,20 +75,20 @@ out.backward()
 print(x.grad)
 
 ###############################################################
-# You should have got a matrix of ``4.5``. Let’s call the ``out``
+# 你应该得到一个 ``4.5`` 的矩阵. 让我们推导出 ``out``
 # *Variable* “:math:`o`”.
-# We have that :math:`o = \frac{1}{4}\sum_i z_i`,
-# :math:`z_i = 3(x_i+2)^2` and :math:`z_i\bigr\rvert_{x_i=1} = 27`.
-# Therefore,
-# :math:`\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)`, hence
+# 我们有 :math:`o = \frac{1}{4}\sum_i z_i`,
+# :math:`z_i = 3(x_i+2)^2` 和 :math:`z_i\bigr\rvert_{x_i=1} = 27`.
+# 因此,
+# :math:`\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)`, 所以
 # :math:`\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5`.
 
 ###############################################################
-# 你可以使用自动求导来做很多脸红的事情
+# 你可以使用自动求导来做很多有趣的事情
 
 
 x = torch.randn(3)
-x = Variable(x, requires_grad=True)
+x = Variable(x, requires_grad = True)
 
 y = x * 2
 while y.data.norm() < 1000:

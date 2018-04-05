@@ -1,7 +1,7 @@
 """
-Optional: Data Parallelism
+可选: 数据并行
 ==========================
-**Authors**: `Sung Kim <https://github.com/hunkim>`_ and `Jenny Kang <https://github.com/jennykang>`_
+**作者**: `Sung Kim <https://github.com/hunkim>`_ 和 `Jenny Kang <https://github.com/jennykang>`_
 
 在这个教程中，我们将会学习如何在多个GPU上使用 ``DataParallel`` .
 
@@ -21,13 +21,13 @@ Optional: Data Parallelism
 新的张量，这个张量就能在 GPU 上使用了.
 
 在多个 GPU 上运行前向、反向传播是一件很自然的事情，然而， PyTorch 默认情况下只会用到一个GPU，
-可以通过使用 ``DataParallel`` 是你的模型并行运行，在多个GPU上运行这些操作也将变得非常简单:
+可以通过使用 ``DataParallel`` 使你的模型并行运行，在多个GPU上运行这些操作也将变得非常简单:
 
 .. code:: python
 
     model = nn.DataParallel(model)
 
-这时被教程的核心内容，我们将在随后进行详细讲解
+这是教程的核心内容，我们将在随后进行详细讲解
 """
 
 
@@ -103,7 +103,7 @@ class Model(nn.Module):
 # 创建模型和 DataParallel
 # -----------------------------
 # 
-# 这时本教程的核心部分。首先，我们需要生成一个模型的实例并且检测我们是否拥有多个
+# 这是本教程的核心部分。首先，我们需要生成一个模型的实例并且检测我们是否拥有多个
 # GPU.如果有多个GPU ，我们可以使用 ``nn.DataParallel`` 来包装我们的模型，然后我们
 # 就可以将我们的模型通过 ``model.gpu()`` 施加于这些GPU上.
 # 

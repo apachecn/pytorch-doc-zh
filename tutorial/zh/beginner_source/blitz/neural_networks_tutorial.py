@@ -6,7 +6,7 @@
 神经网络可以使用 ``torch.nn`` 包构建.
 
 ``autograd`` 实现了反向传播功能, 但是直接用来写深度学习的代码在很多情况下还是稍显复杂，
-``torch.nn`` 是专门为神经网络设计的模块化接口. nn构建于 Autograd之上, 可用来定义和运行神经网络.
+``torch.nn`` 是专门为神经网络设计的模块化接口. ``nn`` 构建于 ``Autograd`` 之上, 可用来定义和运行神经网络.
 ``nn.Module`` 是 ``nn`` 中最重要的类, 可把它看成是一个网络的封装, 包含网络各层定义以及 ``forward`` 方法, 调用 ``forward(input)`` 方法, 可返回前向传播的结果.
 
 例如, 看看这个分类数字图像的网络:
@@ -88,7 +88,7 @@ print(params[0].size())  # conv1的weight
 
 ########################################################################
 # 向前的输入是一个 ``autograd.Variable``, 输出也是如此.
-# 注意: 这个网路(LeNet)的预期输入大小是 32x32, 使用这个网上 MNIST 数据集, 请将数据集中的图像调整为 32x32.
+# 注意: 这个网络(LeNet)的预期输入大小是 32x32, 使用这个网上 MNIST 数据集, 请将数据集中的图像调整为 32x32.
 
 input = Variable(torch.randn(1, 1, 32, 32))
 out = net(input)
@@ -108,7 +108,7 @@ out.backward(torch.randn(1, 10))
 #
 #    如果你只想输入一个样本, 需要使用 ``input.unsqueeze(0)`` 将 batch_size 设置为 1.
 #
-# 在继续之前, 让我门回顾一下迄今为止所有见过的类.
+# 在继续之前, 让我们回顾一下迄今为止所有见过的类.
 #
 # **概括:**
 #   -  ``torch.Tensor`` - 一个 *多维数组*.
@@ -118,7 +118,7 @@ out.backward(torch.randn(1, 10))
 #   -  ``nn.Module`` - 神经网络模块. *方便的方式封装参数*,
 #      帮助将其移动到GPU, 导出, 加载等。
 #   -  ``nn.Parameter`` - 一种变量, 当被指定为 ``Model`` 的属性时, 它会自动注册为一个参数.
-#   -  ``autograd.Function`` - 实现 * autograd 操作的向前和向后定义*.
+#   -  ``autograd.Function`` - 实现 *autograd 操作的向前和向后定义* .
 #      每个 ``Variable`` 操作, 至少创建一个 ``Function`` 节点,
 #      连接到创建 ``Variable`` 的函数, 并 *编码它的历史*.
 #
@@ -134,7 +134,7 @@ out.backward(torch.randn(1, 10))
 # -------------
 # 损失函数采用 (output,target) 输入对, 并计算预测输出结果与实际目标的距离。
 #
-# 在nn包下有几种不同的 `损失函数 <http://pytorch.org/docs/nn.html#loss-functions>`_ .
+# 在 ``nn`` 包下有几种不同的 `损失函数 <http://pytorch.org/docs/nn.html#loss-functions>`_ .
 # 一个简单的损失函数是: ``nn.MSELoss`` 计算输出和目标之间的均方误差
 #
 # 例如:
@@ -166,13 +166,13 @@ print(loss.grad_fn.next_functions[0][0])  # Linear
 print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
 
 ########################################################################
-# Backprop
+# 反向传播
 # --------
-# 为了方向的传播错误误差, 我们所要做的就是 ``loss.backward()``.
+# 为了反向传播误差, 我们所要做的就是 ``loss.backward()``.
 # 你需要清除现有的梯度, 否则梯度会累加之前的梯度.
 #
 #
-# 现在我们使用 ``loss.backward()``, 看看反向传播之前和之后 conv1 的梯度.
+# 现在我们使用 ``loss.backward()``, 看看反向传播之前和之后 ``conv1`` 的梯度.
 
 
 net.zero_grad()     # 把之前的梯度清零
@@ -190,7 +190,7 @@ print(net.conv1.bias.grad)
 #
 # **稍后阅读:**
 #
-#   神经网路包包含各种模块和损失函数, 形成深度神经网路的构建模块. 完整的文件列表 `在这里 <http://pytorch.org/docs/nn>`_
+#   神经网络包包含各种模块和损失函数, 形成深度神经网络的构建模块. 完整的文件列表 `在这里 <http://pytorch.org/docs/nn>`_
 #
 # **接下来学习的唯一东西是:**
 #
@@ -210,14 +210,14 @@ print(net.conv1.bias.grad)
 #     for f in net.parameters():
 #         f.data.sub_(f.grad.data * learning_rate)
 #
-# 然而, 当你使用神经网络时, 你需要使用各种不同的更新规则，比如 SGD, Nesterov-SGD, Adam, RMSProp, 等.
+# 然而, 当你使用神经网络时, 你需要使用各种不同的更新规则，比如 SGD, Nesterov-SGD, Adam, RMSProp等.
 # 为了实现这个功能, 我们建立了一个包: ``torch.optim`` 实现所有这些方法.
 # 使用它非常的简单:
 
 import torch.optim as optim
 
 # 新建一个优化器, 指定要调整的参数和学习率
-optimizer = optim.SGD(net.parameters(), lr=0.01)
+optimizer = optim.SGD(net.parameters(), lr = 0.01)
 
 # 在训练过程中:
 optimizer.zero_grad()   # 首先梯度清零(与 net.zero_grad() 效果一样)
@@ -230,4 +230,4 @@ optimizer.step()    # 更新参数
 ###############################################################
 # .. Note::
 #
-#       观察如何使用手动设置梯度清零``optimizer.zero_grad()``. 需要手动清零的原因在 `Backprop`_ 中已经说明了(梯度会累加之前的梯度).
+#       观察如何使用手动设置梯度清零 ``optimizer.zero_grad()`` . 需要手动清零的原因在 `Backprop`_ 中已经说明了(梯度会累加之前的梯度).
