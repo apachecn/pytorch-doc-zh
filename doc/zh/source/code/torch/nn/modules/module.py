@@ -559,7 +559,7 @@ class Module(object):
             Module: a module in the network
 
         Note:
-            Duplicate modules are returned only once. In the following
+            重复的模块只返回一次. 在下面的例子中, ``1`` 只会被返回一次.
             example, ``l`` will be returned only once.
 
             >>> l = nn.Linear(2, 2)
@@ -576,7 +576,7 @@ class Module(object):
             yield module
 
     def named_modules(self, memo=None, prefix=''):
-        """翻译一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
+        """返回一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
 
         Yields:
             (string, Module): 名字和模块的 Tuple（元组）
