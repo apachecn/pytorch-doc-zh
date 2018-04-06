@@ -7,7 +7,7 @@ Transforms（变换）是常见的 image transforms（图像变换）.他们可�
 
 .. autoclass:: Compose
 
-Transforms PIL Image 上的变换
+PIL Image 上的变换
 -----------------------------
 
 .. autoclass:: Resize
