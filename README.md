@@ -33,7 +33,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [序列化语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/serialization.html) | [@胡东瑶](https://github.com/psubnwell) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
 | **PACKAGE 参考** | - | - |
 | [torch](http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html) | [@那伊抹微笑](https://github.com/wangyangting) @yudong [@小瑶](https://github.com/chenyyx) [@片刻](https://github.com/jiangzhonglian) [@李雨龙](https://github.com/sawyer7246) [@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992) | [*@张假飞*](http://community.apachecn.org/?/people/zhangjiafei) |
-| [torch.Tensor](http://pytorch.apachecn.org/cn/docs/0.3.0/tensors.html) | [@Sylvester](https://github.com/coboe) [@那伊抹微笑](https://github.com/wangyangting) | [*@张假飞*](http://community.apachecn.org/?/people/zhangjiafei) |
+| [torch.Tensor](http://pytorch.apachecn.org/cn/docs/0.3.0/tensors.html) | [@Sylvester](https://github.com/coboe) [@那伊抹微笑](https://github.com/wangyangting) | [*@Cyril1317*](http://community.apachecn.org/?/people/Cyril1317) |
 | [torch.sparse](http://pytorch.apachecn.org/cn/docs/0.3.0/sparse.html) | [@王帅](https://github.com/sirwangshuai) | [*@Timor*](http://community.apachecn.org/?/people/Timor) |
 | [torch.Storage](http://pytorch.apachecn.org/cn/docs/0.3.0/storage.html) | @FanXing | [*@Timor*](http://community.apachecn.org/?/people/Timor) |
 | [torch.nn](http://pytorch.apachecn.org/cn/docs/0.3.0/nn.html) | [@小王子](https://github.com/VPrincekin) [@那伊抹微笑](https://github.com/wangyangting) [@Yang Shun](https://github.com/busyboxs) [@Zhu Yansen](https://github.com/zhuyansen) [@woaichipinngguo](https://github.com/woaichipinngguo) [@buldajs](https://github.com/buldajs) [@吉思雨](https://github.com/swardsman) [@王云峰](https://github.com/vra) [@李雨龙](https://github.com/sawyer7246) [@Yucong Zhu](https://github.com/Eadral) [@林嘉应](https://github.com/garry1ng) [@QianFanCe](https://github.com/QianFanCe) [@dabney777](https://github.com/dabney777) [@Alex](https://github.com/jizg) [@SiKai Yao](https://github.com/Mabinogiysk) [@小乔](https://github.com/QiaoXie) @laihongchang @噼里啪啦嘣 [@BarrettLi](https://github.com/BarrettLi) [@KrokYin](https://github.com/KrokYin) [@MUSK1881](https://github.com/JoinsenQ) | [@clown9804](http://community.apachecn.org/?/people/clown9804) [*@悲喜世界*](http://community.apachecn.org/?/people/beixishijie) |
@@ -53,14 +53,14 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | **教程部分** | - | - |
 | **初学者教程** | - | - |
 | [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [@李子文](http://community.apachecn.org/?/people/liziwen) |
-| [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [*@片刻*](https://github.com/jiangzhonglian) |
-| [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [*@片刻*](https://github.com/jiangzhonglian) |
-| [迁移学习教程](http://pytorch.apachecn.org/cn/tutorials/beginner/transfer_learning_tutorial.html) | [@Sylvester](https://github.com/coboe) | [*@片刻*](https://github.com/jiangzhonglian) |
-| [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [*@片刻*](https://github.com/jiangzhonglian) |
+| [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
+| [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
+| [迁移学习教程](http://pytorch.apachecn.org/cn/tutorials/beginner/transfer_learning_tutorial.html) | [@Sylvester](https://github.com/coboe) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
+| [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
 | [Deep Learning for NLP with Pytorch](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_nlp_tutorial.html) | [@JingTao](https://github.com/jingwangfei) | |
 | **中级教程** | - | - |
 | [Classifying Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html#) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | |
-| [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | |
+| [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | [*@jianchengss*](http://community.apachecn.org/?/people/jianchengss) |
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [*@EWilsen*](http://community.apachecn.org/?/people/EWilsen) | |
 | [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [*@Lisanaaa*](http://community.apachecn.org/?/people/Lisanaaa) | |
 | [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](http://community.apachecn.org/?/people/Sylvester) | |
