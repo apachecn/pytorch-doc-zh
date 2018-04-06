@@ -49,7 +49,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [torch.utils.model_zoo](http://pytorch.apachecn.org/cn/docs/0.3.0/model_zoo.html) | [@之茗](https://github.com/mayuanucas) | [*@aleczhang*](http://community.apachecn.org/?/people/aleczhang) |
 | [torch.onnx](http://pytorch.apachecn.org/cn/docs/0.3.0/onnx.html) | [@Haofan Wang](https://github.com/haofanwang) | [*@aleczhang*](http://community.apachecn.org/?/people/aleczhang) |
 | **TORCHVISION 参考** | - | - |
-| [torchvision](http://pytorch.apachecn.org/cn/docs/0.3.0/torchvision/index.html) | [@那伊抹微笑](https://github.com/wangyangting) @dawenzi123 [@LeeGeong](https://github.com/LeeGeong) @liandongze | *[@咸鱼](https://github.com/Watermelon233)* |
+| [torchvision](http://pytorch.apachecn.org/cn/docs/0.3.0/torchvision/index.html) | [@那伊抹微笑](https://github.com/wangyangting) @dawenzi123 [@LeeGeong](https://github.com/LeeGeong) @liandongze | [@咸鱼](https://github.com/Watermelon233) |
 | **教程部分** | - | - |
 | **初学者教程** | - | - |
 | [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [@李子文](http://community.apachecn.org/?/people/liziwen) |
