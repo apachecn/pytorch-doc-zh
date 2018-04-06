@@ -60,11 +60,11 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Deep Learning for NLP with Pytorch](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_nlp_tutorial.html) | [@JingTao](https://github.com/jingwangfei) | |
 | **中级教程** | - | - |
 | [Classifying Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html#) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | |
-| [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | [*@jianchengss*](http://community.apachecn.org/?/people/jianchengss) |
+| [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [*@jianchengss*](http://community.apachecn.org/?/people/jianchengss) | |
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [*@EWilsen*](http://community.apachecn.org/?/people/EWilsen) | |
 | [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [*@Lisanaaa*](http://community.apachecn.org/?/people/Lisanaaa) | |
 | [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](http://community.apachecn.org/?/people/Sylvester) | |
-| [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | | |
+| [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [*@twinkle*](http://community.apachecn.org/?/people/twinkle) | |
 | **高级教程** | - | - |
 | [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | | |
 | [Creating extensions using numpy and scipy](http://pytorch.apachecn.org/cn/tutorials/advanced/numpy_extensions_tutorial.html) | | |
