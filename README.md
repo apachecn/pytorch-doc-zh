@@ -27,10 +27,10 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | **介绍** | - | - |
 | [自动求导机制](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/autograd.html#) | [@那伊抹微笑](https://github.com/wangyangting) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
 | [广播语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/broadcasting.html) | [@谢家柯](https://github.com/kelisiya) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
-| [CUDA 语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/cuda.html) | [@Chris](https://github.com/Chriskuei) | [*@twinkle*](http://community.apachecn.org/?/people/twinkle) |
-| [扩展 PyTorch](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/extending.html) | [@那伊抹微笑](https://github.com/wangyangting) | [*@twinkle*](http://community.apachecn.org/?/people/twinkle) |
-| [多进程的最佳实践](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/multiprocessing.html) | [@冯斐](https://github.com/ata123) | [*@twinkle*](http://community.apachecn.org/?/people/twinkle) |
-| [序列化语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/serialization.html) | [@胡东瑶](https://github.com/psubnwell) | [*@twinkle*](http://community.apachecn.org/?/people/twinkle) |
+| [CUDA 语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/cuda.html) | [@Chris](https://github.com/Chriskuei) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
+| [扩展 PyTorch](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/extending.html) | [@那伊抹微笑](https://github.com/wangyangting) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
+| [多进程的最佳实践](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/multiprocessing.html) | [@冯斐](https://github.com/ata123) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
+| [序列化语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/serialization.html) | [@胡东瑶](https://github.com/psubnwell) | [@twinkle](http://community.apachecn.org/?/people/twinkle) |
 | **PACKAGE 参考** | - | - |
 | [torch](http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html) | [@那伊抹微笑](https://github.com/wangyangting) @yudong [@小瑶](https://github.com/chenyyx) [@片刻](https://github.com/jiangzhonglian) [@李雨龙](https://github.com/sawyer7246) [@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992) | [*@张假飞*](http://community.apachecn.org/?/people/zhangjiafei) |
 | [torch.Tensor](http://pytorch.apachecn.org/cn/docs/0.3.0/tensors.html) | [@Sylvester](https://github.com/coboe) [@那伊抹微笑](https://github.com/wangyangting) | [*@张假飞*](http://community.apachecn.org/?/people/zhangjiafei) |
