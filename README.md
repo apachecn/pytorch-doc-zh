@@ -25,12 +25,12 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | --- | --- | --- |
 | **文档部分** | - | - |
 | **介绍** | - | - |
-| [自动求导机制](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/autograd.html#) | [@那伊抹微笑](https://github.com/wangyangting) | [@Twinkle](https://github.com/zkm670541684) |
-| [广播语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/broadcasting.html) | [@谢家柯](https://github.com/kelisiya) | [@Twinkle](https://github.com/zkm670541684) |
-| [CUDA 语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/cuda.html) | [@Chris](https://github.com/Chriskuei) | [@Twinkle](https://github.com/zkm670541684) |
-| [扩展 PyTorch](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/extending.html) | [@那伊抹微笑](https://github.com/wangyangting) | [@Twinkle](https://github.com/zkm670541684) |
-| [多进程的最佳实践](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/multiprocessing.html) | [@冯斐](https://github.com/ata123) | [@Twinkle](https://github.com/zkm670541684) |
-| [序列化语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/serialization.html) | [@胡东瑶](https://github.com/psubnwell) | [@Twinkle](https://github.com/zkm670541684) |
+| [自动求导机制](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/autograd.html#) | [@那伊抹微笑](https://github.com/wangyangting) | [@Twinkle](https://github.com/kemingzeng) |
+| [广播语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/broadcasting.html) | [@谢家柯](https://github.com/kelisiya) | [@Twinkle](https://github.com/kemingzeng) |
+| [CUDA 语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/cuda.html) | [@Chris](https://github.com/Chriskuei) | [@Twinkle](https://github.com/kemingzeng) |
+| [扩展 PyTorch](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/extending.html) | [@那伊抹微笑](https://github.com/wangyangting) | [@Twinkle](https://github.com/kemingzeng) |
+| [多进程的最佳实践](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/multiprocessing.html) | [@冯斐](https://github.com/ata123) | [@Twinkle](https://github.com/kemingzeng) |
+| [序列化语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/serialization.html) | [@胡东瑶](https://github.com/psubnwell) | [@Twinkle](https://github.com/kemingzeng) |
 | **PACKAGE 参考** | - | - |
 | [torch](http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html) | [@那伊抹微笑](https://github.com/wangyangting) @yudong [@小瑶](https://github.com/chenyyx) [@片刻](https://github.com/jiangzhonglian) [@李雨龙](https://github.com/sawyer7246) [@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992) | [*@张假飞*](http://community.apachecn.org/?/people/zhangjiafei) |
 | [torch.Tensor](http://pytorch.apachecn.org/cn/docs/0.3.0/tensors.html) | [@Sylvester](https://github.com/coboe) [@那伊抹微笑](https://github.com/wangyangting) | [*@Cyril1317*](http://community.apachecn.org/?/people/Cyril1317) |
@@ -64,7 +64,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [*@EWilsen*](http://community.apachecn.org/?/people/EWilsen) | |
 | [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [*@Lisanaaa*](http://community.apachecn.org/?/people/Lisanaaa) | |
 | [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](http://community.apachecn.org/?/people/Sylvester) | |
-| [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [@Twinkle](https://github.com/zkm670541684) | |
+| [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [@Twinkle](https://github.com/kemingzeng) | |
 | **高级教程** | - | - |
 | [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | | |
 | [Creating extensions using numpy and scipy](http://pytorch.apachecn.org/cn/tutorials/advanced/numpy_extensions_tutorial.html) | [@飞龙](https://github.com/wizardforcel) | |
