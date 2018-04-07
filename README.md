@@ -64,11 +64,11 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [*@EWilsen*](http://community.apachecn.org/?/people/EWilsen) | |
 | [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [*@Lisanaaa*](http://community.apachecn.org/?/people/Lisanaaa) | |
 | [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](http://community.apachecn.org/?/people/Sylvester) | |
-| [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [*@Twinkle*](https://github.com/zkm670541684) | |
+| [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [@Twinkle](https://github.com/zkm670541684) | |
 | **高级教程** | - | - |
 | [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | | |
 | [Creating extensions using numpy and scipy](http://pytorch.apachecn.org/cn/tutorials/advanced/numpy_extensions_tutorial.html) | [@飞龙](https://github.com/wizardforcel) | |
-| [Transfering a model from PyTorch to Caffe2 and Mobile using ONNX](http://pytorch.apachecn.org/cn/tutorials/advanced/super_resolution_with_caffe2.html) | | |
+| [Transfering a model from PyTorch to Caffe2 and Mobile using ONNX](http://pytorch.apachecn.org/cn/tutorials/advanced/super_resolution_with_caffe2.html) | [*@片刻*](https://github.com/jiangzhonglian) | |
 | [Custom C extensions for pytorch](http://pytorch.apachecn.org/cn/tutorials/advanced/c_extension.html) | [@飞龙](https://github.com/wizardforcel) | |
 
 注：斜体代表未完成
