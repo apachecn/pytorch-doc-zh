@@ -196,7 +196,7 @@ with open('predict_net.pb', "wb") as fopen:
 
 
 ######################################################################
-# ``init_net`` 将模型参数和模型输入嵌入其中,  ``predict_net`` 并将用于 ``init_net`` 在运行时指导执行.
+# ``init_net`` 将模型参数和模型输入嵌入其中, ``predict_net`` 并将用于 ``init_net`` 在运行时指导执行.
 # 在本文中, 我们将使用 ``init_net`` 与 ``predict_net`` 上面生成和在正常 Caffe2 后端和移动运行它们, 并验证在两个试验中产生的输出的高分辨率图像猫是相同的.
 #
 # 在本教程中, 我们将使用一个广泛使用的著名的猫咪图像, 如下所示:
@@ -266,7 +266,7 @@ img_out = workspace.FetchBlob("27")
 
 
 ######################################################################
-# 现在, 我们将返回参考 PyTorch 执行 super-resolution 模型的后处理步骤, 
+# 现在, 我们将返回参考 PyTorch 执行 super-resolution 模型的后处理步骤,
 # `在这里 <https://github.com/pytorch/examples/blob/master/super_resolution/super_resolve.py>`__ 构建回最终输出的图像并保存图像.
 #
 
