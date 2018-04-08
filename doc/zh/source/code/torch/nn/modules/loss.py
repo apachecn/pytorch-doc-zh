@@ -274,7 +274,7 @@ class MSELoss(_Loss):
 
     Args:
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , loss 会在每
             个 mini-batch（小批量）上求和. 只有当 reduce 的值为 ``True`` 才会生效. 默认值: ``True``
         reduce (bool, optional): 默认情况下, loss 会根据 size_average 的值在每
             个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损失函数会对每
@@ -317,7 +317,7 @@ class BCELoss(_WeightedLoss):
         weight (Tensor, optional): 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度为 "nbatch" 的
             的 Tensor
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , loss 会在每
             个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: ``True``
     
     Shape:
@@ -359,7 +359,7 @@ class BCEWithLogitsLoss(Module):
         weight (Tensor, optional): 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度
             为 "nbatch" 的 Tensor
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , loss 会在每
             个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: ``True``
     
     Shape:
@@ -435,11 +435,7 @@ class MultiLabelMarginLoss(_Loss):
 
 
 class SmoothL1Loss(_Loss):
-    r"""Creates a criterion that uses a squared term if the absolute
-    element-wise error falls below 1 and an L1 term otherwise.
-    创建一个标准，当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算.
-    It is less sensitive to outliers than the `MSELoss` and in some cases
-    prevents exploding gradients (e.g. see "Fast R-CNN" paper by Ross Girshick).
+    r"""创建一个标准，当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算.
     此方法创建的标准对于异常值不如 `MSELoss`敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如
     参见论文 "Fast R-CNN" 作者 Ross Girshick).
     也被称为 Huber 损失函数::
@@ -555,10 +551,7 @@ class CrossEntropyLoss(_WeightedLoss):
 
 
 class MultiLabelSoftMarginLoss(_WeightedLoss):
-    r"""Creates a criterion that optimizes a multi-label one-versus-all
-    loss based on max-entropy, between input `x`  (a 2D mini-batch `Tensor`) and
-    target `y` (a binary 2D `Tensor`). For each sample in the minibatch::
-    创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
+    r"""创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
     输入 `x` 为一个2维 mini-batch `Tensor`, 目标 `y` 为2进制2维 `Tensor`.
     对每个 mini-batch 中的样本，对应的 loss 为::
 

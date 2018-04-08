@@ -402,7 +402,7 @@ class LogSigmoid(Module):
     :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
         - Output: :math:`(N, *)`, 和输入的格式shape一致
 
     例::
@@ -559,7 +559,7 @@ class Tanhshrink(Module):
     r"""对输入的每一个元素运用函数, :math:`Tanhshrink(x) = x - Tanh(x)`
 
     Shape:
-        - Input: :math:`(N, *)` 其中`*`代表任意数目的附加维度
+        - Input: :math:`(N, *)` 其中 `*` 代表任意数目的附加维度
         - Output: :math:`(N, *)`, 和输入的格式shape一致
 
     例::

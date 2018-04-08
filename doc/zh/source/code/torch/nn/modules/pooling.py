@@ -92,7 +92,7 @@ class MaxPool2d(Module):
 
         - 单个 ``int`` 类型数据 -- 此时在 height 和 width 维度上将使用相同的值
         - 包含两个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 height 维度上的数值,
-        第二个 `int` 数据表示 width 维度上的数值
+          第二个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 最大池化操作时的窗口大小
@@ -155,10 +155,10 @@ class MaxPool2d(Module):
 class MaxUnpool1d(Module):
     r""" :class:`MaxPool1d` 的逆过程
 
-    要注意的是 :class:`MaxPool1d` 并不是完全可逆的, 因为在 `` max pooling `` 过程中非最大值已经丢失
+    要注意的是 :class:`MaxPool1d` 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
 
     :class:`MaxUnpool1d` 以 :class:`MaxPool1d` 的输出, 包含最大值的索引作为输入
-    计算 `` max poooling `` 的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
+    计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
     .. note:: `MaxPool1d` 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可
               为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入.
@@ -229,10 +229,10 @@ class MaxUnpool1d(Module):
 class MaxUnpool2d(Module):
     r""" :class:`MaxPool2d` 的逆过程
 
-    要注意的是 :class:`MaxPool2d` 并不是完全可逆的, 因为在 `` max pooling `` 过程中非最大值已经丢失
+    要注意的是 :class:`MaxPool2d` 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
 
     :class:`MaxUnpool2d` 以 :class:`MaxPool2d` 的输出, 包含最大值的索引作为输入
-    计算 `` max poooling `` 的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
+    计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
     .. note:: `MaxPool2d` 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可.
               为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入.
@@ -306,9 +306,9 @@ class MaxUnpool2d(Module):
 class MaxUnpool3d(Module):
     r""" :class:`MaxPool3d` 的逆过程
 
-    要注意的是 :class:`MaxPool3d` 并不是完全可逆的, 因为在 `` max pooling `` 过程中非最大值已经丢失
+    要注意的是 :class:`MaxPool3d` 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
     :class:`MaxUnpool3d` 以 :class:`MaxPool3d` 的输出, 包含最大值的索引作为输入
-    计算 `` max poooling `` 的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
+    计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
     .. note:: `MaxPool3d` 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可.
               为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 `output_size` 传入.
@@ -446,7 +446,7 @@ class AvgPool2d(Module):
 
         - 单个 ``int`` 类型数据 -- 此时在 height 和 width 维度上将使用相同的值
         - 包含两个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 height 维度上的数值, 
-        第二个 `int` 数据表示 width 维度上的数值
+          第二个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 平均池化操作时取平均值的窗口的大小
@@ -515,7 +515,7 @@ class MaxPool3d(Module):
 
         - 单个 ``int`` 类型数据 -- 此时在 depth, height 和 width 维度上将使用相同的值
         - 包含三个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 depth 维度上的数值, 
-        第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
+          第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 最大池化操作时的窗口大小
@@ -590,7 +590,7 @@ class AvgPool3d(Module):
 
         - 单个 ``int`` 类型数据 -- 此时在 depth, height 和 width 维度上将使用相同的值
         - 包含三个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 depth 维度上的数值, 
-        第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
+          第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 平均池化操作时取平均值的窗口的大小
@@ -718,7 +718,7 @@ class LPPool2d(Module):
 
         - 单个 ``int`` 类型数据 -- 此时在height和width维度上将使用相同的值
         - 包含两个 int 类型数据的 ``tuple`` 元组 -- 此时第一个 `int` 数据表示 height 维度上的数值, 
-        第二个 `int` 数据表示 width 维度上的数值
+          第二个 `int` 数据表示 width 维度上的数值
 
     Args:
         kernel_size: 幂平均池化时窗口的大小
