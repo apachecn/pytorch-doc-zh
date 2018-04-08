@@ -4,7 +4,7 @@ Tensors
 
 Tensors 在 PyTorch 中的操作方式 与 Torch 几乎完全相同.
 
-用未初始化的内存创建一个size为 (5 x 7) 的 tensor:
+用未初始化的内存创建一个大小为 (5 x 7) 的 tensor:
 
 """
 
