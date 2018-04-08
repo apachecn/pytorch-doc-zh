@@ -500,9 +500,9 @@ def dropout3d(input, p=0.5, training=False, inplace=False):
 threshold = _add_docstr(torch._C._nn.threshold, r"""
 threshold(input, threshold, value, inplace=False) -> Variable
 
-Thresholds each element of the input Tensor.
+基于 Tensor 中的每个元素创造阈值函数
 
-See :class:`~torch.nn.Threshold` for more details.
+class:`~torch.nn.Threshold` 可以获取更多细节.
 """)
 
 
@@ -536,7 +536,7 @@ Args:
 hardtanh = _add_docstr(torch._C._nn.hardtanh, r"""
 hardtanh(input, min_val=-1., max_val=1., inplace=False) -> Variable
 
-Applies the HardTanh function element-wise. See :class:`~torch.nn.Hardtanh` for more
+以元素方式应用HardTanh函数.请参阅 :class:`~torch.nn.Hardtanh` 可以获取更多细节.
 details.
 """)
 
@@ -544,7 +544,7 @@ details.
 def relu6(input, inplace=False):
     r"""relu6(input, inplace=False) -> Variable
 
-    以元素方式应用HardTanh函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
+    以元素方式应用relu6函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
 
     请参阅 :class:`~torch.nn.ReLU6` 可以获取更多细节.
     """
@@ -955,7 +955,7 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
         target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 C 的 Tensor
         size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
             mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
             当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
@@ -1104,7 +1104,7 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
         weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
                 输入 tensor 的形状.
         size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
-                上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+                上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
                 mini-batch（小批量）上求和. 默认值: ``True``
 
     实例::
