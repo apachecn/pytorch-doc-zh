@@ -90,7 +90,7 @@ use_gpu = torch.cuda.is_available()
 ######################################################################
 # 显示一些图片
 # ^^^^^^^^^^^^^^^^^^^^^^
-# 让我们现实一些训练中的图片, 以便了解数据增强.
+# 让我们显示一些训练中的图片, 以便了解数据增强.
 
 def imshow(inp, title=None):
     """Imshow for Tensor."""
@@ -102,13 +102,13 @@ def imshow(inp, title=None):
     plt.imshow(inp)
     if title is not None:
         plt.title(title)
-    plt.pause(0.001)  # 暂停一伙, 让 plots 更新
+    plt.pause(0.001)  # 暂停一会, 让 plots 更新
 
 
 # 获得一批训练数据
 inputs, classes = next(iter(dataloaders['train']))
 
-# 从那批数据生成一个方格
+# 从这批数据生成一个方格
 out = torchvision.utils.make_grid(inputs)
 
 imshow(out, title=[class_names[x] for x in classes])
@@ -118,12 +118,10 @@ imshow(out, title=[class_names[x] for x in classes])
 # 训练模型
 # ------------------
 #
-# Now, let's write a general function to train a model. Here, we will
-# illustrate:
-# 现在, 让我们写一个通用的函数来训练模型. 这里，我们要做以下说明:
+# 现在, 让我们写一个通用的函数来训练模型. 这里, 我们将会举例说明:
 #
 # -  调度学习率
-# -  保存最好的学习模型
+# -  保存最佳的学习模型
 #
 # 下面函数中, ``scheduler`` 参数是 ``torch.optim.lr_scheduler`` 中的 LR scheduler 对象.
 
@@ -149,7 +147,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             running_loss = 0.0
             running_corrects = 0
 
-            # 遍历数据.
+            # 遍历数据
             for data in dataloaders[phase]:
                 # 获取输入
                 inputs, labels = data
@@ -196,7 +194,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
 
-    # 加载最好模型的权重
+    # 加载最佳模型的权重
     model.load_state_dict(best_model_wts)
     return model
 
