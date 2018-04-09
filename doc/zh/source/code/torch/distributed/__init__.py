@@ -23,11 +23,11 @@ def init_process_group(backend, init_method='env://', **kwargs):
     """初始化方法.
 
     Arguments:
-        backend ( str ): 使用后端的名字. 输入的有效值包括:  ``tcp`` ,  ``mpi`` and ``gloo`` .
-        init_method ( str , optional): 指定如何初始化的URL.
-        world_size ( int , optional): 参与工作的进程数量.
-        rank ( int , optional): 当前进程的排名.
-        group_name ( str , optional): 集群的名字. 请参阅init方法的描述.
+        backend (str): 使用后端的名字. 输入的有效值包括:  ``tcp`` ,  ``mpi`` and ``gloo`` .
+        init_method (str , optional): 指定如何初始化的URL.
+        world_size (int , optional): 参与工作的进程数量.
+        rank (int , optional): 当前进程的排名.
+        group_name (str , optional): 集群的名字. 请参阅init方法的描述.
 
     为了支持 ``backend == mpi`` , PyTorch 需要在支持 MPI 的系统上用进行源码编译安装
     """
@@ -122,8 +122,8 @@ def isend(tensor, dst):
     """异步发送张量数据.
 
     Arguments:
-        tensor ( Tensor ): 发送的张量的数据.
-        dst ( int ): 指定发送到的 Rank.
+        tensor (Tensor): 发送的张量的数据.
+        dst (int): 指定发送到的 Rank.
 
     Returns:
         分布式请求对象.
@@ -137,8 +137,8 @@ def irecv(tensor, src):
     """异步接收张量.
 
     Arguments:
-        tensor ( Tensor ): 用收到的数据填充张量.
-        src ( int ): 指定发送张量的 Rank.
+        tensor (Tensor): 用收到的数据填充张量.
+        src (int): 指定发送张量的 Rank.
 
     Returns:
         一个分布式请求对象.
@@ -152,8 +152,8 @@ def send(tensor, dst):
     """同步发送张量.
 
     Arguments:
-        tensor ( Tensor ): 发送的张量.
-        dst ( int ): 指定发送的目的地的 Rank.
+        tensor (Tensor): 发送的张量.
+        dst (int): 指定发送的目的地的 Rank.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
@@ -164,7 +164,7 @@ def recv(tensor, src=None):
     """同步接收张量.
 
     Arguments:
-        tensor ( Tensor ): 用收到的数据填充张量.
+        tensor (Tensor): 用收到的数据填充张量.
         src (int, optional): 发送端的Rank,如果没有指定,将会接收任何发送的数据.
 
     Returns:
@@ -225,8 +225,8 @@ def all_gather(tensor_list, tensor, group=group.WORLD):
     """在整个集群中收集list表格中的张量.
 
     Arguments:
-        tensor_list (list[ Tensor ]): 输出列表. 它应该包含正确大小的张量以用于集体的输出.
-        tensor ( Tensor ): 张量从当前进程中进行广播.
+        tensor_list (list[Tensor]): 输出列表. 它应该包含正确大小的张量以用于集体的输出.
+        tensor (Tensor): 张量从当前进程中进行广播.
         group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
@@ -238,9 +238,9 @@ def gather(tensor, **kwargs):
     """收集一个张量列表从一个单一进程中.
 
     Arguments:
-        tensor ( Tensor ): 输入的数据.
-        dst ( int ): 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
-        gather_list (list[ Tensor ]): 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
+        tensor (Tensor): 输入的数据.
+        dst (int): 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
+        gather_list (list[Tensor]): 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
         group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
@@ -267,9 +267,9 @@ def scatter(tensor, **kwargs):
     每个进程只会收到一个张量,并将其数据存储在 "tensor" 的参数中.
 
     Arguments:
-        tensor ( Tensor ): 输出的张量.
-        src ( int ): 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
-        scatter_list (list[ Tensor ]): 张量分散的列表. 仅在发送数据的过程中需要.
+        tensor (Tensor): 输出的张量.
+        src (int): 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
+        scatter_list (list[Tensor]): 张量分散的列表. 仅在发送数据的过程中需要.
         group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
