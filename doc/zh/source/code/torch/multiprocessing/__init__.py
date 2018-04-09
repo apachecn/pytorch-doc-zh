@@ -42,7 +42,7 @@ def set_sharing_strategy(new_strategy):
     """为共享的 CPU 张量来设置策略.
 
     Arguments:
-        new_strategy ( str ): 所选策略的名称. 必须是函数 :func:`get_all_sharing_strategies()` 所返回的值之一.
+        new_strategy (str): 所选策略的名称. 必须是函数 :func:`get_all_sharing_strategies()` 所返回的值之一.
     """
     global _sharing_strategy
     assert new_strategy in _all_sharing_strategies
