@@ -49,7 +49,7 @@ class ConstantPad2d(Module):
 
     参数:
         padding (int, tuple):填充的大小。 如果是int，则在所有边界使用相同的填充。
-             如果是4个元组，使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
+        如果是4个元组，使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
 
     形态:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -267,8 +267,8 @@ class ReplicationPad3d(Module):
 
     参数:
         padding (int, tuple): 填充的大小. 如果是int，则在所有边界使用相同的填充.
-        . 如果是四个元组, 则使用 (paddingLeft, paddingRight,
-            paddingTop, paddingBottom, paddingFront, paddingBack)
+        如果是四个元组, 则使用 (paddingLeft, paddingRight,
+        paddingTop, paddingBottom, paddingFront, paddingBack)
 
     形态:
         - Input: :math:`(N, C, D_{in}, H_{in}, W_{in})`
