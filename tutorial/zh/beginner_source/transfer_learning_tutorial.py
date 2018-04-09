@@ -49,7 +49,6 @@ plt.ion()   # interactive mode
 # 我们用 torchvision 和 torch.utils.data 包加载数据.
 #
 # 我们今天要解决的问题是, 训练一个可以区分 **ants** 和 **bees** 的模型.
-# The problem we're going to solve today is to train a model to classify
 # 用于训练的 ants (蚂蚁)和 bees (蜜蜂)图片各120张. 每一类用于验证的图片各75张.
 # 通常, 如果从头开始训练, 要概括好, 这个数据集太小了.
 # 因为我们使用迁移学习, 这样我们应该可以概括的相当好.
@@ -119,8 +118,6 @@ imshow(out, title=[class_names[x] for x in classes])
 # 训练模型
 # ------------------
 #
-# Now, let's write a general function to train a model. Here, we will
-# illustrate:
 # 现在, 让我们写一个通用的函数来训练模型. 这里，我们要做以下说明:
 #
 # -  调度学习率
