@@ -53,7 +53,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | **教程部分** | - | - |
 | **初学者教程** | - | - |
 | [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [@李子文](http://community.apachecn.org/?/people/liziwen) |
-| [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
+| [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [@bringtree](http://community.apachecn.org/?/people/bringtree) |
 | [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
 | [迁移学习教程](http://pytorch.apachecn.org/cn/tutorials/beginner/transfer_learning_tutorial.html) | [@Sylvester](https://github.com/coboe) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
 | [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
