@@ -1,6 +1,6 @@
 #coding=utf-8
 """
-torch.distributed 提供类似 MPI 的前向运算机制,支持在多台机的网络中交换数据.支持不同的后段和初始化方法.
+torch.distributed 提供类似 MPI 的前向运算机制, 支持在多台机的网络中交换数据. 支持不同的后段和初始化方法.
 """
 import torch
 import warnings
@@ -24,10 +24,10 @@ def init_process_group(backend, init_method='env://', **kwargs):
 
     Arguments:
         backend (str): 使用后端的名字. 输入的有效值包括:  ``tcp`` ,  ``mpi`` and ``gloo`` .
-        init_method (str , optional): 指定如何初始化的URL.
-        world_size (int , optional): 参与工作的进程数量.
-        rank (int , optional): 当前进程的排名.
-        group_name (str , optional): 集群的名字. 请参阅init方法的描述.
+        init_method (str, optional): 指定如何初始化的URL.
+        world_size (int, optional): 参与工作的进程数量.
+        rank (int, optional): 当前进程的排名.
+        group_name (str, optional): 集群的名字. 请参阅init方法的描述.
 
     为了支持 ``backend == mpi`` , PyTorch 需要在支持 MPI 的系统上用进行源码编译安装
     """
@@ -106,7 +106,7 @@ def get_rank():
     """返回当前进程的排名.
 
     排名是独一无二的
-    Rank（排名）是分配给分布式集群中每个进程的唯一标识符. 它们总是连续的整数,范围从0到 ``world_size`` .
+    Rank（排名）是分配给分布式集群中每个进程的唯一标识符. 它们总是连续的整数, 范围从0到 ``world_size`` .
     """
     assert torch.distributed._initialized
     return torch._C._dist_get_rank()
@@ -165,7 +165,7 @@ def recv(tensor, src=None):
 
     Arguments:
         tensor (Tensor): 用收到的数据填充张量.
-        src (int, optional): 发送端的Rank,如果没有指定,将会接收任何发送的数据.
+        src (int, optional): 发送端的Rank, 如果没有指定, 将会接收任何发送的数据.
 
     Returns:
         发送端的Rank.
@@ -183,7 +183,7 @@ def broadcast(tensor, src, group=group.WORLD):
      ``tensor`` 在该小组处理数据的所有过程中元素的数目必须相同.
 
     Arguments:
-        tensor (Tensor): 如果发送端 "src" 是当前进程的 Rank,则发送数据,否则使用张量保存接收的数据.
+        tensor (Tensor): 如果发送端 "src" 是当前进程的 Rank, 则发送数据, 否则使用张量保存接收的数据.
         src (int): 发送端的 Rank.
         group (optional): 集群内的小组的名字.
     """
@@ -193,7 +193,7 @@ def broadcast(tensor, src, group=group.WORLD):
 
 
 def all_reduce(tensor, op=reduce_op.SUM, group=group.WORLD):
-    """处理所有机器上的处理的张量数据,计算最终的结果.
+    """处理所有机器上的处理的张量数据, 计算最终的结果.
 
     在所有进程中调用 "张量" 将按位相同.
     Arguments:
@@ -264,7 +264,7 @@ def gather(tensor, **kwargs):
 def scatter(tensor, **kwargs):
     """将张量列表散布到小组中的所有进程.
 
-    每个进程只会收到一个张量,并将其数据存储在 "tensor" 的参数中.
+    每个进程只会收到一个张量, 并将其数据存储在 "tensor" 的参数中.
 
     Arguments:
         tensor (Tensor): 输出的张量.
@@ -293,7 +293,7 @@ def scatter(tensor, **kwargs):
 def barrier(group=group.WORLD):
     """同步所有进程.
 
-    这个集群阻塞进程,直到全部的小组的计算结果都输入进这个函数中.
+    这个集群阻塞进程, 直到全部的小组的计算结果都输入进这个函数中.
 
     Arguments:
         group (optional): 集群的内的小组的名字.
@@ -306,15 +306,15 @@ def barrier(group=group.WORLD):
 def new_group(ranks=None):
     """创建一个新的分布式小组
 
-    此函数要求主组中的所有进程（即作为分布式作业一部分的所有进程）都会输入此函数,即使它们不是该小组的成员.
-    此外,应该在所有的进程中以相同的顺序创建新的小组.
+    此函数要求主组中的所有进程（即作为分布式作业一部分的所有进程）都会输入此函数, 即使它们不是该小组的成员.
+    此外, 应该在所有的进程中以相同的顺序创建新的小组.
 
 
     Arguments:
         ranks (list[int]): 小组内成员的 Rank 的列表.
 
     Returns:
-        分配组的句柄,以便在集群中调用.
+        分配组的句柄, 以便在集群中调用.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
         "collective only supported in process-group mode"
