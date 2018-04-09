@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Reinforcement Learning (DQN) tutorial
+强化学习（DQN）教程
 =====================================
-**Author**: `Adam Paszke <https://github.com/apaszke>`_
+**作者**: `Adam Paszke <https://github.com/apaszke>`_
 
 
-This tutorial shows how to use PyTorch to train a Deep Q Learning (DQN) agent
-on the CartPole-v0 task from the `OpenAI Gym <https://gym.openai.com/>`__.
+本教程演示如何使用 PyTorch 对任务 CartPole-v0 训练 Deep Q Learning（DQN）代理，
+该任务来自于 `OpenAI Gym <https://gym.openai.com/>`__.
 
-**Task**
+**任务**
 
-The agent has to decide between two actions - moving the cart left or
-right - so that the pole attached to it stays upright. You can find an
-official leaderboard with various algorithms and visualizations at the
-`Gym website <https://gym.openai.com/envs/CartPole-v0>`__.
+该代理需要决定将小车往左还是往右推，因此小车上的杆子始终保持竖直。你可以在 
+`Gym website <https://gym.openai.com/envs/CartPole-v0>`__ 找到一个官方的公示榜单，其罗列了不同的算法和可视化。
 
 .. figure:: /_static/img/cartpole.gif
    :alt: cartpole
