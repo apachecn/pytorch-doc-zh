@@ -173,7 +173,7 @@ class device(object):
     """更改选定设备的上下文管理器.
 
     Arguments:
-        idx ( int ): 选择设备编号. 如果参数无效,则是无效操作.
+        idx (int): 选择设备编号. 如果参数无效,则是无效操作.
     """
 
     def __init__(self, idx):
@@ -200,7 +200,7 @@ class device_of(device):
     可以使用张量和存储作为参数,如果给定的对象不是在 GPU 上分配的,这是一个无效操作.
 
     Arguments:
-        obj ( Tensor or Storage): 在选定设备上分配的对象.
+        obj (Tensor or Storage): 在选定设备上分配的对象.
     """
 
     def __init__(self, obj):
@@ -215,7 +215,7 @@ def set_device(device):
     在大多数情况下,最好使用 ``CUDA_VISIBLE_DEVICES`` 环境变量.
 
     Arguments:
-        device ( int ): 选择设备. 参数无效时,则是无效操作.
+        device (int): 选择设备. 参数无效时,则是无效操作.
     """
     if device >= 0:
         torch._C._cuda_setDevice(device)
@@ -225,7 +225,7 @@ def get_device_name(device):
     """获取设备名.
 
     Arguments:
-        device ( int ): 返回设备名. 参数无效时,则是无效操作.
+        device (int): 返回设备名. 参数无效时,则是无效操作.
     """
     if device >= 0:
         return torch._C._cuda_getDeviceName(device)
