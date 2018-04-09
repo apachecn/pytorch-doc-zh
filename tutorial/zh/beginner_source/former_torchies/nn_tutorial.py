@@ -152,7 +152,7 @@ print(net.conv1.weight.grad.data.norm())  # norm of the gradients
 
 
 def printnorm(self, input, output):
-    # 输入是将输入打包成的 tuple 的input
+    # input是将输入打包成的 tuple 的input
     # 输出是一个 Variable. output.data 是我们感兴趣的 Tensor
     print('Inside ' + self.__class__.__name__ + ' forward')
     print('')
