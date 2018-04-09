@@ -1,7 +1,7 @@
 r"""
 该 ``distributions`` 统计分布包中含有可自定义参数的概率分布和采样函数.
 
-当概率密度函数对其参数可微时,可以使用
+当概率密度函数对其参数可微时, 可以使用
 :math:`~torch.distributions.Distribution.log_prob`方法来实施梯度方法Policy Gradient.
 它的一个基本方法是REINFORCE规则:
 
@@ -9,12 +9,12 @@ r"""
 
     \Delta\theta  = \alpha r \frac{\partial\log p(a|\pi^\theta(s))}{\partial\theta}
 
-这其中:math:`\theta`是参数,:math:`\alpha`是学习率,:math:`r`是奖惩,:math:`p(a|\pi^\theta(s))`
+这其中:math:`\theta`是参数, :math:`\alpha`是学习率, :math:`r`是奖惩, :math:`p(a|\pi^\theta(s))`
 是在策略:math:`\pi^\theta`中从:math:`s`状态下采取:math:`a`行动的概率.
 
-在实践中,我们要从神经网络的输出中采样选出一个行动,在某个环境中应用该行动,然后使用
- ``log_prob`` 函数来构造一个等价的损失函数.请注意,这里我们使用了负号,因为优化器使用
-是是梯度下降法,然而上面的REINFORCE规则是假设了梯度上升情形.如下所示是在多项式分布下
+在实践中, 我们要从神经网络的输出中采样选出一个行动, 在某个环境中应用该行动, 然后使用
+ ``log_prob`` 函数来构造一个等价的损失函数. 请注意, 这里我们使用了负号, 因为优化器使用
+是是梯度下降法, 然而上面的REINFORCE规则是假设了梯度上升情形. 如下所示是在多项式分布下
 实现REINFORCE的代码::
 
     probs = policy_network(state)
@@ -40,13 +40,13 @@ class Distribution(object):
 
     def sample(self):
         """
-        生成一个样本,如果分布参数有多个,就生成一批样本.
+        生成一个样本, 如果分布参数有多个, 就生成一批样本.
         """
         raise NotImplementedError
 
     def sample_n(self, n):
         """
-        生成n个样本,如果分布参数有多个,就生成n批样本.
+        生成n个样本, 如果分布参数有多个, 就生成n批样本.
         """
         raise NotImplementedError
 
@@ -55,7 +55,7 @@ class Distribution(object):
         返回在`value`处的概率密度函数的对数.
 
         Args:
-            value ( Tensor or Variable ):（基类的参数,没有实际用处）
+            value (Tensor or Variable):（基类的参数,没有实际用处）
         """
         raise NotImplementedError
 
@@ -64,7 +64,7 @@ class Bernoulli(Distribution):
     r"""
     创建以 `probs` 为参数的伯努利分布.
 
-    样本是二进制的（0或1）. 他们以p的概率取值为1,以（1 - p）的概率取值为0.
+    样本是二进制的 (0或1). 他们以p的概率取值为1, 以 (1 - p) 的概率取值为0.
     
     例:
 
