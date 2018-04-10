@@ -52,18 +52,18 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [torchvision](http://pytorch.apachecn.org/cn/docs/0.3.0/torchvision/index.html) | [@那伊抹微笑](https://github.com/wangyangting) @dawenzi123 [@LeeGeong](https://github.com/LeeGeong) @liandongze | [@咸鱼](https://github.com/Watermelon233) |
 | **教程部分** | - | - |
 | **初学者教程** | - | - |
-| [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [@李子文](http://community.apachecn.org/?/people/liziwen) |
-| [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [@bringtree](http://community.apachecn.org/?/people/bringtree) |
-| [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
+| [PyTorch 深度学习: 60 分钟极速入门教程](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_60min_blitz.html) | [@小王子](https://github.com/VPrincekin) | [@李子文](https://github.com/liziwenzzzz) |
+| [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [@bringtree](https://github.com/bringtree) |
+| [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [*@bringtree*](https://github.com/bringtree) |
 | [迁移学习教程](http://pytorch.apachecn.org/cn/tutorials/beginner/transfer_learning_tutorial.html) | [@Sylvester](https://github.com/coboe) | [@Archie Yu](https://github.com/archie-yu) |
-| [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [*@bringtree*](http://community.apachecn.org/?/people/bringtree) |
+| [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [*@bringtree*](https://github.com/bringtree) |
 | [Deep Learning for NLP with Pytorch](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_nlp_tutorial.html) | [@JingTao](https://github.com/jingwangfei) [@friedhelm739](https://github.com/friedhelm739) | |
 | **中级教程** | - | - |
 | [Classifying Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html#) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | |
-| [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [*@jianchengss*](http://community.apachecn.org/?/people/jianchengss) | |
+| [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [@jianchengss](https://github.com/jianchengss) | |
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [@EWilsen](http://community.apachecn.org/?/people/EWilsen) | |
-| [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [*@Lisanaaa*](http://community.apachecn.org/?/people/Lisanaaa) | |
-| [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](http://community.apachecn.org/?/people/Sylvester) | |
+| [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [@Lisanaaa](https://github.com/Lisanaaa) | |
+| [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](https://github.com/coboe) | |
 | [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [@Twinkle](https://github.com/kemingzeng) | |
 | **高级教程** | - | - |
 | [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | | |
