@@ -94,22 +94,22 @@ class DistributedModel(nn.Module):
 
 ########################################################################
 #
-# 这是对前 Torch 使用者关于 PyTorch 的一个小的介绍.
+# 这是面向 Torch 使用者的 PyTorch 的简短介绍.
 # 当然还有更多东西需要学习.
 #
-# 看看我们更全面的入门教程, 它介绍了 ``optim`` package,
+# 看完这部分教程，也可以看看我们更全面的入门教程, 它介绍了 ``optim`` package,
 # data loaders 等.: :doc:`/beginner/deep_learning_60min_blitz`.
 #
 # 也可以看看
 #
-# -  :doc:`Train neural nets to play video games </intermediate/reinforcement_q_learning>`
-# -  `Train a state-of-the-art ResNet network on imagenet`_
-# -  `Train an face generator using Generative Adversarial Networks`_
-# -  `Train a word-level language model using Recurrent LSTM networks`_
-# -  `More examples`_
-# -  `More tutorials`_
-# -  `Discuss PyTorch on the Forums`_
-# -  `Chat with other users on Slack`_
+# -  :doc:`训练一个会玩视频游戏的神经网络 </intermediate/reinforcement_q_learning>`
+# -  `使用imagenet图像数据来训练一个现在最热门的模型`_
+# -  `训练一个GAN网络来生成人脸`_
+# -  `使用循环神经网络LSTM来训练word-level language模型`_
+# -  `了解更多的例子`_
+# -  `了解更多的教程`_
+# -  `在Forums上讨论PyTorch`_
+# -  `在slack和其他用户讨论PyTorch`_
 #
 # .. _`Deep Learning with PyTorch: a 60-minute blitz`: https://github.com/pytorch/tutorials/blob/master/Deep%20Learning%20with%20PyTorch.ipynb
 # .. _Train a state-of-the-art ResNet network on imagenet: https://github.com/pytorch/examples/tree/master/imagenet
