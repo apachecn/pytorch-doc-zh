@@ -66,7 +66,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](https://github.com/coboe) | |
 | [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [@Twinkle](https://github.com/kemingzeng) | |
 | **高级教程** | - | - |
-| [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | | |
+| [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | [*@Twinkle*](https://github.com/kemingzeng) | |
 | [Creating extensions using numpy and scipy](http://pytorch.apachecn.org/cn/tutorials/advanced/numpy_extensions_tutorial.html) | [@飞龙](https://github.com/wizardforcel) | |
 | [Transfering a model from PyTorch to Caffe2 and Mobile using ONNX](http://pytorch.apachecn.org/cn/tutorials/advanced/super_resolution_with_caffe2.html) | [@片刻](https://github.com/jiangzhonglian) | |
 | [Custom C extensions for pytorch](http://pytorch.apachecn.org/cn/tutorials/advanced/c_extension.html) | [@飞龙](https://github.com/wizardforcel) | |
