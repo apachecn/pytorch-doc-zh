@@ -3,19 +3,19 @@ r"""
 
 当概率密度函数对其参数可微时, 可以使用
 :math:`~torch.distributions.Distribution.log_prob`方法来实施梯度方法Policy Gradient.
-它的一个基本方法是REINFORCE规则:
+它的一个基本方法是 REINFORCE 规则:
 
 .. math::
 
     \Delta\theta  = \alpha r \frac{\partial\log p(a|\pi^\theta(s))}{\partial\theta}
 
-这其中:math:`\theta`是参数, :math:`\alpha`是学习率, :math:`r`是奖惩, :math:`p(a|\pi^\theta(s))`
-是在策略:math:`\pi^\theta`中从:math:`s`状态下采取:math:`a`行动的概率.
+这其中 :math:`\theta` 是参数, :math:`\alpha` 是学习率, :math:`r` 是奖惩， :math:`p(a|\pi^\theta(s))`
+是在策略 :math:`\pi^\theta` 中从 :math:`s` 状态下采取 :math:`a` 行动的概率。
 
-在实践中, 我们要从神经网络的输出中采样选出一个行动, 在某个环境中应用该行动, 然后使用
- ``log_prob`` 函数来构造一个等价的损失函数. 请注意, 这里我们使用了负号, 因为优化器使用
-是是梯度下降法, 然而上面的REINFORCE规则是假设了梯度上升情形. 如下所示是在多项式分布下
-实现REINFORCE的代码::
+在实践中，我们要从神经网络的输出中采样选出一个行动，在某个环境中应用该行动，然后使用
+ ``log_prob`` 函数来构造一个等价的损失函数。请注意，这里我们使用了负号，因为优化器使用
+的是梯度下降法，然而上面的 REINFORCE 规则是假设了梯度上升情形。策略以多项式分布的 REINFORCE
+规则代码如下所示::
 
     probs = policy_network(state)
     # NOTE: 等同于多项式分布
