@@ -44,7 +44,7 @@ Matthias Bethge 几位学者发明的
 定义风格要更繁琐一些. 令满足 :math:`k \leq K` 的 :math:`F_{XL}^k` 代表  
 :math:`L` 层矢量化的 :math:`K` 个特征映射中的第 :math:`k^{th}` 个. 
 图像 :math:`X` 在 :math:`L` 层的风格 :math:`G_{XL}` 定义为满足 
-:math:`k \leq K` 的所有矢量化特征映射 :math:`F_{XL}^k` 的豆产物 (Gram produce). 
+:math:`k \leq K` 的所有矢量化特征映射 :math:`F_{XL}^k` 的克产物 (Gram produce). 
 换句话说, :math:`G_{XL}` 是一个 :math:`K`\ x\ :math:`K` 的矩阵, 其在 
 :math:`k^{th}` 行和 :math:`l^{th}` 列的每个元素 :math:`G_{XL}(k,l)` 
 是 :math:`F_{XL}^k` 和 :math:`F_{XL}^l` 之间的矢量产物 :
@@ -267,44 +267,40 @@ class ContentLoss(nn.Module):
 # 风格损失
 # ~~~~~~~~~~
 #
-# For the style loss, we need first to define a module that compute the
-# gram produce :math:`G_{XL}` given the feature maps :math:`F_{XL}` of the
-# neural network fed by :math:`X`, at layer :math:`L`. Let
-# :math:`\hat{F}_{XL}` be the re-shaped version of :math:`F_{XL}` into a
-# :math:`K`\ x\ :math:`N` matrix, where :math:`K` is the number of feature
-# maps at layer :math:`L` and :math:`N` the lenght of any vectorized
-# feature map :math:`F_{XL}^k`. The :math:`k^{th}` line of
-# :math:`\hat{F}_{XL}` is :math:`F_{XL}^k`. We let you check that
-# :math:`\hat{F}_{XL} \cdot \hat{F}_{XL}^T = G_{XL}`. Given that, it
-# becomes easy to implement our module:
+# 对于风格损失, 我们首先需要定义一个给定输入 :math:`X` 在 :math:`L` 
+# 层的特征映射 :math:`F_{XL}` 时计算克产物 :math:`G_{XL}` 的模块. 令 
+# :math:`\hat{F}_{XL}` 表示 :math:`F_{XL}` 重变形为 
+# :math:`K`\ x\ :math:`N` 的版本, 这里 :math:`K` 是 :math:`L` 层特征
+# 映射的数量, :math:`N` 是任意矢量化特征映射 :math:`F_{XL}^k` 的长度. 
+# :math:`\hat{F}_{XL}` 的第 :math:`k^{th}` 行是 :math:`F_{XL}^k`. 
+# 可以验证 :math:`\hat{F}_{XL} \cdot \hat{F}_{XL}^T = G_{XL}`. 鉴于此, 
+# 实现我们的模块就很容易了:
 #
 
 class GramMatrix(nn.Module):
 
     def forward(self, input):
         a, b, c, d = input.size()  # a=batch size(=1)
-        # b=number of feature maps
-        # (c,d)=dimensions of a f. map (N=c*d)
+        # b= 特征映射的数量
+        # (c,d)= 一个特征映射的维度 (N=c*d)
 
-        features = input.view(a * b, c * d)  # resise F_XL into \hat F_XL
+        features = input.view(a * b, c * d)  # 将 F_XL 转换为 \hat F_XL
 
-        G = torch.mm(features, features.t())  # compute the gram product
+        G = torch.mm(features, features.t())  # 计算克产物 (gram product)
 
-        # we 'normalize' the values of the gram matrix
-        # by dividing by the number of element in each feature maps.
+        # 我们用除以每个特征映射元素数量的方法
+		# 标准化克矩阵 (gram matrix) 的值
         return G.div(a * b * c * d)
 
 
 ######################################################################
-# The longer is the feature maps dimension :math:`N`, the bigger are the
-# values of the gram matrix. Therefore, if we don't normalize by :math:`N`,
-# the loss computed at the first layers (before pooling layers) will have
-# much more importance during the gradient descent. We dont want that,
-# since the most interesting style features are in the deepest layers!
+# 特征映射的维度 :math:`N` 越长, 则克矩阵 (gram matrix) 的值越大. 
+# 因此如果我们不用 :math:`N` 来标准化, 在梯度下降过程中第一层 
+# (在池化层之前) 的损失计算就会过于重要. 我们当然不希望这样, 
+# 因为我们感兴趣的风格特征都在最深的那些层!
 #
-# Then, the style loss module is implemented exactly the same way than the
-# content loss module, but we have to add the ``gramMatrix`` as a
-# parameter:
+# 接着, 风格损失模块被以和内容损失模块相同的方式实现, 
+# 但是我们还得把 ``gramMatrix`` 加入作为参数:
 #
 
 class StyleLoss(nn.Module):
@@ -329,37 +325,34 @@ class StyleLoss(nn.Module):
 
 
 ######################################################################
-# Load the neural network
+# 读取神经网络
 # ~~~~~~~~~~~~~~~~~~~~~~~
 #
-# Now, we have to import a pre-trained neural network. As in the paper, we
-# are going to use a pretrained VGG network with 19 layers (VGG19).
+# 现在, 我们要导入一个预训练好的神经网络. 和论文一样, 我们用预训练
+# 的 19 层 VGG 网络 (VGG19).
 #
-# PyTorch's implementation of VGG is a module divided in two child
-# ``Sequential`` modules: ``features`` (containing convolution and pooling
-# layers) and ``classifier`` (containing fully connected layers). We are
-# just interested by ``features``:
+# PyTorch对 VGG 的实现模块分为两个子 ``Sequential`` 模块: 
+# ``features``(包括卷积和池化层) 和 ``classifier``(包括全连接层). 
+# 我们只对 ``features`` 感兴趣:
 #
 
 cnn = models.vgg19(pretrained=True).features
 
-# move it to the GPU if possible:
+# 可能的话将它移到 GPU 上:
 if use_cuda:
     cnn = cnn.cuda()
 
 
 ######################################################################
-# A ``Sequential`` module contains an ordered list of child modules. For
-# instance, ``vgg19.features`` contains a sequence (Conv2d, ReLU,
-# Maxpool2d, Conv2d, ReLU...) aligned in the right order of depth. As we
-# said in *Content loss* section, we wand to add our style and content
-# loss modules as additive 'transparent' layers in our network, at desired
-# depths. For that, we construct a new ``Sequential`` module, in wich we
-# are going to add modules from ``vgg19`` and our loss modules in the
-# right order:
+# ``Sequential``(顺序) 模块包含一个子模块的列表. 比如, 
+# ``vgg19.features`` 包含一个以正确深度排列的序列 (Conv2d, ReLU, 
+# Maxpool2d, Conv2d, ReLU...), 就如我们在 *Content loss* 部分讲到的, 
+# 我们想要把我们的风格和内容损失模块以想要的深度作为 '透明层' 加入到
+# 我们的网络中. 为了这样, 我们建立了一个新的 ``Sequential``(顺序) 
+# 模块, 在其中我们把 ``vgg19`` 和我们的损失模块以正确的顺序加入:
 #
 
-# desired depth layers to compute style/content losses :
+# 希望计算风格/内容损失的层 :
 content_layers_default = ['conv_4']
 style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
@@ -370,15 +363,14 @@ def get_style_model_and_losses(cnn, style_img, content_img,
                                style_layers=style_layers_default):
     cnn = copy.deepcopy(cnn)
 
-    # just in order to have an iterable access to or list of content/syle
-    # losses
+    # 仅为了有一个可迭代的列表 内容/风格 损失
     content_losses = []
     style_losses = []
 
-    model = nn.Sequential()  # the new Sequential module network
-    gram = GramMatrix()  # we need a gram module in order to compute style targets
+    model = nn.Sequential()  # 新建的 Sequential 网络模块
+    gram = GramMatrix()  # 我们需要一个克模块 (gram module) 来计算风格目标
 
-    # move these modules to the GPU if possible:
+    # 可能的话将这些模块移到 GPU 上:
     if use_cuda:
         model = model.cuda()
         gram = gram.cuda()
@@ -390,14 +382,14 @@ def get_style_model_and_losses(cnn, style_img, content_img,
             model.add_module(name, layer)
 
             if name in content_layers:
-                # add content loss:
+                # 加内容损失:
                 target = model(content_img).clone()
                 content_loss = ContentLoss(target, content_weight)
                 model.add_module("content_loss_" + str(i), content_loss)
                 content_losses.append(content_loss)
 
             if name in style_layers:
-                # add style loss:
+                # 加风格损失:
                 target_feature = model(style_img).clone()
                 target_feature_gram = gram(target_feature)
                 style_loss = StyleLoss(target_feature_gram, style_weight)
@@ -409,14 +401,14 @@ def get_style_model_and_losses(cnn, style_img, content_img,
             model.add_module(name, layer)
 
             if name in content_layers:
-                # add content loss:
+                # 加内容损失:
                 target = model(content_img).clone()
                 content_loss = ContentLoss(target, content_weight)
                 model.add_module("content_loss_" + str(i), content_loss)
                 content_losses.append(content_loss)
 
             if name in style_layers:
-                # add style loss:
+                # 加风格损失:
                 target_feature = model(style_img).clone()
                 target_feature_gram = gram(target_feature)
                 style_loss = StyleLoss(target_feature_gram, style_weight)
@@ -433,12 +425,10 @@ def get_style_model_and_losses(cnn, style_img, content_img,
 
 
 ######################################################################
-# .. Note::
-#    In the paper they recommend to change max pooling layers into
-#    average pooling. With AlexNet, that is a small network compared to VGG19
-#    used in the paper, we are not going to see any difference of quality in
-#    the result. However, you can use these lines instead if you want to do
-#    this substitution:
+# .. 注意::
+#    在这篇论文中他们推荐将最大池化层更改为平均池化层. 
+#    AlexNet是一个比 VGG19 更小的网络, 用它实现的话我们也不会看到
+#    任何结果质量的不同. 而如果你想做这个替代的话, 可以用这些代码:
 #
 #    ::
 #
@@ -448,64 +438,56 @@ def get_style_model_and_losses(cnn, style_img, content_img,
 
 
 ######################################################################
-# Input image
+# 输入图像
 # ~~~~~~~~~~~
 #
-# Again, in order to simplify the code, we take an image of the same
-# dimensions than content and style images. This image can be a white
-# noise, or it can also be a copy of the content-image.
+# 为了简化代码, 我们用与内容和风格图像同样尺寸的图像做输入. 
+# 这个图像可以是白噪声的, 也可以是一份内容图像的拷贝.
 #
 
 input_img = content_img.clone()
-# if you want to use a white noise instead uncomment the below line:
+# 如果你想用白噪声做输入, 请取消下面的注释行:
 # input_img = Variable(torch.randn(content_img.data.size())).type(dtype)
 
-# add the original input image to the figure:
+# 在绘图中加入原始的输入图像:
 plt.figure()
 imshow(input_img.data, title='Input Image')
 
 
 ######################################################################
-# Gradient descent
+# 梯度下降
 # ~~~~~~~~~~~~~~~~
 #
-# As Leon Gatys, the author of the algorithm, suggested
+# 由于本算法的作者 Leon Gatys 的建议 
 # `here <https://discuss.pytorch.org/t/pytorch-tutorial-for-neural-transfert-of-artistic-style/336/20?u=alexis-jacq>`__,
-# we will use L-BFGS algorithm to run our gradient descent. Unlike
-# training a network, we want to train the input image in order to
-# minimise the content/style losses. We would like to simply create a
-# PyTorch  L-BFGS optimizer, passing our image as the variable to optimize.
-# But ``optim.LBFGS`` takes as first argument a list of PyTorch
-# ``Variable`` that require gradient. Our input image is a ``Variable``
-# but is not a leaf of the tree that requires computation of gradients. In
-# order to show that this variable requires a gradient, a possibility is
-# to construct a ``Parameter`` object from the input image. Then, we just
-# give a list containing this ``Parameter`` to the optimizer's
-# constructor:
+# 我们将使用 L-BFGS 算法来跑我们的梯度下降. 和训练一个网络不同的是, 
+# 我们希望训练输入图像来最小化 内容/风格 损失. 我们想简单地建一个 
+# PyTorch L-BFGS 优化器, 传入我们的图像作为变量进行优化. 
+# 但是 ``optim.LBFGS`` 的第一个形参是一个需要梯度的 PyTorch ``Variable``.
+# 我们的输入图像是一个 ``Variable``, 但不是需要计算梯度的树的叶节点. 
+# 为了使这个变量需要梯度运算, 一个可能的方法是从输入图像构建一个 
+# ``Parameter``(参数) 对象. 然后我们只需给优化器的构造器传递一个
+# 包含这个参数的列表: 
 #
 
 def get_input_param_optimizer(input_img):
-    # this line to show that input is a parameter that requires a gradient
+    # 这行显示了输入是一个需要梯度计算的参数
     input_param = nn.Parameter(input_img.data)
     optimizer = optim.LBFGS([input_param])
     return input_param, optimizer
 
 
 ######################################################################
-# **Last step**: the loop of gradient descent. At each step, we must feed
-# the network with the updated input in order to compute the new losses,
-# we must run the ``backward`` methods of each loss to dynamically compute
-# their gradients and perform the step of gradient descent. The optimizer
-# requires as argument a "closure": a function that reevaluates the model
-# and returns the loss.
+# **最后一步**: 循环进行梯度下降. 每一步中我们必须喂给神经网络更新后
+# 的输入以计算新的损失, 我们要运行每个损失的 ``backward`` 方法来动态
+# 计算他们的梯度并呈现梯度下降的每一步. 这个优化器需要一个 "closure"
+# : 一个重新评估模型并返回损失的函数. 
 #
-# However, there's a small catch. The optimized image may take its values
-# between :math:`-\infty` and :math:`+\infty` instead of staying between 0
-# and 1. In other words, the image might be well optimized and have absurd
-# values. In fact, we must perform an optimization under constraints in
-# order to keep having right vaues into our input image. There is a simple
-# solution: at each step, to correct the image to maintain its values into
-# the 0-1 interval.
+# 然而, 这里有一个小问题. 被优化的图像的像素值会在 :math:`-\infty` 
+# 和 :math:`+\infty` 之间波动, 而不是继续保持在 0 到 1. 换句话说, 
+# 图像可能会被完美地优化成荒谬的值. 事实上, 我们必须在限制下使用
+# 优化器来使我们的输入图像一直保持正确的值. 有一个简单的解决方案: 
+# 在每一步, 都校正图像使其保持 0-1 范围的值. 
 #
 
 def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300,
@@ -521,7 +503,7 @@ def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300,
     while run[0] <= num_steps:
 
         def closure():
-            # correct the values of updated input image
+            # 校正更新后的输入图像值
             input_param.data.clamp_(0, 1)
 
             optimizer.zero_grad()
@@ -545,13 +527,13 @@ def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300,
 
         optimizer.step(closure)
 
-    # a last correction...
+    # 最后一次的校正...
     input_param.data.clamp_(0, 1)
 
     return input_param.data
 
 ######################################################################
-# Finally, run the algorithm
+# 最后, 运行算法
 
 output = run_style_transfer(cnn, content_img, style_img, input_img)
 
