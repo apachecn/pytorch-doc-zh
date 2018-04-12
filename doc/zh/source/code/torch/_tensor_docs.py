@@ -172,7 +172,7 @@ apply_(callable) -> Tensor
 
 .. note::
 
-    该函数只能在 CPU tensor 中使用, 并且不应该用在较高性能的要求的代码块.
+    该函数只能在 CPU tensor 中使用, 并且不应该用在有较高性能的要求的代码块中.
 """)
 
 add_docstr_all('asin',
@@ -256,7 +256,7 @@ add_docstr_all('cauchy_',
                """
 cauchy_(median=0, sigma=1, *, generator=None) -> Tensor
 
-将 tensor 中元素用柯西分布得到的数值填充:
+用柯西分布得到的数值来填充 tensor 中的元素:
 
 .. math::
 
