@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-用序列到序列神经网络和注意力进行翻译
+用基于注意力机制的seq2seq神经网络进行翻译
 *************************************************************
 **作者**: `Sean Robertson <https://github.com/spro/practical-pytorch>`_
 

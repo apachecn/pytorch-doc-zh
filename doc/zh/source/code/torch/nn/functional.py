@@ -500,9 +500,9 @@ def dropout3d(input, p=0.5, training=False, inplace=False):
 threshold = _add_docstr(torch._C._nn.threshold, r"""
 threshold(input, threshold, value, inplace=False) -> Variable
 
-Thresholds each element of the input Tensor.
+基于 Tensor 中的每个元素创造阈值函数
 
-See :class:`~torch.nn.Threshold` for more details.
+class:`~torch.nn.Threshold` 可以获取更多细节.
 """)
 
 
@@ -536,7 +536,7 @@ Args:
 hardtanh = _add_docstr(torch._C._nn.hardtanh, r"""
 hardtanh(input, min_val=-1., max_val=1., inplace=False) -> Variable
 
-Applies the HardTanh function element-wise. See :class:`~torch.nn.Hardtanh` for more
+逐元素应用HardTanh函数.请参阅 :class:`~torch.nn.Hardtanh` 可以获取更多细节.
 details.
 """)
 
@@ -544,7 +544,7 @@ details.
 def relu6(input, inplace=False):
     r"""relu6(input, inplace=False) -> Variable
 
-    以元素方式应用HardTanh函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
+    逐元素应用relu6函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
 
     请参阅 :class:`~torch.nn.ReLU6` 可以获取更多细节.
     """
@@ -554,7 +554,7 @@ def relu6(input, inplace=False):
 elu = _add_docstr(torch._C._nn.elu, r"""
 elu(input, alpha=1., inplace=False) -> Variable
 
-以元素方式使用,
+逐元素使用,
 :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`.
 
 请参阅 :class:`~torch.nn.ELU` 可以获取更多细节.
@@ -564,7 +564,7 @@ elu(input, alpha=1., inplace=False) -> Variable
 def selu(input, inplace=False):
     r"""selu(input, inplace=False) -> Variable
 
-    以元素方式使用,
+    逐元素使用,
     :math:`f(x) = scale * (\max(0,x) + \min(0, alpha * (\exp(x) - 1)))`,
     with ``alpha=1.6732632423543772848170429916717`` and
     ``scale=1.0507009873554804934193349852946``.
@@ -577,7 +577,7 @@ def selu(input, inplace=False):
 leaky_relu = _add_docstr(torch._C._nn.leaky_relu, r"""
 leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 
-以元素方式使用,
+逐元素使用,
 :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
 请参阅 :class:`~torch.nn.LeakyReLU` 可以获取更多细节.
@@ -590,7 +590,7 @@ leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 def prelu(input, weight):
     r"""prelu(input, weight) -> Variable
 
-    以元素方式使用方法
+    逐元素使用方法
     :math:`PReLU(x) = max(0,x) + weight * min(0,x)` where weight is a
     learnable parameter.
 
@@ -606,7 +606,7 @@ rrelu(input, lower=1./8, upper=1./3, training=False, inplace=False) -> Variable
 logsigmoid = _add_docstr(torch._C._nn.log_sigmoid, r"""
 logsigmoid(input) -> Variable
 
-以元素方式使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
+逐元素使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
 请参阅 :class:`~torch.nn.LogSigmoid` 可以获取更多细节.
 """)
@@ -614,7 +614,7 @@ logsigmoid(input) -> Variable
 hardshrink = _add_docstr(torch._C._nn.hardshrink, r"""
 hardshrink(input, lambd=0.5) -> Variable
 
-以元素方式使用 hard shrinkage 方法
+逐元素使用 hard shrinkage 方法
 
 请参阅 :class:`~torch.nn.Hardshrink` 可以获取更多细节.
 
@@ -625,7 +625,7 @@ hardshrink(input, lambd=0.5) -> Variable
 def tanhshrink(input):
     r"""tanhshrink(input) -> Variable
 
-    以元素方式使用, :math:`Tanhshrink(x) = x - Tanh(x)`
+    逐元素使用, :math:`Tanhshrink(x) = x - Tanh(x)`
 
     请参阅 :class:`~torch.nn.Tanhshrink` 可以获取更多细节.
     """
@@ -635,7 +635,7 @@ def tanhshrink(input):
 def softsign(input):
     r"""softsign(input) -> Variable
 
-    以元素方式使用方法 :math:`f(x) = x / (1 + |x|)`
+    逐元素使用方法 :math:`f(x) = x / (1 + |x|)`
 
     请参阅 :class:`~torch.nn.Softsign` 可以获取更多细节.
     """
@@ -955,7 +955,7 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
         target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 C 的 Tensor
         size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
             mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
             当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
@@ -1104,7 +1104,7 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
         weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
                 输入 tensor 的形状.
         size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
-                上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+                上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
                 mini-batch（小批量）上求和. 默认值: ``True``
 
     实例::

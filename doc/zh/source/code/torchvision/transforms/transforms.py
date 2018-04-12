@@ -631,8 +631,8 @@ class Grayscale(object):
 
     Returns:
         PIL Image: 灰度版本的输入.
-        - If num_output_channels == 1 : 返回的图像是 1 通道
-        - If num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
+        - 如果 num_output_channels == 1 : 返回的图像是 1 通道
+        - 如果 num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
 
     """
 
