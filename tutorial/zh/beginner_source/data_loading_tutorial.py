@@ -33,7 +33,7 @@ plt.ion()   # 交互模式
 
 ######################################################################
 # 我们将要处理的是面部姿态的数据集，其中一张人脸图像如下图一样被标注出来。
-# This means that a face is annotated like this:
+# 下面是一张脸的标注:
 #
 # .. figure:: /_static/img/landmarked_face2.png
 #    :width: 400
@@ -41,8 +41,8 @@ plt.ion()   # 交互模式
 # 每张人脸图像上，总共有68个不同的标注点被标记出来。
 #
 # .. note::
-#     从 `这里 <https://download.pytorch.org/tutorial/faces.zip>`下载数据集，
-#     这些图像在目录 'faces/'下。
+#     点击 `这里 <https://download.pytorch.org/tutorial/faces.zip> `下载数据集，
+#     这些图像在目录 ' faces/ '下。
 #     这个数据集实际上是从imagenet数据集中选取标记为人脸的一些图片，
 #     使用`dlib's pose estimation <http://blog.dlib.net/2014/08/real-time-face-pose-estimation.html>`__
 #     方法生成的。
@@ -93,12 +93,11 @@ plt.show()
 # -------------
 #
 # ``torch.utils.data.Dataset`` 是一个表示数据集的抽象类。
-# 
 # 你自己的数据集一般应该继承``Dataset``，并且重写下面的方法： 
 #
-# -  ``__len__`` 使用``len(dataset)`` 返回数据集的大小
+# -  ``__len__`` 使用``len(dataset)`` 可以返回数据集的大小
 # -  ``__getitem__`` 支持索引，以便于使用 ``dataset[i]`` 可以
-#    获取第:math:`i`\ 个样本
+#    获取第:math:`i`\ 个样本(0索引)
 #
 # 我们为我们的人脸数据集创建一个数据集类。 我们使用
 # ``__init__``方法来读取csv文件，使用 ``__getitem__``读取图片。
@@ -275,7 +274,7 @@ class ToTensor(object):
 # Compose transforms
 # ~~~~~~~~~~~~~~~~~~
 #
-# 现在我们就将transform应用在一个样本上。
+# 现在我们就将 transform 应用在一个样本上。
 #
 # 如果我们想将图片的短边变为256像素，并且随后随机裁切成224像素的正方形。
 # i.e, 我们可以组合``Rescale``和``RandomCrop``变换。
@@ -287,7 +286,7 @@ crop = RandomCrop(128)
 composed = transforms.Compose([Rescale(256),
                                RandomCrop(224)])
 
-#对样本进行上面的每一个操作。
+# 对每个样本进行上面的每一个操作。
 fig = plt.figure()
 sample = face_dataset[65]
 for i, tsfrm in enumerate([scale, crop, composed]):
@@ -350,9 +349,9 @@ dataloader = DataLoader(transformed_dataset, batch_size=4,
                         shuffle=True, num_workers=4)
 
 
-# Helper function to show a batch
+# 定义一个函数来查看某个 batch 的数据样本图片和标记点
 def show_landmarks_batch(sample_batched):
-    """显示一批数据样本的图片和标记点"""
+    """显示指定 batch 的数据样本的图片和标记点"""
     images_batch, landmarks_batch = \
             sample_batched['image'], sample_batched['landmarks']
     batch_size = len(images_batch)
