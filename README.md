@@ -56,7 +56,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [为以前 Torch 用户提供的 Pytorch 教程](http://pytorch.apachecn.org/cn/tutorials/beginner/former_torchies_tutorial.html) | @unknown | [@bringtree](https://github.com/bringtree) |
 | [跟着例子学习 PyTorch](http://pytorch.apachecn.org/cn/tutorials/beginner/pytorch_with_examples.html) | [@yongjay13](https://github.com/yongjay13) | [@bringtree](https://github.com/bringtree) |
 | [迁移学习教程](http://pytorch.apachecn.org/cn/tutorials/beginner/transfer_learning_tutorial.html) | [@Sylvester](https://github.com/coboe) | [@Archie Yu](https://github.com/archie-yu) |
-| [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [*@bringtree*](https://github.com/bringtree) |
+| [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [@bringtree](https://github.com/bringtree) |
 | [Deep Learning for NLP with Pytorch](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_nlp_tutorial.html) | [@JingTao](https://github.com/jingwangfei) [@friedhelm739](https://github.com/friedhelm739) | |
 | **中级教程** | - | - |
 | [Classifying Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html#) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | |
