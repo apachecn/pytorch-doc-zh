@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 r"""
-Introduction to PyTorch
+PyTorch介绍
 ***********************
 
-Introduction to Torch's tensor library
+Torch张量库介绍
 ======================================
 
-All of deep learning is computations on tensors, which are
-generalizations of a matrix that can be indexed in more than 2
-dimensions. We will see exactly what this means in-depth later. First,
-lets look what we can do with tensors.
+所有的深度学习都是在张量上计算的,其中张量是一个可以被超过二维索引的矩阵的一般化.
+稍后我们将详细讨论这意味着什么.首先,我们先来看一下我们可以用张量来干什么.
 """
 # Author: Robert Guthrie
 
@@ -26,21 +24,21 @@ torch.manual_seed(1)
 # Creating Tensors
 # ~~~~~~~~~~~~~~~~
 #
-# Tensors can be created from Python lists with the torch.Tensor()
-# function.
+# 张量可以在Python list形式下通过torch.Tensor()函数创建.
+# 
 #
 
-# Create a torch.Tensor object with the given data.  It is a 1D vector
+# 利用给定数据创建一个torch.Tensor对象.这是一个一维向量
 V_data = [1., 2., 3.]
 V = torch.Tensor(V_data)
 print(V)
 
-# Creates a matrix
+# 创建一个矩阵
 M_data = [[1., 2., 3.], [4., 5., 6]]
 M = torch.Tensor(M_data)
 print(M)
 
-# Create a 3D tensor of size 2x2x2.
+# 创建2x2x2形式的三维张量.
 T_data = [[[1., 2.], [3., 4.]],
           [[5., 6.], [7., 8.]]]
 T = torch.Tensor(T_data)
@@ -48,39 +46,35 @@ print(T)
 
 
 ######################################################################
-# What is a 3D tensor anyway? Think about it like this. If you have a
-# vector, indexing into the vector gives you a scalar. If you have a
-# matrix, indexing into the matrix gives you a vector. If you have a 3D
-# tensor, then indexing into the tensor gives you a matrix!
+# 什么是三维张量? 让我们这样想象.如果你有一个向量,那么对向量索引就会得到一个标量.
+# 如果你有一个矩阵,对矩阵索引那么就会得到一个向量.如果你有一个三维张量,那么对其索引
+# 就会得到一个矩阵!
 #
-# A note on terminology:
-# when I say "tensor" in this tutorial, it refers
-# to any torch.Tensor object. Matrices and vectors are special cases of
-# torch.Tensors, where their dimension is 1 and 2 respectively. When I am
-# talking about 3D tensors, I will explicitly use the term "3D tensor".
+# 针对术语的说明:
+# 当我在本教程内使用"tensor",它针对的是所有torch.Tensor对象.矩阵和向量是特殊的torch.Tensors,
+# 他们的维度分别是1和2.当我说到三维张量,我会简洁的使用"3D tensor".
 #
 
-# Index into V and get a scalar
+# 索引V得到一个标量
 print(V[0])
 
-# Index into M and get a vector
+# 索引M得到一个向量
 print(M[0])
 
-# Index into T and get a matrix
+# 索引T得到一个矩阵
 print(T[0])
 
 
 ######################################################################
-# You can also create tensors of other datatypes. The default, as you can
-# see, is Float. To create a tensor of integer types, try
-# torch.LongTensor(). Check the documentation for more data types, but
-# Float and Long will be the most common.
+# 你也可以创建其他数据类型的tensors.默认的数据类型为Float(浮点型). 可以使用torch.LongTensor()来
+# 创建一个整数类型的tensor.你可以在文件中寻找更多的数据类型,但是Float(浮点型)和Long(长整形)最常用的.
+# 
 #
 
 
 ######################################################################
-# You can create a tensor with random data and the supplied dimensionality
-# with torch.randn()
+# 你可以使用torch.randn()创建一个随机数据和需要提供维度的tensor.
+# 
 #
 
 x = torch.randn((3, 4, 5))
@@ -88,10 +82,10 @@ print(x)
 
 
 ######################################################################
-# Operations with Tensors
+# 对tensor进行操作
 # ~~~~~~~~~~~~~~~~~~~~~~~
 #
-# You can operate on tensors in the ways you would expect.
+# 你可以以你想要的方式操作tensor.
 
 x = torch.Tensor([1., 2., 3.])
 y = torch.Tensor([4., 5., 6.])
@@ -100,104 +94,88 @@ print(z)
 
 
 ######################################################################
-# See `the documentation <http://pytorch.org/docs/torch.html>`__ for a
-# complete list of the massive number of operations available to you. They
-# expand beyond just mathematical operations.
+# 可以查阅 `文件 <http://pytorch.org/docs/torch.html>`__ 使你可以完成更多的非数学操作. 
 #
-# One helpful operation that we will make use of later is concatenation.
+# 接下来一个很有帮助的操作就是连接.
 #
 
-# By default, it concatenates along the first axis (concatenates rows)
+# 默认情况下, 它沿着第一轴连接 (连接行)
 x_1 = torch.randn(2, 5)
 y_1 = torch.randn(3, 5)
 z_1 = torch.cat([x_1, y_1])
 print(z_1)
 
-# Concatenate columns:
+# 连接列:
 x_2 = torch.randn(2, 3)
 y_2 = torch.randn(2, 5)
-# second arg specifies which axis to concat along
+# 第二个数指定了沿着哪条轴连接
 z_2 = torch.cat([x_2, y_2], 1)
 print(z_2)
 
-# If your tensors are not compatible, torch will complain.  Uncomment to see the error
+# 如果你的tensors是不兼容的,torch会报错.取消注释来查看错误.
 # torch.cat([x_1, x_2])
 
 
 ######################################################################
-# Reshaping Tensors
+# 重构Tensors
 # ~~~~~~~~~~~~~~~~~
 #
-# Use the .view() method to reshape a tensor. This method receives heavy
-# use, because many neural network components expect their inputs to have
-# a certain shape. Often you will need to reshape before passing your data
-# to the component.
-#
+# 使用.view()去重构tensor.这个方法被使用的非常频繁,因为许多神经网络的神经元需要他们的输入
+# 有明确的构造.通常你需要先将数据重构再输入到神经元中.
 
 x = torch.randn(2, 3, 4)
 print(x)
-print(x.view(2, 12))  # Reshape to 2 rows, 12 columns
-# Same as above.  If one of the dimensions is -1, its size can be inferred
+print(x.view(2, 12))  # 重构为2行12列
+# 同上.如果维度为-1,那么它的维度根据数据推断出来
 print(x.view(2, -1))
 
 
 ######################################################################
-# Computation Graphs and Automatic Differentiation
+# 计算图和自动求导
 # ================================================
 #
-# The concept of a computation graph is essential to efficient deep
-# learning programming, because it allows you to not have to write the
-# back propagation gradients yourself. A computation graph is simply a
-# specification of how your data is combined to give you the output. Since
-# the graph totally specifies what parameters were involved with which
-# operations, it contains enough information to compute derivatives. This
-# probably sounds vague, so lets see what is going on using the
-# fundamental class of Pytorch: autograd.Variable.
+# 计算图的思想对于有效率的深度学习编程是很重要的,因为它允许你不必去自己写反向梯度传播.
+# 计算图只是简单地说明了如何将数据组合在一起以输出结果.因为图完全指定了操作所包含的参数,
+# 因此它包含了足够的信息去求导.这可能听起来很模糊,所以让我们看看使用Pytorch的基本类:
+# autograd.Variable.
 #
-# First, think from a programmers perspective. What is stored in the
-# torch.Tensor objects we were creating above? Obviously the data and the
-# shape, and maybe a few other things. But when we added two tensors
-# together, we got an output tensor. All this output tensor knows is its
-# data and shape. It has no idea that it was the sum of two other tensors
-# (it could have been read in from a file, it could be the result of some
-# other operation, etc.)
+# 首先, 从程序员的角度来思考.在torch中存储了什么.是我们在上面创建的Tensor对象吗?显然是数据和
+# 结构，也很可能是其他的东西.但是当我们将两个tensors相加后，我们得到了输出tensor.从这个输出可
+# 以知道的就是数据和结构.不可能知道它是其他两个tensors的和(它可能是从一个文件中读取的，也可能是
+# 其他操作的结果等).
 #
-# The Variable class keeps track of how it was created. Lets see it in
-# action.
+# 变量类别可以一直跟踪它是如何创建的.让我们在实际中来看. 
 #
 
-# Variables wrap tensor objects
+# 变量围绕tensor对象
 x = autograd.Variable(torch.Tensor([1., 2., 3]), requires_grad=True)
-# You can access the data with the .data attribute
+# 您可以使用.data属性访问数据.
 print(x.data)
 
-# You can also do all the same operations you did with tensors with Variables.
+# 你也可以用变量来做与张量相同的运算.
 y = autograd.Variable(torch.Tensor([4., 5., 6]), requires_grad=True)
 z = x + y
 print(z.data)
 
-# BUT z knows something extra.
+# 但是z知道一些额外的东西.
 print(z.grad_fn)
 
 
 ######################################################################
-# So Variables know what created them. z knows that it wasn't read in from
-# a file, it wasn't the result of a multiplication or exponential or
-# whatever. And if you keep following z.grad_fn, you will find yourself at
-# x and y.
+# 既然变量知道怎么创建的它们. z 知道它不是从一个文件读取的，也不是一个乘法或指数或其他的结果.
+# 如果你继续跟踪z.grad_fn, 你会发现x和y
 #
-# But how does that help us compute a gradient?
+# 但是它如何帮助我们计算梯度?
 #
 
-# Lets sum up all the entries in z
+# 我们来将z中所有项作和运算
 s = z.sum()
 print(s)
 print(s.grad_fn)
 
 
 ######################################################################
-# So now, what is the derivative of this sum with respect to the first
-# component of x? In math, we want
+# 那么这个计算和对x的第一个分量的导数是什么? 在数学上,我们希望
 #
 # .. math::
 #
@@ -205,77 +183,61 @@ print(s.grad_fn)
 #
 #
 #
-# Well, s knows that it was created as a sum of the tensor z. z knows
-# that it was the sum x + y. So
+# s知道它是被tensor z的和创建的.z 知道它是x+y的和
 #
 # .. math::  s = \overbrace{x_0 + y_0}^\text{$z_0$} + \overbrace{x_1 + y_1}^\text{$z_1$} + \overbrace{x_2 + y_2}^\text{$z_2$}
 #
-# And so s contains enough information to determine that the derivative
-# we want is 1!
+# 并且s包含了足够的信息去决定我们需要的导数为1!
 #
-# Of course this glosses over the challenge of how to actually compute
-# that derivative. The point here is that s is carrying along enough
-# information that it is possible to compute it. In reality, the
-# developers of Pytorch program the sum() and + operations to know how to
-# compute their gradients, and run the back propagation algorithm. An
-# in-depth discussion of that algorithm is beyond the scope of this
-# tutorial.
+# 当然它掩盖了如何计算导数的挑战.这是因为s携带了足够多的信息所以导数可以被计算.现实中,Pytorch
+# 程序的开发人员用程序指令sum()和 + 操作以知道如何计算它们的梯度并且运行反向传播算法.对此算法的深
+# 入讨论超出了本教程的范围.
 #
 
 
 ######################################################################
-# Lets have Pytorch compute the gradient, and see that we were right:
-# (note if you run this block multiple times, the gradient will increment.
-# That is because Pytorch *accumulates* the gradient into the .grad
-# property, since for many models this is very convenient.)
+# 让我们用Pytorch计算梯度,发现我们是对的:(如果你运行这个方块很多次,梯度会上升,这是因为Pytorch *accumulates*(累积)
+# 渐变为.grad属性, 因为对于很多模型它是很方便的.)
 #
 
-# calling .backward() on any variable will run backprop, starting from it.
+# 在任意变量上使用 .backward()将会运行反向,从它开始.
 s.backward()
 print(x.grad)
 
 
 ######################################################################
-# Understanding what is going on in the block below is crucial for being a
-# successful programmer in deep learning.
+# 对于一个成功的深度学习程序员了解下面的方块如何运行是至关重要的.
 #
 
 x = torch.randn((2, 2))
 y = torch.randn((2, 2))
-z = x + y  # These are Tensor types, and backprop would not be possible
+z = x + y  # 这些是Tensor类型,反向是不可能的
 
 var_x = autograd.Variable(x, requires_grad=True)
 var_y = autograd.Variable(y, requires_grad=True)
-# var_z contains enough information to compute gradients, as we saw above
+# var_z 包含了足够的信息去计算梯度,如下所示
 var_z = var_x + var_y
 print(var_z.grad_fn)
 
-var_z_data = var_z.data  # Get the wrapped Tensor object out of var_z...
-# Re-wrap the tensor in a new variable
+var_z_data = var_z.data  # 从 var_z中得到包裹Tensor对象...
+# 在一个新的变量中重新包裹tensor
 new_var_z = autograd.Variable(var_z_data)
 
-# ... does new_var_z have information to backprop to x and y?
-# NO!
+# new_var_z 有去反向x和y的信息吗?
+# 没有!
 print(new_var_z.grad_fn)
-# And how could it?  We yanked the tensor out of var_z (that is
-# what var_z.data is).  This tensor doesn't know anything about
-# how it was computed.  We pass it into new_var_z, and this is all the
-# information new_var_z gets.  If var_z_data doesn't know how it was
-# computed, theres no way new_var_z will.
-# In essence, we have broken the variable away from its past history
+# 怎么会这样? 我们将tensor从var_z中提取 (提取为var_z.data).这个张量不知道它是如何计算的.我们把它传递给new_var_z.
+# 这就是new_var_z得到的所有信息。如果var_z_data不知道它是如何计算的，那么就不会有new_var_z的方法。
+#
+# 从本质上讲，我们已经把这个变量从过去的历史中分离出来了
+# 
 
 
 ######################################################################
-# Here is the basic, extremely important rule for computing with
-# autograd.Variables (note this is more general than Pytorch. There is an
-# equivalent object in every major deep learning toolkit):
+# 这就是基础的,但是对于计算自动求导是特别重要的规则 (这比Pytorch更通用,在每个主要的深度学习工具箱中都有一个相同的对象).:
 #
-# **If you want the error from your loss function to backpropagate to a
-# component of your network, you MUST NOT break the Variable chain from
-# that component to your loss Variable. If you do, the loss will have no
-# idea your component exists, and its parameters can't be updated.**
+# **如果你想要从损失函数返回到神经网络的某个神经元得到错误,那么你就不能将断开从该组件到你的丢失变量的变量链.如果你这样做,
+# 损失将不知道你的组件存在,并且它的参数不能被更新。.**
 #
-# I say this in bold, because this error can creep up on you in very
-# subtle ways (I will show some such ways below), and it will not cause
-# your code to crash or complain, so you must be careful.
+# 我用粗体表示, 因为这个错误会在不经意间发生(我将在下面展示一些这样的方法), 并且它不会导致您的代码崩溃或报错，所以您必须小心.
 #

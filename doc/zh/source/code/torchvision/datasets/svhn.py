@@ -17,11 +17,11 @@ class SVHN(data.Dataset):
         split (string): {'train', 'test', 'extra'} 中的一个.
             它是根据数据集选择的. 'extra' 是一个额外的训练集.
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
+            转换后的版本. E.g, ``transforms.RandomCrop``
         target_transform (callable, optional): 一个 transform 函数，输入 target 并且
             转换它.
         download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
+            如果数据集已经下载，那么不会再次下载.
 
     """
     url = ""
@@ -84,7 +84,7 @@ class SVHN(data.Dataset):
             index (int): Index
 
         Returns:
-            tuple: (image, target) where target is index of the target class.
+            tuple: (image, target) 目标是目标类的索引.
         """
         img, target = self.data[index], self.labels[index]
 

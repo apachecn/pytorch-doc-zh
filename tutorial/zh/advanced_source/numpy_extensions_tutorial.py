@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Creating extensions using numpy and scipy
-=========================================
-**Author**: `Adam Paszke <https://github.com/apaszke>`_
+使用 numpy 和 scipy 创建扩展
+============================
+**作者**: `Adam Paszke <https://github.com/apaszke>`_
 
-In this tutorial, we shall go through two tasks:
+这个教程中, 我们将完成以下两个任务:
 
-1. Create a neural network layer with no parameters.
+1. 创建不带参数的神经网络层
 
-    -  This calls into **numpy** as part of it’s implementation
+    -  这会调用 **numpy**, 作为其实现的一部分
 
-2. Create a neural network layer that has learnable weights
+2. 创建带有可学习的权重的神经网络层
 
-    -  This calls into **SciPy** as part of it’s implementation
+    -  这会调用 **SciPy**, 作为其实现的一部分
 """
 
 import torch
@@ -20,15 +20,14 @@ from torch.autograd import Function
 from torch.autograd import Variable
 
 ###############################################################
-# Parameter-less example
-# ----------------------
+# 无参示例
+# --------
 #
-# This layer doesn’t particularly do anything useful or mathematically
-# correct.
+# 这一层并不做任何有用的, 或者数学上正确的事情.
 #
-# It is aptly named BadFFTFunction
+# 它被恰当地命名为 BadFFTFunction
 #
-# **Layer Implementation**
+# **层的实现**
 
 from numpy.fft import rfft2, irfft2
 
@@ -45,15 +44,15 @@ class BadFFTFunction(Function):
         result = irfft2(numpy_go)
         return torch.FloatTensor(result)
 
-# since this layer does not have any parameters, we can
-# simply declare this as a function, rather than as an nn.Module class
+# 由于这一层没有任何参数, 我们可以
+# 仅仅将其声明为一个函数, 而不是 nn.Module 类
 
 
 def incorrect_fft(input):
     return BadFFTFunction()(input)
 
 ###############################################################
-# **Example usage of the created layer:**
+# **所创建的层的使用示例:**
 
 input = Variable(torch.randn(8, 8), requires_grad=True)
 result = incorrect_fft(input)
@@ -62,23 +61,20 @@ result.backward(torch.randn(result.size()))
 print(input.grad)
 
 ###############################################################
-# Parametrized example
-# --------------------
+# 参数化示例
+# ----------
 #
-# This implements a layer with learnable weights.
+# 它实现了带有可学习的权重的层.
 #
-# It implements the Cross-correlation with a learnable kernel.
+# 它使用可学习的核, 实现了互相关.
 #
-# In deep learning literature, it’s confusingly referred to as
-# Convolution.
+# 在深度学习文献中, 它容易和卷积混淆.
 #
-# The backward computes the gradients wrt the input and gradients wrt the
-# filter.
+# 反向过程计算了输入和滤波的梯度.
 #
-# **Implementation:**
+# **实现:**
 #
-# *Please Note that the implementation serves as an illustration, and we
-# did not verify it’s correctness*
+# *要注意, 实现作为一个演示, 我们并不验证它的正确性*
 
 from scipy.signal import convolve2d, correlate2d
 from torch.nn.modules.module import Module
@@ -113,7 +109,7 @@ class ScipyConv2d(Module):
         return ScipyConv2dFunction.apply(input, self.filter)
 
 ###############################################################
-# **Example usage:**
+# **示例用法:**
 
 module = ScipyConv2d(3, 3)
 print(list(module.parameters()))

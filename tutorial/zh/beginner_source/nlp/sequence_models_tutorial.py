@@ -41,7 +41,7 @@ Pytorch 中的 LSTM
 来看一个简单的例子.
 """
 
-# Author: Robert Guthrie
+# 作者: Robert Guthrie
 
 import torch
 import torch.autograd as autograd
