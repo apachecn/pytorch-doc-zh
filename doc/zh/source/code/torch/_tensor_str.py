@@ -28,15 +28,15 @@ def set_printoptions(
 
     Args:
         precision: 浮点输出精度的位数
-            (default 8).
-        threshold: 触发汇总而不是 full repr 的数组元素的总数
-            (default 1000).
+            (默认值为 8).
+        threshold: 触发汇总显示而不是完全显示(repr)的数组元素的总数
+            (默认值为 1000).
         edgeitems: 每个维度开始和结束时总结的数组项数
-            (default 3).
+            (默认值为 3).
         linewidth: 插入换行符的每行字符数
-            (default 80).
+            (默认值为 80).
             Thresholded matricies(阈值矩阵) 将忽略这个参数.
-        profile: Sane 默认用于漂亮格式的打印. 可以用以下任何选项来进行覆盖
+        profile: 用于漂亮格式的打印. 可以用以下任何选项来进行覆盖
              (default, short, full)
     """
     if profile is not None:
