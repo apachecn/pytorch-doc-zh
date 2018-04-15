@@ -21,7 +21,7 @@ by providing these two tensors, as well as the size of the sparse tensor
 a sparse tensor with the entry 3 at location (0, 2), entry 4 at
 location (1, 0), and entry 5 at location (1, 2).  We would then write:
 一个稀疏张量可以表示为一对稠密张量 : 一个张量的值和一个二维张量的指数 .  
-通过提供这两个张量以及稀疏张量的大小 (不能从这些张量推断!) ，可以构造一个稀疏张量 .  
+通过提供这两个张量以及稀疏张量的大小 (不能从这些张量推断!) , 可以构造一个稀疏张量 .  
 假设我们要在位置 (0,2) 处定义条目3 , 位置 (1,0) 的条目4 , 位置 (1,2) 的条目5的
 稀疏张量 , 我们可以这样写 : 
 
@@ -37,7 +37,7 @@ Note that the input to LongTensor is NOT a list of index tuples.  If you want
 to write your indices this way, you should transpose before passing them to
 the sparse constructor:
 请注意 , LongTensor 的传入参数不是索引元组的列表 . 如果你想用这种方式编写索引 , 你应该在
-将它们传递给稀疏构造函数之前进行转换 ：
+将它们传递给稀疏构造函数之前进行转换 : 
 
     >>> i = torch.LongTensor([[0, 2], [1, 0], [1, 2]])
     >>> v = torch.FloatTensor([3,      4,      5    ])
@@ -61,7 +61,7 @@ dimensions are sparse, and the rest of the dimensions are dense.
     [torch.FloatTensor of size 5x2]
 
 An empty sparse tensor can be constructed by specifying its size:
-一个空的稀疏张量可以通过指定它的大小来构造 ：  
+一个空的稀疏张量可以通过指定它的大小来构造 :   
 
     >>> torch.sparse.FloatTensor(2, 3)
     SparseFloatTensor of size 2x3 with indices:
@@ -91,7 +91,7 @@ An empty sparse tensor can be constructed by specifying its size:
     duplicate entries (e.g., :func:`torch.sparse.FloatTensor.add`), you
     should occasionally coalesce your sparse tensors to prevent
     them from growing too large.
-    首先 , 如果你反复执行可以产生重复条目的操作 (例如 , 函数 'torch.sparse.FloatTensor.add')
+    首先 , 如果你反复执行可以产生重复条目的操作 (例如 , :func:`torch.sparse.FloatTensor.add`)
     , 则应适当聚合稀疏张量以防止它们变得太大. 
 
     Second, some operators will produce different values depending on
@@ -104,23 +104,23 @@ An empty sparse tensor can be constructed by specifying its size:
     that works with coalesced sparse tensors may not work with
     uncoalesced sparse tensors; generally speaking, it is safest
     to explicitly coalesce before working with these operators.
-    其次，一些操作符将根据是否聚合
-    (例如, 函数 'torch.sparse.FloatTensor._values'
-    和 'torch.sparse.FloatTensor._indices' ,
-    还有 'torch.Tensor._sparse_mask') 来生成不同的值 . 这些运算符前面加下划线表示它们揭示
+    其次 , 一些操作符将根据是否聚合
+    (例如 , :func:`torch.sparse.FloatTensor._values`
+    和 :func:`torch.sparse.FloatTensor._indices` ,
+    还有 :func:`torch.Tensor._sparse_mask`) 来生成不同的值 . 这些运算符前面加下划线表示它们揭示
     内部实现细节 , 因此应谨慎使 , 因为与聚合的稀疏张量一起工作的代码可能不适用于未聚合的稀疏张量 ; 
     一般来说 , 在运用这些运算符之前 , 最安全的就是确保是聚合的 . 
 
     For example, suppose that we wanted to implement an operator
-    by operating directly on :func:`torch.sparse.FloatTensor._values`.
+    by operating directly on ctorch.sparse.FloatTensor._values`.
     Multiplication by a scalar can be implemented in the obvious way,
     as multiplication distributes over addition; however, square root
     cannot be implemented directly, since ``sqrt(a + b) != sqrt(a) +
     sqrt(b)`` (which is what would be computed if you were given an
     uncoalesced tensor.)
-    例如 , 假设我们想直接通过函数 'torch.sparse.FloatTensor._values' 来实现一个操作 . 
+    例如 , 假设我们想直接通过 :func:`torch.sparse.FloatTensor._values` 来实现一个操作 . 
     随着乘法分布的增加 , 标量的乘法可以轻易实现 ; 然而 , 平方根不能直接实现 , 
-    'sqrt(a + b) != sqrt(a) +sqrt(b)' (如果给定一个非聚合张量 , 这将被计算出来 . )
+    ``sqrt(a + b) != sqrt(a) +sqrt(b)`` (如果给定一个非聚合张量 , 这将被计算出来 . )
 
 .. class:: FloatTensor()
 
