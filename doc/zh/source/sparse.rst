@@ -120,7 +120,7 @@ An empty sparse tensor can be constructed by specifying its size:
     uncoalesced tensor.)
     例如 , 假设我们想直接通过函数 'torch.sparse.FloatTensor._values' 来实现一个操作 . 
     随着乘法分布的增加 , 标量的乘法可以轻易实现 ; 然而 , 平方根不能直接实现 , 
-    'sqrt(a + b) != sqrt(a) +sqrt(b)' (如果给定一个非聚合张量，这将被计算出来 . )
+    'sqrt(a + b) != sqrt(a) +sqrt(b)' (如果给定一个非聚合张量 , 这将被计算出来 . )
 
 .. class:: FloatTensor()
 
