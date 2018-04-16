@@ -214,14 +214,14 @@ class RNNBase(Module):
 class RNN(RNNBase):
     r"""对于输入序列使用一个多层的 ``Elman RNN``, 它的激活函数为 ``tanh`` 或者 ``ReLU`` .
 
-    对输入序列中每个元素，每层计算公式为:
+    对输入序列中每个元素, 每层计算公式为:
 
 
     .. math::
 
         h_t = \tanh(w_{ih} * x_t + b_{ih}  +  w_{hh} * h_{(t-1)} + b_{hh})
 
-    这里 :math:`h_t` 是当前在时刻 `t` 的隐状态, 并且 :math:`x_t` 是之前一层在 `t` 时刻的隐状态，或者是第一层的输入.
+    这里 :math:`h_t` 是当前在时刻 `t` 的隐状态, 并且 :math:`x_t` 是之前一层在 `t` 时刻的隐状态, 或者是第一层的输入.
     如果 ``nonlinearity='relu'`` ,那么将使用 relu 代替 tanh 作为激活函数.
 
     Args:
@@ -231,8 +231,8 @@ class RNN(RNNBase):
         nonlinearity: 指定非线性函数使用 ['tanh'|'relu']. 默认: 'tanh'
         bias:  如果是 ``False`` , 那么 RNN 层就不会使用偏置权重 b_ih 和 b_hh, 默认: ``True``
         batch_first: 如果 ``True``, 那么输入 ``Tensor`` 的 shape 应该是 (batch, seq, feature),并且输出也是一样
-        dropout:  如果值非零, 那么除了最后一层外，其它层的输出都会套上一个 ``dropout`` 层
-        bidirectional:  如果 ``True`` ，将会变成一个双向 RNN，默认为 ``False``
+        dropout:  如果值非零, 那么除了最后一层外, 其它层的输出都会套上一个 ``dropout`` 层
+        bidirectional:  如果 ``True`` , 将会变成一个双向 RNN, 默认为 ``False``
 
     Inputs: input, h_0
         - **input** (seq_len, batch, input_size): 包含输入序列特征的 ``tensor`` ,

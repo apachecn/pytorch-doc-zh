@@ -6,7 +6,7 @@ from torch._C import _add_docstr as add_docstr
 add_docstr(torch._C.abs,
            """abs(input, out=None) -> Tensor
 
-Computes the element-wise absolute value of the given :attr:`input` a tensor.
+计算给定 :attr:`input` 张量的元素的绝对值.
 
 Example::
 
@@ -18,7 +18,7 @@ add_docstr(torch._C.acos,
            """
 acos(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the arccosine  of the elements of :attr:`input`.
+用 :attr:`input` 元素的反余弦返回一个新的张量.
 
 Args:
     input (Tensor): the input `Tensor`
@@ -47,18 +47,16 @@ add_docstr(torch._C.add,
            """
 .. function:: add(input, value, out=None)
 
-Adds the scalar :attr:`value` to each element of the input :attr:`input`
-and returns a new resulting tensor.
+将标量值 :attr:`value` 添加到输入张量 attr:`input` 的每个元素并返回一个新的结果张量.
 
 :math:`out = tensor + value`
 
-If :attr:`input` is of type FloatTensor or DoubleTensor, :attr:`value` must be
-a real number, otherwise it should be an integer.
+如果输入张量 :attr:`input` 是 FloatTensor 或者 DoubleTensor 类型, 则 :attr:`value` 必须为实数, 否则为整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): the number to be added to each element of :attr:`input`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 要添加到 :attr:`input` 每个元素的数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -82,23 +80,20 @@ Example::
 
 .. function:: add(input, value=1, other, out=None)
 
-Each element of the Tensor :attr:`other` is multiplied by the scalar
-:attr:`value` and added to each element of the Tensor :attr:`input`.
-The resulting Tensor is returned.
+张量 :attr:`other` 的每个元素乘以标量值 :attr:`value` 并加到张量 :attr:`input` 上, 返回生成的张量 :attr:`out` .
 
-The shapes of :attr:`input` and :attr:`other` must be
+张量 :attr:`input` 的形状与张量 :attr:`other` 的形状必须
 :ref:`broadcastable <broadcasting-semantics>`.
 
 :math:`out = input + (other * value)`
 
-If :attr:`other` is of type FloatTensor or DoubleTensor, :attr:`value` must be
-a real number, otherwise it should be an integer.
+如果张量 :attr:`other` 是 FloatTensor 或者 DoubleTensor 类型, 则 :attr:`value` 必须为实数, 否则为整数.
 
 Args:
-    input (Tensor): the first input `Tensor`
-    value (Number): the scalar multiplier for :attr:`other`
-    other (Tensor): the second input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 第一个输入 `Tensor`
+    value (Number): 张量 :attr:`other` 的标量乘数
+    other (Tensor): 第二个输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -177,21 +172,19 @@ add_docstr(torch._C.addcdiv,
            """
 addcdiv(tensor, value=1, tensor1, tensor2, out=None) -> Tensor
 
-Performs the element-wise division of :attr:`tensor1` by :attr:`tensor2`,
-multiply the result by the scalar :attr:`value` and add it to :attr:`tensor`.
+将张量 :attr:`tensor1` 逐元素除以张量 :attr:`tensor2`, 然后乘以标量值 :attr:`value` 并加到张量 :attr:`tensor` 上.
 
-The shapes of :attr:`tensor`, :attr:`tensor1`, and :attr:`tensor2` must be
+张量 :attr:`tensor`, 张量 :attr:`tensor1`, 张量 :attr:`tensor2` 的形状必须
 :ref:`broadcastable <broadcasting-semantics>`.
-
-For inputs of type `FloatTensor` or `DoubleTensor`, :attr:`value` must be
-a real number, otherwise an integer.
+ 
+对于类型为 `FloatTensor` or `DoubleTensor` 的张量输入, :attr:`value` 必须为实数, 否则为整数.
 
 Args:
-    tensor (Tensor): the tensor to be added
-    value (Number, optional): multiplier for `tensor1 ./ tensor2`
-    tensor1 (Tensor): Numerator tensor
-    tensor2 (Tensor): Denominator tensor
-    out (Tensor, optional): Output tensor
+    tensor (Tensor): 张量, 对 `tensor1 ./ tensor2` 进行相加
+    value (Number, optional): 标量, 对 `tensor1 ./ tensor2` 进行相乘
+    tensor1 (Tensor): 分子张量, 即作为被除数
+    tensor2 (Tensor): 分母张量, 即作为除数
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -209,22 +202,18 @@ add_docstr(torch._C.addcmul,
            """
 addcmul(tensor, value=1, tensor1, tensor2, out=None) -> Tensor
 
-Performs the element-wise multiplication of :attr:`tensor1`
-by :attr:`tensor2`, multiply the result by the scalar :attr:`value`
-and add it to :attr:`tensor`.
+将张量 :attr:`tensor1` 逐元素与张量 :attr:`tensor2` 相乘, 然后乘以标量值 :attr:`value` 并加到张量 :attr:`tensor` 上.
 
-The shapes of :attr:`tensor`, :attr:`tensor1`, and :attr:`tensor2` must be
+张量 :attr:`tensor`, 张量 :attr:`tensor1`, 张量 :attr:`tensor2` 的形状必须
 :ref:`broadcastable <broadcasting-semantics>`.
-
-For inputs of type `FloatTensor` or `DoubleTensor`, :attr:`value` must be
-a real number, otherwise an integer.
-
+ 
+对于类型为 `FloatTensor` or `DoubleTensor` 的张量输入, :attr:`value` 必须为实数, 否则为整数.
 Args:
-    tensor (Tensor): the tensor to be added
-    value (Number, optional): multiplier for `tensor1 .* tensor2`
-    tensor1 (Tensor): tensor to be multiplied
-    tensor2 (Tensor): tensor to be multiplied
-    out (Tensor, optional): Output tensor
+    tensor (Tensor): 张量, 对 `tensor1 .* tensor2` 进行相加
+    value (Number, optional): 标量, 对 `tensor1 .* tensor2` 进行相乘
+    tensor1 (Tensor): 张量, 作为乘子1
+    tensor2 (Tensor): 张量, 作为乘子2
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -364,11 +353,11 @@ add_docstr(torch._C.asin,
            """
 asin(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the arcsine  of the elements of :attr:`input`.
+返回一个新的 `Tensor` , 其元素为张量 :attr:`input` 的每个元素的反正弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -392,11 +381,11 @@ add_docstr(torch._C.atan,
            """
 atan(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the arctangent  of the elements of :attr:`input`.
+返回一个新的 `Tensor` , 其元素为张量 :attr:`input` 的每个元素的反正切.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -420,16 +409,15 @@ add_docstr(torch._C.atan2,
            """
 atan2(input1, input2, out=None) -> Tensor
 
-Returns a new `Tensor` with the arctangent of the elements of :attr:`input1`
-and :attr:`input2`.
+返回一个新的张量 `Tensor` , 其元素是输入张量 :attr:`input1` 和输入张量 :attr:`input2` 元素的反正切.
 
-The shapes of :attr:`input1` and :attr:`input2` must be
+输入张量 :attr:`input1` 的形状和输入张量 :attr:`input2` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input1 (Tensor): the first input `Tensor`
-    input2 (Tensor): the second input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input1 (Tensor): 第一个输入 `Tensor`
+    input2 (Tensor): 第二个输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -491,22 +479,19 @@ add_docstr(torch._C.bernoulli,
            """
 bernoulli(input, out=None) -> Tensor
 
-Draws binary random numbers (0 or 1) from a bernoulli distribution.
+从伯努利分布中抽取二进制随机数 (0 或 1).
 
-The :attr:`input` Tensor should be a tensor containing probabilities
-to be used for drawing the binary random number.
-Hence, all values in :attr:`input` have to be in the range:
+The :attr:`input` 张量包含用于抽取二进制随机数的概率.
+因此, :attr:`input` 中的所有值必须在这个范围内:
 :math:`0 <= input_i <= 1`
 
-The `i-th` element of the output tensor will draw a value `1` according
-to the `i-th` probability value given in :attr:`input`.
+根据 :attr:`input` 张量第 `i` 个概率值, 输出张量的第 `i` 个元素将取值为1. 
 
-The returned :attr:`out` Tensor only has values 0 or 1 and is of the same
-shape as :attr:`input`
+返回的 :attr:`out` 张量的值只有 0 或者 1 并且大小与 :attr:`input` 张量相同.
 
 Args:
-    input (Tensor): Probability values for the bernoulli distribution
-    out (Tensor, optional): Output tensor
+    input (Tensor): 伯努利分布的概率值
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -578,6 +563,7 @@ add_docstr(torch._C.cat,
 cat(seq, dim=0, out=None) -> Tensor
 
 在给定维度上对输入的张量序列 :attr:`seq` 进行连接操作.
+所有张量必须具有相同的形状(在 :attr:`cat` 维度中除外) 或为空. 
 
 :func:`torch.cat` 可以看做是 :func:`torch.split` 和 :func:`torch.chunk` 的逆操作.
 
@@ -619,12 +605,11 @@ add_docstr(torch._C.ceil,
            """
 ceil(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the ceil of the elements of :attr:`input`,
-the smallest integer greater than or equal to each element.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 的元素向上取整(取不小于每个元素的最小整数).
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -651,12 +636,12 @@ add_docstr(torch._C.reciprocal,
            """
 reciprocal(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the reciprocal of the elements of :attr:`input`,
+返回一个新的 `Tensor` , 其元素是张量 :attr:`input` 元素的倒数.
 i.e. :math:`1.0 / x`
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -683,23 +668,21 @@ add_docstr(torch._C.clamp,
            """
 clamp(input, min, max, out=None) -> Tensor
 
-Clamp all elements in :attr:`input` into the range `[min, max]` and return
-a resulting Tensor.
-
+将输入张量 :attr:`input` 所有元素限制在区间 `[min, max]` 中并返回一个结果张量.
 ::
 
           | min, if x_i < min
     y_i = | x_i, if min <= x_i <= max
           | max, if x_i > max
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, args :attr:`min`
-and :attr:`max` must be real numbers, otherwise they should be integers
+如果输入张量 :attr:`input` 的类型 `FloatTensor` or `DoubleTensor`, 那么参数 :attr:`min`
+和 :attr:`max` 必须为实数, 否则为整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    min (Number): lower-bound of the range to be clamped to
-    max (Number): upper-bound of the range to be clamped to
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    min (Number): 限制范围下限
+    max (Number): 限制范围上限
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -722,15 +705,15 @@ Example::
 
 .. function:: clamp(input, *, min, out=None) -> Tensor
 
-Clamps all elements in :attr:`input` to be larger or equal :attr:`min`.
+张量 :attr:`input` 的所有元素值大于或者等于 :attr:`min`.
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 :attr:`value`
+必须是实数, 否则应该是整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): minimal value of each element in the output
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 输出中每个元素的最小值
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -753,15 +736,15 @@ Example::
 
 .. function:: clamp(input, *, max, out=None) -> Tensor
 
-Clamps all elements in :attr:`input` to be smaller or equal :attr:`max`.
+张量 :attr:`input` 的所有元素值小于或者等于 :attr:`max`.
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 :attr:`value`
+必须是实数, 否则应该是整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): maximal value of each element in the output
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 输出中每个元素的最大值
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -788,11 +771,11 @@ add_docstr(torch._C.cos,
            """
 cos(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the cosine  of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 每个元素的余弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -816,12 +799,11 @@ add_docstr(torch._C.cosh,
            """
 cosh(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the hyperbolic cosine  of the elements of
-:attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 每个元素的双曲余弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -898,9 +880,9 @@ add_docstr(torch._C.cumprod,
            """
 cumprod(input, dim, out=None) -> Tensor
 
-返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积积。
+返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积积. 
 
-例如，如果 :attr:`input` 是一个N元张量, 结果也是一个N元张量, 元素为:
+例如, 如果 :attr:`input` 是一个N元张量, 结果也是一个N元张量, 元素为:
  :math:`y_i = x_1 * x_2 * x_3 * ... * x_i`
 
 Args:
@@ -960,9 +942,9 @@ add_docstr(torch._C.cumsum,
            """
 cumsum(input, dim, out=None) -> Tensor
 
-返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积和。
+返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积和. 
 
-例如，如果 :attr:`input` 是一个N元张量, 结果将也是一个N元张量, 元素为:
+例如, 如果 :attr:`input` 是一个N元张量, 结果将也是一个N元张量, 元素为:
  :math:`y_i = x_1 + x_2 + x_3 + ... + x_i`
 
 Args:
@@ -1123,18 +1105,17 @@ add_docstr(torch._C.div,
            """
 .. function:: div(input, value, out=None)
 
-Divides each element of the input :attr:`input` with the scalar :attr:`value`
-and returns a new resulting tensor.
+将张量 :attr:`input` 的元素逐一除以标量值 :attr:`value` , 其结果作为一个新的张量返回.
 
 :math:`out = tensor / value`
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型是 `FloatTensor` or `DoubleTensor`, 则标量值 :attr:`value`
+必须是实数, 否则应该是整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): the number to be divided to each element of :attr:`input`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 除数, 被张量 :attr:`input` 的元素除
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1160,17 +1141,16 @@ Example::
 
 .. function:: div(input, other, out=None)
 
-Each element of the Tensor :attr:`input` is divided by each element
-of the Tensor :attr:`other`. The resulting Tensor is returned. The shapes of
-:attr:`input` and :attr:`other` must be
+张量 :attr:`input` 的元素与张量 :attr:`other` 的元素逐一相除. 返回一个新的结果张量 :attr:`out` . 
+张量 :attr:`input` 与张量 :attr:`other` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 :math:`out_i = input_i / other_i`
 
 Args:
-    input (Tensor): the numerator `Tensor`
-    other (Tensor): the denominator `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 分子 `Tensor` (被除数)
+    other (Tensor): 分母 `Tensor` (除数)
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1248,15 +1228,15 @@ eq(input, other, out=None) -> Tensor
 
 比较元素是否相等
 
-第二个元素可以是一个数字，或者广播
- :ref:`broadcastable <broadcasting-semantics>` 为与第一个参数形状相同的张量。
+第二个元素可以是一个数字或
+ :ref:`broadcastable <broadcasting-semantics>` 为与第一个参数形状相同的张量. 
 
-参数：
-    input (Tensor) ： 待比较张量
-    other (Tensor or float) ： 比较张量或数
-    out (Tensor, optional) : 输出张量，须为 ByteTensor 类型或与 input (Tensor) 同类型
+参数: 
+    input (Tensor) :  待比较张量
+    other (Tensor or float) :  比较张量或数
+    out (Tensor, optional) : 输出张量, 须为 ByteTensor 类型或与 input (Tensor) 同类型
 
-返回值：
+返回值: 
     一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0 
 
 例子::
@@ -1271,7 +1251,7 @@ add_docstr(torch._C.equal,
            """
 equal(tensor1, tensor2) -> bool
 
-如果两个张量有相同的形状和元素值, 则返回 ``True`` ，否则 ``False`` .
+如果两个张量有相同的形状和元素值, 则返回 ``True`` , 否则 ``False`` .
 
 例子::
 
@@ -1283,7 +1263,7 @@ add_docstr(torch._C.erf,
            """
 erf(tensor, out=None) -> Tensor
 
-Computes the error function of each element.
+计算每个元素的误差函数.
 
 Example::
 
@@ -1295,7 +1275,7 @@ add_docstr(torch._C.erfinv,
            """
 erfinv(tensor, out=None) -> Tensor
 
-Computes the inverse error function of each element.
+计算每个元素的反向误差函数.
 
 Example::
 
@@ -1307,7 +1287,7 @@ add_docstr(torch._C.exp,
            """
 exp(tensor, out=None) -> Tensor
 
-Computes the exponential of each element.
+计算每个元素的指数.
 
 Example::
 
@@ -1319,7 +1299,7 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-返回对角线位置全为1，其它位置全为0的二维 tensor.
+返回对角线位置全为1, 其它位置全为0的二维 tensor.
 
 Args:
     n (int): 行数
@@ -1327,7 +1307,7 @@ Args:
     out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: 一个对角线位置全为1，其它位置全为0的二维 tensor.
+    Tensor: 一个对角线位置全为1, 其它位置全为0的二维 tensor.
 
 Example::
 
@@ -1342,12 +1322,11 @@ add_docstr(torch._C.floor,
            """
 floor(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the floor of the elements of :attr:`input`,
-the largest integer less than or equal to each element.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 的元素向下取整(取不大于每个元素的最大整数).
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1375,18 +1354,16 @@ add_docstr(torch._C.fmod,
            """
 fmod(input, divisor, out=None) -> Tensor
 
-Computes the element-wise remainder of division.
+计算除法余数.
 
-The dividend and divisor may contain both for integer and floating point
-numbers. The remainder has the same sign as the dividend `tensor`.
+被除数和除数可能同时含有整数和浮点数. 这时余数的正负与被除数 `tensor` 相同.
 
-When :attr:`divisor` is a Tensor, the shapes of :attr:`input` and
-:attr:`divisor` must be :ref:`broadcastable <broadcasting-semantics>`.
+当除数 :attr:`divisor` 是一个张量时r, 张量 :attr:`input` 和张量
+:attr:`divisor` 的形状必须可 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): The dividend
-    divisor (Tensor or float): The divisor. This may be either a number or a
-                               tensor of the same shape as the dividend.
+    input (Tensor): 被除数
+    divisor (Tensor or float): 除数. 可能是一个数或者是一个与被除数相同形状的张量.
     out (Tensor, optional): Output tensor
 
 Example::
@@ -1398,15 +1375,14 @@ Example::
 
 .. seealso::
 
-        :func:`torch.remainder`, which computes the element-wise remainder of
-        division equivalently to Python's `%` operator
+        :func:`torch.remainder`, 其计算等价于 Python's `%` 操作符的元素余数
 """)
 
 add_docstr(torch._C.frac,
            """
 frac(tensor, out=None) -> Tensor
 
-Computes the fractional portion of each element in `tensor`.
+计算张量 `tensor` 每个元素的分数部分.
 
 Example::
 
@@ -1420,9 +1396,9 @@ from_numpy(ndarray) -> Tensor
 
 从 :class:`numpy.ndarray` 类 创建一个 :class:`Tensor` 类.
 
-返回 tensor 和 `ndarray` 共享相同的内存。 
-对 tensor 的修改将反映在 `ndarray` 中，反之亦然。 
-返回 tensor 不可调整大小。
+返回 tensor 和 `ndarray` 共享相同的内存.  
+对 tensor 的修改将反映在 `ndarray` 中, 反之亦然.  
+返回 tensor 不可调整大小. 
 
 Example::
 
@@ -1468,18 +1444,18 @@ add_docstr(torch._C.ge,
            """
 ge(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **&input>=other&** .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input>=other** .
 
-第二个参数可以为一个数或形状可广播
+第二个参数可以为一个数或形状可
 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.   
 
-参数：
+参数: 
     input (Tensor) : 待对比的张量
-    other (Tensor or float) :  对比的张量或 float 值
-    out (Tensor, optional) :  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
+    other (Tensor or float) :  对比的张量或 ``float`` 值
+    out (Tensor, optional) :  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.   
 
-返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input >= other )。 返回类型：Tensor 
+返回值: 
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input >= other ).  返回类型: Tensor 
 
 例子::
 
@@ -1661,18 +1637,18 @@ add_docstr(torch._C.gt,
            """
 gt(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$input>other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input>other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False``. 
 
-第二个参数可以为一个数或形状可广播
+第二个参数可以为一个数或形状可
 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.
 
-参数：
+参数: 
     input (Tensor) : 待对比的张量
-    other (Tensor or float) :  对比的张量或 float 值
-    out (Tensor, optional) :  输出张量。必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
+    other (Tensor or float) :  对比的张量或 ``float`` 值
+    out (Tensor, optional) :  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.   
 
-返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input > other )。 返回类型：Tensor
+返回值: 
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input > other ).  返回类型: Tensor
 
 例子::
 
@@ -1813,9 +1789,9 @@ kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回一个元组 `(values,indices)` ,其中 ``indices`` 是原始输入张量 ``input`` 中沿 ``dim`` 维的第 ``k`` 个最小值下标.
 
-如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 尺寸相同，
-除了在所有值都为1的 :attr:`dim` 维度上。如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩。
-(参见 :func:`torch.squeeze` )，使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度。
+如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 大小相同, 
+除了在所有值都为1的 :attr:`dim` 维度上. 如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩. 
+(参见 :func:`torch.squeeze` ), 使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度. 
 
 参数 :
     input (Tensor) : 输入 `Tensor` 
@@ -1867,18 +1843,18 @@ add_docstr(torch._C.le,
            """
 le(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<=other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input<=other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False`` .
 
-第二个参数可以为一个数或形状可广播
- :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
+第二个参数可以为一个数或形状可
+ :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.  
 
-参数：
+参数: 
     input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或 float 值
-    out (Tensor, optional):  输出张量。必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
+    other (Tensor or float):  对比的张量或 ``float`` 值
+    out (Tensor, optional):  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.   
 
-返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input <= other )。 返回类型： Tensor 
+返回值: 
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input <= other ).  返回类型:  Tensor 
 
 例子::
 
@@ -1892,18 +1868,18 @@ add_docstr(torch._C.lerp,
            """
 lerp(start, end, weight, out=None)
 
-Does a linear interpolation of two tensors :attr:`start` and :attr:`end` based
-on a scalar :attr:`weight`: and returns the resulting :attr:`out` Tensor.
+基于标量值 :attr:`weight`: , 在张量 :attr:`start` 与张量 :attr:`end` 之间做线性插值
+并返回结果张量 :attr:`out` .
 
 :math:`out_i = start_i + weight * (end_i - start_i)`
 
-The shapes of :attr:`start` and :attr:`end` must be
+张量 :attr:`start` 和张量 :attr:`end` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    start (Tensor): the `Tensor` with the starting points
-    end (Tensor): the `Tensor` with the ending points
-    weight (float): the weight for the interpolation formula
+    start (Tensor): 起始点 `Tensor` 
+    end (Tensor): 终点 `Tensor` 
+    weight (float): 插值公式的权重
     out (Tensor, optional): The result `Tensor`
 
 Example::
@@ -1940,14 +1916,14 @@ add_docstr(torch._C.linspace,
            """
 linspace(start, end, steps=100, out=None) -> Tensor
 
-返回 :attr:`start` 和 :attr:`end` 之间等 :attr:`steps` 点的一维 Tensor.
+返回 :attr:`start` 和 :attr:`end` 之间等间隔 :attr:`steps` 点的一维 Tensor.
 
 输出 是尺寸 :attr:`steps` 为一维 tensor 
 
 Args:
     start (float): 点集合的起始值
     end (float): 点集合的结束值
-    steps (int): 在 :attr:`start` 和 :attr:`end` 之间采样的点数
+    steps (int): 在 :attr:`start` 和 :attr:`end` 之间的样本数
     out (Tensor, optional): 输出结果的 `Tensor`
 
 Example::
@@ -1985,12 +1961,11 @@ add_docstr(torch._C.log,
            """
 log(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the natural logarithm of the elements
-of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 所有元素的自然对数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2019,16 +1994,15 @@ add_docstr(torch._C.log1p,
            """
 log1p(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the natural logarithm of (1 + :attr:`input`).
+返回一个新的张量 `Tensor` , 其元素是(1 + :attr:`input`) 的自然对数.
 
 :math:`y_i = log(x_i + 1)`
 
-.. note:: This function is more accurate than :func:`torch.log` for small
-          values of :attr:`input`
+.. note:: 对于较小的张量 :attr:`input` 的值, 此函数比 :func:`torch.log` 更精确.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2059,12 +2033,12 @@ logspace(start, end, steps=100, out=None) -> Tensor
 
 返回一个在 :math:`10^{start}` 和 :math:`10^{end}` 之间的对数间隔 :attr:`steps` 点的一维 Tensor
 
-输出是尺寸 :attr:`steps` 的一维 tensor
+输出是长度为 :attr:`steps` 的一维 tensor
 
 Args:
     start (float): 点集合的起始值
     end (float): 点集合的结束值
-    steps (int): 在 :attr:`start` 和 :attr:`end` 之间采样点的数量
+    steps (int): 在 :attr:`start` 和 :attr:`end` 之间的样本数
     out (Tensor, optional): 输出结果`Tensor`
 
 Example::
@@ -2093,18 +2067,18 @@ add_docstr(torch._C.lt,
            """
 lt(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` . 
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input<other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False`` . 
 
-第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
+第二个参数可以为一个数或形状可
+:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.  
 
-参数：
+参数: 
     input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或 float 值
+    other (Tensor or float):  对比的张量或 ``float`` 值
     out (Tensor, optional):  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型. 
 
-返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input < other ). 返回类型： Tensor
+返回值: 
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input < other ). 返回类型:  Tensor
 
 例子::
 
@@ -2166,7 +2140,7 @@ add_docstr(torch._C.max,
 
 返回输入 :attr:`input` 张量所有元素的最大值.  
 
-参数：  
+参数:   
     input (Tensor) : 输入 `Tensor` 
 
 例子::
@@ -2189,9 +2163,9 @@ add_docstr(torch._C.max,
 除了在所有值都为 1 的 :attr:`dim` 维度上. 如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩.
 (参见 :func:`torch.squeeze` ), 使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度.
 
-参数：  
+参数:   
     input (Tensor) : 输入 `Tensor`  
-    k (int) : 第``k`` 个最小值
+    k (int) : 第 ``k`` 个最小值
     dim (int, optional) : 沿着此维进行排序
     keepdim (bool) : 输出张量是否保持维度 :attr:`dim` 不变
     out (tuple, optional) : 输出元组 (max, max_indices)
@@ -2224,16 +2198,16 @@ add_docstr(torch._C.max,
 
 .. function:: max(input, other, out=None) -> Tensor
 
- 输入:attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较，留下较大的元素 `max`。
+ 输入 :attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较, 留下较大的元素 `max`. 
 
-要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
-但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
+要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必大小一致,
+但它们一定要能 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
+.. 注意:: 当他们尺寸不同时, 输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
-:math:`out_i = max(tensor_i, other_i)` 
+ :math:`out_i = max(tensor_i, other_i)`
 
-参数：
+参数: 
     input (Tensor): 要比较张量 `Tensor`
     other (Tensor): 比较张量 `Tensor`
     out (Tensor, optional): 输出张量 `Tensor`
@@ -2291,10 +2265,10 @@ Example::
 
 .. function:: mean(input, dim, keepdim=False, out=None) -> Tensor
 
-返回张量 :attr:`input`在给定维度 :attr:`dim`上每行的均值。
+返回张量 :attr:`input` 在给定维度 :attr:`dim` 上每行的均值. 
 
 如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
- :attr:`input`相同，除非维度 :attr:`dim` 是1.
+ :attr:`input` 相同, 除了维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -2360,8 +2334,8 @@ Example::
  :attr:`dim` 的缺省值为输入张量 :attr:`input` 的最后一维.
 
 如果 :attr:`keepdim` 是 ``True``, 输出张量与输入张量
-  :attr:`input` 形状相同， 除非维数 :attr:`dim` 是1.
-另外， :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比
+  :attr:`input` 形状相同,  除了维数 :attr:`dim` 是1.
+另外,  :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比
 输入张量 :attr:`input` 少一维.
 
 Args:
@@ -2433,8 +2407,8 @@ Example::
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的最小值. 
 其中第二个返回值是每个被找出的最小值的索引位置 ( argmin ) .
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除非维数 :attr:`dim` 是 1 .
- 另外，:attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比输入张量 :attr:`input` 少一维.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维数 :attr:`dim` 是 1 .
+ 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比输入张量 :attr:`input` 少一维.
 
 参数:
     input (Tensor): 输入张量 `Tensor`
@@ -2474,11 +2448,11 @@ Example::
 要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
 但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
+.. 注意:: 当他们尺寸不同时, 输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
-:math:`out_i = min(tensor_i, other_i)`
+ :math:`out_i = min(tensor_i, other_i)`
 
-参数：
+参数: 
     input (Tensor): 第一个张量 `Tensor`
     other (Tensor): 第二个张量 `Tensor`
     out (Tensor, optional): 输出的张量 `Tensor`
@@ -2547,9 +2521,9 @@ mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTe
 返回输入张量 :attr:`input` 在给定维数 :attr:`dim` 下每行元素的众数值. 
  同时也返回众数值的索引 `LongTensor`.
 
-维度 :attr:`dim` 的缺省值是输入张量 :attr:`input` 的最后一维。.
+维度 :attr:`dim` 的缺省值是输入张量 :attr:`input` 的最后一维. .
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 .. note:: 这个函数至今没有为 ``torch.cuda.Tensor`` 定义.
@@ -2601,18 +2575,17 @@ add_docstr(torch._C.mul,
            """
 .. function:: mul(input, value, out=None)
 
-Multiplies each element of the input :attr:`input` with the scalar
-:attr:`value` and returns a new resulting tensor.
+将输入张量 :attr:`input` 的每个元素与标量值 :attr:`value` 相乘并返回一个新的结果张量.
 
 :math:`out = tensor * value`
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型为 `FloatTensor` or `DoubleTensor`, 则 :attr:`value`
+应该是实数, 否则为整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): the number to be multiplied to each element of :attr:`input`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 与张量 :attr:`input` 每个元素相乘的数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2634,18 +2607,17 @@ Example::
 
 .. function:: mul(input, other, out=None)
 
-Each element of the Tensor :attr:`input` is multiplied by each element of the
-Tensor :attr:`other`. The resulting Tensor is returned.
+张量 :attr:`input` 的元素与张量 :attr:`other` 的元素逐一相乘. 其结果作为一个新的张量返回.
 
-The shapes of :attr:`input` and :attr:`other` must be
+张量 :attr:`input` 和张量 :attr:`other` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 :math:`out_i = input_i * other_i`
 
 Args:
-    input (Tensor): the first multiplicand `Tensor`
-    other (Tensor): the second multiplicand `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 第一个乘数 `Tensor`
+    other (Tensor): 第二个乘数 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2679,35 +2651,26 @@ add_docstr(torch._C.multinomial,
            u"""
 multinomial(input, num_samples, replacement=False, out=None) -> LongTensor
 
-Returns a Tensor where each row
-contains :attr:`num_samples` indices sampled from the multinomial probability
-distribution located in the corresponding row of Tensor :attr:`input`.
+返回一个张量, 其中每一行包含在 :attr:`input` 张量对应行中多项式分布取样的 :attr:`num_samples` 索引.
 
 .. note::
-    The rows of :attr:`input` do not need to sum to one (in which case we use
-    the values as weights), but must be non-negative and have a non-zero sum.
+    :attr:`input` 的每行值不需要总和为 1 (我们只使用这些值作为权重), 但必须是非负且非零和的.
 
-Indices are ordered from left to right according to when each was sampled
-(first samples are placed in first column).
+取样时从左向右排列(第一个样本在第一列).
 
-If :attr:`input` is a vector, :attr:`out` is a vector of size `num_samples`.
+如果 :attr:`input` 是一个向量, 则 :attr:`out` 是一个大小为 `num_samples` 的向量.
 
-If :attr:`input` is a matrix with `m` rows, :attr:`out` is an matrix of shape
-`m \u00D7 n`.
+如果 :attr:`input` 是一个 `m` 行的矩阵, 则 :attr:`out` 是一个 `m \u00D7 n` 的矩阵.
 
-If replacement is ``True``, samples are drawn with replacement.
+如果参数 `replacement` 是 ``True``, 则可重复取样. 否则, 样本在每行不能被重复取样.
 
-If not, they are drawn without replacement, which means that when a
-sample index is drawn for a row, it cannot be drawn again for that row.
-
-This implies the constraint that :attr:`num_samples` must be lower than
-:attr:`input` length (or number of columns of :attr:`input` if it is a matrix).
+参数 :attr:`num_samples` 必须小于 :attr:`input` 长度 (如果是一个矩阵, 则是 :attr:`input` 的列数).
 
 Args:
-    input (Tensor): Tensor containing probabilities
-    num_samples (int): number of samples to draw
-    replacement (bool, optional): Whether to draw with replacement or not
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 包含概率值的张量
+    num_samples (int): 抽取的样本数
+    replacement (bool, optional): 是否重复抽取样本
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
@@ -2761,20 +2724,20 @@ add_docstr(torch._C.ne,
            """
 ne(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$tensor != other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` , 否则 ``False`` .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **tensor != other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` , 否则 ``False`` .
 
-第二个参数可以为一个数或形状可广播
+第二个参数可以为一个数或形状广播
 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量. 
 
-参数：
+参数: 
     input (Tensor): 待对比的张量
-    other (Tensor or float):  对比的张量或 float 值
+    other (Tensor or float):  对比的张量或 ``float`` 值
     out (Tensor, optional):  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.  
 
-返回值：
+返回值: 
     张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果 (是否 input != other ) .  
     
-返回类型：``Tensor``
+返回类型: ``Tensor``
 
 例子::
 
@@ -2788,13 +2751,13 @@ add_docstr(torch._C.neg,
            """
 neg(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the negative of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 的元素的负值.
 
 :math:`out = -1 * input`
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2831,7 +2794,7 @@ nonzero(input, out=None) -> LongTensor
 
 Args:
     input (Tensor): 输入张量/源张量
-    out (LongTensor, optional): 包含索引值的结果张量
+    out (LongTensor, optional): 包含索引值的输出张量
 
 Example::
 
@@ -2881,7 +2844,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的p-范数.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除非维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -2924,25 +2887,20 @@ add_docstr(torch._C.normal,
            """
 .. function:: normal(means, std, out=None)
 
-Returns a Tensor of random numbers drawn from separate normal distributions
-who's mean and standard deviation are given.
+返回一个随机数张量, 随机数从给定平均值和标准差的离散正态分布中抽取.
 
-The :attr:`means` is a Tensor with the mean of
-each output element's normal distribution
+参数 :attr:`means` 是一个包含每个输出元素的正态分布均值的张量.
 
-The :attr:`std` is a Tensor with the standard deviation of
-each output element's normal distribution
+参数 :attr:`std` 是一个包含每个输出元素的正态分布标准差的张量.
 
-The shapes of :attr:`means` and :attr:`std` don't need to match.
-The total number of elements in each Tensor need to be the same.
+其中 :attr:`means` 和 :attr:`std` 的形状不需要匹配, 但是每个张量中的元素总数需要相同.
 
-.. note:: When the shapes do not match, the shape of :attr:`means`
-          is used as the shape for the returned output Tensor
+.. note:: 当形状不匹配时, :attr:`means` 的形状将作为返回输出张量的形状.
 
 Args:
-    means (Tensor): the Tensor of per-element means
-    std (Tensor): the Tensor of per-element standard deviations
-    out (Tensor): the optional result Tensor
+    means (Tensor): 均值
+    std (Tensor): 标准差
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -2962,13 +2920,12 @@ Example::
 
 .. function:: normal(mean=0.0, std, out=None)
 
-Similar to the function above, but the means are shared among all drawn
-elements.
+功能与上面函数类似, 但所有被抽取的元素共享均值.
 
 Args:
-    means (float, optional): the mean for all distributions
-    std (Tensor): the Tensor of per-element standard deviations
-    out (Tensor): the optional result Tensor
+    means (float, optional): 所有分布的均值
+    std (Tensor): 每个元素标准差的张量
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -2983,13 +2940,12 @@ Example::
 
 .. function:: normal(means, std=1.0, out=None)
 
-Similar to the function above, but the standard-deviations are shared among
-all drawn elements.
+功能与上面函数类似, 但所有被抽取的元素共享标准差.
 
 Args:
-    means (Tensor): the Tensor of per-element means
-    std (float, optional): the standard deviation for all distributions
-    out (Tensor): the optional result Tensor
+    means (Tensor): 每个元素均值的张量
+    std (float, optional): 所有分布的标准差
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -3057,7 +3013,7 @@ add_docstr(torch._C.ones_like,
            """
 ones_like(input, out=None) -> Tensor
 
-返回一个用标量值 `1` 填充的张量，大小与 :attr:`input` 相同.
+返回一个用标量值 `1` 填充的张量, 大小与 :attr:`input` 相同.
 
 Args:
     input (Tensor): 输入的大小将决定输出的大小.
@@ -3235,27 +3191,25 @@ add_docstr(torch._C.pow,
            """
 .. function:: pow(input, exponent, out=None)
 
-Takes the power of each element in :attr:`input` with :attr:`exponent` and
-returns a Tensor with the result.
+对输入张量 :attr:`input` 按元素求 :attr:`exponent` 次幂值并返回结果张量(其值作为结果张量的元素).
 
-:attr:`exponent` can be either a single ``float`` number or a ``Tensor``
-with the same number of elements as :attr:`input`.
+幂值 :attr:`exponent` 可以是一个单一的浮点数 ``float`` 或者是一个与张量 :attr:`input` 有相同元素数的张量 ``Tensor`` .
 
-When :attr:`exponent` is a scalar value, the operation applied is:
+当指数 :attr:`exponent` 是一个标量时, 执行操作:
 
 :math:`out_i = x_i ^ {exponent}`
 
-When :attr:`exponent` is a Tensor, the operation applied is:
+当指数 :attr:`exponent` 是一个张量, 执行操作:
 
 :math:`out_i = x_i ^ {exponent_i}`
 
-When :attr:`exponent` is a Tensor, the shapes of :attr:`input`
-and :attr:`exponent` must be :ref:`broadcastable <broadcasting-semantics>`.
+当幂值 :attr:`exponent` 是一个张量, 张量 :attr:`input`
+和张量 :attr:`exponent` 的形状必须可 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): the input `Tensor`
-    exponent (float or Tensor): the exponent value
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    exponent (float or Tensor): 指数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3305,17 +3259,17 @@ Example::
 
 .. function:: pow(base, input, out=None)
 
-:attr:`base` is a scalar ``float`` value, and :attr:`input` is a Tensor.
-The returned Tensor :attr:`out` is of the same shape as :attr:`input`
+:attr:`base` 是一个标量浮点值, :attr:`input` 是一个张量.
+返回的张量 :attr:`out` 的形状与张量 :attr:`input` 的形状相同.
 
-The operation applied is:
+执行操作:
 
 :math:`out_i = base ^ {input_i}`
 
 Args:
-    base (float): the scalar base value for the power operation
-    input (Tensor): the exponent `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    base (float): 幂运算的底数
+    input (Tensor): 指数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3335,7 +3289,7 @@ add_docstr(torch._C.prod,
            """
 .. function:: prod(input) -> float
 
-返回输入张量:attr:`input` 所有元素的积.
+返回输入张量 :attr:`input` 所有元素的乘积.
 
 Args:
     input (Tensor): 输入张量 `Tensor`
@@ -3356,7 +3310,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的积.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -3501,14 +3455,13 @@ add_docstr(torch._C.rand,
            """
 rand(*sizes, out=None) -> Tensor
 
-Returns a Tensor filled with random numbers from a uniform distribution
-on the interval :math:`[0, 1)`
+在区间 :math:`[0, 1)` 中, 返回一个填充了均匀分布的随机数的张量.
 
-The shape of the Tensor is defined by the varargs :attr:`sizes`.
+这个张量的形状由可变参数 :attr:`sizes` 来定义.
 
 Args:
-    sizes (int...): a set of ints defining the shape of the output Tensor.
-    out (Tensor, optional): the result Tensor
+    sizes (int...): 定义输出张量形状的整数集.
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -3532,14 +3485,13 @@ add_docstr(torch._C.randn,
            """
 randn(*sizes, out=None) -> Tensor
 
-Returns a Tensor filled with random numbers from a normal distribution
-with zero mean and variance of one.
+返回一个从正态分布中填充随机数的张量, 其均值为 0 , 方差为 1 .
 
-The shape of the Tensor is defined by the varargs :attr:`sizes`.
+这个张量的形状被可变参数 :attr:`sizes` 定义.
 
 Args:
-    sizes (int...): a set of ints defining the shape of the output Tensor.
-    out (Tensor, optional): the result Tensor
+    sizes (int...): 定义输出张量形状的整数集.
+    out (Tensor, optional): 结果张量
 
 Example::
 
@@ -3563,10 +3515,10 @@ add_docstr(torch._C.randperm,
            """
 randperm(n, out=None) -> LongTensor
 
-Returns a random permutation of integers from ``0`` to ``n - 1``.
+返回一个从 ``0`` to ``n - 1`` 的整数的随机排列.
 
 Args:
-    n (int): the upper bound (exclusive)
+    n (int): 上限 (唯一的)
 
 Example::
 
@@ -3583,11 +3535,11 @@ add_docstr(torch._C.range,
            """
 range(start, end, step=1, out=None) -> Tensor
 
-返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内，大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
-步长是 tensor 中两个值之间的差距. :math:`x_{i+1} = x_i + step`
+返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内, 大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
+ :attr:`step` 是 tensor 中两个值之间的差距. :math:`x_{i+1} = x_i + step`
 
 Warning:
-    此功能已被弃用，以支持 :func:`torch.arange`.
+    此功能已被弃用, 以支持 :func:`torch.arange`.
 
 Args:
     start (float): 点集合的起始值
@@ -3622,7 +3574,7 @@ add_docstr(torch._C.arange,
            """
 arange(start=0, end, step=1, out=None) -> Tensor
 
-从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
+从 `start` 用步长为 :attr:`step` 开始,  间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
 
 Args:
     start (float): 点集合的起始值
@@ -3662,19 +3614,17 @@ add_docstr(torch._C.remainder,
            """
 remainder(input, divisor, out=None) -> Tensor
 
-Computes the element-wise remainder of division.
+计算元素的除法的余数.
 
-The divisor and dividend may contain both for integer and floating point
-numbers. The remainder has the same sign as the divisor.
+除数与被除数可能同时包含整数或浮点数. 余数与除数有相同的符号.
 
-When :attr:`divisor` is a Tensor, the shapes of :attr:`input` and
-:attr:`divisor` must be :ref:`broadcastable <broadcasting-semantics>`.
+当除数 :attr:`divisor` 是一个张量, 张量 :attr:`input` 的形状和张量
+:attr:`divisor` 得形状必须可 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): The dividend
-    divisor (Tensor or float): The divisor. This may be either a number or a
-                               tensor of the same shape as the dividend.
-    out (Tensor, optional): Output tensor
+    input (Tensor): 被除数
+    divisor (Tensor or float): 除数. 可能是一个数或者可能是一个与被除数大小相同的张量
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -3685,8 +3635,7 @@ Example::
 
 .. seealso::
 
-        :func:`torch.fmod`, which computes the element-wise remainder of
-        division equivalently to the C library function ``fmod()``
+        :func:`torch.fmod` 同样计算除法余数, 等效于C库函数中的 ``fmod()``
 """)
 
 add_docstr(torch._C.renorm,
@@ -3729,12 +3678,11 @@ add_docstr(torch._C.round,
            """
 round(input, out=None) -> Tensor
 
-Returns a new `Tensor` with each of the elements of :attr:`input` rounded
-to the closest integer.
+返回一个新的张量 `Tensor` , 其元素是输入张量的元素四舍五入到最近的整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3761,12 +3709,11 @@ add_docstr(torch._C.rsqrt,
            """
 rsqrt(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the reciprocal of the square-root of each of
-the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的平方根的倒数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3800,11 +3747,11 @@ add_docstr(torch._C.sigmoid,
            """
 sigmoid(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the sigmoid of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的sigmoid值.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3831,11 +3778,10 @@ add_docstr(torch._C.sign,
            """
 sign(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the sign of the elements of :attr:`input`.
-
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的符号.
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3861,11 +3807,11 @@ add_docstr(torch._C.sin,
            """
 sin(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the sine of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的正弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3889,12 +3835,11 @@ add_docstr(torch._C.sinh,
            """
 sinh(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the hyperbolic sine of the elements of
-:attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的双曲正弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3925,13 +3870,13 @@ sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 如果指定参数 :attr:`descending` 为 ``True`` , 则按降序排序. 
 
 
-返回元组 (sorted_tensor, sorted_indices) ， sorted_indices 为原始输入中的下标。
+返回元组 (sorted_tensor, sorted_indices) ,  sorted_indices 为原始输入中的下标. 
 
 参数:
     input (Tensor) : 要对比的张量
     dim (int, optional) : 沿着此维排序
-    descending (bool, optional) : 布尔值，控制升降排序
-    out (tuple, optional) : 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型。
+    descending (bool, optional) : 布尔值, 控制升降排序
+    out (tuple, optional) : 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型. 
 
 例子::
 
@@ -3972,11 +3917,11 @@ add_docstr(torch._C.sqrt,
            """
 sqrt(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the square-root of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的平方根.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -4005,7 +3950,7 @@ squeeze(input, dim=None, out=None)
 
 将 :attr:`input` 张量 size 中的 `1` 去除并返回. 
 
-如果 `input` 是 shape 如 :math:`(A x 1 x B x C x 1 x D)` ,那么输出 shape 就为： :math:`(A x B x C x D)`
+如果 `input` 的 shape 如 :math:`(A x 1 x B x C x 1 x D)` ,那么输出 shape 就为:  :math:`(A x B x C x D)`
 
 当给定 :attr:`dim` 时,那么挤压操作只在给定维度上.例如, `input` 的 shape 为: :math:`(A x 1 x B)` , `squeeze(input, 0)` 将会保持张量不变,只有用 `squeeze(input, 1)` , shape 会变成 :math:`(A x B)` .
 
@@ -4015,7 +3960,7 @@ squeeze(input, dim=None, out=None)
 
 Args:
     input (Tensor): 输入张量
-    dim (int, optional): 如果给定,则 `input` 只会在给定维度执行挤压
+    dim (int, optional): 如果给定 :attr:`dim` 时,则 `input` 只会在给定维度执行挤压
     out (Tensor, optional): 结果张量
 
 Example::
@@ -4040,8 +3985,8 @@ add_docstr(torch._C.std,
 
 返回输入张量 :attr:`input` 所有元素的标准差.
 
-如果 :attr:`unbiased` 是``False``, 那么标准差将通过有偏估计计算.
- 否则，Bessel's correction 将被使用.
+如果 :attr:`unbiased` 是 ``False`` , 那么标准差将通过有偏估计计算.
+ 否则, Bessel's correction 将被使用.
 
 Args:
     input (Tensor): 输入 `Tensor`
@@ -4063,11 +4008,11 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的标准差.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是 1.
  另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
-如果 :attr:`unbiased` 是``False``, 那么标准差将通过有偏估计来计算.
- 否则，Bessel's correction 将被使用.
+如果 :attr:`unbiased` 是 ``False`` , 那么标准差将通过有偏估计来计算.
+ 否则, Bessel's correction 将被使用.
 
 Args:
     input (Tensor): 输入 `Tensor`
@@ -4121,7 +4066,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的和.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是 1.
  另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -4296,7 +4241,7 @@ t(input, out=None) -> Tensor
 
 预期 :attr:`input` 为一个矩阵（2 维张量）,并转置 0, 1 维. 
 
-可以被视为函数 `transpose(input, 0, 1)` 的简写函数.
+可以被视为函数 :func:`transpose(input, 0, 1)` 的简写函数.
 
 Args:
     input (Tensor): 输入张量
@@ -4345,11 +4290,11 @@ add_docstr(torch._C.tan,
            """
 tan(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the tangent of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的正切.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -4373,12 +4318,11 @@ add_docstr(torch._C.tanh,
            """
 tanh(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the hyperbolic tangent of the elements
-of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的双曲正切.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -4402,19 +4346,19 @@ add_docstr(torch._C.topk,
            """
 topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTensor)
 
-沿给定 dim 维度返回输入张量 :attr:`input`中:attr:`k` 个最大值.
+沿给定 dim 维度返回输入张量 :attr:`input` 中 :attr:`k` 个最大值.
 如果不指定 :attr:`dim` , 则默认为 `input` 的最后一维. 
 如果为 :attr:`largest` 为 ``False`` ,则返回最小的 `k` 个值.
 返回一个元组 `(values, indices)` , 其中 indices 是原始输入张量 input 中测元素下标.
 如果设定布尔值 :attr:`sorted`  为 ``True`` , 将会确保返回的 `k` 个值被排序. 
 
 参数:  
-    input (Tensor)： 输入张量
-    k (int)： "top-k" 中的 k
-    dim (int, optional)： 排序的维
-    largest (bool, optional)： 布尔值，控制返回最大或最小值
-    sorted (bool, optional)： 布尔值，控制返回值是否排序
-    out (tuple, optional)： 可选输出张量 (Tensor, LongTensor) output buffers
+    input (Tensor):  输入张量
+    k (int):  "top-k" 中的 k
+    dim (int, optional):  排序的维
+    largest (bool, optional):  布尔值, 控制返回最大或最小值
+    sorted (bool, optional):  布尔值, 控制返回值是否排序
+    out (tuple, optional):  可选输出张量 (Tensor, LongTensor) output buffers
 
 例子::
 
@@ -4620,12 +4564,11 @@ add_docstr(torch._C.trunc,
            """
 trunc(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the truncated integer values of
-the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的截断整数值 (直接去除小数部分) .
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
@@ -4682,7 +4625,7 @@ add_docstr(torch._C.var,
 
 返回输入张量 :attr:`input` 的方差.
 
-如果 :attr:`unbiased` 是``False``, 方差的计算将通过有偏估计计算. 
+如果 :attr:`unbiased` 是 ``False`` , 方差的计算将通过有偏估计计算. 
 否则, Bessel's correction 将会被使用.
 
 Args:
@@ -4705,7 +4648,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行的方差.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是 1.
  另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
 如果 :attr:`unbiased` 是``False``, 方差的计算将通过有偏估计计算. 
@@ -4744,10 +4687,8 @@ add_docstr(torch._C.zeros,
            """
 zeros(*sizes, out=None) -> Tensor
 
-返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 :attr:`sizes` 定义。
-Returns a Tensor filled with the scalar value `0`, with the shape defined
-by the varargs :attr:`sizes`.
-
+返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 :attr:`sizes` 定义. 
+.
 Args:
     sizes (int...): 定义输出 Tensor 形状的一组整数.
     out (Tensor, optional): 输出结果 Tensor
@@ -4775,7 +4716,7 @@ add_docstr(torch._C.zeros_like,
            """
 zeros_like(input, out=None) -> Tensor
 
-返回一个用标量值 `0` 填充的 Tensor，其大小与 :attr:`input` 相同.
+返回一个用标量值 `0` 填充的 Tensor, 其大小与 :attr:`input` 相同.
 
 Args:
     input (Tensor): 输入的大小将决定输出的大小.

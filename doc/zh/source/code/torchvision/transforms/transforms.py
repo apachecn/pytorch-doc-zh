@@ -46,8 +46,8 @@ class Compose(object):
 class ToTensor(object):
     """转换一个 ``PIL Image`` 或 ``numpy.ndarray`` 为 tensor（张量）.
 
-    将范围 [0, 255] 中的 PIL Image 或 numpy.ndarray (H x W x C) 转换为
-    (C x H x W) 这样范围为 [0.0, 1.0] 的形状的 torch.FloatTensor.
+    将范围 [0, 255] 中的 PIL Image 或 numpy.ndarray (H x W x C) 转换形状为
+    (C x H x W) , 值范围为 [0.0, 1.0] 的 torch.FloatTensor.
     """
 
     def __call__(self, pic):
@@ -64,15 +64,14 @@ class ToTensor(object):
 class ToPILImage(object):
     """转换一个 tensor 或 ndarray 为 PIL Image.
 
-    Converts a torch.*Tensor of shape C x H x W or a numpy ndarray of shape
-    H x W x C to a PIL Image while preserving the value range.
+    转换一个形状为(C x H x W) 的 torch.*Tensor 或一个形状为(H x W x C )的numpy ndarray 至一个 PIL Image ,同时保留值范围.
 
     Args:
-        mode (`PIL.Image mode`_): color space and pixel depth of input data (optional).
-            If ``mode`` is ``None`` (default) there are some assumptions made about the input data:
-            1. If the input has 3 channels, the ``mode`` is assumed to be ``RGB``.
-            2. If the input has 4 channels, the ``mode`` is assumed to be ``RGBA``.
-            3. If the input has 1 channel, the ``mode`` is determined by the data type (i,e,
+        mode (`PIL.Image mode`_): 输入数据的色域和像素深度 (可选).
+            如果 ``mode`` 为 ``None`` (默认) ,这里对输入数据有一些假设:
+            1. 如果输入有3个通道,  ``mode`` 假设为 ``RGB``.
+            2. 如果输入有4个通道,  ``mode`` 假设为 ``RGBA``.
+            3. 如果输入有1个通道,  ``mode`` 根据数据类型确定 (i,e,
             ``int``, ``float``, ``short``).
 
     .. _PIL.Image mode: http://pillow.readthedocs.io/en/3.4.x/handbook/concepts.html#modes
@@ -83,10 +82,10 @@ class ToPILImage(object):
     def __call__(self, pic):
         """
         Args:
-            pic (Tensor or numpy.ndarray): Image to be converted to PIL Image.
+            pic (Tensor or numpy.ndarray):要转换为PIL Image的图像.
 
         Returns:
-            PIL Image: Image converted to PIL Image.
+            PIL Image: 转换为PIL Image的图像.
 
         """
         return F.to_pil_image(pic, self.mode)
@@ -110,10 +109,10 @@ class Normalize(object):
     def __call__(self, tensor):
         """
         Args:
-            tensor (Tensor): Tensor image of size (C, H, W) to be normalized.
+            tensor (Tensor): 需要被归一化的大小为 (C, H, W)Tensor image.
 
         Returns:
-            Tensor: Normalized Tensor image.
+            Tensor: 归一化后的 Tensor image.
         """
         return F.normalize(tensor, self.mean, self.std)
 
@@ -127,7 +126,7 @@ class Resize(object):
             如果 size（尺寸）是一个 int 类型的数字,
             图像较小的边缘将被匹配到该数字.
             例如, 如果 height > width, 那么图像将会被重新缩放到
-            (size * height / width, size)
+            (size * height / width, size). 即按照size/width的比值缩放
         interpolation (int, optional): 期望的插值. 默认是
             ``PIL.Image.BILINEAR``
     """
@@ -186,7 +185,7 @@ class Pad(object):
     """用指定的 "pad" 值填充指定的 PIL image.
 
     Args:
-        padding (int or tuple): 填充每个边框. 如果提供了一个 int, 则用于填充所有边界.
+        padding (int or tuple): 填充每个边框. 如果提供了一个 int 型的整数, 则用于填充所有边界.
             如果提供长度为 2 的元组, 则这是分别在 左/右 和 上/下 的填充.
             如果提供长度为 4 的元组, 则这是分别用于 左, 上, 右 和 下 部边界的填充.
         fill: 像素填充.  默认值为 0. 如果长度为 3 的元组, 分别用于填充 R, G, B 通道.
@@ -280,7 +279,7 @@ class RandomCrop(object):
 
 
 class RandomHorizontalFlip(object):
-    """以 0.5 的概率随机水平翻转给定的 PIL Image."""
+    """以概率0.5随机水平翻转图像"""
 
     def __call__(self, img):
         """
@@ -296,7 +295,7 @@ class RandomHorizontalFlip(object):
 
 
 class RandomVerticalFlip(object):
-    """以 0.5 的概率随机垂直翻转给定的 PIL Image."""
+    """以概率0.5随机垂直翻转图像."""
 
     def __call__(self, img):
         """
@@ -323,8 +322,8 @@ class RandomResizedCrop(object):
 
     Args:
         size: 每条边的期望的输出尺寸
-        scale: 原始尺寸大小的范围
-        ratio: 原始裁剪纵横比的纵横比范围
+        scale: 原始剪裁尺寸大小的范围
+        ratio: 原始裁剪纵横比的范围
         interpolation: Default: PIL.Image.BILINEAR
     """
 
@@ -383,7 +382,7 @@ class RandomResizedCrop(object):
 
 class RandomSizedCrop(RandomResizedCrop):
     """
-    Note: 为了支持 RandomResizedCrop, 该变换已经被启用.
+    Note: 为了支持 RandomResizedCrop, 该变换已经被弃用.
     """
     def __init__(self, *args, **kwargs):
         warnings.warn("The use of the transforms.RandomSizedCrop transform is deprecated, " +
@@ -403,11 +402,11 @@ class FiveCrop(object):
 
     Example:
          >>> transform = Compose([
-         >>>    FiveCrop(size), # this is a list of PIL Images
-         >>>    Lambda(lambda crops: torch.stack([ToTensor()(crop) for crop in crops])) # returns a 4D tensor
+         >>>    FiveCrop(size), # 一个 PIL Images 的列表
+         >>>    Lambda(lambda crops: torch.stack([ToTensor()(crop) for crop in crops])) # 返回一个4D Tensor
          >>> ])
-         >>> #In your test loop you can do the following:
-         >>> input, target = batch # input is a 5d tensor, target is 2d
+         >>> #在你的测试循环可以如下操作:
+         >>> input, target = batch # 输入是5DTensor,输出是2D
          >>> bs, ncrops, c, h, w = input.size()
          >>> result = model(input.view(-1, c, h, w)) # fuse batch size and ncrops
          >>> result_avg = result.view(bs, ncrops, -1).mean(1) # avg over crops
@@ -433,7 +432,7 @@ class TenCrop(object):
          请参阅下面的例子来处理这个问题.
 
     Args:
-        size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+        size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
         vertical_flip(bool): 使用垂直翻转而不是水平的方式
 
     Example:
@@ -506,14 +505,14 @@ class ColorJitter(object):
     """随机更改图像的亮度, 对比度和饱和度.
 
     Args:
-        brightness (float): How much to jitter brightness. brightness_factor
-            is chosen uniformly from [max(0, 1 - brightness), 1 + brightness].
-        contrast (float): How much to jitter contrast. contrast_factor
-            is chosen uniformly from [max(0, 1 - contrast), 1 + contrast].
-        saturation (float): How much to jitter saturation. saturation_factor
-            is chosen uniformly from [max(0, 1 - saturation), 1 + saturation].
-        hue(float): How much to jitter hue. hue_factor is chosen uniformly from
-            [-hue, hue]. Should be >=0 and <= 0.5.
+        brightness (float): 亮度改变的范围. brightness_factor
+            从 [max(0, 1 - brightness), 1 + brightness]的范围中一致选择.
+        contrast (float): 对比度改变的范围. contrast_factor
+            从 [max(0, 1 - contrast), 1 + contrast]的范围中一致选择.
+        saturation (float): 饱和度改变的范围. saturation_factor
+            从[max(0, 1 - saturation), 1 + saturation]的范围中一致选择.
+        hue(float): 色调改变的范围. hue_factor 从
+            [-hue, hue]的范围中一致选择. 应该 >=0 且 <= 0.5.
     """
     def __init__(self, brightness=0, contrast=0, saturation=0, hue=0):
         self.brightness = brightness
@@ -628,12 +627,12 @@ class Grayscale(object):
     """将图像转换为灰度图像.
 
     Args:
-        num_output_channels (int): (1 or 3) 输出图像所需的通道数量
+        num_output_channels (int): (1 or 3) 输出图像所期望的通道数量
 
     Returns:
         PIL Image: 灰度版本的输入.
-        - If num_output_channels == 1 : 返回的图像是 1 通道
-        - If num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
+        - 如果 num_output_channels == 1 : 返回的图像是 1 通道
+        - 如果 num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
 
     """
 
@@ -659,8 +658,8 @@ class RandomGrayscale(object):
 
     Returns:
         PIL Image: 灰度版本的输入图像的概率为 p, 不变的概率为（1-p）
-        - If input image is 1 channel: 灰度版本是 1 通道
-        - If input image is 3 channel: 灰度版本是 3 通道, 并且 r == g == b
+        - 如果输入图像为1个通道: 则灰度版本是 1 通道
+        - 如果输入图像为3个通道: 则灰度版本是 3 通道, 并且 r == g == b
 
     """
 

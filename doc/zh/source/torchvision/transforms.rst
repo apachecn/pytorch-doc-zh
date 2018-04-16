@@ -3,11 +3,11 @@ torchvision.transforms
 
 .. currentmodule:: torchvision.transforms
 
-Transforms（变换）是常见的 image transforms（图像变换）.他们可以使用 :class:`Compose` 类以链在一起来进行操作.
+Transforms (变换) 是常见的 image transforms (图像变换) .他们可以使用 :class:`Compose` 类以链在一起来进行操作.
 
 .. autoclass:: Compose
 
-Transforms PIL Image 上的变换
+PIL Image 上的变换
 -----------------------------
 
 .. autoclass:: Resize

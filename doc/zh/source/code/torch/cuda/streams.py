@@ -51,7 +51,7 @@ class Stream(torch._C._CudaStreamBase):
         """检查事件是否已被记录.
 
         Returns:
-            一个 BOOL 值，指示事件是否已被记录.
+            一个 BOOL 值, 指示事件是否已被记录.
         """
         res = cudart().cudaStreamQuery(self)
         if res == cudaStatus.ERROR_NOT_READY:
@@ -154,7 +154,7 @@ class Event(object):
         """检查事件是否已记录.
 
         Returns:
-            一个 BOOL 值，指示事件是否已被记录.
+            一个 BOOL 值, 指示事件是否已被记录.
         """
         res = cudart().cudaEventQuery(self)
         if res == cudaStatus.ERROR_NOT_READY:

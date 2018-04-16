@@ -16,11 +16,11 @@ model_urls = {
 
 
 def densenet121(pretrained=False, **kwargs):
-    r"""Densenet-121 模型源自于：
+    r"""Densenet-121 模型源自于: 
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
                      **kwargs)
@@ -30,11 +30,11 @@ def densenet121(pretrained=False, **kwargs):
 
 
 def densenet169(pretrained=False, **kwargs):
-    r"""Densenet-169 模型源自于：
+    r"""Densenet-169 模型源自于: 
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 32, 32),
                      **kwargs)
@@ -44,11 +44,11 @@ def densenet169(pretrained=False, **kwargs):
 
 
 def densenet201(pretrained=False, **kwargs):
-    r"""Densenet-201 模型源自于：
+    r"""Densenet-201 模型源自于: 
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 48, 32),
                      **kwargs)
@@ -58,11 +58,11 @@ def densenet201(pretrained=False, **kwargs):
 
 
 def densenet161(pretrained=False, **kwargs):
-    r"""Densenet-161 模型源自于：
+    r"""Densenet-161 模型源自于: 
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = DenseNet(num_init_features=96, growth_rate=48, block_config=(6, 12, 36, 24),
                      **kwargs)
@@ -110,16 +110,16 @@ class _Transition(nn.Sequential):
 
 
 class DenseNet(nn.Module):
-    r"""Densenet-BC 模型源于论文：
+    r"""Densenet-BC 模型源于论文: 
     `"Densely Connected Convolutional Networks" <https://arxiv.org/pdf/1608.06993.pdf>`_
 
     Args:
-        growth_rate (int) - 每层 filters 的数量。(论文中的`k`)
-        block_config (list of 4 ints) - 每个 pooling block 的层数。
-        num_init_features (int) - 第一层卷积层中需要学习的 filters 的数量。
+        growth_rate (int) - 每层 filters 的数量. (论文中的`k`)
+        block_config (list of 4 ints) - 每个 pooling block 的层数. 
+        num_init_features (int) - 第一层卷积层中需要学习的 filters 的数量. 
         bn_size (int) - 瓶颈层(bottle neck layers) 的倍增因子(multiplicative factor）
           (i.e. bn_size * k features in the bottleneck layer)
-        drop_rate (float) - 每个 dense 层之后的 dropout rate。
+        drop_rate (float) - 每个 dense 层之后的 dropout rate. 
         num_classes (int) - 分类器类别数量
     """
     def __init__(self, growth_rate=32, block_config=(6, 12, 24, 16),
