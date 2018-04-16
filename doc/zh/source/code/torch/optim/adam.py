@@ -4,7 +4,7 @@ from .optimizer import Optimizer
 
 
 class Adam(Optimizer):
-    """实现 Adam 算法。
+    """实现 Adam 算法. 
 
     它在 `Adam: A Method for Stochastic Optimization`_ 中被提出.
 

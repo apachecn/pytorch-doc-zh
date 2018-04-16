@@ -23,7 +23,7 @@ class Upsample(Module):
     Shape:
         - 输入: :math:`(N, C, W_{in})`, :math:`(N, C, H_{in}, W_{in})` 或 :math:`(N, C, D_{in}, H_{in}, W_{in})`
         - 输出: :math:`(N, C, W_{out})`, :math:`(N, C, H_{out}, W_{out})`
-          或 :math:`(N, C, D_{out}, H_{out}, W_{out})` 其中：
+          或 :math:`(N, C, D_{out}, H_{out}, W_{out})` 其中: 
           :math:`D_{out} = floor(D_{in} * scale\_factor)` 或 `size[-3]`
           :math:`H_{out} = floor(H_{in} * scale\_factor)` 或 `size[-2]`
           :math:`W_{out} = floor(W_{in}  * scale\_factor)` 或 `size[-1]`

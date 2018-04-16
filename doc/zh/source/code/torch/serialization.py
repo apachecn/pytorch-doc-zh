@@ -120,16 +120,15 @@ def _with_file_like(f, mode, body):
 
 
 def save(obj, f, pickle_module=pickle, pickle_protocol=DEFAULT_PROTOCOL):
-    """Saves an object to a disk file.
+    """将一个对象保存到一个磁盘文件中.
 
     See also: :ref:`recommend-saving-models`
 
     Args:
-        obj: saved object
-        f: a file-like object (has to implement fileno that returns a file descriptor)
-            or a string containing a file name
-        pickle_module: module used for pickling metadata and objects
-        pickle_protocol: can be specified to override the default protocol
+        obj: 保存对象
+        f: 类文件对象 (必须实现返回文件描述符的fileno方法)或包含文件名的字符串
+        pickle_module: 用于pickling元数据和对象的模块
+        pickle_protocol: 可以指定覆盖默认参数
     """
     return _with_file_like(f, "wb", lambda f: _save(obj, f, pickle_module, pickle_protocol))
 
@@ -204,9 +203,9 @@ def _save(obj, f, pickle_module, pickle_protocol):
 
 
 def load(f, map_location=None, pickle_module=pickle):
-    """Loads an object saved with :func:`torch.save` from a file.
+    """从磁盘文件中加载一个用 :func:`torch.save` 保存的对象.
 
-    torch.load uses Python's unpickling facilities but treats storages,
+    :func:`torch.load` uses Python's unpickling facilities but treats storages,
     which underlie tensors, specially. They are first deserialized on the
     CPU and are then moved to the device they were saved from. If this fails
     (e.g. because the run time system doesn't have certain devices), an exception

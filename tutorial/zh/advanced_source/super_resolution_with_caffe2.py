@@ -286,12 +286,9 @@ final_img.save("./_static/img/cat_superres.jpg")
 
 ######################################################################
 # 我们已经完成了在纯 Caffe2 后端运行我们的移动网络, 现在, 让我们在 Android 设备上执行模型并获取模型输出.
-
-# We have finished running our mobile nets in pure Caffe2 backend and now,
-# let's execute the model on an Android device and get the model output.
 #
 # ``NOTE``: 对于 Android 开发, ``adb`` 需要使用 shell, 否则以下部分教程将无法运行.
-# 
+#
 # 在我们的移动设备 runnig 模型的第一步中, 我们将把移动设备的本地速度基准二进制文件推送到 adb.
 # 这个二进制文件可以在移动设备上执行模型, 也可以导出稍后可以检索的模型输出.
 # 二进制文件 `在这里 <https://github.com/caffe2/caffe2/blob/master/caffe2/binaries/speed_benchmark.cc>`__ 可用.

@@ -26,7 +26,7 @@ def pack_padded_sequence(input, lengths, batch_first=False):
 
     输入的形状可以是 ``TxBx*`` . T是最长序列长度(等于 ``lengths[0]``), B 是 batch size, *代表任意维度(可以是0). 如果 ``batch_first=True`` , 那么相应的 input size 就是 ``BxTx*`` .
 
-    Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前, 短的在后. 即 input[:,0] 代表的是最长的序列, input[:, B-1] 保存的是最短的序列。
+    Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前, 短的在后. 即 input[:,0] 代表的是最长的序列, input[:, B-1] 保存的是最短的序列. 
 
     Note:
         只要是维度大于等于2的 input 都可以作为这个函数的参数. 你可以用它来打包 labels, 然后用 RNN 的输出和打包后的 labels 来计算 loss. 通过 :class:`PackedSequence` 对象的 ``.data`` 属性可以获取 Variable.
