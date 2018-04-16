@@ -15,7 +15,21 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 
 ## 项目负责人
 
-* [@那伊抹微笑](https://github.com/apachecn/pytorch-doc-zh)
+**总负责组织: [@ApacheCN](https://github.com/apachecn)**
+
+> Pytorch 0.2.0 第一期 (2017-04-11)
+
+* [@awfssv](https://github.com/awfssv)
+
+> Pytorch 0.3.0 第一期 (2018-01-09)
+
+* [@那伊抹微笑](https://github.com/wangyangting)
+
+> Pytorch 0.3.0 第二期 (2018-04-04)
+
+* [@飞龙](https://github.com/wizardforcel)
+* [@咸鱼](https://github.com/Watermelon233)
+* [@片刻](https://github.com/jiangzhonglian)
 
 ## 贡献者
 
