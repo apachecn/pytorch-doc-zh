@@ -84,7 +84,7 @@ class profile(object):
         enabled (bool, 可选): 如果设置为 False ,则没有评价指标.
             Default: ``True``.
 
-    .. 警告:
+    .. warning:
         不应该递归地调用这个上下文管理器,即最多一个实例应该在任何给定的时间启用.
 
     Example:
@@ -177,7 +177,7 @@ class emit_nvtx(object):
      然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 
      :func:`torch.autograd.profiler.load_nvprof` 可以加载检查结果.
 
-    .. 警告:
+    .. warning:
         不应该递归地调用这个上下文管理器,即最多一个实例应该在任何给定的时间启用.
 
     参数:

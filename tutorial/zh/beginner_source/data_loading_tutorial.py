@@ -73,7 +73,7 @@ print('First 4 Landmarks: {}'.format(landmarks[:4]))
 
 ######################################################################
 # 我们写一个函数来显示一张图片和它的标记点，然后用这个函数来显示一个样本。
-# 
+#
 
 
 def show_landmarks(image, landmarks):
@@ -311,7 +311,7 @@ plt.show()
 # -  对所读的图像上应用变换
 # -  其中一个变换是随机的，所以可以增强数据样本
 #
-# 我们可以像之前一样用``for i in range``循环从已创建的数据集中迭代
+# 我们可以像之前一样用 ``for i in range`` 循环从已创建的数据集中迭代
 # 
 
 transformed_dataset = FaceLandmarksDataset(csv_file='faces/face_landmarks.csv',
@@ -398,8 +398,8 @@ for i_batch, sample_batched in enumerate(dataloader):
 #     root/bees/nsdf3.png
 #     root/bees/asd932_.png
 #
-# 'ants', 'bees'等是图像的类标。同样，``PIL.Image``中出现的一般的图像变换像
-# ``RandomHorizontalFlip``，``Scale``也是可以使用的。
+# 'ants', 'bees' 等是图像的类标。同样，``PIL.Image`` 中出现的一般的图像变换像
+# ``RandomHorizontalFlip``, ``Scale`` 也是可以使用的。
 # 你可以像下面这样用这些函数来写dataloader：::
 #
 #   import torch
