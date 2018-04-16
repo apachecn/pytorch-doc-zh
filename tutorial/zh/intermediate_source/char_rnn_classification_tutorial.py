@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Classifying Names with a Character-Level RNN 用字符级RNN分类名称
+用字符级RNN分类名称
 *********************************************
 **作者**: `Sean Robertson <https://github.com/spro/practical-pytorch>`_
 
