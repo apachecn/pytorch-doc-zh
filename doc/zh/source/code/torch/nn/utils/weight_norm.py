@@ -59,7 +59,7 @@ class WeightNorm(object):
 
 
 def weight_norm(module, name='weight', dim=0):
-    r"""将权重归一化应用于给定模块中的指定参数。.
+    r"""将权重归一化应用于给定模块中的指定参数. .
 
     .. math::
          \mathbf{w} = g \dfrac{\mathbf{v}}{\|\mathbf{v}\|}

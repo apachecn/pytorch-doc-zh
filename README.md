@@ -15,7 +15,21 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 
 ## 项目负责人
 
-* [@那伊抹微笑](https://github.com/apachecn/pytorch-doc-zh)
+**维护组织: [@ApacheCN](https://github.com/apachecn)**
+
+> Pytorch 0.2.0 第一期 (2017-04-11)
+
+* [@awfssv](https://github.com/awfssv)
+
+> Pytorch 0.3.0 第一期 (2018-01-09)
+
+* [@那伊抹微笑](https://github.com/wangyangting)
+
+> Pytorch 0.3.0 第二期 (2018-04-04)
+
+* [@飞龙](https://github.com/wizardforcel)
+* [@咸鱼](https://github.com/Watermelon233)
+* [@片刻](https://github.com/jiangzhonglian)
 
 ## 贡献者
 
@@ -71,7 +85,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Transfering a model from PyTorch to Caffe2 and Mobile using ONNX](http://pytorch.apachecn.org/cn/tutorials/advanced/super_resolution_with_caffe2.html) | [@片刻](https://github.com/jiangzhonglian) | |
 | [Custom C extensions for pytorch](http://pytorch.apachecn.org/cn/tutorials/advanced/c_extension.html) | [@飞龙](https://github.com/wizardforcel) | |
 
-注：斜体代表未完成
+注: 斜体代表未完成
 
 ### PyTorch 0.2.0 中文文档贡献者
 

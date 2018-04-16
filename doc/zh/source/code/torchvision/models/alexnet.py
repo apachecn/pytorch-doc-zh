@@ -51,7 +51,7 @@ def alexnet(pretrained=False, **kwargs):
     `"One weird trick..." <https://arxiv.org/abs/1404.5997>`_ .
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = AlexNet(**kwargs)
     if pretrained:

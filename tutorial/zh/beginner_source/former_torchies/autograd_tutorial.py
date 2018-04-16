@@ -13,7 +13,7 @@ Variable (变量)
 
 在 autograd 中, 我们引入了一个 ``Variable`` 类, 它是一个非常单薄
 的 ``Tensor`` 包装器. 你可以通过 ``.data`` 访问到原始 tensor,
-并在计算完反向之后, 求出这个变量的梯度，并将这个梯度累加到 ``.grad`` 属性中.
+并在计算完反向之后, 求出这个变量的梯度, 并将这个梯度累加到 ``.grad`` 属性中.
 
 .. figure:: /_static/img/Variable.png
    :alt: Variable

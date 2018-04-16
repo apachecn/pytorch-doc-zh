@@ -16,7 +16,7 @@ torch.onnx
     model = torchvision.models.alexnet(pretrained=True).cuda()
     torch.onnx.export(model, dummy_input, "alexnet.proto", verbose=True)
 
-得到的 ``alexnet.proto`` 是一个 protobuf 二值文件，它包含所导出模型 ( 这里是 AlexNet )中网络架构和网络参数.
+得到的 ``alexnet.proto`` 是一个 protobuf 二值文件, 它包含所导出模型 ( 这里是 AlexNet )中网络架构和网络参数.
 关键参数 ``verbose=True`` 会使导出过程中打印出该网络的可读表示::
 
     # All parameters are encoded explicitly as inputs.  By convention,
@@ -68,7 +68,7 @@ torch.onnx
 为了能够使用 `caffe2 <https://caffe2.ai/>`_ 运行脚本, 你需要三样东西:
 
 1. 你需要安装 Caffe2. 如果你之前没有安装,请参照
-   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_。
+   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_. 
 
 2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_,一个纯 Python 的库,它为 ONNX 提供了 Caffe2 的
    后端.你可以使用 pip 安装 ``onnx-caffe2``::
@@ -97,7 +97,7 @@ torch.onnx
 -----------
 
 * ONNX 导出器是一个基于轨迹的导出器,这意味着它执行时需要运行一次模型,然后导出实际参与运算的运算符.
-  这也意味着，如果你的模型是动态的,例如,改变一些依赖于输入数据的操作,这时的导出结果是不准确的.同样,一
+  这也意味着, 如果你的模型是动态的,例如,改变一些依赖于输入数据的操作,这时的导出结果是不准确的.同样,一
   个轨迹可能只对一个具体的输入尺寸有效（这是为什么我们在轨迹中需要有明确的输入的原因之一.）我们建议检查
   模型的轨迹,确保被追踪的运算符是合理的.
 

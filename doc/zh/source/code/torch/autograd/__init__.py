@@ -89,7 +89,7 @@ def grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=Non
          only_inputs=True, allow_unused=False):
     """计算并返回给定值的梯度的和.
 
-    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样，
+    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样, 
     存放了预先计算 input 的梯度的和. 如果
     output 不需要被求导, 那么梯度将为 ``None``).
     当不需要派生图时,可以将梯度作为张量,或者作为变量,在这种情况下,图将被创建.

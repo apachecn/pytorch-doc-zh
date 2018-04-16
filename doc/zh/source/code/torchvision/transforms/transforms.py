@@ -126,7 +126,7 @@ class Resize(object):
             如果 size（尺寸）是一个 int 类型的数字,
             图像较小的边缘将被匹配到该数字.
             例如, 如果 height > width, 那么图像将会被重新缩放到
-            (size * height / width, size)。即按照size/width的比值缩放
+            (size * height / width, size). 即按照size/width的比值缩放
         interpolation (int, optional): 期望的插值. 默认是
             ``PIL.Image.BILINEAR``
     """

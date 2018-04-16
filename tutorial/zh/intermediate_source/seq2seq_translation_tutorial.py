@@ -97,7 +97,7 @@ use_cuda = torch.cuda.is_available()
 # 有人做了额外的工作,切分语言对到单个文本文件中: http://www.manythings.org/anki/
 #
 # 英文到法文对太大而不能包含在repo中,因此开始前请下载
-#  ``data/eng-fra.txt``. 该文件是一个制表符分隔的翻译对列表：:
+#  ``data/eng-fra.txt``. 该文件是一个制表符分隔的翻译对列表: :
 #
 # ::
 #
@@ -521,7 +521,7 @@ def train(input_variable, target_variable, encoder, decoder, encoder_optimizer, 
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
 
     if use_teacher_forcing:
-        # 教师强制：将目标作为下一个输入
+        # 教师强制: 将目标作为下一个输入
         for di in range(target_length):
             decoder_output, decoder_hidden, decoder_attention = decoder(
                 decoder_input, decoder_hidden, encoder_outputs)
@@ -529,7 +529,7 @@ def train(input_variable, target_variable, encoder, decoder, encoder_optimizer, 
             decoder_input = target_variable[di]  # Teacher forcing
 
     else:
-        # 没有教师强迫：使用自己的预测作为下一个输入
+        # 没有教师强迫: 使用自己的预测作为下一个输入
         for di in range(target_length):
             decoder_output, decoder_hidden, decoder_attention = decoder(
                 decoder_input, decoder_hidden, encoder_outputs)
