@@ -71,7 +71,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Transfering a model from PyTorch to Caffe2 and Mobile using ONNX](http://pytorch.apachecn.org/cn/tutorials/advanced/super_resolution_with_caffe2.html) | [@片刻](https://github.com/jiangzhonglian) | |
 | [Custom C extensions for pytorch](http://pytorch.apachecn.org/cn/tutorials/advanced/c_extension.html) | [@飞龙](https://github.com/wizardforcel) | |
 
-注：斜体代表未完成
+注: 斜体代表未完成
 
 ### PyTorch 0.2.0 中文文档贡献者
 

@@ -30,7 +30,7 @@ nn package
 **Simplified debugging:**
 
     使用Python的pdb调试器进行调试是直观的, 调试器和堆栈跟踪在发生错误的地方停止.
-    What you see is what you get(所见即所得，译者注:应该是说可视化吧).
+    What you see is what you get(所见即所得, 译者注:应该是说可视化吧).
 
 Example 1: ConvNet
 ------------------

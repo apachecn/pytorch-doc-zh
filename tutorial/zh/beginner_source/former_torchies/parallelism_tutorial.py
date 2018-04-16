@@ -35,7 +35,7 @@ class DataParallelModel(nn.Module):
         return x
 
 ########################################################################
-# 这个代码不做任何修改，在 CPU 模式下也能运行.
+# 这个代码不做任何修改, 在 CPU 模式下也能运行.
 #
 # DataParallel 的文档为
 # `here <http://pytorch.org/docs/nn.html#torch.nn.DataParallel>`_.
@@ -70,7 +70,7 @@ def data_parallel(module, input, device_ids, output_device=None):
 # Part of the model on CPU and part on the GPU
 # --------------------------------------------
 #
-# 让我们来看一个网络模型，他的网络一部分用 CPU 运算，另一部分用 GPU 运算。
+# 让我们来看一个网络模型, 他的网络一部分用 CPU 运算, 另一部分用 GPU 运算. 
 
 
 class DistributedModel(nn.Module):
@@ -97,7 +97,7 @@ class DistributedModel(nn.Module):
 # 这是面向 Torch 使用者的 PyTorch 的简短介绍.
 # 当然还有更多东西需要学习.
 #
-# 看完这部分教程，也可以看看我们更全面的入门教程, 它介绍了 ``optim`` package,
+# 看完这部分教程, 也可以看看我们更全面的入门教程, 它介绍了 ``optim`` package,
 # data loaders 等.: :doc:`/beginner/deep_learning_60min_blitz`.
 #
 # 也可以看看

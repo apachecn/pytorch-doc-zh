@@ -10,7 +10,7 @@ _image_backend = 'PIL'
 
 def set_image_backend(backend):
     """
-    指定用于加载图像的包。
+    指定用于加载图像的包. 
 
     Args:
         backend (string): 图像处理后端的名称. {'PIL', 'accimage'} 之一.
