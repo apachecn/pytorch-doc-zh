@@ -57,9 +57,8 @@
 数据准备
 ==================
 
-.. 注意::
-   从
-   `这里 <https://download.pytorch.org/tutorial/data.zip>`_
+.. Note::
+   从 `这里 <https://download.pytorch.org/tutorial/data.zip>`_
    下载数据, 并解压到当前目录. 
 
 更多的细节参考上一个教程, 总之, 数据含有一批纯文本文件:  ``data/names/[Language].txt`` 
@@ -109,8 +108,7 @@ print(unicodeToAscii("O'Néàl"))
 # 创建网络
 # ====================
 #
-#  这个网络扩展了 `上一个教程的RNN <#Creating-the-Network>`__
-# , 为类别张量添加了一个额外的参数, 并和其他的参数串联在一起. 类别张量
+#  这个网络扩展了 `上一个教程的RNN <http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html>`__ , 为类别张量添加了一个额外的参数, 并和其他的参数串联在一起. 类别张量
 # 和字母的输入一样是 one-hot 向量. 
 #
 # 我们将输出解释成为下一个字母的概率, 采样的时候, 最有可能的输出被当做下一个输入. 
@@ -332,7 +330,7 @@ plt.plot(all_losses)
 #
 # -  返回最终的名字
 #
-# .. 注意::
+# .. Note::
 #    与给定起始字母不同的是, 有其他的策略是在训练的时候包含一个“串起始”标记, 让网络选择属于自己的起始字母. 
 #
 
