@@ -636,12 +636,12 @@ add_docstr(torch._C.reciprocal,
            """
 reciprocal(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the reciprocal of the elements of :attr:`input`,
+返回一个新的 `Tensor` , 其元素是张量 :attr:`input` 元素的倒数.
 i.e. :math:`1.0 / x`
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -705,15 +705,15 @@ Example::
 
 .. function:: clamp(input, *, min, out=None) -> Tensor
 
-Clamps all elements in :attr:`input` to be larger or equal :attr:`min`.
+张量 :attr:`input` 的所有元素值大于或者等于 :attr:`min`.
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 :attr:`value`
+必须是实数, 否则应该是整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): minimal value of each element in the output
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 输出中每个元素的最小值
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -736,15 +736,15 @@ Example::
 
 .. function:: clamp(input, *, max, out=None) -> Tensor
 
-Clamps all elements in :attr:`input` to be smaller or equal :attr:`max`.
+张量 :attr:`input` 的所有元素值小于或者等于 :attr:`max`.
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 :attr:`value`
+必须是实数, 否则应该是整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): maximal value of each element in the output
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 输出中每个元素的最大值
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -771,11 +771,11 @@ add_docstr(torch._C.cos,
            """
 cos(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the cosine  of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 每个元素的余弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -799,12 +799,11 @@ add_docstr(torch._C.cosh,
            """
 cosh(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the hyperbolic cosine  of the elements of
-:attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 每个元素的双曲余弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1106,18 +1105,17 @@ add_docstr(torch._C.div,
            """
 .. function:: div(input, value, out=None)
 
-Divides each element of the input :attr:`input` with the scalar :attr:`value`
-and returns a new resulting tensor.
+将张量 :attr:`input` 的元素逐一除以标量值 :attr:`value` , 其结果作为一个新的张量返回.
 
 :math:`out = tensor / value`
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型是 `FloatTensor` or `DoubleTensor`, 则标量值 :attr:`value`
+必须是实数, 否则应该是整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): the number to be divided to each element of :attr:`input`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 除数, 被张量 :attr:`input` 的元素除
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1143,17 +1141,16 @@ Example::
 
 .. function:: div(input, other, out=None)
 
-Each element of the Tensor :attr:`input` is divided by each element
-of the Tensor :attr:`other`. The resulting Tensor is returned. The shapes of
-:attr:`input` and :attr:`other` must be
+张量 :attr:`input` 的元素与张量 :attr:`other` 的元素逐一相除. 返回一个新的结果张量 :attr:`out` . 
+张量 :attr:`input` 与张量 :attr:`other` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 :math:`out_i = input_i / other_i`
 
 Args:
-    input (Tensor): the numerator `Tensor`
-    other (Tensor): the denominator `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 分子 `Tensor` (被除数)
+    other (Tensor): 分母 `Tensor` (除数)
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1266,7 +1263,7 @@ add_docstr(torch._C.erf,
            """
 erf(tensor, out=None) -> Tensor
 
-Computes the error function of each element.
+计算每个元素的误差函数.
 
 Example::
 
@@ -1278,7 +1275,7 @@ add_docstr(torch._C.erfinv,
            """
 erfinv(tensor, out=None) -> Tensor
 
-Computes the inverse error function of each element.
+计算每个元素的反向误差函数.
 
 Example::
 
@@ -1290,7 +1287,7 @@ add_docstr(torch._C.exp,
            """
 exp(tensor, out=None) -> Tensor
 
-Computes the exponential of each element.
+计算每个元素的指数.
 
 Example::
 
@@ -1325,12 +1322,11 @@ add_docstr(torch._C.floor,
            """
 floor(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the floor of the elements of :attr:`input`,
-the largest integer less than or equal to each element.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 的元素向下取整(取不大于每个元素的最大整数).
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -1358,18 +1354,16 @@ add_docstr(torch._C.fmod,
            """
 fmod(input, divisor, out=None) -> Tensor
 
-Computes the element-wise remainder of division.
+计算除法余数.
 
-The dividend and divisor may contain both for integer and floating point
-numbers. The remainder has the same sign as the dividend `tensor`.
+被除数和除数可能同时含有整数和浮点数. 这时余数的正负与被除数 `tensor` 相同.
 
-When :attr:`divisor` is a Tensor, the shapes of :attr:`input` and
-:attr:`divisor` must be :ref:`broadcastable <broadcasting-semantics>`.
+当除数 :attr:`divisor` 是一个张量时r, 张量 :attr:`input` 和张量
+:attr:`divisor` 的形状必须可 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): The dividend
-    divisor (Tensor or float): The divisor. This may be either a number or a
-                               tensor of the same shape as the dividend.
+    input (Tensor): 被除数
+    divisor (Tensor or float): 除数. 可能是一个数或者是一个与被除数相同形状的张量.
     out (Tensor, optional): Output tensor
 
 Example::
@@ -1381,15 +1375,14 @@ Example::
 
 .. seealso::
 
-        :func:`torch.remainder`, which computes the element-wise remainder of
-        division equivalently to Python's `%` operator
+        :func:`torch.remainder`, 其计算等价于 Python's `%` 操作符的元素余数
 """)
 
 add_docstr(torch._C.frac,
            """
 frac(tensor, out=None) -> Tensor
 
-Computes the fractional portion of each element in `tensor`.
+计算张量 `tensor` 每个元素的分数部分.
 
 Example::
 
@@ -1875,18 +1868,18 @@ add_docstr(torch._C.lerp,
            """
 lerp(start, end, weight, out=None)
 
-Does a linear interpolation of two tensors :attr:`start` and :attr:`end` based
-on a scalar :attr:`weight`: and returns the resulting :attr:`out` Tensor.
+基于标量值 :attr:`weight`: , 在张量 :attr:`start` 与张量 :attr:`end` 之间做线性插值
+并返回结果张量 :attr:`out` .
 
 :math:`out_i = start_i + weight * (end_i - start_i)`
 
-The shapes of :attr:`start` and :attr:`end` must be
+张量 :attr:`start` 和张量 :attr:`end` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    start (Tensor): the `Tensor` with the starting points
-    end (Tensor): the `Tensor` with the ending points
-    weight (float): the weight for the interpolation formula
+    start (Tensor): 起始点 `Tensor` 
+    end (Tensor): 终点 `Tensor` 
+    weight (float): 插值公式的权重
     out (Tensor, optional): The result `Tensor`
 
 Example::
@@ -1968,12 +1961,11 @@ add_docstr(torch._C.log,
            """
 log(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the natural logarithm of the elements
-of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 所有元素的自然对数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2002,16 +1994,15 @@ add_docstr(torch._C.log1p,
            """
 log1p(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the natural logarithm of (1 + :attr:`input`).
+返回一个新的张量 `Tensor` , 其元素是(1 + :attr:`input`) 的自然对数.
 
 :math:`y_i = log(x_i + 1)`
 
-.. note:: This function is more accurate than :func:`torch.log` for small
-          values of :attr:`input`
+.. note:: 对于较小的张量 :attr:`input` 的值, 此函数比 :func:`torch.log` 更精确.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2584,18 +2575,17 @@ add_docstr(torch._C.mul,
            """
 .. function:: mul(input, value, out=None)
 
-Multiplies each element of the input :attr:`input` with the scalar
-:attr:`value` and returns a new resulting tensor.
+将输入张量 :attr:`input` 的每个元素与标量值 :attr:`value` 相乘并返回一个新的结果张量.
 
 :math:`out = tensor * value`
 
-If :attr:`input` is of type `FloatTensor` or `DoubleTensor`, :attr:`value`
-should be a real number, otherwise it should be an integer
+如果张量 :attr:`input` 的类型为 `FloatTensor` or `DoubleTensor`, 则 :attr:`value`
+应该是实数, 否则为整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    value (Number): the number to be multiplied to each element of :attr:`input`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    value (Number): 与张量 :attr:`input` 每个元素相乘的数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2617,18 +2607,17 @@ Example::
 
 .. function:: mul(input, other, out=None)
 
-Each element of the Tensor :attr:`input` is multiplied by each element of the
-Tensor :attr:`other`. The resulting Tensor is returned.
+张量 :attr:`input` 的元素与张量 :attr:`other` 的元素逐一相乘. 其结果作为一个新的张量返回.
 
-The shapes of :attr:`input` and :attr:`other` must be
+张量 :attr:`input` 和张量 :attr:`other` 的形状必须可
 :ref:`broadcastable <broadcasting-semantics>`.
 
 :math:`out_i = input_i * other_i`
 
 Args:
-    input (Tensor): the first multiplicand `Tensor`
-    other (Tensor): the second multiplicand `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 第一个乘数 `Tensor`
+    other (Tensor): 第二个乘数 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -2762,13 +2751,13 @@ add_docstr(torch._C.neg,
            """
 neg(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the negative of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 的元素的负值.
 
 :math:`out = -1 * input`
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3202,27 +3191,25 @@ add_docstr(torch._C.pow,
            """
 .. function:: pow(input, exponent, out=None)
 
-Takes the power of each element in :attr:`input` with :attr:`exponent` and
-returns a Tensor with the result.
+对输入张量 :attr:`input` 按元素求 :attr:`exponent` 次幂值并返回结果张量(其值作为结果张量的元素).
 
-:attr:`exponent` can be either a single ``float`` number or a ``Tensor``
-with the same number of elements as :attr:`input`.
+幂值 :attr:`exponent` 可以是一个单一的浮点数 ``float`` 或者是一个与张量 :attr:`input` 有相同元素数的张量 ``Tensor`` .
 
-When :attr:`exponent` is a scalar value, the operation applied is:
+当指数 :attr:`exponent` 是一个标量时, 执行操作:
 
 :math:`out_i = x_i ^ {exponent}`
 
-When :attr:`exponent` is a Tensor, the operation applied is:
+当指数 :attr:`exponent` 是一个张量, 执行操作:
 
 :math:`out_i = x_i ^ {exponent_i}`
 
-When :attr:`exponent` is a Tensor, the shapes of :attr:`input`
-and :attr:`exponent` must be :ref:`broadcastable <broadcasting-semantics>`.
+当幂值 :attr:`exponent` 是一个张量, 张量 :attr:`input`
+和张量 :attr:`exponent` 的形状必须可 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): the input `Tensor`
-    exponent (float or Tensor): the exponent value
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    exponent (float or Tensor): 指数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3272,17 +3259,17 @@ Example::
 
 .. function:: pow(base, input, out=None)
 
-:attr:`base` is a scalar ``float`` value, and :attr:`input` is a Tensor.
-The returned Tensor :attr:`out` is of the same shape as :attr:`input`
+:attr:`base` 是一个标量浮点值, :attr:`input` 是一个张量.
+返回的张量 :attr:`out` 的形状与张量 :attr:`input` 的形状相同.
 
-The operation applied is:
+执行操作:
 
 :math:`out_i = base ^ {input_i}`
 
 Args:
-    base (float): the scalar base value for the power operation
-    input (Tensor): the exponent `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    base (float): 幂运算的底数
+    input (Tensor): 指数
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3627,19 +3614,17 @@ add_docstr(torch._C.remainder,
            """
 remainder(input, divisor, out=None) -> Tensor
 
-Computes the element-wise remainder of division.
+计算元素的除法的余数.
 
-The divisor and dividend may contain both for integer and floating point
-numbers. The remainder has the same sign as the divisor.
+除数与被除数可能同时包含整数或浮点数. 余数与除数有相同的符号.
 
-When :attr:`divisor` is a Tensor, the shapes of :attr:`input` and
-:attr:`divisor` must be :ref:`broadcastable <broadcasting-semantics>`.
+当除数 :attr:`divisor` 是一个张量, 张量 :attr:`input` 的形状和张量
+:attr:`divisor` 得形状必须可 :ref:`broadcastable <broadcasting-semantics>`.
 
 Args:
-    input (Tensor): The dividend
-    divisor (Tensor or float): The divisor. This may be either a number or a
-                               tensor of the same shape as the dividend.
-    out (Tensor, optional): Output tensor
+    input (Tensor): 被除数
+    divisor (Tensor or float): 除数. 可能是一个数或者可能是一个与被除数大小相同的张量
+    out (Tensor, optional): 输出张量
 
 Example::
 
@@ -3650,8 +3635,7 @@ Example::
 
 .. seealso::
 
-        :func:`torch.fmod`, which computes the element-wise remainder of
-        division equivalently to the C library function ``fmod()``
+        :func:`torch.fmod` 同样计算除法余数, 等效于C库函数中的 ``fmod()``
 """)
 
 add_docstr(torch._C.renorm,
@@ -3694,12 +3678,11 @@ add_docstr(torch._C.round,
            """
 round(input, out=None) -> Tensor
 
-Returns a new `Tensor` with each of the elements of :attr:`input` rounded
-to the closest integer.
+返回一个新的张量 `Tensor` , 其元素是输入张量的元素四舍五入到最近的整数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3726,12 +3709,11 @@ add_docstr(torch._C.rsqrt,
            """
 rsqrt(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the reciprocal of the square-root of each of
-the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的平方根的倒数.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3765,11 +3747,11 @@ add_docstr(torch._C.sigmoid,
            """
 sigmoid(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the sigmoid of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的sigmoid值.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3796,11 +3778,10 @@ add_docstr(torch._C.sign,
            """
 sign(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the sign of the elements of :attr:`input`.
-
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的符号.
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3826,11 +3807,11 @@ add_docstr(torch._C.sin,
            """
 sin(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the sine of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的正弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3854,12 +3835,11 @@ add_docstr(torch._C.sinh,
            """
 sinh(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the hyperbolic sine of the elements of
-:attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的双曲正弦.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -3937,11 +3917,11 @@ add_docstr(torch._C.sqrt,
            """
 sqrt(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the square-root of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的平方根.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -4310,11 +4290,11 @@ add_docstr(torch._C.tan,
            """
 tan(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the tangent of the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的正切.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -4338,12 +4318,11 @@ add_docstr(torch._C.tanh,
            """
 tanh(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the hyperbolic tangent of the elements
-of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的双曲正切.
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 结果 `Tensor`
 
 Example::
 
@@ -4585,12 +4564,11 @@ add_docstr(torch._C.trunc,
            """
 trunc(input, out=None) -> Tensor
 
-Returns a new `Tensor` with the truncated integer values of
-the elements of :attr:`input`.
+返回一个新的张量 `Tensor` , 其元素是张量 :attr:`input` 元素的截断整数值 (直接去除小数部分) .
 
 Args:
-    input (Tensor): the input `Tensor`
-    out (Tensor, optional): The result `Tensor`
+    input (Tensor): 输入 `Tensor`
+    out (Tensor, optional): 输出 `Tensor`
 
 Example::
 
