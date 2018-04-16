@@ -3,7 +3,7 @@ torch.optim
 
 .. automodule:: torch.optim
 
-如何使用 optimizer（优化器）
+如何使用 optimizer (优化器) 
 ----------------------------
 
 为了使用 :mod:`torch.optim` 你需要创建一个 optimizer 对象, 这个对象能够保持当前的状态以及依靠梯度计算

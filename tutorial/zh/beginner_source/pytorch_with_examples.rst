@@ -72,7 +72,7 @@ PyTorch: Variables and autograd
 一个 Variable 代表一个计算图中的节点. 如果 ``x`` 是一个 Variable , 则 ``x.data`` 是一个 Tensor , 
 而 ``x.grad`` 是另外一个包含关于 ``x`` 的梯度的 Variable .
 
-PyTorch Variable 与 PyTorch Tensor 具有相同的 API: （几乎）任何您可以在 Tensor 上执行的
+PyTorch Variable 与 PyTorch Tensor 具有相同的 API:  (几乎) 任何您可以在 Tensor 上执行的
 操作也适用于 Variable ；该区别在于如果你使用 Variable 定义了一个计算图, Pytorch 允许您自动计算梯度. 
 
 这里我们使用 PyTorch 的 Variable 和自动微分来实现我们的双层网络；现在我们不再需要手写任何关于

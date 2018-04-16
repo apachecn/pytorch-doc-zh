@@ -5,7 +5,7 @@
 
 一些 PyTorch 的操作支持基于 :any:`NumPy Broadcasting Semantics <numpy.doc.broadcasting>`.
 
-简而言之, 如果一个 PyTorch 操作支持广播语义, 那么它的张量参数可以自动扩展为相同的大小（不需要复制数据）
+简而言之, 如果一个 PyTorch 操作支持广播语义, 那么它的张量参数可以自动扩展为相同的大小 (不需要复制数据) 
 
 一般语义
 -----------------
@@ -61,9 +61,9 @@
     >>> (x+y).size()
     RuntimeError: The size of tensor a (2) must match the size of tensor b (3) at non-singleton dimension 1
 
-直接语义（In-place semantics）
+直接语义 (In-place semantics) 
 ------------------
-直接（就地）操作（in-place operations）的一个复杂问题就是不能像广播那样直接操作两个张量使其改变维度满足条件
+直接 (就地) 操作 (in-place operations) 的一个复杂问题就是不能像广播那样直接操作两个张量使其改变维度满足条件
 
 示例 ::
 
