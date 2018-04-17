@@ -10,7 +10,7 @@ torchvision.models 模块的子模块中包含以下模型结构:
 -  `DenseNet`_
 -  `Inception`_ v3
 
-你可以使用随机初始化的权重来创建这些模型：
+你可以使用随机初始化的权重来创建这些模型: 
 
 .. code:: python
 
@@ -22,8 +22,8 @@ torchvision.models 模块的子模块中包含以下模型结构:
     densenet = models.densenet161()
     inception = models.inception_v3()
 
-我们提供使用PyTorch:mod:'torch.util.model_zoo'预训练（pre-train)的模型，
-可以通过参数``pretrained=True``来构造这些预训练模型。
+我们提供使用PyTorch :mod:`torch.utils.model_zoo` 预训练 (pre-train)的模型, 
+可以通过参数 ``pretrained=True`` 来构造这些预训练模型. 
 
 .. code:: python
 
@@ -35,11 +35,11 @@ torchvision.models 模块的子模块中包含以下模型结构:
     densenet = models.densenet161(pretrained=True)
     inception = models.inception_v3(pretrained=True)
 
-所有预训练（pre-train）模型要求输入图像使用相同的标准化处理，
-例如： mini-batches 中 RGB 三通道图像的 shape （3 x H x W),
-H 和 W 需要至少为 224， 图像必须被加载在 [0, 1] 的范围内
-然后使用``mean = [0.485, 0.456, 0.406]`` 和 ``std = [0.229, 0.224, 0.225]``进行标准化处理。
-你可以使用以下转换进行预标准化预处理：：
+所有预训练 (pre-train) 模型要求输入图像使用相同的标准化处理, 
+例如:  mini-batches 中 RGB 三通道图像的 shape  (3 x H x W),
+H 和 W 需要至少为 224,  图像必须被加载在 [0, 1] 的范围内
+然后使用 ``mean = [0.485, 0.456, 0.406]`` 和 ``std = [0.229, 0.224, 0.225]`` 进行标准化处理. 
+你可以使用以下转换进行预标准化预处理::
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])

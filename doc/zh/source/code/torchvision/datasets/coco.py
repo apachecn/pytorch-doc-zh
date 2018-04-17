@@ -11,8 +11,8 @@ class CocoCaptions(data.Dataset):
         root (string):  数据集下载存放的主目录.
         annFile (string): json 注释文件存放的路径
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.ToTensor``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换后的版本. E.g, ``transforms.ToTensor``
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
 
     Example:
@@ -56,7 +56,7 @@ class CocoCaptions(data.Dataset):
             index (int): Index
 
         Returns:
-            tuple: Tuple (image, target). target is a list of captions for the image.
+            tuple: Tuple (image, target). 目标是一个图像标注的列表.
         """
         coco = self.coco
         img_id = self.ids[index]
@@ -85,9 +85,9 @@ class CocoDetection(data.Dataset):
     Args:
         root (string):  数据集下载存放的主目录.
         annFile (string): json 注释文件存放的路径
-        transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.ToTensor``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+        transform (callable, optional):  一个 transform 函数, 它输入 PIL image 并且返回 
+            转换后的版本. E.g, ``transforms.ToTensor``
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
     """
 
@@ -105,7 +105,7 @@ class CocoDetection(data.Dataset):
             index (int): Index
 
         Returns:
-            tuple: Tuple (image, target). target is the object returned by ``coco.loadAnns``.
+            tuple: Tuple (image, target). 目标是由 ``coco.loadAnns`` 返回的对象.
         """
         coco = self.coco
         img_id = self.ids[index]

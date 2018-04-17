@@ -6,25 +6,24 @@ from torch._C import default_generator
 
 
 def set_rng_state(new_state):
-    r"""Sets the random number generator state.
+    r"""设置随机数发生器的参数.
 
     Args:
-        new_state (torch.ByteTensor): The desired state
+        new_state (torch.ByteTensor): 理想状态
     """
     default_generator.set_state(new_state)
 
 
 def get_rng_state():
-    r"""Returns the random number generator state as a ByteTensor."""
+    r"""以ByteTensor的形式返回随机数发生器的状态."""
     return default_generator.get_state()
 
 
 def manual_seed(seed):
-    r"""Sets the seed for generating random numbers. And returns a
-    `torch._C.Generator` object.
+    r"""设置生成随机数的种子,并返回一个 `torch._C.Generator` 对象.
 
     Args:
-        seed (int or long): The desired seed.
+        seed (int or long): 种子.
     """
     import torch.cuda
 
@@ -35,8 +34,8 @@ def manual_seed(seed):
 
 
 def initial_seed():
-    r"""Returns the initial seed for generating random numbers as a
-    python `long`.
+    r"""返回用于生成随机数字的初始种子 (python `long`) .
+    
     """
     return default_generator.initial_seed()
 

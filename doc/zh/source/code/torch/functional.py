@@ -51,7 +51,7 @@ def stack(sequence, dim=0, out=None):
 
     Arguments:
         sequence (Sequence): 待连接的张量序列.
-        dim (int): 插入的维度.必须介于 0 与 待连接的张量序列数（包含）之间.
+        dim (int): 插入的维度.必须介于 0 与待连接的张量序列数（包含）之间.
     """
     if len(sequence) == 0:
         raise ValueError("stack expects a non-empty sequence of tensors")
@@ -70,7 +70,7 @@ def unbind(tensor, dim=0):
     移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片（已经没有了移除的维度）.
 
     Arguments:
-        tensor (Tensor): 要执行 unbind 的向量/输入向量.
+        tensor (Tensor): 要执行 unbind 的张量/输入张量.
         dim (int): 要移除的维度.
     """
     return tuple(tensor.select(dim, i) for i in _range(tensor.size(dim)))

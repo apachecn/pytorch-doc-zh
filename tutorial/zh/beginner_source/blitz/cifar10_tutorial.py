@@ -56,7 +56,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 ########################################################################
-# torchvision 数据集的输出是范围 [0，1] 的 PILImage 图像。我们将它们转换为归一化范围是[-1,1]的张量
+# torchvision 数据集的输出是范围 [0, 1] 的 PILImage 图像. 我们将它们转换为归一化范围是[-1,1]的张量
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -227,7 +227,7 @@ print('Accuracy of the network on the 10000 test images: %d %%' % (
     100 * correct / total))
 
 ########################################################################
-# 训练的准确率远比随机猜测(准确率10%)好, 证明网络确实学到了东西。
+# 训练的准确率远比随机猜测(准确率10%)好, 证明网络确实学到了东西. 
 #
 # 嗯, 我们来看看哪些类别表现良好, 哪些类别表现不佳:
 
@@ -262,7 +262,7 @@ for i in range(10):
 #     net.cuda()
 #
 #
-# 请记住，您必须将输入和目标每一步都发送到GPU:
+# 请记住, 您必须将输入和目标每一步都发送到GPU:
 #
 # ::
 #

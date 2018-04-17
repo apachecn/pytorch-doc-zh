@@ -1,20 +1,18 @@
-Custom C extensions for pytorch
-===============================
-**Author**: `Soumith Chintala <http://soumith.ch>`_
+为 pytorch 自定义 C 扩展
+========================
+**作者**: `Soumith Chintala <http://soumith.ch>`_
 
 
-Step 1. prepare your C code
----------------------------
+第一步. 准备你的 C 代码
+-----------------------
 
-First, you have to write your C functions.
+首先, 你需要编写你的 C 函数.
 
-Below you can find an example implementation of forward and backward
-functions of a module that adds its both inputs.
+下面你可以找到模块的正向和反向函数的示例实现, 它将两个输入相加.
 
-In your ``.c`` files you can include TH using an ``#include <TH/TH.h>``
-directive, and THC using ``#include <THC/THC.h>``.
+在你的 ``.c`` 文件中, 你可以使用 ``#include <TH/TH.h>`` 直接包含 TH, 以及使用 ``#include <THC/THC.h>`` 包含 THC.
 
-ffi utils will make sure a compiler can find them during the build.
+ffi (外来函数接口) 工具会确保编译器可以在构建过程中找到它们.
 
 .. code:: C
 
@@ -39,11 +37,9 @@ ffi utils will make sure a compiler can find them during the build.
     }
 
 
-There are no constraints on the code, except that you will have to
-prepare a single header, which will list all functions want to call from
-python.
+代码没有任何限制, 除了你必须准备单个头文件, 它会列出所有你想要从 Python 调用的函数.
 
-It will be used by the ffi utils to generate appropriate wrappers.
+它会由 ffi 用于生成合适的包装.
 
 .. code:: C
 
@@ -51,8 +47,7 @@ It will be used by the ffi utils to generate appropriate wrappers.
     int my_lib_add_forward(THFloatTensor *input1, THFloatTensor *input2, THFloatTensor *output);
     int my_lib_add_backward(THFloatTensor *grad_output, THFloatTensor *grad_input);
 
-Now, you’ll need a super short file, that will build your custom
-extension:
+现在, 你需要一个超短的文件, 它会构建你的自定义扩展:
 
 .. code:: python
 
@@ -66,15 +61,13 @@ extension:
     )
     ffi.build()
 
-Step 2: Include it in your Python code
---------------------------------------
+第二步: 在你的 Python 代码中包含它
+----------------------------------
 
-After you run it, pytorch will create an ``_ext`` directory and put
-``my_lib`` inside.
+你运行它之后, pytorch 会创建一个 ``_ext`` 目录, 并把 ``my_lib`` 放到里面.
 
-Package name can have an arbitrary number of packages preceding the
-final module name (including none). If the build succeeded you can
-import your extension just like a regular python file.
+
+包名称可以在最终模块名称之前, 包含任意数量的包 (包括没有). 如果构建成功, 你可以导入你的扩展, 就像普通的 Python 文件.
 
 .. code:: python
 

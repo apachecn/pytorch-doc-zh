@@ -12,11 +12,11 @@ class Linear(Module):
     Args:
         in_features: 每个输入样本的大小
         out_features: 每个输出样本的大小
-        bias: 若设置为 False，这层不会学习偏置。默认值：True
+        bias: 若设置为 False, 这层不会学习偏置. 默认值: True
 
     Shape:
         - Input: :math:`(N, *, in\_features)` 这里 `*` 意味着可以添加任意数量的其他维度
-        - Output: :math:`(N, *, out\_features)` 除了最后一个维度外，其余的都与输入相同
+        - Output: :math:`(N, *, out\_features)` 除了最后一个维度外, 其余的都与输入相同
 
     Attributes:
         weight: 形状为 (out_features x in_features) 的模块中可学习的权值
@@ -63,7 +63,7 @@ class Bilinear(Module):
         in1_features: 输入一的每个输入样本的大小
         in2_features: 输入二的每个输入样本的大小
         out_features: 每个输出样本的大小
-        bias: 若设置为False，这层不会学习偏置。默认值：True
+        bias: 若设置为False, 这层不会学习偏置. 默认值: True
 
     Shape:
         - Input: :math:`(N, in1\_features)`, :math:`(N, in2\_features)`

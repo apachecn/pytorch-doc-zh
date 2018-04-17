@@ -62,10 +62,10 @@ class LSUN(data.Dataset):
     Args:
         db_path (string): 数据集文件存放的主目录.
         classes (string or list): {'train', 'val', 'test'} 中的一个, 或者是一个要载入种类的列表.
-        e,g. ['bedroom_train', 'church_train'].
+            e,g. ['bedroom_train', 'church_train'].
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换后的版本. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
 
     """
@@ -121,7 +121,7 @@ class LSUN(data.Dataset):
             index (int): Index
 
         Returns:
-            tuple: Tuple (image, target) where target is the index of the target category.
+            tuple: Tuple (image, target) 目标是目标类别的索引.
         """
         target = 0
         sub = 0
