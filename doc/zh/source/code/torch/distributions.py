@@ -117,7 +117,7 @@ class Categorical(Distribution):
         [torch.LongTensor of size 1]
 
     Args:
-        probs  (Tensor or Variable): 事件概率
+        probs (Tensor or Variable): 事件概率
     """
 
     def __init__(self, probs):
