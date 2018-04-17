@@ -22,11 +22,11 @@ class CIFAR10(data.Dataset):
         train (bool, optional): 如果 True, 数据来自训练集,
             如果 False, 数据来自测试集.
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换后的版本. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
         download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
+            如果数据集已经下载, 那么不会再次下载.
 
     """
     base_folder = 'cifar-10-batches-py'
@@ -105,7 +105,7 @@ class CIFAR10(data.Dataset):
             index (int): Index
 
         Returns:
-            tuple: (image, target) where target is index of the target class.
+            tuple: (image, target) 目标是目标分类的索引.
         """
         if self.train:
             img, target = self.train_data[index], self.train_labels[index]

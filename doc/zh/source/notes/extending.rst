@@ -10,23 +10,23 @@
 .. currentmodule:: torch.autograd
 
 将操作添加到 :mod:`~torch.autograd` 模块需要为每一个操作实现一个新的 :class:`Function` 类的子类.
-回想一下, :class:`Function` 函数时用来 :mod:`~torch.autograd` 模块用来计算结果和梯度的, 并对操作历史进行编码.
+回想一下, :class:`Function` 函数是 :mod:`~torch.autograd` 模块用来计算结果和梯度, 并对操作历史进行编码的.
 每一个新的函数需要你来实现两个方法:
 
-- :meth:`~Function.forward` - 指定操作的代码.
+- :meth:`~Function.forward` - 进行操作的代码.
   如果您指定默认值, 则可以根据需要使用任意数量的参数, 其中一些参数是可选的.
-  可接收各种类型的 Python 对象.
+  参数可接收各种类型的 Python 对象.
   :class:`Variable` 参数在被调用之前将被转换为 :class:`Tensor` 对象,
-  并且它们的使用情况将会被注册到 graph（图）中.
-  请注意, 这个逻辑不会遍历 lists, dicts, 和任何其它的数据结构, 只会考虑作为调用的直接参数的变量.
+  并且它们的使用情况将会被注册到 graph (图) 中.
+  请注意, 这个逻辑不会遍历 lists, dicts, 和任何其它的数据结构, 只会考虑被调用为直接参数的变量.
   如果有多个输出, 则可以考虑返回单个的 :class:`Tensor` 类格式的输出, 或者 :class:`Tensor` 类的 :class:`tuple` 类格式输出.
-  此外, 请参阅 :class:`Function` 类的文档以来查找只能从 :meth:`~Function.forward` 方法调用的有用方法的描述.
+  此外, 请参阅 :class:`Function` 类的文档来查找只能从 :meth:`~Function.forward` 调用的有用方法的描述.
 
 - :meth:`~Function.backward` - 计算梯度的公式. 
   它将被赋予与输出一样多的 :class:`Variable` 参数, 其中的每一个表示对应梯度的输出.
   它应该返回与输入一样多的 :class:`Variable`,  其中的每一个表示都包含其相应输入的梯度.
   如果输入不需要计算梯度 (请参阅 :attr:`~Variable.needs_input_grad` 属性), 或者是非 :class:`Variable` 对象, 则可返回 :class:`python:None` 类.
-  此外, 如果你有 :meth:`~Variable.forward` 方法可选的参数, 则可以返回比输入更多的梯度, 只要它们都是 :any:`python:None` 类型即可.
+  此外, 如果你在 :meth:`~Variable.forward` 方法中有可选的参数, 则可以返回比输入更多的梯度, 只要它们都是 :any:`python:None` 类型即可.
 
 下面你可以找到来自 :mod:`torch.nn` 模块的 ``Linear`` 函数代码, 以及注解 ::
 
@@ -104,7 +104,7 @@
 
 .. currentmodule:: torch.nn
 
-:mod:`~torch.nn` 模块有两种类型的接口 - modules and their functional versions.
+:mod:`~torch.nn` 模块有两种类型的接口 - modules 和 their functional versions.
 你可以用两种方法扩展它, 但是我们推荐使用各种层的模块, 用来存放任何 parameters(参数) 或者 buffers(缓冲), 并且推荐使用一个函数形式的无参数操作, 比如激活函数, 池化等等.
 
 添加操作的函数版本已经在上面的章节中完整的介绍了.
@@ -119,9 +119,9 @@
 有很少的代码需要添加这个.
 现在有两个函数需要实现:
 
-- ``__init__`` (*optional*) - 接收诸如 kernel sizes（核大小）, numbers of features（特征数量）等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
+- ``__init__`` (*optional*) - 接收诸如 kernel sizes (核大小) , numbers of features (特征数量) 等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
 - :meth:`~Module.forward` - 实例化一个 :class:`~torch.autograd.Function` 类, 并且用于执行操作.
-  这与上面的 functional wrapper（函数的包装）非常相似.
+  这与上面的 functional wrapper (函数的包装) 非常相似.
 
 这就是 ``Linear`` 模块的实现方式 ::
 

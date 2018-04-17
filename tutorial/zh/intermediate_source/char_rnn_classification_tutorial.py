@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Classifying Names with a Character-Level RNN
+用字符级RNN分类名称
 *********************************************
-**Author**: `Sean Robertson <https://github.com/spro/practical-pytorch>`_
+**作者**: `Sean Robertson <https://github.com/spro/practical-pytorch>`_
 
-We will be building and training a basic character-level RNN to classify
-words. A character-level RNN reads words as a series of characters -
-outputting a prediction and "hidden state" at each step, feeding its
-previous hidden state into each next step. We take the final prediction
-to be the output, i.e. which class the word belongs to.
+我们将建立和训练一个基本的字符级RNN进行分类单词. 字符级别的RNN将单词读为一系列字符 - 在每个步骤输出一个预测和“隐藏状态”,
+将先前的隐藏状态作为下一步的输入. 我们采取最后的预测作为输出,即该单词属于哪一类.
 
-Specifically, we'll train on a few thousand surnames from 18 languages
-of origin, and predict which language a name is from based on the
-spelling:
+具体来说,我们将用18种语言的几千个姓氏作为训练集并根据拼写预测名称来自哪种语言:
 
 ::
 
@@ -27,42 +22,36 @@ spelling:
     (-2.68) Dutch
 
 
-**Recommended Reading:**
+**推荐阅读:**
 
-I assume you have at least installed PyTorch, know Python, and
-understand Tensors:
+假设你至少已经安装了PyTorch,知道Python和了解张量:
 
--  http://pytorch.org/ For installation instructions
--  :doc:`/beginner/deep_learning_60min_blitz` to get started with PyTorch in general
--  :doc:`/beginner/pytorch_with_examples` for a wide and deep overview
--  :doc:`/beginner/former_torchies_tutorial` if you are former Lua Torch user
+-  http://pytorch.org/ 安装步骤
+-  :doc:`/beginner/deep_learning_60min_blitz` 大体了解PyTorch
+-  :doc:`/beginner/pytorch_with_examples` 深入概括
+-  :doc:`/beginner/former_torchies_tutorial` 假设你是前Lua Torch用户
 
-It would also be useful to know about RNNs and how they work:
+了解RNN及其工作方式也很有用:
 
--  `The Unreasonable Effectiveness of Recurrent Neural
-   Networks <http://karpathy.github.io/2015/05/21/rnn-effectiveness/>`__
-   shows a bunch of real life examples
--  `Understanding LSTM
-   Networks <http://colah.github.io/posts/2015-08-Understanding-LSTMs/>`__
-   is about LSTMs specifically but also informative about RNNs in
-   general
+-  `递归神经网络的不合理有效性 <http://karpathy.github.io/2015/05/21/rnn-effectiveness/>`__
+   展示了一堆真实生活的例子
+-  `理解LSTM网络 <http://colah.github.io/posts/2015-08-Understanding-LSTMs/>`__
+   是关于LSTM的具体内容,但也包含有关RNN的一般信息
 
-Preparing the Data
+准备数据
 ==================
 
-.. Note::
-   Download the data from
+.. 注意::
+   从这里下载数据
    `here <https://download.pytorch.org/tutorial/data.zip>`_
-   and extract it to the current directory.
+   并将其解压到当前目录.
 
-Included in the ``data/names`` directory are 18 text files named as
-"[Language].txt". Each file contains a bunch of names, one name per
-line, mostly romanized (but we still need to convert from Unicode to
-ASCII).
+在 ``data/names`` 目录中包含18个名为as的文本文件 "[Language].txt" .
+每个文件都包含一堆名称,每个名称一行大多是罗马化（但我们仍然需要从Unicode转换为ASCII）.
 
-We'll end up with a dictionary of lists of names per language,
-``{language: [names ...]}``. The generic variables "category" and "line"
-(for language and name in our case) are used for later extensibility.
+我们最终会得到每种语言的名称列表字典 ``{language: [names ...]}``  通用变量“类别”和“行”
+（在我们的例子中用于语言和名称）用于以后的扩展性.
+
 """
 from __future__ import unicode_literals, print_function, division
 from io import open
@@ -78,7 +67,7 @@ import string
 all_letters = string.ascii_letters + " .,;'"
 n_letters = len(all_letters)
 
-# Turn a Unicode string to plain ASCII, thanks to http://stackoverflow.com/a/518232/2809427
+# 将 Unicode 字符串转换为纯 ASCII 编码, 这里感谢 http://stackoverflow.com/a/518232/2809427
 def unicodeToAscii(s):
     return ''.join(
         c for c in unicodedata.normalize('NFD', s)
@@ -88,11 +77,11 @@ def unicodeToAscii(s):
 
 print(unicodeToAscii('Ślusàrski'))
 
-# Build the category_lines dictionary, a list of names per language
+# 构建category_lines字典, 每种语言的名称列表
 category_lines = {}
 all_categories = []
 
-# Read a file and split into lines
+# 读取一个文件并分成几行
 def readLines(filename):
     lines = open(filename, encoding='utf-8').read().strip().split('\n')
     return [unicodeToAscii(line) for line in lines]
@@ -107,47 +96,43 @@ n_categories = len(all_categories)
 
 
 ######################################################################
-# Now we have ``category_lines``, a dictionary mapping each category
-# (language) to a list of lines (names). We also kept track of
-# ``all_categories`` (just a list of languages) and ``n_categories`` for
-# later reference.
+# 现在我们有 ``category_lines``, 这是一个映射每个类别的字典
+# (语言) 到行列表 (名称). 我们也跟踪
+# ``all_categories`` (只是一个语言列表) 和 ``n_categories`` 为以后做参考.
 #
 
 print(category_lines['Italian'][:5])
 
 
 ######################################################################
-# Turning Names into Tensors
+# 将名字转化为张量
 # --------------------------
 #
-# Now that we have all the names organized, we need to turn them into
-# Tensors to make any use of them.
+# 现在我们已经组织了所有的名字,我们需要将它们变成张量以便使用它们.
 #
-# To represent a single letter, we use a "one-hot vector" of size
-# ``<1 x n_letters>``. A one-hot vector is filled with 0s except for a 1
-# at index of the current letter, e.g. ``"b" = <0 1 0 0 0 ...>``.
+# 为了表示单个字母,我们使用大小为 ``<1 x n_letters>`` 的"单热矢量".
+# 除了当前字母的索引处的1以外,单热矢量剩余填充0, e.g. ``"b" = <0 1 0 0 0 ...>``.
 #
-# To make a word we join a bunch of those into a 2D matrix
+# 为了说出一个词,我们将其中的一部分加入到二维矩阵中
 # ``<line_length x 1 x n_letters>``.
 #
-# That extra 1 dimension is because PyTorch assumes everything is in
-# batches - we're just using a batch size of 1 here.
+# 额外的1维度是因为PyTorch假定所有内容都是批量的 - 我们在这里只使用1的批量大小.
 #
 
 import torch
 
-# Find letter index from all_letters, e.g. "a" = 0
+# 从all_letters中查找字母索引, e.g. "a" = 0
 def letterToIndex(letter):
     return all_letters.find(letter)
 
-# Just for demonstration, turn a letter into a <1 x n_letters> Tensor
+# 只是为了演示, 把一个字母变成一个 <1 x n_letters> 张量
 def letterToTensor(letter):
     tensor = torch.zeros(1, n_letters)
     tensor[0][letterToIndex(letter)] = 1
     return tensor
 
-# Turn a line into a <line_length x 1 x n_letters>,
-# or an array of one-hot letter vectors
+# 把一行变成一个 <line_length x 1 x n_letters>,
+# 或一批单热字符向量
 def lineToTensor(line):
     tensor = torch.zeros(len(line), 1, n_letters)
     for li, letter in enumerate(line):
@@ -160,20 +145,15 @@ print(lineToTensor('Jones').size())
 
 
 ######################################################################
-# Creating the Network
+# 创建网络
 # ====================
 #
-# Before autograd, creating a recurrent neural network in Torch involved
-# cloning the parameters of a layer over several timesteps. The layers
-# held hidden state and gradients which are now entirely handled by the
-# graph itself. This means you can implement a RNN in a very "pure" way,
-# as regular feed-forward layers.
+# 在autograd之前, 在Torch中创建一个循环神经网络涉及到克隆几个步骤一个图层的参数.
+# 图层保持隐藏状态和渐变, 现在完全由图形本身处理.
+# 这意味着您可以以非常“纯粹”的方式实现RNN, 作为常规的前馈层.
 #
-# This RNN module (mostly copied from `the PyTorch for Torch users
-# tutorial <http://pytorch.org/tutorials/beginner/former_torchies/
-# nn_tutorial.html#example-2-recurrent-net>`__)
-# is just 2 linear layers which operate on an input and hidden state, with
-# a LogSoftmax layer after the output.
+# 这个RNN模块 (大部分都是复制 `the PyTorch for Torch users tutorial <http://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net>`__)
+# 只有2个线性层可以在输入和隐藏状态下运行, 在输出之后有一个LogSoftmax层.
 #
 # .. figure:: https://i.imgur.com/Z2xbySO.png
 #    :alt:
@@ -208,14 +188,9 @@ rnn = RNN(n_letters, n_hidden, n_categories)
 
 
 ######################################################################
-# To run a step of this network we need to pass an input (in our case, the
-# Tensor for the current letter) and a previous hidden state (which we
-# initialize as zeros at first). We'll get back the output (probability of
-# each language) and a next hidden state (which we keep for the next
-# step).
-#
-# Remember that PyTorch modules operate on Variables rather than straight
-# up Tensors.
+# 为了运行这个网络的一个步骤, 我们需要传递一个输入 (在我们的例子中是当前字母的张量) 和一个先前的隐藏状态 (我们首先初始化为零) .
+# 我们将返回输出 (每种语言的概率) 和下一个隐藏状态 (我们为下一步保留).
+# 请记住, PyTorch模块对变量进行操作, 而不是直接对张量进行操作.
 #
 
 input = Variable(letterToTensor('A'))
@@ -225,10 +200,9 @@ output, next_hidden = rnn(input, hidden)
 
 
 ######################################################################
-# For the sake of efficiency we don't want to be creating a new Tensor for
-# every step, so we will use ``lineToTensor`` instead of
-# ``letterToTensor`` and use slices. This could be further optimized by
-# pre-computing batches of Tensors.
+# 为了提高效率我们不希望为每一步创建一个新的张量,
+# 所以我们使用 ``lineToTensor`` 而不是 ``letterToTensor`` 并使用切片.
+# 这可以通过预先计算批次的张量进一步优化.
 #
 
 input = Variable(lineToTensor('Albert'))
@@ -239,22 +213,21 @@ print(output)
 
 
 ######################################################################
-# As you can see the output is a ``<1 x n_categories>`` Tensor, where
-# every item is the likelihood of that category (higher is more likely).
+# 正如你所看到的输出是一个 ``<1 x n_categories>`` 张量,
+# 每个项目都是该类别的可能性 (越高越有可能).
 #
 
 
 ######################################################################
 #
-# Training
+# 训练
 # ========
-# Preparing for Training
+# 准备训练
 # ----------------------
 #
-# Before going into training we should make a few helper functions. The
-# first is to interpret the output of the network, which we know to be a
-# likelihood of each category. We can use ``Tensor.topk`` to get the index
-# of the greatest value:
+# 在训练之前,我们应该做一些辅助功能.
+# 首先是解释网络的输出, 我们知道这是每个类别的可能性.
+# 我么可以使用 ``Tensor.topk`` 得到最大价值的指数:
 #
 
 def categoryFromOutput(output):
@@ -266,8 +239,7 @@ print(categoryFromOutput(output))
 
 
 ######################################################################
-# We will also want a quick way to get a training example (a name and its
-# language):
+# 我们也希望能够快速获得训练示例 (名称及其语言):
 #
 
 import random
@@ -288,34 +260,32 @@ for i in range(10):
 
 
 ######################################################################
-# Training the Network
+# 训练网络
 # --------------------
 #
-# Now all it takes to train this network is show it a bunch of examples,
-# have it make guesses, and tell it if it's wrong.
+# 现在训练这个网络所需要的就是向大家展示一些例子, 让它猜测, 并告诉它是否是错误的.
 #
-# For the loss function ``nn.NLLLoss`` is appropriate, since the last
-# layer of the RNN is ``nn.LogSoftmax``.
+# 对于损失函数 ``nn.NLLLoss`` 是适当的, 因为RNN的最后一层是 ``nn.LogSoftmax``.
 #
 
 criterion = nn.NLLLoss()
 
 
 ######################################################################
-# Each loop of training will:
+# 每个训练循环都会:
 #
-# -  Create input and target tensors
-# -  Create a zeroed initial hidden state
-# -  Read each letter in and
+# -  创建输入和目标张量
+# -  创建一个归零的初始隐藏状态
+# -  读入每个字母
 #
-#    -  Keep hidden state for next letter
+#    -  为下一个字母保持隐藏状态
 #
-# -  Compare final output to target
-# -  Back-propagate
-# -  Return the output and loss
+# -  比较最终输出与目标
+# -  反向传播
+# -  返回输出和损失
 #
 
-learning_rate = 0.005 # If you set this too high, it might explode. If too low, it might not learn
+learning_rate = 0.005 # 如果设置得太高, 可能会爆炸. 如果太低, 可能无法学习.
 
 def train(category_tensor, line_tensor):
     hidden = rnn.initHidden()
@@ -328,7 +298,7 @@ def train(category_tensor, line_tensor):
     loss = criterion(output, category_tensor)
     loss.backward()
 
-    # Add parameters' gradients to their values, multiplied by learning rate
+    # 将参数梯度添加到它们的值,再乘以学习速率
     for p in rnn.parameters():
         p.data.add_(-learning_rate, p.grad.data)
 
@@ -336,11 +306,8 @@ def train(category_tensor, line_tensor):
 
 
 ######################################################################
-# Now we just have to run that with a bunch of examples. Since the
-# ``train`` function returns both the output and loss we can print its
-# guesses and also keep track of loss for plotting. Since there are 1000s
-# of examples we print only every ``print_every`` examples, and take an
-# average of the loss.
+# 现在我们只需要运行一些例子. 由于 ``train`` 函数返回输出和损失,我们可以打印它的猜测,并记录绘图的损失
+# 既然有1000个例子, 我们只打印每个 ``print_every`` 的例子, 并取平均的损失.
 #
 
 import time
@@ -352,7 +319,7 @@ plot_every = 1000
 
 
 
-# Keep track of losses for plotting
+# 跟踪绘图的损失
 current_loss = 0
 all_losses = []
 
@@ -370,24 +337,23 @@ for iter in range(1, n_iters + 1):
     output, loss = train(category_tensor, line_tensor)
     current_loss += loss
 
-    # Print iter number, loss, name and guess
+    # 打印循环数,损失,名称和猜测
     if iter % print_every == 0:
         guess, guess_i = categoryFromOutput(output)
         correct = '✓' if guess == category else '✗ (%s)' % category
         print('%d %d%% (%s) %.4f %s / %s %s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
 
-    # Add current loss avg to list of losses
+    # 将当前损失平均值添加到损失清单
     if iter % plot_every == 0:
         all_losses.append(current_loss / plot_every)
         current_loss = 0
 
 
 ######################################################################
-# Plotting the Results
+# 绘制结果
 # --------------------
 #
-# Plotting the historical loss from ``all_losses`` shows the network
-# learning:
+# 从 ``all_losses`` 绘制历史损失显示网络学习:
 #
 
 import matplotlib.pyplot as plt
@@ -398,21 +364,20 @@ plt.plot(all_losses)
 
 
 ######################################################################
-# Evaluating the Results
+# 评估结果
 # ======================
 #
-# To see how well the network performs on different categories, we will
-# create a confusion matrix, indicating for every actual language (rows)
-# which language the network guesses (columns). To calculate the confusion
-# matrix a bunch of samples are run through the network with
-# ``evaluate()``, which is the same as ``train()`` minus the backprop.
+# 要查看网络在不同类别中的表现如何, 我们将创建一个混淆矩阵,
+# 为每个实际语言 (行) 指示网络猜测哪种语言 (列).
+# 为了计算混淆矩阵,一堆样本通过网络运行 ``evaluate()``,
+# 这和 ``train()`` 减去反向传播是一样的.
 #
 
-# Keep track of correct guesses in a confusion matrix
+# 在混淆矩阵中跟踪正确的猜测
 confusion = torch.zeros(n_categories, n_categories)
 n_confusion = 10000
 
-# Just return an output given a line
+# 只要返回给定一行的输出即可
 def evaluate(line_tensor):
     hidden = rnn.initHidden()
 
@@ -421,7 +386,7 @@ def evaluate(line_tensor):
 
     return output
 
-# Go through a bunch of examples and record which are correctly guessed
+# 通过一堆示例并记录哪些是正确的猜测
 for i in range(n_confusion):
     category, line, category_tensor, line_tensor = randomTrainingExample()
     output = evaluate(line_tensor)
@@ -429,17 +394,17 @@ for i in range(n_confusion):
     category_i = all_categories.index(category)
     confusion[category_i][guess_i] += 1
 
-# Normalize by dividing every row by its sum
+# 通过将每一行除以其总和来标准化
 for i in range(n_categories):
     confusion[i] = confusion[i] / confusion[i].sum()
 
-# Set up plot
+# 设置绘图
 fig = plt.figure()
 ax = fig.add_subplot(111)
 cax = ax.matshow(confusion.numpy())
 fig.colorbar(cax)
 
-# Set up axes
+# 设置轴
 ax.set_xticklabels([''] + all_categories, rotation=90)
 ax.set_yticklabels([''] + all_categories)
 
@@ -452,15 +417,14 @@ plt.show()
 
 
 ######################################################################
-# You can pick out bright spots off the main axis that show which
-# languages it guesses incorrectly, e.g. Chinese for Korean, and Spanish
-# for Italian. It seems to do very well with Greek, and very poorly with
-# English (perhaps because of overlap with other languages).
+# 您可以从主轴上选取显示错误猜测哪些语言的亮点,
+# e.g. Chinese for Korean, and Spanish for Italian.
+# 它似乎与希腊语很好,英语很差 (可能是因为与其他语言重叠).
 #
 
 
 ######################################################################
-# Running on User Input
+# 在用户输入上运行
 # ---------------------
 #
 
@@ -468,7 +432,7 @@ def predict(input_line, n_predictions=3):
     print('\n> %s' % input_line)
     output = evaluate(Variable(lineToTensor(input_line)))
 
-    # Get top N categories
+    # 获取前N个类别
     topv, topi = output.data.topk(n_predictions, 1, True)
     predictions = []
 
@@ -484,19 +448,18 @@ predict('Satoshi')
 
 
 ######################################################################
-# The final versions of the scripts `in the Practical PyTorch
-# repo <https://github.com/spro/practical-pytorch/tree/master/char-rnn-classification>`__
-# split the above code into a few files:
+# 脚本的最终版本 `in the Practical PyTorch repo <https://github.com/spro/practical-pytorch/tree/master/char-rnn-classification>`__
+# 将上面的代码分成几个文件:
 #
-# -  ``data.py`` (loads files)
-# -  ``model.py`` (defines the RNN)
-# -  ``train.py`` (runs training)
-# -  ``predict.py`` (runs ``predict()`` with command line arguments)
-# -  ``server.py`` (serve prediction as a JSON API with bottle.py)
+# -  ``data.py`` (加载文件)
+# -  ``model.py`` (定义RNN)
+# -  ``train.py`` (运行训练)
+# -  ``predict.py`` (用命令行参数运行 ``predict()`` )
+# -  ``server.py`` (使用bottle.py将预测用作JSON API)
 #
-# Run ``train.py`` to train and save the network.
+# 运行 ``train.py`` 来训练和保存网络.
 #
-# Run ``predict.py`` with a name to view predictions:
+# 运行具有名称的 ``predict.py`` 来查看预测:
 #
 # ::
 #
@@ -505,25 +468,24 @@ predict('Satoshi')
 #     (-1.39) Polish
 #     (-3.51) Czech
 #
-# Run ``server.py`` and visit http://localhost:5533/Yourname to get JSON
-# output of predictions.
+# 运行 ``server.py`` 和查看 http://localhost:5533/Yourname 获取预测的JSON输出.
 #
 
 
 ######################################################################
-# Exercises
+# 练习
 # =========
 #
-# -  Try with a different dataset of line -> category, for example:
+# -  尝试使用不同的数据集 线条 -> 类别, 例如:
 #
-#    -  Any word -> language
-#    -  First name -> gender
-#    -  Character name -> writer
-#    -  Page title -> blog or subreddit
+#    -  任何单词 -> 语言
+#    -  姓 -> 性别
+#    -  角色名字 -> 作家
+#    -  页面标题 -> 博客或subreddit
 #
-# -  Get better results with a bigger and/or better shaped network
+# -  通过更大和/或更好的形状网络获得更好的结果
 #
-#    -  Add more linear layers
-#    -  Try the ``nn.LSTM`` and ``nn.GRU`` layers
-#    -  Combine multiple of these RNNs as a higher level network
+#    -  添加更多线性图层
+#    -  试试 ``nn.LSTM`` 和 ``nn.GRU`` 图层
+#    -  将多个这些RNN组合为更高级别的网络
 #

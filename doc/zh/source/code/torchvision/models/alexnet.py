@@ -48,10 +48,10 @@ class AlexNet(nn.Module):
 
 def alexnet(pretrained=False, **kwargs):
     r"""AlexNet 模型结构论文地址
-    `"One weird trick..." <https://arxiv.org/abs/1404.5997>`_ paper.
+    `"One weird trick..." <https://arxiv.org/abs/1404.5997>`_ .
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = AlexNet(**kwargs)
     if pretrained:

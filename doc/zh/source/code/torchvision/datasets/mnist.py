@@ -13,13 +13,13 @@ class MNIST(data.Dataset):
 
     Args:
         root (string): ``processed/training.pt`` 和 ``processed/test.pt`` 存在的主目录.
-        train (bool, optional): 如果 True, 数据来自训练集,
-            如果 False, 数据来自测试集.
+        train (bool, optional): 如果 True, 数据来自训练集 ``training.pt`` ,
+            如果 False, 数据来自测试集 ``test.pt`` .
         download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
+            如果数据集已经下载, 那么不会再次下载.
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换后的版本. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
     """
     urls = [
@@ -142,13 +142,13 @@ class FashionMNIST(MNIST):
 
     Args:
         root (string): ``processed/training.pt`` 和 ``processed/test.pt`` 存在的主目录.
-        train (bool, optional): 如果 True, 数据来自训练集,
-            如果 False, 数据来自测试集.
+        train (bool, optional): 如果 True, 数据来自训练集 ``training.pt`` ,
+            如果 False, 数据来自测试集 ``test.pt`` .
         download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-        如果数据集已经下载，那么不会再次下载.
+            如果数据集已经下载, 那么不会再次下载.
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
-        transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+            转换后的版本. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
 
     """

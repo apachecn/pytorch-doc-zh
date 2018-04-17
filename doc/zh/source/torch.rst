@@ -2,7 +2,7 @@ torch
 ===================================
 .. automodule:: torch
 
-Tensors（张量）
+Tensors (张量) 
 ----------------------------------
 .. autofunction:: is_tensor
 .. autofunction:: is_storage
@@ -11,7 +11,7 @@ Tensors（张量）
 .. autofunction:: set_printoptions
 
 
-Creation Ops（创建操作）
+Creation Ops (创建操作) 
 ~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: eye
 .. autofunction:: from_numpy
@@ -24,7 +24,7 @@ Creation Ops（创建操作）
 .. autofunction:: zeros
 .. autofunction:: zeros_like
 
-Indexing, Slicing, Joining, Mutating Ops（索引, 切片, 连接, 换位）操作
+Indexing, Slicing, Joining, Mutating Ops (索引, 切片, 连接, 换位) 操作
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cat
 .. autofunction:: chunk
@@ -42,7 +42,7 @@ Indexing, Slicing, Joining, Mutating Ops（索引, 切片, 连接, 换位）操�
 .. autofunction:: unsqueeze
 
 
-Random sampling（随机采样）
+Random sampling (随机采样) 
 ----------------------------------
 .. autofunction:: manual_seed
 .. autofunction:: initial_seed
@@ -56,7 +56,7 @@ Random sampling（随机采样）
 .. autofunction:: randn
 .. autofunction:: randperm
 
-In-place random sampling（直接随机采样）
+In-place random sampling (直接随机采样) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 在Tensors模块上还定义了许多 in-place 随机采样函数,可以点击参考它们的文档:
@@ -70,22 +70,22 @@ In-place random sampling（直接随机采样）
 - :func:`torch.Tensor.random_` - 离散均匀分布中采样的数字
 - :func:`torch.Tensor.uniform_` - 正态分布中采样的数字
 
-Serialization（序列化）
+Serialization (序列化) 
 ----------------------------------
 .. autofunction:: save
 .. autofunction:: load
 
 
-Parallelism（并行化）
+Parallelism (并行化) 
 ----------------------------------
 .. autofunction:: get_num_threads
 .. autofunction:: set_num_threads
 
 
-Math operations（数学操作）
+Math operations (数学操作) 
 ----------------------------------
 
-Pointwise Ops（逐点操作）
+Pointwise Ops (逐点操作) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: abs
@@ -127,7 +127,7 @@ Pointwise Ops（逐点操作）
 .. autofunction:: trunc
 
 
-Reduction Ops（归约操作）
+Reduction Ops (归约操作) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cumprod
 .. autofunction:: cumsum
@@ -142,7 +142,7 @@ Reduction Ops（归约操作）
 .. autofunction:: var
 
 
-Comparison Ops（比较操作）
+Comparison Ops (比较操作) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: eq
 .. autofunction:: equal
@@ -158,7 +158,7 @@ Comparison Ops（比较操作）
 .. autofunction:: topk
 
 
-Other Operations（其它操作）
+Other Operations (其它操作) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: cross
 .. autofunction:: diag
@@ -169,7 +169,7 @@ Other Operations（其它操作）
 .. autofunction:: triu
 
 
-BLAS and LAPACK Operations
+BLAS and LAPACK Operations (BLAS和LAPACK操作)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: addbmm

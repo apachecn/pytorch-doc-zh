@@ -20,7 +20,7 @@
 
 
 特别是对于 ``vision``, 我们已经创建了一个叫做 ``torchvision``, 其中有对普通数据集如
-Imagenet, CIFAR10, MNIST, 等和用于图像数据的转换器, 即, ``torchvision.datasets`` 和 ``torch.utils.data.DataLoader``.
+Imagenet, CIFAR10, MNIST 等和用于图像数据的转换器, 即 ``torchvision.datasets`` 和 ``torch.utils.data.DataLoader``.
 
 这提供了巨大的便利, 避免了编写重复代码.
 
@@ -56,7 +56,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 ########################################################################
-# torchvision 数据集的输出是范围 [0，1] 的 PILImage 图像。我们将它们转换为归一化范围的张量[-1,1]
+# torchvision 数据集的输出是范围 [0, 1] 的 PILImage 图像. 我们将它们转换为归一化范围是[-1,1]的张量
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -76,7 +76,7 @@ classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 ########################################################################
-# 让我们展示一些训练图像, 为了好玩 (0.0).
+# 让我们展示一些训练图像, 只是为了好玩 (0.0).
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -202,8 +202,8 @@ outputs = net(Variable(images))
 
 ########################################################################
 # 输出的是10个类别的能量.
-# 一个类别的能量越高, 则可以理解为网络越多认为图像是该类别的.
-# 那么, 让我门得到最高能量的索引:
+# 一个类别的能量越高, 则可以理解为网络认为越多的图像是该类别的.
+# 那么, 让我们得到最高能量的索引:
 _, predicted = torch.max(outputs.data, 1)
 
 print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
@@ -212,7 +212,7 @@ print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
 ########################################################################
 # 结果看起来不错.
 #
-# 让我门看看网络如何在整个数据集上执行.
+# 让我们看看网络如何在整个数据集上执行.
 
 correct = 0
 total = 0
@@ -227,9 +227,9 @@ print('Accuracy of the network on the 10000 test images: %d %%' % (
     100 * correct / total))
 
 ########################################################################
-# 训练的准确率远比随机猜测(准确率10%)好, 证明网络确实学到了东西。
+# 训练的准确率远比随机猜测(准确率10%)好, 证明网络确实学到了东西. 
 #
-# 嗯, 我们来看看哪些课程表现良好, 哪些课程表现不佳:
+# 嗯, 我们来看看哪些类别表现良好, 哪些类别表现不佳:
 
 class_correct = list(0. for i in range(10))
 class_total = list(0. for i in range(10))
@@ -262,7 +262,7 @@ for i in range(10):
 #     net.cuda()
 #
 #
-# 请记住，您必须将输入和目标每一步都发送到GPU:
+# 请记住, 您必须将输入和目标每一步都发送到GPU:
 #
 # ::
 #
@@ -270,7 +270,7 @@ for i in range(10):
 #
 # 如果发现在 GPU 上并没有比 CPU 提速很多, 实际上是因为网络比较小, GPU 没有完全发挥自己的真正实力.
 #
-# **练习:** 尝试增加网络的宽度(第一个 ``nn.Conv2d`` 和第二个的参数 ``nn.Conv2d`` 1 它们需要是相同的数字),
+# **练习:** 尝试增加网络的宽度(第一个 ``nn.Conv2d`` 的参数2和第二个 ``nn.Conv2d`` 的参数1 它们需要是相同的数字),
 # 看看你得到什么样的加速.
 #
 # **目标达成**:
@@ -286,13 +286,13 @@ for i in range(10):
 # -------------------
 #
 # -  :doc:`训练神经网络玩电子游戏 </intermediate/reinforcement_q_learning>`
-# -  `在 imagenet 上培训最先进的 ResNet 网络`_
-# -  `利用生成对抗网络训练人脸生成器`_
-# -  `使用 Recurrent LSTM 网络训练单词语言模型`_
-# -  `更多的例子`_
-# -  `更多教程`_
-# -  `在论坛上讨论 PyTorch`_
-# -  `与 Slack 上与其他用户聊天`_
+# -  `在 imagenet 上培训最先进的 ResNet 网络`
+# -  `利用生成对抗网络训练人脸生成器`
+# -  `使用 Recurrent LSTM 网络训练单词语言模型`
+# -  `更多的例子`
+# -  `更多教程`
+# -  `在论坛上讨论 PyTorch`
+# -  `与 Slack 上与其他用户聊天`
 #
 # .. _Train a state-of-the-art ResNet network on imagenet: https://github.com/pytorch/examples/tree/master/imagenet
 # .. _Train a face generator using Generative Adversarial Networks: https://github.com/pytorch/examples/tree/master/dcgan

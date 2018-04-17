@@ -56,9 +56,9 @@ print(x + y)
 print(torch.add(x, y))
 
 ###############################################################
-# 加法: 提供一个 output tensor 作为参数
+# 加法: 提供一个输出 tensor 作为参数
 result = torch.Tensor(5, 3)
-torch.add(x, y, out=result)
+torch.add(x, y, out = result)
 print(result)
 
 ###############################################################
@@ -71,14 +71,14 @@ print(y)
 ###############################################################
 # .. note::
 #     任何改变张量的操作方法都是以后缀 ``_`` 结尾的.
-#     例如: ``x.copy_(y)``, ``x.t_()``, 将替换 ``x``.
+#     例如: ``x.copy_(y)``, ``x.t_()``, 将改变张量 ``x``.
 #
-# You can use standard NumPy-like indexing with all bells and whistles!
+# 你可以用类似Numpy的索引来处理所有的张量！
 
 print(x[:, 1])
 
 ###############################################################
-# 改变大小: 如果你想要去 resize/reshape tensor, 可以使用 ``torch.view``:
+# 改变大小: 如果你想要去改变tensor的大小, 可以使用 ``torch.view``:
 x = torch.randn(4, 4)
 y = x.view(16)
 z = x.view(-1, 8)  # the size -1 is inferred from other dimensions
@@ -89,7 +89,7 @@ print(x.size(), y.size(), z.size())
 #
 #
 #   100+ Tensor 操作, 包括换位, 索引, 切片,
-#   数学运算, 线性代数, 随机数, 等等.,
+#   数学运算, 线性代数, 随机数, 等等,
 #   都在
 #   `这里 <http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html>`_ 有描述.
 #
@@ -98,7 +98,7 @@ print(x.size(), y.size(), z.size())
 #
 # 将一个 Torch Tensor 转换为 NumPy 数组, 反之亦然.
 #
-# Torch Tensor 和 NumPy 数组将会共享他们的 will share their 潜在内存位置,
+# Torch Tensor 和 NumPy 数组将会共享它们的实际的内存位置,
 # 改变一个另一个也会跟着改变.
 #
 # 转换一个 Torch Tensor 为 NumPy 数组
@@ -129,17 +129,17 @@ print(b)
 import numpy as np
 a = np.ones(5)
 b = torch.from_numpy(a)
-np.add(a, 1, out=a)
+np.add(a, 1, out = a)
 print(a)
 print(b)
 
 ###############################################################
-# 除了 CharTensor 之外, CPU 上的所有 Tensor 都支持转换为 NumPy 并且回退
+# 除了 CharTensor 之外, CPU 上的所有 Tensor 都支持与Numpy进行互相转换
 #
 # CUDA Tensors
 # ------------
 #
-# 可以使用 ``.cuda`` 方法将 Tensors 移动到 GPU 之上.
+# 可以使用 ``.cuda`` 方法将 Tensors 在GPU上运行.
 
 # 只要在  CUDA 是可用的情况下, 我们可以运行这段代码
 if torch.cuda.is_available():

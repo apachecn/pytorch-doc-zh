@@ -71,7 +71,7 @@ class Module(object):
     def register_buffer(self, name, tensor):
         """给模块添加一个持久化的 buffer.
 
-        持久化的 buffer 通常被用在这么一种情况: 我们需要保存一个状态. 但是这个状态不能看作成为模型参数.
+        持久化的 buffer 通常被用在这么一种情况: 我们需要保存一个状态, 但是这个状态不能看作成为模型参数.
         例如: BatchNorm 的 ``running_mean`` 不是一个 parameter, 但是它也是需要保存的状态之一.
 
         Buffers 可以使用指定的 name 作为属性访问.
@@ -257,12 +257,12 @@ class Module(object):
 
             hook(module, grad_input, grad_output) -> Tensor or None
 
-        如果 module 有多个输入输出的话, 那么 :attr:`grad_input` 和 :attr:`grad_output` 将会是个 tupl.
-        hook 不应该修改它的参数, 但是它可以选择性的返回关于输入的梯度, 这个返回的梯度在后续的计算中会替代 :attr:`grad_input`.
+        如果 module 有多个输入或输出的话, 那么 :attr:`grad_input` 和 :attr:`grad_output` 将会是个 tuple.
+        hook 不应该修改它的参数, 但是它可以选择性地返回一个新的关于输入的梯度, 这个返回的梯度在后续的计算中会替代 :attr:`grad_input`.
 
         Returns:
             :class:`torch.utils.hooks.RemovableHandle`:
-                a handle that can be used to remove the added hook by calling
+                通过调用 ``handle.remove()`` 方法可以删除添加钩子的句柄
                 ``handle.remove()``
         """
         handle = hooks.RemovableHandle(self._backward_hooks)
@@ -281,7 +281,7 @@ class Module(object):
 
         Returns:
             :class:`torch.utils.hooks.RemovableHandle`:
-                a handle that can be used to remove the added hook by calling
+                通过调用 ``handle.remove()`` 方法可以删除添加钩子的句柄
                 ``handle.remove()``
         """
         handle = hooks.RemovableHandle(self._forward_pre_hooks)
@@ -296,7 +296,7 @@ class Module(object):
 
             hook(module, input, output) -> None
 
-        该钩子应该不会修改输入和输出.
+        该钩子应该不会修改输入或输出.
 
         Returns:
             :class:`torch.utils.hooks.RemovableHandle`:
@@ -410,7 +410,7 @@ class Module(object):
         """返回一个字典, 它包含整个模块的状态.
 
         包括参数和持久化的缓冲区 (例如. 运行中的平均值).
-        Keys 是与之对应的参数和缓冲区 name.
+        Keys 是与之对应的参数和缓冲区的 name.
 
         当 keep_vars 为 ``True`` 时, 它为每一个参数（而不是一个张量）返回一个 Variable.
 
@@ -559,7 +559,7 @@ class Module(object):
             Module: a module in the network
 
         Note:
-            Duplicate modules are returned only once. In the following
+            重复的模块只返回一次. 在下面的例子中, ``1`` 只会被返回一次.
             example, ``l`` will be returned only once.
 
             >>> l = nn.Linear(2, 2)
@@ -576,7 +576,7 @@ class Module(object):
             yield module
 
     def named_modules(self, memo=None, prefix=''):
-        """翻译一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
+        """返回一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
 
         Yields:
             (string, Module): 名字和模块的 Tuple（元组）
