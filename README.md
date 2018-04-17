@@ -73,7 +73,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [数据加载和处理教程](http://pytorch.apachecn.org/cn/tutorials/beginner/data_loading_tutorial.html) | [@distant1219](https://github.com/distant1219) | [@bringtree](https://github.com/bringtree) |
 | [Deep Learning for NLP with Pytorch](http://pytorch.apachecn.org/cn/tutorials/beginner/deep_learning_nlp_tutorial.html) | [@JingTao](https://github.com/jingwangfei) [@friedhelm739](https://github.com/friedhelm739) | |
 | **中级教程** | - | - |
-| [Classifying Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html#) | [*@孙永杰*](http://community.apachecn.org/?/people/sunyongjie) | |
+| [Classifying Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html#) | [@孙永杰](https://github.com/yongjay13) | |
 | [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [@jianchengss](https://github.com/jianchengss) | |
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [@EWilsen](http://community.apachecn.org/?/people/EWilsen) | |
 | [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [@Lisanaaa](https://github.com/Lisanaaa) | |
