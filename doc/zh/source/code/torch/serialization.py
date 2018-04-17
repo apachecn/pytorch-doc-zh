@@ -122,13 +122,13 @@ def _with_file_like(f, mode, body):
 def save(obj, f, pickle_module=pickle, pickle_protocol=DEFAULT_PROTOCOL):
     """将一个对象保存到一个磁盘文件中.
 
-    See also: :ref:`recommend-saving-models`
+    另见: :ref:`recommend-saving-models`
 
-    Args:
-        obj: 保存对象
-        f: 类文件对象 (必须实现返回文件描述符的fileno方法)或包含文件名的字符串
-        pickle_module: 用于pickling元数据和对象的模块
-        pickle_protocol: 可以指定覆盖默认参数
+    参数:
+        obj: 要保存的对象
+        f: 类文件对象 (必须实现返回文件描述符的 fileno 方法) 或包含文件名的字符串
+        pickle_module: 用于 pickling 元数据和对象的模块
+        pickle_protocol: 可以指定来覆盖默认协议
     """
     return _with_file_like(f, "wb", lambda f: _save(obj, f, pickle_module, pickle_protocol))
 
@@ -205,26 +205,26 @@ def _save(obj, f, pickle_module, pickle_protocol):
 def load(f, map_location=None, pickle_module=pickle):
     """从磁盘文件中加载一个用 :func:`torch.save` 保存的对象.
 
-    :func: `torch.load` 使用 Python 的解封工具 (unpickling facilities), 但特别地对待张量下的存储 (storages).
-    它们首先在CPU上被反序列化, 然后移动到被保存的设备上. 如果这个过程失败了 (e.g. 因为运行时的系统没有确定的设备),
-    一个异常将会抛出. 然而, 使用 map_location 参数, 存储 (storages) 可以被动态地重新映射到另一组设备上.
+    :func: `torch.load` 使用 Python 的解封 (unpickling) 设施, 但特殊对待张量下的存储 (storages).
+    它们首先在 CPU 上反序列化, 然后移动到所保存的设备上. 如果这个过程失败了 (例如，因为运行时的系统没有确定的设备),
+    将会抛出异常. 然而, 使用 map_location 参数, 存储可以被动态地重新映射到另一组设备上.
 
-    如果 map_location 是可调用的 (callable), 则每个序列化存储都将调用它一次, 并带有两个参数: storage 和 location.
-    参数 storage 将是驻留在 CPU 上的存储的初始反序列化. 每个序列化后的存储都有一个与之关联的位置标签, 它标识了它所保存的设备, 
-    而此标签是传递给 map_location 的第二个参数. 对于CPU张量, 内建的位置标签是 'cpu', 对于 CUDA 张量, 内建的位置标签是 'cuda:device_id' 
-    (e.g. 'cuda:2'). map_location 要么返回 None , 要么返回一个存储. 如果 map_location 返回一个存储, 
-    它将被用作最终反序列化的已移动到正确设备上的对象. 否则, 如果 map_location 没有指明, 即返回 None, `torch.load` 会回落到默认的行为.
+    如果 map_location 是可调用对象, 则对于每个序列化存储，它都将以两个参数调用一次: storage 和 location.
+    参数 storage 是驻留在 CPU 上的存储的初始反序列化. 每个序列化后的存储都有一个与之关联的位置标签, 它标识了保存它的设备, 
+    而此标签是传递给 map_location 的第二个参数. 对于 CPU 张量, 内建的位置标签是 'cpu', 对于 CUDA 张量, 内建的位置标签是 'cuda:device_id' 
+    (例如 'cuda:2'). map_location 要么返回 None , 要么返回一个存储. 如果 map_location 返回存储, 
+    它将用作已移动到正确设备上的, 最终反序列化的对象. 否则, 如果没有指明 map_location, 即返回 None, `torch.load` 会回落到默认的行为.
 
-    如果 map_location 是一个字典, 它用于重新映射出现在文件(键)中的位置标签, 到另一个出现在值中并指明哪里存放存储的位置标签.
+    如果 map_location 是一个字典, 它用于将出现在文件 (键) 中的位置标签, 重新映射到另一个位置标签, 它出现在值中并指明在哪里存放存储.
 
-    用户扩展模块可以使用 register_package 来注册他们自己的位置标签和打标签的方法, 和反序列化方法.
+    用户扩展可以使用 register_package 来注册他们自己的位置标签, 以及标记和反序列化方法.
 
-    Args:
-        f: 一个类似文件的对象 (必须实现返回一个文件描述符的 fileno, 以及必须实现文件的 seek 方法), 或者包含一个文件名的字符串.
+    参数:
+        f: 一个类文件对象 (必须实现返回文件描述符的 fileno, 以及 seek 方法), 或者包含文件名的字符串.
         map_location: 一个函数或者一个指明如何重新映射存储位置的字典
-        pickle_module: 用于解封 (unpickling) 元数据和对象的模块 (必须与用于序列化文件时的pickle_module匹配)
+        pickle_module: 用于解封 (unpickling) 元数据和对象的模块 (必须匹配用于序列化文件的 pickle_module)
 
-    Example:
+    示例:
         >>> torch.load('tensors.pt')
         # Load all tensors onto the CPU
         >>> torch.load('tensors.pt', map_location=lambda storage, loc: storage)
