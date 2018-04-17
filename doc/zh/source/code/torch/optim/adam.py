@@ -6,7 +6,7 @@ from .optimizer import Optimizer
 class Adam(Optimizer):
     """实现 Adam 算法。
 
-    它在 `Adam: A Method for Stochastic Optimization`_ 中被提出。
+    它在 `Adam: A Method for Stochastic Optimization`_ 中被提出.
 
     参数:
         params (iterable): 迭代的优化参数或者以字典的形式定义参数组.
