@@ -57,7 +57,7 @@ Data type                CPU tensor                    GPU tensor
 tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.wikipedia.org/wiki/Stride_of_an_array>`_ 的视图, 并且在视图上定义了数值运算.
 
 .. note::
-   会改变 tensor 对象的函数方法名，其使用了一个下划线后缀作为标识。
+   , 其使用了一个下划线后缀作为标识。
    比如, :func:`torch.FloatTensor.abs_` 会在原地(in-place)计算绝对值并返回改变后的 tensor. 而 :func:`torch.FloatTensor.abs` 会在一个新建的 tensor 中计算结果.
 
 .. class:: Tensor()
