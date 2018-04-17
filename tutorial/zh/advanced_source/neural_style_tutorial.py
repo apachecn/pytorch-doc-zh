@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-用 PyTorch 做 神经转换（Neural Transfer）
+用 PyTorch 做 神经转换 (Neural Transfer) 
 ==========================================
 **原作者**: `Alexis Jacq <https://alexis-jacq.github.io>`_
 
