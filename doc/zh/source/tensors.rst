@@ -54,7 +54,7 @@ Data type                CPU tensor                    GPU tensor
     [torch.FloatTensor of size 2x3]
 
 每一个 tensor 对象都有一个相应的 :class:`torch.Storage` 用来保存数据. 
-tensor 类提供了一个存储的多维的,有 `跨度(strided) <https://en.wikipedia.org/wiki/Stride_of_an_array>`_ 的视图, 并且在视图上定义了数值运算.
+tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.wikipedia.org/wiki/Stride_of_an_array>`_ 的视图, 并且在视图上定义了数值运算.
 
 .. note::
    会改变 tensor 对象的函数方法名，其使用了一个下划线后缀作为标识。
