@@ -50,7 +50,7 @@ PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设�
 
 由于 PyTorch 的架构, 你可能需要明确写入设备无关 (CPU 或 GPU) 代码; 举个例子, 创建一个新的张量作为循环神经网络的初始隐藏状态.
 
-第一步先确定是否使用 GPU. 一个常见的方式是使用 Python 的 ``argparse`` 模块来读入用户参数, 并且有一个可以用来禁用 CUDA、能与 :meth:`~torch.cuda.is_available` 结合使用的标志.
+第一步先确定是否使用 GPU. 一个常见的方式是使用 Python 的 ``argparse`` 模块来读入用户参数, 并且有一个可以用来禁用 CUDA, 能与 :meth:`~torch.cuda.is_available` 结合使用的标志.
 在下面的例子中, ``args.cuda`` 会产生一个当需要时能将张量和模块转换为 CUDA 的标志::
 
     import argparse
@@ -97,7 +97,7 @@ PyTorch 使用缓存内存分配器来加速内存分配. 这允许在没有设�
     y_gpu = x_gpu.new(x_gpu.size()).fill_(-5)
     y_cpu_long = x_cpu_long.new([[1, 2, 3]])
 
-如果你想创建一个与另一个张量有着相同类型和大小、并用 1 或 0 填充的张量, :meth:`~torch.ones_like` 或 :meth:`~torch.zeros_like` 可提供方便的辅助功能 (同时保留设备信息) ::
+如果你想创建一个与另一个张量有着相同类型和大小, 并用 1 或 0 填充的张量, :meth:`~torch.ones_like` 或 :meth:`~torch.zeros_like` 可提供方便的辅助功能 (同时保留设备信息) ::
 
     x_cpu = torch.FloatTensor(1)
     x_gpu = torch.cuda.FloatTensor(1)
