@@ -11,20 +11,20 @@
 Matthias Bethge 几位学者发明的
 `Neural-Style <https://arxiv.org/abs/1508.06576>`__ 算法 .
 
-题中神经描述的是什么?
+题中的神经描述的是什么?
 ~~~~~~~~~~~~~~~~~~
 
 神经风格, 或者说神经转换是一种算法, 它输入一张内容图像 (例如海龟), 一张风格图像 
-(例如艺术波浪), 然后返回内容图像的内容, 这个内容像是被艺术风格图像的风格渲染过: 
+(例如艺术波浪), 然后返回内容图像的内容, 此时返回的内容像是被艺术风格图像的风格渲染过: 
 
 .. figure:: /_static/img/neural-style/neuralstyle.png
    :alt: content1
 
 它是如何工作的?
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 原理很简单: 我们定义两个距离, 一个是关于内容的(:math:`D_C`) , 另一个是关于风格的
- (:math:`D_S`). :math:`D_C` 衡量两张图像的内容有多么不同, 而 :math:`D_S`
+(:math:`D_S`). :math:`D_C` 衡量两张图像的内容有多么不同, 而 :math:`D_S`
 衡量两张图像的风格有多么不同. 接着我们拿出我们的输入, 也就是第三张图像 (例如全噪声), 
 然后我们转换它, 同时最小化它与内容图像的内容距离和它与风格图像的风格距离.
 
@@ -87,7 +87,7 @@ A. Gatys 和 AL), 论文中这部分解释地更好更清晰.
 PyTorch 实现
 ----------------------
 
-如果你不确定是否理解了以上数学公式, 你也可以在实现它的过程中有所领悟. 
+如果你不确定是否理解了以上数学公式, 你也可以通过实现它, 在过程中有所领悟. 
 如果你正在探索 PyTorch , 我们推荐你先阅读这篇教程 
 :doc:`Introduction to PyTorch </beginner/deep_learning_60min_blitz>`.
 
@@ -150,7 +150,7 @@ dtype = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
 # 然后我们将它们缩放到想要的输入图像尺寸 (在例子中是 128 和 512, 
 # 取决你的 GPU 是否可用) 然后把它们转化为 torch 张量, 以待喂入一个神经网络.
 #
-# .. 注释::
+# .. Note::
 #     这里是教程需要的图像的下载链接: 
 #     `picasso.jpg <http://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg>`__ 和
 #     `dancing.jpg <http://pytorch.org/tutorials/_static/img/neural-style/dancing.jpg>`__.
@@ -244,7 +244,7 @@ class ContentLoss(nn.Module):
         # 我们会从所使用的树中“分离”目标内容
         self.target = target.detach() * weight
         # 动态地计算梯度: 它是个状态值, 不是变量.
-        # 否则评价指标的前向方法会抛出错误. 
+        # 否则评价指标的前向方法会抛出错误。
         self.weight = weight
         self.criterion = nn.MSELoss()
 
@@ -259,7 +259,7 @@ class ContentLoss(nn.Module):
 
 
 ######################################################################
-# .. 注意::
+# .. Note::
 #    **重要细节**: 这个模块虽然叫做 ``ContentLoss``, 却不是个真正的 Pytorch 
 #    损失函数. 如果你想像 Pytorch 损失一样定义你的内容损失, 你得新建一个 Pytorch 
 #    自动求导函数并手动得在 ``backward`` 方法中重算/实现梯度. 
@@ -332,7 +332,7 @@ class StyleLoss(nn.Module):
 # 的 19 层 VGG 网络 (VGG19).
 #
 # PyTorch对 VGG 的实现模块分为两个子 ``Sequential`` 模块: 
-# ``features``(包括卷积和池化层) 和 ``classifier``(包括全连接层). 
+# ``features`` (包括卷积和池化层) 和 ``classifier`` (包括全连接层). 
 # 我们只对 ``features`` 感兴趣:
 #
 
@@ -344,11 +344,11 @@ if use_cuda:
 
 
 ######################################################################
-# ``Sequential``(顺序) 模块包含一个子模块的列表. 比如, 
+# ``Sequential`` (顺序) 模块包含一个子模块的列表. 比如, 
 # ``vgg19.features`` 包含一个以正确深度排列的序列 (Conv2d, ReLU, 
 # Maxpool2d, Conv2d, ReLU...), 就如我们在 *Content loss* 部分讲到的, 
 # 我们想要把我们的风格和内容损失模块以想要的深度作为 '透明层' 加入到
-# 我们的网络中. 为了这样, 我们建立了一个新的 ``Sequential``(顺序) 
+# 我们的网络中. 为了这样, 我们建立了一个新的 ``Sequential`` (顺序) 
 # 模块, 在其中我们把 ``vgg19`` 和我们的损失模块以正确的顺序加入:
 #
 
@@ -425,7 +425,7 @@ def get_style_model_and_losses(cnn, style_img, content_img,
 
 
 ######################################################################
-# .. 注意::
+# .. Note::
 #    在这篇论文中他们推荐将最大池化层更改为平均池化层. 
 #    AlexNet是一个比 VGG19 更小的网络, 用它实现的话我们也不会看到
 #    任何结果质量的不同. 而如果你想做这个替代的话, 可以用这些代码:
@@ -459,14 +459,14 @@ imshow(input_img.data, title='Input Image')
 # ~~~~~~~~~~~~~~~~
 #
 # 由于本算法的作者 Leon Gatys 的建议 
-# `here <https://discuss.pytorch.org/t/pytorch-tutorial-for-neural-transfert-of-artistic-style/336/20?u=alexis-jacq>`__,
+# `here <https://discuss.pytorch.org/t/pytorch-tutorial-for-neural-transfert-of-artistic-style/336/20?u=alexis-jacq>`__, 
 # 我们将使用 L-BFGS 算法来跑我们的梯度下降. 和训练一个网络不同的是, 
 # 我们希望训练输入图像来最小化 内容/风格 损失. 我们想简单地建一个 
 # PyTorch L-BFGS 优化器, 传入我们的图像作为变量进行优化. 
-# 但是 ``optim.LBFGS`` 的第一个形参是一个需要梯度的 PyTorch ``Variable``.
-# 我们的输入图像是一个 ``Variable``, 但不是需要计算梯度的树的叶节点. 
+# 但是 ``optim.LBFGS`` 的第一个形参是一个需要梯度的 PyTorch ``Variable`` .
+# 我们的输入图像是一个 ``Variable`` , 但不是需要计算梯度的树的叶节点. 
 # 为了使这个变量需要梯度运算, 一个可能的方法是从输入图像构建一个 
-# ``Parameter``(参数) 对象. 然后我们只需给优化器的构造器传递一个
+# ``Parameter`` (参数) 对象. 然后我们只需给优化器的构造器传递一个
 # 包含这个参数的列表: 
 #
 
