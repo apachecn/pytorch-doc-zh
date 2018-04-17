@@ -22,7 +22,7 @@ Data type                CPU tensor                    GPU tensor
 
  :class:`torch.Tensor` 是默认的 tensor 类型(:class:`torch.FloatTensor`)的简称.
 
-一个 tensor 对象可以从 Python 的 :class:`list` 或者序列构建:
+一个 tensor 对象可以从 Python 的 :class:`list` 或者序列(sequence)构建:
 
 ::
 
