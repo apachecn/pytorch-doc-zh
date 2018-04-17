@@ -46,7 +46,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [多进程的最佳实践](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/multiprocessing.html) | [@冯斐](https://github.com/ata123) | [@Twinkle](https://github.com/kemingzeng) |
 | [序列化语义](http://pytorch.apachecn.org/cn/docs/0.3.0/notes/serialization.html) | [@胡东瑶](https://github.com/psubnwell) | [@Twinkle](https://github.com/kemingzeng) |
 | **PACKAGE 参考** | - | - |
-| [torch](http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html) | [@那伊抹微笑](https://github.com/wangyangting) @yudong [@小瑶](https://github.com/chenyyx) [@片刻](https://github.com/jiangzhonglian) [@李雨龙](https://github.com/sawyer7246) [@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992) [@张假飞](https://github.com/nothingcouldbebetter) | [@张假飞](https://github.com/nothingcouldbebetter) |
+| [torch](http://pytorch.apachecn.org/cn/docs/0.3.0/torch.html) | [@那伊抹微笑](https://github.com/wangyangting) @yudong [@小瑶](https://github.com/chenyyx) [@片刻](https://github.com/jiangzhonglian) [@李雨龙](https://github.com/sawyer7246) [@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992) [@张假飞](https://github.com/nothingcouldbebetter) [@rickllyxu](https://github.com/rickllyxu) | [@张假飞](https://github.com/nothingcouldbebetter) |
 | [torch.Tensor](http://pytorch.apachecn.org/cn/docs/0.3.0/tensors.html) | [@Sylvester](https://github.com/coboe) [@那伊抹微笑](https://github.com/wangyangting) | [@Cyril1317](http://community.apachecn.org/?/people/Cyril1317) |
 | [torch.sparse](http://pytorch.apachecn.org/cn/docs/0.3.0/sparse.html) | [@王帅](https://github.com/sirwangshuai) | [@Timor](https://github.com/timors) |
 | [torch.Storage](http://pytorch.apachecn.org/cn/docs/0.3.0/storage.html) | @FanXing | [*@Timor*](https://github.com/timors) |
