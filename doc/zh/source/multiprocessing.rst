@@ -20,7 +20,7 @@ Multiprocessing package - torch.multiprocessing
 --------------------
 
 在进程之间共享 CUDA 张量仅在 Python 3 中支持, 使用 ``spawn`` 或 ``forkserver`` 启动方法.
-Python 2 中的 :mod:`python:multiprocessing` 只能使用 fork 创建子进程, 而中 CUDA 运行时是不支持的.
+Python 2 中的 :mod:`python:multiprocessing` 只能使用 ``fork`` 创建子进程, 而中 CUDA 运行时是不支持的.
 
 .. warning::
 
