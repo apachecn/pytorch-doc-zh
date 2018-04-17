@@ -16,7 +16,7 @@ Affine Maps
 
 .. math::  f(x) = Ax + b
 
-对于矩阵 :math:`A` 和向量 :math:`x, b`. 这里学习的参数是 :math:`A` and :math:`b`. 通常，:math:`b` 被称为 *偏差* 项.
+对于矩阵 :math:`A` 和向量 :math:`x, b` . 这里学习的参数是 :math:`A` and :math:`b`. 通常，:math:`b` 被称为 *偏差* 项.
 
 
 Pytorch和大多数其他深度学习框架与传统的线性代数有所不同.它映射输入的行而不是列. 也就是说, 它映射输入的行而不是列. 也就是说,下面的输出的第 :math:`i` 行是 :math:`A` 的输入的第 :math:`i` 行加上偏置项的映射.看下面的例子.
