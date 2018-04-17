@@ -11,7 +11,7 @@ Automatic differentiation package - torch.autograd
 
 .. autofunction:: grad
 
-Variable（变量）
+Variable (变量) 
 ----------------
 
 API compatibility
@@ -49,7 +49,7 @@ Profiler(分析器)
 
 Autograd 包含一个分析器, 可以让你检查你的模型在CPU 和 GPU 上不同运算的成本.
 目前实现有两种模式 - 只使用 CPU 的 :class:`~torch.autograd.profiler.profile`.
-和基于 nvprof（注册 CPU 和 GPU 活动）的方式使用 :class:`~torch.autograd.profiler.emit_nvtx`.
+和基于 nvprof (注册 CPU 和 GPU 活动) 的方式使用 :class:`~torch.autograd.profiler.emit_nvtx`.
 
 .. autoclass:: torch.autograd.profiler.profile
     :members:

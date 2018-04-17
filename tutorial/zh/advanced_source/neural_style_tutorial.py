@@ -14,8 +14,8 @@ Matthias Bethge 几位学者发明的
 题中神经描述的是什么?
 ~~~~~~~~~~~~~~~~~~
 
-神经风格, 或者说神经转换是一种算法，它输入一张内容图像 (例如海龟), 一张风格图像 
-(例如艺术波浪), 然后返回内容图像的内容，这个内容像是被艺术风格图像的风格渲染过: 
+神经风格, 或者说神经转换是一种算法, 它输入一张内容图像 (例如海龟), 一张风格图像 
+(例如艺术波浪), 然后返回内容图像的内容, 这个内容像是被艺术风格图像的风格渲染过: 
 
 .. figure:: /_static/img/neural-style/neuralstyle.png
    :alt: content1
@@ -56,7 +56,7 @@ Matthias Bethge 几位学者发明的
 式中 :math:`F_{XL}^k(i)` 是 :math:`F_{XL}^k` 的第 :math:`i^{th}` 个元素. 
 我们可以把 :math:`G_{XL}(k,l)` 当做特征映射 :math:`k` 和 :math:`l` 相关性的衡量. 
 那样的话, :math:`G_{XL}` 代表了 :math:`X` 在 :math:`L` 层特征向量的相关性矩阵. 
-注意 :math:`G_{XL}` 的尺寸只决定于特征映射的数量，不被 :math:`X` 的尺寸所影响. 
+注意 :math:`G_{XL}` 的尺寸只决定于特征映射的数量, 不被 :math:`X` 的尺寸所影响. 
 然后如果 :math:`Y` 是 *任意尺寸* 的另一张图像, 我们定义在 :math:`L` 层的风格距离如下: 
 
 .. math:: 
@@ -244,7 +244,7 @@ class ContentLoss(nn.Module):
         # 我们会从所使用的树中“分离”目标内容
         self.target = target.detach() * weight
         # 动态地计算梯度: 它是个状态值, 不是变量.
-        # 否则评价指标的前向方法会抛出错误。
+        # 否则评价指标的前向方法会抛出错误. 
         self.weight = weight
         self.criterion = nn.MSELoss()
 

@@ -86,7 +86,7 @@ def vgg11(pretrained=False, **kwargs):
     """VGG 11层模型 (configuration "A")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['A']), **kwargs)
     if pretrained:
@@ -98,7 +98,7 @@ def vgg11_bn(pretrained=False, **kwargs):
     """带有批标准化（batch normalization) 的VGG 11层模型 (configuration "A")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['A'], batch_norm=True), **kwargs)
     if pretrained:
@@ -110,7 +110,7 @@ def vgg13(pretrained=False, **kwargs):
     """VGG 13层模型 (configuration "B")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['B']), **kwargs)
     if pretrained:
@@ -122,7 +122,7 @@ def vgg13_bn(pretrained=False, **kwargs):
     """带有批标准化（batch normalization) 的 VGG 13层模型 (configuration "B")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['B'], batch_norm=True), **kwargs)
     if pretrained:
@@ -134,7 +134,7 @@ def vgg16(pretrained=False, **kwargs):
     """VGG 16层模型 (configuration "D")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['D']), **kwargs)
     if pretrained:
@@ -146,7 +146,7 @@ def vgg16_bn(pretrained=False, **kwargs):
     """带有批标准化（batch normalization) 的 VGG 16层模型 (configuration "D")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['D'], batch_norm=True), **kwargs)
     if pretrained:
@@ -158,7 +158,7 @@ def vgg19(pretrained=False, **kwargs):
     """VGG 19层模型 (configuration "E")
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['E']), **kwargs)
     if pretrained:
@@ -170,7 +170,7 @@ def vgg19_bn(pretrained=False, **kwargs):
     """带有批标准化（batch normalization) 的 VGG 19层模型 (configuration 'E') 
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     model = VGG(make_layers(cfg['E'], batch_norm=True), **kwargs)
     if pretrained:

@@ -1,56 +1,44 @@
 # -*- coding: utf-8 -*-
 """
-Reinforcement Learning (DQN) tutorial
+强化学习（DQN）教程
 =====================================
-**Author**: `Adam Paszke <https://github.com/apaszke>`_
+**作者**: `Adam Paszke <https://github.com/apaszke>`_
 
 
-This tutorial shows how to use PyTorch to train a Deep Q Learning (DQN) agent
-on the CartPole-v0 task from the `OpenAI Gym <https://gym.openai.com/>`__.
+本教程演示如何使用 PyTorch 对任务 CartPole-v0 训练 Deep Q Learning（DQN）代理（即一个算法黑箱）, 
+该任务来自于 `OpenAI Gym <https://gym.openai.com/>`__.
 
-**Task**
+**任务**
 
-The agent has to decide between two actions - moving the cart left or
-right - so that the pole attached to it stays upright. You can find an
-official leaderboard with various algorithms and visualizations at the
-`Gym website <https://gym.openai.com/envs/CartPole-v0>`__.
+该代理需要决定将小车往左还是往右推, 因此小车上的杆子始终保持竖直. 你可以在 
+`Gym website <https://gym.openai.com/envs/CartPole-v0>`__ 找到一个官方的公示榜单, 其罗列了不同的算法和可视化. 
 
-.. figure:: /_static/img/cartpole.gif
-   :alt: cartpole
+.. 图:: /_static/img/cartpole.gif
+   :alt: 小车推杆
 
-   cartpole
+   小车推杆
 
-As the agent observes the current state of the environment and chooses
-an action, the environment *transitions* to a new state, and also
-returns a reward that indicates the consequences of the action. In this
-task, the environment terminates if the pole falls over too far.
+代理通过观察当前环境（小车和杆子的组合体）下的状态选择一个合适的行为（往左还是往右推）, 随后环境状态得到转变, 
+并返回一个回馈因子来量化该行为所带来的后果（好处或是坏处）. 在这个任务中, 如果杆子移动太远则整个代理环境终止. 
 
-The CartPole task is designed so that the inputs to the agent are 4 real
-values representing the environment state (position, velocity, etc.).
-However, neural networks can solve the task purely by looking at the
-scene, so we'll use a patch of the screen centered on the cart as an
-input. Because of this, our results aren't directly comparable to the
-ones from the official leaderboard - our task is much harder.
-Unfortunately this does slow down the training, because we have to
-render all the frames.
+小车推杆任务被设计为有4个输入参数传给代理, 它们是环境状态, 环境位置, 环境速率等. 
+然而, 神经网络单靠观察这个场景就可以解决该任务, 因此我们用一些以小车为中心的屏幕图作为输入参数就行了. 
+正因为此, 我们并不能仅仅凭借将我们所得结果与公示榜单上的结果对比来得出结论, 我们的任务远比这个难. 
+不幸的是, 这将会导致我们的训练速度变慢, 因为我们必须得渲染屏幕图所有的帧数. 
 
-Strictly speaking, we will present the state as the difference between
-the current screen patch and the previous one. This will allow the agent
-to take the velocity of the pole into account from one image.
+严格来说, 我们将状态定义为前一个屏幕图与当前屏幕图之间的差别. 这也会使得代理将图中推杆的速率也考虑进去. 
 
-**Packages**
+**包**
 
 
-First, let's import needed packages. Firstly, we need
-`gym <https://gym.openai.com/docs>`__ for the environment
-(Install using `pip install gym`).
-We'll also use the following from PyTorch:
+首先, 我们导入一些需要用到的包.  第一, 我们需要 `gym包 <https://gym.openai.com/docs>`__ 
+环境需要这个包（使用 'pip install gym' 安装该包). 
+我们也会使用来自于 PyTorch 的以下包:
 
--  neural networks (``torch.nn``)
--  optimization (``torch.optim``)
--  automatic differentiation (``torch.autograd``)
--  utilities for vision tasks (``torchvision`` - `a separate
-   package <https://github.com/pytorch/vision>`__).
+-  神经网络 neural networks (``torch.nn``)
+-  优化 optimization (``torch.optim``)
+-  自微分 automatic differentiation (``torch.autograd``)
+-  视觉任务工具 (``torchvision`` - `一个独立的包 <https://github.com/pytorch/vision>`__).
 
 """
 
@@ -75,14 +63,14 @@ import torchvision.transforms as T
 
 env = gym.make('CartPole-v0').unwrapped
 
-# set up matplotlib
+# 设置 matplotlib
 is_ipython = 'inline' in matplotlib.get_backend()
 if is_ipython:
     from IPython import display
 
 plt.ion()
 
-# if gpu is to be used
+# 如果要使用 gpu 的话
 use_cuda = torch.cuda.is_available()
 FloatTensor = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
 LongTensor = torch.cuda.LongTensor if use_cuda else torch.LongTensor
@@ -91,22 +79,20 @@ Tensor = FloatTensor
 
 
 ######################################################################
-# Replay Memory
+# 重播记忆 (Replay Memory)
 # -------------
 #
-# We'll be using experience replay memory for training our DQN. It stores
-# the transitions that the agent observes, allowing us to reuse this data
-# later. By sampling from it randomly, the transitions that build up a
-# batch are decorrelated. It has been shown that this greatly stabilizes
-# and improves the DQN training procedure.
+# 我们将使用体验重播记忆来训练我们的DQN.  它存储了代理观察到的变化过程, 允许我们之后能够
+# 重复使用这些数据. 通过对重播记忆随机取样, 建立了批处理的变化过程将会被解耦合. 这一机制
+# 也被证明能够大幅度地提高和优化 DNQ 训练步骤的稳定性. 
 #
-# For this, we're going to need two classses:
+# 对此, 我们将需要两个类:
 #
-# -  ``Transition`` - a named tuple representing a single transition in
-#    our environment
-# -  ``ReplayMemory`` - a cyclic buffer of bounded size that holds the
-#    transitions observed recently. It also implements a ``.sample()``
-#    method for selecting a random batch of transitions for training.
+# -  ``Transition`` - 一个命名元祖（tuple）, 代表了环境的单次变化
+#    
+# -  ``ReplayMemory`` - 一个有限大小的循环缓冲区, 用于保存最近观察到的转换过程.  
+#                       它也实现了``.sample（）``方法, 用于选择随机批次的转换进行训练
+#
 #
 
 Transition = namedtuple('Transition',
@@ -135,55 +121,43 @@ class ReplayMemory(object):
 
 
 ######################################################################
-# Now, let's define our model. But first, let quickly recap what a DQN is.
+# 现在, 让我们开始构建我们的模型. 但是在此之前我们首先得重新定义什么是 DNQ. 
 #
-# DQN algorithm
+# DQN 算法
 # -------------
 #
-# Our environment is deterministic, so all equations presented here are
-# also formulated deterministically for the sake of simplicity. In the
-# reinforcement learning literature, they would also contain expectations
-# over stochastic transitions in the environment.
+# 我们的环境是确定性的, 所以这里提出的所有方程也都是为简单起见而确定性地制定的.  
+# 在强化学习概念中, 其还会包含有对环境中随机变化过程的期望值. 
 #
-# Our aim will be to train a policy that tries to maximize the discounted,
-# cumulative reward
-# :math:`R_{t_0} = \sum_{t=t_0}^{\infty} \gamma^{t - t_0} r_t`, where
-# :math:`R_{t_0}` is also known as the *return*. The discount,
-# :math:`\gamma`, should be a constant between :math:`0` and :math:`1`
-# that ensures the sum converges. It makes rewards from the uncertain far
-# future less important for our agent than the ones in the near future
-# that it can be fairly confident about.
+# 我们的目标是训练出一个机制, 尽可能做到最大化折扣因子和累积回馈因子. 
+# :math:`R_{t_0} = \sum_{t=t_0}^{\infty} \gamma^{t - t_0} r_t`, 
+# :math:`R_{t_0}` 也被称为 *回馈因子*. 折扣因子 :math:`\gamma` 应该是一个
+# 位于 :math:`0` 和 :math:`1` 之间的常量, 且确保了其总和是收敛的. 它的存在意义是让
+# 回馈的重要程度与时间成正比, 即离现在1分钟的回馈比离现在1小时的回馈要更重要, 
+# 因为离当前时间越近, 我们的预测值可以更准确, 更可信. 
 #
-# The main idea behind Q-learning is that if we had a function
-# :math:`Q^*: State \times Action \rightarrow \mathbb{R}`, that could tell
-# us what our return would be, if we were to take an action in a given
-# state, then we could easily construct a policy that maximizes our
-# rewards:
+# Q-learning 的主要原理是, 假如我们有一个函数, 
+# :math:`Q^*: State \times Action \rightarrow \mathbb{R}`, 这将会定义返回值, 
+# 如果我们在给定状态下做出动作, 那么我们将会更容易据此训练出一个机制, 并做到最大化回馈因子. 
 #
 # .. math:: \pi^*(s) = \arg\!\max_a \ Q^*(s, a)
 #
-# However, we don't know everything about the world, so we don't have
-# access to :math:`Q^*`. But, since neural networks are universal function
-# approximators, we can simply create one and train it to resemble
-# :math:`Q^*`.
+# 由于我们对整个环境一无所知, 我们不需要知道确定的 :math:`Q^*`. 但是, 因为神经网络
+# 是一个泛化的逼近函数, 所以我们可以直接构造一个网络并训练它去模拟 :math:`Q^*`即可. 
 #
-# For our training update rule, we'll use a fact that every :math:`Q`
-# function for some policy obeys the Bellman equation:
+# 对于我们训练的更新规则来说, 我们只需要让每一个 :math:`Q` 遵从贝尔曼方程 (Bellman equation)
+# 就可以了. 
 #
 # .. math:: Q^{\pi}(s, a) = r + \gamma Q^{\pi}(s', \pi(s'))
 #
-# The difference between the two sides of the equality is known as the
-# temporal difference error, :math:`\delta`:
+# 方程两边的实际差值即为时间差分误差 (temporal difference error), :math:`\delta`:
 #
 # .. math:: \delta = Q(s, a) - (r + \gamma \max_a Q(s', a))
 #
-# To minimise this error, we will use the `Huber
-# loss <https://en.wikipedia.org/wiki/Huber_loss>`__. The Huber loss acts
-# like the mean squared error when the error is small, but like the mean
-# absolute error when the error is large - this makes it more robust to
-# outliers when the estimates of :math:`Q` are very noisy. We calculate
-# this over a batch of transitions, :math:`B`, sampled from the replay
-# memory:
+# 为了使得该误差值最小化, 我们要使用 `Huber loss <https://en.wikipedia.org/wiki/Huber_loss>`__. 
+# 当时间差分误差较小时, Huber loss 表现地与均方误差 (mean squared error) 一样, 而当时间差分误差较大时, 
+# Huber loss 表现地与绝对均差 (mean absolute error) 一样. 这一性质使得它在预测带有较多噪音的
+# :math:`Q` 值上更具有鲁棒性. 我们通过从重播记忆中取出一批样本来计算 :math:`B`. 
 #
 # .. math::
 #
@@ -199,12 +173,10 @@ class ReplayMemory(object):
 # Q-network
 # ^^^^^^^^^
 #
-# Our model will be a convolutional neural network that takes in the
-# difference between the current and previous screen patches. It has two
-# outputs, representing :math:`Q(s, \mathrm{left})` and
-# :math:`Q(s, \mathrm{right})` (where :math:`s` is the input to the
-# network). In effect, the network is trying to predict the *quality* of
-# taking each action given the current input.
+# 我们的模型是一个卷积神经网络 (CNN), 将当前屏幕图与之前屏幕图的差值作为唯一输入, 输出值有两个, 
+# 分别代表 :math:`Q(s, \mathrm{left})` 和 :math:`Q(s, \mathrm{right})` (其中 :math:`s` 
+# 是网络的输入). 从效果上来看, 我们的神经网络模型可以预测在当前输入下采取特定行为带来的 *quality*, 
+# 即对整个环境的影响. 
 #
 
 class DQN(nn.Module):
@@ -227,13 +199,11 @@ class DQN(nn.Module):
 
 
 ######################################################################
-# Input extraction
+# 获取输入 
 # ^^^^^^^^^^^^^^^^
 #
-# The code below are utilities for extracting and processing rendered
-# images from the environment. It uses the ``torchvision`` package, which
-# makes it easy to compose image transforms. Once you run the cell it will
-# display an example patch that it extracted.
+# 以下代码用来获取和处理来自环境中的被渲染的图像. 其中使用了 ``torchvision`` 包, 
+# 这使得图像变换变得更加简单.  只要运行该代码块就会显示当前所提取图像. 
 #
 
 resize = T.Compose([T.ToPILImage(),
@@ -270,7 +240,7 @@ def get_screen():
     # (this doesn't require a copy)
     screen = np.ascontiguousarray(screen, dtype=np.float32) / 255
     screen = torch.from_numpy(screen)
-    # Resize, and add a batch dimension (BCHW)
+    # 调整大小并添加批量维度 (BCHW)
     return resize(screen).unsqueeze(0).type(Tensor)
 
 env.reset()
@@ -282,28 +252,23 @@ plt.show()
 
 
 ######################################################################
-# Training
+# 训练
 # --------
 #
-# Hyperparameters and utilities
+# 超参数和函数 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# This cell instantiates our model and its optimizer, and defines some
-# utilities:
+# 这一代码块实例化我们的模型和优化器, 并且定义了一些函数. 
+# 函数:
 #
-# -  ``Variable`` - this is a simple wrapper around
-#    ``torch.autograd.Variable`` that will automatically send the data to
-#    the GPU every time we construct a Variable.
-# -  ``select_action`` - will select an action accordingly to an epsilon
-#    greedy policy. Simply put, we'll sometimes use our model for choosing
-#    the action, and sometimes we'll just sample one uniformly. The
-#    probability of choosing a random action will start at ``EPS_START``
-#    and will decay exponentially towards ``EPS_END``. ``EPS_DECAY``
-#    controls the rate of the decay.
-# -  ``plot_durations`` - a helper for plotting the durations of episodes,
-#    along with an average over the last 100 episodes (the measure used in
-#    the official evaluations). The plot will be underneath the cell
-#    containing the main training loop, and will update after every
-#    episode.
+# -  ``Variable`` - 这是一个对 ``torch.autograd.Variable`` 的简单包装器, 
+#                   它会在我们每次构建变量时自动将数据发送到GPU. 
+# -  ``select_action`` - 根据ε贪婪法则选择后续行动.  简而言之, 我们有时会使用
+#                        我们的模型来选择动作, 有时我们仅均匀采样.  选择随机动作的
+#                        概率大小将从 “EPS_START” 开始, 并沿着到 “EPS_END” 的方向
+#                        呈指数衰减.  ``EPS_DECAY`` 控制衰减速度. 
+# -  ``plot_durations`` - 一个协助绘制动态帧持续时间的函数, 以及过去100动态帧（官方
+#                         评估中使用的测量方法）的平均值.  绘制的图像将会显示在包含
+#                         主要训练循环的单元代码块下面, 并且在每节动态帧之后更新. 
 #
 
 BATCH_SIZE = 128
@@ -361,17 +326,15 @@ def plot_durations():
 
 
 ######################################################################
-# Training loop
+# 训练循环 
 # ^^^^^^^^^^^^^
 #
-# Finally, the code for training our model.
+# 最终用于训练模型的代码
 #
-# Here, you can find an ``optimize_model`` function that performs a
-# single step of the optimization. It first samples a batch, concatenates
-# all the tensors into a single one, computes :math:`Q(s_t, a_t)` and
-# :math:`V(s_{t+1}) = \max_a Q(s_{t+1}, a)`, and combines them into our
-# loss. By defition we set :math:`V(s) = 0` if :math:`s` is a terminal
-# state.
+# 在下面代码中有一个 ``optimize_model`` 函数, 它用于实现优化过程的其中一步. 它首先
+# 取出一个批次的样本, 然后将所有的张量全部合并到一个中, 并计算 :math:`Q(s_t, a_t)` 
+# 和 :math:`V(s_{t+1}) = \max_a Q(s_{t+1}, a)`, 最终将这些结果全都融入到loss中去. 
+# 假如 :math:`s` 是一个终止状态, 则 :math:`V(s) = 0`. 
 
 
 last_sync = 0
@@ -382,17 +345,15 @@ def optimize_model():
     if len(memory) < BATCH_SIZE:
         return
     transitions = memory.sample(BATCH_SIZE)
-    # Transpose the batch (see http://stackoverflow.com/a/19343/3343043 for
-    # detailed explanation).
+    # 将betch转置 (详见 http://stackoverflow.com/a/19343/3343043).
     batch = Transition(*zip(*transitions))
 
-    # Compute a mask of non-final states and concatenate the batch elements
+    # 计算非最终状态的掩码并连接批处理元素s
     non_final_mask = ByteTensor(tuple(map(lambda s: s is not None,
                                           batch.next_state)))
 
-    # We don't want to backprop through the expected action values and volatile
-    # will save us on temporarily changing the model parameters'
-    # requires_grad to False!
+    # 我们不想通过预期的动作值反向传播, volatile 变量会临时将模型参数
+    # 'requires_grad' 更改为False！
     non_final_next_states = Variable(torch.cat([s for s in batch.next_state
                                                 if s is not None]),
                                      volatile=True)
@@ -400,24 +361,22 @@ def optimize_model():
     action_batch = Variable(torch.cat(batch.action))
     reward_batch = Variable(torch.cat(batch.reward))
 
-    # Compute Q(s_t, a) - the model computes Q(s_t), then we select the
-    # columns of actions taken
+    # 计算 Q(s_t, a) - 模型计算出 Q(s_t), 然后我们选择某一栏动作执行
     state_action_values = model(state_batch).gather(1, action_batch)
 
-    # Compute V(s_{t+1}) for all next states.
+    # 对所有下一状态计算出 V(s_{t+1})
     next_state_values = Variable(torch.zeros(BATCH_SIZE).type(Tensor))
     next_state_values[non_final_mask] = model(non_final_next_states).max(1)[0]
-    # Now, we don't want to mess up the loss with a volatile flag, so let's
-    # clear it. After this, we'll just end up with a Variable that has
-    # requires_grad=False
+    # 此时我们不想让 volatile flag 混乱了我们的loss, 因此我们将其置为False
+    # 在此之后, 我们将会直接丢弃满足该变量, 并设 requires_grad=False
     next_state_values.volatile = False
-    # Compute the expected Q values
+    # 计算 Q 的期望值
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
 
-    # Compute Huber loss
+    # 计算 Huber 损失
     loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
 
-    # Optimize the model
+    # 优化模型
     optimizer.zero_grad()
     loss.backward()
     for param in model.parameters():
@@ -426,15 +385,12 @@ def optimize_model():
 
 ######################################################################
 #
-# Below, you can find the main training loop. At the beginning we reset
-# the environment and initialize the ``state`` variable. Then, we sample
-# an action, execute it, observe the next screen and the reward (always
-# 1), and optimize our model once. When the episode ends (our model
-# fails), we restart the loop.
+# 下面代码中包含主要的训练循环. 首先, 我们重新设置环境, 并实例化 ``state`` 变量. 
+# 然后, 我们对动作取样并执行, 观察下一屏幕图并得到回馈因子 (通常为1), 同时优化一次模型. 
+# 当动态帧结束时 (即我们的模型fail了), 开始新一轮的循环. 
 #
-# Below, `num_episodes` is set small. You should download
-# the notebook and run lot more epsiodes.
-
+# 下面的 `num_episodes` 变量设置的很小. 你可以把这个 notebook 下载下来然后运行更多帧. 
+                                
 num_episodes = 10
 for i_episode in range(num_episodes):
     # Initialize the environment and state
@@ -448,7 +404,7 @@ for i_episode in range(num_episodes):
         _, reward, done, _ = env.step(action[0, 0])
         reward = Tensor([reward])
 
-        # Observe new state
+        # 观察记录新状态
         last_screen = current_screen
         current_screen = get_screen()
         if not done:
@@ -456,13 +412,13 @@ for i_episode in range(num_episodes):
         else:
             next_state = None
 
-        # Store the transition in memory
+        # 将变化过程存到内存中
         memory.push(state, action, next_state, reward)
 
-        # Move to the next state
+        # 转移到下一状态
         state = next_state
 
-        # Perform one step of the optimization (on the target network)
+        # 对目标神经网络执行一步优化
         optimize_model()
         if done:
             episode_durations.append(t + 1)
