@@ -2,7 +2,7 @@ r"""
 该 ``distributions`` 统计分布包中含有可自定义参数的概率分布和采样函数.
 
 当概率密度函数对其参数可微时, 可以使用
-:math:`~torch.distributions.Distribution.log_prob` 方法来实施梯度方法 Policy Gradient.
+:meth:`~torch.distributions.Distribution.log_prob` 方法来实施梯度方法 Policy Gradient.
 它的一个基本方法是REINFORCE规则:
 
 .. math::
