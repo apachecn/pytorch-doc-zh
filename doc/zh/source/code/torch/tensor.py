@@ -59,7 +59,7 @@ class _TensorBase(object):
         return self.type(type(self).__module__ + '.ShortTensor')
 
     def char(self):
-        """Casts this tensor to char type"""
+        """将这个 tensor 转换为 char 类型"""
         return self.type(type(self).__module__ + '.CharTensor')
 
     def byte(self):
