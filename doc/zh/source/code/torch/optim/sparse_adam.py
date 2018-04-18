@@ -9,10 +9,10 @@ class SparseAdam(Optimizer):
     在这个变化下,只将显示出来的梯度进行更新存储并且只将这部分梯度应用到参数中.
 
     参数:
-        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
-        lr (float, optional): 学习率 (default: 1e-3)
-        betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
-        eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
+    *    params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+    *    lr (float, optional): 学习率 (default: 1e-3)
+    *    betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
+    *    eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
 
     .. _Adam\: 一种随机优化的方法:
         https://arxiv.org/abs/1412.6980
