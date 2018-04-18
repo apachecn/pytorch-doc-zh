@@ -8,12 +8,12 @@ class SGD(Optimizer):
     Nesterov 动量基于 `On the importance of initialization and momentum in deep learning`__ 中的公式.
 
     参数:
-        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
-        lr (float): 学习率
-        momentum (float, optional): 动量因子 (默认值: 0)
-        weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
-        dampening (float, optional): 动量的抑制因子 (默认值: 0)
-        nesterov (bool, optional): 使用 Nesterov 动量 (默认值: False)
+    *    params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+    *    lr (float): 学习率
+    *    momentum (float, optional): 动量因子 (默认值: 0)
+    *    weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+    *    dampening (float, optional): 动量的抑制因子 (默认值: 0)
+    *    nesterov (bool, optional): 使用 Nesterov 动量 (默认值: False)
 
     Example:
         >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)

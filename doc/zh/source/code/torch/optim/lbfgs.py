@@ -17,12 +17,12 @@ class LBFGS(Optimizer):
         如果它不适应内存, 尝试减小历史规格, 或者使用不同的算法.
 
     参数:
-        lr (float): 学习率 (默认值: 1)
-        max_iter (int): 每一步优化的最大迭代次数 (默认值: 20)
-        max_eval (int): 每一步优化的最大函数评估次数 (默认值: max_iter * 1.25).
-        tolerance_grad (float): 一阶最优的终止容忍度 (默认值: 1e-5).
-        tolerance_change (float): 在函数值/参数变化量上的终止容忍度 (默认值: 1e-9).
-        history_size (int): 更新历史尺寸 (默认值: 100).
+    *    lr (float): 学习率 (默认值: 1)
+    *    max_iter (int): 每一步优化的最大迭代次数 (默认值: 20)
+    *    max_eval (int): 每一步优化的最大函数评估次数 (默认值: max_iter * 1.25).
+    *    tolerance_grad (float): 一阶最优的终止容忍度 (默认值: 1e-5).
+    *    tolerance_change (float): 在函数值/参数变化量上的终止容忍度 (默认值: 1e-9).
+    *    history_size (int): 更新历史尺寸 (默认值: 100).
     """
 
     def __init__(self, params, lr=1, max_iter=20, max_eval=None,

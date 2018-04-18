@@ -9,10 +9,10 @@ class Adagrad(Optimizer):
     and Stochastic Optimization`_ 中被提出. 
 
     参数:
-        params (iterable): 迭代的优化参数或者以字典的形式定义参数组
-        lr (float, optional): 学习率 (默认值: 1e-2)
-        lr_decay (float, optional): 学习率衰减 (默认值: 0)
-        weight_decay (float, optional): 权重衰减 (L2正则化) (默认值: 0)
+    *    params (iterable): 迭代的优化参数或者以字典的形式定义参数组
+    *    lr (float, optional): 学习率 (默认值: 1e-2)
+    *    lr_decay (float, optional): 学习率衰减 (默认值: 0)
+    *    weight_decay (float, optional): 权重衰减 (L2正则化) (默认值: 0)
 
     .. _Adaptive Subgradient Methods for Online Learning and Stochastic
         Optimization: http://jmlr.org/papers/v12/duchi11a.html

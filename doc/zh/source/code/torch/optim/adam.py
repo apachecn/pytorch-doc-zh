@@ -9,11 +9,11 @@ class Adam(Optimizer):
     它在 `Adam: A Method for Stochastic Optimization`_ 中被提出.
 
     参数:
-        params (iterable): 迭代的优化参数或者以字典的形式定义参数组.
-        lr (float, optional): 学习率 (默认值: 1e-3)
-        betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
-        eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
-        weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+    *    params (iterable): 迭代的优化参数或者以字典的形式定义参数组.
+    *    lr (float, optional): 学习率 (默认值: 1e-3)
+    *    betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
+    *    eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
+    *    weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
 
     .. _Adam\: A Method for Stochastic Optimization:
         https://arxiv.org/abs/1412.6980
