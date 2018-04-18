@@ -4,8 +4,8 @@ torch.multiprocessing 是本地 :mod:`multiprocessing` 多进程处理模块的�
 一旦 tensor/storage（张量/存储）移动到共享内存 (请参阅 :func:`~torch.Tensor.share_memory_`),
 就可以将其发送到其他进程而不做任何复制.
 
-该 API 与原始模块 100% 兼容 - 只需将 ``import multiprocessing`` 更改为 `import torch.multiprocessing``
-就可以将所有张量通过队列发送, 或通过其它机制共享, 移动到共享内存.
+该 API 与原始模块 100% 兼容 - 只需将 ``import multiprocessing`` 更改为 ``import torch.multiprocessing`` 就
+可以将所有张量通过队列发送, 或通过其它机制共享, 移动到共享内存.
 
 由于 API 的相似性, 我们没有记录大部分这个包的内容, 我们参考引用原始模块中非常优秀的文档.
 """

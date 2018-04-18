@@ -12,8 +12,8 @@ class Optimizer(object):
     """优化器的基类.
 
     参数:
-        params (iterable): :class:`Variable 或 :class:`dict 的迭代，指定了应该优化哪些参数。
-        defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
+    *    params (iterable): :class:`Variable 或 :class:`dict 的迭代, 指定了应该优化哪些参数. 
+    *    defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
     """
 
     def __init__(self, params, defaults):
@@ -50,7 +50,7 @@ class Optimizer(object):
 
         它包含两部分内容:
 
-        * state - 一个包含当前优化状态的字典（dict），字典里的内容因优化器的不同而变换.
+        * state - 一个包含当前优化状态的字典（dict）, 字典里的内容因优化器的不同而变换.
         * param_groups - 一个包含所有参数组的字典（dict）.
         """
         # Save ids instead of Variables
@@ -71,7 +71,7 @@ class Optimizer(object):
         """加载优化器状态.
 
         参数:
-            state_dict (dict): 优化器状态。是调用 :meth:`state_dict` 时所返回的对象.
+            state_dict (dict): 优化器状态. 是调用 :meth:`state_dict` 时所返回的对象.
         """
         # deepcopy, to be consistent with module API
         state_dict = deepcopy(state_dict)
@@ -125,7 +125,7 @@ class Optimizer(object):
     def add_param_group(self, param_group):
         """增加一组参数到 :class:`Optimizer` 的 `param_groups` 里面.
 
-        当微调一个预训练好的网络作为冻结层时是有用的，它能够使用可训练的和可增加的参数到 :class:`Optimizer` 作为一个训练预处理.
+        当微调一个预训练好的网络作为冻结层时是有用的, 它能够使用可训练的和可增加的参数到 :class:`Optimizer` 作为一个训练预处理.
 
         参数:
             param_group (dict): 指定这一组中具有特殊优化选项的那些 Variables 能够被优化.

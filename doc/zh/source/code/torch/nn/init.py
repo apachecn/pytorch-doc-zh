@@ -282,7 +282,7 @@ def kaiming_normal(tensor, a=0, mode='fan_in'):
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
-        a: 在该层之后使用的 rectifier（整流器）的负斜率（默认情况下，ReLU 为 0）
+        a: 在该层之后使用的 rectifier（整流器）的负斜率（默认情况下, ReLU 为 0）
         mode: 'fan_in' (default) 或 'fan_out' 其中的一个.
             选择 `fan_in` 保留 forward pass（前向传递）中权重方差的量级.
             选择 `fan_out` 来保存 backwards pass（反向传递）的量级.

@@ -124,36 +124,32 @@ Example::
 
 """)
 
-add_docstr(torch._C.addbmm,
+add_docstr(torch._C.addbmm, 
            """
 addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) -> Tensor
 
-Performs a batch matrix-matrix product of matrices stored
-in :attr:`batch1` and :attr:`batch2`,
-with a reduced add step (all matrix multiplications get accumulated
-along the first dimension).
-:attr:`mat` is added to the final result.
+执行保存在 :attr:`batch1` 和 :attr:`batch2` 中的矩阵的批量点乘, 
+伴随着一个减少的相加步骤 (所有的矩阵乘法沿第一维累加).
+:attr:`mat` 被相加到最终的结果中.
 
-:attr:`batch1` and :attr:`batch2` must be 3D Tensors each containing the
-same number of matrices.
+:attr:`batch1` 和 :attr:`batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-If :attr:`batch1` is a `b x n x m` Tensor, :attr:`batch2` is a `b x m x p`
-Tensor, ::attr:`mat` must be :ref:`broadcastable <broadcasting-semantics>`
-with a `n x p` Tensor and attr:`out` will be a `n x p` Tensor.
+如果 :attr:`batch1` 是一个 `b x n x m` 的张量, :attr:`batch2` 是一个 `b x m x p`的张量,
+那么 ::attr:`mat` 必须是 :ref:`broadcastable <broadcasting-semantics>` 且是一个 `n x p` 的张量,
+同时 attr:`out` 将是一个 `n x p` 的张量.
 
-In other words,
-:math:`res = (beta * M) + (alpha * sum(batch1_i @ batch2_i, i = 0, b))`
+换句话说, :math:`res = (beta * M) + (alpha * sum(batch1_i @ batch2_i, i = 0, b))`
 
-For inputs of type `FloatTensor` or `DoubleTensor`, args `beta` and `alpha`
-must be real numbers, otherwise they should be integers.
+对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha`
+必须是实数, 否则他们应该是整数.
 
 Args:
-    beta (Number, optional): multiplier for :attr:`mat`
-    mat (Tensor): matrix to be added
-    alpha (Number, optional): multiplier for `batch1 @ batch2`
-    batch1 (Tensor): First batch of matrices to be multiplied
-    batch2 (Tensor): Second batch of matrices to be multiplied
-    out (Tensor, optional): Output tensor
+    beta (Number, optional): 作用于 :attr:`mat` 的乘子 (系数)
+    mat (Tensor): 要被相加的矩阵
+    alpha (Number, optional): 作用于 `batch1 @ batch2` 的乘子
+    batch1 (Tensor): 要相乘的第一批矩阵
+    batch2 (Tensor): 要相乘的第二批矩阵
+    out (Tensor, optional): 输出的张量结果
 
 Example::
 
@@ -198,7 +194,7 @@ Example::
     [torch.FloatTensor of size 2x3]
 """)
 
-add_docstr(torch._C.addcmul,
+add_docstr(torch._C.addcmul,  # TODO:From here
            """
 addcmul(tensor, value=1, tensor1, tensor2, out=None) -> Tensor
 
@@ -231,28 +227,25 @@ add_docstr(torch._C.addmm,
            """
 addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) -> Tensor
 
-Performs a matrix multiplication of the matrices :attr:`mat1` and :attr:`mat2`.
-The matrix :attr:`mat` is added to the final result.
+执行矩阵 :attr:`mat1` 和 :attr:`mat2` 的相乘.
+矩阵 :attr:`mat` 将与相乘的最终计算结果相加.
 
-If :attr:`mat1` is a `n x m` Tensor, :attr:`mat2` is a `m x p` Tensor,
-then :attr:`mat` must be :ref:`broadcastable <broadcasting-semantics>` with
-a `n x p` Tensor and :attr:`out` will be a `n x p` Tensor.
+如果 :attr:`mat1` 是一个 `n x m` 的张量, :attr:`mat2` 是一个 `m x p`的张量,
+那么 ::attr:`mat` 必须是 :ref:`broadcastable <broadcasting-semantics>` 且是一个 `n x p` 的张量,
+同时 attr:`out` 将是一个 `n x p` 的张量.
 
-`alpha` and `beta` are scaling factors on `mat1 @ mat2` and `mat` respectively.
+换句话说, :math:`out = (beta * M) + (alpha * mat1 @ mat2)`
 
-In other words,
-:math:`out = (beta * M) + (alpha * mat1 @ mat2)`
-
-For inputs of type `FloatTensor` or `DoubleTensor`, args :attr:`beta` and
-:attr:`alpha` must be real numbers, otherwise they should be integers.
+对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha`
+必须是实数, 否则他们应该是整数.
 
 Args:
-    beta (Number, optional): multiplier for :attr:`mat`
-    mat (Tensor): matrix to be added
-    alpha (Number, optional): multiplier for `mat1 @ mat2`
-    mat1 (Tensor): First matrix to be multiplied
-    mat2 (Tensor): Second matrix to be multiplied
-    out (Tensor, optional): Output tensor
+    beta (Number, optional): 作用于:attr:`mat`的乘子
+    mat (Tensor): 要被相加的矩阵
+    alpha (Number, optional): 作用于`mat1 @ mat2`的乘子
+    mat1 (Tensor): 要相乘的第一个矩阵
+    mat2 (Tensor): 要相乘的第二个矩阵
+    out (Tensor, optional): 输出结果
 
 Example::
 
@@ -270,30 +263,27 @@ add_docstr(torch._C.addmv,
            """
 addmv(beta=1, tensor, alpha=1, mat, vec, out=None) -> Tensor
 
-Performs a matrix-vector product of the matrix :attr:`mat` and
-the vector :attr:`vec`.
-The vector :attr:`tensor` is added to the final result.
+执行矩阵 :attr:`mat` 和向量 :attr:`vec` 的相乘.
+矩阵 :attr:`tensor` 将与相乘的最终计算结果相加.
 
-If :attr:`mat` is a `n x m` Tensor, :attr:`vec` is a 1D Tensor of size `m`,
-then :attr:`tensor` must be :ref:`broadcastable <broadcasting-semantics>`
-with a 1D tensor of size `n` and :attr:`out` will be 1D tensor of size `n`.
+如果 :attr:`mat` 是一个 `n x m` 的张量, :attr:`vec` 是一个长度为 `m` 的一维张量,
+那么 ::attr:`tensor` 必须是 :ref:`broadcastable <broadcasting-semantics>` 且是一个长度为 `n` 的一维张量,
+同时 attr:`out` 将是一个长度为 `n` 的一维张量.
 
-`alpha` and `beta` are scaling factors on `mat * vec` and `tensor` respectively.
+`alpha` 和 `beta` 分别是 `mat * vec` 和 `tensor` 的缩放因子.
 
-In other words:
+换句话说, :math:`out = (beta * tensor) + (alpha * (mat @ vec2))`
 
-:math:`out = (beta * tensor) + (alpha * (mat @ vec2))`
-
-For inputs of type `FloatTensor` or `DoubleTensor`, args :attr:`beta` and
-:attr:`alpha` must be real numbers, otherwise they should be integers
+对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha`
+必须是实数, 否则他们应该是整数.
 
 Args:
-    beta (Number, optional): multiplier for :attr:`tensor`
-    tensor (Tensor): vector to be added
-    alpha (Number, optional): multiplier for `mat @ vec`
-    mat (Tensor): matrix to be multiplied
-    vec (Tensor): vector to be multiplied
-    out (Tensor, optional): Output tensor
+    beta (Number, optional): 作用于 :attr:`tensor` 的乘子
+    tensor (Tensor): 要被相加的向量
+    alpha (Number, optional): 作用于 `mat @ vec` 的乘子
+    mat (Tensor): 要被相乘的矩阵
+    vec (Tensor): 要被要乘的向量
+    out (Tensor, optional): 输出结果
 
 Example::
 
@@ -311,31 +301,26 @@ add_docstr(torch._C.addr,
            r"""
 addr(beta=1, mat, alpha=1, vec1, vec2, out=None) -> Tensor
 
-Performs the outer-product of vectors :attr:`vec1` and :attr:`vec2`
-and adds it to the matrix :attr:`mat`.
+执行向量:attr:`vec1` 和 :attr:`vec2` 的外积, 并把外积计算结果与矩阵 :attr:`mat` 相加.
 
-Optional values :attr:`beta` and :attr:`alpha` are scalars that multiply
-:attr:`mat` and :math:`(vec1 \otimes vec2)` respectively
+可选值 :attr:`beta` 和 :attr:`alpha` 是标量, 分别与 :attr:`mat` 和 :math:`(vec1 \otimes vec2)` 相乘.
 
-In other words,
-:math:`out = (beta * mat) + (alpha * vec1 \otimes vec2)`
+换句话说, :math:`out = (beta * mat) + (alpha * vec1 \otimes vec2)`
 
-If :attr:`vec1` is a vector of size `n` and :attr:`vec2` is a vector
-of size `m`, then :attr:`mat` must be
-:ref:`broadcastable <broadcasting-semantics>` with a matrix of size `n x m`
-and :attr:`out` will be a matrix of size `n x m`.
+如果 :attr:`vec1` 是一个长度为 `n` 的向量, :attr:`vec2` 是一个长度为 `m` 的向量, 那么 :attr:`mat` 必须是
+:ref:`broadcastable <broadcasting-semantics>` 且是一个大小为 `n x m` 的矩阵, 
+同时 :attr:`out` 将是一个大小为 `n x m` 的矩阵.
 
-For inputs of type `FloatTensor` or `DoubleTensor`, args :attr:`beta` and
-:attr:`alpha` must be real numbers, otherwise they should be integers
+对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha`
+必须是实数, 否则他们应该是整数.
 
 Args:
-    beta (Number, optional): Multiplier for :attr:`mat`
-    mat (Tensor): Matrix to be added
-    alpha (Number, optional): Multiplier for outer product of
-           for :attr:`vec1` and :attr:`vec2`
-    vec1 (Tensor): First vector of the outer product
-    vec2 (Tensor): Second vector of the outer product
-    out (Tensor, optional): Output tensor
+    beta (Number, optional): 作用于 :attr:`mat` 的乘子
+    mat (Tensor): 要被相加的矩阵
+    alpha (Number, optional): 作用于 :attr:`vec1` 和 :attr:`vec2` 外积计算结果的乘子
+    vec1 (Tensor): 外积计算的第一个向量
+    vec2 (Tensor): 外积计算的第二个向量
+    out (Tensor, optional): 输出结果
 
 Example::
 
@@ -441,30 +426,27 @@ add_docstr(torch._C.baddbmm,
            r"""
 baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) -> Tensor
 
-Performs a batch matrix-matrix product of matrices in :attr:`batch1`
-and :attr:`batch2`.
-:attr:`mat` is added to the final result.
+执行保存在 :attr:`batch1` 和 :attr:`batch2` 中的矩阵的批量点乘.
+:attr:`mat` 被相加到最终的结果中.
 
-:attr:`batch1` and :attr:`batch2` must be 3D Tensors each containing the same
-number of matrices.
+:attr:`batch1` 和 :attr:`batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-If :attr:`batch1` is a `b x n x m` Tensor, :attr:`batch2` is a `b x m x p`
-Tensor, then :attr:`mat` must be :ref:`broadcastable <broadcasting-semantics>`
-with a `b x n x p` Tensor and :attr:`out` will be a `b x n x p` Tensor.
+如果 :attr:`batch1` 是一个 `b x n x m` 的张量, :attr:`batch2` 是一个 `b x m x p`的张量,
+那么 ::attr:`mat` 必须是 :ref:`broadcastable <broadcasting-semantics>` 且是一个 `b x n x p` 的张量,
+同时 attr:`out` 将是一个 `b x n x p` 的张量.
 
-In other words,
-:math:`res_i = (beta * M_i) + (alpha * batch1_i \times batch2_i)`
+换句话说, :math:`res_i = (beta * M_i) + (alpha * batch1_i \times batch2_i)`
 
-For inputs of type `FloatTensor` or `DoubleTensor`, args :attr:`beta` and
-:attr:`alpha` must be real numbers, otherwise they should be integers.
+对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha`
+必须是实数, 否则他们应该是整数.
 
 Args:
-    beta (Number, optional): multiplier for :attr:`mat`
-    mat (Tensor): tensor to be added
-    alpha (Number, optional): multiplier for `batch1 @ batch2`
-    batch1 (Tensor): First batch of matrices to be multiplied
-    batch2 (Tensor): Second batch of matrices to be multiplied
-    out (Tensor, optional): Output tensor
+    beta (Number, optional): 作用于 :attr:`mat` 的乘子 (系数)
+    mat (Tensor): 要被相加的张量
+    alpha (Number, optional): 作用于 `batch1 @ batch2` 的乘子
+    batch1 (Tensor): 要相乘的第一批矩阵
+    batch2 (Tensor): 要相乘的第二批矩阵
+    out (Tensor, optional): 输出的张量结果
 
 Example::
 
@@ -532,22 +514,20 @@ add_docstr(torch._C.bmm,
            """
 bmm(batch1, batch2, out=None) -> Tensor
 
-Performs a batch matrix-matrix product of matrices stored in :attr:`batch1`
-and :attr:`batch2`.
+执行保存在 :attr:`batch1` 和 :attr:`batch2` 中的矩阵的批量点乘.
 
-:attr:`batch1` and :attr:`batch2` must be 3D Tensors each containing
-the same number of matrices.
+:attr:`batch1` 和 :attr:`batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-If :attr:`batch1` is a `b x n x m` Tensor, :attr:`batch2` is a `b x m x p`
-Tensor, :attr:`out` will be a `b x n x p` Tensor.
+如果 :attr:`batch1` 是一个 `b x n x m` 的张量, :attr:`batch2` 是一个 `b x m x p`
+的张量, :attr:`out` 将是一个 `b x n x p` 的张量.
 
-.. note:: This function does not :ref:`broadcast <broadcasting-semantics>`.
-          For broadcasting matrix products, see :func:`torch.matmul`.
+.. note:: 这个函数不能参考 :ref:`broadcast <broadcasting-semantics>`.
+          对于广播矩阵相乘, 参见 :func:`torch.matmul`.
 
 Args:
-    batch1 (Tensor): First batch of matrices to be multiplied
-    batch2 (Tensor): Second batch of matrices to be multiplied
-    out (Tensor, optional): Output tensor
+    batch1 (Tensor): 要相乘的第一批矩阵
+    batch2 (Tensor): 要相乘的第二批矩阵
+    out (Tensor, optional): 输出结果
 
 Example::
 
@@ -563,7 +543,7 @@ add_docstr(torch._C.cat,
 cat(seq, dim=0, out=None) -> Tensor
 
 在给定维度上对输入的张量序列 :attr:`seq` 进行连接操作.
-所有张量必须具有相同的形状(在 :attr:`cat` 维度中除外) 或为空。
+所有张量必须具有相同的形状(在 :attr:`cat` 维度中除外) 或为空. 
 
 :func:`torch.cat` 可以看做是 :func:`torch.split` 和 :func:`torch.chunk` 的逆操作.
 
@@ -880,9 +860,9 @@ add_docstr(torch._C.cumprod,
            """
 cumprod(input, dim, out=None) -> Tensor
 
-返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积积。
+返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积积. 
 
-例如，如果 :attr:`input` 是一个N元张量, 结果也是一个N元张量, 元素为:
+例如, 如果 :attr:`input` 是一个N元张量, 结果也是一个N元张量, 元素为:
  :math:`y_i = x_1 * x_2 * x_3 * ... * x_i`
 
 Args:
@@ -942,9 +922,9 @@ add_docstr(torch._C.cumsum,
            """
 cumsum(input, dim, out=None) -> Tensor
 
-返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积和。
+返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积和. 
 
-例如，如果 :attr:`input` 是一个N元张量, 结果将也是一个N元张量, 元素为:
+例如, 如果 :attr:`input` 是一个N元张量, 结果将也是一个N元张量, 元素为:
  :math:`y_i = x_1 + x_2 + x_3 + ... + x_i`
 
 Args:
@@ -1191,9 +1171,9 @@ add_docstr(torch._C.dot,
            """
 dot(tensor1, tensor2) -> float
 
-Computes the dot product (inner product) of two tensors.
+计算两个张量的点乘 (内积).
 
-.. note:: This function does not :ref:`broadcast <broadcasting-semantics>`.
+.. note:: 这个函数不支持 :ref:`broadcast <broadcasting-semantics>`.
 
 Example::
 
@@ -1205,21 +1185,20 @@ add_docstr(torch._C.eig,
            """
 eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 
-Computes the eigenvalues and eigenvectors of a real square matrix.
+计算实数方阵的特征值和特征向量.
 
 Args:
-    a (Tensor): A square matrix for which the eigenvalues and eigenvectors will
-                be computed
-    eigenvectors (bool): ``True`` to compute both eigenvalues and eigenvectors.
-                         Otherwise, only eigenvalues will be computed.
-    out (tuple, optional): Output tensors
+    a (Tensor): 一个要被计算特征值与特征向量的方阵
+    eigenvectors (bool): 若为 ``True``, 表示特征值与特征向量都被计算.
+                         否则, 仅计算特征值.
+    out (tuple, optional): 输出张量
 
 Returns:
-    (Tensor, Tensor): tuple containing
+    返回一个元组, (Tensor, Tensor): 包含
 
-        - **e** (*Tensor*): the right eigenvalues of ``a``
-        - **v** (*Tensor*): the eigenvectors of ``a`` if ``eigenvectors``
-                            is ``True``; otherwise an empty tensor
+        - **e** (*Tensor*): ``a`` 的左特征值
+        - **v** (*Tensor*): 如果 ``eigenvectors`` 为 ``True``, 表示 ``a`` 的特征向量;
+                            否则是一个空的张量
 """)
 
 add_docstr(torch._C.eq,
@@ -1250,7 +1229,7 @@ add_docstr(torch._C.equal,
            """
 equal(tensor1, tensor2) -> bool
 
-如果两个张量有相同的形状和元素值, 则返回 ``True`` ，否则 ``False`` .
+如果两个张量有相同的形状和元素值, 则返回 ``True`` , 否则 ``False`` .
 
 例子::
 
@@ -1298,7 +1277,7 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-返回对角线位置全为1，其它位置全为0的二维 tensor.
+返回对角线位置全为1, 其它位置全为0的二维 tensor.
 
 Args:
     n (int): 行数
@@ -1306,7 +1285,7 @@ Args:
     out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: 一个对角线位置全为1，其它位置全为0的二维 tensor.
+    Tensor: 一个对角线位置全为1, 其它位置全为0的二维 tensor.
 
 Example::
 
@@ -1395,9 +1374,9 @@ from_numpy(ndarray) -> Tensor
 
 从 :class:`numpy.ndarray` 类 创建一个 :class:`Tensor` 类.
 
-返回 tensor 和 `ndarray` 共享相同的内存。 
-对 tensor 的修改将反映在 `ndarray` 中，反之亦然。 
-返回 tensor 不可调整大小。
+返回 tensor 和 `ndarray` 共享相同的内存.  
+对 tensor 的修改将反映在 `ndarray` 中, 反之亦然.  
+返回 tensor 不可调整大小. 
 
 Example::
 
@@ -1637,7 +1616,7 @@ add_docstr(torch._C.gt,
            """
 gt(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **input>other** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input>other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False``. 
 
 第二个参数可以为一个数或形状可 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.
 
@@ -1790,9 +1769,9 @@ kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回一个元组 `(values,indices)` ,其中 ``indices`` 是原始输入张量 ``input`` 中沿 ``dim`` 维的第 ``k`` 个最小值下标.
 
-如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 大小相同，
-除了在所有值都为1的 :attr:`dim` 维度上。如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩。
-(参见 :func:`torch.squeeze` )，使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度。
+如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 大小相同, 
+除了在所有值都为1的 :attr:`dim` 维度上. 如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩. 
+(参见 :func:`torch.squeeze` ), 使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度. 
 
 Args:
     input (Tensor): 输入 `Tensor` 
@@ -1844,7 +1823,7 @@ add_docstr(torch._C.le,
            """
 le(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **input<=other** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input<=other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False`` .
 
 第二个参数可以为一个数或形状可 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
 
@@ -1855,8 +1834,6 @@ Args：
 
 Returns：
     张量: 一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input <= other ). 
-
-
 
 Example::
 
@@ -2069,7 +2046,7 @@ add_docstr(torch._C.lt,
            """
 lt(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **input<other** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` . 
+逐元素比较 ``input`` 和 ``other`` , 即是否 **input<other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False`` . 
 
 第二个参数可以为一个数或形状可 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
 
@@ -2201,16 +2178,16 @@ Example::
 
 .. function:: max(input, other, out=None) -> Tensor
 
- 输入 :attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较，留下较大的元素 `max`。
+ 输入 :attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较, 留下较大的元素 `max`. 
 
 要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必大小一致,
 但它们一定要能 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
+.. 注意:: 当他们尺寸不同时, 输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
  :math:`out_i = max(tensor_i, other_i)`
 
-参数：
+参数: 
     input (Tensor): 要比较张量 `Tensor`
     other (Tensor): 比较张量 `Tensor`
     out (Tensor, optional): 输出张量 `Tensor`
@@ -2268,7 +2245,7 @@ Example::
 
 .. function:: mean(input, dim, keepdim=False, out=None) -> Tensor
 
-返回张量 :attr:`input` 在给定维度 :attr:`dim` 上每行的均值。
+返回张量 :attr:`input` 在给定维度 :attr:`dim` 上每行的均值. 
 
 如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除了维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
@@ -2448,7 +2425,7 @@ Example::
 要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
 但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
+.. 注意:: 当他们尺寸不同时, 输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
  :math:`out_i = min(tensor_i, other_i)`
 
@@ -2520,9 +2497,9 @@ mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTe
 
 返回输入张量 :attr:`input` 在给定维数 :attr:`dim` 下每行元素的众数值. 同时也返回众数值的索引 `LongTensor`.
 
-维度 :attr:`dim` 的缺省值是输入张量 :attr:`input` 的最后一维。.
+维度 :attr:`dim` 的缺省值是输入张量 :attr:`input` 的最后一维. .
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除了维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 .. note:: 这个函数至今没有为 ``torch.cuda.Tensor`` 定义.
@@ -2723,7 +2700,7 @@ add_docstr(torch._C.ne,
            """
 ne(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **tensor != other** 如果两个张量有相同的形状和元素值，则返回 ``True`` , 否则 ``False`` .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **tensor != other** 如果两个张量有相同的形状和元素值, 则返回 ``True`` , 否则 ``False`` .
 
 第二个参数可以为一个数或形状广播 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量. 
 
@@ -2732,12 +2709,12 @@ Args：
     other (Tensor or float): 对比的张量或 ``float`` 值
     out (Tensor, optional): 输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.  
 
-Example：
+Returns：
     张量: 一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果 (是否 input != other ) .  
     
 返回类型: ``Tensor``
 
-例子::
+Example::
 
     >>> torch.ne(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
      0  1
@@ -2842,7 +2819,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的p-范数.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除非维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -3011,7 +2988,7 @@ add_docstr(torch._C.ones_like,
            """
 ones_like(input, out=None) -> Tensor
 
-返回一个用标量值 `1` 填充的张量，大小与 :attr:`input` 相同.
+返回一个用标量值 `1` 填充的张量, 大小与 :attr:`input` 相同.
 
 Args:
     input (Tensor): 输入的大小将决定输出的大小.
@@ -3308,7 +3285,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的积.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除了维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -3533,11 +3510,11 @@ add_docstr(torch._C.range,
            """
 range(start, end, step=1, out=None) -> Tensor
 
-返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内，大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
+返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内, 大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
  :attr:`step` 是 tensor 中两个值之间的差距. :math:`x_{i+1} = x_i + step`
 
 Warning:
-    此功能已被弃用，以支持 :func:`torch.arange`.
+    此功能已被弃用, 以支持 :func:`torch.arange`.
 
 Args:
     start (float): 点集合的起始值
@@ -3572,7 +3549,7 @@ add_docstr(torch._C.arange,
            """
 arange(start=0, end, step=1, out=None) -> Tensor
 
-从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
+从 `start` 用步长为 :attr:`step` 开始,  间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
 
 Args:
     start (float): 点集合的起始值
@@ -3869,7 +3846,7 @@ sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 如果指定参数 :attr:`descending` 为 ``True`` , 则按降序排序. 
 
 
-返回元组 (sorted_tensor, sorted_indices) ， sorted_indices 为原始输入中的下标。
+返回元组 (sorted_tensor, sorted_indices) ,  sorted_indices 为原始输入中的下标. 
 
 Args:
     input (Tensor): 要对比的张量
@@ -4714,7 +4691,7 @@ add_docstr(torch._C.zeros_like,
            """
 zeros_like(input, out=None) -> Tensor
 
-返回一个用标量值 `0` 填充的 Tensor，其大小与 :attr:`input` 相同.
+返回一个用标量值 `0` 填充的 Tensor, 其大小与 :attr:`input` 相同.
 
 Args:
     input (Tensor): 输入的大小将决定输出的大小.
@@ -4734,17 +4711,15 @@ add_docstr(torch._C.btrifact,
            """
 btrifact(A, info=None, pivot=True) -> Tensor, IntTensor
 
-Batch LU factorization.
+批量 LU 分解.
 
-Returns a tuple containing the LU factorization and pivots.
-The optional argument `info` provides information if the
-factorization succeeded for each minibatch example.
-The info values are from dgetrf and a non-zero value indicates an error
-occurred. The specific values are from cublas if cuda is being used, otherwise
-LAPACK. Pivoting is done if pivot is set.
+返回一个包含 LU 分解和枢轴的元组.
+对于每个 minibatch 示例, 如果分解成功, 可选参数 `info` 将提供分解信息.
+`info` 的值来自 dgetrf, 若是非零值, 则表示有错误发生.
+如果 cuda 被使用的话, 具体的值来自 cublas, 否则来自 LAPACK. 如果设置了 pivot, 那么旋转操作将被执行.
 
 Arguments:
-    A (Tensor): tensor to factor.
+    A (Tensor): 要分解的张量.
 
 Example::
 
@@ -4758,9 +4733,9 @@ add_docstr(torch._C.btrisolve,
            """
 btrisolve(b, LU_data, LU_pivots) -> Tensor
 
-Batch LU solve.
+批量 LU 解.
 
-Returns the LU solve of the linear system Ax = b.
+返回线性系统 Ax = b 的 LU 解.
 
 Arguments:
     b (Tensor): RHS tensor.

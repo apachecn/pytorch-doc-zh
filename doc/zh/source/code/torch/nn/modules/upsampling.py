@@ -23,7 +23,7 @@ class Upsample(Module):
     Shape:
         - 输入: :math:`(N, C, W_{in})`, :math:`(N, C, H_{in}, W_{in})` 或 :math:`(N, C, D_{in}, H_{in}, W_{in})`
         - 输出: :math:`(N, C, W_{out})`, :math:`(N, C, H_{out}, W_{out})`
-          或 :math:`(N, C, D_{out}, H_{out}, W_{out})` 其中：
+          或 :math:`(N, C, D_{out}, H_{out}, W_{out})` 其中: 
           :math:`D_{out} = floor(D_{in} * scale\_factor)` 或 `size[-3]`
           :math:`H_{out} = floor(H_{in} * scale\_factor)` 或 `size[-2]`
           :math:`W_{out} = floor(W_{in}  * scale\_factor)` 或 `size[-1]`
@@ -88,7 +88,7 @@ class Upsample(Module):
 class UpsamplingNearest2d(Upsample):
     r"""对多个输入通道组成的输入信号进行2维最近邻上采样. 
 
-    为了指定采样范围, 提供了:attr:`size` 或 :attr:`scale_factor` 作为构造参数. 
+    为了指定采样范围, 提供了 :attr:`size` 或 :attr:`scale_factor` 作为构造参数. 
 
     当给定 `size`, 输出图像的大小为 (h, w). 
 
@@ -133,7 +133,7 @@ class UpsamplingNearest2d(Upsample):
 class UpsamplingBilinear2d(Upsample):
     r"""对多个输入通道组成的输入信号进行2维双线性上采样. 
 
-    为了指定采样范围, 提供了:attr:`size` 或 :attr:`scale_factor` 作为构造参数. 
+    为了指定采样范围, 提供了 :attr:`size` 或 :attr:`scale_factor` 作为构造参数. 
 
     当给定 `size`, 输出图像的大小为 (h, w). 
 
