@@ -9,7 +9,7 @@ __all__ = [
 
 
 def split(tensor, split_size, dim=0):
-    """将输入张量分割成相等 size 的 chunks（如果可分）. 
+    """将输入张量分割成相等 size 的 chunks (如果可分). 
     
     如果沿指定维的张量形状大小不能被 ``split_size`` 整分, 则最后一个分块会小于其它分块.
 
@@ -67,7 +67,7 @@ def stack(sequence, dim=0, out=None):
 def unbind(tensor, dim=0):
     """移除一个张量的维度.
     
-    移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片（已经没有了移除的维度）.
+    移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片 (已经没有了移除的维度).
 
     Arguments:
         tensor (Tensor): 要执行 unbind 的张量/输入张量.
