@@ -24,7 +24,7 @@ class TensorDataset(Dataset):
 
     通过沿着第一个维度索引两个张量来恢复每个样本.
 
-    参数:
+    Args:
         data_tensor (Tensor): 包含样本数据.
         target_tensor (Tensor): 包含样本目标 (标签).
     """
@@ -47,7 +47,7 @@ class ConcatDataset(Dataset):
     目的: 对于组装不同的现有数据集非常有帮助, 可能是
     大规模的数据集, 因为串联操作是以即时方式完成的.
 
-    参数:
+    Args:
         datasets (iterable): 需要连结的数据集列表
     """
 

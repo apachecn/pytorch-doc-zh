@@ -244,7 +244,7 @@ class ContentLoss(nn.Module):
         # 我们会从所使用的树中“分离”目标内容
         self.target = target.detach() * weight
         # 动态地计算梯度: 它是个状态值, 不是变量.
-        # 否则评价指标的前向方法会抛出错误。
+        # 否则评价指标的前向方法会抛出错误. 
         self.weight = weight
         self.criterion = nn.MSELoss()
 
