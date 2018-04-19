@@ -5,6 +5,7 @@ Warm-up: numpy
 
 A fully-connected ReLU network with one hidden layer and no biases, trained to
 predict y from x using Euclidean error.
+隐藏层
 
 This implementation uses numpy to manually compute the forward pass, loss, and
 backward pass.
