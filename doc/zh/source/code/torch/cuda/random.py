@@ -85,7 +85,7 @@ def seed():
     如果 CUDA 不可用,则调用此函数是安全的. 在那种情况下,会被忽略.
 
     .. warning::
-        如果您正在使用多 GPU 模型，则此功能不足以获得确定性.  
+        如果您正在使用多 GPU 模型, 则此功能不足以获得确定性.  
         seef作用于所有 GPUs , 使用 :func:`seed_all`.
     """
     _lazy_call(lambda: _C._cuda_seed())
