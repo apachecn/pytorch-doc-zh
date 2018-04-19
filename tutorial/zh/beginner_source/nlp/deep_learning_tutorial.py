@@ -61,11 +61,11 @@ print(lin(data))  # 是的
 # 如果我们在affine层之间引入non-linearities,则不再是这种情况,我们可以构建更强大的模型.
 #
 # 接下来有一些重要的non-linearities.
-# :math:`\tanh(x), \sigma(x), \text{ReLU}(x)` 是最常见的. 你可能想知道：“为什么这些函数？我可以想到很多其他的non-linearities. ”其原因是他们的梯度是很容易计算的,并且计算梯度对学习是必不可少的. 例如
+# :math:`\tanh(x), \sigma(x), \text{ReLU}(x)` 是最常见的. 你可能想知道: “为什么这些函数？我可以想到很多其他的non-linearities. ”其原因是他们的梯度是很容易计算的,并且计算梯度对学习是必不可少的. 例如
 #
 # .. math::  \frac{d\sigma}{dx} = \sigma(x)(1 - \sigma(x))
 #
-# 一个简单的提示：虽然你可能已经在入门AI中学习到了一些神经网络,其中 :math:`\sigma(x) 是默认的non-linearity，但通常人们在实践中会避免它.这是因为随着参数绝对值的增长, 梯度会很快 *消失*. 小梯度意味着很难学习. 大多数人默认tanh或ReLU.
+# 一个简单的提示: 虽然你可能已经在入门AI中学习到了一些神经网络,其中 :math:`\sigma(x) 是默认的non-linearity，但通常人们在实践中会避免它.这是因为随着参数绝对值的增长, 梯度会很快 *消失*. 小梯度意味着很难学习. 大多数人默认tanh或ReLU.
 #
 
 # 在pytorch中,很多的non-linearities是在torch中.是功能性的 (我们将它记为 F)
@@ -111,7 +111,7 @@ print(F.log_softmax(data, dim=0))  # 他也是 log_softmax
 # Optimization and Training(优化和训练)
 # =========================
 #
-# 那么我们可以计算一个实例的损失函数? 我们该怎么做? 我们之前看到autograd. 变量知道如何计算与计算梯度有关的事物. 那么, 因为我们的损失是一个autograd. 对于Variable, 我们可以对所有用于计算的参数计算梯度！然后我们可以执行标准渐变更新.令 :math:`\theta` 是我们的参数，:math:`L(\theta)` 损失函数，以及 :math:`\eta` 是一个正的的学习率. 然后：
+# 那么我们可以计算一个实例的损失函数? 我们该怎么做? 我们之前看到autograd. 变量知道如何计算与计算梯度有关的事物. 那么, 因为我们的损失是一个autograd. 对于Variable, 我们可以对所有用于计算的参数计算梯度！然后我们可以执行标准渐变更新.令 :math:`\theta` 是我们的参数，:math:`L(\theta)` 损失函数，以及 :math:`\eta` 是一个正的的学习率. 然后: 
 #
 # .. math::  \theta^{(t+1)} = \theta^{(t)} - \eta \nabla_\theta L(\theta)
 #

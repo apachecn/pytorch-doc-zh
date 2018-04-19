@@ -91,7 +91,7 @@ class Conv1d(_ConvNd):
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
 
-    参数:
+    Args:
         - in_channels (int):  输入信号的通道数.
         - out_channels (int): 卷积后输出结果的通道数.
         - kernel_size (int or tuple): 卷积核的形状.
@@ -101,12 +101,12 @@ class Conv1d(_ConvNd):
         - groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
         - bias (bool, optional): 为 ``True`` 时,  添加偏置.
 
-    形状:
+    Shape:
         - 输入 Input: :math:`(N, C_{in}, L_{in})`
         - 输出 Output: :math:`(N, C_{out}, L_{out})` 其中 
           :math:`L_{out} = floor((L_{in}  + 2 * padding - dilation * (kernel\_size - 1) - 1) / stride + 1)`
 
-    模型的属性:
+    Attributes:
         weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size)
         bias (Tensor): 偏置, 是模型需要学习的变量, 形状为
@@ -172,7 +172,7 @@ class Conv2d(_ConvNd):
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
         
-    参数:
+    Args:
         - in_channels (int): 输入信号的通道数. 
         - out_channels (int): 卷积后输出结果的通道数. 
         - kernel_size (int or tuple): 卷积核的形状. 
@@ -182,13 +182,13 @@ class Conv2d(_ConvNd):
         - groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
         - bias (bool, optional): 为 ``True`` 时,  添加偏置. 
 
-    形状:
+    Shape:
         - 输入 Input: :math:`(N, C_{in}, H_{in}, W_{in})`
         - 输出 Output: :math:`(N, C_{out}, H_{out}, W_{out})` 其中
           :math:`H_{out} = floor((H_{in}  + 2 * padding[0] - dilation[0] * (kernel\_size[0] - 1) - 1) / stride[0] + 1)`
           :math:`W_{out} = floor((W_{in}  + 2 * padding[1] - dilation[1] * (kernel\_size[1] - 1) - 1) / stride[1] + 1)`
 
-    模型的属性:
+    Attributes:
         weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size[0], kernel_size[1])
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
@@ -260,7 +260,7 @@ class Conv3d(_ConvNd):
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
            
-    参数:
+    Args:
         - in_channels (int): 输入信号的通道数. 
         - out_channels (int): 卷积后输出结果的通道数. 
         - kernel_size (int or tuple): 卷积核的形状. 
@@ -270,14 +270,14 @@ class Conv3d(_ConvNd):
         - groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
         - bias (bool, optional): 为 ``True`` 时,  添加偏置. 
         
-    形状:
+    Shape:
         - 输入 Input: :math:`(N, C_{in}, D_{in}, H_{in}, W_{in})`
         - 输出 Output: :math:`(N, C_{out}, D_{out}, H_{out}, W_{out})` 其中
           :math:`D_{out} = floor((D_{in}  + 2 * padding[0] - dilation[0] * (kernel\_size[0] - 1) - 1) / stride[0] + 1)`
           :math:`H_{out} = floor((H_{in}  + 2 * padding[1] - dilation[1] * (kernel\_size[1] - 1) - 1) / stride[1] + 1)`
           :math:`W_{out} = floor((W_{in}  + 2 * padding[2] - dilation[2] * (kernel\_size[2] - 1) - 1) / stride[2] + 1)`
 
-    模型的属性:
+    Attributes:
         weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
             (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2])
         bias (Tensor): 偏置, 是模型需要学习的变量, 形状为 (out_channels)
@@ -375,7 +375,7 @@ class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
         整除的时候, 适当的 padding 可以避免这个问题）. 
         
 
-    参数:
+    Args:
         - in_channels (int): 输入信号的通道数. 
         - out_channels (int): 卷积后输出结果的通道数. 
         - kernel_size (int or tuple): 卷积核的形状. 
@@ -387,15 +387,13 @@ class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
         - groups (int, optional): 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接). 
         - bias (bool, optional): 为 ``True`` 时,  添加偏置. 
         - dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
-        
-    
 
-    形状:
+    Shape:
         - 输入 Input: :math:`(N, C_{in}, L_{in})`
         - 输出 Output: :math:`(N, C_{out}, L_{out})` 其中
           :math:`L_{out} = (L_{in} - 1) * stride - 2 * padding + kernel\_size + output\_padding`
 
-    模型的属性:
+    Attributes:
         weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
                          (in_channels, out_channels, kernel_size[0], kernel_size[1])
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
@@ -444,7 +442,7 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）.  
 
-    参数:
+    Args:
         - in_channels (int): 输入信号的通道数. 
         - out_channels (int): 卷积后输出结果的通道数. 
         - kernel_size (int or tuple): 卷积核的形状. 
@@ -457,13 +455,13 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
         - bias (bool, optional): 为 ``True`` 时,  添加偏置. 
         - dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
     
-    形状:
+    Shape:
         - 输入 Input: :math:`(N, C_{in}, H_{in}, W_{in})`
         - 输出 Output: :math:`(N, C_{out}, H_{out}, W_{out})` 其中
           :math:`H_{out} = (H_{in} - 1) * stride[0] - 2 * padding[0] + kernel\_size[0] + output\_padding[0]`
           :math:`W_{out} = (W_{in} - 1) * stride[1] - 2 * padding[1] + kernel\_size[1] + output\_padding[1]`
 
-    模型的属性:
+    Attributes:
         weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
                          (in_channels, out_channels, kernel_size[0], kernel_size[1])
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)
@@ -537,7 +535,7 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
 
-    参数:
+    Args:
         - in_channels (int): 输入信号的通道数. 
         - out_channels (int): 卷积后输出结果的通道数. 
         - kernel_size (int or tuple): 卷积核的形状. 
@@ -550,14 +548,14 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
         - bias (bool, optional): 为 ``True`` 时,  添加偏置. 
         - dilation (int or tuple, optional): 采样间隔数量, 默认为1, 无间隔采样. 
 
-    形状:
+    Shape:
         - 输入 Input: :math:`(N, C_{in}, D_{in}, H_{in}, W_{in})`
         - 输出 Output: :math:`(N, C_{out}, D_{out}, H_{out}, W_{out})` 其中
           :math:`D_{out} = (D_{in} - 1) * stride[0] - 2 * padding[0] + kernel\_size[0] + output\_padding[0]`
           :math:`H_{out} = (H_{in} - 1) * stride[1] - 2 * padding[1] + kernel\_size[1] + output\_padding[1]`
           :math:`W_{out} = (W_{in} - 1) * stride[2] - 2 * padding[2] + kernel\_size[2] + output\_padding[2]`
 
-    模型的属性:
+    Attributes:
         卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为
                          (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2])
         bias (Tensor):   偏置, 是模型需要学习的变量, 形状为 (out_channels)

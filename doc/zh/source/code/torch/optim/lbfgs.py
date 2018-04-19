@@ -16,7 +16,7 @@ class LBFGS(Optimizer):
         这是一个内存高度密集的 optimizer (它要求额外的 ``param_bytes * (history_size + 1)`` 个字节). 
         如果它不适应内存, 尝试减小历史规格, 或者使用不同的算法.
 
-    参数:
+    Args:
     *    lr (float): 学习率 (默认值: 1)
     *    max_iter (int): 每一步优化的最大迭代次数 (默认值: 20)
     *    max_eval (int): 每一步优化的最大函数评估次数 (默认值: max_iter * 1.25).
@@ -71,7 +71,7 @@ class LBFGS(Optimizer):
     def step(self, closure):
         """进行单步优化.
 
-        参数:
+        Args:
             closure (callable): 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
         """
         assert len(self.param_groups) == 1

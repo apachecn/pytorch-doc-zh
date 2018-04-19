@@ -8,7 +8,7 @@ class Adagrad(Optimizer):
     它在 `Adaptive Subgradient Methods for Online Learning
     and Stochastic Optimization`_ 中被提出. 
 
-    参数:
+    Args:
     *    params (iterable): 迭代的优化参数或者以字典的形式定义参数组
     *    lr (float, optional): 学习率 (默认值: 1e-2)
     *    lr_decay (float, optional): 学习率衰减 (默认值: 0)
@@ -37,7 +37,7 @@ class Adagrad(Optimizer):
     def step(self, closure=None):
         """进行单步优化. 
 
-        参数:
+        Args:
             closure (callable, optional): 一个重新评价模型并返回误差的闭包.
         """
         loss = None

@@ -6,7 +6,7 @@ from .optimizer import Optimizer
 class Rprop(Optimizer):
     """实现弹性反向传播算法.
 
-    参数:
+    Args:
     *    params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
     *    lr (float, optional): 学习率 (默认值: 1e-2)
     *    etas (Tuple[float, float], optional): 一对 (etaminus, etaplis), t它们分别是乘法
@@ -21,7 +21,7 @@ class Rprop(Optimizer):
     def step(self, closure=None):
         """进行单步优化.
 
-        参数:
+        Args:
             closure (callable, optional): 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
         """
         loss = None

@@ -12,10 +12,10 @@ class PixelShuffle(Module):
     `Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network`_
     Shi et. al (2016) . 
 
-    参数:
+    Args:
         upscale_factor (int): 增加空间分辨率的因子
 
-    形状:
+    Shape:
         - 输入: :math:`(N, C * {upscale\_factor}^2, H, W)`
         - 输出: :math:`(N, C, H * {upscale\_factor}, W * {upscale\_factor})`
 
