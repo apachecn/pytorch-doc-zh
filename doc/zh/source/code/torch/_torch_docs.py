@@ -1448,10 +1448,9 @@ add_docstr(torch._C.gels,
            r"""
 gels(B, A, out=None) -> Tensor
 
-Computes the solution to the least squares and least norm problems for a full
-rank :math:`m` by :math:`n` matrix :math:`A`.
+计算秩为 :math:`m` 的， 大小为 m x n 的矩阵 :math:`A` 最小二乘和最小范数问题的解
 
-If :math:`m >= n`, :func:`gels` solves the least-squares problem:
+如果 :math:`m >= n`, :func:`gels` 求解最小二乘问题:
 
 .. math::
 
@@ -1459,7 +1458,7 @@ If :math:`m >= n`, :func:`gels` solves the least-squares problem:
    \mbox{minimize} & \|AX-B\|_F.
    \end{array}
 
-If :math:`m < n`, :func:`gels` solves the least-norm problem:
+如果 :math:`m < n`, :func:`gels` 求解最小范数问题:
 
 .. math::
 
@@ -1467,10 +1466,8 @@ If :math:`m < n`, :func:`gels` solves the least-norm problem:
    \mbox{minimize} & \|X\|_F & \mbox{subject to} & AX = B.
    \end{array}
 
-The first :math:`n` rows of the returned matrix :math:`X` contains the
-solution. The remaining rows contain residual information: the euclidean norm
-of each column starting at row :math:`n` is the residual for the corresponding
-column.
+返回的矩阵 :math:`X` 的头 :math:`n` 行包含解信息. 其余行包含剩余信息: 
+从第 :math:`n` 行开始的每列的 euclidean 范数, 是对应列的剩余.
 
 Args:
     B (Tensor): The matrix :math:`B`
@@ -1480,14 +1477,12 @@ Args:
 Returns:
     (Tensor, Tensor): tuple containing:
 
-        - **X** (*Tensor*): the least squares solution
-        - **qr** (*Tensor*): the details of the QR factorization
+        - **X** (*Tensor*): 最小二乘解
+        - **qr** (*Tensor*): QR 分解的详细信息
 
 .. note::
 
-    The returned matrices will always be transposed, irrespective of the strides
-    of the input matrices. That is, they will have stride `(1, m)` instead of
-    `(m, 1)`.
+    不管输入矩阵的步长如何, 返回来的矩阵将总是被转置. 也就是, 他们的步长是 `(1, m)` 而不是 `(m, 1)`.
 
 Example::
 
