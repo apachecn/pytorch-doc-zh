@@ -34,7 +34,7 @@ class _LRScheduler(object):
 class LambdaLR(_LRScheduler):
     """将每个参数组的学习速率设置为给定函数的初始LR. 当 last_epoch=-1, 设置出事的 lr 作为 lr.
 
-    参数:
+    Args:
     *    optimizer (Optimizer): 封装好的优化器.
     *    lr_lambda (function or list): 计算给定整数参数历元的乘法因子的函数, 或者一系列的此类函数, 每组的一个都在 optimizer.param_groups 中.
     *    last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
@@ -69,7 +69,7 @@ class LambdaLR(_LRScheduler):
 class StepLR(_LRScheduler):
     """通过 gamma 在每一个 epoch 里面的 step_size 设置每个参数组的初始学习率衰减变量. 当 last_epoch=-1, 设置初始 lr 为 lr.
 
-    参数:
+    Args:
     *    optimizer (Optimizer): 封装好的优化器.
     *    step_size (int): 学习率衰减周期.
     *    gamma (float): 学习率衰减的乘法因子. 默认值: 0.1.
@@ -157,7 +157,7 @@ class ReduceLROnPlateau(object):
      这个调度程序读取一个指标质量 以及看到 'patience' 的数量在一个 epoch 里面如果没有提升, 
      这时学习率已经减小.
 
-    参数:
+    Args:
     *    optimizer (Optimizer): 封装好的优化器.
         mode (str): `min`, `max` 其中一个. 在 `min` 模块下,当质量监测已经
         停止下降时 lr 将被减少; 在 `max` 模块下 当质量监测已经停止上升时 lr 将

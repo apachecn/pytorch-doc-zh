@@ -8,7 +8,7 @@ class ASGD(Optimizer):
 
     它在 `Acceleration of stochastic approximation by averaging`_ 中被提出
 
-    参数:
+    Args:
     *    params (iterable): 迭代的优化参数或者以字典的形式定义参数组
     *    lr (float, optional): 学习率 (默认值: 1e-2)
     *    lambd (float, optional): 衰减期 (默认值: 1e-4)
@@ -28,7 +28,7 @@ class ASGD(Optimizer):
     def step(self, closure=None):
         """进行单步优化. 
 
-        参数:
+        Args:
             closure (callable, optional): 一个重新评价模型并返回误差的闭包.
         """
         loss = None

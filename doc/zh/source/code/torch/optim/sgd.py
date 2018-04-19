@@ -7,7 +7,7 @@ class SGD(Optimizer):
 
     Nesterov 动量基于 `On the importance of initialization and momentum in deep learning`__ 中的公式.
 
-    参数:
+    Args:
     *    params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
     *    lr (float): 学习率
     *    momentum (float, optional): 动量因子 (默认值: 0)
@@ -58,7 +58,7 @@ class SGD(Optimizer):
     def step(self, closure=None):
         """进行单步优化.
 
-        参数:
+        Args:
             closure (callable, optional): 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
         """
         loss = None
