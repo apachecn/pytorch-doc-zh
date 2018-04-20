@@ -1448,10 +1448,9 @@ add_docstr(torch._C.gels,
            r"""
 gels(B, A, out=None) -> Tensor
 
-Computes the solution to the least squares and least norm problems for a full
-rank :math:`m` by :math:`n` matrix :math:`A`.
+计算秩为 :math:`m` 的， 大小为 m x n 的矩阵 :math:`A` 最小二乘和最小范数问题的解
 
-If :math:`m >= n`, :func:`gels` solves the least-squares problem:
+如果 :math:`m >= n`, :func:`gels` 求解最小二乘问题:
 
 .. math::
 
@@ -1459,7 +1458,7 @@ If :math:`m >= n`, :func:`gels` solves the least-squares problem:
    \mbox{minimize} & \|AX-B\|_F.
    \end{array}
 
-If :math:`m < n`, :func:`gels` solves the least-norm problem:
+如果 :math:`m < n`, :func:`gels` 求解最小范数问题:
 
 .. math::
 
@@ -1467,10 +1466,8 @@ If :math:`m < n`, :func:`gels` solves the least-norm problem:
    \mbox{minimize} & \|X\|_F & \mbox{subject to} & AX = B.
    \end{array}
 
-The first :math:`n` rows of the returned matrix :math:`X` contains the
-solution. The remaining rows contain residual information: the euclidean norm
-of each column starting at row :math:`n` is the residual for the corresponding
-column.
+返回的矩阵 :math:`X` 的头 :math:`n` 行包含解信息. 其余行包含剩余信息: 
+从第 :math:`n` 行开始的每列的 euclidean 范数, 是对应列的剩余.
 
 Args:
     B (Tensor): The matrix :math:`B`
@@ -1480,14 +1477,12 @@ Args:
 Returns:
     (Tensor, Tensor): tuple containing:
 
-        - **X** (*Tensor*): the least squares solution
-        - **qr** (*Tensor*): the details of the QR factorization
+        - **X** (*Tensor*): 最小二乘解
+        - **qr** (*Tensor*): QR 分解的详细信息
 
 .. note::
 
-    The returned matrices will always be transposed, irrespective of the strides
-    of the input matrices. That is, they will have stride `(1, m)` instead of
-    `(m, 1)`.
+    不管输入矩阵的步长如何, 返回来的矩阵将总是被转置. 也就是, 他们的步长是 `(1, m)` 而不是 `(m, 1)`.
 
 Example::
 
@@ -1514,17 +1509,15 @@ add_docstr(torch._C.geqrf,
            r"""
 geqrf(input, out=None) -> (Tensor, Tensor)
 
-This is a low-level function for calling LAPACK directly.
+这是直接调用 LAPACK 的低层函数.
 
-You'll generally want to use :func:`torch.qr` instead.
+通常您应该使用 :func:`torch.qr` 来代替之.
 
-Computes a QR decomposition of :attr:`input`, but without constructing
-`Q` and `R` as explicit separate matrices.
+计算 :attr:`input` 的 QR 分解, 但不构造 `Q` 和 `R` 作为显示分开的矩阵.
 
-Rather, this directly calls the underlying LAPACK function `?geqrf`
-which produces a sequence of 'elementary reflectors'.
+然而, 这样直接调用 LAPACK 的底层函数 `?geqrf`, 会产生一连串的 'elementary reflectors'.
 
-See `LAPACK documentation`_ for further details.
+更多信息请参见 `LAPACK documentation`_ .
 
 Args:
     input (Tensor): the input matrix
@@ -1539,11 +1532,11 @@ add_docstr(torch._C.ger,
            """
 ger(vec1, vec2, out=None) -> Tensor
 
-Outer product of :attr:`vec1` and :attr:`vec2`.
-If :attr:`vec1` is a vector of size `n` and :attr:`vec2` is a vector of
-size `m`, then :attr:`out` must be a matrix of size `n x m`.
+计算 :attr:`vec1` 和 :attr:`vec2` 的外积.
+如果 :attr:`vec1` 是一个长度为 `n` 的向量, :attr:`vec2` 是一个长度为 `m` 的向量, 
+那么 :attr:`out` 必须是一个 `n x m` 的矩阵.
 
-.. note:: This function does not :ref:`broadcast <broadcasting-semantics>`.
+.. note:: 这个函数不支持 :ref:`broadcast <broadcasting-semantics>`.
 
 Args:
     vec1 (Tensor): 1D input vector
@@ -1568,15 +1561,14 @@ add_docstr(torch._C.gesv,
            """
 gesv(B, A, out=None) -> (Tensor, Tensor)
 
-`X, LU = torch.gesv(B, A)` returns the solution to the system of linear
-equations represented by :math:`AX = B`
+`X, LU = torch.gesv(B, A)` , 该函数返回线性系统 :math:`AX = B` 的解.
 
-`LU` contains `L` and `U` factors for LU factorization of `A`.
+`LU` 包含 `A` 的 LU 分解因子 `L` 和 `U`.
 
-:attr:`A` has to be a square and non-singular matrix (2D Tensor).
+:attr:`A` 必须是方阵, 且是非奇异的 (2维可逆张量).
 
-If `A` is an `m x m` matrix and `B` is `m x k`,
-the result `LU` is `m x m` and `X` is `m x k` .
+如果 `A` 是一个 `m x m` 矩阵, `B` 是一个 `m x k` 的矩阵,
+那么结果 `LU` 的大小为 `m x m`,  `X` 的大小为 `m x k` .
 
 .. note::
 
@@ -1711,7 +1703,7 @@ add_docstr(torch._C.inverse,
            """
 inverse(input, out=None) -> Tensor
 
-Takes the inverse of the square matrix :attr:`input`.
+计算方阵 :attr:`input` 的逆.
 
 .. note::
 
@@ -2468,13 +2460,13 @@ add_docstr(torch._C.mm,
            """
 mm(mat1, mat2, out=None) -> Tensor
 
-Performs a matrix multiplication of the matrices :attr:`mat1` and :attr:`mat2`.
+执行 :attr:`mat1` 和 :attr:`mat2` 的矩阵乘法.
 
-If :attr:`mat1` is a `n x m` Tensor, :attr:`mat2` is a `m x p` Tensor,
-:attr:`out` will be a `n x p` Tensor.
+如果 :attr:`mat1` 是一个 `n x m` 张量, :attr:`mat2` 是一个 `m x p` 张量,
+:attr:`out` 将是一个 `n x p` 张量.
 
-.. note:: This function does not :ref:`broadcast <broadcasting-semantics>`.
-          For broadcasting matrix products, see :func:`torch.matmul`.
+.. note:: 这个函数不支持 :ref:`broadcast <broadcasting-semantics>`.
+          要使用支持广播矩阵乘法, 参见 :func:`torch.matmul`.
 
 Args:
     mat1 (Tensor): First matrix to be multiplied
@@ -2673,13 +2665,12 @@ add_docstr(torch._C.mv,
            """
 mv(mat, vec, out=None) -> Tensor
 
-Performs a matrix-vector product of the matrix :attr:`mat` and the vector
-:attr:`vec`.
+执行矩阵 :attr:`mat` 与向量 :attr:`vec` 的乘法操作.
 
-If :attr:`mat` is a `n x m` Tensor, :attr:`vec` is a 1D Tensor of size `m`,
-:attr:`out` will be 1D of size `n`.
+如果 :attr:`mat` 是一个 `n x m` 张量, :attr:`vec` 是一个大小为 `m` 的一维张量,
+:attr:`out` 将是一个大小为 `n` 的张量.
 
-.. note:: This function does not :ref:`broadcast <broadcasting-semantics>`.
+.. note:: 这个函数不支持 :ref:`broadcast <broadcasting-semantics>`.
 
 Args:
     mat (Tensor): matrix to be multiplied
@@ -3018,12 +3009,9 @@ add_docstr(torch._C.potrf,
 potrf(a, out=None)
 potrf(a, upper, out=None)
 
-Computes the Cholesky decomposition of a positive semidefinite
-matrix :attr:`a`: returns matrix `u`
-If `upper` is ``True`` or not provided, `u` is upper triangular
-such that :math:`a = u^T u`.
-If `upper` is ``False``, `u` is lower triangular
-such that :math:`a = u u^T`.
+计算半正定矩阵 :attr:`a`: 的 Cholesky 分解. 返回结果 `u`, 若 `upper` 设为 ``True`` 或未提供时,
+`u` 是一个上三角矩阵, 使得 :math:`a = u^T u` 成立; 若 `upper` 设为 ``False``, `u` 是一个下三角矩阵,
+使得 :math:`a = u u^T` 成立.
 
 Args:
     a (Tensor): the input 2D `Tensor`, a symmetric positive semidefinite matrix
@@ -3063,12 +3051,9 @@ add_docstr(torch._C.potri,
 potri(u, out=None)
 potri(u, upper, out=None)
 
-Computes the inverse of a positive semidefinite matrix given its
-Cholesky factor :attr:`u`: returns matrix `inv`
-If `upper` is ``True`` or not provided, `u` is upper triangular
-such that :math:`inv = (u^T u)^{-1}`.
-If `upper` is ``False``, `u` is lower triangular
-such that :math:`inv = (u u^T)^{-1}`.
+给定一个半正定矩阵的 Cholesky 分解因子 :attr:`u`, 计算该半正定矩阵的逆.
+返回矩阵 `inv`, 若 `upper` 设为 ``True`` 或为提供, `u` 是一个上三角矩阵, 使得 :math:`inv = (u^T u)^{-1}` 成立;
+若 `upper` 设为 ``False``, `u` 是一个下三角矩阵, 使得 :math:`inv = (u u^T)^{-1}` 成立.
 
 Args:
     u (Tensor): the input 2D `Tensor`, a upper or lower triangular
@@ -3372,18 +3357,14 @@ add_docstr(torch._C.qr,
            """
 qr(input, out=None) -> (Tensor, Tensor)
 
-Computes the QR decomposition of a matrix :attr:`input`: returns matrices
-`q` and `r` such that :math:`x = q * r`, with `q` being an orthogonal matrix
-and `r` being an upper triangular matrix.
+计算矩阵 :attr:`input` 的 QR 分解. 返回矩阵 `q` 和 `r` 使得 :math:`x = q * r`, 且 `q` 是一个
+正交矩阵, `r` 是一个上三角矩阵.
 
 This returns the thin (reduced) QR factorization.
 
-.. note:: precision may be lost if the magnitudes of the elements of `input`
-          are large
+.. note:: 如果矩阵 `input` 中的元素太大, 那么精度可能会丢失.
 
-.. note:: while it should always give you a valid decomposition, it may not
-          give you the same one across platforms - it will depend on your
-          LAPACK implementation.
+.. note:: 尽管该函数总是能给您一个有效的分解, 但在不同平台上结果可能不同 - 取决于该平台上 LAPACK 的实现.
 
 .. note:: Irrespective of the original strides, the returned matrix `q` will be
           transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
@@ -4075,17 +4056,16 @@ add_docstr(torch._C.svd,
            """
 svd(input, some=True, out=None) -> (Tensor, Tensor, Tensor)
 
-`U, S, V = torch.svd(A)` returns the singular value decomposition of a
-real matrix `A` of size `(n x m)` such that :math:`A = USV'*`.
+`U, S, V = torch.svd(A)` 返回大小为 `(n x m)` 的实矩阵 `A` 的奇异值分解, 使得 :math:`A = USV'*`.
 
-`U` is of shape `n x n`
+`U` 的大小为 `n x n`
 
-`S` is of shape `n x m`
+`S` 的大小为`n x m`
 
-`V` is of shape `m x m`.
+`V` 的大小为 `m x m`.
 
-:attr:`some` represents the number of singular values to be computed.
-If `some=True`, it computes some and `some=False` computes all.
+:attr:`some` 表示将被计算的奇异值的总数.
+如果 `some=True`, 它将计算指定的 some 数量个奇异值, 如果 `some=False`, 则计算所有奇异值.
 
 .. note:: Irrespective of the original strides, the returned matrix `U`
           will be transposed, i.e. with strides `(1, n)` instead of `(n, 1)`.
@@ -4150,24 +4130,20 @@ add_docstr(torch._C.symeig,
            """
 symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor)
 
-`e, V = torch.symeig(input)` returns eigenvalues and eigenvectors
-of a symmetric real matrix :attr:`input`.
+`e, V = torch.symeig(input)` 返回实对称矩阵 :attr:`input` 的特征值和特征向量.
 
-`input` and `V` are `m x m` matrices and `e` is a `m` dimensional vector.
+`input` 和 `V` 是 `m x m` 矩阵, `e` 是一个 `m` 维的向量.
 
-This function calculates all eigenvalues (and vectors) of `input`
-such that `input = V diag(e) V'`
+这个函数计算矩阵 `input` 的所有特征值 (和向量), 使得 `input = V diag(e) V'`.
 
-The boolean argument :attr:`eigenvectors` defines computation of
-eigenvectors or eigenvalues only.
+布尔参数 :attr:`eigenvectors` 定义了是否计算特征向量.
+如果它为 ``False``, 那么只有特征值会被计算. 如果它为 ``True``,
+特征值和特征向量都会被计算.
 
-If it is ``False``, only eigenvalues are computed. If it is ``True``,
-both eigenvalues and eigenvectors are computed.
+由于输入矩阵 `input` 被假定是对称的,
+因此默认地只有它的上三角部分会被使用.
 
-Since the input matrix `input` is supposed to be symmetric,
-only the upper triangular portion is used by default.
-
-If :attr:`upper` is ``False``, then lower triangular portion is used.
+如果 :attr:`upper` 是 ``False``, 那么它的下三角部分会被使用.
 
 Note: Irrespective of the original strides, the returned matrix `V` will
 be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
