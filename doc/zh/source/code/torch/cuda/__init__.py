@@ -348,7 +348,7 @@ if not hasattr(torch._C, 'CudaDoubleStorageBase'):
 @staticmethod
 def _lazy_new(cls, *args, **kwargs):
     _lazy_init()
-    #我们只需要这个方法的惰性init(lazy init),所以我们可以删除它。
+    #我们只需要这个方法的惰性init(lazy init),所以我们可以删除它.
     del _CudaBase.__new__
     return super(_CudaBase, cls).__new__(cls, *args, **kwargs)
 

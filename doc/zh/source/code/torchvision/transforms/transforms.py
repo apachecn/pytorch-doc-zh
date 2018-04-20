@@ -44,7 +44,7 @@ class Compose(object):
 
 
 class ToTensor(object):
-    """转换一个 ``PIL Image`` 或 ``numpy.ndarray`` 为 tensor（张量）.
+    """转换一个 ``PIL Image`` 或 ``numpy.ndarray`` 为 tensor(张量).
 
     将范围 [0, 255] 中的 PIL Image 或 numpy.ndarray (H x W x C) 转换为
     (C x H x W) 这样范围为 [0.0, 1.0] 的形状的 torch.FloatTensor.
@@ -119,12 +119,12 @@ class Normalize(object):
 
 
 class Resize(object):
-    """调整输入的 PIL Image 尺寸为给定的 size（尺寸）.
+    """调整输入的 PIL Image 尺寸为给定的 size(尺寸).
 
     Args:
-        size (sequence or int): 期望输出的尺寸. 如果 size（尺寸）是一个像
-            (h, w) 这样的序列, 则 output size（输出尺寸）将于此匹配.
-            如果 size（尺寸）是一个 int 类型的数字,
+        size (sequence or int): 期望输出的尺寸. 如果 size(尺寸)是一个像
+            (h, w) 这样的序列, 则 output size(输出尺寸)将于此匹配.
+            如果 size(尺寸)是一个 int 类型的数字,
             图像较小的边缘将被匹配到该数字.
             例如, 如果 height > width, 那么图像将会被重新缩放到
             (size * height / width, size)
@@ -162,7 +162,7 @@ class CenterCrop(object):
     """在中心裁剪指定的 PIL Image.
 
     Args:
-        size (sequence or int): 期望裁剪的输出尺寸. 如果 size（尺寸）是 ``int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+        size (sequence or int): 期望裁剪的输出尺寸. 如果 size(尺寸)是 ``int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
     """
 
     def __init__(self, size):
@@ -232,7 +232,7 @@ class RandomCrop(object):
     """在一个随机位置裁剪指定的 PIL Image.
 
     Args:
-        size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 ``int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+        size (sequence or int): 期望输出的裁剪尺寸. 如果 size(尺寸)是 ``int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
         padding (int or sequence, optional): 图像的每个边框上的可选填充. 缺省值是 0, 即没有填充. 如果提供长度为 4 的序列, 则分别用于填充左侧, 顶部, 右侧, 底部边界.
     """
 
@@ -314,7 +314,7 @@ class RandomVerticalFlip(object):
 class RandomResizedCrop(object):
     """将给定的 PIL 图像裁剪为随机大小和纵横比例.
 
-    原始高宽比的随机大小（默认: 0.08 到 1.0）和随机宽高比（默认: 3/4 到 4/3）的裁剪.
+    原始高宽比的随机大小(默认: 0.08 到 1.0)和随机宽高比(默认: 3/4 到 4/3)的裁剪.
     该裁剪最终会被调整为指定的尺寸.
 
     该操作普遍用于训练 Inception networks.
@@ -399,7 +399,7 @@ class FiveCrop(object):
          请参阅下面的例子来处理这个问题.
 
     Args:
-         size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的..
+         size (sequence or int): 期望输出的裁剪尺寸. 如果 size(尺寸)是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的..
 
     Example:
          >>> transform = Compose([
@@ -426,14 +426,14 @@ class FiveCrop(object):
 
 
 class TenCrop(object):
-    """将给定的 PIL Image 裁剪成四个角, 中心裁剪, 并加上这些的翻转版本（默认使用水平翻转）
+    """将给定的 PIL Image 裁剪成四个角, 中心裁剪, 并加上这些的翻转版本(默认使用水平翻转)
 
     .. Note::
          该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配.
          请参阅下面的例子来处理这个问题.
 
     Args:
-        size (sequence or int): 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+        size (sequence or int): 期望输出的裁剪尺寸. 如果 size(尺寸)是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
         vertical_flip(bool): 使用垂直翻转而不是水平的方式
 
     Example:
@@ -658,7 +658,7 @@ class RandomGrayscale(object):
         p (float): 图像应该被转换成灰度的概率.
 
     Returns:
-        PIL Image: 灰度版本的输入图像的概率为 p, 不变的概率为（1-p）
+        PIL Image: 灰度版本的输入图像的概率为 p, 不变的概率为(1-p)
         - If input image is 1 channel: 灰度版本是 1 通道
         - If input image is 3 channel: 灰度版本是 3 通道, 并且 r == g == b
 

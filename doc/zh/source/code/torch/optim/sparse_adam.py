@@ -26,7 +26,7 @@ class SparseAdam(Optimizer):
         """进行单步优化.
 
         参数:
-            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
+            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包,对于大多数参数来说是可选的.
         """
         loss = None
         if closure is not None:

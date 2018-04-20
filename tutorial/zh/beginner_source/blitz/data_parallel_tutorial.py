@@ -3,7 +3,7 @@
 ==========================
 **作者**: `Sung Kim <https://github.com/hunkim>`_ 和 `Jenny Kang <https://github.com/jennykang>`_
 
-在这个教程中，我们将会学习如何在多个GPU上使用 ``DataParallel`` .
+在这个教程中,我们将会学习如何在多个GPU上使用 ``DataParallel`` .
 
 在 PyTorch 中使用 GPU 是一件很容易的事情.你可以像下面这样轻松的将一个模型分配到一个 GPU 上.
 
@@ -11,23 +11,23 @@
 
     model.gpu()
 
-随后，你可以将你的所有张量拷贝到上面的GPU:
+随后,你可以将你的所有张量拷贝到上面的GPU:
 
 .. code:: python
 
     mytensor = my_tensor.gpu()
 
 此处请注意：如果只是调用 ``mytensor.gpu()`` 是不会将张量拷贝到 GPU 的.你需要将它赋给一个
-新的张量，这个张量就能在 GPU 上使用了.
+新的张量,这个张量就能在 GPU 上使用了.
 
-在多个 GPU 上运行前向、反向传播是一件很自然的事情，然而， PyTorch 默认情况下只会用到一个GPU，
-可以通过使用 ``DataParallel`` 使你的模型并行运行，在多个GPU上运行这些操作也将变得非常简单:
+在多个 GPU 上运行前向、反向传播是一件很自然的事情,然而, PyTorch 默认情况下只会用到一个GPU,
+可以通过使用 ``DataParallel`` 使你的模型并行运行,在多个GPU上运行这些操作也将变得非常简单:
 
 .. code:: python
 
     model = nn.DataParallel(model)
 
-这是教程的核心内容，我们将在随后进行详细讲解
+这是教程的核心内容,我们将在随后进行详细讲解
 """
 
 
@@ -55,7 +55,7 @@ data_size = 100
 # 伪数据集
 # -------------
 # 
-# 只需要实现 getitem 就可以轻松的生成一个（随机）伪数据集，如下代码所示: 
+# 只需要实现 getitem 就可以轻松的生成一个(随机)伪数据集,如下代码所示: 
 #
 
 class RandomDataset(Dataset):
@@ -78,10 +78,10 @@ rand_loader = DataLoader(dataset=RandomDataset(input_size, 100),
 # 简单模型
 # ------------
 # 
-# 在下面的示例中，我们的模型只需要一个输入并且完成一个线性操作，最后得
-# 到一个输出.当然，你可以在任意模型 (CNN,RNN,Capsule Net等) 运用  ``DataParallel``  
+# 在下面的示例中,我们的模型只需要一个输入并且完成一个线性操作,最后得
+# 到一个输出.当然,你可以在任意模型 (CNN,RNN,Capsule Net等) 运用  ``DataParallel``  
 #
-# 我们在模型中设置了打印指令来监控输入和输出的张量大小，请注意批数据次序为0时的输出.
+# 我们在模型中设置了打印指令来监控输入和输出的张量大小,请注意批数据次序为0时的输出.
 # 
 
 class Model(nn.Module):
@@ -103,8 +103,8 @@ class Model(nn.Module):
 # 创建模型和 DataParallel
 # -----------------------------
 # 
-# 这是本教程的核心部分。首先，我们需要生成一个模型的实例并且检测我们是否拥有多个
-# GPU.如果有多个GPU ，我们可以使用 ``nn.DataParallel`` 来包装我们的模型，然后我们
+# 这是本教程的核心部分.首先,我们需要生成一个模型的实例并且检测我们是否拥有多个
+# GPU.如果有多个GPU ,我们可以使用 ``nn.DataParallel`` 来包装我们的模型,然后我们
 # 就可以将我们的模型通过 ``model.gpu()`` 施加于这些GPU上.
 # 
 
@@ -140,13 +140,13 @@ for data in rand_loader:
 # 结果
 # -------
 # 
-# 当我们将输入设置为30批，模型也产生了30批的输出.但是当我们使用多个GPU，然后你
+# 当我们将输入设置为30批,模型也产生了30批的输出.但是当我们使用多个GPU,然后你
 # 会得到类似下面这样的输出.
 # 
 # 2 GPUs
 # ~~~~~~
 #
-# 如果有2个GPU，我们将会看到这样的结果:
+# 如果有2个GPU,我们将会看到这样的结果:
 # 
 # .. code:: bash
 # 
@@ -168,7 +168,7 @@ for data in rand_loader:
 # 3 GPUs
 # ~~~~~~
 # 
-# 如果有3个GPU，我们将会看到这样的结果:
+# 如果有3个GPU,我们将会看到这样的结果:
 # 
 # .. code:: bash
 # 
@@ -193,7 +193,7 @@ for data in rand_loader:
 # 8 GPUs
 # ~~~~~~~~~~~~~~
 # 
-# 如果有8个GPU，我们将会看到这样的结果:
+# 如果有8个GPU,我们将会看到这样的结果:
 # 
 # .. code:: bash
 # 
@@ -239,8 +239,8 @@ for data in rand_loader:
 # -------
 # 
 # DataParallel 自动地将数据分割并且将任务送入多个GPU上的多个模型中进行处理.
-# 在每个模型完成任务后， DataParallel 采集和合并所有结果，并将最后的结果呈现给你.
+# 在每个模型完成任务后, DataParallel 采集和合并所有结果,并将最后的结果呈现给你.
 # 
-# 想了解更多信息，请点击:
+# 想了解更多信息,请点击:
 # http://pytorch.org/tutorials/beginner/former\_torchies/parallelism\_tutorial.html.
 # 

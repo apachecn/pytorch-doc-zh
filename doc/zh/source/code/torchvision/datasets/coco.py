@@ -12,7 +12,7 @@ class CocoCaptions(data.Dataset):
         annFile (string): json 注释文件存放的路径
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
             转换后的版本. E.g, ``transforms.ToTensor``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+        target_transform (callable, optional): 一个 transform 函数,输入 target 并且
             转换它.
 
     Example:
@@ -87,7 +87,7 @@ class CocoDetection(data.Dataset):
         annFile (string): json 注释文件存放的路径
         transform (callable, optional):  一个 transform 函数, 它输入 PIL image 并且返回 
             转换后的版本. E.g, ``transforms.ToTensor``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+        target_transform (callable, optional): 一个 transform 函数,输入 target 并且
             转换它.
     """
 

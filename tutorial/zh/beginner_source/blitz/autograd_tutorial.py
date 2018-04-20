@@ -12,14 +12,14 @@ PyTorch 中所有神经网络的核心是 ``autograd`` 自动求导包.
 
 让我们用一些更简单的术语与例子来了解这些套路.
 
-Variable（变量）
+Variable(变量)
 --------
 
 ``autograd.Variable`` 是包的核心类.
 它包装了张量, 并且支持几乎所有的操作.
 一旦你完成了你的计算, 你就可以调用 ``.backward()`` 方法, 然后所有的梯度计算会自动进行.
 
-你还可以通过 ``.data`` 属性来访问原始的张量, 而关于该 variable（变量）的梯度会被累计到 ``.grad`` 上去.
+你还可以通过 ``.data`` 属性来访问原始的张量, 而关于该 variable(变量)的梯度会被累计到 ``.grad`` 上去.
 
 .. figure:: /_static/img/Variable.png
    :alt: Variable
@@ -29,23 +29,23 @@ Variable（变量）
 还有一个针对自动求导实现来说非常重要的类 - ``Function``.
 
 ``Variable`` 和 ``Function`` 是相互联系的, 并且它们构建了一个非循环的图, 编码了一个完整的计算历史信息.
-每一个 variable（变量）都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function`` （除了用户创建的  ``Variable `` 之外 - 它们的 ``grad_fn is None`` ）.
+每一个 variable(变量)都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function`` (除了用户创建的  ``Variable `` 之外 - 它们的 ``grad_fn is None`` ).
 
 如果你想计算导数, 你可以在 ``Variable`` 上调用 ``.backward()`` 方法.
-如果 ``Variable`` 是标量的形式（例如, 它包含一个元素数据）, 你不必指定任何参数给 ``backward()``,
-但是, 如果它有更多的元素. 你需要去指定一个 ``grad_output`` 参数, 该参数是一个匹配 shape（形状）的张量.
+如果 ``Variable`` 是标量的形式(例如, 它包含一个元素数据), 你不必指定任何参数给 ``backward()``,
+但是, 如果它有更多的元素. 你需要去指定一个 ``grad_output`` 参数, 该参数是一个匹配 shape(形状)的张量.
 """
 
 import torch
 from torch.autograd import Variable
 
 ###############################################################
-# 创建 variable（变量）:
+# 创建 variable(变量):
 x = Variable(torch.ones(2, 2), requires_grad = True)
 print(x)
 
 ###############################################################
-# variable（变量）的操作:
+# variable(变量)的操作:
 y = x + 2
 print(y)
 

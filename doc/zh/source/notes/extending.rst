@@ -17,7 +17,7 @@
   如果您指定默认值, 则可以根据需要使用任意数量的参数, 其中一些参数是可选的.
   参数可接收各种类型的 Python 对象.
   :class:`Variable` 参数在被调用之前将被转换为 :class:`Tensor` 对象,
-  并且它们的使用情况将会被注册到 graph（图）中.
+  并且它们的使用情况将会被注册到 graph(图)中.
   请注意, 这个逻辑不会遍历 lists, dicts, 和任何其它的数据结构, 只会考虑被调用为直接参数的变量.
   如果有多个输出, 则可以考虑返回单个的 :class:`Tensor` 类格式的输出, 或者 :class:`Tensor` 类的 :class:`tuple` 类格式输出.
   此外, 请参阅 :class:`Function` 类的文档来查找只能从 :meth:`~Function.forward` 调用的有用方法的描述.
@@ -119,9 +119,9 @@
 有很少的代码需要添加这个.
 现在有两个函数需要实现:
 
-- ``__init__`` (*optional*) - 接收诸如 kernel sizes（核大小）, numbers of features（特征数量）等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
+- ``__init__`` (*optional*) - 接收诸如 kernel sizes(核大小), numbers of features(特征数量)等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
 - :meth:`~Module.forward` - 实例化一个 :class:`~torch.autograd.Function` 类, 并且用于执行操作.
-  这与上面的 functional wrapper（函数的包装）非常相似.
+  这与上面的 functional wrapper(函数的包装)非常相似.
 
 这就是 ``Linear`` 模块的实现方式 ::
 

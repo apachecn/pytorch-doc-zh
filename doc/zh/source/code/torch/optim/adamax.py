@@ -23,7 +23,7 @@ class Adamax(Optimizer):
         super(Adamax, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """进行单步优化。
+        """进行单步优化.
 
         参数:
             closure (callable, optional): 一个重新评价模型并返回误差的闭包.

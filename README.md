@@ -1,6 +1,6 @@
 # PyTorch 中文文档
   
-PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library（张量库）.
+PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library(张量库).
 
 官方地址: <http://pytorch.org/>  
 中文社区: <http://pytorch.apachecn.org/>
@@ -75,7 +75,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 
 ### PyTorch 0.2.0 中文文档贡献者
 
-* [@awfssv](https://github.com/awfssv) （组织者）
+* [@awfssv](https://github.com/awfssv) (组织者)
 * [@ycszen](https://github.com/ycszen)
 * [@KeithYin](https://github.com/KeithYin)
 * [@kophy](https://github.com/kophy)
@@ -96,5 +96,5 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 
 *  联系项目负责人 [@那伊抹微笑](https://github.com/wangyangting).
 *  在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.
-*  发邮件送到 Email: pytorch#apachecn.org（#替换成@）.
+*  发邮件送到 Email: pytorch#apachecn.org(#替换成@).
 *  在我们的 [组织学习交流群](http://www.apachecn.org/organization/348.html) 中联系群主/管理员即可.

@@ -262,7 +262,7 @@ class DataLoader(object):
             如果指定, ``shuffle`` 值必须为 False.
         batch_sampler (Sampler, optional): 与 sampler 相似, 但一次返回一批指标. 与 batch_size, shuffle,
             sampler, and drop_last 互斥.
-        num_workers (int, optional): 用多少个子进程加载数据。0表示数据将在主进程中加载
+        num_workers (int, optional): 用多少个子进程加载数据.0表示数据将在主进程中加载
             (默认值: 0)
         collate_fn (callable, optional): 合并样本列表以形成一个 mini-batch.
         pin_memory (bool, optional): 如果为 ``True``, 数据加载器会将张量复制到 CUDA 固定内存中,

@@ -129,7 +129,7 @@ class Variable(_C._VariableBase):
     def backward(self, gradient=None, retain_graph=None, create_graph=None, retain_variables=None):
         """给定图叶子节点计算导数.
 
-       该图使用链式规则进行计算. 如果变量是非标量（即其数据具有多个元素）并且需要
+       该图使用链式规则进行计算. 如果变量是非标量(即其数据具有多个元素)并且需要
        改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量
        微分函数的梯度w.r.t. ``self`` .
 

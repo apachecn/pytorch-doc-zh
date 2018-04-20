@@ -164,7 +164,7 @@ def scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None):
         chunks = [tensor.narrow(dim, start - size, size)
                   for start, size in zip(_accumulate(chunk_sizes), chunk_sizes)]
     chunks = tuple(chunk.contiguous() for chunk in chunks)
-    # TODO: 首先复制到固定缓冲区（如果从CPU复制）
+    # TODO: 首先复制到固定缓冲区(如果从CPU复制)
     if streams is None:
         streams = [None] * len(devices)
     outputs = []

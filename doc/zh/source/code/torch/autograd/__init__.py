@@ -89,7 +89,7 @@ def grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=Non
          only_inputs=True, allow_unused=False):
     """计算并返回给定值的梯度的和.
 
-    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样，
+    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样,
     存放了预先计算 input 的梯度的和. 如果
     output 不需要被求导, 那么梯度将为 ``None``).
     当不需要派生图时,可以将梯度作为张量,或者作为变量,在这种情况下,图将被创建.
@@ -108,7 +108,7 @@ def grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=Non
         create_graph (bool, 可选): 如果是 ``True``, 梯度图将会被建立,用来求解高阶导数.
         默认为 `False`` , 除非参数 ``grad_variables`` 包含不只一个变量.
         only_inputs (bool, 可选): 如果是 ``True``, 叶子节点的导数将会在图中, 但是不会出现在参数 ``inputs`` 也不会被计算以及累加. 默认为 ``True``.
-        allow_unused (bool, 可选): 如果是 ``False``, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 ``False``.
+        allow_unused (bool, 可选): 如果是 ``False``, 指定计算输出时未使用的输入(因此它们的 grad 始终为零)是错误的. 默认为 ``False``.
     """
 
     outputs = (outputs,) if isinstance(outputs, Variable) else tuple(outputs)

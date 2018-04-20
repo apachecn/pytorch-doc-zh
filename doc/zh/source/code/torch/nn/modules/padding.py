@@ -48,8 +48,8 @@ class ConstantPad2d(Module):
     对于 Nd-padding, 使用 nn.functional.pad().
 
     参数:
-        padding (int, tuple):填充的大小。 如果是int，则在所有边界使用相同的填充。
-             如果是4个元组，使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
+        padding (int, tuple):填充的大小. 如果是int,则在所有边界使用相同的填充.
+             如果是4个元组,使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
 
     形态:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -159,8 +159,8 @@ class ReflectionPad2d(Module):
     r"""使用输入边界的反射填充输入张量.
 
     参数:
-        padding (int, tuple): 填充的大小。 如果是int，则在所有边界填充使用相同的.
-        如果是4个元组，则使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
+        padding (int, tuple): 填充的大小. 如果是int,则在所有边界填充使用相同的.
+        如果是4个元组,则使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
         
     形态:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -195,8 +195,8 @@ class ReplicationPad1d(Module):
     r"""使用输入边界的复制填充输入张量.
 
     参数:
-    padding (int, tuple): 填充的大小。 如果是int，则在所有边界使用相同的填充。
-             如果一个2元组，使用 (paddingLeft, paddingRight)
+    padding (int, tuple): 填充的大小. 如果是int,则在所有边界使用相同的填充.
+             如果一个2元组,使用 (paddingLeft, paddingRight)
         
     形态:
         - Input: :math:`(N, C, W_{in})`
@@ -230,8 +230,8 @@ class ReplicationPad2d(Module):
     r"""使用输入边界的复制填充输入张量.
 
     参数:
-        padding (int, tuple): 填充的大小. 如果是int，则在所有边界使用相同的填充.
-         如果是4个元组，则使用(paddingLeft, paddingRight, paddingTop, paddingBottom)
+        padding (int, tuple): 填充的大小. 如果是int,则在所有边界使用相同的填充.
+         如果是4个元组,则使用(paddingLeft, paddingRight, paddingTop, paddingBottom)
 
     形态:
         - Input: :math:`(N, C, H_{in}, W_{in})`
@@ -266,7 +266,7 @@ class ReplicationPad3d(Module):
     r"""使用输入边界的复制填充输入张量.
 
     参数:
-        padding (int, tuple): 填充的大小. 如果是int，则在所有边界使用相同的填充.
+        padding (int, tuple): 填充的大小. 如果是int,则在所有边界使用相同的填充.
         . 如果是四个元组, 则使用 (paddingLeft, paddingRight,
             paddingTop, paddingBottom, paddingFront, paddingBack)
 
@@ -304,7 +304,7 @@ class ZeroPad2d(ConstantPad2d):
     r"""用零填充输入张量边界.
 
     参数:
-        padding (int, tuple): 填充的大小. 如果是int，则在所有边界使用相同的填充.
+        padding (int, tuple): 填充的大小. 如果是int,则在所有边界使用相同的填充.
         . 如果是四个元组, 则使用 (paddingLeft, paddingRight, paddingTop, paddingBottom)
 
     形态:

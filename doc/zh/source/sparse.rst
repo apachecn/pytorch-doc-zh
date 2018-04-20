@@ -108,7 +108,7 @@ An empty sparse tensor can be constructed by specifying its size:
     (例如, :func:`torch.sparse.FloatTensor._values` 
     和 :func:`torch.sparse.FloatTensor._indices` ,
     还有 :func:`torch.Tensor._sparse_mask`), 这些操作符前面加了一个下划线,表示
-    它们的内部实现, 应当谨慎使用, 对于这些操作符， coalesced 的稀疏张量和 uncoalesced 的
+    它们的内部实现, 应当谨慎使用, 对于这些操作符, coalesced 的稀疏张量和 uncoalesced 的
     稀疏张量可能不能一起使用; 通常, 在运用这些操作符之前, 最安全的方式是明确的
     coalesced .
 

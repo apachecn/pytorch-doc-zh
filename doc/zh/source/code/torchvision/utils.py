@@ -13,12 +13,12 @@ def make_grid(tensor, nrow=8, padding=2,
         nrow (int, optional): 网格每一行显示的image数量.
             最后网格的形状是 (B / nrow, nrow). 默认是 8.
         padding (int, optional): 填充的数量. 默认为 2.
-        normalize=True (bool, optional): 通过减去最小像素值并除以最大的像素值的方法，
+        normalize=True (bool, optional): 通过减去最小像素值并除以最大的像素值的方法,
                 把图像的范围变为 (0, 1),此过程为归一化处理.
         range (tuple, optional): tuple (min, max) 这里 min 和 max 都是数字,
             这些数字是用来规范 image的. 默认情况下, min 和 max
             是从 tensor 里计算出来的.
-        scale_each=True (bool, optional): 每个image独立规范化，而不是根据所有image的像素最大最小值来规范化
+        scale_each=True (bool, optional): 每个image独立规范化,而不是根据所有image的像素最大最小值来规范化
         pad_value (float, optional): 填充像素的值.
 
     例子:
@@ -84,7 +84,7 @@ def make_grid(tensor, nrow=8, padding=2,
 
 def save_image(tensor, filename, nrow=8, padding=2,
                normalize=False, range=None, scale_each=False, pad_value=0):
-    """将一个给定的 Tensor 保存为 image（图像）文件.
+    """将一个给定的 Tensor 保存为 image(图像)文件.
 
     Args:
         tensor (Tensor or list): 被保存的图片. 如果给定的是 mini-batch tensor,

@@ -42,14 +42,14 @@ def set_training(model, mode):
 
 def export(model, args, f, export_params=True, verbose=False, training=False):
     """
-    将一个模型导出成 ONNX 格式.这个导出器为了得到模型运行的轨迹,会运行一次你的模型.同时,它不支持动态模型（如 RNN.）
+    将一个模型导出成 ONNX 格式.这个导出器为了得到模型运行的轨迹,会运行一次你的模型.同时,它不支持动态模型(如 RNN.)
 
     也可参考: :ref:`onnx-export`
 
     参数:
         model (torch.nn.Module): 将被导出模型.
-        args (tuple of arguments): 模型的输入, ``model(*args)`` 必须是对模型的有效调用.任何非变量参数将被硬编码到导出的模型中.任何变量参数都将按照它们在参数中出现的顺序,成为输出模型的输入.如果 args 是一个变量,相当于用该变量的一个元组来调用它.（注意:目前还不支持将关键参数传递给模型,如果需要,请联系我们.）
-        f: 一个类文件对象（必须实现返回文件描述的fileno）或一个包含文件名的字符串。一个二进制 Protobuf 将被写入这个文件。
+        args (tuple of arguments): 模型的输入, ``model(*args)`` 必须是对模型的有效调用.任何非变量参数将被硬编码到导出的模型中.任何变量参数都将按照它们在参数中出现的顺序,成为输出模型的输入.如果 args 是一个变量,相当于用该变量的一个元组来调用它.(注意:目前还不支持将关键参数传递给模型,如果需要,请联系我们.)
+        f: 一个类文件对象(必须实现返回文件描述的fileno)或一个包含文件名的字符串.一个二进制 Protobuf 将被写入这个文件.
         export_params (bool, default True): 如果指定,所有参数将被导出.如果要导出未经训练的模型,请将其设置为 False.在这种情况下,导出的模型将首先将其所有参数作为参数,顺序由 ``model.state_dict().values()`` 指定.
         verbose (bool, default False): 如果指定,会打印出正在导出轨迹的调式描述.
         training (bool, default False): 在训练模式下输出模型.目前, ONNX 只是作为导出模型的接口,所以你通常不需要将其设为 True.

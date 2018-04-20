@@ -20,7 +20,7 @@ class _TensorBase(object):
     def type_as(self, tensor):
         """将此张量转换为给定 tensor 的类型.
 
-        如果 tensor 已经是正确的类型，这是一个无用的操作. 
+        如果 tensor 已经是正确的类型,这是一个无用的操作. 
         这相当于::
 
             self.type(tensor.type())
@@ -31,7 +31,7 @@ class _TensorBase(object):
         return self.type(tensor.type())
 
     def cpu(self):
-        """如果此 tensor 不在CPU上，则返回此 tensor 的CPU副本"""
+        """如果此 tensor 不在CPU上,则返回此 tensor 的CPU副本"""
         return self.type(getattr(torch, self.__class__.__name__))
 
     def double(self):
@@ -67,12 +67,12 @@ class _TensorBase(object):
         return self.type(type(self).__module__ + '.ByteTensor')
 
     def is_pinned(self):
-        """如果 tensor 驻留在固定内存中，则返回 true"""
+        """如果 tensor 驻留在固定内存中,则返回 true"""
         storage = self.storage()
         return storage.is_pinned() if storage else False
 
     def pin_memory(self):
-        """如果 tensor 尚未固定，则将 tensor 复制到固定内存."""
+        """如果 tensor 尚未固定,则将 tensor 复制到固定内存."""
         if self.is_cuda:
             raise TypeError("cannot pin '{0}' only CPU memory can be pinned"
                             .format(self.type()))
@@ -84,7 +84,7 @@ class _TensorBase(object):
     def share_memory_(self):
         """将底层存储移到共享内存.
 
-        如果底层存储已经在共享内存和CUDA tensor 中，则这是无操作。 共享内存中的 tensor 不能调整大小.
+        如果底层存储已经在共享内存和CUDA tensor 中,则这是无操作. 共享内存中的 tensor 不能调整大小.
         """
         self.storage().share_memory_()
         return self
@@ -92,7 +92,7 @@ class _TensorBase(object):
     def is_shared(self):
         """检查 tensor 是否在共享内存中.
 
-        对于CUDA tensor，这总是"true".
+        对于CUDA tensor,这总是"true".
         """
         return self.storage().is_shared()
 
@@ -100,7 +100,7 @@ class _TensorBase(object):
     def shape(self):
         """ .size()的别名
 
-        返回一个torch.Size对象，其中包含 tensor 的维数
+        返回一个torch.Size对象,其中包含 tensor 的维数
         """
         return self.size()
 

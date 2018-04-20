@@ -107,7 +107,7 @@ def squeezenet1_0(pretrained=False, **kwargs):
     <https://arxiv.org/abs/1602.07360>`_ 
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型.
     """
     model = SqueezeNet(version=1.0, **kwargs)
     if pretrained:
@@ -118,11 +118,11 @@ def squeezenet1_0(pretrained=False, **kwargs):
 def squeezenet1_1(pretrained=False, **kwargs):
     r"""SqueezeNet 1.1 模型源于论文： `official SqueezeNet repo
     <https://github.com/DeepScale/SqueezeNet/tree/master/SqueezeNet_v1.1>`_.
-    SqueezeNet 1.1 比 SqueezeNet 1.0 减少了 2.4倍的运算量，
-    并在不损伤准确率的基础上减少了少许参数。 
+    SqueezeNet 1.1 比 SqueezeNet 1.0 减少了 2.4倍的运算量,
+    并在不损伤准确率的基础上减少了少许参数. 
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型.
     """
     model = SqueezeNet(version=1.1, **kwargs)
     if pretrained:

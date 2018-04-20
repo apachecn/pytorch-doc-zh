@@ -20,7 +20,7 @@ torchvision.datasets
 
 所有数据集都有几乎相似的 API, 它们有两个普通的参数:
 ``transform`` 和  ``target_transform`` 可分别的对输入和目标数据集进行变换.
--  ``transform``: 输入原始图片，返回转换后的图片.
+-  ``transform``: 输入原始图片,返回转换后的图片.
 -  ``target_transform``: 输入为 target, 返回转换后的 target.
 
 .. currentmodule:: torchvision.datasets 

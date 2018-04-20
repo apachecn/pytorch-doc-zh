@@ -208,8 +208,8 @@ def once_differentiable(fn):
 def traceable(fn_cls):
     """标记函数为 JIT (即时编译).
 
-    可追踪函数有其他限制 - 它们不能传递任何依赖于数据的值到后向（例如 Prod 传递输出,这使得它不可追踪）,
-    并且它们的导数应该完全在 autograd 变量的所有情况下执行 （即使导数是不稳定的）.
+    可追踪函数有其他限制 - 它们不能传递任何依赖于数据的值到后向(例如 Prod 传递输出,这使得它不可追踪),
+    并且它们的导数应该完全在 autograd 变量的所有情况下执行 (即使导数是不稳定的).
 
     不要用这种装饰器. IT IS FOR INTERNAL USE ONLY AND SHOULD BE HANDLED WITH
     CARE (or can give incorrect results otherwise).

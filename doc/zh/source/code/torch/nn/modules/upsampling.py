@@ -13,7 +13,7 @@ class Upsample(Module):
 
     对3D, 4D, 5D的输入张量进行最近邻、线性、双线性和三线性采样, 可用于该上采样方法. 
 
-    可以提供 :attr:`scale_factor` 或目标输出的 :attr:`size` 来计算输出的大小. （不能同时都给, 因为这样做是含糊不清的. ）
+    可以提供 :attr:`scale_factor` 或目标输出的 :attr:`size` 来计算输出的大小. (不能同时都给, 因为这样做是含糊不清的. )
 
     Args:
         size (tuple, optional): 整型数的元组 ([D_out], [H_out], W_out) 输出大小

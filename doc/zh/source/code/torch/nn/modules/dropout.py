@@ -7,8 +7,8 @@ class Dropout(Module):
 	置为 0, 在每次调用时, 被置为 0 的元素是随机的.
 
 	Dropout 已被证明是正则化的一个行之有效的技术, 并且在防止神经元之间互适应问题上
-	也卓有成效.（神经元互适应问题详见论文 `Improving neural networks by preventing 
-	co-adaptation of feature detectors`_ ）
+	也卓有成效.(神经元互适应问题详见论文 `Improving neural networks by preventing 
+	co-adaptation of feature detectors`_ )
 
 	并且,  Dropout 的输出均与 *1/(1-p)* 的比例系数进行了相乘, 保证了求值时函数是归一化的.
     
@@ -54,18 +54,18 @@ class Dropout2d(Module):
 	通常输入数据来自 Conv2d 模块.
 
 	在论文 `Efficient Object Localization Using Convolutional Networks`_ 中有如下
-	描述: 如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见）, 那么独立同分布
+	描述: 如果特征映射中的邻接像素是强相关的(在早期的卷积层中很常见), 那么独立同分布
 	的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
 
 	在这样的情况下, 应该使用函数函数 nn.Dropout2d , 它能够提升特征映射之间的独立性.
     
 	Args: 
 		p (float,optional): 元素被置0的概率
-		inplace（bool, optional）: 如果被设为’True’, 置0操作将直接作用在输入元素上
+		inplace(bool, optional): 如果被设为’True’, 置0操作将直接作用在输入元素上
    
 	Shape: 
 		- Input: math:(N, C, H, W)
-		- Output: math:(N, C, H, W) （与输入相同）
+		- Output: math:(N, C, H, W) (与输入相同)
     
 	Examples:: 
 
@@ -101,18 +101,18 @@ class Dropout3d(Module):
 	通常输入数据来自 Conv3d 模块.
 
 	在论文 `Efficient Object Localization Using Convolutional Networks`_ 中有如下
-	描述: 如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见）, 那么独立同分布
+	描述: 如果特征映射中的邻接像素是强相关的(在早期的卷积层中很常见), 那么独立同分布
 	的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
 
 	在这样的情况下, 应该使用函数函数 nn.Dropout3d , 它能够促进特征映射之间的独立性.
     
 	Args: 
 		p (float,optional): 元素被置0的概率
-		inplace（bool, optional）: 如果被设为 True , 置0操作将直接作用在输入元素上
+		inplace(bool, optional): 如果被设为 True , 置0操作将直接作用在输入元素上
     
 	Shape: 
 		- Input: math:(N, C, H, W)
-		- Output: math:(N, C, H, W) （与输入相同）
+		- Output: math:(N, C, H, W) (与输入相同)
     
 	Examples:: 
 
@@ -158,7 +158,7 @@ class AlphaDropout(Module):
 	更多信息请参考论文: Self-Normalizing Neural Networks
 
 	Args: 
-		p（float）: 元素被掩盖的概率, 默认值: 0.5
+		p(float): 元素被掩盖的概率, 默认值: 0.5
     
 	Shape: 
 		- Input:  any.输入数据可以是任何大小

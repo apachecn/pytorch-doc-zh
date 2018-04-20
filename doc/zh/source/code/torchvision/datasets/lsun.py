@@ -65,7 +65,7 @@ class LSUN(data.Dataset):
             e,g. ['bedroom_train', 'church_train'].
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
             转换后的版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+        target_transform (callable, optional): 一个 transform 函数,输入 target 并且
             转换它.
 
     """

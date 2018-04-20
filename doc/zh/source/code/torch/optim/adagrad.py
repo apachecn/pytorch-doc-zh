@@ -6,7 +6,7 @@ class Adagrad(Optimizer):
     """实现 Adagrad 算法.
 
     它在 `Adaptive Subgradient Methods for Online Learning
-    and Stochastic Optimization`_ 中被提出。
+    and Stochastic Optimization`_ 中被提出.
 
     参数:
         params (iterable): 迭代的优化参数或者以字典的形式定义参数组
@@ -35,7 +35,7 @@ class Adagrad(Optimizer):
                 state['sum'].share_memory_()
 
     def step(self, closure=None):
-        """进行单步优化。
+        """进行单步优化.
 
         参数:
             closure (callable, optional): 一个重新评价模型并返回误差的闭包.

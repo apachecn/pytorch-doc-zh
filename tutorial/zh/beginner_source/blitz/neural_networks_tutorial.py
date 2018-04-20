@@ -5,7 +5,7 @@
 
 神经网络可以使用 ``torch.nn`` 包构建.
 
-``autograd`` 实现了反向传播功能, 但是直接用来写深度学习的代码在很多情况下还是稍显复杂，
+``autograd`` 实现了反向传播功能, 但是直接用来写深度学习的代码在很多情况下还是稍显复杂,
 ``torch.nn`` 是专门为神经网络设计的模块化接口. ``nn`` 构建于 ``Autograd`` 之上, 可用来定义和运行神经网络.
 ``nn.Module`` 是 ``nn`` 中最重要的类, 可把它看成是一个网络的封装, 包含网络各层定义以及 ``forward`` 方法, 调用 ``forward(input)`` 方法, 可返回前向传播的结果.
 
@@ -25,7 +25,7 @@
 - 通过网络处理输入
 - 计算损失(输出的预测值与实际值之间的距离)
 - 将梯度传播回网络
-- 更新网络的权重，通常使用一个简单的更新规则:
+- 更新网络的权重,通常使用一个简单的更新规则:
   ``weight = weight - learning_rate * gradient``
 
 定义网络
@@ -56,7 +56,7 @@ class Net(nn.Module):
         #在由多个输入平面组成的输入信号上应用2D最大池化.
         # (2, 2) 代表的是池化操作的步幅
         x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
-        # 如果大小是正方形，则只能指定一个数字
+        # 如果大小是正方形,则只能指定一个数字
         x = F.max_pool2d(F.relu(self.conv2(x)), 2)
         x = x.view(-1, self.num_flat_features(x))
         x = F.relu(self.fc1(x))
@@ -80,7 +80,7 @@ print(net)
 #在 ``forward`` 函数中可使用任何 Tensor 支持的操作.
 #
 #
-# 网络的可学习参数通过 ``net.parameters()`` 返回，``net.named_parameters`` 可同时返回学习的参数以及名称.
+# 网络的可学习参数通过 ``net.parameters()`` 返回,``net.named_parameters`` 可同时返回学习的参数以及名称.
 
 params = list(net.parameters())
 print(len(params))
@@ -116,13 +116,13 @@ out.backward(torch.randn(1, 10))
 #      具有和 ``Tensor`` 相同的 API ,还有一些补充, 如 ``backward()``.
 #      另外 *拥有张量的梯度*.
 #   -  ``nn.Module`` - 神经网络模块. *方便的方式封装参数*,
-#      帮助将其移动到GPU, 导出, 加载等。
+#      帮助将其移动到GPU, 导出, 加载等.
 #   -  ``nn.Parameter`` - 一种变量, 当被指定为 ``Model`` 的属性时, 它会自动注册为一个参数.
 #   -  ``autograd.Function`` - 实现 *autograd 操作的向前和向后定义* .
 #      每个 ``Variable`` 操作, 至少创建一个 ``Function`` 节点,
 #      连接到创建 ``Variable`` 的函数, 并 *编码它的历史*.
 #
-# **在这一点上，我们涵盖:**
+# **在这一点上,我们涵盖:**
 #   -  定义一个神经网络
 #   -  处理输入并反向传播
 #
@@ -132,7 +132,7 @@ out.backward(torch.randn(1, 10))
 #
 # 损失函数
 # -------------
-# 损失函数采用 (output,target) 输入对, 并计算预测输出结果与实际目标的距离。
+# 损失函数采用 (output,target) 输入对, 并计算预测输出结果与实际目标的距离.
 #
 # 在 ``nn`` 包下有几种不同的 `损失函数 <http://pytorch.org/docs/nn.html#loss-functions>`_ .
 # 一个简单的损失函数是: ``nn.MSELoss`` 计算输出和目标之间的均方误差
@@ -210,7 +210,7 @@ print(net.conv1.bias.grad)
 #     for f in net.parameters():
 #         f.data.sub_(f.grad.data * learning_rate)
 #
-# 然而, 当你使用神经网络时, 你需要使用各种不同的更新规则，比如 SGD, Nesterov-SGD, Adam, RMSProp等.
+# 然而, 当你使用神经网络时, 你需要使用各种不同的更新规则,比如 SGD, Nesterov-SGD, Adam, RMSProp等.
 # 为了实现这个功能, 我们建立了一个包: ``torch.optim`` 实现所有这些方法.
 # 使用它非常的简单:
 

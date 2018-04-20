@@ -23,7 +23,7 @@ class Adadelta(Optimizer):
         super(Adadelta, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """实行单步优化。
+        """实行单步优化.
 
         参数:
             closure (callable, optional): 重新评估模型并返回误差损失的闭包.

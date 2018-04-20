@@ -48,7 +48,7 @@ def calculate_gain(nonlinearity, param=None):
 
 
 def uniform(tensor, a=0, b=1):
-    """使用均匀分布 :math:`U(a, b)` 中的值填充输入的 Tensor（张量）或者 Variable（变量）.
+    """使用均匀分布 :math:`U(a, b)` 中的值填充输入的 Tensor(张量)或者 Variable(变量).
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
@@ -67,7 +67,7 @@ def uniform(tensor, a=0, b=1):
 
 
 def normal(tensor, mean=0, std=1):
-    """使用从正态分布 :math:`N(mean, std)` 绘制的值填充输入的 Tensor（张量）或者 Variable（变量）.
+    """使用从正态分布 :math:`N(mean, std)` 绘制的值填充输入的 Tensor(张量)或者 Variable(变量).
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
@@ -86,11 +86,11 @@ def normal(tensor, mean=0, std=1):
 
 
 def constant(tensor, val):
-    """使用值 `val` 填充输入的 Tensor（张量）或者 Variable（变量）.
+    """使用值 `val` 填充输入的 Tensor(张量)或者 Variable(变量).
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
-        val: 填充 tensor（张量）的值
+        val: 填充 tensor(张量)的值
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -104,7 +104,7 @@ def constant(tensor, val):
 
 
 def eye(tensor):
-    """用单位矩阵填充 2 维输入的 Tensor（张量）或 Variable（变量）.
+    """用单位矩阵填充 2 维输入的 Tensor(张量)或 Variable(变量).
     保留线性层中输入的标记, 尽可能多地保留输入.
 
     Args:
@@ -251,10 +251,10 @@ def kaiming_uniform(tensor, a=0, mode='fan_in'):
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
-        a: 在该层之后使用的 rectifier（整流器）的负斜率（默认情况下, ReLU 为 0）
+        a: 在该层之后使用的 rectifier(整流器)的负斜率(默认情况下, ReLU 为 0)
         mode: 'fan_in' (default) 或 'fan_out' 其中的一个.
-            选择 `fan_in` 保留 forward pass（前向传递）中权重方差的量级.
-            选择 `fan_out` 来保存 backwards pass（反向传递）的量级.
+            选择 `fan_in` 保留 forward pass(前向传递)中权重方差的量级.
+            选择 `fan_out` 来保存 backwards pass(反向传递)的量级.
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -282,10 +282,10 @@ def kaiming_normal(tensor, a=0, mode='fan_in'):
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
-        a: 在该层之后使用的 rectifier（整流器）的负斜率（默认情况下，ReLU 为 0）
+        a: 在该层之后使用的 rectifier(整流器)的负斜率(默认情况下,ReLU 为 0)
         mode: 'fan_in' (default) 或 'fan_out' 其中的一个.
-            选择 `fan_in` 保留 forward pass（前向传递）中权重方差的量级.
-            选择 `fan_out` 来保存 backwards pass（反向传递）的量级.
+            选择 `fan_in` 保留 forward pass(前向传递)中权重方差的量级.
+            选择 `fan_out` 来保存 backwards pass(反向传递)的量级.
 
     Examples:
         >>> w = torch.Tensor(3, 5)
@@ -304,7 +304,7 @@ def kaiming_normal(tensor, a=0, mode='fan_in'):
 def orthogonal(tensor, gain=1):
     """根据 "Exact solutions to the nonlinear dynamics of learning in deep
     linear neural networks" - Saxe, A. et al. (2013) 中描述的那样,
-    使用（半）正交矩阵填充输入张量或变量.
+    使用(半)正交矩阵填充输入张量或变量.
     输入张量必须至少有 2 个维度, 对于 2 维以上的张量, 后面的维度须是平坦的.
 
     Args:
@@ -351,7 +351,7 @@ def sparse(tensor, sparsity, std=0.01):
 
     Args:
         tensor: 一个 n 维的 torch.Tensor 或 autograd.Variable
-        sparsity: 每列中元素的 fraction（部分）被设置为零
+        sparsity: 每列中元素的 fraction(部分)被设置为零
         std: 用于生成非零值的正态分布的标准差
 
     Examples:

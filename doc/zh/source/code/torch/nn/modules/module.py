@@ -120,7 +120,7 @@ class Module(object):
             self._parameters[name] = param
 
     def add_module(self, name, module):
-        """添加一个 child module（子模块）到当前的 module（模块）中.
+        """添加一个 child module(子模块)到当前的 module(模块)中.
 
         被添加的 module 还可以通过指定的 name 属性来获取它.
 
@@ -250,7 +250,7 @@ class Module(object):
         return self._apply(lambda t: t.half())
 
     def register_backward_hook(self, hook):
-        """在模块上注册一个 backward hook（反向钩子）.
+        """在模块上注册一个 backward hook(反向钩子).
 
         每次计算关于模块输入的梯度时, 都会调用该钩子.
         钩子应该有以下结构::
@@ -289,7 +289,7 @@ class Module(object):
         return handle
 
     def register_forward_hook(self, hook):
-        r"""在模块上注册一个 forward hook（前向钩子）.
+        r"""在模块上注册一个 forward hook(前向钩子).
 
         每一次 :func:`forward` 函数计算出一个输出后, 该钩子将会被调用.
         它应该具有以下结构 ::
@@ -412,14 +412,14 @@ class Module(object):
         包括参数和持久化的缓冲区 (例如. 运行中的平均值).
         Keys 是与之对应的参数和缓冲区的 name.
 
-        当 keep_vars 为 ``True`` 时, 它为每一个参数（而不是一个张量）返回一个 Variable.
+        当 keep_vars 为 ``True`` 时, 它为每一个参数(而不是一个张量)返回一个 Variable.
 
         Args:
             destination (dict, optional):
                 如果不是 None, 该返回的字典应该被存储到 destination 中.
                 Default: None
             prefix (string, optional):
-                向结果字典中的每个参数和缓冲区的 key（名称）添加一个前缀.
+                向结果字典中的每个参数和缓冲区的 key(名称)添加一个前缀.
                 Default: ''
             keep_vars (bool, optional):
                 如果为 ``True``, 为每一个参数返回一个 Variable.
@@ -452,7 +452,7 @@ class Module(object):
         如果 :attr:`strict` 为 ``True``,  则 :attr:`state_dict` 的 key 必须和模块的 :func:`state_dict()` 函数返回的 key 一致.
 
         Arguments:
-            state_dict (dict): 一个包含 parameters 和 persistent buffers（持久化缓存的）字典.
+            state_dict (dict): 一个包含 parameters 和 persistent buffers(持久化缓存的)字典.
             strict (bool): 严格的强制 :attr:`state_dict` 属性中的 key 与该模块的函数 `:func:`state_dict()` 返回的 keys 相匹配.
         """
         own_state = self.state_dict()
@@ -497,7 +497,7 @@ class Module(object):
         """返回模块参数的迭代器, 产生参数的名称以及参数本身
 
         Yields:
-            (string, Parameter): Tuple 包含名称很参数的 Tuple（元组）
+            (string, Parameter): Tuple 包含名称很参数的 Tuple(元组)
 
         Example:
             >>> for name, param in self.named_parameters():
@@ -527,7 +527,7 @@ class Module(object):
                 yield b
 
     def children(self):
-        """返回一个最近子模块的 iterator（迭代器）.
+        """返回一个最近子模块的 iterator(迭代器).
 
         Yields:
             Module: 一个子模块
@@ -536,10 +536,10 @@ class Module(object):
             yield module
 
     def named_children(self):
-        """返回一个 iterator（迭代器）, 而不是最接近的子模块, 产生模块的 name 以及模块本身.
+        """返回一个 iterator(迭代器), 而不是最接近的子模块, 产生模块的 name 以及模块本身.
 
         Yields:
-            (string, Module): 包含名称和子模块的 Tuple（元组）
+            (string, Module): 包含名称和子模块的 Tuple(元组)
 
         Example:
             >>> for name, module in model.named_children():
@@ -553,7 +553,7 @@ class Module(object):
                 yield name, module
 
     def modules(self):
-        """返回一个覆盖神经网络中所有模块的 iterator（迭代器）.
+        """返回一个覆盖神经网络中所有模块的 iterator(迭代器).
 
         Yields:
             Module: a module in the network
@@ -576,10 +576,10 @@ class Module(object):
             yield module
 
     def named_modules(self, memo=None, prefix=''):
-        """返回一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
+        """返回一个神经网络中所有模块的 iterator(迭代器), 产生模块的 name 以及模块本身.
 
         Yields:
-            (string, Module): 名字和模块的 Tuple（元组）
+            (string, Module): 名字和模块的 Tuple(元组)
 
         Note:
             重复的模块只返回一次. 在下面的例子中, ``1`` 只会被返回一次.

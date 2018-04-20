@@ -898,9 +898,9 @@ add_docstr(torch._C.cumprod,
            """
 cumprod(input, dim, out=None) -> Tensor
 
-返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积积。
+返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积积.
 
-例如，如果 :attr:`input` 是一个N元张量, 结果也是一个N元张量, 元素为:
+例如,如果 :attr:`input` 是一个N元张量, 结果也是一个N元张量, 元素为:
  :math:`y_i = x_1 * x_2 * x_3 * ... * x_i`
 
 Args:
@@ -960,9 +960,9 @@ add_docstr(torch._C.cumsum,
            """
 cumsum(input, dim, out=None) -> Tensor
 
-返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积和。
+返回元素 :attr:`input` 在给定维度 :attr:`dim` 下的累积和.
 
-例如，如果 :attr:`input` 是一个N元张量, 结果将也是一个N元张量, 元素为:
+例如,如果 :attr:`input` 是一个N元张量, 结果将也是一个N元张量, 元素为:
  :math:`y_i = x_1 + x_2 + x_3 + ... + x_i`
 
 Args:
@@ -1248,13 +1248,13 @@ eq(input, other, out=None) -> Tensor
 
 比较元素是否相等
 
-第二个元素可以是一个数字，或者广播
- :ref:`broadcastable <broadcasting-semantics>` 为与第一个参数形状相同的张量。
+第二个元素可以是一个数字,或者广播
+ :ref:`broadcastable <broadcasting-semantics>` 为与第一个参数形状相同的张量.
 
 参数：
     input (Tensor) ： 待比较张量
     other (Tensor or float) ： 比较张量或数
-    out (Tensor, optional) : 输出张量，须为 ByteTensor 类型或与 input (Tensor) 同类型
+    out (Tensor, optional) : 输出张量,须为 ByteTensor 类型或与 input (Tensor) 同类型
 
 返回值：
     一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0 
@@ -1271,7 +1271,7 @@ add_docstr(torch._C.equal,
            """
 equal(tensor1, tensor2) -> bool
 
-如果两个张量有相同的形状和元素值, 则返回 ``True`` ，否则 ``False`` .
+如果两个张量有相同的形状和元素值, 则返回 ``True`` ,否则 ``False`` .
 
 例子::
 
@@ -1319,7 +1319,7 @@ add_docstr(torch._C.eye,
            """
 eye(n, m=None, out=None)
 
-返回对角线位置全为1，其它位置全为0的二维 tensor.
+返回对角线位置全为1,其它位置全为0的二维 tensor.
 
 Args:
     n (int): 行数
@@ -1327,7 +1327,7 @@ Args:
     out (Tensor, optional): 输出 tensor
 
 Returns:
-    Tensor: 一个对角线位置全为1，其它位置全为0的二维 tensor.
+    Tensor: 一个对角线位置全为1,其它位置全为0的二维 tensor.
 
 Example::
 
@@ -1420,9 +1420,9 @@ from_numpy(ndarray) -> Tensor
 
 从 :class:`numpy.ndarray` 类 创建一个 :class:`Tensor` 类.
 
-返回 tensor 和 `ndarray` 共享相同的内存。 
-对 tensor 的修改将反映在 `ndarray` 中，反之亦然。 
-返回 tensor 不可调整大小。
+返回 tensor 和 `ndarray` 共享相同的内存. 
+对 tensor 的修改将反映在 `ndarray` 中,反之亦然. 
+返回 tensor 不可调整大小.
 
 Example::
 
@@ -1476,10 +1476,10 @@ ge(input, other, out=None) -> Tensor
 参数：
     input (Tensor) : 待对比的张量
     other (Tensor or float) :  对比的张量或 float 值
-    out (Tensor, optional) :  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
+    out (Tensor, optional) :  输出张量. 必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.  
 
 返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input >= other )。 返回类型：Tensor 
+    张量:  一个 ``torch.ByteTensor`` 张量,包含了每个位置的比较结果(是否 input >= other ). 返回类型：Tensor 
 
 例子::
 
@@ -1661,7 +1661,7 @@ add_docstr(torch._C.gt,
            """
 gt(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$input>other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False``。
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$input>other$** 如果两个张量有相同的形状和元素值,则返回 ``True`` ,否则 ``False``.
 
 第二个参数可以为一个数或形状可广播
 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量.
@@ -1669,10 +1669,10 @@ gt(input, other, out=None) -> Tensor
 参数：
     input (Tensor) : 待对比的张量
     other (Tensor or float) :  对比的张量或 float 值
-    out (Tensor, optional) :  输出张量。必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
+    out (Tensor, optional) :  输出张量.必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.  
 
 返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input > other )。 返回类型：Tensor
+    张量:  一个 ``torch.ByteTensor`` 张量, 包含了每个位置的比较结果(是否 input > other ). 返回类型：Tensor
 
 例子::
 
@@ -1713,7 +1713,7 @@ add_docstr(torch._C.index_select,
            """
 index_select(input, dim, index, out=None) -> Tensor
 
-沿着指定维度 :attr:`dim` 对输入进行切片,取 :attr:`index` 中指定的相应项（ :attr:`index`  为一个 `LongTensor`）,然后返回到一个新的张量.
+沿着指定维度 :attr:`dim` 对输入进行切片,取 :attr:`index` 中指定的相应项( :attr:`index`  为一个 `LongTensor`),然后返回到一个新的张量.
 
  返回的张量与原始张量 `Tensor` 有相同的维度(在指定轴上).
 
@@ -1813,9 +1813,9 @@ kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回一个元组 `(values,indices)` ,其中 ``indices`` 是原始输入张量 ``input`` 中沿 ``dim`` 维的第 ``k`` 个最小值下标.
 
-如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 尺寸相同，
-除了在所有值都为1的 :attr:`dim` 维度上。如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩。
-(参见 :func:`torch.squeeze` )，使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度。
+如果 :attr:`keepdim` 为 ``True`` , :attr:`values` 和 :attr:`indices` 张量都和 :attr:`input` 尺寸相同,
+除了在所有值都为1的 :attr:`dim` 维度上.如果 :attr:`keepdim` 为 ``False`` , :attr:`dim` 被压缩.
+(参见 :func:`torch.squeeze` ),使 :attr:`values` 和 :attr:`indices` 两个张量比 :attr:`input` 张量小一个的维度.
 
 参数 :
     input (Tensor) : 输入 `Tensor` 
@@ -1867,18 +1867,18 @@ add_docstr(torch._C.le,
            """
 le(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<=other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<=other$** 如果两个张量有相同的形状和元素值,则返回 ``True`` ,否则 ``False`` .
 
 第二个参数可以为一个数或形状可广播
- :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
+ :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量. 
 
 参数：
     input (Tensor): 待对比的张量
     other (Tensor or float):  对比的张量或 float 值
-    out (Tensor, optional):  输出张量。必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型。  
+    out (Tensor, optional):  输出张量.必须为 ``ByteTensor`` 或者与第一个参数 ``tensor`` 相同类型.  
 
 返回值：
-    张量:  一个 ``torch.ByteTensor`` 张量，包含了每个位置的比较结果(是否 input <= other )。 返回类型： Tensor 
+    张量:  一个 ``torch.ByteTensor`` 张量,包含了每个位置的比较结果(是否 input <= other ). 返回类型： Tensor 
 
 例子::
 
@@ -2093,10 +2093,10 @@ add_docstr(torch._C.lt,
            """
 lt(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` ,否则 ``False`` . 
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$input<other$** 如果两个张量有相同的形状和元素值,则返回 ``True`` ,否则 ``False`` . 
 
 第二个参数可以为一个数或形状可广播
-:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量。 
+:ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量. 
 
 参数：
     input (Tensor): 待对比的张量
@@ -2118,7 +2118,7 @@ add_docstr(torch._C.masked_select,
            """
 masked_select(input, mask, out=None) -> Tensor
 
-根据掩码张量 :attr:`mask` 中的二元值,取输入张量中的指定项（ :attr:`mask` 为一个 `ByteTensor` ）,将取值返回到一个新的一维张量.
+根据掩码张量 :attr:`mask` 中的二元值,取输入张量中的指定项( :attr:`mask` 为一个 `ByteTensor` ),将取值返回到一个新的一维张量.
 
 张量 :attr:`mask` 与 :attr:`input` 的 shape 或维度不需要相同,但是他们必须是 :ref:`broadcastable <broadcasting-semantics>` .
 
@@ -2224,12 +2224,12 @@ add_docstr(torch._C.max,
 
 .. function:: max(input, other, out=None) -> Tensor
 
- 输入:attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较，留下较大的元素 `max`。
+ 输入:attr:`input` 每一个元素和对应的比较张量 :attr:`other` 进行比较,留下较大的元素 `max`.
 
 要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
 但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
+.. 注意:: 当他们尺寸不同时,输出张量的 shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
 :math:`out_i = max(tensor_i, other_i)` 
 
@@ -2291,10 +2291,10 @@ Example::
 
 .. function:: mean(input, dim, keepdim=False, out=None) -> Tensor
 
-返回张量 :attr:`input`在给定维度 :attr:`dim`上每行的均值。
+返回张量 :attr:`input`在给定维度 :attr:`dim`上每行的均值.
 
 如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量
- :attr:`input`相同，除非维度 :attr:`dim` 是1.
+ :attr:`input`相同,除非维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -2360,8 +2360,8 @@ Example::
  :attr:`dim` 的缺省值为输入张量 :attr:`input` 的最后一维.
 
 如果 :attr:`keepdim` 是 ``True``, 输出张量与输入张量
-  :attr:`input` 形状相同， 除非维数 :attr:`dim` 是1.
-另外， :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比
+  :attr:`input` 形状相同, 除非维数 :attr:`dim` 是1.
+另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比
 输入张量 :attr:`input` 少一维.
 
 Args:
@@ -2434,7 +2434,7 @@ Example::
 其中第二个返回值是每个被找出的最小值的索引位置 ( argmin ) .
 
 如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除非维数 :attr:`dim` 是 1 .
- 另外，:attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比输入张量 :attr:`input` 少一维.
+ 另外,:attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量比输入张量 :attr:`input` 少一维.
 
 参数:
     input (Tensor): 输入张量 `Tensor`
@@ -2474,7 +2474,7 @@ Example::
 要比较的张量 :attr:`input` 与比较张量 :attr:`other` 不必尺寸一致,
 但它们一定要能广播 :ref:`broadcastable <broadcasting-semantics>` .
 
-.. 注意:: 当他们尺寸不同时，输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
+.. 注意:: 当他们尺寸不同时,输出张量的shape 遵循矩阵广播特性 ref:`broadcasting rules <broadcasting-semantics>` .
 
 :math:`out_i = min(tensor_i, other_i)`
 
@@ -2547,9 +2547,9 @@ mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTe
 返回输入张量 :attr:`input` 在给定维数 :attr:`dim` 下每行元素的众数值. 
  同时也返回众数值的索引 `LongTensor`.
 
-维度 :attr:`dim` 的缺省值是输入张量 :attr:`input` 的最后一维。.
+维度 :attr:`dim` 的缺省值是输入张量 :attr:`input` 的最后一维..
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同,除非维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 .. note:: 这个函数至今没有为 ``torch.cuda.Tensor`` 定义.
@@ -2761,7 +2761,7 @@ add_docstr(torch._C.ne,
            """
 ne(input, other, out=None) -> Tensor
 
-逐元素比较 ``input`` 和 ``other`` , 即是否 **$tensor != other$** 如果两个张量有相同的形状和元素值，则返回 ``True`` , 否则 ``False`` .
+逐元素比较 ``input`` 和 ``other`` , 即是否 **$tensor != other$** 如果两个张量有相同的形状和元素值,则返回 ``True`` , 否则 ``False`` .
 
 第二个参数可以为一个数或形状可广播
 :ref:`broadcastable <broadcasting-semantics>` 为和第一个参数相同类型的张量. 
@@ -2881,7 +2881,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的p-范数.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同,除非维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -3057,7 +3057,7 @@ add_docstr(torch._C.ones_like,
            """
 ones_like(input, out=None) -> Tensor
 
-返回一个用标量值 `1` 填充的张量，大小与 :attr:`input` 相同.
+返回一个用标量值 `1` 填充的张量,大小与 :attr:`input` 相同.
 
 Args:
     input (Tensor): 输入的大小将决定输出的大小.
@@ -3356,7 +3356,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的积.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同,除非维度 :attr:`dim` 是1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -3583,11 +3583,11 @@ add_docstr(torch._C.range,
            """
 range(start, end, step=1, out=None) -> Tensor
 
-返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内，大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
+返回一个在 :attr:`start` 到 :attr:`end` 并且步长为 :attr:`step` 的区间内,大小为 :math:`floor((end - start) / step) + 1` 为一维 Tensor.
 步长是 tensor 中两个值之间的差距. :math:`x_{i+1} = x_i + step`
 
 Warning:
-    此功能已被弃用，以支持 :func:`torch.arange`.
+    此功能已被弃用,以支持 :func:`torch.arange`.
 
 Args:
     start (float): 点集合的起始值
@@ -3622,7 +3622,7 @@ add_docstr(torch._C.arange,
            """
 arange(start=0, end, step=1, out=None) -> Tensor
 
-从 `start` 用步长为 :attr:`step` 开始， 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
+从 `start` 用步长为 :attr:`step` 开始, 间隔在 ``[start, end)`` 中的值返回大小层次为 :math:`floor((end - start) / step)` 的一维 Tensor.
 
 Args:
     start (float): 点集合的起始值
@@ -3925,13 +3925,13 @@ sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 如果指定参数 :attr:`descending` 为 ``True`` , 则按降序排序. 
 
 
-返回元组 (sorted_tensor, sorted_indices) ， sorted_indices 为原始输入中的下标。
+返回元组 (sorted_tensor, sorted_indices) , sorted_indices 为原始输入中的下标.
 
 参数:
     input (Tensor) : 要对比的张量
     dim (int, optional) : 沿着此维排序
-    descending (bool, optional) : 布尔值，控制升降排序
-    out (tuple, optional) : 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型。
+    descending (bool, optional) : 布尔值,控制升降排序
+    out (tuple, optional) : 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型.
 
 例子::
 
@@ -4041,7 +4041,7 @@ add_docstr(torch._C.std,
 返回输入张量 :attr:`input` 所有元素的标准差.
 
 如果 :attr:`unbiased` 是``False``, 那么标准差将通过有偏估计计算.
- 否则，Bessel's correction 将被使用.
+ 否则,Bessel's correction 将被使用.
 
 Args:
     input (Tensor): 输入 `Tensor`
@@ -4063,11 +4063,11 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的标准差.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同,除非维度 :attr:`dim` 是 1.
  另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 如果 :attr:`unbiased` 是``False``, 那么标准差将通过有偏估计来计算.
- 否则，Bessel's correction 将被使用.
+ 否则,Bessel's correction 将被使用.
 
 Args:
     input (Tensor): 输入 `Tensor`
@@ -4121,7 +4121,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行元素的和.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同,除非维度 :attr:`dim` 是 1.
  另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze` ), 导致输出张量减少一维.
 
 Args:
@@ -4294,7 +4294,7 @@ add_docstr(torch._C.t,
            """
 t(input, out=None) -> Tensor
 
-预期 :attr:`input` 为一个矩阵（2 维张量）,并转置 0, 1 维. 
+预期 :attr:`input` 为一个矩阵(2 维张量),并转置 0, 1 维. 
 
 可以被视为函数 `transpose(input, 0, 1)` 的简写函数.
 
@@ -4412,8 +4412,8 @@ topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTe
     input (Tensor)： 输入张量
     k (int)： "top-k" 中的 k
     dim (int, optional)： 排序的维
-    largest (bool, optional)： 布尔值，控制返回最大或最小值
-    sorted (bool, optional)： 布尔值，控制返回值是否排序
+    largest (bool, optional)： 布尔值,控制返回最大或最小值
+    sorted (bool, optional)： 布尔值,控制返回值是否排序
     out (tuple, optional)： 可选输出张量 (Tensor, LongTensor) output buffers
 
 例子::
@@ -4705,7 +4705,7 @@ Example::
 
 返回输入张量 :attr:`input` 在给定维度 :attr:`dim` 下每行的方差.
 
-如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同，除非维度 :attr:`dim` 是 1.
+如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同,除非维度 :attr:`dim` 是 1.
  另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
 如果 :attr:`unbiased` 是``False``, 方差的计算将通过有偏估计计算. 
@@ -4744,7 +4744,7 @@ add_docstr(torch._C.zeros,
            """
 zeros(*sizes, out=None) -> Tensor
 
-返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 :attr:`sizes` 定义。
+返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 :attr:`sizes` 定义.
 Returns a Tensor filled with the scalar value `0`, with the shape defined
 by the varargs :attr:`sizes`.
 
@@ -4775,7 +4775,7 @@ add_docstr(torch._C.zeros_like,
            """
 zeros_like(input, out=None) -> Tensor
 
-返回一个用标量值 `0` 填充的 Tensor，其大小与 :attr:`input` 相同.
+返回一个用标量值 `0` 填充的 Tensor,其大小与 :attr:`input` 相同.
 
 Args:
     input (Tensor): 输入的大小将决定输出的大小.

@@ -154,7 +154,7 @@ class ExponentialLR(_LRScheduler):
 
 class ReduceLROnPlateau(object):
     """当一个指标已经停止提升时减少学习率.模型通常受益于通过一次2-10的学习停止因素减少学习率
-     这个调度程序读取一个指标质量 以及看到 'patience' 的数量在一个 epoch 里面如果没有提升，
+     这个调度程序读取一个指标质量 以及看到 'patience' 的数量在一个 epoch 里面如果没有提升,
      这时学习率已经减小.
 
     参数:
@@ -164,9 +164,9 @@ class ReduceLROnPlateau(object):
         被减少. 默认值: 'min'.
         factor (float): 哪个学习率将会被减少的影响因子 . 
         new_lr = lr * factor. 默认值: 0.1.
-        patience (int): epoch 中没有改善的次数，学习率将会降低。. 默认值: 10.
+        patience (int): epoch 中没有改善的次数,学习率将会降低.. 默认值: 10.
         verbose (bool): 若为 ``True``, 每次更新打印信息到控制台输出. 默认值: ``False``.
-        threshold (float): 测量新的最佳阈值，只关注有重大意义的改变. 默认值: 1e-4.
+        threshold (float): 测量新的最佳阈值,只关注有重大意义的改变. 默认值: 1e-4.
         threshold_mode (str):  `rel`, `abs` 中的一个. 在 `rel` 模式下,
             dynamic_threshold = best * ( 1 + threshold ) 在 'max'
             模式下或者在 `min` 模式下 best * ( 1 - threshold ) .

@@ -153,7 +153,7 @@ class ParameterList(Module):
                 self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) for i in range(10)])
 
             def forward(self, x):
-                # ModuleList 可以充当 iterable（迭代器）, 或者可以使用整数进行索引
+                # ModuleList 可以充当 iterable(迭代器), 或者可以使用整数进行索引
                 for i, p in enumerate(self.params):
                     x = self.params[i // 2].mm(x) + p.mm(x)
                 return x

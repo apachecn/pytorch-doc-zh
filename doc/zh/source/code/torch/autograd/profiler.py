@@ -174,7 +174,7 @@ class emit_nvtx(object):
 
     不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释
      nvprof 跟踪并等待进程在检查之前退出.
-     然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 
+     然后,可以使用NVIDIA Visual Profiler(nvvp)来显示时间轴,或者 
      :func:`torch.autograd.profiler.load_nvprof` 可以加载检查结果.
 
     .. 警告:

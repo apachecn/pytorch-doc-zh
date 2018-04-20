@@ -3,7 +3,7 @@ from .optimizer import Optimizer, required
 
 
 class SGD(Optimizer):
-    r"""实现随机梯度下降算法（ momentum 可选）.
+    r"""实现随机梯度下降算法( momentum 可选).
 
     Nesterov 动量基于 `On the importance of initialization and momentum in deep learning`__ 中的公式.
 
@@ -25,7 +25,7 @@ class SGD(Optimizer):
 
     .. note::
         带有动量 /Nesterov 的 SGD 的实现稍微不同于 Sutskever 等人以及其他框架中的实现.
-        考虑动量的具体情况，更新可以写成
+        考虑动量的具体情况,更新可以写成
 
         .. math::
                   v = \rho * v + g \\
@@ -33,7 +33,7 @@ class SGD(Optimizer):
 
         其中 p, g, v 和 :math:`\rho` 分别是参数、梯度、速度和动量.
 
-        这跟 Sutskever 等人以及其他框架的实现是相反的，它们采用这样的更新.
+        这跟 Sutskever 等人以及其他框架的实现是相反的,它们采用这样的更新.
 
         .. math::
              v = \rho * v + lr * g \\
@@ -59,7 +59,7 @@ class SGD(Optimizer):
         """进行单步优化.
 
         参数:
-            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
+            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包,对于大多数参数来说是可选的.
         """
         loss = None
         if closure is not None:

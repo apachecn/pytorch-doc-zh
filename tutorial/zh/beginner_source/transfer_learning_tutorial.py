@@ -121,7 +121,7 @@ imshow(out, title=[class_names[x] for x in classes])
 #
 # Now, let's write a general function to train a model. Here, we will
 # illustrate:
-# 现在, 让我们写一个通用的函数来训练模型. 这里，我们要做以下说明:
+# 现在, 让我们写一个通用的函数来训练模型. 这里,我们要做以下说明:
 #
 # -  调度学习率
 # -  保存最好的学习模型

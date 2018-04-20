@@ -7,14 +7,14 @@ class LBFGS(Optimizer):
     """实现 L-BFGS 算法.
 
     .. warning::
-        这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
+        这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组(只能有一个).
 
     .. warning::
-        目前所有的参数不得不都在同一设备上。这在将来会得到改进.
+        目前所有的参数不得不都在同一设备上.这在将来会得到改进.
 
     .. note::
         这是一个内存高度密集的 optimizer (它要求额外的 ``param_bytes * (history_size + 1)`` 个字节). 
-        如果它不适应内存，尝试减小历史规格，或者使用不同的算法.
+        如果它不适应内存,尝试减小历史规格,或者使用不同的算法.
 
     参数:
         lr (float): 学习率 (默认值: 1)
@@ -72,7 +72,7 @@ class LBFGS(Optimizer):
         """进行单步优化.
 
         参数:
-            closure (callable): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
+            closure (callable): 一个重新评价模型并返回 loss 的闭包,对于大多数参数来说是可选的.
         """
         assert len(self.param_groups) == 1
 

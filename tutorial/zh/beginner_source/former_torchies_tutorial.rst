@@ -2,7 +2,7 @@ PyTorch for former Torch users
 ------------------------------
 **Author**: `Soumith Chintala <http://soumith.ch>`_
 
-在本教程中，你将学习到以下内容:
+在本教程中,你将学习到以下内容:
 
 1. 使用 torch Tensors, 它和 (Lua)Torch 有很大的不同
 2. 使用 autograd package

@@ -1,7 +1,7 @@
 """
-torch.multiprocessing 是本地 :mod:`multiprocessing` 多进程处理模块的一个 wrapper（包装器）. 
-它通过注册自定义的 reducers（缩减器）, 使用共享内存来提供不同进程中相同数据的共享视图.
-一旦 tensor/storage（张量/存储）移动到共享内存 (请参阅 :func:`~torch.Tensor.share_memory_`),
+torch.multiprocessing 是本地 :mod:`multiprocessing` 多进程处理模块的一个 wrapper(包装器). 
+它通过注册自定义的 reducers(缩减器), 使用共享内存来提供不同进程中相同数据的共享视图.
+一旦 tensor/storage(张量/存储)移动到共享内存 (请参阅 :func:`~torch.Tensor.share_memory_`),
 就可以将其发送到其他进程而不做任何复制.
 
 该 API 与原始模块 100% 兼容 - 只需将 ``import multiprocessing`` 更改为 `import torch.multiprocessing``
