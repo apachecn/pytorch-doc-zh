@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Control Flow + Weight Sharing
+PyTorch: 动态控制流程 + 权重共享
 --------------------------------------
 
-To showcase the power of PyTorch dynamic graphs, we will implement a very strange
-model: a fully-connected ReLU network that on each forward pass randomly chooses
-a number between 1 and 4 and has that many hidden layers, reusing the same
-weights multiple times to compute the innermost hidden layers.
+为了展示PyTorch的动态图的强大, 我们实现了一个非常奇异的模型: 一个全连接的ReLU激活的神经网络,
+每次前向计算时都随机选一个1到4之间的数字n, 然后接下来就有n层隐藏层, 每个隐藏层的连接权重共享.
 """
 import random
 import torch

@@ -3,19 +3,13 @@
 PyTorch: Tensors
 ----------------
 
-A fully-connected ReLU network with one hidden layer and no biases, trained to
-predict y from x by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时使用欧式距离平方来学习从x到y的映射.
 
-This implementation uses PyTorch tensors to manually compute the forward pass,
-loss, and backward pass.
+实现中我们使用了PyTorch的张量来进行前向计算, 误差计算和后向传播.
 
-A PyTorch Tensor is basically the same as a numpy array: it does not know
-anything about deep learning or computational graphs or gradients, and is just
-a generic n-dimensional array to be used for arbitrary numeric computation.
+PyTorch的张量Tensor基本上和numpy的数组一样, 也没有任何内置的深度学习函数, 不知道计算图的概念, 也无法求导, 作为一个通用的N维数组, 它只用做任意的数值计算.
 
-The biggest difference between a numpy array and a PyTorch Tensor is that
-a PyTorch Tensor can run on either CPU or GPU. To run operations on the GPU,
-just cast the Tensor to a cuda datatype.
+和numpy数组最大的区别在于, PyTorch张量既可以跑在CPU上, 也可以在GPU上作运算. 为了在GPU上进行计算, 只要把张量类型转成cuda数据类型即可。
 """
 
 import torch
@@ -55,6 +49,6 @@ for t in range(500):
     grad_h[h < 0] = 0
     grad_w1 = x.t().mm(grad_h)
 
-    # 使用渐变下降更新权重
+    # 使用梯度下降更新权重
     w1 -= learning_rate * grad_w1
     w2 -= learning_rate * grad_w2

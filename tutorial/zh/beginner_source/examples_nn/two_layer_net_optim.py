@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: optim
+PyTorch: optim包
 --------------
 
-A fully-connected ReLU network with one hidden layer, trained to predict y from x
-by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 
+训练时通过最小化欧式距离的平方, 来学习从x到y的映射
 
-This implementation uses the nn package from PyTorch to build the network.
-
-Rather than manually updating the weights of the model as we have been doing,
-we use the optim package to define an Optimizer that will update the weights
-for us. The optim package defines many optimization algorithms that are commonly
-used for deep learning, including SGD+momentum, RMSProp, Adam, etc.
+在此实现中, 我们将弃用之前手工更新权值的做法, 转而用PyTorch的nn包来搭建神经网络.
+optim包则用来定义更新权值的优化器. optim包有众多深度学习常用的优化算法, 包括SGD+momentum,
+RMSProp, Adam等. 
 """
 import torch
 from torch.autograd import Variable
@@ -46,12 +43,12 @@ for t in range(500):
     print(t, loss.data[0])
 
     # 在向后传递之前,使用优化器对象为其要更新的变量（这是模型的可学习权重）的所有梯度归零.
-    # 这是因为默认情况下,只要调用.backward(),渐变就会在缓冲区中累积(即不会被覆盖).
+    # 这是因为默认情况下,只要调用.backward(),梯度就会在缓冲区中累积(即不会被覆盖).
     # 查看torch.autograd.backward的文档以获取更多详细信息.
     optimizer.zero_grad()
 
-    # 向后传递:计算相对于模型参数的损失梯度
+    # 向后传递:计算损失函数相对于模型参数的梯度
     loss.backward()
 
-    # 在优化器上调用step功能会更新其参数
+    # 在优化器上调用step函数会更新其参数
     optimizer.step()

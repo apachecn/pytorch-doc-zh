@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Variables and autograd
+PyTorch: 变量和autograd
 -------------------------------
 
-A fully-connected ReLU network with one hidden layer and no biases, trained to
-predict y from x by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 
+训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation computes the forward pass using operations on PyTorch
-Variables, and uses PyTorch autograd to compute gradients.
+在实现中, 我们将使用PyTorch变量的函数来进行前向计算, 并用PyTorch的autograd计算梯度
 
-A PyTorch Variable is a wrapper around a PyTorch Tensor, and represents a node
-in a computational graph. If x is a Variable then x.data is a Tensor giving its
-value, and x.grad is another Variable holding the gradient of x with respect to
-some scalar value.
+PyTorch变量是PyTorch张量的封装, 表示计算图中的一个节点. 如果x是变量, 那么x.data就是
+表示其值的张量, 而x.grad则是另一个变量, 其中包含某个标量关于x的梯度.
 
-PyTorch Variables have the same API as PyTorch tensors: (almost) any operation
-you can do on a Tensor you can also do on a Variable; the difference is that
-autograd allows you to automatically compute gradients.
+PyTorch变量的API和张量是一样的: 几乎所有Tensor上能做的操作, 你在变量上也可以调用. 区别
+在于用变量时, autograd可以自动计算梯度.
 """
 import torch
 from torch.autograd import Variable
@@ -29,14 +25,12 @@ dtype = torch.FloatTensor
 N, D_in, H, D_out = 64, 1000, 100, 10
 
 # 创建随机张量来保存输入和输出,并将它们包装在变量中.
-# 设置requires_grad = False表示我们不需要计算渐变
-# 关于这些变量在落后的过程中.
+# 设置requires_grad = False, 因为在后向传播时, 我们并不需要计算关于这些变量的梯度
 x = Variable(torch.randn(N, D_in).type(dtype), requires_grad=False)
 y = Variable(torch.randn(N, D_out).type(dtype), requires_grad=False)
 
 # 为权重创建随机张量,并将其包装在变量中.
-# 设置requires_grad = True表示我们想要用来计算渐变
-# 在落后的过程中尊重这些变量.
+# 设置requires_grad = True, 因为在后向传播时, 我们需要计算关于这些变量的梯度
 w1 = Variable(torch.randn(D_in, H).type(dtype), requires_grad=True)
 w2 = Variable(torch.randn(H, D_out).type(dtype), requires_grad=True)
 
@@ -60,7 +54,7 @@ for t in range(500):
     # 它们分别相对于w1和w2保存损失的梯度.
     loss.backward()
 
-    # 使用渐变下降更新权重; w1.data 和 w2.data 是张量,
+    # 使用梯度下降更新权重; w1.data 和 w2.data 是张量,
     # w1.grad 和 w2.grad 是变量并且 w1.grad.data 和 w2.grad.data 
     # 是张量.
     w1.data -= learning_rate * w1.grad.data

@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: nn
+PyTorch: nn包
 -----------
 
-A fully-connected ReLU network with one hidden layer, trained to predict y from x
-by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation uses the nn package from PyTorch to build the network.
-PyTorch autograd makes it easy to define computational graphs and take gradients,
-but raw autograd can be a bit too low-level for defining complex neural networks;
-this is where the nn package can help. The nn package defines a set of Modules,
-which you can think of as a neural network layer that has produces output from
-input and may have some trainable weights.
+实现中用PyTorch的nn包来搭建神经网络. 如果使用PyTorch的autograd包, 定义计算图和梯度计算将变得非常容易.
+但是对于一些复杂的神经网络来说, 只用autograd还是有点底层了. 这正是nn包的用武之地.
+nn包定义了很多模块, 你可以把它们当作一个个的神经网络层. 每个模块都有输入输出, 并可能有一些可训练权重.
 """
 import torch
 from torch.autograd import Variable
@@ -57,7 +53,7 @@ for t in range(500):
     # 因此该调用将计算模型中所有可学习参数的梯度.
     loss.backward()
 
-    # 使用渐变下降更新权重.
-    # 每个参数都是一个变量,所以我们可以像我们以前那样访问它的数据和渐变.
+    # 使用梯度下降更新权重.
+    # 每个参数都是一个变量,所以我们可以像我们以前那样访问它的数据和梯度.
     for param in model.parameters():
         param.data -= learning_rate * param.grad.data
