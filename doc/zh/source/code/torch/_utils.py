@@ -40,7 +40,7 @@ def _cuda(self, device=None, async=False):
 
     Args:
         device (int): 目标 GPU 的 id . 默认值是当前设备 . 
-        async (bool): 如果为 ``True`` 并且源位于锁定内存中 , 则副本相对于宿主是异步的 . 
+        async (bool): 如果为 ``True`` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 
                       否则此参数不起效果 . 
     """
     if self.is_cuda:
