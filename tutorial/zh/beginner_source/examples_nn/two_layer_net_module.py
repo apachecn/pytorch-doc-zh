@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Custom nn Modules
+PyTorch: 定制化nn模块
 --------------------------
 
-A fully-connected ReLU network with one hidden layer, trained to predict y from x
-by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation defines the model as a custom Module subclass. Whenever you
-want a model more complex than a simple sequence of existing Modules you will
-need to define your model this way.
+在实现中我们将定义一个定制化的模块子类. 如果已有模块串起来不能满足你的复杂需求, 
+那么你就能以这种方式来定义自己的模块。
 """
 import torch
 from torch.autograd import Variable
@@ -56,7 +54,7 @@ for t in range(500):
     loss = criterion(y_pred, y)
     print(t, loss.data[0])
 
-    # 零梯度执行反向传递并更新权重.
+    # 梯度置零, 执行反向传递并更新权重.
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()

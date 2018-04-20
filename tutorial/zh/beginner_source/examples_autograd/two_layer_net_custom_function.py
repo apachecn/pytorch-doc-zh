@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Defining new autograd functions
+PyTorch: 定义新的autograd函数
 ----------------------------------------
 
-A fully-connected ReLU network with one hidden layer and no biases, trained to
-predict y from x by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 
+训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation computes the forward pass using operations on PyTorch
-Variables, and uses PyTorch autograd to compute gradients.
+在此实现中, 我们使用PyTorch变量上的函数来进行前向计算, 然后用PyTorch的autograd计算梯度
 
-In this implementation we implement our own custom autograd function to perform
-the ReLU function.
+我们还实现了一个定制化的autograd函数, 用于ReLU函数.
 """
 import torch
 from torch.autograd import Variable
@@ -75,7 +73,7 @@ for t in range(500):
     # 使用autograd来计算反向传递.
     loss.backward()
 
-    # 使用渐变下降更新权重
+    # 使用梯度下降更新权重
     w1.data -= learning_rate * w1.grad.data
     w2.data -= learning_rate * w2.grad.data
 

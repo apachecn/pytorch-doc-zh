@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-TensorFlow: Static Graphs
+TensorFlow: 静态图
 -------------------------
 
-A fully-connected ReLU network with one hidden layer and no biases, trained to
-predict y from x by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 
+训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation uses basic TensorFlow operations to set up a computational
-graph, then executes the graph many times to actually train the network.
+在实现中, 我们会用基本的TensorFlow操作来建立一个计算图, 随后多次执行这个图来训练网络.
 
-One of the main differences between TensorFlow and PyTorch is that TensorFlow
-uses static computational graphs while PyTorch uses dynamic computational
-graphs.
+TensorFlow和PyTorch有一个很大的区别, 就是TensorFlow用的是静态计算图, 而PyTorch则用动态计算图.
 
-In TensorFlow we first set up the computational graph, then execute the same
-graph many times.
+用TensorFlow我们先建立计算图, 然后在多次执行过程中, 计算图固定变化.
 """
+
 import tensorflow as tf
 import numpy as np
 
@@ -26,7 +23,7 @@ import numpy as np
 N, D_in, H, D_out = 64, 1000, 100, 10
 
 # 为输入数据和目标数据创建占位符; 
-# 当我们执行图形时,这些将被填充真实的数据.
+# 当我们执行图时,这些将被填充真实的数据.
 x = tf.placeholder(tf.float32, shape=(None, D_in))
 y = tf.placeholder(tf.float32, shape=(None, D_out))
 
@@ -48,7 +45,7 @@ loss = tf.reduce_sum((y - y_pred) ** 2.0)
 # 计算相对于w1和w2的损失梯度.
 grad_w1, grad_w2 = tf.gradients(loss, [w1, w2])
 
-# 使用渐变下降更新权重.
+# 使用梯度下降更新权重.
 # 要实际更新权重,我们需要在执行图时评估new_w1和new_w2.
 # 请注意,在TensorFlow中,更新权值的行为是计算图的一部分
 # 在PyTorch中,这发生在计算图之外.
@@ -65,9 +62,9 @@ with tf.Session() as sess:
     x_value = np.random.randn(N, D_in)
     y_value = np.random.randn(N, D_out)
     for _ in range(500):
-        # 多次执行图形. 每次执行时,
+        # 多次执行图. 每次执行时,
         # 我们都想将x_value绑定到x,将y_value绑定到y,用feed_dict参数指定.
-        # 每次我们执行图表时,我们都想计算损失值new_w1 和 new_w2; 
+        # 每次我们执行图时,我们都想计算损失值new_w1 和 new_w2; 
         # 这些张量的值作为numpy数组返回.
         loss_value, _, _ = sess.run([loss, new_w1, new_w2],
                                     feed_dict={x: x_value, y: y_value})
