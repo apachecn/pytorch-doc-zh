@@ -10,7 +10,7 @@ TensorFlow: 静态图
 
 TensorFlow和PyTorch有一个很大的区别, 就是TensorFlow用的是静态计算图, 而PyTorch则用动态计算图.
 
-用TensorFlow我们先建立计算图, 然后在多次执行过程中, 计算图固定变化.
+用TensorFlow我们先建立计算图, 然后在多次执行过程中, 计算图固定不变.
 """
 
 import tensorflow as tf
