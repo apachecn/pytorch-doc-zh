@@ -101,7 +101,7 @@ class Categorical(Distribution):
     .. note::
     它和``multinomial()``采样的分布是一样的.
 
-    样本是来自“0 ... K-1”的整数,其中“K”是probs.size(-1).
+    样本是来自"0 ... K-1"的整数,其中"K"是probs.size(-1).
 
     如果`probs`是长度为`K`的一维列表,则每个元素是对该索引处的类进行抽样的相对概率.
 

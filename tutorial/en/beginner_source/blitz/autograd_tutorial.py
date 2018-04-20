@@ -87,7 +87,7 @@ print(x.grad)
 
 ###############################################################
 # You should have got a matrix of ``4.5``. Let’s call the ``out``
-# *Variable* “:math:`o`”.
+# *Variable* ":math:`o`".
 # We have that :math:`o = \frac{1}{4}\sum_i z_i`,
 # :math:`z_i = 3(x_i+2)^2` and :math:`z_i\bigr\rvert_{x_i=1} = 27`.
 # Therefore,

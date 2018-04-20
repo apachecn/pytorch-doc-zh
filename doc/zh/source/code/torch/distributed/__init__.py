@@ -183,7 +183,7 @@ def broadcast(tensor, src, group=group.WORLD):
     ``tensor`` 在该小组处理数据的所有过程中元素的数目必须相同.
 
     Arguments:
-        tensor (Tensor): 如果发送端 “src” 是当前进程的 Rank,则发送数据,否则使用张量保存接收的数据.
+        tensor (Tensor): 如果发送端 "src" 是当前进程的 Rank,则发送数据,否则使用张量保存接收的数据.
         src (int): 发送端的 Rank.
         group (optional): 集群内的小组的名字.
     """
@@ -195,10 +195,10 @@ def broadcast(tensor, src, group=group.WORLD):
 def all_reduce(tensor, op=reduce_op.SUM, group=group.WORLD):
     """处理所有机器上的处理的张量数据,计算最终的结果.
 
-    在所有进程中调用“张量”将按位相同.
+    在所有进程中调用"张量"将按位相同.
     Arguments:
         tensor (Tensor): 集群的输入和输出.
-        op (optional): “torch.distributed.reduce_op”枚举值之一. 指定用于元素减少的操作.
+        op (optional): "torch.distributed.reduce_op"枚举值之一. 指定用于元素减少的操作.
         group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
@@ -209,11 +209,11 @@ def all_reduce(tensor, op=reduce_op.SUM, group=group.WORLD):
 def reduce(tensor, dst, op=reduce_op.SUM, group=group.WORLD):
     """减少所有机器上的张量数据.
 
-    只有级别为“dst”的进程才会收到最终结果.
+    只有级别为"dst"的进程才会收到最终结果.
 
     Arguments:
         tensor (Tensor): 集群的输入和输出数据. 分别在每台机器上本地处理.
-        op (optional): “torch.distributed.reduce_op”枚举值之一. 指定用于元素减少的操作.
+        op (optional): "torch.distributed.reduce_op"枚举值之一. 指定用于元素减少的操作.
         group (optional): 集群的内的小组的名字.
     """
     assert torch.distributed._initialized == _INITIALIZED_PG, \
@@ -264,7 +264,7 @@ def gather(tensor, **kwargs):
 def scatter(tensor, **kwargs):
     """将张量列表散布到小组中的所有进程.
 
-    每个进程只会收到一个张量,并将其数据存储在 “tensor” 的参数中.
+    每个进程只会收到一个张量,并将其数据存储在 "tensor" 的参数中.
 
     Arguments:
         tensor (Tensor): 输出的张量.

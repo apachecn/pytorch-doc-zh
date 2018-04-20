@@ -130,7 +130,7 @@ class Variable(_C._VariableBase):
         """给定图叶子节点计算导数.
 
        该图使用链式规则进行计算. 如果变量是非标量(即其数据具有多个元素)并且需要
-       改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量
+       改变,该功能另外需要指定"梯度".它应该是一个包含匹配类型和位置的张量
        微分函数的梯度w.r.t. ``self`` .
 
         这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
@@ -139,10 +139,10 @@ class Variable(_C._VariableBase):
             gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
             到一个变量,这是挥发性的,除非 ``create_graph`` 为真.没有值可以被指定为标量变量或那些
             不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
-            retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
+            retain_graph (bool, 可选): 如果 "False" ,则用于计算的图形导数将被释放. 请注意,在几
             乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为
             ``create_graph``.
-            create_graph (bool, optional): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
+            create_graph (bool, optional): 如果"真",派生图将会被构造,允许计算更高阶的导数.
             默认为 ``False``,除非 ``gradient`` 是一个volatile变量.
         """
         torch.autograd.backward(self, gradient, retain_graph, create_graph, retain_variables)

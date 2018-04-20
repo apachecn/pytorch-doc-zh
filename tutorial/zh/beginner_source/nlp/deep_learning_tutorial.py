@@ -60,7 +60,7 @@ print(lin(data))  # yes
 # 如果我们在affine层之间引入non-linearities,则不再是这种情况,我们可以构建更强大的模型.
 #
 # 有一些核心的non-linearities.
-# :math:`\tanh(x), \sigma(x), \text{ReLU}(x)` 是最常见的.你可能想知道：“为什么这些功能？我可以想到很多其他的non-linearities.“ 其原因是他们的梯度是eassy计算的,并且计算梯度对学习是必不可少的.例如
+# :math:`\tanh(x), \sigma(x), \text{ReLU}(x)` 是最常见的.你可能想知道："为什么这些功能？我可以想到很多其他的non-linearities." 其原因是他们的梯度是eassy计算的,并且计算梯度对学习是必不可少的.例如
 #
 # .. math::  \frac{d\sigma}{dx} = \sigma(x)(1 - \sigma(x))
 #
@@ -126,7 +126,7 @@ print(F.log_softmax(data, dim=0))  # theres also log_softmax
 #
 # 所有网络组件都应该从nn.Module继承并重写forward()方法. 这就是关于它,就样板而言. 继承自nn.Module为您的组件提供了功能. 例如,它使它跟踪其可训练参数,可以使用.cuda()或.cpu()函数等在CPU和GPU之间交换它,等等.
 #
-# 我们来编写一个带有注释的网络示例,该网络采用稀疏的词袋表示法,并输出概率分布在两个标签上：“英语”和“西班牙语”. 这个模型只是逻辑回归.
+# 我们来编写一个带有注释的网络示例,该网络采用稀疏的词袋表示法,并输出概率分布在两个标签上："英语"和"西班牙语". 这个模型只是逻辑回归.
 #
 
 
@@ -134,12 +134,12 @@ print(F.log_softmax(data, dim=0))  # theres also log_softmax
 # Example: Logistic Regression Bag-of-Words classifier
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# 我们的模型将映射一个稀疏的BOW表示来记录标签上的概率. 我们为词汇表中的每个单词分配一个索引. 例如,说我们的整个词汇是两个词“你好”和“世界”,分别指数为0和1. BoW向量为句子“hello hello hello hello”"
+# 我们的模型将映射一个稀疏的BOW表示来记录标签上的概率. 我们为词汇表中的每个单词分配一个索引. 例如,说我们的整个词汇是两个词"你好"和"世界",分别指数为0和1. BoW向量为句子"hello hello hello hello""
 # 是
 #
 # .. math::  \left[ 4, 0 \right]
 #
-# 对于“hello world world hello”,它是
+# 对于"hello world world hello",它是
 #
 # .. math::  \left[ 2, 2 \right]
 #

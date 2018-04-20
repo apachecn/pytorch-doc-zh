@@ -113,7 +113,7 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
 def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
                      output_padding=0, groups=1, dilation=1):
-    r"""对几个输入平面组成的输入信号应用一个1D转置卷积,该操作有的时候也被称为“反卷积”.
+    r"""对几个输入平面组成的输入信号应用一个1D转置卷积,该操作有的时候也被称为"反卷积".
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose1d`. 
 
