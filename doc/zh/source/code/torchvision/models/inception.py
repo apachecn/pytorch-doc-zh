@@ -18,7 +18,7 @@ def inception_v3(pretrained=False, **kwargs):
     `"Rethinking the Inception Architecture for Computer Vision" <http://arxiv.org/abs/1512.00567>`_.
 
     Args:
-        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型。
+        pretrained (bool): True, 返回一个在 ImageNet 上预训练的模型. 
     """
     if pretrained:
         if 'transform_input' not in kwargs:

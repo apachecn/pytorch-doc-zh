@@ -26,13 +26,13 @@ class _WeightedLoss(_Loss):
 
 class L1Loss(_Loss):
     r"""创建一个衡量输入 `x` 与目标 `y` 之间差的绝对值的平均值的标准, 该
-    函数会逐元素地求出 `x` 和 `y` 之间差的绝对值，最后返回绝对值的平均值.
+    函数会逐元素地求出 `x` 和 `y` 之间差的绝对值, 最后返回绝对值的平均值.
 
     :math:`{loss}(x, y)  = 1/n \sum |x_i - y_i|`
 
-    `x` 和 `y` 可以是任意维度的数组，但需要有相同数量的n个元素.
+    `x` 和 `y` 可以是任意维度的数组, 但需要有相同数量的n个元素.
 
-    求和操作会对n个元素求和，最后除以 `n` .
+    求和操作会对n个元素求和, 最后除以 `n` .
 
     在构造函数的参数中传入 `size_average=False`, 最后求出来的绝对值将不会除以 `n`.
 
@@ -263,9 +263,9 @@ class MSELoss(_Loss):
 
     :math:`{loss}(x, y)  = 1/n \sum |x_i - y_i|^2`
 
-    `x` 和 `y` 可以是任意维度的数组，但需要有相同数量的n个元素.
+    `x` 和 `y` 可以是任意维度的数组, 但需要有相同数量的n个元素.
 
-    求和操作会对n个元素求和，最后除以 `n`.
+    求和操作会对n个元素求和, 最后除以 `n`.
 
     在构造函数的参数中传入 `size_average=False` , 最后求出来的绝对值将不会除以 `n`.
 
@@ -274,7 +274,7 @@ class MSELoss(_Loss):
 
     Args:
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , loss 会在每
             个 mini-batch（小批量）上求和. 只有当 reduce 的值为 ``True`` 才会生效. 默认值: ``True``
         reduce (bool, optional): 默认情况下, loss 会根据 size_average 的值在每
             个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 ``False`` 时, 损失函数会对每
@@ -317,7 +317,7 @@ class BCELoss(_WeightedLoss):
         weight (Tensor, optional): 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度为 "nbatch" 的
             的 Tensor
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , loss 会在每
             个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: ``True``
     
     Shape:
@@ -359,7 +359,7 @@ class BCEWithLogitsLoss(Module):
         weight (Tensor, optional): 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度
             为 "nbatch" 的 Tensor
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为``False``, loss 会在每
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , loss 会在每
             个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: ``True``
     
     Shape:
@@ -414,8 +414,8 @@ class HingeEmbeddingLoss(_Loss):
 
 class MultiLabelMarginLoss(_Loss):
     r"""创建一个标准, 用以优化多元分类问题的合页损失函数 (基于空白的损失), 计算损失值时
-    需要2个参数分别为输入，`x` (一个2维小批量 `Tensor`) 和输出 `y` 
-    (一个2维 `Tensor`, 其值为 `x` 的索引值)。
+    需要2个参数分别为输入, `x` (一个2维小批量 `Tensor`) 和输出 `y` 
+    (一个2维 `Tensor`, 其值为 `x` 的索引值). 
     对于mini-batch(小批量) 中的每个样本按如下公式计算损失::
 
         loss(x, y) = sum_ij(max(0, 1 - (x[y[j]] - x[i]))) / x.size(0)
@@ -435,11 +435,7 @@ class MultiLabelMarginLoss(_Loss):
 
 
 class SmoothL1Loss(_Loss):
-    r"""Creates a criterion that uses a squared term if the absolute
-    element-wise error falls below 1 and an L1 term otherwise.
-    创建一个标准，当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算.
-    It is less sensitive to outliers than the `MSELoss` and in some cases
-    prevents exploding gradients (e.g. see "Fast R-CNN" paper by Ross Girshick).
+    r"""创建一个标准, 当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算.
     此方法创建的标准对于异常值不如 `MSELoss`敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如
     参见论文 "Fast R-CNN" 作者 Ross Girshick).
     也被称为 Huber 损失函数::
@@ -555,12 +551,9 @@ class CrossEntropyLoss(_WeightedLoss):
 
 
 class MultiLabelSoftMarginLoss(_WeightedLoss):
-    r"""Creates a criterion that optimizes a multi-label one-versus-all
-    loss based on max-entropy, between input `x`  (a 2D mini-batch `Tensor`) and
-    target `y` (a binary 2D `Tensor`). For each sample in the minibatch::
-    创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
+    r"""创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
     输入 `x` 为一个2维 mini-batch `Tensor`, 目标 `y` 为2进制2维 `Tensor`.
-    对每个 mini-batch 中的样本，对应的 loss 为::
+    对每个 mini-batch 中的样本, 对应的 loss 为::
 
        loss(x, y) = - sum_i (y[i] * log( 1 / (1 + exp(-x[i])) )
                          + ( (1-y[i]) * log(exp(-x[i]) / (1 + exp(-x[i])) ) )
@@ -629,7 +622,7 @@ class MarginRankingLoss(Module):
 
 class MultiMarginLoss(Module):
     r"""创建一个标准, 用以优化多元分类问题的合页损失函数 (基于空白的损失), 计算损失值时
-    需要2个参数分别为输入，`x` (一个2维小批量 `Tensor`) 和输出 `y` 
+    需要2个参数分别为输入, `x` (一个2维小批量 `Tensor`) 和输出 `y` 
     (一个1维 `Tensor`, 其值为 `x` 的索引值, `0` <= `y` <= `x.size(1)`):
 
     对于每个 mini-batch(小批量) 样本::
@@ -637,7 +630,7 @@ class MultiMarginLoss(Module):
         loss(x, y) = sum_i(max(0, (margin - x[y] + x[i]))^p) / x.size(0)
                      其中 `i == 0` 至 `x.size(0)` 并且 `i != y`.
 
-    可选择的, 如果您不想所有的类拥有同样的权重的话，您可以通过在构造函数中传入 `weight` 参数来
+    可选择的, 如果您不想所有的类拥有同样的权重的话, 您可以通过在构造函数中传入 `weight` 参数来
     解决这个问题, `weight` 是一个1维 Tensor.
 
     传入 `weight` 后, 损失函数变为:

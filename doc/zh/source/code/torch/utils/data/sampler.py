@@ -22,7 +22,7 @@ class Sampler(object):
 class SequentialSampler(Sampler):
     """总是以相同的顺序, 依次对元素进行采样.
 
-    参数:
+    Args:
         data_source (Dataset): 采样的数据集
     """
 
@@ -39,7 +39,7 @@ class SequentialSampler(Sampler):
 class RandomSampler(Sampler):
     """采用无放回采样法, 随机对样本元素采样.
 
-    参数:
+    Args:
         data_source (Dataset): 采样的数据集
     """
 
@@ -56,7 +56,7 @@ class RandomSampler(Sampler):
 class SubsetRandomSampler(Sampler):
     """采用无放回采样法, 样本元素从指定的索引列表中随机抽取.
 
-    参数:
+    Args:
         indices (list): 索引的列表
     """
 
@@ -73,7 +73,7 @@ class SubsetRandomSampler(Sampler):
 class WeightedRandomSampler(Sampler):
     """使用给定的概率 (权重) 对 [0,..,len(weights)-1] 范围的元素进行采样.
 
-    参数:
+    Args:
         weights (list)   : 权重列表, 没必要加起来等于 1
         num_samples (int): 抽样数量
         replacement (bool): 设定为 ``True``, 使用有放回采样法.
@@ -96,13 +96,13 @@ class WeightedRandomSampler(Sampler):
 class BatchSampler(object):
     """包装另一个采样器以迭代产生一个索引的 mini-batch.
 
-    参数:
+    Args:
         sampler (Sampler): 基采样器.
         batch_size (int): mini-batch 的大小.
         drop_last (bool): 设定为 ``True``, 如果最后一个 batch 的大小
             比 ``batch_size`` 小, 则采样器会丢掉最后一个 batch .
 
-    例子:
+    Example:
         >>> list(BatchSampler(range(10), batch_size=3, drop_last=False))
         [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
         >>> list(BatchSampler(range(10), batch_size=3, drop_last=True))

@@ -83,19 +83,19 @@ def typename(o):
 
 
 def is_tensor(obj):
-    r"""Returns True, 如果 `obj` 是一个 pytorch tensor.
+    r"""如果 `obj` 是一个 pytorch tensor, 则返回True.
 
     Args:
-        obj (Object): 用于测试的 Object
+        obj (Object): 用于测试的对象
     """
     return type(obj) in _tensor_classes
 
 
 def is_storage(obj):
-    r"""Returns True, 如果 `obj` 是一个 pytorch storage object.
+    r"""如果 `obj` 是一个 pytorch storage object, 则返回True.
 
     Args:
-        obj (Object): 用于测试的 Object
+        obj (Object): 用于测试的对象
     """
     return type(obj) in _storage_classes
 

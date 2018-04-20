@@ -9,7 +9,7 @@ __all__ = [
 
 
 def split(tensor, split_size, dim=0):
-    """将输入张量分割成相等 size 的 chunks（如果可分）. 
+    """将输入张量分割成相等 size 的 chunks (如果可分). 
     
     如果沿指定维的张量形状大小不能被 ``split_size`` 整分, 则最后一个分块会小于其它分块.
 
@@ -51,7 +51,7 @@ def stack(sequence, dim=0, out=None):
 
     Arguments:
         sequence (Sequence): 待连接的张量序列.
-        dim (int): 插入的维度.必须介于 0 与 待连接的张量序列数（包含）之间.
+        dim (int): 插入的维度.必须介于 0 与待连接的张量序列数（包含）之间.
     """
     if len(sequence) == 0:
         raise ValueError("stack expects a non-empty sequence of tensors")
@@ -67,10 +67,10 @@ def stack(sequence, dim=0, out=None):
 def unbind(tensor, dim=0):
     """移除一个张量的维度.
     
-    移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片（已经没有了移除的维度）.
+    移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片 (已经没有了移除的维度).
 
     Arguments:
-        tensor (Tensor): 要执行 unbind 的向量/输入向量.
+        tensor (Tensor): 要执行 unbind 的张量/输入张量.
         dim (int): 要移除的维度.
     """
     return tuple(tensor.select(dim, i) for i in _range(tensor.size(dim)))

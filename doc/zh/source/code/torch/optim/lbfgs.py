@@ -10,19 +10,19 @@ class LBFGS(Optimizer):
         这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
 
     .. warning::
-        目前所有的参数不得不都在同一设备上。这在将来会得到改进.
+        目前所有的参数不得不都在同一设备上. 这在将来会得到改进.
 
     .. note::
         这是一个内存高度密集的 optimizer (它要求额外的 ``param_bytes * (history_size + 1)`` 个字节). 
-        如果它不适应内存，尝试减小历史规格，或者使用不同的算法.
+        如果它不适应内存, 尝试减小历史规格, 或者使用不同的算法.
 
-    参数:
-        lr (float): 学习率 (默认值: 1)
-        max_iter (int): 每一步优化的最大迭代次数 (默认值: 20)
-        max_eval (int): 每一步优化的最大函数评估次数 (默认值: max_iter * 1.25).
-        tolerance_grad (float): 一阶最优的终止容忍度 (默认值: 1e-5).
-        tolerance_change (float): 在函数值/参数变化量上的终止容忍度 (默认值: 1e-9).
-        history_size (int): 更新历史尺寸 (默认值: 100).
+    Args:
+    *    lr (float): 学习率 (默认值: 1)
+    *    max_iter (int): 每一步优化的最大迭代次数 (默认值: 20)
+    *    max_eval (int): 每一步优化的最大函数评估次数 (默认值: max_iter * 1.25).
+    *    tolerance_grad (float): 一阶最优的终止容忍度 (默认值: 1e-5).
+    *    tolerance_change (float): 在函数值/参数变化量上的终止容忍度 (默认值: 1e-9).
+    *    history_size (int): 更新历史尺寸 (默认值: 100).
     """
 
     def __init__(self, params, lr=1, max_iter=20, max_eval=None,
@@ -71,8 +71,8 @@ class LBFGS(Optimizer):
     def step(self, closure):
         """进行单步优化.
 
-        参数:
-            closure (callable): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
+        Args:
+            closure (callable): 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
         """
         assert len(self.param_groups) == 1
 

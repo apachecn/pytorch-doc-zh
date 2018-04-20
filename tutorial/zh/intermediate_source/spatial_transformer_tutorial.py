@@ -1,31 +1,26 @@
 # -*- coding: utf-8 -*-
 """
-Spatial Transformer Networks Tutorial
+空间转换网络 (Spatial Transformer Networks) 教程
 =====================================
-**Author**: `Ghassen HAMROUNI <https://github.com/GHamrouni>`_
+**原作者**: `Ghassen HAMROUNI <https://github.com/GHamrouni>`_
 
 .. figure:: /_static/img/stn/FSeq.png
 
-In this tutorial, you will learn how to augment your network using
-a visual attention mechanism called spatial transformer
-networks. You can read more about the spatial transformer
-networks in the `DeepMind paper <https://arxiv.org/abs/1506.02025>`__
+在这篇教程中, 你会学到如何用名为空间转换网络 (spatial transformer networks) 
+的视觉注意力结构来加强你的网络. 你可以从这篇论文上看到更多关于空间转换网络 (spatial 
+transformer networks)的知识: `DeepMind paper <https://arxiv.org/abs/1506.02025>`__
 
-Spatial transformer networks are a generalization of differentiable
-attention to any spatial transformation. Spatial transformer networks
-(STN for short) allow a neural network to learn how to perform spatial
-transformations on the input image in order to enhance the geometric
-invariance of the model.
-For example, it can crop a region of interest, scale and correct
-the orientation of an image. It can be a useful mechanism because CNNs
-are not invariant to rotation and scale and more general affine
-transformations.
+空间转换网络 (spatial transformer networks) 是对关注空间变换可区分性的一种推广
+形式. 短空间转换网络 (STN for short) 允许一个神经网络学习如何在输入图像上表现出空
+间变换, 以此来增强模型的几何不变性.
+例如, 它可以裁剪一个感兴趣的区域, 缩放和修正图像的方向. 由于卷积神经网络对旋转、缩放
+和更普遍仿射变换并不具有不变性, 因此它相对来说是一种有用的结构. 
 
-One of the best things about STN is the ability to simply plug it into
-any existing CNN with very little modification.
+STN (空间转换网络) 最好的一点是它能在非常小的改动之后, 被简单地嵌入到任何已存在的卷积神
+经网络中. 
 """
-# License: BSD
-# Author: Ghassen Hamrouni
+# 许可协议: BSD
+# 作者: Ghassen Hamrouni
 
 from __future__ import print_function
 import torch
@@ -38,26 +33,25 @@ from torch.autograd import Variable
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.ion()   # interactive mode
+plt.ion()   # 交互模式
 
 ######################################################################
-# Loading the data
+# 读数据
 # ----------------
 #
-# In this post we experiment with the classic MNIST dataset. Using a
-# standard convolutional network augmented with a spatial transformer
-# network.
+# 在这里我们用经典的 MNIST 数据集做试验. 使用一个被空间转换网络增强的标准卷积神经
+# 网络.
 
 use_cuda = torch.cuda.is_available()
 
-# Training dataset
+# 训练集
 train_loader = torch.utils.data.DataLoader(
     datasets.MNIST(root='.', train=True, download=True,
                    transform=transforms.Compose([
                        transforms.ToTensor(),
                        transforms.Normalize((0.1307,), (0.3081,))
                    ])), batch_size=64, shuffle=True, num_workers=4)
-# Test dataset
+# 测试集
 test_loader = torch.utils.data.DataLoader(
     datasets.MNIST(root='.', train=False, transform=transforms.Compose([
         transforms.ToTensor(),
@@ -65,25 +59,21 @@ test_loader = torch.utils.data.DataLoader(
     ])), batch_size=64, shuffle=True, num_workers=4)
 
 ######################################################################
-# Depicting spatial transformer networks
+# 描述空间转换网络 (spatial transformer networks)
 # --------------------------------------
 #
-# Spatial transformer networks boils down to three main components :
+# 空间转换网络 (spatial transformer networks) 归纳为三个主要的部件 :
 #
-# -  The localization network is a regular CNN which regresses the
-#    transformation parameters. The transformation is never learned
-#    explicitly from this dataset, instead the network learns automatically
-#    the spatial transformations that enhances the global accuracy.
-# -  The grid generator generates a grid of coordinates in the input
-#    image corresponding to each pixel from the output image.
-# -  The sampler uses the parameters of the transformation and applies
-#    it to the input image.
+# -  本地网络 (The localization network) 是一个常规CNN, 它可以回归转换参数. 
+#    这种空间转换不是简单地从数据集显式学习到的, 而是自动地学习以增强全局准确率.
+# -  网格生成器 (The grid generator) 在输入图像中生成对应于来自输出图像的每个像
+#    素的坐标网格. 
+# -  采样器 (The sampler) 将转换的参数应用于输入图像. 
 #
 # .. figure:: /_static/img/stn/stn-arch.png
 #
 # .. Note::
-#    We need the latest version of PyTorch that contains
-#    affine_grid and grid_sample modules.
+#    我们需要包含 affine_grid 和 grid_sample 模块的 PyTorch 最新版本. 
 #
 
 
@@ -96,7 +86,7 @@ class Net(nn.Module):
         self.fc1 = nn.Linear(320, 50)
         self.fc2 = nn.Linear(50, 10)
 
-        # Spatial transformer localization-network
+        # 空间转换本地网络 (Spatial transformer localization-network)
         self.localization = nn.Sequential(
             nn.Conv2d(1, 8, kernel_size=7),
             nn.MaxPool2d(2, stride=2),
@@ -106,18 +96,18 @@ class Net(nn.Module):
             nn.ReLU(True)
         )
 
-        # Regressor for the 3 * 2 affine matrix
+        # 3 * 2 仿射矩阵 (affine matrix) 的回归器
         self.fc_loc = nn.Sequential(
             nn.Linear(10 * 3 * 3, 32),
             nn.ReLU(True),
             nn.Linear(32, 3 * 2)
         )
 
-        # Initialize the weights/bias with identity transformation
+        # 用身份转换 (identity transformation) 初始化权重 (weights) / 偏置 (bias)
         self.fc_loc[2].weight.data.fill_(0)
         self.fc_loc[2].bias.data = torch.FloatTensor([1, 0, 0, 0, 1, 0])
 
-    # Spatial transformer network forward function
+    # 空间转换网络的前向函数 (Spatial transformer network forward function)
     def stn(self, x):
         xs = self.localization(x)
         xs = xs.view(-1, 10 * 3 * 3)
@@ -130,10 +120,10 @@ class Net(nn.Module):
         return x
 
     def forward(self, x):
-        # transform the input
+        # 转换输入
         x = self.stn(x)
 
-        # Perform the usual forward pass
+        # 执行常规的正向传递
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
         x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
         x = x.view(-1, 320)
@@ -148,12 +138,11 @@ if use_cuda:
     model.cuda()
 
 ######################################################################
-# Training the model
+# 训练模型
 # ------------------
 #
-# Now, let's use the SGD algorithm to train the model. The network is
-# learning the classification task in a supervised way. In the same time
-# the model is learning STN automatically in an end-to-end fashion.
+# 现在, 让我们用 SGD 算法来训练模型. 这个网络用监督学习的方式学习分类任务. 同时, 
+# 这个模型以端到端的方式自动地学习空间转换网络 (STN) .
 
 
 optimizer = optim.SGD(model.parameters(), lr=0.01)
@@ -176,7 +165,7 @@ def train(epoch):
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.data[0]))
 #
-# A simple test procedure to measure STN the performances on MNIST.
+# 一个简单的测试程序来测量空间转换网络 (STN) 在 MNIST 上的表现.
 #
 
 
@@ -190,9 +179,9 @@ def test():
         data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
 
-        # sum up batch loss
+        # 累加批loss
         test_loss += F.nll_loss(output, target, size_average=False).data[0]
-        # get the index of the max log-probability
+        # 得到最大对数几率 (log-probability) 的索引.
         pred = output.data.max(1, keepdim=True)[1]
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
@@ -202,14 +191,12 @@ def test():
                   100. * correct / len(test_loader.dataset)))
 
 ######################################################################
-# Visualizing the STN results
+# 可视化空间转换网络 (STN) 的结果
 # ---------------------------
 #
-# Now, we will inspect the results of our learned visual attention
-# mechanism.
+# 现在, 我们要检查学到的视觉注意力机制的结果. 
 #
-# We define a small helper function in order to visualize the
-# transformations while training.
+# 我们定义一个小的辅助函数, 以在训练过程中可视化转换过程. 
 
 
 def convert_image_np(inp):
@@ -221,13 +208,12 @@ def convert_image_np(inp):
     inp = np.clip(inp, 0, 1)
     return inp
 
-# We want to visualize the output of the spatial transformers layer
-# after the training, we visualize a batch of input images and
-# the corresponding transformed batch using STN.
+# 我们想要在训练之后可视化空间转换层 (spatial transformers layer) 的输出, 我们
+# 用 STN 可视化一批输入图像和相对于的转换后的数据. 
 
 
 def visualize_stn():
-    # Get a batch of training data
+    # 得到一批输入数据
     data, _ = next(iter(test_loader))
     data = Variable(data, volatile=True)
 
@@ -243,7 +229,7 @@ def visualize_stn():
     out_grid = convert_image_np(
         torchvision.utils.make_grid(transformed_input_tensor))
 
-    # Plot the results side-by-side
+    # 并行地 (side-by-side) 画出结果
     f, axarr = plt.subplots(1, 2)
     axarr[0].imshow(in_grid)
     axarr[0].set_title('Dataset Images')
@@ -256,7 +242,7 @@ for epoch in range(1, 20 + 1):
     train(epoch)
     test()
 
-# Visualize the STN transformation on some input batch
+# 在一些输入批次中可视化空间转换网络 (STN) 的转换
 visualize_stn()
 
 plt.ioff()

@@ -12,7 +12,7 @@ class FakeData(data.Dataset):
         num_classes(int, optional): 数据集中类别的数量. 默认: 10
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
         transformed 版本. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): 一个 transform 函数，输入 target 并且
+        target_transform (callable, optional): 一个 transform 函数, 输入 target 并且
             转换它.
 
 

@@ -20,20 +20,19 @@ class Variable(_C._VariableBase):
     叶变量,否则将始终为零.
 
     参数说明:
-        data: 包裹任何类型的张量.
-        grad: 变量保持类型和位置匹配的变量 ``.data``. 这个属性是懒惰的分配,不能被重新分配.
-        requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它.
-        有关更多详细信息,请参阅 :ref:`excluded-subgraphs`.
+    *    data: 包裹任何类型的张量.
+    *    grad: 变量保持类型和位置匹配的变量 ``.data``. 这个属性是懒惰的分配,不能被重新分配.
+    *    requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它.
+        有关更多详细信息,请参阅 :ref:`excluded-subgraphs`.只能在叶变量上进行更改.
+    *    volatile: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 :ref:`excluding-subgraphs` 更多细节.
         只能在叶变量上进行更改.
-        volatile: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 :ref:`excluding-subgraphs` 更多细节.
-        只能在叶变量上进行更改.
-        is_leaf: 指示是否为叶子节点,即是否由用户创建的节点.
-        grad_fn: 导数函数跟踪.
+    *    is_leaf: 指示是否为叶子节点,即是否由用户创建的节点.
+    *    grad_fn: 导数函数跟踪.
 
     参数:
-        data (any tensor class): 用来包装的张量.
-        requires_grad (bool): 指示是否要被求导. **Keyword only.**
-        volatile (bool): 指示是否可变. **Keyword only.**
+    *    data (any tensor class): 用来包装的张量.
+    *    requires_grad (bool): 指示是否要被求导. **Keyword only.**
+    *    volatile (bool): 指示是否可变. **Keyword only.**
     """
 
     _fallthrough_methods = {
@@ -136,13 +135,13 @@ class Variable(_C._VariableBase):
         这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
 
         参数:
-            gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
+        *    gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
             到一个变量,这是挥发性的,除非 ``create_graph`` 为真.没有值可以被指定为标量变量或那些
             不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
-            retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
+        *    retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
             乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为
             ``create_graph``.
-            create_graph (bool, optional): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
+        *    create_graph (bool, optional): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
             默认为 ``False``,除非 ``gradient`` 是一个volatile变量.
         """
         torch.autograd.backward(self, gradient, retain_graph, create_graph, retain_variables)
