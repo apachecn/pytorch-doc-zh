@@ -4,14 +4,13 @@ from collections import defaultdict
 
 
 def _type(self, new_type=None, async=False):
-    """如果 `new_type` 没有指定则返回对象的类型, 否则转换对象为指定类型.
+    """如果没有指定 `new_type` 则返回该类型 , 否则将此对象转换为指定类型 . 
 
-    如果已经是正确类型, 不会执行复制操作, 直接返回原对象.
+    如果已经是正确的类型 , 则不执行复制并直接返回原对象 . 
 
     Args:
         new_type (type or string): 期望的类型
-        async (bool): 如果为 ``True``, 并且源在锁定内存中而目标在GPU中——或正好相反, 
-        则复制过程对于目标设备是异步的. 否则此参数不起效果.
+        async (bool): 如果为 ``True`` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 . 
     """
     if new_type is None:
         return self.__module__ + '.' + self.__class__.__name__
@@ -35,14 +34,14 @@ def _type(self, new_type=None, async=False):
 
 
 def _cuda(self, device=None, async=False):
-    """返回此对象在 CUDA 显存中的一个副本.
+    """返回此对象在 CUDA 内存中的一个副本 . 
 
-    如果此对象已经在 CUDA 显存中并且在正确的设备上, 那么不会执行复制操作, 直接返回原对象.
+    如果此对象已经在 CUDA 内存中并且在正确的设备上 , 那么不会执行复制操作 , 直接返回原对象 . 
 
     Args:
-        device (int): 目标 GPU 的 id. 默认值是当前设备.
-        async (bool): 如果为 ``True`` 并且源位于锁定内存中, 则复制过程对于目标设备是异步的.
-                      否则此参数不起效果.
+        device (int): 目标 GPU 的 id . 默认值是当前设备 . 
+        async (bool): 如果为 ``True`` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 
+                      否则此参数不起效果 . 
     """
     if self.is_cuda:
         if device is None:
