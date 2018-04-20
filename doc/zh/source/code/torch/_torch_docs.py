@@ -3361,18 +3361,14 @@ add_docstr(torch._C.qr,
            """
 qr(input, out=None) -> (Tensor, Tensor)
 
-Computes the QR decomposition of a matrix :attr:`input`: returns matrices
-`q` and `r` such that :math:`x = q * r`, with `q` being an orthogonal matrix
-and `r` being an upper triangular matrix.
+计算矩阵 :attr:`input` 的 QR 分解. 返回矩阵 `q` 和 `r` 使得 :math:`x = q * r`, 且 `q` 是一个
+正交矩阵, `r` 是一个上三角矩阵.
 
 This returns the thin (reduced) QR factorization.
 
-.. note:: precision may be lost if the magnitudes of the elements of `input`
-          are large
+.. note:: 如果矩阵 `input` 中的元素太大, 那么精度可能会丢失.
 
-.. note:: while it should always give you a valid decomposition, it may not
-          give you the same one across platforms - it will depend on your
-          LAPACK implementation.
+.. note:: 尽管该函数总是能给您一个有效的分解, 但在不同平台上结果可能不同 - 取决于该平台上 LAPACK 的实现.
 
 .. note:: Irrespective of the original strides, the returned matrix `q` will be
           transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
@@ -4064,17 +4060,16 @@ add_docstr(torch._C.svd,
            """
 svd(input, some=True, out=None) -> (Tensor, Tensor, Tensor)
 
-`U, S, V = torch.svd(A)` returns the singular value decomposition of a
-real matrix `A` of size `(n x m)` such that :math:`A = USV'*`.
+`U, S, V = torch.svd(A)` 返回大小为 `(n x m)` 的实矩阵 `A` 的奇异值分解, 使得 :math:`A = USV'*`.
 
-`U` is of shape `n x n`
+`U` 的大小为 `n x n`
 
-`S` is of shape `n x m`
+`S` 的大小为`n x m`
 
-`V` is of shape `m x m`.
+`V` 的大小为 `m x m`.
 
-:attr:`some` represents the number of singular values to be computed.
-If `some=True`, it computes some and `some=False` computes all.
+:attr:`some` 表示将被计算的奇异值的总数.
+如果 `some=True`, 它将计算指定的 some 数量个奇异值, 如果 `some=False`, 则计算所有奇异值.
 
 .. note:: Irrespective of the original strides, the returned matrix `U`
           will be transposed, i.e. with strides `(1, n)` instead of `(n, 1)`.
@@ -4139,24 +4134,20 @@ add_docstr(torch._C.symeig,
            """
 symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor)
 
-`e, V = torch.symeig(input)` returns eigenvalues and eigenvectors
-of a symmetric real matrix :attr:`input`.
+`e, V = torch.symeig(input)` 返回实对称矩阵 :attr:`input` 的特征值和特征向量.
 
-`input` and `V` are `m x m` matrices and `e` is a `m` dimensional vector.
+`input` 和 `V` 是 `m x m` 矩阵, `e` 是一个 `m` 维的向量.
 
-This function calculates all eigenvalues (and vectors) of `input`
-such that `input = V diag(e) V'`
+这个函数计算矩阵 `input` 的所有特征值 (和向量), 使得 `input = V diag(e) V'`.
 
-The boolean argument :attr:`eigenvectors` defines computation of
-eigenvectors or eigenvalues only.
+布尔参数 :attr:`eigenvectors` 定义了是否计算特征向量.
+如果它为 ``False``, 那么只有特征值会被计算. 如果它为 ``True``,
+特征值和特征向量都会被计算.
 
-If it is ``False``, only eigenvalues are computed. If it is ``True``,
-both eigenvalues and eigenvectors are computed.
+由于输入矩阵 `input` 被假定是对称的,
+因此默认地只有它的上三角部分会被使用.
 
-Since the input matrix `input` is supposed to be symmetric,
-only the upper triangular portion is used by default.
-
-If :attr:`upper` is ``False``, then lower triangular portion is used.
+如果 :attr:`upper` 是 ``False``, 那么它的下三角部分会被使用.
 
 Note: Irrespective of the original strides, the returned matrix `V` will
 be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
