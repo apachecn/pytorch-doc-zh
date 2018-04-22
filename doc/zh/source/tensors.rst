@@ -93,6 +93,7 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: addr
    .. automethod:: addr_
    .. automethod:: apply_
+   
    .. automethod:: asin
    .. automethod:: asin_
    .. automethod:: atan

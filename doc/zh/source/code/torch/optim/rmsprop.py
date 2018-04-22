@@ -11,13 +11,13 @@ class RMSprop(Optimizer):
     中心版本首次出现在 `Generating Sequences With Recurrent Neural Networks <https://arxiv.org/pdf/1308.0850v5.pdf>`_.
 
     算法:
-        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
-        lr (float, optional): 学习率 (默认值: 1e-2)
-        momentum (float, optional): 动量因子 (默认值: 0)
-        alpha (float, optional): 平滑常量 (default: 0.99)
-        eps (float, optional): 为了增加数值计算的稳定性而加到分母里的项 (默认值: 1e-8)
-        centered (bool, optional) : 如果为 ``True``, 计算 RMSProp 的中值, 并且用它的方差预测值对梯度进行归一化
-        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
+    *    params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+    *    lr (float, optional): 学习率 (默认值: 1e-2)
+    *    momentum (float, optional): 动量因子 (默认值: 0)
+    *    alpha (float, optional): 平滑常量 (default: 0.99)
+    *    eps (float, optional): 为了增加数值计算的稳定性而加到分母里的项 (默认值: 1e-8)
+    *    centered (bool, optional) : 如果为 ``True``, 计算 RMSProp 的中值, 并且用它的方差预测值对梯度进行归一化
+    *    weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
 
     """
 

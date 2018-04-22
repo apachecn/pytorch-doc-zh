@@ -145,14 +145,15 @@ def gradcheck(func, inputs, eps=1e-6, atol=1e-5, rtol=1e-3, raise_exception=True
         absolute(a - n) <= (atol + rtol * absolute(n))
     当所有的元素都符合该条件即为真.
 
-    属性:
+    Args:
         func: 一个Python函数,用来计算导数
         inputs: 变量元祖
         eps: 有限差分
         atol: 误差容忍
         rtol: 相对容忍度
         raise_exception: bool指示如果gradcheck失败,是否引发异常. 例外提供了更多有关gradcheck的信息.
-    返回:
+
+    Returns:
         如果所有差异满足所有关闭条件,则为真.
     """
     output = _differentiable_outputs(func(*inputs))
@@ -208,14 +209,14 @@ def gradgradcheck(func, inputs, grad_outputs=None, eps=1e-6, atol=1e-5, rtol=1e-
         absolute(a - n) <= (atol + rtol * absolute(n))
     当所有的元素都符合该条件即为真.
 
-    属性:
+    Args:
         func: 一个Python函数,用来计算导数
         inputs: 变量元祖
         eps: 有限差分
         atol: 误差容忍
         rtol: 相对容忍度
         raise_exception: bool指示如果gradcheck失败,是否引发异常. 例外提供了更多有关gradcheck的信息.
-    返回:
+    Returns:
         如果所有差异满足所有关闭条件,则为真.
     """
     if grad_outputs is None:

@@ -103,19 +103,12 @@ class DistributedModel(nn.Module):
 # 也可以看看
 #
 # -  :doc:`训练一个会玩视频游戏的神经网络 </intermediate/reinforcement_q_learning>`
-# -  `使用imagenet图像数据来训练一个现在最热门的模型`_
-# -  `训练一个GAN网络来生成人脸`_
-# -  `使用循环神经网络LSTM来训练word-level language模型`_
-# -  `了解更多的例子`_
-# -  `了解更多的教程`_
-# -  `在Forums上讨论PyTorch`_
-# -  `在slack和其他用户讨论PyTorch`_
+# -  `使用 imagenet 图像数据来训练一个现在最热门的模型 <https://github.com/pytorch/examples/tree/master/imagenet>`_
+# -  `训练一个 GAN 网络来生成人脸 <https://github.com/pytorch/examples/tree/master/dcgan>`_
+# -  `使用循环神经网络 LSTM 来训练单词级语言模型 <https://github.com/pytorch/examples/tree/master/word_language_model>`_
+# -  `了解更多的例子 <https://github.com/pytorch/examples>`_
+# -  `了解更多的教程 </tutorials>`_
+# -  `在论坛上讨论 PyTorch <https://discuss.pytorch.org/>`_
+# -  `在 slack 和其他用户讨论 PyTorch <http://pytorch.slack.com/messages/beginner/>`_
 #
 # .. _`Deep Learning with PyTorch: a 60-minute blitz`: https://github.com/pytorch/tutorials/blob/master/Deep%20Learning%20with%20PyTorch.ipynb
-# .. _Train a state-of-the-art ResNet network on imagenet: https://github.com/pytorch/examples/tree/master/imagenet
-# .. _Train an face generator using Generative Adversarial Networks: https://github.com/pytorch/examples/tree/master/dcgan
-# .. _Train a word-level language model using Recurrent LSTM networks: https://github.com/pytorch/examples/tree/master/word_language_model
-# .. _More examples: https://github.com/pytorch/examples
-# .. _More tutorials: https://github.com/pytorch/tutorials
-# .. _Discuss PyTorch on the Forums: https://discuss.pytorch.org/
-# .. _Chat with other users on Slack: http://pytorch.slack.com/messages/beginner/
