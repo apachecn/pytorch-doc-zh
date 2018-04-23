@@ -1031,7 +1031,7 @@ add_docstr_all('normal_',
                """
 normal_(mean=0, std=1, *, generator=None)
 
-将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std`的正态分布填充.
+将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std` 的正态分布填充.
 """)
 
 add_docstr_all('numel',
