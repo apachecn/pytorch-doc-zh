@@ -163,7 +163,7 @@ class EmbeddingBag(Module):
 
 
         - Offsets: LongTensor `B`,  B = bags 的数量, 值为每个 bag 中 `input` 的 offset, i.e. 是长度的累加. 
-                    Offsets 不会给出, 如果 Input是 2D 的`BxN` 张量,  输入被认为是固定长度的序列
+                    Offsets 不会给出, 如果 Input是 2D 的 `BxN` 张量,  输入被认为是固定长度的序列
 
                    
         - Output: `(B, embedding_dim)`

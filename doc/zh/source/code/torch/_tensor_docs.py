@@ -1031,7 +1031,7 @@ add_docstr_all('normal_',
                """
 normal_(mean=0, std=1, *, generator=None)
 
-将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std`的正态分布填充.
+将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std` 的正态分布填充.
 """)
 
 add_docstr_all('numel',
@@ -1487,7 +1487,7 @@ add_docstr_all('sub',
 sub(value, other) -> Tensor
 
 从 tensor 中抽取一个标量或张量. 
-如果 :attr:`value` 和 :attr:`other` 都是给定的, 则在使用之前 :attr:`other`的每一个元素都会被 :attr:`value` 缩放. 
+如果 :attr:`value` 和 :attr:`other` 都是给定的, 则在使用之前 :attr:`other` 的每一个元素都会被 :attr:`value` 缩放.
 
 如果 :attr:`other` 是一个tensor,  :attr:`other` 的形状必须于基础 tensor 的形状是可广播的 ( :ref:`broadcastable <broadcasting-semantics>` ).
 

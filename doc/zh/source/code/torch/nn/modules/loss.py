@@ -98,7 +98,7 @@ class NLLLoss(_WeightedLoss):
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 `C` 的
             Tensor
         size_average (bool, optional): 默认情况下, loss 会在每个 mini-batch（小批量）
-            上取平均值. 如果字段 size_average 被设置为 ``False``, loss` 将会在每个 mini-batch（小批量）
+            上取平均值. 如果字段 size_average 被设置为 ``False``, loss 将会在每个 mini-batch（小批量）
             上累加, 而不会取平均值. 当 reduce 的值为 ``False`` 时该字段会被忽略. 默认值: ``True``
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到
             输入的梯度. 当 size_average 为 ``True`` 时, loss 将会在没有被忽略的元素上
@@ -436,7 +436,7 @@ class MultiLabelMarginLoss(_Loss):
 
 class SmoothL1Loss(_Loss):
     r"""创建一个标准, 当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算.
-    此方法创建的标准对于异常值不如 `MSELoss`敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如
+    此方法创建的标准对于异常值不如 `MSELoss` 敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如
     参见论文 "Fast R-CNN" 作者 Ross Girshick).
     也被称为 Huber 损失函数::
 
@@ -551,7 +551,7 @@ class CrossEntropyLoss(_WeightedLoss):
 
 
 class MultiLabelSoftMarginLoss(_WeightedLoss):
-    r"""创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
+    r"""创建一个标准, 基于输入 `x` 和目标 `y` 的 max-entropy(最大熵), 优化多标签 one-versus-all 损失.
     输入 `x` 为一个2维 mini-batch `Tensor`, 目标 `y` 为2进制2维 `Tensor`.
     对每个 mini-batch 中的样本, 对应的 loss 为::
 
@@ -567,7 +567,7 @@ class MultiLabelSoftMarginLoss(_WeightedLoss):
 
 
 class CosineEmbeddingLoss(Module):
-    r"""新建一个标准, 用以衡量输入 `Tensor` x1, x2 和取值为 1 或者 -1 的标签 `Tensor` `y`之间的
+    r"""新建一个标准, 用以衡量输入 `Tensor` x1, x2 和取值为 1 或者 -1 的标签 `Tensor` `y` 之间的
     损失值.
     此标准用 cosine 距离来衡量2个输入参数之间是否相似, 并且一般用来学习非线性 embedding 或者半监督
     学习.
@@ -597,7 +597,7 @@ class CosineEmbeddingLoss(Module):
 
 class MarginRankingLoss(Module):
     r"""创建一个衡量 mini-batch(小批量) 中的2个1维 `Tensor` 的输入 `x1` 和 `x2`,
-    和1个1维 `Tensor` 的目标 `y`(`y` 的取值是 `1` 或者 `-1`) 之间损失的标准.
+    和1个1维 `Tensor` 的目标 `y` ( `y` 的取值是 `1` 或者 `-1`) 之间损失的标准.
 
     如果 `y == 1` 则认为第一个输入值应该排列在第二个输入值之上(即值更大), `y == -1` 时则相反.
 

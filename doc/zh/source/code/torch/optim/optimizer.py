@@ -12,7 +12,7 @@ class Optimizer(object):
     """优化器的基类.
 
     Args:
-    *    params (iterable): :class:`Variable 或 :class:`dict 的迭代, 指定了应该优化哪些参数. 
+    *    params (iterable): :class:`Variable` 或 :class:`dict` 的迭代, 指定了应该优化哪些参数.
     *    defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
     """
 
