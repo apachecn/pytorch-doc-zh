@@ -33,7 +33,7 @@
 而不是读入所有名字的字母来预测一个类别. 循环的预测每一个字母来构成语言（也可以用文
 字或者其他更高级的结构完成）, 通常被称为“语言模型”. 
 
-**推荐阅读: **
+**推荐阅读:**
 
 假设你至少安装了PyTorch, 熟悉Python, 理解Tensors: 
 
@@ -108,8 +108,8 @@ print(unicodeToAscii("O'Néàl"))
 # 创建网络
 # ====================
 #
-#  这个网络扩展了 `上一个教程的RNN <http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html>`__ , 为类别张量添加了一个额外的参数, 并和其他的参数串联在一起. 类别张量
-# 和字母的输入一样是 one-hot 向量. 
+# 这个网络扩展了 `上一个教程的RNN <http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_classification_tutorial.html>`__
+# , 为类别张量添加了一个额外的参数, 并和其他的参数串联在一起. 类别张量和字母的输入一样是 one-hot 向量. 
 #
 # 我们将输出解释成为下一个字母的概率, 采样的时候, 最有可能的输出被当做下一个输入. 
 #

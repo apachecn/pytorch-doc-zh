@@ -39,7 +39,7 @@ class _StorageBase(object):
         return [v for v in self]
 
     def cpu(self):
-        """如果当前此存储不在 CPU 上, 则返回它在 CPU 上的一个副本"""
+        """如果当前此存储不在CPU上 , 则返回一个它的CPU副本 . """
         return self.type(getattr(torch, self.__class__.__name__))
 
     def double(self):
@@ -75,7 +75,7 @@ class _StorageBase(object):
         return self.type(type(self).__module__ + '.ByteStorage')
 
     def pin_memory(self):
-        """如果此存储当前未被锁定, 则将它复制到锁定内存中"""
+        """如果此存储当前未被锁定 , 则将它复制到锁定内存中 . """
         if self.is_cuda:
             raise TypeError("cannot pin '{0}' only CPU memory can be pinned"
                             .format(self.type()))
@@ -84,10 +84,10 @@ class _StorageBase(object):
         return type(self)(self.size(), allocator=allocator).copy_(self)
 
     def share_memory_(self):
-        """将此存储移动到共享内存中.
+        """将存储移动到共享内存中 . 
 
-        对于已经在共享内存中的存储或者 CUDA 存储, 这是一条空指令, 它们不需要移动就能在进程间共享.
-        共享内存中的存储不能改变大小.
+        这对于已经存在于共享内存中的存储或者 CUDA 存储无效 , 它们不需要移动就能在进程间共享 . 
+        共享内存中的存储不能调整大小 . 
 
         Returns: self
         """

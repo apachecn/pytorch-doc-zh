@@ -6,8 +6,8 @@ r"""
 动态 VS 静态深度学习工具集
 --------------------------------------------
 
-Pytorch 是一个 *动态* 神经网络工具包. 另一个动态工具包的例子是
- `Dynet <https://github.com/clab/dynet>`__ (我之所以提这个是因为使用 Pytorch 和 Dynet 是十分类似的. 
+Pytorch 是一个 *动态* 神经网络工具包. 另一个动态工具包的例子是 `Dynet <https://github.com/clab/dynet>`__ 
+(我之所以提这个是因为使用 Pytorch 和 Dynet 是十分类似的. 
 如果你看过 Dynet 中的例子, 那么它将有可能对你在 Pytorch 下实现它有帮助). 与动态相反的是 *静态* 工具包, 
 包括了 Theano, Keras, TensorFlow 等等. 
 下面是这两者核心的一些区别: 
@@ -20,14 +20,14 @@ Pytorch 是一个 *动态* 神经网络工具包. 另一个动态工具包的例
 
 * 我们从下往上构建树
 * 标注根节点(句子中的词语)
-* 从那儿开始, 使用一个神经网络和词向量来找到组成句法的不同组合. 一旦当你形成了一个新的
-  句法, 使用某种方式得到句法的嵌入表示 (embedding). 在这个例子里, 我们的网络架构将会
+* 从那儿开始, 使用一个神经网络和词向量来找到组成句法的不同组合. 一旦当你形成了一个新的句法, 
+  使用某种方式得到句法的嵌入表示 (embedding). 在这个例子里, 我们的网络架构将会
   完全的依赖于输入的句子. 来看这个句子: "绿色猫抓了墙", 在这个模型的某一节点, 我们想要把范围
   :math:`(i,j,r) = (1, 3, \text{NP})` 合并起来(即, 一个 NP 句法范围跨越词1到词3, 
   在这个例子中是"绿色猫"). 
 
-然而, 另一个句子可能是"某处, 那个大肥猫抓了墙."在这个句子中, 我们想要在某点形成句法
- :math:`(2, 4, NP)` . 我们想要形成的句法将会依赖于这个实例. 如果仅仅编译这个计算图一次, 
+然而, 另一个句子可能是"某处, 那个大肥猫抓了墙." 在这个句子中, 
+我们想要在某点形成句法 :math:`(2, 4, NP)` . 我们想要形成的句法将会依赖于这个实例. 如果仅仅编译这个计算图一次, 
 就像在静态工具包中那样, 那么我们给这个逻辑编程将会变得十分困难或者根本不可能. 然而, 在一个动态工具包中, 
 并不仅仅只有一个预定义的计算图. 对于每一个实例, 都能够有一个新的计算图, 所以上面的问题就不复存在了. 
 
@@ -145,7 +145,7 @@ class BiLSTM_CRF(nn.Module):
         self.hidden2tag = nn.Linear(hidden_dim, self.tagset_size)
 
         # 过渡参数矩阵. 条目 i,j 是
-        # *从 * j *到* i 的过渡的分数
+        # *从* j *到* i 的过渡的分数
         self.transitions = nn.Parameter(
             torch.randn(self.tagset_size, self.tagset_size))
 
@@ -276,7 +276,7 @@ STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 5
 HIDDEN_DIM = 4
 
-# 编造一些训练数据
+# 制造一些训练数据
 training_data = [(
     "the wall street journal reported today that apple corporation made money".split(),
     "B I I I O O O B I O O".split()
