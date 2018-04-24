@@ -1236,11 +1236,9 @@ def upsample(input, size=None, scale_factor=None, mode='nearest'):
 
     当前的时间, 空间和体积的 upsampleing 被支持, 即预期的输入是三维, 四维或五维形状. 
 
-    输入维度用以下形式:
-    `mini-batch x channels x [depth] x [height] x width`
+    输入维度用以下形式: `mini-batch x channels x [depth] x [height] x width`
 
-    上采样的模式: 
-    `nearest`, `linear` (3D-only),`bilinear` (4D-only), `trilinear` (5D-only)
+    上采样的模式: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only)
 
     Args:
         input (Variable): 输入
@@ -1469,7 +1467,7 @@ def cosine_similarity(x1, x2, dim=1, eps=1e-8):
 
     Shape:
         - Input: :math:`(\ast_1, D, \ast_2)` 其中 D 位于 `dim` 位置.
-        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于`dim`位置.
+        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于 `dim` 位置.
 
     Example::
 

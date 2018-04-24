@@ -52,7 +52,7 @@ class Distribution(object):
 
     def log_prob(self, value):
         """
-        返回在`value`处的概率密度函数的对数.
+        返回在 `value` 处的概率密度函数的对数.
 
         Args:
             value (Tensor or Variable):（基类的参数,没有实际用处）

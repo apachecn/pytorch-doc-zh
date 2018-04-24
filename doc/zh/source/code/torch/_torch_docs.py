@@ -202,8 +202,9 @@ addcmul(tensor, value=1, tensor1, tensor2, out=None) -> Tensor
 
 张量 :attr:`tensor`, 张量 :attr:`tensor1`, 张量 :attr:`tensor2` 的形状必须
 :ref:`broadcastable <broadcasting-semantics>`.
- 
+
 对于类型为 `FloatTensor` 或者 `DoubleTensor` 的张量输入, :attr:`value` 必须为实数, 否则为整数.
+
 Args:
     tensor (Tensor): 张量, 对 `tensor1 .* tensor2` 进行相加
     value (Number, optional): 标量, 对 `tensor1 .* tensor2` 进行相乘
@@ -4626,9 +4627,8 @@ Example::
 如果 :attr:`keepdim` 是 ``True``, 输出张量的大小与输入张量 :attr:`input` 相同, 除了维度 :attr:`dim` 是 1.
 另外, :attr:`dim` 被挤压 (参看 :func:`torch.squeeze`), 导致输出张量减少一维.
 
-如果 :attr:`unbiased` 是``False``, 方差的计算将通过有偏估计计算. 
+如果 :attr:`unbiased` 是 ``False``, 方差的计算将通过有偏估计计算. 
 否则, Bessel's correction 将会被使用.
-
 
 Args:
     input (Tensor): 输入张量 `Tensor`

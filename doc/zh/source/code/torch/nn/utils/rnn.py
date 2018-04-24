@@ -76,7 +76,7 @@ def pad_packed_sequence(sequence, batch_first=False, padding_value=0.0):
 
     Arguments:
         sequence (PackedSequence): 将要被填充的 batch
-        batch_first (bool, optional):  如果为 `True`` , 返回的数据的格式为 BxTx*.
+        batch_first (bool, optional):  如果为 ``True`` , 返回的数据的格式为 BxTx*.
         padding_value (float, optional): 用来填充元素的值
 
     Returns:

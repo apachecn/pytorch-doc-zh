@@ -143,7 +143,7 @@ class ParameterList(Module):
     ParameterList 可以像普通的 Python list 那样被索引, 但是它所包含的参数被正确的注册了, 并且所有的 Module 方法都可见的.
 
     Arguments:
-        modules (list, optional): 要被添加的 :class:`~torch.nn.Parameter`` 列表
+        modules (list, optional): 要被添加的 :class:`~torch.nn.Parameter` 列表
 
     Example::
 

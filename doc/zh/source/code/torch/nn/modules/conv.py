@@ -85,7 +85,7 @@ class Conv1d(_ConvNd):
     | :attr:`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积；group=2, 此时相当于
     有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出.
-     `in_channels` 和 `out_channels`都要可以被 groups 整除.
+     `in_channels` 和 `out_channels` 都要可以被 groups 整除.
 
     .. note::
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
@@ -153,7 +153,7 @@ class Conv2d(_ConvNd):
                        + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    :math:`\star` 是互相关运算符, 上式带:math:`\star`项为卷积项. 
+    :math:`\star` 是互相关运算符, 上式带 :math:`\star` 项为卷积项.
 
     | :attr:`stride` 计算相关系数的步长, 可以为 tuple . 
     | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
@@ -161,7 +161,7 @@ class Conv2d(_ConvNd):
     | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
     相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出. 
-            `in_channels` 和 `out_channels`都要可以被 groups 整除. 
+            `in_channels` 和 `out_channels` 都要可以被 groups 整除. 
     
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`dilation` 可以为:
 
@@ -240,7 +240,7 @@ class Conv3d(_ConvNd):
                        + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k)  \star input(N_i, k)
         \end{array}
 
-    :math:`\star` 是互相关运算符, 上式带:math:`\star`项为卷积项. 
+    :math:`\star` 是互相关运算符, 上式带 :math:`\star` 项为卷积项.
 
     | :attr:`stride` 计算相关系数的步长, 可以为 tuple . 
     | :attr:`padding` 处理边界时在每个维度首尾补0数量. 
@@ -248,9 +248,8 @@ class Conv3d(_ConvNd):
     | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
     相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出. 
-            `in_channels` 和 `out_channels`都要可以被 groups 整除. 
-    
-    
+            `in_channels` 和 `out_channels` 都要可以被 groups 整除. 
+
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`dilation` 可以为:
 
         -  单个 ``int`` 值  -- 宽和高和深度均被设定为此值. 
@@ -368,12 +367,11 @@ class ConvTranspose1d(_ConvTransposeMixin, _ConvNd):
     | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
     相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出. 
-            `in_channels` 和 `out_channels`都要可以被 groups 整除. 
+            `in_channels` 和 `out_channels` 都要可以被 groups 整除. 
     
     .. note::
         数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入
         整除的时候, 适当的 padding 可以避免这个问题）. 
-        
 
     Args:
         - in_channels (int): 输入信号的通道数. 
@@ -431,7 +429,7 @@ class ConvTranspose2d(_ConvTransposeMixin, _ConvNd):
     | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
     相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出. 
-            `in_channels` 和 `out_channels`都应当可以被 groups 整除. 
+            `in_channels` 和 `out_channels` 都应当可以被 groups 整除. 
    
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`output_padding` 可以为:
 
@@ -524,7 +522,7 @@ class ConvTranspose3d(_ConvTransposeMixin, _ConvNd):
     | :attr:`groups` 控制输入和输出之间的连接,  group=1, 输出是所有输入的卷积； group=2, 此时
     相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有
     输出通道简单的首尾相接作为结果输出. 
-            `in_channels` 和 `out_channels`都应当可以被 groups 整除. 
+            `in_channels` 和 `out_channels` 都应当可以被 groups 整除. 
 
     :attr:`kernel_size`, :attr:`stride`, :attr:`padding`, :attr:`output_padding` 可以为:
 
