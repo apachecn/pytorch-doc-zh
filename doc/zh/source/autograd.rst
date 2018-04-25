@@ -11,45 +11,76 @@ Automatic differentiation package - torch.autograd
 
 .. autofunction:: grad
 
-Variable (变量) 
-----------------
+.. _locally-disable-grad:
 
-API compatibility
-^^^^^^^^^^^^^^^^^
+Locally disabling gradient computation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Variable API 几乎与常规 Tensor API 相同(一些会覆盖梯度计算输入的内置方法除外).
-在大多数情况下, 变量量可以安全地替换张量并且代码将保持正常工作.
-因为这个, 我们没有记录变量上的所有操作, 你应该参阅 :class:`torch.Tensor` 文档来查看变量上的所有操作.
+.. autoclass:: no_grad
 
-In-place operations on Variables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: enable_grad
 
-在 autograd 支持就地操作是一件困难的事情, 在大多数情况下我们不鼓励使用.
-Autograd 积极的缓冲区释放和重用使得它非常高效, 而且很少有就地操作实际上大量地降低了内存使用量的情况.
-除非你正在大量的的内存压力下运行, 否则你可能永远不需要使用它们.
+.. autoclass:: set_grad_enabled
+
+In-place operations on Tensors
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Supporting in-place operations in autograd is a hard matter, and we discourage
+their use in most cases. Autograd's aggressive buffer freeing and reuse makes
+it very efficient and there are very few occasions when in-place operations
+actually lower memory usage by any significant amount. Unless you're operating
+under heavy memory pressure, you might never need to use them.
 
 In-place correctness checks
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-所有的 :class:`Variable` 跟踪适用于它们的就地操作, 并且如果实现检测到一个变量是否被其中一个函数后台保存, 但是之后它被就地修改了, 会在开始求导时会报出异常.
-这确保了如果你在就地使用函数并没有看到任何错误, 你可以肯定的是计算变量是正确的.
-
-
-.. autoclass:: Variable
-    :members:
-
-:hidden:'Function(函数)'
 ---------------------------
+
+All :class:`Tensor` s keep track of in-place operations applied to them, and
+if the implementation detects that a tensor was saved for backward in one of
+the functions, but it was modified in-place afterwards, an error will be raised
+once backward pass is started. This ensures that if you're using in-place
+functions and not seeing any errors, you can be sure that the computed
+gradients are correct.
+
+Variable (deprecated)
+^^^^^^^^^^^^^^^^^^^^^
+
+.. warning::
+    The Variable API has been deprecated: Variables are no longer necessary to
+    use autograd with tensors. Autograd automatically supports Tensors with
+    ``requires_grad`` set to ``True``. Below please find a quick guide on what
+    has changed:
+
+    - ``Variable(tensor)`` and ``Variable(tensor, requires_grad)`` still work as expected,
+      but they return Tensors instead of Variables.
+    - ``var.data`` is the same thing as ``tensor.data``.
+    - Methods such as ``var.backward(), var.detach(), var.register_hook()`` now work on tensors
+      with the same method names.
+
+    In addition, one can now create tensors with ``requires_grad=True`` using factory
+    methods such as :func:`torch.randn`, :func:`torch.zeros`, :func:`torch.ones`, and others
+    like the following:
+
+    ``autograd_tensor = torch.randn((2, 3, 4), requires_grad=True)``
+
+Tensor autograd functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: torch.Tensor
+    :members: backward, detach, detach_, register_hook, retain_grad
+
+:hidden:`Function`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: Function
     :members:
 
-Profiler(分析器)
-------------------
+Profiler
+^^^^^^^^
 
-Autograd 包含一个分析器, 可以让你检查你的模型在CPU 和 GPU 上不同运算的成本.
-目前实现有两种模式 - 只使用 CPU 的 :class:`~torch.autograd.profiler.profile`.
-和基于 nvprof (注册 CPU 和 GPU 活动) 的方式使用 :class:`~torch.autograd.profiler.emit_nvtx`.
+Autograd includes a profiler that lets you inspect the cost of different
+operators inside your model - both on the CPU and GPU. There are two modes
+implemented at the moment - CPU-only using :class:`~torch.autograd.profiler.profile`.
+and nvprof based (registers both CPU and GPU activity) using
+:class:`~torch.autograd.profiler.emit_nvtx`.
 
 .. autoclass:: torch.autograd.profiler.profile
     :members:
