@@ -169,7 +169,7 @@ Other Operations (其它操作)
 .. autofunction:: triu
 
 
-BLAS and LAPACK Operations
+BLAS and LAPACK Operations (BLAS和LAPACK操作)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: addbmm

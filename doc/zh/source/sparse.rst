@@ -53,7 +53,7 @@ Torch 支持 COO(rdinate) 格式的稀疏张量 , 还能高效地存储和处理
     and values:
     [torch.FloatTensor with no dimension]
 
-.. 注意::
+.. Note::
 
     我们的稀疏张量格式允许非聚合稀疏张量 , 索引可能对应有重复的坐标 ; 在这
     种情况下 , 该索引处的值代表所有重复条目值的总和 . 非聚合张量允许我们更

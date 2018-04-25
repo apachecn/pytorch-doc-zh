@@ -14,7 +14,7 @@ def broadcast(tensor, devices):
           请注意, 它应该像 (src, dst1, dst2, ...), 其中的第一个元素是来至其广播的源设备.
 
     Returns:
-        一个元组, 包含 ``tensor`` 副本,放置在与设备的索引相对应的设备上.
+        一个元组, 包含 ``tensor`` 副本,放置在与设备的索引相对应的 ``设备`` 上.
     """
     tensors = [tensor]
     if nccl.is_available(tensors) and len(set(devices)) == len(devices):

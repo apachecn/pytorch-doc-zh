@@ -21,7 +21,7 @@ def make_grid(tensor, nrow=8, padding=2,
         scale_each (bool, optional): 如果值为True, 每个image独立规范化, 而不是根据所有image的像素最大最小值来归一化.
         pad_value (float, optional): 填充像素的值.
 
-    例子:
+    Example:
         请参阅 `这里 <https://gist.github.com/anonymous/bf16430f7750c023141c562f3e9f2a91>`_ 的手册
 
     """

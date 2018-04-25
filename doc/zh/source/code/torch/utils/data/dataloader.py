@@ -254,7 +254,7 @@ class DataLoader(object):
     """
     数据加载器. 组合数据集和采样器,并在数据集上提供单进程或多进程迭代器.
 
-    参数:
+    Args:
         dataset (Dataset): 从该数据集中加载数据.
         batch_size (int, optional): 每个 batch 加载多少个样本 (默认值: 1).
         shuffle (bool, optional): 设置为 ``True`` 时, 会在每个 epoch 重新打乱数据 (默认值: False).
