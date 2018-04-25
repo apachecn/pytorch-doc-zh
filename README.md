@@ -77,7 +77,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 | [Generating Names with a Character-Level RNN](http://pytorch.apachecn.org/cn/tutorials/intermediate/char_rnn_generation_tutorial.html) | [@jianchengss](https://github.com/jianchengss) | |
 | [Translation with a Sequence to Sequence Network and Attention](http://pytorch.apachecn.org/cn/tutorials/intermediate/seq2seq_translation_tutorial.html) | [@EWilsen](http://community.apachecn.org/?/people/EWilsen) | |
 | [Reinforcement Learning (DQN) tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/reinforcement_q_learning.html) | [@Lisanaaa](https://github.com/Lisanaaa) | |
-| [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [*@Sylvester*](https://github.com/coboe) | |
+| [Writing Distributed Applications with PyTorch](http://pytorch.apachecn.org/cn/tutorials/intermediate/dist_tuto.html) | [@Sylvester](https://github.com/coboe) | |
 | [Spatial Transformer Networks Tutorial](http://pytorch.apachecn.org/cn/tutorials/intermediate/spatial_transformer_tutorial.html) | [@Twinkle](https://github.com/kemingzeng) | |
 | **高级教程** | - | - |
 | [Neural Transfer with PyTorch](http://pytorch.apachecn.org/cn/tutorials/advanced/neural_style_tutorial.html) | [@Twinkle](https://github.com/kemingzeng) | |
