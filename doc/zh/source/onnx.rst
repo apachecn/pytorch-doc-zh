@@ -2,11 +2,12 @@ torch.onnx
 ============
 .. automodule:: torch.onnx
 
-示例:从Pytorch到Caffe2的端对端AlexNet模型
+Example: End-to-end AlexNet from PyTorch to Caffe2
 --------------------------------------------------
 
-这里是一个简单的脚本程序,它将一个在 torchvision 中已经定义的预训练 AlexNet 模型导出到 ONNX 格式.
-它会运行一次,然后把模型保存至 ``alexnet.proto``::
+Here is a simple script which exports a pretrained AlexNet as defined in
+torchvision into ONNX.  It runs a single round of inference and then
+saves the resulting traced model to ``alexnet.proto``::
 
     from torch.autograd import Variable
     import torch.onnx
@@ -14,45 +15,58 @@ torch.onnx
 
     dummy_input = Variable(torch.randn(10, 3, 224, 224)).cuda()
     model = torchvision.models.alexnet(pretrained=True).cuda()
-    torch.onnx.export(model, dummy_input, "alexnet.proto", verbose=True)
 
-得到的 ``alexnet.proto`` 是一个 protobuf 二值文件, 它包含所导出模型 ( 这里是 AlexNet )中网络架构和网络参数.
-关键参数 ``verbose=True`` 会使导出过程中打印出该网络的可读表示::
+    # providing these is optional, but makes working with the
+    # converted model nicer.
+    input_names = [ "learned_%d" % i for i in range(16) ] + [ "actual_input_1" ]
+    output_names = [ "output1" ]
+
+    torch.onnx.export(model, dummy_input, "alexnet.proto", verbose=True, input_names=input_names, output_names=output_names)
+
+The resulting ``alexnet.proto`` is a binary protobuf file which contains both
+the network structure and parameters of the model you exported
+(in this case, AlexNet).  The keyword argument ``verbose=True`` causes the
+exporter to print out a human-readable representation of the network::
 
     # All parameters are encoded explicitly as inputs.  By convention,
     # learned parameters (ala nn.Module.state_dict) are first, and the
     # actual inputs are last.
-    graph(%1 : Float(64, 3, 11, 11)
-          %2 : Float(64)
+    graph(%learned_0 : Float(10, 3, 224, 224)
+          %learned_1 : Float(64, 3, 11, 11)
           # The definition sites of all variables are annotated with type
           # information, specifying the type and size of tensors.
-          # For example, %3 is a 192 x 64 x 5 x 5 tensor of floats.
-          %3 : Float(192, 64, 5, 5)
-          %4 : Float(192)
+          # For example, %learned_2 is a 192 x 64 x 5 x 5 tensor of floats.
+          %learned_2 : Float(64)
+          %learned_3 : Float(192, 64, 5, 5)
           # ---- omitted for brevity ----
-          %15 : Float(1000, 4096)
-          %16 : Float(1000)
-          %17 : Float(10, 3, 224, 224)) { # the actual input!
+          %learned_14 : Float(4096)
+          %learned_15 : Float(1000, 4096)
+          %actual_input_1 : Float(1000)) {
       # Every statement consists of some output tensors (and their types),
       # the operator to be run (with its attributes, e.g., kernels, strides,
-      # etc.), its input tensors (%17, %1)
-      %19 : UNKNOWN_TYPE = Conv[kernels=[11, 11], strides=[4, 4], pads=[2, 2, 2, 2], dilations=[1, 1], group=1](%17, %1), uses = [[%20.i0]];
+      # etc.), its input tensors (%learned_0, %learned_1, %learned_2)
+      %17 : Float(10, 64, 55, 55) = Conv[dilations=[1, 1], group=1, kernel_shape=[11, 11], pads=[2, 2, 2, 2], strides=[4, 4]](%learned_0, %learned_1, %learned_2), scope: AlexNet/Sequential[features]/Conv2d[0]
+      %18 : Float(10, 64, 55, 55) = Relu(%17), scope: AlexNet/Sequential[features]/ReLU[1]
+      %19 : Float(10, 64, 27, 27) = MaxPool[kernel_shape=[3, 3], pads=[0, 0, 0, 0], strides=[2, 2]](%18), scope: AlexNet/Sequential[features]/MaxPool2d[2]
+      # ---- omitted for brevity ----
+      %29 : Float(10, 256, 6, 6) = MaxPool[kernel_shape=[3, 3], pads=[0, 0, 0, 0], strides=[2, 2]](%28), scope: AlexNet/Sequential[features]/MaxPool2d[12]
+      %30 : Float(10, 9216) = Flatten[axis=1](%29), scope: AlexNet
       # UNKNOWN_TYPE: sometimes type information is not known.  We hope to eliminate
       # all such cases in a later release.
-      %20 : Float(10, 64, 55, 55) = Add[broadcast=1, axis=1](%19, %2), uses = [%21.i0];
-      %21 : Float(10, 64, 55, 55) = Relu(%20), uses = [%22.i0];
-      %22 : Float(10, 64, 27, 27) = MaxPool[kernels=[3, 3], pads=[0, 0, 0, 0], dilations=[1, 1], strides=[2, 2]](%21), uses = [%23.i0];
-      # ...
+      %31 : Float(10, 9216), %32 : UNKNOWN_TYPE = Dropout[is_test=1, ratio=0.5](%30), scope: AlexNet/Sequential[classifier]/Dropout[0]
+      %33 : Float(10, 4096) = Gemm[alpha=1, beta=1, broadcast=1, transB=1](%31, %learned_11, %learned_12), scope: AlexNet/Sequential[classifier]/Linear[1]
+      # ---- omitted for brevity ----
+      %output1 : Float(10, 1000) = Gemm[alpha=1, beta=1, broadcast=1, transB=1](%38, %learned_15, %actual_input_1), scope: AlexNet/Sequential[classifier]/Linear[6]
       # Finally, a network returns some tensors
-      return (%58);
+      return (%output1);
     }
 
-你可以使用 `onnx <https://github.com/onnx/onnx/>`_ 库验证 protobuf,
-并且用 conda 安装 ``onnx`` ::
+You can also verify the protobuf using the `onnx <https://github.com/onnx/onnx/>`_ library.
+You can install ``onnx`` with conda::
 
     conda install -c conda-forge onnx
 
-然后运行::
+Then, you can run::
 
     import onnx
 
@@ -65,51 +79,50 @@ torch.onnx
     # Print a human readable representation of the graph
     onnx.helper.printable_graph(model.graph)
 
-为了能够使用 `caffe2 <https://caffe2.ai/>`_ 运行脚本, 你需要三样东西:
+To run the exported script with `caffe2 <https://caffe2.ai/>`_, you will need to install `caffe2`: If you don't have one already, Please `follow the install instructions <https://caffe2.ai/docs/getting-started.html>`_.
 
-1. 你需要安装 Caffe2. 如果你之前没有安装,请参照
-   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_. 
-
-2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_,一个纯 Python 的库,它为 ONNX 提供了 Caffe2 的
-   后端.你可以使用 pip 安装 ``onnx-caffe2``::
-
-      pip install onnx-caffe2
-
-一旦这些安装完成,你就可以使用 Caffe2 的后端::
+Once these are installed, you can use the backend for Caffe2::
 
     # ...continuing from above
-    import onnx_caffe2.backend as backend
+    import caffe2.python.onnx.backend as backend
     import numpy as np
 
     rep = backend.prepare(model, device="CUDA:0") # or "CPU"
     # For the Caffe2 backend:
     #     rep.predict_net is the Caffe2 protobuf for the network
     #     rep.workspace is the Caffe2 workspace for the network
-    #       (see the class onnx_caffe2.backend.Workspace)
+    #       (see the class caffe2.python.onnx.backend.Workspace)
     outputs = rep.run(np.random.randn(10, 3, 224, 224).astype(np.float32))
     # To run networks with more than one input, pass a tuple
     # rather than a single numpy ndarray.
     print(outputs[0])
 
-之后,我们还会提供其它深度学习框架的后端支持.
+In the future, there will be backends for other frameworks as well.
 
-局限
+Limitations
 -----------
 
-* ONNX 导出器是一个基于轨迹的导出器,这意味着它执行时需要运行一次模型,然后导出实际参与运算的运算符.
-  这也意味着, 如果你的模型是动态的,例如,改变一些依赖于输入数据的操作,这时的导出结果是不准确的.同样,一
-  个轨迹可能只对一个具体的输入尺寸有效 (这是为什么我们在轨迹中需要有明确的输入的原因之一.) 我们建议检查
-  模型的轨迹,确保被追踪的运算符是合理的.
+* The ONNX exporter is a *trace-based* exporter, which means that it
+  operates by executing your model once, and exporting the operators which
+  were actually run during this run.  This means that if your model is
+  dynamic, e.g., changes behavior depending on input data, the export
+  won't be accurate.  Similarly, a trace is likely to be valid only
+  for a specific input size (which is one reason why we require explicit inputs
+  on tracing.)  We recommend examining the model trace and making sure
+  the traced operators look reasonable.
 
-* Pytorch 和 Caffe2 中的一些运算符经常有着数值上的差异.根据模型的结构,这些差异可能是微小的,但它们会在
-  表现上产生很大的差别 (尤其是对于未训练的模型.) 之后,为了帮助你在准确度要求很高的情况中,能够轻松地避免这
-  些差异带来的影响,我们计划让 Caffe2 能够直接调用 Torch 的运算符.
+* PyTorch and Caffe2 often have implementations of operators with some
+  numeric differences.  Depending on model structure, these differences
+  may be negligible, but they can also cause major divergences in behavior
+  (especially on untrained models.)  In a future release, we plan to
+  allow Caffe2 to call directly to Torch implementations of operators, to
+  help you smooth over these differences when precision is important,
+  and to also document these differences.
 
-
-支持的运算符
+Supported operators
 -------------------
 
-以下是已经被支持的运算符:
+The following operators are supported:
 
 * add (nonzero alpha not supported)
 * sub (nonzero alpha not supported)
@@ -119,9 +132,12 @@ torch.onnx
 * mm
 * addmm
 * neg
+* sqrt
 * tanh
 * sigmoid
 * mean
+* sum
+* prod
 * t
 * expand (only when used before a broadcasting ONNX operator; e.g., add)
 * transpose
@@ -132,11 +148,21 @@ torch.onnx
 * threshold (non-zero threshold/non-zero value not supported)
 * leaky_relu
 * glu
-* softmax
+* softmax (only dim=-1 supported)
 * avg_pool2d (ceil_mode not supported)
 * log_softmax
 * unfold (experimental support with ATen-Caffe2 integration)
 * elu
+* concat
+* abs
+* index_select
+* pow
+* clamp
+* max
+* min
+* eq
+* exp
+* permute
 * Conv
 * BatchNorm
 * MaxPool1d (ceil_mode not supported)
@@ -148,20 +174,146 @@ torch.onnx
 * Dropout
 * FeatureDropout (training mode not supported)
 * Index (constant integer and tuple indices supported)
-* Negate
 
-上面的运算符足够导出下面的模型:
+The operator set above is sufficient to export the following models:
 
 * AlexNet
 * DCGAN
 * DenseNet
-* Inception (注意:该模型对操作符十分敏感)
+* Inception (warning: this model is highly sensitive to changes in operator
+  implementation)
 * ResNet
 * SuperResolution
 * VGG
 * `word_language_model <https://github.com/pytorch/examples/tree/master/word_language_model>`_
 
-用于指定运算符定义的接口是高度实验性的,并且还没有记录.喜欢探索的用户应该注意,这些API可能会在之后被修改.
+Adding export support for operators is an *advance usage*.
+To achieve this, developers need to touch the source code of PyTorch.
+Please follow the `instructions <https://github.com/pytorch/pytorch#from-source>`_
+for installing PyTorch from source.
+If the wanted operator is standardized in ONNX, it should be easy to add
+support for exporting such operator (adding a symbolic function for the operator).
+To confirm whether the operator is standardized or not, please check the
+`ONNX operator list <https://github.com/onnx/onnx/blob/master/docs/Operators.md>`_.
+
+If the operator is an ATen operator, which means you can find the declaration
+of the function in ``torch/csrc/autograd/generated/VariableType.h``
+(available in generated code in PyTorch install dir), you should add the symbolic
+function in ``torch/onnx/symbolic.py`` and follow the instructions listed as below:
+
+* Define the symbolic function in
+  `torch/onnx/symbolic.py <https://github.com/pytorch/pytorch/blob/master/torch/onnx/symbolic.py>`_.
+  Make sure the function has the same name as the ATen operator/function
+  defined in ``VariableType.h``.
+* The first parameter is always the exported ONNX graph.
+  Parameter names must EXACTLY match the names in ``VariableType.h``,
+  because dispatch is done with keyword arguments.
+* Parameter ordering does NOT necessarily match what is in ``VariableType.h``,
+  tensors (inputs) are always first, then non-tensor arguments.
+* In the symbolic function, if the operator is already standardized in ONNX,
+  we only need to create a node to represent the ONNX operator in the graph.
+* If the input argument is a tensor, but ONNX asks for a scalar, we have to
+  explicitly do the conversion. The helper function ``_scalar`` can convert a
+  scalar tensor into a python scalar, and ``_if_scalar_type_as`` can turn a
+  Python scalar into a PyTorch tensor.
+
+If the operator is a non-ATen operator, the symbolic function has to be
+added in the corresponding PyTorch Function class. Please read the following
+instructions:
+
+* Create a symbolic function named ``symbolic`` in the corresponding Function class.
+* The first parameter is always the exported ONNX graph.
+* Parameter names except the first must EXACTLY match the names in ``forward``.
+* The output tuple size must match the outputs of ``forward``.
+* In the symbolic function, if the operator is already standardized in ONNX,
+  we just need to create a node to represent the ONNX operator in the graph.
+
+Symbolic functions should be implemented in Python. All of these functions interact
+with Python methods which are implemented via C++-Python bindings,
+but intuitively the interface they provide looks like this::
+
+
+    def operator/symbolic(g, *inputs):
+      """
+      Modifies Graph (e.g., using "op"), adding the ONNX operations representing
+      this PyTorch function, and returning a Value or tuple of Values specifying the
+      ONNX outputs whose values correspond to the original PyTorch return values
+      of the autograd Function (or None if an output is not supported by ONNX).
+
+      Arguments:
+        g (Graph): graph to write the ONNX representation into
+        inputs (Value...): list of values representing the variables which contain
+            the inputs for this function
+      """
+
+    class Value(object):
+      """Represents an intermediate tensor value computed in ONNX."""
+      def type(self):
+        """Returns the Type of the value."""
+
+    class Type(object):
+      def sizes(self):
+        """Returns a tuple of ints representing the shape of a tensor this describes."""
+
+    class Graph(object):
+      def op(self, opname, *inputs, **attrs):
+        """
+        Create an ONNX operator 'opname', taking 'args' as inputs
+        and attributes 'kwargs' and add it as a node to the current graph,
+        returning the value representing the single output of this
+        operator (see the `outputs` keyword argument for multi-return
+        nodes).
+
+        The set of operators and the inputs/attributes they take
+        is documented at https://github.com/onnx/onnx/blob/master/docs/Operators.md
+
+        Arguments:
+            opname (string): The ONNX operator name, e.g., `Abs` or `Add`.
+            args (Value...): The inputs to the operator; usually provided
+                as arguments to the `symbolic` definition.
+            kwargs: The attributes of the ONNX operator, with keys named
+                according to the following convention: `alpha_f` indicates
+                the `alpha` attribute with type `f`.  The valid type specifiers are
+                `f` (float), `i` (int), `s` (string) or `t` (Tensor).  An attribute
+                specified with type float accepts either a single float, or a
+                list of floats (e.g., you would say `dims_i` for a `dims` attribute
+                that takes a list of integers).
+            outputs (int, optional):  The number of outputs this operator returns;
+                by default an operator is assumed to return a single output.
+                If `outputs` is greater than one, this functions returns a tuple
+                of output `Value`, representing each output of the ONNX operator
+                in positional.
+        """
+
+The ONNX graph C++ definition is in ``torch/csrc/jit/ir.h``.
+
+Here is an example of handling missing symbolic function for ``elu`` operator.
+We try to export the model and see the error message as below::
+
+    UserWarning: ONNX export failed on elu because torch.onnx.symbolic.elu does not exist
+    RuntimeError: ONNX export failed: Couldn't export operator elu
+
+The export fails because PyTorch does not support exporting ``elu`` operator.
+We find ``virtual Tensor elu(const Tensor & input, Scalar alpha, bool inplace) const override;``
+in ``VariableType.h``. This means ``elu`` is an ATen operator.
+We check the `ONNX operator list <http://https://github.com/onnx/onnx/blob/master/docs/Operators.md>`_,
+and confirm that ``Elu`` is standardized in ONNX.
+We add the following lines to ``symbolic.py``::
+
+    def elu(g, input, alpha, inplace=False):
+        return g.op("Elu", input, alpha_f=_scalar(alpha))
+
+Now PyTorch is able to export ``elu`` operator.
+
+There are more examples in
+`symbolic.py <https://github.com/pytorch/pytorch/blob/master/torch/onnx/symbolic.py>`_,
+`tensor.py <https://github.com/pytorch/pytorch/blob/99037d627da68cdf53d3d0315deceddfadf03bba/torch/autograd/_functions/tensor.py#L24>`_,
+`padding.py <https://github.com/pytorch/pytorch/blob/99037d627da68cdf53d3d0315deceddfadf03bba/torch/nn/_functions/padding.py#L8>`_.
+
+
+The interface for specifying operator definitions is experimental;
+adventurous users should note that the APIs will probably
+change in a future interface.
 
 Functions
 --------------------------

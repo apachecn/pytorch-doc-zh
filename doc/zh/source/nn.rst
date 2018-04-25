@@ -7,13 +7,13 @@ torch.nn
 .. automodule:: torch.nn
 .. currentmodule:: torch.nn
 
-Parameters (参数) 
-------------------
+Parameters
+----------
 
 .. autoclass:: Parameter
     :members:
 
-Containers (容器) 
+Containers
 ----------------------------------
 
 :hidden:`Module`
@@ -40,7 +40,7 @@ Containers (容器)
 .. autoclass:: ParameterList
     :members:
 
-Convolution Layers (卷积层) 
+Convolution layers
 ----------------------------------
 
 :hidden:`Conv1d`
@@ -80,9 +80,8 @@ Convolution Layers (卷积层)
 .. autoclass:: ConvTranspose3d
     :members:
 
-.. _pooling-layers:
 
-Pooling Layers (池化层) 
+Pooling layers
 ----------------------------------
 
 :hidden:`MaxPool1d`
@@ -145,6 +144,12 @@ Pooling Layers (池化层)
 .. autoclass:: FractionalMaxPool2d
     :members:
 
+:hidden:`LPPool1d`
+~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: LPPool1d
+    :members:
+
 :hidden:`LPPool2d`
 ~~~~~~~~~~~~~~~~~~
 
@@ -188,13 +193,25 @@ Pooling Layers (池化层)
     :members:
 
 
-Padding Layers (填充层) 
-------------------------
+Padding layers
+--------------
+
+:hidden:`ReflectionPad1d`
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: ReflectionPad1d
+    :members:
 
 :hidden:`ReflectionPad2d`
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: ReflectionPad2d
+    :members:
+
+:hidden:`ReplicationPad1d`
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: ReplicationPad1d
     :members:
 
 :hidden:`ReplicationPad2d`
@@ -215,15 +232,63 @@ Padding Layers (填充层)
 .. autoclass:: ZeroPad2d
     :members:
 
+:hidden:`ConstantPad1d`
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: ConstantPad1d
+    :members:
+
 :hidden:`ConstantPad2d`
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: ConstantPad2d
     :members:
 
+:hidden:`ConstantPad3d`
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Non-linear Activations (非线性层) 
-----------------------------------
+.. autoclass:: ConstantPad3d
+    :members:
+
+
+Non-linear activations (weighted sum, nonlinearity)
+---------------------------------------------------
+
+:hidden:`ELU`
+~~~~~~~~~~~~~
+
+.. autoclass:: ELU
+    :members:
+
+:hidden:`Hardshrink`
+~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: Hardshrink
+    :members:
+
+:hidden:`Hardtanh`
+~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: Hardtanh
+    :members:
+
+:hidden:`LeakyReLU`
+~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: LeakyReLU
+    :members:
+
+:hidden:`LogSigmoid`
+~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: LogSigmoid
+    :members:
+
+:hidden:`PReLU`
+~~~~~~~~~~~~~~~
+
+.. autoclass:: PReLU
+    :members:
 
 :hidden:`ReLU`
 ~~~~~~~~~~~~~~
@@ -237,10 +302,10 @@ Non-linear Activations (非线性层)
 .. autoclass:: ReLU6
     :members:
 
-:hidden:`ELU`
-~~~~~~~~~~~~~
+:hidden:`RReLU`
+~~~~~~~~~~~~~~~
 
-.. autoclass:: ELU
+.. autoclass:: RReLU
     :members:
 
 :hidden:`SELU`
@@ -249,46 +314,10 @@ Non-linear Activations (非线性层)
 .. autoclass:: SELU
     :members:
 
-:hidden:`PReLU`
-~~~~~~~~~~~~~~~
-
-.. autoclass:: PReLU
-    :members:
-
-:hidden:`LeakyReLU`
-~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: LeakyReLU
-    :members:
-
-:hidden:`Threshold`
-~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: Threshold
-    :members:
-
-:hidden:`Hardtanh`
-~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: Hardtanh
-    :members:
-
 :hidden:`Sigmoid`
 ~~~~~~~~~~~~~~~~~
 
 .. autoclass:: Sigmoid
-    :members:
-
-:hidden:`Tanh`
-~~~~~~~~~~~~~~
-
-.. autoclass:: Tanh
-    :members:
-
-:hidden:`LogSigmoid`
-~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: LogSigmoid
     :members:
 
 :hidden:`Softplus`
@@ -309,11 +338,26 @@ Non-linear Activations (非线性层)
 .. autoclass:: Softsign
     :members:
 
+:hidden:`Tanh`
+~~~~~~~~~~~~~~
+
+.. autoclass:: Tanh
+    :members:
+
 :hidden:`Tanhshrink`
 ~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: Tanhshrink
     :members:
+
+:hidden:`Threshold`
+~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: Threshold
+    :members:
+
+Non-linear activations (other)
+------------------------------
 
 :hidden:`Softmin`
 ~~~~~~~~~~~~~~~~~
@@ -339,8 +383,7 @@ Non-linear Activations (非线性层)
 .. autoclass:: LogSoftmax
     :members:
 
-
-Normalization layers (归一化层) 
+Normalization layers
 ----------------------------------
 
 :hidden:`BatchNorm1d`
@@ -379,7 +422,19 @@ Normalization layers (归一化层)
 .. autoclass:: InstanceNorm3d
     :members:
 
-Recurrent layers (循环层) 
+:hidden:`LayerNorm`
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: LayerNorm
+    :members:
+
+:hidden:`LocalResponseNorm`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: LocalResponseNorm
+    :members:
+
+Recurrent layers
 ----------------------------------
 
 :hidden:`RNN`
@@ -418,7 +473,7 @@ Recurrent layers (循环层)
 .. autoclass:: GRUCell
     :members:
 
-Linear layers (线性层) 
+Linear layers
 ----------------------------------
 
 :hidden:`Linear`
@@ -461,7 +516,7 @@ Dropout layers
     :members:
 
 
-Sparse layers (稀疏层) 
+Sparse layers
 ----------------------------------
 
 :hidden:`Embedding`
@@ -476,7 +531,7 @@ Sparse layers (稀疏层)
 .. autoclass:: EmbeddingBag
     :members:
 
-Distance functions (距离函数) 
+Distance functions
 ----------------------------------
 
 :hidden:`CosineSimilarity`
@@ -492,7 +547,7 @@ Distance functions (距离函数)
     :members:
 
 
-Loss functions (损失函数) 
+Loss functions
 ----------------------------------
 
 :hidden:`L1Loss`
@@ -523,12 +578,6 @@ Loss functions (损失函数)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: PoissonNLLLoss
-    :members:
-
-:hidden:`NLLLoss2d`
-~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: NLLLoss2d
     :members:
 
 :hidden:`KLDivLoss`
@@ -604,8 +653,8 @@ Loss functions (损失函数)
     :members:
 
 
-Vision layers (视觉层) 
------------------------
+Vision layers
+----------------
 
 :hidden:`PixelShuffle`
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -632,8 +681,8 @@ Vision layers (视觉层)
     :members:
 
 
-DataParallel layers (multi-GPU, distributed) (数据并行层, 多 GPU 的, 分布式的) 
--------------------------------------------------------------------------------
+DataParallel layers (multi-GPU, distributed)
+--------------------------------------------
 
 :hidden:`DataParallel`
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -648,13 +697,18 @@ DataParallel layers (multi-GPU, distributed) (数据并行层, 多 GPU 的, 分�
     :members:
 
 
-Utilities (工具包) 
--------------------
+Utilities
+---------
 
-:hidden:`clip_grad_norm`
-~~~~~~~~~~~~~~~~~~~~~~~~
+:hidden:`clip_grad_norm_`
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autofunction:: torch.nn.utils.clip_grad_norm
+.. autofunction:: torch.nn.utils.clip_grad_norm_
+
+:hidden:`clip_grad_value_`
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: torch.nn.utils.clip_grad_value_
 
 :hidden:`weight_norm`
 ~~~~~~~~~~~~~~~~~~~~~
@@ -687,12 +741,24 @@ Utilities (工具包)
 .. autofunction:: torch.nn.utils.rnn.pad_packed_sequence
 
 
+:hidden:`pad_sequence`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: torch.nn.utils.rnn.pad_sequence
+
+
+:hidden:`pack_sequence`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: torch.nn.utils.rnn.pack_sequence
+
+
 torch.nn.functional
 ===================
 
 .. currentmodule:: torch.nn.functional
 
-Convolution functions (卷积函数) 
+Convolution functions
 ----------------------------------
 
 :hidden:`conv1d`
@@ -725,7 +791,7 @@ Convolution functions (卷积函数)
 
 .. autofunction:: conv_transpose3d
 
-Pooling functions (池化函数) 
+Pooling functions
 ----------------------------------
 
 :hidden:`avg_pool1d`
@@ -773,6 +839,11 @@ Pooling functions (池化函数)
 
 .. autofunction:: max_unpool3d
 
+:hidden:`lp_pool1d`
+~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: lp_pool1d
+
 :hidden:`lp_pool2d`
 ~~~~~~~~~~~~~~~~~~~
 
@@ -809,24 +880,27 @@ Pooling functions (池化函数)
 .. autofunction:: adaptive_avg_pool3d
 
 
-Non-linear activation functions (非线性激活器函数) 
----------------------------------------------------
+Non-linear activation functions
+-------------------------------
 
 :hidden:`threshold`
 ~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: threshold
+.. autofunction:: threshold_
 
 
 :hidden:`relu`
 ~~~~~~~~~~~~~~
 
 .. autofunction:: relu
+.. autofunction:: relu_
 
 :hidden:`hardtanh`
 ~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: hardtanh
+.. autofunction:: hardtanh_
 
 :hidden:`relu6`
 ~~~~~~~~~~~~~~~
@@ -837,6 +911,7 @@ Non-linear activation functions (非线性激活器函数)
 ~~~~~~~~~~~~~
 
 .. autofunction:: elu
+.. autofunction:: elu_
 
 :hidden:`selu`
 ~~~~~~~~~~~~~~
@@ -847,6 +922,7 @@ Non-linear activation functions (非线性激活器函数)
 ~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: leaky_relu
+.. autofunction:: leaky_relu_
 
 :hidden:`prelu`
 ~~~~~~~~~~~~~~~
@@ -857,6 +933,7 @@ Non-linear activation functions (非线性激活器函数)
 ~~~~~~~~~~~~~~~
 
 .. autofunction:: rrelu
+.. autofunction:: rrelu_
 
 :hidden:`glu`
 ~~~~~~~~~~~~~~~
@@ -918,21 +995,36 @@ Non-linear activation functions (非线性激活器函数)
 
 .. autofunction:: sigmoid
 
-Normalization functions (归一化函数) 
--------------------------------------
+Normalization functions
+-----------------------
 
 :hidden:`batch_norm`
 ~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: batch_norm
 
+:hidden:`instance_norm`
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: instance_norm
+
+:hidden:`layer_norm`
+~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: layer_norm
+
+:hidden:`local_response_norm`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: local_response_norm
+
 :hidden:`normalize`
 ~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: normalize
 
-Linear functions (线性函数) 
-----------------------------
+Linear functions
+----------------
 
 :hidden:`linear`
 ~~~~~~~~~~~~~~~~
@@ -962,7 +1054,7 @@ Dropout functions
 
 .. autofunction:: dropout3d
 
-Distance functions (距离函数) 
+Distance functions
 ----------------------------------
 
 :hidden:`pairwise_distance`
@@ -976,8 +1068,8 @@ Distance functions (距离函数)
 .. autofunction:: cosine_similarity
 
 
-Loss functions (损失函数) 
---------------------------
+Loss functions
+--------------
 
 :hidden:`binary_cross_entropy`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1064,8 +1156,8 @@ Loss functions (损失函数)
 
 .. autofunction:: triplet_margin_loss
 
-Vision functions (视觉函数) 
-----------------------------
+Vision functions
+----------------
 
 :hidden:`pixel_shuffle`
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1102,20 +1194,28 @@ Vision functions (视觉函数)
 
 .. autofunction:: affine_grid
 
+DataParallel functions (multi-GPU, distributed)
+-----------------------------------------------
+
+:hidden:`data_parallel`
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: torch.nn.parallel.data_parallel
+
 
 torch.nn.init
 =============
 
 .. currentmodule:: torch.nn.init
 .. autofunction:: calculate_gain
-.. autofunction:: uniform
-.. autofunction:: normal
-.. autofunction:: constant
-.. autofunction:: eye
-.. autofunction:: dirac
-.. autofunction:: xavier_uniform
-.. autofunction:: xavier_normal
-.. autofunction:: kaiming_uniform
-.. autofunction:: kaiming_normal
-.. autofunction:: orthogonal
-.. autofunction:: sparse
+.. autofunction:: uniform_
+.. autofunction:: normal_
+.. autofunction:: constant_
+.. autofunction:: eye_
+.. autofunction:: dirac_
+.. autofunction:: xavier_uniform_
+.. autofunction:: xavier_normal_
+.. autofunction:: kaiming_uniform_
+.. autofunction:: kaiming_normal_
+.. autofunction:: orthogonal_
+.. autofunction:: sparse_

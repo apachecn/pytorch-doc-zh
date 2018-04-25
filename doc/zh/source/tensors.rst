@@ -1,78 +1,143 @@
 .. currentmodule:: torch
 
+.. _tensor-doc:
+
 torch.Tensor
 ===================================
 
- :class:`torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
+A :class:`torch.Tensor` is a multi-dimensional matrix containing elements of
+a single data type.
 
-Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
+Torch defines eight CPU tensor types and eight GPU tensor types:
 
-======================== ===========================   ================================
-Data type                CPU tensor                    GPU tensor
-======================== ===========================   ================================
-32-bit floating point    :class:`torch.FloatTensor`    :class:`torch.cuda.FloatTensor`
-64-bit floating point    :class:`torch.DoubleTensor`   :class:`torch.cuda.DoubleTensor`
-16-bit floating point    :class:`torch.HalfTensor`     :class:`torch.cuda.HalfTensor`
-8-bit integer (unsigned) :class:`torch.ByteTensor`     :class:`torch.cuda.ByteTensor`
-8-bit integer (signed)   :class:`torch.CharTensor`     :class:`torch.cuda.CharTensor`
-16-bit integer (signed)  :class:`torch.ShortTensor`    :class:`torch.cuda.ShortTensor`
-32-bit integer (signed)  :class:`torch.IntTensor`      :class:`torch.cuda.IntTensor`
-64-bit integer (signed)  :class:`torch.LongTensor`     :class:`torch.cuda.LongTensor`
-======================== ===========================   ================================
+========================   ===========================================   ===========================   ================================
+Data type                  dtype                                         CPU tensor                    GPU tensor
+========================   ===========================================   ===========================   ================================
+32-bit floating point      ``torch.float32`` or ``torch.float``          :class:`torch.FloatTensor`    :class:`torch.cuda.FloatTensor`
+64-bit floating point      ``torch.float64`` or ``torch.double``         :class:`torch.DoubleTensor`   :class:`torch.cuda.DoubleTensor`
+16-bit floating point      ``torch.float16`` or ``torch.half``           :class:`torch.HalfTensor`     :class:`torch.cuda.HalfTensor`
+8-bit integer (unsigned)   ``torch.uint8``                               :class:`torch.ByteTensor`     :class:`torch.cuda.ByteTensor`
+8-bit integer (signed)     ``torch.int8``                                :class:`torch.CharTensor`     :class:`torch.cuda.CharTensor`
+16-bit integer (signed)    ``torch.int16`` or ``torch.short``            :class:`torch.ShortTensor`    :class:`torch.cuda.ShortTensor`
+32-bit integer (signed)    ``torch.int32`` or ``torch.int``              :class:`torch.IntTensor`      :class:`torch.cuda.IntTensor`
+64-bit integer (signed)    ``torch.int64`` or ``torch.long``             :class:`torch.LongTensor`     :class:`torch.cuda.LongTensor`
+========================   ===========================================   ===========================   ================================
 
- :class:`torch.Tensor` 是默认的 tensor 类型(:class:`torch.FloatTensor`)的简称.
+:class:`torch.Tensor` is an alias for the default tensor type (:class:`torch.FloatTensor`).
 
-一个 tensor 对象可以从 Python 的 :class:`list` 或者序列(sequence)构建:
-
-::
-
-    >>> torch.FloatTensor([[1, 2, 3], [4, 5, 6]])
-    1  2  3
-    4  5  6
-    [torch.FloatTensor of size 2x3]
-
-一个空的 tensor 对象可以通过所指定的大小来构建:
+A tensor can be constructed from a Python :class:`list` or sequence using the
+:func:`torch.tensor` constructor:
 
 ::
 
-    >>> torch.IntTensor(2, 4).zero_()
-    0  0  0  0
-    0  0  0  0
-    [torch.IntTensor of size 2x4]
+    >>> torch.tensor([[1., -1.], [1., -1.]])
+    tensor([[ 1.0000, -1.0000],
+            [ 1.0000, -1.0000]])
+    >>> torch.tensor(np.array([[1, 2, 3], [4, 5, 6]]))
+    tensor([[ 1,  2,  3],
+            [ 4,  5,  6]])
 
-可以通过 Python 的索引和切片方式来获取或修改 tensor 对象的内容:
+.. warning::
+
+    :func:`torch.tensor` always copies :attr:`data`. If you have a Tensor
+    :attr:`data` and just want to change its ``requires_grad`` flag, use
+    :meth:`~torch.Tensor.requires_grad_` or
+    :meth:`~torch.Tensor.detach` to avoid a copy.
+    If you have a numpy array and want to avoid a copy, use
+    :func:`torch.from_numpy`.
+
+An tensor of specific data type can be constructed by passing a
+:class:`torch.dtype` and/or a :class:`torch.device` to a
+constructor or tensor creation op:
 
 ::
 
-    >>> x = torch.FloatTensor([[1, 2, 3], [4, 5, 6]])
+    >>> torch.zeros([2, 4], dtype=torch.int32)
+    tensor([[ 0,  0,  0,  0],
+            [ 0,  0,  0,  0]], dtype=torch.int32)
+    >>> cuda0 = torch.device('cuda:0')
+    >>> torch.ones([2, 4], dtype=torch.float64, device=cuda0)
+    tensor([[ 1.0000,  1.0000,  1.0000,  1.0000],
+            [ 1.0000,  1.0000,  1.0000,  1.0000]], dtype=torch.float64, device='cuda:0')
+
+The contents of a tensor can be accessed and modified using Python's indexing
+and slicing notation:
+
+::
+
+    >>> x = torch.tensor([[1, 2, 3], [4, 5, 6]])
     >>> print(x[1][2])
-    6.0
+    tensor(6)
     >>> x[0][1] = 8
     >>> print(x)
-     1  8  3
-     4  5  6
-    [torch.FloatTensor of size 2x3]
+    tensor([[ 1,  8,  3],
+            [ 4,  5,  6]])
 
-每一个 tensor 对象都有一个相应的 :class:`torch.Storage` 用来保存数据. 
-tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.wikipedia.org/wiki/Stride_of_an_array>`_ 的视图, 并且在视图上定义了数值运算.
+Use :meth:`torch.Tensor.item` to get a Python number from a tensor containing a
+single value:
+
+::
+
+    >>> x = torch.tensor([[1]])
+    >>> x
+    tensor([[ 1]])
+    >>> x.item()
+    1
+    >>> x = torch.tensor(2.5)
+    >>> x
+    tensor(2.5000)
+    >>> x.item()
+    2.5
+
+A tensor can be created with :attr:`requires_grad=True` so that
+:mod:`torch.autograd` records operations on them for automatic differentiation.
+
+::
+
+    >>> x = torch.tensor([[1., -1.], [1., 1.]], requires_grad=True)
+    >>> out = x.pow(2).sum()
+    >>> out.backward()
+    >>> x.grad
+    tensor([[ 2.0000, -2.0000],
+            [ 2.0000,  2.0000]])
+
+Each tensor has an associated :class:`torch.Storage`, which holds its data.
+The tensor class provides multi-dimensional, `strided <https://en.wikipedia.org/wiki/Stride_of_an_array>`_
+view of a storage and defines numeric operations on it.
 
 .. note::
-   会改变 tensor 对象的函数方法名, 其使用了一个下划线后缀作为标识. 
-   比如, :func:`torch.FloatTensor.abs_` 会在原地(in-place)计算绝对值并返回改变后的 tensor. 而 :func:`torch.FloatTensor.abs` 会在一个新建的 tensor 中计算结果.
+   For more information on the :class:`torch.dtype`, :class:`torch.device`, and
+   :class:`torch.layout` attributes of a :class:`torch.Tensor`, see
+   :ref:`tensor-attributes-doc`.
+
+.. note::
+   Methods which mutate a tensor are marked with an underscore suffix.
+   For example, :func:`torch.FloatTensor.abs_` computes the absolute value
+   in-place and returns the modified tensor, while :func:`torch.FloatTensor.abs`
+   computes the result in a new tensor.
+
+.. note::
+    To change an existing tensor's :class:`torch.device` and/or :class:`torch.dtype`, consider using
+    :meth:`~torch.Tensor.to` method on the tensor.
 
 .. class:: Tensor()
-           Tensor(*sizes)
-           Tensor(size)
-           Tensor(sequence)
-           Tensor(ndarray)
-           Tensor(tensor)
-           Tensor(storage)
 
-   可以通过提供大小或者数据来创建一个新的 tensor 对象.
+   There are a few main ways to create a tensor, depending on your use case.
 
-   如果没有提供参数, 将返回一个空的零维的 tensor. 
-   如果提供了 :class:`numpy.ndarray`, :class:`torch.Tensor`, 或者 :class:`torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象.
-   如果提供一个 Python 序列(sequence)作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
+   - To create a tensor with pre-existing data, use :func:`torch.tensor`.
+   - To create a tensor with specific size, use ``torch.*`` tensor creation
+     ops (see :ref:`tensor-creation-ops`).
+   - To create a tensor with the same size (and similar types) as another tensor,
+     use ``torch.*_like`` tensor creation ops
+     (see :ref:`tensor-creation-ops`).
+   - To create a tensor with similar type but different size as another tensor,
+     use ``tensor.new_*`` creation ops.
+
+   .. automethod:: new_tensor
+   .. automethod:: new_full
+   .. automethod:: new_empty
+   .. automethod:: new_ones
+   .. automethod:: new_zeros
 
    .. automethod:: abs
    .. automethod:: abs_
@@ -93,7 +158,8 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: addr
    .. automethod:: addr_
    .. automethod:: apply_
-   
+   .. automethod:: argmax
+   .. automethod:: argmin
    .. automethod:: asin
    .. automethod:: asin_
    .. automethod:: atan
@@ -106,6 +172,9 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: bernoulli_
    .. automethod:: bmm
    .. automethod:: byte
+   .. automethod:: btrifact
+   .. automethod:: btrifact_with_info
+   .. automethod:: btrisolve
    .. automethod:: cauchy_
    .. automethod:: ceil
    .. automethod:: ceil_
@@ -126,6 +195,9 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: cumprod
    .. automethod:: cumsum
    .. automethod:: data_ptr
+   .. automethod:: det
+   .. autoattribute:: device
+      :annotation:
    .. automethod:: diag
    .. automethod:: dim
    .. automethod:: dist
@@ -144,6 +216,8 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: erfinv_
    .. automethod:: exp
    .. automethod:: exp_
+   .. automethod:: expm1
+   .. automethod:: expm1_
    .. automethod:: expand
    .. automethod:: expand_as
    .. automethod:: exponential_
@@ -171,6 +245,7 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: index_add_
    .. automethod:: index_copy_
    .. automethod:: index_fill_
+   .. automethod:: index_put_
    .. automethod:: index_select
    .. automethod:: int
    .. automethod:: inverse
@@ -180,15 +255,21 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: is_pinned
    .. automethod:: is_set_to
    .. automethod:: is_signed
+   .. automethod:: item
    .. automethod:: kthvalue
    .. automethod:: le
    .. automethod:: le_
    .. automethod:: lerp
    .. automethod:: lerp_
    .. automethod:: log
+   .. automethod:: log_
+   .. automethod:: logdet
+   .. automethod:: log10
+   .. automethod:: log10_
    .. automethod:: log1p
    .. automethod:: log1p_
-   .. automethod:: log_
+   .. automethod:: log2
+   .. automethod:: log2_
    .. automethod:: log_normal_
    .. automethod:: long
    .. automethod:: lt
@@ -215,7 +296,6 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: neg
    .. automethod:: neg_
    .. automethod:: nelement
-   .. automethod:: new
    .. automethod:: nonzero
    .. automethod:: norm
    .. automethod:: normal_
@@ -242,6 +322,8 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: renorm
    .. automethod:: renorm_
    .. automethod:: repeat
+   .. automethod:: requires_grad_
+   .. automethod:: reshape
    .. automethod:: resize_
    .. automethod:: resize_as_
    .. automethod:: round
@@ -262,6 +344,7 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: sinh
    .. automethod:: sinh_
    .. automethod:: size
+   .. automethod:: slogdet
    .. automethod:: sort
    .. automethod:: split
    .. automethod:: sqrt
@@ -280,6 +363,7 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: symeig
    .. automethod:: t
    .. automethod:: t_
+   .. automethod:: to
    .. automethod:: take
    .. automethod:: tan
    .. automethod:: tan_
@@ -301,6 +385,7 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
    .. automethod:: type_as
    .. automethod:: unfold
    .. automethod:: uniform_
+   .. automethod:: unique
    .. automethod:: unsqueeze
    .. automethod:: unsqueeze_
    .. automethod:: var
@@ -310,7 +395,7 @@ tensor 类提供了一个存储的多维的,  有 `跨度(strided) <https://en.w
 
 .. class:: ByteTensor()
 
-   下面这些函数方法只存在于 :class:`torch.ByteTensor`.
+   The following methods are unique to :class:`torch.ByteTensor`.
 
    .. automethod:: all
    .. automethod:: any
