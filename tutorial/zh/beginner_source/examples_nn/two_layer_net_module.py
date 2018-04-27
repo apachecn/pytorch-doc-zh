@@ -30,9 +30,8 @@ class TwoLayerNet(torch.nn.Module):
         y_pred = self.linear2(h_relu)
         return y_pred
 
-
-# N 批量大小; D_in是输入尺寸;
-# H是隐藏尺寸; D_out是输出尺寸.
+# N 是一个batch的样本数量; D_in是输入维度;
+# H 是隐藏层向量的维度; D_out是输出维度.
 N, D_in, H, D_out = 64, 1000, 100, 10
 
 # 创建随机张量来保存输入和输出,并将它们包装在变量中. 
