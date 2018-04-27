@@ -14,65 +14,65 @@ class _TensorBase(object):
     # CUDA case, which handles constructing the tensor on the same GPU
     # as this tensor.
     def new(self, *args, **kwargs):
-        """Constructs a new tensor of the same data type."""
+        """构造相同数据类型的新 tensor."""
         return self.__class__(*args, **kwargs)
 
     def type_as(self, tensor):
-        """Returns this tensor cast to the type of the given tensor.
+        """将此张量转换为给定 tensor 的类型.
 
-        This is a no-op if the tensor is already of the correct type. This is
-        equivalent to::
+        如果 tensor 已经是正确的类型, 这是一个无用的操作. 
+        这相当于::
 
             self.type(tensor.type())
 
         Params:
-            tensor (Tensor): the tensor which has the desired type
+            tensor (Tensor): tensor 具有所需的类型
         """
         return self.type(tensor.type())
 
     def cpu(self):
-        """Returns a CPU copy of this tensor if it's not already on the CPU"""
+        """如果此 tensor 不在CPU上, 则返回此 tensor 的CPU副本"""
         return self.type(getattr(torch, self.__class__.__name__))
 
     def double(self):
-        """Casts this tensor to double type"""
+        """将这个 tensor 转换为 double 类型"""
         return self.type(type(self).__module__ + '.DoubleTensor')
 
     def float(self):
-        """Casts this tensor to float type"""
+        """将这个 tensor 转换为 float 类型"""
         return self.type(type(self).__module__ + '.FloatTensor')
 
     def half(self):
-        """Casts this tensor to half-precision float type"""
+        """将这个 tensor 转换为 half-precision float 类型"""
         return self.type(type(self).__module__ + '.HalfTensor')
 
     def long(self):
-        """Casts this tensor to long type"""
+        """将这个 tensor 转换为 long 类型"""
         return self.type(type(self).__module__ + '.LongTensor')
 
     def int(self):
-        """Casts this tensor to int type"""
+        """将这个 tensor 转换为 int 类型"""
         return self.type(type(self).__module__ + '.IntTensor')
 
     def short(self):
-        """Casts this tensor to short type"""
+        """将这个 tensor 转换为 short 类型"""
         return self.type(type(self).__module__ + '.ShortTensor')
 
     def char(self):
-        """Casts this tensor to char type"""
+        """将这个 tensor 转换为 char 类型"""
         return self.type(type(self).__module__ + '.CharTensor')
 
     def byte(self):
-        """Casts this tensor to byte type"""
+        """将这个 tensor 转换为 byte 类型"""
         return self.type(type(self).__module__ + '.ByteTensor')
 
     def is_pinned(self):
-        """Returns true if this tensor resides in pinned memory"""
+        """如果 tensor 驻留在固定内存中, 则返回 true"""
         storage = self.storage()
         return storage.is_pinned() if storage else False
 
     def pin_memory(self):
-        """Copies the tensor to pinned memory, if it's not already pinned."""
+        """如果 tensor 尚未固定, 则将 tensor 复制到固定内存."""
         if self.is_cuda:
             raise TypeError("cannot pin '{0}' only CPU memory can be pinned"
                             .format(self.type()))
@@ -82,26 +82,25 @@ class _TensorBase(object):
         return type(self)().set_(storage.pin_memory()).view_as(self)
 
     def share_memory_(self):
-        """Moves the underlying storage to shared memory.
+        """将底层存储移到共享内存.
 
-        This is a no-op if the underlying storage is already in shared memory
-        and for CUDA tensors. Tensors in shared memory cannot be resized.
+        如果底层存储已经在共享内存和CUDA tensor 中, 则这是无操作.  共享内存中的 tensor 不能调整大小.
         """
         self.storage().share_memory_()
         return self
 
     def is_shared(self):
-        """Checks if tensor is in shared memory.
+        """检查 tensor 是否在共享内存中.
 
-        This is always ``True`` for CUDA tensors.
+        对于CUDA tensor, 这总是"true".
         """
         return self.storage().is_shared()
 
     @property
     def shape(self):
-        """Alias for .size()
+        """ .size()的别名
 
-        Returns a torch.Size object, containing the dimensions of the tensor
+        返回一个torch.Size对象, 其中包含 tensor 的维数
         """
         return self.size()
 
@@ -160,27 +159,27 @@ class _TensorBase(object):
             return iter([])
 
     def split(self, split_size, dim=0):
-        """Splits this tensor into a tuple of tensors.
+        """将 tensor 分解成 tensor 元组.
 
         See :func:`torch.split`.
         """
         return torch.split(self, split_size, dim)
 
     def chunk(self, n_chunks, dim=0):
-        """Splits this tensor into a tuple of tensors.
+        """将 tensor 分解成 tensor 元组.
 
-        See :func:`torch.chunk`.
+        请查看 :func:`torch.chunk`.
         """
         return torch.chunk(self, n_chunks, dim)
 
     def matmul(self, other):
-        """Matrix product of two tensors.
+        """两个 tensor 的矩阵乘积.
 
-        See :func:`torch.matmul`."""
+        请查看 :func:`torch.matmul`."""
         return torch.matmul(self, other)
 
     def tolist(self):
-        """Returns a nested list represenation of this tensor."""
+        """返回此 tensor 的嵌套列表表示."""
         dim = self.dim()
         if dim == 1:
             return [v for v in self]
@@ -189,19 +188,19 @@ class _TensorBase(object):
         return []
 
     def view_as(self, tensor):
-        """Returns this tensor viewed as the size as the specified tensor.
+        """将该 tensor 作为指定的 tensor 返回查看.
 
-        This is equivalent to::
+        这相当于::
 
                 self.view(tensor.size())
         """
         return self.view(tensor.size())
 
     def permute(self, *dims):
-        """Permute the dimensions of this tensor.
+        """排列该 tensor 的尺寸.
 
         Args:
-            *dims (int...): The desired ordering of dimensions
+            *dims (int...): 按所期望的维数排序
 
         Example:
             >>> x = torch.randn(2, 3, 5)
@@ -227,22 +226,21 @@ class _TensorBase(object):
         return tensor
 
     def expand_as(self, tensor):
-        """Expands this tensor to the size of the specified tensor.
+        """将此 tensor 展开为指定 tensor 的大小.
 
-        This is equivalent to::
+        这相当于::
 
             self.expand(tensor.size())
         """
         return self.expand(tensor.size())
 
     def repeat(self, *sizes):
-        """Repeats this tensor along the specified dimensions.
+        """沿着指定的尺寸重复 tensor.
 
-        Unlike :meth:`expand`, this function copies the tensor's data.
+        和 :meth:`expand` 不同, 这个函数复制 tensor 的数据.
 
         Args:
-            *sizes (torch.Size or int...): The number of times to repeat this
-                tensor along each dimension
+            *sizes (torch.Size or int...): 沿每个维度重复 tensor 的次数
 
         Example:
             >>> x = torch.Tensor([1, 2, 3])

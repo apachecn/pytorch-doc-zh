@@ -114,7 +114,7 @@ class FaceLandmarksDataset(Dataset):
 
     def __init__(self, csv_file, root_dir, transform=None):
         """
-        参数:
+        Args:
             csv_file (string): 带有标记点的csv文件路径
             root_dir (string): 图片路径
             transform (callable, optional):可选择进行的图像变换

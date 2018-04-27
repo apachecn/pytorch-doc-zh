@@ -206,10 +206,10 @@ def load(f, map_location=None, pickle_module=pickle):
     """从磁盘文件中加载一个用 :func:`torch.save` 保存的对象.
 
     :func: `torch.load` 使用 Python 的解封 (unpickling) 设施, 但特殊对待张量下的存储 (storages).
-    它们首先在 CPU 上反序列化, 然后移动到所保存的设备上. 如果这个过程失败了 (例如，因为运行时的系统没有确定的设备),
+    它们首先在 CPU 上反序列化, 然后移动到所保存的设备上. 如果这个过程失败了 (例如, 因为运行时的系统没有确定的设备),
     将会抛出异常. 然而, 使用 map_location 参数, 存储可以被动态地重新映射到另一组设备上.
 
-    如果 map_location 是可调用对象, 则对于每个序列化存储，它都将以两个参数调用一次: storage 和 location.
+    如果 map_location 是可调用对象, 则对于每个序列化存储, 它都将以两个参数调用一次: storage 和 location.
     参数 storage 是驻留在 CPU 上的存储的初始反序列化. 每个序列化后的存储都有一个与之关联的位置标签, 它标识了保存它的设备, 
     而此标签是传递给 map_location 的第二个参数. 对于 CPU 张量, 内建的位置标签是 'cpu', 对于 CUDA 张量, 内建的位置标签是 'cuda:device_id' 
     (例如 'cuda:2'). map_location 要么返回 None , 要么返回一个存储. 如果 map_location 返回存储, 

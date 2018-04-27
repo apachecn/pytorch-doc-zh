@@ -25,7 +25,7 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv1d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -34,7 +34,7 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
         groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    例子::
+    Example::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50))
@@ -55,7 +55,7 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv2d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels/groups x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -64,7 +64,7 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
         groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    例子::
+    Example::
     
         >>> # With square kernels and equal stride
         >>> filters = autograd.Variable(torch.randn(8,4,3,3))
@@ -86,7 +86,7 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv3d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels/groups x kT x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -95,7 +95,7 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
         groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    例子::
+    Example::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3, 3, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50, 10, 20))
@@ -117,7 +117,7 @@ def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose1d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -144,7 +144,7 @@ def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose2d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -170,7 +170,7 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose3d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -949,7 +949,7 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
 
     详见 :class:`~torch.nn.NLLLoss`.
 
-    参数:
+    Args:
         input: :math:`(N, C)` 其中 `C = number of classes` 或 `(N, C, H, W)`, 
             当 2D - Loss 时
         target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
@@ -960,7 +960,7 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
             当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
 
-    实例::
+    Example::
 
         >>> # input is of size N x C = 3 x 5
         >>> input = autograd.Variable(torch.randn(3, 5))
@@ -985,7 +985,7 @@ def poisson_nll_loss(input, target, log_input=True, full=False, size_average=Tru
 
     详见 :class:`~torch.nn.PoissonNLLLoss`.
 
-    参数:
+    Args:
         input: 泊松分布的期望值.
         target: 随机样本 :math:`target \sim Pois(input)`.
         log_input:  如果设置为 ``True`` , 损失将会按照公式 `exp(input) - target * input` 
@@ -1017,7 +1017,7 @@ kl_div = _add_docstr(torch._C._nn.kl_div, r"""
 
 详见ee :class:`~torch.nn.KLDivLoss`.
 
-参数:
+Args:
     input: 任意形状变量
     target: 与输入形状相同的变量
     size_average: 如果是 ``True`` 输出值会除以输入 tensor 的元素总数. 默认: ``True``
@@ -1033,7 +1033,7 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
 
     详见 :class:`~torch.nn.CrossEntropyLoss`.
 
-    参数:
+    Args:
         input: 变量 :math:`(N, C)` 其中 `C` 为分类的数量
         target: 变脸 :math:`(N)` 其中每个值 `0 <= targets[i] <= C-1`
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个大小为 `C` 的 Tensor
@@ -1047,7 +1047,7 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
                 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 False 时, 损失函数会对每个 
                 batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
 
-    实例::
+    Example::
 
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(5))
@@ -1062,7 +1062,7 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
 
     详见 :class:`~torch.nn.BCELoss`.
 
-    参数:
+    Args:
         input: 任意形状的变量
         target: 与输入形状相同的变量
         weight (Variable, optional): 一个可手动指定每个类别的权重.如果给定的话, 会反复与
@@ -1070,7 +1070,7 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
         size_average (bool, optional): 默认情况下, 是mini-batchloss的平均值. 然而, 
                 如果size_average=False, 则是 `mini-batch` loss的总和. 默认: ``True``
 
-    实例::
+    Example::
 
         >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(2))
@@ -1098,7 +1098,7 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
 
     详见 :class:`~torch.nn.BCEWithLogitsLoss`.
 
-    参数:
+    Args:
         input: 任意形状的变量
         target: 与输入形状相同的变量
         weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
@@ -1107,7 +1107,7 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
                 上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
                 mini-batch（小批量）上求和. 默认值: ``True``
 
-    实例::
+    Example::
 
          >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
          >>> target = autograd.Variable(torch.FloatTensor(3).random_(2))
@@ -1203,11 +1203,11 @@ def pixel_shuffle(input, upscale_factor):
 
     详情请参阅 :class:`~torch.nn.PixelShuffle`.
 
-    参数:
+    Args:
         input (Variable): 输入
         upscale_factor (int): 增加空间分辨率的因子
 
-    例子:
+    Example:
 
         >>> ps = nn.PixelShuffle(3)
         >>> input = autograd.Variable(torch.Tensor(1, 9, 4, 4))
@@ -1236,13 +1236,11 @@ def upsample(input, size=None, scale_factor=None, mode='nearest'):
 
     当前的时间, 空间和体积的 upsampleing 被支持, 即预期的输入是三维, 四维或五维形状. 
 
-    输入维度用以下形式:
-    `mini-batch x channels x [depth] x [height] x width`
+    输入维度用以下形式: `mini-batch x channels x [depth] x [height] x width`
 
-    上采样的模式: 
-    `nearest`, `linear` (3D-only),`bilinear` (4D-only), `trilinear` (5D-only)
+    上采样的模式: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only)
 
-    参数:
+    Args:
         input (Variable): 输入
         size (int or Tuple[int] or Tuple[int, int] or Tuple[int, int, int]):
             输出空间尺寸.
@@ -1287,7 +1285,7 @@ def upsample_nearest(input, size=None, scale_factor=None):
 
     目前支持空间和体积上采样 (即预期的输入是4或5维).
 
-    参数:
+    Args:
         input (Variable): 输入
         size (int or Tuple[int, int] or Tuple[int, int, int]): 输出空间尺寸.
         scale_factor (int): 乘数空间尺寸, 必须是整型.
@@ -1304,7 +1302,7 @@ def upsample_bilinear(input, size=None, scale_factor=None):
 
     预期的输入是4维空间. 使用 upsample_trilinear 作为容积（5维）输入.
 
-    参数:
+    Args:
         input (Variable): 输入
         size (int or Tuple[int, int]): 输出空间尺寸
         scale_factor (int or Tuple[int, int]): 乘数空间尺寸
@@ -1332,13 +1330,13 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
 
     .. 注意:: 此功能用于构建 Spatial Transformer Networks.
 
-    参数:
+    Args:
         input (Variable): 输入一批图像 (N x C x IH x IW)
         grid (Variable): flow-field 的尺寸 (N x OH x OW x 2)
         padding_mode (str): 用于外部网格值的填充模式 'zeros' | 'border'. 
         Default: 'zeros'
 
-    返回:
+    Returns:
         output (Variable): 输出 Tensor
 
     """
@@ -1350,12 +1348,12 @@ def affine_grid(theta, size):
     r"""生成一个 2d 流场, 给定一批仿射矩阵: `theta`
     一般与 `grid_sample` 配合使用来实现 Spatial Transformer Networks.
 
-    参数:
+    Args:
         theta (Variable): 输入一批仿射矩阵 (N x 2 x 3)
         size (torch.Size): 目标输出图像大小 (N x C x H x W)
-                           例子: torch.Size((32, 3, 24, 24))
+                           Example: torch.Size((32, 3, 24, 24))
 
-    返回:
+    Returns:
         output (Variable): 输出 Tensor 的尺寸 (N x H x W x 2)
     """
     return AffineGridGenerator.apply(theta, size)
@@ -1373,13 +1371,13 @@ def pad(input, pad, mode='constant', value=0):
         (pad_l, pad_r, pad_t, pad_b ).
         3D: 5D 填充 (pleft, pright, ptop, pbottom, pfront, pback). 没有"reflect"应用
 
-    参数:
+    Args:
         input (Variable): Nd tensor
         pad (tuple): m 个元素的元组, 满足 m // 2 <= 输入维度 and m % 2 == 0
         mode: 'constant', 'reflect' 或者 'replicate'. Default: 'constant'
         value: 输入值为 'constant' padding. Default: 0
 
-    例子:
+    Example:
 
         >>> t4d = torch.Tensor(3, 3, 4, 2)
         >>> p1d = (1, 1) # pad last dim by 1 on each side
@@ -1469,7 +1467,7 @@ def cosine_similarity(x1, x2, dim=1, eps=1e-8):
 
     Shape:
         - Input: :math:`(\ast_1, D, \ast_2)` 其中 D 位于 `dim` 位置.
-        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于`dim`位置.
+        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于 `dim` 位置.
 
     Example::
 
@@ -1497,7 +1495,7 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
 
     其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
-    参数:
+    Args:
         anchor: anchor 输入 tensor
         positive: positive 输入 tensor
         negative: negative 输入 tensor
@@ -1506,11 +1504,11 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
         eps: 小 epsilon 值, 用来避免计算数值的问题. 默认: 1e-6
         swap: 计算距离交换. 默认: ``False``
 
-    形状:
+    Shape:
         - Input: :math:`(N, D)` 其中 `D = vector dimension`
         - Output: :math:`(N, 1)`
 
-    实例::
+    Example::
 
         >>> input1 = autograd.Variable(torch.randn(100, 128))
         >>> input2 = autograd.Variable(torch.randn(100, 128))
