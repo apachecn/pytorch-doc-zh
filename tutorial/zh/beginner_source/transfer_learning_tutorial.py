@@ -56,7 +56,7 @@ plt.ion()   # interactive mode
 # 这个数据集是一个非常小的 imagenet 子集
 #
 # .. Note ::
-#    从`这里 <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_ 下载数据, 然后解压到当前目录.
+#    从 `这里 <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_ 下载数据, 然后解压到当前目录.
 
 # 训练要做数据增强和数据标准化
 # 验证只做数据标准化

@@ -29,7 +29,7 @@ Variable（变量）
 还有一个针对自动求导实现来说非常重要的类 - ``Function``.
 
 ``Variable`` 和 ``Function`` 是相互联系的, 并且它们构建了一个非循环的图, 编码了一个完整的计算历史信息.
-每一个 variable（变量）都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function`` （除了用户创建的  ``Variable `` 之外 - 它们的 ``grad_fn is None`` ）.
+每一个 variable（变量）都有一个 ``.grad_fn`` 属性,  它引用了一个已经创建了 ``Variable`` 的 ``Function`` （除了用户创建的  ``Variable`` 之外 - 它们的 ``grad_fn is None`` ）.
 
 如果你想计算导数, 你可以在 ``Variable`` 上调用 ``.backward()`` 方法.
 如果 ``Variable`` 是标量的形式（例如, 它包含一个元素数据）, 你不必指定任何参数给 ``backward()``,

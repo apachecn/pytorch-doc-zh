@@ -41,10 +41,10 @@ plt.ion()   # 交互模式
 # 每张人脸图像上, 总共有68个不同的标注点被标记出来. 
 #
 # .. note::
-#     点击 `这里 <https://download.pytorch.org/tutorial/faces.zip> `下载数据集, 
+#     点击 `这里 <https://download.pytorch.org/tutorial/faces.zip> ` 下载数据集, 
 #     这些图像在目录 ' faces/ '下. 
 #     这个数据集实际上是从imagenet数据集中选取标记为人脸的一些图片, 
-#     使用`dlib's pose estimation <http://blog.dlib.net/2014/08/real-time-face-pose-estimation.html>`__
+#     使用 `dlib's pose estimation <http://blog.dlib.net/2014/08/real-time-face-pose-estimation.html>`__
 #     方法生成的. 
 #
 # 数据集中的csv文件记录着标注信息, 像下面这样: 
@@ -93,18 +93,18 @@ plt.show()
 # -------------
 #
 # ``torch.utils.data.Dataset`` 是一个表示数据集的抽象类. 
-# 你自己的数据集一般应该继承``Dataset``, 并且重写下面的方法:  
+# 你自己的数据集一般应该继承 ``Dataset``, 并且重写下面的方法:  
 #
-# -  ``__len__`` 使用``len(dataset)`` 可以返回数据集的大小
+# -  ``__len__`` 使用 ``len(dataset)`` 可以返回数据集的大小
 # -  ``__getitem__`` 支持索引, 以便于使用 ``dataset[i]`` 可以
-#    获取第:math:`i`\ 个样本(0索引)
+#    获取第 :math:`i`\ 个样本(0索引)
 #
 # 我们为我们的人脸数据集创建一个数据集类.  我们使用
-# ``__init__``方法来读取csv文件, 使用 ``__getitem__``读取图片. 
+# ``__init__`` 方法来读取csv文件, 使用 ``__getitem__`` 读取图片. 
 # 这样可以使内存高效利用, 因为我们并不需要在内存中一次存储所有图片, 
 # 而是按照需要读取. 
 #
-# 数据集的一个样例是一个``{'image': image, 'landmarks': landmarks}``样的字典. 
+# 数据集的一个样例是一个 ``{'image': image, 'landmarks': landmarks}`` 样的字典. 
 # 数据集类中有一个可选的参数 ``transform`` 这样可以对数据集做任何需要的处理. 
 # 我们将在下节看到 ``transform`` 的用处. 
 #
@@ -178,7 +178,7 @@ for i in range(len(face_dataset)):
 # -  ``ToTensor``: 将numpy格式的图片转为torch格式的图片（我们需要交换坐标轴）
 #
 # 我们不将它们写成简单的函数, 而是写成可以调用的类, 这样transform的参数不需要每次都传递
-# 如果需要的话, 我们只需实现 ``__call__`` 方法和``__init__`` 方法.之后我们可以像下面这
+# 如果需要的话, 我们只需实现 ``__call__`` 方法和 ``__init__`` 方法.之后我们可以像下面这
 # 样使用transform:
 #
 # ::
@@ -277,7 +277,7 @@ class ToTensor(object):
 # 现在我们就将 transform 应用在一个样本上. 
 #
 # 如果我们想将图片的短边变为256像素, 并且随后随机裁切成224像素的正方形. 
-# i.e, 我们可以组合``Rescale``和``RandomCrop``变换. 
+# i.e, 我们可以组合 ``Rescale`` 和 ``RandomCrop`` 变换. 
 # ``torchvision.transforms.Compose`` 就是一个可以做这样一个组合的可调用的类. 
 #
 
@@ -332,16 +332,16 @@ for i in range(len(transformed_dataset)):
 
 
 ######################################################################
-# 然而我们用简单的``for``循环来迭代整个数据集会丢失很多特点, 
+# 然而我们用简单的 ``for`` 循环来迭代整个数据集会丢失很多特点, 
 # 特别地, 我们会丢失:
 #
 # -  批读取数据
 # -  打乱数据顺序
-# -  使用``multiprocessing``并行加载数据
+# -  使用 ``multiprocessing`` 并行加载数据
 #
 # ``torch.utils.data.DataLoader`` 是提供了所有上述特点的迭代器. 
-# 下面使用的参数应该很清晰. 其中一个有趣的参数是``collate_fn``. 
-# 你可以使用``collate_fn``来指定如何精确地读取一批的样本. 
+# 下面使用的参数应该很清晰. 其中一个有趣的参数是 ``collate_fn`` . 
+# 你可以使用 ``collate_fn`` 来指定如何精确地读取一批的样本. 
 # 然而, 默认的collate在大部分的情况下都表现得很好
 #
 
@@ -386,7 +386,7 @@ for i_batch, sample_batched in enumerate(dataloader):
 #
 # 在这个教程中, 我们学习了如何写和使用数据集, 图像变换和dataloder. 
 # ``torchvision`` 提供了常用的数据集和图像变换, 或许你甚至不必写自定义的类和变换. 
-# 在torchvision中一个最经常用的数据集是``ImageFolder``. 它要求数据按下面的形式存放:  ::
+# 在torchvision中一个最经常用的数据集是 ``ImageFolder`` . 它要求数据按下面的形式存放:  ::
 #
 #     root/ants/xxx.png
 #     root/ants/xxy.jpeg
@@ -399,7 +399,7 @@ for i_batch, sample_batched in enumerate(dataloader):
 #     root/bees/asd932_.png
 #
 # 'ants', 'bees' 等是图像的类标. 同样, ``PIL.Image`` 中出现的一般的图像变换像
-# ``RandomHorizontalFlip``, ``Scale`` 也是可以使用的. 
+# ``RandomHorizontalFlip`` , ``Scale`` 也是可以使用的. 
 # 你可以像下面这样用这些函数来写dataloader: ::
 #
 #   import torch
