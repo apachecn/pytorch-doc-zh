@@ -17,7 +17,7 @@ torch.onnx
     torch.onnx.export(model, dummy_input, "alexnet.proto", verbose=True)
 
 得到的 ``alexnet.proto`` 是一个 protobuf 二值文件，它包含所导出模型 ( 这里是 AlexNet )中网络架构和网络参数.
-关键参数 ``verbose=True`` 会使导出过程中打印出该网络的可读表示::
+关键参数 ``verbose=True`` ,则会导出并打印出训练过程中该网络的可读表示::
 
     # All parameters are encoded explicitly as inputs.  By convention,
     # learned parameters (ala nn.Module.state_dict) are first, and the
