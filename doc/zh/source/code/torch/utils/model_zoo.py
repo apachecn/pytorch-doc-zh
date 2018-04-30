@@ -29,7 +29,7 @@ HASH_REGEX = re.compile(r'-([a-f0-9]*)\.')
 
 
 def load_url(url, model_dir=None, map_location=None):
-    
+    r"""从给定的 URL 处加载 Torch 序列化对象.
     如果该对象已经存在于 `model_dir` 中, 则将被反序列化并返回. 
     URL 的文件名部分应该遵循命名约定
     ``filename-<sha256>.ext`` 其中 ``<sha256>`` 是文件内容的 SHA256 哈希的前八位或更多位数.
