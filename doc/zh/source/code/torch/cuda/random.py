@@ -37,8 +37,8 @@ def set_rng_state(new_state, device=-1):
 
     # NB: 如果 device=-1?  您可能担心 "当前"
     # 设备将在我们真正调用调用延迟回调的时候发生变化
-    # 但事实上，这是不可能的:
-    # 改变当前设备涉及CUDA调用，这又会初始化状态
+    # 但事实上, 这是不可能的:
+    # 改变当前设备涉及CUDA调用, 这又会初始化状态
     # 收益 _lazy_call 将会立即执行cb
     def cb():
         with device_ctx_manager(device):
@@ -72,7 +72,7 @@ def manual_seed(seed):
 
 def manual_seed_all(seed):
     r"""设置在所有 GPU 上生成随机数的种子.
-    如果 CUDA 不可用，调用此函数是安全的; 这种情况下,会被忽略.
+    如果 CUDA 不可用, 调用此函数是安全的; 这种情况下,会被忽略.
 
     Args:
         seed (int or long): 所需的种子.
@@ -85,8 +85,8 @@ def seed():
     如果 CUDA 不可用,则调用此函数是安全的. 在那种情况下,会被忽略.
 
     .. warning::
-        如果您正在使用多 GPU 模型，则此功能不足以获得确定性.  
-        seef作用于所有 GPUs , 使用 :func:`manual_seed_all` .
+        如果您正在使用多 GPU 模型, 则此功能不足以获得确定性.  
+        seef作用于所有 GPUs , 使用 :func:`seed_all`.
     """
     _lazy_call(lambda: _C._cuda_seed())
 

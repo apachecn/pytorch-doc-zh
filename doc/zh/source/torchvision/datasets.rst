@@ -6,7 +6,7 @@ torchvision.datasets
 同时, 他们也都可以传递给类 :class:`torch.utils.data.Dataset`,
 它可以使用 ``torch.multiprocessing`` 工作器来并行的加载多个样本.
 
-例子: ::
+Example: ::
     
     imagenet_data = torchvision.datasets.ImageFolder('path/to/imagenet_root/')
     data_loader = torch.utils.data.DataLoader(imagenet_data, 
@@ -20,7 +20,7 @@ torchvision.datasets
 
 所有数据集都有几乎相似的 API, 它们有两个普通的参数:
 ``transform`` 和  ``target_transform`` 可分别的对输入和目标数据集进行变换.
--  ``transform``: 输入原始图片，返回转换后的图片.
+-  ``transform``: 输入原始图片, 返回转换后的图片.
 -  ``target_transform``: 输入为 target, 返回转换后的 target.
 
 .. currentmodule:: torchvision.datasets 

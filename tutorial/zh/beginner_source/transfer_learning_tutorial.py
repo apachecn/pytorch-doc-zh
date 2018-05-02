@@ -11,14 +11,14 @@
 引用自该笔记,
 
     事实上, 很少有人从头(随机初始化)开始训练一个卷积网络, 因为拥有一个足够大的数据库是比较少见的.
-    替代的是, 通常会从一个大的数据集(例如 ImageNet, 包含120万的图片和1000个分类)预训练一个卷积神经网络,
-    这个预训练的卷积神经网络, 要不是作为初始化的网络, 就是作为感兴趣任务的固定的特征提取器.
+    替代的是, 通常会从一个大的数据集(例如 ImageNet, 包含120万的图片和1000个分类)预训练一个卷积网络,
+    然后将这个卷积网络作为初始化的网络, 或者是感兴趣任务的固定的特征提取器.
 
 如下是两种主要的迁移学习的使用场景:
 
--  **微调卷积神经网络**: 取代随机初始化网络, 我们从一个预训练的网络初始化, 
+-  **微调卷积网络**: 取代随机初始化网络, 我们从一个预训练的网络初始化, 
    比如从 imagenet 1000 数据集预训练的网络. 其余的训练就像往常一样.
--  **卷积神经网络作为固定的特征提取器**: 在这里, 我们固定网络中的所有权重, 最后的全连接层除外.
+-  **卷积网络作为固定的特征提取器**: 在这里, 我们固定网络中的所有权重, 最后的全连接层除外.
    最后的全连接层被新的随机权重替换, 并且, 只有这一层是被训练的.
 
 """
@@ -48,16 +48,15 @@ plt.ion()   # interactive mode
 #
 # 我们用 torchvision 和 torch.utils.data 包加载数据.
 #
-# 我们今天要解决的问题是, 训练一个可以区分 **ants** 和 **bees** 的模型.
-# The problem we're going to solve today is to train a model to classify
-# 用于训练的 ants (蚂蚁)和 bees (蜜蜂)图片各120张. 每一类用于验证的图片各75张.
-# 通常, 如果从头开始训练, 要概括好, 这个数据集太小了.
-# 因为我们使用迁移学习, 这样我们应该可以概括的相当好.
+# 我们今天要解决的问题是, 训练一个可以区分 **ants** (蚂蚁) 和 **bees** (蜜蜂) 的模型.
+# 用于训练的 ants 和 bees 图片各120张. 每一类用于验证的图片各75张.
+# 通常, 如果从头开始训练, 这个非常小的数据集不足以进行泛化.
+# 但是, 因为我们使用迁移学习, 应该可以取得很好的泛化效果.
 #
 # 这个数据集是一个非常小的 imagenet 子集
 #
 # .. Note ::
-#    从`这里 <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_ 下载数据, 然后解压到当前目录.
+#    从 `这里 <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`_ 下载数据, 然后解压到当前目录.
 
 # 训练要做数据增强和数据标准化
 # 验证只做数据标准化
@@ -91,7 +90,7 @@ use_gpu = torch.cuda.is_available()
 ######################################################################
 # 显示一些图片
 # ^^^^^^^^^^^^^^^^^^^^^^
-# 让我们现实一些训练中的图片, 以便了解数据增强.
+# 让我们显示一些训练中的图片, 以便了解数据增强.
 
 def imshow(inp, title=None):
     """Imshow for Tensor."""
@@ -103,13 +102,13 @@ def imshow(inp, title=None):
     plt.imshow(inp)
     if title is not None:
         plt.title(title)
-    plt.pause(0.001)  # 暂停一伙, 让 plots 更新
+    plt.pause(0.001)  # 暂停一会, 让 plots 更新
 
 
 # 获得一批训练数据
 inputs, classes = next(iter(dataloaders['train']))
 
-# 从那批数据生成一个方格
+# 从这批数据生成一个方格
 out = torchvision.utils.make_grid(inputs)
 
 imshow(out, title=[class_names[x] for x in classes])
@@ -119,12 +118,10 @@ imshow(out, title=[class_names[x] for x in classes])
 # 训练模型
 # ------------------
 #
-# Now, let's write a general function to train a model. Here, we will
-# illustrate:
-# 现在, 让我们写一个通用的函数来训练模型. 这里，我们要做以下说明:
+# 现在, 让我们写一个通用的函数来训练模型. 这里, 我们将会举例说明:
 #
 # -  调度学习率
-# -  保存最好的学习模型
+# -  保存最佳的学习模型
 #
 # 下面函数中, ``scheduler`` 参数是 ``torch.optim.lr_scheduler`` 中的 LR scheduler 对象.
 
@@ -150,7 +147,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
             running_loss = 0.0
             running_corrects = 0
 
-            # 遍历数据.
+            # 遍历数据
             for data in dataloaders[phase]:
                 # 获取输入
                 inputs, labels = data
@@ -197,7 +194,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
 
-    # 加载最好模型的权重
+    # 加载最佳模型的权重
     model.load_state_dict(best_model_wts)
     return model
 

@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Custom nn Modules
+PyTorch: 定制化nn模块
 --------------------------
 
-A fully-connected ReLU network with one hidden layer, trained to predict y from x
-by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation defines the model as a custom Module subclass. Whenever you
-want a model more complex than a simple sequence of existing Modules you will
-need to define your model this way.
+在实现中我们将定义一个定制化的模块子类. 如果已有模块串起来不能满足你的复杂需求, 
+那么你就能以这种方式来定义自己的模块。
 """
 import torch
 from torch.autograd import Variable
@@ -17,8 +15,7 @@ from torch.autograd import Variable
 class TwoLayerNet(torch.nn.Module):
     def __init__(self, D_in, H, D_out):
         """
-        In the constructor we instantiate two nn.Linear modules and assign them as
-        member variables.
+        在构造函数中,我们实例化两个nn.Linear模块并将它们分配为成员变量.
         """
         super(TwoLayerNet, self).__init__()
         self.linear1 = torch.nn.Linear(D_in, H)
@@ -26,40 +23,37 @@ class TwoLayerNet(torch.nn.Module):
 
     def forward(self, x):
         """
-        In the forward function we accept a Variable of input data and we must return
-        a Variable of output data. We can use Modules defined in the constructor as
-        well as arbitrary operators on Variables.
+        在forward函数中,我们接受一个变量的输入数据,我们必须返回一个变量的输出数据.
+        我们可以使用构造函数中定义的模块以及变量上的任意运算符.
         """
         h_relu = self.linear1(x).clamp(min=0)
         y_pred = self.linear2(h_relu)
         return y_pred
 
-
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N 是一个batch的样本数量; D_in是输入维度;
+# H 是隐藏层向量的维度; D_out是输出维度.
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold inputs and outputs, and wrap them in Variables
+# 创建随机张量来保存输入和输出,并将它们包装在变量中. 
 x = Variable(torch.randn(N, D_in))
 y = Variable(torch.randn(N, D_out), requires_grad=False)
 
-# Construct our model by instantiating the class defined above
+# 通过实例化上面定义的类来构建我们的模型
 model = TwoLayerNet(D_in, H, D_out)
 
-# Construct our loss function and an Optimizer. The call to model.parameters()
-# in the SGD constructor will contain the learnable parameters of the two
-# nn.Linear modules which are members of the model.
+# 构建我们的损失函数和优化器. 
+# 对SGD构造函数中的model.parameters()的调用将包含作为模型成员的两个nn.Linear模块的可学习参数.
 criterion = torch.nn.MSELoss(size_average=False)
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-4)
 for t in range(500):
-    # Forward pass: Compute predicted y by passing x to the model
+    # 正向传递：通过将x传递给模型来计算预测的y
     y_pred = model(x)
 
-    # Compute and print loss
+    # 计算和打印损失
     loss = criterion(y_pred, y)
     print(t, loss.data[0])
 
-    # Zero gradients, perform a backward pass, and update the weights.
+    # 梯度置零, 执行反向传递并更新权重.
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()

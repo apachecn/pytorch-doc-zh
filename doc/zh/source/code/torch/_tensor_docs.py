@@ -154,14 +154,14 @@ add_docstr_all('all',
                """
 all() -> bool
 
-如果 tensor 里的所有元素都是非零的，则返回 True, 否在返回 False.
+如果 tensor 里的所有元素都是非零的, 则返回 True, 否在返回 False.
 """)
 
 add_docstr_all('any',
                """
 any() -> bool
 
-如果 tensor 里的存在元素是非零的，则返回 True, 否在返回 False.
+如果 tensor 里的存在元素是非零的, 则返回 True, 否在返回 False.
 """)
 
 add_docstr_all('apply_',
@@ -172,7 +172,7 @@ apply_(callable) -> Tensor
 
 .. note::
 
-    该函数只能在 CPU tensor 中使用, 并且不应该用在较高性能的要求的代码块.
+    该函数只能在 CPU tensor 中使用, 并且不应该用在有较高性能的要求的代码块中.
 """)
 
 add_docstr_all('asin',
@@ -256,7 +256,7 @@ add_docstr_all('cauchy_',
                """
 cauchy_(median=0, sigma=1, *, generator=None) -> Tensor
 
-将 tensor 中元素用柯西分布得到的数值填充:
+用柯西分布得到的数值来填充 tensor 中的元素:
 
 .. math::
 
@@ -317,7 +317,7 @@ copy_(src, async=False, broadcast=True) -> Tensor
 
 Args:
     src (Tensor): 被复制的源 tensor
-    async (bool): 如果值为 ``True`` 并且这个复制操作在 CPU 和 GPU 之间进行, 则拷贝的副本与源信息可能会出现异步(asynchronously). 对于其他类型的复制操作，这个参数不起作用.
+    async (bool): 如果值为 ``True`` 并且这个复制操作在 CPU 和 GPU 之间进行, 则拷贝的副本与源信息可能会出现异步(asynchronously). 对于其他类型的复制操作, 这个参数不起作用.
     broadcast (bool): 如果值为 ``True``, :attr:`src` 将广播基础的 tensor 的形状.
 """)
 
@@ -644,7 +644,7 @@ add_docstr_all('index_add_',
                """
 index_add_(dim, index, tensor) -> Tensor
 
-按参数 index 给出的索引序列，将参数 tensor 中的元素加到原来的 tensor 中.
+按参数 index 给出的索引序列, 将参数 tensor 中的元素加到原来的 tensor 中.
 参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误.
 
 Args:
@@ -668,8 +668,8 @@ add_docstr_all('index_copy_',
                """
 index_copy_(dim, index, tensor) -> Tensor
 
-按参数 index 给出的索引序列，将参数 tensor 中的元素复制到原来的 tensor 中.
-参数 tensor 的尺寸必须严格地与原 tensor 匹配，否则会发生错误。
+按参数 index 给出的索引序列, 将参数 tensor 中的元素复制到原来的 tensor 中.
+参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误. 
 
 Args:
     dim (int): 索引 index 所指向的维度
@@ -692,7 +692,7 @@ add_docstr_all('index_fill_',
                """
 index_fill_(dim, index, val) -> Tensor
 
-按参数 index 给出的索引序列，将原 tensor 中的元素用 :attr:`val` 填充.
+按参数 index 给出的索引序列, 将原 tensor 中的元素用 :attr:`val` 填充.
 
 Args:
     dim (int): 索引 index 所指向的维度
@@ -803,8 +803,8 @@ log_() -> Tensor
 add_docstr_all('log_normal_', u"""
 log_normal_(mean=1, std=2, *, generator=None)
 
-将该 tensor 用均值为 mean (\u00B5), 标准差为 std (\u03C3) 的对数正态分布得到的元素填充。
-要注意 :attr:`mean` 和 :attr:`stdv` 是基本正态分布的均值和标准差，不是返回的分布:
+将该 tensor 用均值为 mean (\u00B5), 标准差为 std (\u03C3) 的对数正态分布得到的元素填充. 
+要注意 :attr:`mean` 和 :attr:`stdv` 是基本正态分布的均值和标准差, 不是返回的分布:
 
 .. math::
 
@@ -829,7 +829,7 @@ add_docstr_all('map_',
                """
 map_(tensor, callable)
 
-将 :attr:`callable` 作用于本 tensor 和参数 tensor 中的每一个元素, 并将结果存放在本 tensor 中。
+将 :attr:`callable` 作用于本 tensor 和参数 tensor 中的每一个元素, 并将结果存放在本 tensor 中. 
 本 tensor 和参数 tensor 都必须是 :ref:`broadcastable <broadcasting-semantics>`.
 
  :attr:`callable` 应该有下列标志::
@@ -859,7 +859,7 @@ add_docstr_all('masked_fill_',
                """
 masked_fill_(mask, value)
 
-将本 tensor 被 :attr:`mask` 中值为 1 的元素标记的位置，用 :attr:`value` 填充.
+将本 tensor 被 :attr:`mask` 中值为 1 的元素标记的位置, 用 :attr:`value` 填充.
  :attr:`mask` 的形状和本 tensor 的形状必须是可广播的 (:ref:`broadcastable <broadcasting-semantics>`).
 Fills elements of this tensor with :attr:`value` where :attr:`mask` is one.
 
@@ -1031,7 +1031,7 @@ add_docstr_all('normal_',
                """
 normal_(mean=0, std=1, *, generator=None)
 
-将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std`的正态分布填充.
+将 tensor 用均值为 :attr:`mean` 和标准差为 :attr:`std` 的正态分布填充.
 """)
 
 add_docstr_all('numel',
@@ -1046,7 +1046,7 @@ add_docstr_all('numpy',
 numpy() -> ndarray
 
 将该 tensor 以 NumPy :class:`ndarray` 的形式返回. 两者共享相同的底层存储. 
-原 tensor 的改变会影响到 :class:`ndarray`，反之也一样.
+原 tensor 的改变会影响到 :class:`ndarray`, 反之也一样.
 """)
 
 add_docstr_all('orgqr',
@@ -1150,7 +1150,7 @@ random_(from=0, to=None, *, generator=None)
 
 将 tensor 用在 [from, to - 1] 上的离散均匀分布进行填充.
 如果没有特别说明, 填入的值由本 tensor 的数据类型限定范围.
-但是, 对于浮点类型 (floating point types), 如果没有特别说明，取值范围是[0, 2^mantissa](mantissa,小数部分的长度), 以确保每个数都是可表示的.
+但是, 对于浮点类型 (floating point types), 如果没有特别说明, 取值范围是[0, 2^mantissa](mantissa,小数部分的长度), 以确保每个数都是可表示的.
 例如, `torch.DoubleTensor(1).random_()` 将均匀分布在[0, 2^53].
 """)
 
@@ -1203,7 +1203,7 @@ resize_(*sizes)
 将 tensor 的大小调整为指定的大小. 
 如果元素个数比当前的内存大小大, 就将底层存储大小调整为与新元素数目一致的大小.
 如果元素个数比当前内存小, 则底层存储不会被改变.
-原来tensor中被保存下来的元素将保持不变，但新内存将不会被初始化。
+原来tensor中被保存下来的元素将保持不变, 但新内存将不会被初始化. 
 
 Args:
     sizes (torch.Size or int...): 期望的大小
@@ -1262,7 +1262,7 @@ scatter_(dim, index, src) -> Tensor
 将 :attr:`src` 中的所有值按照 :attr:`index` 确定的索引顺序写入本 tensor 中.
 给定的 dim 声明索引的维度, dim 按照 :meth:`~Tensor.gather` 中的描述的规则来确定.
 
-注意，关于 gather, index 的值必须是 `0` 到 `(self.size(dim) -1)` 区间,
+注意, 关于 gather, index 的值必须是 `0` 到 `(self.size(dim) -1)` 区间,
 而且, 属于同一维度的一行的值必须是唯一的.
 
 Args:
@@ -1390,7 +1390,7 @@ add_docstr_all('size',
                """
 size() -> torch.Size
 
-返回 tensor 的大小. 返回的值是 :class:`tuple` 的子类。
+返回 tensor 的大小. 返回的值是 :class:`tuple` 的子类. 
 
 Example:
     >>> torch.Tensor(3, 4, 5).size()
@@ -1464,8 +1464,8 @@ add_docstr_all('stride',
                """
 stride(dim) -> tuple or int
 
-返回 tesnor 的步长。
-步长是指按照 dim 指定的维度，从一个元素到下一个元素需要跳跃的距离.
+返回 tesnor 的步长. 
+步长是指按照 dim 指定的维度, 从一个元素到下一个元素需要跳跃的距离.
 当没有指定维度, 会计算所有维度的步长, 并返回一个 tuple.
 当给定维度时, 返回这个维度的步长.
 
@@ -1487,7 +1487,7 @@ add_docstr_all('sub',
 sub(value, other) -> Tensor
 
 从 tensor 中抽取一个标量或张量. 
-如果 :attr:`value` 和 :attr:`other` 都是给定的，则在使用之前 :attr:`other`的每一个元素都会被 :attr:`value` 缩放。
+如果 :attr:`value` 和 :attr:`other` 都是给定的, 则在使用之前 :attr:`other` 的每一个元素都会被 :attr:`value` 缩放.
 
 如果 :attr:`other` 是一个tensor,  :attr:`other` 的形状必须于基础 tensor 的形状是可广播的 ( :ref:`broadcastable <broadcasting-semantics>` ).
 
@@ -1728,7 +1728,7 @@ view(*args) -> Tensor
 
 返回一个有相同数据但大小不同的新的 tensor.
 
-返回的 tensor 与原 tensor 共享相同的数据，一定有相同数目的元素，但大小不同.
+返回的 tensor 与原 tensor 共享相同的数据, 一定有相同数目的元素, 但大小不同.
 一个 tensor 必须是连续的 ( :func:`contiguous` ) 才能被查看.
 
 Args:
@@ -1754,10 +1754,10 @@ expand(*sizes) -> Tensor
 
 传递 -1 作为一个维度的大小, 表示这个维度的大小不做改变.
 
-Tensor 也可以扩展到一个很大的维数, 新添加的维度将放在前面. (对于新的维度，大小不能设置为 -1 .)
+Tensor 也可以扩展到一个很大的维数, 新添加的维度将放在前面. (对于新的维度, 大小不能设置为 -1 .)
 
 扩展一个 tensor 不是分配一个新的内存, 而只是在这个存在的 tensor 上, 通过设置 ``stride`` 为 0, 创建一个新的某个维度从 1 扩展到很大的视图.
-任何大小为 1 的维度, 在不用重新分配内存的情况下，可以扩展到随意任何一个值.
+任何大小为 1 的维度, 在不用重新分配内存的情况下, 可以扩展到随意任何一个值.
 
 Args:
     *sizes (torch.Size or int...): 期望扩展的大小

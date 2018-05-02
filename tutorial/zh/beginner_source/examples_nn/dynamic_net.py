@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Control Flow + Weight Sharing
+PyTorch: 动态控制流程 + 权重共享
 --------------------------------------
 
-To showcase the power of PyTorch dynamic graphs, we will implement a very strange
-model: a fully-connected ReLU network that on each forward pass randomly chooses
-a number between 1 and 4 and has that many hidden layers, reusing the same
-weights multiple times to compute the innermost hidden layers.
+为了展示PyTorch的动态图的强大, 我们实现了一个非常奇异的模型: 一个全连接的ReLU激活的神经网络,
+每次前向计算时都随机选一个1到4之间的数字n, 然后接下来就有n层隐藏层, 每个隐藏层的连接权重共享.
 """
 import random
 import torch
@@ -16,8 +14,7 @@ from torch.autograd import Variable
 class DynamicNet(torch.nn.Module):
     def __init__(self, D_in, H, D_out):
         """
-        In the constructor we construct three nn.Linear instances that we will use
-        in the forward pass.
+        在构造函数中,我们构造了三个nn.Linear实例,我们将在正向传递中使用它们.
         """
         super(DynamicNet, self).__init__()
         self.input_linear = torch.nn.Linear(D_in, H)
@@ -26,17 +23,14 @@ class DynamicNet(torch.nn.Module):
 
     def forward(self, x):
         """
-        For the forward pass of the model, we randomly choose either 0, 1, 2, or 3
-        and reuse the middle_linear Module that many times to compute hidden layer
-        representations.
+        对于模型的正向通道,我们随机选择0,1,2或3,
+        并重复使用多次计算隐藏层表示的middle_linear模块.
 
-        Since each forward pass builds a dynamic computation graph, we can use normal
-        Python control-flow operators like loops or conditional statements when
-        defining the forward pass of the model.
+        由于每个正向通道都会生成一个动态计算图,因此在定义模型的正向通道时,
+        我们可以使用普通的Python控制流操作符(如循环或条件语句).
 
-        Here we also see that it is perfectly safe to reuse the same Module many
-        times when defining a computational graph. This is a big improvement from Lua
-        Torch, where each Module could be used only once.
+        在这里我们也看到,定义计算图时多次重复使用相同模块是完全安全的.
+        这是Lua Torch的一大改进,每个模块只能使用一次.
         """
         h_relu = self.input_linear(x).clamp(min=0)
         for _ in range(random.randint(0, 3)):
@@ -45,30 +39,30 @@ class DynamicNet(torch.nn.Module):
         return y_pred
 
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N 是一个batch的样本数量; D_in是输入维度;
+# H 是隐藏层向量的维度; D_out是输出维度.
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold inputs and outputs, and wrap them in Variables
+# 创建随机张量来保存输入和输出,并将它们包装在变量中.
 x = Variable(torch.randn(N, D_in))
 y = Variable(torch.randn(N, D_out), requires_grad=False)
 
-# Construct our model by instantiating the class defined above
+# 通过实例化上面定义的类来构建我们的模型
 model = DynamicNet(D_in, H, D_out)
 
-# Construct our loss function and an Optimizer. Training this strange model with
-# vanilla stochastic gradient descent is tough, so we use momentum
+# 构建我们的损失函数和优化器.
+# 用随机梯度下降训练这个奇怪的模型非常困难,所以我们使用动量
 criterion = torch.nn.MSELoss(size_average=False)
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-4, momentum=0.9)
 for t in range(500):
-    # Forward pass: Compute predicted y by passing x to the model
+    # 正向传递:通过将x传递给模型来计算预测的y
     y_pred = model(x)
 
-    # Compute and print loss
+    # 计算和打印损失
     loss = criterion(y_pred, y)
     print(t, loss.data[0])
 
-    # Zero gradients, perform a backward pass, and update the weights.
+    # 零梯度执行反向传递并更新权重.
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()

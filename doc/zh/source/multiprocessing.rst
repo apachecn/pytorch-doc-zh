@@ -6,7 +6,7 @@ Multiprocessing package - torch.multiprocessing
 
 .. warning::
 
-    如果主进程突然退出（例如, 由于传入的信号）, Python 的多进程有时无法清理其子进程.
+    如果主进程突然退出 (例如, 由于传入的信号) , Python 的多进程有时无法清理其子进程.
     这是一个已知的警告, 所以如果你在中断解释器之后发现任何资源泄漏, 这可能意味着这只是发生在你身上.
 
 管理策略
@@ -20,7 +20,7 @@ Multiprocessing package - torch.multiprocessing
 --------------------
 
 在进程之间共享 CUDA 张量仅在 Python 3 中支持, 使用 ``spawn`` 或 ``forkserver`` 启动方法.
-Python 2 中的 :mod:`python:multiprocessing` 只能使用 fork 创建子进程, 而中 CUDA 运行时是不支持的.
+Python 2 中的 :mod:`python:multiprocessing` 只能使用 ``fork`` 创建子进程, 而中 CUDA 运行时是不支持的.
 
 .. warning::
 
@@ -42,13 +42,13 @@ File descriptor - ``file_descriptor``
 
 .. note::
 
-    这是默认的策略（除了不支持的 macOS 和 OS X之外）
+    这是默认的策略 (除了不支持的 macOS 和 OS X之外) 
     This is the default strategy (except for macOS and OS X where it's not
     supported).
 
 这个策略将使用文件描述符作为共享内存句柄.
 无论何时将存储移动到共享内存, 从 ``shm_open`` 获取的文件描述符都将与该对象一起缓存,
-并且当将要将其发送到其他进程时, 文件描述符将被传送（例如, 通过 UNIX sockets）到其中.
+并且当将要将其发送到其他进程时, 文件描述符将被传送 (例如, 通过 UNIX sockets) 到其中.
 接收器还将缓存文件描述符并对其进行 ``mmap``, 以获得存储数据的共享视图.
 
 请注意, 如果共享张量很大, 这个策略会在大部分时间保持大量的文件描述符.

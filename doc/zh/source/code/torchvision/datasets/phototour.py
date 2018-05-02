@@ -18,7 +18,7 @@ class PhotoTour(data.Dataset):
         transform (callable, optional): 一个 transform 函数, 它输入 PIL image 并且返回 
             转换后的版本. 
         download (bool, optional): 如果 true, 就从网上下载数据集并且放到 root 目录下. 
-            如果数据集已经下载，那么不会再次下载.
+            如果数据集已经下载, 那么不会再次下载.
 
 
     """

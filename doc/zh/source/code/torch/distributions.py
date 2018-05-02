@@ -1,20 +1,20 @@
 r"""
-该``distributions``统计分布包中含有可自定义参数的概率分布和采样函数。
+该 ``distributions`` 统计分布包中含有可自定义参数的概率分布和采样函数.
 
-当概率密度函数对其参数可微时，可以使用
-:meth:`~torch.distributions.Distribution.log_prob`方法来实施梯度方法Policy Gradient。
-它的一个基本方法是REINFORCE规则：
+当概率密度函数对其参数可微时, 可以使用
+:meth:`~torch.distributions.Distribution.log_prob` 方法来实施梯度方法 Policy Gradient.
+它的一个基本方法是REINFORCE规则:
 
 .. math::
 
     \Delta\theta  = \alpha r \frac{\partial\log p(a|\pi^\theta(s))}{\partial\theta}
 
-这其中:math:`\theta`是参数，:math:`\alpha`是学习率，:math:`r`是奖惩，:math:`p(a|\pi^\theta(s))`
-是在策略:math:`\pi^\theta`中从:math:`s`状态下采取:math:`a`行动的概率。
+这其中 :math:`\theta` 是参数, :math:`\alpha` 是学习率, :math:`r` 是奖惩,  :math:`p(a|\pi^\theta(s))`
+是在策略 :math:`\pi^\theta` 中从 :math:`s` 状态下采取 :math:`a` 行动的概率. 
 
-在实践中，我们要从神经网络的输出中采样选出一个行动，在某个环境中应用该行动，然后使用
-``log_prob``函数来构造一个等价的损失函数。请注意，这里我们使用了负号，因为优化器使用
-是是梯度下降法，然而上面的REINFORCE规则是假设了梯度上升情形。如下所示是在多项式分布下
+在实践中, 我们要从神经网络的输出中采样选出一个行动, 在某个环境中应用该行动, 然后
+使用 ``log_prob`` 函数来构造一个等价的损失函数. 请注意, 这里我们使用了负号, 因为优化器使用
+是是梯度下降法, 然而上面的REINFORCE规则是假设了梯度上升情形. 如下所示是在多项式分布下
 实现REINFORCE的代码::
 
     probs = policy_network(state)
@@ -35,36 +35,36 @@ __all__ = ['Distribution', 'Bernoulli', 'Categorical', 'Normal']
 
 class Distribution(object):
     r"""
-    Distribution是概率分布的抽象基类。
+    Distribution是概率分布的抽象基类.
     """
 
     def sample(self):
         """
-        生成一个样本，如果分布参数有多个，就生成一批样本。
+        生成一个样本, 如果分布参数有多个, 就生成一批样本.
         """
         raise NotImplementedError
 
     def sample_n(self, n):
         """
-        生成n个样本，如果分布参数有多个，就生成n批样本。
+        生成n个样本, 如果分布参数有多个, 就生成n批样本.
         """
         raise NotImplementedError
 
     def log_prob(self, value):
         """
-        返回在`value`处的概率密度函数的对数。
+        返回在 `value` 处的概率密度函数的对数.
 
         Args:
-            value (Tensor or Variable):（基类的参数，没有实际用处）
+            value (Tensor or Variable):（基类的参数,没有实际用处）
         """
         raise NotImplementedError
 
 
 class Bernoulli(Distribution):
     r"""
-    创建以`probs`为参数的伯努利分布。
+    创建以 `probs` 为参数的伯努利分布.
 
-    样本是二进制的（0或1）。 他们以p的概率取值为1，以（1 - p）的概率取值为0。
+    样本是二进制的 (0或1). 他们以p的概率取值为1, 以 (1 - p) 的概率取值为0.
     
     例:
 
@@ -74,7 +74,7 @@ class Bernoulli(Distribution):
         [torch.FloatTensor of size 1]
 
     Args:
-        probs (Tensor or Variable): 采样到 `1`的概率
+        probs (Tensor or Variable): 采样到 `1` 的概率
     """
 
     def __init__(self, probs):
@@ -96,16 +96,16 @@ class Bernoulli(Distribution):
 
 class Categorical(Distribution):
     r"""
-    创建以`probs`为参数的类别分布。
+    创建以 `probs` 为参数的类别分布.
 
     .. note::
-    它和``multinomial()``采样的分布是一样的。
+    它和 ``multinomial()`` 采样的分布是一样的.
 
-    样本是来自“0 ... K-1”的整数，其中“K”是probs.size(-1)。
+    样本是来自 "0 ... K-1" 的整数,其中 "K" 是probs.size(-1).
 
-    如果`probs`是长度为`K`的一维列表，则每个元素是对该索引处的类进行抽样的相对概率。
+    如果 `probs` 是长度为 `K` 的一维列表,则每个元素是对该索引处的类进行抽样的相对概率.
 
-    如果`probs`是二维的，它被视为一批概率向量。
+    如果 `probs` 是二维的,它被视为一批概率向量.
 
     另见: :func:`torch.multinomial`
 
@@ -147,7 +147,7 @@ class Categorical(Distribution):
 class Normal(Distribution):
     r"""
 
-    创建以`mean`和`std`为参数的正态分布（也称为高斯分布）。
+    创建以 `mean` 和 `std` 为参数的正态分布（也称为高斯分布）.
 
     例::
 

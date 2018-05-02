@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-PyTorch: Defining new autograd functions
+PyTorch: 定义新的autograd函数
 ----------------------------------------
 
-A fully-connected ReLU network with one hidden layer and no biases, trained to
-predict y from x by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 
+训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation computes the forward pass using operations on PyTorch
-Variables, and uses PyTorch autograd to compute gradients.
+在此实现中, 我们使用PyTorch变量上的函数来进行前向计算, 然后用PyTorch的autograd计算梯度
 
-In this implementation we implement our own custom autograd function to perform
-the ReLU function.
+我们还实现了一个定制化的autograd函数, 用于ReLU函数.
 """
 import torch
 from torch.autograd import Variable
@@ -18,18 +16,16 @@ from torch.autograd import Variable
 
 class MyReLU(torch.autograd.Function):
     """
-    We can implement our own custom autograd Functions by subclassing
-    torch.autograd.Function and implementing the forward and backward passes
-    which operate on Tensors.
+    我们可以通过子类实现我们自己定制的autograd函数
+    torch.autograd.Function和执行在Tensors上运行的向前和向后通行证.
     """
 
     @staticmethod
     def forward(ctx, input):
         """
-        In the forward pass we receive a Tensor containing the input and return
-        a Tensor containing the output. ctx is a context object that can be used
-        to stash information for backward computation. You can cache arbitrary
-        objects for use in the backward pass using the ctx.save_for_backward method.
+        在正向传递中,我们收到一个包含输入和返回张量的张量,其中包含输出.
+        ctx是一个上下文对象,可用于存储反向计算的信息.
+        您可以使用ctx.save_for_backward方法缓存任意对象以用于后向传递.
         """
         ctx.save_for_backward(input)
         return input.clamp(min=0)
@@ -37,9 +33,8 @@ class MyReLU(torch.autograd.Function):
     @staticmethod
     def backward(ctx, grad_output):
         """
-        In the backward pass we receive a Tensor containing the gradient of the loss
-        with respect to the output, and we need to compute the gradient of the loss
-        with respect to the input.
+        在后向传递中,我们收到一个张量,其中包含相对于输出的损失梯度,
+        我们需要计算相对于输入的损失梯度.
         """
         input, = ctx.saved_tensors
         grad_input = grad_output.clone()
@@ -48,40 +43,40 @@ class MyReLU(torch.autograd.Function):
 
 
 dtype = torch.FloatTensor
-# dtype = torch.cuda.FloatTensor # Uncomment this to run on GPU
+# dtype = torch.cuda.FloatTensor # 取消注释以在GPU上运行
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N 是一个batch的样本数量; D_in是输入维度;
+# H 是隐藏层向量的维度; D_out是输出维度.
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold input and outputs, and wrap them in Variables.
+# 创建随机张量来保存输入和输出,并将它们包装在变量中.
 x = Variable(torch.randn(N, D_in).type(dtype), requires_grad=False)
 y = Variable(torch.randn(N, D_out).type(dtype), requires_grad=False)
 
-# Create random Tensors for weights, and wrap them in Variables.
+# 为权重创建随机张量,并将其包装在变量中.
 w1 = Variable(torch.randn(D_in, H).type(dtype), requires_grad=True)
 w2 = Variable(torch.randn(H, D_out).type(dtype), requires_grad=True)
 
 learning_rate = 1e-6
 for t in range(500):
-    # To apply our Function, we use Function.apply method. We alias this as 'relu'.
+    # 为了应用我们的函数,我们使用Function.apply方法.我们把它称为'relu'.
     relu = MyReLU.apply
 
-    # Forward pass: compute predicted y using operations on Variables; we compute
-    # ReLU using our custom autograd operation.
+    # 正向传递:使用变量上的运算来计算预测的y; 
+    # 我们使用我们的自定义autograd操作来计算ReLU.
     y_pred = relu(x.mm(w1)).mm(w2)
 
-    # Compute and print loss
+    # 计算和打印损失
     loss = (y_pred - y).pow(2).sum()
     print(t, loss.data[0])
 
-    # Use autograd to compute the backward pass.
+    # 使用autograd来计算反向传递.
     loss.backward()
 
-    # Update weights using gradient descent
+    # 使用梯度下降更新权重
     w1.data -= learning_rate * w1.grad.data
     w2.data -= learning_rate * w2.grad.data
 
-    # Manually zero the gradients after updating weights
+    # 更新权重后手动将梯度归零
     w1.grad.data.zero_()
     w2.grad.data.zero_()

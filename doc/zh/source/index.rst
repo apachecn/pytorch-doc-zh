@@ -8,7 +8,7 @@
 PyTorch 0.3.0 中文文档
 ===================================
 
-PyTorch 是一个针对 deep learning（深度学习）, 并且使用 GPU 和 CPU 来优化的 tensor library（张量库）.
+PyTorch 是一个针对 deep learning (深度学习) , 并且使用 GPU 和 CPU 来优化的 tensor library (张量库) .
 
 .. toctree::
    :glob:

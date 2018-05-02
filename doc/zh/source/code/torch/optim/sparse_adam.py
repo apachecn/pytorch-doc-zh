@@ -8,11 +8,11 @@ class SparseAdam(Optimizer):
 
     在这个变化下,只将显示出来的梯度进行更新存储并且只将这部分梯度应用到参数中.
 
-    参数:
-        params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
-        lr (float, optional): 学习率 (default: 1e-3)
-        betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
-        eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
+    Args:
+    *    params (iterable): 待优化的迭代参数或者是定义了参数组的 dict
+    *    lr (float, optional): 学习率 (default: 1e-3)
+    *    betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999))
+    *    eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
 
     .. _Adam\: 一种随机优化的方法:
         https://arxiv.org/abs/1412.6980
@@ -25,8 +25,8 @@ class SparseAdam(Optimizer):
     def step(self, closure=None):
         """进行单步优化.
 
-        参数:
-            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包，对于大多数参数来说是可选的.
+        Args:
+            closure (callable, optional): 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
         """
         loss = None
         if closure is not None:

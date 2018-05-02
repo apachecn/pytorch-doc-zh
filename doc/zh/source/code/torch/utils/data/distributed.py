@@ -14,7 +14,7 @@ class DistributedSampler(Sampler):
     .. note::
         数据集被假定为不变的大小.
 
-    参数:
+    Args:
         dataset: 采样的数据集.
         num_replicas (optional): 参与分布式训练的进程数量.
         rank (optional): 在 num_replicas 中, 当前进程的等级.

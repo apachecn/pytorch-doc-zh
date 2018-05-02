@@ -8,13 +8,13 @@ class ASGD(Optimizer):
 
     它在 `Acceleration of stochastic approximation by averaging`_ 中被提出
 
-    参数:
-        params (iterable): 迭代的优化参数或者以字典的形式定义参数组
-        lr (float, optional): 学习率 (默认值: 1e-2)
-        lambd (float, optional): 衰减期 (默认值: 1e-4)
-        alpha (float, optional): eta 更新的权重 (默认值: 0.75)
-        t0 (float, optional): 指明在哪一次开始平均化 (默认值: 1e6)
-        weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+    Args:
+    *    params (iterable): 迭代的优化参数或者以字典的形式定义参数组
+    *    lr (float, optional): 学习率 (默认值: 1e-2)
+    *    lambd (float, optional): 衰减期 (默认值: 1e-4)
+    *    alpha (float, optional): eta 更新的权重 (默认值: 0.75)
+    *    t0 (float, optional): 指明在哪一次开始平均化 (默认值: 1e6)
+    *    weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
 
     .. _Acceleration of stochastic approximation by averaging:
         http://dl.acm.org/citation.cfm?id=131098
@@ -26,9 +26,9 @@ class ASGD(Optimizer):
         super(ASGD, self).__init__(params, defaults)
 
     def step(self, closure=None):
-        """进行单步优化。
+        """进行单步优化. 
 
-        参数:
+        Args:
             closure (callable, optional): 一个重新评价模型并返回误差的闭包.
         """
         loss = None

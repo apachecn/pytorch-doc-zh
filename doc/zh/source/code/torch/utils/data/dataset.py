@@ -4,8 +4,8 @@ import bisect
 class Dataset(object):
     """表示 Dataset 的抽象类.
 
-    所有其它数据集都应继承该类(进行子类化).所有子类应该override
-    ``__len__``和 ``__getitem__``, 前者返回数据集大小，后者提供了
+    所有其它数据集都应继承该类(进行子类化). 所有子类应该 override
+    ``__len__`` 和 ``__getitem__``, 前者返回数据集大小，后者提供了
     支持从 0 到 len(self) 整数索引的方法.
     """
 
@@ -24,7 +24,7 @@ class TensorDataset(Dataset):
 
     通过沿着第一个维度索引两个张量来恢复每个样本.
 
-    参数:
+    Args:
         data_tensor (Tensor): 包含样本数据.
         target_tensor (Tensor): 包含样本目标 (标签).
     """
@@ -46,7 +46,8 @@ class ConcatDataset(Dataset):
     用以连结多个数据集的数据集.  
     目的: 因为串联操作是以即时方式完成的对于组装不同的现有数据集(可能是
     大规模的数据集)非常有帮助
-    参数:
+
+    Args:
         datasets (iterable): 需要连结的数据集列表
     """
 

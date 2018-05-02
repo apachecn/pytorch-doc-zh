@@ -25,7 +25,7 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv1d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -34,7 +34,7 @@ def conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dW, ). 默认值: 1
         groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    例子::
+    Example::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50))
@@ -55,7 +55,7 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv2d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels/groups x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -64,7 +64,7 @@ def conv2d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dH, dW). 默认值: 1
         groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    例子::
+    Example::
     
         >>> # With square kernels and equal stride
         >>> filters = autograd.Variable(torch.randn(8,4,3,3))
@@ -86,7 +86,7 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.Conv3d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels/groups x kT x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -95,7 +95,7 @@ def conv3d(input, weight, bias=None, stride=1, padding=0, dilation=1,
         dilation: 卷积核中元素之间的空洞大小. 可以是单个数字, 也可以是一个元组 (dT, dH, dW). 默认值: 1
         groups: 将输入分成的组的个数. in_channels 的值要求能够被 groups 的值整除. 默认值: 1
 
-    例子::
+    Example::
 
         >>> filters = autograd.Variable(torch.randn(33, 16, 3, 3, 3))
         >>> inputs = autograd.Variable(torch.randn(20, 16, 50, 10, 20))
@@ -117,7 +117,7 @@ def conv_transpose1d(input, weight, bias=None, stride=1, padding=0,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose1d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -144,7 +144,7 @@ def conv_transpose2d(input, weight, bias=None, stride=1, padding=0,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose2d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -170,7 +170,7 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 
     关于细节和输出形状大小, 请参见 :class:`~torch.nn.ConvTranspose3d`. 
 
-    参数:
+    Args:
         input: 形状为 (minibatch x in_channels x iT x iH x iW) 的输入张量
         weight: 形状为 (out_channels x in_channels x kH x kW) 的滤波器
         bias: 可选的偏置,形状为 (out_channels). 默认值: None
@@ -193,17 +193,17 @@ def conv_transpose3d(input, weight, bias=None, stride=1, padding=0,
 # Pooling
 def avg_pool1d(input, kernel_size, stride=None, padding=0,
                ceil_mode=False, count_include_pad=True):
-    r"""对由几个输入通道组成的输入信号进行一维平均池化。
+    r"""对由几个输入通道组成的输入信号进行一维平均池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool1d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AvgPool1d` . 
 
     Args:
         input: 输入张量 (minibatch x in_channels x iW)
-        kernel_size: 窗口的大小。可以是单个数字或者 tuple (kW,)
-        stride: 窗口的步长。可以是单个数字或者 tuple (sW,)。 默认值: :attr:`kernel_size`
-        padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padW,)。默认值: 0
-        ceil_mode: 当为 True 时, 将使用 `ceil` 代替 `floor` 来计算输出的 shape。默认值: ``False``
-        count_include_pad: 当为 True 时, 在平均计算时将包括零填充。默认值: ``True``
+        kernel_size: 窗口的大小. 可以是单个数字或者 tuple (kW,)
+        stride: 窗口的步长. 可以是单个数字或者 tuple (sW,).  默认值: :attr:`kernel_size`
+        padding: 在输入周围隐式零填充. 可以是单个数字或者 tuple (padW,). 默认值: 0
+        ceil_mode: 当为 True 时, 将使用 `ceil` 代替 `floor` 来计算输出的 shape. 默认值: ``False``
+        count_include_pad: 当为 True 时, 在平均计算时将包括零填充. 默认值: ``True``
 
     Example:
         >>> # pool of square window of size=3, stride=2
@@ -227,32 +227,32 @@ def avg_pool1d(input, kernel_size, stride=None, padding=0,
 avg_pool2d = _add_docstr(torch._C._nn.avg_pool2d, r"""
 avg_pool2d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作。输出特征的数量等于输入通道的数量。
+在 kh x kw 区域中应用步长为 dh x dw 的二维平均池化操作. 输出特征的数量等于输入通道的数量. 
 
-有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool2d` 。
+有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AvgPool2d` . 
 
 Args:
     input: 输入张量 (minibatch x in_channels x iH x iW)
-    kernel_size: 池化区域的大小。可以是单个数字或者 tuple (kH x kW)
-    stride: 池化操作的步长。 可以是单个数字或者 tuple (sH, sW)。默认等于 kernel 的大小
-    padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padH, padW)。默认值: 0
-    ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape。默认值: ``False``
-    count_include_pad: 当为 True 时, 在平均计算时将包括零填充。默认值: ``True``
+    kernel_size: 池化区域的大小. 可以是单个数字或者 tuple (kH x kW)
+    stride: 池化操作的步长.  可以是单个数字或者 tuple (sH, sW). 默认等于 kernel 的大小
+    padding: 在输入周围隐式零填充. 可以是单个数字或者 tuple (padH, padW). 默认值: 0
+    ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape. 默认值: ``False``
+    count_include_pad: 当为 True 时, 在平均计算时将包括零填充. 默认值: ``True``
 """)
 
 avg_pool3d = _add_docstr(torch._C._nn.avg_pool3d, r"""
 avg_pool3d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True) -> Variable
 
-在 kt x kh x kw 区域中应用步长为 dt x dh x dw 的三维平均池化操作。
-输出特征的数量等于输入通道的数量/dt。
+在 kt x kh x kw 区域中应用步长为 dt x dh x dw 的三维平均池化操作. 
+输出特征的数量等于输入通道的数量/dt. 
 
-有关详细信息和输出形状，请参阅 :class:`~torch.nn.AvgPool3d` 。
+有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AvgPool3d` . 
 
 Args:
     input: 输入张量 (minibatch x in_channels x iT x iH x iW)
-    kernel_size: 池化区域的大小。可以是单个数字或者 tuple (kT x kH x kW)
-    stride: 池化操作的步长。 可以是单个数字或者 tuple (sT, sH, sW). 默认等于 kernel 的大小
-    padding: 在输入周围隐式零填充。可以是单个数字或者 tuple (padT, padH, padW), 默认值: 0
+    kernel_size: 池化区域的大小. 可以是单个数字或者 tuple (kT x kH x kW)
+    stride: 池化操作的步长.  可以是单个数字或者 tuple (sT, sH, sW). 默认等于 kernel 的大小
+    padding: 在输入周围隐式零填充. 可以是单个数字或者 tuple (padT, padH, padW), 默认值: 0
     ceil_mode: 当为 True 时, 将使用公式中的 `ceil` 代替 `floor` 来计算输出的 shape
     count_include_pad: 当为 True 时, 在平均计算时将包括零填充
 """)
@@ -261,9 +261,9 @@ Args:
 # share the same interface
 def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入通道组成的输入信号进行一维最大池化。
+    """对由几个输入通道组成的输入信号进行一维最大池化. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.MaxPool1d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.MaxPool1d` . 
     """
     ret = _functions.thnn.MaxPool1d.apply(input, kernel_size, stride, padding, dilation,
                                           ceil_mode)
@@ -272,9 +272,9 @@ def max_pool1d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入通道组成的输入信号进行二维最大池化。
+    """对由几个输入通道组成的输入信号进行二维最大池化. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.MaxPool2d` . 
     """
     ret = torch._C._nn.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
     return ret if return_indices else ret[0]
@@ -282,9 +282,9 @@ def max_pool2d(input, kernel_size, stride=None, padding=0, dilation=1,
 
 def max_pool3d(input, kernel_size, stride=None, padding=0, dilation=1,
                ceil_mode=False, return_indices=False):
-    """对由几个输入通道组成的输入信号进行三维最大池化。
+    """对由几个输入通道组成的输入信号进行三维最大池化. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.MaxPool2d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.MaxPool2d` . 
     """
     ret = _functions.thnn.MaxPool3d.apply(input, kernel_size, stride, padding, dilation,
                                           ceil_mode)
@@ -323,7 +323,7 @@ def max_unpool1d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
     """计算 :class:`MaxPool1d` 的部分逆
 
-    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool1d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.MaxUnpool1d` . 
     """
     kernel_size = _single(kernel_size)
     stride = _single(stride)
@@ -335,9 +335,9 @@ def max_unpool1d(input, indices, kernel_size, stride=None, padding=0,
 
 def max_unpool2d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """计算 :class:`MaxPool2d` 的部分逆。
+    """计算 :class:`MaxPool2d` 的部分逆. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool2d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.MaxUnpool2d` . 
     """
     kernel_size = _pair(kernel_size)
     stride = _pair(stride)
@@ -349,9 +349,9 @@ def max_unpool2d(input, indices, kernel_size, stride=None, padding=0,
 
 def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
                  output_size=None):
-    """计算 :class:`MaxPool3d` 的部分逆。
+    """计算 :class:`MaxPool3d` 的部分逆. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.MaxUnpool3d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.MaxUnpool3d` . 
     """
     kernel_size = _triple(kernel_size)
     stride = _triple(stride)
@@ -362,9 +362,9 @@ def max_unpool3d(input, indices, kernel_size, stride=None, padding=0,
 
 
 def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """对由几个输入通道组成的输入信号进行二维幂平均池化。
+    """对由几个输入通道组成的输入信号进行二维幂平均池化. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.LPPool2d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.LPPool2d` . 
     """
     kw, kh = utils._pair(kernel_size)
     out = avg_pool2d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
@@ -372,57 +372,57 @@ def lp_pool2d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
 
 
 def lp_pool1d(input, norm_type, kernel_size, stride=None, ceil_mode=False):
-    """对由几个输入通道组成的输入信号进行一维幂平均池化。
+    """对由几个输入通道组成的输入信号进行一维幂平均池化. 
 
-    有关详细信息，请参阅 :class:`~torch.nn.LPPool1d` 。
+    有关详细信息, 请参阅 :class:`~torch.nn.LPPool1d` . 
     """
     out = avg_pool1d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
     return out.mul(kernel_size).pow(1. / norm_type)
 
 
 def adaptive_max_pool1d(input, output_size, return_indices=False):
-    r"""对由几个输入通道组成的输入信号进行一维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行一维自适应最大池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool1d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AdaptiveMaxPool1d` . 
 
     Args:
         output_size: 目标输出大小（单个整数）
-        return_indices: 是否返回池化索引。 默认值: ``False``
+        return_indices: 是否返回池化索引.  默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool1d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_max_pool2d(input, output_size, return_indices=False):
-    r"""对由几个输入通道组成的输入信号进行二维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行二维自适应最大池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool2d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AdaptiveMaxPool2d` . 
 
     Args:
         output_size: 目标输出大小（单个整数或者两个整数的 tuple ）
-        return_indices: 是否返回池化索引。 默认值: ``False``
+        return_indices: 是否返回池化索引.  默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool2d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_max_pool3d(input, output_size, return_indices=False):
-    r"""对由几个输入通道组成的输入信号进行三维自适应最大池化。
+    r"""对由几个输入通道组成的输入信号进行三维自适应最大池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveMaxPool3d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AdaptiveMaxPool3d` . 
 
     Args:
         output_size: 目标输出大小（单个整数或者三个整数的 tuple ）
-        return_indices: 是否返回池化索引。 默认值: ``False``
+        return_indices: 是否返回池化索引.  默认值: ``False``
     """
     ret = _functions.thnn.AdaptiveMaxPool3d.apply(input, output_size)
     return ret if return_indices else ret[0]
 
 
 def adaptive_avg_pool1d(input, output_size):
-    r"""对由几个输入通道组成的输入信号进行一维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行一维自适应平均池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool1d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AdaptiveAvgPool1d` . 
 
     Args:
         output_size: 目标输出大小（单个整数）
@@ -431,9 +431,9 @@ def adaptive_avg_pool1d(input, output_size):
 
 
 def adaptive_avg_pool2d(input, output_size):
-    r"""对由几个输入通道组成的输入信号进行二维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行二维自适应平均池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool2d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AdaptiveAvgPool2d` . 
 
     Args:
         output_size: 目标输出大小（单个整数或者两个整数的 tuple ）
@@ -442,9 +442,9 @@ def adaptive_avg_pool2d(input, output_size):
 
 
 def adaptive_avg_pool3d(input, output_size):
-    r"""对由几个输入通道组成的输入信号进行三维自适应平均池化。
+    r"""对由几个输入通道组成的输入信号进行三维自适应平均池化. 
 
-    有关详细信息和输出形状，请参阅 :class:`~torch.nn.AdaptiveAvgPool3d` 。
+    有关详细信息和输出形状, 请参阅 :class:`~torch.nn.AdaptiveAvgPool3d` . 
 
     Args:
         output_size: 目标输出大小（单个整数或者三个整数的 tuple ）
@@ -459,12 +459,12 @@ def dropout(input, p=0.5, training=False, inplace=False):
 
 
 def alpha_dropout(input, p=0.5, training=False):
-    r"""将 dropout 应用于输入数据( dropou 是指在深度学习网络的训练过程中，对于神经网络单元，按照一定的概率将其暂时从网络中丢弃,防止过拟合)。
+    r"""将 dropout 应用于输入数据( dropou 是指在深度学习网络的训练过程中, 对于神经网络单元, 按照一定的概率将其暂时从网络中丢弃,防止过拟合). 
 
-    有关详细信息，请参阅 :class:`~torch.nn.AlphaDropout`
+    有关详细信息, 请参阅 :class:`~torch.nn.AlphaDropout`
 
     Args:
-        p (float, optional): 丢弃的概率。默认值: 0.5
+        p (float, optional): 丢弃的概率. 默认值: 0.5
         training (bool, optional): 决定是否在训练和测试模式之间的切换. 默认值: ``False``
     """
     if p < 0 or p > 1:
@@ -500,9 +500,9 @@ def dropout3d(input, p=0.5, training=False, inplace=False):
 threshold = _add_docstr(torch._C._nn.threshold, r"""
 threshold(input, threshold, value, inplace=False) -> Variable
 
-Thresholds each element of the input Tensor.
+基于 Tensor 中的每个元素创造阈值函数
 
-See :class:`~torch.nn.Threshold` for more details.
+class:`~torch.nn.Threshold` 可以获取更多细节.
 """)
 
 
@@ -536,7 +536,7 @@ Args:
 hardtanh = _add_docstr(torch._C._nn.hardtanh, r"""
 hardtanh(input, min_val=-1., max_val=1., inplace=False) -> Variable
 
-Applies the HardTanh function element-wise. See :class:`~torch.nn.Hardtanh` for more
+逐元素应用HardTanh函数.请参阅 :class:`~torch.nn.Hardtanh` 可以获取更多细节.
 details.
 """)
 
@@ -544,7 +544,7 @@ details.
 def relu6(input, inplace=False):
     r"""relu6(input, inplace=False) -> Variable
 
-    以元素方式应用HardTanh函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
+    逐元素应用relu6函数 :math:`{ReLU6}(x) = min(max(0,x), 6)`.
 
     请参阅 :class:`~torch.nn.ReLU6` 可以获取更多细节.
     """
@@ -554,7 +554,7 @@ def relu6(input, inplace=False):
 elu = _add_docstr(torch._C._nn.elu, r"""
 elu(input, alpha=1., inplace=False) -> Variable
 
-以元素方式使用,
+逐元素使用,
 :math:`f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))`.
 
 请参阅 :class:`~torch.nn.ELU` 可以获取更多细节.
@@ -564,7 +564,7 @@ elu(input, alpha=1., inplace=False) -> Variable
 def selu(input, inplace=False):
     r"""selu(input, inplace=False) -> Variable
 
-    以元素方式使用,
+    逐元素使用,
     :math:`f(x) = scale * (\max(0,x) + \min(0, alpha * (\exp(x) - 1)))`,
     with ``alpha=1.6732632423543772848170429916717`` and
     ``scale=1.0507009873554804934193349852946``.
@@ -577,7 +577,7 @@ def selu(input, inplace=False):
 leaky_relu = _add_docstr(torch._C._nn.leaky_relu, r"""
 leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 
-以元素方式使用,
+逐元素使用,
 :math:`f(x) = max(0, x) + {negative\_slope} * min(0, x)`
 
 请参阅 :class:`~torch.nn.LeakyReLU` 可以获取更多细节.
@@ -590,7 +590,7 @@ leaky_relu(input, negative_slope=0.01, inplace=False) -> Variable
 def prelu(input, weight):
     r"""prelu(input, weight) -> Variable
 
-    以元素方式使用方法
+    逐元素使用方法
     :math:`PReLU(x) = max(0,x) + weight * min(0,x)` where weight is a
     learnable parameter.
 
@@ -606,7 +606,7 @@ rrelu(input, lower=1./8, upper=1./3, training=False, inplace=False) -> Variable
 logsigmoid = _add_docstr(torch._C._nn.log_sigmoid, r"""
 logsigmoid(input) -> Variable
 
-以元素方式使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
+逐元素使用 :math:`LogSigmoid(x) = log( 1 / (1 + exp(-x_i)))`
 
 请参阅 :class:`~torch.nn.LogSigmoid` 可以获取更多细节.
 """)
@@ -614,7 +614,7 @@ logsigmoid(input) -> Variable
 hardshrink = _add_docstr(torch._C._nn.hardshrink, r"""
 hardshrink(input, lambd=0.5) -> Variable
 
-以元素方式使用 hard shrinkage 方法
+逐元素使用 hard shrinkage 方法
 
 请参阅 :class:`~torch.nn.Hardshrink` 可以获取更多细节.
 
@@ -625,7 +625,7 @@ hardshrink(input, lambd=0.5) -> Variable
 def tanhshrink(input):
     r"""tanhshrink(input) -> Variable
 
-    以元素方式使用, :math:`Tanhshrink(x) = x - Tanh(x)`
+    逐元素使用, :math:`Tanhshrink(x) = x - Tanh(x)`
 
     请参阅 :class:`~torch.nn.Tanhshrink` 可以获取更多细节.
     """
@@ -635,7 +635,7 @@ def tanhshrink(input):
 def softsign(input):
     r"""softsign(input) -> Variable
 
-    以元素方式使用方法 :math:`f(x) = x / (1 + |x|)`
+    逐元素使用方法 :math:`f(x) = x / (1 + |x|)`
 
     请参阅 :class:`~torch.nn.Softsign` 可以获取更多细节.
     """
@@ -679,7 +679,7 @@ def softmax(input, dim=None, _stacklevel=3):
 
     :math:`softmax(x) = \frac{exp(x_i)}{\sum_j exp(x_j)}`
 
-    函数会应用于沿着指定轴的所有切片，并且会标准化结果让每个切片的计算结果映射到（0,1）范围内，让总和为 1.
+    函数会应用于沿着指定轴的所有切片, 并且会标准化结果让每个切片的计算结果映射到（0,1）范围内, 让总和为 1.
 
     请参阅 :class:`~torch.nn.Softmax` 可以获取更多细节.
 
@@ -688,7 +688,7 @@ def softmax(input, dim=None, _stacklevel=3):
         dim (int): softmax 将沿着指定轴 dim 计算.
 
     .. note::
-        该函数不直接与 NLLLoss 一起工作，
+        该函数不直接与 NLLLoss 一起工作, 
         NLLLoss 期望在 Softmax 和它自身之间计算对数.
         使用 log_softmax 代替（log_softmax 更快并且对数值型支持度更好）.
 
@@ -701,9 +701,9 @@ def softmax(input, dim=None, _stacklevel=3):
 def log_softmax(input, dim=None, _stacklevel=3):
     r"""使用对数形式的 softmax 函数.
 
-    虽然在数学上等同于 log（softmax（x）），但单独执行这两个
-    操作的速度较慢，而且数值不稳定。
-    这个功能使用另一个公式来正确计算输出和梯度。
+    虽然在数学上等同于 log（softmax（x））, 但单独执行这两个
+    操作的速度较慢, 而且数值不稳定. 
+    这个功能使用另一个公式来正确计算输出和梯度. 
 
     请参阅 :class:`~torch.nn.LogSoftmax` 可以获取更多细节.
 
@@ -949,18 +949,18 @@ def nll_loss(input, target, weight=None, size_average=True, ignore_index=-100, r
 
     详见 :class:`~torch.nn.NLLLoss`.
 
-    参数:
+    Args:
         input: :math:`(N, C)` 其中 `C = number of classes` 或 `(N, C, H, W)`, 
             当 2D - Loss 时
         target: :math:`(N)` 各个元素都满足 `0 <= targets[i] <= C-1`
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个长度为 C 的 Tensor
         size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
-            上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+            上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
             mini-batch（小批量）上求和. 当 reduce 的值为 ``False`` 时会被忽略. 默认值: ``True``
         ignore_index (int, optional): 设置一个目标值, 该目标值会被忽略, 从而不会影响到输入的梯度. 
             当 size_average 为 True 时, 损失函数的值将会在没有被忽略的元素上取平均. 默认: -100
 
-    实例::
+    Example::
 
         >>> # input is of size N x C = 3 x 5
         >>> input = autograd.Variable(torch.randn(3, 5))
@@ -985,7 +985,7 @@ def poisson_nll_loss(input, target, log_input=True, full=False, size_average=Tru
 
     详见 :class:`~torch.nn.PoissonNLLLoss`.
 
-    参数:
+    Args:
         input: 泊松分布的期望值.
         target: 随机样本 :math:`target \sim Pois(input)`.
         log_input:  如果设置为 ``True`` , 损失将会按照公式 `exp(input) - target * input` 
@@ -1017,7 +1017,7 @@ kl_div = _add_docstr(torch._C._nn.kl_div, r"""
 
 详见ee :class:`~torch.nn.KLDivLoss`.
 
-参数:
+Args:
     input: 任意形状变量
     target: 与输入形状相同的变量
     size_average: 如果是 ``True`` 输出值会除以输入 tensor 的元素总数. 默认: ``True``
@@ -1033,7 +1033,7 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
 
     详见 :class:`~torch.nn.CrossEntropyLoss`.
 
-    参数:
+    Args:
         input: 变量 :math:`(N, C)` 其中 `C` 为分类的数量
         target: 变脸 :math:`(N)` 其中每个值 `0 <= targets[i] <= C-1`
         weight (Tensor, optional): 自定义的每个类别的权重. 必须是一个大小为 `C` 的 Tensor
@@ -1047,7 +1047,7 @@ def cross_entropy(input, target, weight=None, size_average=True, ignore_index=-1
                 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 False 时, 损失函数会对每个 
                 batch 元素都返回一个损失值并忽略 size_average. 默认值: ``True``
 
-    实例::
+    Example::
 
         >>> input = autograd.Variable(torch.randn(3, 5), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(5))
@@ -1062,7 +1062,7 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
 
     详见 :class:`~torch.nn.BCELoss`.
 
-    参数:
+    Args:
         input: 任意形状的变量
         target: 与输入形状相同的变量
         weight (Variable, optional): 一个可手动指定每个类别的权重.如果给定的话, 会反复与
@@ -1070,7 +1070,7 @@ def binary_cross_entropy(input, target, weight=None, size_average=True):
         size_average (bool, optional): 默认情况下, 是mini-batchloss的平均值. 然而, 
                 如果size_average=False, 则是 `mini-batch` loss的总和. 默认: ``True``
 
-    实例::
+    Example::
 
         >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
         >>> target = autograd.Variable(torch.LongTensor(3).random_(2))
@@ -1098,16 +1098,16 @@ def binary_cross_entropy_with_logits(input, target, weight=None, size_average=Tr
 
     详见 :class:`~torch.nn.BCEWithLogitsLoss`.
 
-    参数:
+    Args:
         input: 任意形状的变量
         target: 与输入形状相同的变量
         weight (Variable, optional): 自定义的每个 batch 元素的损失的权重. 如果给定, 会持续被匹配为
                 输入 tensor 的形状.
         size_average (bool, optional): 默认情况下, 该损失函数的值会在每个 mini-batch（小批量） 
-                上取平均值. 如果字段 size_average 被设置为``False``, 损失函数的值会在每个 
+                上取平均值. 如果字段 size_average 被设置为 ``False`` , 损失函数的值会在每个 
                 mini-batch（小批量）上求和. 默认值: ``True``
 
-    实例::
+    Example::
 
          >>> input = autograd.Variable(torch.randn(3), requires_grad=True)
          >>> target = autograd.Variable(torch.FloatTensor(3).random_(2))
@@ -1203,11 +1203,11 @@ def pixel_shuffle(input, upscale_factor):
 
     详情请参阅 :class:`~torch.nn.PixelShuffle`.
 
-    参数:
+    Args:
         input (Variable): 输入
         upscale_factor (int): 增加空间分辨率的因子
 
-    例子:
+    Example:
 
         >>> ps = nn.PixelShuffle(3)
         >>> input = autograd.Variable(torch.Tensor(1, 9, 4, 4))
@@ -1232,21 +1232,19 @@ def pixel_shuffle(input, upscale_factor):
 def upsample(input, size=None, scale_factor=None, mode='nearest'):
     r"""将输入上采样到给定的参数 `size` 或 `scale_factor`
 
-    用于上采样的算法由参数 `mode` 确定。
+    用于上采样的算法由参数 `mode` 确定. 
 
-    当前的时间，空间和体积的 upsampleing 被支持，即预期的输入是三维，四维或五维形状。
+    当前的时间, 空间和体积的 upsampleing 被支持, 即预期的输入是三维, 四维或五维形状. 
 
-    输入维度用以下形式:
-    `mini-batch x channels x [depth] x [height] x width`
+    输入维度用以下形式: `mini-batch x channels x [depth] x [height] x width`
 
-    上采样的模式: 
-    `nearest`, `linear` (3D-only),`bilinear` (4D-only), `trilinear` (5D-only)
+    上采样的模式: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only)
 
-    参数:
+    Args:
         input (Variable): 输入
         size (int or Tuple[int] or Tuple[int, int] or Tuple[int, int, int]):
             输出空间尺寸.
-        scale_factor (int): 乘数空间尺寸，必须是整型
+        scale_factor (int): 乘数空间尺寸, 必须是整型
         mode (string): 用于上采样的算法:
             'nearest' | 'linear' | 'bilinear' | 'trilinear'. Default: 'nearest'
     """
@@ -1287,10 +1285,10 @@ def upsample_nearest(input, size=None, scale_factor=None):
 
     目前支持空间和体积上采样 (即预期的输入是4或5维).
 
-    参数:
+    Args:
         input (Variable): 输入
         size (int or Tuple[int, int] or Tuple[int, int, int]): 输出空间尺寸.
-        scale_factor (int): 乘数空间尺寸，必须是整型.
+        scale_factor (int): 乘数空间尺寸, 必须是整型.
     """
     # DeprecationWarning is ignored by default
     warnings.warn("nn.functional.upsample_nearest is deprecated. Use nn.functional.upsample instead.")
@@ -1304,7 +1302,7 @@ def upsample_bilinear(input, size=None, scale_factor=None):
 
     预期的输入是4维空间. 使用 upsample_trilinear 作为容积（5维）输入.
 
-    参数:
+    Args:
         input (Variable): 输入
         size (int or Tuple[int, int]): 输出空间尺寸
         scale_factor (int or Tuple[int, int]): 乘数空间尺寸
@@ -1320,9 +1318,9 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
     使用双线性插值来对输入像素进行采样.
     目前仅支持空间（4维）输入.
 
-    对于每个输出位置, `grid` 有 `x` 和 `y` 的输入像素位置，用于计算输出
+    对于每个输出位置, `grid` 有 `x` 和 `y` 的输入像素位置, 用于计算输出
 
-    `grid` 值的区间： `[-1, 1]`. 这是因为像素位置由输入高度和宽度标准化.
+    `grid` 值的区间:  `[-1, 1]`. 这是因为像素位置由输入高度和宽度标准化.
 
     比如, 取值 x: -1, y: -1 是输入的左上角像素
           取值: x: 1, y: 1 是输入的右下角像素
@@ -1332,13 +1330,13 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
 
     .. 注意:: 此功能用于构建 Spatial Transformer Networks.
 
-    参数:
+    Args:
         input (Variable): 输入一批图像 (N x C x IH x IW)
         grid (Variable): flow-field 的尺寸 (N x OH x OW x 2)
         padding_mode (str): 用于外部网格值的填充模式 'zeros' | 'border'. 
         Default: 'zeros'
 
-    返回:
+    Returns:
         output (Variable): 输出 Tensor
 
     """
@@ -1347,15 +1345,15 @@ def grid_sample(input, grid, mode='bilinear', padding_mode='zeros'):
 
 
 def affine_grid(theta, size):
-    r"""生成一个 2d 流场，给定一批仿射矩阵：`theta`
+    r"""生成一个 2d 流场, 给定一批仿射矩阵: `theta`
     一般与 `grid_sample` 配合使用来实现 Spatial Transformer Networks.
 
-    参数:
+    Args:
         theta (Variable): 输入一批仿射矩阵 (N x 2 x 3)
         size (torch.Size): 目标输出图像大小 (N x C x H x W)
-                           例子: torch.Size((32, 3, 24, 24))
+                           Example: torch.Size((32, 3, 24, 24))
 
-    返回:
+    Returns:
         output (Variable): 输出 Tensor 的尺寸 (N x H x W x 2)
     """
     return AffineGridGenerator.apply(theta, size)
@@ -1373,13 +1371,13 @@ def pad(input, pad, mode='constant', value=0):
         (pad_l, pad_r, pad_t, pad_b ).
         3D: 5D 填充 (pleft, pright, ptop, pbottom, pfront, pback). 没有"reflect"应用
 
-    参数:
+    Args:
         input (Variable): Nd tensor
         pad (tuple): m 个元素的元组, 满足 m // 2 <= 输入维度 and m % 2 == 0
         mode: 'constant', 'reflect' 或者 'replicate'. Default: 'constant'
         value: 输入值为 'constant' padding. Default: 0
 
-    例子:
+    Example:
 
         >>> t4d = torch.Tensor(3, 3, 4, 2)
         >>> p1d = (1, 1) # pad last dim by 1 on each side
@@ -1426,7 +1424,7 @@ def pad(input, pad, mode='constant', value=0):
 
 def pairwise_distance(x1, x2, p=2, eps=1e-6):
     r"""
-    计算向量 v1,v2 之间的分批成对距离(意思是可以计算多个，可以参看后面的参数):
+    计算向量 v1,v2 之间的分批成对距离(意思是可以计算多个, 可以参看后面的参数):
 
     .. math ::
         \Vert x \Vert _p := \left( \sum_{i=1}^n  \vert x_i \vert ^ p \right) ^ {1/p}
@@ -1434,7 +1432,7 @@ def pairwise_distance(x1, x2, p=2, eps=1e-6):
     Args:
         x1: 第一个输入张量
         x2: 第二个输入张量
-        p: 矩阵范数的维度。默认值是2，即二范数
+        p: 矩阵范数的维度. 默认值是2, 即二范数
         eps (float, optional): 指定一个很小的值以避免被零除. 默认值: 1e-6
 
     Shape:
@@ -1456,20 +1454,20 @@ def pairwise_distance(x1, x2, p=2, eps=1e-6):
 
 
 def cosine_similarity(x1, x2, dim=1, eps=1e-8):
-    r"""返回沿着 dim(矢量的维度) 计算的 x1 和 x2 之间的余弦相似度。
+    r"""返回沿着 dim(矢量的维度) 计算的 x1 和 x2 之间的余弦相似度. 
 
     .. math ::
         \text{similarity} = \dfrac{x_1 \cdot x_2}{\max(\Vert x_1 \Vert _2 \cdot \Vert x_2 \Vert _2, \epsilon)}
 
     Args:
-        x1 (Variable): 第一个输入。
-        x2 (Variable): 第二个输入。 (大小和 x1 匹配).
-        dim (int, optional): 矢量的维度。 默认: 1
+        x1 (Variable): 第一个输入. 
+        x2 (Variable): 第二个输入.  (大小和 x1 匹配).
+        dim (int, optional): 矢量的维度.  默认: 1
         eps (float, optional): 指定一个很小的值以避免被零除. 默认值: 1e-8
 
     Shape:
         - Input: :math:`(\ast_1, D, \ast_2)` 其中 D 位于 `dim` 位置.
-        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于`dim`位置.
+        - Output: :math:`(\ast_1, \ast_2)` 其中 1 位于 `dim` 位置.
 
     Example::
 
@@ -1497,7 +1495,7 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
 
     其中 :math:`d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p`.
 
-    参数:
+    Args:
         anchor: anchor 输入 tensor
         positive: positive 输入 tensor
         negative: negative 输入 tensor
@@ -1506,11 +1504,11 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
         eps: 小 epsilon 值, 用来避免计算数值的问题. 默认: 1e-6
         swap: 计算距离交换. 默认: ``False``
 
-    形状:
+    Shape:
         - Input: :math:`(N, D)` 其中 `D = vector dimension`
         - Output: :math:`(N, 1)`
 
-    实例::
+    Example::
 
         >>> input1 = autograd.Variable(torch.randn(100, 128))
         >>> input2 = autograd.Variable(torch.randn(100, 128))
@@ -1538,20 +1536,20 @@ def triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-6, s
 
 
 def normalize(input, p=2, dim=1, eps=1e-12):
-    r"""  对指定维度的输入执行 :math:`L_p` 规则化。
+    r"""  对指定维度的输入执行 :math:`L_p` 规则化. 
     Does:
 
     .. math::
         v = \frac{v}{\max(\lVert v \rVert_p, \epsilon)}
 
-    对于输入的维度的每个 subtensor(子张量) V 扩展。每个子张量展开成一个向量, i.e. :math:`\lVert v \rVert_p` 不是一个规则的矩阵。
+    对于输入的维度的每个 subtensor(子张量) V 扩展. 每个子张量展开成一个向量, i.e. :math:`\lVert v \rVert_p` 不是一个规则的矩阵. 
 
-    使用默认参数在第二个维度上用欧几里得范数规则化。
+    使用默认参数在第二个维度上用欧几里得范数规则化. 
 
     Args:
         input: 输入任何 shape(形状) 的张量
-        p (float): 规范化公式中的指数值。默认值: 2
-        dim (int): 要减少的维度。默认值: 1
-        eps (float): 指定一个很小的值，避免被零除。默认值: 1e-12
+        p (float): 规范化公式中的指数值. 默认值: 2
+        dim (int): 要减少的维度. 默认值: 1
+        eps (float): 指定一个很小的值, 避免被零除. 默认值: 1e-12
     """
     return input / input.norm(p, dim, True).clamp(min=eps).expand_as(input)

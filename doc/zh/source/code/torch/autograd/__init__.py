@@ -52,14 +52,13 @@ def backward(variables, grad_variables=None, retain_graph=None, create_graph=Non
     此函数累积叶子节点 variables 计算的梯度 - 调用此函数之前应先将叶子节点 variables 梯度置零.
 
     参数说明:
-        variables(Variable 列表): 被求微分的叶子节点.
-        grad_variables ((Tensor,Variable or None)列表):对应 variable 的梯度.任何张量将自动转换为变量除非
+    *    variables(Variable 列表): 被求微分的叶子节点.
+    *    grad_variables ((Tensor,Variable or None)列表):对应 variable 的梯度. 任何张量将自动转换为变量除非
          ``create_graph`` 是 ``True``. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
-        retain_graph (bool, 可选): 如果是 ``False``, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``
-        并不是必须的并且能够高效的计算.将该 ``create_graph`` 参数值设置为默认即可.
-        create_graph (bool, 可选): 如果是 ``True``, 将会建立一个梯度图, 用来求解高阶导数.
-        默认为 ``False``, 除非 ``grad_variables`` 拥有不止一个
-        易变的 Variable.
+    *    retain_graph (bool, 可选): 如果是 ``False``, 该图计算过的梯度被释放掉.注意的是, 几乎所有情况都设置为 ``True``.
+        并不是必须的并且能够高效的计算. 将该 ``create_graph`` 参数值设置为默认即可.
+    *    create_graph (bool, 可选): 如果是 ``True``, 将会建立一个梯度图, 用来求解高阶导数.
+        默认为 ``False``, 除非 ``grad_variables`` 拥有不止一个易变的 Variable.
     """
     variables = (variables,) if isinstance(variables, Variable) else tuple(variables)
 
@@ -89,7 +88,7 @@ def grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=Non
          only_inputs=True, allow_unused=False):
     """计算并返回给定值的梯度的和.
 
-    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样，
+    ``grad_outputs`` 是一个列表同时长度与 ``output`` 一样, 
     存放了预先计算 input 的梯度的和. 如果
     output 不需要被求导, 那么梯度将为 ``None``).
     当不需要派生图时,可以将梯度作为张量,或者作为变量,在这种情况下,图将被创建.
@@ -98,17 +97,17 @@ def grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=Non
     参数中.
 
     参数说明:
-        outputs (变量序列): 梯度函数的返回值.
-        inputs (变量序列): 需要计算的梯度的输入 (并且不会被累加到 ``.grad`` 参数中).
-        grad_outputs (张量或变量序列): 每一个输出的梯度.
+    *    outputs (变量序列): 梯度函数的返回值.
+    *    inputs (变量序列): 需要计算的梯度的输入 (并且不会被累加到 ``.grad`` 参数中).
+    *    grad_outputs (张量或变量序列): 每一个输出的梯度.
             所有的张量都会变成变量并且是可变的除非参数 ``create_graph`` 为 ``True``. 没有值可以被指定为标量变量或者不需要变化的值.
             如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
-        retain_graph (bool, 可选): 如果是 ``False``, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True``
+    *    retain_graph (bool, 可选): 如果是 ``False``, 用于计算 grad 的图将被释放. 几乎所有情况都设置为 ``True``.
             并不是必须的并且能够高效地运行. 默认与 ``create_graph`` 参数一样.
-        create_graph (bool, 可选): 如果是 ``True``, 梯度图将会被建立,用来求解高阶导数.
-        默认为 `False`` , 除非参数 ``grad_variables`` 包含不只一个变量.
-        only_inputs (bool, 可选): 如果是 ``True``, 叶子节点的导数将会在图中, 但是不会出现在参数 ``inputs`` 也不会被计算以及累加. 默认为 ``True``.
-        allow_unused (bool, 可选): 如果是 ``False``, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 ``False``.
+    *    create_graph (bool, 可选): 如果是 ``True``, 梯度图将会被建立,用来求解高阶导数.
+            默认为 ``False``, 除非参数 ``grad_variables`` 包含不只一个变量.
+    *    only_inputs (bool, 可选): 如果是 ``True``, 叶子节点的导数将会在图中, 但是不会出现在参数 ``inputs`` 也不会被计算以及累加. 默认为 ``True``.
+    *    allow_unused (bool, 可选): 如果是 ``False``, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 ``False``.
     """
 
     outputs = (outputs,) if isinstance(outputs, Variable) else tuple(outputs)

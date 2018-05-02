@@ -68,7 +68,7 @@ torch.onnx
 为了能够使用 `caffe2 <https://caffe2.ai/>`_ 运行脚本, 你需要三样东西:
 
 1. 你需要安装 Caffe2. 如果你之前没有安装,请参照
-   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_。
+   `安装指南 <https://caffe2.ai/docs/getting-started.html>`_. 
 
 2. 你需要安装 `onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`_ , 一个纯 Python 的库,它为 ONNX 提供了 Caffe2 的
    后端.你可以使用 pip 安装 ``onnx-caffe2``::

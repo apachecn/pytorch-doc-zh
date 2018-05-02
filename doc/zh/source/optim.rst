@@ -3,7 +3,7 @@ torch.optim
 
 .. automodule:: torch.optim
 
-如何使用 optimizer（优化器）
+如何使用 optimizer (优化器) 
 ----------------------------
 
 为了使用 :mod:`torch.optim` 你需要创建一个 optimizer 对象, 这个对象能够保持当前的状态以及依靠梯度计算
@@ -49,7 +49,7 @@ torch.optim
                     {'params': model.classifier.parameters(), 'lr': 1e-3}
                 ], lr=1e-2, momentum=0.9)
 
-这意味着 ``model.base`` 的参数将会使用 ``1e-2`` 的学习率,``model.classifier`` 的参数将会使用 ``1e-3`` 的学习率,
+这意味着 ``model.base`` 的参数将会使用 ``1e-2`` 的学习率, ``model.classifier`` 的参数将会使用 ``1e-3`` 的学习率,
 并且 ``0.9`` 的 momentum 将应用于所有参数.
 
 进行单步优化
