@@ -267,9 +267,9 @@ class DataLoader(object):
         collate_fn (callable, optional): 合并样本列表以形成一个 mini-batch.
         pin_memory (bool, optional): 如果为 ``True``, 数据加载器会将张量复制到 CUDA 固定内存中,
             然后再返回它们.
-        drop_last (bool, optional): 设定为 ``True`` 以丢掉最后一个不完整的 batch,
+        drop_last (bool, optional): 设定为 ``True`` ,则丢掉最后一个不完整的 batch,
             如果数据集大小不能被 batch size整除. 设定为 ``False`` 并且数据集的大小不能被 batch size整除,
-            则最后一个 batch 将会更小. (default: False)
+            则最后一个 batch 会保留，但将会更小. (default: False)
     """
 
     def __init__(self, dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None,
