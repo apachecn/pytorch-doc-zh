@@ -1,78 +1,71 @@
 # -*- coding: utf-8 -*-
 """
-TensorFlow: Static Graphs
+TensorFlow: 静态图
 -------------------------
 
-A fully-connected ReLU network with one hidden layer and no biases, trained to
-predict y from x by minimizing squared Euclidean distance.
+本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 
+训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
-This implementation uses basic TensorFlow operations to set up a computational
-graph, then executes the graph many times to actually train the network.
+在实现中, 我们会用基本的TensorFlow操作来建立一个计算图, 随后多次执行这个图来训练网络.
 
-One of the main differences between TensorFlow and PyTorch is that TensorFlow
-uses static computational graphs while PyTorch uses dynamic computational
-graphs.
+TensorFlow和PyTorch有一个很大的区别, 就是TensorFlow用的是静态计算图, 而PyTorch则用动态计算图.
 
-In TensorFlow we first set up the computational graph, then execute the same
-graph many times.
+用TensorFlow我们先建立计算图, 然后在多次执行过程中, 计算图固定不变.
 """
+
 import tensorflow as tf
 import numpy as np
 
-# First we set up the computational graph:
+# 首先我们设置计算图:
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N 是一个batch的样本数量; D_in是输入维度;
+# H 是隐藏层向量的维度; D_out是输出维度.
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create placeholders for the input and target data; these will be filled
-# with real data when we execute the graph.
+# 为输入数据和目标数据创建占位符; 
+# 当我们执行图时,这些将被填充真实的数据.
 x = tf.placeholder(tf.float32, shape=(None, D_in))
 y = tf.placeholder(tf.float32, shape=(None, D_out))
 
-# Create Variables for the weights and initialize them with random data.
-# A TensorFlow Variable persists its value across executions of the graph.
+# 为权重创建变量并用随机数据初始化它们.
+# 一个TensorFlow变量在图的执行中保持其值.
 w1 = tf.Variable(tf.random_normal((D_in, H)))
 w2 = tf.Variable(tf.random_normal((H, D_out)))
 
-# Forward pass: Compute the predicted y using operations on TensorFlow Tensors.
-# Note that this code does not actually perform any numeric operations; it
-# merely sets up the computational graph that we will later execute.
+# 正向传递:使用TensorFlow Tensors上的运算来计算预测的y.
+# 请注意此代码实际上并未执行任何数字操作;
+# 它只是设置我们稍后将执行的计算图.
 h = tf.matmul(x, w1)
 h_relu = tf.maximum(h, tf.zeros(1))
 y_pred = tf.matmul(h_relu, w2)
 
-# Compute loss using operations on TensorFlow Tensors
+# 使用TensorFlow张量上的操作计算损失
 loss = tf.reduce_sum((y - y_pred) ** 2.0)
 
-# Compute gradient of the loss with respect to w1 and w2.
+# 计算相对于w1和w2的损失梯度.
 grad_w1, grad_w2 = tf.gradients(loss, [w1, w2])
 
-# Update the weights using gradient descent. To actually update the weights
-# we need to evaluate new_w1 and new_w2 when executing the graph. Note that
-# in TensorFlow the the act of updating the value of the weights is part of
-# the computational graph; in PyTorch this happens outside the computational
-# graph.
+# 使用梯度下降更新权重.
+# 要实际更新权重,我们需要在执行图时评估new_w1和new_w2.
+# 请注意,在TensorFlow中,更新权值的行为是计算图的一部分
+# 在PyTorch中,这发生在计算图之外.
 learning_rate = 1e-6
 new_w1 = w1.assign(w1 - learning_rate * grad_w1)
 new_w2 = w2.assign(w2 - learning_rate * grad_w2)
 
-# Now we have built our computational graph, so we enter a TensorFlow session to
-# actually execute the graph.
+# 现在我们已经构建了计算图,所以我们输入一个TensorFlow会话来实际执行图.
 with tf.Session() as sess:
-    # Run the graph once to initialize the Variables w1 and w2.
+    # 运行一次图形初始化变量w1和w2.
     sess.run(tf.global_variables_initializer())
 
-    # Create numpy arrays holding the actual data for the inputs x and targets
-    # y
+    # 创建包含输入x和目标y的实际数据的numpy数组
     x_value = np.random.randn(N, D_in)
     y_value = np.random.randn(N, D_out)
     for _ in range(500):
-        # Execute the graph many times. Each time it executes we want to bind
-        # x_value to x and y_value to y, specified with the feed_dict argument.
-        # Each time we execute the graph we want to compute the values for loss,
-        # new_w1, and new_w2; the values of these Tensors are returned as numpy
-        # arrays.
+        # 多次执行图. 每次执行时,
+        # 我们都想将x_value绑定到x,将y_value绑定到y,用feed_dict参数指定.
+        # 每次我们执行图时,我们都想计算损失值new_w1 和 new_w2; 
+        # 这些张量的值作为numpy数组返回.
         loss_value, _, _ = sess.run([loss, new_w1, new_w2],
                                     feed_dict={x: x_value, y: y_value})
         print(loss_value)

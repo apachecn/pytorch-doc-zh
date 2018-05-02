@@ -1,10 +1,9 @@
 torch.Storage
 ===================================
 
-A :class:`torch.Storage` is a contiguous, one-dimensional array of a single
-data type.
+一个 :class:`torch.Storage` 是一个单一数据类型的连续一维数组 . 
 
-Every :class:`torch.Tensor` has a corresponding storage of the same data type.
+每个 :class:`torch.Tensor` 都有一个对应的相同数据类型的存储 . 
 
 .. autoclass:: torch.FloatStorage
    :members:
