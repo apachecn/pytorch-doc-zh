@@ -7,7 +7,7 @@ from torch.distributed import get_world_size, get_rank
 class DistributedSampler(Sampler):
     """将数据加载限制为数据集子集的采样器.
 
-    当与:class:`torch.nn.parallel.DistributedDataParallel` 组合使用时，效果较好.
+    当与 :class:`torch.nn.parallel.DistributedDataParallel` 组合使用时，效果较好.
     在这种情况下, 每个进程都可以将分布式采样器实例作为Data Loader采样器,
     并且加载一个原始数据集的子集并独占该数据子集.
 
