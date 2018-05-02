@@ -29,7 +29,7 @@ class Variable(_C._VariableBase):
     *    is_leaf: 指示是否为叶子节点,即是否由用户创建的节点.
     *    grad_fn: 导数函数跟踪.
 
-    参数:
+    Args:
     *    data (any tensor class): 用来包装的张量.
     *    requires_grad (bool): 指示是否要被求导. **Keyword only.**
     *    volatile (bool): 指示是否可变. **Keyword only.**
@@ -134,7 +134,7 @@ class Variable(_C._VariableBase):
 
         这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
 
-        参数:
+        Args:
         *    gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
             到一个变量,这是挥发性的,除非 ``create_graph`` 为真.没有值可以被指定为标量变量或那些
             不要求毕业. 如果一个None值是可以接受的这个参数是可选的.

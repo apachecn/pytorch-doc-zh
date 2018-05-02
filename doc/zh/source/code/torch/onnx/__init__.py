@@ -46,7 +46,7 @@ def export(model, args, f, export_params=True, verbose=False, training=False):
 
     也可参考: :ref:`onnx-export`
 
-    参数:
+    Args:
         model (torch.nn.Module): 将被导出模型.  
         args (tuple of arguments): 模型的输入, ``model(*args)`` 必须是对模型的有效调用.任何非变量参数将被硬编码到导出的模型中.任何变量参数都将按照它们在参数中出现的顺序,成为输出模型的输入.如果 args 是一个变量,相当于用该变量的一个元组来调用它.（注意:目前还不支持将关键参数传递给模型,如果需要,请联系我们.）  
         f: 一个类文件对象（必须实现返回文件描述的fileno）或一个包含文件名的字符串。一个二进制 Protobuf 将被写入这个文件.

@@ -124,7 +124,7 @@ def save(obj, f, pickle_module=pickle, pickle_protocol=DEFAULT_PROTOCOL):
 
     另见: :ref:`recommend-saving-models`
 
-    参数:
+    Args:
         obj: 要保存的对象
         f: 类文件对象 (必须实现返回文件描述符的 fileno 方法) 或包含文件名的字符串
         pickle_module: 用于 pickling 元数据和对象的模块
@@ -219,7 +219,7 @@ def load(f, map_location=None, pickle_module=pickle):
 
     用户扩展可以使用 register_package 来注册他们自己的位置标签, 以及标记和反序列化方法.
 
-    参数:
+    Args:
         f: 一个类文件对象 (必须实现返回文件描述符的 fileno, 以及 seek 方法), 或者包含文件名的字符串.
         map_location: 一个函数或者一个指明如何重新映射存储位置的字典
         pickle_module: 用于解封 (unpickling) 元数据和对象的模块 (必须匹配用于序列化文件的 pickle_module)
