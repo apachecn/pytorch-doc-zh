@@ -1,71 +1,80 @@
 # -*- coding: utf-8 -*-
 """
-自动求导: 自动微分
+Autograd: automatic differentiation
 ===================================
 
-PyTorch 中所有神经网络的核心是 ``autograd`` 自动求导包. 
-我们先来简单介绍一下, 然后我们会去训练我们的第一个神经网络.
+Central to all neural networks in PyTorch is the ``autograd`` package.
+Let’s first briefly visit this, and we will then go to training our
+first neural network.
 
 
-``autograd`` 自动求导包针对张量上的所有操作都提供了自动微分操作. 
-这是一个逐个运行的框架, 这意味着您的反向传播是由您的代码如何运行来
-定义的, 每个单一的迭代都可以不一样.
+The ``autograd`` package provides automatic differentiation for all operations
+on Tensors. It is a define-by-run framework, which means that your backprop is
+defined by how your code is run, and that every single iteration can be
+different.
 
-让我们用一些更简单的术语与例子来了解这些套路.
+Let us see this in more simple terms with some examples.
 
-Tensor (张量)
+Tensor
 --------
 
-``torch.Tensor`` 是包的核心类. 如果你将其属性 ``.requires_grad`` 
-设置为 ``True``, 它就开始追踪上面的所有操作. 当你完成了计算, 你可以调用 
-``.backward()`` 使所有梯度自动计算. 这个张量的梯度将会被计入
- ``.grad`` 属性中.
+``torch.Tensor`` is the central class of the package. If you set its attribute
+``.requires_grad`` as ``True``, it starts to track all operations on it. When
+you finish your computation you can call ``.backward()`` and have all the
+gradients computed automatically. The gradient for this tensor will be
+accumulated into ``.grad`` attribute.
 
-要停止追踪一个张量, 你可以调用 ``.detach()`` 来从计算历史中分离它, 防止未来的梯度
-计算被追踪.
+To stop a tensor from tracking history, you can call ``.detach()`` to detach
+it from the computation history, and to prevent future computation from being
+tracked.
 
-要阻止追踪历史 (占用内存), 你也可以用 ``with torch.no_grad():`` 包装代码块. 
-这在验证一个模型时尤其有帮助, 因为此时模型有 `requires_grad=True` 的可训练参数, 
-但我们不需要梯度计算. 
+To prevent tracking history (and using memory), you can also wrap the code block
+in ``with torch.no_grad():``. This can be particularly helpful when evaluating a
+model because the model may have trainable parameters with `requires_grad=True`,
+but we don't need the gradients.
 
-还有一个针对自动求导实现来说非常重要的类 - ``Function``.
+There’s one more class which is very important for autograd
+implementation - a ``Function``.
 
-``Tensor`` 和 ``Function`` 是相互联系的, 并且它们构建了一个非循环的图, 
-编码了一个完整的计算历史信息. 每一个 Tensor (变量) 都有一个 ``.grad_fn`` 
-属性,  它引用了一个已经创建了 ``Tensor`` 的 ``Function`` ( 除了用户创建
-的  ``Tensor`` 之外 - 它们的 ``grad_fn is None`` ).
+``Tensor`` and ``Function`` are interconnected and build up an acyclic
+graph, that encodes a complete history of computation. Each variable has
+a ``.grad_fn`` attribute that references a ``Function`` that has created
+the ``Tensor`` (except for Tensors created by the user - their
+``grad_fn is None``).
 
-如果你想计算导数, 你可以在 ``Tensor`` 上调用 ``.backward()`` 方法. 
-如果 ``Tensor`` 是标量的形式 (例如, 它包含一个元素数据), 你不必指定任何参数给 ``backward()``,
-但是, 如果它有更多的元素. 你需要去指定一个 ``gradient`` 参数, 该参数是一个匹配 shape (形状) 的张量.
+If you want to compute the derivatives, you can call ``.backward()`` on
+a ``Tensor``. If ``Tensor`` is a scalar (i.e. it holds a one element
+data), you don’t need to specify any arguments to ``backward()``,
+however if it has more elements, you need to specify a ``gradient``
+argument that is a tensor of matching shape.
 """
 
 import torch
 
 ###############################################################
-# 创建一个张量并设置 requires_grad=True 以在上面追踪计算
+# Create a tensor and set requires_grad=True to track computation with it
 x = torch.ones(2, 2, requires_grad=True)
 print(x)
 
 ###############################################################
-# 张量的操作:
+# Do an operation of tensor:
 y = x + 2
 print(y)
 
 ###############################################################
-# ``y`` 是一个操作的结果, 所以它有 ``grad_fn``.
+# ``y`` was created as a result of an operation, so it has a ``grad_fn``.
 print(y.grad_fn)
 
 ###############################################################
-# 在 y 上做更多的操作
+# Do more operations on y
 z = y * y * 3
 out = z.mean()
 
 print(z, out)
 
 ################################################################
-# ``.requires_grad_( ... )`` 在空间内操作改变了已有张量的 
-# ``requires_grad`` 标记, 其输入标记缺省时默认为 ``True``.
+# ``.requires_grad_( ... )`` changes an existing Tensor's ``requires_grad``
+# flag in-place. The input flag defaults to ``True`` if not given.
 a = torch.randn(2, 2)
 a = ((a * 3) / (a - 1))
 print(a.requires_grad)
@@ -75,31 +84,32 @@ b = (a * a).sum()
 print(b.grad_fn)
 
 ###############################################################
-# 梯度
+# Gradients
 # ---------
-# 我们现在后向传播
-# 因为 ``out`` 包含单个标量, ``out.backward()`` 等同于 
-# ``out.backward(torch.tensor(1))``.
+# Let's backprop now
+# Because ``out`` contains a single scalar, ``out.backward()`` is
+# equivalent to ``out.backward(torch.tensor(1))``.
 
 out.backward()
 
 ###############################################################
-# 输出梯度值 d(out)/dx
+# print gradients d(out)/dx
 #
 
 print(x.grad)
 
 ###############################################################
-# 你应该得到一个 ``4.5`` 的矩阵. 让我们推导出 ``out``
-# *Variable* “:math:`o`”.
-# 我们有 :math:`o = \frac{1}{4}\sum_i z_i`,
-# :math:`z_i = 3(x_i+2)^2` 和 :math:`z_i\bigr\rvert_{x_i=1} = 27`.
-# 因此,
-# :math:`\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)`, 所以
+# You should have got a matrix of ``4.5``. Let’s call the ``out``
+# *Tensor* “:math:`o`”.
+# We have that :math:`o = \frac{1}{4}\sum_i z_i`,
+# :math:`z_i = 3(x_i+2)^2` and :math:`z_i\bigr\rvert_{x_i=1} = 27`.
+# Therefore,
+# :math:`\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)`, hence
 # :math:`\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5`.
 
 ###############################################################
-# 你可以使用自动求导来做很多有趣的事情
+# You can do many crazy things with autograd!
+
 
 x = torch.randn(3, requires_grad=True)
 
@@ -117,8 +127,9 @@ y.backward(gradients)
 print(x.grad)
 
 ###############################################################
-# 你也可以在 ``with torch.no_grad():`` 包裹块中写代码, 来停止梯度在 
-# requires_grad=True 的张量上自动追踪计算. 
+# You can also stops autograd from tracking history on Tensors
+# with requires_grad=True by wrapping the code block in
+# ``with torch.no_grad():``
 print(x.requires_grad)
 print((x ** 2).requires_grad)
 
@@ -126,7 +137,7 @@ with torch.no_grad():
 	print((x ** 2).requires_grad)
 
 ###############################################################
-# **稍候阅读:**
+# **Read Later:**
 #
-# ``autograd`` 和 ``Function`` 的文档请参阅
-# http://pytorch.apachecn.org/cn/docs/0.4.0/autograd.html
+# Documentation of ``autograd`` and ``Function`` is at
+# http://pytorch.org/docs/autograd

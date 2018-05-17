@@ -87,8 +87,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'PyTorch Tutorials'
-copyright = '2017, PyTorch'
+project = 'PyTorch 中文教程'
+copyright = '2017, PyTorch, Translate by @ApacheCN'
 author = 'PyTorch contributors'
 
 # The version info for the project you're documenting, acts as replacement for
