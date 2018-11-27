@@ -5,6 +5,7 @@ install:
   - pip install -r requirement.txt
 
 script:
+  - cp README.md docs/README.md
   - mkdocs build
 
 after_script:

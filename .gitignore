@@ -113,3 +113,6 @@ Thumbs.db
 # word
 ~$*.docx
 ~$*.doc
+
+# custom
+docs/README.md

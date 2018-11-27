@@ -8,8 +8,10 @@ repo_name: pytorch-doc-zh
 
 use_directory_urls: true
 nav:
+- "主页" :
+  - "主页" : "README.md"
 - "中文教程" :
-  - "初学者教程" : "index.md"
+  - "初学者教程" : "0.md"
   - "PyTorch 深度学习: 60 分钟极速入门教程" : "1.md"
   - "PyTorch 是什么？" : "2.md"
   - "自动求导: 自动微分" : "3.md"
