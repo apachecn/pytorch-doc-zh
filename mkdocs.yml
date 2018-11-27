@@ -1,0 +1,119 @@
+site_name: "PyTorch 0.3.0 中文文档"
+site_url: http://pytorch.apachecn.org
+site_description: "PyTorch 0.3.0 中文文档"
+site_author: ApacheCN Team
+
+repo_url: https://github.com/apachecn/pytorch-doc-zh
+repo_name: pytorch-doc-zh
+
+use_directory_urls: true
+nav:
+- "中文教程" :
+  - "初学者教程" : "index.md"
+  - "PyTorch 深度学习: 60 分钟极速入门教程" : "1.md"
+  - "PyTorch 是什么？" : "2.md"
+  - "自动求导: 自动微分" : "3.md"
+  - "神经网络" : "4.md"
+  - "训练一个分类器" : "5.md"
+  - "可选: 数据并行" : "6.md"
+  - "PyTorch for former Torch users" : "7.md"
+  - "Tensors" : "8.md"
+  - "Autograd (自动求导)" : "9.md"
+  - "nn package" : "10.md"
+  - "Multi-GPU examples" : "11.md"
+  - "跟着例子学习 PyTorch" : "12.md"
+  - "Warm-up: numpy" : "13.md"
+  - "PyTorch: Tensors" : "14.md"
+  - "PyTorch: 变量和autograd" : "15.md"
+  - "PyTorch: 定义新的autograd函数" : "16.md"
+  - "TensorFlow: 静态图" : "17.md"
+  - "PyTorch: nn包" : "18.md"
+  - "PyTorch: optim包" : "19.md"
+  - "PyTorch: 定制化nn模块" : "20.md"
+  - "PyTorch: 动态控制流程 + 权重共享" : "21.md"
+  - "迁移学习教程" : "22.md"
+  - "数据加载和处理教程" : "23.md"
+  - "针对NLP的Pytorch深度学习" : "24.md"
+  - "PyTorch介绍" : "25.md"
+  - "PyTorch深度学习" : "26.md"
+  - "词汇嵌入:编码词汇语义" : "27.md"
+  - "序列模型和 LSTM 网络（长短记忆网络）" : "28.md"
+  - "高级教程: 作出动态决策和 Bi-LSTM CRF" : "29.md"
+  - "中级教程" : "30.md"
+  - "用字符级RNN分类名称" : "31.md"
+  - "基与字符级RNN（Char-RNN）的人名生成" : "32.md"
+  - "用基于注意力机制的seq2seq神经网络进行翻译" : "33.md"
+  - "强化学习（DQN）教程" : "34.md"
+  - "Writing Distributed Applications with PyTorch" : "35.md"
+  - "空间转换网络 (Spatial Transformer Networks) 教程" : "36.md"
+  - "高级教程" : "37.md"
+  - "用 PyTorch 做 神经转换 (Neural Transfer)" : "38.md"
+  - "使用 numpy 和 scipy 创建扩展" : "39.md"
+  - "使用 ONNX 将模型从 PyTorch 迁移到 Caffe2 和 Mobile" : "40.md"
+  - "为 pytorch 自定义 C 扩展" : "41.md"
+  - "项目相关" : "42.md"
+  - "项目贡献者" : "43.md"
+  - "组织学习交流群" : "44.md"
+- "中文文档" :
+  - "介绍" : "45.md"
+  - "自动求导机制" : "46.md"
+  - "广播语义" : "47.md"
+  - "CUDA 语义" : "48.md"
+  - "扩展 PyTorch" : "49.md"
+  - "多进程的最佳实践" : "50.md"
+  - "序列化语义" : "51.md"
+  - "Package 参考" : "52.md"
+  - "torch" : "53.md"
+  - "torch.Tensor" : "54.md"
+  - "torch.sparse" : "55.md"
+  - "torch.Storage" : "56.md"
+  - "torch.nn" : "57.md"
+  - "torch.optim" : "58.md"
+  - "Automatic differentiation package - torch.autograd" : "59.md"
+  - "Probability distributions - torch.distributions" : "60.md"
+  - "Multiprocessing package - torch.multiprocessing" : "61.md"
+  - "Distributed communication package - torch.distributed" : "62.md"
+  - "Legacy package - torch.legacy" : "63.md"
+  - "torch.cuda" : "64.md"
+  - "torch.utils.ffi" : "65.md"
+  - "torch.utils.data" : "66.md"
+  - "torch.utils.model_zoo" : "67.md"
+  - "torch.onnx" : "68.md"
+  - "torchvision 参考" : "69.md"
+  - "torchvision" : "70.md"
+  - "torchvision.datasets" : "71.md"
+  - "torchvision.models" : "72.md"
+  - "torchvision.transforms" : "73.md"
+  - "torchvision.utils" : "74.md"
+  - "项目相关" : "75.md"
+  - "项目贡献者" : "76.md"
+  - "组织学习交流群" : "77.md"
+
+theme:
+  name: mkdocs
+  custom_dir: 'custom_theme/'
+  
+  # 404 page
+  static_templates:
+    - 404.md
+  
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+  
+  # Default values, taken from mkdocs_theme.yml
+  language: 'zh'
+  feature:
+    tabs: true
+  palette:
+    primary: 'Deep Orange'
+    accent: 'Deep Orange'
+  font: false
+  favicon: assets/images/favicon.png
+  logo: 
+    icon: "\uE80C"
+    
+markdown_extensions:
+  - codehilite:
+      guess_lang: false
+      linenums: false
