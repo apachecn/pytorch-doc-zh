@@ -10,6 +10,7 @@ script:
 
 after_script:
   - cd site
+  - touch .nojekyll
   - git init
   - git config user.name ${GH_UN}
   - git config user.email ${GH_EMAIL}
