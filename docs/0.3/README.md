@@ -2,12 +2,6 @@
   
 PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库) .
 
-> 注意
-> 
-> 我们并没有将本项目升级到 0.4 的计划。
-> 
-> 请等待 1.0，或者访问 [PyTorch 0.4 中文文档](https://ptorch.com/docs/8/)。
-
 ## 项目负责人
 
 **维护组织: [@ApacheCN](https://github.com/apachecn)**
