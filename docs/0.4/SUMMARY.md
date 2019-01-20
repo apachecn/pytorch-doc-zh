@@ -1,3 +1,4 @@
++   [PyTorch 0.4 中文文档](docs/0.4/README.md)
 +   [笔记](docs/0.4/0.md)
     +   [自动求导机制](docs/0.4/1.md)
     +   [广播语义](docs/0.4/2.md)

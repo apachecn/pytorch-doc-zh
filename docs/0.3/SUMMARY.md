@@ -1,3 +1,4 @@
++   [PyTorch 0.3 中文文档 & 教程](docs/0.3/README.md)
 +   中文教程
     +   [初学者教程](docs/0.3/beginner_tutorials.md)
         +   [PyTorch 深度学习: 60 分钟极速入门教程](docs/0.3/deep_learning_60min_blitz.md)
