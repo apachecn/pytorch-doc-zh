@@ -104,6 +104,37 @@
 +   [tutorial/intermediate_source/seq2seq_translation_tutorial](https://github.com/apachecn/pytorch-doc-zh/blob/master/diff/0.3-1.0/tutorial%252fintermediate_source%252fseq2seq_translation_tutorial.diff)
 +   [tutorial/intermediate_source/spatial_transformer_tutorial](https://github.com/apachecn/pytorch-doc-zh/blob/master/diff/0.3-1.0/tutorial%252fintermediate_source%252fspatial_transformer_tutorial.diff)
 
+## `git diff`格式说明
+
+文件的最上面四行是文件头，依次是命令，两个提交，修改前的文件，和修改后的文件。
+
+```diff
+diff --git a/tutorial/beginner_source/examples_nn/two_layer_net_module.py b/tutorial/beginner_source/examples_nn/two_layer_net_module.py
+index c3cb590..bf010ef 100644
+--- a/tutorial/beginner_source/examples_nn/two_layer_net_module.py
++++ b/tutorial/beginner_source/examples_nn/two_layer_net_module.py
+```
+
+在其余的部分中，紫色字体表示位置信息，可以用于定位。比如，这个表示修改前文件的第 11 行（`-11`），变成修改后文件的第 11 行（`+11`）。
+
+
+```diff
+@@ -11,7 +11,6 @@
+```
+
+红色字体表示要删除的内容，绿色字体表示新增的内容。大家需要在中文文档中找到对应语句并删除，然后把新增语句翻译成中文并添加上去。
+
+```diff
+-        In the forward function we accept a Variable of input data and we must return
+-        a Variable of output data. We can use Modules defined in the constructor as
+-        well as arbitrary operators on Variables.
++        In the forward function we accept a Tensor of input data and we must return
++        a Tensor of output data. We can use Modules defined in the constructor as
++        well as arbitrary operators on Tensors.
+```
+
+黑色字体表示上下文，也就是没有改动的内容，也可以用它来定位。
+
 ## 流程
 
 ### 一、认领
