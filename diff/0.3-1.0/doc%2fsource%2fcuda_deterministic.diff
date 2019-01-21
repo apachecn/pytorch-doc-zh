@@ -1,0 +1,12 @@
+
+diff --git a/doc/source/cuda_deterministic.rst b/doc/source/cuda_deterministic.rst
+new file mode 100644
+index 0000000..ca8a8cd
+--- /dev/null
++++ b/doc/source/cuda_deterministic.rst
+@@ -0,0 +1,5 @@
++.. note::
++
++    When using the CUDA backend, this operation may induce nondeterministic
++    behaviour that is not easily switched off.
++    Please see the notes on :doc:`/notes/randomness` for background.

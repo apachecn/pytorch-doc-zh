@@ -1,0 +1,12 @@
+
+diff --git a/doc/source/cuda_deterministic_backward.rst b/doc/source/cuda_deterministic_backward.rst
+new file mode 100644
+index 0000000..30e80eb
+--- /dev/null
++++ b/doc/source/cuda_deterministic_backward.rst
+@@ -0,0 +1,5 @@
++.. note::
++
++    When using the CUDA backend, this operation may induce nondeterministic
++    behaviour in be backward that is not easily switched off.
++    Please see the notes on :doc:`/notes/randomness` for background.

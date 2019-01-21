@@ -1,0 +1,82 @@
+
+diff --git a/tutorial/advanced_source/super_resolution_with_caffe2.py b/tutorial/advanced_source/super_resolution_with_caffe2.py
+index 6b96121..ec1374a 100644
+--- a/tutorial/advanced_source/super_resolution_with_caffe2.py
++++ b/tutorial/advanced_source/super_resolution_with_caffe2.py
+@@ -1,5 +1,5 @@
+ """
+-Transfering a model from PyTorch to Caffe2 and Mobile using ONNX
++Transfering a Model from PyTorch to Caffe2 and Mobile using ONNX
+ ================================================================
+ 
+ In this tutorial, we describe how to use ONNX to convert a model defined
+@@ -8,10 +8,10 @@ Caffe2, we can run the model to double-check it was exported correctly,
+ and we then show how to use Caffe2 features such as mobile exporter for
+ executing the model on mobile devices.
+ 
+-For this tutorial, you will need to install `onnx <https://github.com/onnx/onnx>`__,
+-`onnx-caffe2 <https://github.com/onnx/onnx-caffe2>`__ and `Caffe2 <https://caffe2.ai/>`__.
+-You can get binary builds of onnx and onnx-caffe2 with
+-``conda install -c ezyang onnx onnx-caffe2``.
++For this tutorial, you will need to install `onnx <https://github.com/onnx/onnx>`__
++and `Caffe2 <https://github.com/pytorch/pytorch>`__.
++You can get binary builds of onnx with
++``pip install onnx``.
+ 
+ ``NOTE``: This tutorial needs PyTorch master branch which can be installed by following
+ the instructions `here <https://github.com/pytorch/pytorch#from-source>`__
+@@ -23,7 +23,6 @@ import io
+ import numpy as np
+ 
+ from torch import nn
+-from torch.autograd import Variable
+ import torch.utils.model_zoo as model_zoo
+ import torch.onnx
+ 
+@@ -65,10 +64,10 @@ class SuperResolutionNet(nn.Module):
+         return x
+ 
+     def _initialize_weights(self):
+-        init.orthogonal(self.conv1.weight, init.calculate_gain('relu'))
+-        init.orthogonal(self.conv2.weight, init.calculate_gain('relu'))
+-        init.orthogonal(self.conv3.weight, init.calculate_gain('relu'))
+-        init.orthogonal(self.conv4.weight)
++        init.orthogonal_(self.conv1.weight, init.calculate_gain('relu'))
++        init.orthogonal_(self.conv2.weight, init.calculate_gain('relu'))
++        init.orthogonal_(self.conv3.weight, init.calculate_gain('relu'))
++        init.orthogonal_(self.conv4.weight)
+ 
+ # Create the super-resolution model by using the above model definition.
+ torch_model = SuperResolutionNet(upscale_factor=3)
+@@ -104,11 +103,11 @@ torch_model.train(False)
+ # or a random tensor as long as it is the right size.
+ #
+ # To learn more details about PyTorch's export interface, check out the
+-# `torch.onnx documentation <http://pytorch.org/docs/master/onnx.html>`__.
++# `torch.onnx documentation <https://pytorch.org/docs/master/onnx.html>`__.
+ #
+ 
+ # Input to the model
+-x = Variable(torch.randn(batch_size, 1, 224, 224), requires_grad=True)
++x = torch.randn(batch_size, 1, 224, 224, requires_grad=True)
+ 
+ # Export the model
+ torch_out = torch.onnx._export(torch_model,             # model being run
+@@ -129,7 +128,7 @@ torch_out = torch.onnx._export(torch_model,             # model being run
+ #
+ 
+ import onnx
+-import onnx_caffe2.backend
++import caffe2.python.onnx.backend as onnx_caffe2_backend
+ 
+ # Load the ONNX ModelProto object. model is a standard Python protobuf object
+ model = onnx.load("super_resolution.onnx")
+@@ -137,7 +136,7 @@ model = onnx.load("super_resolution.onnx")
+ # prepare the caffe2 backend for executing the model this converts the ONNX model into a
+ # Caffe2 NetDef that can execute it. Other ONNX backends, like one for CNTK will be
+ # availiable soon.
+-prepared_backend = onnx_caffe2.backend.prepare(model)
++prepared_backend = onnx_caffe2_backend.prepare(model)
+ 
+ # run the model in Caffe2
+ 

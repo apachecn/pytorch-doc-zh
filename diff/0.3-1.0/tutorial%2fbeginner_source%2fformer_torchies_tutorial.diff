@@ -1,0 +1,39 @@
+
+diff --git a/tutorial/beginner_source/former_torchies_tutorial.rst b/tutorial/beginner_source/former_torchies_tutorial.rst
+index 751da38..b3d0d41 100644
+--- a/tutorial/beginner_source/former_torchies_tutorial.rst
++++ b/tutorial/beginner_source/former_torchies_tutorial.rst
+@@ -1,4 +1,4 @@
+-PyTorch for former Torch users
++PyTorch for Former Torch Users
+ ------------------------------
+ **Author**: `Soumith Chintala <http://soumith.ch>`_
+ 
+@@ -17,16 +17,15 @@ In this tutorial, you will learn the following:
+ .. toctree::
+    :hidden:
+ 
+-   /beginner/former_torchies/tensor_tutorial
+-   /beginner/former_torchies/autograd_tutorial
++   /beginner/former_torchies/tensor_tutorial_old
++   /beginner/former_torchies/autograd_tutorial_old
+    /beginner/former_torchies/nn_tutorial
+    /beginner/former_torchies/parallelism_tutorial
+ 
+-.. galleryitem:: /beginner/former_torchies/tensor_tutorial.py
++.. galleryitem:: /beginner/former_torchies/tensor_tutorial_old.py
+     :figure: /_static/img/tensor_illustration_flat.png
+ 
+-.. galleryitem:: /beginner/former_torchies/autograd_tutorial.py
+-    :figure: /_static/img/Variable.png
++.. galleryitem:: /beginner/former_torchies/autograd_tutorial_old.py
+ 
+ .. galleryitem:: /beginner/former_torchies/nn_tutorial.py
+     :figure: /_static/img/torch-nn-vs-pytorch-nn.png
+@@ -35,4 +34,4 @@ In this tutorial, you will learn the following:
+ 
+ .. raw:: html
+ 
+-    <div style='clear:both'></div>
+\ No newline at end of file
++    <div style='clear:both'></div>

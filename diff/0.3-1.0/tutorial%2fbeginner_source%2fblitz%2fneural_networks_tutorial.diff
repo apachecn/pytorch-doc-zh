@@ -1,0 +1,142 @@
+
+diff --git a/tutorial/beginner_source/blitz/neural_networks_tutorial.py b/tutorial/beginner_source/blitz/neural_networks_tutorial.py
+index 9bae7fc..05113e8 100644
+--- a/tutorial/beginner_source/blitz/neural_networks_tutorial.py
++++ b/tutorial/beginner_source/blitz/neural_networks_tutorial.py
+@@ -10,7 +10,7 @@ Now that you had a glimpse of ``autograd``, ``nn`` depends on
+ An ``nn.Module`` contains layers, and a method ``forward(input)``\ that
+ returns the ``output``.
+ 
+-For example, look at this network that classfies digit images:
++For example, look at this network that classifies digit images:
+ 
+ .. figure:: /_static/img/mnist.png
+    :alt: convnet
+@@ -38,7 +38,6 @@ Define the network
+ Let’s define this network:
+ """
+ import torch
+-from torch.autograd import Variable
+ import torch.nn as nn
+ import torch.nn.functional as F
+ 
+@@ -91,11 +90,11 @@ print(len(params))
+ print(params[0].size())  # conv1's .weight
+ 
+ ########################################################################
+-# The input to the forward is an ``autograd.Variable``, and so is the output.
+-# Note: Expected input size to this net(LeNet) is 32x32. To use this net on
+-# MNIST dataset,please resize the images from the dataset to 32x32.
++# Let try a random 32x32 input.
++# Note: expected input size of this net (LeNet) is 32x32. To use this net on
++# MNIST dataset, please resize the images from the dataset to 32x32.
+ 
+-input = Variable(torch.randn(1, 1, 32, 32))
++input = torch.randn(1, 1, 32, 32)
+ out = net(input)
+ print(out)
+ 
+@@ -108,7 +107,7 @@ out.backward(torch.randn(1, 10))
+ ########################################################################
+ # .. note::
+ #
+-#     ``torch.nn`` only supports mini-batches The entire ``torch.nn``
++#     ``torch.nn`` only supports mini-batches. The entire ``torch.nn``
+ #     package only supports inputs that are a mini-batch of samples, and not
+ #     a single sample.
+ #
+@@ -121,25 +120,23 @@ out.backward(torch.randn(1, 10))
+ # Before proceeding further, let's recap all the classes you’ve seen so far.
+ #
+ # **Recap:**
+-#   -  ``torch.Tensor`` - A *multi-dimensional array*.
+-#   -  ``autograd.Variable`` - *Wraps a Tensor and records the history of
+-#      operations* applied to it. Has the same API as a ``Tensor``, with
+-#      some additions like ``backward()``. Also *holds the gradient*
+-#      w.r.t. the tensor.
++#   -  ``torch.Tensor`` - A *multi-dimensional array* with support for autograd
++#      operations like ``backward()``. Also *holds the gradient* w.r.t. the
++#      tensor.
+ #   -  ``nn.Module`` - Neural network module. *Convenient way of
+ #      encapsulating parameters*, with helpers for moving them to GPU,
+ #      exporting, loading, etc.
+-#   -  ``nn.Parameter`` - A kind of Variable, that is *automatically
++#   -  ``nn.Parameter`` - A kind of Tensor, that is *automatically
+ #      registered as a parameter when assigned as an attribute to a*
+ #      ``Module``.
+ #   -  ``autograd.Function`` - Implements *forward and backward definitions
+-#      of an autograd operation*. Every ``Variable`` operation, creates at
+-#      least a single ``Function`` node, that connects to functions that
+-#      created a ``Variable`` and *encodes its history*.
++#      of an autograd operation*. Every ``Tensor`` operation creates at
++#      least a single ``Function`` node that connects to functions that
++#      created a ``Tensor`` and *encodes its history*.
+ #
+ # **At this point, we covered:**
+ #   -  Defining a neural network
+-#   -  Processing inputs and calling backward.
++#   -  Processing inputs and calling backward
+ #
+ # **Still Left:**
+ #   -  Computing the loss
+@@ -151,7 +148,7 @@ out.backward(torch.randn(1, 10))
+ # value that estimates how far away the output is from the target.
+ #
+ # There are several different
+-# `loss functions <http://pytorch.org/docs/nn.html#loss-functions>`_ under the
++# `loss functions <https://pytorch.org/docs/nn.html#loss-functions>`_ under the
+ # nn package .
+ # A simple loss is: ``nn.MSELoss`` which computes the mean-squared error
+ # between the input and the target.
+@@ -159,14 +156,15 @@ out.backward(torch.randn(1, 10))
+ # For example:
+ 
+ output = net(input)
+-target = Variable(torch.arange(1, 11))  # a dummy target, for example
++target = torch.randn(10)  # a dummy target, for example
++target = target.view(1, -1)  # make it the same shape as output
+ criterion = nn.MSELoss()
+ 
+ loss = criterion(output, target)
+ print(loss)
+ 
+ ########################################################################
+-# Now, if you follow ``loss`` in the backward direction, using it’s
++# Now, if you follow ``loss`` in the backward direction, using its
+ # ``.grad_fn`` attribute, you will see a graph of computations that looks
+ # like this:
+ #
+@@ -178,8 +176,8 @@ print(loss)
+ #           -> loss
+ #
+ # So, when we call ``loss.backward()``, the whole graph is differentiated
+-# w.r.t. the loss, and all Variables in the graph will have their
+-# ``.grad`` Variable accumulated with the gradient.
++# w.r.t. the loss, and all Tensors in the graph that has ``requires_grad=True``
++# will have their ``.grad`` Tensor accumulated with the gradient.
+ #
+ # For illustration, let us follow a few steps backward:
+ 
+@@ -192,7 +190,7 @@ print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
+ # --------
+ # To backpropagate the error all we have to do is to ``loss.backward()``.
+ # You need to clear the existing gradients though, else gradients will be
+-# accumulated to existing gradients
++# accumulated to existing gradients.
+ #
+ #
+ # Now we shall call ``loss.backward()``, and have a look at conv1's bias
+@@ -216,11 +214,11 @@ print(net.conv1.bias.grad)
+ #
+ #   The neural network package contains various modules and loss functions
+ #   that form the building blocks of deep neural networks. A full list with
+-#   documentation is `here <http://pytorch.org/docs/nn>`_
++#   documentation is `here <https://pytorch.org/docs/nn>`_.
+ #
+ # **The only thing left to learn is:**
+ #
+-#   - updating the weights of the network
++#   - Updating the weights of the network
+ #
+ # Update the weights
+ # ------------------
