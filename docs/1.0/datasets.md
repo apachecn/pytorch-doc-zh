@@ -1,0 +1,367 @@
+# torchvision.datasets
+
+所有的数据集都是 [`torch.utils.data.Dataset`](../data.html#torch.utils.data.Dataset "torch.utils.data.Dataset") 类的子类, 也就是说, 他们内部都实现了 `__getitem__` 和 `__len__` 这两个方法. 同时, 他们也都可以传递给类 [`torch.utils.data.Dataset`](../data.html#torch.utils.data.Dataset "torch.utils.data.Dataset"), 它可以使用 `torch.multiprocessing` 工作器来并行的加载多个样本.
+
+Example:
+
+```py
+imagenet_data = torchvision.datasets.ImageFolder('path/to/imagenet_root/')
+data_loader = torch.utils.data.DataLoader(imagenet_data,
+                                          batch_size=4,
+                                          shuffle=True,
+                                          num_workers=args.nThreads)
+
+```
+
+可用的数据集如下所示:
+
+Datasets
+
+*   [MNIST](#mnist)
+*   [Fashion-MNIST](#fashion-mnist)
+*   [COCO](#coco)
+    *   [Captions](#captions)
+    *   [Detection](#detection)
+*   [LSUN](#lsun)
+*   [ImageFolder](#imagefolder)
+*   [Imagenet-12](#imagenet-12)
+*   [CIFAR](#cifar)
+*   [STL10](#stl10)
+*   [SVHN](#svhn)
+*   [PhotoTour](#phototour)
+
+所有数据集都有几乎相似的 API, 它们有两个普通的参数: `transform` 和 `target_transform` 可分别的对输入和目标数据集进行变换. - `transform`: 输入原始图片, 返回转换后的图片. - `target_transform`: 输入为 target, 返回转换后的 target.
+
+## [MNIST](#id10)
+
+```py
+class torchvision.datasets.MNIST(root, train=True, transform=None, target_transform=None, download=False)
+```
+
+[MNIST](http://yann.lecun.com/exdb/mnist/) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – `processed/training.pt` 和 `processed/test.pt` 存在的主目录.
+*   **train** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 True, 数据来自训练集 `training.pt` , 如果 False, 数据来自测试集 `test.pt` .
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+
+ |
+| --- | --- |
+
+## [Fashion-MNIST](#id11)
+
+```py
+class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target_transform=None, download=False)
+```
+
+[Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – `processed/training.pt` 和 `processed/test.pt` 存在的主目录.
+*   **train** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 True, 数据来自训练集 `training.pt` , 如果 False, 数据来自测试集 `test.pt` .
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+
+ |
+| --- | --- |
+
+## [COCO](#id12)
+
+Note
+
+需要安装 [COCO API](https://github.com/pdollar/coco/tree/master/PythonAPI)
+
+### [Captions](#id13)
+
+```py
+class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_transform=None)
+```
+
+[MS Coco Captions](http://mscoco.org/dataset/#captions-challenge2015) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 数据集下载存放的主目录.
+*   **annFile** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – json 注释文件存放的路径
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.ToTensor`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+
+ |
+| --- | --- |
+
+Example
+
+```py
+import torchvision.datasets as dset
+import torchvision.transforms as transforms
+cap = dset.CocoCaptions(root = 'dir where images are',
+                        annFile = 'json annotation file',
+                        transform=transforms.ToTensor())
+
+print('Number of samples: ', len(cap))
+img, target = cap[3] # load 4th sample
+
+print("Image Size: ", img.size())
+print(target)
+
+```
+
+Output:
+
+```py
+Number of samples: 82783
+Image Size: (3L, 427L, 640L)
+[u'A plane emitting smoke stream flying over a mountain.',
+u'A plane darts across a bright blue sky behind a mountain covered in snow',
+u'A plane leaves a contrail above the snowy mountain top.',
+u'A mountain that has a plane flying overheard in the distance.',
+u'A mountain view with a plume of smoke in the background']
+
+```
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | Tuple (image, target). 目标是一个图像标注的列表. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+### [Detection](#id14)
+
+```py
+class torchvision.datasets.CocoDetection(root, annFile, transform=None, target_transform=None)
+```
+
+[MS Coco Detection](http://mscoco.org/dataset/#detections-challenge2016) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 数据集下载存放的主目录.
+*   **annFile** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – json 注释文件存放的路径
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.ToTensor`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | Tuple (image, target). 目标是由 `coco.loadAnns` 返回的对象. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+## [LSUN](#id15)
+
+```py
+class torchvision.datasets.LSUN(db_path, classes='train', transform=None, target_transform=None)
+```
+
+[LSUN](http://lsun.cs.princeton.edu) dataset.
+
+| Parameters: | 
+
+*   **db_path** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 数据集文件存放的主目录.
+*   **classes** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)") _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – {‘train’, ‘val’, ‘test’} 中的一个, 或者是一个要载入种类的列表. e,g. [‘bedroom_train’, ‘church_train’].
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | Tuple (image, target) 目标是目标类别的索引. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+## [ImageFolder](#id16)
+
+```py
+class torchvision.datasets.ImageFolder(root, transform=None, target_transform=None, loader=<function default_loader at 0x432aa28>)
+```
+
+一个通用的数据加载器, 数据集中的数据以以下方式组织:
+
+```py
+root/dog/xxx.png
+root/dog/xxy.png
+root/dog/xxz.png
+
+root/cat/123.png
+root/cat/nsdf3.png
+root/cat/asd932_.png
+
+```
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 主目录.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+*   **loader** – 一个从给定路径载入图像的函数.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | (image, target) 目标是目标类别的class_index. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+## [Imagenet-12](#id17)
+
+这可以通过一个 `ImageFolder` 数据集轻易实现. 该数据预处理过程如 [这里描述的](https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset) 所示
+
+[这里是一个预处理示例](https://github.com/pytorch/examples/blob/27e2a46c1d1505324032b1d94fc6ce24d5b67e97/imagenet/main.py#L48-L62).
+
+## [CIFAR](#id18)
+
+```py
+class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_transform=None, download=False)
+```
+
+[CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – `cifar-10-batches-py` 存在的主目录.
+*   **train** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 True, 数据来自训练集, 如果 False, 数据来自测试集.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | (image, target) 目标是目标分类的索引. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+```py
+class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_transform=None, download=False)
+```
+
+[CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html) Dataset.
+
+`CIFAR10` Dataset 的一个子类.
+
+## [STL10](#id19)
+
+```py
+class torchvision.datasets.STL10(root, split='train', transform=None, target_transform=None, download=False)
+```
+
+[STL10](https://cs.stanford.edu/~acoates/stl10/) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – [``](#id5)stl10_binary``数据集存放的主目录.
+*   **split** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – {‘train’, ‘test’, ‘unlabeled’, ‘train+unlabeled’} 中的一个. 它是根据数据集选择的.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | (image, target) 目标是目标类的索引. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+## [SVHN](#id20)
+
+```py
+class torchvision.datasets.SVHN(root, split='train', transform=None, target_transform=None, download=False)
+```
+
+[SVHN](http://ufldl.stanford.edu/housenumbers/) Dataset. Note: 原始的 SVHN 数据集把标签 `10` 分给了数字 `0`. 然而在这个数据集, 我们把标签 `0` 分给了数字 `0` 以便 和 PyTorch 的损失函数不产生冲突, 它期待的类标签的范围是 `[0, C-1]`.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – [``](#id8)SVHN``数据集存放的主目录.
+*   **split** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – {‘train’, ‘test’, ‘extra’} 中的一个. 它是根据数据集选择的. ‘extra’ 是一个额外的训练集.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
+*   **target_transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 输入 target 并且 转换它.
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | (image, target) 目标是目标类的索引. |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
+
+## [PhotoTour](#id21)
+
+```py
+class torchvision.datasets.PhotoTour(root, name, train=True, transform=None, download=False)
+```
+
+[Learning Local Image Descriptors Data](http://phototour.cs.washington.edu/patches/default.htm) Dataset.
+
+| Parameters: | 
+
+*   **root** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 图像存放的主目录.
+*   **name** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 载入的数据集的名字.
+*   **transform** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本.
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
+
+ |
+| --- | --- |
+
+```py
+__getitem__(index)
+```
+
+| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
+| --- | --- |
+| Returns: | (data1, data2, matches) |
+| --- | --- |
+| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
+| --- | --- |
