@@ -8,7 +8,7 @@
 
 例如，下面这个神经网络可以对数字进行分类：
 
-![convnet](../Images/3250cbba812d68265cf7815d987bcd1b.jpg)
+![convnet](img/3250cbba812d68265cf7815d987bcd1b.jpg)
 
 这是一个简单的前馈神经网络（feed-forward network）。它接受一个输入，然后将它送入下一层，一层接一层的传递，最后给出输出。
 

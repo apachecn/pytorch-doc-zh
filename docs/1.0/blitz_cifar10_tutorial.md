@@ -20,7 +20,7 @@
 
 在这个教程中，我们将使用CIFAR10数据集，它有如下的分类：“飞机”，“汽车”，“鸟”，“猫”，“鹿”，“狗”，“青蛙”，“马”，“船”，“卡车”等。在CIFAR-10里面的图片数据大小是3x32x32，即三通道彩色图，图片大小是32x32像素。
 
-![cifar10](../Images/ae800707f2489607d51d67499071db16.jpg)
+![cifar10](img/ae800707f2489607d51d67499071db16.jpg)
 
 ## 训练一个图片分类器
 
@@ -94,7 +94,7 @@ imshow(torchvision.utils.make_grid(images))
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 
 ```
-![https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_001.png](../Images/aaf8c905effc5044cb9691420e5261fa.jpg)
+![https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_001.png](img/aaf8c905effc5044cb9691420e5261fa.jpg)
 
 输出：
 
@@ -209,7 +209,7 @@ imshow(torchvision.utils.make_grid(images))
 print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
 ```
 
-![https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_002.png](../Images/d148a5bd51a3278e9698bba522cbc34a.jpg)
+![https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_002.png](img/d148a5bd51a3278e9698bba522cbc34a.jpg)
 
 ```python
 GroundTruth:    cat  ship  ship plane
