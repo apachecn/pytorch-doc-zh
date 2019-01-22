@@ -1,12 +1,15 @@
 
-s
+
 # Classifying Names with a Character-Level RNN
+# 使用字符级别特征的RNN网络进行单词分类
 
 **Author**: [Sean Robertson](https://github.com/spro/practical-pytorch)
+**作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 We will be building and training a basic character-level RNN to classify words. A character-level RNN reads words as a series of characters - outputting a prediction and “hidden state” at each step, feeding its previous hidden state into each next step. We take the final prediction to be the output, i.e. which class the word belongs to.
-
+我们将构建和训练字符级RNN来对单词进行分类。 字符级RNN将单词作为一系列字符读取，在每一步输出预测和“隐藏状态”，将其先前的隐藏状态输入至下一时刻。 我们将最终时刻输出作为预测结果，即表示该词属于哪个类。
 Specifically, we’ll train on a few thousand surnames from 18 languages of origin, and predict which language a name is from based on the spelling:
+具体来说，我们将在18种语言构成的几千个姓氏数据集上训练模型，根据一个单词的拼写预测它是哪种语言的姓氏：
 
 ```py
 $ python predict.py Hinton
@@ -22,24 +25,30 @@ $ python predict.py Schmidhuber
 ```
 
 **Recommended Reading:**
+**阅读建议:**
 
 I assume you have at least installed PyTorch, know Python, and understand Tensors:
+我默认你已经安装好了PyTorch，熟悉Python语言，理解“张量”的概念：
 
 *   [https://pytorch.org/](https://pytorch.org/) For installation instructions
+*   [https://pytorch.org/](https://pytorch.org/) PyTorch安装指南
+*   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) to get started with PyTorch in general
 *   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) to get started with PyTorch in general
 *   [Learning PyTorch with Examples](../beginner/pytorch_with_examples.html) for a wide and deep overview
 *   [PyTorch for Former Torch Users](../beginner/former_torchies_tutorial.html) if you are former Lua Torch user
 
 It would also be useful to know about RNNs and how they work:
+事先学习并了解RNN的工作原理对理解这个例子十分有帮助:
 
 *   [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) shows a bunch of real life examples
 *   [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) is about LSTMs specifically but also informative about RNNs in general
 
 ## Preparing the Data
+## 准备数据
 
-Note
 
 Download the data from [here](https://download.pytorch.org/tutorial/data.zip) and extract it to the current directory.
+点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
 Included in the `data/names` directory are 18 text files named as “[Language].txt”. Each file contains a bunch of names, one name per line, mostly romanized (but we still need to convert from Unicode to ASCII).
 
@@ -76,6 +85,7 @@ category_lines = {}
 all_categories = []
 
 # Read a file and split into lines
+# 按行读取文件
 def readLines(filename):
     lines = open(filename, encoding='utf-8').read().strip().split('\n')
     return [unicodeToAscii(line) for line in lines]
@@ -91,6 +101,7 @@ n_categories = len(all_categories)
 ```
 
 Out:
+输出:
 
 ```py
 ['data/names/Italian.txt', 'data/names/German.txt', 'data/names/Portuguese.txt', 'data/names/Chinese.txt', 'data/names/Greek.txt', 'data/names/Polish.txt', 'data/names/French.txt', 'data/names/English.txt', 'data/names/Spanish.txt', 'data/names/Arabic.txt', 'data/names/Czech.txt', 'data/names/Russian.txt', 'data/names/Irish.txt', 'data/names/Dutch.txt', 'data/names/Scottish.txt', 'data/names/Vietnamese.txt', 'data/names/Korean.txt', 'data/names/Japanese.txt']
@@ -106,6 +117,7 @@ print(category_lines['Italian'][:5])
 ```
 
 Out:
+输出:
 
 ```py
 ['Abandonato', 'Abatangelo', 'Abatantuono', 'Abate', 'Abategiovanni']
