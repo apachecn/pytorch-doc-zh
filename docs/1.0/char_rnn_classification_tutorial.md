@@ -1,5 +1,5 @@
 
-
+s
 # Classifying Names with a Character-Level RNN
 
 **Author**: [Sean Robertson](https://github.com/spro/practical-pytorch)
