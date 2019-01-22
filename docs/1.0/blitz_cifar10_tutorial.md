@@ -1,93 +1,88 @@
+# 训练分类器
 
+> 译者：[bat67](https://github.com/bat67)
 
-# Training a Classifier
+目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。
 
-This is it. You have seen how to define neural networks, compute loss and make updates to the weights of the network.
+现在可能会想，
 
-Now you might be thinking,
+## 数据呢？
 
-## What about data?
+通常来说，当必须处理图像、文本、音频或视频数据时，可以使用python标准库将数据加载到numpy数组里。然后将这个数组转化成`torch.*Tensor`。
 
-Generally, when you have to deal with image, text, audio or video data, you can use standard python packages that load data into a numpy array. Then you can convert this array into a `torch.*Tensor`.
+* 对于图片，有Pillow，OpenCV等包可以使用
+* 对于音频，有scipy和librosa等包可以使用
+* 对于文本，不管是原生python的或者是基于Cython的文本，可以使用NLTK和SpaCy
 
-*   For images, packages such as Pillow, OpenCV are useful
-*   For audio, packages such as scipy and librosa
-*   For text, either raw Python or Cython based loading, or NLTK and SpaCy are useful
+特别对于视觉方面，我们创建了一个包，名字叫`torchvision`，其中包含了针对Imagenet、CIFAR10、MNIST等常用数据集的数据加载器（data loaders），还有对图片数据变形的操作，即`torchvision.datasets`和`torch.utils.data.DataLoader`。
 
-Specifically for vision, we have created a package called `torchvision`, that has data loaders for common datasets such as Imagenet, CIFAR10, MNIST, etc. and data transformers for images, viz., `torchvision.datasets` and `torch.utils.data.DataLoader`.
+这提供了极大的便利，可以避免编写样板代码。
 
-This provides a huge convenience and avoids writing boilerplate code.
-
-For this tutorial, we will use the CIFAR10 dataset. It has the classes: ‘airplane’, ‘automobile’, ‘bird’, ‘cat’, ‘deer’, ‘dog’, ‘frog’, ‘horse’, ‘ship’, ‘truck’. The images in CIFAR-10 are of size 3x32x32, i.e. 3-channel color images of 32x32 pixels in size.
+在这个教程中，我们将使用CIFAR10数据集，它有如下的分类：“飞机”，“汽车”，“鸟”，“猫”，“鹿”，“狗”，“青蛙”，“马”，“船”，“卡车”等。在CIFAR-10里面的图片数据大小是3x32x32，即三通道彩色图，图片大小是32x32像素。
 
 ![cifar10](../Images/ae800707f2489607d51d67499071db16.jpg)
 
-cifar10
+## 训练一个图片分类器
 
-## Training an image classifier
+我们将按顺序做以下步骤：
 
-We will do the following steps in order:
+1. 通过`torchvision`加载CIFAR10里面的训练和测试数据集，并对数据进行标准化
+2. 定义卷积神经网络
+3. 定义损失函数
+4. 利用训练数据训练网络
+5. 利用测试数据测试网络
 
-1.  Load and normalizing the CIFAR10 training and test datasets using `torchvision`
-2.  Define a Convolutional Neural Network
-3.  Define a loss function
-4.  Train the network on the training data
-5.  Test the network on the test data
 
-### 1\. Loading and normalizing CIFAR10
+### 1.加载并标准化CIFAR10
 
-Using `torchvision`, it’s extremely easy to load CIFAR10.
+使用`torchvision`加载CIFAR10超级简单。
 
-```py
+```python
 import torch
 import torchvision
 import torchvision.transforms as transforms
-
 ```
 
-The output of torchvision datasets are PILImage images of range [0, 1]. We transform them to Tensors of normalized range [-1, 1].
+torchvision数据集加载完后的输出是范围在[0, 1]之间的PILImage。我们将其标准化为范围在[-1, 1]之间的张量。
 
-```py
+```python
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=transform)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
-                                          shuffle=True, num_workers=2)
+trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=4, shuffle=True, num_workers=2)
 
-testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                       download=True, transform=transform)
-testloader = torch.utils.data.DataLoader(testset, batch_size=4,
-                                         shuffle=False, num_workers=2)
+testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
+testloader = torch.utils.data.DataLoader(testset, batch_size=4, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/cifar-10-python.tar.gz
 Files already downloaded and verified
 
 ```
 
-Let us show some of the training images, for fun.
+为了好玩，让我们展示一些训练数据的图片。
 
-```py
+```python
 import matplotlib.pyplot as plt
 import numpy as np
 
 # functions to show an image
+
 
 def imshow(img):
     img = img / 2 + 0.5     # unnormalize
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.show()
+
 
 # get some random training images
 dataiter = iter(trainloader)
@@ -99,23 +94,22 @@ imshow(torchvision.utils.make_grid(images))
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 
 ```
-
 ![https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_001.png](../Images/aaf8c905effc5044cb9691420e5261fa.jpg)
 
-Out:
+输出：
 
-```py
-frog  bird horse  frog
-
+```python
+horse horse horse   car
 ```
 
-### 2\. Define a Convolutional Neural Network
+### 2.定义卷积神经网络
 
-Copy the neural network from the Neural Networks section before and modify it to take 3-channel images (instead of 1-channel images as it was defined).
+将之前神经网络章节定义的神经网络拿过来，并将其修改成输入为3通道图像（替代原来定义的单通道图像）。
 
-```py
+```python
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class Net(nn.Module):
     def __init__(self):
@@ -136,27 +130,26 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
-net = Net()
 
+net = Net()
 ```
 
-### 3\. Define a Loss function and optimizer
+### 3.定义损失函数和优化器
 
-Let’s use a Classification Cross-Entropy loss and SGD with momentum.
+我们使用分类的交叉熵损失和随机梯度下降（使用momentum）。
 
-```py
+```python
 import torch.optim as optim
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-
 ```
 
-### 4\. Train the network
+### 4.训练网络
 
-This is when things start to get interesting. We simply have to loop over our data iterator, and feed the inputs to the network and optimize.
+事情开始变得有趣了。我们只需要遍历我们的数据迭代器，并且输入“喂”给网络和优化函数。
 
-```py
+```python
 for epoch in range(2):  # loop over the dataset multiple times
 
     running_loss = 0.0
@@ -176,89 +169,77 @@ for epoch in range(2):  # loop over the dataset multiple times
         # print statistics
         running_loss += loss.item()
         if i % 2000 == 1999:    # print every 2000 mini-batches
-            print('[%d, %5d] loss: %.3f' %
-                  (epoch + 1, i + 1, running_loss / 2000))
+            print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 2000))
             running_loss = 0.0
 
 print('Finished Training')
-
 ```
+输出：
 
-Out:
-
-```py
-[1,  2000] loss: 2.190
-[1,  4000] loss: 1.907
-[1,  6000] loss: 1.711
-[1,  8000] loss: 1.613
-[1, 10000] loss: 1.535
-[1, 12000] loss: 1.497
-[2,  2000] loss: 1.410
-[2,  4000] loss: 1.357
-[2,  6000] loss: 1.331
-[2,  8000] loss: 1.321
-[2, 10000] loss: 1.293
+```python
+[1,  2000] loss: 2.182
+[1,  4000] loss: 1.819
+[1,  6000] loss: 1.648
+[1,  8000] loss: 1.569
+[1, 10000] loss: 1.511
+[1, 12000] loss: 1.473
+[2,  2000] loss: 1.414
+[2,  4000] loss: 1.365
+[2,  6000] loss: 1.358
+[2,  8000] loss: 1.322
+[2, 10000] loss: 1.298
 [2, 12000] loss: 1.282
 Finished Training
-
 ```
 
-### 5\. Test the network on the test data
+### 5.使用测试数据测试网络
 
-We have trained the network for 2 passes over the training dataset. But we need to check if the network has learnt anything at all.
+我们已经在训练集上训练了2遍网络。但是我们需要检查网络是否学到了一些东西。
 
-We will check this by predicting the class label that the neural network outputs, and checking it against the ground-truth. If the prediction is correct, we add the sample to the list of correct predictions.
+我们将通过预测神经网络输出的标签来检查这个问题，并和正确样本进行（ground-truth）对比。如果预测是正确的，我们将样本添加到正确预测的列表中。
 
-Okay, first step. Let us display an image from the test set to get familiar.
+ok，第一步。让我们显示测试集中的图像来熟悉一下。
 
-```py
+```python
 dataiter = iter(testloader)
 images, labels = dataiter.next()
 
 # print images
 imshow(torchvision.utils.make_grid(images))
 print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
-
 ```
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_002.png](../Images/d148a5bd51a3278e9698bba522cbc34a.jpg)
 
-Out:
-
-```py
+```python
 GroundTruth:    cat  ship  ship plane
-
 ```
 
-Okay, now let us see what the neural network thinks these examples above are:
+ok，现在让我们看看神经网络认为上面的例子是:
 
-```py
+```python
 outputs = net(images)
-
 ```
 
-The outputs are energies for the 10 classes. The higher the energy for a class, the more the network thinks that the image is of the particular class. So, let’s get the index of the highest energy:
+输出是10个类别的量值。一个类的值越高，网络就越认为这个图像属于这个特定的类。让我们得到最高量值的下标/索引；
 
-```py
+```python
 _, predicted = torch.max(outputs, 1)
 
-print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
-                              for j in range(4)))
-
+print('Predicted: ', ' '.join('%5s' % classes[predicted[j]] for j in range(4)))
 ```
 
-Out:
+输出：
 
-```py
-Predicted:    cat   car   car  ship
-
+```python
+Predicted:    dog  ship  ship plane
 ```
 
-The results seem pretty good.
+结果还不错。
 
-Let us look at how the network performs on the whole dataset.
+让我们看看网络在整个数据集上表现的怎么样。
 
-```py
+```python
 correct = 0
 total = 0
 with torch.no_grad():
@@ -269,23 +250,21 @@ with torch.no_grad():
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
 
-print('Accuracy of the network on the 10000 test images: %d  %%' % (
+print('Accuracy of the network on the 10000 test images: %d %%' % (
     100 * correct / total))
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 Accuracy of the network on the 10000 test images: 55 %
-
 ```
 
-That looks waaay better than chance, which is 10% accuracy (randomly picking a class out of 10 classes). Seems like the network learnt something.
+这比随机选取（即从10个类中随机选择一个类，正确率是10%）要好很多。看来网络确实学到了一些东西。
 
-Hmmm, what are the classes that performed well, and the classes that did not perform well:
+那么哪些是表现好的类呢？哪些是表现的差的类呢？
 
-```py
+```python
 class_correct = list(0. for i in range(10))
 class_total = list(0. for i in range(10))
 with torch.no_grad():
@@ -299,97 +278,86 @@ with torch.no_grad():
             class_correct[label] += c[i].item()
             class_total[label] += 1
 
+
 for i in range(10):
-    print('Accuracy of %5s : %2d  %%' % (
+    print('Accuracy of %5s : %2d %%' % (
         classes[i], 100 * class_correct[i] / class_total[i]))
-
 ```
 
-Out:
+输出：
 
-```py
-Accuracy of plane : 67 %
-Accuracy of   car : 71 %
-Accuracy of  bird : 33 %
-Accuracy of   cat : 43 %
-Accuracy of  deer : 49 %
-Accuracy of   dog : 28 %
-Accuracy of  frog : 62 %
-Accuracy of horse : 71 %
-Accuracy of  ship : 60 %
-Accuracy of truck : 69 %
-
+```python
+Accuracy of plane : 70 %
+Accuracy of   car : 70 %
+Accuracy of  bird : 28 %
+Accuracy of   cat : 25 %
+Accuracy of  deer : 37 %
+Accuracy of   dog : 60 %
+Accuracy of  frog : 66 %
+Accuracy of horse : 62 %
+Accuracy of  ship : 69 %
+Accuracy of truck : 61 %
 ```
 
-Okay, so what next?
+ok，接下来呢？
 
-How do we run these neural networks on the GPU?
+怎么在GPU上运行神经网络呢？
 
-## Training on GPU
+## 在GPU上训练
 
-Just like how you transfer a Tensor onto the GPU, you transfer the neural net onto the GPU.
+与将一个张量传递给GPU一样，可以这样将神经网络转移到GPU上。 
 
-Let’s first define our device as the first visible cuda device if we have CUDA available:
+如果我们有cuda可用的话，让我们首先定义第一个设备为可见cuda设备：
 
-```py
+
+```python
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Assuming that we are on a CUDA machine, this should print a CUDA device:
 
 print(device)
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 cuda:0
-
 ```
 
-The rest of this section assumes that `device` is a CUDA device.
+本节的其余部分假设`device`是CUDA。
 
-Then these methods will recursively go over all modules and convert their parameters and buffers to CUDA tensors:
+然后这些方法将递归遍历所有模块，并将它们的参数和缓冲区转换为CUDA张量：
 
-```py
+```python
 net.to(device)
-
 ```
 
-Remember that you will have to send the inputs and targets at every step to the GPU too:
+请记住，我们不得不将输入和目标在每一步都送入GPU：
 
-```py
+```python
 inputs, labels = inputs.to(device), labels.to(device)
-
 ```
 
-Why dont I notice MASSIVE speedup compared to CPU? Because your network is realllly small.
+为什么我们感受不到与CPU相比的巨大加速？因为我们的网络实在是太小了。
 
-**Exercise:** Try increasing the width of your network (argument 2 of the first `nn.Conv2d`, and argument 1 of the second `nn.Conv2d` – they need to be the same number), see what kind of speedup you get.
+尝试一下：加宽你的网络（注意第一个`nn.Conv2d`的第二个参数和第二个`nn.Conv2d`的第一个参数要相同），看看能获得多少加速。
 
-**Goals achieved**:
+已实现的目标：
 
-*   Understanding PyTorch’s Tensor library and neural networks at a high level.
-*   Train a small neural network to classify images
+* 在更高层次上理解PyTorch的Tensor库和神经网络
+* 训练一个小的神经网络做图片分类
 
-## Training on multiple GPUs
+## 在多GPU上训练
 
-If you want to see even more MASSIVE speedup using all of your GPUs, please check out [Optional: Data Parallelism](data_parallel_tutorial.html).
+如果希望使用您所有GPU获得**更大的**加速，请查看[Optional: Data Parallelism](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)。
 
-## Where do I go next?
+## 接下来要做什么？
 
-*   [Train neural nets to play video games](../../intermediate/reinforcement_q_learning.html)
-*   [Train a state-of-the-art ResNet network on imagenet](https://github.com/pytorch/examples/tree/master/imagenet)
-*   [Train a face generator using Generative Adversarial Networks](https://github.com/pytorch/examples/tree/master/dcgan)
-*   [Train a word-level language model using Recurrent LSTM networks](https://github.com/pytorch/examples/tree/master/word_language_model)
-*   [More examples](https://github.com/pytorch/examples)
-*   [More tutorials](https://github.com/pytorch/tutorials)
-*   [Discuss PyTorch on the Forums](https://discuss.pytorch.org/)
-*   [Chat with other users on Slack](https://pytorch.slack.com/messages/beginner/)
-
-**Total running time of the script:** ( 4 minutes 20.612 seconds)
-
-[`Download Python source code: cifar10_tutorial.py`](../../_downloads/ba100c1433c3c42a16709bb6a2ed0f85/cifar10_tutorial.py)[`Download Jupyter notebook: cifar10_tutorial.ipynb`](../../_downloads/17a7c7cb80916fcdf921097825a0f562/cifar10_tutorial.ipynb)
-
-[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
-
+* [Train neural nets to play video games](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html)
+* [Train a state-of-the-art ResNet network on imagenet](https://github.com/pytorch/examples/tree/master/imagenet)
+* [Train a face generator using Generative Adversarial Networks](https://github.com/pytorch/examples/tree/master/dcgan)
+* [Train a word-level language model using Recurrent LSTM networks](https://github.com/pytorch/examples/tree/master/word_language_model)
+* [More examples](https://github.com/pytorch/examples)
+* [More tutorials](https://github.com/pytorch/tutorials)
+* [Discuss PyTorch on the Forums](https://discuss.pytorch.org/)
+* [Chat with other users on Slack](https://pytorch.slack.com/messages/beginner/)

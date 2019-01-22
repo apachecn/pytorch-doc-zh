@@ -1,36 +1,36 @@
+# 神经网络
 
+> 译者：[bat67](https://github.com/bat67)
 
-# Neural Networks
+可以使用`torch.nn`包来构建神经网络.
 
-Neural networks can be constructed using the `torch.nn` package.
+我们以及介绍了`autograd`，`nn`包依赖于`autograd`包来定义模型并对它们求导。一个`nn.Module`包含各个层和一个`forward(input)`方法，该方法返回`output`。
 
-Now that you had a glimpse of `autograd`, `nn` depends on `autograd` to define models and differentiate them. An `nn.Module` contains layers, and a method `forward(input)`that returns the `output`.
-
-For example, look at this network that classifies digit images:
+例如，下面这个神经网络可以对数字进行分类：
 
 ![convnet](../Images/3250cbba812d68265cf7815d987bcd1b.jpg)
 
-convnet
+这是一个简单的前馈神经网络（feed-forward network）。它接受一个输入，然后将它送入下一层，一层接一层的传递，最后给出输出。
 
-It is a simple feed-forward network. It takes the input, feeds it through several layers one after the other, and then finally gives the output.
+一个神经网络的典型训练过程如下：
 
-A typical training procedure for a neural network is as follows:
+* 定义包含一些可学习参数（或者叫权重）的神经网络
+* 在输入数据集上迭代
+* 通过网络处理输入
+* 计算损失（输出和正确答案的距离）
+* 将梯度反向传播给网络的参数
+* 更新网络的权重，一般使用一个简单的规则：`weight = weight - learning_rate * gradient`
 
-*   Define the neural network that has some learnable parameters (or weights)
-*   Iterate over a dataset of inputs
-*   Process input through the network
-*   Compute the loss (how far is the output from being correct)
-*   Propagate gradients back into the network’s parameters
-*   Update the weights of the network, typically using a simple update rule: `weight = weight - learning_rate * gradient`
 
-## Define the network
+## 定义网络
 
-Let’s define this network:
+让我们定义这样一个网络：
 
-```py
+```python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class Net(nn.Module):
 
@@ -63,14 +63,13 @@ class Net(nn.Module):
             num_features *= s
         return num_features
 
+
 net = Net()
 print(net)
-
 ```
+输出：
 
-Out:
-
-```py
+```python
 Net(
   (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
   (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
@@ -78,89 +77,93 @@ Net(
   (fc2): Linear(in_features=120, out_features=84, bias=True)
   (fc3): Linear(in_features=84, out_features=10, bias=True)
 )
-
 ```
 
-You just have to define the `forward` function, and the `backward` function (where gradients are computed) is automatically defined for you using `autograd`. You can use any of the Tensor operations in the `forward` function.
+我们只需要定义 `forward` 函数，`backward`函数会在使用`autograd`时自动定义，`backward`函数用来计算导数。可以在 `forward` 函数中使用任何针对张量的操作和计算。
 
-The learnable parameters of a model are returned by `net.parameters()`
+一个模型的可学习参数可以通过`net.parameters()`返回
 
-```py
+
+```python
 params = list(net.parameters())
 print(len(params))
 print(params[0].size())  # conv1's .weight
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 10
 torch.Size([6, 1, 5, 5])
-
 ```
 
-Let try a random 32x32 input. Note: expected input size of this net (LeNet) is 32x32\. To use this net on MNIST dataset, please resize the images from the dataset to 32x32.
+让我们尝试一个随机的32x32的输入。注意，这个网络（LeNet）的期待输入是32x32。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
 
-```py
+
+```python
 input = torch.randn(1, 1, 32, 32)
 out = net(input)
 print(out)
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[ 0.0197, -0.0587, -0.0764,  0.0353, -0.1736, -0.2103,  0.0763, -0.1137,
-          0.0192, -0.0918]], grad_fn=<AddmmBackward>)
-
+```python
+tensor([[ 0.0399, -0.0856,  0.0668,  0.0915,  0.0453, -0.0680, -0.1024,  0.0493,
+         -0.1043, -0.1267]], grad_fn=<AddmmBackward>)
 ```
 
-Zero the gradient buffers of all parameters and backprops with random gradients:
+清零所有参数的梯度缓存，然后进行随机梯度的反向传播：
 
-```py
+```python
 net.zero_grad()
 out.backward(torch.randn(1, 10))
-
 ```
 
-Note
+> 注意：
+>
+> `torch.nn`只支持小批量处理（mini-batches）。整个`torch.nn`包只支持小批量样本的输入，不支持单个样本。
+>
+> 比如，`nn.Conv2d` 接受一个4维的张量，即`nSamples x nChannels x Height x Width`
+>
+> 如果是一个单独的样本，只需要使用`input.unsqueeze(0)`来添加一个“假的”批大小维度。
 
-`torch.nn` only supports mini-batches. The entire `torch.nn` package only supports inputs that are a mini-batch of samples, and not a single sample.
+在继续之前，让我们回顾一下到目前为止看到的所有类。
 
-For example, `nn.Conv2d` will take in a 4D Tensor of `nSamples x nChannels x Height x Width`.
+**复习：**
 
-If you have a single sample, just use `input.unsqueeze(0)` to add a fake batch dimension.
+* `torch.Tensor` - A multi-dimensional array with support for autograd operations like `backward()`. Also holds the gradient w.r.t. the tensor.
 
-Before proceeding further, let’s recap all the classes you’ve seen so far.
 
-**Recap:**
+* `nn.Module` - Neural network module. Convenient way of encapsulating parameters, with helpers for moving them to GPU, exporting, loading, etc.
 
-*   `torch.Tensor` - A _multi-dimensional array_ with support for autograd operations like `backward()`. Also _holds the gradient_ w.r.t. the tensor.
-*   `nn.Module` - Neural network module. _Convenient way of encapsulating parameters_, with helpers for moving them to GPU, exporting, loading, etc.
-*   `nn.Parameter` - A kind of Tensor, that is _automatically registered as a parameter when assigned as an attribute to a_ `Module`.
-*   `autograd.Function` - Implements _forward and backward definitions of an autograd operation_. Every `Tensor` operation creates at least a single `Function` node that connects to functions that created a `Tensor` and _encodes its history_.
 
-**At this point, we covered:**
+* `nn.Parameter` - A kind of Tensor, that is automatically registered as a parameter when assigned as an attribute to a `Module`.
 
-*   Defining a neural network
-*   Processing inputs and calling backward
 
-**Still Left:**
+* `autograd.Function` - Implements forward and backward definitions of an autograd operation. Every `Tensor` operation, creates at least a single `Function` node, that connects to functions that created a `Tensor` and encodes its history.
 
-*   Computing the loss
-*   Updating the weights of the network
+目前为止，我们讨论了：
 
-## Loss Function
+* 定义一个神经网络
+* 处理输入调用`backward`
 
-A loss function takes the (output, target) pair of inputs, and computes a value that estimates how far away the output is from the target.
+还剩下：
 
-There are several different [loss functions](https://pytorch.org/docs/nn.html#loss-functions) under the nn package . A simple loss is: `nn.MSELoss` which computes the mean-squared error between the input and the target.
+* 计算损失
+* 更新网络权重
 
-For example:
+## 损失函数
 
-```py
+一个损失函数接受一对(output, target)作为输入，计算一个值来估计网络的输出和目标值相差多少。
+
+译者注：output为网络的输出,target为实际值
+
+nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html)。`nn.MSELoss`是比较简单的一种，它计算输出和目标的均方误差（mean-squared error）。
+
+例如：
+
+```python
 output = net(input)
 target = torch.randn(10)  # a dummy target, for example
 target = target.view(1, -1)  # make it the same shape as output
@@ -168,53 +171,48 @@ criterion = nn.MSELoss()
 
 loss = criterion(output, target)
 print(loss)
+```
+输出：
 
+```python
+tensor(1.0263, grad_fn=<MseLossBackward>)
 ```
 
-Out:
-
-```py
-tensor(0.6175, grad_fn=<MseLossBackward>)
+现在，如果使用`loss`的`.grad_fn`属性跟踪反向传播过程，会看到计算图如下：
 
 ```
-
-Now, if you follow `loss` in the backward direction, using its `.grad_fn` attribute, you will see a graph of computations that looks like this:
-
-```py
 input -> conv2d -> relu -> maxpool2d -> conv2d -> relu -> maxpool2d
       -> view -> linear -> relu -> linear -> relu -> linear
       -> MSELoss
       -> loss
-
 ```
 
-So, when we call `loss.backward()`, the whole graph is differentiated w.r.t. the loss, and all Tensors in the graph that has `requires_grad=True` will have their `.grad` Tensor accumulated with the gradient.
+所以，当我们调用`loss.backward()`，整张图开始关于loss微分，图中所有设置了`requires_grad=True`的张量的`.grad`属性累积着梯度张量。
 
-For illustration, let us follow a few steps backward:
+为了说明这一点，让我们向后跟踪几步：
 
-```py
+```python
 print(loss.grad_fn)  # MSELoss
 print(loss.grad_fn.next_functions[0][0])  # Linear
 print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
-
 ```
 
-Out:
+输出：
 
-```py
-<MseLossBackward object at 0x7faf42c340f0>
-<AddmmBackward object at 0x7faf42c349b0>
-<AccumulateGrad object at 0x7faf42c349b0>
-
+```python
+<MseLossBackward object at 0x7f94c821fdd8>
+<AddmmBackward object at 0x7f94c821f6a0>
+<AccumulateGrad object at 0x7f94c821f6a0>
 ```
 
-## Backprop
+## 反向传播
 
-To backpropagate the error all we have to do is to `loss.backward()`. You need to clear the existing gradients though, else gradients will be accumulated to existing gradients.
 
-Now we shall call `loss.backward()`, and have a look at conv1’s bias gradients before and after the backward.
+我们只需要调用`loss.backward()`来反向传播权重。我们需要清零现有的梯度，否则梯度将会与已有的梯度累加。
 
-```py
+现在，我们将调用`loss.backward()`，并查看conv1层的偏置（bias）在反向传播前后的梯度。
+
+```python
 net.zero_grad()     # zeroes the gradient buffers of all parameters
 
 print('conv1.bias.grad before backward')
@@ -224,47 +222,45 @@ loss.backward()
 
 print('conv1.bias.grad after backward')
 print(net.conv1.bias.grad)
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 conv1.bias.grad before backward
 tensor([0., 0., 0., 0., 0., 0.])
 conv1.bias.grad after backward
-tensor([-0.0049,  0.0041,  0.0111, -0.0046, -0.0014,  0.0055])
-
+tensor([ 0.0084,  0.0019, -0.0179, -0.0212,  0.0067, -0.0096])
 ```
 
-Now, we have seen how to use loss functions.
+现在，我们已经见到了如何使用损失函数。
 
-**Read Later:**
+> 稍后阅读
+>
+> 神经网络包包含了各种模块和损失函数，这些模块和损失函数构成了深度神经网络的构建模块。完整的文档列表见[这里](https://pytorch.org/docs/stable/nn.html)。
+>
+> 现在唯一要学习的是：
+> * 更新网络的权重
 
-> The neural network package contains various modules and loss functions that form the building blocks of deep neural networks. A full list with documentation is [here](https://pytorch.org/docs/nn).
+## 更新权重
 
-**The only thing left to learn is:**
+最简单的更新规则是随机梯度下降法（SGD）:
 
-> *   Updating the weights of the network
+`weight = weight - learning_rate * gradient`
 
-## Update the weights
+我们可以使用简单的python代码来实现:
 
-The simplest update rule used in practice is the Stochastic Gradient Descent (SGD):
 
-> `weight = weight - learning_rate * gradient`
-
-We can implement this using simple python code:
-
-```py
+```python
 learning_rate = 0.01
 for f in net.parameters():
     f.data.sub_(f.grad.data * learning_rate)
-
 ```
 
-However, as you use neural networks, you want to use various different update rules such as SGD, Nesterov-SGD, Adam, RMSProp, etc. To enable this, we built a small package: `torch.optim` that implements all these methods. Using it is very simple:
+然而，在使用神经网络时，可能希望使用各种不同的更新规则，如SGD、Nesterov-SGD、Adam、RMSProp等。为此，我们构建了一个较小的包`torch.optim`，它实现了所有的这些方法。使用它很简单：
 
-```py
+
+```python
 import torch.optim as optim
 
 # create your optimizer
@@ -276,16 +272,8 @@ output = net(input)
 loss = criterion(output, target)
 loss.backward()
 optimizer.step()    # Does the update
-
 ```
 
-Note
-
-Observe how gradient buffers had to be manually set to zero using `optimizer.zero_grad()`. This is because gradients are accumulated as explained in [Backprop](#backprop) section.
-
-**Total running time of the script:** ( 0 minutes 0.196 seconds)
-
-[`Download Python source code: neural_networks_tutorial.py`](../../_downloads/3665741da15f111de82da3227a615699/neural_networks_tutorial.py)[`Download Jupyter notebook: neural_networks_tutorial.ipynb`](../../_downloads/97abb4c06a586d45ef3fc4b4b9634406/neural_networks_tutorial.ipynb)
-
-[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
-
+> 注意：
+> 
+> 观察梯度缓存区是如何使用`optimizer.zero_grad()`手动清零的。这是因为梯度是累加的，正如前面[反向传播章节](#反向传播)叙述的那样。

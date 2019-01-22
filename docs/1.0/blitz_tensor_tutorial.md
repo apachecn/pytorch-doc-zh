@@ -1,356 +1,334 @@
-# What is PyTorch?
+# 什么是PyTorch？
 
-It’s a Python-based scientific computing package targeted at two sets of audiences:
+> 译者：[bat67](https://github.com/bat67)
 
-*   A replacement for NumPy to use the power of GPUs
-*   a deep learning research platform that provides maximum flexibility and speed
+PyTorch是一个基于python的科学计算包，主要针对两类人群：
 
-## Getting Started
+* 作为NumPy的替代品，可以利用GPU的性能进行计算
+* 作为一个高灵活性、速度快的深度学习平台
 
-### Tensors
+## 入门
 
-Tensors are similar to NumPy’s ndarrays, with the addition being that Tensors can also be used on a GPU to accelerate computing.
+### 张量
 
-```py
+`Tensor`（张量）类似于`NumPy`的`ndarray`，但还可以在GPU上使用来加速计算。
+
+```python
 from __future__ import print_function
 import torch
-
 ```
 
-Construct a 5x3 matrix, uninitialized:
 
-```py
+创建一个没有初始化的5*3矩阵：
+
+```python
 x = torch.empty(5, 3)
 print(x)
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[3.9855e-28, 4.5831e-41, 4.5183e-26],
-        [4.5831e-41, 0.0000e+00, 0.0000e+00],
+```python
+tensor([[2.2391e-19, 4.5869e-41, 1.4191e-17],
+        [4.5869e-41, 0.0000e+00, 0.0000e+00],
         [0.0000e+00, 0.0000e+00, 0.0000e+00],
         [0.0000e+00, 0.0000e+00, 0.0000e+00],
         [0.0000e+00, 0.0000e+00, 0.0000e+00]])
-
 ```
 
-Construct a randomly initialized matrix:
+创建一个随机初始化矩阵：
 
-```py
+```python
 x = torch.rand(5, 3)
 print(x)
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[0.3753, 0.0231, 0.8850],
-        [0.8283, 0.4600, 0.7222],
-        [0.0634, 0.3449, 0.3077],
-        [0.6987, 0.0143, 0.5651],
-        [0.7482, 0.2355, 0.6162]])
-
+```python
+tensor([[0.5307, 0.9752, 0.5376],
+        [0.2789, 0.7219, 0.1254],
+        [0.6700, 0.6100, 0.3484],
+        [0.0922, 0.0779, 0.2446],
+        [0.2967, 0.9481, 0.1311]])
 ```
 
-Construct a matrix filled zeros and of dtype long:
+构造一个填满0且数据类型为`long`的矩阵:
 
-```py
+```python
 x = torch.zeros(5, 3, dtype=torch.long)
 print(x)
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 tensor([[0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0]])
-
 ```
 
-Construct a tensor directly from data:
+直接从数据构造张量：
 
-```py
+```python
 x = torch.tensor([5.5, 3])
 print(x)
-
 ```
 
-Out:
-
-```py
+输出：
+```python
 tensor([5.5000, 3.0000])
-
 ```
 
-or create a tensor based on an existing tensor. These methods will reuse properties of the input tensor, e.g. dtype, unless new values are provided by user
+或者根据已有的tensor建立新的tensor。除非用户提供新的值，否则这些方法将重用输入张量的属性，例如dtype等：
 
-```py
+```python
 x = x.new_ones(5, 3, dtype=torch.double)      # new_* methods take in sizes
 print(x)
 
 x = torch.randn_like(x, dtype=torch.float)    # override dtype!
 print(x)                                      # result has the same size
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 tensor([[1., 1., 1.],
         [1., 1., 1.],
         [1., 1., 1.],
         [1., 1., 1.],
         [1., 1., 1.]], dtype=torch.float64)
-tensor([[ 0.2854,  0.9206,  0.9174],
-        [ 0.3367,  1.7474, -0.5835],
-        [-1.4511,  0.1129, -0.7632],
-        [ 1.2742,  0.6461,  0.7472],
-        [ 0.0703,  0.1842, -0.7891]])
-
+tensor([[ 1.6040, -0.6769,  0.0555],
+        [ 0.6273,  0.7683, -0.2838],
+        [-0.7159, -0.5566, -0.2020],
+        [ 0.6266,  0.3566,  1.4497],
+        [-0.8092, -0.6741,  0.0406]])
 ```
 
-Get its size:
+获取它的形状：
 
-```py
+```python
 print(x.size())
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 torch.Size([5, 3])
-
 ```
 
-Note
+> **注意**：
+>
+> `torch.Size`本质上还是`tuple`，所以支持tuple的一切操作。
 
-`torch.Size` is in fact a tuple, so it supports all tuple operations.
 
-### Operations
 
-There are multiple syntaxes for operations. In the following example, we will take a look at the addition operation.
+### 运算
 
-Addition: syntax 1
+一种运算有多种语法。在下面的示例中，我们将研究加法运算。
 
-```py
+加法：形式一
+
+```python
 y = torch.rand(5, 3)
 print(x + y)
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[ 0.6824,  1.6858,  1.6162],
-        [ 0.7983,  2.4377, -0.4856],
-        [-0.9769,  0.7002, -0.7210],
-        [ 1.7927,  1.0902,  1.2557],
-        [ 0.3852,  0.7108, -0.1949]])
-
+```python
+tensor([[ 2.5541,  0.0943,  0.9835],
+        [ 1.4911,  1.3117,  0.5220],
+        [-0.0078, -0.1161,  0.6687],
+        [ 0.8176,  1.1179,  1.9194],
+        [-0.3251, -0.2236,  0.7653]])
 ```
 
-Addition: syntax 2
 
-```py
+加法：形式二
+
+```python
 print(torch.add(x, y))
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[ 0.6824,  1.6858,  1.6162],
-        [ 0.7983,  2.4377, -0.4856],
-        [-0.9769,  0.7002, -0.7210],
-        [ 1.7927,  1.0902,  1.2557],
-        [ 0.3852,  0.7108, -0.1949]])
-
+```python
+tensor([[ 2.5541,  0.0943,  0.9835],
+        [ 1.4911,  1.3117,  0.5220],
+        [-0.0078, -0.1161,  0.6687],
+        [ 0.8176,  1.1179,  1.9194],
+        [-0.3251, -0.2236,  0.7653]])
 ```
 
-Addition: providing an output tensor as argument
+加法：给定一个输出张量作为参数
 
-```py
+```python
 result = torch.empty(5, 3)
 torch.add(x, y, out=result)
 print(result)
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[ 0.6824,  1.6858,  1.6162],
-        [ 0.7983,  2.4377, -0.4856],
-        [-0.9769,  0.7002, -0.7210],
-        [ 1.7927,  1.0902,  1.2557],
-        [ 0.3852,  0.7108, -0.1949]])
-
+```python
+tensor([[ 2.5541,  0.0943,  0.9835],
+        [ 1.4911,  1.3117,  0.5220],
+        [-0.0078, -0.1161,  0.6687],
+        [ 0.8176,  1.1179,  1.9194],
+        [-0.3251, -0.2236,  0.7653]])
 ```
 
-Addition: in-place
+加法：原位/原地操作（in-place）
 
-```py
+```python
 # adds x to y
 y.add_(x)
 print(y)
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([[ 0.6824,  1.6858,  1.6162],
-        [ 0.7983,  2.4377, -0.4856],
-        [-0.9769,  0.7002, -0.7210],
-        [ 1.7927,  1.0902,  1.2557],
-        [ 0.3852,  0.7108, -0.1949]])
-
+```python
+tensor([[ 2.5541,  0.0943,  0.9835],
+        [ 1.4911,  1.3117,  0.5220],
+        [-0.0078, -0.1161,  0.6687],
+        [ 0.8176,  1.1179,  1.9194],
+        [-0.3251, -0.2236,  0.7653]])
 ```
 
-Note
+>注意：
+>
+>任何一个in-place改变张量的操作后面都固定一个`_`。例如`x.copy_(y)`、`x.t_()`将更改x
 
-Any operation that mutates a tensor in-place is post-fixed with an `_`. For example: `x.copy_(y)`, `x.t_()`, will change `x`.
 
-You can use standard NumPy-like indexing with all bells and whistles!
+也可以使用像标准的NumPy一样的各种索引操作：
 
-```py
+```python
 print(x[:, 1])
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([0.9206, 1.7474, 0.1129, 0.6461, 0.1842])
-
+```python
+tensor([-0.6769,  0.7683, -0.5566,  0.3566, -0.6741])
 ```
 
-Resizing: If you want to resize/reshape tensor, you can use `torch.view`:
 
-```py
+改变形状：如果想改变形状，可以使用`torch.view`
+
+```python
 x = torch.randn(4, 4)
 y = x.view(16)
 z = x.view(-1, 8)  # the size -1 is inferred from other dimensions
 print(x.size(), y.size(), z.size())
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 torch.Size([4, 4]) torch.Size([16]) torch.Size([2, 8])
-
 ```
 
-If you have a one element tensor, use `.item()` to get the value as a Python number
+如果是仅包含一个元素的tensor，可以使用`.item()`来得到对应的python数值
 
-```py
+```python
 x = torch.randn(1)
 print(x)
 print(x.item())
-
 ```
 
-Out:
-
-```py
-tensor([0.1011])
-0.10109155625104904
-
+输出：
+```python
+tensor([0.0445])
+0.0445479191839695
 ```
 
-**Read later:**
+>后续阅读：
+>
+>超过100中tensor的运算操作，包括转置，索引，切片，数学运算，
+线性代数，随机数等，具体访问[这里](https://pytorch.org/docs/stable/torch.html)
 
-> 100+ Tensor operations, including transposing, indexing, slicing, mathematical operations, linear algebra, random numbers, etc., are described [here](https://pytorch.org/docs/torch).
+## NumPy桥
 
-## NumPy Bridge
+将一个Torch张量转换为一个NumPy数组是轻而易举的事情，反之亦然。
 
-Converting a Torch Tensor to a NumPy array and vice versa is a breeze.
+Torch张量和NumPy数组将共享它们的底层内存位置，更改一个将更改另一个。
 
-The Torch Tensor and NumPy array will share their underlying memory locations, and changing one will change the other.
+### 将torch的Tensor转化为NumPy数组
 
-### Converting a Torch Tensor to a NumPy Array
+输入：
 
-```py
+```python
 a = torch.ones(5)
 print(a)
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 tensor([1., 1., 1., 1., 1.])
-
 ```
 
-```py
+输入：
+
+```python
 b = a.numpy()
 print(b)
-
 ```
 
-Out:
+输出：
 
-```py
-[1\. 1\. 1\. 1\. 1.]
-
+```python
+[1. 1. 1. 1. 1.]
 ```
 
-See how the numpy array changed in value.
 
-```py
+看NumPy数组是如何改变里面的值的：
+
+```python
 a.add_(1)
 print(a)
 print(b)
-
 ```
 
-Out:
+输出：
 
-```py
+```python
 tensor([2., 2., 2., 2., 2.])
-[2\. 2\. 2\. 2\. 2.]
-
+[2. 2. 2. 2. 2.]
 ```
 
-### Converting NumPy Array to Torch Tensor
 
-See how changing the np array changed the Torch Tensor automatically
+### 将NumPy数组转化为Torch张量
 
-```py
+看改变NumPy数组是如何自动改变Torch张量的：
+
+```python
 import numpy as np
 a = np.ones(5)
 b = torch.from_numpy(a)
 np.add(a, 1, out=a)
 print(a)
 print(b)
-
 ```
 
-Out:
+输出：
 
-```py
-[2\. 2\. 2\. 2\. 2.]
+```python
+[2. 2. 2. 2. 2.]
 tensor([2., 2., 2., 2., 2.], dtype=torch.float64)
-
 ```
 
-All the Tensors on the CPU except a CharTensor support converting to NumPy and back.
+CPU上的所有张量(CharTensor除外)都支持转换为NumPy以及由NumPy转换回来。
 
-## CUDA Tensors
+## CUDA上的张量
 
-Tensors can be moved onto any device using the `.to` method.
+张量可以使用`.to`方法移动到任何设备（device）上：
 
-```py
+```python
 # let us run this cell only if CUDA is available
 # We will use ``torch.device`` objects to move tensors in and out of GPU
 if torch.cuda.is_available():
@@ -360,20 +338,11 @@ if torch.cuda.is_available():
     z = x + y
     print(z)
     print(z.to("cpu", torch.double))       # ``.to`` can also change dtype together!
-
 ```
 
-Out:
+输出：
 
-```py
-tensor([1.1011], device='cuda:0')
-tensor([1.1011], dtype=torch.float64)
-
+```python
+tensor([1.0445], device='cuda:0')
+tensor([1.0445], dtype=torch.float64)
 ```
-
-**Total running time of the script:** ( 0 minutes 6.512 seconds)
-
-[`Download Python source code: tensor_tutorial.py`](../../_downloads/092fba3c36cb2ab226bfdaa78248b310/tensor_tutorial.py)[`Download Jupyter notebook: tensor_tutorial.ipynb`](../../_downloads/3c2b25b8a9f72db7780a6bf9b5fc9f62/tensor_tutorial.ipynb)
-
-[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
-
