@@ -1,6 +1,6 @@
 # 可选：数据并行处理
 
-> 译者：[bat67](https://github.com/bat67)
+> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)
 
 在这个教程里，我们将学习如何使用数据并行（`DataParallel`）来使用多GPU。
 
@@ -37,7 +37,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
-# Parameters and DataLoaders
+# Parameters 和 DataLoaders
 input_size = 5
 output_size = 2
 
@@ -152,7 +152,6 @@ Outside： input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 若有2个GPU，将看到：
 
 ```python
-# on 2 GPUs
 Let's use 2 GPUs!
     In Model： input size torch.Size([15, 5]) output size torch.Size([15, 2])
     In Model： input size torch.Size([15, 5]) output size torch.Size([15, 2])
