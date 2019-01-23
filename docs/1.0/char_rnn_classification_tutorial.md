@@ -33,7 +33,7 @@ I assume you have at least installed PyTorch, know Python, and understand Tensor
 *   [https://pytorch.org/](https://pytorch.org/) For installation instructions
 *   [https://pytorch.org/](https://pytorch.org/) PyTorch安装指南
 *   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) to get started with PyTorch in general
-*   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) to get started with PyTorch in general
+*   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) PyTorch入门
 *   [Learning PyTorch with Examples](../beginner/pytorch_with_examples.html) for a wide and deep overview
 *   [PyTorch for Former Torch Users](../beginner/former_torchies_tutorial.html) if you are former Lua Torch user
 
@@ -51,8 +51,10 @@ Download the data from [here](https://download.pytorch.org/tutorial/data.zip) an
 点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
 Included in the `data/names` directory are 18 text files named as “[Language].txt”. Each file contains a bunch of names, one name per line, mostly romanized (but we still need to convert from Unicode to ASCII).
+在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个名字，它们几乎都是罗马化的（但是我们仍需要将其从Unicode转换为ASCII编码）
 
 We’ll end up with a dictionary of lists of names per language, `{language: [names ...]}`. The generic variables “category” and “line” (for language and name in our case) are used for later extensibility.
+我们最终会得到一个语言对应名字列表的字典，`{language: [names ...]}`
 
 ```py
 from __future__ import unicode_literals, print_function, division
@@ -71,6 +73,7 @@ all_letters = string.ascii_letters + " .,;'"
 n_letters = len(all_letters)
 
 # Turn a Unicode string to plain ASCII, thanks to https://stackoverflow.com/a/518232/2809427
+# Unicode 转 ASCII, 感谢 https://stackoverflow.com/a/518232/2809427
 def unicodeToAscii(s):
     return ''.join(
         c for c in unicodedata.normalize('NFD', s)
