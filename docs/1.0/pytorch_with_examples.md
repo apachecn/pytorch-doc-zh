@@ -476,7 +476,7 @@ for t in range(500):
     optimizer.step()
 ```
 
-### [PyTorch：自定义`nn`模块](#pytorch-custom-nn-
+### [PyTorch：自定义`nn`模块](#pytorch-custom-nn-modules)
 
 有时候需要指定比现有模块序列更复杂的模型；对于这些情况，可以通过继承`nn.Module`并定义`forward`函数，这个`forward`函数可以使用其他模块或者其他的自动求导运算来接收输入tensor，产生输出tensor。 
 
@@ -535,7 +535,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-shar
+### [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-sharing)
 
 作为动态图和权重共享的一个例子，我们实现了一个非常奇怪的模型：一个全连接的ReLU网络，在每一次前向传播时，它的隐藏层的层数为随机1到4之间的数，这样可以多次重用相同的权重来计算。
 
