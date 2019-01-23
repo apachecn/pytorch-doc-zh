@@ -1,6 +1,8 @@
 # 训练分类器
 
-> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)
+> 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
 目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。
 

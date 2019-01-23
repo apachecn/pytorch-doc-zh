@@ -1,6 +1,8 @@
 # 什么是PyTorch？
 
-> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)
+> 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
 PyTorch是一个基于python的科学计算包，主要针对两类人群：
 

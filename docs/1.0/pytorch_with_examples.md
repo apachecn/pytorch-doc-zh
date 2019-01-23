@@ -1,9 +1,10 @@
 # 用例子学习 PyTorch
 
-> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/pytorch-examples-cn)
+> 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
-
-**Author**: [Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
+**作者**：[Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
 
 这个教程通过自洽的示例介绍了PyTorch的基本概念。
 

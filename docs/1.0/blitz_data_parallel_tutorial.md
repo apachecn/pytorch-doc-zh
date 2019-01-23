@@ -1,6 +1,8 @@
 # 可选：数据并行处理
 
-> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)
+> 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
 在这个教程里，我们将学习如何使用数据并行（`DataParallel`）来使用多GPU。
 
