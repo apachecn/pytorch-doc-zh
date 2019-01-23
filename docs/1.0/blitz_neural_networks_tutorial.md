@@ -1,6 +1,6 @@
 # 神经网络
 
-> 译者：[bat67](https://github.com/bat67)
+> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)
 
 可以使用`torch.nn`包来构建神经网络.
 
@@ -36,8 +36,7 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        # 1 input image channel, 6 output channels, 5x5 square convolution
-        # kernel
+        # 输入图像channel：1；输出channel：6；5x5卷积核
         self.conv1 = nn.Conv2d(1, 6, 5)
         self.conv2 = nn.Conv2d(6, 16, 5)
         # an affine operation: y = Wx + b
@@ -46,7 +45,7 @@ class Net(nn.Module):
         self.fc3 = nn.Linear(84, 10)
 
     def forward(self, x):
-        # Max pooling over a (2, 2) window
+        # 2x2 Max pooling
         x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
         # If the size is a square you can only specify a single number
         x = F.max_pool2d(F.relu(self.conv2(x)), 2)
@@ -57,7 +56,7 @@ class Net(nn.Module):
         return x
 
     def num_flat_features(self, x):
-        size = x.size()[1:]  # all dimensions except the batch dimension
+        size = x.size()[1:]  # 除去批大小维度的其余维度
         num_features = 1
         for s in size:
             num_features *= s
@@ -132,16 +131,17 @@ out.backward(torch.randn(1, 10))
 
 **复习：**
 
-* `torch.Tensor` - A multi-dimensional array with support for autograd operations like `backward()`. Also holds the gradient w.r.t. the tensor.
+
+* `torch.Tensor` - 一个多维数组，支持诸如`backward()`等的自动求导操作，同时也保存了张量的梯度。
 
 
-* `nn.Module` - Neural network module. Convenient way of encapsulating parameters, with helpers for moving them to GPU, exporting, loading, etc.
+* `nn.Module` - 神经网络模块。是一种方便封装参数的方式，具有将参数移动到GPU、导出、加载等功能。
 
 
-* `nn.Parameter` - A kind of Tensor, that is automatically registered as a parameter when assigned as an attribute to a `Module`.
+* `nn.Parameter` - 张量的一种，当它作为一个属性分配给一个`Module`时，它会被自动注册为一个参数。
 
 
-* `autograd.Function` - Implements forward and backward definitions of an autograd operation. Every `Tensor` operation, creates at least a single `Function` node, that connects to functions that created a `Tensor` and encodes its history.
+* `autograd.Function` - 实现了自动求导前向和反向传播的定义，每个`Tensor`至少创建一个`Function`节点，该节点连接到创建`Tensor`的函数并对其历史进行编码。
 
 目前为止，我们讨论了：
 
@@ -213,7 +213,7 @@ print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
 现在，我们将调用`loss.backward()`，并查看conv1层的偏置（bias）在反向传播前后的梯度。
 
 ```python
-net.zero_grad()     # zeroes the gradient buffers of all parameters
+net.zero_grad()     # 清零所有参数（parameter）的梯度缓存
 
 print('conv1.bias.grad before backward')
 print(net.conv1.bias.grad)
@@ -263,15 +263,15 @@ for f in net.parameters():
 ```python
 import torch.optim as optim
 
-# create your optimizer
+# 创建优化器（optimizer）
 optimizer = optim.SGD(net.parameters(), lr=0.01)
 
-# in your training loop:
-optimizer.zero_grad()   # zero the gradient buffers
+# 在训练的迭代中：
+optimizer.zero_grad()   # 清零梯度缓存
 output = net(input)
 loss = criterion(output, target)
 loss.backward()
-optimizer.step()    # Does the update
+optimizer.step()    # 更新参数
 ```
 
 > 注意：

@@ -1,6 +1,6 @@
 # 训练分类器
 
-> 译者：[bat67](https://github.com/bat67)
+> 译者：[bat67](https://github.com/bat67) 最新版会在译者仓库首先同步：[最新版链接](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)
 
 目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。
 
@@ -74,7 +74,7 @@ Files already downloaded and verified
 import matplotlib.pyplot as plt
 import numpy as np
 
-# functions to show an image
+# 输出图像的函数
 
 
 def imshow(img):
@@ -84,13 +84,13 @@ def imshow(img):
     plt.show()
 
 
-# get some random training images
+# 随机得到一些训练图片
 dataiter = iter(trainloader)
 images, labels = dataiter.next()
 
-# show images
+# 显示图片
 imshow(torchvision.utils.make_grid(images))
-# print labels
+# 打印图片标签
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 
 ```
@@ -204,7 +204,7 @@ ok，第一步。让我们显示测试集中的图像来熟悉一下。
 dataiter = iter(testloader)
 images, labels = dataiter.next()
 
-# print images
+# 输出图片
 imshow(torchvision.utils.make_grid(images))
 print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
 ```
