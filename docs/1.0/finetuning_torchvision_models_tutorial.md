@@ -1,19 +1,20 @@
 
 
-# Finetuning Torchvision Models
+# Torchvision模型微调
 
-**Author:** [Nathan Inkawhich](https://github.com/inkawhich)
+**作者:** [Nathan Inkawhich](https://github.com/inkawhich)
 
-In this tutorial we will take a deeper look at how to finetune and feature extract the [torchvision models](https://pytorch.org/docs/stable/torchvision/models.html), all of which have been pretrained on the 1000-class Imagenet dataset. This tutorial will give an indepth look at how to work with several modern CNN architectures, and will build an intuition for finetuning any PyTorch model. Since each model architecture is different, there is no boilerplate finetuning code that will work in all scenarios. Rather, the researcher must look at the existing architecture and make custom adjustments for each model.
+ 在本教程中，我们将深入探讨如何微调和特征提取[torchvision 模型](https://pytorch.org/docs/stable/torchvision/models.html)，所有这些模型都已经预先在1000类的magenet数据集上训练完成。本程将深入介绍如何使用几个现代的CNN架构，并将为微调任意的PyTorch模型建立一个直觉。 由于每个模型架构是有差异的，因此没有可以在所有场景中使用的样板微调代码。 然而，研究人员必须查看现有架构并对每个模型进行自定义调整。
 
-In this document we will perform two types of transfer learning: finetuning and feature extraction. In **finetuning**, we start with a pretrained model and update _all_ of the model’s parameters for our new task, in essence retraining the whole model. In **feature extraction**, we start with a pretrained model and only update the final layer weights from which we derive predictions. It is called feature extraction because we use the pretrained CNN as a fixed feature-extractor, and only change the output layer. For more technical information about transfer learning see [here](https://cs231n.github.io/transfer-learning/) and [here](https://ruder.io/transfer-learning/).
+在本文档中，我们将执行两种类型的迁移学习：微调和特征提取。 在**微调**中，我们从一个预训练模型开始，然后为我们的新任务更新所有的模型参数，实质上就是重新训练整个模型。 在**特征提取**中，我们从预训练模型开始，只更新产生预测的最后一层的权重。它被称为特征提取是因为我们使用预训练的CNN作为固定的特征提取器，并且仅改变输出层。 有关迁移学习的更多技术信息，请参阅[here](https://cs231n.github.io/transfer-learning/)和[here](https://ruder.io/transfer-learning/).
 
-In general both transfer learning methods follow the same few steps:
+通常，这两种迁移学习方法都遵循以下几个步骤：
 
-*   Initialize the pretrained model
-*   Reshape the final layer(s) to have the same number of outputs as the number of classes in the new dataset
-*   Define for the optimization algorithm which parameters we want to update during training
-*   Run the training step
+* 初始化预训练模型
+* 重组最后一层，使其具有与新数据集类别数相同的输出数
+* 为优化算法定义我们想要在训练期间更新的参数
+* 运行训练步骤
+
 
 ```py
 from __future__ import print_function
@@ -33,7 +34,7 @@ print("Torchvision Version: ",torchvision.__version__)
 
 ```
 
-Out:
+输出:
 
 ```py
 PyTorch Version:  1.0.0.dev20190117
@@ -41,16 +42,16 @@ Torchvision Version:  0.2.1
 
 ```
 
-## Inputs
+## 输入
 
-Here are all of the parameters to change for the run. We will use the _hymenoptera_data_ dataset which can be downloaded [here](https://download.pytorch.org/tutorial/hymenoptera_data.zip). This dataset contains two classes, **bees** and **ants**, and is structured such that we can use the [ImageFolder](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.ImageFolder) dataset, rather than writing our own custom dataset. Download the data and set the `data_dir` input to the root directory of the dataset. The `model_name` input is the name of the model you wish to use and must be selected from this list:
+以下为运行时需要更改的所有参数。 我们将使用的数据集hymenoptera_data可在[此处](https://download.pytorch.org/tutorial/hymenoptera_data.zip)下载。 该数据集包含两类：**蜜蜂**和**蚂蚁**，其结构使得我们可以使用 [ImageFolder](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.ImageFolder) 数据集，不需要编写我们自己的自定义数据集。下载数据并设置 `data_dir` 为数据集的根目录。`model_name`是您要使用的模型名称，必须从此列表中选择：
 
 ```py
 [resnet, alexnet, vgg, squeezenet, densenet, inception]
 
 ```
 
-The other inputs are as follows: `num_classes` is the number of classes in the dataset, `batch_size` is the batch size used for training and may be adjusted according to the capability of your machine, `num_epochs` is the number of training epochs we want to run, and `feature_extract` is a boolean that defines if we are finetuning or feature extracting. If `feature_extract = False`, the model is finetuned and all model parameters are updated. If `feature_extract = True`, only the last layer parameters are updated, the others remain fixed.
+其他输入如下：`num_classes`为数据集的类别数，`batch_size`是训练的batch大小，可以根据您机器的计算能力进行调整，`num_epochsis`是我们想要运行的训练epoch数，`feature_extractis` 是定义我们选择微调还是特征提取的布尔值。 如果`feature_extract = False`，将微调模型，并更新所有模型参数。 如果`feature_extract = True`，则仅更新最后一层的参数，其他参数保持不变。
 
 ```py
 # Top level data directory. Here we assume the format of the directory conforms
@@ -75,13 +76,13 @@ feature_extract = True
 
 ```
 
-## Helper Functions
+## 辅助函数
 
-Before we write the code for adjusting the models, lets define a few helper functions.
+在编写调整模型的代码之前，我们先定义一些辅助函数。
 
-### Model Training and Validation Code
+### 模型训练和验证代码
 
-The `train_model` function handles the training and validation of a given model. As input, it takes a PyTorch model, a dictionary of dataloaders, a loss function, an optimizer, a specified number of epochs to train and validate for, and a boolean flag for when the model is an Inception model. The _is_inception_ flag is used to accomodate the _Inception v3_ model, as that architecture uses an auxiliary output and the overall model loss respects both the auxiliary output and the final output, as described [here](https://discuss.pytorch.org/t/how-to-optimize-inception-model-with-auxiliary-classifiers/7958). The function trains for the specified number of epochs and after each epoch runs a full validation step. It also keeps track of the best performing model (in terms of validation accuracy), and at the end of training returns the best performing model. After each epoch, the training and validation accuracies are printed.
+`train_model`函数处理给定模型的训练和验证。 作为输入，它需要PyTorch模型，数据加载器字典，损失函数，优化器，用于训练和验证epoch数，以及当模型是初始模型时的布尔标志。 _is_inception_ 标志用于容纳 _Inception v3_ 模型，因为该体系结构使用辅助输出，并且整体模型损失涉及辅助输出和最终输出，如[此处](https://discuss.pytorch.org/t/how-to-optimize-inception-model-with-auxiliary-classifiers/7958)所述。 这个函数训练指定数量的epoch,并且在每个epoch之后运行完整的验证步骤。 它还跟踪最佳性能的模型（从验证准确率方面），并在训练结束时返回性能最好的模型。 在每个epoch之后，打印训练和验证正确率。
 
 ```py
 def train_model(model, dataloaders, criterion, optimizer, num_epochs=25, is_inception=False):
@@ -166,9 +167,10 @@ def train_model(model, dataloaders, criterion, optimizer, num_epochs=25, is_ince
 
 ```
 
-### Set Model Parameters’ .requires_grad attribute
+### 设置模型参数的.requires_grad属性
 
-This helper function sets the `.requires_grad` attribute of the parameters in the model to False when we are feature extracting. By default, when we load a pretrained model all of the parameters have `.requires_grad=True`, which is fine if we are training from scratch or finetuning. However, if we are feature extracting and only want to compute gradients for the newly initialized layer then we want all of the other parameters to not require gradients. This will make more sense later.
+当我们进行特征提取时，此辅助函数将模型中参数的 `.requires_grad` 属性设置为False。默认情况下，当我们加载一个预训练模型时，所有参数都是 `.requires_grad = True`，如果我们从头开始训练或微调，这种设置就没问题。 但是，如果我们要运行特征提取并且只想为新初始化的层计算梯度，那么我们希望所有其他参数不需要梯度变化。这将在稍后更能理解。
+
 
 ```py
 def set_parameter_requires_grad(model, feature_extracting):
@@ -178,24 +180,24 @@ def set_parameter_requires_grad(model, feature_extracting):
 
 ```
 
-## Initialize and Reshape the Networks
+## 初始化和重塑网络
 
-Now to the most interesting part. Here is where we handle the reshaping of each network. Note, this is not an automatic procedure and is unique to each model. Recall, the final layer of a CNN model, which is often times an FC layer, has the same number of nodes as the number of output classes in the dataset. Since all of the models have been pretrained on Imagenet, they all have output layers of size 1000, one node for each class. The goal here is to reshape the last layer to have the same number of inputs as before, AND to have the same number of outputs as the number of classes in the dataset. In the following sections we will discuss how to alter the architecture of each model individually. But first, there is one important detail regarding the difference between finetuning and feature-extraction.
+现在来到最有趣的部分。在这里我们对每个网络进行重塑。请注意，这不是一个自动过程，并且对每个模型都是唯一的。 回想一下，CNN模型的最后一层（通常是FC层）与数据集中的输出类的数量具有相同的节点数。 由于所有模型都已在Imagenet上预先训练，因此它们都具有大小为1000的输出层，每个类一个节点。 这里的目标是将最后一层重塑为与之前具有相同数量的输入，并且具有与数据集中的类别数相同的输出数。 在以下部分中，我们将讨论如何更改每个模型的体系结构。 但首先，有一个关于微调和特征提取之间差异的重要细节。
 
-When feature extracting, we only want to update the parameters of the last layer, or in other words, we only want to update the parameters for the layer(s) we are reshaping. Therefore, we do not need to compute the gradients of the parameters that we are not changing, so for efficiency we set the .requires_grad attribute to False. This is important because by default, this attribute is set to True. Then, when we initialize the new layer and by default the new parameters have `.requires_grad=True` so only the new layer’s parameters will be updated. When we are finetuning we can leave all of the .required_grad’s set to the default of True.
+当进行特征提取时，我们只想更新最后一层的参数，换句话说，我们只想更新我们正在重塑层的参数。 因此，我们不需要计算不需要改变的参数的梯度，因此为了提高效率，我们将其它层的.requires_grad属性设置为False。 这很重要，因为默认情况下，此属性设置为True。 然后，当我们初始化新层时，默认情况下新参数`.requires_grad = True`，因此只更新新层的参数。 当我们进行微调时，我们可以将所有.required_grad设置为默认值True。
 
-Finally, notice that inception_v3 requires the input size to be (299,299), whereas all of the other models expect (224,224).
+最后，请注意inception_v3的输入大小为（299,299），而所有其他模型都输入为（224,224）。
 
 ### Resnet
 
-Resnet was introduced in the paper [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385). There are several variants of different sizes, including Resnet18, Resnet34, Resnet50, Resnet101, and Resnet152, all of which are available from torchvision models. Here we use Resnet18, as our dataset is small and only has two classes. When we print the model, we see that the last layer is a fully connected layer as shown below:
+论文[Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)介绍了Resnet模型。有几种不同尺寸的变体，包括Resnet18，Resnet34，Resnet50，Resnet101和Resnet152，所有这些模型都可以从torchvision模型中获得。因为我们的数据集很小，只有两个类，所以我们使用Resnet18。 当我们打印这个模型时，我们看到最后一层是全连接层，如下所示：
 
 ```py
 (fc): Linear(in_features=512, out_features=1000, bias=True)
 
 ```
 
-Thus, we must reinitialize `model.fc` to be a Linear layer with 512 input features and 2 output features with:
+因此，我们必须将`model.fc`重新初始化为具有512个输入特征和2个输出特征的线性层：
 
 ```py
 model.fc = nn.Linear(512, num_classes)
@@ -204,7 +206,7 @@ model.fc = nn.Linear(512, num_classes)
 
 ### Alexnet
 
-Alexnet was introduced in the paper [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) and was the first very successful CNN on the ImageNet dataset. When we print the model architecture, we see the model output comes from the 6th layer of the classifier
+Alexnet在论文[ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)中被介绍，是ImageNet数据集上第一个非常成功的CNN。当我们打印模型架构时，我们看到模型输出为分类器的第6层
 
 ```py
 (classifier): Sequential(
@@ -214,7 +216,7 @@ Alexnet was introduced in the paper [ImageNet Classification with Deep Convoluti
 
 ```
 
-To use the model with our dataset we reinitialize this layer as
+要在我们的数据集中使用这个模型，我们将此图层重新初始化为
 
 ```py
 model.classifier[6] = nn.Linear(4096,num_classes)
@@ -223,7 +225,7 @@ model.classifier[6] = nn.Linear(4096,num_classes)
 
 ### VGG
 
-VGG was introduced in the paper [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/pdf/1409.1556.pdf). Torchvision offers eight versions of VGG with various lengths and some that have batch normalizations layers. Here we use VGG-11 with batch normalization. The output layer is similar to Alexnet, i.e.
+VGG在论文[Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/pdf/1409.1556.pdf)中被引入。Torchvision提供了8种不同长度的VGG版本，其中一些版本具有批标准化层。这里我们使用VGG-11进行批标准化。输出层与Alexnet类似，即
 
 ```py
 (classifier): Sequential(
@@ -233,7 +235,7 @@ VGG was introduced in the paper [Very Deep Convolutional Networks for Large-Scal
 
 ```
 
-Therefore, we use the same technique to modify the output layer
+因此，我们使用相同的方法来修改输出层
 
 ```py
 model.classifier[6] = nn.Linear(4096,num_classes)
@@ -242,7 +244,7 @@ model.classifier[6] = nn.Linear(4096,num_classes)
 
 ### Squeezenet
 
-The Squeeznet architecture is described in the paper [SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and &lt;0.5MB model size](https://arxiv.org/abs/1602.07360) and uses a different output structure than any of the other models shown here. Torchvision has two versions of Squeezenet, we use version 1.0\. The output comes from a 1x1 convolutional layer which is the 1st layer of the classifier:
+论文[SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and &lt;0.5MB model size](https://arxiv.org/abs/1602.07360)描述了Squeeznet架构，使用了与此处显示的任何其他模型不同的输出结构。Torchvision的Squeezenet有两个版本，我们使用1.0版本。输出来自1x1卷积层，它是分类器的第一层：
 
 ```py
 (classifier): Sequential(
@@ -254,7 +256,7 @@ The Squeeznet architecture is described in the paper [SqueezeNet: AlexNet-level 
 
 ```
 
-To modify the network, we reinitialize the Conv2d layer to have an output feature map of depth 2 as
+为了修改网络，我们重新初始化Conv2d层，使输出特征图深度为2
 
 ```py
 model.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1,1), stride=(1,1))
@@ -263,14 +265,14 @@ model.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1,1), stride=(1,1
 
 ### Densenet
 
-Densenet was introduced in the paper [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993). Torchvision has four variants of Densenet but here we only use Densenet-121\. The output layer is a linear layer with 1024 input features:
+论文[Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)引入了Densenet模型。 Torchvision有四种Densenet变型，但在这里我们只使用Densenet-121。 输出层是一个具有1024个输入特征的线性层：
 
 ```py
 (classifier): Linear(in_features=1024, out_features=1000, bias=True)
 
 ```
 
-To reshape the network, we reinitialize the classifier’s linear layer as
+为了重塑这个网络，我们将分类器的线性层重新初始化为
 
 ```py
 model.classifier = nn.Linear(1024, num_classes)
@@ -279,7 +281,7 @@ model.classifier = nn.Linear(1024, num_classes)
 
 ### Inception v3
 
-Finally, Inception v3 was first described in [Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/pdf/1512.00567v1.pdf). This network is unique because it has two output layers when training. The second output is known as an auxiliary output and is contained in the AuxLogits part of the network. The primary output is a linear layer at the end of the network. Note, when testing we only consider the primary output. The auxiliary output and primary output of the loaded model are printed as:
+最后，Inception v3首先在论文 [Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/pdf/1512.00567v1.pdf)中描述。该网络的独特之处在于它在训练时有两个输出层。第二个输出称为辅助输出，包含在网络的AuxLogits部分中。主输出是网络末端的线性层。注意，测试时我们只考虑主输出。 加载模型的辅助输出和主输出打印为：
 
 ```py
 (AuxLogits): InceptionAux(
@@ -291,7 +293,7 @@ Finally, Inception v3 was first described in [Rethinking the Inception Architect
 
 ```
 
-To finetune this model we must reshape both layers. This is accomplished with the following
+要微调这个模型，我们必须重塑这两个层。 可以通过以下方式完成
 
 ```py
 model.AuxLogits.fc = nn.Linear(768, num_classes)
@@ -299,7 +301,7 @@ model.fc = nn.Linear(2048, num_classes)
 
 ```
 
-Notice, many of the models have similar output structures, but each must be handled slightly differently. Also, check out the printed model architecture of the reshaped network and make sure the number of output features is the same as the number of classes in the dataset.
+请注意，许多模型具有相似的输出结构，但每个模型的处理方式略有不同。 另外，请查看重塑网络的模型体系结构，并确保输出特征数与数据集中的类别数相同。
 
 ```py
 def initialize_model(model_name, num_classes, feature_extract, use_pretrained=True):
@@ -381,7 +383,7 @@ print(model_ft)
 
 ```
 
-Out:
+输出:
 
 ```py
 SqueezeNet(
@@ -468,8 +470,7 @@ SqueezeNet(
 
 ## Load Data
 
-Now that we know what the input size must be, we can initialize the data transforms, image datasets, and the dataloaders. Notice, the models were pretrained with the hard-coded normalization values, as described [here](https://pytorch.org/docs/master/torchvision/models.html).
-
+现在我们知道输入尺寸大小必须是什么，我们可以初始化数据转换，图像数据集和数据加载器。请注意，模型是使用硬编码标准化值进行预先训练的，如[here](https://pytorch.org/docs/master/torchvision/models.html)所述。
 ```py
 # Data augmentation and normalization for training
 # Just normalization for validation
@@ -500,18 +501,18 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 ```
 
-Out:
+输出:
 
 ```py
 Initializing Datasets and Dataloaders...
 
 ```
 
-## Create the Optimizer
+## 创建优化器
 
-Now that the model structure is correct, the final step for finetuning and feature extracting is to create an optimizer that only updates the desired parameters. Recall that after loading the pretrained model, but before reshaping, if `feature_extract=True` we manually set all of the parameter’s `.requires_grad` attributes to False. Then the reinitialized layer’s parameters have `.requires_grad=True` by default. So now we know that _all parameters that have .requires_grad=True should be optimized._ Next, we make a list of such parameters and input this list to the SGD algorithm constructor.
+现在模型结构是正确的，微调和特征提取的最后一步是创建一个只更新所需参数的优化器。 回想一下，在加载预训练模型之后，但在重塑之前，如果`feature_extract = True`，我们手动将所有参数的`.requires_grad`属性设置为False。然后重新初始化默认为`.requires_grad = True`的网络层参数。所以现在我们知道应该优化所有具有 `.requires_grad = True`的参数。接下来，我们列出这些参数并将此列表输入到SGD算法构造器。
 
-To verify this, check out the printed parameters to learn. When finetuning, this list should be long and include all of the model parameters. However, when feature extracting this list should be short and only include the weights and biases of the reshaped layers.
+要验证这一点，可以查看要学习的参数。微调时，此列表应该很长并包含所有模型参数。但是，当进行特征提取时，此列表应该很短并且仅包括重塑层的权重和偏差。
 
 ```py
 # Send the model to GPU
@@ -540,7 +541,7 @@ optimizer_ft = optim.SGD(params_to_update, lr=0.001, momentum=0.9)
 
 ```
 
-Out:
+输出:
 
 ```py
 Params to learn:
@@ -549,9 +550,9 @@ Params to learn:
 
 ```
 
-## Run Training and Validation Step
+## 运行训练和验证
 
-Finally, the last step is to setup the loss for the model, then run the training and validation function for the set number of epochs. Notice, depending on the number of epochs this step may take a while on a CPU. Also, the default learning rate is not optimal for all of the models, so to achieve maximum accuracy it would be necessary to tune for each model separately.
+最后一步是为模型设置损失，然后对设定的epoch数运行训练和验证函数。请注意，取决于epoch的数量，此步骤在CPU上可能需要执行一段时间。 此外，默认的学习率对所有模型都不是最佳的，因此为了获得最大精度，有必要分别调整每个模型。
 
 ```py
 # Setup the loss fxn
@@ -562,7 +563,7 @@ model_ft, hist = train_model(model_ft, dataloaders_dict, criterion, optimizer_ft
 
 ```
 
-Out:
+输出:
 
 ```py
 Epoch 0/14
@@ -645,9 +646,9 @@ Best val Acc: 0.941176
 
 ```
 
-## Comparison with Model Trained from Scratch
+## 与从头开始训练模型比较
 
-Just for fun, lets see how the model learns if we do not use transfer learning. The performance of finetuning vs. feature extracting depends largely on the dataset but in general both transfer learning methods produce favorable results in terms of training time and overall accuracy versus a model trained from scratch.
+只是为了好玩，看看如果我们不使用迁移学习，模型将如何学习。微调与特征提取的性能在很大程度上取决于数据集，但一般而言，两种迁移学习方法相对于从头开始训练模型，在训练时间和总体准确性方面产生了良好的结果。
 
 ```py
 # Initialize the non-pretrained version of the model used for this run
@@ -680,7 +681,7 @@ plt.show()
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_finetuning_torchvision_models_tutorial_001.png](img/f372e674581606c73331727d4d7f8e8e.jpg)
 
-Out:
+输出:
 
 ```py
 Epoch 0/14
@@ -763,17 +764,18 @@ Best val Acc: 0.457516
 
 ```
 
-## Final Thoughts and Where to Go Next
+## 最后的想法及下一步
 
-Try running some of the other models and see how good the accuracy gets. Also, notice that feature extracting takes less time because in the backward pass we do not have to calculate most of the gradients. There are many places to go from here. You could:
+尝试运行其他模型，看看可以得到多好的正确率。另外，请注意特征提取花费的时间较少，因为在后向传播中我们不需要计算大部分的梯度。还有很多地方可以尝试。 你可以：
+* 在更难的数据集上运行此代码，查看迁移学习的更多好处。
+* 在新的领域（比如NLP，音频等）中，使用此处描述的方法，使用迁移学习更新不同的模型。
+* 一旦您对一个模型感到满意，
+* 可以将其导出为ONNX模型，或使用混合前端跟踪它以获得更快的速度和优化的机会。
 
-*   Run this code with a harder dataset and see some more benefits of transfer learning
-*   Using the methods described here, use transfer learning to update a different model, perhaps in a new domain (i.e. NLP, audio, etc.)
-*   Once you are happy with a model, you can export it as an ONNX model, or trace it using the hybrid frontend for more speed and optimization opportunities.
+**此脚本总运行时间:** (0分55.608秒)
 
-**Total running time of the script:** ( 0 minutes 55.608 seconds)
-
-[`Download Python source code: finetuning_torchvision_models_tutorial.py`](../_downloads/64a61387602867f347b7ee35d3215713/finetuning_torchvision_models_tutorial.py)[`Download Jupyter notebook: finetuning_torchvision_models_tutorial.ipynb`](../_downloads/df1f5ef1c1a8e1a111e88281b27829fe/finetuning_torchvision_models_tutorial.ipynb)
+[`Python源代码下载: finetuning_torchvision_models_tutorial.py`](../_downloads/64a61387602867f347b7ee35d3215713/finetuning_torchvision_models_tutorial.py)
+[`Jupyter notebook下载: finetuning_torchvision_models_tutorial.ipynb`](../_downloads/df1f5ef1c1a8e1a111e88281b27829fe/finetuning_torchvision_models_tutorial.ipynb)
 
 [Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
 
