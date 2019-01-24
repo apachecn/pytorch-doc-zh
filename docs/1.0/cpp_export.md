@@ -3,7 +3,7 @@
 # 在C++中加载PYTORCH模型
 > 译者：[talengu](https://github.com/talengu)
 
-顾名思义，PyTorch的主要接口为Python。虽然Python有动态编程和易于迭代的优势，但在很多情况下，正是Python的这些属性会带来不利。我们经常遇到的生产环境，要满足低延迟和严格部署要求。对于生产场景而言，C++通常是首选语言，也能很方便的将其绑定到另一种语言，如Java，Rust或Go。本教程将介绍从将PyTorch训练的模型序列化表示，到C++语言_加载_和_执行_的过程。
+PyTorch的主要接口为Python。虽然Python有动态编程和易于迭代的优势，但在很多情况下，正是Python的这些属性会带来不利。我们经常遇到的生产环境，要满足低延迟和严格部署要求。对于生产场景而言，C++通常是首选语言，也能很方便的将其绑定到另一种语言，如Java，Rust或Go。本教程将介绍从将PyTorch训练的模型序列化表示，到C++语言_加载_和_执行_的过程。
 
 
 ## 第一步：将PyTorch模型转换为Torch Script
@@ -282,7 +282,7 @@ tensor([-0.2698, -0.0381,  0.4023, -0.3010, -0.0448], grad_fn=<SliceBackward>)
 
 本教程希望能使你理解PyTorch模型从python到c++的调用过程。通过上述教程，你能够通过“eager” PyTorch做一个简单模型，转成`ScriptModule`，并序列化保存。然后在C++里面通过 `script::Module`加载运行模型。
 
-当然，还有好多内容我们没有涉及。举个例子，你想要在C++ or CUDA中实现扩展`ScriptModule`自定义操作，然后就可以运行`ScriptModule`模型。这种是可以实现的，可以看[this](https://github.com/pytorch/pytorch/tree/master/test/custom_operator)。下面还有一些文档可以参考，比较有帮助：
+当然，还有好多内容我们没有涉及。举个例子，你希望在C++或者CUDA中实现`ScriptModule`中的自定义操作，然后就可以在C++调用运行`ScriptModule`模型。这种是可以做到的，可以参考[this](https://github.com/pytorch/pytorch/tree/master/test/custom_operator)。下面还有一些文档可以参考，比较有帮助：
 
 *   Torch Script 参考: [https://pytorch.org/docs/master/jit.html](https://pytorch.org/docs/master/jit.html)
 *   PyTorch C++ API 文档: [https://pytorch.org/cppdocs/](https://pytorch.org/cppdocs/)
