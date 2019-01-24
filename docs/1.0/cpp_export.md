@@ -1,39 +1,41 @@
 
 
-# Loading a PyTorch Model in C++
+# 在C++中加载PYTORCH模型
+> 译者：[talengu](https://github.com/talengu)
 
-As its name suggests, the primary interface to PyTorch is the Python programming language. While Python is a suitable and preferred language for many scenarios requiring dynamism and ease of iteration, there are equally many situations where precisely these properties of Python are unfavorable. One environment in which the latter often applies is _production_ – the land of low latencies and strict deployment requirements. For production scenarios, C++ is very often the language of choice, even if only to bind it into another language like Java, Rust or Go. The following paragraphs will outline the path PyTorch provides to go from an existing Python model to a serialized representation that can be _loaded_ and _executed_ purely from C++, with no dependency on Python.
+顾名思义，PyTorch的主要接口为Python。虽然Python有动态编程和易于迭代的优势，但在很多情况下，正是Python的这些属性会带来不利。我们经常遇到的生产环境，要满足低延迟和严格部署要求。对于生产场景而言，C++通常是首选语言，也能很方便的将其绑定到另一种语言，如Java，Rust或Go。本教程将介绍从将PyTorch训练的模型序列化表示，到C++语言_加载_和_执行_的过程。
 
-## Step 1: Converting Your PyTorch Model to Torch Script
 
-A PyTorch model’s journey from Python to C++ is enabled by [Torch Script](https://pytorch.org/docs/master/jit.html), a representation of a PyTorch model that can be understood, compiled and serialized by the Torch Script compiler. If you are starting out from an existing PyTorch model written in the vanilla “eager” API, you must first convert your model to Torch Script. In the most common cases, discussed below, this requires only little effort. If you already have a Torch Script module, you can skip to the next section of this tutorial.
+## 第一步：将PyTorch模型转换为Torch Script
+PyTorch模型从Python到C++的转换由[Torch Script](https://pytorch.org/docs/master/jit.html)实现。Torch Script是PyTorch模型的一种表示，可由Torch Script编译器理解，编译和序列化。如果使用基础的“eager”API编写的PyTorch模型，则必须先将模型转换为Torch Script，当然这也是比较容易的。如果已有模型的Torch Script，则可以跳到本教程的下一部分。
 
-There exist two ways of converting a PyTorch model to Torch Script. The first is known as _tracing_, a mechanism in which the structure of the model is captured by evaluating it once using example inputs, and recording the flow of those inputs through the model. This is suitable for models that make limited use of control flow. The second approach is to add explicit annotations to your model that inform the Torch Script compiler that it may directly parse and compile your model code, subject to the constraints imposed by the Torch Script language.
+将PyTorch模型转换为Torch Script有两种方法。
+第一种方法是Tracing。该方法通过将样本输入到模型中一次来对该过程进行评估从而捕获模型结构.并记录该样本在模型中的flow。该方法适用于模型中很少使用控制flow的模型。
+第二个方法就是向模型添加显式注释(Annotation)，通知Torch Script编译器它可以直接解析和编译模型代码，受Torch Script语言强加的约束。
 
-Tip
 
-You can find the complete documentation for both of these methods, as well as further guidance on which to use, in the official [Torch Script reference](https://pytorch.org/docs/master/jit.html).
+> 小贴士
+可以在官方的[Torch Script 参考](https://pytorch.org/docs/master/jit.html)中找到这两种方法的完整文档，以及有关使用哪个方法的细节指导。
 
-### Converting to Torch Script via Tracing
 
-To convert a PyTorch model to Torch Script via tracing, you must pass an instance of your model along with an example input to the `torch.jit.trace` function. This will produce a `torch.jit.ScriptModule` object with the trace of your model evaluation embedded in the module’s `forward` method:
+### 利用Tracing将模型转换为Torch Script
+要通过tracing来将PyTorch模型转换为Torch脚本,必须将模型的实例以及样本输入传递给`torch.jit.trace`函数。这将生成一个 `torch.jit.ScriptModule`对象，并在模块的`forward`方法中嵌入模型评估的跟踪：
 
 ```py
 import torch
 import torchvision
 
-# An instance of your model.
+# 获取模型实例
 model = torchvision.models.resnet18()
 
-# An example input you would normally provide to your model's forward() method.
+# 生成一个样本供网络前向传播 forward()
 example = torch.rand(1, 3, 224, 224)
 
-# Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
+# 使用 torch.jit.trace 生成 torch.jit.ScriptModule 来跟踪
 traced_script_module = torch.jit.trace(model, example)
 
 ```
-
-The traced `ScriptModule` can now be evaluated identically to a regular PyTorch module:
+现在，跟踪的`ScriptModule`可以与常规PyTorch模块进行相同的计算：
 
 ```py
 In[1]: output = traced_script_module(torch.ones(1, 3, 224, 224))
@@ -42,9 +44,9 @@ Out[2]: tensor([-0.2698, -0.0381,  0.4023, -0.3010, -0.0448], grad_fn=<SliceBack
 
 ```
 
-### Converting to Torch Script via Annotation
+### 通过Annotation将Model转换为Torch Script
 
-Under certain circumstances, such as if your model employs particular forms of control flow, you may want to write your model in Torch Script directly and annotate your model accordingly. For example, say you have the following vanilla Pytorch model:
+在某些情况下，例如，如果模型使用特定形式的控制流，如果想要直接在Torch Script中编写模型并相应地标注(annotate)模型。例如，假设有以下普通的 Pytorch模型：
 
 ```py
 import torch
@@ -63,7 +65,7 @@ class MyModule(torch.nn.Module):
 
 ```
 
-Because the `forward` method of this module uses control flow that is dependent on the input, it is not suitable for tracing. Instead, we can convert it to a `ScriptModule` by subclassing it from `torch.jit.ScriptModule` and adding a `@torch.jit.script_method` annotation to the model’s `forward` method:
+由于此模块的`forward`方法使用依赖于输入的控制流，因此它不适合利用Tracing的方法生成Torch Script。为此,可以通过继承`torch.jit.ScriptModule`并将`@ torch.jit.script_method`标注添加到模型的`forward`中的方法，来将model转换为`ScriptModule`：
 
 ```py
 import torch
@@ -84,27 +86,28 @@ class MyModule(torch.jit.ScriptModule):
 my_script_module = MyModule()
 
 ```
+现在，创建一个新的`MyModule`对象会直接生成一个可序列化的`ScriptModule`实例了。
 
-Creating a new `MyModule` object now directly produces an instance of `ScriptModule` that is ready for serialization.
 
-## Step 2: Serializing Your Script Module to a File
 
-Once you have a `ScriptModule` in your hands, either from tracing or annotating a PyTorch model, you are ready to serialize it to a file. Later on, you’ll be able to load the module from this file in C++ and execute it without any dependency on Python. Say we want to serialize the `ResNet18` model shown earlier in the tracing example. To perform this serialization, simply call [save](https://pytorch.org/docs/master/jit.html#torch.jit.ScriptModule.save) on the module and pass it a filename:
+## 第二步：将Script Module序列化为一个文件
+
+不论是从上面两种方法的哪一种方法获得了`ScriptModule`,都可以将得到的`ScriptModule`序列化为一个文件,然后C++就可以不依赖任何Python代码来执行该Script所对应的Pytorch模型。
+假设我们想要序列化前面trace示例中显示的`ResNet18`模型。要执行此序列化，只需在模块上调用 [save](https://pytorch.org/docs/master/jit.html#torch.jit.ScriptModule.save)并给个文件名：
 
 ```py
 traced_script_module.save("model.pt")
 
 ```
+这将在工作目录中生成一个`model.pt`文件。现在可以离开Python，并准备跨越到C ++语言调用。
 
-This will produce a `model.pt` file in your working directory. We have now officially left the realm of Python and are ready to cross over to the sphere of C++.
+## 第三步:在C++中加载你的Script Module
 
-## Step 3: Loading Your Script Module in C++
+要在C ++中加载序列化的PyTorch模型，应用程序必须依赖于`PyTorch C ++ API` - 也称为_LibTorch_。_LibTorch发行版_包含一组共享库，头文件和`CMake`构建配置文件。虽然CMake不是依赖LibTorch的要求，但它是推荐的方法，并且将来会得到很好的支持。在本教程中，我们将使用CMake和LibTorch构建一个最小的C++应用程序，加载并执行序列化的PyTorch模型。
 
-To load your serialized PyTorch model in C++, your application must depend on the PyTorch C++ API – also known as _LibTorch_. The LibTorch distribution encompasses a collection of shared libraries, header files and CMake build configuration files. While CMake is not a requirement for depending on LibTorch, it is the recommended approach and will be well supported into the future. For this tutorial, we will be building a minimal C++ application using CMake and LibTorch that simply loads and executes a serialized PyTorch model.
+### 最小的C++应用程序
 
-### A Minimal C++ Application
-
-Let’s begin by discussing the code to load a module. The following will already do:
+以下内容可以做到加载模块：
 
 ```py
 #include <torch/script.h> // One-stop header.
@@ -126,12 +129,11 @@ int main(int argc, const char* argv[]) {
 }
 
 ```
+`<torch/script.h>`头文件包含运行该示例所需的LibTorch库中的所有相关`include`。main函数接受序列化`ScriptModule`的文件路径作为其唯一的命令行参数，然后使用`torch::jit::load()`函数反序列化模块，得到一个指向`torch::jit::script::Module`的共享指针，相当于C ++中的`torch.jit.ScriptModule`对象。最后，我们只验证此指针不为null。我们展示如何在接下来执行它。
 
-The `&lt;torch/script.h&gt;` header encompasses all relevant includes from the LibTorch library necessary to run the example. Our application accepts the file path to a serialized PyTorch `ScriptModule` as its only command line argument and then proceeds to deserialize the module using the `torch::jit::load()` function, which takes this file path as input. In return we receive a shared pointer to a `torch::jit::script::Module`, the equivalent to a `torch.jit.ScriptModule` in C++. For now, we only verify that this pointer is not null. We will examine how to execute it in a moment.
+### 依赖库LibTorch和构建应用程序
 
-### Depending on LibTorch and Building the Application
-
-Assume we stored the above code into a file called `example-app.cpp`. A minimal `CMakeLists.txt` to build it could look as simple as:
+我们将上面的代码保存到名为`example-app.cpp`的文件中。对应的构建它的简单`CMakeLists.txt`为：
 
 ```py
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
@@ -144,9 +146,7 @@ target_link_libraries(example-app "${TORCH_LIBRARIES}")
 set_property(TARGET example-app PROPERTY CXX_STANDARD 11)
 
 ```
-
-The last thing we need to build the example application is the LibTorch distribution. You can always grab the latest stable release from the [download page](https://pytorch.org/) on the PyTorch website. If you download and unzip the latest archive, you should receive a folder with the following directory structure:
-
+我们构建示例应用程序的最后一件事是下载LibTorch发行版。从PyTorch网站的下载页面获取最新的稳定版本 [download page](https://pytorch.org/)。如果下载并解压缩最新存档，则有以下目录结构：
 ```py
 libtorch/
   bin/
@@ -156,11 +156,14 @@ libtorch/
 
 ```
 
-*   The `lib/` folder contains the shared libraries you must link against,
-*   The `include/` folder contains header files your program will need to include,
-*   The `share/` folder contains the necessary CMake configuration to enable the simple `find_package(Torch)` command above.
+*   `lib/` 包含含链接的共享库,
+*   `include/` 包含程序需要`include`的头文件,
+*   `share/`包含必要的CMake配置文件使得 `find_package(Torch)` 。
 
-The last step is building the application. For this, assume our example directory is laid out like this:
+> 小贴士
+在Windows平台上, debug and release builds are not ABI-compatible. 如果要使用debug, 要使用 [源码编译 PyTorch](https://github.com/pytorch/pytorch#from-source)方法。
+
+最后一步是构建应用程序。为此，假设我们的示例目录布局如下：
 
 ```py
 example-app/
@@ -169,7 +172,7 @@ example-app/
 
 ```
 
-We can now run the following commands to build the application from within the `example-app/` folder:
+我们现在可以运行以下命令从`example-app/`文件夹中构建应用程序：
 
 ```py
 mkdir build
@@ -179,7 +182,7 @@ make
 
 ```
 
-where `/path/to/libtorch` should be the full path to the unzipped LibTorch distribution. If all goes well, it will look something like this:
+其中 `/path/to/libtorch` 应该是解压缩的LibTorch发行版的完整路径。如果一切顺利，它将看起来像这样：
 
 ```py
 root@4b5a67132e81:/example-app# mkdir build
@@ -219,7 +222,7 @@ Scanning dependencies of target example-app
 
 ```
 
-If we supply the path to the serialized `ResNet18` model we created earlier to the resulting `example-app` binary, we should be rewarded with a friendly “ok”:
+如果我们提供前面的序列化`ResNet18`模型的路径给`example-app`，C++输出的结果应该是 OK:
 
 ```py
 root@4b5a67132e81:/example-app/build# ./example-app model.pt
@@ -227,9 +230,9 @@ ok
 
 ```
 
-## Step 4: Executing the Script Module in C++
+## 在C++代码中运行Script Module
 
-Having successfully loaded our serialized `ResNet18` in C++, we are now just a couple lines of code away from executing it! Let’s add those lines to our C++ application’s `main()` function:
+在C ++中成功加载了我们的序列化`ResNet18`后，我们再加几行执行代码，添加到C++应用程序的`main()`函数中：
 
 ```py
 // Create a vector of inputs.
@@ -242,14 +245,14 @@ at::Tensor output = module->forward(inputs).toTensor();
 std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/5) << '\n';
 
 ```
+前两行设置我们模型的输入。 创建了一个 `torch::jit::IValue` (`script::Module` 对象可接受和返回的一种数据类型) 的向量和添加一个输入。要创建输入张量，我们使用`torch::ones()`（C++ API）和python中的`torch.ones` 一样。 然后我们运行`script::Module`的`forward`方法，传入我们创建的输入向量，返回一个新的`IValue`，通过调用`toTensor()`可将其转换为张量。
 
-The first two lines set up the inputs to our model. We create a vector of `torch::jit::IValue` (a type-erased value type `script::Module` methods accept and return) and add a single input. To create the input tensor, we use `torch::ones()`, the equivalent to `torch.ones` in the C++ API. We then run the `script::Module`’s `forward` method, passing it the input vector we created. In return we get a new `IValue`, which we convert to a tensor by calling `toTensor()`.
 
-Tip
+>小贴士
+更多关于`torch::ones` 和 PyTorch的对应 C++ API的内容 [https://pytorch.org/cppdocs](https://pytorch.org/cppdocs)。PyTorch C++ API 和Python API差不多，可以使你像python 中一样操作处理tensors。
 
-To learn more about functions like `torch::ones` and the PyTorch C++ API in general, refer to its documentation at [https://pytorch.org/cppdocs](https://pytorch.org/cppdocs). The PyTorch C++ API provides near feature parity with the Python API, allowing you to further manipulate and process tensors just like in Python.
 
-In the last line, we print the first five entries of the output. Since we supplied the same input to our model in Python earlier in this tutorial, we should ideally see the same output. Let’s try it out by re-compiling our application and running it with the same serialized model:
+在最后一行中，我们打印输出的前五个条目。由于我们在本教程前面的Python中为我们的模型提供了相同的输入，因此理想情况下我们应该看到相同的输出。让我们通过重新编译我们的应用程序并使用相同的序列化模型运行它来尝试：
 
 ```py
 root@4b5a67132e81:/example-app/build# make
@@ -263,28 +266,27 @@ root@4b5a67132e81:/example-app/build# ./example-app model.pt
 
 ```
 
-For reference, the output in Python previously was:
+作为参考，之前Python代码的输出是：
 
 ```py
 tensor([-0.2698, -0.0381,  0.4023, -0.3010, -0.0448], grad_fn=<SliceBackward>)
 
 ```
 
-Looks like a good match!
+由此可见,C++的输出与Python的输出是一样的,成功啦!
 
-Tip
+>小贴士
+将你的模型放到GPU上，可以写成`model->to(at::kCUDA);`。确保你的输入也在CUDA的存储空间里面，可以使用`tensor.to(at::kCUDA)`检查，这个函数返回一个新的在CUDA里面的tensor。
 
-To move your model to GPU memory, you can write `model-&gt;to(at::kCUDA);`. Make sure the inputs to a model living in CUDA memory are also in CUDA memory by calling `tensor.to(at::kCUDA)`, which will return a new tensor in CUDA memory.
+## 第五步:进阶教程和详细API
 
-## Step 5: Getting Help and Exploring the API
+本教程希望能使你理解PyTorch模型从python到c++的调用过程。通过上述教程，你能够通过“eager” PyTorch做一个简单模型，转成`ScriptModule`，并序列化保存。然后在C++里面通过 `script::Module`加载运行模型。
 
-This tutorial has hopefully equipped you with a general understanding of a PyTorch model’s path from Python to C++. With the concepts described in this tutorial, you should be able to go from a vanilla, “eager” PyTorch model, to a compiled `ScriptModule` in Python, to a serialized file on disk and – to close the loop – to an executable `script::Module` in C++.
+当然，还有好多内容我们没有涉及。举个例子，你想要在C++ or CUDA中实现扩展`ScriptModule`自定义操作，然后就可以运行`ScriptModule`模型。这种是可以实现的，可以看[this](https://github.com/pytorch/pytorch/tree/master/test/custom_operator)。下面还有一些文档可以参考，比较有帮助：
 
-Of course, there are many concepts we did not cover. For example, you may find yourself wanting to extend your `ScriptModule` with a custom operator implemented in C++ or CUDA, and executing this custom operator inside your `ScriptModule` loaded in your pure C++ production environment. The good news is: this is possible, and well supported! For now, you can explore [this](https://github.com/pytorch/pytorch/tree/master/test/custom_operator) folder for examples, and we will follow up with a tutorial shortly. In the time being, the following links may be generally helpful:
+*   Torch Script 参考: [https://pytorch.org/docs/master/jit.html](https://pytorch.org/docs/master/jit.html)
+*   PyTorch C++ API 文档: [https://pytorch.org/cppdocs/](https://pytorch.org/cppdocs/)
+*   PyTorch Python API 文档: [https://pytorch.org/docs/](https://pytorch.org/docs/)
 
-*   The Torch Script reference: [https://pytorch.org/docs/master/jit.html](https://pytorch.org/docs/master/jit.html)
-*   The PyTorch C++ API documentation: [https://pytorch.org/cppdocs/](https://pytorch.org/cppdocs/)
-*   The PyTorch Python API documentation: [https://pytorch.org/docs/](https://pytorch.org/docs/)
-
-As always, if you run into any problems or have questions, you can use our [forum](https://discuss.pytorch.org/) or [GitHub issues](https://github.com/pytorch/pytorch/issues) to get in touch.
+如果有任何bug或者问题，可以向社区 [Pytorch forum](https://discuss.pytorch.org/) 或者 [Pytorch GitHub issues](https://github.com/pytorch/pytorch/issues) 寻求帮助。
 
