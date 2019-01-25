@@ -24,7 +24,7 @@
         +   [使用字符级别特征的 RNN 网络进行姓氏分类](char_rnn_classification_tutorial.md)
         +   [Deep Learning for NLP with Pytorch](deep_learning_nlp_tutorial.md)
             + [Introduction to PyTorch](nlp_pytorch_tutorial.md)
-            + [Deep Learning with PyTorch](nlp_deep_learning_tutorial.md)
+            + [使用 PyTorch 进行深度学习](nlp_deep_learning_tutorial.md)
             + [Word Embeddings: Encoding Lexical Semantics](nlp_word_embeddings_tutorial.md)
             + [Sequence Models and Long-Short Term Memory Networks](nlp_sequence_models_tutorial.md)
             + [Advanced: Making Dynamic Decisions and the Bi-LSTM CRF](nlp_advanced_tutorial.md)
