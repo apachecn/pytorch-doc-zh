@@ -31,23 +31,24 @@ Iun
 
 We are still hand-crafting a small RNN with a few linear layers. The big difference is instead of predicting a category after reading in all the letters of a name, we input a category and output one letter at a time. Recurrently predicting characters to form language (this could also be done with words or other higher order constructs) is often referred to as a “language model”.
 
-**Recommended Reading:**
+**阅读建议:**
 
 I assume you have at least installed PyTorch, know Python, and understand Tensors:
+我默认你已经安装好了PyTorch，熟悉Python语言，理解“张量”的概念：
 
-*   [https://pytorch.org/](https://pytorch.org/) For installation instructions
-*   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) to get started with PyTorch in general
-*   [Learning PyTorch with Examples](../beginner/pytorch_with_examples.html) for a wide and deep overview
-*   [PyTorch for Former Torch Users](../beginner/former_torchies_tutorial.html) if you are former Lua Torch user
+*   [https://pytorch.org/](https://pytorch.org/) PyTorch安装指南
+*   [Deep Learning with PyTorch: A 60 Minute Blitz](../beginner/deep_learning_60min_blitz.html) PyTorch入门
+*   [Learning PyTorch with Examples](../beginner/pytorch_with_examples.html) 一些PyTorch的例子
+*   [PyTorch for Former Torch Users](../beginner/former_torchies_tutorial.html) Lua Torch 用户参考
 
 It would also be useful to know about RNNs and how they work:
+事先学习并了解RNN的工作原理对理解这个例子十分有帮助:
 
 *   [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) shows a bunch of real life examples
 *   [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) is about LSTMs specifically but also informative about RNNs in general
 
-I also suggest the previous tutorial, [Classifying Names with a Character-Level RNN](char_rnn_classification_tutorial.html)
-
 ## Preparing the Data
+## 准备数据
 
 Note
 
