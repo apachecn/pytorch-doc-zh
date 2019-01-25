@@ -2,18 +2,13 @@
 
 PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库) .
 
-## 项目负责人及贡献者
+> 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
 
-请见各个版本的首页。
-
-## 贡献指南
-
-请见[这里](CONTRIBUTING.md)。
-
-## 加入我们
-
-如果想要加入我们, 请参阅: <http://www.apachecn.org/organization/209.html>.  
-欢迎各位爱装逼的大佬们.
++   [在线阅读](http://pytorch.apachecn.org)
++   [贡献指南](CONTRIBUTING.md)
++   项目负责人及贡献者：请见各个版本的首页
++   [ApacheCN 机器学习交流群 629470233](http://shang.qq.com/wpa/qunwpa?idkey=30e5f1123a79867570f665aa3a483ca404b1c3f77737bc01ec520ed5f078ddef)
++   [ApacheCN 学习资源](http://www.apachecn.org/)
 
 ## 建议反馈
 
