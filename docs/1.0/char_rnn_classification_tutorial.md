@@ -6,7 +6,7 @@
 
 我们将构建和训练字符级RNN来对单词进行分类。 字符级RNN将单词作为一系列字符读取，在每一步输出预测和“隐藏状态”，将其先前的隐藏状态输入至下一时刻。 我们将最终时刻输出作为预测结果，即表示该词属于哪个类。
 
-具体来说，我们将在18种语言构成的几千个姓氏的数据集上训练模型，根据一个单词的拼写预测它是哪种语言的姓氏：
+具体来说，我们将在18种语言构成的几千个姓氏的数据集上训练模型，根据一个姓氏的拼写预测它是哪种语言的姓氏：
 
 ```py
 $ python predict.py Hinton
@@ -174,7 +174,7 @@ layer的隐藏状态和梯度将交给计算图自己处理。
 
 这意味着你可以像实现正规的 feed-forward 层一样，以很常纯粹的方式实现RNN。
 
-这个RNN组件 (几乎是从这里复制 [the PyTorch for Torch users tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 仅使用两层 linear 层对输入和隐藏层做处理, 
+这个RNN组件 (几乎是从这里复制的 [the PyTorch for Torch users tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 仅使用两层 linear 层对输入和隐藏层做处理, 
 
 在最后添加一层 LogSoftmax 层预测最终输出。
 
@@ -494,9 +494,9 @@ plt.show()
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_char_rnn_classification_tutorial_002.png](img/029a9d26725997aae97e9e3f6f10067f.jpg)
 
-你可以从主轴线上挑出亮的点，显示模型预测错了哪些语言，例如中国预测为了韩国，西班牙预测为了意大利。
+你可以从主轴线以外挑出亮的点，显示模型预测错了哪些语言，例如汉语预测为了韩语，西班牙预测为了意大利。
 
-看上去在希腊语上效果很好，在英语上表现欠佳。（可能是因为英语与其他语言的重叠）。
+看上去在希腊语上效果很好，在英语上表现欠佳。（可能是因为英语与其他语言的重叠较多）。
 
 ### 处理用户输入
 
@@ -552,7 +552,7 @@ predict('Satoshi')
 
 运行 `train.py` 来训练和保存网络
 
-将`predict.py`和一个姓氏一起运行查看预测结果 :
+将`predict.py`和一个姓氏的单词一起运行查看预测结果 :
 
 ```py
 $ python predict.py Hazaki
