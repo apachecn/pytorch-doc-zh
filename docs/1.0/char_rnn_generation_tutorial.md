@@ -12,7 +12,7 @@
 In the [last tutorial](char_rnn_classification_tutorial.html) we used a RNN to classify names into their language of origin. 
 再上一个 [例子](char_rnn_classification_tutorial.html) 中我们使用RNN网络对名字所属的语言进行分类。
 This time we’ll turn around and generate names from languages.
-这一次我们将会根据语言生成名字
+这一次我们会反过来根据语言生成姓氏。
 
 ```py
 > python sample.py Russian RUS
@@ -40,11 +40,9 @@ Iun
 We are still hand-crafting a small RNN with a few linear layers. 
 我们仍使用几层linear层简单实现的RNN。
 The big difference is instead of predicting a category after reading in all the letters of a name, we input a category and output one letter at a time. 
-
-Recurrently predicting characters to form language (this could also be done with words or other higher order constructs) 
-is often referred to as a “language model”.
-
-
+最大的区别在于，不是在读取一个姓氏的所有字母后预测类别，而是输入一个类别之后在每一时刻输出一个字母。
+Recurrently predicting characters to form language (this could also be done with words or other higher order constructs) is often referred to as a “language model”.
+循环预测字符以形成语言也通常被称为“语言模型”。（也可以将字符换成单词或更高级的结构来完成）
 
 
 **阅读建议:**
@@ -63,14 +61,16 @@ is often referred to as a “language model”.
 
 ## 准备数据
 
-Note
 
 Download the data from [here](https://download.pytorch.org/tutorial/data.zip) and extract it to the current directory.
 点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
 See the last tutorial for more detail of this process. 
+有关此过程的更多详细信息，请参阅上一个教程。
 In short, there are a bunch of plain text files `data/names/[Language].txt` with a name per line. 
+简而言之，有一些纯文本文件`data/names/[Language].txt`，它们的每行都有一个姓氏。
 We split lines into an array, convert Unicode to ASCII, and end up with a dictionary `{language: [names ...]}`.
+我们按行将文本按行切分得到一个数组，将Unicode编码转化为ASCII编码，最终得到`{language: [names ...]}`格式存储的字典变量。
 
 ```py
 from __future__ import unicode_literals, print_function, division
@@ -128,12 +128,24 @@ O'Neal
 ```
 
 ## Creating the Network
+## 构造神经网络
+This network extends [the last tutorial’s RNN](#Creating-the-Network) with an extra argument for the category tensor, which is concatenated along with the others. 
+这个神经网络比 [最后一个RNN教程](#Creating-the-Network)中的网络增加了额外参数类别张量，该参数与其他输入连接在一起。
 
-This network extends [the last tutorial’s RNN](#Creating-the-Network) with an extra argument for the category tensor, which is concatenated along with the others. The category tensor is a one-hot vector just like the letter input.
+The category tensor is a one-hot vector just like the letter input.
+类别可以像字母一样组成one-hot向量构成张量输入。
+We will interpret the output as the probability of the next letter. 
+我们将输出当成下一字母的可能性。
+When sampling, the most likely output letter is used as the next input letter.
+采样过程中，当前输出可能性最高的字母作为下一时刻输入字母。
+I added a second linear layer `o2o` (after combining hidden and output) to give it more muscle to work with. 
+在组合隐藏状态和输出之后我增加了第二个linear层`o2o`，使模型的性能更好。
 
-We will interpret the output as the probability of the next letter. When sampling, the most likely output letter is used as the next input letter.
+There’s also a dropout layer, which [randomly zeros parts of its input](https://arxiv.org/abs/1207.0580) with a given probability (here 0.1) and is usually used to fuzz inputs to prevent overfitting. 
+当然还有一个dropout层，参考这篇论文[随机将输入部分替换为0](https://arxiv.org/abs/1207.0580)给出的参数（dropout=0.1）来模糊处理输入防止过拟合。
 
-I added a second linear layer `o2o` (after combining hidden and output) to give it more muscle to work with. There’s also a dropout layer, which [randomly zeros parts of its input](https://arxiv.org/abs/1207.0580) with a given probability (here 0.1) and is usually used to fuzz inputs to prevent overfitting. Here we’re using it towards the end of the network to purposely add some chaos and increase sampling variety.
+Here we’re using it towards the end of the network to purposely add some chaos and increase sampling variety.
+我们将它添加到网络的末端，故意添加一些混乱使采样种类增加。
 
 ![](img/28a4f1426695fb55f1f6bc86278f6547.jpg)
 
@@ -168,10 +180,13 @@ class RNN(nn.Module):
 ```
 
 ## Training
+## 训练
 
 ### Preparing for Training
+### 训练准备
 
 First of all, helper functions to get random pairs of (category, line):
+首先，构造一个可以随机获取成对训练数据(category, line)的函数。
 
 ```py
 import random
@@ -188,16 +203,25 @@ def randomTrainingPair():
 
 ```
 
-For each timestep (that is, for each letter in a training word) the inputs of the network will be `(category, current letter, hidden state)` and the outputs will be `(next letter, next hidden state)`. So for each training set, we’ll need the category, a set of input letters, and a set of output/target letters.
+For each timestep (that is, for each letter in a training word) the inputs of the network will be `(category, current letter, hidden state)` and the outputs will be `(next letter, next hidden state)`. 
+对于每个时间步长（即，对于要训练单词中的每个字母），网络的输入将是“（类别，当前字母，隐藏状态）”，输出将是“（下一个字母，下一个隐藏状态）”。
+
+So for each training set, we’ll need the category, a set of input letters, and a set of output/target letters.
+因此，对于每个训练集，我们将需要类别、一组输入字母和一组输出/目标字母。
 
 Since we are predicting the next letter from the current letter for each timestep, the letter pairs are groups of consecutive letters from the line - e.g. for `"ABCD&lt;EOS&gt;"` we would create (“A”, “B”), (“B”, “C”), (“C”, “D”), (“D”, “EOS”).
+每一个时间序列，我们使用当前字母预测下一个字母，所以字母对来自于成行的单词。例如 对于 `"ABCD&lt;EOS&gt;"`，我们将创建（“A”，“B”），（“B”，“C”），（“C”，“D”），（“D”，“EOS”））。
 
 ![](img/3fae03d85aed3a2237fd4b2f7fb7b480.jpg)
 
-The category tensor is a [one-hot tensor](https://en.wikipedia.org/wiki/One-hot) of size `&lt;1 x n_categories&gt;`. When training we feed it to the network at every timestep - this is a design choice, it could have been included as part of initial hidden state or some other strategy.
+The category tensor is a [one-hot tensor](https://en.wikipedia.org/wiki/One-hot) of size `&lt;1 x n_categories&gt;`. 
+类别张量是一个`&lt;1 x n_categories&gt;`尺寸的[one-hot 向量](https://en.wikipedia.org/wiki/One-hot)
+
+When training we feed it to the network at every timestep - this is a design choice, it could have been included as part of initial hidden state or some other strategy.
+当训练时，我们按照时间序列将其提供给神经网络。
 
 ```py
-# One-hot vector for category
+# One-hot vector for category9
 def categoryTensor(category):
     li = all_categories.index(category)
     tensor = torch.zeros(1, n_categories)
@@ -221,6 +245,7 @@ def targetTensor(line):
 ```
 
 For convenience during training we’ll make a `randomTrainingExample` function that fetches a random (category, line) pair and turns them into the required (category, input, target) tensors.
+为了方便训练，我们将创建一个`randomTrainingExample`函数，该函数随机获取（类别，行）的对并将它们转换为所需要的（类别，输入，目标）格式张量。
 
 ```py
 # Make category, input, and target tensors from a random category, line pair
@@ -234,8 +259,10 @@ def randomTrainingExample():
 ```
 
 ### Training the Network
+### 训练神经网络
 
 In contrast to classification, where only the last output is used, we are making a prediction at every step, so we are calculating loss at every step.
+只使用了最后一个时刻输出的分类任务相比，我们
 
 The magic of autograd allows you to simply sum these losses at each step and call backward at the end.
 
@@ -334,8 +361,10 @@ Out:
 ```
 
 ### Plotting the Losses
+### 损失数据作图
 
 Plotting the historical loss from all_losses shows the network learning:
+从`all_losses`得到历史损失记录，反映了神经网络的学习情况：
 
 ```py
 import matplotlib.pyplot as plt
@@ -361,7 +390,6 @@ To sample we give the network a letter and ask what the next one is, feed that i
     *   If a regular letter, add to `output_name` and continue
 *   Return the final name
 
-Note
 
 Rather than having to give it a starting letter, another strategy would have been to include a “start of string” token in training and have the network choose its own starting letter.
 
@@ -424,19 +452,26 @@ Iua
 ```
 
 ## Exercises
+## 练习
 
 *   Try with a different dataset of category -&gt; line, for example:
+*   尝试其它的成行排列格式的数据集，比如:
     *   Fictional series -&gt; Character name
     *   Part of speech -&gt; Word
     *   Country -&gt; City
 *   Use a “start of sentence” token so that sampling can be done without choosing a start letter
 *   Get better results with a bigger and/or better shaped network
+*   通过更大和更复杂的网络获得更好的结果
     *   Try the nn.LSTM and nn.GRU layers
+    *   尝试 `nn.LSTM` 和 `nn.GRU` 层
     *   Combine multiple of these RNNs as a higher level network
+    *   组合这些 RNN构造更复杂的神经网络
+
+
 
 **Total running time of the script:** ( 7 minutes 7.943 seconds)
 
-[`Download Python source code: char_rnn_generation_tutorial.py`](../_downloads/8167177b6dd8ddf05bb9fe58744ac406/char_rnn_generation_tutorial.py)[`Download Jupyter notebook: char_rnn_generation_tutorial.ipynb`](../_downloads/a35c00bb5afae3962e1e7869c66872fa/char_rnn_generation_tutorial.ipynb)
+[`下载 Python源码: char_rnn_generation_tutorial.py`](../_downloads/8167177b6dd8ddf05bb9fe58744ac406/char_rnn_generation_tutorial.py)[`下载 Jupyter notebook: char_rnn_generation_tutorial.ipynb`](../_downloads/a35c00bb5afae3962e1e7869c66872fa/char_rnn_generation_tutorial.ipynb)
 
 [Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
 

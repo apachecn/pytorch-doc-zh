@@ -39,7 +39,7 @@ $ python predict.py Schmidhuber
 
 点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
-在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个姓氏，它们几乎都是罗马化的（但是我们仍需要将其从Unicode转换为ASCII编码）
+在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个姓氏，它们几乎都是罗马化的文本（但是我们仍需要将其从Unicode转换为ASCII编码）
 
 我们最终会得到一个语言对应姓氏列表的字典，`{language: [names ...]}`
 
@@ -544,11 +544,11 @@ predict('Satoshi')
 
 最终版的脚本 [in the Practical PyTorch repo](https://github.com/spro/practical-pytorch/tree/master/char-rnn-classification) 将上述代码拆分为几个文件：
 
-*   `data.py` (loads files)
-*   `model.py` (defines the RNN)
-*   `train.py` (runs training)
-*   `predict.py` (runs `predict()` with command line arguments)
-*   `server.py` (serve prediction as a JSON API with bottle.py)
+*   `data.py` (读取文件)
+*   `model.py` (构造RNN网络)
+*   `train.py` (运行训练过程)
+*   `predict.py` (在命令行中和参数一起运行`predict()`函数)
+*   `server.py` (使用bottle.py构建JSON API的预测服务)
 
 运行 `train.py` 来训练和保存网络
 
@@ -572,7 +572,7 @@ $ python predict.py Hazaki
     *   姓名 -> 性别
     *   角色姓名 -> 作者
     *   页面标题 -> blog 或 subreddit
-*   通过更大和/或更好的网络获得更好的结果
+*   通过更大和更复杂的网络获得更好的结果
     *   增加更多linear层
     *   尝试 `nn.LSTM` 和 `nn.GRU` 层
     *   组合这些 RNN构造更复杂的神经网络
