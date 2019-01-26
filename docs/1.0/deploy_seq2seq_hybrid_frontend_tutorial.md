@@ -1,32 +1,30 @@
-
-
-# Deploying a Seq2Seq Model with the Hybrid Frontend
+# 混合前端的seq2seq模型部署
 
 **Author:** [Matthew Inkawhich](https://github.com/MatthewInkawhich)
 
-This tutorial will walk through the process of transitioning a sequence-to-sequence model to Torch Script using PyTorch’s Hybrid Frontend. The model that we will convert is the chatbot model from the [Chatbot tutorial](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html). You can either treat this tutorial as a “Part 2” to the Chatbot tutorial and deploy your own pretrained model, or you can start with this document and use a pretrained model that we host. In the latter case, you can reference the original Chatbot tutorial for details regarding data preprocessing, model theory and definition, and model training.
+本教程将介绍如何是`seq2seq`模型转换为PyTorch可用的前端混合Torch脚本。 我们要转换的模型是来自于聊天机器人教程 [Chatbot tutorial](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html). 你可以把这个教程当做Chatbot tutorial的第二篇章,并且部署你的预训练模型，或者你也可以依据本文使用我们采取的预训练模型。就后者而言，你可以从原始的Chatbot tutorial参考更详细的数据预处理，模型理论和定义以及模型训练。
 
-## What is the Hybrid Frontend?
+## 什么是混合前端（Hybrid Frontend）?
 
-During the research and development phase of a deep learning-based project, it is advantageous to interact with an **eager**, imperative interface like PyTorch’s. This gives users the ability to write familiar, idiomatic Python, allowing for the use of Python data structures, control flow operations, print statements, and debugging utilities. Although the eager interface is a beneficial tool for research and experimentation applications, when it comes time to deploy the model in a production environment, having a **graph**-based model representation is very beneficial. A deferred graph representation allows for optimizations such as out-of-order execution, and the ability to target highly optimized hardware architectures. Also, a graph-based representation enables framework-agnostic model exportation. PyTorch provides mechanisms for incrementally converting eager-mode code into Torch Script, a statically analyzable and optimizable subset of Python that Torch uses to represent deep learning programs independently from the Python runtime.
+在一个基于深度学习项目的研发阶段, 使用像PyTorch这样**即时**`eager`、命令式的界面进行交互能带来很大便利。 这使用户能够在使用Python数据结构、控制流操作、打印语句和调试实用程序时通过熟悉的、惯用的Python脚本编写。尽管即时性界面对于研究和试验应用程序是一个有用的工具，但是对于生产环境中部署模型时，使用**基于图形**`graph-based`的模型表示将更加适用的。 一个延迟的图型展示意味着可以优化，比如无序执行操作，以及针对高度优化的硬件架构的能力。 此外，基于图形的表示支持框架无关的模型导出。PyTorch提供了将即时模式的代码增量转换为Torch脚本的机制，Torch脚本是一个在Python中的静态可分析和可优化的子集，Torch使用它来在Python运行时独立进行深度学习。
 
-The API for converting eager-mode PyTorch programs into Torch Script is found in the torch.jit module. This module has two core modalities for converting an eager-mode model to a Torch Script graph representation: **tracing** and **scripting**. The `torch.jit.trace` function takes a module or function and a set of example inputs. It then runs the example input through the function or module while tracing the computational steps that are encountered, and outputs a graph-based function that performs the traced operations. **Tracing** is great for straightforward modules and functions that do not involve data-dependent control flow, such as standard convolutional neural networks. However, if a function with data-dependent if statements and loops is traced, only the operations called along the execution route taken by the example input will be recorded. In other words, the control flow itself is not captured. To convert modules and functions containing data-dependent control flow, a **scripting** mechanism is provided. Scripting explicitly converts the module or function code to Torch Script, including all possible control flow routes. To use script mode, be sure to inherit from the the `torch.jit.ScriptModule` base class (instead of `torch.nn.Module`) and add a `torch.jit.script` decorator to your Python function or a `torch.jit.script_method` decorator to your module’s methods. The one caveat with using scripting is that it only supports a restricted subset of Python. For all details relating to the supported features, see the Torch Script [language reference](https://pytorch.org/docs/master/jit.html). To provide the maximum flexibility, the modes of Torch Script can be composed to represent your whole program, and these techniques can be applied incrementally.
+在Torch中的`torch.jit`模块可以找到将即时模式的PyTorch程序转换为Torch脚本的API。 这个模块有两个核心模式用于将即时模式模型转换为Torch脚本图形表示: **跟踪**`tracing` 以及 **脚本化**`scripting`。`torch.jit.trace` 函数接受一个模块或者一个函数和一组示例的输入，然后通过函数或模块运行输入示例，同时跟跟踪遇到的计算步骤，然后输出一个可以展示跟踪流程的基于图形的函数。**跟踪**`Tracing`对于不涉及依赖于数据的控制流的直接的模块和函数非常有用，就比如标准的卷积神经网络。然而，如果一个有数据依赖的if语句和循环的函数被跟踪，则只记录示例输入沿执行路径调用的操作。换句话说，控制流本身并没有被捕获。要将带有数据依赖控制流的模块和函数进行转化，已提供了一个脚本化机制。脚本显式地将模块或函数代码转换为Torch脚本，包括所有可能的控制流路径。 如需使用脚本模式`script mode`， 要确定继承了 `torch.jit.ScriptModule`基本类 (取代`torch.nn.Module`) 并且增加 `torch.jit.script` 装饰器到你的Python函数或者 `torch.jit.script_method` 装饰器到你的模块方法。使用脚本化的一个警告是，它只支持Python的一个受限子集。要获取与支持的特性相关的所有详细信息，请参考 Torch Script [language reference](https://pytorch.org/docs/master/jit.html)。为了达到最大的灵活性，可以组合Torch脚本的模式来表示整个程序，并且可以增量地应用这些技术。
 
-![workflow](img/eb1caa84cb095a30117f2a78a3aa69e4.jpg)
+[![workflow](https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/eb1caa84cb095a30117f2a78a3aa69e4.jpg)](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/eb1caa84cb095a30117f2a78a3aa69e4.jpg)
 
-## Acknowledgements
+## 致谢
 
-This tutorial was inspired by the following sources:
+本篇教程灵感来自如下资源：
 
-1.  Yuan-Kuei Wu’s pytorch-chatbot implementation: [https://github.com/ywk991112/pytorch-chatbot](https://github.com/ywk991112/pytorch-chatbot)
-2.  Sean Robertson’s practical-pytorch seq2seq-translation example: [https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation](https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation)
-3.  FloydHub’s Cornell Movie Corpus preprocessing code: [https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus](https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus)
+1. Yuan-Kuei Wu’s pytorch-chatbot implementation: <https://github.com/ywk991112/pytorch-chatbot>
+2. Sean Robertson’s practical-pytorch seq2seq-translation example: <https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation>
+3. FloydHub’s Cornell Movie Corpus preprocessing code: <https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus>
 
-## Prepare Environment
+## 预备环境
 
-First, we will import the required modules and set some constants. If you are planning on using your own model, be sure that the `MAX_LENGTH` constant is set correctly. As a reminder, this constant defines the maximum allowed sentence length during training and the maximum length output that the model is capable of producing.
+首先，我们应该要导入所需的模块以及设置一些常量。如果你想使用自己的模型，需要保证`MAX_LENGTH`常量设置正确。提醒一下，这个常量定义了在训练过程中允许的最大句子长度以及模型能够产生的最大句子长度输出。
 
-```py
+```python
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -42,38 +40,37 @@ import numpy as np
 
 device = torch.device("cpu")
 
-MAX_LENGTH = 10  # Maximum sentence length
+MAX_LENGTH = 10 # Maximum sentence length
 
 # Default word tokens
-PAD_token = 0  # Used for padding short sentences
-SOS_token = 1  # Start-of-sentence token
-EOS_token = 2  # End-of-sentence token
-
+PAD_token = 0 # Used for padding short sentences
+SOS_token = 1 # Start-of-sentence token
+EOS_token = 2 # End-of-sentence token
 ```
 
-## Model Overview
+## 模型概览
 
-As mentioned, the model that we are using is a [sequence-to-sequence](https://arxiv.org/abs/1409.3215) (seq2seq) model. This type of model is used in cases when our input is a variable-length sequence, and our output is also a variable length sequence that is not necessarily a one-to-one mapping of the input. A seq2seq model is comprised of two recurrent neural networks (RNNs) that work cooperatively: an **encoder** and a **decoder**.
+正如前文所言，我们使用的[sequence-to-sequence](https://arxiv.org/abs/1409.3215) (seq2seq) 模型。这种类型的模型用于输入是可变长度序列的情况，我们的输出也是一个可变长度序列它不一定是一对一输入映射。`seq2seq` 模型由两个递归神经网络(RNNs)组成：编码器 **encoder**和解码器**decoder**.
 
-![model](img/32a87cf8d0353ceb0037776f833b92a7.jpg)
+[![model](https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/32a87cf8d0353ceb0037776f833b92a7.jpg)](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/32a87cf8d0353ceb0037776f833b92a7.jpg)
 
-Image source: [https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/](https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/)
+图片来源: <https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/>
 
-### Encoder
+### 编码器(Encoder)
 
-The encoder RNN iterates through the input sentence one token (e.g. word) at a time, at each time step outputting an “output” vector and a “hidden state” vector. The hidden state vector is then passed to the next time step, while the output vector is recorded. The encoder transforms the context it saw at each point in the sequence into a set of points in a high-dimensional space, which the decoder will use to generate a meaningful output for the given task.
+编码器RNN在输入语句中每次迭代一个标记(例如单词)，每次步骤输出一个“输出”向量和一个“隐藏状态”向量。”隐藏状态“向量在之后则传递到下一个步骤，同时记录输出向量。编码器将序列中每个坐标代表的文本转换为高维空间中的一组坐标，解码器将使用这些坐标为给定的任务生成有意义的输出。
 
-### Decoder
+### 解码器(Decoder)
 
-The decoder RNN generates the response sentence in a token-by-token fashion. It uses the encoder’s context vectors, and internal hidden states to generate the next word in the sequence. It continues generating words until it outputs an _EOS_token_, representing the end of the sentence. We use an [attention mechanism](https://arxiv.org/abs/1409.0473) in our decoder to help it to “pay attention” to certain parts of the input when generating the output. For our model, we implement [Luong et al.](https://arxiv.org/abs/1508.04025)’s “Global attention” module, and use it as a submodule in our decode model.
+解码器RNN以逐个令牌的方式生成响应语句。它使用来自于编码器的文本向量和内部隐藏状态来生成序列中的下一个单词。它继续生成单词，直到输出表示句子结束的EOS语句。我们在解码器中使用专注机制[attention mechanism](https://arxiv.org/abs/1409.0473)来帮助它在输入的某些部分生成输出时"保持专注"。对于我们的模型，我们实现了 [Luong et al](https://arxiv.org/abs/1508.04025)等人的“全局关注`Global attention`”模块，并将其作为解码模型中的子模块。
 
-## Data Handling
+## 数据处理
 
-Although our models conceptually deal with sequences of tokens, in reality, they deal with numbers like all machine learning models do. In this case, every word in the model’s vocabulary, which was established before training, is mapped to an integer index. We use a `Voc` object to contain the mappings from word to index, as well as the total number of words in the vocabulary. We will load the object later before we run the model.
+尽管我们的模型在概念上处理标记序列，但在现实中，它们与所有机器学习模型一样处理数字。在这种情况下，在训练之前建立的模型词汇表中的每个单词都映射到一个整数索引。我们使用`Voc`对象来包含从单词到索引的映射，以及词汇表中的单词总数。我们将在运行模型之前加载对象。
 
-Also, in order for us to be able to run evaluations, we must provide a tool for processing our string inputs. The `normalizeString` function converts all characters in a string to lowercase and removes all non-letter characters. The `indexesFromSentence` function takes a sentence of words and returns the corresponding sequence of word indexes.
+此外，为了能够进行评估，我们必须提供一个处理字符串输入的工具。`normalizeString`函数将字符串中的所有字符转换为小写，并删除所有非字母字符。`indexesFromSentence`函数接受一个单词的句子并返回相应的单词索引序列。
 
-```py
+```python
 class Voc:
     def __init__(self, name):
         self.name = name
@@ -81,7 +78,7 @@ class Voc:
         self.word2index = {}
         self.word2count = {}
         self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
-        self.num_words = 3  # Count SOS, EOS, PAD
+        self.num_words = 3 # Count SOS, EOS, PAD
 
     def addSentence(self, sentence):
         for word in sentence.split(' '):
@@ -127,18 +124,17 @@ def normalizeString(s):
 # Takes string sentence, returns sentence of word indexes
 def indexesFromSentence(voc, sentence):
     return [voc.word2index[word] for word in sentence.split(' ')] + [EOS_token]
-
 ```
 
-## Define Encoder
+## 编码器定义
 
-We implement our encoder’s RNN with the `torch.nn.GRU` module which we feed a batch of sentences (vectors of word embeddings) and it internally iterates through the sentences one token at a time calculating the hidden states. We initialize this module to be bidirectional, meaning that we have two independent GRUs: one that iterates through the sequences in chronological order, and another that iterates in reverse order. We ultimately return the sum of these two GRUs’ outputs. Since our model was trained using batching, our `EncoderRNN` model’s `forward` function expects a padded input batch. To batch variable-length sentences, we allow a maximum of _MAX_LENGTH_ tokens in a sentence, and all sentences in the batch that have less than _MAX_LENGTH_ tokens are padded at the end with our dedicated _PAD_token_ tokens. To use padded batches with a PyTorch RNN module, we must wrap the forward pass call with `torch.nn.utils.rnn.pack_padded_sequence` and `torch.nn.utils.rnn.pad_packed_sequence` data transformations. Note that the `forward` function also takes an `input_lengths` list, which contains the length of each sentence in the batch. This input is used by the `torch.nn.utils.rnn.pack_padded_sequence` function when padding.
+我们通过`torch.nn.GRU`模块实现编码器的RNN。本模块接受一批语句(嵌入单词的向量)的输入，它在内部遍历这些句子，每次一个标记，计算隐藏状态。我们将这个模块初始化为双向的，这意味着我们有两个独立的GRUs:一个按时间顺序遍历序列，另一个按相反顺序遍历序列。我们最终返回这两个GRUs输出的和。由于我们的模型是使用批处理进行训练的，所以我们的`EncoderRNN`模型的`forward`函数需要一个填充的输入批处理。为了批量处理可变长度的句子，我们通过`MAX_LENGTH`令牌允许一个句子中支持的最大长度，并且批处理中所有小于`MAX_LENGTH`令牌的句子都使用我们专用的`PAD_token`令牌填充在最后。要使用带有PyTorch RNN模块的批量填充，我们必须把转发`forward`密令在调用`torch.nn.utils.rnn.pack_padded_sequence`和`torch.nn.utils.rnn.pad_packed_sequence`数据转换时进行打包。注意，`forward`函数还接受一个`input_length`列表，其中包含批处理中每个句子的长度。该输入在填充时通过`torch.nn.utils.rnn.pack_padded_sequence`使用。
 
-### Hybrid Frontend Notes:
+### 混合前端笔记:
 
-Since the encoder’s `forward` function does not contain any data-dependent control flow, we will use **tracing** to convert it to script mode. When tracing a module, we can leave the module definition as-is. We will initialize all models towards the end of this document before we run evaluations.
+由于编码器的转发函数`forward`不包含任何依赖于数据的控制流，因此我们将使用**跟踪**`tracing`将其转换为脚本模式`script mode`。在跟踪模块时，我们可以保持模块定义不变。在运行评估之前，我们将在本文末尾初始化所有模型。
 
-```py
+```python
 class EncoderRNN(nn.Module):
     def __init__(self, hidden_size, embedding, n_layers=1, dropout=0):
         super(EncoderRNN, self).__init__()
@@ -147,7 +143,7 @@ class EncoderRNN(nn.Module):
         self.embedding = embedding
 
         # Initialize GRU; the input_size and hidden_size params are both set to 'hidden_size'
-        #   because our input size is a word embedding with number of features == hidden_size
+        # because our input size is a word embedding with number of features == hidden_size
         self.gru = nn.GRU(hidden_size, hidden_size, n_layers,
                           dropout=(0 if n_layers == 1 else dropout), bidirectional=True)
 
@@ -164,14 +160,13 @@ class EncoderRNN(nn.Module):
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, : ,self.hidden_size:]
         # Return output and final hidden state
         return outputs, hidden
-
 ```
 
-## Define Decoder’s Attention Module
+## 解码专注模块定义
 
-Next, we’ll define our attention module (`Attn`). Note that this module will be used as a submodule in our decoder model. Luong et al. consider various “score functions”, which take the current decoder RNN output and the entire encoder output, and return attention “energies”. This attention energies tensor is the same size as the encoder output, and the two are ultimately multiplied, resulting in a weighted tensor whose largest values represent the most important parts of the query sentence at a particular time-step of decoding.
+接下来，我们将定义我们的注意力模块(`Attn`)。请注意，此模块将用作解码器模型中的子模块。Luong等人考虑了各种“分数函数”`score functions`，它们取当前解码器RNN输出和整个编码器输出，并返回关注点“能值”`engergies`。这个关注能值张量`attension energies tensor`与编码器输出的大小相同，两者最终相乘，得到一个加权张量，其最大值表示在特定时间步长解码的查询语句最重要的部分。
 
-```py
+```python
 # Luong attention layer
 class Attn(torch.nn.Module):
     def __init__(self, method, hidden_size):
@@ -211,18 +206,17 @@ class Attn(torch.nn.Module):
 
         # Return the softmax normalized probability scores (with added dimension)
         return F.softmax(attn_energies, dim=1).unsqueeze(1)
-
 ```
 
-## Define Decoder
+## 解码器定义
 
-Similarly to the `EncoderRNN`, we use the `torch.nn.GRU` module for our decoder’s RNN. This time, however, we use a unidirectional GRU. It is important to note that unlike the encoder, we will feed the decoder RNN one word at a time. We start by getting the embedding of the current word and applying a [dropout](https://pytorch.org/docs/stable/nn.html?highlight=dropout#torch.nn.Dropout). Next, we forward the embedding and the last hidden state to the GRU and obtain a current GRU output and hidden state. We then use our `Attn` module as a layer to obtain the attention weights, which we multiply by the encoder’s output to obtain our attended encoder output. We use this attended encoder output as our `context` tensor, which represents a weighted sum indicating what parts of the encoder’s output to pay attention to. From here, we use a linear layer and softmax normalization to select the next word in the output sequence.
+类似于`EncoderRNN`，我们使用`torch.nn.GRU`模块作为我们的解码器RNN。然而，这一次我们使用单向GRU。需要注意的是，与编码器不同，我们将向解码器RNN每次提供一个单词。我们首先得到当前单词的嵌入并应用抛出功能[dropout](https://pytorch.org/docs/stable/nn.html?highlight=dropout#torch.nn.Dropout)。接下来，我们将嵌入和最后的隐藏状态转发给GRU，得到当前的GRU输出和隐藏状态。然后，我们使用Attn模块作为一个层来获得专注权重，我们将其乘以编码器的输出来获得我们的参与编码器输出。我们使用这个参与编码器输出作为文本`context`张量，它表示一个加权和，表示编码器输出的哪些部分需要注意。在这里，我们使用线性层`linear layer`和`softmax normalization `规范化来选择输出序列中的下一个单词。
 
-### Hybrid Frontend Notes:
+### 混合前端笔记:
 
-Similarly to the `EncoderRNN`, this module does not contain any data-dependent control flow. Therefore, we can once again use **tracing** to convert this model to Torch Script after it is initialized and its parameters are loaded.
+与`EncoderRNN`类似，此模块不包含任何依赖于数据的控制流。因此，在初始化该模型并加载其参数之后，我们可以再次使用跟踪`tracing`将其转换为Torch脚本。
 
-```py
+```python
 class LuongAttnDecoderRNN(nn.Module):
     def __init__(self, attn_model, embedding, hidden_size, output_size, n_layers=1, dropout=0.1):
         super(LuongAttnDecoderRNN, self).__init__()
@@ -264,41 +258,40 @@ class LuongAttnDecoderRNN(nn.Module):
         output = F.softmax(output, dim=1)
         # Return output and final hidden state
         return output, hidden
-
 ```
 
-## Define Evaluation
+## 评估定义
 
-### Greedy Search Decoder
+### 贪婪搜索解码器(GreedySearchDecoder)
 
-As in the chatbot tutorial, we use a `GreedySearchDecoder` module to facilitate the actual decoding process. This module has the trained encoder and decoder models as attributes, and drives the process of encoding an input sentence (a vector of word indexes), and iteratively decoding an output response sequence one word (word index) at a time.
+在聊天机器人教程中，我们使用`GreedySearchDecoder`模块来简化实际的解码过程。该模块将训练好的编码器和解码器模型作为属性，驱动输入语句(词索引向量)的编码过程，并一次一个词(词索引)迭代地解码输出响应序列
 
-Encoding the input sequence is straightforward: simply forward the entire sequence tensor and its corresponding lengths vector to the `encoder`. It is important to note that this module only deals with one input sequence at a time, **NOT** batches of sequences. Therefore, when the constant **1** is used for declaring tensor sizes, this corresponds to a batch size of 1\. To decode a given decoder output, we must iteratively run forward passes through our decoder model, which outputs softmax scores corresponding to the probability of each word being the correct next word in the decoded sequence. We initialize the `decoder_input` to a tensor containing an _SOS_token_. After each pass through the `decoder`, we _greedily_ append the word with the highest softmax probability to the `decoded_words` list. We also use this word as the `decoder_input` for the next iteration. The decoding process terminates either if the `decoded_words` list has reached a length of _MAX_LENGTH_ or if the predicted word is the _EOS_token_.
+对输入序列进行编码很简单:只需将整个序列张量及其对应的长度向量转发给编码器。需要注意的是，这个模块一次只处理一个输入序列，而不是成批的序列。因此，当常数1用于声明张量大小时，它对应于批处理大小为1。要解码给定的解码器输出，我们必须通过解码器模型迭代地向前运行，该解码器模型输出softmax分数，该分数对应于每个单词在解码序列中是正确的下一个单词的概率。我们将`decoder_input`初始化为一个包含SOS_token的张量。在每次通过解码器之后，我们贪婪地将`softmax`概率最高的单词追加到`decoded_words`列表中。我们还使用这个单词作为下一个迭代的decoder_input`。如果``decoded_words`列表的长度达到`MAX_LENGTH`，或者预测的单词是`EOS_token`，那么解码过程将终止。
 
-### Hybrid Frontend Notes:
+### 混合前端注释:
 
-The `forward` method of this module involves iterating over the range of `\([0, max\_length)\)` when decoding an output sequence one word at a time. Because of this, we should use **scripting** to convert this module to Torch Script. Unlike with our encoder and decoder models, which we can trace, we must make some necessary changes to the `GreedySearchDecoder` module in order to initialize an object without error. In other words, we must ensure that our module adheres to the rules of the scripting mechanism, and does not utilize any language features outside of the subset of Python that Torch Script includes.
+该模块的`forward`方法涉及到在每次解码一个单词的输出序列时，遍历/([0,max/_length]/)的范围。因此，我们应该使用脚本将这个模块转换为Torch脚本。与我们可以跟踪的编码器和解码器模型不同，我们必须对`GreedySearchDecoder`模块进行一些必要的更改，以便在不出错的情况下初始化对象。换句话说，我们必须确保我们的模块遵守脚本机制的规则，并且不使用Torch脚本包含的Python子集之外的任何语言特性。
 
-To get an idea of some manipulations that may be required, we will go over the diffs between the `GreedySearchDecoder` implementation from the chatbot tutorial and the implementation that we use in the cell below. Note that the lines highlighted in red are lines removed from the original implementation and the lines highlighted in green are new.
+为了了解可能需要的一些操作，我们将回顾聊天机器人教程中的`GreedySearchDecoder`实现与下面单元中使用的实现之间的区别。请注意，用红色突出显示的行是从原始实现中删除的行，而用绿色突出显示的行是新的。
 
-![diff](img/452204771a8c708918247913c14bdb7d.jpg)
+[![diff](https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/452204771a8c708918247913c14bdb7d.jpg)](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/452204771a8c708918247913c14bdb7d.jpg)
 
-#### Changes:
+#### 变更事项:
 
-*   `nn.Module` -&gt; `torch.jit.ScriptModule`
-    *   In order to use PyTorch’s scripting mechanism on a module, that module must inherit from the `torch.jit.ScriptModule`.
-*   Added `decoder_n_layers` to the constructor arguments
-    *   This change stems from the fact that the encoder and decoder models that we pass to this module will be a child of `TracedModule` (not `Module`). Therefore, we cannot access the decoder’s number of layers with `decoder.n_layers`. Instead, we plan for this, and pass this value in during module construction.
-*   Store away new attributes as constants
-    *   In the original implementation, we were free to use variables from the surrounding (global) scope in our `GreedySearchDecoder`’s `forward` method. However, now that we are using scripting, we do not have this freedom, as the assumption with scripting is that we cannot necessarily hold on to Python objects, especially when exporting. An easy solution to this is to store these values from the global scope as attributes to the module in the constructor, and add them to a special list called `__constants__` so that they can be used as literal values when constructing the graph in the `forward` method. An example of this usage is on NEW line 19, where instead of using the `device` and `SOS_token` global values, we use our constant attributes `self._device` and `self._SOS_token`.
-*   Add the `torch.jit.script_method` decorator to the `forward` method
-    *   Adding this decorator lets the JIT compiler know that the function that it is decorating should be scripted.
-*   Enforce types of `forward` method arguments
-    *   By default, all parameters to a Torch Script function are assumed to be Tensor. If we need to pass an argument of a different type, we can use function type annotations as introduced in [PEP 3107](https://www.python.org/dev/peps/pep-3107/). In addition, it is possible to declare arguments of different types using MyPy-style type annotations (see [doc](https://pytorch.org/docs/master/jit.html#types)).
-*   Change initialization of `decoder_input`
-    *   In the original implementation, we initialized our `decoder_input` tensor with `torch.LongTensor([[SOS_token]])`. When scripting, we are not allowed to initialize tensors in a literal fashion like this. Instead, we can initialize our tensor with an explicit torch function such as `torch.ones`. In this case, we can easily replicate the scalar `decoder_input` tensor by multiplying 1 by our SOS_token value stored in the constant `self._SOS_token`.
+- `nn.Module` -&gt; `torch.jit.ScriptModule`
+  - 为了在模块上使用PyTorch的脚本化机制, 模型需要从 `torch.jit.ScriptModule`继承。
+- 将 `decoder_n_layers` 追加到结构参数
+  - 这种变化源于这样一个事实，即我们传递给这个模块的编码器和解码器模型将是`TracedModule`(非模块)的子模块。因此，我们无法使用`decoder.n_layers`访问解码器的层数。相反，我们对此进行计划，并在模块构建过程中传入此值。
+- 将新属性作为常量保存
+  - 在最初的实现中， 我们可以在`GreedySearchDecoder`的`forward`方法中自由地使用来自周围(全局)范围的变量. 然而，现在我们正在使用脚本，我们没有这种自由，因为脚本处理的设想4是我们不一定要保留Python对象，尤其是在导出时。 一个简单的解决方案是将全局作用域中的这些值作为属性存储到构造函数中的模块中， 并将它们添加到一个名为`__constants__`的特殊列表中，以便在`forward`方法中构造图形时将它们用作文本值。这种用法的一个例子在第19行，取代使用 `device` 和 `SOS_token` 全局值，我们使用常量属性 `self._device` 和 `self._SOS_token`。
+- 将 `torch.jit.script_method` 装饰器添加到 `forward` 方法
+  - 添加这个装饰器可以让JIT编译器知道它所装饰的函数应该是脚本化的。
+- 强制 `forward` 方法的参数类型
+  - 默认情况下，Torch脚本函数的所有参数都假定为张量。如果需要传递不同类型的参数，可以使用[PEP 3107](https://www.python.org/dev/peps/pep-3107/)中引入的函数类型注释。 此外，还可以使用`MyPy-style`类型的注释声明不同类型的参数(参见(see [doc](https://pytorch.org/docs/master/jit.html#types)))。
+- 变更`decoder_input`的初始化
+  - 在原有实现中，我们用`torch.LongTensor([[SOS_token]])`初始化了 `decoder_input` 的张量。 当脚本编写时,我们不允许像这样以一种文字方式初始化张量。 取而代之的是，我们可以用一个显式的torch函数，比如`torch.ones`来初始化我们的张量。这种情况下，我们可以很方便的复制标量 `decoder_input` 和通过将1乘以我们存在常量中的` SOS_token`的值 `self._SOS_token`得到的张量。
 
-```py
+```python
 class GreedySearchDecoder(torch.jit.ScriptModule):
     def __init__(self, encoder, decoder, decoder_n_layers):
         super(GreedySearchDecoder, self).__init__()
@@ -334,18 +327,17 @@ class GreedySearchDecoder(torch.jit.ScriptModule):
             decoder_input = torch.unsqueeze(decoder_input, 0)
         # Return collections of word tokens and scores
         return all_tokens, all_scores
-
 ```
 
-### Evaluating an Input
+### 输入评估
 
-Next, we define some functions for evaluating an input. The `evaluate` function takes a normalized string sentence, processes it to a tensor of its corresponding word indexes (with batch size of 1), and passes this tensor to a `GreedySearchDecoder` instance called `searcher` to handle the encoding/decoding process. The searcher returns the output word index vector and a scores tensor corresponding to the softmax scores for each decoded word token. The final step is to convert each word index back to its string representation using `voc.index2word`.
+接下来，我们定义一些函数来计算输入。求值函数`evaluate`接受一个规范化字符串语句，将其处理为其对应的单词索引张量(批处理大小为1)，并将该张量传递给一个名为`searcher`的`GreedySearchDecoder`实例，以处理编码/解码过程。检索器返回输出的单词索引向量和一个分数张量，该张量对应于每个解码的单词标记的softmax分数。最后一步是使用`voc.index2word`将每个单词索引转换回其字符串表示形式。
 
-We also define two functions for evaluating an input sentence. The `evaluateInput` function prompts a user for an input, and evaluates it. It will continue to ask for another input until the user enters ‘q’ or ‘quit’.
+我们还定义了两个函数来计算输入语句。`evaluateInput`函数提示用户输入，并计算输入。它持续请求另一次输入，直到用户输入“q”或“quit”。
 
-The `evaluateExample` function simply takes a string input sentence as an argument, normalizes it, evaluates it, and prints the response.
+`evaluateExample`函数只接受一个字符串输入语句作为参数，对其进行规范化、计算并输出响应。
 
-```py
+```python
 def evaluate(encoder, decoder, searcher, voc, sentence, max_length=MAX_LENGTH):
     ### Format input sentence as a batch
     # words -> indexes
@@ -392,33 +384,32 @@ def evaluateExample(sentence, encoder, decoder, searcher, voc):
     output_words = evaluate(encoder, decoder, searcher, voc, input_sentence)
     output_words[:] = [x for x in output_words if not (x == 'EOS' or x == 'PAD')]
     print('Bot:', ' '.join(output_words))
-
 ```
 
-## Load Pretrained Parameters
+## 加载预训练参数
 
-Ok, its time to load our model!
+好的，是时候加载我们的模型了
 
-### Use hosted model
+### 使用托管模型
 
-To load the hosted model:
+托管模型使用步骤:
 
-1.  Download the model [here](https://download.pytorch.org/models/tutorials/4000_checkpoint.tar).
-2.  Set the `loadFilename` variable to the path to the downloaded checkpoint file.
-3.  Leave the `checkpoint = torch.load(loadFilename)` line uncommented, as the hosted model was trained on CPU.
+1. 下载模型 [here](https://download.pytorch.org/models/tutorials/4000_checkpoint.tar).
+2. 设置`loadFilename`变量作为下载的检查点文件的路径
+3. 将`checkpoint = torch.load(loadFilename)` 行取消注释，表示托管模型在CPU上训练。
 
-### Use your own model
+### 使用自己的模型
 
-To load your own pre-trained model:
+加载自己的预训练模型设计步骤:
 
-1.  Set the `loadFilename` variable to the path to the checkpoint file that you wish to load. Note that if you followed the convention for saving the model from the chatbot tutorial, this may involve changing the `model_name`, `encoder_n_layers`, `decoder_n_layers`, `hidden_size`, and `checkpoint_iter` (as these values are used in the model path).
-2.  If you trained the model on a CPU, make sure that you are opening the checkpoint with the `checkpoint = torch.load(loadFilename)` line. If you trained the model on a GPU and are running this tutorial on a CPU, uncomment the `checkpoint = torch.load(loadFilename, map_location=torch.device('cpu'))` line.
+1. 将`loadFilename`变量设置为希望加载的检查点文件的路径。注意，如果您遵循从chatbot tutorial中保存模型的协议，这会涉及更改`model_name`、`encoder_n_layers`、`decoder_n_layers`、`hidden_size`和`checkpoint_iter`(因为这些值在模型路径中使用到)。
+2. 如果你在CPU上训练，确保你在 `checkpoint = torch.load(loadFilename)` 行打开了检查点。如果你在GPU 上训练，并且在CPU运行这篇教程，解除`checkpoint = torch.load(loadFilename, map_location=torch.device('cpu'))` 的注释。
 
-### Hybrid Frontend Notes:
+### 混合前端的注释:
 
-Notice that we initialize and load parameters into our encoder and decoder models as usual. Also, we must call `.to(device)` to set the device options of the models and `.eval()` to set the dropout layers to test mode **before** we trace the models. `TracedModule` objects do not inherit the `to` or `eval` methods.
+请注意，我们像往常一样初始化并将参数加载到编码器和解码器模型中。另外，在跟踪模型之前，我们必须调用`.to(device)`来设置模型的设备选项，调用`.eval()`来设置抛出层`dropout layer`为test mode。`TracedModule`对象不继承`to`或`eval`方法
 
-```py
+```python
 save_dir = os.path.join("data", "save")
 corpus_name = "cornell movie-dialogs corpus"
 
@@ -471,32 +462,31 @@ decoder = decoder.to(device)
 encoder.eval()
 decoder.eval()
 print('Models built and ready to go!')
-
 ```
 
 Out:
 
-```py
+```
 Building encoder and decoder ...
 Models built and ready to go!
 
 ```
 
-## Convert Model to Torch Script
+## 模型转换为 Torch 脚本
 
-### Encoder
+### 编码器
 
-As previously mentioned, to convert the encoder model to Torch Script, we use **tracing**. Tracing any module requires running an example input through the model’s `forward` method and trace the computational graph that the data encounters. The encoder model takes an input sequence and a corresponding lengths tensor. Therefore, we create an example input sequence tensor `test_seq`, which is of appropriate size (MAX_LENGTH, 1), contains numbers in the appropriate range `\([0, voc.num\_words)\)`, and is of the appropriate type (int64). We also create a `test_seq_length` scalar which realistically contains the value corresponding to how many words are in the `test_seq`. The next step is to use the `torch.jit.trace` function to trace the model. Notice that the first argument we pass is the module that we want to trace, and the second is a tuple of arguments to the module’s `forward` method.
+正如前文所述，要将编码器模型转换为Torch脚本，我们需要使用跟踪`Tracing`。跟踪任何需要通过模型的`forward`方法运行一个示例输入，以及跟踪数据相遇时的图形计算。编码器模型接收一个输入序列和一个长度相关的张量。因此，我们创建一个输入序列`test_seq`，配置合适的大小(MAX_LENGTH,1) 包含适当范围内的数值`\([0,voc.num\_words]\)`以及搭配的类型(int64)。我们还创建了`test_seq_length`标量，该标量实际包含与`test_seq`中单词数量对应的值。下一步是使用`torch.jit.trace`函数来跟踪模型。注意，我们传递的第一个参数是要跟踪的模块，第二个参数是模块`forward`方法的参数元组。
 
-### Decoder
+### 解码器
 
-We perform the same process for tracing the decoder as we did for the encoder. Notice that we call forward on a set of random inputs to the traced_encoder to get the output that we need for the decoder. This is not required, as we could also simply manufacture a tensor of the correct shape, type, and value range. This method is possible because in our case we do not have any constraints on the values of the tensors because we do not have any operations that could fault on out-of-range inputs.
+我们对解码器的跟踪过程与对编码器的跟踪过程相同。请注意，我们对traced_encoder的一组随机输入调用forward，以获得解码器所需的输出。这不是必需的，因为我们也可以简单地生成一个形状、类型和值范围正确的张量。这种方法是可行的，因为在我们的例子中，我们对张量的值没有任何约束，因为我们没有任何操作可能导致超出范围的输入出错。
 
-### GreedySearchDecoder
+### 贪婪搜索解码器(GreedySearchDecoder)
 
-Recall that we scripted our searcher module due to the presence of data-dependent control flow. In the case of scripting, we do the conversion work up front by adding the decorator and making sure the implementation complies with scripting rules. We initialize the scripted searcher the same way that we would initialize an un-scripted variant.
+回想一下，由于存在依赖于数据的控制流，我们为搜索器模块编写了脚本。在脚本化的情况下，我们通过添加修饰符并确保实现符合脚本规则来预先完成转换工作。我们初始化脚本搜索器的方式与初始化未脚本化变量的方式相同。
 
-```py
+```python
 ### Convert encoder model
 # Create artificial inputs
 test_seq = torch.LongTensor(MAX_LENGTH, 1).random_(0, voc.num_words)
@@ -517,18 +507,18 @@ scripted_searcher = GreedySearchDecoder(traced_encoder, traced_decoder, decoder.
 
 ```
 
-## Print Graphs
+## 图形打印
 
-Now that our models are in Torch Script form, we can print the graphs of each to ensure that we captured the computational graph appropriately. Since our `scripted_searcher` contains our `traced_encoder` and `traced_decoder`, these graphs will print inline.
+现在我们的模型是Torch脚本形式的，我们可以打印每个模型的图形，以确保适当地捕获计算图形。因为`scripted_searcher`包含`traced_encoder`和`traced_decoder`，所以这些图将以内联方式打印
 
-```py
+```python
 print('scripted_searcher graph:\n', scripted_searcher.graph)
 
 ```
 
 Out:
 
-```py
+```python
 scripted_searcher graph:
  graph(%input_seq : Tensor
       %input_length : Tensor
@@ -640,13 +630,13 @@ scripted_searcher graph:
 
 ```
 
-## Run Evaluation
+## 运行结果评估
 
-Finally, we will run evaluation of the chatbot model using the Torch Script models. If converted correctly, the models will behave exactly as they would in their eager-mode representation.
+最后，我们将使用Torch脚本模型对聊天机器人模型进行评估。如果转换正确，模型的行为将与它们在即时模式表示中的行为完全相同。
 
-By default, we evaluate a few common query sentences. If you want to chat with the bot yourself, uncomment the `evaluateInput` line and give it a spin.
+默认情况下，我们计算一些常见的查询语句。如果您想自己与机器人聊天，取消对`evaluateInput`行的注释并让它旋转。
 
-```py
+```python
 # Evaluate examples
 sentences = ["hello", "what's up?", "who are you?", "where am I?", "where are you from?"]
 for s in sentences:
@@ -659,7 +649,7 @@ for s in sentences:
 
 Out:
 
-```py
+```python
 > hello
 Bot: hello .
 > what's up?
@@ -673,18 +663,19 @@ Bot: south america .
 
 ```
 
-## Save Model
+## 保存模型
 
-Now that we have successfully converted our model to Torch Script, we will serialize it for use in a non-Python deployment environment. To do this, we can simply save our `scripted_searcher` module, as this is the user-facing interface for running inference against the chatbot model. When saving a Script module, use script_module.save(PATH) instead of torch.save(model, PATH).
+现在我们已经成功地将模型转换为Torch脚本，接下来将对其进行序列化，以便在非python部署环境中使用。为此，我们只需保存`scripted_searcher`模块，因为这是用于对聊天机器人模型运行推理的面向用户的接口。保存脚本模块时，使用`script_module.save(PATH)`代替`torch.save(model, PATH)`。
 
-```py
+```python
 scripted_searcher.save("scripted_chatbot.pth")
 
 ```
 
-**Total running time of the script:** ( 0 minutes 1.121 seconds)
+**脚本总运行时长:** ( 0 minutes 1.121 seconds)
 
-[`Download Python source code: deploy_seq2seq_hybrid_frontend_tutorial.py`](../_downloads/6dce8206a711b28b2b916bfd7de16bbc/deploy_seq2seq_hybrid_frontend_tutorial.py)[`Download Jupyter notebook: deploy_seq2seq_hybrid_frontend_tutorial.ipynb`](../_downloads/e7870c00b625a9c7c808f8fa7a88fcab/deploy_seq2seq_hybrid_frontend_tutorial.ipynb)
+[`Download Python source code: deploy_seq2seq_hybrid_frontend_tutorial.py`](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/_downloads/6dce8206a711b28b2b916bfd7de16bbc/deploy_seq2seq_hybrid_frontend_tutorial.py)
 
-[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
+[`Download Jupyter notebook: deploy_seq2seq_hybrid_frontend_tutorial.ipynb`](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/_downloads/e7870c00b625a9c7c808f8fa7a88fcab/deploy_seq2seq_hybrid_frontend_tutorial.ipynb)
 
+[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io/)
