@@ -3,7 +3,7 @@
 # torch.utils.dlpack
 
 ```py
-torch.utils.dlpack.from_dlpack(dlpack) → Tensor¶
+torch.utils.dlpack.from_dlpack(dlpack) → Tensor
 ```
 
 Decodes a DLPack to a tensor.
@@ -14,7 +14,7 @@ Decodes a DLPack to a tensor.
 The tensor will share the memory with the object represented in the dlpack. Note that each dlpack can only be consumed once.
 
 ```py
-torch.utils.dlpack.to_dlpack(tensor) → PyCapsule¶
+torch.utils.dlpack.to_dlpack(tensor) → PyCapsule
 ```
 
 Returns a DLPack representing the tensor.

@@ -87,7 +87,7 @@ for input, target in dataset:
 ## Algorithms
 
 ```py
-class torch.optim.Optimizer(params, defaults)¶
+class torch.optim.Optimizer(params, defaults)
 ```
 
 Base class for all optimizers.
@@ -105,7 +105,7 @@ Parameters need to be specified as collections that have a deterministic orderin
 | --- | --- |
 
 ```py
-add_param_group(param_group)¶
+add_param_group(param_group)
 ```
 
 Add a param group to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") s &lt;cite&gt;param_groups&lt;/cite&gt;.
@@ -121,7 +121,7 @@ This can be useful when fine tuning a pre-trained network as frozen layers can b
 | --- | --- |
 
 ```py
-load_state_dict(state_dict)¶
+load_state_dict(state_dict)
 ```
 
 Loads the optimizer state.
@@ -130,7 +130,7 @@ Loads the optimizer state.
 | --- | --- |
 
 ```py
-state_dict()¶
+state_dict()
 ```
 
 Returns the state of the optimizer as a [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)").
@@ -145,7 +145,7 @@ It contains two entries:
 *   param_groups - a dict containing all parameter groups
 
 ```py
-step(closure)¶
+step(closure)
 ```
 
 Performs a single optimization step (parameter update).
@@ -154,13 +154,13 @@ Performs a single optimization step (parameter update).
 | --- | --- |
 
 ```py
-zero_grad()¶
+zero_grad()
 ```
 
 Clears the gradients of all optimized [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") s.
 
 ```py
-class torch.optim.Adadelta(params, lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)¶
+class torch.optim.Adadelta(params, lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)
 ```
 
 Implements Adadelta algorithm.
@@ -179,7 +179,7 @@ It has been proposed in [ADADELTA: An Adaptive Learning Rate Method](https://arx
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -188,7 +188,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0, initial_accumulator_value=0)¶
+class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0, initial_accumulator_value=0)
 ```
 
 Implements Adagrad algorithm.
@@ -206,7 +206,7 @@ It has been proposed in [Adaptive Subgradient Methods for Online Learning and St
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -215,7 +215,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)¶
+class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
 ```
 
 Implements Adam algorithm.
@@ -235,7 +235,7 @@ It has been proposed in [Adam: A Method for Stochastic Optimization](https://arx
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -244,7 +244,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)¶
+class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)
 ```
 
 Implements lazy version of Adam algorithm suitable for sparse tensors.
@@ -262,7 +262,7 @@ In this variant, only moments that show up in the gradient get updated, and only
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -271,7 +271,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)¶
+class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
 ```
 
 Implements Adamax algorithm (a variant of Adam based on infinity norm).
@@ -290,7 +290,7 @@ It has been proposed in [Adam: A Method for Stochastic Optimization](https://arx
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -299,7 +299,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, weight_decay=0)¶
+class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, weight_decay=0)
 ```
 
 Implements Averaged Stochastic Gradient Descent.
@@ -319,7 +319,7 @@ It has been proposed in [Acceleration of stochastic approximation by averaging](
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -328,7 +328,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad=1e-05, tolerance_change=1e-09, history_size=100, line_search_fn=None)¶
+class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad=1e-05, tolerance_change=1e-09, history_size=100, line_search_fn=None)
 ```
 
 Implements L-BFGS algorithm.
@@ -358,7 +358,7 @@ This is a very memory intensive optimizer (it requires additional `param_bytes *
 | --- | --- |
 
 ```py
-step(closure)¶
+step(closure)
 ```
 
 Performs a single optimization step.
@@ -367,7 +367,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)¶
+class torch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)
 ```
 
 Implements RMSprop algorithm.
@@ -390,7 +390,7 @@ The centered version first appears in [Generating Sequences With Recurrent Neura
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -399,7 +399,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50))¶
+class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50))
 ```
 
 Implements the resilient backpropagation algorithm.
@@ -415,7 +415,7 @@ Implements the resilient backpropagation algorithm.
 | --- | --- |
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -424,7 +424,7 @@ Performs a single optimization step.
 | --- | --- |
 
 ```py
-class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)¶
+class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
 ```
 
 Implements stochastic gradient descent (optionally with momentum).
@@ -470,7 +470,7 @@ This is in contrast to Sutskever et. al. and other frameworks which employ an up
 The Nesterov version is analogously modified.
 
 ```py
-step(closure=None)¶
+step(closure=None)
 ```
 
 Performs a single optimization step.
@@ -483,7 +483,7 @@ Performs a single optimization step.
 `torch.optim.lr_scheduler` provides several methods to adjust the learning rate based on the number of epochs. [`torch.optim.lr_scheduler.ReduceLROnPlateau`](#torch.optim.lr_scheduler.ReduceLROnPlateau "torch.optim.lr_scheduler.ReduceLROnPlateau") allows dynamic learning rate reducing based on some validation measurements.
 
 ```py
-class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)¶
+class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)
 ```
 
 Sets the learning rate of each parameter group to the initial lr times a given function. When last_epoch=-1, sets initial lr as lr.
@@ -512,7 +512,7 @@ Example
 ```
 
 ```py
-load_state_dict(state_dict)¶
+load_state_dict(state_dict)
 ```
 
 Loads the schedulers state.
@@ -521,7 +521,7 @@ Loads the schedulers state.
 | --- | --- |
 
 ```py
-state_dict()¶
+state_dict()
 ```
 
 Returns the state of the scheduler as a [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)").
@@ -529,7 +529,7 @@ Returns the state of the scheduler as a [`dict`](https://docs.python.org/3/libra
 It contains an entry for every variable in self.__dict__ which is not the optimizer. The learning rate lambda functions will only be saved if they are callable objects and not if they are functions or lambdas.
 
 ```py
-class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoch=-1)¶
+class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoch=-1)
 ```
 
 Sets the learning rate of each parameter group to the initial lr decayed by gamma every step_size epochs. When last_epoch=-1, sets initial lr as lr.
@@ -561,7 +561,7 @@ Example
 ```
 
 ```py
-class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, last_epoch=-1)¶
+class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, last_epoch=-1)
 ```
 
 Set the learning rate of each parameter group to the initial lr decayed by gamma once the number of epoch reaches one of the milestones. When last_epoch=-1, sets initial lr as lr.
@@ -592,7 +592,7 @@ Example
 ```
 
 ```py
-class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1)¶
+class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1)
 ```
 
 Set the learning rate of each parameter group to the initial lr decayed by gamma every epoch. When last_epoch=-1, sets initial lr as lr.
@@ -607,7 +607,7 @@ Set the learning rate of each parameter group to the initial lr decayed by gamma
 | --- | --- |
 
 ```py
-class torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0, last_epoch=-1)¶
+class torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0, last_epoch=-1)
 ```
 
 Set the learning rate of each parameter group using a cosine annealing schedule, where ![](img/2f9e362a8e230566b17e8fc7b4eb533b.jpg) is set to the initial lr and ![](img/e2d59d3a9a4c76df4ed231b491dda3d5.jpg) is the number of epochs since the last restart in SGDR:
@@ -629,7 +629,7 @@ It has been proposed in [SGDR: Stochastic Gradient Descent with Warm Restarts](h
 | --- | --- |
 
 ```py
-class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)¶
+class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
 ```
 
 Reduce learning rate when a metric has stopped improving. Models often benefit from reducing the learning rate by a factor of 2-10 once learning stagnates. This scheduler reads a metrics quantity and if no improvement is seen for a ‘patience’ number of epochs, the learning rate is reduced.

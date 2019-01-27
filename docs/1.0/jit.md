@@ -18,7 +18,7 @@ Torch Script is a way to create serializable and optimizable models from PyTorch
 We provide tools to incrementally transition a model from being a pure Python program to a Torch Script program that can be run independently from Python, for instance, in a standalone C++ program. This makes it possible to train models in PyTorch using familiar tools and then export the model to a production environment where it is not a good idea to run models as Python programs for performance and multi-threading reasons.
 
 ```py
-class torch.jit.ScriptModule(optimize=True)¶
+class torch.jit.ScriptModule(optimize=True)
 ```
 
 The core data structure in Torch Script is the `ScriptModule`. It is an analogue of torch’s nn.Module and represents an entire model as a tree of submodules. Like normal modules, each individual module in a ScriptModule can have submodules, parameters, and methods. In nn.Modules methods are implemented as Python functions, but in ScriptModules methods typically implemented as _Torch Script_ functions, a statically-typed subset of Python that contains all of PyTorch’s built-in Tensor operations. This difference allows your ScriptModules code to run without the need for a Python interpreter.
@@ -123,7 +123,7 @@ ScriptModules and the Torch Script functions inside of them can be created in tw
 > ```
 
 ```py
-save(filename)¶
+save(filename)
 ```
 
 Save an offline version of this module for use in a separate process. The saved module serializes all of the methods and parameters of this module. It can be loaded into the C++ API using `torch::jit::load(filename)` or into the Python API with `torch.jit.load(filename)`.
@@ -135,7 +135,7 @@ Danger
 All modules, no matter their device, are always loaded onto the CPU during loading. This is different from [`torch.load()`](torch.html#torch.load "torch.load")’s semantics and may change in the future.
 
 ```py
-torch.jit.load(f, map_location=None)¶
+torch.jit.load(f, map_location=None)
 ```
 
 Load a `ScriptModule` previously saved with `save`
@@ -169,7 +169,7 @@ Example
 ```
 
 ```py
-torch.jit.trace(func, example_inputs, optimize=True, check_trace=True, check_inputs=None, check_tolerance=1e-05, _force_outplace=False)¶
+torch.jit.trace(func, example_inputs, optimize=True, check_trace=True, check_inputs=None, check_tolerance=1e-05, _force_outplace=False)
 ```
 
 Trace a function and return an executable trace that will be optimized using just-in-time compilation.
@@ -277,7 +277,7 @@ When writing Torch Script directly using @script annotations, the programmer mus
 As a subset of Python any valid Torch Script function is also a valid Python function. This makes it possible to remove the @script annotations and debug the function using standard Python tools like pdb. The reverse is not true: there are many valid python programs that are not valid Torch Script programs. Instead, Torch Script focuses specifically on the features of Python that are needed to represent neural network models in Torch.
 
 ```py
-PYTORCH_JIT=1¶
+PYTORCH_JIT=1
 ```
 
 Setting the environment variable `PYTORCH_JIT=0` will disable all script and tracing annotations. If there is hard-to-debug error in one of your ScriptModules, you can use this flag to force everything to run using native Python. This allows the use of tools like `pdb` to debug code.

@@ -7,7 +7,7 @@ Each `torch.Tensor` has a [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"
 ## torch.dtype
 
 ```py
-class torch.dtype¶
+class torch.dtype
 ```
 
 A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that represents the data type of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). PyTorch has eight different data types:
@@ -26,7 +26,7 @@ A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that repr
 ## torch.device
 
 ```py
-class torch.device¶
+class torch.device
 ```
 
 A [`torch.device`](#torch.torch.device "torch.torch.device") is an object representing the device on which a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") is or will be allocated.
@@ -103,7 +103,7 @@ Methods which take a device will generally accept a (properly formatted) string 
 ## torch.layout
 
 ```py
-class torch.layout¶
+class torch.layout
 ```
 
 A [`torch.layout`](#torch.torch.layout "torch.torch.layout") is an object that represents the memory layout of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). Currently, we support `torch.strided` (dense Tensors) and have experimental support for `torch.sparse_coo` (sparse COO Tensors).

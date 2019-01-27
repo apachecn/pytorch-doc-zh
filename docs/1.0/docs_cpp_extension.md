@@ -3,7 +3,7 @@
 # torch.utils.cpp_extension
 
 ```py
-torch.utils.cpp_extension.CppExtension(name, sources, *args, **kwargs)¶
+torch.utils.cpp_extension.CppExtension(name, sources, *args, **kwargs)
 ```
 
 Creates a `setuptools.Extension` for C++.
@@ -32,7 +32,7 @@ Example
 ```
 
 ```py
-torch.utils.cpp_extension.CUDAExtension(name, sources, *args, **kwargs)¶
+torch.utils.cpp_extension.CUDAExtension(name, sources, *args, **kwargs)
 ```
 
 Creates a `setuptools.Extension` for CUDA/C++.
@@ -62,7 +62,7 @@ Example
 ```
 
 ```py
-torch.utils.cpp_extension.BuildExtension(*args, **kwargs)¶
+torch.utils.cpp_extension.BuildExtension(*args, **kwargs)
 ```
 
 A custom `setuptools` build extension .
@@ -72,7 +72,7 @@ This `setuptools.build_ext` subclass takes care of passing the minimum required 
 When using [`BuildExtension`](#torch.utils.cpp_extension.BuildExtension "torch.utils.cpp_extension.BuildExtension"), it is allowed to supply a dictionary for `extra_compile_args` (rather than the usual list) that maps from languages (`cxx` or `cuda`) to a list of additional compiler flags to supply to the compiler. This makes it possible to supply different flags to the C++ and CUDA compiler during mixed compilation.
 
 ```py
-torch.utils.cpp_extension.load(name, sources, extra_cflags=None, extra_cuda_cflags=None, extra_ldflags=None, extra_include_paths=None, build_directory=None, verbose=False, with_cuda=None, is_python_module=True)¶
+torch.utils.cpp_extension.load(name, sources, extra_cflags=None, extra_cuda_cflags=None, extra_ldflags=None, extra_include_paths=None, build_directory=None, verbose=False, with_cuda=None, is_python_module=True)
 ```
 
 Loads a PyTorch C++ extension just-in-time (JIT).
@@ -116,7 +116,7 @@ Example
 ```
 
 ```py
-torch.utils.cpp_extension.load_inline(name, cpp_sources, cuda_sources=None, functions=None, extra_cflags=None, extra_cuda_cflags=None, extra_ldflags=None, extra_include_paths=None, build_directory=None, verbose=False, with_cuda=None, is_python_module=True)¶
+torch.utils.cpp_extension.load_inline(name, cpp_sources, cuda_sources=None, functions=None, extra_cflags=None, extra_cuda_cflags=None, extra_ldflags=None, extra_include_paths=None, build_directory=None, verbose=False, with_cuda=None, is_python_module=True)
 ```
 
 Loads a PyTorch C++ extension just-in-time (JIT) from string sources.
@@ -159,7 +159,7 @@ at::Tensor sin_add(at::Tensor x, at::Tensor y) {
 ```
 
 ```py
-torch.utils.cpp_extension.include_paths(cuda=False)¶
+torch.utils.cpp_extension.include_paths(cuda=False)
 ```
 
 Get the include paths required to build a C++ or CUDA extension.
@@ -170,7 +170,7 @@ Get the include paths required to build a C++ or CUDA extension.
 | --- | --- |
 
 ```py
-torch.utils.cpp_extension.check_compiler_abi_compatibility(compiler)¶
+torch.utils.cpp_extension.check_compiler_abi_compatibility(compiler)
 ```
 
 Verifies that the given compiler is ABI-compatible with PyTorch.
@@ -181,7 +181,7 @@ Verifies that the given compiler is ABI-compatible with PyTorch.
 | --- | --- |
 
 ```py
-torch.utils.cpp_extension.verify_ninja_availability()¶
+torch.utils.cpp_extension.verify_ninja_availability()
 ```
 
 Returns `True` if the [ninja](https://ninja-build.org/) build system is available on the system.

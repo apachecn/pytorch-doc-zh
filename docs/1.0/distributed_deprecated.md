@@ -38,7 +38,7 @@ In the single-machine synchronous case, &lt;cite&gt;torch.distributed.deprecated
 The package needs to be initialized using the [`torch.distributed.deprecated.init_process_group()`](#torch.distributed.deprecated.init_process_group "torch.distributed.deprecated.init_process_group") function before calling any other methods. This blocks until all processes have joined.
 
 ```py
-torch.distributed.deprecated.init_process_group(backend, init_method='env://', **kwargs)¶
+torch.distributed.deprecated.init_process_group(backend, init_method='env://', **kwargs)
 ```
 
 Initializes the distributed package.
@@ -61,7 +61,7 @@ Note
 This method initializes CUDA context. Therefore, if multiple processes run on a single machine but use different GPUs, make sure to use [`torch.cuda.set_device()`](cuda.html#torch.cuda.set_device "torch.cuda.set_device") before this method to avoid unnecessarily creating context on the first visible device.
 
 ```py
-torch.distributed.deprecated.get_rank()¶
+torch.distributed.deprecated.get_rank()
 ```
 
 Returns the rank of current process.
@@ -69,7 +69,7 @@ Returns the rank of current process.
 Rank is a unique identifier assigned to each process within a distributed group. They are always consecutive integers ranging from `0` to `world_size - 1` (inclusive).
 
 ```py
-torch.distributed.deprecated.get_world_size()¶
+torch.distributed.deprecated.get_world_size()
 ```
 
 Returns the number of processes in the distributed group.
@@ -131,7 +131,7 @@ This is the default method, meaning that `init_method` does not have to be speci
 By default collectives operate on the default group (also called the world) and require all processes to enter the distributed function call. However, some workloads can benefit from more fine-grained communication. This is where distributed groups come into play. [`new_group()`](#torch.distributed.deprecated.new_group "torch.distributed.deprecated.new_group") function can be used to create new groups, with arbitrary subsets of all processes. It returns an opaque group handle that can be given as a `group` argument to all collectives (collectives are distributed functions to exchange information in certain well-known programming patterns).
 
 ```py
-torch.distributed.deprecated.new_group(ranks=None)¶
+torch.distributed.deprecated.new_group(ranks=None)
 ```
 
 Creates a new distributed group.
@@ -146,7 +146,7 @@ This function requires that all processes in the main group (i.e., all processes
 ## Point-to-point communication
 
 ```py
-torch.distributed.deprecated.send(tensor, dst)¶
+torch.distributed.deprecated.send(tensor, dst)
 ```
 
 Sends a tensor synchronously.
@@ -160,7 +160,7 @@ Sends a tensor synchronously.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.recv(tensor, src=None)¶
+torch.distributed.deprecated.recv(tensor, src=None)
 ```
 
 Receives a tensor synchronously.
@@ -183,7 +183,7 @@ Receives a tensor synchronously.
 When using the MPI backend, [`isend()`](#torch.distributed.deprecated.isend "torch.distributed.deprecated.isend") and [`irecv()`](#torch.distributed.deprecated.irecv "torch.distributed.deprecated.irecv") support non-overtaking, which has some guarantees on supporting message order. For more detail, see [http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54](http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54)
 
 ```py
-torch.distributed.deprecated.isend(tensor, dst)¶
+torch.distributed.deprecated.isend(tensor, dst)
 ```
 
 Sends a tensor asynchronously.
@@ -199,7 +199,7 @@ Sends a tensor asynchronously.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.irecv(tensor, src)¶
+torch.distributed.deprecated.irecv(tensor, src)
 ```
 
 Receives a tensor asynchronously.
@@ -217,7 +217,7 @@ Receives a tensor asynchronously.
 ## Collective functions
 
 ```py
-torch.distributed.deprecated.broadcast(tensor, src, group=<object object>)¶
+torch.distributed.deprecated.broadcast(tensor, src, group=<object object>)
 ```
 
 Broadcasts the tensor to the whole group.
@@ -234,7 +234,7 @@ Broadcasts the tensor to the whole group.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)¶
+torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
 ```
 
 Reduces the tensor data across all machines in such a way that all get the final result.
@@ -251,7 +251,7 @@ After the call `tensor` will be bitwise identical in all processes.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)¶
+torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)
 ```
 
 Reduces the tensor data across all machines.
@@ -269,7 +269,7 @@ Only the process with rank `dst` is going to receive the final result.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)¶
+torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
 ```
 
 Gathers tensors from the whole group in a list.
@@ -284,7 +284,7 @@ Gathers tensors from the whole group in a list.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.gather(tensor, **kwargs)¶
+torch.distributed.deprecated.gather(tensor, **kwargs)
 ```
 
 Gathers a list of tensors in a single process.
@@ -300,7 +300,7 @@ Gathers a list of tensors in a single process.
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.scatter(tensor, **kwargs)¶
+torch.distributed.deprecated.scatter(tensor, **kwargs)
 ```
 
 Scatters a list of tensors to all processes in a group.
@@ -318,7 +318,7 @@ Each process will receive exactly one tensor and store its data in the `tensor` 
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.barrier(group=<object object>)¶
+torch.distributed.deprecated.barrier(group=<object object>)
 ```
 
 Synchronizes all processes.
@@ -373,7 +373,7 @@ dist.all_reduce_multigpu(tensor_list)
 After the call, all 16 tensors on the two nodes will have the all-reduced value of 16
 
 ```py
-torch.distributed.deprecated.broadcast_multigpu(tensor_list, src, group=<object object>)¶
+torch.distributed.deprecated.broadcast_multigpu(tensor_list, src, group=<object object>)
 ```
 
 Broadcasts the tensor to the whole group with multiple GPU tensors per node.
@@ -394,7 +394,7 @@ Only NCCL backend is currently supported. `tensor_list` should only contain GPU 
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.all_reduce_multigpu(tensor_list, op=<object object>, group=<object object>)¶
+torch.distributed.deprecated.all_reduce_multigpu(tensor_list, op=<object object>, group=<object object>)
 ```
 
 Reduces the tensor data across all machines in such a way that all get the final result. This function reduces a number of tensors on every node, while each tensor resides on a different GPU. Therefore, the input tensor in the tensor list needs to be GPU tensors. Also, each tensor in the tensor list needs to reside on a different GPU.
@@ -415,7 +415,7 @@ Only NCCL backend is currently supported. `tensor_list` should only contain GPU 
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.reduce_multigpu(tensor_list, dst, op=<object object>, group=<object object>)¶
+torch.distributed.deprecated.reduce_multigpu(tensor_list, dst, op=<object object>, group=<object object>)
 ```
 
 Reduces the tensor data on multiple GPUs across all machines. Each tensor in :attr`tensor_list` should reside on a separate GPU.
@@ -437,7 +437,7 @@ Only NCCL backend is currently supported. `tensor_list` should only contain GPU 
 | --- | --- |
 
 ```py
-torch.distributed.deprecated.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>)¶
+torch.distributed.deprecated.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>)
 ```
 
 Gathers tensors from the whole group in a list. Each tensor in `input_tensor_list` should reside on a separate GPU.

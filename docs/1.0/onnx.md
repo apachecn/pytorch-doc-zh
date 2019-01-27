@@ -293,6 +293,6 @@ The interface for specifying operator definitions is experimental; adventurous u
 ## Functions
 
 ```py
-torch.onnx.export(*args, **kwargs)¶
+torch.onnx.export(*args, **kwargs)
 ```
 

@@ -7,39 +7,39 @@ A `torch.Storage` is a contiguous, one-dimensional array of a single data type.
 Every [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") has a corresponding storage of the same data type.
 
 ```py
-class torch.FloatStorage¶
+class torch.FloatStorage
 ```
 
 ```py
-byte()¶
+byte()
 ```
 
 Casts this storage to byte type
 
 ```py
-char()¶
+char()
 ```
 
 Casts this storage to char type
 
 ```py
-clone()¶
+clone()
 ```
 
 Returns a copy of this storage
 
 ```py
-copy_()¶
+copy_()
 ```
 
 ```py
-cpu()¶
+cpu()
 ```
 
 Returns a CPU copy of this storage if it’s not already on the CPU
 
 ```py
-cuda(device=None, non_blocking=False, **kwargs)¶
+cuda(device=None, non_blocking=False, **kwargs)
 ```
 
 Returns a copy of this object in CUDA memory.
@@ -56,35 +56,35 @@ If this object is already in CUDA memory and on the correct device, then no copy
 | --- | --- |
 
 ```py
-data_ptr()¶
+data_ptr()
 ```
 
 ```py
-double()¶
+double()
 ```
 
 Casts this storage to double type
 
 ```py
-element_size()¶
+element_size()
 ```
 
 ```py
-fill_()¶
+fill_()
 ```
 
 ```py
-float()¶
+float()
 ```
 
 Casts this storage to float type
 
 ```py
-static from_buffer()¶
+static from_buffer()
 ```
 
 ```py
-static from_file(filename, shared=False, size=0) → Storage¶
+static from_file(filename, shared=False, size=0) → Storage
 ```
 
 If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;True&lt;/cite&gt;, then memory is shared between all processes. All changes are written to the file. If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;False&lt;/cite&gt;, then the changes on the storage do not affect the file.
@@ -101,55 +101,55 @@ If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;True&lt;/cite&gt;, then memory
 | --- | --- |
 
 ```py
-half()¶
+half()
 ```
 
 Casts this storage to half type
 
 ```py
-int()¶
+int()
 ```
 
 Casts this storage to int type
 
 ```py
-is_cuda = False¶
+is_cuda = False
 ```
 
 ```py
-is_pinned()¶
+is_pinned()
 ```
 
 ```py
-is_shared()¶
+is_shared()
 ```
 
 ```py
-is_sparse = False¶
+is_sparse = False
 ```
 
 ```py
-long()¶
+long()
 ```
 
 Casts this storage to long type
 
 ```py
-new()¶
+new()
 ```
 
 ```py
-pin_memory()¶
+pin_memory()
 ```
 
 Copies the storage to pinned memory, if it’s not already pinned.
 
 ```py
-resize_()¶
+resize_()
 ```
 
 ```py
-share_memory_()¶
+share_memory_()
 ```
 
 Moves the storage to shared memory.
@@ -159,23 +159,23 @@ This is a no-op for storages already in shared memory and for CUDA storages, whi
 Returns: self
 
 ```py
-short()¶
+short()
 ```
 
 Casts this storage to short type
 
 ```py
-size()¶
+size()
 ```
 
 ```py
-tolist()¶
+tolist()
 ```
 
 Returns a list containing the elements of this storage
 
 ```py
-type(dtype=None, non_blocking=False, **kwargs)¶
+type(dtype=None, non_blocking=False, **kwargs)
 ```
 
 Returns the type if &lt;cite&gt;dtype&lt;/cite&gt; is not provided, else casts this object to the specified type.

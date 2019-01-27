@@ -74,7 +74,7 @@ In the single-machine synchronous case, &lt;cite&gt;torch.distributed&lt;/cite&g
 The package needs to be initialized using the [`torch.distributed.init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") function before calling any other methods. This blocks until all processes have joined.
 
 ```py
-torch.distributed.init_process_group(backend, init_method='env://', timeout=datetime.timedelta(seconds=1800), **kwargs)¶
+torch.distributed.init_process_group(backend, init_method='env://', timeout=datetime.timedelta(seconds=1800), **kwargs)
 ```
 
 Initializes the default distributed process group, and this will also initialize the distributed package
@@ -94,7 +94,7 @@ Initializes the default distributed process group, and this will also initialize
 To enable `backend == Backend.MPI`, PyTorch needs to built from source on a system that supports MPI. The same applies to NCCL as well.
 
 ```py
-class torch.distributed.Backend¶
+class torch.distributed.Backend
 ```
 
 An enum-like class of available backends: GLOO, NCCL, and MPI.
@@ -108,7 +108,7 @@ Note
 The entry `Backend.UNDEFINED` is present but only used as initial value of some fields. Users should neither use it directly nor assume its existence.
 
 ```py
-torch.distributed.get_backend(group=<object object>)¶
+torch.distributed.get_backend(group=<object object>)
 ```
 
 Returns the backend of the given process group.
@@ -119,7 +119,7 @@ Returns the backend of the given process group.
 | --- | --- |
 
 ```py
-torch.distributed.get_rank(group=<object object>)¶
+torch.distributed.get_rank(group=<object object>)
 ```
 
 Returns the rank of currrent process group
@@ -132,7 +132,7 @@ Rank is a unique identifier assigned to each process within a distributed proces
 | --- | --- |
 
 ```py
-torch.distributed.get_world_size(group=<object object>)¶
+torch.distributed.get_world_size(group=<object object>)
 ```
 
 Returns the number of processes in the current process group
@@ -143,19 +143,19 @@ Returns the number of processes in the current process group
 | --- | --- |
 
 ```py
-torch.distributed.is_initialized()¶
+torch.distributed.is_initialized()
 ```
 
 Checking if the default process group has been initialized
 
 ```py
-torch.distributed.is_mpi_available()¶
+torch.distributed.is_mpi_available()
 ```
 
 Checks if MPI is available
 
 ```py
-torch.distributed.is_nccl_available()¶
+torch.distributed.is_nccl_available()
 ```
 
 Checks if NCCL is available
@@ -222,7 +222,7 @@ By default collectives operate on the default group (also called the world) and 
 Currently &lt;cite&gt;torch.distributed&lt;/cite&gt; does not support creating groups with different backends. In other words, each group being created will use the same backend as you specified in [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group").
 
 ```py
-torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(seconds=1800))¶
+torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(seconds=1800))
 ```
 
 Creates a new distributed group.
@@ -242,7 +242,7 @@ This function requires that all processes in the main group (i.e. all processes 
 ## Point-to-point communication
 
 ```py
-torch.distributed.send(tensor, dst, group=<object object>, tag=0)¶
+torch.distributed.send(tensor, dst, group=<object object>, tag=0)
 ```
 
 Sends a tensor synchronously.
@@ -258,7 +258,7 @@ Sends a tensor synchronously.
 | --- | --- |
 
 ```py
-torch.distributed.recv(tensor, src=None, group=<object object>, tag=0)¶
+torch.distributed.recv(tensor, src=None, group=<object object>, tag=0)
 ```
 
 Receives a tensor synchronously.
@@ -281,7 +281,7 @@ Receives a tensor synchronously.
 *   `wait()` - will block the process until the operation is finished. `is_completed()` is guaranteed to return True once it returns.
 
 ```py
-torch.distributed.isend(tensor, dst, group=<object object>, tag=0)¶
+torch.distributed.isend(tensor, dst, group=<object object>, tag=0)
 ```
 
 Sends a tensor asynchronously.
@@ -299,7 +299,7 @@ Sends a tensor asynchronously.
 | --- | --- |
 
 ```py
-torch.distributed.irecv(tensor, src, group=<object object>, tag=0)¶
+torch.distributed.irecv(tensor, src, group=<object object>, tag=0)
 ```
 
 Receives a tensor asynchronously.
@@ -330,7 +330,7 @@ asynchronous operation - when `async_op` is set to True. The collective operatio
 ## Collective functions
 
 ```py
-torch.distributed.broadcast(tensor, src, group=<object object>, async_op=False)¶
+torch.distributed.broadcast(tensor, src, group=<object object>, async_op=False)
 ```
 
 Broadcasts the tensor to the whole group.
@@ -350,7 +350,7 @@ Broadcasts the tensor to the whole group.
 | --- | --- |
 
 ```py
-torch.distributed.all_reduce(tensor, op=ReduceOp.SUM, group=<object object>, async_op=False)¶
+torch.distributed.all_reduce(tensor, op=ReduceOp.SUM, group=<object object>, async_op=False)
 ```
 
 Reduces the tensor data across all machines in such a way that all get the final result.
@@ -370,7 +370,7 @@ After the call `tensor` is going to be bitwise identical in all processes.
 | --- | --- |
 
 ```py
-torch.distributed.reduce(tensor, dst, op=ReduceOp.SUM, group=<object object>, async_op=False)¶
+torch.distributed.reduce(tensor, dst, op=ReduceOp.SUM, group=<object object>, async_op=False)
 ```
 
 Reduces the tensor data across all machines.
@@ -391,7 +391,7 @@ Only the process with rank `dst` is going to receive the final result.
 | --- | --- |
 
 ```py
-torch.distributed.all_gather(tensor_list, tensor, group=<object object>, async_op=False)¶
+torch.distributed.all_gather(tensor_list, tensor, group=<object object>, async_op=False)
 ```
 
 Gathers tensors from the whole group in a list.
@@ -409,7 +409,7 @@ Gathers tensors from the whole group in a list.
 | --- | --- |
 
 ```py
-torch.distributed.gather(tensor, gather_list, dst, group=<object object>, async_op=False)¶
+torch.distributed.gather(tensor, gather_list, dst, group=<object object>, async_op=False)
 ```
 
 Gathers a list of tensors in a single process.
@@ -428,7 +428,7 @@ Gathers a list of tensors in a single process.
 | --- | --- |
 
 ```py
-torch.distributed.scatter(tensor, scatter_list, src, group=<object object>, async_op=False)¶
+torch.distributed.scatter(tensor, scatter_list, src, group=<object object>, async_op=False)
 ```
 
 Scatters a list of tensors to all processes in a group.
@@ -449,7 +449,7 @@ Each process will receive exactly one tensor and store its data in the `tensor` 
 | --- | --- |
 
 ```py
-torch.distributed.barrier(group=<object object>, async_op=False)¶
+torch.distributed.barrier(group=<object object>, async_op=False)
 ```
 
 Synchronizes all processes.
@@ -467,7 +467,7 @@ This collective blocks processes until the whole group enters this function, if 
 | --- | --- |
 
 ```py
-class torch.distributed.ReduceOp¶
+class torch.distributed.ReduceOp
 ```
 
 An enum-like class of available reduce operations: `SUM`, `PRODUCT`, `MIN`, and `MAX`.
@@ -485,7 +485,7 @@ Members:
 > MAX
 
 ```py
-class torch.distributed.reduce_op¶
+class torch.distributed.reduce_op
 ```
 
 Deprecated enum-like class for reduction operations: `SUM`, `PRODUCT`, `MIN`, and `MAX`.
@@ -537,7 +537,7 @@ dist.all_reduce_multigpu(tensor_list)
 After the call, all 16 tensors on the two nodes will have the all-reduced value of 16
 
 ```py
-torch.distributed.broadcast_multigpu(tensor_list, src, group=<object object>, async_op=False, src_tensor=0)¶
+torch.distributed.broadcast_multigpu(tensor_list, src, group=<object object>, async_op=False, src_tensor=0)
 ```
 
 Broadcasts the tensor to the whole group with multiple GPU tensors per node.
@@ -560,7 +560,7 @@ Only nccl and gloo backend are currently supported tensors should only be GPU te
 | --- | --- |
 
 ```py
-torch.distributed.all_reduce_multigpu(tensor_list, op=ReduceOp.SUM, group=<object object>, async_op=False)¶
+torch.distributed.all_reduce_multigpu(tensor_list, op=ReduceOp.SUM, group=<object object>, async_op=False)
 ```
 
 Reduces the tensor data across all machines in such a way that all get the final result. This function reduces a number of tensors on every node, while each tensor resides on different GPUs. Therefore, the input tensor in the tensor list needs to be GPU tensors. Also, each tensor in the tensor list needs to reside on a different GPU.
@@ -582,7 +582,7 @@ Only nccl and gloo backend is currently supported tensors should only be GPU ten
 | --- | --- |
 
 ```py
-torch.distributed.reduce_multigpu(tensor_list, dst, op=ReduceOp.SUM, group=<object object>, async_op=False, dst_tensor=0)¶
+torch.distributed.reduce_multigpu(tensor_list, dst, op=ReduceOp.SUM, group=<object object>, async_op=False, dst_tensor=0)
 ```
 
 Reduces the tensor data on multiple GPUs across all machines. Each tensor in `tensor_list` should reside on a separate GPU
@@ -606,7 +606,7 @@ Only nccl backend is currently supported tensors should only be GPU tensors
 | --- | --- |
 
 ```py
-torch.distributed.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>, async_op=False)¶
+torch.distributed.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>, async_op=False)
 ```
 
 Gathers tensors from the whole group in a list. Each tensor in `tensor_list` should reside on a separate GPU

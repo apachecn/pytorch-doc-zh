@@ -5,7 +5,7 @@
 `torch.autograd` provides classes and functions implementing automatic differentiation of arbitrary scalar valued functions. It requires minimal changes to the existing code - you only need to declare `Tensor` s for which gradients should be computed with the `requires_grad=True` keyword.
 
 ```py
-torch.autograd.backward(tensors, grad_tensors=None, retain_graph=None, create_graph=False, grad_variables=None)¶
+torch.autograd.backward(tensors, grad_tensors=None, retain_graph=None, create_graph=False, grad_variables=None)
 ```
 
 Computes the sum of gradients of given tensors w.r.t. graph leaves.
@@ -25,7 +25,7 @@ This function accumulates gradients in the leaves - you might need to zero them 
 | --- | --- |
 
 ```py
-torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=False, only_inputs=True, allow_unused=False)¶
+torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=False, only_inputs=True, allow_unused=False)
 ```
 
 Computes and returns the sum of gradients of outputs w.r.t. the inputs.
@@ -49,7 +49,7 @@ If `only_inputs` is `True`, the function will only return a list of gradients w.
 ## Locally disabling gradient computation
 
 ```py
-class torch.autograd.no_grad¶
+class torch.autograd.no_grad
 ```
 
 Context-manager that disabled gradient calculation.
@@ -76,7 +76,7 @@ False
 ```
 
 ```py
-class torch.autograd.enable_grad¶
+class torch.autograd.enable_grad
 ```
 
 Context-manager that enables gradient calculation.
@@ -107,7 +107,7 @@ True
 ```
 
 ```py
-class torch.autograd.set_grad_enabled(mode)¶
+class torch.autograd.set_grad_enabled(mode)
 ```
 
 Context-manager that sets gradient calculation to on or off.
@@ -162,11 +162,11 @@ In addition, one can now create tensors with `requires_grad=True` using factory 
 ## Tensor autograd functions
 
 ```py
-class torch.Tensor¶
+class torch.Tensor
 ```
 
 ```py
-backward(gradient=None, retain_graph=None, create_graph=False)¶
+backward(gradient=None, retain_graph=None, create_graph=False)
 ```
 
 Computes the gradient of current tensor w.r.t. graph leaves.
@@ -185,7 +185,7 @@ This function accumulates gradients in the leaves - you might need to zero them 
 | --- | --- |
 
 ```py
-detach()¶
+detach()
 ```
 
 Returns a new Tensor, detached from the current graph.
@@ -197,19 +197,19 @@ Note
 Returned Tensor uses the same data tensor as the original one. In-place modifications on either of them will be seen, and may trigger errors in correctness checks.
 
 ```py
-detach_()¶
+detach_()
 ```
 
 Detaches the Tensor from the graph that created it, making it a leaf. Views cannot be detached in-place.
 
 ```py
-grad¶
+grad
 ```
 
 This attribute is `None` by default and becomes a Tensor the first time a call to [`backward()`](#torch.Tensor.backward "torch.Tensor.backward") computes gradients for `self`. The attribute will then contain the gradients computed and future calls to [`backward()`](#torch.Tensor.backward "torch.Tensor.backward") will accumulate (add) gradients into it.
 
 ```py
-is_leaf¶
+is_leaf
 ```
 
 All Tensors that have [`requires_grad`](#torch.Tensor.requires_grad "torch.Tensor.requires_grad") which is `False` will be leaf Tensors by convention.
@@ -248,7 +248,7 @@ True
 ```
 
 ```py
-register_hook(hook)¶
+register_hook(hook)
 ```
 
 Registers a backward hook.
@@ -282,7 +282,7 @@ Example:
 ```
 
 ```py
-requires_grad¶
+requires_grad
 ```
 
 Is `True` if gradients need to be computed for this Tensor, `False` otherwise.
@@ -292,7 +292,7 @@ Note
 The fact that gradients need to be computed for a Tensor do not mean that the [`grad`](#torch.Tensor.grad "torch.Tensor.grad") attribute will be populated, see [`is_leaf`](#torch.Tensor.is_leaf "torch.Tensor.is_leaf") for more details.
 
 ```py
-retain_grad()¶
+retain_grad()
 ```
 
 Enables .grad attribute for non-leaf Tensors.
@@ -300,7 +300,7 @@ Enables .grad attribute for non-leaf Tensors.
 ## Function
 
 ```py
-class torch.autograd.Function¶
+class torch.autograd.Function
 ```
 
 Records operation history and defines formulas for differentiating ops.
@@ -330,7 +330,7 @@ Examples:
 ```
 
 ```py
-static backward(ctx, *grad_outputs)¶
+static backward(ctx, *grad_outputs)
 ```
 
 Defines a formula for differentiating the operation.
@@ -342,7 +342,7 @@ It must accept a context `ctx` as the first argument, followed by as many output
 The context can be used to retrieve tensors saved during the forward pass. It also has an attribute `ctx.needs_input_grad` as a tuple of booleans representing whether each input needs gradient. E.g., [`backward()`](#torch.autograd.backward "torch.autograd.backward") will have `ctx.needs_input_grad[0] = True` if the first input to [`forward()`](#torch.autograd.Function.forward "torch.autograd.Function.forward") needs gradient computated w.r.t. the output.
 
 ```py
-static forward(ctx, *args, **kwargs)¶
+static forward(ctx, *args, **kwargs)
 ```
 
 Performs the operation.
@@ -356,7 +356,7 @@ The context can be used to store tensors that can be then retrieved during the b
 ## Numerical gradient checking
 
 ```py
-torch.autograd.gradcheck(func, inputs, eps=1e-06, atol=1e-05, rtol=0.001, raise_exception=True)¶
+torch.autograd.gradcheck(func, inputs, eps=1e-06, atol=1e-05, rtol=0.001, raise_exception=True)
 ```
 
 Check gradients computed via small finite differences against analytical gradients w.r.t. tensors in `inputs` that are of floating point type and with `requires_grad=True`.
@@ -386,7 +386,7 @@ If any checked tensor in `input` has overlapping memory, i.e., different indices
 | --- | --- |
 
 ```py
-torch.autograd.gradgradcheck(func, inputs, grad_outputs=None, eps=1e-06, atol=1e-05, rtol=0.001, gen_non_contig_grad_outputs=False, raise_exception=True)¶
+torch.autograd.gradgradcheck(func, inputs, grad_outputs=None, eps=1e-06, atol=1e-05, rtol=0.001, gen_non_contig_grad_outputs=False, raise_exception=True)
 ```
 
 Check gradients of gradients computed via small finite differences against analytical gradients w.r.t. tensors in `inputs` and `grad_outputs` that are of floating point type and with `requires_grad=True`.
@@ -424,7 +424,7 @@ If any checked tensor in `input` and `grad_outputs` has overlapping memory, i.e.
 Autograd includes a profiler that lets you inspect the cost of different operators inside your model - both on the CPU and GPU. There are two modes implemented at the moment - CPU-only using [`profile`](#torch.autograd.profiler.profile "torch.autograd.profiler.profile"). and nvprof based (registers both CPU and GPU activity) using [`emit_nvtx`](#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx").
 
 ```py
-class torch.autograd.profiler.profile(enabled=True, use_cuda=False)¶
+class torch.autograd.profiler.profile(enabled=True, use_cuda=False)
 ```
 
 Context manager that manages autograd profiler state and holds a summary of results.
@@ -461,7 +461,7 @@ N5torch8autograd5CloneE                        4.088us          0.000us
 ```
 
 ```py
-export_chrome_trace(path)¶
+export_chrome_trace(path)
 ```
 
 Exports an EventList as a Chrome tracing tools file.
@@ -472,7 +472,7 @@ The checkpoint can be later loaded and inspected under `chrome://tracing` URL.
 | --- | --- |
 
 ```py
-key_averages()¶
+key_averages()
 ```
 
 Averages all function events over their keys.
@@ -481,7 +481,7 @@ Averages all function events over their keys.
 | --- | --- |
 
 ```py
-table(sort_by=None)¶
+table(sort_by=None)
 ```
 
 Prints an EventList as a nicely formatted table.
@@ -492,7 +492,7 @@ Prints an EventList as a nicely formatted table.
 | --- | --- |
 
 ```py
-total_average()¶
+total_average()
 ```
 
 Averages all events.
@@ -501,7 +501,7 @@ Averages all events.
 | --- | --- |
 
 ```py
-class torch.autograd.profiler.emit_nvtx(enabled=True)¶
+class torch.autograd.profiler.emit_nvtx(enabled=True)
 ```
 
 Context manager that makes every autograd operation emit an NVTX range.
@@ -541,7 +541,7 @@ Any functions executed during the backward pass are also decorated with `seq=&lt
 If, on the other hand, a backward pass with `create_graph=True` is underway (in other words, if you are setting up for a double-backward), each function’s execution during backward is given a nonzero, useful `seq=&lt;N&gt;`. Those functions may themselves create Function objects to be executed later during double-backward, just as the original functions in the forward pass did. The relationship between backward and double-backward is conceptually the same as the relationship between forward and backward: The functions still emit current-sequence-number-tagged ranges, the Function objects they create still stash those sequence numbers, and during the eventual double-backward, the Function objects’ `apply()` ranges are still tagged with `stashed seq` numbers, which can be compared to &lt;cite&gt;seq&lt;/cite&gt; numbers from the backward pass.
 
 ```py
-torch.autograd.profiler.load_nvprof(path)¶
+torch.autograd.profiler.load_nvprof(path)
 ```
 
 Opens an nvprof trace file and parses autograd annotations.
@@ -552,7 +552,7 @@ Opens an nvprof trace file and parses autograd annotations.
 ## Anomaly detection
 
 ```py
-class torch.autograd.detect_anomaly¶
+class torch.autograd.detect_anomaly
 ```
 
 Context-manager that enable anomaly detection for the autograd engine.
@@ -612,7 +612,7 @@ Example
 ```
 
 ```py
-class torch.autograd.set_detect_anomaly(mode)¶
+class torch.autograd.set_detect_anomaly(mode)
 ```
 
 Context-manager that sets the anomaly detection for the autograd engine on or off.

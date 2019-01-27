@@ -3,7 +3,7 @@
 # torch.hub
 
 ```py
-torch.hub.load(github, model, force_reload=False, *args, **kwargs)¶
+torch.hub.load(github, model, force_reload=False, *args, **kwargs)
 ```
 
 Load a model from a github repo, with pretrained weights.
@@ -22,7 +22,7 @@ Load a model from a github repo, with pretrained weights.
 | --- | --- |
 
 ```py
-torch.hub.set_dir(d)¶
+torch.hub.set_dir(d)
 ```
 
 ```py

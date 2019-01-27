@@ -45,7 +45,7 @@ loss.backward()
 ## Distribution
 
 ```py
-class torch.distributions.distribution.Distribution(batch_shape=torch.Size([]), event_shape=torch.Size([]), validate_args=None)¶
+class torch.distributions.distribution.Distribution(batch_shape=torch.Size([]), event_shape=torch.Size([]), validate_args=None)
 ```
 
 Bases: [`object`](https://docs.python.org/3/library/functions.html#object "(in Python v3.7)")
@@ -53,19 +53,19 @@ Bases: [`object`](https://docs.python.org/3/library/functions.html#object "(in P
 Distribution is the abstract base class for probability distributions.
 
 ```py
-arg_constraints¶
+arg_constraints
 ```
 
 Returns a dictionary from argument names to [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") objects that should be satisfied by each argument of this distribution. Args that are not tensors need not appear in this dict.
 
 ```py
-batch_shape¶
+batch_shape
 ```
 
 Returns the shape over which parameters are batched.
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 Returns the cumulative density/mass function evaluated at &lt;cite&gt;value&lt;/cite&gt;.
@@ -74,7 +74,7 @@ Returns the cumulative density/mass function evaluated at &lt;cite&gt;value&lt;/
 | --- | --- |
 
 ```py
-entropy()¶
+entropy()
 ```
 
 Returns entropy of distribution, batched over batch_shape.
@@ -83,7 +83,7 @@ Returns entropy of distribution, batched over batch_shape.
 | --- | --- |
 
 ```py
-enumerate_support(expand=True)¶
+enumerate_support(expand=True)
 ```
 
 Returns tensor containing all values supported by a discrete distribution. The result will enumerate over dimension 0, so the shape of the result will be &lt;cite&gt;(cardinality,) + batch_shape + event_shape&lt;/cite&gt; (where &lt;cite&gt;event_shape = ()&lt;/cite&gt; for univariate distributions).
@@ -98,13 +98,13 @@ To iterate over the full Cartesian product use &lt;cite&gt;itertools.product(m.e
 | --- | --- |
 
 ```py
-event_shape¶
+event_shape
 ```
 
 Returns the shape of a single sample (without batching).
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 Returns a new distribution instance (or populates an existing instance provided by a derived class) with batch dimensions expanded to &lt;cite&gt;batch_shape&lt;/cite&gt;. This method calls [`expand`](tensors.html#torch.Tensor.expand "torch.Tensor.expand") on the distribution’s parameters. As such, this does not allocate new memory for the expanded distribution instance. Additionally, this does not repeat any args checking or parameter broadcasting in &lt;cite&gt;__init__.py&lt;/cite&gt;, when an instance is first created.
@@ -120,7 +120,7 @@ Returns a new distribution instance (or populates an existing instance provided 
 | --- | --- |
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 Returns the inverse cumulative density/mass function evaluated at &lt;cite&gt;value&lt;/cite&gt;.
@@ -129,7 +129,7 @@ Returns the inverse cumulative density/mass function evaluated at &lt;cite&gt;va
 | --- | --- |
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 Returns the log of the probability density/mass function evaluated at &lt;cite&gt;value&lt;/cite&gt;.
@@ -138,13 +138,13 @@ Returns the log of the probability density/mass function evaluated at &lt;cite&g
 | --- | --- |
 
 ```py
-mean¶
+mean
 ```
 
 Returns the mean of the distribution.
 
 ```py
-perplexity()¶
+perplexity()
 ```
 
 Returns perplexity of distribution, batched over batch_shape.
@@ -153,37 +153,37 @@ Returns perplexity of distribution, batched over batch_shape.
 | --- | --- |
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 Generates a sample_shape shaped reparameterized sample or sample_shape shaped batch of reparameterized samples if the distribution parameters are batched.
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 Generates a sample_shape shaped sample or sample_shape shaped batch of samples if the distribution parameters are batched.
 
 ```py
-sample_n(n)¶
+sample_n(n)
 ```
 
 Generates n samples or n batches of samples if the distribution parameters are batched.
 
 ```py
-stddev¶
+stddev
 ```
 
 Returns the standard deviation of the distribution.
 
 ```py
-support¶
+support
 ```
 
 Returns a [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") object representing this distribution’s support.
 
 ```py
-variance¶
+variance
 ```
 
 Returns the variance of the distribution.
@@ -191,7 +191,7 @@ Returns the variance of the distribution.
 ## ExponentialFamily
 
 ```py
-class torch.distributions.exp_family.ExponentialFamily(batch_shape=torch.Size([]), event_shape=torch.Size([]), validate_args=None)¶
+class torch.distributions.exp_family.ExponentialFamily(batch_shape=torch.Size([]), event_shape=torch.Size([]), validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -207,7 +207,7 @@ Note
 This class is an intermediary between the &lt;cite&gt;Distribution&lt;/cite&gt; class and distributions which belong to an exponential family mainly to check the correctness of the &lt;cite&gt;.entropy()&lt;/cite&gt; and analytic KL divergence methods. We use this class to compute the entropy and KL divergence using the AD frame- work and Bregman divergences (courtesy of: Frank Nielsen and Richard Nock, Entropies and Cross-entropies of Exponential Families).
 
 ```py
-entropy()¶
+entropy()
 ```
 
 Method to compute the entropy using Bregman divergence of the log normalizer.
@@ -215,7 +215,7 @@ Method to compute the entropy using Bregman divergence of the log normalizer.
 ## Bernoulli
 
 ```py
-class torch.distributions.bernoulli.Bernoulli(probs=None, logits=None, validate_args=None)¶
+class torch.distributions.bernoulli.Bernoulli(probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -242,61 +242,61 @@ tensor([ 0.])
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}¶
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-enumerate_support(expand=True)¶
+enumerate_support(expand=True)
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_enumerate_support = True¶
+has_enumerate_support = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-param_shape¶
+param_shape
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = Boolean()¶
+support = Boolean()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Beta
 
 ```py
-class torch.distributions.beta.Beta(concentration1, concentration0, validate_args=None)¶
+class torch.distributions.beta.Beta(concentration1, concentration0, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -321,53 +321,53 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'concentration0': GreaterThan(lower_bound=0.0), 'concentration1': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'concentration0': GreaterThan(lower_bound=0.0), 'concentration1': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-concentration0¶
+concentration0
 ```
 
 ```py
-concentration1¶
+concentration1
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=())¶
+rsample(sample_shape=())
 ```
 
 ```py
-support = Interval(lower_bound=0.0, upper_bound=1.0)¶
+support = Interval(lower_bound=0.0, upper_bound=1.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Binomial
 
 ```py
-class torch.distributions.binomial.Binomial(total_count=1, probs=None, logits=None, validate_args=None)¶
+class torch.distributions.binomial.Binomial(total_count=1, probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -398,57 +398,57 @@ tensor([[ 4.,  5.],
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0), 'total_count': IntegerGreaterThan(lower_bound=0)}¶
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0), 'total_count': IntegerGreaterThan(lower_bound=0)}
 ```
 
 ```py
-enumerate_support(expand=True)¶
+enumerate_support(expand=True)
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_enumerate_support = True¶
+has_enumerate_support = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-param_shape¶
+param_shape
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support¶
+support
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Categorical
 
 ```py
-class torch.distributions.categorical.Categorical(probs=None, logits=None, validate_args=None)¶
+class torch.distributions.categorical.Categorical(probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -489,61 +489,61 @@ tensor(3)
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Simplex()}¶
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-enumerate_support(expand=True)¶
+enumerate_support(expand=True)
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_enumerate_support = True¶
+has_enumerate_support = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-param_shape¶
+param_shape
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support¶
+support
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Cauchy
 
 ```py
-class torch.distributions.cauchy.Cauchy(loc, scale, validate_args=None)¶
+class torch.distributions.cauchy.Cauchy(loc, scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -568,53 +568,53 @@ tensor([ 2.3214])
 | --- | --- |
 
 ```py
-arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Chi2
 
 ```py
-class torch.distributions.chi2.Chi2(df, validate_args=None)¶
+class torch.distributions.chi2.Chi2(df, validate_args=None)
 ```
 
 Bases: [`torch.distributions.gamma.Gamma`](#torch.distributions.gamma.Gamma "torch.distributions.gamma.Gamma")
@@ -634,21 +634,21 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'df': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'df': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-df¶
+df
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ## Dirichlet
 
 ```py
-class torch.distributions.dirichlet.Dirichlet(concentration, validate_args=None)¶
+class torch.distributions.dirichlet.Dirichlet(concentration, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -668,45 +668,45 @@ tensor([ 0.1046,  0.8954])
 | --- | --- |
 
 ```py
-arg_constraints = {'concentration': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'concentration': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=())¶
+rsample(sample_shape=())
 ```
 
 ```py
-support = Simplex()¶
+support = Simplex()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Exponential
 
 ```py
-class torch.distributions.exponential.Exponential(rate, validate_args=None)¶
+class torch.distributions.exponential.Exponential(rate, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -726,57 +726,57 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'rate': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'rate': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-stddev¶
+stddev
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## FisherSnedecor
 
 ```py
-class torch.distributions.fishersnedecor.FisherSnedecor(df1, df2, validate_args=None)¶
+class torch.distributions.fishersnedecor.FisherSnedecor(df1, df2, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -801,41 +801,41 @@ tensor([ 0.2453])
 | --- | --- |
 
 ```py
-arg_constraints = {'df1': GreaterThan(lower_bound=0.0), 'df2': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'df1': GreaterThan(lower_bound=0.0), 'df2': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Gamma
 
 ```py
-class torch.distributions.gamma.Gamma(concentration, rate, validate_args=None)¶
+class torch.distributions.gamma.Gamma(concentration, rate, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -860,45 +860,45 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'rate': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'rate': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Geometric
 
 ```py
-class torch.distributions.geometric.Geometric(probs=None, logits=None, validate_args=None)¶
+class torch.distributions.geometric.Geometric(probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -925,49 +925,49 @@ tensor([ 2.])
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}¶
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = IntegerGreaterThan(lower_bound=0)¶
+support = IntegerGreaterThan(lower_bound=0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Gumbel
 
 ```py
-class torch.distributions.gumbel.Gumbel(loc, scale, validate_args=None)¶
+class torch.distributions.gumbel.Gumbel(loc, scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -992,37 +992,37 @@ tensor([ 1.0124])
 | --- | --- |
 
 ```py
-arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-stddev¶
+stddev
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## HalfCauchy
 
 ```py
-class torch.distributions.half_cauchy.HalfCauchy(scale, validate_args=None)¶
+class torch.distributions.half_cauchy.HalfCauchy(scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -1048,53 +1048,53 @@ tensor([ 2.3214])
 | --- | --- |
 
 ```py
-arg_constraints = {'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(prob)¶
+icdf(prob)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-scale¶
+scale
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## HalfNormal
 
 ```py
-class torch.distributions.half_normal.HalfNormal(scale, validate_args=None)¶
+class torch.distributions.half_normal.HalfNormal(scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -1120,53 +1120,53 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(prob)¶
+icdf(prob)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-scale¶
+scale
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Independent
 
 ```py
-class torch.distributions.independent.Independent(base_distribution, reinterpreted_batch_ndims, validate_args=None)¶
+class torch.distributions.independent.Independent(base_distribution, reinterpreted_batch_ndims, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1199,57 +1199,57 @@ This is mainly useful for changing the shape of the result of [`log_prob()`](#to
 | --- | --- |
 
 ```py
-arg_constraints = {}¶
+arg_constraints = {}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-enumerate_support(expand=True)¶
+enumerate_support(expand=True)
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_enumerate_support¶
+has_enumerate_support
 ```
 
 ```py
-has_rsample¶
+has_rsample
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support¶
+support
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Laplace
 
 ```py
-class torch.distributions.laplace.Laplace(loc, scale, validate_args=None)¶
+class torch.distributions.laplace.Laplace(loc, scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1274,57 +1274,57 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-stddev¶
+stddev
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## LogNormal
 
 ```py
-class torch.distributions.log_normal.LogNormal(loc, scale, validate_args=None)¶
+class torch.distributions.log_normal.LogNormal(loc, scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -1355,45 +1355,45 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-loc¶
+loc
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-scale¶
+scale
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## LowRankMultivariateNormal
 
 ```py
-class torch.distributions.lowrank_multivariate_normal.LowRankMultivariateNormal(loc, cov_factor, cov_diag, validate_args=None)¶
+class torch.distributions.lowrank_multivariate_normal.LowRankMultivariateNormal(loc, cov_factor, cov_diag, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1433,57 +1433,57 @@ capacitance = I + cov_factor.T @ inv(cov_diag) @ cov_factor
 ```
 
 ```py
-arg_constraints = {'cov_diag': GreaterThan(lower_bound=0.0), 'cov_factor': Real(), 'loc': Real()}¶
+arg_constraints = {'cov_diag': GreaterThan(lower_bound=0.0), 'cov_factor': Real(), 'loc': Real()}
 ```
 
 ```py
-covariance_matrix¶
+covariance_matrix
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-precision_matrix¶
+precision_matrix
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-scale_tril¶
+scale_tril
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Multinomial
 
 ```py
-class torch.distributions.multinomial.Multinomial(total_count=1, probs=None, logits=None, validate_args=None)¶
+class torch.distributions.multinomial.Multinomial(total_count=1, probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1521,49 +1521,49 @@ tensor([-4.1338])
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Simplex()}¶
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-param_shape¶
+param_shape
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support¶
+support
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## MultivariateNormal
 
 ```py
-class torch.distributions.multivariate_normal.MultivariateNormal(loc, covariance_matrix=None, precision_matrix=None, scale_tril=None, validate_args=None)¶
+class torch.distributions.multivariate_normal.MultivariateNormal(loc, covariance_matrix=None, precision_matrix=None, scale_tril=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1598,57 +1598,57 @@ Only one of [`covariance_matrix`](#torch.distributions.multivariate_normal.Multi
 Using [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril") will be more efficient: all computations internally are based on [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril"). If [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") or [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") is passed instead, it is only used to compute the corresponding lower triangular matrices using a Cholesky decomposition.
 
 ```py
-arg_constraints = {'covariance_matrix': PositiveDefinite(), 'loc': RealVector(), 'precision_matrix': PositiveDefinite(), 'scale_tril': LowerCholesky()}¶
+arg_constraints = {'covariance_matrix': PositiveDefinite(), 'loc': RealVector(), 'precision_matrix': PositiveDefinite(), 'scale_tril': LowerCholesky()}
 ```
 
 ```py
-covariance_matrix¶
+covariance_matrix
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-precision_matrix¶
+precision_matrix
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-scale_tril¶
+scale_tril
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## NegativeBinomial
 
 ```py
-class torch.distributions.negative_binomial.NegativeBinomial(total_count, probs=None, logits=None, validate_args=None)¶
+class torch.distributions.negative_binomial.NegativeBinomial(total_count, probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1665,49 +1665,49 @@ Creates a Negative Binomial distribution, i.e. distribution of the number of ind
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': HalfOpenInterval(lower_bound=0.0, upper_bound=1.0), 'total_count': GreaterThanEq(lower_bound=0)}¶
+arg_constraints = {'logits': Real(), 'probs': HalfOpenInterval(lower_bound=0.0, upper_bound=1.0), 'total_count': GreaterThanEq(lower_bound=0)}
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-param_shape¶
+param_shape
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = IntegerGreaterThan(lower_bound=0)¶
+support = IntegerGreaterThan(lower_bound=0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Normal
 
 ```py
-class torch.distributions.normal.Normal(loc, scale, validate_args=None)¶
+class torch.distributions.normal.Normal(loc, scale, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -1732,61 +1732,61 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-stddev¶
+stddev
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## OneHotCategorical
 
 ```py
-class torch.distributions.one_hot_categorical.OneHotCategorical(probs=None, logits=None, validate_args=None)¶
+class torch.distributions.one_hot_categorical.OneHotCategorical(probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -1819,61 +1819,61 @@ tensor([ 0.,  0.,  0.,  1.])
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Simplex()}¶
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-enumerate_support(expand=True)¶
+enumerate_support(expand=True)
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_enumerate_support = True¶
+has_enumerate_support = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-param_shape¶
+param_shape
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = Simplex()¶
+support = Simplex()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Pareto
 
 ```py
-class torch.distributions.pareto.Pareto(scale, alpha, validate_args=None)¶
+class torch.distributions.pareto.Pareto(scale, alpha, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -1898,33 +1898,33 @@ tensor([ 1.5623])
 | --- | --- |
 
 ```py
-arg_constraints = {'alpha': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'alpha': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-support¶
+support
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Poisson
 
 ```py
-class torch.distributions.poisson.Poisson(rate, validate_args=None)¶
+class torch.distributions.poisson.Poisson(rate, validate_args=None)
 ```
 
 Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
@@ -1948,37 +1948,37 @@ tensor([ 3.])
 | --- | --- |
 
 ```py
-arg_constraints = {'rate': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'rate': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = IntegerGreaterThan(lower_bound=0)¶
+support = IntegerGreaterThan(lower_bound=0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## RelaxedBernoulli
 
 ```py
-class torch.distributions.relaxed_bernoulli.RelaxedBernoulli(temperature, probs=None, logits=None, validate_args=None)¶
+class torch.distributions.relaxed_bernoulli.RelaxedBernoulli(temperature, probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -2005,37 +2005,37 @@ tensor([ 0.2951,  0.3442,  0.8918,  0.9021])
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}¶
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-support = Interval(lower_bound=0.0, upper_bound=1.0)¶
+support = Interval(lower_bound=0.0, upper_bound=1.0)
 ```
 
 ```py
-temperature¶
+temperature
 ```
 
 ## RelaxedOneHotCategorical
 
 ```py
-class torch.distributions.relaxed_categorical.RelaxedOneHotCategorical(temperature, probs=None, logits=None, validate_args=None)¶
+class torch.distributions.relaxed_categorical.RelaxedOneHotCategorical(temperature, probs=None, logits=None, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -2062,37 +2062,37 @@ tensor([ 0.1294,  0.2324,  0.3859,  0.2523])
 | --- | --- |
 
 ```py
-arg_constraints = {'logits': Real(), 'probs': Simplex()}¶
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-logits¶
+logits
 ```
 
 ```py
-probs¶
+probs
 ```
 
 ```py
-support = Simplex()¶
+support = Simplex()
 ```
 
 ```py
-temperature¶
+temperature
 ```
 
 ## StudentT
 
 ```py
-class torch.distributions.studentT.StudentT(df, loc=0.0, scale=1.0, validate_args=None)¶
+class torch.distributions.studentT.StudentT(df, loc=0.0, scale=1.0, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -2118,45 +2118,45 @@ tensor([ 0.1046])
 | --- | --- |
 
 ```py
-arg_constraints = {'df': GreaterThan(lower_bound=0.0), 'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'df': GreaterThan(lower_bound=0.0), 'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-support = Real()¶
+support = Real()
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## TransformedDistribution
 
 ```py
-class torch.distributions.transformed_distribution.TransformedDistribution(base_distribution, transforms, validate_args=None)¶
+class torch.distributions.transformed_distribution.TransformedDistribution(base_distribution, transforms, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -2188,55 +2188,55 @@ logistic = TransformedDistribution(base_distribution, transforms)
 For more examples, please look at the implementations of [`Gumbel`](#torch.distributions.gumbel.Gumbel "torch.distributions.gumbel.Gumbel"), [`HalfCauchy`](#torch.distributions.half_cauchy.HalfCauchy "torch.distributions.half_cauchy.HalfCauchy"), [`HalfNormal`](#torch.distributions.half_normal.HalfNormal "torch.distributions.half_normal.HalfNormal"), [`LogNormal`](#torch.distributions.log_normal.LogNormal "torch.distributions.log_normal.LogNormal"), [`Pareto`](#torch.distributions.pareto.Pareto "torch.distributions.pareto.Pareto"), [`Weibull`](#torch.distributions.weibull.Weibull "torch.distributions.weibull.Weibull"), [`RelaxedBernoulli`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli "torch.distributions.relaxed_bernoulli.RelaxedBernoulli") and [`RelaxedOneHotCategorical`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical")
 
 ```py
-arg_constraints = {}¶
+arg_constraints = {}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 Computes the cumulative distribution function by inverting the transform(s) and computing the score of the base distribution.
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample¶
+has_rsample
 ```
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 Computes the inverse cumulative distribution function using transform(s) and computing the score of the base distribution.
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 Scores the sample by inverting the transform(s) and computing the score using the score of the base distribution and the log abs det jacobian.
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 Generates a sample_shape shaped reparameterized sample or sample_shape shaped batch of reparameterized samples if the distribution parameters are batched. Samples first from base distribution and applies &lt;cite&gt;transform()&lt;/cite&gt; for every transform in the list.
 
 ```py
-sample(sample_shape=torch.Size([]))¶
+sample(sample_shape=torch.Size([]))
 ```
 
 Generates a sample_shape shaped sample or sample_shape shaped batch of samples if the distribution parameters are batched. Samples first from base distribution and applies &lt;cite&gt;transform()&lt;/cite&gt; for every transform in the list.
 
 ```py
-support¶
+support
 ```
 
 ## Uniform
 
 ```py
-class torch.distributions.uniform.Uniform(low, high, validate_args=None)¶
+class torch.distributions.uniform.Uniform(low, high, validate_args=None)
 ```
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
@@ -2261,57 +2261,57 @@ tensor([ 2.3418])
 | --- | --- |
 
 ```py
-arg_constraints = {'high': Dependent(), 'low': Dependent()}¶
+arg_constraints = {'high': Dependent(), 'low': Dependent()}
 ```
 
 ```py
-cdf(value)¶
+cdf(value)
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-has_rsample = True¶
+has_rsample = True
 ```
 
 ```py
-icdf(value)¶
+icdf(value)
 ```
 
 ```py
-log_prob(value)¶
+log_prob(value)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-rsample(sample_shape=torch.Size([]))¶
+rsample(sample_shape=torch.Size([]))
 ```
 
 ```py
-stddev¶
+stddev
 ```
 
 ```py
-support¶
+support
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## Weibull
 
 ```py
-class torch.distributions.weibull.Weibull(scale, concentration, validate_args=None)¶
+class torch.distributions.weibull.Weibull(scale, concentration, validate_args=None)
 ```
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
@@ -2336,33 +2336,33 @@ tensor([ 0.4784])
 | --- | --- |
 
 ```py
-arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}¶
+arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}
 ```
 
 ```py
-entropy()¶
+entropy()
 ```
 
 ```py
-expand(batch_shape, _instance=None)¶
+expand(batch_shape, _instance=None)
 ```
 
 ```py
-mean¶
+mean
 ```
 
 ```py
-support = GreaterThan(lower_bound=0.0)¶
+support = GreaterThan(lower_bound=0.0)
 ```
 
 ```py
-variance¶
+variance
 ```
 
 ## &lt;cite&gt;KL Divergence&lt;/cite&gt;
 
 ```py
-torch.distributions.kl.kl_divergence(p, q)¶
+torch.distributions.kl.kl_divergence(p, q)
 ```
 
 Compute Kullback-Leibler divergence ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg) between two distributions.
@@ -2384,7 +2384,7 @@ Compute Kullback-Leibler divergence ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg
 | --- | --- |
 
 ```py
-torch.distributions.kl.register_kl(type_p, type_q)¶
+torch.distributions.kl.register_kl(type_p, type_q)
 ```
 
 Decorator to register a pairwise function with [`kl_divergence()`](#torch.distributions.kl.kl_divergence "torch.distributions.kl.kl_divergence"). Usage:
@@ -2424,7 +2424,7 @@ register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
 ## &lt;cite&gt;Transforms&lt;/cite&gt;
 
 ```py
-class torch.distributions.transforms.Transform(cache_size=0)¶
+class torch.distributions.transforms.Transform(cache_size=0)
 ```
 
 Abstract class for invertable transformations with computable log det jacobians. They are primarily used in `torch.distributions.TransformedDistribution`.
@@ -2462,25 +2462,25 @@ Derived classes should implement one or both of `_call()` or `_inverse()`. Deriv
 | --- | --- |
 
 ```py
-inv¶
+inv
 ```
 
 Returns the inverse [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") of this transform. This should satisfy `t.inv.inv is t`.
 
 ```py
-sign¶
+sign
 ```
 
 Returns the sign of the determinant of the Jacobian, if applicable. In general this only makes sense for bijective transforms.
 
 ```py
-log_abs_det_jacobian(x, y)¶
+log_abs_det_jacobian(x, y)
 ```
 
 Computes the log det jacobian &lt;cite&gt;log |dy/dx|&lt;/cite&gt; given input and output.
 
 ```py
-class torch.distributions.transforms.ComposeTransform(parts)¶
+class torch.distributions.transforms.ComposeTransform(parts)
 ```
 
 Composes multiple transforms in a chain. The transforms being composed are responsible for caching.
@@ -2489,31 +2489,31 @@ Composes multiple transforms in a chain. The transforms being composed are respo
 | --- | --- |
 
 ```py
-class torch.distributions.transforms.ExpTransform(cache_size=0)¶
+class torch.distributions.transforms.ExpTransform(cache_size=0)
 ```
 
 Transform via the mapping ![](img/ec8d939394f24908d017d86153e312ea.jpg).
 
 ```py
-class torch.distributions.transforms.PowerTransform(exponent, cache_size=0)¶
+class torch.distributions.transforms.PowerTransform(exponent, cache_size=0)
 ```
 
 Transform via the mapping ![](img/2062af7179e0c19c3599816de6768cee.jpg).
 
 ```py
-class torch.distributions.transforms.SigmoidTransform(cache_size=0)¶
+class torch.distributions.transforms.SigmoidTransform(cache_size=0)
 ```
 
 Transform via the mapping ![](img/749abef3418941161a1c6ff80d9eae76.jpg) and ![](img/6feb73eb74f2267e5caa87d9693362cb.jpg).
 
 ```py
-class torch.distributions.transforms.AbsTransform(cache_size=0)¶
+class torch.distributions.transforms.AbsTransform(cache_size=0)
 ```
 
 Transform via the mapping ![](img/dca0dc2e17c81b7ec261e70549de5507.jpg).
 
 ```py
-class torch.distributions.transforms.AffineTransform(loc, scale, event_dim=0, cache_size=0)¶
+class torch.distributions.transforms.AffineTransform(loc, scale, event_dim=0, cache_size=0)
 ```
 
 Transform via the pointwise affine mapping ![](img/e1df459e7ff26d682fc956b62868f7c4.jpg).
@@ -2528,7 +2528,7 @@ Transform via the pointwise affine mapping ![](img/e1df459e7ff26d682fc956b62868f
 | --- | --- |
 
 ```py
-class torch.distributions.transforms.SoftmaxTransform(cache_size=0)¶
+class torch.distributions.transforms.SoftmaxTransform(cache_size=0)
 ```
 
 Transform from unconstrained space to the simplex via ![](img/ec8d939394f24908d017d86153e312ea.jpg) then normalizing.
@@ -2536,7 +2536,7 @@ Transform from unconstrained space to the simplex via ![](img/ec8d939394f24908d0
 This is not bijective and cannot be used for HMC. However this acts mostly coordinate-wise (except for the final normalization), and thus is appropriate for coordinate-wise optimization algorithms.
 
 ```py
-class torch.distributions.transforms.StickBreakingTransform(cache_size=0)¶
+class torch.distributions.transforms.StickBreakingTransform(cache_size=0)
 ```
 
 Transform from unconstrained space to the simplex of one additional dimension via a stick-breaking process.
@@ -2546,7 +2546,7 @@ This transform arises as an iterated sigmoid transform in a stick-breaking const
 This is bijective and appropriate for use in HMC; however it mixes coordinates together and is less appropriate for optimization.
 
 ```py
-class torch.distributions.transforms.LowerCholeskyTransform(cache_size=0)¶
+class torch.distributions.transforms.LowerCholeskyTransform(cache_size=0)
 ```
 
 Transform from unconstrained matrices to lower-triangular matrices with nonnegative diagonal entries.
@@ -2574,7 +2574,7 @@ The following constraints are implemented:
 *   `constraints.unit_interval`
 
 ```py
-class torch.distributions.constraints.Constraint¶
+class torch.distributions.constraints.Constraint
 ```
 
 Abstract base class for constraints.
@@ -2582,49 +2582,49 @@ Abstract base class for constraints.
 A constraint object represents a region over which a variable is valid, e.g. within which a variable can be optimized.
 
 ```py
-check(value)¶
+check(value)
 ```
 
 Returns a byte tensor of &lt;cite&gt;sample_shape + batch_shape&lt;/cite&gt; indicating whether each event in value satisfies this constraint.
 
 ```py
-torch.distributions.constraints.dependent_property¶
+torch.distributions.constraints.dependent_property
 ```
 
 alias of `torch.distributions.constraints._DependentProperty`
 
 ```py
-torch.distributions.constraints.integer_interval¶
+torch.distributions.constraints.integer_interval
 ```
 
 alias of `torch.distributions.constraints._IntegerInterval`
 
 ```py
-torch.distributions.constraints.greater_than¶
+torch.distributions.constraints.greater_than
 ```
 
 alias of `torch.distributions.constraints._GreaterThan`
 
 ```py
-torch.distributions.constraints.greater_than_eq¶
+torch.distributions.constraints.greater_than_eq
 ```
 
 alias of `torch.distributions.constraints._GreaterThanEq`
 
 ```py
-torch.distributions.constraints.less_than¶
+torch.distributions.constraints.less_than
 ```
 
 alias of `torch.distributions.constraints._LessThan`
 
 ```py
-torch.distributions.constraints.interval¶
+torch.distributions.constraints.interval
 ```
 
 alias of `torch.distributions.constraints._Interval`
 
 ```py
-torch.distributions.constraints.half_open_interval¶
+torch.distributions.constraints.half_open_interval
 ```
 
 alias of `torch.distributions.constraints._HalfOpenInterval`
@@ -2680,13 +2680,13 @@ def my_factory(constraint):
 You can create your own registry by creating a new [`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry") object.
 
 ```py
-class torch.distributions.constraint_registry.ConstraintRegistry¶
+class torch.distributions.constraint_registry.ConstraintRegistry
 ```
 
 Registry to link constraints to transforms.
 
 ```py
-register(constraint, factory=None)¶
+register(constraint, factory=None)
 ```
 
 Registers a [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") subclass in this registry. Usage:

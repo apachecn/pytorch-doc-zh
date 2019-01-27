@@ -7,7 +7,7 @@ The numerical properties of a [`torch.dtype`](tensor_attributes.html#torch.torch
 ## torch.finfo
 
 ```py
-class torch.finfo¶
+class torch.finfo
 ```
 
 A [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") is an object that represents the numerical properties of a floating point [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), (i.e. &lt;cite&gt;torch.float32&lt;/cite&gt;, &lt;cite&gt;torch.float64&lt;/cite&gt;, and &lt;cite&gt;torch.float16&lt;/cite&gt;). This is similar to [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html).
@@ -28,7 +28,7 @@ The constructor of [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") can b
 ## torch.iinfo
 
 ```py
-class torch.iinfo¶
+class torch.iinfo
 ```
 
 A [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") is an object that represents the numerical properties of a integer [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") (i.e. &lt;cite&gt;torch.uint8&lt;/cite&gt;, &lt;cite&gt;torch.int8&lt;/cite&gt;, &lt;cite&gt;torch.int16&lt;/cite&gt;, &lt;cite&gt;torch.int32&lt;/cite&gt;, and &lt;cite&gt;torch.int64&lt;/cite&gt;). This is similar to [numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html).

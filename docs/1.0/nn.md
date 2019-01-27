@@ -5,7 +5,7 @@
 ## Parameters
 
 ```py
-class torch.nn.Parameter¶
+class torch.nn.Parameter
 ```
 
 A kind of Tensor that is to be considered a module parameter.
@@ -25,7 +25,7 @@ Parameters are [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") subclasses, 
 ### Module
 
 ```py
-class torch.nn.Module¶
+class torch.nn.Module
 ```
 
 Base class for all neural network modules.
@@ -53,7 +53,7 @@ class Model(nn.Module):
 Submodules assigned in this way will be registered, and will have their parameters converted too when you call [`to()`](#torch.nn.Module.to "torch.nn.Module.to"), etc.
 
 ```py
-add_module(name, module)¶
+add_module(name, module)
 ```
 
 Adds a child module to the current module.
@@ -69,7 +69,7 @@ The module can be accessed as an attribute using the given name.
 | --- | --- |
 
 ```py
-apply(fn)¶
+apply(fn)
 ```
 
 Applies `fn` recursively to every submodule (as returned by `.children()`) as well as self. Typical use includes initializing the parameters of a model (see also torch-nn-init).
@@ -112,7 +112,7 @@ Sequential(
 ```
 
 ```py
-buffers(recurse=True)¶
+buffers(recurse=True)
 ```
 
 Returns an iterator over module buffers.
@@ -133,7 +133,7 @@ Example:
 ```
 
 ```py
-children()¶
+children()
 ```
 
 Returns an iterator over immediate children modules.
@@ -142,7 +142,7 @@ Returns an iterator over immediate children modules.
 | --- | --- |
 
 ```py
-cpu()¶
+cpu()
 ```
 
 Moves all model parameters and buffers to the CPU.
@@ -153,7 +153,7 @@ Moves all model parameters and buffers to the CPU.
 | --- | --- |
 
 ```py
-cuda(device=None)¶
+cuda(device=None)
 ```
 
 Moves all model parameters and buffers to the GPU.
@@ -168,7 +168,7 @@ This also makes associated parameters and buffers different objects. So it shoul
 | --- | --- |
 
 ```py
-double()¶
+double()
 ```
 
 Casts all floating point parameters and buffers to `double` datatype.
@@ -179,7 +179,7 @@ Casts all floating point parameters and buffers to `double` datatype.
 | --- | --- |
 
 ```py
-dump_patches = False¶
+dump_patches = False
 ```
 
 This allows better BC support for [`load_state_dict()`](#torch.nn.Module.load_state_dict "torch.nn.Module.load_state_dict"). In [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict"), the version number will be saved as in the attribute &lt;cite&gt;_metadata&lt;/cite&gt; of the returned state dict, and thus pickled. &lt;cite&gt;_metadata&lt;/cite&gt; is a dictionary with keys that follow the naming convention of state dict. See `_load_from_state_dict` on how to use this information in loading.
@@ -187,7 +187,7 @@ This allows better BC support for [`load_state_dict()`](#torch.nn.Module.load_st
 If new parameters/buffers are added/removed from a module, this number shall be bumped, and the module’s &lt;cite&gt;_load_from_state_dict&lt;/cite&gt; method can compare the version number and do appropriate changes if the state dict is from before the change.
 
 ```py
-eval()¶
+eval()
 ```
 
 Sets the module in evaluation mode.
@@ -195,7 +195,7 @@ Sets the module in evaluation mode.
 This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout"), `BatchNorm`, etc.
 
 ```py
-extra_repr()¶
+extra_repr()
 ```
 
 Set the extra representation of the module
@@ -203,7 +203,7 @@ Set the extra representation of the module
 To print customized extra information, you should reimplement this method in your own modules. Both single-line and multi-line strings are acceptable.
 
 ```py
-float()¶
+float()
 ```
 
 Casts all floating point parameters and buffers to float datatype.
@@ -214,7 +214,7 @@ Casts all floating point parameters and buffers to float datatype.
 | --- | --- |
 
 ```py
-forward(*input)¶
+forward(*input)
 ```
 
 Defines the computation performed at every call.
@@ -226,7 +226,7 @@ Note
 Although the recipe for forward pass needs to be defined within this function, one should call the [`Module`](#torch.nn.Module "torch.nn.Module") instance afterwards instead of this since the former takes care of running the registered hooks while the latter silently ignores them.
 
 ```py
-half()¶
+half()
 ```
 
 Casts all floating point parameters and buffers to `half` datatype.
@@ -237,7 +237,7 @@ Casts all floating point parameters and buffers to `half` datatype.
 | --- | --- |
 
 ```py
-load_state_dict(state_dict, strict=True)¶
+load_state_dict(state_dict, strict=True)
 ```
 
 Copies parameters and buffers from [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") into this module and its descendants. If `strict` is `True`, then the keys of [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") must exactly match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function.
@@ -251,7 +251,7 @@ Copies parameters and buffers from [`state_dict`](#torch.nn.Module.state_dict "t
 | --- | --- |
 
 ```py
-modules()¶
+modules()
 ```
 
 Returns an iterator over all modules in the network.
@@ -280,7 +280,7 @@ Example:
 ```
 
 ```py
-named_buffers(prefix='', recurse=True)¶
+named_buffers(prefix='', recurse=True)
 ```
 
 Returns an iterator over module buffers, yielding both the name of the buffer as well as the buffer itself.
@@ -305,7 +305,7 @@ Example:
 ```
 
 ```py
-named_children()¶
+named_children()
 ```
 
 Returns an iterator over immediate children modules, yielding both the name of the module as well as the module itself.
@@ -323,7 +323,7 @@ Example:
 ```
 
 ```py
-named_modules(memo=None, prefix='')¶
+named_modules(memo=None, prefix='')
 ```
 
 Returns an iterator over all modules in the network, yielding both the name of the module as well as the module itself.
@@ -352,7 +352,7 @@ Example:
 ```
 
 ```py
-named_parameters(prefix='', recurse=True)¶
+named_parameters(prefix='', recurse=True)
 ```
 
 Returns an iterator over module parameters, yielding both the name of the parameter as well as the parameter itself.
@@ -377,7 +377,7 @@ Example:
 ```
 
 ```py
-parameters(recurse=True)¶
+parameters(recurse=True)
 ```
 
 Returns an iterator over module parameters.
@@ -400,7 +400,7 @@ Example:
 ```
 
 ```py
-register_backward_hook(hook)¶
+register_backward_hook(hook)
 ```
 
 Registers a backward hook on the module.
@@ -424,7 +424,7 @@ Warning
 The current implementation will not have the presented behavior for complex [`Module`](#torch.nn.Module "torch.nn.Module") that perform many operations. In some failure cases, `grad_input` and `grad_output` will only contain the gradients for a subset of the inputs and outputs. For such [`Module`](#torch.nn.Module "torch.nn.Module"), you should use [`torch.Tensor.register_hook()`](autograd.html#torch.Tensor.register_hook "torch.Tensor.register_hook") directly on a specific input or output to get the required gradients.
 
 ```py
-register_buffer(name, tensor)¶
+register_buffer(name, tensor)
 ```
 
 Adds a persistent buffer to the module.
@@ -449,7 +449,7 @@ Example:
 ```
 
 ```py
-register_forward_hook(hook)¶
+register_forward_hook(hook)
 ```
 
 Registers a forward hook on the module.
@@ -469,7 +469,7 @@ The hook should not modify the input or output.
 | --- | --- |
 
 ```py
-register_forward_pre_hook(hook)¶
+register_forward_pre_hook(hook)
 ```
 
 Registers a forward pre-hook on the module.
@@ -489,7 +489,7 @@ The hook should not modify the input.
 | --- | --- |
 
 ```py
-register_parameter(name, param)¶
+register_parameter(name, param)
 ```
 
 Adds a parameter to the module.
@@ -505,7 +505,7 @@ The parameter can be accessed as an attribute using given name.
 | --- | --- |
 
 ```py
-state_dict(destination=None, prefix='', keep_vars=False)¶
+state_dict(destination=None, prefix='', keep_vars=False)
 ```
 
 Returns a dictionary containing a whole state of the module.
@@ -526,7 +526,7 @@ Example:
 ```
 
 ```py
-to(*args, **kwargs)¶
+to(*args, **kwargs)
 ```
 
 Moves and/or casts the parameters and buffers.
@@ -598,7 +598,7 @@ tensor([[ 0.1914, -0.3420],
 ```
 
 ```py
-train(mode=True)¶
+train(mode=True)
 ```
 
 Sets the module in training mode.
@@ -611,7 +611,7 @@ This has any effect only on certain modules. See documentations of particular mo
 | --- | --- |
 
 ```py
-type(dst_type)¶
+type(dst_type)
 ```
 
 Casts all parameters and buffers to `dst_type`.
@@ -624,7 +624,7 @@ Casts all parameters and buffers to `dst_type`.
 | --- | --- |
 
 ```py
-zero_grad()¶
+zero_grad()
 ```
 
 Sets gradients of all model parameters to zero.
@@ -632,7 +632,7 @@ Sets gradients of all model parameters to zero.
 ### Sequential
 
 ```py
-class torch.nn.Sequential(*args)¶
+class torch.nn.Sequential(*args)
 ```
 
 A sequential container. Modules will be added to it in the order they are passed in the constructor. Alternatively, an ordered dict of modules can also be passed in.
@@ -661,7 +661,7 @@ model = nn.Sequential(OrderedDict([
 ### ModuleList
 
 ```py
-class torch.nn.ModuleList(modules=None)¶
+class torch.nn.ModuleList(modules=None)
 ```
 
 Holds submodules in a list.
@@ -688,7 +688,7 @@ class MyModule(nn.Module):
 ```
 
 ```py
-append(module)¶
+append(module)
 ```
 
 Appends a given module to the end of the list.
@@ -697,7 +697,7 @@ Appends a given module to the end of the list.
 | --- | --- |
 
 ```py
-extend(modules)¶
+extend(modules)
 ```
 
 Appends modules from a Python iterable to the end of the list.
@@ -706,7 +706,7 @@ Appends modules from a Python iterable to the end of the list.
 | --- | --- |
 
 ```py
-insert(index, module)¶
+insert(index, module)
 ```
 
 Insert a given module before a given index in the list.
@@ -722,7 +722,7 @@ Insert a given module before a given index in the list.
 ### ModuleDict
 
 ```py
-class torch.nn.ModuleDict(modules=None)¶
+class torch.nn.ModuleDict(modules=None)
 ```
 
 Holds submodules in a dictionary.
@@ -755,25 +755,25 @@ class MyModule(nn.Module):
 ```
 
 ```py
-clear()¶
+clear()
 ```
 
 Remove all items from the ModuleDict.
 
 ```py
-items()¶
+items()
 ```
 
 Return an iterable of the ModuleDict key/value pairs.
 
 ```py
-keys()¶
+keys()
 ```
 
 Return an iterable of the ModuleDict keys.
 
 ```py
-pop(key)¶
+pop(key)
 ```
 
 Remove key from the ModuleDict and return its module.
@@ -782,7 +782,7 @@ Remove key from the ModuleDict and return its module.
 | --- | --- |
 
 ```py
-update(modules)¶
+update(modules)
 ```
 
 Update the ModuleDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
@@ -791,7 +791,7 @@ Update the ModuleDict with the key/value pairs from a mapping or an iterable, ov
 | --- | --- |
 
 ```py
-values()¶
+values()
 ```
 
 Return an iterable of the ModuleDict values.
@@ -799,7 +799,7 @@ Return an iterable of the ModuleDict values.
 ### ParameterList
 
 ```py
-class torch.nn.ParameterList(parameters=None)¶
+class torch.nn.ParameterList(parameters=None)
 ```
 
 Holds parameters in a list.
@@ -826,7 +826,7 @@ class MyModule(nn.Module):
 ```
 
 ```py
-append(parameter)¶
+append(parameter)
 ```
 
 Appends a given parameter at the end of the list.
@@ -835,7 +835,7 @@ Appends a given parameter at the end of the list.
 | --- | --- |
 
 ```py
-extend(parameters)¶
+extend(parameters)
 ```
 
 Appends parameters from a Python iterable to the end of the list.
@@ -846,7 +846,7 @@ Appends parameters from a Python iterable to the end of the list.
 ### ParameterDict
 
 ```py
-class torch.nn.ParameterDict(parameters=None)¶
+class torch.nn.ParameterDict(parameters=None)
 ```
 
 Holds parameters in a dictionary.
@@ -874,25 +874,25 @@ class MyModule(nn.Module):
 ```
 
 ```py
-clear()¶
+clear()
 ```
 
 Remove all items from the ParameterDict.
 
 ```py
-items()¶
+items()
 ```
 
 Return an iterable of the ParameterDict key/value pairs.
 
 ```py
-keys()¶
+keys()
 ```
 
 Return an iterable of the ParameterDict keys.
 
 ```py
-pop(key)¶
+pop(key)
 ```
 
 Remove key from the ParameterDict and return its parameter.
@@ -901,7 +901,7 @@ Remove key from the ParameterDict and return its parameter.
 | --- | --- |
 
 ```py
-update(parameters)¶
+update(parameters)
 ```
 
 Update the ParameterDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
@@ -910,7 +910,7 @@ Update the ParameterDict with the key/value pairs from a mapping or an iterable,
 | --- | --- |
 
 ```py
-values()¶
+values()
 ```
 
 Return an iterable of the ParameterDict values.
@@ -920,7 +920,7 @@ Return an iterable of the ParameterDict values.
 ### Conv1d
 
 ```py
-class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)¶
+class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
 Applies a 1D convolution over an input signal composed of several input planes.
@@ -1001,7 +1001,7 @@ Examples:
 ### Conv2d
 
 ```py
-class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)¶
+class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
 Applies a 2D convolution over an input signal composed of several input planes.
@@ -1094,7 +1094,7 @@ Examples:
 ### Conv3d
 
 ```py
-class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)¶
+class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
 Applies a 3D convolution over an input signal composed of several input planes.
@@ -1187,7 +1187,7 @@ Examples:
 ### ConvTranspose1d
 
 ```py
-class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)¶
+class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
 Applies a 1D transposed convolution operator over an input image composed of several input planes.
@@ -1256,7 +1256,7 @@ Shape:
 ### ConvTranspose2d
 
 ```py
-class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)¶
+class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
 Applies a 2D transposed convolution operator over an input image composed of several input planes.
@@ -1353,7 +1353,7 @@ torch.Size([1, 16, 12, 12])
 ### ConvTranspose3d
 
 ```py
-class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)¶
+class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
 Applies a 3D transposed convolution operator over an input image composed of several input planes. The transposed convolution operator multiplies each input value element-wise by a learnable kernel, and sums over the outputs from all input feature planes.
@@ -1442,7 +1442,7 @@ Examples:
 ### Unfold
 
 ```py
-class torch.nn.Unfold(kernel_size, dilation=1, padding=0, stride=1)¶
+class torch.nn.Unfold(kernel_size, dilation=1, padding=0, stride=1)
 ```
 
 Extracts sliding local blocks from a batched input tensor.
@@ -1516,7 +1516,7 @@ tensor(1.9073e-06)
 ### Fold
 
 ```py
-class torch.nn.Fold(output_size, kernel_size, dilation=1, padding=0, stride=1)¶
+class torch.nn.Fold(output_size, kernel_size, dilation=1, padding=0, stride=1)
 ```
 
 Combines an array of sliding local blocks into a large containing tensor.
@@ -1579,7 +1579,7 @@ Examples:
 ### MaxPool1d
 
 ```py
-class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)¶
+class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
 Applies a 1D max pooling over an input signal composed of several input planes.
@@ -1625,7 +1625,7 @@ Examples:
 ### MaxPool2d
 
 ```py
-class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)¶
+class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
 Applies a 2D max pooling over an input signal composed of several input planes.
@@ -1680,7 +1680,7 @@ Examples:
 ### MaxPool3d
 
 ```py
-class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)¶
+class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
 Applies a 3D max pooling over an input signal composed of several input planes. This is not a test
@@ -1737,7 +1737,7 @@ Examples:
 ### MaxUnpool1d
 
 ```py
-class torch.nn.MaxUnpool1d(kernel_size, stride=None, padding=0)¶
+class torch.nn.MaxUnpool1d(kernel_size, stride=None, padding=0)
 ```
 
 Computes a partial inverse of [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d").
@@ -1803,7 +1803,7 @@ tensor([[[ 0.,  2.,  0.,  4.,  0.,  6.,  0., 8.]]])
 ### MaxUnpool2d
 
 ```py
-class torch.nn.MaxUnpool2d(kernel_size, stride=None, padding=0)¶
+class torch.nn.MaxUnpool2d(kernel_size, stride=None, padding=0)
 ```
 
 Computes a partial inverse of [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d").
@@ -1876,7 +1876,7 @@ tensor([[[[  0.,   0.,   0.,   0.,   0.],
 ### MaxUnpool3d
 
 ```py
-class torch.nn.MaxUnpool3d(kernel_size, stride=None, padding=0)¶
+class torch.nn.MaxUnpool3d(kernel_size, stride=None, padding=0)
 ```
 
 Computes a partial inverse of [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d").
@@ -1936,7 +1936,7 @@ torch.Size([20, 16, 51, 33, 15])
 ### AvgPool1d
 
 ```py
-class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)¶
+class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
 
 Applies a 1D average pooling over an input signal composed of several input planes.
@@ -1983,7 +1983,7 @@ tensor([[[ 2.,  4.,  6.]]])
 ### AvgPool2d
 
 ```py
-class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)¶
+class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
 
 Applies a 2D average pooling over an input signal composed of several input planes.
@@ -2037,7 +2037,7 @@ Examples:
 ### AvgPool3d
 
 ```py
-class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)¶
+class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
 
 Applies a 3D average pooling over an input signal composed of several input planes.
@@ -2093,7 +2093,7 @@ Examples:
 ### FractionalMaxPool2d
 
 ```py
-class torch.nn.FractionalMaxPool2d(kernel_size, output_size=None, output_ratio=None, return_indices=False, _random_samples=None)¶
+class torch.nn.FractionalMaxPool2d(kernel_size, output_size=None, output_ratio=None, return_indices=False, _random_samples=None)
 ```
 
 Applies a 2D fractional max pooling over an input signal composed of several input planes.
@@ -2127,7 +2127,7 @@ Examples
 ### LPPool1d
 
 ```py
-class torch.nn.LPPool1d(norm_type, kernel_size, stride=None, ceil_mode=False)¶
+class torch.nn.LPPool1d(norm_type, kernel_size, stride=None, ceil_mode=False)
 ```
 
 Applies a 1D power-average pooling over an input signal composed of several input planes.
@@ -2177,7 +2177,7 @@ Examples::
 ### LPPool2d
 
 ```py
-class torch.nn.LPPool2d(norm_type, kernel_size, stride=None, ceil_mode=False)¶
+class torch.nn.LPPool2d(norm_type, kernel_size, stride=None, ceil_mode=False)
 ```
 
 Applies a 2D power-average pooling over an input signal composed of several input planes.
@@ -2234,7 +2234,7 @@ Examples:
 ### AdaptiveMaxPool1d
 
 ```py
-class torch.nn.AdaptiveMaxPool1d(output_size, return_indices=False)¶
+class torch.nn.AdaptiveMaxPool1d(output_size, return_indices=False)
 ```
 
 Applies a 1D adaptive max pooling over an input signal composed of several input planes.
@@ -2262,7 +2262,7 @@ Examples
 ### AdaptiveMaxPool2d
 
 ```py
-class torch.nn.AdaptiveMaxPool2d(output_size, return_indices=False)¶
+class torch.nn.AdaptiveMaxPool2d(output_size, return_indices=False)
 ```
 
 Applies a 2D adaptive max pooling over an input signal composed of several input planes.
@@ -2298,7 +2298,7 @@ Examples
 ### AdaptiveMaxPool3d
 
 ```py
-class torch.nn.AdaptiveMaxPool3d(output_size, return_indices=False)¶
+class torch.nn.AdaptiveMaxPool3d(output_size, return_indices=False)
 ```
 
 Applies a 3D adaptive max pooling over an input signal composed of several input planes.
@@ -2334,7 +2334,7 @@ Examples
 ### AdaptiveAvgPool1d
 
 ```py
-class torch.nn.AdaptiveAvgPool1d(output_size)¶
+class torch.nn.AdaptiveAvgPool1d(output_size)
 ```
 
 Applies a 1D adaptive average pooling over an input signal composed of several input planes.
@@ -2357,7 +2357,7 @@ Examples
 ### AdaptiveAvgPool2d
 
 ```py
-class torch.nn.AdaptiveAvgPool2d(output_size)¶
+class torch.nn.AdaptiveAvgPool2d(output_size)
 ```
 
 Applies a 2D adaptive average pooling over an input signal composed of several input planes.
@@ -2388,7 +2388,7 @@ Examples
 ### AdaptiveAvgPool3d
 
 ```py
-class torch.nn.AdaptiveAvgPool3d(output_size)¶
+class torch.nn.AdaptiveAvgPool3d(output_size)
 ```
 
 Applies a 3D adaptive average pooling over an input signal composed of several input planes.
@@ -2421,7 +2421,7 @@ Examples
 ### ReflectionPad1d
 
 ```py
-class torch.nn.ReflectionPad1d(padding)¶
+class torch.nn.ReflectionPad1d(padding)
 ```
 
 Pads the input tensor using the reflection of the input boundary.
@@ -2463,7 +2463,7 @@ tensor([[[3., 2., 1., 0., 1., 2., 3., 2.],
 ### ReflectionPad2d
 
 ```py
-class torch.nn.ReflectionPad2d(padding)¶
+class torch.nn.ReflectionPad2d(padding)
 ```
 
 Pads the input tensor using the reflection of the input boundary.
@@ -2514,7 +2514,7 @@ tensor([[[[7., 6., 7., 8., 7.],
 ### ReplicationPad1d
 
 ```py
-class torch.nn.ReplicationPad1d(padding)¶
+class torch.nn.ReplicationPad1d(padding)
 ```
 
 Pads the input tensor using replication of the input boundary.
@@ -2553,7 +2553,7 @@ tensor([[[0., 0., 0., 0., 1., 2., 3., 3.],
 ### ReplicationPad2d
 
 ```py
-class torch.nn.ReplicationPad2d(padding)¶
+class torch.nn.ReplicationPad2d(padding)
 ```
 
 Pads the input tensor using replication of the input boundary.
@@ -2601,7 +2601,7 @@ tensor([[[[0., 0., 1., 2., 2.],
 ### ReplicationPad3d
 
 ```py
-class torch.nn.ReplicationPad3d(padding)¶
+class torch.nn.ReplicationPad3d(padding)
 ```
 
 Pads the input tensor using replication of the input boundary.
@@ -2633,7 +2633,7 @@ Examples:
 ### ZeroPad2d
 
 ```py
-class torch.nn.ZeroPad2d(padding)¶
+class torch.nn.ZeroPad2d(padding)
 ```
 
 Pads the input tensor boundaries with zero.
@@ -2681,7 +2681,7 @@ tensor([[[[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 ### ConstantPad1d
 
 ```py
-class torch.nn.ConstantPad1d(padding, value)¶
+class torch.nn.ConstantPad1d(padding, value)
 ```
 
 Pads the input tensor boundaries with a constant value.
@@ -2730,7 +2730,7 @@ tensor([[[ 3.5000,  3.5000,  3.5000,  1.6616,  1.4523, -1.1255,  3.5000],
 ### ConstantPad2d
 
 ```py
-class torch.nn.ConstantPad2d(padding, value)¶
+class torch.nn.ConstantPad2d(padding, value)
 ```
 
 Pads the input tensor boundaries with a constant value.
@@ -2783,7 +2783,7 @@ tensor([[[ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
 ### ConstantPad3d
 
 ```py
-class torch.nn.ConstantPad3d(padding, value)¶
+class torch.nn.ConstantPad3d(padding, value)
 ```
 
 Pads the input tensor boundaries with a constant value.
@@ -2817,7 +2817,7 @@ Examples:
 ### ELU
 
 ```py
-class torch.nn.ELU(alpha=1.0, inplace=False)¶
+class torch.nn.ELU(alpha=1.0, inplace=False)
 ```
 
 Applies the element-wise function:
@@ -2853,7 +2853,7 @@ Examples:
 ### Hardshrink
 
 ```py
-class torch.nn.Hardshrink(lambd=0.5)¶
+class torch.nn.Hardshrink(lambd=0.5)
 ```
 
 Applies the hard shrinkage function element-wise:
@@ -2884,7 +2884,7 @@ Examples:
 ### Hardtanh
 
 ```py
-class torch.nn.Hardtanh(min_val=-1.0, max_val=1.0, inplace=False, min_value=None, max_value=None)¶
+class torch.nn.Hardtanh(min_val=-1.0, max_val=1.0, inplace=False, min_value=None, max_value=None)
 ```
 
 Applies the HardTanh function element-wise
@@ -2927,7 +2927,7 @@ Examples:
 ### LeakyReLU
 
 ```py
-class torch.nn.LeakyReLU(negative_slope=0.01, inplace=False)¶
+class torch.nn.LeakyReLU(negative_slope=0.01, inplace=False)
 ```
 
 Applies the element-wise function:
@@ -2967,7 +2967,7 @@ Examples:
 ### LogSigmoid
 
 ```py
-class torch.nn.LogSigmoid¶
+class torch.nn.LogSigmoid
 ```
 
 Applies the element-wise function:
@@ -2993,7 +2993,7 @@ Examples:
 ### PReLU
 
 ```py
-class torch.nn.PReLU(num_parameters=1, init=0.25)¶
+class torch.nn.PReLU(num_parameters=1, init=0.25)
 ```
 
 Applies the element-wise function:
@@ -3046,7 +3046,7 @@ Examples:
 ### ReLU
 
 ```py
-class torch.nn.ReLU(inplace=False)¶
+class torch.nn.ReLU(inplace=False)
 ```
 
 Applies the rectified linear unit function element-wise ![](img/f859c48107afb47986b3297459048c80.jpg)
@@ -3075,7 +3075,7 @@ Examples:
 ### ReLU6
 
 ```py
-class torch.nn.ReLU6(inplace=False)¶
+class torch.nn.ReLU6(inplace=False)
 ```
 
 Applies the element-wise function:
@@ -3106,7 +3106,7 @@ Examples:
 ### RReLU
 
 ```py
-class torch.nn.RReLU(lower=0.125, upper=0.3333333333333333, inplace=False)¶
+class torch.nn.RReLU(lower=0.125, upper=0.3333333333333333, inplace=False)
 ```
 
 Applies the randomized leaky rectified liner unit function, element-wise, as described in the paper:
@@ -3149,7 +3149,7 @@ Examples:
 ### SELU
 
 ```py
-class torch.nn.SELU(inplace=False)¶
+class torch.nn.SELU(inplace=False)
 ```
 
 Applied element-wise, as:
@@ -3184,7 +3184,7 @@ Examples:
 ### CELU
 
 ```py
-class torch.nn.CELU(alpha=1.0, inplace=False)¶
+class torch.nn.CELU(alpha=1.0, inplace=False)
 ```
 
 Applies the element-wise function:
@@ -3222,7 +3222,7 @@ Examples:
 ### Sigmoid
 
 ```py
-class torch.nn.Sigmoid¶
+class torch.nn.Sigmoid
 ```
 
 Applies the element-wise function:
@@ -3250,7 +3250,7 @@ Examples:
 ### Softplus
 
 ```py
-class torch.nn.Softplus(beta=1, threshold=20)¶
+class torch.nn.Softplus(beta=1, threshold=20)
 ```
 
 Applies the element-wise function:
@@ -3290,7 +3290,7 @@ Examples:
 ### Softshrink
 
 ```py
-class torch.nn.Softshrink(lambd=0.5)¶
+class torch.nn.Softshrink(lambd=0.5)
 ```
 
 Applies the soft shrinkage function elementwise:
@@ -3321,7 +3321,7 @@ Examples:
 ### Softsign
 
 ```py
-class torch.nn.Softsign¶
+class torch.nn.Softsign
 ```
 
 Applies the element-wise function:
@@ -3349,7 +3349,7 @@ Examples:
 ### Tanh
 
 ```py
-class torch.nn.Tanh¶
+class torch.nn.Tanh
 ```
 
 Applies the element-wise function:
@@ -3377,7 +3377,7 @@ Examples:
 ### Tanhshrink
 
 ```py
-class torch.nn.Tanhshrink¶
+class torch.nn.Tanhshrink
 ```
 
 Applies the element-wise function:
@@ -3405,7 +3405,7 @@ Examples:
 ### Threshold
 
 ```py
-class torch.nn.Threshold(threshold, value, inplace=False)¶
+class torch.nn.Threshold(threshold, value, inplace=False)
 ```
 
 Thresholds each element of the input Tensor
@@ -3444,7 +3444,7 @@ Examples:
 ### Softmin
 
 ```py
-class torch.nn.Softmin(dim=None)¶
+class torch.nn.Softmin(dim=None)
 ```
 
 Applies the Softmin function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range &lt;cite&gt;(0, 1)&lt;/cite&gt; and sum to 1
@@ -3475,7 +3475,7 @@ Examples:
 ### Softmax
 
 ```py
-class torch.nn.Softmax(dim=None)¶
+class torch.nn.Softmax(dim=None)
 ```
 
 Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range (0,1) and sum to 1
@@ -3512,7 +3512,7 @@ Examples:
 ### Softmax2d
 
 ```py
-class torch.nn.Softmax2d¶
+class torch.nn.Softmax2d
 ```
 
 Applies SoftMax over features to each spatial location.
@@ -3542,7 +3542,7 @@ Examples:
 ### LogSoftmax
 
 ```py
-class torch.nn.LogSoftmax(dim=None)¶
+class torch.nn.LogSoftmax(dim=None)
 ```
 
 Applies the ![](img/db163ba416e1349a426e6a137e082ae2.jpg) function to an n-dimensional input Tensor. The LogSoftmax formulation can be simplified as:
@@ -3573,7 +3573,7 @@ Examples:
 ### AdaptiveLogSoftmaxWithLoss
 
 ```py
-class torch.nn.AdaptiveLogSoftmaxWithLoss(in_features, n_classes, cutoffs, div_value=4.0, head_bias=False)¶
+class torch.nn.AdaptiveLogSoftmaxWithLoss(in_features, n_classes, cutoffs, div_value=4.0, head_bias=False)
 ```
 
 Efficient softmax approximation as described in [Efficient softmax approximation for GPUs](https://arxiv.org/abs/1609.04309) by Edouard Grave, Armand Joulin, Moustapha Cissé, David Grangier, and Hervé Jégou.
@@ -3631,7 +3631,7 @@ Shape:
 *   loss: `Scalar`
 
 ```py
-log_prob(input)¶
+log_prob(input)
 ```
 
 Computes log probabilities for all ![](img/b285cfddea560d447d391e9d7ba660ba.jpg)
@@ -3649,7 +3649,7 @@ Shape:
 *   Output: ![](img/f3bcbc1689556ad810d1c658d44bd970.jpg)
 
 ```py
-predict(input)¶
+predict(input)
 ```
 
 This is equivalent to &lt;cite&gt;self.log_pob(input).argmax(dim=1)&lt;/cite&gt;, but is more efficient in some cases.
@@ -3673,7 +3673,7 @@ Shape:
 ### BatchNorm1d
 
 ```py
-class torch.nn.BatchNorm1d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)¶
+class torch.nn.BatchNorm1d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
 ```
 
 Applies Batch Normalization over a 2D or 3D input (a mini-batch of 1D inputs with optional additional channel dimension) as described in the paper [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167) .
@@ -3725,7 +3725,7 @@ Examples:
 ### BatchNorm2d
 
 ```py
-class torch.nn.BatchNorm2d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)¶
+class torch.nn.BatchNorm2d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
 ```
 
 Applies Batch Normalization over a 4D input (a mini-batch of 2D inputs with additional channel dimension) as described in the paper [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167) .
@@ -3777,7 +3777,7 @@ Examples:
 ### BatchNorm3d
 
 ```py
-class torch.nn.BatchNorm3d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)¶
+class torch.nn.BatchNorm3d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
 ```
 
 Applies Batch Normalization over a 5D input (a mini-batch of 3D inputs with additional channel dimension) as described in the paper [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167) .
@@ -3829,7 +3829,7 @@ Examples:
 ### GroupNorm
 
 ```py
-class torch.nn.GroupNorm(num_groups, num_channels, eps=1e-05, affine=True)¶
+class torch.nn.GroupNorm(num_groups, num_channels, eps=1e-05, affine=True)
 ```
 
 Applies Group Normalization over a mini-batch of inputs as described in the paper [Group Normalization](https://arxiv.org/abs/1803.08494) .
@@ -3875,7 +3875,7 @@ Examples:
 ### InstanceNorm1d
 
 ```py
-class torch.nn.InstanceNorm1d(num_features, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)¶
+class torch.nn.InstanceNorm1d(num_features, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
 ```
 
 Applies Instance Normalization over a 2D or 3D input (a mini-batch of 1D inputs with optional additional channel dimension) as described in the paper [Instance Normalization: The Missing Ingredient for Fast Stylization](https://arxiv.org/abs/1607.08022) .
@@ -3929,7 +3929,7 @@ Examples:
 ### InstanceNorm2d
 
 ```py
-class torch.nn.InstanceNorm2d(num_features, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)¶
+class torch.nn.InstanceNorm2d(num_features, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
 ```
 
 Applies Instance Normalization over a 4D input (a mini-batch of 2D inputs with additional channel dimension) as described in the paper [Instance Normalization: The Missing Ingredient for Fast Stylization](https://arxiv.org/abs/1607.08022) .
@@ -3983,7 +3983,7 @@ Examples:
 ### InstanceNorm3d
 
 ```py
-class torch.nn.InstanceNorm3d(num_features, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)¶
+class torch.nn.InstanceNorm3d(num_features, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
 ```
 
 Applies Instance Normalization over a 5D input (a mini-batch of 3D inputs with additional channel dimension) as described in the paper [Instance Normalization: The Missing Ingredient for Fast Stylization](https://arxiv.org/abs/1607.08022) .
@@ -4037,7 +4037,7 @@ Examples:
 ### LayerNorm
 
 ```py
-class torch.nn.LayerNorm(normalized_shape, eps=1e-05, elementwise_affine=True)¶
+class torch.nn.LayerNorm(normalized_shape, eps=1e-05, elementwise_affine=True)
 ```
 
 Applies Layer Normalization over a mini-batch of inputs as described in the paper [Layer Normalization](https://arxiv.org/abs/1607.06450) .
@@ -4095,7 +4095,7 @@ Examples:
 ### LocalResponseNorm
 
 ```py
-class torch.nn.LocalResponseNorm(size, alpha=0.0001, beta=0.75, k=1.0)¶
+class torch.nn.LocalResponseNorm(size, alpha=0.0001, beta=0.75, k=1.0)
 ```
 
 Applies local response normalization over an input signal composed of several input planes, where channels occupy the second dimension. Applies normalization across channels.
@@ -4135,7 +4135,7 @@ Examples:
 ### RNN
 
 ```py
-class torch.nn.RNN(*args, **kwargs)¶
+class torch.nn.RNN(*args, **kwargs)
 ```
 
 Applies a multi-layer Elman RNN with ![](img/73b754b4f63e76c0f0327be51d4b263c.jpg) or ![](img/86a6387f3ec09e33de3faaa24f784bca.jpg) non-linearity to an input sequence.
@@ -4210,7 +4210,7 @@ Examples:
 ### LSTM
 
 ```py
-class torch.nn.LSTM(*args, **kwargs)¶
+class torch.nn.LSTM(*args, **kwargs)
 ```
 
 Applies a multi-layer long short-term memory (LSTM) RNN to an input sequence.
@@ -4294,7 +4294,7 @@ Examples:
 ### GRU
 
 ```py
-class torch.nn.GRU(*args, **kwargs)¶
+class torch.nn.GRU(*args, **kwargs)
 ```
 
 Applies a multi-layer gated recurrent unit (GRU) RNN to an input sequence.
@@ -4370,7 +4370,7 @@ Examples:
 ### RNNCell
 
 ```py
-class torch.nn.RNNCell(input_size, hidden_size, bias=True, nonlinearity='tanh')¶
+class torch.nn.RNNCell(input_size, hidden_size, bias=True, nonlinearity='tanh')
 ```
 
 An Elman RNN cell with tanh or ReLU non-linearity.
@@ -4432,7 +4432,7 @@ Examples:
 ### LSTMCell
 
 ```py
-class torch.nn.LSTMCell(input_size, hidden_size, bias=True)¶
+class torch.nn.LSTMCell(input_size, hidden_size, bias=True)
 ```
 
 A long short-term memory (LSTM) cell.
@@ -4500,7 +4500,7 @@ Examples:
 ### GRUCell
 
 ```py
-class torch.nn.GRUCell(input_size, hidden_size, bias=True)¶
+class torch.nn.GRUCell(input_size, hidden_size, bias=True)
 ```
 
 A gated recurrent unit (GRU) cell
@@ -4563,7 +4563,7 @@ Examples:
 ### Linear
 
 ```py
-class torch.nn.Linear(in_features, out_features, bias=True)¶
+class torch.nn.Linear(in_features, out_features, bias=True)
 ```
 
 Applies a linear transformation to the incoming data: ![](img/8c4834b7cb4b9c7a795bf354412e8dd3.jpg)
@@ -4606,7 +4606,7 @@ torch.Size([128, 30])
 ### Bilinear
 
 ```py
-class torch.nn.Bilinear(in1_features, in2_features, out_features, bias=True)¶
+class torch.nn.Bilinear(in1_features, in2_features, out_features, bias=True)
 ```
 
 Applies a bilinear transformation to the incoming data: ![](img/a0d89d1240ed669c322d042acea66b2c.jpg)
@@ -4653,7 +4653,7 @@ torch.Size([128, 40])
 ### Dropout
 
 ```py
-class torch.nn.Dropout(p=0.5, inplace=False)¶
+class torch.nn.Dropout(p=0.5, inplace=False)
 ```
 
 During training, randomly zeroes some of the elements of the input tensor with probability `p` using samples from a Bernoulli distribution. Each channel will be zeroed out independently on every forward call.
@@ -4689,7 +4689,7 @@ Examples:
 ### Dropout2d
 
 ```py
-class torch.nn.Dropout2d(p=0.5, inplace=False)¶
+class torch.nn.Dropout2d(p=0.5, inplace=False)
 ```
 
 Randomly zero out entire channels (a channel is a 2D feature map, e.g., the ![](img/d8fdd0e28cfb03738fc5227885ee035a.jpg)-th channel of the ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg)-th sample in the batched input is a 2D tensor ![](img/5bc8fbe2fea3359e55846184c5eb123a.jpg)) of the input tensor). Each channel will be zeroed out independently on every forward call. with probability `p` using samples from a Bernoulli distribution.
@@ -4727,7 +4727,7 @@ Examples:
 ### Dropout3d
 
 ```py
-class torch.nn.Dropout3d(p=0.5, inplace=False)¶
+class torch.nn.Dropout3d(p=0.5, inplace=False)
 ```
 
 Randomly zero out entire channels (a channel is a 3D feature map, e.g., the ![](img/d8fdd0e28cfb03738fc5227885ee035a.jpg)-th channel of the ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg)-th sample in the batched input is a 3D tensor ![](img/5bc8fbe2fea3359e55846184c5eb123a.jpg)) of the input tensor). Each channel will be zeroed out independently on every forward call. with probability `p` using samples from a Bernoulli distribution.
@@ -4765,7 +4765,7 @@ Examples:
 ### AlphaDropout
 
 ```py
-class torch.nn.AlphaDropout(p=0.5, inplace=False)¶
+class torch.nn.AlphaDropout(p=0.5, inplace=False)
 ```
 
 Applies Alpha Dropout over the input.
@@ -4807,7 +4807,7 @@ Examples:
 ### Embedding
 
 ```py
-class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, sparse=False, _weight=None)¶
+class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, sparse=False, _weight=None)
 ```
 
 A simple lookup table that stores embeddings of a fixed dictionary and size.
@@ -4872,7 +4872,7 @@ tensor([[[ 0.0000,  0.0000,  0.0000],
 ```
 
 ```py
-classmethod from_pretrained(embeddings, freeze=True, sparse=False)¶
+classmethod from_pretrained(embeddings, freeze=True, sparse=False)
 ```
 
 Creates Embedding instance from given 2-dimensional FloatTensor.
@@ -4902,7 +4902,7 @@ tensor([[ 4.0000,  5.1000,  6.3000]])
 ### EmbeddingBag
 
 ```py
-class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, mode='mean', sparse=False)¶
+class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, mode='mean', sparse=False)
 ```
 
 Computes sums or means of ‘bags’ of embeddings, without instantiating the intermediate embeddings.
@@ -4966,7 +4966,7 @@ tensor([[-0.8861, -5.4350, -0.0523],
 ### CosineSimilarity
 
 ```py
-class torch.nn.CosineSimilarity(dim=1, eps=1e-08)¶
+class torch.nn.CosineSimilarity(dim=1, eps=1e-08)
 ```
 
 Returns cosine similarity between ![](img/abdadb44ea35aecb39004dd7f55d9543.jpg) and ![](img/88fdc6eeb68ef4aacf7cd6bd43fa176e.jpg), computed along dim.
@@ -5002,7 +5002,7 @@ Examples:
 ### PairwiseDistance
 
 ```py
-class torch.nn.PairwiseDistance(p=2.0, eps=1e-06, keepdim=False)¶
+class torch.nn.PairwiseDistance(p=2.0, eps=1e-06, keepdim=False)
 ```
 
 Computes the batchwise pairwise distance between vectors ![](img/2f0f406e2d42300da1a9891d89381576.jpg), ![](img/60787776d6fd54b3adfd3762b910bd3f.jpg) using the p-norm:
@@ -5041,7 +5041,7 @@ Examples:
 ### L1Loss
 
 ```py
-class torch.nn.L1Loss(size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.L1Loss(size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that measures the mean absolute error (MAE) between each element in the input &lt;cite&gt;x&lt;/cite&gt; and target &lt;cite&gt;y&lt;/cite&gt;.
@@ -5091,7 +5091,7 @@ Examples:
 ### MSELoss
 
 ```py
-class torch.nn.MSELoss(size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.MSELoss(size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that measures the mean squared error (squared L2 norm) between each element in the input &lt;cite&gt;x&lt;/cite&gt; and target &lt;cite&gt;y&lt;/cite&gt;.
@@ -5140,7 +5140,7 @@ Examples:
 ### CrossEntropyLoss
 
 ```py
-class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')¶
+class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
 ```
 
 This criterion combines `nn.LogSoftmax()` and `nn.NLLLoss()` in one single class.
@@ -5210,7 +5210,7 @@ Examples:
 ### CTCLoss
 
 ```py
-class torch.nn.CTCLoss(blank=0, reduction='mean')¶
+class torch.nn.CTCLoss(blank=0, reduction='mean')
 ```
 
 The Connectionist Temporal Classification loss.
@@ -5283,7 +5283,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 ### NLLLoss
 
 ```py
-class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')¶
+class torch.nn.NLLLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
 ```
 
 The negative log likelihood loss. It is useful to train a classification problem with &lt;cite&gt;C&lt;/cite&gt; classes.
@@ -5367,7 +5367,7 @@ Examples:
 ### PoissonNLLLoss
 
 ```py
-class torch.nn.PoissonNLLLoss(log_input=True, full=False, size_average=None, eps=1e-08, reduce=None, reduction='mean')¶
+class torch.nn.PoissonNLLLoss(log_input=True, full=False, size_average=None, eps=1e-08, reduce=None, reduction='mean')
 ```
 
 Negative log likelihood loss with Poisson distribution of target.
@@ -5409,7 +5409,7 @@ Examples:
 ### KLDivLoss
 
 ```py
-class torch.nn.KLDivLoss(size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.KLDivLoss(size_average=None, reduce=None, reduction='mean')
 ```
 
 The [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback-Leibler_divergence) Loss
@@ -5458,7 +5458,7 @@ Shape:
 ### BCELoss
 
 ```py
-class torch.nn.BCELoss(weight=None, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.BCELoss(weight=None, size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that measures the Binary Cross Entropy between the target and the output:
@@ -5506,7 +5506,7 @@ Examples:
 ### BCEWithLogitsLoss
 
 ```py
-class torch.nn.BCEWithLogitsLoss(weight=None, size_average=None, reduce=None, reduction='mean', pos_weight=None)¶
+class torch.nn.BCEWithLogitsLoss(weight=None, size_average=None, reduce=None, reduction='mean', pos_weight=None)
 ```
 
 This loss combines a &lt;cite&gt;Sigmoid&lt;/cite&gt; layer and the &lt;cite&gt;BCELoss&lt;/cite&gt; in one single class. This version is more numerically stable than using a plain &lt;cite&gt;Sigmoid&lt;/cite&gt; followed by a &lt;cite&gt;BCELoss&lt;/cite&gt; as, by combining the operations into one layer, we take advantage of the log-sum-exp trick for numerical stability.
@@ -5543,7 +5543,7 @@ For example, if a dataset contains 100 positive and 300 negative examples of a s
 ### MarginRankingLoss
 
 ```py
-class torch.nn.MarginRankingLoss(margin=0.0, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.MarginRankingLoss(margin=0.0, size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that measures the loss given inputs &lt;cite&gt;x1&lt;/cite&gt;, &lt;cite&gt;x2&lt;/cite&gt;, two 1D mini-batch &lt;cite&gt;Tensor`s, and a label 1D mini-batch tensor `y&lt;/cite&gt; with values (&lt;cite&gt;1&lt;/cite&gt; or &lt;cite&gt;-1&lt;/cite&gt;).
@@ -5575,7 +5575,7 @@ Shape:
 ### HingeEmbeddingLoss
 
 ```py
-class torch.nn.HingeEmbeddingLoss(margin=1.0, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.HingeEmbeddingLoss(margin=1.0, size_average=None, reduce=None, reduction='mean')
 ```
 
 Measures the loss given an input tensor &lt;cite&gt;x&lt;/cite&gt; and a labels tensor &lt;cite&gt;y&lt;/cite&gt; containing values (&lt;cite&gt;1&lt;/cite&gt; or &lt;cite&gt;-1&lt;/cite&gt;). This is usually used for measuring whether two inputs are similar or dissimilar, e.g. using the L1 pairwise distance as &lt;cite&gt;x&lt;/cite&gt;, and is typically used for learning nonlinear embeddings or semi-supervised learning.
@@ -5611,7 +5611,7 @@ Shape:
 ### MultiLabelMarginLoss
 
 ```py
-class torch.nn.MultiLabelMarginLoss(size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.MultiLabelMarginLoss(size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that optimizes a multi-class multi-classification hinge loss (margin-based loss) between input &lt;cite&gt;x&lt;/cite&gt; (a 2D mini-batch &lt;cite&gt;Tensor&lt;/cite&gt;) and output &lt;cite&gt;y&lt;/cite&gt; (which is a 2D &lt;cite&gt;Tensor&lt;/cite&gt; of target class indices). For each sample in the mini-batch:
@@ -5646,7 +5646,7 @@ Shape:
 ### SmoothL1Loss
 
 ```py
-class torch.nn.SmoothL1Loss(size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.SmoothL1Loss(size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that uses a squared term if the absolute element-wise error falls below 1 and an L1 term otherwise. It is less sensitive to outliers than the &lt;cite&gt;MSELoss&lt;/cite&gt; and in some cases prevents exploding gradients (e.g. see “Fast R-CNN” paper by Ross Girshick). Also known as the Huber loss:
@@ -5681,7 +5681,7 @@ Shape:
 ### SoftMarginLoss
 
 ```py
-class torch.nn.SoftMarginLoss(size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.SoftMarginLoss(size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that optimizes a two-class classification logistic loss between input tensor &lt;cite&gt;x&lt;/cite&gt; and target tensor &lt;cite&gt;y&lt;/cite&gt; (containing 1 or -1).
@@ -5708,7 +5708,7 @@ Shape:
 ### MultiLabelSoftMarginLoss
 
 ```py
-class torch.nn.MultiLabelSoftMarginLoss(weight=None, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.MultiLabelSoftMarginLoss(weight=None, size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that optimizes a multi-label one-versus-all loss based on max-entropy, between input &lt;cite&gt;x&lt;/cite&gt; and target &lt;cite&gt;y&lt;/cite&gt; of size &lt;cite&gt;(N, C)&lt;/cite&gt;. For each sample in the minibatch:
@@ -5738,7 +5738,7 @@ Shape:
 ### CosineEmbeddingLoss
 
 ```py
-class torch.nn.CosineEmbeddingLoss(margin=0.0, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.CosineEmbeddingLoss(margin=0.0, size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that measures the loss given input tensors ![](img/abdadb44ea35aecb39004dd7f55d9543.jpg), ![](img/88fdc6eeb68ef4aacf7cd6bd43fa176e.jpg) and a &lt;cite&gt;Tensor&lt;/cite&gt; label &lt;cite&gt;y&lt;/cite&gt; with values 1 or -1. This is used for measuring whether two inputs are similar or dissimilar, using the cosine distance, and is typically used for learning nonlinear embeddings or semi-supervised learning.
@@ -5760,7 +5760,7 @@ The loss function for each sample is:
 ### MultiMarginLoss
 
 ```py
-class torch.nn.MultiMarginLoss(p=1, margin=1.0, weight=None, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.MultiMarginLoss(p=1, margin=1.0, weight=None, size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that optimizes a multi-class classification hinge loss (margin-based loss) between input &lt;cite&gt;x&lt;/cite&gt; (a 2D mini-batch &lt;cite&gt;Tensor&lt;/cite&gt;) and output &lt;cite&gt;y&lt;/cite&gt; (which is a 1D tensor of target class indices, ![](img/fffe5e09046ebb236f89daa5091946f6.jpg)):
@@ -5792,7 +5792,7 @@ The loss function then becomes:
 ### TripletMarginLoss
 
 ```py
-class torch.nn.TripletMarginLoss(margin=1.0, p=2.0, eps=1e-06, swap=False, size_average=None, reduce=None, reduction='mean')¶
+class torch.nn.TripletMarginLoss(margin=1.0, p=2.0, eps=1e-06, swap=False, size_average=None, reduce=None, reduction='mean')
 ```
 
 Creates a criterion that measures the triplet loss given an input tensors x1, x2, x3 and a margin with a value greater than 0. This is used for measuring a relative similarity between samples. A triplet is composed by &lt;cite&gt;a&lt;/cite&gt;, &lt;cite&gt;p&lt;/cite&gt; and &lt;cite&gt;n&lt;/cite&gt;: anchor, positive examples and negative example respectively. The shapes of all input tensors should be ![](img/3dc464d2e10c731f17264e33e497c1a8.jpg).
@@ -5841,7 +5841,7 @@ Shape:
 ### PixelShuffle
 
 ```py
-class torch.nn.PixelShuffle(upscale_factor)¶
+class torch.nn.PixelShuffle(upscale_factor)
 ```
 
 Rearranges elements in a tensor of shape ![](img/1bc8a113de558f2e7d966e72ae39cb95.jpg) to a tensor of shape ![](img/d4e6de257f72abc5a96af64211b7f909.jpg).
@@ -5874,7 +5874,7 @@ torch.Size([1, 1, 12, 12])
 ### Upsample
 
 ```py
-class torch.nn.Upsample(size=None, scale_factor=None, mode='nearest', align_corners=None)¶
+class torch.nn.Upsample(size=None, scale_factor=None, mode='nearest', align_corners=None)
 ```
 
 Upsamples a given multi-channel 1D (temporal), 2D (spatial) or 3D (volumetric) data.
@@ -5981,7 +5981,7 @@ tensor([[[[ 1.0000,  1.4000,  1.8000,  1.6000,  0.8000,  0.0000],
 ### UpsamplingNearest2d
 
 ```py
-class torch.nn.UpsamplingNearest2d(size=None, scale_factor=None)¶
+class torch.nn.UpsamplingNearest2d(size=None, scale_factor=None)
 ```
 
 Applies a 2D nearest neighbor upsampling to an input signal composed of several input channels.
@@ -6033,7 +6033,7 @@ tensor([[[[ 1.,  1.,  2.,  2.],
 ### UpsamplingBilinear2d
 
 ```py
-class torch.nn.UpsamplingBilinear2d(size=None, scale_factor=None)¶
+class torch.nn.UpsamplingBilinear2d(size=None, scale_factor=None)
 ```
 
 Applies a 2D bilinear upsampling to an input signal composed of several input channels.
@@ -6087,7 +6087,7 @@ tensor([[[[ 1.0000,  1.3333,  1.6667,  2.0000],
 ### DataParallel
 
 ```py
-class torch.nn.DataParallel(module, device_ids=None, output_device=None, dim=0)¶
+class torch.nn.DataParallel(module, device_ids=None, output_device=None, dim=0)
 ```
 
 Implements data parallelism at the module level.
@@ -6140,7 +6140,7 @@ Example:
 ### DistributedDataParallel
 
 ```py
-class torch.nn.parallel.DistributedDataParallel(module, device_ids=None, output_device=None, dim=0, broadcast_buffers=True, process_group=None, bucket_cap_mb=25, check_reduction=False)¶
+class torch.nn.parallel.DistributedDataParallel(module, device_ids=None, output_device=None, dim=0, broadcast_buffers=True, process_group=None, bucket_cap_mb=25, check_reduction=False)
 ```
 
 Implements distributed data parallelism that is based on torch.distributed package at the module level.
@@ -6258,7 +6258,7 @@ Example::
 ### DistributedDataParallelCPU
 
 ```py
-class torch.nn.parallel.DistributedDataParallelCPU(module)¶
+class torch.nn.parallel.DistributedDataParallelCPU(module)
 ```
 
 Implements distributed data parallelism for CPU at the module level.
@@ -6319,7 +6319,7 @@ Example:
 ### clip_grad_norm_
 
 ```py
-torch.nn.utils.clip_grad_norm_(parameters, max_norm, norm_type=2)¶
+torch.nn.utils.clip_grad_norm_(parameters, max_norm, norm_type=2)
 ```
 
 Clips gradient norm of an iterable of parameters.
@@ -6340,7 +6340,7 @@ The norm is computed over all gradients together, as if they were concatenated i
 ### clip_grad_value_
 
 ```py
-torch.nn.utils.clip_grad_value_(parameters, clip_value)¶
+torch.nn.utils.clip_grad_value_(parameters, clip_value)
 ```
 
 Clips gradient of an iterable of parameters at specified value.
@@ -6358,7 +6358,7 @@ Gradients are modified in-place.
 ### parameters_to_vector
 
 ```py
-torch.nn.utils.parameters_to_vector(parameters)¶
+torch.nn.utils.parameters_to_vector(parameters)
 ```
 
 Convert parameters to one vector
@@ -6371,7 +6371,7 @@ Convert parameters to one vector
 ### vector_to_parameters
 
 ```py
-torch.nn.utils.vector_to_parameters(vec, parameters)¶
+torch.nn.utils.vector_to_parameters(vec, parameters)
 ```
 
 Convert one vector to the parameters
@@ -6387,7 +6387,7 @@ Convert one vector to the parameters
 ### weight_norm
 
 ```py
-torch.nn.utils.weight_norm(module, name='weight', dim=0)¶
+torch.nn.utils.weight_norm(module, name='weight', dim=0)
 ```
 
 Applies weight normalization to a parameter in the given module.
@@ -6426,7 +6426,7 @@ torch.Size([40, 20])
 ### remove_weight_norm
 
 ```py
-torch.nn.utils.remove_weight_norm(module, name='weight')¶
+torch.nn.utils.remove_weight_norm(module, name='weight')
 ```
 
 Removes the weight normalization reparameterization from a module.
@@ -6450,7 +6450,7 @@ Example
 ### spectral_norm
 
 ```py
-torch.nn.utils.spectral_norm(module, name='weight', n_power_iterations=1, eps=1e-12, dim=None)¶
+torch.nn.utils.spectral_norm(module, name='weight', n_power_iterations=1, eps=1e-12, dim=None)
 ```
 
 Applies spectral normalization to a parameter in the given module.
@@ -6487,7 +6487,7 @@ torch.Size([20])
 ### remove_spectral_norm
 
 ```py
-torch.nn.utils.remove_spectral_norm(module, name='weight')¶
+torch.nn.utils.remove_spectral_norm(module, name='weight')
 ```
 
 Removes the spectral normalization reparameterization from a module.
@@ -6511,7 +6511,7 @@ Example
 ### PackedSequence
 
 ```py
-torch.nn.utils.rnn.PackedSequence(data, batch_sizes=None)¶
+torch.nn.utils.rnn.PackedSequence(data, batch_sizes=None)
 ```
 
 Holds the data and list of `batch_sizes` of a packed sequence.
@@ -6535,7 +6535,7 @@ Batch sizes represent the number elements at each sequence step in the batch, no
 ### pack_padded_sequence
 
 ```py
-torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=False)¶
+torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=False)
 ```
 
 Packs a Tensor containing padded sequences of variable length.
@@ -6562,7 +6562,7 @@ This function accepts any input that has at least two dimensions. You can apply 
 ### pad_packed_sequence
 
 ```py
-torch.nn.utils.rnn.pad_packed_sequence(sequence, batch_first=False, padding_value=0.0, total_length=None)¶
+torch.nn.utils.rnn.pad_packed_sequence(sequence, batch_first=False, padding_value=0.0, total_length=None)
 ```
 
 Pads a packed batch of variable length sequences.
@@ -6592,7 +6592,7 @@ Note
 ### pad_sequence
 
 ```py
-torch.nn.utils.rnn.pad_sequence(sequences, batch_first=False, padding_value=0)¶
+torch.nn.utils.rnn.pad_sequence(sequences, batch_first=False, padding_value=0)
 ```
 
 Pad a list of variable length Tensors with zero
@@ -6631,7 +6631,7 @@ This function returns a Tensor of size `T x B x *` or `B x T x *` where &lt;cite
 ### pack_sequence
 
 ```py
-torch.nn.utils.rnn.pack_sequence(sequences)¶
+torch.nn.utils.rnn.pack_sequence(sequences)
 ```
 
 Packs a list of variable length Tensors

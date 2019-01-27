@@ -15,19 +15,19 @@ If the main process exits abruptly (e.g. because of an incoming signal), Python�
 ## Strategy management
 
 ```py
-torch.multiprocessing.get_all_sharing_strategies()¶
+torch.multiprocessing.get_all_sharing_strategies()
 ```
 
 Returns a set of sharing strategies supported on a current system.
 
 ```py
-torch.multiprocessing.get_sharing_strategy()¶
+torch.multiprocessing.get_sharing_strategy()
 ```
 
 Returns the current strategy for sharing CPU tensors.
 
 ```py
-torch.multiprocessing.set_sharing_strategy(new_strategy)¶
+torch.multiprocessing.set_sharing_strategy(new_strategy)
 ```
 
 Sets the strategy for sharing CPU tensors.
@@ -78,7 +78,7 @@ Namely, joining processes sequentially implies they will terminate sequentially.
 The `spawn` function below addresses these concerns and takes care of error propagation, out of order termination, and will actively terminate processes upon detecting an error in one of them.
 
 ```py
-torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False)¶
+torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False)
 ```
 
 Spawns `nprocs` processes that run `fn` with `args`.
@@ -104,13 +104,13 @@ If one of the processes exits with a non-zero exit status, the remaining process
 | --- | --- |
 
 ```py
-class torch.multiprocessing.SpawnContext¶
+class torch.multiprocessing.SpawnContext
 ```
 
 Returned by [`spawn()`](#torch.multiprocessing.spawn "torch.multiprocessing.spawn") when called with `join=False`.
 
 ```py
-join(timeout=None)¶
+join(timeout=None)
 ```
 
 Tries to join one or more processes in this spawn context. If one of them exited with a non-zero exit status, this function kills the remaining processes and raises an exception with the cause of the first process exiting.

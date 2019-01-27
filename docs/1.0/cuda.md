@@ -9,25 +9,25 @@ It is lazily initialized, so you can always import it, and use [`is_available()`
 [CUDA semantics](notes/cuda.html#cuda-semantics) has more details about working with CUDA.
 
 ```py
-torch.cuda.current_blas_handle()¶
+torch.cuda.current_blas_handle()
 ```
 
 Returns cublasHandle_t pointer to current cuBLAS handle
 
 ```py
-torch.cuda.current_device()¶
+torch.cuda.current_device()
 ```
 
 Returns the index of a currently selected device.
 
 ```py
-torch.cuda.current_stream()¶
+torch.cuda.current_stream()
 ```
 
 Returns a currently selected [`Stream`](#torch.cuda.Stream "torch.cuda.Stream").
 
 ```py
-class torch.cuda.device(device)¶
+class torch.cuda.device(device)
 ```
 
 Context-manager that changes the selected device.
@@ -36,19 +36,19 @@ Context-manager that changes the selected device.
 | --- | --- |
 
 ```py
-torch.cuda.device_count()¶
+torch.cuda.device_count()
 ```
 
 Returns the number of GPUs available.
 
 ```py
-torch.cuda.device_ctx_manager¶
+torch.cuda.device_ctx_manager
 ```
 
 alias of [`torch.cuda.device`](#torch.cuda.device "torch.cuda.device")
 
 ```py
-class torch.cuda.device_of(obj)¶
+class torch.cuda.device_of(obj)
 ```
 
 Context-manager that changes the current device to that of given object.
@@ -59,7 +59,7 @@ You can use both tensors and storages as arguments. If a given object is not all
 | --- | --- |
 
 ```py
-torch.cuda.empty_cache()¶
+torch.cuda.empty_cache()
 ```
 
 Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in &lt;cite&gt;nvidia-smi&lt;/cite&gt;.
@@ -69,7 +69,7 @@ Note
 [`empty_cache()`](#torch.cuda.empty_cache "torch.cuda.empty_cache") doesn’t increase the amount of GPU memory available for PyTorch. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
-torch.cuda.get_device_capability(device)¶
+torch.cuda.get_device_capability(device)
 ```
 
 Gets the cuda capability of a device.
@@ -82,7 +82,7 @@ Gets the cuda capability of a device.
 | --- | --- |
 
 ```py
-torch.cuda.get_device_name(device)¶
+torch.cuda.get_device_name(device)
 ```
 
 Gets the name of a device.
@@ -91,7 +91,7 @@ Gets the name of a device.
 | --- | --- |
 
 ```py
-torch.cuda.init()¶
+torch.cuda.init()
 ```
 
 Initialize PyTorch’s CUDA state. You may need to call this explicitly if you are interacting with PyTorch via its C API, as Python bindings for CUDA functionality will not be until this initialization takes place. Ordinary users should not need this, as all of PyTorch’s CUDA methods automatically initialize CUDA state on-demand.
@@ -99,13 +99,13 @@ Initialize PyTorch’s CUDA state. You may need to call this explicitly if you a
 Does nothing if the CUDA state is already initialized.
 
 ```py
-torch.cuda.is_available()¶
+torch.cuda.is_available()
 ```
 
 Returns a bool indicating if CUDA is currently available.
 
 ```py
-torch.cuda.max_memory_allocated(device=None)¶
+torch.cuda.max_memory_allocated(device=None)
 ```
 
 Returns the maximum GPU memory usage by tensors in bytes for a given device.
@@ -118,7 +118,7 @@ Note
 See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
-torch.cuda.max_memory_cached(device=None)¶
+torch.cuda.max_memory_cached(device=None)
 ```
 
 Returns the maximum GPU memory managed by the caching allocator in bytes for a given device.
@@ -131,7 +131,7 @@ Note
 See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
-torch.cuda.memory_allocated(device=None)¶
+torch.cuda.memory_allocated(device=None)
 ```
 
 Returns the current GPU memory usage by tensors in bytes for a given device.
@@ -144,7 +144,7 @@ Note
 This is likely less than the amount shown in &lt;cite&gt;nvidia-smi&lt;/cite&gt; since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
-torch.cuda.memory_cached(device=None)¶
+torch.cuda.memory_cached(device=None)
 ```
 
 Returns the current GPU memory managed by the caching allocator in bytes for a given device.
@@ -157,7 +157,7 @@ Note
 See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
-torch.cuda.set_device(device)¶
+torch.cuda.set_device(device)
 ```
 
 Sets the current device.
@@ -168,7 +168,7 @@ Usage of this function is discouraged in favor of [`device`](#torch.cuda.device 
 | --- | --- |
 
 ```py
-torch.cuda.stream(stream)¶
+torch.cuda.stream(stream)
 ```
 
 Context-manager that selects a given stream.
@@ -183,7 +183,7 @@ Note
 Streams are per-device, and this function changes the “current stream” only for the currently selected device. It is illegal to select a stream that belongs to a different device.
 
 ```py
-torch.cuda.synchronize()¶
+torch.cuda.synchronize()
 ```
 
 Waits for all kernels in all streams on current device to complete.
@@ -191,7 +191,7 @@ Waits for all kernels in all streams on current device to complete.
 ## Random Number Generator
 
 ```py
-torch.cuda.get_rng_state(device=-1)¶
+torch.cuda.get_rng_state(device=-1)
 ```
 
 Returns the random number generator state of the current GPU as a ByteTensor.
@@ -204,7 +204,7 @@ Warning
 This function eagerly initializes CUDA.
 
 ```py
-torch.cuda.set_rng_state(new_state, device=-1)¶
+torch.cuda.set_rng_state(new_state, device=-1)
 ```
 
 Sets the random number generator state of the current GPU.
@@ -213,7 +213,7 @@ Sets the random number generator state of the current GPU.
 | --- | --- |
 
 ```py
-torch.cuda.manual_seed(seed)¶
+torch.cuda.manual_seed(seed)
 ```
 
 Sets the seed for generating random numbers for the current GPU. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
@@ -226,7 +226,7 @@ Warning
 If you are working with a multi-GPU model, this function is insufficient to get determinism. To seed all GPUs, use [`manual_seed_all()`](#torch.cuda.manual_seed_all "torch.cuda.manual_seed_all").
 
 ```py
-torch.cuda.manual_seed_all(seed)¶
+torch.cuda.manual_seed_all(seed)
 ```
 
 Sets the seed for generating random numbers on all GPUs. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
@@ -235,7 +235,7 @@ Sets the seed for generating random numbers on all GPUs. It’s safe to call thi
 | --- | --- |
 
 ```py
-torch.cuda.seed()¶
+torch.cuda.seed()
 ```
 
 Sets the seed for generating random numbers to a random number for the current GPU. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
@@ -245,13 +245,13 @@ Warning
 If you are working with a multi-GPU model, this function will only initialize the seed on one GPU. To initialize all GPUs, use [`seed_all()`](#torch.cuda.seed_all "torch.cuda.seed_all").
 
 ```py
-torch.cuda.seed_all()¶
+torch.cuda.seed_all()
 ```
 
 Sets the seed for generating random numbers to a random number on all GPUs. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
 
 ```py
-torch.cuda.initial_seed()¶
+torch.cuda.initial_seed()
 ```
 
 Returns the current random seed of the current GPU.
@@ -263,7 +263,7 @@ This function eagerly initializes CUDA.
 ## Communication collectives
 
 ```py
-torch.cuda.comm.broadcast(tensor, devices)¶
+torch.cuda.comm.broadcast(tensor, devices)
 ```
 
 Broadcasts a tensor to a number of GPUs.
@@ -279,7 +279,7 @@ Broadcasts a tensor to a number of GPUs.
 | --- | --- |
 
 ```py
-torch.cuda.comm.broadcast_coalesced(tensors, devices, buffer_size=10485760)¶
+torch.cuda.comm.broadcast_coalesced(tensors, devices, buffer_size=10485760)
 ```
 
 Broadcasts a sequence tensors to the specified GPUs. Small tensors are first coalesced into a buffer to reduce the number of synchronizations.
@@ -296,7 +296,7 @@ Broadcasts a sequence tensors to the specified GPUs. Small tensors are first coa
 | --- | --- |
 
 ```py
-torch.cuda.comm.reduce_add(inputs, destination=None)¶
+torch.cuda.comm.reduce_add(inputs, destination=None)
 ```
 
 Sums tensors from multiple GPUs.
@@ -314,7 +314,7 @@ All inputs should have matching shapes.
 | --- | --- |
 
 ```py
-torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)¶
+torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)
 ```
 
 Scatters tensor across multiple GPUs.
@@ -332,7 +332,7 @@ Scatters tensor across multiple GPUs.
 | --- | --- |
 
 ```py
-torch.cuda.comm.gather(tensors, dim=0, destination=None)¶
+torch.cuda.comm.gather(tensors, dim=0, destination=None)
 ```
 
 Gathers tensors from multiple GPUs.
@@ -353,7 +353,7 @@ Tensor sizes in all dimension different than `dim` have to match.
 ## Streams and events
 
 ```py
-class torch.cuda.Stream¶
+class torch.cuda.Stream
 ```
 
 Wrapper around a CUDA stream.
@@ -369,7 +369,7 @@ A CUDA stream is a linear sequence of execution that belongs to a specific devic
 | --- | --- |
 
 ```py
-query()¶
+query()
 ```
 
 Checks if all the work submitted has been completed.
@@ -378,7 +378,7 @@ Checks if all the work submitted has been completed.
 | --- | --- |
 
 ```py
-record_event(event=None)¶
+record_event(event=None)
 ```
 
 Records an event.
@@ -389,7 +389,7 @@ Records an event.
 | --- | --- |
 
 ```py
-synchronize()¶
+synchronize()
 ```
 
 Wait for all the kernels in this stream to complete.
@@ -399,7 +399,7 @@ Note
 This is a wrapper around `cudaStreamSynchronize()`: see [CUDA documentation](http://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__STREAM.html) for more info.
 
 ```py
-wait_event(event)¶
+wait_event(event)
 ```
 
 Makes all future work submitted to the stream wait for an event.
@@ -414,7 +414,7 @@ This is a wrapper around `cudaStreamWaitEvent()`: see [CUDA documentation](http:
 This function returns without waiting for `event`: only future operations are affected.
 
 ```py
-wait_stream(stream)¶
+wait_stream(stream)
 ```
 
 Synchronizes with another stream.
@@ -429,7 +429,7 @@ Note
 This function returns without waiting for currently enqueued kernels in [`stream`](#torch.cuda.stream "torch.cuda.stream"): only future operations are affected.
 
 ```py
-class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, _handle=None)¶
+class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, _handle=None)
 ```
 
 Wrapper around CUDA event.
@@ -444,19 +444,19 @@ Wrapper around CUDA event.
 | --- | --- |
 
 ```py
-elapsed_time(end_event)¶
+elapsed_time(end_event)
 ```
 
 Returns the time elapsed before the event was recorded.
 
 ```py
-ipc_handle()¶
+ipc_handle()
 ```
 
 Returns an IPC handle of this event.
 
 ```py
-query()¶
+query()
 ```
 
 Checks if the event has been recorded.
@@ -465,19 +465,19 @@ Checks if the event has been recorded.
 | --- | --- |
 
 ```py
-record(stream=None)¶
+record(stream=None)
 ```
 
 Records the event in a given stream.
 
 ```py
-synchronize()¶
+synchronize()
 ```
 
 Synchronizes with the event.
 
 ```py
-wait(stream=None)¶
+wait(stream=None)
 ```
 
 Makes a given stream wait for the event.
@@ -549,7 +549,7 @@ See [Memory management](notes/cuda.html#cuda-memory-management) for more details
 ## NVIDIA Tools Extension (NVTX)
 
 ```py
-torch.cuda.nvtx.mark(msg)¶
+torch.cuda.nvtx.mark(msg)
 ```
 
 Describe an instantaneous event that occurred at some point.
@@ -558,7 +558,7 @@ Describe an instantaneous event that occurred at some point.
 | --- | --- |
 
 ```py
-torch.cuda.nvtx.range_push(msg)¶
+torch.cuda.nvtx.range_push(msg)
 ```
 
 Pushes a range onto a stack of nested range span. Returns zero-based depth of the range that is started.
@@ -567,7 +567,7 @@ Pushes a range onto a stack of nested range span. Returns zero-based depth of th
 | --- | --- |
 
 ```py
-torch.cuda.nvtx.range_pop()¶
+torch.cuda.nvtx.range_pop()
 ```
 
 Pops a range off of a stack of nested range spans. Returns the zero-based depth of the range that is ended.

@@ -3,7 +3,7 @@
 # torch.utils.data
 
 ```py
-class torch.utils.data.Dataset¶
+class torch.utils.data.Dataset
 ```
 
 An abstract class representing a Dataset.
@@ -11,7 +11,7 @@ An abstract class representing a Dataset.
 All other datasets should subclass it. All subclasses should override `__len__`, that provides the size of the dataset, and `__getitem__`, supporting integer indexing in range from 0 to len(self) exclusive.
 
 ```py
-class torch.utils.data.TensorDataset(*tensors)¶
+class torch.utils.data.TensorDataset(*tensors)
 ```
 
 Dataset wrapping tensors.
@@ -22,7 +22,7 @@ Each sample will be retrieved by indexing tensors along the first dimension.
 | --- | --- |
 
 ```py
-class torch.utils.data.ConcatDataset(datasets)¶
+class torch.utils.data.ConcatDataset(datasets)
 ```
 
 Dataset to concatenate multiple datasets. Purpose: useful to assemble different existing datasets, possibly large-scale datasets as the concatenation operation is done in an on-the-fly manner.
@@ -31,7 +31,7 @@ Dataset to concatenate multiple datasets. Purpose: useful to assemble different 
 | --- | --- |
 
 ```py
-class torch.utils.data.Subset(dataset, indices)¶
+class torch.utils.data.Subset(dataset, indices)
 ```
 
 Subset of a dataset at specified indices.
@@ -45,7 +45,7 @@ Subset of a dataset at specified indices.
 | --- | --- |
 
 ```py
-class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=<function default_collate>, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None)¶
+class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=<function default_collate>, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None)
 ```
 
 Data loader. Combines a dataset and a sampler, and provides single- or multi-process iterators over the dataset.
@@ -76,7 +76,7 @@ Warning
 If `spawn` start method is used, `worker_init_fn` cannot be an unpicklable object, e.g., a lambda function.
 
 ```py
-torch.utils.data.random_split(dataset, lengths)¶
+torch.utils.data.random_split(dataset, lengths)
 ```
 
 Randomly split a dataset into non-overlapping new datasets of given lengths.
@@ -90,7 +90,7 @@ Randomly split a dataset into non-overlapping new datasets of given lengths.
 | --- | --- |
 
 ```py
-class torch.utils.data.Sampler(data_source)¶
+class torch.utils.data.Sampler(data_source)
 ```
 
 Base class for all Samplers.
@@ -98,7 +98,7 @@ Base class for all Samplers.
 Every Sampler subclass has to provide an __iter__ method, providing a way to iterate over indices of dataset elements, and a __len__ method that returns the length of the returned iterators.
 
 ```py
-class torch.utils.data.SequentialSampler(data_source)¶
+class torch.utils.data.SequentialSampler(data_source)
 ```
 
 Samples elements sequentially, always in the same order.
@@ -107,7 +107,7 @@ Samples elements sequentially, always in the same order.
 | --- | --- |
 
 ```py
-class torch.utils.data.RandomSampler(data_source, replacement=False, num_samples=None)¶
+class torch.utils.data.RandomSampler(data_source, replacement=False, num_samples=None)
 ```
 
 Samples elements randomly. If without replacement, then sample from a shuffled dataset. If with replacement, then user can specify `num_samples` to draw.
@@ -122,7 +122,7 @@ Samples elements randomly. If without replacement, then sample from a shuffled d
 | --- | --- |
 
 ```py
-class torch.utils.data.SubsetRandomSampler(indices)¶
+class torch.utils.data.SubsetRandomSampler(indices)
 ```
 
 Samples elements randomly from a given list of indices, without replacement.
@@ -131,7 +131,7 @@ Samples elements randomly from a given list of indices, without replacement.
 | --- | --- |
 
 ```py
-class torch.utils.data.WeightedRandomSampler(weights, num_samples, replacement=True)¶
+class torch.utils.data.WeightedRandomSampler(weights, num_samples, replacement=True)
 ```
 
 Samples elements from [0,..,len(weights)-1] with given probabilities (weights).
@@ -146,7 +146,7 @@ Samples elements from [0,..,len(weights)-1] with given probabilities (weights).
 | --- | --- |
 
 ```py
-class torch.utils.data.BatchSampler(sampler, batch_size, drop_last)¶
+class torch.utils.data.BatchSampler(sampler, batch_size, drop_last)
 ```
 
 Wraps another sampler to yield a mini-batch of indices.
@@ -171,7 +171,7 @@ Example
 ```
 
 ```py
-class torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank=None)¶
+class torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank=None)
 ```
 
 Sampler that restricts data loading to a subset of the dataset.

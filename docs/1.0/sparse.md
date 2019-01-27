@@ -82,133 +82,133 @@ Second, some operators will produce different values depending on whether or not
 For example, suppose that we wanted to implement an operator by operating directly on [`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values"). Multiplication by a scalar can be implemented in the obvious way, as multiplication distributes over addition; however, square root cannot be implemented directly, since `sqrt(a + b) != sqrt(a) + sqrt(b)` (which is what would be computed if you were given an uncoalesced tensor.)
 
 ```py
-class torch.sparse.FloatTensor¶
+class torch.sparse.FloatTensor
 ```
 
 ```py
-add()¶
+add()
 ```
 
 ```py
-add_()¶
+add_()
 ```
 
 ```py
-clone()¶
+clone()
 ```
 
 ```py
-dim()¶
+dim()
 ```
 
 ```py
-div()¶
+div()
 ```
 
 ```py
-div_()¶
+div_()
 ```
 
 ```py
-get_device()¶
+get_device()
 ```
 
 ```py
-hspmm()¶
+hspmm()
 ```
 
 ```py
-mm()¶
+mm()
 ```
 
 ```py
-mul()¶
+mul()
 ```
 
 ```py
-mul_()¶
+mul_()
 ```
 
 ```py
-narrow_copy()¶
+narrow_copy()
 ```
 
 ```py
-resizeAs_()¶
+resizeAs_()
 ```
 
 ```py
-size()¶
+size()
 ```
 
 ```py
-spadd()¶
+spadd()
 ```
 
 ```py
-spmm()¶
+spmm()
 ```
 
 ```py
-sspaddmm()¶
+sspaddmm()
 ```
 
 ```py
-sspmm()¶
+sspmm()
 ```
 
 ```py
-sub()¶
+sub()
 ```
 
 ```py
-sub_()¶
+sub_()
 ```
 
 ```py
-t_()¶
+t_()
 ```
 
 ```py
-toDense()¶
+toDense()
 ```
 
 ```py
-transpose()¶
+transpose()
 ```
 
 ```py
-transpose_()¶
+transpose_()
 ```
 
 ```py
-zero_()¶
+zero_()
 ```
 
 ```py
-coalesce()¶
+coalesce()
 ```
 
 ```py
-is_coalesced()¶
+is_coalesced()
 ```
 
 ```py
-_indices()¶
+_indices()
 ```
 
 ```py
-_values()¶
+_values()
 ```
 
 ```py
-_nnz()¶
+_nnz()
 ```
 
 ## Functions
 
 ```py
-torch.sparse.addmm(mat, mat1, mat2, beta=1, alpha=1)¶
+torch.sparse.addmm(mat, mat1, mat2, beta=1, alpha=1)
 ```
 
 This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm "torch.addmm") in the forward, except that it supports backward for sparse matrix `mat1`. `mat1` need to have &lt;cite&gt;sparse_dim = 2&lt;/cite&gt;. Note that the gradients of `mat1` is a coalesced sparse tensor.
@@ -225,7 +225,7 @@ This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm 
 | --- | --- |
 
 ```py
-torch.sparse.mm(mat1, mat2)¶
+torch.sparse.mm(mat1, mat2)
 ```
 
 Performs a matrix multiplication of the sparse matrix `mat1` and dense matrix `mat2`. Similar to [`torch.mm()`](torch.html#torch.mm "torch.mm"), If `mat1` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` is a ![](img/ec84c2d649caa2a7d4dc59b6b23b0278.jpg) tensor, out will be a ![](img/42cdcd96fd628658ac0e3e7070ba08d5.jpg) dense tensor. `mat1` need to have &lt;cite&gt;sparse_dim = 2&lt;/cite&gt;. This function also supports backward for both matrices. Note that the gradients of `mat1` is a coalesced sparse tensor.
@@ -268,7 +268,7 @@ tensor(indices=tensor([[0, 0, 0, 1, 1, 1],
 ```
 
 ```py
-torch.sparse.sum(input, dim=None, dtype=None)¶
+torch.sparse.sum(input, dim=None, dtype=None)
 ```
 
 Returns the sum of each row of SparseTensor `input` in the given dimensions `dim`. If :attr::&lt;cite&gt;dim&lt;/cite&gt; is a list of dimensions, reduce over all of them. When sum over all `sparse_dim`, this method returns a Tensor instead of SparseTensor.

@@ -38,13 +38,13 @@ Package Reference
 *   [torchvision.utils](utils.html)
 
 ```py
-torchvision.get_image_backend()¶
+torchvision.get_image_backend()
 ```
 
 Gets the name of the package used to load images
 
 ```py
-torchvision.set_image_backend(backend)¶
+torchvision.set_image_backend(backend)
 ```
 
 Specifies the package used to load images.

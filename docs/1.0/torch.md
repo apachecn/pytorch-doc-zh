@@ -9,7 +9,7 @@ It has a CUDA counterpart, that enables you to run your tensor computations on a
 ## Tensors
 
 ```py
-torch.is_tensor(obj)¶
+torch.is_tensor(obj)
 ```
 
 Returns True if &lt;cite&gt;obj&lt;/cite&gt; is a PyTorch tensor.
@@ -18,7 +18,7 @@ Returns True if &lt;cite&gt;obj&lt;/cite&gt; is a PyTorch tensor.
 | --- | --- |
 
 ```py
-torch.is_storage(obj)¶
+torch.is_storage(obj)
 ```
 
 Returns True if &lt;cite&gt;obj&lt;/cite&gt; is a PyTorch storage object.
@@ -27,7 +27,7 @@ Returns True if &lt;cite&gt;obj&lt;/cite&gt; is a PyTorch storage object.
 | --- | --- |
 
 ```py
-torch.set_default_dtype(d)¶
+torch.set_default_dtype(d)
 ```
 
 Sets the default floating point dtype to `d`. This type will be used as default floating point type for type inference in [`torch.tensor()`](#torch.tensor "torch.tensor").
@@ -49,7 +49,7 @@ torch.float64
 ```
 
 ```py
-torch.get_default_dtype() → torch.dtype¶
+torch.get_default_dtype() → torch.dtype
 ```
 
 Get the current default floating point [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype").
@@ -69,7 +69,7 @@ torch.float32
 ```
 
 ```py
-torch.set_default_tensor_type(t)¶
+torch.set_default_tensor_type(t)
 ```
 
 Sets the default `torch.Tensor` type to floating point tensor type [`t`](#torch.t "torch.t"). This type will also be used as default floating point type for type inference in [`torch.tensor()`](#torch.tensor "torch.tensor").
@@ -91,7 +91,7 @@ torch.float64
 ```
 
 ```py
-torch.numel(input) → int¶
+torch.numel(input) → int
 ```
 
 Returns the total number of elements in the `input` tensor.
@@ -112,7 +112,7 @@ Example:
 ```
 
 ```py
-torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, profile=None)¶
+torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, profile=None)
 ```
 
 Set options for printing. Items shamelessly taken from NumPy
@@ -129,7 +129,7 @@ Set options for printing. Items shamelessly taken from NumPy
 | --- | --- |
 
 ```py
-torch.set_flush_denormal(mode) → bool¶
+torch.set_flush_denormal(mode) → bool
 ```
 
 Disables denormal floating numbers on CPU.
@@ -161,7 +161,7 @@ Note
 Random sampling creation ops are listed under [Random sampling](#random-sampling) and include: [`torch.rand()`](#torch.rand "torch.rand") [`torch.rand_like()`](#torch.rand_like "torch.rand_like") [`torch.randn()`](#torch.randn "torch.randn") [`torch.randn_like()`](#torch.randn_like "torch.randn_like") [`torch.randint()`](#torch.randint "torch.randint") [`torch.randint_like()`](#torch.randint_like "torch.randint_like") [`torch.randperm()`](#torch.randperm "torch.randperm") You may also use [`torch.empty()`](#torch.empty "torch.empty") with the [In-place random sampling](#inplace-random-sampling) methods to create [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") s with values sampled from a broader range of distributions.
 
 ```py
-torch.tensor(data, dtype=None, device=None, requires_grad=False) → Tensor¶
+torch.tensor(data, dtype=None, device=None, requires_grad=False) → Tensor
 ```
 
 Constructs a tensor with `data`.
@@ -209,7 +209,7 @@ tensor([])
 ```
 
 ```py
-torch.sparse_coo_tensor(indices, values, size=None, dtype=None, device=None, requires_grad=False) → Tensor¶
+torch.sparse_coo_tensor(indices, values, size=None, dtype=None, device=None, requires_grad=False) → Tensor
 ```
 
 Constructs a sparse tensors in COO(rdinate) format with non-zero elements at the given `indices` with the given `values`. A sparse tensor can be &lt;cite&gt;uncoalesced&lt;/cite&gt;, in that case, there are duplicate coordinates in the indices, and the value at that index is the sum of all duplicate value entries: [torch.sparse](https://pytorch.org/docs/stable/sparse.html).
@@ -275,7 +275,7 @@ tensor(indices=tensor([], size=(1, 0)),
 ```
 
 ```py
-torch.as_tensor(data, dtype=None, device=None) → Tensor¶
+torch.as_tensor(data, dtype=None, device=None) → Tensor
 ```
 
 Convert the data into a &lt;cite&gt;torch.Tensor&lt;/cite&gt;. If the data is already a &lt;cite&gt;Tensor&lt;/cite&gt; with the same &lt;cite&gt;dtype&lt;/cite&gt; and &lt;cite&gt;device&lt;/cite&gt;, no copy will be performed, otherwise a new &lt;cite&gt;Tensor&lt;/cite&gt; will be returned with computational graph retained if data &lt;cite&gt;Tensor&lt;/cite&gt; has `requires_grad=True`. Similarly, if the data is an `ndarray` of the corresponding &lt;cite&gt;dtype&lt;/cite&gt; and the &lt;cite&gt;device&lt;/cite&gt; is the cpu, no copy will be performed.
@@ -311,7 +311,7 @@ array([1,  2,  3])
 ```
 
 ```py
-torch.from_numpy(ndarray) → Tensor¶
+torch.from_numpy(ndarray) → Tensor
 ```
 
 Creates a [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") from a [`numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.15)").
@@ -332,7 +332,7 @@ array([-1,  2,  3])
 ```
 
 ```py
-torch.zeros(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.zeros(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with the scalar value &lt;cite&gt;0&lt;/cite&gt;, with the shape defined by the variable argument `sizes`.
@@ -362,7 +362,7 @@ tensor([ 0.,  0.,  0.,  0.,  0.])
 ```
 
 ```py
-torch.zeros_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor¶
+torch.zeros_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with the scalar value &lt;cite&gt;0&lt;/cite&gt;, with the same size as `input`. `torch.zeros_like(input)` is equivalent to `torch.zeros(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
@@ -393,7 +393,7 @@ tensor([[ 0.,  0.,  0.],
 ```
 
 ```py
-torch.ones(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.ones(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with the scalar value &lt;cite&gt;1&lt;/cite&gt;, with the shape defined by the variable argument `sizes`.
@@ -423,7 +423,7 @@ tensor([ 1.,  1.,  1.,  1.,  1.])
 ```
 
 ```py
-torch.ones_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor¶
+torch.ones_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with the scalar value &lt;cite&gt;1&lt;/cite&gt;, with the same size as `input`. `torch.ones_like(input)` is equivalent to `torch.ones(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
@@ -454,7 +454,7 @@ tensor([[ 1.,  1.,  1.],
 ```
 
 ```py
-torch.arange(start=0, end, step=1, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.arange(start=0, end, step=1, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a 1-D tensor of size ![](img/93f0e014493a12cb3334b1c1f00517f4.jpg) with values from the interval `[start, end)` taken with common difference `step` beginning from &lt;cite&gt;start&lt;/cite&gt;.
@@ -490,7 +490,7 @@ tensor([ 1.0000,  1.5000,  2.0000])
 ```
 
 ```py
-torch.range(start=0, end, step=1, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.range(start=0, end, step=1, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a 1-D tensor of size ![](img/8df7b0b7ce71be5149c4526856d43f13.jpg) with values from `start` to `end` with step `step`. Step is the gap between two values in the tensor.
@@ -526,7 +526,7 @@ tensor([ 1.0000,  1.5000,  2.0000,  2.5000,  3.0000,  3.5000,  4.0000])
 ```
 
 ```py
-torch.linspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.linspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a one-dimensional tensor of `steps` equally spaced points between `start` and `end`.
@@ -560,7 +560,7 @@ tensor([-10.,  -5.,   0.,   5.,  10.])
 ```
 
 ```py
-torch.logspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.logspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a one-dimensional tensor of `steps` points logarithmically spaced between ![](img/f8472cb905d226233b6c5b6ca382cf74.jpg) and ![](img/5385eb329ab67a640482b03b99be6155.jpg).
@@ -592,7 +592,7 @@ tensor([  1.2589,   2.1135,   3.5481,   5.9566,  10.0000])
 ```
 
 ```py
-torch.eye(n, m=None, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.eye(n, m=None, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.
@@ -625,7 +625,7 @@ tensor([[ 1.,  0.,  0.],
 ```
 
 ```py
-torch.empty(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.empty(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with uninitialized data. The shape of the tensor is defined by the variable argument `sizes`.
@@ -653,7 +653,7 @@ tensor(1.00000e-08 *
 ```
 
 ```py
-torch.empty_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor¶
+torch.empty_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
 Returns an uninitialized tensor with the same size as `input`. `torch.empty_like(input)` is equivalent to `torch.empty(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
@@ -679,7 +679,7 @@ tensor([[ 9.4064e+13,  2.8000e+01,  9.3493e+13],
 ```
 
 ```py
-torch.full(size, fill_value, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.full(size, fill_value, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor of size `size` filled with `fill_value`.
@@ -707,7 +707,7 @@ tensor([[ 3.1416,  3.1416,  3.1416],
 ```
 
 ```py
-torch.full_like(input, fill_value, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.full_like(input, fill_value, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor with the same size as `input` filled with `fill_value`. `torch.full_like(input, fill_value)` is equivalent to `torch.full_like(input.size(), fill_value, dtype=input.dtype, layout=input.layout, device=input.device)`.
@@ -727,7 +727,7 @@ Returns a tensor with the same size as `input` filled with `fill_value`. `torch.
 ### Indexing, Slicing, Joining, Mutating Ops
 
 ```py
-torch.cat(tensors, dim=0, out=None) → Tensor¶
+torch.cat(tensors, dim=0, out=None) → Tensor
 ```
 
 Concatenates the given sequence of `seq` tensors in the given dimension. All tensors must either have the same shape (except in the concatenating dimension) or be empty.
@@ -768,7 +768,7 @@ tensor([[ 0.6580, -1.0969, -0.4614,  0.6580, -1.0969, -0.4614,  0.6580,
 ```
 
 ```py
-torch.chunk(tensor, chunks, dim=0) → List of Tensors¶
+torch.chunk(tensor, chunks, dim=0) → List of Tensors
 ```
 
 Splits a tensor into a specific number of chunks.
@@ -785,7 +785,7 @@ Last chunk will be smaller if the tensor size along the given dimension `dim` is
 | --- | --- |
 
 ```py
-torch.gather(input, dim, index, out=None) → Tensor¶
+torch.gather(input, dim, index, out=None) → Tensor
 ```
 
 Gathers values along an axis specified by &lt;cite&gt;dim&lt;/cite&gt;.
@@ -822,7 +822,7 @@ tensor([[ 1,  1],
 ```
 
 ```py
-torch.index_select(input, dim, index, out=None) → Tensor¶
+torch.index_select(input, dim, index, out=None) → Tensor
 ```
 
 Returns a new tensor which indexes the `input` tensor along dimension `dim` using the entries in `index` which is a &lt;cite&gt;LongTensor&lt;/cite&gt;.
@@ -863,7 +863,7 @@ tensor([[ 0.1427, -0.5414],
 ```
 
 ```py
-torch.masked_select(input, mask, out=None) → Tensor¶
+torch.masked_select(input, mask, out=None) → Tensor
 ```
 
 Returns a new 1-D tensor which indexes the `input` tensor according to the binary mask `mask` which is a &lt;cite&gt;ByteTensor&lt;/cite&gt;.
@@ -902,7 +902,7 @@ tensor([ 1.2252,  0.5002,  0.6248,  2.0139])
 ```
 
 ```py
-torch.narrow(input, dimension, start, length) → Tensor¶
+torch.narrow(input, dimension, start, length) → Tensor
 ```
 
 Returns a new tensor that is a narrowed version of `input` tensor. The dimension `dim` is input from `start` to `start + length`. The returned tensor and `input` tensor share the same underlying storage.
@@ -932,7 +932,7 @@ tensor([[ 2,  3],
 ```
 
 ```py
-torch.nonzero(input, out=None) → LongTensor¶
+torch.nonzero(input, out=None) → LongTensor
 ```
 
 Returns a tensor containing the indices of all non-zero elements of `input`. Each row in the result contains the indices of a non-zero element in `input`.
@@ -967,7 +967,7 @@ tensor([[ 0,  0],
 ```
 
 ```py
-torch.reshape(input, shape) → Tensor¶
+torch.reshape(input, shape) → Tensor
 ```
 
 Returns a tensor with the same data and number of elements as `input`, but with the specified shape. When possible, the returned tensor will be a view of `input`. Otherwise, it will be a copy. Contiguous inputs and inputs with compatible strides can be reshaped without copying, but you should not depend on the copying vs. viewing behavior.
@@ -998,7 +998,7 @@ tensor([ 0,  1,  2,  3])
 ```
 
 ```py
-torch.split(tensor, split_size_or_sections, dim=0)¶
+torch.split(tensor, split_size_or_sections, dim=0)
 ```
 
 Splits the tensor into chunks.
@@ -1017,7 +1017,7 @@ If `split_size_or_sections` is a list, then [`tensor`](#torch.tensor "torch.tens
 | --- | --- |
 
 ```py
-torch.squeeze(input, dim=None, out=None) → Tensor¶
+torch.squeeze(input, dim=None, out=None) → Tensor
 ```
 
 Returns a tensor with all the dimensions of `input` of size &lt;cite&gt;1&lt;/cite&gt; removed.
@@ -1058,7 +1058,7 @@ torch.Size([2, 2, 1, 2])
 ```
 
 ```py
-torch.stack(seq, dim=0, out=None) → Tensor¶
+torch.stack(seq, dim=0, out=None) → Tensor
 ```
 
 Concatenates sequence of tensors along a new dimension.
@@ -1075,7 +1075,7 @@ All tensors need to be of the same size.
 | --- | --- |
 
 ```py
-torch.t(input) → Tensor¶
+torch.t(input) → Tensor
 ```
 
 Expects `input` to be a matrix (2-D tensor) and transposes dimensions 0 and 1.
@@ -1100,7 +1100,7 @@ tensor([[ 0.4875,  0.3938],
 ```
 
 ```py
-torch.take(input, indices) → Tensor¶
+torch.take(input, indices) → Tensor
 ```
 
 Returns a new tensor with the elements of `input` at the given indices. The input tensor is treated as if it were viewed as a 1-D tensor. The result takes the same shape as the indices.
@@ -1124,7 +1124,7 @@ tensor([ 4,  5,  8])
 ```
 
 ```py
-torch.transpose(input, dim0, dim1) → Tensor¶
+torch.transpose(input, dim0, dim1) → Tensor
 ```
 
 Returns a tensor that is a transposed version of `input`. The given dimensions `dim0` and `dim1` are swapped.
@@ -1155,7 +1155,7 @@ tensor([[ 1.0028, -0.1669],
 ```
 
 ```py
-torch.unbind(tensor, dim=0) → seq¶
+torch.unbind(tensor, dim=0) → seq
 ```
 
 Removes a tensor dimension.
@@ -1181,7 +1181,7 @@ Example:
 ```
 
 ```py
-torch.unsqueeze(input, dim, out=None) → Tensor¶
+torch.unsqueeze(input, dim, out=None) → Tensor
 ```
 
 Returns a new tensor with a dimension of size one inserted at the specified position.
@@ -1214,7 +1214,7 @@ tensor([[ 1],
 ```
 
 ```py
-torch.where(condition, x, y) → Tensor¶
+torch.where(condition, x, y) → Tensor
 ```
 
 Return a tensor of elements selected from either `x` or `y`, depending on `condition`.
@@ -1259,7 +1259,7 @@ tensor([[ 1.0000,  0.3139],
 ## Random sampling
 
 ```py
-torch.manual_seed(seed)¶
+torch.manual_seed(seed)
 ```
 
 Sets the seed for generating random numbers. Returns a &lt;cite&gt;torch._C.Generator&lt;/cite&gt; object.
@@ -1268,19 +1268,19 @@ Sets the seed for generating random numbers. Returns a &lt;cite&gt;torch._C.Gene
 | --- | --- |
 
 ```py
-torch.initial_seed()¶
+torch.initial_seed()
 ```
 
 Returns the initial seed for generating random numbers as a Python &lt;cite&gt;long&lt;/cite&gt;.
 
 ```py
-torch.get_rng_state()¶
+torch.get_rng_state()
 ```
 
 Returns the random number generator state as a &lt;cite&gt;torch.ByteTensor&lt;/cite&gt;.
 
 ```py
-torch.set_rng_state(new_state)¶
+torch.set_rng_state(new_state)
 ```
 
 Sets the random number generator state.
@@ -1289,11 +1289,11 @@ Sets the random number generator state.
 | --- | --- |
 
 ```py
-torch.default_generator = <torch._C.Generator object>¶
+torch.default_generator = <torch._C.Generator object>
 ```
 
 ```py
-torch.bernoulli(input, *, generator=None, out=None) → Tensor¶
+torch.bernoulli(input, *, generator=None, out=None) → Tensor
 ```
 
 Draws binary random numbers (0 or 1) from a Bernoulli distribution.
@@ -1343,7 +1343,7 @@ tensor([[ 0.,  0.,  0.],
 ```
 
 ```py
-torch.multinomial(input, num_samples, replacement=False, out=None) → LongTensor¶
+torch.multinomial(input, num_samples, replacement=False, out=None) → LongTensor
 ```
 
 Returns a tensor where each row contains `num_samples` indices sampled from the multinomial probability distribution located in the corresponding row of tensor `input`.
@@ -1386,7 +1386,7 @@ tensor([ 2,  1,  1,  1])
 ```
 
 ```py
-torch.normal()¶
+torch.normal()
 ```
 
 ```py
@@ -1470,7 +1470,7 @@ tensor([ 1.1552,  2.6148,  2.6535,  5.8318,  4.2361])
 ```
 
 ```py
-torch.rand(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.rand(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with random numbers from a uniform distribution on the interval ![](img/a686b817a52173e9e124e756a19344be.jpg)
@@ -1501,7 +1501,7 @@ tensor([[ 0.8237,  0.5781,  0.6879],
 ```
 
 ```py
-torch.rand_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor¶
+torch.rand_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor with the same size as `input` that is filled with random numbers from a uniform distribution on the interval ![](img/a686b817a52173e9e124e756a19344be.jpg). `torch.rand_like(input)` is equivalent to `torch.rand(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
@@ -1518,7 +1518,7 @@ Returns a tensor with the same size as `input` that is filled with random number
 | --- | --- |
 
 ```py
-torch.randint(low=0, high, size, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.randint(low=0, high, size, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with random integers generated uniformly between `low` (inclusive) and `high` (exclusive).
@@ -1556,7 +1556,7 @@ tensor([[4, 5],
 ```
 
 ```py
-torch.randint_like(input, low=0, high, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.randint_like(input, low=0, high, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor with the same shape as Tensor `input` filled with random integers generated uniformly between `low` (inclusive) and `high` (exclusive).
@@ -1575,7 +1575,7 @@ Returns a tensor with the same shape as Tensor `input` filled with random intege
 | --- | --- |
 
 ```py
-torch.randn(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.randn(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor filled with random numbers from a normal distribution with mean &lt;cite&gt;0&lt;/cite&gt; and variance &lt;cite&gt;1&lt;/cite&gt; (also called the standard normal distribution).
@@ -1608,7 +1608,7 @@ tensor([[ 1.5954,  2.8929, -1.0923],
 ```
 
 ```py
-torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor¶
+torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
 Returns a tensor with the same size as `input` that is filled with random numbers from a normal distribution with mean 0 and variance 1. `torch.randn_like(input)` is equivalent to `torch.randn(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
@@ -1625,7 +1625,7 @@ Returns a tensor with the same size as `input` that is filled with random number
 | --- | --- |
 
 ```py
-torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None, requires_grad=False) → LongTensor¶
+torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None, requires_grad=False) → LongTensor
 ```
 
 Returns a random permutation of integers from `0` to `n - 1`.
@@ -1666,7 +1666,7 @@ There are a few more in-place random sampling functions defined on Tensors as we
 ## Serialization
 
 ```py
-torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>, pickle_protocol=2)¶
+torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>, pickle_protocol=2)
 ```
 
 Saves an object to a disk file.
@@ -1702,7 +1702,7 @@ Example
 ```
 
 ```py
-torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>)¶
+torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>)
 ```
 
 Loads an object saved with [`torch.save()`](#torch.save "torch.save") from a file.
@@ -1752,13 +1752,13 @@ Example
 ## Parallelism
 
 ```py
-torch.get_num_threads() → int¶
+torch.get_num_threads() → int
 ```
 
 Gets the number of OpenMP threads used for parallelizing CPU operations
 
 ```py
-torch.set_num_threads(int)¶
+torch.set_num_threads(int)
 ```
 
 Sets the number of OpenMP threads used for parallelizing CPU operations
@@ -1799,7 +1799,7 @@ False
 ### Pointwise Ops
 
 ```py
-torch.abs(input, out=None) → Tensor¶
+torch.abs(input, out=None) → Tensor
 ```
 
 Computes the element-wise absolute value of the given `input` tensor.
@@ -1823,7 +1823,7 @@ tensor([ 1,  2,  3])
 ```
 
 ```py
-torch.acos(input, out=None) → Tensor¶
+torch.acos(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the arccosine of the elements of `input`.
@@ -1850,7 +1850,7 @@ tensor([ 1.2294,  2.2004,  1.3690,  1.7298])
 ```
 
 ```py
-torch.add()¶
+torch.add()
 ```
 
 ```py
@@ -1930,7 +1930,7 @@ tensor([[  2.7695,   3.3930,   4.3672,   4.1450],
 ```
 
 ```py
-torch.addcdiv(tensor, value=1, tensor1, tensor2, out=None) → Tensor¶
+torch.addcdiv(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 ```
 
 Performs the element-wise division of `tensor1` by `tensor2`, multiply the result by the scalar `value` and add it to [`tensor`](#torch.tensor "torch.tensor").
@@ -1966,7 +1966,7 @@ tensor([[-0.2312, -3.6496,  0.1312],
 ```
 
 ```py
-torch.addcmul(tensor, value=1, tensor1, tensor2, out=None) → Tensor¶
+torch.addcmul(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 ```
 
 Performs the element-wise multiplication of `tensor1` by `tensor2`, multiply the result by the scalar `value` and add it to [`tensor`](#torch.tensor "torch.tensor").
@@ -2002,7 +2002,7 @@ tensor([[-0.8635, -0.6391,  1.6174],
 ```
 
 ```py
-torch.asin(input, out=None) → Tensor¶
+torch.asin(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the arcsine of the elements of `input`.
@@ -2029,7 +2029,7 @@ tensor([-0.6387,     nan, -0.4552,     nan])
 ```
 
 ```py
-torch.atan(input, out=None) → Tensor¶
+torch.atan(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the arctangent of the elements of `input`.
@@ -2056,7 +2056,7 @@ tensor([ 0.2299,  0.2487, -0.5591, -0.5727])
 ```
 
 ```py
-torch.atan2(input1, input2, out=None) → Tensor¶
+torch.atan2(input1, input2, out=None) → Tensor
 ```
 
 Returns a new tensor with the arctangent of the elements of `input1` and `input2`.
@@ -2084,7 +2084,7 @@ tensor([ 0.9833,  0.0811, -1.9743, -1.4151])
 ```
 
 ```py
-torch.ceil(input, out=None) → Tensor¶
+torch.ceil(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the ceil of the elements of `input`, the smallest integer greater than or equal to each element.
@@ -2111,7 +2111,7 @@ tensor([-0., -1., -1.,  1.])
 ```
 
 ```py
-torch.clamp(input, min, max, out=None) → Tensor¶
+torch.clamp(input, min, max, out=None) → Tensor
 ```
 
 Clamp all elements in `input` into the range &lt;cite&gt;[&lt;/cite&gt; [`min`](#torch.min "torch.min"), [`max`](#torch.max "torch.max") &lt;cite&gt;]&lt;/cite&gt; and return a resulting tensor:
@@ -2198,7 +2198,7 @@ tensor([ 0.5000, -0.4702, -0.4599,  0.5000])
 ```
 
 ```py
-torch.cos(input, out=None) → Tensor¶
+torch.cos(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the cosine of the elements of `input`.
@@ -2225,7 +2225,7 @@ tensor([ 0.1395,  0.2957,  0.6553,  0.5574])
 ```
 
 ```py
-torch.cosh(input, out=None) → Tensor¶
+torch.cosh(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the hyperbolic cosine of the elements of `input`.
@@ -2252,7 +2252,7 @@ tensor([ 1.0133,  1.7860,  1.2536,  1.2805])
 ```
 
 ```py
-torch.div()¶
+torch.div()
 ```
 
 ```py
@@ -2323,7 +2323,7 @@ tensor([[-0.4620, -6.6051,  0.5676,  1.2637],
 ```
 
 ```py
-torch.digamma(input, out=None) → Tensor¶
+torch.digamma(input, out=None) → Tensor
 ```
 
 Computes the logarithmic derivative of the gamma function on &lt;cite&gt;input&lt;/cite&gt;.
@@ -2343,7 +2343,7 @@ tensor([-0.5772, -1.9635])
 ```
 
 ```py
-torch.erf(tensor, out=None) → Tensor¶
+torch.erf(tensor, out=None) → Tensor
 ```
 
 Computes the error function of each element. The error function is defined as follows:
@@ -2367,7 +2367,7 @@ tensor([ 0.0000, -0.8427,  1.0000])
 ```
 
 ```py
-torch.erfc(input, out=None) → Tensor¶
+torch.erfc(input, out=None) → Tensor
 ```
 
 Computes the complementary error function of each element of `input`. The complementary error function is defined as follows:
@@ -2391,7 +2391,7 @@ tensor([ 1.0000, 1.8427,  0.0000])
 ```
 
 ```py
-torch.erfinv(input, out=None) → Tensor¶
+torch.erfinv(input, out=None) → Tensor
 ```
 
 Computes the inverse error function of each element of `input`. The inverse error function is defined in the range ![](img/2454c5f08b77e60915c698acbc0eec91.jpg) as:
@@ -2415,7 +2415,7 @@ tensor([ 0.0000,  0.4769,    -inf])
 ```
 
 ```py
-torch.exp(input, out=None) → Tensor¶
+torch.exp(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the exponential of the elements of the input tensor `input`.
@@ -2439,7 +2439,7 @@ tensor([ 1.,  2.])
 ```
 
 ```py
-torch.expm1(input, out=None) → Tensor¶
+torch.expm1(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the exponential of the elements minus 1 of `input`.
@@ -2463,7 +2463,7 @@ tensor([ 0.,  1.])
 ```
 
 ```py
-torch.floor(input, out=None) → Tensor¶
+torch.floor(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the floor of the elements of `input`, the largest integer less than or equal to each element.
@@ -2490,7 +2490,7 @@ tensor([-1.,  1., -1., -1.])
 ```
 
 ```py
-torch.fmod(input, divisor, out=None) → Tensor¶
+torch.fmod(input, divisor, out=None) → Tensor
 ```
 
 Computes the element-wise remainder of division.
@@ -2519,7 +2519,7 @@ tensor([ 1.0000,  0.5000,  0.0000,  1.0000,  0.5000])
 ```
 
 ```py
-torch.frac(input, out=None) → Tensor¶
+torch.frac(input, out=None) → Tensor
 ```
 
 Computes the fractional portion of each element in `input`.
@@ -2535,7 +2535,7 @@ tensor([ 0.0000,  0.5000, -0.2000])
 ```
 
 ```py
-torch.lerp(start, end, weight, out=None)¶
+torch.lerp(start, end, weight, out=None)
 ```
 
 Does a linear interpolation of two tensors `start` and `end` based on a scalar `weight` and returns the resulting `out` tensor.
@@ -2569,7 +2569,7 @@ tensor([ 5.5000,  6.0000,  6.5000,  7.0000])
 ```
 
 ```py
-torch.log(input, out=None) → Tensor¶
+torch.log(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the natural logarithm of the elements of `input`.
@@ -2596,7 +2596,7 @@ tensor([ nan,  nan,  nan,  nan,  nan])
 ```
 
 ```py
-torch.log10(input, out=None) → Tensor¶
+torch.log10(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the logarithm to the base 10 of the elements of `input`.
@@ -2624,7 +2624,7 @@ tensor([-0.2820, -0.0290, -0.1392, -0.8857, -0.6476])
 ```
 
 ```py
-torch.log1p(input, out=None) → Tensor¶
+torch.log1p(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the natural logarithm of (1 + `input`).
@@ -2655,7 +2655,7 @@ tensor([    nan, -4.8653,  0.7055, -0.7705,  0.2225])
 ```
 
 ```py
-torch.log2(input, out=None) → Tensor¶
+torch.log2(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the logarithm to the base 2 of the elements of `input`.
@@ -2683,7 +2683,7 @@ tensor([-0.2483, -0.3213, -0.0042, -0.9196, -4.3504])
 ```
 
 ```py
-torch.mul()¶
+torch.mul()
 ```
 
 ```py
@@ -2756,7 +2756,7 @@ tensor([[ 0.5767,  0.1363, -0.5877,  2.5083],
 ```
 
 ```py
-torch.mvlgamma(input, p) → Tensor¶
+torch.mvlgamma(input, p) → Tensor
 ```
 
 Computes the multivariate log-gamma function with dimension ![](img/648811253cdbfe19389964c25be56518.jpg) element-wise, given by
@@ -2789,7 +2789,7 @@ tensor([[0.3928, 0.4007, 0.7586],
 ```
 
 ```py
-torch.neg(input, out=None) → Tensor¶
+torch.neg(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the negative of the elements of `input`.
@@ -2816,7 +2816,7 @@ tensor([-0.0090,  0.2262,  0.0682,  0.2866, -0.3940])
 ```
 
 ```py
-torch.pow()¶
+torch.pow()
 ```
 
 ```py
@@ -2896,7 +2896,7 @@ tensor([  2.,   4.,   8.,  16.])
 ```
 
 ```py
-torch.reciprocal(input, out=None) → Tensor¶
+torch.reciprocal(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the reciprocal of the elements of `input`
@@ -2923,7 +2923,7 @@ tensor([-2.1763, -0.4713, -0.6986,  1.3702])
 ```
 
 ```py
-torch.remainder(input, divisor, out=None) → Tensor¶
+torch.remainder(input, divisor, out=None) → Tensor
 ```
 
 Computes the element-wise remainder of division.
@@ -2956,7 +2956,7 @@ See also
 [`torch.fmod()`](#torch.fmod "torch.fmod"), which computes the element-wise remainder of division equivalently to the C library function `fmod()`.
 
 ```py
-torch.round(input, out=None) → Tensor¶
+torch.round(input, out=None) → Tensor
 ```
 
 Returns a new tensor with each of the elements of `input` rounded to the closest integer.
@@ -2981,7 +2981,7 @@ tensor([ 1.,  1.,  1., -1.])
 ```
 
 ```py
-torch.rsqrt(input, out=None) → Tensor¶
+torch.rsqrt(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the reciprocal of the square-root of each of the elements of `input`.
@@ -3008,7 +3008,7 @@ tensor([    nan,  1.8351,  0.8053,     nan])
 ```
 
 ```py
-torch.sigmoid(input, out=None) → Tensor¶
+torch.sigmoid(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the sigmoid of the elements of `input`.
@@ -3035,7 +3035,7 @@ tensor([ 0.7153,  0.7481,  0.2920,  0.1458])
 ```
 
 ```py
-torch.sign(input, out=None) → Tensor¶
+torch.sign(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the sign of the elements of `input`.
@@ -3060,7 +3060,7 @@ tensor([ 1., -1.,  0.,  1.])
 ```
 
 ```py
-torch.sin(input, out=None) → Tensor¶
+torch.sin(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the sine of the elements of `input`.
@@ -3087,7 +3087,7 @@ tensor([-0.5194,  0.1343, -0.4032, -0.2711])
 ```
 
 ```py
-torch.sinh(input, out=None) → Tensor¶
+torch.sinh(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the hyperbolic sine of the elements of `input`.
@@ -3114,7 +3114,7 @@ tensor([ 0.5644, -0.9744, -0.1268,  1.0845])
 ```
 
 ```py
-torch.sqrt(input, out=None) → Tensor¶
+torch.sqrt(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the square-root of the elements of `input`.
@@ -3141,7 +3141,7 @@ tensor([    nan,  1.0112,  0.2883,  0.6933])
 ```
 
 ```py
-torch.tan(input, out=None) → Tensor¶
+torch.tan(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the tangent of the elements of `input`.
@@ -3168,7 +3168,7 @@ tensor([-2.5930,  4.9859,  0.4722, -5.3366])
 ```
 
 ```py
-torch.tanh(input, out=None) → Tensor¶
+torch.tanh(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the hyperbolic tangent of the elements of `input`.
@@ -3195,7 +3195,7 @@ tensor([ 0.7156, -0.6218,  0.8257,  0.2553])
 ```
 
 ```py
-torch.trunc(input, out=None) → Tensor¶
+torch.trunc(input, out=None) → Tensor
 ```
 
 Returns a new tensor with the truncated integer values of the elements of `input`.
@@ -3222,7 +3222,7 @@ tensor([ 3.,  0., -0., -0.])
 ### Reduction Ops
 
 ```py
-torch.argmax(input, dim=None, keepdim=False)¶
+torch.argmax(input, dim=None, keepdim=False)
 ```
 
 Returns the indices of the maximum values of a tensor across a dimension.
@@ -3254,7 +3254,7 @@ tensor([ 0,  2,  0,  1])
 ```
 
 ```py
-torch.argmin(input, dim=None, keepdim=False)¶
+torch.argmin(input, dim=None, keepdim=False)
 ```
 
 Returns the indices of the minimum values of a tensor across a dimension.
@@ -3286,7 +3286,7 @@ tensor([ 2,  1,  3,  1])
 ```
 
 ```py
-torch.cumprod(input, dim, dtype=None) → Tensor¶
+torch.cumprod(input, dim, dtype=None) → Tensor
 ```
 
 Returns the cumulative product of elements of `input` in the dimension `dim`.
@@ -3323,7 +3323,7 @@ tensor([ 0.6001,  0.1241, -0.0238, -0.0233, -0.0157, -0.0000, -0.0000,
 ```
 
 ```py
-torch.cumsum(input, dim, out=None, dtype=None) → Tensor¶
+torch.cumsum(input, dim, out=None, dtype=None) → Tensor
 ```
 
 Returns the cumulative sum of elements of `input` in the dimension `dim`.
@@ -3355,7 +3355,7 @@ tensor([-0.8286, -1.3175, -0.8020,  0.0423,  0.2289,  0.0537, -2.0058,
 ```
 
 ```py
-torch.dist(input, other, p=2) → Tensor¶
+torch.dist(input, other, p=2) → Tensor
 ```
 
 Returns the p-norm of (`input` - `other`)
@@ -3392,7 +3392,7 @@ tensor(2.6537)
 ```
 
 ```py
-torch.logsumexp(input, dim, keepdim=False, out=None)¶
+torch.logsumexp(input, dim, keepdim=False, out=None)
 ```
 
 Returns the log of summed exponentials of each row of the `input` tensor in the given dimension `dim`. The computation is numerically stabilized.
@@ -3425,7 +3425,7 @@ tensor([ 0.8442,  1.4322,  0.8711])
 ```
 
 ```py
-torch.mean()¶
+torch.mean()
 ```
 
 ```py
@@ -3486,7 +3486,7 @@ tensor([[-0.0163],
 ```
 
 ```py
-torch.median()¶
+torch.median()
 ```
 
 ```py
@@ -3545,7 +3545,7 @@ tensor([[ 0.2505, -0.3982, -0.9948,  0.3518, -1.3131],
 ```
 
 ```py
-torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTensor)¶
+torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTensor)
 ```
 
 Returns the mode value of each row of the `input` tensor in the given dimension `dim`. Also returns the index location of the mode value as a &lt;cite&gt;LongTensor&lt;/cite&gt;.
@@ -3584,7 +3584,7 @@ tensor([[-1.2808, -1.0966, -1.5946, -0.1148,  0.3631],
 ```
 
 ```py
-torch.norm(input, p='fro', dim=None, keepdim=False, out=None)¶
+torch.norm(input, p='fro', dim=None, keepdim=False, out=None)
 ```
 
 Returns the matrix norm or vector norm of a given tensor.
@@ -3640,7 +3640,7 @@ tensor([ 3.7417, 11.2250])
 ```
 
 ```py
-torch.prod()¶
+torch.prod()
 ```
 
 ```py
@@ -3701,7 +3701,7 @@ tensor([-0.2018, -0.2962, -0.0821, -1.1831])
 ```
 
 ```py
-torch.std()¶
+torch.std()
 ```
 
 ```py
@@ -3767,7 +3767,7 @@ tensor([ 1.0311,  0.7477,  1.2204,  0.9087])
 ```
 
 ```py
-torch.sum()¶
+torch.sum()
 ```
 
 ```py
@@ -3831,7 +3831,7 @@ tensor([  435.,  1335.,  2235.,  3135.])
 ```
 
 ```py
-torch.unique(input, sorted=False, return_inverse=False, dim=None)¶
+torch.unique(input, sorted=False, return_inverse=False, dim=None)
 ```
 
 Returns the unique scalar elements of the input tensor as a 1-D tensor.
@@ -3880,7 +3880,7 @@ tensor([[ 0,  2],
 ```
 
 ```py
-torch.var()¶
+torch.var()
 ```
 
 ```py
@@ -3948,7 +3948,7 @@ tensor([ 1.7444,  1.1363,  0.7356,  0.5112])
 ### Comparison Ops
 
 ```py
-torch.allclose(self, other, rtol=1e-05, atol=1e-08, equal_nan=False) → bool¶
+torch.allclose(self, other, rtol=1e-05, atol=1e-08, equal_nan=False) → bool
 ```
 
 This function checks if all `self` and `other` satisfy the condition:
@@ -3983,7 +3983,7 @@ True
 ```
 
 ```py
-torch.argsort(input, dim=None, descending=False)¶
+torch.argsort(input, dim=None, descending=False)
 ```
 
 Returns the indices that sort a tensor along a given dimension in ascending order by value.
@@ -4018,7 +4018,7 @@ tensor([[2, 0, 3, 1],
 ```
 
 ```py
-torch.eq(input, other, out=None) → Tensor¶
+torch.eq(input, other, out=None) → Tensor
 ```
 
 Computes element-wise equality
@@ -4048,7 +4048,7 @@ tensor([[ 1,  0],
 ```
 
 ```py
-torch.equal(tensor1, tensor2) → bool¶
+torch.equal(tensor1, tensor2) → bool
 ```
 
 `True` if two tensors have the same size and elements, `False` otherwise.
@@ -4062,7 +4062,7 @@ True
 ```
 
 ```py
-torch.ge(input, other, out=None) → Tensor¶
+torch.ge(input, other, out=None) → Tensor
 ```
 
 Computes ![](img/7cedf1d52401b16530bccf12f96edd5a.jpg) element-wise.
@@ -4092,7 +4092,7 @@ tensor([[ 1,  1],
 ```
 
 ```py
-torch.gt(input, other, out=None) → Tensor¶
+torch.gt(input, other, out=None) → Tensor
 ```
 
 Computes ![](img/9d325c4b6e2e06380eb65ceae1e84d76.jpg) element-wise.
@@ -4122,7 +4122,7 @@ tensor([[ 0,  1],
 ```
 
 ```py
-torch.isfinite(tensor)¶
+torch.isfinite(tensor)
 ```
 
 Returns a new tensor with boolean elements representing if each element is &lt;cite&gt;Finite&lt;/cite&gt; or not.
@@ -4143,7 +4143,7 @@ tensor([ 1,  0,  1,  0,  0], dtype=torch.uint8)
 ```
 
 ```py
-torch.isinf(tensor)¶
+torch.isinf(tensor)
 ```
 
 Returns a new tensor with boolean elements representing if each element is &lt;cite&gt;+/-INF&lt;/cite&gt; or not.
@@ -4164,7 +4164,7 @@ tensor([ 0,  1,  0,  1,  0], dtype=torch.uint8)
 ```
 
 ```py
-torch.isnan(tensor)¶
+torch.isnan(tensor)
 ```
 
 Returns a new tensor with boolean elements representing if each element is &lt;cite&gt;NaN&lt;/cite&gt; or not.
@@ -4185,7 +4185,7 @@ tensor([ 0,  1,  0], dtype=torch.uint8)
 ```
 
 ```py
-torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)¶
+torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
 Returns the `k` th smallest element of the given `input` tensor along a given dimension.
@@ -4226,7 +4226,7 @@ tensor([[ 1.,  2.,  3.],
 ```
 
 ```py
-torch.le(input, other, out=None) → Tensor¶
+torch.le(input, other, out=None) → Tensor
 ```
 
 Computes ![](img/7cce834f96c0e53d76c3ec5ed63cf099.jpg) element-wise.
@@ -4256,7 +4256,7 @@ tensor([[ 1,  0],
 ```
 
 ```py
-torch.lt(input, other, out=None) → Tensor¶
+torch.lt(input, other, out=None) → Tensor
 ```
 
 Computes ![](img/26b8f23e09743e63a71bcf53c650f1a8.jpg) element-wise.
@@ -4286,7 +4286,7 @@ tensor([[ 0,  0],
 ```
 
 ```py
-torch.max()¶
+torch.max()
 ```
 
 ```py
@@ -4379,7 +4379,7 @@ tensor([ 0.8722, -0.7416,  0.2653, -0.1584])
 ```
 
 ```py
-torch.min()¶
+torch.min()
 ```
 
 ```py
@@ -4472,7 +4472,7 @@ tensor([-0.1369, -1.1740, -0.6460, -0.1929])
 ```
 
 ```py
-torch.ne(input, other, out=None) → Tensor¶
+torch.ne(input, other, out=None) → Tensor
 ```
 
 Computes ![](img/9b7e900c499f533c33aac63d7b487c24.jpg) element-wise.
@@ -4502,7 +4502,7 @@ tensor([[ 0,  1],
 ```
 
 ```py
-torch.sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)¶
+torch.sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 ```
 
 Sorts the elements of the `input` tensor along a given dimension in ascending order by value.
@@ -4550,7 +4550,7 @@ tensor([[ 2,  0,  0,  1],
 ```
 
 ```py
-torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTensor)¶
+torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTensor)
 ```
 
 Returns the `k` largest elements of the given `input` tensor along a given dimension.
@@ -4589,7 +4589,7 @@ tensor([ 1.,  2.,  3.,  4.,  5.])
 ### Spectral Ops
 
 ```py
-torch.fft(input, signal_ndim, normalized=False) → Tensor¶
+torch.fft(input, signal_ndim, normalized=False) → Tensor
 ```
 
 Complex-to-complex Discrete Fourier Transform
@@ -4676,7 +4676,7 @@ torch.Size([3, 3, 5, 5, 2])
 ```
 
 ```py
-torch.ifft(input, signal_ndim, normalized=False) → Tensor¶
+torch.ifft(input, signal_ndim, normalized=False) → Tensor
 ```
 
 Complex-to-complex Inverse Discrete Fourier Transform
@@ -4749,7 +4749,7 @@ tensor([[[ 1.2766,  1.3680],
 ```
 
 ```py
-torch.rfft(input, signal_ndim, normalized=False, onesided=True) → Tensor¶
+torch.rfft(input, signal_ndim, normalized=False, onesided=True) → Tensor
 ```
 
 Real-to-complex Discrete Fourier Transform
@@ -4802,7 +4802,7 @@ torch.Size([5, 5, 2])
 ```
 
 ```py
-torch.irfft(input, signal_ndim, normalized=False, onesided=True, signal_sizes=None) → Tensor¶
+torch.irfft(input, signal_ndim, normalized=False, onesided=True, signal_sizes=None) → Tensor
 ```
 
 Complex-to-real Inverse Discrete Fourier Transform
@@ -4877,7 +4877,7 @@ tensor([[-0.8992,  0.6117, -1.6091, -0.4155, -0.8346],
 ```
 
 ```py
-torch.stft(input, n_fft, hop_length=None, win_length=None, window=None, center=True, pad_mode='reflect', normalized=False, onesided=True)¶
+torch.stft(input, n_fft, hop_length=None, win_length=None, window=None, center=True, pad_mode='reflect', normalized=False, onesided=True)
 ```
 
 Short-time Fourier transform (STFT).
@@ -4923,7 +4923,7 @@ This function changed signature at version 0.4.1\. Calling with the previous sig
 | --- | --- |
 
 ```py
-torch.bartlett_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.bartlett_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Bartlett window function.
@@ -4955,7 +4955,7 @@ If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned w
 | --- | --- |
 
 ```py
-torch.blackman_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.blackman_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Blackman window function.
@@ -4987,7 +4987,7 @@ If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned w
 | --- | --- |
 
 ```py
-torch.hamming_window(window_length, periodic=True, alpha=0.54, beta=0.46, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.hamming_window(window_length, periodic=True, alpha=0.54, beta=0.46, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Hamming window function.
@@ -5023,7 +5023,7 @@ This is a generalized version of [`torch.hann_window()`](#torch.hann_window "tor
 | --- | --- |
 
 ```py
-torch.hann_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor¶
+torch.hann_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
 Hann window function.
@@ -5057,7 +5057,7 @@ If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned w
 ### Other Operations
 
 ```py
-torch.bincount(self, weights=None, minlength=0) → Tensor¶
+torch.bincount(self, weights=None, minlength=0) → Tensor
 ```
 
 Count the frequency of each value in an array of non-negative ints.
@@ -5099,7 +5099,7 @@ tensor([0.0000, 0.0000, 0.0000, 1.0000, 1.0000, 0.0000, 0.5000])
 ```
 
 ```py
-torch.broadcast_tensors(*tensors) → List of Tensors¶
+torch.broadcast_tensors(*tensors) → List of Tensors
 ```
 
 Broadcasts the given tensors according to _broadcasting-semantics.
@@ -5122,7 +5122,7 @@ tensor([[0, 1, 2],
 ```
 
 ```py
-torch.cross(input, other, dim=-1, out=None) → Tensor¶
+torch.cross(input, other, dim=-1, out=None) → Tensor
 ```
 
 Returns the cross product of vectors in dimension `dim` of `input` and `other`.
@@ -5170,7 +5170,7 @@ tensor([[ 1.0844, -0.5281,  0.6120],
 ```
 
 ```py
-torch.diag(input, diagonal=0, out=None) → Tensor¶
+torch.diag(input, diagonal=0, out=None) → Tensor
 ```
 
 *   If `input` is a vector (1-D tensor), then returns a 2-D square tensor with the elements of `input` as the diagonal.
@@ -5233,7 +5233,7 @@ tensor([ 0.0255, 0.1374])
 ```
 
 ```py
-torch.diag_embed(input, offset=0, dim1=-2, dim2=-1) → Tensor¶
+torch.diag_embed(input, offset=0, dim1=-2, dim2=-1) → Tensor
 ```
 
 Creates a tensor whose diagonals of certain 2D planes (specified by `dim1` and `dim2`) are filled by `input`. To facilitate creating batched diagonal matrices, the 2D planes formed by the last two dimensions of the returned tensor are chosen by default.
@@ -5287,7 +5287,7 @@ tensor([[[ 0.0000,  1.5410,  0.0000,  0.0000],
 ```
 
 ```py
-torch.diagflat(input, diagonal=0) → Tensor¶
+torch.diagflat(input, diagonal=0) → Tensor
 ```
 
 *   If `input` is a vector (1-D tensor), then returns a 2-D square tensor with the elements of `input` as the diagonal.
@@ -5336,7 +5336,7 @@ tensor([[ 0.2094,  0.0000,  0.0000,  0.0000],
 ```
 
 ```py
-torch.diagonal(input, offset=0, dim1=0, dim2=1) → Tensor¶
+torch.diagonal(input, offset=0, dim1=0, dim2=1) → Tensor
 ```
 
 Returns a partial view of `input` with the its diagonal elements with respect to `dim1` and `dim2` appended as a dimension at the end of the shape.
@@ -5389,7 +5389,7 @@ tensor([[[-1.2631,  0.3755, -1.5977, -1.8172],
 ```
 
 ```py
-torch.einsum(equation, *operands) → Tensor¶
+torch.einsum(equation, *operands) → Tensor
 ```
 
 This function provides a way of computing multilinear expressions (i.e. sums of products) using the Einstein summation convention.
@@ -5451,7 +5451,7 @@ torch.Size([2, 3, 5, 4])
 ```
 
 ```py
-torch.flatten(input, start_dim=0, end_dim=-1) → Tensor¶
+torch.flatten(input, start_dim=0, end_dim=-1) → Tensor
 ```
 
 Flattens a contiguous range of dims in a tensor.
@@ -5481,7 +5481,7 @@ tensor([[1, 2, 3, 4],
 ```
 
 ```py
-torch.flip(input, dims) → Tensor¶
+torch.flip(input, dims) → Tensor
 ```
 
 Reverse the order of a n-D tensor along given axis in dims.
@@ -5514,7 +5514,7 @@ tensor([[[ 6,  7],
 ```
 
 ```py
-torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor¶
+torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 ```
 
 Computes the histogram of a tensor.
@@ -5545,7 +5545,7 @@ tensor([ 0.,  2.,  1.,  0.])
 ```
 
 ```py
-torch.meshgrid(*tensors, **kwargs)¶
+torch.meshgrid(*tensors, **kwargs)
 ```
 
 Take ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) tensors, each of which can be either scalar or 1-dimensional vector, and create ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) N-dimensional grids, where the :math:[`](#id2)i`th grid is defined by expanding the :math:[`](#id4)i`th input over dimensions defined by other inputs.
@@ -5580,7 +5580,7 @@ Take ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) tensors, each of which can be
 > ```
 
 ```py
-torch.renorm(input, p, dim, maxnorm, out=None) → Tensor¶
+torch.renorm(input, p, dim, maxnorm, out=None) → Tensor
 ```
 
 Returns a tensor where each sub-tensor of `input` along dimension `dim` is normalized such that the &lt;cite&gt;p&lt;/cite&gt;-norm of the sub-tensor is lower than the value `maxnorm`
@@ -5620,7 +5620,7 @@ tensor([[ 1.0000,  1.0000,  1.0000],
 ```
 
 ```py
-torch.tensordot(a, b, dims=2)¶
+torch.tensordot(a, b, dims=2)
 ```
 
 Returns a contraction of a and b over multiple dimensions.
@@ -5664,7 +5664,7 @@ tensor([[ 8.3504, -2.5436,  6.2922,  2.7556, -1.0732,  3.2741],
 ```
 
 ```py
-torch.trace(input) → Tensor¶
+torch.trace(input) → Tensor
 ```
 
 Returns the sum of the elements of the diagonal of the input 2-D matrix.
@@ -5683,7 +5683,7 @@ tensor(15.)
 ```
 
 ```py
-torch.tril(input, diagonal=0, out=None) → Tensor¶
+torch.tril(input, diagonal=0, out=None) → Tensor
 ```
 
 Returns the lower triangular part of the matrix (2-D tensor) `input`, the other elements of the result tensor `out` are set to 0.
@@ -5734,7 +5734,7 @@ tensor([[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 ```
 
 ```py
-torch.triu(input, diagonal=0, out=None) → Tensor¶
+torch.triu(input, diagonal=0, out=None) → Tensor
 ```
 
 Returns the upper triangular part of the matrix (2-D tensor) `input`, the other elements of the result tensor `out` are set to 0.
@@ -5795,7 +5795,7 @@ tensor([[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 ### BLAS and LAPACK Operations
 
 ```py
-torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor¶
+torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```
 
 Performs a batch matrix-matrix product of matrices stored in `batch1` and `batch2`, with a reduced add step (all matrix multiplications get accumulated along the first dimension). `mat` is added to the final result.
@@ -5834,7 +5834,7 @@ tensor([[  6.6311,   0.0503,   6.9768, -12.0362,  -2.1653],
 ```
 
 ```py
-torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor¶
+torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 ```
 
 Performs a matrix multiplication of the matrices `mat1` and `mat2`. The matrix `mat` is added to the final result.
@@ -5872,7 +5872,7 @@ tensor([[-4.8716,  1.4671, -1.3746],
 ```
 
 ```py
-torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor¶
+torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 ```
 
 Performs a matrix-vector product of the matrix `mat` and the vector `vec`. The vector [`tensor`](#torch.tensor "torch.tensor") is added to the final result.
@@ -5909,7 +5909,7 @@ tensor([-0.3768, -5.5565])
 ```
 
 ```py
-torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor¶
+torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 ```
 
 Performs the outer-product of vectors `vec1` and `vec2` and adds it to the matrix `mat`.
@@ -5948,7 +5948,7 @@ tensor([[ 1.,  2.],
 ```
 
 ```py
-torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor¶
+torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```
 
 Performs a batch matrix-matrix product of matrices in `batch1` and `batch2`. `mat` is added to the final result.
@@ -5985,7 +5985,7 @@ torch.Size([10, 3, 5])
 ```
 
 ```py
-torch.bmm(batch1, batch2, out=None) → Tensor¶
+torch.bmm(batch1, batch2, out=None) → Tensor
 ```
 
 Performs a batch matrix-matrix product of matrices stored in `batch1` and `batch2`.
@@ -6021,7 +6021,7 @@ torch.Size([10, 3, 5])
 ```
 
 ```py
-torch.btrifact(A, info=None, pivot=True)¶
+torch.btrifact(A, info=None, pivot=True)
 ```
 
 Batch LU factorization.
@@ -6066,7 +6066,7 @@ tensor([[ 3,  3,  3],
 ```
 
 ```py
-torch.btrifact_with_info(A, pivot=True) -> (Tensor, IntTensor, IntTensor)¶
+torch.btrifact_with_info(A, pivot=True) -> (Tensor, IntTensor, IntTensor)
 ```
 
 Batch LU factorization with additional error information.
@@ -6095,7 +6095,7 @@ LU factorization succeeded for all samples!
 ```
 
 ```py
-torch.btrisolve(b, LU_data, LU_pivots) → Tensor¶
+torch.btrisolve(b, LU_data, LU_pivots) → Tensor
 ```
 
 Batch LU solve.
@@ -6125,7 +6125,7 @@ tensor(1.00000e-07 *
 ```
 
 ```py
-torch.btriunpack(LU_data, LU_pivots, unpack_data=True, unpack_pivots=True)¶
+torch.btriunpack(LU_data, LU_pivots, unpack_data=True, unpack_pivots=True)
 ```
 
 Unpacks the data and pivots from a batched LU factorization (btrifact) of a tensor.
@@ -6155,7 +6155,7 @@ Example:
 ```
 
 ```py
-torch.chain_matmul(*matrices)¶
+torch.chain_matmul(*matrices)
 ```
 
 Returns the matrix product of the ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) 2-D tensors. This product is efficiently computed using the matrix chain order algorithm which selects the order in which incurs the lowest cost in terms of arithmetic operations ([[CLRS]](https://mitpress.mit.edu/books/introduction-algorithms-third-edition)). Note that since this is a function to compute the product, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) needs to be greater than or equal to 2; if equal to 2 then a trivial matrix-matrix product is returned. If ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is 1, then this is a no-op - the original matrix is returned as is.
@@ -6182,7 +6182,7 @@ tensor([[ -2.3375,  -3.9790,  -4.1119,  -6.6577,   9.5609, -11.5095,  -3.2614],
 ```
 
 ```py
-torch.cholesky(A, upper=False, out=None) → Tensor¶
+torch.cholesky(A, upper=False, out=None) → Tensor
 ```
 
 Computes the Cholesky decomposition of a symmetric positive-definite matrix ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) or for batches of symmetric positive-definite matrices.
@@ -6234,7 +6234,7 @@ tensor(2.3842e-07)
 ```
 
 ```py
-torch.dot(tensor1, tensor2) → Tensor¶
+torch.dot(tensor1, tensor2) → Tensor
 ```
 
 Computes the dot product (inner product) of two tensors.
@@ -6252,7 +6252,7 @@ tensor(7)
 ```
 
 ```py
-torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)¶
+torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 ```
 
 Computes the eigenvalues and eigenvectors of a real square matrix.
@@ -6276,7 +6276,7 @@ Computes the eigenvalues and eigenvectors of a real square matrix.
 | --- | --- |
 
 ```py
-torch.gels(B, A, out=None) → Tensor¶
+torch.gels(B, A, out=None) → Tensor
 ```
 
 Computes the solution to the least squares and least norm problems for a full rank matrix ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) of size ![](img/cc3ea6b8d05f85433fd7aa6a20c33408.jpg) and a matrix ![](img/813135a6280e2672503128d3d2080d4a.jpg) of size ![](img/602cd3c92249bd53b21908f902ff6089.jpg).
@@ -6337,7 +6337,7 @@ tensor([[  2.0000,   1.0000],
 ```
 
 ```py
-torch.geqrf(input, out=None) -> (Tensor, Tensor)¶
+torch.geqrf(input, out=None) -> (Tensor, Tensor)
 ```
 
 This is a low-level function for calling LAPACK directly.
@@ -6359,7 +6359,7 @@ See [LAPACK documentation for geqrf](https://software.intel.com/en-us/node/52100
 | --- | --- |
 
 ```py
-torch.ger(vec1, vec2, out=None) → Tensor¶
+torch.ger(vec1, vec2, out=None) → Tensor
 ```
 
 Outer product of `vec1` and `vec2`. If `vec1` is a vector of size ![](img/493731e423d5db62086d0b8705dda0c8.jpg) and `vec2` is a vector of size ![](img/20ddd8181c2e0d0fb893637e8572d475.jpg), then `out` must be a matrix of size ![](img/b2d82f601df5521e215e30962b942ad1.jpg).
@@ -6391,7 +6391,7 @@ tensor([[  1.,   2.,   3.],
 ```
 
 ```py
-torch.gesv(B, A) -> (Tensor, Tensor)¶
+torch.gesv(B, A) -> (Tensor, Tensor)
 ```
 
 This function returns the solution to the system of linear equations represented by ![](img/9c11b6313ae06c752584c5c1b2c03964.jpg) and the LU factorization of A, in order as a tuple &lt;cite&gt;X, LU&lt;/cite&gt;.
@@ -6444,7 +6444,7 @@ tensor(1.00000e-06 *
 ```
 
 ```py
-torch.inverse(input, out=None) → Tensor¶
+torch.inverse(input, out=None) → Tensor
 ```
 
 Takes the inverse of the square matrix `input`. `input` can be batches of 2D square tensors, in which case this function would return a tensor composed of individual inverses.
@@ -6484,7 +6484,7 @@ tensor(1.9073e-06)
 ```
 
 ```py
-torch.det(A) → Tensor¶
+torch.det(A) → Tensor
 ```
 
 Calculates determinant of a 2D square tensor.
@@ -6506,7 +6506,7 @@ tensor(3.7641)
 ```
 
 ```py
-torch.logdet(A) → Tensor¶
+torch.logdet(A) → Tensor
 ```
 
 Calculates log determinant of a 2D square tensor.
@@ -6534,7 +6534,7 @@ tensor(-1.3430)
 ```
 
 ```py
-torch.slogdet(A) -> (Tensor, Tensor)¶
+torch.slogdet(A) -> (Tensor, Tensor)
 ```
 
 Calculates the sign and log value of a 2D square tensor’s determinant.
@@ -6566,7 +6566,7 @@ tensor(nan)
 ```
 
 ```py
-torch.matmul(tensor1, tensor2, out=None) → Tensor¶
+torch.matmul(tensor1, tensor2, out=None) → Tensor
 ```
 
 Matrix product of two tensors.
@@ -6624,7 +6624,7 @@ torch.Size([10, 3, 5])
 ```
 
 ```py
-torch.matrix_power(input, n) → Tensor¶
+torch.matrix_power(input, n) → Tensor
 ```
 
 Returns the matrix raised to the power `n` for square matrices. For batch of matrices, each individual matrix is raised to the power `n`.
@@ -6659,7 +6659,7 @@ tensor([[[  3.9392, -23.9916],
 ```
 
 ```py
-torch.matrix_rank(input, tol=None, bool symmetric=False) → Tensor¶
+torch.matrix_rank(input, tol=None, bool symmetric=False) → Tensor
 ```
 
 Returns the numerical rank of a 2-D tensor. The method to compute the matrix rank is done using SVD by default. If `symmetric` is `True`, then `input` is assumed to be symmetric, and the computation of the rank is done by obtaining the eigenvalues.
@@ -6689,7 +6689,7 @@ tensor(9)
 ```
 
 ```py
-torch.mm(mat1, mat2, out=None) → Tensor¶
+torch.mm(mat1, mat2, out=None) → Tensor
 ```
 
 Performs a matrix multiplication of the matrices `mat1` and `mat2`.
@@ -6721,7 +6721,7 @@ tensor([[ 0.4851,  0.5037, -0.3633],
 ```
 
 ```py
-torch.mv(mat, vec, out=None) → Tensor¶
+torch.mv(mat, vec, out=None) → Tensor
 ```
 
 Performs a matrix-vector product of the matrix `mat` and the vector `vec`.
@@ -6752,7 +6752,7 @@ tensor([ 1.0404, -0.6361])
 ```
 
 ```py
-torch.orgqr(a, tau) → Tensor¶
+torch.orgqr(a, tau) → Tensor
 ```
 
 Computes the orthogonal matrix &lt;cite&gt;Q&lt;/cite&gt; of a QR factorization, from the &lt;cite&gt;(a, tau)&lt;/cite&gt; tuple returned by [`torch.geqrf()`](#torch.geqrf "torch.geqrf").
@@ -6768,7 +6768,7 @@ This directly calls the underlying LAPACK function &lt;cite&gt;?orgqr&lt;/cite&g
 | --- | --- |
 
 ```py
-torch.ormqr(a, tau, mat, left=True, transpose=False) -> (Tensor, Tensor)¶
+torch.ormqr(a, tau, mat, left=True, transpose=False) -> (Tensor, Tensor)
 ```
 
 Multiplies &lt;cite&gt;mat&lt;/cite&gt; by the orthogonal &lt;cite&gt;Q&lt;/cite&gt; matrix of the QR factorization formed by [`torch.geqrf()`](#torch.geqrf "torch.geqrf") that is represented by &lt;cite&gt;(a, tau)&lt;/cite&gt;.
@@ -6785,7 +6785,7 @@ This directly calls the underlying LAPACK function &lt;cite&gt;?ormqr&lt;/cite&g
 | --- | --- |
 
 ```py
-torch.pinverse(input, rcond=1e-15) → Tensor¶
+torch.pinverse(input, rcond=1e-15) → Tensor
 ```
 
 Calculates the pseudo-inverse (also known as the Moore-Penrose inverse) of a 2D tensor. Please look at [Moore-Penrose inverse](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse) for more details
@@ -6826,7 +6826,7 @@ tensor([[ 0.0600, -0.1933, -0.2090],
 ```
 
 ```py
-torch.potrf(a, upper=True, out=None)¶
+torch.potrf(a, upper=True, out=None)
 ```
 
 Computes the Cholesky decomposition of a symmetric positive-definite matrix ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg).
@@ -6838,7 +6838,7 @@ Warning
 torch.potrf is deprecated in favour of torch.cholesky and will be removed in the next release. Please use torch.cholesky instead and note that the `upper` argument in torch.cholesky defaults to `False`.
 
 ```py
-torch.potri(u, upper=True, out=None) → Tensor¶
+torch.potri(u, upper=True, out=None) → Tensor
 ```
 
 Computes the inverse of a positive semidefinite matrix given its Cholesky factor `u`: returns matrix &lt;cite&gt;inv&lt;/cite&gt;
@@ -6882,7 +6882,7 @@ tensor([[ 1.9314,  1.2251, -0.0889],
 ```
 
 ```py
-torch.potrs(b, u, upper=True, out=None) → Tensor¶
+torch.potrs(b, u, upper=True, out=None) → Tensor
 ```
 
 Solves a linear system of equations with a positive semidefinite matrix to be inverted given its Cholesky factor matrix `u`.
@@ -6938,7 +6938,7 @@ tensor([[ -8.1626,  19.6097],
 ```
 
 ```py
-torch.pstrf(a, upper=True, out=None) -> (Tensor, Tensor)¶
+torch.pstrf(a, upper=True, out=None) -> (Tensor, Tensor)
 ```
 
 Computes the pivoted Cholesky decomposition of a positive semidefinite matrix `a`. returns matrices &lt;cite&gt;u&lt;/cite&gt; and &lt;cite&gt;piv&lt;/cite&gt;.
@@ -6981,7 +6981,7 @@ tensor([[ 3.5405, -0.4577,  0.8342],
 ```
 
 ```py
-torch.qr(input, out=None) -> (Tensor, Tensor)¶
+torch.qr(input, out=None) -> (Tensor, Tensor)
 ```
 
 Computes the QR decomposition of a matrix `input`, and returns matrices &lt;cite&gt;Q&lt;/cite&gt; and &lt;cite&gt;R&lt;/cite&gt; such that ![](img/5dcc06c3a05a06beb80d3f1ef2e078f2.jpg), with ![](img/1d680db5f32fd278f8d48e5407691154.jpg) being an orthogonal matrix and ![](img/502cdd9c79852b33d2a6d18ba5ec3102.jpg) being an upper triangular matrix.
@@ -7033,7 +7033,7 @@ tensor([[ 1.,  0.,  0.],
 ```
 
 ```py
-torch.svd(input, some=True, compute_uv=True, out=None) -> (Tensor, Tensor, Tensor)¶
+torch.svd(input, some=True, compute_uv=True, out=None) -> (Tensor, Tensor, Tensor)
 ```
 
 &lt;cite&gt;U, S, V = torch.svd(A)&lt;/cite&gt; returns the singular value decomposition of a real matrix &lt;cite&gt;A&lt;/cite&gt; of size &lt;cite&gt;(n x m)&lt;/cite&gt; such that ![](img/af257a01939a1fbe6211d4a4c168f25b.jpg).
@@ -7109,7 +7109,7 @@ tensor(1.00000e-06 *
 ```
 
 ```py
-torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor)¶
+torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor)
 ```
 
 This function returns eigenvalues and eigenvectors of a real symmetric matrix `input`, represented by a tuple ![](img/07aa3eb39d8bb2f8d4d17cd4925159b4.jpg).
@@ -7168,7 +7168,7 @@ tensor([[-0.2981, -0.6075,  0.4026, -0.3745,  0.4896],
 ```
 
 ```py
-torch.trtrs(b, A, upper=True, transpose=False, unitriangular=False) -> (Tensor, Tensor)¶
+torch.trtrs(b, A, upper=True, transpose=False, unitriangular=False) -> (Tensor, Tensor)
 ```
 
 Solves a system of equations with a triangular coefficient matrix ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) and multiple right-hand sides `b`.
@@ -7218,7 +7218,7 @@ tensor([[-0.0210,  2.3513, -1.5492],
 ## Utilities
 
 ```py
-torch.compiled_with_cxx11_abi()¶
+torch.compiled_with_cxx11_abi()
 ```
 
 Returns whether PyTorch was built with _GLIBCXX_USE_CXX11_ABI=1

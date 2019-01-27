@@ -3,7 +3,7 @@
 # torch.utils.model_zoo
 
 ```py
-torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None, progress=True)¶
+torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None, progress=True)
 ```
 
 Loads the Torch serialized object at the given URL.
