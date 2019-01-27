@@ -6,7 +6,7 @@
 
 我们将构建和训练字符级RNN来对单词进行分类。 字符级RNN将单词作为一系列字符读取，在每一步输出预测和“隐藏状态”，将其先前的隐藏状态输入至下一时刻。 我们将最终时刻输出作为预测结果，即表示该词属于哪个类。
 
-具体来说，我们将在18种语言构成的几千个姓氏的数据集上训练模型，根据一个单词的拼写预测它是哪种语言的姓氏：
+具体来说，我们将在18种语言构成的几千个姓氏的数据集上训练模型，根据一个姓氏的拼写预测它是哪种语言的姓氏：
 
 ```py
 $ python predict.py Hinton
@@ -39,7 +39,7 @@ $ python predict.py Schmidhuber
 
 点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
-在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个姓氏，它们几乎都是罗马化的（但是我们仍需要将其从Unicode转换为ASCII编码）
+在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个姓氏，它们几乎都是罗马化的文本（但是我们仍需要将其从Unicode转换为ASCII编码）
 
 我们最终会得到一个语言对应姓氏列表的字典，`{language: [names ...]}`
 
@@ -174,7 +174,7 @@ layer的隐藏状态和梯度将交给计算图自己处理。
 
 这意味着你可以像实现正规的 feed-forward 层一样，以很常纯粹的方式实现RNN。
 
-这个RNN组件 (几乎是从这里复制 [the PyTorch for Torch users tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 仅使用两层 linear 层对输入和隐藏层做处理, 
+这个RNN组件 (几乎是从这里复制的 [the PyTorch for Torch users tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 仅使用两层 linear 层对输入和隐藏层做处理, 
 
 在最后添加一层 LogSoftmax 层预测最终输出。
 
@@ -494,9 +494,9 @@ plt.show()
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_char_rnn_classification_tutorial_002.png](img/029a9d26725997aae97e9e3f6f10067f.jpg)
 
-你可以从主轴线上挑出亮的点，显示模型预测错了哪些语言，例如中国预测为了韩国，西班牙预测为了意大利。
+你可以从主轴线以外挑出亮的点，显示模型预测错了哪些语言，例如汉语预测为了韩语，西班牙预测为了意大利。
 
-看上去在希腊语上效果很好，在英语上表现欠佳。（可能是因为英语与其他语言的重叠）。
+看上去在希腊语上效果很好，在英语上表现欠佳。（可能是因为英语与其他语言的重叠较多）。
 
 ### 处理用户输入
 
@@ -544,15 +544,15 @@ predict('Satoshi')
 
 最终版的脚本 [in the Practical PyTorch repo](https://github.com/spro/practical-pytorch/tree/master/char-rnn-classification) 将上述代码拆分为几个文件：
 
-*   `data.py` (loads files)
-*   `model.py` (defines the RNN)
-*   `train.py` (runs training)
-*   `predict.py` (runs `predict()` with command line arguments)
-*   `server.py` (serve prediction as a JSON API with bottle.py)
+*   `data.py` (读取文件)
+*   `model.py` (构造RNN网络)
+*   `train.py` (运行训练过程)
+*   `predict.py` (在命令行中和参数一起运行`predict()`函数)
+*   `server.py` (使用bottle.py构建JSON API的预测服务)
 
 运行 `train.py` 来训练和保存网络
 
-将`predict.py`和一个姓氏一起运行查看预测结果 :
+将`predict.py`和一个姓氏的单词一起运行查看预测结果 :
 
 ```py
 $ python predict.py Hazaki
@@ -567,12 +567,12 @@ $ python predict.py Hazaki
 
 ## 练习
 
-*   尝试其它的成行排列格式的数据集，比如:
+*   尝试其它 （类别-&gt;行） 格式的数据集，比如:
     *   任何单词 -> 语言
     *   姓名 -> 性别
     *   角色姓名 -> 作者
     *   页面标题 -> blog 或 subreddit
-*   通过更大和/或更好的网络获得更好的结果
+*   通过更大和更复杂的网络获得更好的结果
     *   增加更多linear层
     *   尝试 `nn.LSTM` 和 `nn.GRU` 层
     *   组合这些 RNN构造更复杂的神经网络
