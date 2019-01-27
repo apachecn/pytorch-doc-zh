@@ -80,4 +80,7 @@
         +   [torch.onnx](onnx.md)
         +   [Distributed communication package (deprecated) - torch.distributed.deprecated](distributed_deprecated.md)
     +   [torchvision Reference](docs_torchvision_ref.md)
-        +   [torchvision](torchvision.md)
+        +   [torchvision.datasets](torchvision_datasets.md)
+        +   [torchvision.models](torchvision_models.md)
+        +   [torchvision.transforms](torchvision_transforms.md)
+        +   [torchvision.utils](torchvision_utils.md)
