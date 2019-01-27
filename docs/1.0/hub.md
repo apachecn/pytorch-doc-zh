@@ -10,11 +10,11 @@ Load a model from a github repo, with pretrained weights.
 
 | Parameters: | 
 
-*   **github** – Required, a string with format “repo_owner/repo_name[:tag_name]” with an optional tag/branch. The default branch is &lt;cite&gt;master&lt;/cite&gt; if not specified. Example: ‘pytorch/vision[:hub]’
+*   **github** – Required, a string with format “repo_owner/repo_name[:tag_name]” with an optional tag/branch. The default branch is `master` if not specified. Example: ‘pytorch/vision[:hub]’
 *   **model** – Required, a string of callable name defined in repo’s hubconf.py
-*   **force_reload** – Optional, whether to discard the existing cache and force a fresh download. Default is &lt;cite&gt;False&lt;/cite&gt;.
-*   ***args** – Optional, the corresponding args for callable &lt;cite&gt;model&lt;/cite&gt;.
-*   ****kwargs** – Optional, the corresponding kwargs for callable &lt;cite&gt;model&lt;/cite&gt;.
+*   **force_reload** – Optional, whether to discard the existing cache and force a fresh download. Default is `False`.
+*   ***args** – Optional, the corresponding args for callable `model`.
+*   ****kwargs** – Optional, the corresponding kwargs for callable `model`.
 
  |
 | --- | --- |

@@ -98,7 +98,7 @@ Note that the introduction of broadcasting can cause backwards incompatible chan
 
 ```
 
-would previously produce a Tensor with size: torch.Size([4,1]), but now produces a Tensor with size: torch.Size([4,4]). In order to help identify cases in your code where backwards incompatibilities introduced by broadcasting may exist, you may set &lt;cite&gt;torch.utils.backcompat.broadcast_warning.enabled&lt;/cite&gt; to &lt;cite&gt;True&lt;/cite&gt;, which will generate a python warning in such cases.
+would previously produce a Tensor with size: torch.Size([4,1]), but now produces a Tensor with size: torch.Size([4,4]). In order to help identify cases in your code where backwards incompatibilities introduced by broadcasting may exist, you may set `torch.utils.backcompat.broadcast_warning.enabled` to `True`, which will generate a python warning in such cases.
 
 For Example:
 

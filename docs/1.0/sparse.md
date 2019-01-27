@@ -211,7 +211,7 @@ _nnz()
 torch.sparse.addmm(mat, mat1, mat2, beta=1, alpha=1)
 ```
 
-This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm "torch.addmm") in the forward, except that it supports backward for sparse matrix `mat1`. `mat1` need to have &lt;cite&gt;sparse_dim = 2&lt;/cite&gt;. Note that the gradients of `mat1` is a coalesced sparse tensor.
+This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm "torch.addmm") in the forward, except that it supports backward for sparse matrix `mat1`. `mat1` need to have `sparse_dim = 2`. Note that the gradients of `mat1` is a coalesced sparse tensor.
 
 | Parameters: | 
 
@@ -228,7 +228,7 @@ This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm 
 torch.sparse.mm(mat1, mat2)
 ```
 
-Performs a matrix multiplication of the sparse matrix `mat1` and dense matrix `mat2`. Similar to [`torch.mm()`](torch.html#torch.mm "torch.mm"), If `mat1` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` is a ![](img/ec84c2d649caa2a7d4dc59b6b23b0278.jpg) tensor, out will be a ![](img/42cdcd96fd628658ac0e3e7070ba08d5.jpg) dense tensor. `mat1` need to have &lt;cite&gt;sparse_dim = 2&lt;/cite&gt;. This function also supports backward for both matrices. Note that the gradients of `mat1` is a coalesced sparse tensor.
+Performs a matrix multiplication of the sparse matrix `mat1` and dense matrix `mat2`. Similar to [`torch.mm()`](torch.html#torch.mm "torch.mm"), If `mat1` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` is a ![](img/ec84c2d649caa2a7d4dc59b6b23b0278.jpg) tensor, out will be a ![](img/42cdcd96fd628658ac0e3e7070ba08d5.jpg) dense tensor. `mat1` need to have `sparse_dim = 2`. This function also supports backward for both matrices. Note that the gradients of `mat1` is a coalesced sparse tensor.
 
 | Parameters: | 
 
@@ -271,9 +271,9 @@ tensor(indices=tensor([[0, 0, 0, 1, 1, 1],
 torch.sparse.sum(input, dim=None, dtype=None)
 ```
 
-Returns the sum of each row of SparseTensor `input` in the given dimensions `dim`. If :attr::&lt;cite&gt;dim&lt;/cite&gt; is a list of dimensions, reduce over all of them. When sum over all `sparse_dim`, this method returns a Tensor instead of SparseTensor.
+Returns the sum of each row of SparseTensor `input` in the given dimensions `dim`. If :attr::`dim` is a list of dimensions, reduce over all of them. When sum over all `sparse_dim`, this method returns a Tensor instead of SparseTensor.
 
-All summed `dim` are squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting an output tensor having :attr::&lt;cite&gt;dim&lt;/cite&gt; fewer dimensions than `input`.
+All summed `dim` are squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting an output tensor having :attr::`dim` fewer dimensions than `input`.
 
 During backward, only gradients at `nnz` locations of `input` will propagate back. Note that the gradients of `input` is coalesced.
 

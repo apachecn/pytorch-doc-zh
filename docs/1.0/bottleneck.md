@@ -2,7 +2,7 @@
 
 # torch.utils.bottleneck
 
-&lt;cite&gt;torch.utils.bottleneck&lt;/cite&gt; is a tool that can be used as an initial step for debugging bottlenecks in your program. It summarizes runs of your script with the Python profiler and PyTorch’s autograd profiler.
+`torch.utils.bottleneck` is a tool that can be used as an initial step for debugging bottlenecks in your program. It summarizes runs of your script with the Python profiler and PyTorch’s autograd profiler.
 
 Run it on the command line with
 
@@ -11,7 +11,7 @@ python -m torch.utils.bottleneck /path/to/source/script.py [args]
 
 ```
 
-where [args] are any number of arguments to &lt;cite&gt;script.py&lt;/cite&gt;, or run `python -m torch.utils.bottleneck -h` for more usage instructions.
+where [args] are any number of arguments to `script.py`, or run `python -m torch.utils.bottleneck -h` for more usage instructions.
 
 Warning
 

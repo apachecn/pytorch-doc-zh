@@ -95,7 +95,7 @@ CUDA support with mixed compilation is provided. Simply pass CUDA source files (
 *   **extra_include_paths** – optional list of include directories to forward to the build.
 *   **build_directory** – optional path to use as build workspace.
 *   **verbose** – If `True`, turns on verbose logging of load steps.
-*   **with_cuda** – Determines whether CUDA headers and libraries are added to the build. If set to `None` (default), this value is automatically determined based on the existence of `.cu` or `.cuh` in `sources`. Set it to &lt;cite&gt;True`&lt;/cite&gt; to force CUDA headers and libraries to be included.
+*   **with_cuda** – Determines whether CUDA headers and libraries are added to the build. If set to `None` (default), this value is automatically determined based on the existence of `.cu` or `.cuh` in `sources`. Set it to `True`` to force CUDA headers and libraries to be included.
 *   **is_python_module** – If `True` (default), imports the produced shared library as a Python module. If `False`, loads it into the process as a plain dynamic library.
 
  |
@@ -138,7 +138,7 @@ See [`load()`](#torch.utils.cpp_extension.load "torch.utils.cpp_extension.load")
 *   **cpp_sources** – A string, or list of strings, containing C++ source code.
 *   **cuda_sources** – A string, or list of strings, containing CUDA source code.
 *   **functions** – A list of function names for which to generate function bindings. If a dictionary is given, it should map function names to docstrings (which are otherwise just the function names).
-*   **with_cuda** – Determines whether CUDA headers and libraries are added to the build. If set to `None` (default), this value is automatically determined based on whether `cuda_sources` is provided. Set it to &lt;cite&gt;True`&lt;/cite&gt; to force CUDA headers and libraries to be included.
+*   **with_cuda** – Determines whether CUDA headers and libraries are added to the build. If set to `None` (default), this value is automatically determined based on whether `cuda_sources` is provided. Set it to `True`` to force CUDA headers and libraries to be included.
 
  |
 | --- | --- |
@@ -164,7 +164,7 @@ torch.utils.cpp_extension.include_paths(cuda=False)
 
 Get the include paths required to build a C++ or CUDA extension.
 
-| Parameters: | **cuda** – If &lt;cite&gt;True&lt;/cite&gt;, includes CUDA-specific include paths. |
+| Parameters: | **cuda** – If `True`, includes CUDA-specific include paths. |
 | --- | --- |
 | Returns: | A list of include path strings. |
 | --- | --- |

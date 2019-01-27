@@ -22,7 +22,7 @@ for i in range(10000):
 
 ```
 
-Here, `total_loss` is accumulating history across your training loop, since `loss` is a differentiable variable with autograd history. You can fix this by writing &lt;cite&gt;total_loss += float(loss)&lt;/cite&gt; instead.
+Here, `total_loss` is accumulating history across your training loop, since `loss` is a differentiable variable with autograd history. You can fix this by writing `total_loss += float(loss)` instead.
 
 Other instances of this problem: [1](https://discuss.pytorch.org/t/resolved-gpu-out-of-memory-error-with-batch-size-1/3719).
 

@@ -14,7 +14,7 @@ To construct an [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") yo
 
 Note
 
-If you need to move a model to GPU via &lt;cite&gt;.cuda()&lt;/cite&gt;, please do so before constructing optimizers for it. Parameters of a model after &lt;cite&gt;.cuda()&lt;/cite&gt; will be different objects with those before the call.
+If you need to move a model to GPU via `.cuda()`, please do so before constructing optimizers for it. Parameters of a model after `.cuda()` will be different objects with those before the call.
 
 In general, you should make sure that optimized parameters live in consistent locations when optimizers are constructed and used.
 
@@ -108,7 +108,7 @@ Parameters need to be specified as collections that have a deterministic orderin
 add_param_group(param_group)
 ```
 
-Add a param group to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") s &lt;cite&gt;param_groups&lt;/cite&gt;.
+Add a param group to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") s `param_groups`.
 
 This can be useful when fine tuning a pre-trained network as frozen layers can be made trainable and added to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") as training progresses.
 
@@ -637,12 +637,12 @@ Reduce learning rate when a metric has stopped improving. Models often benefit f
 | Parameters: | 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of &lt;cite&gt;min&lt;/cite&gt;, &lt;cite&gt;max&lt;/cite&gt;. In &lt;cite&gt;min&lt;/cite&gt; mode, lr will be reduced when the quantity monitored has stopped decreasing; in &lt;cite&gt;max&lt;/cite&gt; mode it will be reduced when the quantity monitored has stopped increasing. Default: ‘min’.
+*   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of `min`, `max`. In `min` mode, lr will be reduced when the quantity monitored has stopped decreasing; in `max` mode it will be reduced when the quantity monitored has stopped increasing. Default: ‘min’.
 *   **factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Factor by which the learning rate will be reduced. new_lr = lr * factor. Default: 0.1.
-*   **patience** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of epochs with no improvement after which learning rate will be reduced. For example, if &lt;cite&gt;patience = 2&lt;/cite&gt;, then we will ignore the first 2 epochs with no improvement, and will only decrease the LR after the 3rd epoch if the loss still hasn’t improved then. Default: 10.
+*   **patience** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of epochs with no improvement after which learning rate will be reduced. For example, if `patience = 2`, then we will ignore the first 2 epochs with no improvement, and will only decrease the LR after the 3rd epoch if the loss still hasn’t improved then. Default: 10.
 *   **verbose** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, prints a message to stdout for each update. Default: `False`.
 *   **threshold** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Threshold for measuring the new optimum, to only focus on significant changes. Default: 1e-4.
-*   **threshold_mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of &lt;cite&gt;rel&lt;/cite&gt;, &lt;cite&gt;abs&lt;/cite&gt;. In &lt;cite&gt;rel&lt;/cite&gt; mode, dynamic_threshold = best * ( 1 + threshold ) in ‘max’ mode or best * ( 1 - threshold ) in &lt;cite&gt;min&lt;/cite&gt; mode. In &lt;cite&gt;abs&lt;/cite&gt; mode, dynamic_threshold = best + threshold in &lt;cite&gt;max&lt;/cite&gt; mode or best - threshold in &lt;cite&gt;min&lt;/cite&gt; mode. Default: ‘rel’.
+*   **threshold_mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of `rel`, `abs`. In `rel` mode, dynamic_threshold = best * ( 1 + threshold ) in ‘max’ mode or best * ( 1 - threshold ) in `min` mode. In `abs` mode, dynamic_threshold = best + threshold in `max` mode or best - threshold in `min` mode. Default: ‘rel’.
 *   **cooldown** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of epochs to wait before resuming normal operation after lr has been reduced. Default: 0.
 *   **min_lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – A scalar or a list of scalars. A lower bound on the learning rate of all param groups or each group respectively. Default: 0.
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Minimal decay applied to lr. If the difference between new and old lr is smaller than eps, the update is ignored. Default: 1e-8.

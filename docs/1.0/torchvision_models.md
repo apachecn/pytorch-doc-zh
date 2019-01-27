@@ -37,7 +37,7 @@ inception = models.inception_v3(pretrained=True)
 
 ```
 
-Instancing a pre-trained model will download its weights to a cache directory. This directory can be set using the &lt;cite&gt;TORCH_MODEL_ZOO&lt;/cite&gt; environment variable. See [`torch.utils.model_zoo.load_url()`](../model_zoo.html#torch.utils.model_zoo.load_url "torch.utils.model_zoo.load_url") for details.
+Instancing a pre-trained model will download its weights to a cache directory. This directory can be set using the `TORCH_MODEL_ZOO` environment variable. See [`torch.utils.model_zoo.load_url()`](../model_zoo.html#torch.utils.model_zoo.load_url "torch.utils.model_zoo.load_url") for details.
 
 Some models use modules which have different training and evaluation behavior, such as batch normalization. To switch between these modes, use `model.train()` or `model.eval()` as appropriate. See [`train()`](../nn.html#torch.nn.Module.train "torch.nn.Module.train") or [`eval()`](../nn.html#torch.nn.Module.eval "torch.nn.Module.eval") for details.
 

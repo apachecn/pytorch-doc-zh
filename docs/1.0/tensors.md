@@ -126,7 +126,7 @@ Warning
 
 Warning
 
-When data is a tensor &lt;cite&gt;x&lt;/cite&gt;, [`new_tensor()`](#torch.Tensor.new_tensor "torch.Tensor.new_tensor") reads out ‘the data’ from whatever it is passed, and constructs a leaf variable. Therefore `tensor.new_tensor(x)` is equivalent to `x.clone().detach()` and `tensor.new_tensor(x, requires_grad=True)` is equivalent to `x.clone().detach().requires_grad_(True)`. The equivalents using `clone()` and `detach()` are recommended.
+When data is a tensor `x`, [`new_tensor()`](#torch.Tensor.new_tensor "torch.Tensor.new_tensor") reads out ‘the data’ from whatever it is passed, and constructs a leaf variable. Therefore `tensor.new_tensor(x)` is equivalent to `x.clone().detach()` and `tensor.new_tensor(x, requires_grad=True)` is equivalent to `x.clone().detach().requires_grad_(True)`. The equivalents using `clone()` and `detach()` are recommended.
 
 | Parameters: | 
 
@@ -571,7 +571,7 @@ Returns a copy of the `self` tensor. The copy has the same size and data type as
 
 Note
 
-Unlike &lt;cite&gt;copy_()&lt;/cite&gt;, this function is recorded in the computation graph. Gradients propagating to the cloned tensor will propagate to the original tensor.
+Unlike `copy_()`, this function is recorded in the computation graph. Gradients propagating to the cloned tensor will propagate to the original tensor.
 
 ```py
 contiguous() → Tensor
@@ -1129,8 +1129,8 @@ If `accumulate` is `True`, the elements in [`tensor`](torch.html#torch.tensor "t
 
 | Parameters: | 
 
-*   **indices** (_tuple of LongTensor_) – tensors used to index into &lt;cite&gt;self&lt;/cite&gt;.
-*   **value** ([_Tensor_](#torch.Tensor "torch.Tensor")) – tensor of same dtype as &lt;cite&gt;self&lt;/cite&gt;.
+*   **indices** (_tuple of LongTensor_) – tensors used to index into `self`.
+*   **value** ([_Tensor_](#torch.Tensor "torch.Tensor")) – tensor of same dtype as `self`.
 *   **accumulate** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to accumulate into self
 
  |
@@ -1510,7 +1510,7 @@ See [`torch.nonzero()`](torch.html#torch.nonzero "torch.nonzero")
 norm(p='fro', dim=None, keepdim=False)
 ```
 
-See :func: &lt;cite&gt;torch.norm&lt;/cite&gt;
+See :func: `torch.norm`
 
 ```py
 normal_(mean=0, std=1, *, generator=None) → Tensor
@@ -1652,7 +1652,7 @@ See [`torch.qr()`](torch.html#torch.qr "torch.qr")
 random_(from=0, to=None, *, generator=None) → Tensor
 ```
 
-Fills `self` tensor with numbers sampled from the discrete uniform distribution over `[from, to - 1]`. If not specified, the values are usually only bounded by `self` tensor’s data type. However, for floating point types, if unspecified, range will be `[0, 2^mantissa]` to ensure that every value is representable. For example, &lt;cite&gt;torch.tensor(1, dtype=torch.double).random_()&lt;/cite&gt; will be uniform in `[0, 2^53]`.
+Fills `self` tensor with numbers sampled from the discrete uniform distribution over `[from, to - 1]`. If not specified, the values are usually only bounded by `self` tensor’s data type. However, for floating point types, if unspecified, range will be `[0, 2^mantissa]` to ensure that every value is representable. For example, `torch.tensor(1, dtype=torch.double).random_()` will be uniform in `[0, 2^53]`.
 
 ```py
 reciprocal() → Tensor
@@ -2420,7 +2420,7 @@ In-place version of [`trunc()`](#torch.Tensor.trunc "torch.Tensor.trunc")
 type(dtype=None, non_blocking=False, **kwargs) → str or Tensor
 ```
 
-Returns the type if &lt;cite&gt;dtype&lt;/cite&gt; is not provided, else casts this object to the specified type.
+Returns the type if `dtype` is not provided, else casts this object to the specified type.
 
 If this is already of the correct type, no copy is performed and the original object is returned.
 
@@ -2460,7 +2460,7 @@ Returns a tensor which contains all slices of size [`size`](#torch.Tensor.size "
 
 Step between two slices is given by `step`.
 
-If &lt;cite&gt;sizedim&lt;/cite&gt; is the size of dimension dim for `self`, the size of dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim") in the returned tensor will be &lt;cite&gt;(sizedim - size) / step + 1&lt;/cite&gt;.
+If `sizedim` is the size of dimension dim for `self`, the size of dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim") in the returned tensor will be `(sizedim - size) / step + 1`.
 
 An additional dimension of size size is appended in the returned tensor.
 

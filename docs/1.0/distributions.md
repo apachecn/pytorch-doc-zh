@@ -68,7 +68,7 @@ Returns the shape over which parameters are batched.
 cdf(value)
 ```
 
-Returns the cumulative density/mass function evaluated at &lt;cite&gt;value&lt;/cite&gt;.
+Returns the cumulative density/mass function evaluated at `value`.
 
 | Parameters: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – |
 | --- | --- |
@@ -86,13 +86,13 @@ Returns entropy of distribution, batched over batch_shape.
 enumerate_support(expand=True)
 ```
 
-Returns tensor containing all values supported by a discrete distribution. The result will enumerate over dimension 0, so the shape of the result will be &lt;cite&gt;(cardinality,) + batch_shape + event_shape&lt;/cite&gt; (where &lt;cite&gt;event_shape = ()&lt;/cite&gt; for univariate distributions).
+Returns tensor containing all values supported by a discrete distribution. The result will enumerate over dimension 0, so the shape of the result will be `(cardinality,) + batch_shape + event_shape` (where `event_shape = ()` for univariate distributions).
 
-Note that this enumerates over all batched tensors in lock-step &lt;cite&gt;[[0, 0], [1, 1], …]&lt;/cite&gt;. With &lt;cite&gt;expand=False&lt;/cite&gt;, enumeration happens along dim 0, but with the remaining batch dimensions being singleton dimensions, &lt;cite&gt;[[0], [1], ..&lt;/cite&gt;.
+Note that this enumerates over all batched tensors in lock-step `[[0, 0], [1, 1], …]`. With `expand=False`, enumeration happens along dim 0, but with the remaining batch dimensions being singleton dimensions, `[[0], [1], ..`.
 
-To iterate over the full Cartesian product use &lt;cite&gt;itertools.product(m.enumerate_support())&lt;/cite&gt;.
+To iterate over the full Cartesian product use `itertools.product(m.enumerate_support())`.
 
-| Parameters: | **expand** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to expand the support over the batch dims to match the distribution’s &lt;cite&gt;batch_shape&lt;/cite&gt;. |
+| Parameters: | **expand** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to expand the support over the batch dims to match the distribution’s `batch_shape`. |
 | --- | --- |
 | Returns: | Tensor iterating over dimension 0. |
 | --- | --- |
@@ -107,23 +107,23 @@ Returns the shape of a single sample (without batching).
 expand(batch_shape, _instance=None)
 ```
 
-Returns a new distribution instance (or populates an existing instance provided by a derived class) with batch dimensions expanded to &lt;cite&gt;batch_shape&lt;/cite&gt;. This method calls [`expand`](tensors.html#torch.Tensor.expand "torch.Tensor.expand") on the distribution’s parameters. As such, this does not allocate new memory for the expanded distribution instance. Additionally, this does not repeat any args checking or parameter broadcasting in &lt;cite&gt;__init__.py&lt;/cite&gt;, when an instance is first created.
+Returns a new distribution instance (or populates an existing instance provided by a derived class) with batch dimensions expanded to `batch_shape`. This method calls [`expand`](tensors.html#torch.Tensor.expand "torch.Tensor.expand") on the distribution’s parameters. As such, this does not allocate new memory for the expanded distribution instance. Additionally, this does not repeat any args checking or parameter broadcasting in `__init__.py`, when an instance is first created.
 
 | Parameters: | 
 
 *   **batch_shape** (_torch.Size_) – the desired expanded size.
-*   **_instance** – new instance provided by subclasses that need to override &lt;cite&gt;.expand&lt;/cite&gt;.
+*   **_instance** – new instance provided by subclasses that need to override `.expand`.
 
  |
 | --- | --- |
-| Returns: | New distribution instance with batch dimensions expanded to &lt;cite&gt;batch_size&lt;/cite&gt;. |
+| Returns: | New distribution instance with batch dimensions expanded to `batch_size`. |
 | --- | --- |
 
 ```py
 icdf(value)
 ```
 
-Returns the inverse cumulative density/mass function evaluated at &lt;cite&gt;value&lt;/cite&gt;.
+Returns the inverse cumulative density/mass function evaluated at `value`.
 
 | Parameters: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – |
 | --- | --- |
@@ -132,7 +132,7 @@ Returns the inverse cumulative density/mass function evaluated at &lt;cite&gt;va
 log_prob(value)
 ```
 
-Returns the log of the probability density/mass function evaluated at &lt;cite&gt;value&lt;/cite&gt;.
+Returns the log of the probability density/mass function evaluated at `value`.
 
 | Parameters: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – |
 | --- | --- |
@@ -204,7 +204,7 @@ where ![](img/51b8359f970d2bfe2ad4cdc3ac1aed3c.jpg) denotes the natural paramete
 
 Note
 
-This class is an intermediary between the &lt;cite&gt;Distribution&lt;/cite&gt; class and distributions which belong to an exponential family mainly to check the correctness of the &lt;cite&gt;.entropy()&lt;/cite&gt; and analytic KL divergence methods. We use this class to compute the entropy and KL divergence using the AD frame- work and Bregman divergences (courtesy of: Frank Nielsen and Richard Nock, Entropies and Cross-entropies of Exponential Families).
+This class is an intermediary between the `Distribution` class and distributions which belong to an exponential family mainly to check the correctness of the `.entropy()` and analytic KL divergence methods. We use this class to compute the entropy and KL divergence using the AD frame- work and Bregman divergences (courtesy of: Frank Nielsen and Richard Nock, Entropies and Cross-entropies of Exponential Families).
 
 ```py
 entropy()
@@ -222,7 +222,7 @@ Bases: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions
 
 Creates a Bernoulli distribution parameterized by [`probs`](#torch.distributions.bernoulli.Bernoulli.probs "torch.distributions.bernoulli.Bernoulli.probs") or [`logits`](#torch.distributions.bernoulli.Bernoulli.logits "torch.distributions.bernoulli.Bernoulli.logits") (but not both).
 
-Samples are binary (0 or 1). They take the value &lt;cite&gt;1&lt;/cite&gt; with probability &lt;cite&gt;p&lt;/cite&gt; and &lt;cite&gt;0&lt;/cite&gt; with probability &lt;cite&gt;1 - p&lt;/cite&gt;.
+Samples are binary (0 or 1). They take the value `1` with probability `p` and `0` with probability `1 - p`.
 
 Example:
 
@@ -235,8 +235,8 @@ tensor([ 0.])
 
 | Parameters: | 
 
-*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling &lt;cite&gt;1&lt;/cite&gt;
-*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling &lt;cite&gt;1&lt;/cite&gt;
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`
 
  |
 | --- | --- |
@@ -459,9 +459,9 @@ Note
 
 It is equivalent to the distribution that [`torch.multinomial()`](torch.html#torch.multinomial "torch.multinomial") samples from.
 
-Samples are integers from ![](img/7c6904e60a8ff7044a079e10eaee1f57.jpg) where &lt;cite&gt;K&lt;/cite&gt; is `probs.size(-1)`.
+Samples are integers from ![](img/7c6904e60a8ff7044a079e10eaee1f57.jpg) where `K` is `probs.size(-1)`.
 
-If [`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs") is 1D with length-&lt;cite&gt;K&lt;/cite&gt;, each element is the relative probability of sampling the class at that index.
+If [`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs") is 1D with length-`K`, each element is the relative probability of sampling the class at that index.
 
 If [`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs") is 2D, it is treated as a batch of relative probability vectors.
 
@@ -548,7 +548,7 @@ class torch.distributions.cauchy.Cauchy(loc, scale, validate_args=None)
 
 Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Samples from a Cauchy (Lorentz) distribution. The distribution of the ratio of independent normally distributed random variables with means &lt;cite&gt;0&lt;/cite&gt; follows a Cauchy distribution.
+Samples from a Cauchy (Lorentz) distribution. The distribution of the ratio of independent normally distributed random variables with means `0` follows a Cauchy distribution.
 
 Example:
 
@@ -918,8 +918,8 @@ tensor([ 2.])
 
 | Parameters: | 
 
-*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling &lt;cite&gt;1&lt;/cite&gt;. Must be in range (0, 1]
-*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling &lt;cite&gt;1&lt;/cite&gt;.
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`. Must be in range (0, 1]
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`.
 
  |
 | --- | --- |
@@ -1027,7 +1027,7 @@ class torch.distributions.half_cauchy.HalfCauchy(scale, validate_args=None)
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a half-normal distribution parameterized by &lt;cite&gt;scale&lt;/cite&gt; where:
+Creates a half-normal distribution parameterized by `scale` where:
 
 ```py
 X ~ Cauchy(0, scale)
@@ -1099,7 +1099,7 @@ class torch.distributions.half_normal.HalfNormal(scale, validate_args=None)
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a half-normal distribution parameterized by &lt;cite&gt;scale&lt;/cite&gt; where:
+Creates a half-normal distribution parameterized by `scale` where:
 
 ```py
 X ~ Normal(0, scale)
@@ -1416,16 +1416,16 @@ tensor([-0.2102, -0.5429])
 
 | Parameters: | 
 
-*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution with shape &lt;cite&gt;batch_shape + event_shape&lt;/cite&gt;
-*   **cov_factor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – factor part of low-rank form of covariance matrix with shape &lt;cite&gt;batch_shape + event_shape + (rank,)&lt;/cite&gt;
-*   **cov_diag** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – diagonal part of low-rank form of covariance matrix with shape &lt;cite&gt;batch_shape + event_shape&lt;/cite&gt;
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution with shape `batch_shape + event_shape`
+*   **cov_factor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – factor part of low-rank form of covariance matrix with shape `batch_shape + event_shape + (rank,)`
+*   **cov_diag** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – diagonal part of low-rank form of covariance matrix with shape `batch_shape + event_shape`
 
  |
 | --- | --- |
 
 Note
 
-The computation for determinant and inverse of covariance matrix is avoided when &lt;cite&gt;cov_factor.shape[1] &lt;&lt; cov_factor.shape[0]&lt;/cite&gt; thanks to [Woodbury matrix identity](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) and [matrix determinant lemma](https://en.wikipedia.org/wiki/Matrix_determinant_lemma). Thanks to these formulas, we just need to compute the determinant and inverse of the small size “capacitance” matrix:
+The computation for determinant and inverse of covariance matrix is avoided when `cov_factor.shape[1] &lt;&lt; cov_factor.shape[0]` thanks to [Woodbury matrix identity](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) and [matrix determinant lemma](https://en.wikipedia.org/wiki/Matrix_determinant_lemma). Thanks to these formulas, we just need to compute the determinant and inverse of the small size “capacitance” matrix:
 
 ```py
 capacitance = I + cov_factor.T @ inv(cov_diag) @ cov_factor
@@ -1496,8 +1496,8 @@ Note
 
 [`probs`](#torch.distributions.multinomial.Multinomial.probs "torch.distributions.multinomial.Multinomial.probs") must be non-negative, finite and have a non-zero sum, and it will be normalized to sum to 1.
 
-*   [`sample()`](#torch.distributions.multinomial.Multinomial.sample "torch.distributions.multinomial.Multinomial.sample") requires a single shared &lt;cite&gt;total_count&lt;/cite&gt; for all parameters and samples.
-*   [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") allows different &lt;cite&gt;total_count&lt;/cite&gt; for each parameter and sample.
+*   [`sample()`](#torch.distributions.multinomial.Multinomial.sample "torch.distributions.multinomial.Multinomial.sample") requires a single shared `total_count` for all parameters and samples.
+*   [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") allows different `total_count` for each parameter and sample.
 
 Example:
 
@@ -1983,7 +1983,7 @@ class torch.distributions.relaxed_bernoulli.RelaxedBernoulli(temperature, probs=
 
 Bases: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a RelaxedBernoulli distribution, parametrized by [`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature"), and either [`probs`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.probs "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.probs") or [`logits`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.logits "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.logits") (but not both). This is a relaxed version of the &lt;cite&gt;Bernoulli&lt;/cite&gt; distribution, so the values are in (0, 1), and has reparametrizable samples.
+Creates a RelaxedBernoulli distribution, parametrized by [`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature"), and either [`probs`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.probs "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.probs") or [`logits`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.logits "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.logits") (but not both). This is a relaxed version of the `Bernoulli` distribution, so the values are in (0, 1), and has reparametrizable samples.
 
 Example:
 
@@ -1998,8 +1998,8 @@ tensor([ 0.2951,  0.3442,  0.8918,  0.9021])
 | Parameters: | 
 
 *   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
-*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling &lt;cite&gt;1&lt;/cite&gt;
-*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling &lt;cite&gt;1&lt;/cite&gt;
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`
 
  |
 | --- | --- |
@@ -2221,13 +2221,13 @@ Scores the sample by inverting the transform(s) and computing the score using th
 rsample(sample_shape=torch.Size([]))
 ```
 
-Generates a sample_shape shaped reparameterized sample or sample_shape shaped batch of reparameterized samples if the distribution parameters are batched. Samples first from base distribution and applies &lt;cite&gt;transform()&lt;/cite&gt; for every transform in the list.
+Generates a sample_shape shaped reparameterized sample or sample_shape shaped batch of reparameterized samples if the distribution parameters are batched. Samples first from base distribution and applies `transform()` for every transform in the list.
 
 ```py
 sample(sample_shape=torch.Size([]))
 ```
 
-Generates a sample_shape shaped sample or sample_shape shaped batch of samples if the distribution parameters are batched. Samples first from base distribution and applies &lt;cite&gt;transform()&lt;/cite&gt; for every transform in the list.
+Generates a sample_shape shaped sample or sample_shape shaped batch of samples if the distribution parameters are batched. Samples first from base distribution and applies `transform()` for every transform in the list.
 
 ```py
 support
@@ -2359,7 +2359,7 @@ support = GreaterThan(lower_bound=0.0)
 variance
 ```
 
-## &lt;cite&gt;KL Divergence&lt;/cite&gt;
+## `KL Divergence`
 
 ```py
 torch.distributions.kl.kl_divergence(p, q)
@@ -2376,7 +2376,7 @@ Compute Kullback-Leibler divergence ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg
 
  |
 | --- | --- |
-| Returns: | A batch of KL divergences of shape &lt;cite&gt;batch_shape&lt;/cite&gt;. |
+| Returns: | A batch of KL divergences of shape `batch_shape`. |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
 | --- | --- |
@@ -2396,7 +2396,7 @@ def kl_normal_normal(p, q):
 
 ```
 
-Lookup returns the most specific (type,type) match ordered by subclass. If the match is ambiguous, a &lt;cite&gt;RuntimeWarning&lt;/cite&gt; is raised. For example to resolve the ambiguous situation:
+Lookup returns the most specific (type,type) match ordered by subclass. If the match is ambiguous, a `RuntimeWarning` is raised. For example to resolve the ambiguous situation:
 
 ```py
 @register_kl(BaseP, DerivedQ)
@@ -2421,7 +2421,7 @@ register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
  |
 | --- | --- |
 
-## &lt;cite&gt;Transforms&lt;/cite&gt;
+## `Transforms`
 
 ```py
 class torch.distributions.transforms.Transform(cache_size=0)
@@ -2446,7 +2446,7 @@ grad(z.sum(), [y])  # error because z is x
 
 ```
 
-Derived classes should implement one or both of `_call()` or `_inverse()`. Derived classes that set &lt;cite&gt;bijective=True&lt;/cite&gt; should also implement [`log_abs_det_jacobian()`](#torch.distributions.transforms.Transform.log_abs_det_jacobian "torch.distributions.transforms.Transform.log_abs_det_jacobian").
+Derived classes should implement one or both of `_call()` or `_inverse()`. Derived classes that set `bijective=True` should also implement [`log_abs_det_jacobian()`](#torch.distributions.transforms.Transform.log_abs_det_jacobian "torch.distributions.transforms.Transform.log_abs_det_jacobian").
 
 | Parameters: | **cache_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Size of cache. If zero, no caching is done. If one, the latest single value is cached. Only 0 and 1 are supported. |
 | --- | --- |
@@ -2477,7 +2477,7 @@ Returns the sign of the determinant of the Jacobian, if applicable. In general t
 log_abs_det_jacobian(x, y)
 ```
 
-Computes the log det jacobian &lt;cite&gt;log |dy/dx|&lt;/cite&gt; given input and output.
+Computes the log det jacobian `log |dy/dx|` given input and output.
 
 ```py
 class torch.distributions.transforms.ComposeTransform(parts)
@@ -2522,7 +2522,7 @@ Transform via the pointwise affine mapping ![](img/e1df459e7ff26d682fc956b62868f
 
 *   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Location parameter.
 *   **scale** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Scale parameter.
-*   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Optional size of &lt;cite&gt;event_shape&lt;/cite&gt;. This should be zero for univariate random variables, 1 for distributions over vectors, 2 for distributions over matrices, etc.
+*   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Optional size of `event_shape`. This should be zero for univariate random variables, 1 for distributions over vectors, 2 for distributions over matrices, etc.
 
  |
 | --- | --- |
@@ -2541,7 +2541,7 @@ class torch.distributions.transforms.StickBreakingTransform(cache_size=0)
 
 Transform from unconstrained space to the simplex of one additional dimension via a stick-breaking process.
 
-This transform arises as an iterated sigmoid transform in a stick-breaking construction of the &lt;cite&gt;Dirichlet&lt;/cite&gt; distribution: the first logit is transformed via sigmoid to the first probability and the probability of everything else, and then the process recurses.
+This transform arises as an iterated sigmoid transform in a stick-breaking construction of the `Dirichlet` distribution: the first logit is transformed via sigmoid to the first probability and the probability of everything else, and then the process recurses.
 
 This is bijective and appropriate for use in HMC; however it mixes coordinates together and is less appropriate for optimization.
 
@@ -2553,7 +2553,7 @@ Transform from unconstrained matrices to lower-triangular matrices with nonnegat
 
 This is useful for parameterizing positive definite matrices in terms of their Cholesky factorization.
 
-## &lt;cite&gt;Constraints&lt;/cite&gt;
+## `Constraints`
 
 The following constraints are implemented:
 
@@ -2585,7 +2585,7 @@ A constraint object represents a region over which a variable is valid, e.g. wit
 check(value)
 ```
 
-Returns a byte tensor of &lt;cite&gt;sample_shape + batch_shape&lt;/cite&gt; indicating whether each event in value satisfies this constraint.
+Returns a byte tensor of `sample_shape + batch_shape` indicating whether each event in value satisfies this constraint.
 
 ```py
 torch.distributions.constraints.dependent_property
@@ -2629,7 +2629,7 @@ torch.distributions.constraints.half_open_interval
 
 alias of `torch.distributions.constraints._HalfOpenInterval`
 
-## &lt;cite&gt;Constraint Registry&lt;/cite&gt;
+## `Constraint Registry`
 
 PyTorch provides two global [`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry") objects that link [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") objects to [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") objects. These objects both input constraints and return transforms, but they have different guarantees on bijectivity.
 

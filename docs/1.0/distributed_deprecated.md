@@ -26,9 +26,9 @@ Currently torch.distributed.deprecated supports four backends, each with differe
 
 ## Basics
 
-The &lt;cite&gt;torch.distributed.deprecated&lt;/cite&gt; package provides PyTorch support and communication primitives for multiprocess parallelism across several computation nodes running on one or more machines. The class `torch.nn.parallel.deprecated.DistributedDataParallel()` builds on this functionality to provide synchronous distributed training as a wrapper around any PyTorch model. This differs from the kinds of parallelism provided by [Multiprocessing package - torch.multiprocessing](multiprocessing.html) and [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") in that it supports multiple network-connected machines and in that the user must explicitly launch a separate copy of the main training script for each process.
+The `torch.distributed.deprecated` package provides PyTorch support and communication primitives for multiprocess parallelism across several computation nodes running on one or more machines. The class `torch.nn.parallel.deprecated.DistributedDataParallel()` builds on this functionality to provide synchronous distributed training as a wrapper around any PyTorch model. This differs from the kinds of parallelism provided by [Multiprocessing package - torch.multiprocessing](multiprocessing.html) and [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") in that it supports multiple network-connected machines and in that the user must explicitly launch a separate copy of the main training script for each process.
 
-In the single-machine synchronous case, &lt;cite&gt;torch.distributed.deprecated&lt;/cite&gt; or the `torch.nn.parallel.deprecated.DistributedDataParallel()` wrapper may still have advantages over other approaches to data-parallelism, including [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
+In the single-machine synchronous case, `torch.distributed.deprecated` or the `torch.nn.parallel.deprecated.DistributedDataParallel()` wrapper may still have advantages over other approaches to data-parallelism, including [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
 
 *   Each process maintains its own optimizer and performs a complete optimization step with each iteration. While this may appear redundant, since the gradients have already been gathered together and averaged across processes and are thus the same for every process, this means that no parameter broadcast step is needed, reducing time spent transferring tensors between nodes.
 *   Each process contains an independent Python interpreter, eliminating the extra interpreter overhead and “GIL-thrashing” that comes from driving several execution threads, model replicas, or GPUs from a single Python process. This is especially important for models that make heavy use of the Python runtime, including models with recurrent layers or many small components.
@@ -457,9 +457,9 @@ Only NCCL backend is currently supported. `output_tensor_lists` and `input_tenso
 
 ## Launch utility
 
-The &lt;cite&gt;torch.distributed.deprecated&lt;/cite&gt; package also provides a launch utility in &lt;cite&gt;torch.distributed.deprecated.launch&lt;/cite&gt;.
+The `torch.distributed.deprecated` package also provides a launch utility in `torch.distributed.deprecated.launch`.
 
-&lt;cite&gt;torch.distributed.launch&lt;/cite&gt; is a module that spawns up multiple distributed training processes on each of the training nodes.
+`torch.distributed.launch` is a module that spawns up multiple distributed training processes on each of the training nodes.
 
 The utility can be used for single-node distributed training, in which one or more processes per node will be spawned. The utility can be used for either CPU training or GPU training. If the utility is used for GPU training, each distributed process will be operating on a single GPU. This can achieve well-improved single-node training performance. It can also be used in multi-node distributed training, by spawning up multiple processes on each node for well-improved multi-node distributed training performance as well. This will especially be benefitial for systems with multiple Infiniband interfaces that have direct-GPU support, since all of them can be utilized for aggregated communication bandwidth.
 

@@ -332,7 +332,7 @@ class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_tra
 
 [CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html) Dataset.
 
-This is a subclass of the &lt;cite&gt;CIFAR10&lt;/cite&gt; Dataset.
+This is a subclass of the `CIFAR10` Dataset.
 
 ```py
 class torchvision.datasets.STL10(root, split='train', transform=None, target_transform=None, download=False)¶
@@ -368,7 +368,7 @@ __getitem__(index)¶
 class torchvision.datasets.SVHN(root, split='train', transform=None, target_transform=None, download=False)¶
 ```
 
-[SVHN](http://ufldl.stanford.edu/housenumbers/) Dataset. Note: The SVHN dataset assigns the label &lt;cite&gt;10&lt;/cite&gt; to the digit &lt;cite&gt;0&lt;/cite&gt;. However, in this Dataset, we assign the label &lt;cite&gt;0&lt;/cite&gt; to the digit &lt;cite&gt;0&lt;/cite&gt; to be compatible with PyTorch loss functions which expect the class labels to be in the range &lt;cite&gt;[0, C-1]&lt;/cite&gt;
+[SVHN](http://ufldl.stanford.edu/housenumbers/) Dataset. Note: The SVHN dataset assigns the label `10` to the digit `0`. However, in this Dataset, we assign the label `0` to the digit `0` to be compatible with PyTorch loss functions which expect the class labels to be in the range `[0, C-1]`
 
  
 | Parameters: | 

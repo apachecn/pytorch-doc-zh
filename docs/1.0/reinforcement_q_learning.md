@@ -22,7 +22,7 @@ Strictly speaking, we will present the state as the difference between the curre
 
 **Packages**
 
-First, let’s import needed packages. Firstly, we need [gym](https://gym.openai.com/docs) for the environment (Install using &lt;cite&gt;pip install gym&lt;/cite&gt;). We’ll also use the following from PyTorch:
+First, let’s import needed packages. Firstly, we need [gym](https://gym.openai.com/docs) for the environment (Install using `pip install gym`). We’ll also use the following from PyTorch:
 
 *   neural networks (`torch.nn`)
 *   optimization (`torch.optim`)
@@ -342,7 +342,7 @@ def optimize_model():
 
 Below, you can find the main training loop. At the beginning we reset the environment and initialize the `state` Tensor. Then, we sample an action, execute it, observe the next screen and the reward (always 1), and optimize our model once. When the episode ends (our model fails), we restart the loop.
 
-Below, &lt;cite&gt;num_episodes&lt;/cite&gt; is set small. You should download the notebook and run lot more epsiodes, such as 300+ for meaningful duration improvements.
+Below, `num_episodes` is set small. You should download the notebook and run lot more epsiodes, such as 300+ for meaningful duration improvements.
 
 ```py
 num_episodes = 50

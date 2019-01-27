@@ -140,7 +140,7 @@ torch.jit.load(f, map_location=None)
 
 Load a `ScriptModule` previously saved with `save`
 
-All previously saved modules, no matter their device, are first loaded onto CPU, and then are moved to the devices they were saved from. If this fails (e.g. because the run time system doesn’t have certain devices), an exception is raised. However, storages can be dynamically remapped to an alternative set of devices using the &lt;cite&gt;map_location&lt;/cite&gt; argument. Comparing to [`torch.load()`](torch.html#torch.load "torch.load"), &lt;cite&gt;map_location&lt;/cite&gt; in this function is simplified, which only accepts a string (e.g., ‘cpu’, ‘cuda:0’), or torch.device (e.g., torch.device(‘cpu’))
+All previously saved modules, no matter their device, are first loaded onto CPU, and then are moved to the devices they were saved from. If this fails (e.g. because the run time system doesn’t have certain devices), an exception is raised. However, storages can be dynamically remapped to an alternative set of devices using the `map_location` argument. Comparing to [`torch.load()`](torch.html#torch.load "torch.load"), `map_location` in this function is simplified, which only accepts a string (e.g., ‘cpu’, ‘cuda:0’), or torch.device (e.g., torch.device(‘cpu’))
 
 | Parameters: | 
 
@@ -915,7 +915,7 @@ graph(%0 : Float(3, 4)) {
 
 ```
 
-We can fix this by modifying the code to not use the in-place update, but rather build up the result tensor out-of-place with &lt;cite&gt;torch.cat&lt;/cite&gt;:
+We can fix this by modifying the code to not use the in-place update, but rather build up the result tensor out-of-place with `torch.cat`:
 
 ```py
 def fill_row_zero(x):

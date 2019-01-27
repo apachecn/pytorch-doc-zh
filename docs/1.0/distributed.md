@@ -62,9 +62,9 @@ For the full list of NCCL environment variables, please refer to [NVIDIA NCCL’
 
 ## Basics
 
-The &lt;cite&gt;torch.distributed&lt;/cite&gt; package provides PyTorch support and communication primitives for multiprocess parallelism across several computation nodes running on one or more machines. The class [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") builds on this functionality to provide synchronous distributed training as a wrapper around any PyTorch model. This differs from the kinds of parallelism provided by [Multiprocessing package - torch.multiprocessing](multiprocessing.html) and [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") in that it supports multiple network-connected machines and in that the user must explicitly launch a separate copy of the main training script for each process.
+The `torch.distributed` package provides PyTorch support and communication primitives for multiprocess parallelism across several computation nodes running on one or more machines. The class [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") builds on this functionality to provide synchronous distributed training as a wrapper around any PyTorch model. This differs from the kinds of parallelism provided by [Multiprocessing package - torch.multiprocessing](multiprocessing.html) and [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") in that it supports multiple network-connected machines and in that the user must explicitly launch a separate copy of the main training script for each process.
 
-In the single-machine synchronous case, &lt;cite&gt;torch.distributed&lt;/cite&gt; or the [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") wrapper may still have advantages over other approaches to data-parallelism, including [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
+In the single-machine synchronous case, `torch.distributed` or the [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") wrapper may still have advantages over other approaches to data-parallelism, including [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
 
 *   Each process maintains its own optimizer and performs a complete optimization step with each iteration. While this may appear redundant, since the gradients have already been gathered together and averaged across processes and are thus the same for every process, this means that no parameter broadcast step is needed, reducing time spent transferring tensors between nodes.
 *   Each process contains an independent Python interpreter, eliminating the extra interpreter overhead and “GIL-thrashing” that comes from driving several execution threads, model replicas, or GPUs from a single Python process. This is especially important for models that make heavy use of the Python runtime, including models with recurrent layers or many small components.
@@ -219,7 +219,7 @@ This is the default method, meaning that `init_method` does not have to be speci
 
 By default collectives operate on the default group (also called the world) and require all processes to enter the distributed function call. However, some workloads can benefit from more fine-grained communication. This is where distributed groups come into play. [`new_group()`](#torch.distributed.new_group "torch.distributed.new_group") function can be used to create new groups, with arbitrary subsets of all processes. It returns an opaque group handle that can be given as a `group` argument to all collectives (collectives are distributed functions to exchange information in certain well-known programming patterns).
 
-Currently &lt;cite&gt;torch.distributed&lt;/cite&gt; does not support creating groups with different backends. In other words, each group being created will use the same backend as you specified in [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group").
+Currently `torch.distributed` does not support creating groups with different backends. In other words, each group being created will use the same backend as you specified in [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group").
 
 ```py
 torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(seconds=1800))
@@ -627,9 +627,9 @@ Only nccl backend is currently supported tensors should only be GPU tensors
 
 ## Launch utility
 
-The &lt;cite&gt;torch.distributed&lt;/cite&gt; package also provides a launch utility in &lt;cite&gt;torch.distributed.launch&lt;/cite&gt;. This helper utility can be used to launch multiple processes per node for distributed training. This utility also supports both python2 and python3.
+The `torch.distributed` package also provides a launch utility in `torch.distributed.launch`. This helper utility can be used to launch multiple processes per node for distributed training. This utility also supports both python2 and python3.
 
-&lt;cite&gt;torch.distributed.launch&lt;/cite&gt; is a module that spawns up multiple distributed training processes on each of the training nodes.
+`torch.distributed.launch` is a module that spawns up multiple distributed training processes on each of the training nodes.
 
 The utility can be used for single-node distributed training, in which one or more processes per node will be spawned. The utility can be used for either CPU training or GPU training. If the utility is used for GPU training, each distributed process will be operating on a single GPU. This can achieve well-improved single-node training performance. It can also be used in multi-node distributed training, by spawning up multiple processes on each node for well-improved multi-node distributed training performance as well. This will especially be benefitial for systems with multiple Infiniband interfaces that have direct-GPU support, since all of them can be utilized for aggregated communication bandwidth.
 

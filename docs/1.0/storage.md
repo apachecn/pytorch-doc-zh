@@ -87,9 +87,9 @@ static from_buffer()
 static from_file(filename, shared=False, size=0) → Storage
 ```
 
-If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;True&lt;/cite&gt;, then memory is shared between all processes. All changes are written to the file. If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;False&lt;/cite&gt;, then the changes on the storage do not affect the file.
+If `shared` is `True`, then memory is shared between all processes. All changes are written to the file. If `shared` is `False`, then the changes on the storage do not affect the file.
 
-&lt;cite&gt;size&lt;/cite&gt; is the number of elements in the storage. If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;False&lt;/cite&gt;, then the file must contain at least &lt;cite&gt;size * sizeof(Type)&lt;/cite&gt; bytes (&lt;cite&gt;Type&lt;/cite&gt; is the type of storage). If &lt;cite&gt;shared&lt;/cite&gt; is &lt;cite&gt;True&lt;/cite&gt; the file will be created if needed.
+`size` is the number of elements in the storage. If `shared` is `False`, then the file must contain at least `size * sizeof(Type)` bytes (`Type` is the type of storage). If `shared` is `True` the file will be created if needed.
 
 | Parameters: | 
 
@@ -178,7 +178,7 @@ Returns a list containing the elements of this storage
 type(dtype=None, non_blocking=False, **kwargs)
 ```
 
-Returns the type if &lt;cite&gt;dtype&lt;/cite&gt; is not provided, else casts this object to the specified type.
+Returns the type if `dtype` is not provided, else casts this object to the specified type.
 
 If this is already of the correct type, no copy is performed and the original object is returned.
 

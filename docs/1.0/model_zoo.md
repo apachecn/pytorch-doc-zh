@@ -8,9 +8,9 @@ torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None, progress=
 
 Loads the Torch serialized object at the given URL.
 
-If the object is already present in &lt;cite&gt;model_dir&lt;/cite&gt;, it’s deserialized and returned. The filename part of the URL should follow the naming convention `filename-&lt;sha256&gt;.ext` where `&lt;sha256&gt;` is the first eight or more digits of the SHA256 hash of the contents of the file. The hash is used to ensure unique names and to verify the contents of the file.
+If the object is already present in `model_dir`, it’s deserialized and returned. The filename part of the URL should follow the naming convention `filename-&lt;sha256&gt;.ext` where `&lt;sha256&gt;` is the first eight or more digits of the SHA256 hash of the contents of the file. The hash is used to ensure unique names and to verify the contents of the file.
 
-The default value of &lt;cite&gt;model_dir&lt;/cite&gt; is `$TORCH_HOME/models` where `$TORCH_HOME` defaults to `~/.torch`. The default directory can be overridden with the `$TORCH_MODEL_ZOO` environment variable.
+The default value of `model_dir` is `$TORCH_HOME/models` where `$TORCH_HOME` defaults to `~/.torch`. The default directory can be overridden with the `$TORCH_MODEL_ZOO` environment variable.
 
 | Parameters: | 
 

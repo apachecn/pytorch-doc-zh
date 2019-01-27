@@ -62,7 +62,7 @@ You can use both tensors and storages as arguments. If a given object is not all
 torch.cuda.empty_cache()
 ```
 
-Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in &lt;cite&gt;nvidia-smi&lt;/cite&gt;.
+Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in `nvidia-smi`.
 
 Note
 
@@ -141,7 +141,7 @@ Returns the current GPU memory usage by tensors in bytes for a given device.
 
 Note
 
-This is likely less than the amount shown in &lt;cite&gt;nvidia-smi&lt;/cite&gt; since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+This is likely less than the amount shown in `nvidia-smi` since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
 torch.cuda.memory_cached(device=None)
@@ -488,7 +488,7 @@ Makes a given stream wait for the event.
 torch.cuda.empty_cache()
 ```
 
-Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in &lt;cite&gt;nvidia-smi&lt;/cite&gt;.
+Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in `nvidia-smi`.
 
 Note
 
@@ -505,7 +505,7 @@ Returns the current GPU memory usage by tensors in bytes for a given device.
 
 Note
 
-This is likely less than the amount shown in &lt;cite&gt;nvidia-smi&lt;/cite&gt; since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+This is likely less than the amount shown in `nvidia-smi` since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
 
 ```py
 torch.cuda.max_memory_allocated(device=None)

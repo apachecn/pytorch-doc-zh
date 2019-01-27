@@ -8,7 +8,7 @@ TorchScript supports a large subset of operations provided by the `torch` packag
 
 The following paragraphs give an example of writing a TorchScript custom op to call into [OpenCV](https://www.opencv.org), a computer vision library written in C++. We will discuss how to work with tensors in C++, how to efficiently convert them to third party tensor formats (in this case, OpenCV [``](#id1)Mat``s), how to register your operator with the TorchScript runtime and finally how to compile the operator and use it in Python and C++.
 
-This tutorial assumes you have the _preview release_ of PyTorch 1.0 installed via `pip` or &lt;cite&gt;conda&lt;/cite&gt;. See [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally) for instructions on grabbing the latest release of PyTorch 1.0\. Alternatively, you can compile PyTorch from source. The documentation in [this file](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md) will assist you with this.
+This tutorial assumes you have the _preview release_ of PyTorch 1.0 installed via `pip` or `conda`. See [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally) for instructions on grabbing the latest release of PyTorch 1.0\. Alternatively, you can compile PyTorch from source. The documentation in [this file](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md) will assist you with this.
 
 ## Implementing the Custom Operator in C++
 
@@ -678,7 +678,7 @@ The JIT compilation feature provided by the PyTorch C++ extension toolkit allows
 
 Note
 
-“JIT compilation” here has nothing to do with the JIT compilation taking place in the TorchScript compiler to optimize your program. It simply means that your custom operator C++ code will be compiled in a folder under your system’s &lt;cite&gt;/tmp&lt;/cite&gt; directory the first time you import it, as if you had compiled it yourself beforehand.
+“JIT compilation” here has nothing to do with the JIT compilation taking place in the TorchScript compiler to optimize your program. It simply means that your custom operator C++ code will be compiled in a folder under your system’s `/tmp` directory the first time you import it, as if you had compiled it yourself beforehand.
 
 This JIT compilation feature comes in two flavors. In the first, you still keep your operator implementation in a separate file (`op.cpp`), and then use `torch.utils.cpp_extension.load()` to compile your extension. Usually, this function will return the Python module exposing your C++ extension. However, since we are not compiling our custom operator into its own Python module, we only want to compile a plain shared library . Fortunately, `torch.utils.cpp_extension.load()` has an argument `is_python_module` which we can set to `False` to indicate that we are only interested in building a shared library and not a Python module. `torch.utils.cpp_extension.load()` will then compile and also load the shared library into the current process, just like `torch.ops.load_library` did before:
 

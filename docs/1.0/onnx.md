@@ -87,7 +87,7 @@ onnx.helper.printable_graph(model.graph)
 
 ```
 
-To run the exported script with [caffe2](https://caffe2.ai/), you will need to install &lt;cite&gt;caffe2&lt;/cite&gt;: If you don’t have one already, Please [follow the install instructions](https://caffe2.ai/docs/getting-started.html).
+To run the exported script with [caffe2](https://caffe2.ai/), you will need to install `caffe2`: If you don’t have one already, Please [follow the install instructions](https://caffe2.ai/docs/getting-started.html).
 
 Once these are installed, you can use the backend for Caffe2:
 

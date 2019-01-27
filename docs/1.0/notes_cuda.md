@@ -53,7 +53,7 @@ By default, GPU operations are asynchronous. When you call a function that uses 
 
 In general, the effect of asynchronous computation is invisible to the caller, because (1) each device executes operations in the order they are queued, and (2) PyTorch automatically performs necessary synchronization when copying data between CPU and GPU or between two GPUs. Hence, computation will proceed as if every operation was executed synchronously.
 
-You can force synchronous computation by setting environment variable &lt;cite&gt;CUDA_LAUNCH_BLOCKING=1&lt;/cite&gt;. This can be handy when an error occurs on the GPU. (With asynchronous execution, such an error isn’t reported until after the operation is actually executed, so the stack trace does not show where it was requested.)
+You can force synchronous computation by setting environment variable `CUDA_LAUNCH_BLOCKING=1`. This can be handy when an error occurs on the GPU. (With asynchronous execution, such an error isn’t reported until after the operation is actually executed, so the stack trace does not show where it was requested.)
 
 As an exception, several functions such as [`to()`](../tensors.html#torch.Tensor.to "torch.Tensor.to") and [`copy_()`](../tensors.html#torch.Tensor.copy_ "torch.Tensor.copy_") admit an explicit `non_blocking` argument, which lets the caller bypass synchronization when it is unnecessary. Another exception is CUDA streams, explained below.
 
