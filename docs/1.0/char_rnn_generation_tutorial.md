@@ -10,7 +10,7 @@
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 In the [last tutorial](char_rnn_classification_tutorial.html) we used a RNN to classify names into their language of origin. 
-再上一个 [例子](char_rnn_classification_tutorial.html) 中我们使用RNN网络对名字所属的语言进行分类。
+在上一个 [例子](char_rnn_classification_tutorial.html) 中我们使用RNN网络对名字所属的语言进行分类。
 This time we’ll turn around and generate names from languages.
 这一次我们会反过来根据语言生成姓氏。
 
@@ -135,7 +135,7 @@ This network extends [the last tutorial’s RNN](#Creating-the-Network) with an 
 The category tensor is a one-hot vector just like the letter input.
 类别可以像字母一样组成one-hot向量构成张量输入。
 We will interpret the output as the probability of the next letter. 
-我们将输出当成下一字母的可能性。
+我们将输出作为下一字母的可能性。
 When sampling, the most likely output letter is used as the next input letter.
 采样过程中，当前输出可能性最高的字母作为下一时刻输入字母。
 I added a second linear layer `o2o` (after combining hidden and output) to give it more muscle to work with. 
@@ -210,7 +210,7 @@ So for each training set, we’ll need the category, a set of input letters, and
 因此，对于每个训练集，我们将需要类别、一组输入字母和一组输出/目标字母。
 
 Since we are predicting the next letter from the current letter for each timestep, the letter pairs are groups of consecutive letters from the line - e.g. for `"ABCD&lt;EOS&gt;"` we would create (“A”, “B”), (“B”, “C”), (“C”, “D”), (“D”, “EOS”).
-每一个时间序列，我们使用当前字母预测下一个字母，所以字母对来自于成行的单词。例如 对于 `"ABCD&lt;EOS&gt;"`，我们将创建（“A”，“B”），（“B”，“C”），（“C”，“D”），（“D”，“EOS”））。
+在每一个时间序列，我们使用当前字母预测下一个字母，所以训练用的字母对来自于成行的单词。例如 对于 `"ABCD&lt;EOS&gt;"`，我们将创建（“A”，“B”），（“B”，“C”），（“C”，“D”），（“D”，“EOS”））。
 
 ![](img/3fae03d85aed3a2237fd4b2f7fb7b480.jpg)
 
@@ -218,7 +218,7 @@ The category tensor is a [one-hot tensor](https://en.wikipedia.org/wiki/One-hot)
 类别张量是一个`&lt;1 x n_categories&gt;`尺寸的[one-hot 向量](https://en.wikipedia.org/wiki/One-hot)
 
 When training we feed it to the network at every timestep - this is a design choice, it could have been included as part of initial hidden state or some other strategy.
-当训练时，我们按照时间序列将其提供给神经网络。
+训练时，我们在每一个时间序列都将其提供给神经网络。这是一种选择策略，也可选择将其作为初始隐藏状态的一部分，或者其他什么结构。
 
 ```py
 # One-hot vector for category9
@@ -262,9 +262,10 @@ def randomTrainingExample():
 ### 训练神经网络
 
 In contrast to classification, where only the last output is used, we are making a prediction at every step, so we are calculating loss at every step.
-只使用了最后一个时刻输出的分类任务相比，我们
+和只使用最后一个时刻输出的分类任务相比，这次我们每一个时间序列都会进行一次预测，所以每一个时间序列我们都会计算损失。
 
 The magic of autograd allows you to simply sum these losses at each step and call backward at the end.
+autograd的神奇之处在于您可以在每一步中简单地总结这些损失，并在最后反向传播。
 
 ```py
 criterion = nn.NLLLoss()
@@ -294,6 +295,7 @@ def train(category_tensor, input_line_tensor, target_line_tensor):
 ```
 
 To keep track of how long training takes I am adding a `timeSince(timestamp)` function which returns a human readable string:
+为了跟踪训练耗费的时间，我添加一个`timeSince（timestamp）`函数，它返回一个人类可读的字符串：
 
 ```py
 import time
@@ -309,6 +311,7 @@ def timeSince(since):
 ```
 
 Training is business as usual - call train a bunch of times and wait a few minutes, printing the current time and loss every `print_every` examples, and keeping store of an average loss per `plot_every` examples in `all_losses` for plotting later.
+训练过程和平时一样。多次运行train，等待几分钟，每`print_every`次打印当前时间和损失。在 `all_losses` 中保留每`plot_every`次的平均损失，以便稍后进行绘图。
 
 ```py
 rnn = RNN(n_letters, 128, n_letters)
@@ -380,18 +383,28 @@ plt.plot(all_losses)
 ## Sampling the Network
 
 To sample we give the network a letter and ask what the next one is, feed that in as the next letter, and repeat until the EOS token.
+我们每次给网络提供一个字母并预测下一个字母是什么，将预测到的字母继续输入，知道得到EOS字符结束循环。
 
 *   Create tensors for input category, starting letter, and empty hidden state
+*   用输入类别、起始字母和空隐藏状态创建输入张量。
 *   Create a string `output_name` with the starting letter
+*   用起始字母构建一个字符串变量 `output_name`
 *   Up to a maximum output length,
+*   得到最大输出长度，
     *   Feed the current letter to the network
+    *   将当前字母传入神经网络
     *   Get the next letter from highest output, and next hidden state
+    *   从更高层得到下一个字母和下一个隐藏状态
     *   If the letter is EOS, stop here
+    *   如果字母是EOS，在这里停止
     *   If a regular letter, add to `output_name` and continue
+    *   如果是一个普通的字母，添加到`output_name`变量并继续循环
+    
 *   Return the final name
-
+*   返回最终得到的姓氏单词
 
 Rather than having to give it a starting letter, another strategy would have been to include a “start of string” token in training and have the network choose its own starting letter.
+另一种策略是，不必给网络一个起始字母，而是在训练中提供一个“字符串开始”的标记，并让网络自己选择起始的字母。
 
 ```py
 max_length = 20
@@ -460,6 +473,7 @@ Iua
     *   Part of speech -&gt; Word
     *   Country -&gt; City
 *   Use a “start of sentence” token so that sampling can be done without choosing a start letter
+*   尝试“start of sentence” 标记，使网络的开始过程不需要指定起始字母
 *   Get better results with a bigger and/or better shaped network
 *   通过更大和更复杂的网络获得更好的结果
     *   Try the nn.LSTM and nn.GRU layers
