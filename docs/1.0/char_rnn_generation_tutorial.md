@@ -145,7 +145,7 @@ There’s also a dropout layer, which [randomly zeros parts of its input](https:
 当然还有一个dropout层，参考这篇论文[随机将输入部分替换为0](https://arxiv.org/abs/1207.0580)给出的参数（dropout=0.1）来模糊处理输入防止过拟合。
 
 Here we’re using it towards the end of the network to purposely add some chaos and increase sampling variety.
-我们将它添加到网络的末端，故意添加一些混乱使采样种类增加。
+我们将它添加到网络的末端，故意添加一些混乱使采样特征增加。
 
 ![](img/28a4f1426695fb55f1f6bc86278f6547.jpg)
 
