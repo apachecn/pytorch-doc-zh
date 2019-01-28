@@ -1,6 +1,8 @@
 # Autograd：自动求导
 
 > 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
 PyTorch中，所有神经网络的核心是`autograd`包。先简单介绍一下这个包，然后训练我们的第一个的神经网络。
 
@@ -171,6 +173,11 @@ J\cdot v=\left(\begin{array}{ccc}
    \frac{\partial l}{\partial x_{n}}
    \end{array}\right)
 $$
+
+> 若github无法显示公式，可以看下面两个截图：
+![](./img/math1.jpg)
+![](./img/math2.jpg)
+
 
 雅可比向量积的这一特性使得将外部梯度输入到具有非标量输出的模型中变得非常方便。
 

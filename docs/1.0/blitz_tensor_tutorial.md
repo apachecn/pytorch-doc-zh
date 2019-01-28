@@ -1,6 +1,8 @@
 # 什么是PyTorch？
 
 > 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
 PyTorch是一个基于python的科学计算包，主要针对两类人群：
 
@@ -53,7 +55,7 @@ tensor([[0.5307, 0.9752, 0.5376],
         [0.2967, 0.9481, 0.1311]])
 ```
 
-构造一个填满0且数据类型为`long`的矩阵:
+构造一个填满`0`且数据类型为`long`的矩阵:
 
 ```python
 x = torch.zeros(5, 3, dtype=torch.long)
@@ -88,8 +90,8 @@ tensor([5.5000, 3.0000])
 x = x.new_ones(5, 3, dtype=torch.double)      # new_* methods take in sizes
 print(x)
 
-x = torch.randn_like(x, dtype=torch.float)    # override dtype!
-print(x)                                      # result has the same size
+x = torch.randn_like(x, dtype=torch.float)    # 重载 dtype!
+print(x)                                      # 结果有相同的size
 ```
 
 输出：
@@ -330,14 +332,14 @@ CPU上的所有张量(CharTensor除外)都支持转换为NumPy以及由NumPy转�
 
 ```python
 # let us run this cell only if CUDA is available
-# We will use ``torch.device`` objects to move tensors in and out of GPU
+# 我们将使用`torch.device`来将tensor移入和移出GPU
 if torch.cuda.is_available():
     device = torch.device("cuda")          # a CUDA device object
-    y = torch.ones_like(x, device=device)  # directly create a tensor on GPU
-    x = x.to(device)                       # or just use strings ``.to("cuda")``
+    y = torch.ones_like(x, device=device)  # 直接在GPU上创建tensor
+    x = x.to(device)                       # 或者使用`.to("cuda")`方法
     z = x + y
     print(z)
-    print(z.to("cpu", torch.double))       # ``.to`` can also change dtype together!
+    print(z.to("cpu", torch.double))       # `.to`也能在移动时改变dtype
 ```
 
 输出：

@@ -1,6 +1,6 @@
 
 
-# What is &lt;cite&gt;torch.nn&lt;/cite&gt; _really_?
+# What is `torch.nn` _really_?
 
 by Jeremy Howard, [fast.ai](https://www.fast.ai). Thanks to Rachel Thomas and Francisco Ingham.
 
@@ -117,7 +117,7 @@ bias = torch.zeros(10, requires_grad=True)
 
 ```
 
-Thanks to PyTorch’s ability to calculate gradients automatically, we can use any standard Python function (or callable object) as a model! So let’s just write a plain matrix multiplication and broadcasted addition to create a simple linear model. We also need an activation function, so we’ll write &lt;cite&gt;log_softmax&lt;/cite&gt; and use it. Remember: although PyTorch provides lots of pre-written loss functions, activation functions, and so forth, you can easily write your own using plain python. PyTorch will even create fast GPU or vectorized CPU code for your function automatically.
+Thanks to PyTorch’s ability to calculate gradients automatically, we can use any standard Python function (or callable object) as a model! So let’s just write a plain matrix multiplication and broadcasted addition to create a simple linear model. We also need an activation function, so we’ll write `log_softmax` and use it. Remember: although PyTorch provides lots of pre-written loss functions, activation functions, and so forth, you can easily write your own using plain python. PyTorch will even create fast GPU or vectorized CPU code for your function automatically.
 
 ```py
 def log_softmax(x):
@@ -775,7 +775,7 @@ Out:
 
 `torch.nn` has another handy class we can use to simply our code: [Sequential](https://pytorch.org/docs/stable/nn.html#torch.nn.Sequential) . A `Sequential` object runs each of the modules contained within it, in a sequential manner. This is a simpler way of writing our neural network.
 
-To take advantage of this, we need to be able to easily define a **custom layer** from a given function. For instance, PyTorch doesn’t have a &lt;cite&gt;view&lt;/cite&gt; layer, and we need to create one for our network. `Lambda` will create a layer that we can then use when defining a network with `Sequential`.
+To take advantage of this, we need to be able to easily define a **custom layer** from a given function. For instance, PyTorch doesn’t have a `view` layer, and we need to create one for our network. `Lambda` will create a layer that we can then use when defining a network with `Sequential`.
 
 ```py
 class Lambda(nn.Module):
@@ -948,7 +948,7 @@ Out:
 
 ## Closing thoughts
 
-We now have a general data pipeline and training loop which you can use for training many types of models using Pytorch. To see how simple training a model can now be, take a look at the &lt;cite&gt;mnist_sample&lt;/cite&gt; sample notebook.
+We now have a general data pipeline and training loop which you can use for training many types of models using Pytorch. To see how simple training a model can now be, take a look at the `mnist_sample` sample notebook.
 
 Of course, there are many things you’ll want to add, such as data augmentation, hyperparameter tuning, monitoring training, transfer learning, and so forth. These features are available in the fastai library, which has been developed using the same design approach shown in this tutorial, providing a natural next step for practitioners looking to take their models further.
 
@@ -956,7 +956,7 @@ We promised at the start of this tutorial we’d explain through example each of
 
 > *   **torch.nn**
 >     *   `Module`: creates a callable which behaves like a function, but can also contain state(such as neural net layer weights). It knows what `Parameter` (s) it contains and can zero all their gradients, loop through them for weight updates, etc.
->     *   `Parameter`: a wrapper for a tensor that tells a `Module` that it has weights that need updating during backprop. Only tensors with the &lt;cite&gt;requires_grad&lt;/cite&gt; attribute set are updated
+>     *   `Parameter`: a wrapper for a tensor that tells a `Module` that it has weights that need updating during backprop. Only tensors with the `requires_grad` attribute set are updated
 >     *   `functional`: a module(usually imported into the `F` namespace by convention) which contains activation functions, loss functions, etc, as well as non-stateful versions of layers such as convolutional and linear layers.
 > *   `torch.optim`: Contains optimizers such as `SGD`, which update the weights of `Parameter` during the backward step
 > *   `Dataset`: An abstract interface of objects with a `__len__` and a `__getitem__`, including classes provided with Pytorch such as `TensorDataset`

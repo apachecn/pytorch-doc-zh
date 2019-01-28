@@ -164,7 +164,7 @@ In addition to `dist.all_reduce(tensor, op, group)`, there are a total of 6 coll
 *   `dist.scatter(tensor, src, scatter_list, group)`: Copies the `\(i^{\text{th}}\)` tensor `scatter_list[i]` to the `\(i^{\text{th}}\)` process.
 *   `dist.gather(tensor, dst, gather_list, group)`: Copies `tensor` from all processes in `dst`.
 *   `dist.all_gather(tensor_list, tensor, group)`: Copies `tensor` from all processes to `tensor_list`, on all processes.
-*   `dist.barrier(group)`: block all processes in &lt;cite&gt;group&lt;/cite&gt; until each one has entered this function.
+*   `dist.barrier(group)`: block all processes in `group` until each one has entered this function.
 
 ## Distributed Training
 

@@ -13,7 +13,7 @@
 
 注
 
-确保你安装了 [torch](https://github.com/pytorch/pytorch) and [torchvision](https://github.com/pytorch/vision) 包。
+确保你安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包。
 
 ![https://pytorch.org/tutorials/_images/tensor_illustration_flat.png](img/0c7a402331744a44f5e17575b1607904.jpg)
 

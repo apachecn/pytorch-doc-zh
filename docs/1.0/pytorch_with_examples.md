@@ -1,40 +1,40 @@
 # 用例子学习 PyTorch
 
 > 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
-**Author**: [Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
+**作者**：[Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
 
-This tutorial introduces the fundamental concepts of [PyTorch](https://github.com/pytorch/pytorch) through self-contained examples.
+这个教程通过自洽的示例介绍了PyTorch的基本概念。
 
-At its core, PyTorch provides two main features:
+PyTorch主要是提供了两个核心的功能特性：
 
-*   An n-dimensional Tensor, similar to numpy but can run on GPUs
-*   Automatic differentiation for building and training neural networks
+* 一个类似于numpy的n维张量，但是可以在GPU上运行
+* 搭建和训练神经网络时的自动微分/求导机制
 
-We will use a fully-connected ReLU network as our running example. The network will have a single hidden layer, and will be trained with gradient descent to fit random data by minimizing the Euclidean distance between the network output and the true output.
+我们将使用全连接的ReLU网络作为运行示例。该网络将有一个单一的隐藏层，并将使用梯度下降训练，通过最小化网络输出和真正结果的欧几里得距离，来拟合随机生成的数据。
 
-Note
+## 目录
 
-You can browse the individual examples at the [end of this page](#examples-download).
-
-Table of Contents
-
-*   [张量](#tensors)
-    *   [热身：NumPy](#warm-up-numpy)
-    *   [PyTorch：张量](#pytorch-tensors)
-*   [自动求导](#autograd)
-    *   [PyTorch：张量和自动求导](#pytorch-tensors-and-autograd)
-    *   [PyTorch：定义新的自动求导函数](#pytorch-defining-new-autograd-functions)
-    *   [TensorFlow：静态图](#tensorflow-static-graphs)
-*   [`nn`模块](#nn-module)
-    *   [PyTorch：`nn`](#pytorch-nn)
-    *   [PyTorch：`optim`](#pytorch-optim)
-    *   [PyTorch：自定义`nn`模块](#pytorch-custom-nn-modules)
-    *   [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-sharing)
-*   [示例](#examples)
-    *   [张量](#id1)
-    *   [自动求导](#id2)
-    *   [`nn`模块](#id3)
+- [用例子学习 PyTorch](#用例子学习-pytorch)
+  - [目录](#目录)
+  - [张量](#张量)
+    - [热身：NumPy](#热身numpy)
+    - [PyTorch：张量](#pytorch张量)
+  - [自动求导](#自动求导)
+    - [PyTorch：张量和自动求导](#pytorch张量和自动求导)
+    - [PyTorch：定义新的自动求导函数](#pytorch定义新的自动求导函数)
+    - [TensorFlow：静态图](#tensorflow静态图)
+  - [`nn`模块](#nn模块)
+    - [PyTorch：`nn`](#pytorchnn)
+    - [PyTorch：`optim`](#pytorchoptim)
+    - [PyTorch：自定义`nn`模块](#pytorch-custom-nn-modules)
+    - [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-sharing)
+  - [Examples](#examples)
+    - [Tensors](#tensors)
+    - [Autograd](#autograd)
+    - [`nn` module](#nn-module)
 
 ## [张量](#tensors)
 
@@ -476,7 +476,7 @@ for t in range(500):
     optimizer.step()
 ```
 
-### [PyTorch：自定义`nn`模块](#pytorch-custom-nn-
+### [PyTorch：自定义`nn`模块](#pytorch-custom-nn-modules)
 
 有时候需要指定比现有模块序列更复杂的模型；对于这些情况，可以通过继承`nn.Module`并定义`forward`函数，这个`forward`函数可以使用其他模块或者其他的自动求导运算来接收输入tensor，产生输出tensor。 
 
@@ -535,7 +535,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-shar
+### [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-sharing)
 
 作为动态图和权重共享的一个例子，我们实现了一个非常奇怪的模型：一个全连接的ReLU网络，在每一次前向传播时，它的隐藏层的层数为随机1到4之间的数，这样可以多次重用相同的权重来计算。
 
