@@ -1,38 +1,35 @@
 
+# 空间转换网络教程  
 
-# Spatial Transformer Networks Tutorial
+**原作者**: [Ghassen HAMROUNI](https://github.com/GHamrouni)  
+>**译者**: [冯宝宝](https://github.com/PEGASUS1993)  
 
-**Author**: [Ghassen HAMROUNI](https://github.com/GHamrouni)
+![https://pytorch.org/tutorials/_images/FSeq.png](img/877d6867c0446fc513ee14aeb45673fb.jpg)   
+在本教程中，您将学习如何使用称为空间转换网络的视觉注意机制来扩充您的网络。你可以在 [DeepMind paper](https://arxiv.org/abs/1506.02025)阅读有关空间转换网络的更多内容。
 
-![https://pytorch.org/tutorials/_images/FSeq.png](img/877d6867c0446fc513ee14aeb45673fb.jpg)
-
-In this tutorial, you will learn how to augment your network using a visual attention mechanism called spatial transformer networks. You can read more about the spatial transformer networks in the [DeepMind paper](https://arxiv.org/abs/1506.02025)
-
-Spatial transformer networks are a generalization of differentiable attention to any spatial transformation. Spatial transformer networks (STN for short) allow a neural network to learn how to perform spatial transformations on the input image in order to enhance the geometric invariance of the model. For example, it can crop a region of interest, scale and correct the orientation of an image. It can be a useful mechanism because CNNs are not invariant to rotation and scale and more general affine transformations.
-
-One of the best things about STN is the ability to simply plug it into any existing CNN with very little modification.
-
-```py
+空间转换网络是对任何空间变换的差异化关注的概括。空间转换网络（简称STN）允许神经网络学习如何在输入图像上执行空间变换，以增强模型的几何不变性。例如，它可以裁剪感兴趣的区域，缩放并校正图像的方向。它可能是一种有用的机制，因为CNN对于旋转和缩放以及更一般的仿射变换并不是不变的。  
+关于STN的最棒的事情之一是能够简单地将其插入任何现有的CNN，只需很少的修改。  
+    
+``` py
 # License: BSD
-# Author: Ghassen Hamrouni
+# 作者: Ghassen Hamrouni
 
-from __future__ import print_function
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torchvision
-from torchvision import datasets, transforms
-import matplotlib.pyplot as plt
-import numpy as np
+from __future__ import print_function  
+import torch  
+import torch.nn as nn  
+import torch.nn.functional as F  
+import torch.optim as optim  
+import torchvision  
+from torchvision import datasets, transforms  
+import matplotlib.pyplot as plt  
+import numpy as np  
 
-plt.ion()   # interactive mode
+plt.ion()   # 交互模式
 
-```
+```    
 
-## Loading the data
-
-In this post we experiment with the classic MNIST dataset. Using a standard convolutional network augmented with a spatial transformer network.
+## 加载数据     
+在这篇文章中，我们尝试了经典的MNIST数据集。使用标准卷积网络增强空间转换网络。   
 
 ```py
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -53,7 +50,7 @@ test_loader = torch.utils.data.DataLoader(
 
 ```
 
-Out:
+输出:
 
 ```py
 Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to ./MNIST/raw/train-images-idx3-ubyte.gz
@@ -67,21 +64,22 @@ Extracting ./MNIST/raw/t10k-labels-idx1-ubyte.gz
 Processing...
 Done!
 
-```
+```  
 
-## Depicting spatial transformer networks
+## 空间变压器网络叙述  
 
-Spatial transformer networks boils down to three main components :
+空间转换网络归结为三个主要组成部分：
 
-*   The localization network is a regular CNN which regresses the transformation parameters. The transformation is never learned explicitly from this dataset, instead the network learns automatically the spatial transformations that enhances the global accuracy.
-*   The grid generator generates a grid of coordinates in the input image corresponding to each pixel from the output image.
-*   The sampler uses the parameters of the transformation and applies it to the input image.
+*   定位网络是常规CNN，其对变换参数进行回归。不会从该数据集中明确地学习转换，而是网络自动学习增强全局准确性的空间变换。
+*   网格生成器在输入图像中生成与输出图像中的每个像素相对应的坐标网格。
+*   采样器使用变换的参数并将其应用于输入图像。  
 
-![https://pytorch.org/tutorials/_images/stn-arch.png](img/0f822bf7763e04e2824dcc9c9dd89eea.jpg)
+![https://pytorch.org/tutorials/_images/stn-arch.png](img/0f822bf7763e04e2824dcc9c9dd89eea.jpg)   
 
-Note
+笔记  
 
-We need the latest version of PyTorch that contains affine_grid and grid_sample modules.
+我们使用最新版本的Pytorch，它应该包含affine_grid和grid_sample模块。  
+
 
 ```py
 class Net(nn.Module):
@@ -143,9 +141,9 @@ model = Net().to(device)
 
 ```
 
-## Training the model
+## 训练模型 
 
-Now, let’s use the SGD algorithm to train the model. The network is learning the classification task in a supervised way. In the same time the model is learning STN automatically in an end-to-end fashion.
+现在我们使用SGD（随机梯度下降）算法来训练模型。网络正在以有监督的方式学习分类任务。同时，该模型以端到端的方式自动学习STN。  
 
 ```py
 optimizer = optim.SGD(model.parameters(), lr=0.01)
@@ -190,11 +188,11 @@ def test():
 
 ```
 
-## Visualizing the STN results
+## 可视化STN结果  
 
-Now, we will inspect the results of our learned visual attention mechanism.
+现在，我们将检查我们学习的视觉注意机制的结果。  
+我们定义了一个小辅助函数，以便在训练时可视化变换。  
 
-We define a small helper function in order to visualize the transformations while training.
 
 ```py
 def convert_image_np(inp):
@@ -246,7 +244,7 @@ plt.show()
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_spatial_transformer_tutorial_001.png](img/a77d97dad93b9a6680a39672f8bf21ff.jpg)
 
-Out:
+输出：  
 
 ```py
 Train Epoch: 1 [0/60000 (0%)]   Loss: 2.336866
@@ -356,4 +354,10 @@ Test set: Average loss: 0.0713, Accuracy: 9816/10000 (98%)
 [`Download Python source code: spatial_transformer_tutorial.py`](../_downloads/8aa31a122008b8db8bbe28365db9ea47/spatial_transformer_tutorial.py)[`Download Jupyter notebook: spatial_transformer_tutorial.ipynb`](../_downloads/b0786fd6ca28ee4ff3f2aa27080cdf18/spatial_transformer_tutorial.ipynb)
 
 [Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
+
+ 
+
+
+  
+
 
