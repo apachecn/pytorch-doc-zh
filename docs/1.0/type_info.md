@@ -1,42 +1,43 @@
 
 
-# Type Info
+# 数据类型信息 
 
-The numerical properties of a [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") can be accessed through either the [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") or the [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo").
+可以通过[`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 或 [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")访问[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性。  
 
-## torch.finfo
+## torch.finfo  
 
 ```py
 class torch.finfo
-```
+``` 
 
-A [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") is an object that represents the numerical properties of a floating point [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), (i.e. `torch.float32`, `torch.float64`, and `torch.float16`). This is similar to [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html).
+ [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 是一个用来表示浮点[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性的对象（即`torch.float32`，`torch.float64`和`torch.float16`）。 这类似于 [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html)。  
 
-A [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") provides the following attributes:
+[`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 提供以下属性:  
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| bits | int | The number of bits occupied by the type. |
-| eps | float | The smallest representable number such that 1.0 + eps != 1.0. |
-| max | float | The largest representable number. |
-| tiny | float | The smallest positive representable number. |
+| bits | 整型　int |数据类型占用的位数 |
+| eps | 浮点型float | 可表示的最小数字，使得1.0 + eps！= 1.0|
+| max | 浮点型float | 可表示的最大数字|
+| tiny | 浮点型float |可表示的最小正数 |  
 
-Note
+注意  
 
-The constructor of [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") can be called without argument, in which case the class is created for the pytorch default dtype (as returned by `torch.get_default_dtype()`).
+在使用pytorch默认dtype创建类（由`torch.get_default_dtype（）`返回）的情况下，构造的 [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 函数可以不带参数被调用。  
 
-## torch.iinfo
+##  torch.iinfo  
 
 ```py
 class torch.iinfo
-```
+```  
 
-A [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") is an object that represents the numerical properties of a integer [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") (i.e. `torch.uint8`, `torch.int8`, `torch.int16`, `torch.int32`, and `torch.int64`). This is similar to [numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html).
+ [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")是一个用来表示整数[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 的数字属性的对象，（即`torch.uint8`，`torch.int8`，`torch.int16`，`torch.int32`和`torch.int64`）。 这与[numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html)类似。  
 
-A [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") provides the following attributes:
+[`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") 提供以下属性：   
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| bits | int | The number of bits occupied by the type. |
-| max | int | The largest representable number. |
+| bits | 整型| 数据类型占用的位数 |
+| max | 整型 | 可表示的最大数字 |
+ 
 
