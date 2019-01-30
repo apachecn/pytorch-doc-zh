@@ -9,11 +9,11 @@
 
 In this tutorial, we explore a fun and interesting use-case of recurrent sequence-to-sequence models. We will train a simple chatbot using movie scripts from the [Cornell Movie-Dialogs Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html).
 
-在本教程中，我们探索了一个好玩和有趣的循环序列到序列？？的模型用例。我们将用 [Cornell Movie-Dialogs Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html)处的电影剧本来训练一个简单的聊天机器人
+在本教程中，我们探索了一个好玩和有趣的循环序列到序列的模型用例。我们将用 [Cornell Movie-Dialogs Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html)处的电影剧本来训练一个简单的聊天机器人
 
 Conversational models are a hot topic in artificial intelligence research. Chatbots can be found in a variety of settings, including customer service applications and online helpdesks. These bots are often powered by retrieval-based models, which output predefined responses to questions of certain forms. In a highly restricted domain like a company’s IT helpdesk, these models may be sufficient, however, they are not robust enough for more general use-cases. Teaching a machine to carry out a meaningful conversation with a human in multiple domains is a research question that is far from solved. Recently, the deep learning boom has allowed for powerful generative models like Google’s [Neural Conversational Model](https://arxiv.org/abs/1506.05869), which marks a large step towards multi-domain generative conversational models. In this tutorial, we will implement this kind of model in PyTorch.
 
-在人工智能研究领域中对话模型模型是一个非常热门的话题。聊天机器人可以在各种设置中找到，包括客户服务应用和在线帮助。这些机器人通常由基于检索的模型提供支持，这些输出是某些形式问题预先定义的响应。在像公司IT服务台这样高度受限制的领域中，这些模型可能足够了，但是，对于更一般的用例它们不够健壮。教一台机器与多领域的人进行有意义的对话是一个远未解决的研究问题。最近，深度学习热潮已经允许强大的生成模型？？？，如谷歌的神经对话模型 [Neural Conversational Model](https://arxiv.org/abs/1506.05869)，这标志着向多领域生成对话模型迈出了一大步。 在本教程中，我们将在PyTorch中实现这种模型。
+在人工智能研究领域中对话模型模型是一个非常热门的话题。聊天机器人可以在各种设置中找到，包括客户服务应用和在线帮助。这些机器人通常由基于检索的模型提供支持，这些输出是某些形式问题预先定义的响应。在像公司IT服务台这样高度受限制的领域中，这些模型可能足够了，但是，对于更一般的用例它们不够健壮。教一台机器与多领域的人进行有意义的对话是一个远未解决的研究问题。最近，深度学习热潮已经允许强大的生成模型，如谷歌的神经对话模型 [Neural Conversational Model](https://arxiv.org/abs/1506.05869)，这标志着向多领域生成对话模型迈出了一大步。 在本教程中，我们将在PyTorch中实现这种模型。
 
 ![bot](img/0b5c97b14a430a501451aadc5b8fcfad.jpg)
 
@@ -171,7 +171,7 @@ b'L869 +++$+++ u0 +++$+++ m0 +++$+++ BIANCA +++$+++ Like my fear of wearing past
 
 For convenience, we’ll create a nicely formatted data file in which each line contains a tab-separated _query sentence_ and a _response sentence_ pair.
 
-为了方便起见，我们将创建一个格式良好的数据文件，其中每一行包含一个用`tab`制表符分隔的查询语句和响应语句对。？？？
+为了方便起见，我们将创建一个格式良好的数据文件，其中每一行包含一个由tab`制表符分隔的查询语句和响应语句对。
 
 The following functions facilitate the parsing of the raw _movie_lines.txt_ data file.
 
@@ -304,11 +304,11 @@ Note that we are dealing with sequences of **words**, which do not have an impli
 
 For this we define a `Voc` class, which keeps a mapping from words to indexes, a reverse mapping of indexes to words, a count of each word and a total word count. The class provides methods for adding a word to the vocabulary (`addWord`), adding all words in a sentence (`addSentence`) and trimming infrequently seen words (`trim`). More on trimming later.
 
-我们下一个任务是创建词汇表并将查询/响应句子对（对话）加载到内存。？？？
+我们下一个任务是创建词汇表并将查询/响应句子对（对话）加载到内存。
 
 注意我们正在处理**词序**，这些词序没有映射到离散数值空间。因此，我们必须通过数据集中的单词来创建一个索引。
 
-为此我们创建了一个`Voc`类,它会保持？？？从单词到索引的映射、索引到单词的反向映射、每个单词的计数和总单词量。这个类提供向词汇表中添加单词的方法(`addWord`)、添加所有单词到句子中的方法 (`addSentence`) 和清洗不常见的单词方法(`trim`)。更多的数据清洗在后面进行。
+为此我们创建了一个`Voc`类,它会存储从单词到索引的映射、索引到单词的反向映射、每个单词的计数和总单词量。这个类提供向词汇表中添加单词的方法(`addWord`)、添加所有单词到句子中的方法 (`addSentence`) 和清洗不常见的单词方法(`trim`)。更多的数据清洗在后面进行。
 
 ```py
 # Default word tokens
@@ -369,7 +369,7 @@ Now we can assemble our vocabulary and query/response sentence pairs. Before we 
 
 First, we must convert the Unicode strings to ASCII using `unicodeToAscii`. Next, we should convert all letters to lowercase and trim all non-letter characters except for basic punctuation (`normalizeString`). Finally, to aid in training convergence, we will filter out sentences with length greater than the `MAX_LENGTH` threshold (`filterPairs`).
 
-现在我们可以组装词汇表和查询/响应语句对？？?。在使用数据之前，我们必须做一些预处理。
+现在我们可以组装词汇表和查询/响应语句对。在使用数据之前，我们必须做一些预处理。
 
 首先，我们必须使用`unicodeToAscii`将unicode字符串转换为ASCII。然后，我们应该将所有字母转换为小写字母并清洗掉除基本标点之外的所有非字母字符 (`normalizeString`)。最后，为了帮助训练收敛，我们将过滤掉长度大于`MAX_LENGTH` 的句子 (`filterPairs`)。
 
@@ -531,7 +531,7 @@ Using mini-batches also means that we must be mindful of the variation of senten
 
 If we simply convert our English sentences to tensors by converting words to their indexes(`indexesFromSentence`) and zero-pad, our tensor would have shape _(batch_size, max_length)_ and indexing the first dimension would return a full sequence across all time-steps. However, we need to be able to index our batch along time, and across all sequences in the batch. Therefore, we transpose our input batch shape to _(max_length, batch_size)_, so that indexing across the first dimension returns a time step across all sentences in the batch. We handle this transpose implicitly in the `zeroPadding` function.
 
-如果我们简单地通过将单词转换为索引（`indicesFromSentence`）和零填充（ zero-pad）将我们的英文句子转换为张量，我们的张量将具有大小（*batch_size，max_length*），并且索引第一维将在所有时间步骤中返回完整序列。 但是，我们需要能够沿着时间和批处理中的所有序列索引批处理???。 因此，我们将输入批处理大小转换为（*max_length，batch_size*），以便跨第一维的索引返回批处理中所有句子的时间步长。 我们在`zeroPadding`函数中隐式处理这个转置。
+如果我们简单地通过将单词转换为索引（`indicesFromSentence`）和零填充（ zero-pad）将我们的英文句子转换为张量，我们的张量将具有大小（*batch_size，max_length*），并且索引第一维将在所有时间步骤中返回完整序列。 但是，我们需要沿着时间对我们批量数据进行索引并且包括批量数据中所有序列。 因此，我们将输入批处理大小转换为（*max_length，batch_size*），以便跨第一维的索引返回批处理中所有句子的时间步长。 我们在`zeroPadding`函数中隐式处理这个转置。
 
 ![batches](img/b2f1969c698070d055c23fc81ab07b1b.jpg)
 
@@ -651,7 +651,7 @@ The brains of our chatbot is a sequence-to-sequence (seq2seq) model. The goal of
 
 [Sutskever et al.](https://arxiv.org/abs/1409.3215) discovered that by using two separate recurrent neural nets together, we can accomplish this task. One RNN acts as an **encoder**, which encodes a variable length input sequence to a fixed-length context vector. In theory, this context vector (the final hidden layer of the RNN) will contain semantic information about the query sentence that is input to the bot. The second RNN is a **decoder**, which takes an input word and the context vector, and returns a guess for the next word in the sequence and a hidden state to use in the next iteration.
 
-[Sutskever et al.](https://arxiv.org/abs/1409.3215) 发现通过一起使用两个独立的RNN，我们可以完成这项任务。 第一个RNN充当**编码器**，其将可变长度输入序列编码为固定长度上下文向量。 理论上，该上下文向量（RNN的最终隐藏层）将包含关于输入到机器人的查询语句的语义信息???。 第二个RNN是一个**解码器**，它接收输入文字和上下文矢量，并返回序列中下一句文字的概率和在下一次迭代中使用的隐藏状态。
+[Sutskever et al.](https://arxiv.org/abs/1409.3215) 发现通过一起使用两个独立的RNN，我们可以完成这项任务。 第一个RNN充当**编码器**，其将可变长度输入序列编码为固定长度上下文向量。 理论上，该上下文向量（RNN的最终隐藏层）将包含关于输入到机器人的查询语句的语义信息。 第二个RNN是一个**解码器**，它接收输入文字和上下文矢量，并返回序列中下一句文字的概率和在下一次迭代中使用的隐藏状态。
 
 ![model](img/32a87cf8d0353ceb0037776f833b92a7.jpg)
 
@@ -662,7 +662,7 @@ The brains of our chatbot is a sequence-to-sequence (seq2seq) model. The goal of
 
 The encoder RNN iterates through the input sentence one token (e.g. word) at a time, at each time step outputting an “output” vector and a “hidden state” vector. The hidden state vector is then passed to the next time step, while the output vector is recorded. The encoder transforms the context it saw at each point in the sequence into a set of points in a high-dimensional space, which the decoder will use to generate a meaningful output for the given task.
 
-编码器RNN每次迭代中输入一个语句输出一个标记（例如，一个单词），同时在这时间内输出“输出”向量和“隐藏状态”向量。 然后将隐藏状态向量传递到下一步，并记录输出向量。 编码器将其在序列中的每一点处看到的上下文转换为高维空间中的一系列点，解码器将使用这些点为给定任务生成有意义的输出。
+编码器RNN每次迭代中输入一个语句输出一个token（例如，一个单词），同时在这时间内输出“输出”向量和“隐藏状态”向量。 然后将隐藏状态向量传递到下一步，并记录输出向量。 编码器将其在序列中的每一点处看到的上下文转换为高维空间中的一系列点，解码器将使用这些点为给定任务生成有意义的输出。
 
 At the heart of our encoder is a multi-layered Gated Recurrent Unit, invented by [Cho et al.](https://arxiv.org/pdf/1406.1078v3.pdf) in 2014\. We will use a bidirectional variant of the GRU, meaning that there are essentially two independent RNNs: one that is fed the input sequence in normal sequential order, and one that is fed the input sequence in reverse order. The outputs of each network are summed at each time step. Using a bidirectional GRU will give us the advantage of encoding both past and future context.
 
@@ -772,7 +772,7 @@ At a high level, attention is calculated using the decoder’s current hidden st
 
 [Luong et al.](https://arxiv.org/abs/1508.04025) improved upon Bahdanau et al.’s groundwork by creating “Global attention”. The key difference is that with “Global attention”, we consider all of the encoder’s hidden states, as opposed to Bahdanau et al.’s “Local attention”, which only considers the encoder’s hidden state from the current time step. Another difference is that with “Global attention”, we calculate attention weights, or energies, using the hidden state of the decoder from the current time step only. Bahdanau et al.’s attention calculation requires knowledge of the decoder’s state from the previous time step. Also, Luong et al. provides various methods to calculate the attention energies between the encoder output and decoder output which are called “score functions”:
 
-[Luong et al.](https://arxiv.org/abs/1508.04025) 通过创造“Global attention”，改善了[Bahdanau et al.](https://arxiv.org/abs/1409.0473) 的基础工作。 关键的区别在于，对于“Global attention”，我们考虑所有编码器的隐藏状态，而不是Bahdanau等人的“Local attention”，它只考虑当前步中编码器的隐藏状态。 另一个区别在于，通过“Global attention”，我们仅使用当前步的解码器的隐藏状态来计算注意力权重（或者能量）？？？。 Bahdanau等人的注意力计算需要知道前一步中解码器的状态。 此外，Luong等人提供各种方法来计算编码器输出和解码器输出之间的注意权重（能量），称之为“score functions”：
+[Luong et al.](https://arxiv.org/abs/1508.04025) 通过创造“Global attention”，改善了[Bahdanau et al.](https://arxiv.org/abs/1409.0473) 的基础工作。 关键的区别在于，对于“Global attention”，我们考虑所有编码器的隐藏状态，而不是Bahdanau等人的“Local attention”，它只考虑当前步中编码器的隐藏状态。 另一个区别在于，通过“Global attention”，我们仅使用当前步的解码器的隐藏状态来计算注意力权重（或者能量）。 Bahdanau等人的注意力计算需要知道前一步中解码器的状态。 此外，Luong等人提供各种方法来计算编码器输出和解码器输出之间的注意权重（能量），称之为“score functions”：
 
 [![scores](img/7818f6b40cbd799eddec20743b45fde5.jpg)](https://pytorch.org/tutorials/_images/scores.png)
 
@@ -869,7 +869,7 @@ Now that we have defined our attention submodule, we can implement the actual de
 *   `output`: softmax normalized tensor giving probabilities of each word being the correct next word in the decoded sequence; shape=_(batch_size, voc.num_words)_
 *   `hidden`: final hidden state of GRU; shape=_(*n_layers x num_directions, batch_size, hidden_size*)_
 
- - 输出：softmax标准化后的张量，在解码序列给出每个单词中下一个正确单词的概率？？？; shape =（*batch_size，voc.num_words*）
+ - 输出：一个softmax标准化后的张量， 代表了每个单词在解码序列中是下一个输出单词的概率; shape =（*batch_size，voc.num_words*）
  - 隐藏：GRU的最终隐藏状态; shape =（*n_layers x num_directions，batch_size，hidden_size*）
 
 ```py
@@ -1131,7 +1131,7 @@ After training a model, we want to be able to talk to the bot ourselves. First, 
 在训练模型后，我们希望能够自己与机器人交谈。 首先，我们必须定义我们希望模型如何解码编码输入。
 
 ### Greedy decoding
-### 贪婪解码？？？
+### 贪婪解码
 
 Greedy decoding is the decoding method that we use during training when we are **NOT** using teacher forcing. In other words, for each time step, we simply choose the word from `decoder_output` with the highest softmax value. This decoding method is optimal on a single time-step level.
 
@@ -1165,7 +1165,7 @@ To facilite the greedy decoding operation, we define a `GreedySearchDecoder` cla
 >     2.  Obtain most likely word token and its softmax score.
 >     3.  Record token and score.
 >     4.  Prepare current token to be next decoder input.
->     
+>         
 >     1.  通过解码器进行前向计算。
 >     2.  获得最可能的单词token及其softmax分数。
 >     3.  记录token和分数。
