@@ -1,15 +1,15 @@
 
 
-# Transfering a Model from PyTorch to Caffe2 and Mobile using ONNX
+# 使用ONNX将模型从PyTorch传输到Caffe2和Mobile(移动端)  
 
-In this tutorial, we describe how to use ONNX to convert a model defined in PyTorch into the ONNX format and then load it into Caffe2\. Once in Caffe2, we can run the model to double-check it was exported correctly, and we then show how to use Caffe2 features such as mobile exporter for executing the model on mobile devices.
+在本教程中，我们将介绍如何使用ONNX将PyTorch中定义的模型转换为ONNX格式，然后将其加载到Caffe2中。一旦进入Caffe2，我们就可以运行模型来仔细检查它是否正确导出，然后我们展示了如何使用Caffe2功能（如移动导出器）在移动设备上执行模型。  
 
-For this tutorial, you will need to install [onnx](https://github.com/onnx/onnx) and [Caffe2](https://github.com/pytorch/pytorch). You can get binary builds of onnx with `pip install onnx`.
+在本教程中，你需要安装onnx和Caffe2。您可以使用pip install onnx获取onnx的二进制版本。  
 
-`NOTE`: This tutorial needs PyTorch master branch which can be installed by following the instructions [here](https://github.com/pytorch/pytorch#from-source)
+`注意`: 本教程需要PyTorch master分支，可以按照 [这里](https://github.com/pytorch/pytorch#from-source)说明进行安装。  
 
 ```py
-# Some standard imports
+# 一些包的导入
 import io
 import numpy as np
 
@@ -18,13 +18,12 @@ import torch.utils.model_zoo as model_zoo
 import torch.onnx
 
 ```
+超分辨率是一种提高图像，视频分辨率的方法，广泛用于图像处理或视频剪辑。在本教程中，我们将首先使用带有虚拟输入的小型超分辨率模型。  
 
-Super-resolution is a way of increasing the resolution of images, videos and is widely used in image processing or video editing. For this tutorial, we will first use a small super-resolution model with a dummy input.
-
-First, let’s create a SuperResolution model in PyTorch. [This model](https://github.com/pytorch/examples/blob/master/super_resolution/model.py) comes directly from PyTorch’s examples without modification:
+首先，让我们在PyTorch中创建一个SuperResolution模型。[这个模型](https://github.com/pytorch/examples/blob/master/super_resolution/model.py) 直接来自PyTorch的例子，没有修改：  
 
 ```py
-# Super Resolution model definition in PyTorch
+# PyTorch中定义的Super Resolution模型
 import torch.nn as nn
 import torch.nn.init as init
 
@@ -54,38 +53,38 @@ class SuperResolutionNet(nn.Module):
         init.orthogonal_(self.conv3.weight, init.calculate_gain('relu'))
         init.orthogonal_(self.conv4.weight)
 
-# Create the super-resolution model by using the above model definition.
+# 使用上面模型定义，创建super-resolution模型 
 torch_model = SuperResolutionNet(upscale_factor=3)
 
 ```
 
-Ordinarily, you would now train this model; however, for this tutorial, we will instead download some pre-trained weights. Note that this model was not trained fully for good accuracy and is used here for demonstration purposes only.
+通常，你现在会训练这个模型; 但是，对于本教程我们将下载一些预先训练的权重。请注意，此模型未经过充分训练来获得良好的准确性，此处仅用于演示目的。
 
 ```py
-# Load pretrained model weights
-model_url = 'https://s3.amazonaws.com/pytorch/test_data/export/superres_epoch100-44c6958e.pth'
+# 加载预先训练好的模型权重
+del_url = 'https://s3.amazonaws.com/pytorch/test_data/export/superres_epoch100-44c6958e.pth'
 batch_size = 1    # just a random number
 
-# Initialize model with the pretrained weights
+# 使用预训练的权重初始化模型
 map_location = lambda storage, loc: storage
 if torch.cuda.is_available():
     map_location = None
 torch_model.load_state_dict(model_zoo.load_url(model_url, map_location=map_location))
 
-# set the train mode to false since we will only run the forward pass.
+# 将训练模式设置为falsesince we will only run the forward pass.
 torch_model.train(False)
 
 ```
 
-Exporting a model in PyTorch works via tracing. To export a model, you call the `torch.onnx._export()` function. This will execute the model, recording a trace of what operators are used to compute the outputs. Because `_export` runs the model, we need provide an input tensor `x`. The values in this tensor are not important; it can be an image or a random tensor as long as it is the right size.
+在PyTorch中导出模型通过跟踪工作。要导出模型，请调用torch.onnx._export（）函数。这将执行模型，记录运算符用于计算输出的轨迹。因为_export运行模型，我们需要提供输入张量x。这个张量的值并不重要; 它可以是图像或随机张量，只要它是正确的大小。  
 
-To learn more details about PyTorch’s export interface, check out the [torch.onnx documentation](https://pytorch.org/docs/master/onnx.html).
+要了解有关PyTorch导出界面的更多详细信息，请查看[torch.onnx documentation](https://pytorch.org/docs/master/onnx.html)文档。
 
 ```py
-# Input to the model
+# 输入模型
 x = torch.randn(batch_size, 1, 224, 224, requires_grad=True)
 
-# Export the model
+# 导出模型
 torch_out = torch.onnx._export(torch_model,             # model being run
                                x,                       # model input (or a tuple for multiple inputs)
                                "super_resolution.onnx", # where to save the model (can be a file or file-like object)
@@ -93,9 +92,9 @@ torch_out = torch.onnx._export(torch_model,             # model being run
 
 ```
 
-`torch_out` is the output after executing the model. Normally you can ignore this output, but here we will use it to verify that the model we exported computes the same values when run in Caffe2.
+`torch_out` 是执行模型后的输出。通常您可以忽略此输出，但在这里我们将使用它来验证我们导出的模型在Caffe2中运行时计算相同的值。
 
-Now let’s take the ONNX representation and use it in Caffe2\. This part can normally be done in a separate process or on another machine, but we will continue in the same process so that we can verify that Caffe2 and PyTorch are computing the same value for the network:
+现在让我们采用ONNX表示并在Caffe2中使用它。这部分通常可以在一个单独的进程中或在另一台机器上完成，但我们将继续在同一个进程中，以便我们可以验证Caffe2和PyTorch是否为网络计算相同的值：  
 
 ```py
 import onnx
@@ -127,42 +126,42 @@ print("Exported model has been executed on Caffe2 backend, and the result looks 
 
 ```
 
-We should see that the output of PyTorch and Caffe2 runs match numerically up to 3 decimal places. As a side-note, if they do not match then there is an issue that the operators in Caffe2 and PyTorch are implemented differently and please contact us in that case.
+我们应该看到PyTorch和Caffe2的输出在数字上匹配最多3位小数。作为旁注，如果它们不匹配则存在Caffe2和PyTorch中的运算符以不同方式实现的问题，请在这种情况下与我们联系。  
 
-## Transfering SRResNet using ONNX
+## 使用ONNX转换SRResNET  
 
-Using the same process as above, we also transferred an interesting new model “SRResNet” for super-resolution presented in [this paper](https://arxiv.org/pdf/1609.04802.pdf) (thanks to the authors at Twitter for providing us code and pretrained parameters for the purpose of this tutorial). The model definition and a pre-trained model can be found [here](https://gist.github.com/prigoyal/b245776903efbac00ee89699e001c9bd). Below is what SRResNet model input, output looks like. ![SRResNet](img/b532c99eb24925fb30c040b3af3f71d0.jpg)
+使用与上述相同的过程，我们参考[本文](https://arxiv.org/pdf/1609.04802.pdf)中提出的超分辨率转移了一个有趣的新模型“SRResNet”（感谢Twitter上的作者为本教程的目的提供了代码和预训练参数）。可在[此处](https://gist.github.com/prigoyal/b245776903efbac00ee89699e001c9bd)找到模型定义和预训练模型。下面是SRResNet模型输入，输出的样子。![SRResNet](img/b532c99eb24925fb30c040b3af3f71d0.jpg)  
 
-## Running the model on mobile devices
+## 在移动设备上运行模型  
 
-So far we have exported a model from PyTorch and shown how to load it and run it in Caffe2\. Now that the model is loaded in Caffe2, we can convert it into a format suitable for [running on mobile devices](https://caffe2.ai/docs/mobile-integration.html).
+到目前为止，我们已经从PyTorch导出了一个模型，并展示了如何加载它并在Caffe2中运行它。现在模型已加载到Caffe2中，我们可以将其转换为适合在移动设备上运行的格式[移动设备上运行](https://caffe2.ai/docs/mobile-integration.html)的格式。  
 
-We will use Caffe2’s [mobile_exporter](https://github.com/caffe2/caffe2/blob/master/caffe2/python/predictor/mobile_exporter.py) to generate the two model protobufs that can run on mobile. The first is used to initialize the network with the correct weights, and the second actual runs executes the model. We will continue to use the small super-resolution model for the rest of this tutorial.
+我们将使用Caffe2的[mobile_exporter](https://github.com/caffe2/caffe2/blob/master/caffe2/python/predictor/mobile_exporter.py)生成可在移动设备上运行的两个模型protobufs。 第一个用于使用正确的权重初始化网络，第二个实际运行执行模型。在本教程的其余部分，我们将继续使用小型超分辨率模型。  
 
 ```py
 # extract the workspace and the model proto from the internal representation
 c2_workspace = prepared_backend.workspace
 c2_model = prepared_backend.predict_net
 
-# Now import the caffe2 mobile exporter
+# 现在导入caffe2mobile_exporter
 from caffe2.python.predictor import mobile_exporter
 
 # call the Export to get the predict_net, init_net. These nets are needed for running things on mobile
 init_net, predict_net = mobile_exporter.Export(c2_workspace, c2_model, c2_model.external_input)
 
-# Let's also save the init_net and predict_net to a file that we will later use for running them on mobile
+# 我们还将init_net和predict_net保存到我们稍后将用于在移动设备上运行它们的文件中
 with open('init_net.pb', "wb") as fopen:
     fopen.write(init_net.SerializeToString())
 with open('predict_net.pb', "wb") as fopen:
     fopen.write(predict_net.SerializeToString())
 
-```
+```  
 
-`init_net` has the model parameters and the model input embedded in it and `predict_net` will be used to guide the `init_net` execution at run-time. In this tutorial, we will use the `init_net` and `predict_net` generated above and run them in both normal Caffe2 backend and mobile and verify that the output high-resolution cat image produced in both runs is the same.
+`init_net`具有模型参数和嵌入在其中的模型输入，`predict_ne`t将用于指导运行时的`init_net`执行。 在本教程中，我们将使用上面生成的`init_net`和`predict_net`，并在正常的Caffe2后端和移动设备中运行它们，并验证两次运行中生成的输出高分辨率猫咪图像是否相同。  
 
-For this tutorial, we will use a famous cat image used widely which looks like below
+在本教程中，我们将使用广泛使用的著名猫咪图像，如下所示：   
 
-![cat](img/35d54d0c48ca1c52d56850a202a2c160.jpg)
+![cat](img/35d54d0c48ca1c52d56850a202a2c160.jpg)  
 
 ```py
 # Some standard imports
@@ -176,26 +175,27 @@ from PIL import Image
 from matplotlib import pyplot
 from skimage import io, transform
 
-```
+```  
 
-First, let’s load the image, pre-process it using standard skimage python library. Note that this preprocessing is the standard practice of processing data for training/testing neural networks.
+首先，让我们加载图像，使用标准的skimage python库对其进行预处理。 请注意，此预处理是处理用于训练/测试神经网络的数据的标准做法。  
+
 
 ```py
-# load the image
+# 加载图像
 img_in = io.imread("./_static/img/cat.jpg")
 
-# resize the image to dimensions 224x224
+# 设置图片分辨率为 224x224
 img = transform.resize(img_in, [224, 224])
 
-# save this resized image to be used as input to the model
+# 保存好设置的图片作为模型的输入
 io.imsave("./_static/img/cat_224x224.jpg", img)
 
-```
+```  
 
-Now, as a next step, let’s take the resized cat image and run the super-resolution model in Caffe2 backend and save the output image. The image processing steps below have been adopted from PyTorch implementation of super-resolution model [here](https://github.com/pytorch/examples/blob/master/super_resolution/super_resolve.py)
+现在，作为下一步，让我们拍摄调整大小的猫图像并在Caffe2后端运行超分辨率模型并保存输出图像。 [这里](https://github.com/pytorch/examples/blob/master/super_resolution/super_resolve.py)的图像处理步骤已经从PyTorch实现的超分辨率模型中采用。  
 
 ```py
-# load the resized image and convert it to Ybr format
+# 加载设置好的图片并更改为YCbCr的格式
 img = Image.open("./_static/img/cat_224x224.jpg")
 img_ycbcr = img.convert('YCbCr')
 img_y, img_cb, img_cr = img_ycbcr.split()
@@ -208,9 +208,11 @@ workspace.RunNetOnce(predict_net)
 # what our input and output blob names are.
 print(net_printer.to_string(predict_net))
 
-```
+```   
+`备注`： [YCbCr](https://baike.baidu.com/item/YCbCr/10012133?fr=aladdin) 
 
-From the above output, we can see that input is named “9” and output is named “27”(it is a little bit weird that we will have numbers as blob names but this is because the tracing JIT produces numbered entries for the models)
+从上面的输出中，我们可以看到输入名为“9”，输出名为“27”（我们将数字作为blob名称有点奇怪，但这是因为跟踪JIT为模型生成了编号条目）。有点问题 后续校正。  
+
 
 ```py
 # Now, let's also pass in the resized cat image for processing by the model.
@@ -222,33 +224,15 @@ workspace.RunNetOnce(predict_net)
 # Now let's get the model output blob
 img_out = workspace.FetchBlob("27")
 
-```
+```  
 
-Now, we’ll refer back to the post-processing steps in PyTorch implementation of super-resolution model [here](https://github.com/pytorch/examples/blob/master/super_resolution/super_resolve.py) to construct back the final output image and save the image.
+我们已经完成了在纯Caffe2后端运行我们的移动网络，现在，让我们在Android设备上执行该模型并获取模型输出。  
 
-```py
-img_out_y = Image.fromarray(np.uint8((img_out[0, 0]).clip(0, 255)), mode='L')
+`注意`：对于Android开发，需要`adb shell`，否则教程的以下部分将无法运行。  
 
-# get the output image follow post-processing step from PyTorch implementation
-final_img = Image.merge(
-    "YCbCr", [
-        img_out_y,
-        img_cb.resize(img_out_y.size, Image.BICUBIC),
-        img_cr.resize(img_out_y.size, Image.BICUBIC),
-    ]).convert("RGB")
+在我们在移动设备上运行模型的第一步中，我们把基于移动设备的本机速度测试基准二进制文件推送到adb。这个二进制文件可以在移动设备上执行模型，也可以导出我们稍后可以检索的模型输出。二进制文件可在[此处](https://github.com/caffe2/caffe2/blob/master/caffe2/binaries/speed_benchmark.cc)获得。要构建二进制文件，请按照[此处](https://github.com/caffe2/caffe2/blob/master/scripts/build_android.sh)的说明执行`build_android.sh`脚本。  
 
-# Save the image, we will compare this with the output image from mobile device
-final_img.save("./_static/img/cat_superres.jpg")
-
-```
-
-We have finished running our mobile nets in pure Caffe2 backend and now, let’s execute the model on an Android device and get the model output.
-
-`NOTE`: for Android development, `adb` shell is needed otherwise the following section of tutorial will not run.
-
-In our first step of runnig model on mobile, we will push a native speed benchmark binary for mobile device to adb. This binary can execute the model on mobile and also export the model output that we can retrieve later. The binary is available [here](https://github.com/caffe2/caffe2/blob/master/caffe2/binaries/speed_benchmark.cc). In order to build the binary, execute the `build_android.sh` script following the instructions [here](https://github.com/caffe2/caffe2/blob/master/scripts/build_android.sh).
-
-`NOTE`: You need to have `ANDROID_NDK` installed and set your env variable `ANDROID_NDK=path to ndk root`
+`注意`： 你需要已经安装了`ANDROID_NDK`,并且设置环境变量`ANDROID_NDK=path to ndk root`。  
 
 ```py
 # let's first push a bunch of stuff to adb, specify the path for the binary
@@ -298,15 +282,19 @@ final_img.save("./_static/img/cat_superres_mobile.jpg")
 
 ```
 
-Now, you can compare the image `cat_superres.jpg` (model output from pure caffe2 backend execution) and `cat_superres_mobile.jpg` (model output from mobile execution) and see that both the images look same. If they don’t look same, something went wrong with execution on mobile and in that case, please contact Caffe2 community. You should expect to see the output image to look like following:
+现在，您可以比较图像cat_superres.jpg（来自纯caffe2后端执行的模型输出）和cat_superres_mobile.jpg（来自移动执行的模型输出），并看到两个图像看起来相同。 如果它们看起来不一样，那么在移动设备上执行会出现问题，在这种情况下，请联系Caffe2社区。你应该期望看到输出图像如下所示：  
 
-![output\_cat](img/7afef7064c414bbb62bcbe068eca19a0.jpg)
+![output\_cat](img/7afef7064c414bbb62bcbe068eca19a0.jpg)  
 
-Using the above steps, you can deploy your models on mobile easily. Also, for more information on caffe2 mobile backend, checkout [caffe2-android-demo](https://caffe2.ai/docs/AI-Camera-demo-android.html).
+使用上述步骤，您可以轻松地在移动设备上部署模型。 另外，有关caffe2移动后端的更多信息，请查看[caffe2-android-demo](https://caffe2.ai/docs/AI-Camera-demo-android.html)。   
 
-**Total running time of the script:** ( 0 minutes 0.000 seconds)
+**脚本的总运行时间:** ( 0 minutes 0.000 seconds)
 
-[`Download Python source code: super_resolution_with_caffe2.py`](../_downloads/8ef9234cc18eea8ec4c2dd6046887cf8/super_resolution_with_caffe2.py)[`Download Jupyter notebook: super_resolution_with_caffe2.ipynb`](../_downloads/34b25873c2c93c35a228c023e25d4b0f/super_resolution_with_caffe2.ipynb)
+[`下载Python源代码: super_resolution_with_caffe2.py`](../_downloads/8ef9234cc18eea8ec4c2dd6046887cf8/super_resolution_with_caffe2.py)[`Download Jupyter notebook: super_resolution_with_caffe2.ipynb`](../_downloads/34b25873c2c93c35a228c023e25d4b0f/super_resolution_with_caffe2.ipynb)
 
 [Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
+
+
+
+
 
