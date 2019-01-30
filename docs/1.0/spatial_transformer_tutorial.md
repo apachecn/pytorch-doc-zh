@@ -71,9 +71,9 @@ Done!
 
 空间变换器网络归结为三个主要组成部分：
 
-*   定位网络是常规CNN，其对变换参数进行回归。不会从该数据集中明确地学习转换，而是网络自动学习增强全局准确性的空间变换。
-*   网格生成器在输入图像中生成与输出图像中的每个像素相对应的坐标网格。
-*   采样器使用变换的参数并将其应用于输入图像。  
+*    本地网络（Localisation Network）是常规CNN，其对变换参数进行回归。不会从该数据集中明确地学习转换，而是网络自动学习增强全局准确性的空间变换。
+*   网格生成器( Grid Genator)在输入图像中生成与输出图像中的每个像素相对应的坐标网格。
+*   采样器（Sampler）使用变换的参数并将其应用于输入图像。  
 
 ![https://pytorch.org/tutorials/_images/stn-arch.png](img/0f822bf7763e04e2824dcc9c9dd89eea.jpg)   
 
@@ -350,7 +350,7 @@ Test set: Average loss: 0.0713, Accuracy: 9816/10000 (98%)
 
 ```
 
-**Total running time of the script:** ( 1 minutes 43.523 seconds)
+**脚本运行的总时间:** ( 1 minutes 43.523 seconds)
 
 [`Download Python source code: spatial_transformer_tutorial.py`](../_downloads/8aa31a122008b8db8bbe28365db9ea47/spatial_transformer_tutorial.py)[`Download Jupyter notebook: spatial_transformer_tutorial.ipynb`](../_downloads/b0786fd6ca28ee4ff3f2aa27080cdf18/spatial_transformer_tutorial.ipynb)
 
