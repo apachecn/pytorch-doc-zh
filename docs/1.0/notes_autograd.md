@@ -1,16 +1,17 @@
 
 
-# Autograd mechanics
+# 自动求导机制  
 
-This note will present an overview of how autograd works and records the operations. It’s not strictly necessary to understand all this, but we recommend getting familiar with it, as it will help you write more efficient, cleaner programs, and can aid you in debugging.
+本说明将概述autograd（自动求导）如何工作并记录每一步操作。了解这些并不是绝对必要的，但我们建议您熟悉它，因为它将帮助你编写更高效，更清晰的程序，并可以帮助您进行调试。  
 
-## Excluding subgraphs from backward
+## Excluding subgraphs from backward  
 
-Every Tensor has a flag: `requires_grad` that allows for fine grained exclusion of subgraphs from gradient computation and can increase efficiency.
+每个张量都有一个标志：`requires_grad`，允许从梯度计算中细致地排除子图，并可以提高效率。    
 
-### `requires_grad`
+### `requires_grad`   
 
-If there’s a single input to an operation that requires gradient, its output will also require gradient. Conversely, only if all inputs don’t require gradient, the output also won’t require it. Backward computation is never performed in the subgraphs, where all Tensors didn’t require gradients.
+只要有单个输入进行梯度计算操作，则其输出也需要梯度计算。相反，只有当所有输入都不需要计算梯度时，输出才不需要梯度计算。如果其中所有的张量都不需要进行梯度计算，后向计算不会在子图中执行。   
+
 
 ```py
 >>> x = torch.randn(5, 5)  # requires_grad=False by default
@@ -23,9 +24,10 @@ False
 >>> b.requires_grad
 True
 
-```
+```  
 
-This is especially useful when you want to freeze part of your model, or you know in advance that you’re not going to use gradients w.r.t. some parameters. For example if you want to finetune a pretrained CNN, it’s enough to switch the `requires_grad` flags in the frozen base, and no intermediate buffers will be saved, until the computation gets to the last layer, where the affine transform will use weights that require gradient, and the output of the network will also require them.
+当你想要冻结部分模型或者事先知道不会使用某些参数的梯度时，这些标志非常有用。例如，如果要微调预训练的CNN，只需在冻结的基础中切换`requires_grad`标志就够了，并且直到计算到达最后一层，才会保存中间缓冲区，，其中仿射变换将使用所需要梯度的权重 ，网络的输出也需要它们。  
+
 
 ```py
 model = torchvision.models.resnet18(pretrained=True)
@@ -38,26 +40,28 @@ model.fc = nn.Linear(512, 100)
 # Optimize only the classifier
 optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
 
-```
+```  
 
-## How autograd encodes the history
+## 自动求导是如何记录编码历史的   
 
-Autograd is reverse automatic differentiation system. Conceptually, autograd records a graph recording all of the operations that created the data as you execute operations, giving you a directed acyclic graph whose leaves are the input tensors and roots are the output tensors. By tracing this graph from roots to leaves, you can automatically compute the gradients using the chain rule.
+自动求导是反向自动分化系统。从概念上讲，自动求导会记录一个图形，记录在执行操作时创建数据的所有操作，为您提供有向无环图，其叶子是输入张量，根节点是输出张量。通过从根到叶跟踪此图，您可以使用链法则自动计算梯度。   
 
-Internally, autograd represents this graph as a graph of `Function` objects (really expressions), which can be `apply()` ed to compute the result of evaluating the graph. When computing the forwards pass, autograd simultaneously performs the requested computations and builds up a graph representing the function that computes the gradient (the `.grad_fn` attribute of each [`torch.Tensor`](../tensors.html#torch.Tensor "torch.Tensor") is an entry point into this graph). When the forwards pass is completed, we evaluate this graph in the backwards pass to compute the gradients.
+在内部，autograd将此图表示为`Function`对象（实际表达式）的图形，可以用来计算评估图形的结果。 当计算前向传播时，自动求导同时执行所请求的计算并建立表示计算梯度的函数的图形（每个`torch.Tensor`的`.grad_fn`属性是该图的入口点）。当前向传播完成时，我们在后向传播中评估该图以计算梯度。
 
-An important thing to note is that the graph is recreated from scratch at every iteration, and this is exactly what allows for using arbitrary Python control flow statements, that can change the overall shape and size of the graph at every iteration. You don’t have to encode all possible paths before you launch the training - what you run is what you differentiate.
+需要注意的一点是，在每次迭代时都会从头开始重新创建图形，这正是允许使用任意Python控制流语句的原因，它可以在每次迭代时更改图形的整体形状和大小。 在开始训练之前，不必编码所有可能的路径 - 您运行的是您所区分的部分。  
 
-## In-place operations with autograd
+## 使用autograd进行in- place操作  
 
-Supporting in-place operations in autograd is a hard matter, and we discourage their use in most cases. Autograd’s aggressive buffer freeing and reuse makes it very efficient and there are very few occasions when in-place operations actually lower memory usage by any significant amount. Unless you’re operating under heavy memory pressure, you might never need to use them.
+在autograd中支持in - place操作是一件很难的事情，大多数情况下，我们不鼓励使用它们。Autograd积极的缓冲区释放和重用使其非常高效，实际上在in- place操作会大幅降低内存使用量的情况也非常少。除非在巨大的内存压力下运行，否则你可能永远不需要使用它们。  
 
-There are two main reasons that limit the applicability of in-place operations:
+限制in- place操作适用性的主要原因有两个：  
 
-1.  In-place operations can potentially overwrite values required to compute gradients.
-2.  Every in-place operation actually requires the implementation to rewrite the computational graph. Out-of-place versions simply allocate new objects and keep references to the old graph, while in-place operations, require changing the creator of all inputs to the `Function` representing this operation. This can be tricky, especially if there are many Tensors that reference the same storage (e.g. created by indexing or transposing), and in-place functions will actually raise an error if the storage of modified inputs is referenced by any other `Tensor`.
+1. 这个操作可能会覆盖梯度计算所需的值。  
+2. 实际上，每个in-place操作需要重写计算图。Out-of-place 版本只是分配新对象并保留对旧图的引用，而in-place操作则需要将所有输入的creator更改为表示此操作的`Function`。这就比较麻烦，特别是如果有许多变量引用同一存储（例如通过索引或转置创建的），并且如果被修改输入的存储被任何其他张量引用，这样的话，in-place函数会抛出错误。 
 
-## In-place correctness checks
+## In-place正确性检查  
 
-Every tensor keeps a version counter, that is incremented every time it is marked dirty in any operation. When a Function saves any tensors for backward, a version counter of their containing Tensor is saved as well. Once you access `self.saved_tensors` it is checked, and if it is greater than the saved value an error is raised. This ensures that if you’re using in-place functions and not seeing any errors, you can be sure that the computed gradients are correct.
+每一个张量都有一个版本计算器，每次在任何操作中标记都会递增。 当`Function`保存任何用于后向传播的张量时，也会保存包含张量的版本计数器。一旦访问`self.saved_tensors`后，它将被检查，如果它大于保存的值，则会引发错误。 这可以确保如果您使用就地功能而没有看到任何错误，则可以确保计算出的梯度是正确的。这可以确保如果您使用in- place而没有看到任何错误，则可以保证计算出的梯度是正确的。
+
+
 
