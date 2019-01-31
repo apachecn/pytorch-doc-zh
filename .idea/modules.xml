@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/pytorch-doc-zh.iml" filepath="$PROJECT_DIR$/.idea/pytorch-doc-zh.iml" />
+      <module fileurl="file://E:/常用文件/OCR之word转换xml或json/工作文件/代码/.idea/代码.iml" filepath="E:/常用文件/OCR之word转换xml或json/工作文件/代码/.idea/代码.iml" />
+    </modules>
+  </component>
+</project>
