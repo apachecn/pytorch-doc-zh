@@ -2,6 +2,8 @@
 
 # 数据类型信息 
 
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
+
 可以通过[`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 或 [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")访问[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性。  
 
 ## torch.finfo  

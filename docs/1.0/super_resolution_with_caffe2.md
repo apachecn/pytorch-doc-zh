@@ -1,6 +1,6 @@
 # 使用ONNX将模型从PyTorch传输到Caffe2和Mobile(移动端)  
 
-> 译者：[PEGASUS1993](https://github.com/PEGASUS1993)
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
 
 在本教程中，我们将介绍如何使用ONNX将PyTorch中定义的模型转换为ONNX格式，然后将其加载到Caffe2中。一旦进入Caffe2，我们就可以运行模型来仔细检查它是否正确导出，然后我们展示了如何使用Caffe2功能（如移动导出器）在移动设备上执行模型。  
 

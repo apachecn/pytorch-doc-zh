@@ -2,7 +2,7 @@
 
 # 空间变换器网络教程  
 
-> **译者**: [冯宝宝](https://github.com/PEGASUS1993)  
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
 
 **作者**: [Ghassen HAMROUNI](https://github.com/GHamrouni)  
 

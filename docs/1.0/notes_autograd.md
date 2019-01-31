@@ -2,6 +2,8 @@
 
 # 自动求导机制  
 
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
+
 本说明将概述autograd（自动求导）如何工作并记录每一步操作。了解这些并不是绝对必要的，但我们建议您熟悉它，因为它将帮助你编写更高效，更清晰的程序，并可以帮助您进行调试。  
 
 ## Excluding subgraphs from backward  
