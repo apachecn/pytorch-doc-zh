@@ -14,8 +14,8 @@
       <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://E:/常用文件/OCR之word转换xml或json/工作文件/代码/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="105" column="62" selection-start-line="105" selection-start-column="57" selection-end-line="105" selection-end-column="62" />
+            <state relative-caret-position="1558">
+              <caret line="85" selection-start-line="85" selection-end-line="86" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -27,8 +27,8 @@
         <entry file="file://$PROJECT_DIR$/docs/1.0/Word Embeddings_Encoding Lexical Semantics.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="152">
-                <caret line="53" column="5" lean-forward="true" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+              <first_editor relative-caret-position="380">
+                <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
               </first_editor>
               <second_editor />
             </state>
@@ -57,8 +57,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="99" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="420" />
     <option name="y" value="-8" />
     <option name="width" value="853" />
     <option name="height" value="738" />
@@ -86,6 +86,17 @@
               <item name="docs" type="462c0819:PsiDirectoryNode" />
               <item name="1.0" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="pytorch-doc-zh" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pytorch-doc-zh" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+              <item name="1.0" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pytorch-doc-zh" type="b2602c69:ProjectViewProjectNode" />
+              <item name="代码" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -97,6 +108,11 @@
     <property name="last_opened_file_path" value="E:/常用文件/OCR之word转换xml或json/工作文件/代码" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.3953262" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\WorkSpaces\gitWork\pytorch-doc-zh\docs\1.0\img" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -152,16 +168,16 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.32142857" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.22916667" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3031625" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3031625" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -180,6 +196,26 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://E:/常用文件/OCR之word转换xml或json/工作文件/代码/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1558">
+          <caret line="85" selection-start-line="85" selection-end-line="86" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/1.0/Word Embeddings_Encoding Lexical Semantics.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="38">
+            <caret line="2" column="216" lean-forward="true" selection-start-line="2" selection-start-column="216" selection-end-line="2" selection-end-column="216" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://E:/常用文件/OCR之word转换xml或json/工作文件/代码/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1995">
@@ -344,8 +380,8 @@
     </entry>
     <entry file="file://E:/常用文件/OCR之word转换xml或json/工作文件/代码/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="105" column="62" selection-start-line="105" selection-start-column="57" selection-end-line="105" selection-end-column="62" />
+        <state relative-caret-position="1558">
+          <caret line="85" selection-start-line="85" selection-end-line="86" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
@@ -355,8 +391,8 @@
     <entry file="file://$PROJECT_DIR$/docs/1.0/Word Embeddings_Encoding Lexical Semantics.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="152">
-            <caret line="53" column="5" lean-forward="true" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+          <first_editor relative-caret-position="380">
+            <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
           </first_editor>
           <second_editor />
         </state>

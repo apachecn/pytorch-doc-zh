@@ -1,31 +1,28 @@
-# 词向量：编码形式的词汇语义
+# 词嵌入：编码形式的词汇语义
 
-词嵌入是由真实数字组成的稠密向量，每个向量都代表了单词表里的一个单词. 在自然语言处理中，总会遇到这样的情况：特征全是单词！ 但是，如何在电脑上描述一个单词呢？你在电脑上存储的是单词的ascii码，但是它仅仅代表单词怎么拼写，没有说明单词的内在含义(you might be able to derive its part of speech from its affixes, or properties from its capitalization, but not much). Even more, in what sense could you combine these representations? We often want dense outputs from our neural networks, where the inputs are `\(|V|\)` dimensional, where `\(V\)` is our vocabulary, but often the outputs are only a few dimensional (if we are only predicting a handful of labels, for instance). How do we get from a massive dimensional space to a smaller dimensional space?
+词嵌入是一种由真实数字组成的稠密向量，每个向量都代表了单词表里的一个单词. 在自然语言处理中，总会遇到这样的情况：特征全是单词！ 但是，如何在电脑上表述一个单词呢？你在电脑上存储的单词的ascii码，但是它仅仅代表单词怎么拼写，没有说明单词的内在含义(你也许能够从词缀中了解它的词性，或者从大小写中得到一些属性，但仅此而已). 更重要的是，你能把这些ascii码字符组合成什么含义？? 当V代表词汇表、输入数据是|V|维的情况下，我们往往想从神经网络中得到数据密集的结果，但是结果只有很少的几个维度（例如，预测的数据只有几个标签时）。我们如何从大的数据维度空间中得到稍小一点的维度空间？
 
-How about instead of ascii representations, we use a one-hot encoding? That is, we represent the word `\(w\)` by
+放弃使用ascii码字符的形式表示单词，换用one-hot encoding会怎么样了？好吧，W这个单词就能这样表示：
 
-```py
-\[\overbrace{\left[ 0, 0, \dots, 1, \dots, 0, 0 \right]}^\text{|V| elements}\]
-```
+cf775cf1814914c00f5bf7ada7de4369.gif
 
-where the 1 is in a location unique to `\(w\)`. Any other word will have a 1 in some other location, and a 0 everywhere else.
+其中，1就是表示w的独有位置，其他位置全是0。其他的词都类似，在另外不一样的位置有一个1代表它，其他位置也都是0。
+这种表达除了占用巨大的空间外，还有个很大的缺陷。 它只是简单的把词看做一个单独个体，认为它们之间毫无联系。 我们真正想要的是能够表达单词之间一些相似的含义。为什么要这样做呢？来看下面的例子：
 
-There is an enormous drawback to this representation, besides just how huge it is. It basically treats all words as independent entities with no relation to each other. What we really want is some notion of _similarity_ between words. Why? Let’s see an example.
-
-Suppose we are building a language model. Suppose we have seen the sentences
+假如我们正在搭建一个语言模型，训练数据有下面一些句子：
 
 *   The mathematician ran to the store.
 *   The physicist ran to the store.
 *   The mathematician solved the open problem.
 
-in our training data. Now suppose we get a new sentence never before seen in our training data:
+现在又得到一个没见过的新句子:
 
 *   The physicist solved the open problem.
 
-Our language model might do OK on this sentence, but wouldn’t it be much better if we could use the following two facts:
+我们的模型可能在这个句子上表现的还不错，但是，如果利用了下面两个事实，模型会表现更佳：
 
-*   We have seen mathematician and physicist in the same role in a sentence. Somehow they have a semantic relation.
-*   We have seen mathematician in the same role in this new unseen sentence as we are now seeing physicist.
+*   我们发现数学家和物理学家在句子里有相同的作用，所以在某种程度上，他们有语义的联系。
+*   当看见物理学家在新句子中的作用时，我们发现数学家也有起着相同的作用。
 
 and then infer that physicist is actually a good fit in the new unseen sentence? This is what we mean by a notion of similarity: we mean _semantic similarity_, not simply having similar orthographic representations. It is a technique to combat the sparsity of linguistic data, by connecting the dots between what we have seen and what we haven’t. This example of course relies on a fundamental linguistic assumption: that words appearing in similar contexts are related to each other semantically. This is called the [distributional hypothesis](https://en.wikipedia.org/wiki/Distributional_semantics).
 
