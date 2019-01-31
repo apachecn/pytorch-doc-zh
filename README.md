@@ -17,7 +17,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
     +   [片刻](https://github.com/jiangzhonglian)：529815144
     +   [咸鱼](https://github.com/)：1034616238
 *   在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.
-*   发邮件到 Email: `apachecn#163.com`.
+*   发邮件到 Email: `apachecn@163.com`.
 *   在我们的 [组织学习交流群](http://www.apachecn.org/organization/348.html) 中联系群主/管理员即可.
 
 ## 赞助我们

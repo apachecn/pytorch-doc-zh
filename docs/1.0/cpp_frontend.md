@@ -1,46 +1,46 @@
+# 使用 PyTorch C++ 前端
 
+> 译者：[solerji](https://github.com/solerji)
 
-# Using the PyTorch C++ Frontend
+PyTorch C++ 前端 是PyTorch机器学习框架的一个纯C++接口。PyTorch的主接口是Python，Python API位于一个基础的C++代码库之上，提供了基本的数据结构和功能，例如张量和自动求导。C++前端暴露了一个纯的C++11的API，在C++底层代码库之上扩展了机器学习训练和推理所需的工具扩展。这包括用于神经网络建模的内置组件集合；扩展此集合的自定义模块API；流行的优化算法库（如随机梯度下降）；使用API定义和加载数据集的并行数据加载程序；序列化例行程序等等。
 
-The PyTorch C++ frontend is a pure C++ interface to the PyTorch machine learning framework. While the primary interface to PyTorch naturally is Python, this Python API sits atop a substantial C++ codebase providing foundational data structures and functionality such as tensors and automatic differentiation. The C++ frontend exposes a pure C++11 API that extends this underlying C++ codebase with tools required for machine learning training and inference. This includes a built-in collection of common components for neural network modeling; an API to extend this collection with custom modules; a library of popular optimization algorithms such as stochastic gradient descent; a parallel data loader with an API to define and load datasets; serialization routines and more.
+本教程将为您介绍一个用C++ 前端对模型进行训练的端到端示例。具体地说，我们将训练一个 DCGAN——一种生成模型——来生成 MNIST数字的图像。虽然看起来这是一个简单的例子，但它足以让你对 PyTorch C++ frontend有一个深刻的认识，并勾起你对训练更复杂模型的兴趣。我们将从设计它的原因开始，告诉你为什么你应该使用C++前端，然后直接深入解释和训练我们的模型。
 
-This tutorial will walk you through an end-to-end example of training a model with the C++ frontend. Concretely, we will be training a [DCGAN](https://arxiv.org/abs/1511.06434) – a kind of generative model – to generate images of MNIST digits. While conceptually a simple example, it should be enough to give you a whirlwind overview of the PyTorch C++ frontend and wet your appetite for training more complex models. We will begin with some motivating words for why you would want to use the C++ frontend to begin with, and then dive straight into defining and training our model.
+小贴士
 
-Tip
+可以在 [this lightning talk from CppCon 2018](https://www.youtube.com/watch?v=auRPXMMHJzc) 网站观看有关C++前端的快速介绍。
 
-Watch [this lightning talk from CppCon 2018](https://www.youtube.com/watch?v=auRPXMMHJzc) for a quick (and humorous) presentation on the C++ frontend.
+小贴士
 
-Tip
+[这份笔记](https://pytorch.org/cppdocs/frontend.html)提供了C++前端组件和设计理念的全面概述。
 
-[This note](https://pytorch.org/cppdocs/frontend.html) provides a sweeping overview of the C++ frontend’s components and design philosophy.
+小贴士
 
-Tip
+在 <https://pytorch.org/cppdocs>你可以找到工作人员的API说明文档，这些PyTorch C++ 生态系统的文档是很有用的。
 
-Documentation for the PyTorch C++ ecosystem is available at [https://pytorch.org/cppdocs](https://pytorch.org/cppdocs). There you can find high level descriptions as well as API-level documentation.
+## 动机
 
-## Motivation
+在我们开始令人兴奋的GANs和MNIST数字的旅程之前，让我们往回看，讨论一下为什么我们一开始要使用C++前端而不是Python。我们（the PyTorch team）创建了C++前端，以便在不能使用Python的环境中或者是没有适合该作业的工具的情况下进行研究。此类环境的示例包括：
 
-Before we embark on our exciting journey of GANs and MNIST digits, let’s take a step back and discuss why you would want to use the C++ frontend instead of the Python one to begin with. We (the PyTorch team) created the C++ frontend to enable research in environments in which Python cannot be used, or is simply not the right tool for the job. Examples for such environments include:
+*   **低延迟系统：**您可能希望在具有高帧/秒和低延迟的要求的纯C++游戏引擎中进行强化学习研究。由于Python解释器的速度慢，Python可能根本无法被跟踪，使用纯C++库这样的环境比Python库更合适。
+*    **高度多线程环境：**由于全局解释器锁（GIL），一次不能运行多个系统线程。多道处理是另一种选择，但它不具有可扩展性，并且有显著的缺点。C++没有这样的约束，线程易于使用和创建。需要大量并行化的模型，像那些用于深度神经进化 [Deep Neuroevolution](https://eng.uber.com/deep-neuroevolution/)的模型，可以从中受益。
+*   **现有的C++代码库：**您可能是一个现有的C++应用程序的所有者，在后台服务器上为Web页面提供服务，以在照片编辑软件中绘制3D图形，并希望将机器学习方法集成到您的系统中。C++前端允许您保留在C++中，免除了在Python和C++之间来回绑定的麻烦，同时保留了传统 PyTorch（Python）体验的大部分灵活性和直观性。
 
-*   **Low Latency Systems**: You may want to do reinforcement learning research in a pure C++ game engine with high frames-per-second and low latency requirements. Using a pure C++ library is a much better fit to such an environment than a Python library. Python may not be tractable at all because of the slowness of the Python interpreter.
-*   **Highly Multithreaded Environments**: Due to the Global Interpreter Lock (GIL), Python cannot run more than one system thread at a time. Multiprocessing is an alternative, but not as scalable and has significant shortcomings. C++ has no such constraints and threads are easy to use and create. Models requiring heavy parallelization, like those used in [Deep Neuroevolution](https://eng.uber.com/deep-neuroevolution/), can benefit from this.
-*   **Existing C++ Codebases**: You may be the owner of an existing C++ application doing anything from serving web pages in a backend server to rendering 3D graphics in photo editing software, and wish to integrate machine learning methods into your system. The C++ frontend allows you to remain in C++ and spare yourself the hassle of binding back and forth between Python and C++, while retaining much of the flexibility and intuitiveness of the traditional PyTorch (Python) experience.
+C++前端不打算与Python前端竞争，它是为了补充Python前端。我们知道由于它简单、灵活和直观的API研究人员和工程师都喜欢PyTorch。我们的目标是确保您可以在每个可能的环境中利用这些核心设计原则，包括上面描述的那些。如果这些场景中的一个描述了你的用例，或者如果你只是感兴趣的话，跟着我们在下面的文章中详细探究C++前端。
 
-The C++ frontend is not intended to compete with the Python frontend. It is meant to complement it. We know researchers and engineers alike love PyTorch for its simplicity, flexibility and intuitive API. Our goal is to make sure you can take advantage of these core design principles in every possible environment, including the ones described above. If one of these scenarios describes your use case well, or if you are simply interested or curious, follow along as we explore the C++ frontend in detail in the following paragraphs.
+小贴士
 
-Tip
+C++前端试图提供尽可能接近Python前端的API。如果你对Python前端有经验，并且想知道：“我如何用C++前端做这个东西？”你可以以Python的方式编写代码，在Python中，通常可以使用与C++相同的函数和方法（只要记住用双冒号替换点）。
 
-The C++ frontend tries to provide an API as close as possible to that of the Python frontend. If you are experienced with the Python frontend and ever ask yourself “how do I do X with the C++ frontend?”, write your code the way you would in Python, and more often than not the same functions and methods will be available in C++ as in Python (just remember to replace dots with double colons).
+## 编写基本应用程序
 
-## Writing a Basic Application
+让我们开始编写一个小的C++应用程序，以验证我们在安装和构建环境上是一致的。首先，您需要获取 *LibTorch*分发的副本——我们已经准备好了ZIP存档，它封装了使用C++前端所需的所有相关的头文件、库和 CMake 构建文件。Libtorch发行版可在Linux, MacOS 和 Windows的[PyTorch website](https://pytorch.org/get-started/locally/)上下载。本教程的其余部分将假设一个基本的Ubuntu Linux环境，您也可以在MacOS或Windows上继续自由地学习。
 
-Let’s begin by writing a minimal C++ application to verify that we’re on the same page regarding our setup and build environment. First, you will need to grab a copy of the _LibTorch_ distribution – our ready-built zip archive that packages all relevant headers, libraries and CMake build files required to use the C++ frontend. The LibTorch distribution is available for download on the [PyTorch website](https://pytorch.org/get-started/locally/) for Linux, MacOS and Windows. The rest of this tutorial will assume a basic Ubuntu Linux environment, however you are free to follow along on MacOS or Windows too.
+小贴士
 
-Tip
+关于安装PyTrac C++  在 [Installing C++ Distributions of PyTorch](https://pytorch.org/cppdocs/installing.html) 的文档更详细地描述了以下步骤。
 
-The note on [Installing C++ Distributions of PyTorch](https://pytorch.org/cppdocs/installing.html) describes the following steps in more detail.
-
-The first step is to download the LibTorch distribution locally, via the link retrieved from the PyTorch website. For a vanilla Ubuntu Linux environment, this means running:
+第一步是通过从PyTorch网站检索到的链接在本地下载 LibTorch发行版。对于普通的Ubuntu Linux环境，这意味着运行：
 
 ```py
 wget https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
@@ -48,7 +48,7 @@ unzip libtorch-shared-with-deps-latest.zip
 
 ```
 
-Next, let’s write a tiny C++ file called `dcgan.cpp` that includes `torch/torch.h` and for now simply prints out a three by three identity matrix:
+接下来，让我们编写一个名为 `dcgan.cpp` 的小型C++文件，它包括 `torch/torch.h` ，现在只需打印出三×三的身份矩阵：
 
 ```py
 #include <torch/torch.h>
@@ -61,7 +61,7 @@ int main() {
 
 ```
 
-To build this tiny application as well as our full-fledged training script later on we’ll use this `CMakeLists.txt` file:
+我们将使用`CMakeLists.txt`文件构建这个小应用程序以及我们稍后的完整训练脚本：
 
 ```py
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
@@ -75,20 +75,19 @@ set_property(TARGET dcgan PROPERTY CXX_STANDARD 11)
 
 ```
 
-Note
+笔记
 
-While CMake is the recommended build system for LibTorch, it is not a hard requirement. You can also use Visual Studio project files, QMake, plain Makefiles or any other build environment you feel comfortable with. However, we do not provide out-of-the-box support for this.
+虽然CMake是LibTorch推荐的构建系统，但这并不是一个硬性要求。您还可以使用Visual Studio项目文件、Qmake、plain Makefiles或任何其他您觉得合适的构建环境。但是，我们不提供开箱即用的支持。
 
-Make note of line 4 in the above CMake file: `find_package(Torch REQUIRED)`. This instructs CMake to find the build configuration for the LibTorch library. In order for CMake to know _where_ to find these files, we must set the `CMAKE_PREFIX_PATH` when invoking `cmake`. Before we do this, let’s agree on the following directory structure for our `dcgan` application:
+记下上述CMake文件中的第4行： `find_package(Torch REQUIRED)`.。这将指示CMake查找LibTorch库的构建配置。为了让CMake知道在哪里找到这些文件，我们必须在调用 `cmake`时设置   `CMAKE_PREFIX_PATH`  。在进行此操作之前，让我们就 `dcgan`应用程序的以下目录结构达成一致：
 
 ```py
 dcgan/
   CMakeLists.txt
   dcgan.cpp
-
 ```
 
-Further, I will refer to the path to the unzipped LibTorch distribution as `/path/to/libtorch`. Note that this **must be an absolute path**. In particular, setting `CMAKE_PREFIX_PATH` to something like `../../libtorch` will break in unexpected ways. Instead, write `$PWD/../../libtorch` to get the corresponding absolute path. Now, we are ready to build our application:
+此外，我将特别指出解压LibTorch分发的路径 `/path/to/libtorch`。**请注意，这必须是绝对路径。**我们用编写 `$PWD/../../libtorch` 的做法获取相应的绝对路径；如果将 `CMAKE_PREFIX_PATH` 设置为`../../libtorch`它将以意想不到的方式中断。现在，我们已经准备好构建我们的应用程序：
 
 ```py
 root@fa350df05ecf:/home# mkdir build
@@ -126,10 +125,9 @@ Scanning dependencies of target dcgan
 [ 50%] Building CXX object CMakeFiles/dcgan.dir/dcgan.cpp.o
 [100%] Linking CXX executable dcgan
 [100%] Built target dcgan
-
 ```
 
-Above, we first created a `build` folder inside of our `dcgan` directory, entered this folder, ran the `cmake` command to generate the necessary build (Make) files and finally compiled the project successfully by running `make -j`. We are now all set to execute our minimal binary and complete this section on basic project configuration:
+在上文，我们首先在 `dcgan` 目录中创建了一个 `build` 文件夹，然后进入这个文件夹，运行 `cmake` 命令生成必要的build（Make）文件，最后通过运行 `make -j`.成功编译了项目。现在，我们将项目设置为执行最小的二进制文件，基本项目配置这一部分就完成了：
 
 ```py
 root@fa350df05ecf:/home/build# ./dcgan
@@ -140,23 +138,23 @@ root@fa350df05ecf:/home/build# ./dcgan
 
 ```
 
-Looks like an identity matrix to me!
+在我看来它就像一个身份矩阵！
 
-## Defining the Neural Network Models
+## 定义神经网络模型
 
-Now that we have our basic environment configured, we can dive into the much more interesting parts of this tutorial. First, we will discuss how to define and interact with modules in the C++ frontend. We’ll begin with basic, small-scale example modules and then implement a full-fledged GAN using the extensive library of built-in modules provided by the C++ frontend.
+既然我们已经配置了基本环境，那么我们可以深入了解本教程中更有趣的部分。首先，我们将讨论如何在C++前端中定义和交互模块。我们将从基本的、小规模的示例模块开始，然后使用C++前端提供的内置模块的广泛库来实现一个成熟的GAN。
 
-### Module API Basics
+### 模块API基础知识
 
-In line with the Python interface, neural networks based on the C++ frontend are composed of reusable building blocks called _modules_. There is a base module class from which all other modules are derived. In Python, this class is `torch.nn.Module` and in C++ it is `torch::nn::Module`. Besides a `forward()` method that implements the algorithm the module encapsulates, a module usually contains any of three kinds of sub-objects: parameters, buffers and submodules.
+依据Python接口，基于C++前端的神经网络由可重用的模块组成，称为*模块*。它有一个基本模块类，从中派生所有其他模块。在Python中，这个类是 `torch.nn.Module` ，在C++中是 `torch::nn::Module`模块。除了实现模块封装的算法的 `forward()` 方法外，模块通常还包含三种子对象：参数、缓冲区和子模块。
 
-Parameters and buffers store state in form of tensors. Parameters record gradients, while buffers do not. Parameters are usually the trainable weights of your neural network. Examples of buffers include means and variances for batch normalization. In order to re-use particular blocks of logic and state, the PyTorch API allows modules to be nested. A nested module is termed a _submodule_.
+参数和缓冲区以张量的形式存储状态。参数记录，而缓冲区不记录。参数通常是神经网络的可训练权重。缓冲区的示例包括用于批处理规范化的平均值和方差。为了重用特定的逻辑块和状态块，PyTorch API允许嵌套模块。嵌套模块称为_子模块_。
 
-Parameters, buffers and submodules must be explicitly registered. Once registered, methods like `parameters()` or `buffers()` can be used to retrieve a container of all parameters in the entire (nested) module hierarchy. Similarly, methods like `to(...)`, where e.g. `to(torch::kCUDA)` moves all parameters and buffers from CPU to CUDA memory, work on the entire module hierarchy.
+必须显式注册参数、缓冲区和子模块。注册后，可以使用`parameters()` or `buffers()`等方法来检索整个（嵌套）模块层次结构中所有参数的容器。类似地，类似于 `to(...)`的方法（例如 `to(torch::kCUDA)` 将所有参数和缓冲区从CPU移动到CUDA内存）在整个模块层次结构上工作。
 
-#### Defining a Module and Registering Parameters
+#### 定义模块并注册参数
 
-To put these words into code, let’s consider this simple module written in the Python interface:
+为了将这些随机数放入代码中，让我们考虑一下在Python接口中编写这个简单模块：
 
 ```py
 import torch
@@ -172,7 +170,7 @@ class Net(torch.nn.Module):
 
 ```
 
-In C++, it would look like this:
+在C++中它长这样：
 
 ```py
 #include <torch/torch.h>
@@ -190,11 +188,11 @@ struct Net : torch::nn::Module {
 
 ```
 
-Just like in Python, we define a class called `Net` (for simplicity here a `struct` instead of a `class`) and derive it from the module base class. Inside the constructor, we create tensors using `torch::randn` just like we use `torch.randn` in Python. One interesting difference is how we register the parameters. In Python, we wrap the tensors with the `torch.nn.Parameter` class, while in C++ we have to pass the tensor through the `register_parameter` method instead. The reason for this is that the Python API can detect that an attribute is of type `torch.nn.Parameter` and automatically registers such tensors. In C++, reflection is very limited, so a more traditional (and less magical) approach is provided.
+就像在Python中一样，我们定义了一个类 `Net`  （为了简单起见，这里是 `struct` 而不是一个 `class`）并从模块基类派生它。在构造函数内部，我们使用 `torch::randn` 创建张量，就像在Python中使用`torch.randn`一样。一个有趣的区别是我们如何注册参数。在Python中，我们用`torch.nn.Parameter`类来包装张量，而在C++中，我们必须通过 `register_parameter` 参数方法来传递张量。原因是Python API可以检测到属性的类型为 `torch.nn.Parameter` ，并自动注册这些张量。在C++中，反射是非常有限的，因此提供了一种更传统的（和不太神奇的）方法。
 
-#### Registering Submodules and Traversing the Module Hierarchy
+#### 注册子模块并遍历模块层次结构
 
-In the same way we can register parameters, we can also register submodules. In Python, submodules are automatically detected and registered when they are assigned as an attribute of a module:
+同样，我们可以注册参数，也可以注册子模块。在Python中，当子模块被指定为模块的属性时，将自动检测和注册子模块：
 
 ```py
 class Net(torch.nn.Module):
@@ -209,7 +207,7 @@ class Net(torch.nn.Module):
 
 ```
 
-This allows, for example, to use the `parameters()` method to recursively access all parameters in our module hierarchy:
+例如，这允许使用 `parameters()` 方法递归访问模块层次结构中的所有参数：
 
 ```py
 >>> net = Net(4, 5)
@@ -225,7 +223,7 @@ tensor([ 0.2038,  0.4638, -0.2023,  0.1230, -0.0516], requires_grad=True)]
 
 ```
 
-To register submodules in C++, use the aptly named `register_module()` method to register a module like `torch::nn::Linear`:
+为了在C++中注册子模块，使用恰当命名的 `register_module()` 方法注册一个就像 `torch::nn::Linear`:的模块。
 
 ```py
 struct Net : torch::nn::Module {
@@ -242,11 +240,11 @@ struct Net : torch::nn::Module {
 
 ```
 
-Tip
+小贴士
 
-You can find the full list of available built-in modules like `torch::nn::Linear`, `torch::nn::Dropout` or `torch::nn::Conv2d` in the documentation of the `torch::nn` namespace [here](https://pytorch.org/cppdocs/api/namespace_torch__nn.html).
+您可以在这里的 `torch::nn` 命名空间文档中找到可用内置模块的完整列表，如 `torch::nn::Linear`, `torch::nn::Dropout` 和 `torch::nn::Conv2d` 。
 
-One subtlety about the above code is why the submodule was created in the constructor’s initializer list, while the parameter was created inside the constructor body. There is a good reason for this, which we’ll touch upon this in the section on the C++ frontend’s _ownership model_ further below. The end result, however, is that we can recursively access our module tree’s parameters just like in Python. Calling `parameters()` returns a `std::vector&lt;torch::Tensor&gt;`, which we can iterate over:
+上面代码的一个微妙之处就是，为什么我们要在构造函数的初始值设定项列表中创建子模块，而在构造函数主体中创建参数。这是一个很好的理由，我们将在下面进一步讨论C++前端的 *ownership model* 。最终，我们可以像在Python中那样递归地访问树的模块的参数。调用参数 `parameters()` 返回一个我们可以迭代的 `std::vector&lt;torch::Tensor&gt;`：
 
 ```py
 int main() {
@@ -258,7 +256,7 @@ int main() {
 
 ```
 
-which prints:
+输出的结果是：
 
 ```py
 root@fa350df05ecf:/home/build# ./dcgan
@@ -284,7 +282,7 @@ root@fa350df05ecf:/home/build# ./dcgan
 
 ```
 
-with three parameters just like in Python. To also see the names of these parameters, the C++ API provides a `named_parameters()` method which returns an `OrderedDict` just like in Python:
+就像在Python中一样这里有三个参数。为了看到这些参数的名称，C++ API提供了一个 `named_parameters()`参数方法，它像Python一样返回 `named_parameters()`：
 
 ```py
 Net net(4, 5);
@@ -294,7 +292,7 @@ for (const auto& pair : net.named_parameters()) {
 
 ```
 
-which we can execute again to see the output:
+我们可以再次执行来查看输出：
 
 ```py
 root@fa350df05ecf:/home/build# make && ./dcgan                                                                                                                                            11:13:48
@@ -323,13 +321,13 @@ linear.bias: -0.0250
 
 ```
 
-Note
+笔记
 
-[The documentation](https://pytorch.org/cppdocs/api/classtorch_1_1nn_1_1_module.html#exhale-class-classtorch-1-1nn-1-1-module) for `torch::nn::Module` contains the full list of methods that operate on the module hierarchy.
+`torch::nn::Module` 的[文档](https://pytorch.org/cppdocs/api/classtorch_1_1nn_1_1_module.html#exhale-class-classtorch-1-1nn-1-1-module) 包含在模块层次结构上操作的方法的完整清单。
 
-#### Running the Network in Forward Mode
+####  在正向模式中运行网络
 
-To execute the network in C++, we simply call the `forward()` method we defined ourselves:
+为了在C++中运行网络，我们只需调用我们定义的 `forward()` 方法：
 
 ```py
 int main() {
@@ -339,7 +337,7 @@ int main() {
 
 ```
 
-which prints something like:
+输出内容如下：
 
 ```py
 root@fa350df05ecf:/home/build# ./dcgan
@@ -349,13 +347,13 @@ root@fa350df05ecf:/home/build# ./dcgan
 
 ```
 
-#### Module Ownership
+#### 模块所有权
 
-At this point, we know how to define a module in C++, register parameters, register submodules, traverse the module hierarchy via methods like `parameters()` and finally run the module’s `forward()` method. While there are many more methods, classes and topics to devour in the C++ API, I will refer you to [docs](https://pytorch.org/cppdocs/api/namespace_torch__nn.html) for the full menu. We’ll also touch upon some more concepts as we implement the DCGAN model and end-to-end training pipeline in just a second. Before we do so, let me briefly touch upon the _ownership model_ the C++ frontend provides for subclasses of `torch::nn::Module`.
+现在，我们知道如何定义C++中的模块、寄存器参数、寄存器子模块、通过参数 `parameters()` 等方法遍历模块层次结构，和最后运行模块的 `forward()` 方法。在C++ API中有更多的方法、类和主题要我们思考，但接下来我会向你介绍完整清单 [文档](https://pytorch.org/cppdocs/api/namespace_torch__nn.html) 。我们在一秒钟内实现 DCGAN模型和端到端训练管道的同时，还将涉及更多的概念。在我们这样做之前，让我简单地介绍一下C++前端的所有权模型，它提供了 `torch::nn::Module`.模块的子类。
 
-For this discussion, the ownership model refers to the way modules are stored and passed around – which determines who or what _owns_ a particular module instance. In Python, objects are always allocated dynamically (on the heap) and have reference semantics. This is very easy to work with and straightforward to understand. In fact, in Python, you can largely forget about where objects live and how they get referenced, and focus on getting things done.
+对于这个论述，所有权模型指的是模块的存储和传递方式，它决定了谁或什么拥有一个特定的模块实例。在Python中，对象总是动态分配（在堆上）并具有引用语义。这很容易操作，也很容易理解。事实上，在Python中，您大可以忘记对象的位置以及它们是如何被引用的，而更专注于完成工作。
 
-C++, being a lower level language, provides more options in this realm. This increases complexity and heavily influences the design and ergonomics of the C++ frontend. In particular, for modules in the C++ frontend, we have the option of using _either_ value semantics _or_ reference semantics. The first case is the simplest and was shown in the examples thus far: module objects are allocated on the stack and when passed to a function, can be either copied, moved (with `std::move`) or taken by reference or by pointer:
+C++是一种这个领域提供了更多的选择的低级语言。它更加了复杂，并严重影响了C++前端的设计和人机工程学。特别地，对于C++前端中的模块，我们可以选择使用值语义或引用语义。第一种情况是最简单的，并在迄今为止的示例中显示：当传递给函数时，在堆栈上分配的模块对象，可以复制、移动（使用 `std::move`)）或通过引用和指针获取：
 
 ```py
 struct Net : torch::nn::Module { };
@@ -374,7 +372,7 @@ int main() {
 
 ```
 
-For the second case – reference semantics – we can use `std::shared_ptr`. The advantage of reference semantics is that, like in Python, it reduces the cognitive overhead of thinking about how modules must be passed to functions and how arguments must be declared (assuming you use `shared_ptr` everywhere).
+对于第二种情况——引用语义——我们可以使用 `std::shared_ptr`.。引用语义的优点在于，与Python一样，它减少了认知模块如何传递给函数以及如何声明参数（假设在任何地方都使用`shared_ptr` ）。
 
 ```py
 struct Net : torch::nn::Module {};
@@ -388,7 +386,7 @@ int main() {
 
 ```
 
-In our experience, researchers coming from dynamic languages greatly prefer reference semantics over value semantics, even though the latter is more “native” to C++. It is also important to note that `torch::nn::Module`’s design, in order to stay close to the ergonomics of the Python API, relies on shared ownership. For example, take our earlier (here shortened) definition of `Net`:
+据以往经验，来自动态语言的研究人员更倾向于引用语义而不是值语义，即使后者对于而言C++更为“本土”。还需要注意的是，为了接近PythonAPI的人机工程学，`torch::nn::Module`的设计依赖于所有权的共享。例如，以我们之前（此处简称）对`Net`的定义为例：
 
 ```py
 struct Net : torch::nn::Module {
@@ -400,9 +398,9 @@ struct Net : torch::nn::Module {
 
 ```
 
-In order to use the `linear` submodule, we want to store it directly in our class. However, we also want the module base class to know about and have access to this submodule. For this, it must store a reference to this submodule. At this point, we have already arrived at the need for shared ownership. Both the `torch::nn::Module` class and concrete `Net` class require a reference to the submodule. For this reason, the base class stores modules as `shared_ptr`s, and therefore the concrete class must too.
+为了使用 `linear` 子模块，我们希望将其直接存储在我们的类中。但是，我们也希望模块基类了解并能够访问这个子模块。为此，它必须存储对此子模块的引用。在这一点上，我们已经达到了所有权共享的需求。 `torch::nn::Module` 类和 具体类 `Net` 都需要引用子模块。因此，基类将模块存储为`shared_ptr`，具体的类也必须存储。
 
-But wait! I don’t see any mention of `shared_ptr` in the above code! Why is that? Well, because `std::shared_ptr&lt;MyModule&gt;` is a hell of a lot to type. To keep our researchers productive, we came up with an elaborate scheme to hide the mention of `shared_ptr` – a benefit usually reserved for value semantics – while retaining reference semantics. To understand how this works, we can take a look at a simplified definition of the `torch::nn::Linear` module in the core library (the full definition is [here](https://github.com/pytorch/pytorch/blob/master/torch/csrc/api/include/torch/nn/modules/linear.h)):
+等等！在上面的代码中我没有看到它提及共享资源！为什么会这样？因为`std::shared_ptr&lt;MyModule&gt;`是一个很难输入的类型。为了保持研究人员的工作效率，我们提出了一个精心设计的方案来隐藏应该提及的共享资源——这是保留值语义的好处，它同时保留了引用语义。要了解这是如何工作的，我们可以查看核心库中`torch::nn::Linear`模块的简化定义（完整定义如下）：
 
 ```py
 struct LinearImpl : torch::nn::Module {
@@ -417,7 +415,7 @@ TORCH_MODULE(Linear);
 
 ```
 
-In brief: the module is not called `Linear`, but `LinearImpl`. A macro, `TORCH_MODULE` then defines the actual `Linear` class. This “generated” class is effectively a wrapper over a `std::shared_ptr&lt;LinearImpl&gt;`. It is a wrapper instead of a simple typedef so that, among other things, constructors still work as expected, i.e. you can still write `torch::nn::Linear(3, 4)` instead of `std::make_shared&lt;LinearImpl&gt;(3, 4)`. We call the class created by the macro the module _holder_. Like with (shared) pointers, you access the underlying object using the arrow operator (like `model-&gt;forward(...)`). The end result is an ownership model that resembles that of the Python API quite closely. Reference semantics become the default, but without the extra typing of `std::shared_ptr` or `std::make_shared`. For our `Net`, using the module holder API looks like this:
+简而言之：模块不是 `Linear`,而是 `LinearImpl`.。它是一个宏定义，即 `TORCH_MODULE` 定义的真正的  `Linear` 。这个“生成的”类实际上是`std::shared_ptr&lt;LinearImpl&gt;`的封装。它是一个封装，而不是一个简单的类型定义，因此，构造函数仍然可以按预期工作，即您仍然可以编写 `torch::nn::Linear(3, 4)`而不需要写 `std::make_shared&lt;LinearImpl&gt;(3, 4)`。我们将宏创建的类称为模块容器。与（共享）指针类似，您可以使用箭头操作符（如 `model-&gt;forward(...)`)访问基础对象。最终的结果是一个与PythonAPI非常相似的所有权模型。引用语义成为默认语义，但不需要额外输入`std::shared_ptr` 或者 `std::make_shared`。对于我们的网络，使用模块保持器API如下所示：
 
 ```py
 struct NetImpl : torch::nn::Module {};
@@ -432,9 +430,9 @@ int main() {
 
 ```
 
-There is one subtle issue that deserves mention here. A default constructed `std::shared_ptr` is “empty”, i.e. contains a null pointer. What is a default constructed `Linear` or `Net`? Well, it’s a tricky choice. We could say it should be an empty (null) `std::shared_ptr&lt;LinearImpl&gt;`. However, recall that `Linear(3, 4)` is the same as `std::make_shared&lt;LinearImpl&gt;(3, 4)`. This means that if we had decided that `Linear linear;` should be a null pointer, then there would be no way to construct a module that does not take any constructor arguments, or defaults all of them. For this reason, in the current API, a default constructed module holder (like `Linear()`) invokes the default constructor of the underlying module (`LinearImpl()`). If the underlying module does not have a default constructor, you get a compiler error. To instead construct the empty holder, you can pass `nullptr` to the constructor of the holder.
+这里有一个微妙的问题值得一提。默认构造的 `std::shared_ptr` 为“空”，即包含空指针。什么是默认构造的 `Linear` 或者`Net`？嗯，这是一个棘手的选择。我们可以说它应该是一个空的（空） `std::shared_ptr&lt;LinearImpl&gt`。但是，请记住， `Linear(3, 4)` 与 `std::make_shared&lt;LinearImpl&gt;(3, 4)`相同。这意味着，如果我们已经决定 `Linear linear`；应该是一个空指针，那么就没有办法构造一个不接受任何构造函数参数的模块，或者默认所有这些参数。因此，在当前API中，默认构造的模块持有者（如 `Linear()`) ）调用底层模块的默认构造函数（`LinearImpl()`）。如果底层模块没有默认的构造函数，则会得到一个编译器错误。要构造空容器，可以将`nullptr`传递给容器的构造函数。
 
-In practice, this means you can use submodules either like shown earlier, where the module is registered and constructed in the _initializer list_:
+实际上，这意味着您可以使用前面所示的子模块，其中模块在初始值 _initializer list_中注册和构造：
 
 ```py
 struct Net : torch::nn::Module {
@@ -446,7 +444,7 @@ struct Net : torch::nn::Module {
 
 ```
 
-or you can first construct the holder with a null pointer and then assign to it in the constructor (more familiar for Pythonistas):
+或者，您可以先用一个空指针构造所有者，然后在构造函数中分配给它（对Pythonistas更熟悉）：
 
 ```py
 struct Net : torch::nn::Module {
@@ -455,26 +453,25 @@ struct Net : torch::nn::Module {
   }
   torch::nn::Linear linear{nullptr}; // construct an empty holder
 };
-
 ```
 
-In conclusion: Which ownership model – which semantics – should you use? The C++ frontend’s API best supports the ownership model provided by module holders. The only disadvantage of this mechanism is one extra line of boilerplate below the module declaration. That said, the simplest model is still the value semantics model shown in the introduction to C++ modules. For small, simple scripts, you may get away with it too. But you’ll find sooner or later that, for technical reasons, it is not always supported. For example, the serialization API (`torch::save` and `torch::load`) only supports module holders (or plain `shared_ptr`). As such, the module holder API is the recommended way of defining modules with the C++ frontend, and we will use this API in this tutorial henceforth.
+总之：您应该使用哪种所有权模型——哪种语义？C++前端的API最优化支持模块持有者提供的所有权模型。这种机制的唯一缺点是在模块声明下面多了一行样板文件。也就是说，最简单的模型仍然是在C++模块的介绍中所显示的值语义模型。对于小的、简单的脚本，您也可以摆脱它。但你迟早会发现，出于技术原因，并不总是支持它。例如，序列化API(`torch::save` 和 `torch::load`)只支持模块持有者（或纯 `shared_ptr`）。因此，模块持有者API是用C++前端定义模块的推荐方式，今后我们将在本教程中使用该API。
 
-### Defining the DCGAN Modules
+### 定义DCGAN模块
 
-We now have the necessary background and introduction to define the modules for the machine learning task we want to solve in this post. To recap: our task is to generate images of digits from the [MNIST dataset](http://yann.lecun.com/exdb/mnist/). We want to use a [generative adversarial network (GAN)](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf) to solve this task. In particular, we’ll use a [DCGAN architecture](https://arxiv.org/abs/1511.06434) – one of the first and simplest of its kind, but entirely sufficient for this task.
+现在，我们有了必要的背景和介绍，来为我们在本篇文章中要解决的机器学习任务定义模块。回顾一下：我们的任务是从[MNIST 数据集](http://yann.lecun.com/exdb/mnist/)中生成数字图像。我们想用[生成对抗网络 (GAN)](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf) 来解决这个问题。特别是，我们将使用一个 [DCGAN 体系结构](https://arxiv.org/abs/1511.06434)——它是第一个也是最简单的体系结构之一，但对于这个任务来说已经完全足够了。
 
-Tip
+小贴士
 
-You can find the full source code presented in this tutorial [in this repository](https://github.com/pytorch/examples/tree/master/cpp/dcgan).
+您可以在此 [存储库](https://github.com/pytorch/examples/tree/master/cpp/dcgan)中找到本教程中介绍的完整源代码。
 
-#### What was a GAN aGAN?
+#### 什么是 GAN aGAN？
 
-A GAN consists of two distinct neural network models: a _generator_ and a _discriminator_. The generator receives samples from a noise distribution, and its aim is to transform each noise sample into an image that resembles those of a target distribution – in our case the MNIST dataset. The discriminator in turn receives either _real_ images from the MNIST dataset, or _fake_ images from the generator. It is asked to emit a probability judging how real (closer to `1`) or fake (closer to `0`) a particular image is. Feedback from the discriminator on how real the images produced by the generator are is used to train the generator. Feedback on how good of an eye for authenticity the discriminator has is used to optimize the discriminator. In theory, a delicate balance between the generator and discriminator makes them improve in tandem, leading to the generator producing images indistinguishable from the target distribution, fooling the discriminator’s (by then) excellent eye into emitting a probability of `0.5` for both real and fake images. For us, the end result is a machine that receives noise as input and generates realistic images of digits as its output.
+GAN由两个不同的神经网络模型组成：发生器和鉴别器。生成器接收来自噪声分布的样本，其目的是将每个噪声样本转换为类似于目标分布的图像——在我们的例子中是MNIST数据集。鉴别器反过来接收来自MNIST数据集的真实图像或来自生成器的假图像。它被要求发出一个概率来判断一个特定图像是真实的（接近 `1`)）还是虚假的（接近 `0`)）。从鉴别器上得到的生成器生成图片的真实度的反馈被用来训练生成器；鉴别器的辨识度的反馈已经被用来优化鉴别器。理论上，发生器和鉴别器之间的微妙平衡使它们串联改进，导致发生器生成的图像与目标分布不可区分，从而愚弄鉴别器的辨识，使真实和虚假图像的概率均为 `0.5` 。对于我们来说，最终的结果是一台机器，它接收噪声作为输入，并生成数字的真实图像作为输出。
 
-#### The Generator Module
+#### 生成器模块
 
-We begin by defining the generator module, which consists of a series of transposed 2D convolutions, batch normalizations and ReLU activation units. Like in Python, PyTorch here provides two APIs for model definition: a functional one where inputs are passed through successive functions, and a more object-oriented one where we build a `Sequential` module containing the entire model as submodules. Let’s see how our generator looks with either API, and you can decide for yourself which one you prefer. First, using `Sequential`:
+我们首先定义生成器模块，它由一系列转置的二维卷积、批处理规范化和ReLU激活单元组成。与Python一样，这里的PyTorch为模型定义提供了两个API：一个功能性的API，输入通过连续的函数传递，另一个面向对象的API，我们在其中构建一个包含整个模型作为子模块的 `Sequential` 模块。让我们看看我们的生成器如何使用这两种API，您可以自己决定您喜欢哪一种。首先，使用 `Sequential`:：
 
 ```py
 using namespace torch;
@@ -512,21 +509,19 @@ nn::Sequential generator(
 
 ```
 
-Tip
+小贴士
 
-A `Sequential` module simply performs function composition. The output of the first submodule becomes the input of the second, the output of the third becomes the input of the fourth and so on.
+ `Sequential` 模块只执行函数组合。第一个子模块的输出成为第二个子模块的输入，第三个子模块的输出成为第四个子模块的输入，以此类推。
 
-The particular modules chosen, like `nn::Conv2d` and `nn::BatchNorm`, follows the structure outlined earlier. The `kNoiseSize` constant determines the size of the input noise vector and is set to `100`. Notice also that we use the `torch::nn::Functional` module for our activation functions, passing it `torch::relu` for inner layers and `torch::tanh` as the final activation. Hyperparameters were, of course, found via grad student descent.
+所选的特定模块（如 `nn::Conv2d` 和`nn::BatchNorm`）遵循前面概述的结构。 `kNoiseSize`常量确定输入噪声矢量的大小，并设置为 `100`.。请注意，我们在激活函数中使用了`torch::nn::Functional`模块，将内部层的`torch::relu`传递给它，最后激活的是 `torch::tanh` 。当然，超参数是通过梯度的下降发现的。
 
-Note
+笔记
 
-The Python frontend has one module for each activation function, like `torch.nn.ReLU` or `torch.nn.Tanh`. In C++, we instead only provide the `Functional` module, to which you can pass any C++ function that will be called inside the `Functional`’s `forward()` method.
+Python前端为每个激活功能都有一个模块，比如 `torch.nn.ReLU` 或`torch.nn.Tanh`。在C++中，我们只提供 `Functional` 模块，您可以通过 `Functional`的转发`forward()`中调用的任何C++函数。
 
-Attention
+注意
 
-No grad students were harmed in the discovery of hyperparameters. They were fed Soylent regularly.
-
-For the second approach, we explicitly pass inputs (in a functional way) between modules in the `forward()` method of a module we define ourselves:
+对于第二种方法，我们在定义自己的模块的`forward()`方法中显式地在模块之间传递输入（以函数方式）：
 
 ```py
 struct GeneratorImpl : nn::Module {
@@ -577,15 +572,15 @@ Generator generator;
 
 ```
 
-Whichever approach we use, we can now invoke `forward()` on the `Generator` to map a noise sample to an image.
+无论使用哪种方法，我们现在都可以在生成器上调用 `forward()` 来将`Generator`噪声样本映射到图像。
 
-Note
+笔
 
-A brief word on the way options are passed to built-in modules like `Conv2d` in the C++ frontend: Every module has some required options, like the number of features for `BatchNorm`. If you only need to configure the required options, you can pass them directly to the module’s constructor, like `BatchNorm(128)` or `Dropout(0.5)` or `Conv2d(8, 4, 2)` (for input channel count, output channel count, and kernel size). If, however, you need to modify other options, which are normally defaulted, such as `with_bias` for `Conv2d`, you need to construct and pass an _options_ object. Every module in the C++ frontend has an associated options struct, called `ModuleOptions` where `Module` is the name of the module, like `LinearOptions` for `Linear`. This is what we do for the `Conv2d` modules above.
+一个简短的关于路径选择的选项被传递到C++模块中的像 `Conv2d` 这样的内置模块：每个模块都有一些必需的选项，比如 `BatchNorm`.的特征数。如果只需要配置所需的选项，则可以将它们直接传递给模块的构造函数，如`BatchNorm(128)` 或 `Dropout(0.5)` 或 `Conv2d(8, 4, 2)` （用于输入通道计数、输出通道计数和内核大小）。但是，如果您需要修改其他选项（通常是默认的），例如使用 `Conv2d`的 `with_bias` ，则需要构造并传递一个选项对象。C++前端中的每个模块都有一个相关的选项结构，称为模块选项，其中  `Module`  是`ModuleOptions`  ，比如 `Linear` 的`LinearOptions`  。这是我们为上面的 `Conv2d` 模块所做的。
 
-#### The Discriminator Module
+#### 鉴别器模块
 
-The discriminator is similarly a sequence of convolutions, batch normalizations and activations. However, the convolutions are now regular ones instead of transposed, and we use a leaky ReLU with an alpha value of 0.2 instead of a vanilla ReLU. Also, the final activation becomes a Sigmoid, which squashes values into a range between 0 and 1\. We can then interpret these squashed values as the probabilities the discriminator assigns to images being real:
+鉴别器类似于一系列卷积、批量规范化和激活。然而，现在卷积是常规的而不是转置的，我们使用一个alpha值为0.2的leaky ReLU而不是vanilla ReLU。而且，最终的激活变成了一个Sigmoid，它将值压缩到0到1之间的范围。然后我们可以将这些压缩值解释为鉴别器分配给图像真实的概率：
 
 ```py
 nn::Sequential discriminator(
@@ -610,27 +605,27 @@ nn::Sequential discriminator(
 
 ```
 
-Note
+笔记
 
-When the function we pass to `Functional` takes more arguments than a single tensor, we can pass them to the `Functional` constructor, which will forward them to each function call. For the leaky ReLU above, this means `torch::leaky_relu(previous_output_tensor, 0.2)` is called.
+当我们传递给 `Functional` 函数接受的参数多于一个tensor时，我们可以将它们传递给 `Functional` 构造函数，后者将把它们转发给每个函数调用。对于上面的leaky ReLU，这意味着调用了`torch::leaky_relu(previous_output_tensor, 0.2)` 。
 
-## Loading Data
+## 加载数据
 
-Now that we have defined the generator and discriminator model, we need some data we can train these models with. The C++ frontend, like the Python one, comes with a powerful parallel data loader. This data loader can read batches of data from a dataset (which you can define yourself) and provides many configuration knobs.
+既然我们已经定义了生成器和鉴别器模型，我们需要一些可以用来训练这些模型的数据。C++前端与Python一样，具有强大的并行数据加载程序。这个数据加载器可以从数据集（您可以自己定义）中读取批量数据，并提供许多配置。
 
-Note
+笔记
 
-While the Python data loader uses multi-processing, the C++ data loader is truly multi-threaded and does not launch any new processes.
+Python数据装载器使用多处理。C++数据装载器是多线程的，并且不启动任何新进程。
 
-The data loader is part of the C++ frontend’s `data` api, contained in the `torch::data::` namespace. This API consists of a few different components:
+数据加载器是C++前端 `data` API的一部分，包含在 `torch::data::` 命名空间中。此API由几个不同的组件组成：
 
-*   The data loader class,
-*   An API for defining datasets,
-*   An API for defining _transforms_, which can be applied to datasets,
-*   An API for defining _samplers_, which produce the indices with which datasets are indexed,
-*   A library of existing datasets, transforms and samplers.
+*   数据加载器类，
+*   用于定义数据集的API，
+*   用于定义转换的API，可应用于数据集，
+*   用于定义采样器的API，该采样器生成用于索引数据集的索引，
+*   现有数据集、转换和采样器的库。
 
-For this tutorial, we can use the `MNIST` dataset that comes with the C++ frontend. Let’s instantiate a `torch::data::datasets::MNIST` for this, and apply two transformations: First, we normalize the images so that they are in the range of `-1` to `+1` (from an original range of `0` to `1`). Second, we apply the `Stack` _collation_, which takes a batch of tensors and stacks them into a single tensor along the first dimension:
+对于本教程，我们可以使用带有C++前端的 `MNIST` 数据集。让我们为此实例化一个`torch::data::datasets::MNIST`，并应用两种转换：首先，我们对图像进行规格化，使其在 `-1` 到 `+1` 的范围内（从原始范围 `0` 到`1`）。其次，我们应用了堆栈排序规则，它将 a batch of tensors沿着第一个维度堆叠成一个tensor：
 
 ```py
 auto dataset = torch::data::datasets::MNIST("./mnist")
@@ -639,16 +634,15 @@ auto dataset = torch::data::datasets::MNIST("./mnist")
 
 ```
 
-Note that the MNIST dataset should be located in the `./mnist` directory relative to wherever you execute the training binary from. You can use [this script](https://gist.github.com/goldsborough/6dd52a5e01ed73a642c1e772084bcd03) to download the MNIST dataset.
+请注意， MNIST数据集应该位于`./mnist`目录中，相对于执行训练二进制文件的位置。您可以使用[此脚本](https://gist.github.com/goldsborough/6dd52a5e01ed73a642c1e772084bcd03) 下载MNIST数据集。
 
-Next, we create a data loader and pass it this dataset. To make a new data loader, we use `torch::data::make_data_loader`, which returns a `std::unique_ptr` of the correct type (which depends on the type of the dataset, the type of the sampler and some other implementation details):
+接下来，我们创建一个数据加载器并将这个数据集传递给它。要创建新的数据加载器，我们使用`torch::data::make_data_loader`，它返回正确类型的`std::unique_ptr`（这取决于数据集的类型、采样器的类型和一些其他实现细节）：
 
 ```py
 auto dataloader = torch::data::make_data_loader(std::move(dataset));
-
 ```
 
-The data loader does come with a lot of options. You can inspect the full set [here](https://github.com/pytorch/pytorch/blob/master/torch/csrc/api/include/torch/data/dataloader_options.h). For example, to speed up the data loading, we can increase the number of workers. The default number is zero, which means the main thread will be used. If we set `workers` to `2`, two threads will be spawned that load data concurrently. We should also increase the batch size from its default of `1` to something more reasonable, like `64` (the value of `kBatchSize`). So let’s create a `DataLoaderOptions` object and set the appropriate properties:
+数据加载器确实有很多选项。你可以在 [这里](https://github.com/pytorch/pytorch/blob/master/torch/csrc/api/include/torch/data/dataloader_options.h)检查整套设备。例如，为了加速数据加载，我们可以增加工人的数量。默认值为零，这意味着将使用主线程。如果将 `workers` 设置为 `2`,，则会同时生成两个线程来加载数据。我们还应该将批大小从默认值 `1` 增加到更合理的值，比如 `64` （ `kBatchSize`)的值）。因此，让我们创建一个 `DataLoaderOptions` 对象并设置适当的属性:
 
 ```py
 auto dataloader = torch::data::make_data_loader(
@@ -657,7 +651,7 @@ auto dataloader = torch::data::make_data_loader(
 
 ```
 
-We can now write a loop to load batches of data, which we’ll only print to the console for now:
+现在，我们可以编写一个循环来加载批数据，现在只输出到控制台：
 
 ```py
 for (torch::data::Example<>& batch : *data_loader) {
@@ -670,9 +664,9 @@ for (torch::data::Example<>& batch : *data_loader) {
 
 ```
 
-The type returned by the data loader in this case is a `torch::data::Example`. This type is a simple struct with a `data` field for the data and a `target` field for the label. Because we applied the `Stack` collation earlier, the data loader returns only a single such example. If we had not applied the collation, the data loader would yield `std::vector&lt;torch::data::Example&lt;&gt;&gt;` instead, with one element per example in the batch.
+在这种情况下，数据加载器返回的类型是 `torch::data::Example`.。此类型是一个简单结构，具有 `data` 字段和标签 `target` 字段。因为我们之前应用了 `Stack` 排序规则，所以数据加载器只返回一个这样的示例。如果我们没有应用排序规则，数据加载器将生成 `std::vector&lt;torch::data::Example&lt;&gt;&gt;` ，在批处理中每个示例有一个元素。
 
-If you rebuild and run this code, you should see something like this:
+如果重新生成并运行此代码，则应该看到如下内容：
 
 ```py
 root@fa350df05ecf:/home/build# make
@@ -698,11 +692,11 @@ Batch size: 64 | Labels: 7 6 5 7 7 5 2 2 4 9 9 4 8 7 4 8 9 4 5 7 1 2 6 9 8 5 1 2
 
 ```
 
-Which means we are successfully able to load data from the MNIST dataset.
+这意味着我们能够成功地从 MNIST 数据集中加载数据。
 
-## Writing the Training Loop
+## 编写迭代训练
 
-Let’s now finish the algorithmic part of our example and implement the delicate dance between the generator and discriminator. First, we’ll create two optimizers, one for the generator and one for the discriminator. The optimizers we use implement the [Adam](https://arxiv.org/pdf/1412.6980.pdf) algorithm:
+现在让我们完成示例中的算法部分，并实现生成器和鉴别器之间的微妙跳跃。首先，我们将创建两个优化器，一个用于生成器，一个用于鉴别器。我们使用的优化器实现了 [Adam](https://arxiv.org/pdf/1412.6980.pdf) 算法：
 
 ```py
 torch::optim::Adam generator_optimizer(
@@ -712,11 +706,11 @@ torch::optim::Adam discriminator_optimizer(
 
 ```
 
-Note
+笔记
 
-As of this writing, the C++ frontend provides optimizers implementing Adagrad, Adam, LBFGS, RMSprop and SGD. The [docs](https://pytorch.org/cppdocs/api/namespace_torch__optim.html) have the up-to-date list.
+在本文中，C++前端提供了实现 Adagrad, Adam, LBFGS, RMSprop 和 SGD的优化器。这个[文档](https://pytorch.org/cppdocs/api/namespace_torch__optim.html)是最新的清单。
 
-Next, we need to update our training loop. We’ll add an outer loop to exhaust the data loader every epoch and then write the GAN training code:
+接下来，我们需要更新我们的迭代训练。在每个周期，我们将添加一个外循环来使用数据加载器，然后编写GAN的训练代码：
 
 ```py
 for (int64_t epoch = 1; epoch <= kNumberOfEpochs; ++epoch) {
@@ -762,17 +756,17 @@ for (int64_t epoch = 1; epoch <= kNumberOfEpochs; ++epoch) {
 
 ```
 
-Above, we first evaluate the discriminator on real images, for which it should assign a high probability. For this, we use `torch::empty(batch.data.size(0)).uniform_(0.8, 1.0)` as the target probabilities.
+以上，我们首先在真实图像上对鉴别器进行评估，Adam应该为其分配高衰减率。为此，我们使用 `torch::empty(batch.data.size(0)).uniform_(0.8, 1.0)` 作为目标概率。
 
-Note
+笔记
 
-We pick random values uniformly distributed between 0.8 and 1.0 instead of 1.0 everywhere in order to make the discriminator training more robust. This trick is called _label smoothing_.
+我们选取0.8到1.0之间均匀分布的随机值，而不是1.0，以使鉴别器训练更加健壮。这个技巧叫做label smoothing。
 
-Before evaluating the discriminator, we zero out the gradients of its parameters. After computing the loss, we back-propagate through the network by calling `d_loss.backward()` to compute new gradients. We repeat this spiel for the fake images. Instead of using images from the dataset, we let the generator create fake images for this by feeding it a batch of random noise. We then forward those fake images to the discriminator. This time, we want the discriminator to emit low probabilities, ideally all zeros. Once we have computed the discriminator loss for both the batch of real and the batch of fake images, we can progress the discriminator’s optimizer by one step in order to update its parameters.
+在评估鉴别器之前，我们将其参数的梯度归零。计算完损失后，我们通过调用 `d_loss.backward()` 来计算新的梯度，从而在网络中进行反向传播。我们在假图像上不断重复。我们不使用来自数据集的图像，而是让生成器通过向其提供一批随机噪声来为此创建假图像。然后我们把这些假图像转发给鉴别器。这一次，我们希望鉴别器发出低概率，理想情况下全部为0。一旦我们计算了一批真实图像和一批假图像的鉴别器损失，我们就可以一步一步地对鉴别器的优化器进行升级，以更新其参数。
 
-To train the generator, we again first zero its gradients, and then re-evaluate the discriminator on the fake images. However, this time we want the discriminator to assign probabilities very close to one, which would indicate that the generator can produce images that fool the discriminator into thinking they are actually real (from the dataset). For this, we fill the `fake_labels` tensor with all ones. We finally step the generator’s optimizer to also update its parameters.
+为了训练生成器，我们再次将其梯度调零，然后在伪图像上重新评估鉴别器。然而，这次我们希望鉴别器分配的概率非常接近1.0，这将表明生成器可以生成图像，欺骗鉴别器认为它们是真实的（从数据集）。为此，我们将`fake_labels`  tensor填充为所有 tensor。最后，我们对生成器的优化器执行步骤，以更新其参数。
 
-We should now be ready to train our model on the CPU. We don’t have any code yet to capture state or sample outputs, but we’ll add this in just a moment. For now, let’s just observe that our model is doing _something_ – we’ll later verify based on the generated images whether this something is meaningful. Re-building and running should print something like:
+我们现在应该准备好在CPU上训练我们的模型了。我们还没有任何代码来捕获状态或示例输出，但我们将在稍后添加此代码。现在，让我们观察一下我们的模型在做什么——稍后我们将根据生成的图像来验证这件事是否有意义。重建和运行应输出如下内容：
 
 ```py
 root@3c0711f20896:/home/build# make && ./dcgan
@@ -798,9 +792,9 @@ Scanning dependencies of target dcgan
 
 ```
 
-## Moving to the GPU
+##  GPU移动到GPU
 
-While our current script can run just fine on the CPU, we all know convolutions are a lot faster on GPU. Let’s quickly discuss how we can move our training onto the GPU. We’ll need to do two things for this: pass a GPU device specification to tensors we allocate ourselves, and explicitly copy any other tensors onto the GPU via the `to()` method all tensors and modules in the C++ frontend have. The simplest way to achieve both is to create an instance of `torch::Device` at the top level of our training script, and then pass that device to tensor factory functions like `torch::zeros` as well as the `to()` method. We can start by doing this with a CPU device:
+虽然我们当前的脚本可以在CPU上运行得很好，但我们都知道在GPU上卷积要快得多。让我们快速讨论一下如何将我们的训练转移到GPU上。我们需要为此做两件事：将GPU设备指定的传递给我们分配的 tensors ，并且通过 `to()` 方法将其他tensors显式复制到所有tensors和模块都具有的GPU上。实现这两者的最简单方法是在我们的训练脚本顶层创建一个 `torch::Device` 的实例，然后将该设备传递给tensors工厂方法，如 `torch::zeros` 和 `to()` 方法。我们可以从CPU设备开始：
 
 ```py
 // Place this somewhere at the top of your training script.
@@ -808,35 +802,35 @@ torch::Device device(torch::kCPU);
 
 ```
 
-New tensor allocations like
+像这样分配新tensor
 
 ```py
 torch::Tensor fake_labels = torch::zeros(batch.data.size(0));
 
 ```
 
-should be updated to take the `device` as the last argument:
+应更新以将`device`作为最后一个参数：
 
 ```py
 torch::Tensor fake_labels = torch::zeros(batch.data.size(0), device);
 
 ```
 
-For tensors whose creation is not in our hands, like those coming from the MNIST dataset, we must insert explicit `to()` calls. This means
+对于创建不在我们手中的 tensors，比如来自 MNIST数据集的 tensors，我们必须插入显式`to()`调用。这意味着
 
 ```py
 torch::Tensor real_images = batch.data;
 
 ```
 
-becomes
+变成如下
 
 ```py
 torch::Tensor real_images = batch.data.to(device);
 
 ```
 
-and also our model parameters should be moved to the correct device:
+我们的模型参数应该被移动到合适的设备上
 
 ```py
 generator->to(device);
@@ -844,18 +838,18 @@ discriminator->to(device);
 
 ```
 
-Note
+笔记
 
-If a tensor already lives on the device supplied to `to()`, the call is a no-op. No extra copy is made.
+如果一个 tensor已经存在于提供`to()`给的设备上，则调用是no-op。不进行额外的复制。
 
-At this point, we’ve just made our previous CPU-residing code more explicit. However, it is now also very easy to change the device to a CUDA device:
+在这一点上，我们刚刚使以前的CPU驻留代码更加明确。但是，现在也很容易将设备更改为CUDA设备：
 
 ```py
 torch::Device device(torch::kCUDA)
 
 ```
 
-And now all tensors will live on the GPU, calling into fast CUDA kernels for all operations, without us having to change any downstream code. If we wanted to specify a particular device index, it could be passed as the second argument to the `Device` constructor. If we wanted different tensors to live on different devices, we could pass separate device instances (for example one on CUDA device 0 and the other on CUDA device 1). We can even do this configuration dynamically, which is often useful to make our training scripts more portable:
+现在所有的 tensors都将活动在GPU上，为所有的操作调用快速的CUDA内核，而不需要我们更改任何下游代码。如果我们想要指定一个特定的设备索引，它可以作为第二个参数传递给`Device`构造函数。如果我们希望不同的tensors存在于不同的设备上，我们可以传递单独的设备实例（例如，一个在CUDA设备0上，另一个在CUDA设备1上）。我们甚至可以动态地进行此配置，这通常有助于使我们的训练脚本更易于移植：
 
 ```py
 torch::Device device = torch::kCPU;
@@ -866,18 +860,18 @@ if (torch::cuda::is_available()) {
 
 ```
 
-or even
+甚至是这样
 
 ```py
 torch::Device device(torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 
 ```
 
-## Checkpointing and Recovering the Training State
+## 检查点和恢复训练状态
 
-The last augmentation we should make to our training script is to periodically save the state of our model parameters, the state of our optimizers as well as a few generated image samples. If our computer were to crash in the middle of the training procedure, the first two will allow us to restore the training state. For long-lasting training sessions, this is absolutely essential. Fortunately, the C++ frontend provides an API to serialize and deserialize both model and optimizer state, as well as individual tensors.
+我们对训练脚本的最后一个增强点是定期保存模型参数的状态、优化器的状态以及一些生成的图像样本。如果我们的计算机在训练过程中崩溃，前两个将允许我们恢复训练状态。对于长期的训练，这是绝对必要的。幸运的是，C++前端提供了一个API来序列化和反序列化模型和优化器状态，以及独立的 tensors。
 
-The core API for this is `torch::save(thing,filename)` and `torch::load(thing,filename)`, where `thing` could be a `torch::nn::Module` subclass or an optimizer instance like the `Adam` object we have in our training script. Let’s update our training loop to checkpoint the model and optimizer state at a certain interval:
+它的核心API是 `torch::save(thing,filename)` 和 `torch::load(thing,filename)`，其中`thing`可以是 `torch::nn::Module` 子类或优化程序实例，如我们训练脚本中的 `Adam` 对象。让我们更新我们的训练循环，以检查模型和优化器在特定时间间隔的状态：
 
 ```py
 if (batch_index % kCheckpointEvery == 0) {
@@ -894,9 +888,9 @@ if (batch_index % kCheckpointEvery == 0) {
 
 ```
 
-where `kCheckpointEvery` is an integer set to something like `100` to checkpoint every `100` batches, and `checkpoint_counter` is a counter bumped every time we make a checkpoint.
+其中 `kCheckpointEvery` 是一个整数，设置为 `100` ，每 `100` 批检查一次， `checkpoint_counter`是一个计数器，每当我们建立一个检查点时都会冲撞到它。
 
-To restore the training state, you can add lines like these after all models and optimizers are created, but before the training loop:
+要恢复训练状态，可以在创建所有模型和优化器之后。但在训练循环之前添加类似这样的行：
 
 ```py
 torch::optim::Adam generator_optimizer(
@@ -919,9 +913,9 @@ for (int64_t epoch = 1; epoch <= kNumberOfEpochs; ++epoch) {
 
 ```
 
-## Inspecting Generated Images
+## 检验生成的图像
 
-Our training script is now complete. We are ready to train our GAN, whether on CPU or GPU. To inspect the intermediary output of our training procedure, for which we added code to periodically save image samples to the `"dcgan-sample-xxx.pt"` file, we can write a tiny Python script to load the tensors and display them with matplotlib:
+我们的训练脚本现在完成了。我们在CPU或者GPU上准备好培训我们的GAN。为了检查我们训练过程的中间输出，我们添加了代码以定期将图像样本保存到 `"dcgan-sample-xxx.pt"`文件中。我们可以编写一个小的python脚本来加载tensors并用matplotlib显示它们：
 
 ```py
 from __future__ import print_function
@@ -954,7 +948,7 @@ print("Saved ", options.out_file)
 
 ```
 
-Let’s now train our model for around 30 epochs:
+现在让我们把这个模型训练大概30次：
 
 ```py
 root@3c0711f20896:/home/build# make && ./dcgan                                                                                                                                10:17:57
@@ -980,7 +974,7 @@ CUDA is available! Training on GPU.
 
 ```
 
-And display the imags in a plot:
+ 并在绘图中显示图像：
 
 ```py
 root@3c0711f20896:/home/build# python display.py -i dcgan-sample-100.pt
@@ -988,18 +982,18 @@ Saved out.png
 
 ```
 
-Which should look something like this:
+  它看起来应该是这样：
 
 ![digits](img/931dea1655c975ec616a9e22c80c242f.jpg)
 
-Digits! Hooray! Now the ball is in your court: can you improve the model to make the digits look even better?
+数字！万岁！现在轮到你了：你能改进模型使数字看起来更好吗？
 
-## Conclusion
+## 结论
 
-This tutorial has hopefully given you a digestible digest of the PyTorch C++ frontend. A machine learning library like PyTorch by necessity has a very broad and extensive API. As such, there are many concepts we did not have time or space to discuss here. However, I encourage you to try out the API, and consult [our documentation](https://pytorch.org/cppdocs/) and in particular the [Library API](https://pytorch.org/cppdocs/api/library_root.html) section when you get stuck. Also, remember that you can expect the C++ frontend to follow the design and semantics of the Python frontend whenever we could make this possible, so you can leverage this fact to increase your learning rate.
+本教程希望给您一个易了解的PyTrac C++前端的摘要。像PyTorch这样的机器学习库必然具有数量庞大的API。因此，这里有许多概念我们没有时间来讨论。但是，我鼓励您尝试使用API，并在遇到困难时参考 [我们的文档](https://pytorch.org/cppdocs/) ，尤其是[库API](https://pytorch.org/cppdocs/api/library_root.html) 部分。此外，请记住，我们会尽可能使C++前端可以遵循Python前端的语义和设计，这样您就可以利用这个特点来提高学习速度。
 
-Tip
+小贴士
 
-You can find the full source code presented in this tutorial [in this repository](https://github.com/pytorch/examples/tree/master/cpp/dcgan).
+您可以在此[存储库](https://github.com/pytorch/examples/tree/master/cpp/dcgan)中找到本教程中介绍的完整源代码。
 
-As always, if you run into any problems or have questions, you can use our [forum](https://discuss.pytorch.org/) or [GitHub issues](https://github.com/pytorch/pytorch/issues) to get in touch.
+和往常一样，如果你遇到任何问题或有任何疑问，你可以使用我们的 [论坛](https://discuss.pytorch.org/) 或[GitHub issues](https://github.com/pytorch/pytorch/issues)问题联系。
