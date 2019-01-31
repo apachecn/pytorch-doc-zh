@@ -1,25 +1,24 @@
+# ONNX 现场演示教程  
 
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
 
-# ONNX Live Tutorial
+本教程将向您展示如何使用ONNX将已从PyTorch导出的神经模型传输模型转换为Apple CoreML格式。这将允许您在Apple设备上轻松运行深度学习模型，在这种情况下，可以从摄像机直播演示。  
 
-This tutorial will show you to convert a neural style transfer model that has been exported from PyTorch into the Apple CoreML format using ONNX. This will allow you to easily run deep learning models on Apple devices and, in this case, live stream from the camera.
+## 什么是ONNX  
+ONNX（开放式神经网络交换）是一种表示深度学习模型的开放格式。借助ONNX，AI开发人员可以更轻松地在最先进的工具之间移动模型，并选择最适合它们的组合。ONNX由合作伙伴社区开发和支持。 您可以访问 [onnx.ai](https://onnx.ai/)，了解有关ONNX的更多信息以及支持的工具。  
 
-## What is ONNX?
+## 教程预览  
 
-ONNX (Open Neural Network Exchange) is an open format to represent deep learning models. With ONNX, AI developers can more easily move models between state-of-the-art tools and choose the combination that is best for them. ONNX is developed and supported by a community of partners. You can learn more about ONNX and what tools are supported by going to [onnx.ai](https://onnx.ai/).
+本教程将带你走过如下主要4步：  
 
-## Tutorial Overview
+1.  [下载（或训练）Pytorch风格装换模型](#download-or-train-pytorch-style-transfer-models)
+2.  [将PyTorch模型转换至ONNX模型](#convert-the-pytorch-models-to-onnx-models)
+3.  [将ONNX模型转换至CoreML模型](#convert-the-onnx-models-to-coreml-models)
+4.  [在支持风格转换iOS App中运行CoreML模型](#run-the-coreml-models-in-a-style-transfer-ios-app)  
 
-This tutorial will walk you through 4 main steps:
+##  环境准备 
 
-1.  [Download (or train) PyTorch style transfer models](#download-or-train-pytorch-style-transfer-models)
-2.  [Convert the PyTorch models to ONNX models](#convert-the-pytorch-models-to-onnx-models)
-3.  [Convert the ONNX models to CoreML models](#convert-the-onnx-models-to-coreml-models)
-4.  [Run the CoreML models in a style transfer iOS App](#run-the-coreml-models-in-a-style-transfer-ios-app)
-
-## Preparing the Environment
-
-We will be working in a virtualenv in order to avoid conflicts with your local packages. We are also using Python 3.6 for this tutorial, but other versions should work as well.
+我们将在虚拟环境工作，以避免与您的本地环境冲突。在本教程中使用Python 3.6，但其他版本也应该可以正常工作。  
 
 ```py
 python3.6 -m venv venv
@@ -27,52 +26,50 @@ source ./venv/bin/activate
 
 ```
 
-You need to install pytorch and the onnx-&gt;coreml converter:
+我们需要安装Pytorch和 onnx->coreml 转换器：  
 
 ```py
 pip install torchvision onnx-coreml
 
 ```
 
-You will also need to install XCode if you want to run the iOS style transfer app on your iPhone. You can also convert models in Linux, however to run the iOS app itself, you will need a Mac.
+如果要在iPhone上运行iOS样式传输应用程序，还需要安装XCode。您也可以在Linux中转换模型，但要运行iOS应用程序本身，您将需要一台Mac。
+  
+## 下载（或训练）Pytorch风格装换模型  
 
-## Download (or train) PyTorch style transfer models
+在本教程中，我们将使用与pytorch一起发布的样式传输模型，地址为https://github.com/pytorch/examples/tree/master/fast_neural_style。如果您想使用其他PyTorch或ONNX模型，请随意跳过此步骤。  
 
-For this tutorial, we will use the style transfer models that are published with pytorch in [https://github.com/pytorch/examples/tree/master/fast_neural_style](https://github.com/pytorch/examples/tree/master/fast_neural_style) . If you would like to use a different PyTorch or ONNX model, feel free to skip this step.
+这些模型用于在静态图像上应用样式传输，并且实际上没有针对视频进行优化以获得足够快的速度。但是，如果我们将分辨率降低到足够低，它们也可以很好地处理视频。  
 
-These models are meant for applying style transfer on still images and really not optimized to be fast enough for video. However if we reduce the resolution low enough, they can also work well on videos.
-
-Let’s download the models:
-
+我们先下载模型：
+  
 ```py
 git clone https://github.com/pytorch/examples
 cd examples/fast_neural_style
-
-```
-
-If you would like to train the models yourself, the pytorch/examples repository you just cloned has more information on how to do this. For now, we’ll just download pre-trained models with the script provided by the repository:
+``` 
+如果您想自己训练模型，您刚刚克隆下载的的pytorch/examples存储库有更多关于如何执行此操作的信息。目前，我们只需使用存储库提供的脚本下载预先训练的模型：  
 
 ```py
 ./download_saved_models.sh
 
 ```
 
-This script downloads the pre-trained PyTorch models and puts them into the `saved_models` folder. There should now be 4 files, `candy.pth`, `mosaic.pth`, `rain_princess.pth` and `udnie.pth` in your directory.
+此脚本下载预先训练的PyTorch模型并将它们放入saved_models文件夹中。 你的目录中现在应该有4个文件，candy.pth，mosaic.pth，rain_princess.pth和udnie.pth。  
 
-## Convert the PyTorch models to ONNX models
+## 将PyTorch模型转换至ONNX模型  
 
-Now that we have the pre-trained PyTorch models as `.pth` files in the `saved_models` folder, we will need to convert them to ONNX format. The model definition is in the pytorch/examples repository we cloned previously, and with a few lines of python we can export it to ONNX. In this case, instead of actually running the neural net, we will call `torch.onnx._export`, which is provided with PyTorch as an api to directly export ONNX formatted models from PyTorch. However, in this case we don’t even need to do that, because a script already exists `neural_style/neural_style.py` that will do this for us. You can also take a look at that script if you would like to apply it to other models.
+现在我们已将预先训练好的PyTorch模型作为saved_models文件夹中的.pth文件，我们需要将它们转换为ONNX格式。模型定义在我们之前克隆的pytorch/examples存储库中，通过几行python我们可以将它导出到ONNX。在这种情况下，我们将调用torch.onnx._export而不是实际运行神经网络，它将PyTorch作为api提供，以直接从PyTorch导出ONNX格式的模型。但是，在这种情况下，我们甚至不需要这样做，因为脚本已经存在Neural_style / neural_style.py，它将为我们执行此操作。如果要将其应用于其他模型，也可以查看该脚本。  
 
-Exporting the ONNX format from PyTorch is essentially tracing your neural network so this api call will internally run the network on ‘dummy data’ in order to generate the graph. For this, it needs an input image to apply the style transfer to which can simply be a blank image. However, the pixel size of this image is important, as this will be the size for the exported style transfer model. To get good performance, we’ll use a resolution of 250x540\. Feel free to take a larger resolution if you care less about FPS and more about style transfer quality.
+从PyTorch导出ONNX格式本质上是追踪您的神经网络，因此这个api调用将在内部运行网络“虚拟数据”以生成图形。为此，它需要输入图像来应用样式转移，其可以简单地是空白图像。但是，此图像的像素大小很重要，因为这将是导出的样式传输模型的大小。为了获得良好的性能，我们将使用250x540的分辨率。如果您不太关心FPS，可以随意采取更大的分辨率，更多关于风格转移质量。    
 
-Let’s use [ImageMagick](https://www.imagemagick.org/) to create a blank image of the resolution we want:
+让我们使用[ImageMagick](https://www.imagemagick.org/)创建我们想要的分辨率的空白图像：   
 
 ```py
 convert -size 250x540 xc:white png24:dummy.jpg
 
 ```
 
-and use that to export the PyTorch models:
+然后用它来导出PyTorch模型用它来导出PyTorch模型：  
 
 ```py
 python ./neural_style/neural_style.py eval --content-image dummy.jpg --output-image dummy-out.jpg --model ./saved_models/candy.pth --cuda 0 --export_onnx ./saved_models/candy.onnx
@@ -82,15 +79,15 @@ python ./neural_style/neural_style.py eval --content-image dummy.jpg --output-im
 
 ```
 
-You should end up with 4 files, `candy.onnx`, `mosaic.onnx`, `rain_princess.onnx` and `udnie.onnx`, created from the corresponding `.pth` files.
+你应该得到4个文件，`candy.onnx`，`mosaic.onnx`，`rain_princess.onnx`和`udnie.onnx`，由相应的`.pth`文件创建。  
 
-## Convert the ONNX models to CoreML models
+## 将ONNX模型转换至CoreML模型  
 
-Now that we have ONNX models, we can convert them to CoreML models in order to run them on Apple devices. For this, we use the onnx-coreml converter we installed previously. The converter comes with a `convert-onnx-to-coreml` script, which the installation steps above added to our path. Unfortunately that won’t work for us as we need to mark the input and output of the network as an image and, while this is supported by the converter, it is only supported when calling the converter from python.
+现在我们有了ONNX模型，我们可以将它们转换为CoreML模型，以便在Apple设备上运行它们。为此，我们使用之前安装的onnx-coreml转换器。转换器附带一个convert-onnx-to-coreml脚本，上面的安装步骤添加到我们的路径中。遗憾的是，这对我们不起作用，因为我们需要将网络的输入和输出标记为图像，并且虽然这是转换器支持的，但只有在从python调用转换器时才支持它。  
 
-Looking at the style transfer model (for example opening the .onnx file in an application like [Netron](https://github.com/lutzroeder/Netron)), we see that the input is named ‘0’ and the output is named ‘186’. These are just numeric ids assigned by PyTorch. We will need to mark these as images.
+通过查看样式传输模型（例如在像Netron这样的应用程序中打开.onnx文件），我们看到输入名为'0'，输出名为'186'。这些只是PyTorch分配的数字ID。我们需要将它们标记为图像。  
 
-So let’s create a small python file and call it `onnx_to_coreml.py`. This can be created by using the touch command and edited with your favorite editor to add the following lines of code.
+所以让我们创建一个python小文件并将其命名为onnx_to_coreml.py。这可以通过使用touch命令创建，并使用您喜欢的编辑器进行编辑，以添加以下代码行。  
 
 ```py
 import sys
@@ -108,7 +105,7 @@ coreml_model.save(model_out)
 
 ```
 
-we now run it:
+现在来运行:
 
 ```py
 python onnx_to_coreml.py ./saved_models/candy.onnx ./saved_models/candy.mlmodel
@@ -118,26 +115,25 @@ python onnx_to_coreml.py ./saved_models/mosaic.onnx ./saved_models/mosaic.mlmode
 
 ```
 
-Now, there should be 4 CoreML models in your `saved_models` directory: `candy.mlmodel`, `mosaic.mlmodel`, `rain_princess.mlmodel` and `udnie.mlmodel`.
+现在，您的saved_models目录中应该有4个CoreML模型：candy.mlmodel，mosaic.mlmodel，rain_princess.mlmodel和udnie.mlmodel。  
 
-## Run the CoreML models in a style transfer iOS App
+## 在支持风格转换iOS App中运行CoreML模型    
 
-This repository (i.e. the one you’re currently reading the README.md of) contains an iOS app able to run CoreML style transfer models on a live camera stream from your phone camera. Let’s clone the repository:
+此存储库（即您当前正在阅读README.md的存储库）包含一个iOS应用程序，可以在手机摄像头的实时摄像头流上运行CoreML样式传输模型。  
 
 ```py
 git clone https://github.com/onnx/tutorials
 
 ```
 
-and open the `tutorials/examples/CoreML/ONNXLive/ONNXLive.xcodeproj` project in XCode. We recommend using XCode 9.3 and an iPhone X. There might be issues running on older devices or XCode versions.
+并在XCode中打开tutorials/examples/CoreML/NNXLive/ONNXLive.xcodeproj项目。我们建议使用XCode 9.3和iPhone X。在旧设备或XCode版本上可能会出现问题。   
 
-In the `Models/` folder, the project contains some .mlmodel files. We’re going to replace them with the models we just created.
+在Models/文件夹中，项目包含一些.mlmodel文件。我们将用我们刚刚创建的模型替换它们。  
 
-You then run the app on your iPhone and you are all set. Tapping on the screen switches through the models.
+然后你在iPhone上运行应用程序就可以了。点击屏幕可切换模型。  
 
-## Conclusion
+## 结论  
 
-We hope this tutorial gave you an overview of what ONNX is about and how you can use it to convert neural networks between frameworks, in this case neural style transfer models moving from PyTorch to CoreML.
+我们希望本教程能够概述ONNX的内容以及如何使用它来在框架之间转换神经网络，在这种情况下，神经风格的传输模型从PyTorch转移到CoreML。  
 
-Feel free to experiment with these steps and test them on your own models. Please let us know if you hit any issues or want to give feedback. We’d like to hear what you think.
-
+您可以随意尝试这些步骤并在自己的模型上进行测试。如果您遇到任何问题或想要提供反馈，请告诉我们。我们倾听你的想法。

@@ -1,77 +1,77 @@
+# 用例子学习 PyTorch
 
+> 译者：[bat67](https://github.com/bat67)
+> 
+> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
 
-# Learning PyTorch with Examples
+**作者**：[Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
 
-**Author**: [Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
+这个教程通过自洽的示例介绍了PyTorch的基本概念。
 
-This tutorial introduces the fundamental concepts of [PyTorch](https://github.com/pytorch/pytorch) through self-contained examples.
+PyTorch主要是提供了两个核心的功能特性：
 
-At its core, PyTorch provides two main features:
+* 一个类似于numpy的n维张量，但是可以在GPU上运行
+* 搭建和训练神经网络时的自动微分/求导机制
 
-*   An n-dimensional Tensor, similar to numpy but can run on GPUs
-*   Automatic differentiation for building and training neural networks
+我们将使用全连接的ReLU网络作为运行示例。该网络将有一个单一的隐藏层，并将使用梯度下降训练，通过最小化网络输出和真正结果的欧几里得距离，来拟合随机生成的数据。
 
-We will use a fully-connected ReLU network as our running example. The network will have a single hidden layer, and will be trained with gradient descent to fit random data by minimizing the Euclidean distance between the network output and the true output.
+## 目录
 
-Note
+- [用例子学习 PyTorch](#用例子学习-pytorch)
+  - [目录](#目录)
+  - [张量](#张量)
+    - [热身：NumPy](#热身numpy)
+    - [PyTorch：张量](#pytorch张量)
+  - [自动求导](#自动求导)
+    - [PyTorch：张量和自动求导](#pytorch张量和自动求导)
+    - [PyTorch：定义新的自动求导函数](#pytorch定义新的自动求导函数)
+    - [TensorFlow：静态图](#tensorflow静态图)
+  - [`nn`模块](#nn模块)
+    - [PyTorch：`nn`](#pytorchnn)
+    - [PyTorch：`optim`](#pytorchoptim)
+    - [PyTorch：自定义`nn`模块](#pytorch-custom-nn-modules)
+    - [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-sharing)
+  - [Examples](#examples)
+    - [Tensors](#tensors)
+    - [Autograd](#autograd)
+    - [`nn` module](#nn-module)
 
-You can browse the individual examples at the [end of this page](#examples-download).
+## [张量](#tensors)
 
-Table of Contents
+### [热身：NumPy](#warm-up-numpy)
 
-*   [Tensors](#tensors)
-    *   [Warm-up: numpy](#warm-up-numpy)
-    *   [PyTorch: Tensors](#pytorch-tensors)
-*   [Autograd](#autograd)
-    *   [PyTorch: Tensors and autograd](#pytorch-tensors-and-autograd)
-    *   [PyTorch: Defining new autograd functions](#pytorch-defining-new-autograd-functions)
-    *   [TensorFlow: Static Graphs](#tensorflow-static-graphs)
-*   [&lt;cite&gt;nn&lt;/cite&gt; module](#nn-module)
-    *   [PyTorch: nn](#pytorch-nn)
-    *   [PyTorch: optim](#pytorch-optim)
-    *   [PyTorch: Custom nn Modules](#pytorch-custom-nn-modules)
-    *   [PyTorch: Control Flow + Weight Sharing](#pytorch-control-flow-weight-sharing)
-*   [Examples](#examples)
-    *   [Tensors](#id1)
-    *   [Autograd](#id2)
-    *   [&lt;cite&gt;nn&lt;/cite&gt; module](#id3)
+在介绍PyTorch之前，我们将首先使用NumPy实现网络。
 
-## [Tensors](#id13)
+NumPy提供了一个n维数组对象和许多用于操作这些数组的函数。NumPy是用于科学计算的通用框架；它对计算图、深度学习和梯度一无所知。然而，我们可以很容易地使用NumPy，手动实现网络的前向和反向传播，来拟合随机数据：
 
-### [Warm-up: numpy](#id14)
-
-Before introducing PyTorch, we will first implement the network using numpy.
-
-Numpy provides an n-dimensional array object, and many functions for manipulating these arrays. Numpy is a generic framework for scientific computing; it does not know anything about computation graphs, or deep learning, or gradients. However we can easily use numpy to fit a two-layer network to random data by manually implementing the forward and backward passes through the network using numpy operations:
-
-```py
-# -*- coding: utf-8 -*-
+```python
+# 可运行代码见本文件夹中的 two_layer_net_numpy.py
 import numpy as np
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N是批大小；D_in是输入维度
+# H是隐藏层维度；D_out是输出维度  
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random input and output data
+# 产生随机输入和输出数据
 x = np.random.randn(N, D_in)
 y = np.random.randn(N, D_out)
 
-# Randomly initialize weights
+# 随机初始化权重
 w1 = np.random.randn(D_in, H)
 w2 = np.random.randn(H, D_out)
 
 learning_rate = 1e-6
 for t in range(500):
-    # Forward pass: compute predicted y
+    # 前向传播：计算预测值y
     h = x.dot(w1)
     h_relu = np.maximum(h, 0)
     y_pred = h_relu.dot(w2)
 
-    # Compute and print loss
+    # 计算并显示loss（损失）
     loss = np.square(y_pred - y).sum()
     print(t, loss)
 
-    # Backprop to compute gradients of w1 and w2 with respect to loss
+    # 反向传播，计算w1、w2对loss的梯度
     grad_y_pred = 2.0 * (y_pred - y)
     grad_w2 = h_relu.T.dot(grad_y_pred)
     grad_h_relu = grad_y_pred.dot(w2.T)
@@ -79,55 +79,53 @@ for t in range(500):
     grad_h[h < 0] = 0
     grad_w1 = x.T.dot(grad_h)
 
-    # Update weights
+    # 更新权重
     w1 -= learning_rate * grad_w1
     w2 -= learning_rate * grad_w2
-
 ```
 
-### [PyTorch: Tensors](#id15)
+### [PyTorch：张量](#pytorch-tensors)
 
-Numpy is a great framework, but it cannot utilize GPUs to accelerate its numerical computations. For modern deep neural networks, GPUs often provide speedups of [50x or greater](https://github.com/jcjohnson/cnn-benchmarks), so unfortunately numpy won’t be enough for modern deep learning.
+NumPy是一个很棒的框架，但是它不支持GPU以加速运算。现代深度神经网络，GPU常常提供[50倍以上的加速]((https://github.com/jcjohnson/cnn-benchmarks))，所以NumPy不能满足当代深度学习的需求。 
 
-Here we introduce the most fundamental PyTorch concept: the **Tensor**. A PyTorch Tensor is conceptually identical to a numpy array: a Tensor is an n-dimensional array, and PyTorch provides many functions for operating on these Tensors. Behind the scenes, Tensors can keep track of a computational graph and gradients, but they’re also useful as a generic tool for scientific computing.
+我们先介绍PyTorch最基础的概念：**张量（Tensor）**。逻辑上，PyTorch的tensor和NumPy array是一样的：tensor是一个n维数组，PyTorch提供了很多函数操作这些tensor。任何希望使用NumPy执行的计算也可以使用PyTorch的tensor来完成；可以认为它们是科学计算的通用工具。
 
-Also unlike numpy, PyTorch Tensors can utilize GPUs to accelerate their numeric computations. To run a PyTorch Tensor on GPU, you simply need to cast it to a new datatype.
+和NumPy不同的是，PyTorch可以利用GPU加速。要在GPU上运行PyTorch张量，在构造张量使用`device`参数把tensor建立在GPU上。
 
-Here we use PyTorch Tensors to fit a two-layer network to random data. Like the numpy example above we need to manually implement the forward and backward passes through the network:
+这里我们利用PyTorch的tensor在随机数据上训练一个两层的网络。和前面NumPy的例子类似，我们使用PyTorch的tensor，手动在网络中实现前向传播和反向传播： 
 
-```py
-# -*- coding: utf-8 -*-
 
+```python
+# 可运行代码见本文件夹中的 two_layer_net_tensor.py
 import torch
 
-dtype = torch.float
-device = torch.device("cpu")
-# device = torch.device("cuda:0") # Uncomment this to run on GPU
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N是批大小； D_in 是输入维度；
+# H 是隐藏层维度； D_out 是输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random input and output data
-x = torch.randn(N, D_in, device=device, dtype=dtype)
-y = torch.randn(N, D_out, device=device, dtype=dtype)
+# 产生随机输入和输出数据
+x = torch.randn(N, D_in, device=device)
+y = torch.randn(N, D_out, device=device)
 
-# Randomly initialize weights
-w1 = torch.randn(D_in, H, device=device, dtype=dtype)
-w2 = torch.randn(H, D_out, device=device, dtype=dtype)
+# 随机初始化权重
+w1 = torch.randn(D_in, H, device=device)
+w2 = torch.randn(H, D_out, device=device)
 
 learning_rate = 1e-6
 for t in range(500):
-    # Forward pass: compute predicted y
+    # 前向传播：计算预测值y
     h = x.mm(w1)
     h_relu = h.clamp(min=0)
     y_pred = h_relu.mm(w2)
 
-    # Compute and print loss
-    loss = (y_pred - y).pow(2).sum().item()
-    print(t, loss)
+    # 计算并输出loss；loss是存储在PyTorch的tensor中的标量，维度是()（零维标量）；
+    # 我们使用loss.item()得到tensor中的纯python数值。
+    loss = (y_pred - y).pow(2).sum()
+    print(t, loss.item())
 
-    # Backprop to compute gradients of w1 and w2 with respect to loss
+    # 反向传播，计算w1、w2对loss的梯度
     grad_y_pred = 2.0 * (y_pred - y)
     grad_w2 = h_relu.t().mm(grad_y_pred)
     grad_h_relu = grad_y_pred.mm(w2.t())
@@ -135,457 +133,427 @@ for t in range(500):
     grad_h[h < 0] = 0
     grad_w1 = x.t().mm(grad_h)
 
-    # Update weights using gradient descent
+    # 使用梯度下降更新权重
     w1 -= learning_rate * grad_w1
     w2 -= learning_rate * grad_w2
-
 ```
 
-## [Autograd](#id16)
+## [自动求导](#autograd)
 
-### [PyTorch: Tensors and autograd](#id17)
+### [PyTorch：张量和自动求导](#pytorch-tensors-and-autograd)
 
-In the above examples, we had to manually implement both the forward and backward passes of our neural network. Manually implementing the backward pass is not a big deal for a small two-layer network, but can quickly get very hairy for large complex networks.
+在上面的例子里，需要我们手动实现神经网络的前向和后向传播。对于简单的两层网络，手动实现前向、后向传播不是什么难事，但是对于大型的复杂网络就比较麻烦了。 
 
-Thankfully, we can use [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) to automate the computation of backward passes in neural networks. The **autograd** package in PyTorch provides exactly this functionality. When using autograd, the forward pass of your network will define a **computational graph**; nodes in the graph will be Tensors, and edges will be functions that produce output Tensors from input Tensors. Backpropagating through this graph then allows you to easily compute gradients.
+庆幸的是，我们可以使用[自动微分](https://en.wikipedia.org/wiki/Automatic_differentiation)来自动完成神经网络中反向传播的计算。PyTorch中**autograd**包提供的正是这个功能。当使用autograd时，网络前向传播将定义一个**计算图**；图中的节点是tensor，边是函数，这些函数是输出tensor到输入tensor的映射。这张计算图使得在网络中反向传播时梯度的计算十分简单。 
 
-This sounds complicated, it’s pretty simple to use in practice. Each Tensor represents a node in a computational graph. If `x` is a Tensor that has `x.requires_grad=True` then `x.grad` is another Tensor holding the gradient of `x` with respect to some scalar value.
+这听起来复杂，但是实际操作很简单。如果我们想计算某些的tensor的梯度，我们只需要在建立这个tensor时加入这么一句：`requires_grad=True`。这个tensor上的任何PyTorch的操作都将构造一个计算图，从而允许我们稍后在图中执行反向传播。如果这个tensor`x`的`requires_grad=True`，那么反向传播之后`x.grad`将会是另一个张量，其为`x`关于某个标量值的梯度。
 
-Here we use PyTorch Tensors and autograd to implement our two-layer network; now we no longer need to manually implement the backward pass through the network:
+有时可能希望防止PyTorch在`requires_grad=True`的张量执行某些操作时构建计算图；例如，在训练神经网络时，我们通常不希望通过权重更新步骤进行反向传播。在这种情况下，我们可以使用`torch.no_grad()`上下文管理器来防止构造计算图。
 
-```py
-# -*- coding: utf-8 -*-
+下面我们使用PyTorch的Tensors和autograd来实现我们的两层的神经网络；我们不再需要手动执行网络的反向传播：
+
+```python
+# 可运行代码见本文件夹中的 two_layer_net_autograd.py
 import torch
 
-dtype = torch.float
-device = torch.device("cpu")
-# device = torch.device("cuda:0") # Uncomment this to run on GPU
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N是批大小；D_in是输入维度；
+# H是隐藏层维度；D_out是输出维度  
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold input and outputs.
-# Setting requires_grad=False indicates that we do not need to compute gradients
-# with respect to these Tensors during the backward pass.
-x = torch.randn(N, D_in, device=device, dtype=dtype)
-y = torch.randn(N, D_out, device=device, dtype=dtype)
+# 产生随机输入和输出数据
+x = torch.randn(N, D_in, device=device)
+y = torch.randn(N, D_out, device=device)
 
-# Create random Tensors for weights.
-# Setting requires_grad=True indicates that we want to compute gradients with
-# respect to these Tensors during the backward pass.
-w1 = torch.randn(D_in, H, device=device, dtype=dtype, requires_grad=True)
-w2 = torch.randn(H, D_out, device=device, dtype=dtype, requires_grad=True)
+# 产生随机权重tensor，将requires_grad设置为True意味着我们希望在反向传播时候计算这些值的梯度
+w1 = torch.randn(D_in, H, device=device, requires_grad=True)
+w2 = torch.randn(H, D_out, device=device, requires_grad=True)
 
 learning_rate = 1e-6
 for t in range(500):
-    # Forward pass: compute predicted y using operations on Tensors; these
-    # are exactly the same operations we used to compute the forward pass using
-    # Tensors, but we do not need to keep references to intermediate values since
-    # we are not implementing the backward pass by hand.
+
+    # 前向传播：使用tensor的操作计算预测值y。
+    # 由于w1和w2有requires_grad=True，涉及这些张量的操作将让PyTorch构建计算图，
+    # 从而允许自动计算梯度。由于我们不再手工实现反向传播，所以不需要保留中间值的引用。
     y_pred = x.mm(w1).clamp(min=0).mm(w2)
 
-    # Compute and print loss using operations on Tensors.
-    # Now loss is a Tensor of shape (1,)
-    # loss.item() gets the a scalar value held in the loss.
+    # 计算并输出loss，loss是一个形状为()的张量，loss.item()是这个张量对应的python数值
     loss = (y_pred - y).pow(2).sum()
     print(t, loss.item())
-
-    # Use autograd to compute the backward pass. This call will compute the
-    # gradient of loss with respect to all Tensors with requires_grad=True.
-    # After this call w1.grad and w2.grad will be Tensors holding the gradient
-    # of the loss with respect to w1 and w2 respectively.
+    
+    # 使用autograd计算反向传播。这个调用将计算loss对所有requires_grad=True的tensor的梯度。
+    # 这次调用后，w1.grad和w2.grad将分别是loss对w1和w2的梯度张量。
     loss.backward()
 
-    # Manually update weights using gradient descent. Wrap in torch.no_grad()
-    # because weights have requires_grad=True, but we don't need to track this
-    # in autograd.
-    # An alternative way is to operate on weight.data and weight.grad.data.
-    # Recall that tensor.data gives a tensor that shares the storage with
-    # tensor, but doesn't track history.
-    # You can also use torch.optim.SGD to achieve this.
+
+    # 使用梯度下降更新权重。对于这一步，我们只想对w1和w2的值进行原地改变；不想为更新阶段构建计算图，
+    # 所以我们使用torch.no_grad()上下文管理器防止PyTorch为更新构建计算图
     with torch.no_grad():
         w1 -= learning_rate * w1.grad
         w2 -= learning_rate * w2.grad
 
-        # Manually zero the gradients after updating weights
+        # 反向传播之后手动置零梯度
         w1.grad.zero_()
         w2.grad.zero_()
-
 ```
 
-### [PyTorch: Defining new autograd functions](#id18)
+### [PyTorch：定义新的自动求导函数](#pytorch-defining-new-autograd-functions)
 
-Under the hood, each primitive autograd operator is really two functions that operate on Tensors. The **forward** function computes output Tensors from input Tensors. The **backward** function receives the gradient of the output Tensors with respect to some scalar value, and computes the gradient of the input Tensors with respect to that same scalar value.
+在底层，每一个原始的自动求导运算实际上是两个在Tensor上运行的函数。其中，**forward**函数计算从输入Tensors获得的输出Tensors。而**backward**函数接收输出Tensors对于某个标量值的梯度，并且计算输入Tensors相对于该相同标量值的梯度。 
 
-In PyTorch we can easily define our own autograd operator by defining a subclass of `torch.autograd.Function` and implementing the `forward` and `backward` functions. We can then use our new autograd operator by constructing an instance and calling it like a function, passing Tensors containing input data.
+在PyTorch中，我们可以很容易地通过定义`torch.autograd.Function`的子类并实现`forward`和`backward`函数，来定义自己的自动求导运算。之后我们就可以使用这个新的自动梯度运算符了。然后，我们可以通过构造一个实例并像调用函数一样，传入包含输入数据的tensor调用它，这样来使用新的自动求导运算。
 
-In this example we define our own custom autograd function for performing the ReLU nonlinearity, and use it to implement our two-layer network:
+这个例子中，我们自定义一个自动求导函数来展示ReLU的非线性。并用它实现我们的两层网络：
 
-```py
-# -*- coding: utf-8 -*-
+```python
+# 可运行代码见本文件夹中的 two_layer_net_custom_function.py
 import torch
 
 class MyReLU(torch.autograd.Function):
     """
- We can implement our own custom autograd Functions by subclassing
- torch.autograd.Function and implementing the forward and backward passes
- which operate on Tensors.
- """
-
+    我们可以通过建立torch.autograd的子类来实现我们自定义的autograd函数，
+    并完成张量的正向和反向传播。
+    """
     @staticmethod
-    def forward(ctx, input):
+    def forward(ctx, x):
         """
- In the forward pass we receive a Tensor containing the input and return
- a Tensor containing the output. ctx is a context object that can be used
- to stash information for backward computation. You can cache arbitrary
- objects for use in the backward pass using the ctx.save_for_backward method.
- """
-        ctx.save_for_backward(input)
-        return input.clamp(min=0)
+        在正向传播中，我们接收到一个上下文对象和一个包含输入的张量；
+        我们必须返回一个包含输出的张量，
+        并且我们可以使用上下文对象来缓存对象，以便在反向传播中使用。
+        """
+        ctx.save_for_backward(x)
+        return x.clamp(min=0)
 
     @staticmethod
     def backward(ctx, grad_output):
         """
- In the backward pass we receive a Tensor containing the gradient of the loss
- with respect to the output, and we need to compute the gradient of the loss
- with respect to the input.
- """
-        input, = ctx.saved_tensors
-        grad_input = grad_output.clone()
-        grad_input[input < 0] = 0
-        return grad_input
+        在反向传播中，我们接收到上下文对象和一个张量，
+        其包含了相对于正向传播过程中产生的输出的损失的梯度。
+        我们可以从上下文对象中检索缓存的数据，
+        并且必须计算并返回与正向传播的输入相关的损失的梯度。
+        """
+        x, = ctx.saved_tensors
+        grad_x = grad_output.clone()
+        grad_x[x < 0] = 0
+        return grad_x
 
-dtype = torch.float
-device = torch.device("cpu")
-# device = torch.device("cuda:0") # Uncomment this to run on GPU
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# N是批大小； D_in 是输入维度；
+# H 是隐藏层维度； D_out 是输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold input and outputs.
-x = torch.randn(N, D_in, device=device, dtype=dtype)
-y = torch.randn(N, D_out, device=device, dtype=dtype)
+# 产生输入和输出的随机张量
+x = torch.randn(N, D_in, device=device)
+y = torch.randn(N, D_out, device=device)
 
-# Create random Tensors for weights.
-w1 = torch.randn(D_in, H, device=device, dtype=dtype, requires_grad=True)
-w2 = torch.randn(H, D_out, device=device, dtype=dtype, requires_grad=True)
+# 产生随机权重的张量
+w1 = torch.randn(D_in, H, device=device, requires_grad=True)
+w2 = torch.randn(H, D_out, device=device, requires_grad=True)
 
 learning_rate = 1e-6
 for t in range(500):
-    # To apply our Function, we use Function.apply method. We alias this as 'relu'.
-    relu = MyReLU.apply
+    # 正向传播：使用张量上的操作来计算输出值y；
+    # 我们通过调用 MyReLU.apply 函数来使用自定义的ReLU
+    y_pred = MyReLU.apply(x.mm(w1)).mm(w2)
 
-    # Forward pass: compute predicted y using operations; we compute
-    # ReLU using our custom autograd operation.
-    y_pred = relu(x.mm(w1)).mm(w2)
-
-    # Compute and print loss
+    # 计算并输出loss
     loss = (y_pred - y).pow(2).sum()
     print(t, loss.item())
 
-    # Use autograd to compute the backward pass.
+    # 使用autograd计算反向传播过程。
     loss.backward()
 
-    # Update weights using gradient descent
     with torch.no_grad():
+        # 用梯度下降更新权重
         w1 -= learning_rate * w1.grad
         w2 -= learning_rate * w2.grad
 
-        # Manually zero the gradients after updating weights
+        # 在反向传播之后手动清零梯度
         w1.grad.zero_()
         w2.grad.zero_()
 
 ```
 
-### [TensorFlow: Static Graphs](#id19)
+### [TensorFlow：静态图](#tensorflow-static-graphs)
 
-PyTorch autograd looks a lot like TensorFlow: in both frameworks we define a computational graph, and use automatic differentiation to compute gradients. The biggest difference between the two is that TensorFlow’s computational graphs are **static** and PyTorch uses **dynamic** computational graphs.
+PyTorch自动求导看起来非常像TensorFlow：这两个框架中，我们都定义计算图，使用自动微分来计算梯度。两者最大的不同就是TensorFlow的计算图是**静态的**，而PyTorch使用**动态的**计算图。 
 
-In TensorFlow, we define the computational graph once and then execute the same graph over and over again, possibly feeding different input data to the graph. In PyTorch, each forward pass defines a new computational graph.
+在TensorFlow中，我们定义计算图一次，然后重复执行这个相同的图，可能会提供不同的输入数据。而在PyTorch中，每一个前向通道定义一个新的计算图。 
 
-Static graphs are nice because you can optimize the graph up front; for example a framework might decide to fuse some graph operations for efficiency, or to come up with a strategy for distributing the graph across many GPUs or many machines. If you are reusing the same graph over and over, then this potentially costly up-front optimization can be amortized as the same graph is rerun over and over.
+静态图的好处在于你可以预先对图进行优化。例如，一个框架可能要融合一些图的运算来提升效率，或者产生一个策略来将图分布到多个GPU或机器上。如果重复使用相同的图，那么在重复运行同一个图时，，前期潜在的代价高昂的预先优化的消耗就会被分摊开。
 
-One aspect where static and dynamic graphs differ is control flow. For some models we may wish to perform different computation for each data point; for example a recurrent network might be unrolled for different numbers of time steps for each data point; this unrolling can be implemented as a loop. With a static graph the loop construct needs to be a part of the graph; for this reason TensorFlow provides operators such as `tf.scan` for embedding loops into the graph. With dynamic graphs the situation is simpler: since we build graphs on-the-fly for each example, we can use normal imperative flow control to perform computation that differs for each input.
+静态图和动态图的一个区别是控制流。对于一些模型，我们希望对每个数据点执行不同的计算。例如，一个递归神经网络可能对于每个数据点执行不同的时间步数，这个展开（unrolling）可以作为一个循环来实现。对于一个静态图，循环结构要作为图的一部分。因此，TensorFlow提供了运算符（例如`tf.scan`）来把循环嵌入到图当中。对于动态图来说，情况更加简单：既然我们为每个例子即时创建图，我们可以使用普通的命令式控制流来为每个输入执行不同的计算。 
 
-To contrast with the PyTorch autograd example above, here we use TensorFlow to fit a simple two-layer net:
+为了与上面的PyTorch自动梯度实例做对比，我们使用TensorFlow来拟合一个简单的2层网络：
 
-```py
-# -*- coding: utf-8 -*-
+```python
+# 可运行代码见本文件夹中的 tf_two_layer_net.py
 import tensorflow as tf
 import numpy as np
 
-# First we set up the computational graph:
+# 首先我们建立计算图（computational graph）
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N是批大小；D是输入维度；
+# H是隐藏层维度；D_out是输出维度。
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create placeholders for the input and target data; these will be filled
-# with real data when we execute the graph.
+# 为输入和目标数据创建placeholder；
+# 当执行计算图时，他们将会被真实的数据填充
 x = tf.placeholder(tf.float32, shape=(None, D_in))
 y = tf.placeholder(tf.float32, shape=(None, D_out))
 
-# Create Variables for the weights and initialize them with random data.
-# A TensorFlow Variable persists its value across executions of the graph.
+# 为权重创建Variable并用随机数据初始化
+# TensorFlow的Variable在执行计算图时不会改变
 w1 = tf.Variable(tf.random_normal((D_in, H)))
 w2 = tf.Variable(tf.random_normal((H, D_out)))
 
-# Forward pass: Compute the predicted y using operations on TensorFlow Tensors.
-# Note that this code does not actually perform any numeric operations; it
-# merely sets up the computational graph that we will later execute.
+# 前向传播：使用TensorFlow的张量运算计算预测值y。
+# 注意这段代码实际上不执行任何数值运算；
+# 它只是建立了我们稍后将执行的计算图。
 h = tf.matmul(x, w1)
 h_relu = tf.maximum(h, tf.zeros(1))
 y_pred = tf.matmul(h_relu, w2)
 
-# Compute loss using operations on TensorFlow Tensors
+# 使用TensorFlow的张量运算损失（loss）
 loss = tf.reduce_sum((y - y_pred) ** 2.0)
 
-# Compute gradient of the loss with respect to w1 and w2.
+# 计算loss对于w1和w2的导数
 grad_w1, grad_w2 = tf.gradients(loss, [w1, w2])
 
-# Update the weights using gradient descent. To actually update the weights
-# we need to evaluate new_w1 and new_w2 when executing the graph. Note that
-# in TensorFlow the the act of updating the value of the weights is part of
-# the computational graph; in PyTorch this happens outside the computational
-# graph.
+# 使用梯度下降更新权重。为了实际更新权重，我们需要在执行计算图时计算new_w1和new_w2。
+# 注意，在TensorFlow中，更新权重值的行为是计算图的一部分;
+# 但在PyTorch中，这发生在计算图形之外。
 learning_rate = 1e-6
 new_w1 = w1.assign(w1 - learning_rate * grad_w1)
 new_w2 = w2.assign(w2 - learning_rate * grad_w2)
 
-# Now we have built our computational graph, so we enter a TensorFlow session to
-# actually execute the graph.
+# 现在我们搭建好了计算图，所以我们开始一个TensorFlow的会话（session）来实际执行计算图。
 with tf.Session() as sess:
-    # Run the graph once to initialize the Variables w1 and w2.
+
+    # 运行一次计算图来初始化Variable w1和w2
     sess.run(tf.global_variables_initializer())
 
-    # Create numpy arrays holding the actual data for the inputs x and targets
-    # y
+    # 创建numpy数组来存储输入x和目标y的实际数据
     x_value = np.random.randn(N, D_in)
     y_value = np.random.randn(N, D_out)
+    
     for _ in range(500):
-        # Execute the graph many times. Each time it executes we want to bind
-        # x_value to x and y_value to y, specified with the feed_dict argument.
-        # Each time we execute the graph we want to compute the values for loss,
-        # new_w1, and new_w2; the values of these Tensors are returned as numpy
-        # arrays.
-        loss_value, _, _ = sess.run([loss, new_w1, new_w2],
+        # 多次运行计算图。每次执行时，我们都用feed_dict参数，
+        # 将x_value绑定到x，将y_value绑定到y，
+        # 每次执行图形时我们都要计算损失、new_w1和new_w2；
+        # 这些张量的值以numpy数组的形式返回。
+        loss_value, _, _ = sess.run([loss, new_w1, new_w2], 
                                     feed_dict={x: x_value, y: y_value})
         print(loss_value)
-
 ```
 
-## [&lt;cite&gt;nn&lt;/cite&gt; module](#id20)
+## [`nn`模块](#nn-module)
 
-### [PyTorch: nn](#id21)
+### [PyTorch：`nn`](#pytorch-nn)
 
-Computational graphs and autograd are a very powerful paradigm for defining complex operators and automatically taking derivatives; however for large neural networks raw autograd can be a bit too low-level.
 
-When building neural networks we frequently think of arranging the computation into **layers**, some of which have **learnable parameters** which will be optimized during learning.
+计算图和autograd是十分强大的工具，可以定义复杂的操作并自动求导；然而对于大规模的网络，autograd太过于底层。
 
-In TensorFlow, packages like [Keras](https://github.com/fchollet/keras), [TensorFlow-Slim](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim), and [TFLearn](http://tflearn.org/) provide higher-level abstractions over raw computational graphs that are useful for building neural networks.
+在构建神经网络时，我们经常考虑将计算安排成**层**，其中一些具有**可学习的参数**，它们将在学习过程中进行优化。
 
-In PyTorch, the `nn` package serves this same purpose. The `nn` package defines a set of **Modules**, which are roughly equivalent to neural network layers. A Module receives input Tensors and computes output Tensors, but may also hold internal state such as Tensors containing learnable parameters. The `nn` package also defines a set of useful loss functions that are commonly used when training neural networks.
+TensorFlow里，有类似[Keras](https://github.com/fchollet/keras)，[TensorFlow-Slim](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)和[TFLearn](http://tflearn.org/)这种封装了底层计算图的高度抽象的接口，这使得构建网络十分方便。 
 
-In this example we use the `nn` package to implement our two-layer network:
+在PyTorch中，包`nn`完成了同样的功能。`nn`包中定义一组大致等价于层的**模块**。一个模块接受输入的tesnor，计算输出的tensor，而且还保存了一些内部状态比如需要学习的tensor的参数等。`nn`包中也定义了一组损失函数（loss functions），用来训练神经网络。 
 
-```py
-# -*- coding: utf-8 -*-
+这个例子中，我们用`nn`包实现两层的网络：
+
+
+```python
+# 可运行代码见本文件夹中的 two_layer_net_nn.py
 import torch
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+# N是批大小；D是输入维度
+# H是隐藏层维度；D_out是输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold inputs and outputs
-x = torch.randn(N, D_in)
-y = torch.randn(N, D_out)
+# 产生输入和输出随机张量
+x = torch.randn(N, D_in, device=device)
+y = torch.randn(N, D_out, device=device)
 
-# Use the nn package to define our model as a sequence of layers. nn.Sequential
-# is a Module which contains other Modules, and applies them in sequence to
-# produce its output. Each Linear Module computes output from input using a
-# linear function, and holds internal Tensors for its weight and bias.
+
+# 使用nn包将我们的模型定义为一系列的层。
+# nn.Sequential是包含其他模块的模块，并按顺序应用这些模块来产生其输出。
+# 每个线性模块使用线性函数从输入计算输出，并保存其内部的权重和偏差张量。
+# 在构造模型之后，我们使用.to()方法将其移动到所需的设备。
 model = torch.nn.Sequential(
-    torch.nn.Linear(D_in, H),
-    torch.nn.ReLU(),
-    torch.nn.Linear(H, D_out),
-)
+            torch.nn.Linear(D_in, H),
+            torch.nn.ReLU(),
+            torch.nn.Linear(H, D_out),
+        ).to(device)
 
-# The nn package also contains definitions of popular loss functions; in this
-# case we will use Mean Squared Error (MSE) as our loss function.
+
+# nn包还包含常用的损失函数的定义；
+# 在这种情况下，我们将使用平均平方误差(MSE)作为我们的损失函数。
+# 设置reduction='sum'，表示我们计算的是平方误差的“和”，而不是平均值;
+# 这是为了与前面我们手工计算损失的例子保持一致，
+# 但是在实践中，通过设置reduction='elementwise_mean'来使用均方误差作为损失更为常见。
 loss_fn = torch.nn.MSELoss(reduction='sum')
 
 learning_rate = 1e-4
 for t in range(500):
-    # Forward pass: compute predicted y by passing x to the model. Module objects
-    # override the __call__ operator so you can call them like functions. When
-    # doing so you pass a Tensor of input data to the Module and it produces
-    # a Tensor of output data.
-    y_pred = model(x)
 
-    # Compute and print loss. We pass Tensors containing the predicted and true
-    # values of y, and the loss function returns a Tensor containing the
-    # loss.
+    # 前向传播：通过向模型传入x计算预测的y。
+    # 模块对象重载了__call__运算符，所以可以像函数那样调用它们。
+    # 这么做相当于向模块传入了一个张量，然后它返回了一个输出张量。
+    y_pred = model(x)
+    
+    # 计算并打印损失。我们传递包含y的预测值和真实值的张量，损失函数返回包含损失的张量。
     loss = loss_fn(y_pred, y)
     print(t, loss.item())
-
-    # Zero the gradients before running the backward pass.
+    
+    # 反向传播之前清零梯度
     model.zero_grad()
 
-    # Backward pass: compute gradient of the loss with respect to all the learnable
-    # parameters of the model. Internally, the parameters of each Module are stored
-    # in Tensors with requires_grad=True, so this call will compute gradients for
-    # all learnable parameters in the model.
+    # 反向传播：计算模型的损失对所有可学习参数的导数（梯度）。
+    # 在内部，每个模块的参数存储在requires_grad=True的张量中，
+    # 因此这个调用将计算模型中所有可学习参数的梯度。
     loss.backward()
 
-    # Update the weights using gradient descent. Each parameter is a Tensor, so
-    # we can access its gradients like we did before.
+    # 使用梯度下降更新权重。
+    # 每个参数都是张量，所以我们可以像我们以前那样可以得到它的数值和梯度
     with torch.no_grad():
         for param in model.parameters():
-            param -= learning_rate * param.grad
-
+            param.data -= learning_rate * param.grad
 ```
 
-### [PyTorch: optim](#id22)
+### [PyTorch：`optim`](#pytorch-optim)
 
-Up to this point we have updated the weights of our models by manually mutating the Tensors holding learnable parameters (with `torch.no_grad()` or `.data` to avoid tracking history in autograd). This is not a huge burden for simple optimization algorithms like stochastic gradient descent, but in practice we often train neural networks using more sophisticated optimizers like AdaGrad, RMSProp, Adam, etc.
+到目前为止，我们已经通过手动改变包含可学习参数的张量来更新模型的权重。对于随机梯度下降(SGD/stochastic gradient descent)等简单的优化算法来说，这不是一个很大的负担，但在实践中，我们经常使用AdaGrad、RMSProp、Adam等更复杂的优化器来训练神经网络。
 
-The `optim` package in PyTorch abstracts the idea of an optimization algorithm and provides implementations of commonly used optimization algorithms.
 
-In this example we will use the `nn` package to define our model as before, but we will optimize the model using the Adam algorithm provided by the `optim` package:
-
-```py
-# -*- coding: utf-8 -*-
+```python
+# 可运行代码见本文件夹中的 two_layer_net_optim.py
 import torch
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N是批大小；D是输入维度
+# H是隐藏层维度；D_out是输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold inputs and outputs
+# 产生随机输入和输出张量
 x = torch.randn(N, D_in)
 y = torch.randn(N, D_out)
 
-# Use the nn package to define our model and loss function.
+# 使用nn包定义模型和损失函数
 model = torch.nn.Sequential(
-    torch.nn.Linear(D_in, H),
-    torch.nn.ReLU(),
-    torch.nn.Linear(H, D_out),
-)
+          torch.nn.Linear(D_in, H),
+          torch.nn.ReLU(),
+          torch.nn.Linear(H, D_out),
+        )
 loss_fn = torch.nn.MSELoss(reduction='sum')
 
-# Use the optim package to define an Optimizer that will update the weights of
-# the model for us. Here we will use Adam; the optim package contains many other
-# optimization algoriths. The first argument to the Adam constructor tells the
-# optimizer which Tensors it should update.
+# 使用optim包定义优化器（Optimizer）。Optimizer将会为我们更新模型的权重。
+# 这里我们使用Adam优化方法；optim包还包含了许多别的优化算法。
+# Adam构造函数的第一个参数告诉优化器应该更新哪些张量。
 learning_rate = 1e-4
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
 for t in range(500):
-    # Forward pass: compute predicted y by passing x to the model.
+
+    # 前向传播：通过像模型输入x计算预测的y
     y_pred = model(x)
 
-    # Compute and print loss.
+    # 计算并打印loss
     loss = loss_fn(y_pred, y)
     print(t, loss.item())
-
-    # Before the backward pass, use the optimizer object to zero all of the
-    # gradients for the variables it will update (which are the learnable
-    # weights of the model). This is because by default, gradients are
-    # accumulated in buffers( i.e, not overwritten) whenever .backward()
-    # is called. Checkout docs of torch.autograd.backward for more details.
+    
+    # 在反向传播之前，使用optimizer将它要更新的所有张量的梯度清零(这些张量是模型可学习的权重)
     optimizer.zero_grad()
 
-    # Backward pass: compute gradient of the loss with respect to model
-    # parameters
+    # 反向传播：根据模型的参数计算loss的梯度
     loss.backward()
 
-    # Calling the step function on an Optimizer makes an update to its
-    # parameters
+    # 调用Optimizer的step函数使它所有参数更新
     optimizer.step()
-
 ```
 
-### [PyTorch: Custom nn Modules](#id23)
+### [PyTorch：自定义`nn`模块](#pytorch-custom-nn-modules)
 
-Sometimes you will want to specify models that are more complex than a sequence of existing Modules; for these cases you can define your own Modules by subclassing `nn.Module` and defining a `forward` which receives input Tensors and produces output Tensors using other modules or other autograd operations on Tensors.
+有时候需要指定比现有模块序列更复杂的模型；对于这些情况，可以通过继承`nn.Module`并定义`forward`函数，这个`forward`函数可以使用其他模块或者其他的自动求导运算来接收输入tensor，产生输出tensor。 
 
-In this example we implement our two-layer network as a custom Module subclass:
+在这个例子中，我们用自定义Module的子类构建两层网络：
 
-```py
-# -*- coding: utf-8 -*-
+```python
+# 可运行代码见本文件夹中的 two_layer_net_module.py
 import torch
 
 class TwoLayerNet(torch.nn.Module):
     def __init__(self, D_in, H, D_out):
         """
- In the constructor we instantiate two nn.Linear modules and assign them as
- member variables.
- """
+        在构造函数中，我们实例化了两个nn.Linear模块，并将它们作为成员变量。
+        """
         super(TwoLayerNet, self).__init__()
         self.linear1 = torch.nn.Linear(D_in, H)
         self.linear2 = torch.nn.Linear(H, D_out)
 
     def forward(self, x):
         """
- In the forward function we accept a Tensor of input data and we must return
- a Tensor of output data. We can use Modules defined in the constructor as
- well as arbitrary operators on Tensors.
- """
+        在前向传播的函数中，我们接收一个输入的张量，也必须返回一个输出张量。
+        我们可以使用构造函数中定义的模块以及张量上的任意的（可微分的）操作。
+        """
         h_relu = self.linear1(x).clamp(min=0)
         y_pred = self.linear2(h_relu)
         return y_pred
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+# N是批大小； D_in 是输入维度；
+# H 是隐藏层维度； D_out 是输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold inputs and outputs
+# 产生输入和输出的随机张量
 x = torch.randn(N, D_in)
 y = torch.randn(N, D_out)
 
-# Construct our model by instantiating the class defined above
+# 通过实例化上面定义的类来构建我们的模型。
 model = TwoLayerNet(D_in, H, D_out)
 
-# Construct our loss function and an Optimizer. The call to model.parameters()
-# in the SGD constructor will contain the learnable parameters of the two
-# nn.Linear modules which are members of the model.
-criterion = torch.nn.MSELoss(reduction='sum')
+# 构造损失函数和优化器。
+# SGD构造函数中对model.parameters()的调用，
+# 将包含模型的一部分，即两个nn.Linear模块的可学习参数。
+loss_fn = torch.nn.MSELoss(reduction='sum')
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-4)
 for t in range(500):
-    # Forward pass: Compute predicted y by passing x to the model
+    # 前向传播：通过向模型传递x计算预测值y
     y_pred = model(x)
 
-    # Compute and print loss
-    loss = criterion(y_pred, y)
+    #计算并输出loss
+    loss = loss_fn(y_pred, y)
     print(t, loss.item())
 
-    # Zero gradients, perform a backward pass, and update the weights.
+    # 清零梯度，反向传播，更新权重
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
 
 ```
 
-### [PyTorch: Control Flow + Weight Sharing](#id24)
+### [PyTorch：控制流和权重共享](#pytorch-control-flow-weight-sharing)
 
-As an example of dynamic graphs and weight sharing, we implement a very strange model: a fully-connected ReLU network that on each forward pass chooses a random number between 1 and 4 and uses that many hidden layers, reusing the same weights multiple times to compute the innermost hidden layers.
+作为动态图和权重共享的一个例子，我们实现了一个非常奇怪的模型：一个全连接的ReLU网络，在每一次前向传播时，它的隐藏层的层数为随机1到4之间的数，这样可以多次重用相同的权重来计算。
 
-For this model we can use normal Python flow control to implement the loop, and we can implement weight sharing among the innermost layers by simply reusing the same Module multiple times when defining the forward pass.
+因为这个模型可以使用普通的Python流控制来实现循环，并且我们可以通过在定义转发时多次重用同一个模块来实现最内层之间的权重共享。
 
-We can easily implement this model as a Module subclass:
+我们利用Mudule的子类很容易实现这个模型：
 
-```py
-# -*- coding: utf-8 -*-
+
+```python
+# 可运行代码见本文件夹中的 dynamic_net.py
 import random
 import torch
 
 class DynamicNet(torch.nn.Module):
     def __init__(self, D_in, H, D_out):
         """
- In the constructor we construct three nn.Linear instances that we will use
- in the forward pass.
- """
+        在构造函数中，我们构造了三个nn.Linear实例，它们将在前向传播时被使用。
+        """
         super(DynamicNet, self).__init__()
         self.input_linear = torch.nn.Linear(D_in, H)
         self.middle_linear = torch.nn.Linear(H, H)
@@ -593,52 +561,48 @@ class DynamicNet(torch.nn.Module):
 
     def forward(self, x):
         """
- For the forward pass of the model, we randomly choose either 0, 1, 2, or 3
- and reuse the middle_linear Module that many times to compute hidden layer
- representations.
-
- Since each forward pass builds a dynamic computation graph, we can use normal
- Python control-flow operators like loops or conditional statements when
- defining the forward pass of the model.
-
- Here we also see that it is perfectly safe to reuse the same Module many
- times when defining a computational graph. This is a big improvement from Lua
- Torch, where each Module could be used only once.
- """
+        对于模型的前向传播，我们随机选择0、1、2、3，
+        并重用了多次计算隐藏层的middle_linear模块。
+        由于每个前向传播构建一个动态计算图，
+        我们可以在定义模型的前向传播时使用常规Python控制流运算符，如循环或条件语句。
+        在这里，我们还看到，在定义计算图形时多次重用同一个模块是完全安全的。
+        这是Lua Torch的一大改进，因为Lua Torch中每个模块只能使用一次。
+        """
         h_relu = self.input_linear(x).clamp(min=0)
         for _ in range(random.randint(0, 3)):
             h_relu = self.middle_linear(h_relu).clamp(min=0)
         y_pred = self.output_linear(h_relu)
         return y_pred
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
+
+# N是批大小；D是输入维度
+# H是隐藏层维度；D_out是输出维度
 N, D_in, H, D_out = 64, 1000, 100, 10
 
-# Create random Tensors to hold inputs and outputs
+# 产生输入和输出随机张量
 x = torch.randn(N, D_in)
 y = torch.randn(N, D_out)
 
-# Construct our model by instantiating the class defined above
+# 实例化上面定义的类来构造我们的模型
 model = DynamicNet(D_in, H, D_out)
 
-# Construct our loss function and an Optimizer. Training this strange model with
-# vanilla stochastic gradient descent is tough, so we use momentum
+# 构造我们的损失函数（loss function）和优化器（Optimizer）。
+# 用平凡的随机梯度下降训练这个奇怪的模型是困难的，所以我们使用了momentum方法。
 criterion = torch.nn.MSELoss(reduction='sum')
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-4, momentum=0.9)
 for t in range(500):
-    # Forward pass: Compute predicted y by passing x to the model
+    
+    # 前向传播：通过向模型传入x计算预测的y。
     y_pred = model(x)
 
-    # Compute and print loss
+    # 计算并打印损失
     loss = criterion(y_pred, y)
     print(t, loss.item())
 
-    # Zero gradients, perform a backward pass, and update the weights.
+    # 清零梯度，反向传播，更新权重 
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
-
 ```
 
 ## [Examples](#id25)
@@ -669,7 +633,7 @@ You can browse the above examples here.
 
 [TensorFlow: Static Graphs](examples_autograd/tf_two_layer_net.html#sphx-glr-beginner-examples-autograd-tf-two-layer-net-py)
 
-### [&lt;cite&gt;nn&lt;/cite&gt; module](#id28)
+### [`nn` module](#id28)
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_two_layer_net_nn_thumb.png](img/2d060e233e6a979b9526a129949c945b.jpg)
 
@@ -686,4 +650,3 @@ You can browse the above examples here.
 ![https://pytorch.org/tutorials/_images/sphx_glr_dynamic_net_thumb.png](img/bf0b252ce2d39ba6da26c16bee984d39.jpg)
 
 [PyTorch: Control Flow + Weight Sharing](examples_nn/dynamic_net.html#sphx-glr-beginner-examples-nn-dynamic-net-py)
-
