@@ -85,7 +85,7 @@ Spawns `nprocs` processes that run `fn` with `args`.
 
 If one of the processes exits with a non-zero exit status, the remaining processes are killed and an exception is raised with the cause of termination. In the case an exception was caught in the child process, it is forwarded and its traceback is included in the exception raised in the parent process.
 
-| Parameters: | 
+Parameters: 
 
 *   **fn** (_function_) –
 
@@ -98,8 +98,7 @@ If one of the processes exits with a non-zero exit status, the remaining process
 *   **join** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Perform a blocking join on all processes.
 *   **daemon** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – The spawned processes’ daemon flag. If set to True, daemonic processes will be created.
 
- |
-| --- | --- |
+
 | Returns: | None if `join` is `True`, [`SpawnContext`](#torch.multiprocessing.SpawnContext "torch.multiprocessing.SpawnContext") if `join` is `False` |
 | --- | --- |
 

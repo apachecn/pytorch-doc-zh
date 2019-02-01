@@ -213,7 +213,7 @@ torch.sparse.addmm(mat, mat1, mat2, beta=1, alpha=1)
 
 This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm "torch.addmm") in the forward, except that it supports backward for sparse matrix `mat1`. `mat1` need to have `sparse_dim = 2`. Note that the gradients of `mat1` is a coalesced sparse tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – a dense matrix to be added
 *   **mat1** (_SparseTensor_) – a sparse matrix to be multiplied
@@ -221,8 +221,7 @@ This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm 
 *   **beta** (_Number__,_ _optional_) – multiplier for `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
 *   **alpha** (_Number__,_ _optional_) – multiplier for ![](img/c4fda0ec33ee23096c7bac6105f7a619.jpg) (![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg))
 
- |
-| --- | --- |
+
 
 ```py
 torch.sparse.mm(mat1, mat2)
@@ -230,13 +229,12 @@ torch.sparse.mm(mat1, mat2)
 
 Performs a matrix multiplication of the sparse matrix `mat1` and dense matrix `mat2`. Similar to [`torch.mm()`](torch.html#torch.mm "torch.mm"), If `mat1` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` is a ![](img/ec84c2d649caa2a7d4dc59b6b23b0278.jpg) tensor, out will be a ![](img/42cdcd96fd628658ac0e3e7070ba08d5.jpg) dense tensor. `mat1` need to have `sparse_dim = 2`. This function also supports backward for both matrices. Note that the gradients of `mat1` is a coalesced sparse tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **mat1** (_SparseTensor_) – the first sparse matrix to be multiplied
 *   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second dense matrix to be multiplied
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -277,14 +275,13 @@ All summed `dim` are squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze 
 
 During backward, only gradients at `nnz` locations of `input` will propagate back. Note that the gradients of `input` is coalesced.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input SparseTensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – a dimension or a list of dimensions to reduce. Default: reduce over all dims.
 *   **dtype** (`torch.dtype`, optional) – the desired data type of returned Tensor. Default: dtype of `input`.
 
- |
-| --- | --- |
+
 
 Example:
 

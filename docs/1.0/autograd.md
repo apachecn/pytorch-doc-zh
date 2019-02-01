@@ -14,15 +14,14 @@ The graph is differentiated using the chain rule. If any of `tensors` are non-sc
 
 This function accumulates gradients in the leaves - you might need to zero them before calling it.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensors** (_sequence of Tensor_) – Tensors of which the derivative will be computed.
 *   **grad_tensors** (_sequence of_ _(_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_None_](https://docs.python.org/3/library/constants.html#None "(in Python v3.7)")_)_) – Gradients w.r.t. each element of corresponding tensors. None values can be specified for scalar Tensors or ones that don’t require grad. If a None value would be acceptable for all grad_tensors, then this argument is optional.
 *   **retain_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `False`, the graph used to compute the grad will be freed. Note that in nearly all cases setting this option to `True` is not needed and often can be worked around in a much more efficient way. Defaults to the value of `create_graph`.
 *   **create_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, graph of the derivative will be constructed, allowing to compute higher order derivative products. Defaults to `False`.
 
- |
-| --- | --- |
+
 
 ```py
 torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=False, only_inputs=True, allow_unused=False)
@@ -34,7 +33,7 @@ Computes and returns the sum of gradients of outputs w.r.t. the inputs.
 
 If `only_inputs` is `True`, the function will only return a list of gradients w.r.t the specified inputs. If it’s `False`, then gradient w.r.t. all remaining leaves will still be computed, and will be accumulated into their `.grad` attribute.
 
-| Parameters: | 
+Parameters: 
 
 *   **outputs** (_sequence of Tensor_) – outputs of the differentiated function.
 *   **inputs** (_sequence of Tensor_) – Inputs w.r.t. which the gradient will be returned (and not accumulated into `.grad`).
@@ -43,8 +42,7 @@ If `only_inputs` is `True`, the function will only return a list of gradients w.
 *   **create_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, graph of the derivative will be constructed, allowing to compute higher order derivative products. Default: `False`.
 *   **allow_unused** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `False`, specifying inputs that were not used when computing outputs (and therefore their grad is always zero) is an error. Defaults to `False`.
 
- |
-| --- | --- |
+
 
 ## Locally disabling gradient computation
 
@@ -175,14 +173,13 @@ The graph is differentiated using the chain rule. If the tensor is non-scalar (i
 
 This function accumulates gradients in the leaves - you might need to zero them before calling it.
 
-| Parameters: | 
+Parameters: 
 
 *   **gradient** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_None_](https://docs.python.org/3/library/constants.html#None "(in Python v3.7)")) – Gradient w.r.t. the tensor. If it is a tensor, it will be automatically converted to a Tensor that does not require grad unless `create_graph` is True. None values can be specified for scalar Tensors or ones that don’t require grad. If a None value would be acceptable then this argument is optional.
 *   **retain_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `False`, the graph used to compute the grads will be freed. Note that in nearly all cases setting this option to True is not needed and often can be worked around in a much more efficient way. Defaults to the value of `create_graph`.
 *   **create_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, graph of the derivative will be constructed, allowing to compute higher order derivative products. Defaults to `False`.
 
- |
-| --- | --- |
+
 
 ```py
 detach()
@@ -371,7 +368,7 @@ Warning
 
 If any checked tensor in `input` has overlapping memory, i.e., different indices pointing to the same memory address (e.g., from `torch.expand()`), this check will likely fail because the numerical gradients computed by point perturbation at such indices will change values at all other indices that share the same memory address.
 
-| Parameters: | 
+Parameters: 
 
 *   **func** (_function_) – a Python function that takes Tensor inputs and returns a Tensor or a tuple of Tensors
 *   **inputs** (_tuple of Tensor_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – inputs to the function
@@ -380,8 +377,7 @@ If any checked tensor in `input` has overlapping memory, i.e., different indices
 *   **rtol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – relative tolerance
 *   **raise_exception** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – indicating whether to raise an exception if the check fails. The exception gives more information about the exact nature of the failure. This is helpful when debugging gradchecks.
 
- |
-| --- | --- |
+
 | Returns: | True if all differences satisfy allclose condition |
 | --- | --- |
 
@@ -403,7 +399,7 @@ Warning
 
 If any checked tensor in `input` and `grad_outputs` has overlapping memory, i.e., different indices pointing to the same memory address (e.g., from `torch.expand()`), this check will likely fail because the numerical gradients computed by point perturbation at such indices will change values at all other indices that share the same memory address.
 
-| Parameters: | 
+Parameters: 
 
 *   **func** (_function_) – a Python function that takes Tensor inputs and returns a Tensor or a tuple of Tensors
 *   **inputs** (_tuple of Tensor_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – inputs to the function
@@ -414,8 +410,7 @@ If any checked tensor in `input` and `grad_outputs` has overlapping memory, i.e.
 *   **gen_non_contig_grad_outputs** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `grad_outputs` is `None` and `gen_non_contig_grad_outputs` is `True`, the randomly generated gradient outputs are made to be noncontiguous
 *   **raise_exception** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – indicating whether to raise an exception if the check fails. The exception gives more information about the exact nature of the failure. This is helpful when debugging gradchecks.
 
- |
-| --- | --- |
+
 | Returns: | True if all differences satisfy allclose condition |
 | --- | --- |
 
@@ -429,13 +424,12 @@ class torch.autograd.profiler.profile(enabled=True, use_cuda=False)
 
 Context manager that manages autograd profiler state and holds a summary of results.
 
-| Parameters: | 
+Parameters: 
 
 *   **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Setting this to False makes this context manager a no-op. Default: `True`.
 *   **use_cuda** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Enables timing of CUDA events as well using the cudaEvent API. Adds approximately 4us of overhead to each tensor operation. Default: `False`
 
- |
-| --- | --- |
+
 
 Example
 

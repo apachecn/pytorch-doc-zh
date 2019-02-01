@@ -36,13 +36,13 @@ Datasets
 All the datasets have almost similar API. They all have two common arguments: `transform` and `target_transform` to transform the input and target respectively.
 
 ```py
-class torchvision.datasets.MNIST(root, train=True, transform=None, target_transform=None, download=False)¶
+class torchvision.datasets.MNIST(root, train=True, transform=None, target_transform=None, download=False)
 ```
 
 [MNIST](http://yann.lecun.com/exdb/mnist/) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory of dataset where `processed/training.pt` and `processed/test.pt` exist.
 *   **train** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, creates dataset from `training.pt`, otherwise from `test.pt`.
@@ -50,17 +50,16 @@ class torchvision.datasets.MNIST(root, train=True, transform=None, target_transf
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.RandomCrop`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target_transform=None, download=False)¶
+class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target_transform=None, download=False)
 ```
 
 [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory of dataset where `processed/training.pt` and `processed/test.pt` exist.
 *   **train** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, creates dataset from `training.pt`, otherwise from `test.pt`.
@@ -68,17 +67,16 @@ class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.RandomCrop`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.datasets.EMNIST(root, split, **kwargs)¶
+class torchvision.datasets.EMNIST(root, split, **kwargs)
 ```
 
 [EMNIST](https://www.nist.gov/itl/iad/image-group/emnist-dataset/) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory of dataset where `processed/training.pt` and `processed/test.pt` exist.
 *   **split** (_string_) – The dataset has 6 different splits: `byclass`, `bymerge`, `balanced`, `letters`, `digits` and `mnist`. This argument specifies which one to use.
@@ -87,29 +85,27 @@ class torchvision.datasets.EMNIST(root, split, **kwargs)¶
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.RandomCrop`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 Note
 
 These require the [COCO API to be installed](https://github.com/pdollar/coco/tree/master/PythonAPI)
 
 ```py
-class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_transform=None)¶
+class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_transform=None)
 ```
 
 [MS Coco Captions](http://mscoco.org/dataset/#captions-challenge2015) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory where images are downloaded to.
 *   **annFile** (_string_) – Path to json annotation file.
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.ToTensor`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 Example
 
@@ -142,7 +138,7 @@ u'A mountain view with a plume of smoke in the background']
 ```
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -154,24 +150,23 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.CocoDetection(root, annFile, transform=None, target_transform=None)¶
+class torchvision.datasets.CocoDetection(root, annFile, transform=None, target_transform=None)
 ```
 
 [MS Coco Detection](http://mscoco.org/dataset/#detections-challenge2016) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory where images are downloaded to.
 *   **annFile** (_string_) – Path to json annotation file.
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.ToTensor`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -183,24 +178,23 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.LSUN(root, classes='train', transform=None, target_transform=None)¶
+class torchvision.datasets.LSUN(root, classes='train', transform=None, target_transform=None)
 ```
 
 [LSUN](http://lsun.cs.princeton.edu) dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory for the database files.
 *   **classes** (_string_ _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – One of {‘train’, ‘val’, ‘test’} or a list of categories to load. e,g. [‘bedroom_train’, ‘church_train’].
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.RandomCrop`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -212,7 +206,7 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.ImageFolder(root, transform=None, target_transform=None, loader=<function default_loader>)¶
+class torchvision.datasets.ImageFolder(root, transform=None, target_transform=None, loader=<function default_loader>)
 ```
 
 A generic data loader where the images are arranged in this way:
@@ -229,18 +223,17 @@ root/cat/asd932_.png
 ```
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory path.
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version. E.g, `transforms.RandomCrop`
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 *   **loader** – A function to load an image given its path.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -252,7 +245,7 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.DatasetFolder(root, loader, extensions, transform=None, target_transform=None)¶
+class torchvision.datasets.DatasetFolder(root, loader, extensions, transform=None, target_transform=None)
 ```
 
 A generic data loader where the samples are arranged in this way:
@@ -269,7 +262,7 @@ root/class_y/asd932_.ext
 ```
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory path.
 *   **loader** (_callable_) – A function to load a sample given its path.
@@ -277,11 +270,10 @@ root/class_y/asd932_.ext
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in a sample and returns a transformed version. E.g, `transforms.RandomCrop` for images.
 *   **target_transform** – A function/transform that takes in the target and transforms it.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -297,13 +289,13 @@ This should simply be implemented with an `ImageFolder` dataset. The data is pre
 [Here is an example](https://github.com/pytorch/examples/blob/e0d33a69bec3eb4096c265451dbb85975eb961ea/imagenet/main.py#L113-L126).
 
 ```py
-class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_transform=None, download=False)¶
+class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_transform=None, download=False)
 ```
 
 [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory of dataset where directory `cifar-10-batches-py` exists or will be saved to if download is set to True.
 *   **train** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, creates dataset from training set, otherwise creates from test set.
@@ -311,11 +303,10 @@ class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_tran
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 *   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If true, downloads the dataset from the internet and puts it in root directory. If dataset is already downloaded, it is not downloaded again.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -327,7 +318,7 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_transform=None, download=False)¶
+class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_transform=None, download=False)
 ```
 
 [CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html) Dataset.
@@ -335,13 +326,13 @@ class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_tra
 This is a subclass of the `CIFAR10` Dataset.
 
 ```py
-class torchvision.datasets.STL10(root, split='train', transform=None, target_transform=None, download=False)¶
+class torchvision.datasets.STL10(root, split='train', transform=None, target_transform=None, download=False)
 ```
 
 [STL10](https://cs.stanford.edu/~acoates/stl10/) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory of dataset where directory `stl10_binary` exists.
 *   **split** (_string_) – One of {‘train’, ‘test’, ‘unlabeled’, ‘train+unlabeled’}. Accordingly dataset is selected.
@@ -349,11 +340,10 @@ class torchvision.datasets.STL10(root, split='train', transform=None, target_tra
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 *   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If true, downloads the dataset from the internet and puts it in root directory. If dataset is already downloaded, it is not downloaded again.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -365,13 +355,13 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.SVHN(root, split='train', transform=None, target_transform=None, download=False)¶
+class torchvision.datasets.SVHN(root, split='train', transform=None, target_transform=None, download=False)
 ```
 
 [SVHN](http://ufldl.stanford.edu/housenumbers/) Dataset. Note: The SVHN dataset assigns the label `10` to the digit `0`. However, in this Dataset, we assign the label `0` to the digit `0` to be compatible with PyTorch loss functions which expect the class labels to be in the range `[0, C-1]`
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory of dataset where directory `SVHN` exists.
 *   **split** (_string_) – One of {‘train’, ‘test’, ‘extra’}. Accordingly dataset is selected. ‘extra’ is Extra training set.
@@ -379,11 +369,10 @@ class torchvision.datasets.SVHN(root, split='train', transform=None, target_tran
 *   **target_transform** (_callable__,_ _optional_) – A function/transform that takes in the target and transforms it.
 *   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If true, downloads the dataset from the internet and puts it in root directory. If dataset is already downloaded, it is not downloaded again.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  
@@ -395,24 +384,23 @@ __getitem__(index)¶
 | --- | --- |
 
 ```py
-class torchvision.datasets.PhotoTour(root, name, train=True, transform=None, download=False)¶
+class torchvision.datasets.PhotoTour(root, name, train=True, transform=None, download=False)
 ```
 
 [Learning Local Image Descriptors Data](http://phototour.cs.washington.edu/patches/default.htm) Dataset.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **root** (_string_) – Root directory where images are.
 *   **name** (_string_) – Name of the dataset to load.
 *   **transform** (_callable__,_ _optional_) – A function/transform that takes in an PIL image and returns a transformed version.
 *   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If true, downloads the dataset from the internet and puts it in root directory. If dataset is already downloaded, it is not downloaded again.
 
- |
-| --- | --- |
+
 
 ```py
-__getitem__(index)¶
+__getitem__(index)
 ```
 
  

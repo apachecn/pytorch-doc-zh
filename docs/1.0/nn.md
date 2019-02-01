@@ -12,13 +12,12 @@ A kind of Tensor that is to be considered a module parameter.
 
 Parameters are [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") subclasses, that have a very special property when used with [`Module`](#torch.nn.Module "torch.nn.Module") s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters") iterator. Assigning a Tensor doesn’t have such effect. This is because one might want to cache some temporary state, like last hidden state of the RNN, in the model. If there was no such class as [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"), these temporaries would get registered too.
 
-| Parameters: | 
+Parameters: 
 
 *   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – parameter tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if the parameter requires gradient. See [Excluding subgraphs from backward](notes/autograd.html#excluding-subgraphs) for more details. Default: `True`
 
- |
-| --- | --- |
+
 
 ## Containers
 
@@ -60,13 +59,12 @@ Adds a child module to the current module.
 
 The module can be accessed as an attribute using the given name.
 
-| Parameters: | 
+Parameters: 
 
 *   **name** (_string_) – name of the child module. The child module can be accessed from this module using the given name
 *   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – child module to be added to the module.
 
- |
-| --- | --- |
+
 
 ```py
 apply(fn)
@@ -242,13 +240,12 @@ load_state_dict(state_dict, strict=True)
 
 Copies parameters and buffers from [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") into this module and its descendants. If `strict` is `True`, then the keys of [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") must exactly match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function.
 
-| Parameters: | 
+Parameters: 
 
 *   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – a dict containing parameters and persistent buffers.
 *   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to strictly enforce that the keys in [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 modules()
@@ -285,13 +282,12 @@ named_buffers(prefix='', recurse=True)
 
 Returns an iterator over module buffers, yielding both the name of the buffer as well as the buffer itself.
 
-| Parameters: | 
+Parameters: 
 
 *   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all buffer names.
 *   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module.
 
- |
-| --- | --- |
+
 | Yields: | _(string, torch.Tensor)_ – Tuple containing the name and buffer |
 | --- | --- |
 
@@ -357,13 +353,12 @@ named_parameters(prefix='', recurse=True)
 
 Returns an iterator over module parameters, yielding both the name of the parameter as well as the parameter itself.
 
-| Parameters: | 
+Parameters: 
 
 *   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all parameter names.
 *   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module.
 
- |
-| --- | --- |
+
 | Yields: | _(string, Parameter)_ – Tuple containing the name and parameter |
 | --- | --- |
 
@@ -433,13 +428,12 @@ This is typically used to register a buffer that should not to be considered a m
 
 Buffers can be accessed as attributes using given names.
 
-| Parameters: | 
+Parameters: 
 
 *   **name** (_string_) – name of the buffer. The buffer can be accessed from this module using the given name
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – buffer to be registered.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -496,13 +490,12 @@ Adds a parameter to the module.
 
 The parameter can be accessed as an attribute using given name.
 
-| Parameters: | 
+Parameters: 
 
 *   **name** (_string_) – name of the parameter. The parameter can be accessed from this module using the given name
 *   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to be added to the module.
 
- |
-| --- | --- |
+
 
 ```py
 state_dict(destination=None, prefix='', keep_vars=False)
@@ -553,14 +546,13 @@ Note
 
 This method modifies the module in-place.
 
-| Parameters: | 
+Parameters: 
 
 *   **device** (`torch.device`) – the desired device of the parameters and buffers in this module
 *   **dtype** (`torch.dtype`) – the desired floating point type of the floating point parameters and buffers in this module
 *   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor whose dtype and device are the desired dtype and device for all parameters and buffers in this module
 
- |
-| --- | --- |
+
 | Returns: | self |
 | --- | --- |
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
@@ -711,13 +703,12 @@ insert(index, module)
 
 Insert a given module before a given index in the list.
 
-| Parameters: | 
+Parameters: 
 
 *   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – index to insert.
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to insert
 
- |
-| --- | --- |
+
 
 ### ModuleDict
 
@@ -957,7 +948,7 @@ Note
 
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
 *   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
@@ -968,8 +959,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 *   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
 *   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -986,8 +976,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -1043,7 +1032,7 @@ Note
 
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
 *   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
@@ -1054,8 +1043,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 *   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
 *   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1074,8 +1062,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size[0], kernel_size[1]). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -1136,7 +1123,7 @@ Note
 
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
 *   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
@@ -1147,8 +1134,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 *   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
 *   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1169,8 +1155,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -1220,7 +1205,7 @@ Note
 
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
 *   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
@@ -1232,8 +1217,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 *   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
 *   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1250,8 +1234,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (in_channels, out_channels, kernel_size[0], kernel_size[1]). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
 
- |
-| --- | --- |
+
 
 ### ConvTranspose2d
 
@@ -1294,7 +1277,7 @@ Note
 
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
 *   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
@@ -1306,8 +1289,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 *   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
 *   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1325,8 +1307,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (in_channels, out_channels, kernel_size[0], kernel_size[1]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels) If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -1391,7 +1372,7 @@ Note
 
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
 *   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
@@ -1403,8 +1384,7 @@ In some circumstances when using the CUDA backend with CuDNN, this operator may 
 *   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
 *   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1424,8 +1404,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels) If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -1461,15 +1440,14 @@ The `padding`, `stride` and `dilation` arguments specify how the sliding blocks 
 *   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension before reshaping.
 *   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the sliding blocks
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the stride of the sliding blocks in the input spatial dimensions. Default: 1
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – implicit zero padding to be added on both sides of input. Default: 0
 *   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a parameter that controls the stride of elements within the neighborhood. Default: 1
 
- |
-| --- | --- |
+
 
 *   If `kernel_size`, `dilation`, `padding` or `stride` is an int or a tuple of length 1, their values will be replicated across all spatial dimensions.
 *   For the case of two input spatial dimensions this operation is sometimes called `im2col`.
@@ -1535,7 +1513,7 @@ The `padding`, `stride` and `dilation` arguments specify how the sliding blocks 
 *   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension before reshaping.
 *   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
 
-| Parameters: | 
+Parameters: 
 
 *   **output_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the shape of the spatial dimensions of the output (i.e., `input.sizes()[2:]`)
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the sliding blocks
@@ -1543,8 +1521,7 @@ The `padding`, `stride` and `dilation` arguments specify how the sliding blocks 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – implicit zero padding to be added on both sides of input. Default: 0
 *   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a parameter that controls the stride of elements within the neighborhood. Default: 1
 
- |
-| --- | --- |
+
 
 *   If `output_size`, `kernel_size`, `dilation`, `padding` or `stride` is an int or a tuple of length 1 then their values will be replicated across all spatial dimensions.
 *   For the case of two output spatial dimensions this operation is sometimes called `col2im`.
@@ -1590,7 +1567,7 @@ In the simplest case, the output value of the layer with input size ![](img/5816
 
 If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window to take a max over
 *   **stride** – the stride of the window. Default value is `kernel_size`
@@ -1599,8 +1576,7 @@ If `padding` is non-zero, then the input is implicitly zero-padded on both sides
 *   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") later
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1641,7 +1617,7 @@ The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
 > *   a single `int` – in which case the same value is used for the height and width dimension
 > *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window to take a max over
 *   **stride** – the stride of the window. Default value is `kernel_size`
@@ -1650,8 +1626,7 @@ The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
 *   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") later
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1696,7 +1671,7 @@ The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
 > *   a single `int` – in which case the same value is used for the depth, height and width dimension
 > *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window to take a max over
 *   **stride** – the stride of the window. Default value is `kernel_size`
@@ -1705,8 +1680,7 @@ The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
 *   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") later
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1750,14 +1724,13 @@ Note
 
 [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs and Example below.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
 
- |
-| --- | --- |
+
 
 ```py
 Inputs:
@@ -1816,14 +1789,13 @@ Note
 
 [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs and Example below.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
 
- |
-| --- | --- |
+
 
 ```py
 Inputs:
@@ -1887,14 +1859,13 @@ Note
 
 [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs section below.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
 
- |
-| --- | --- |
+
 
 ```py
 Inputs:
@@ -1949,7 +1920,7 @@ If `padding` is non-zero, then the input is implicitly zero-padded on both sides
 
 The parameters `kernel_size`, `stride`, `padding` can each be an `int` or a one-element tuple.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window
 *   **stride** – the stride of the window. Default value is `kernel_size`
@@ -1957,8 +1928,7 @@ The parameters `kernel_size`, `stride`, `padding` can each be an `int` or a one-
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 *   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -1999,7 +1969,7 @@ The parameters `kernel_size`, `stride`, `padding` can either be:
 > *   a single `int` – in which case the same value is used for the height and width dimension
 > *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window
 *   **stride** – the stride of the window. Default value is `kernel_size`
@@ -2007,8 +1977,7 @@ The parameters `kernel_size`, `stride`, `padding` can either be:
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 *   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -2053,7 +2022,7 @@ The parameters `kernel_size`, `stride` can either be:
 > *   a single `int` – in which case the same value is used for the depth, height and width dimension
 > *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window
 *   **stride** – the stride of the window. Default value is `kernel_size`
@@ -2061,8 +2030,7 @@ The parameters `kernel_size`, `stride` can either be:
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 *   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -2102,15 +2070,14 @@ Fractional MaxPooling is described in detail in the paper [Fractional MaxPooling
 
 The max-pooling operation is applied in ![](img/52ec12db6613ee8a0f6f41143ab2e8a2.jpg) regions by a stochastic step size determined by the target output size. The number of output features is equal to the number of input planes.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window to take a max over. Can be a single number k (for a square kernel of k x k) or a tuple `(kh x kw)`
 *   **output_size** – the target output size of the image of the form `oH x oW`. Can be a tuple `(oH, oW)` or a single number oH for a square image `oH x oH`
 *   **output_ratio** – If one wants to have an output size as a ratio of the input size, this option can be given. This has to be a number or tuple in the range (0, 1)
 *   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to `nn.MaxUnpool2d()`. Default: `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -2143,14 +2110,13 @@ Note
 
 If the sum to the power of `p` is zero, the gradient of this function is not defined. This implementation will set the gradient to zero in this case.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – a single int, the size of the window
 *   **stride** – a single int, the stride of the window. Default value is `kernel_size`
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -2198,14 +2164,13 @@ Note
 
 If the sum to the power of `p` is zero, the gradient of this function is not defined. This implementation will set the gradient to zero in this case.
 
-| Parameters: | 
+Parameters: 
 
 *   **kernel_size** – the size of the window
 *   **stride** – the stride of the window. Default value is `kernel_size`
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -2241,13 +2206,12 @@ Applies a 1D adaptive max pooling over an input signal composed of several input
 
 The output size is H, for any input size. The number of output features is equal to the number of input planes.
 
-| Parameters: | 
+Parameters: 
 
 *   **output_size** – the target output size H
 *   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool1d. Default: `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -2269,13 +2233,12 @@ Applies a 2D adaptive max pooling over an input signal composed of several input
 
 The output is of size H x W, for any input size. The number of output features is equal to the number of input planes.
 
-| Parameters: | 
+Parameters: 
 
 *   **output_size** – the target output size of the image of the form H x W. Can be a tuple (H, W) or a single H for a square image H x H. H and W can be either a `int`, or `None` which means the size will be the same as that of the input.
 *   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool2d. Default: `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -2305,13 +2268,12 @@ Applies a 3D adaptive max pooling over an input signal composed of several input
 
 The output is of size D x H x W, for any input size. The number of output features is equal to the number of input planes.
 
-| Parameters: | 
+Parameters: 
 
 *   **output_size** – the target output size of the image of the form D x H x W. Can be a tuple (D, H, W) or a single D for a cube D x D x D. D, H and W can be either a `int`, or `None` which means the size will be the same as that of the input.
 *   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool3d. Default: `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -2824,13 +2786,12 @@ Applies the element-wise function:
 
 ![](img/1285687f031aec0751f4e0481f97b6b0.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **alpha** – the ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) value for the ELU formulation. Default: 1.0
 *   **inplace** – can optionally do the operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -2897,14 +2858,13 @@ The range of the linear region ![](img/f30fa7744d61427a11bf0e75b1557a16.jpg) can
 
 ![https://pytorch.org/docs/stable/_images//Hardtanh.png](img/b22ab176e5aca7ca2b17e84fe525620e.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **min_val** – minimum value of the linear region range. Default: -1
 *   **max_val** – maximum value of the linear region range. Default: 1
 *   **inplace** – can optionally do the operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 Keyword arguments `min_value` and `max_value` have been deprecated in favor of `min_val` and `max_val`.
 
@@ -2938,13 +2898,12 @@ or
 
 ![](img/377c237cda65f4c68e3138efcc2bfef4.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **negative_slope** – Controls the angle of the negative slope. Default: 1e-2
 *   **inplace** – can optionally do the operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3014,13 +2973,12 @@ Note
 
 Channel dim is the 2nd dim of input. When input has dims &lt; 2, then there is no channel dim and the number of channels = 1.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_parameters** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) to learn. Although it takes an int as input, there is only two values are legitimate: 1, or the number of channels at input. Default: 1
 *   **init** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the initial value of ![](img/070b1af5eca3a5c5d72884b536090f17.jpg). Default: 0.25
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3121,14 +3079,13 @@ where ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is randomly sampled from uni
 
 > See: [https://arxiv.org/pdf/1505.00853.pdf](https://arxiv.org/pdf/1505.00853.pdf)
 
-| Parameters: | 
+Parameters: 
 
 *   **lower** – lower bound of the uniform distribution. Default: ![](img/444fc0427eb64f0bd2c9c16edf680d4f.jpg)
 *   **upper** – upper bound of the uniform distribution. Default: ![](img/a90c89c913a1fe1e9462d60d8668936b.jpg)
 *   **inplace** – can optionally do the operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3193,13 +3150,12 @@ Applies the element-wise function:
 
 More details can be found in the paper [Continuously Differentiable Exponential Linear Units](https://arxiv.org/abs/1704.07483) .
 
-| Parameters: | 
+Parameters: 
 
 *   **alpha** – the ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) value for the CELU formulation. Default: 1.0
 *   **inplace** – can optionally do the operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3261,13 +3217,12 @@ SoftPlus is a smooth approximation to the ReLU function and can be used to const
 
 For numerical stability the implementation reverts to the linear function for inputs above a certain value.
 
-| Parameters: | 
+Parameters: 
 
 *   **beta** – the ![](img/50705df736e9a7919e768cf8c4e4f794.jpg) value for the Softplus formulation. Default: 1
 *   **threshold** – values above this revert to a linear function. Default: 20
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3414,14 +3369,13 @@ Threshold is defined as:
 
 ![](img/3b32031caba73686c02a117e8e307c6f.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **threshold** – The value to threshold at
 *   **value** – The value to replace with
 *   **inplace** – can optionally do the operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3602,22 +3556,20 @@ Note
 
 To compute log-probabilities for all classes, the `log_prob` method can be used.
 
-| Parameters: | 
+Parameters: 
 
 *   **in_features** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of features in the input tensor
 *   **n_classes** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of classes in the dataset.
 *   **cutoffs** (_Sequence_) – Cutoffs used to assign targets to their buckets.
 *   **div_value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – value used as an exponent to compute sizes of the clusters. Default: 4.0
 
- |
-| --- | --- |
+
 | Returns: | 
 
 *   **output** is a Tensor of size `N` containing computed target log probabilities for each example
 *   **loss** is a Scalar representing the computed negative log likelihood loss
 
- |
-| --- | --- |
+
 | Return type: | `NamedTuple` with `output` and `loss` fields |
 | --- | --- |
 
@@ -3692,7 +3644,7 @@ This `momentum` argument is different from one used in optimizer classes and the
 
 Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, L)` slices, it’s common terminology to call this Temporal Batch Normalization.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_features** – ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) from an expected input of size ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) or ![](img/db4a9fef02111450bf98261889de550c.jpg) from input of size ![](img/b6d0ccc6531c5d648e750c417c5cc72d.jpg)
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
@@ -3700,8 +3652,7 @@ Because the Batch Normalization is done over the `C` dimension, computing statis
 *   **affine** – a boolean value that when set to `True`, this module has learnable affine parameters. Default: `True`
 *   **track_running_stats** – a boolean value that when set to `True`, this module tracks the running mean and variance, and when set to `False`, this module does not track such statistics and always uses batch statistics in both training and eval modes. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3744,7 +3695,7 @@ This `momentum` argument is different from one used in optimizer classes and the
 
 Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, H, W)` slices, it’s common terminology to call this Spatial Batch Normalization.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_features** – ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) from an expected input of size ![](img/23f8772594b27bd387be708fe9c085e1.jpg)
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
@@ -3752,8 +3703,7 @@ Because the Batch Normalization is done over the `C` dimension, computing statis
 *   **affine** – a boolean value that when set to `True`, this module has learnable affine parameters. Default: `True`
 *   **track_running_stats** – a boolean value that when set to `True`, this module tracks the running mean and variance, and when set to `False`, this module does not track such statistics and always uses batch statistics in both training and eval modes. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3796,7 +3746,7 @@ This `momentum` argument is different from one used in optimizer classes and the
 
 Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, D, H, W)` slices, it’s common terminology to call this Volumetric Batch Normalization or Spatio-temporal Batch Normalization.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_features** – ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) from an expected input of size ![](img/f5a45f7b445db562b21cfcb525637aab.jpg)
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
@@ -3804,8 +3754,7 @@ Because the Batch Normalization is done over the `C` dimension, computing statis
 *   **affine** – a boolean value that when set to `True`, this module has learnable affine parameters. Default: `True`
 *   **track_running_stats** – a boolean value that when set to `True`, this module tracks the running mean and variance, and when set to `False`, this module does not track such statistics and always uses batch statistics in both training and eval modes. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3840,15 +3789,14 @@ The input channels are separated into `num_groups` groups, each containing `num_
 
 This layer uses statistics computed from input data in both training and evaluation modes.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of groups to separate the channels into
 *   **num_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of channels expected in input
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
 *   **affine** – a boolean value that when set to `True`, this module has learnable per-channel affine parameters initialized to ones (for weights) and zeros (for biases). Default: `True`.
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3896,7 +3844,7 @@ Note
 
 [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") is applied on each channel of channeled data like multidimensional time series, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") usually don’t apply affine transform.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_features** – ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) from an expected input of size ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) or ![](img/db4a9fef02111450bf98261889de550c.jpg) from input of size ![](img/b6d0ccc6531c5d648e750c417c5cc72d.jpg)
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
@@ -3904,8 +3852,7 @@ Note
 *   **affine** – a boolean value that when set to `True`, this module has learnable affine parameters, initialized the same way as done for batch normalization. Default: `False`.
 *   **track_running_stats** – a boolean value that when set to `True`, this module tracks the running mean and variance, and when set to `False`, this module does not track such statistics and always uses batch statistics in both training and eval modes. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -3950,7 +3897,7 @@ Note
 
 [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") is applied on each channel of channeled data like RGB images, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") usually don’t apply affine transform.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_features** – ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) from an expected input of size ![](img/23f8772594b27bd387be708fe9c085e1.jpg)
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
@@ -3958,8 +3905,7 @@ Note
 *   **affine** – a boolean value that when set to `True`, this module has learnable affine parameters, initialized the same way as done for batch normalization. Default: `False`.
 *   **track_running_stats** – a boolean value that when set to `True`, this module tracks the running mean and variance, and when set to `False`, this module does not track such statistics and always uses batch statistics in both training and eval modes. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4004,7 +3950,7 @@ Note
 
 [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") is applied on each channel of channeled data like 3D models with RGB color, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") usually don’t apply affine transform.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_features** – ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) from an expected input of size ![](img/f5a45f7b445db562b21cfcb525637aab.jpg)
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
@@ -4012,8 +3958,7 @@ Note
 *   **affine** – a boolean value that when set to `True`, this module has learnable affine parameters, initialized the same way as done for batch normalization. Default: `False`.
 *   **track_running_stats** – a boolean value that when set to `True`, this module tracks the running mean and variance, and when set to `False`, this module does not track such statistics and always uses batch statistics in both training and eval modes. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4052,7 +3997,7 @@ Unlike Batch Normalization and Instance Normalization, which applies scalar scal
 
 This layer uses statistics computed from input data in both training and evaluation modes.
 
-| Parameters: | 
+Parameters: 
 
 *   **normalized_shape** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") _or_ _torch.Size_) –
 
@@ -4065,8 +4010,7 @@ This layer uses statistics computed from input data in both training and evaluat
 *   **eps** – a value added to the denominator for numerical stability. Default: 1e-5
 *   **elementwise_affine** – a boolean value that when set to `True`, this module has learnable per-element affine parameters initialized to ones (for weights) and zeros (for biases). Default: `True`.
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4102,15 +4046,14 @@ Applies local response normalization over an input signal composed of several in
 
 ![](img/5522547c6e594dc7c5ffe998f57ad26b.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **size** – amount of neighbouring channels used for normalization
 *   **alpha** – multiplicative factor. Default: 0.0001
 *   **beta** – exponent. Default: 0.75
 *   **k** – additive factor. Default: 1
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4146,7 +4089,7 @@ For each element in the input sequence, each layer computes the following functi
 
 where ![](img/a048a5bfcc0242b6427d15ed11ef7e23.jpg) is the hidden state at time `t`, ![](img/22c5ed7653e3fae804006a00210327fc.jpg) is the input at time `t`, and ![](img/722edd552cee200694a3bfccd4f755df.jpg) is the hidden state of the previous layer at time `t-1` or the initial hidden state at time `0`. If `nonlinearity` is `‘relu’`, then `ReLU` is used instead of `tanh`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
@@ -4157,8 +4100,7 @@ where ![](img/a048a5bfcc0242b6427d15ed11ef7e23.jpg) is the hidden state at time 
 *   **dropout** – If non-zero, introduces a `Dropout` layer on the outputs of each RNN layer except the last layer, with dropout probability equal to `dropout`. Default: 0
 *   **bidirectional** – If `True`, becomes a bidirectional RNN. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Inputs: input, h_0
@@ -4186,8 +4128,7 @@ Outputs: output, h_n
 *   **bias_ih_l[k]** – the learnable input-hidden bias of the k-th layer, of shape `(hidden_size)`
 *   **bias_hh_l[k]** – the learnable hidden-hidden bias of the k-th layer, of shape `(hidden_size)`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -4223,7 +4164,7 @@ where ![](img/a048a5bfcc0242b6427d15ed11ef7e23.jpg) is the hidden state at time 
 
 In a multilayer LSTM, the input ![](img/3aef28832238eb9de1c3d226cc4f026e.jpg) of the ![](img/4c55f62a52ee5572ab96494e9e0a2876.jpg) -th layer (![](img/c2c7ccc0042019ca7a1bb7d536da8a87.jpg)) is the hidden state ![](img/aa2a9f5361143e6f3a32d54920079b52.jpg) of the previous layer multiplied by dropout ![](img/5e5fffda0db50ff1fedeef29921cdf85.jpg) where each ![](img/5b70351b42153bea8ab63d8e783cc0ac.jpg) is a Bernoulli random variable which is ![](img/28256dd5af833c877d63bfabfaa7b301.jpg) with probability `dropout`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
@@ -4233,8 +4174,7 @@ In a multilayer LSTM, the input ![](img/3aef28832238eb9de1c3d226cc4f026e.jpg) of
 *   **dropout** – If non-zero, introduces a `Dropout` layer on the outputs of each LSTM layer except the last layer, with dropout probability equal to `dropout`. Default: 0
 *   **bidirectional** – If `True`, becomes a bidirectional LSTM. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Inputs: input, (h_0, c_0)
@@ -4269,8 +4209,7 @@ Outputs: output, (h_n, c_n)
 *   **bias_ih_l[k]** – the learnable input-hidden bias of the ![](img/3daedae8ea4977a42453935c04c06ad0.jpg) layer `(b_ii&#124;b_if&#124;b_ig&#124;b_io)`, of shape `(4*hidden_size)`
 *   **bias_hh_l[k]** – the learnable hidden-hidden bias of the ![](img/3daedae8ea4977a42453935c04c06ad0.jpg) layer `(b_hi&#124;b_hf&#124;b_hg&#124;b_ho)`, of shape `(4*hidden_size)`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -4307,7 +4246,7 @@ where ![](img/a048a5bfcc0242b6427d15ed11ef7e23.jpg) is the hidden state at time 
 
 In a multilayer GRU, the input ![](img/3aef28832238eb9de1c3d226cc4f026e.jpg) of the ![](img/4c55f62a52ee5572ab96494e9e0a2876.jpg) -th layer (![](img/c2c7ccc0042019ca7a1bb7d536da8a87.jpg)) is the hidden state ![](img/aa2a9f5361143e6f3a32d54920079b52.jpg) of the previous layer multiplied by dropout ![](img/5e5fffda0db50ff1fedeef29921cdf85.jpg) where each ![](img/5b70351b42153bea8ab63d8e783cc0ac.jpg) is a Bernoulli random variable which is ![](img/28256dd5af833c877d63bfabfaa7b301.jpg) with probability `dropout`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
@@ -4317,8 +4256,7 @@ In a multilayer GRU, the input ![](img/3aef28832238eb9de1c3d226cc4f026e.jpg) of 
 *   **dropout** – If non-zero, introduces a `Dropout` layer on the outputs of each GRU layer except the last layer, with dropout probability equal to `dropout`. Default: 0
 *   **bidirectional** – If `True`, becomes a bidirectional GRU. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Inputs: input, h_0
@@ -4346,8 +4284,7 @@ Outputs: output, h_n
 *   **bias_ih_l[k]** – the learnable input-hidden bias of the ![](img/3daedae8ea4977a42453935c04c06ad0.jpg) layer (b_ir&#124;b_iz&#124;b_in), of shape `(3*hidden_size)`
 *   **bias_hh_l[k]** – the learnable hidden-hidden bias of the ![](img/3daedae8ea4977a42453935c04c06ad0.jpg) layer (b_hr&#124;b_hz&#124;b_hn), of shape `(3*hidden_size)`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -4379,15 +4316,14 @@ An Elman RNN cell with tanh or ReLU non-linearity.
 
 If `nonlinearity` is `‘relu’`, then ReLU is used in place of tanh.
 
-| Parameters: | 
+Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
 *   **bias** – If `False`, then the layer does not use bias weights `b_ih` and `b_hh`. Default: `True`
 *   **nonlinearity** – The non-linearity to use. Can be either ‘tanh’ or ‘relu’. Default: ‘tanh’
 
- |
-| --- | --- |
+
 
 ```py
 Inputs: input, hidden
@@ -4409,8 +4345,7 @@ Outputs: h’
 *   **bias_ih** – the learnable input-hidden bias, of shape `(hidden_size)`
 *   **bias_hh** – the learnable hidden-hidden bias, of shape `(hidden_size)`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -4441,14 +4376,13 @@ A long short-term memory (LSTM) cell.
 
 where ![](img/2469b2bd2a1ab19ebfcee223dcb52bb1.jpg) is the sigmoid function.
 
-| Parameters: | 
+Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
 *   **bias** – If `False`, then the layer does not use bias weights `b_ih` and `b_hh`. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Inputs: input, (h_0, c_0)
@@ -4476,8 +4410,7 @@ Outputs: h_1, c_1
 *   **bias_ih** – the learnable input-hidden bias, of shape `(4*hidden_size)`
 *   **bias_hh** – the learnable hidden-hidden bias, of shape `(4*hidden_size)`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -4509,14 +4442,13 @@ A gated recurrent unit (GRU) cell
 
 where ![](img/2469b2bd2a1ab19ebfcee223dcb52bb1.jpg) is the sigmoid function.
 
-| Parameters: | 
+Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
 *   **bias** – If `False`, then the layer does not use bias weights `b_ih` and `b_hh`. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Inputs: input, hidden
@@ -4538,8 +4470,7 @@ Outputs: h’
 *   **bias_ih** – the learnable input-hidden bias, of shape `(3*hidden_size)`
 *   **bias_hh** – the learnable hidden-hidden bias, of shape `(3*hidden_size)`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -4568,14 +4499,13 @@ class torch.nn.Linear(in_features, out_features, bias=True)
 
 Applies a linear transformation to the incoming data: ![](img/8c4834b7cb4b9c7a795bf354412e8dd3.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **in_features** – size of each input sample
 *   **out_features** – size of each output sample
 *   **bias** – If set to False, the layer will not learn an additive bias. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4589,8 +4519,7 @@ Shape:
 *   **weight** – the learnable weights of the module of shape ![](img/7bdd499093e2167451c56eb5c4480786.jpg). The values are initialized from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg), where ![](img/9d1dd979275f32a1bcc00f4e3885e68c.jpg)
 *   **bias** – the learnable bias of the module of shape ![](img/27eac2d9aa3b57eabe07fcce145717d2.jpg). If `bias` is `True`, the values are initialized from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/9d1dd979275f32a1bcc00f4e3885e68c.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -4611,15 +4540,14 @@ class torch.nn.Bilinear(in1_features, in2_features, out_features, bias=True)
 
 Applies a bilinear transformation to the incoming data: ![](img/a0d89d1240ed669c322d042acea66b2c.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **in1_features** – size of each first input sample
 *   **in2_features** – size of each second input sample
 *   **out_features** – size of each output sample
 *   **bias** – If set to False, the layer will not learn an additive bias. Default: `True`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4633,8 +4561,7 @@ Shape:
 *   **weight** – the learnable weights of the module of shape ![](img/3f2a47921a3568c8f0f8c45847fd2ad3.jpg). The values are initialized from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg), where ![](img/76606e23079bb41cbaeb5fa9ddc71c86.jpg)
 *   **bias** – the learnable bias of the module of shape ![](img/27eac2d9aa3b57eabe07fcce145717d2.jpg) If `bias` is `True`, the values are initialized from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg), where ![](img/76606e23079bb41cbaeb5fa9ddc71c86.jpg)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -4662,13 +4589,12 @@ This has proven to be an effective technique for regularization and preventing t
 
 Furthermore, the outputs are scaled by a factor of ![](img/37052da8591fea742432c58ac3a4dc59.jpg) during training. This means that during evaluation the module simply computes an identity function.
 
-| Parameters: | 
+Parameters: 
 
 *   **p** – probability of an element to be zeroed. Default: 0.5
 *   **inplace** – If set to `True`, will do this operation in-place. Default: `False`
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4700,13 +4626,12 @@ As described in the paper [Efficient Object Localization Using Convolutional Net
 
 In this case, `nn.Dropout2d()` will help promote independence between feature maps and should be used instead.
 
-| Parameters: | 
+Parameters: 
 
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – probability of an element to be zero-ed.
 *   **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If set to `True`, will do this operation in-place
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4738,13 +4663,12 @@ As described in the paper [Efficient Object Localization Using Convolutional Net
 
 In this case, `nn.Dropout3d()` will help promote independence between feature maps and should be used instead.
 
-| Parameters: | 
+Parameters: 
 
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – probability of an element to be zeroed.
 *   **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If set to `True`, will do this operation in-place
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4778,13 +4702,12 @@ During evaluation the module simply computes an identity function.
 
 More details can be found in the paper [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515) .
 
-| Parameters: | 
+Parameters: 
 
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – probability of an element to be dropped. Default: 0.5
 *   **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If set to `True`, will do this operation in-place
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -4814,7 +4737,7 @@ A simple lookup table that stores embeddings of a fixed dictionary and size.
 
 This module is often used to store word embeddings and retrieve them using indices. The input to the module is a list of indices, and the output is the corresponding word embeddings.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_embeddings** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – size of the dictionary of embeddings
 *   **embedding_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of each embedding vector
@@ -4824,8 +4747,7 @@ This module is often used to store word embeddings and retrieve them using indic
 *   **scale_grad_by_freq** (_boolean__,_ _optional_) – If given, this will scale gradients by the inverse of frequency of the words in the mini-batch. Default `False`.
 *   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, gradient w.r.t. `weight` matrix will be a sparse tensor. See Notes for more details regarding sparse gradients.
 
- |
-| --- | --- |
+
 | Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (num_embeddings, embedding_dim) initialized from ![](img/dd84ddbf2f8040d87fb315eeeba51f6d.jpg) |
 | --- | --- |
 
@@ -4877,14 +4799,13 @@ classmethod from_pretrained(embeddings, freeze=True, sparse=False)
 
 Creates Embedding instance from given 2-dimensional FloatTensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **embeddings** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – FloatTensor containing weights for the Embedding. First dimension is being passed to Embedding as ‘num_embeddings’, second as ‘embedding_dim’.
 *   **freeze** (_boolean__,_ _optional_) – If `True`, the tensor does not get updated in the learning process. Equivalent to `embedding.weight.requires_grad = False`. Default: `True`
 *   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, gradient w.r.t. weight matrix will be a sparse tensor. See Notes for more details regarding sparse gradients.
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -4915,7 +4836,7 @@ For bags of constant length, this class
 
 However, [`EmbeddingBag`](#torch.nn.EmbeddingBag "torch.nn.EmbeddingBag") is much more time and memory efficient than using a chain of these operations.
 
-| Parameters: | 
+Parameters: 
 
 *   **num_embeddings** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – size of the dictionary of embeddings
 *   **embedding_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of each embedding vector
@@ -4925,8 +4846,7 @@ However, [`EmbeddingBag`](#torch.nn.EmbeddingBag "torch.nn.EmbeddingBag") is muc
 *   **mode** (_string__,_ _optional_) – `"sum"`, `"mean"` or `"max"`. Specifies the way to reduce the bag. Default: `"mean"`
 *   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, gradient w.r.t. `weight` matrix will be a sparse tensor. See Notes for more details regarding sparse gradients. Note: this option is not supported when `mode="max"`.
 
- |
-| --- | --- |
+
 | Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape `(num_embeddings x embedding_dim)` initialized from ![](img/dd84ddbf2f8040d87fb315eeeba51f6d.jpg). |
 | --- | --- |
 
@@ -4973,13 +4893,12 @@ Returns cosine similarity between ![](img/abdadb44ea35aecb39004dd7f55d9543.jpg) 
 
 ![](img/93f92bee7ec6c9e48618f7c929ab51e3.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Dimension where cosine similarity is computed. Default: 1
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid division by zero. Default: 1e-8
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5009,14 +4928,13 @@ Computes the batchwise pairwise distance between vectors ![](img/2f0f406e2d42300
 
 ![](img/4206b08d53423c6d6f77c51751d33cae.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **p** (_real_) – the norm degree. Default: 2
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid division by zero. Default: 1e-6
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Determines whether or not to keep the batch dimension. Default: False
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5060,14 +4978,13 @@ The sum operation still operates over all the elements, and divides by `n`.
 
 The division by `n` can be avoided if one sets the constructor argument `size_average=False`.
 
-| Parameters: | 
+Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5110,14 +5027,13 @@ The division by `n` can be avoided if one sets `size_average` to `False`.
 
 To get a batch of losses, a loss per batch element, set `reduce` to `False`. These losses are not averaged and are not affected by `size_average`.
 
-| Parameters: | 
+Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5165,7 +5081,7 @@ The losses are averaged across observations for each minibatch.
 
 Can also be used for higher dimension inputs, such as 2D images, by providing an input of size ![](img/f30f7531b252dc52c6bb945ebb508cc4.jpg) with ![](img/6573879e7d2cf58e8dfdbf8baa9f7a1a.jpg), where ![](img/a5db490cd70a38a0bb9f3de58c51589f.jpg) is the number of dimensions, and a target of appropriate shape (see below).
 
-| Parameters: | 
+Parameters: 
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, has to be a Tensor of size `C`
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
@@ -5173,8 +5089,7 @@ Can also be used for higher dimension inputs, such as 2D images, by providing an
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5215,13 +5130,12 @@ class torch.nn.CTCLoss(blank=0, reduction='mean')
 
 The Connectionist Temporal Classification loss.
 
-| Parameters: | 
+Parameters: 
 
 *   **blank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – blank label. Default ![](img/28256dd5af833c877d63bfabfaa7b301.jpg).
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the output losses will be divided by the target lengths and then the mean over the batch is taken. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Inputs:
@@ -5306,7 +5220,7 @@ where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the batch size. If `reduc
 
 Can also be used for higher dimension inputs, such as 2D images, by providing an input of size ![](img/f30f7531b252dc52c6bb945ebb508cc4.jpg) with ![](img/6573879e7d2cf58e8dfdbf8baa9f7a1a.jpg), where ![](img/a5db490cd70a38a0bb9f3de58c51589f.jpg) is the number of dimensions, and a target of appropriate shape (see below). In the case of images, it computes NLL loss per-pixel.
 
-| Parameters: | 
+Parameters: 
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, it has to be a Tensor of size `C`. Otherwise, it is treated as if having all ones.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
@@ -5314,8 +5228,7 @@ Can also be used for higher dimension inputs, such as 2D images, by providing an
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5378,7 +5291,7 @@ The loss can be described as:
 
 The last term can be omitted or approximated with Stirling formula. The approximation is used for target values more than 1\. For targets less or equal to 1 zeros are added to the loss.
 
-| Parameters: | 
+Parameters: 
 
 *   **log_input** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True` the loss is computed as ![](img/18729f59c6d4705e1945b3d7b3e09e32.jpg), if `False` the loss is ![](img/036591dc90f1dafaa138920518e2b05b.jpg).
 *   **full** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) –
@@ -5392,8 +5305,7 @@ The last term can be omitted or approximated with Stirling formula. The approxim
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -5430,14 +5342,13 @@ where the index ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) spans all dimensio
 
 In default reduction mode ‘mean’, the losses are averaged for each minibatch over observations **as well as** over dimensions. ‘batchmean’ mode gives the correct KL divergence where losses are averaged over batch dimension only. ‘mean’ mode’s behavior will be changed to the same as ‘batchmean’ in the next major release.
 
-| Parameters: | 
+Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘batchmean’ &#124; ‘sum’ &#124; ‘mean’. ‘none’: no reduction will be applied. ‘batchmean’: the sum of the output will be divided by batchsize. ‘sum’: the output will be summed. ‘mean’: the output will be divided by the number of elements in the output. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 :param .. note:: `size_average` and `reduce` are in the process of being deprecated,: and in the meantime, specifying either of those two args will override `reduction`. :param .. note:: `reduction=’mean’` doesn’t return the true kl divergence value, please use: `reduction=’batchmean’` which aligns with KL math definition.
 
@@ -5473,15 +5384,14 @@ where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the batch size. If reduce
 
 This is used for measuring the error of a reconstruction in for example an auto-encoder. Note that the targets `y` should be numbers between 0 and 1.
 
-| Parameters: | 
+Parameters: 
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to the loss of each batch element. If given, has to be a Tensor of size “nbatch”.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5529,7 +5439,7 @@ where ![](img/76dc369e067e5fa42a4b32b6afd5e570.jpg) is the positive weight of cl
 
 For example, if a dataset contains 100 positive and 300 negative examples of a single class, then `pos_weight` for the class should be equal to ![](img/6a003751ded2d5e5198d93ee7db1ba5d.jpg). The loss would act as if the dataset contains ![](img/fb2ad75ea1ac3ba3ae507a3c8a34db12.jpg) positive examples.
 
-| Parameters: | 
+Parameters: 
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to the loss of each batch element. If given, has to be a Tensor of size “nbatch”.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
@@ -5537,8 +5447,7 @@ For example, if a dataset contains 100 positive and 300 negative examples of a s
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 *   **pos_weight** – a weight of positive examples. Must be a vector with length equal to the number of classes.
 
- |
-| --- | --- |
+
 
 ### MarginRankingLoss
 
@@ -5554,15 +5463,14 @@ The loss function for each sample in the mini-batch is:
 
 ![](img/1664f71bed4b6591f02c8bbb10f2d389.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Has a default value of `0`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5590,15 +5498,14 @@ and the total loss functions is
 
 where ![](img/97b4908568a8d2f8549d90e683a8efa2.jpg).
 
-| Parameters: | 
+Parameters: 
 
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Has a default value of `1`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5626,14 +5533,13 @@ The criterion only considers a contiguous block of non-negative targets that sta
 
 This allows for different samples to have variable amounts of target classes
 
-| Parameters: | 
+Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5661,14 +5567,13 @@ where ![](img/bbfcb7c1428a33547e15f8853dbe6e4f.jpg) is given by:
 
 The division by `n` can be avoided if one sets `size_average` to `False`
 
-| Parameters: | 
+Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5688,14 +5593,13 @@ Creates a criterion that optimizes a two-class classification logistic loss betw
 
 ![](img/811f3185227a964c048126484987ef1c.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5717,15 +5621,14 @@ Creates a criterion that optimizes a multi-label one-versus-all loss based on ma
 
 where `i == 0` to `x.nElement()-1`, `y[i] in {0,1}`.
 
-| Parameters: | 
+Parameters: 
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, it has to be a Tensor of size `C`. Otherwise, it is treated as if having all ones.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5747,15 +5650,14 @@ The loss function for each sample is:
 
 ![](img/f894a052d4408e0269216f8b803d074a.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Should be a number from `-1` to `1`, `0` to `0.5` is suggested. If `margin` is missing, the default value is `0`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ### MultiMarginLoss
 
@@ -5777,7 +5679,7 @@ The loss function then becomes:
 
 ![](img/03b7ccf64bc071a7c2abbeab89f12d08.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **p** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Has a default value of `1`. `1` and `2` are the only supported values
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Has a default value of `1`.
@@ -5786,8 +5688,7 @@ The loss function then becomes:
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ### TripletMarginLoss
 
@@ -5807,7 +5708,7 @@ where
 
 ![](img/bac339e9cf6ad679fa9ce3ce33c431ab.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Default: `1`.
 *   **p** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – The norm degree for pairwise distance. Default: `2`.
@@ -5816,8 +5717,7 @@ where
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
 *   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5885,15 +5785,14 @@ The algorithms available for upsampling are nearest neighbor and linear, bilinea
 
 One can either give a `scale_factor` or the target output `size` to calculate the output size. (You cannot give both, as it is ambiguous)
 
-| Parameters: | 
+Parameters: 
 
 *   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a tuple of ints `([optional D_out], [optional H_out], W_out)` output sizes
 *   **scale_factor** (_int / tuple of python:ints__,_ _optional_) – the multiplier for the image height / width / depth
 *   **mode** (_string__,_ _optional_) – the upsampling algorithm: one of `nearest`, `linear`, `bilinear` and `trilinear`. Default: `nearest`
 *   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. Default: False
 
- |
-| --- | --- |
+
 
 ```py
 Shape:
@@ -5990,13 +5889,12 @@ To specify the scale, it takes either the `size` or the `scale_factor` as it’s
 
 When `size` is given, it is the output size of the image `(h, w)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a tuple of ints `(H_out, W_out)` output sizes
 *   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the multiplier for the image height or width
 
- |
-| --- | --- |
+
 
 Warning
 
@@ -6042,13 +5940,12 @@ To specify the scale, it takes either the `size` or the `scale_factor` as it’s
 
 When `size` is given, it is the output size of the image `(h, w)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a tuple of ints `(H_out, W_out)` output sizes
 *   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the multiplier for the image height or width
 
- |
-| --- | --- |
+
 
 Warning
 
@@ -6118,14 +6015,13 @@ Note
 
 There is a subtlety in using the `pack sequence -&gt; recurrent network -&gt; unpack sequence` pattern in a [`Module`](#torch.nn.Module "torch.nn.Module") wrapped in [`DataParallel`](#torch.nn.DataParallel "torch.nn.DataParallel"). See [My recurrent network doesn’t work with data parallelism](notes/faq.html#pack-rnn-unpack-with-data-parallelism) section in FAQ for details.
 
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – module to be parallelized
 *   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – CUDA devices (default: all devices)
 *   **output_device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – device location of output (default: device_ids[0])
 
- |
-| --- | --- |
+
 | Variables: | **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to be parallelized |
 | --- | --- |
 
@@ -6230,7 +6126,7 @@ Note
 
 Parameters are never broadcast between processes. The module performs an all-reduce step on gradients and assumes that they will be modified by the optimizer in all processes in the same way. Buffers (e.g. BatchNorm stats) are broadcast from the module in process of rank 0, to all other replicas in the system in every iteration.
 
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – module to be parallelized
 *   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – CUDA devices (default: all devices)
@@ -6240,8 +6136,7 @@ Parameters are never broadcast between processes. The module performs an all-red
 *   **bucket_cap_mb** – DistributedDataParallel will bucket parameters into multiple buckets so that gradient reduction of each bucket can potentially overlap with backward computation. bucket_cap_mb controls the bucket size in MegaBytes (MB) (default: 25)
 *   **check_reduction** – when setting to True, it enables DistributedDataParallel to automatically check if the previous iteration’s backward reductions were successfully issued at the beginning of every iteration’s forward function. You normally don’t need this option enabled unless you are observing weird behaviors such as different ranks are getting different gradients, which should not happen if DistributedDataParallel is corrected used. (default: False)
 
- |
-| --- | --- |
+
 | Variables: | **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to be parallelized |
 | --- | --- |
 
@@ -6326,14 +6221,13 @@ Clips gradient norm of an iterable of parameters.
 
 The norm is computed over all gradients together, as if they were concatenated into a single vector. Gradients are modified in-place.
 
-| Parameters: | 
+Parameters: 
 
 *   **parameters** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_] or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – an iterable of Tensors or a single Tensor that will have gradients normalized
 *   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – max norm of the gradients
 *   **norm_type** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – type of the used p-norm. Can be `'inf'` for infinity norm.
 
- |
-| --- | --- |
+
 | Returns: | Total norm of the parameters (viewed as a single vector). |
 | --- | --- |
 
@@ -6347,13 +6241,12 @@ Clips gradient of an iterable of parameters at specified value.
 
 Gradients are modified in-place.
 
-| Parameters: | 
+Parameters: 
 
 *   **parameters** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_] or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – an iterable of Tensors or a single Tensor that will have gradients normalized
 *   **clip_value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – maximum allowed value of the gradients The gradients are clipped in the range [-clip_value, clip_value]
 
- |
-| --- | --- |
+
 
 ### parameters_to_vector
 
@@ -6376,13 +6269,12 @@ torch.nn.utils.vector_to_parameters(vec, parameters)
 
 Convert one vector to the parameters
 
-| Parameters: | 
+Parameters: 
 
 *   **vec** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – a single vector represents the parameters of a model.
 *   **parameters** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – an iterator of Tensors that are the parameters of a model.
 
- |
-| --- | --- |
+
 
 ### weight_norm
 
@@ -6400,14 +6292,13 @@ By default, with `dim=0`, the norm is computed independently per output channel/
 
 See [https://arxiv.org/abs/1602.07868](https://arxiv.org/abs/1602.07868)
 
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – containing module
 *   **name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – name of weight parameter
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – dimension over which to compute the norm
 
- |
-| --- | --- |
+
 | Returns: | The original module with the weight norm hook |
 | --- | --- |
 
@@ -6431,13 +6322,12 @@ torch.nn.utils.remove_weight_norm(module, name='weight')
 
 Removes the weight normalization reparameterization from a module.
 
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – containing module
 *   **name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – name of weight parameter
 
- |
-| --- | --- |
+
 
 Example
 
@@ -6461,7 +6351,7 @@ Spectral normalization stabilizes the training of discriminators (critics) in Ge
 
 See [Spectral Normalization for Generative Adversarial Networks](https://arxiv.org/abs/1802.05957) .
 
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – containing module
 *   **name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – name of weight parameter
@@ -6469,8 +6359,7 @@ See [Spectral Normalization for Generative Adversarial Networks](https://arxiv.o
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – epsilon for numerical stability in calculating norms
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – dimension corresponding to number of outputs, the default is 0, except for modules that are instances of ConvTranspose1/2/3d, when it is 1
 
- |
-| --- | --- |
+
 | Returns: | The original module with the spectal norm hook |
 | --- | --- |
 
@@ -6492,13 +6381,12 @@ torch.nn.utils.remove_spectral_norm(module, name='weight')
 
 Removes the spectral normalization reparameterization from a module.
 
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – containing module
 *   **name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – name of weight parameter
 
- |
-| --- | --- |
+
 
 Example
 
@@ -6529,8 +6417,7 @@ Batch sizes represent the number elements at each sequence step in the batch, no
 *   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor containing packed sequence
 *   **batch_sizes** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor of integers holding information about the batch size at each sequence step
 
- |
-| --- | --- |
+
 
 ### pack_padded_sequence
 
@@ -6548,14 +6435,13 @@ Note
 
 This function accepts any input that has at least two dimensions. You can apply it to pack the labels, and use the output of the RNN with them to compute the loss directly. A Tensor can be retrieved from a [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") object by accessing its `.data` attribute.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – padded batch of variable length sequences.
 *   **lengths** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – list of sequences lengths of each batch element.
 *   **batch_first** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, the input is expected in `B x T x *` format.
 
- |
-| --- | --- |
+
 | Returns: | a [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") object |
 | --- | --- |
 
@@ -6577,15 +6463,14 @@ Note
 
 `total_length` is useful to implement the `pack sequence -&gt; recurrent network -&gt; unpack sequence` pattern in a [`Module`](#torch.nn.Module "torch.nn.Module") wrapped in [`DataParallel`](#torch.nn.DataParallel "torch.nn.DataParallel"). See [this FAQ section](notes/faq.html#pack-rnn-unpack-with-data-parallelism) for details.
 
-| Parameters: | 
+Parameters: 
 
 *   **sequence** (_PackedSequence_) – batch to pad
 *   **batch_first** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, the output will be in `B x T x *` format.
 *   **padding_value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – values for padded elements.
 *   **total_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – if not `None`, the output will be padded to have length `total_length`. This method will throw [`ValueError`](https://docs.python.org/3/library/exceptions.html#ValueError "(in Python v3.7)") if `total_length` is less than the max sequence length in `sequence`.
 
- |
-| --- | --- |
+
 | Returns: | Tuple of Tensor containing the padded sequence, and a Tensor containing the list of lengths of each sequence in the batch. |
 | --- | --- |
 
@@ -6617,14 +6502,13 @@ Note
 
 This function returns a Tensor of size `T x B x *` or `B x T x *` where `T` is the length of the longest sequence. This function assumes trailing dimensions and type of all the Tensors in sequences are same.
 
-| Parameters: | 
+Parameters: 
 
 *   **sequences** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – list of variable length sequences.
 *   **batch_first** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – output will be in `B x T x *` if True, or in `T x B x *` otherwise
 *   **padding_value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – value for padded elements. Default: 0.
 
- |
-| --- | --- |
+
 | Returns: | Tensor of size `T x B x *` if `batch_first` is `False`. Tensor of size `B x T x *` otherwise |
 | --- | --- |
 

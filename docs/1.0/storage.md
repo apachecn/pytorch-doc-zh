@@ -46,14 +46,13 @@ Returns a copy of this object in CUDA memory.
 
 If this object is already in CUDA memory and on the correct device, then no copy is performed and the original object is returned.
 
-| Parameters: | 
+Parameters: 
 
 *   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The destination GPU id. Defaults to the current device.
 *   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True` and the source is in pinned memory, the copy will be asynchronous with respect to the host. Otherwise, the argument has no effect.
 *   ****kwargs** – For compatibility, may contain the key `async` in place of the `non_blocking` argument.
 
- |
-| --- | --- |
+
 
 ```py
 data_ptr()
@@ -91,14 +90,13 @@ If `shared` is `True`, then memory is shared between all processes. All changes 
 
 `size` is the number of elements in the storage. If `shared` is `False`, then the file must contain at least `size * sizeof(Type)` bytes (`Type` is the type of storage). If `shared` is `True` the file will be created if needed.
 
-| Parameters: | 
+Parameters: 
 
 *   **filename** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – file name to map
 *   **shared** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to share memory
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of elements in the storage
 
- |
-| --- | --- |
+
 
 ```py
 half()
@@ -182,12 +180,11 @@ Returns the type if `dtype` is not provided, else casts this object to the speci
 
 If this is already of the correct type, no copy is performed and the original object is returned.
 
-| Parameters: | 
+Parameters: 
 
 *   **dtype** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – The desired type
 *   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, and the source is in pinned memory and destination is on the GPU or vice versa, the copy is performed asynchronously with respect to the host. Otherwise, the argument has no effect.
 *   ****kwargs** – For compatibility, may contain the key `async` in place of the `non_blocking` argument. The `async` arg is deprecated.
 
- |
-| --- | --- |
+
 

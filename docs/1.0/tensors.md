@@ -128,15 +128,14 @@ Warning
 
 When data is a tensor `x`, [`new_tensor()`](#torch.Tensor.new_tensor "torch.Tensor.new_tensor") reads out ‘the data’ from whatever it is passed, and constructs a leaf variable. Therefore `tensor.new_tensor(x)` is equivalent to `x.clone().detach()` and `tensor.new_tensor(x, requires_grad=True)` is equivalent to `x.clone().detach().requires_grad_(True)`. The equivalents using `clone()` and `detach()` are recommended.
 
-| Parameters: | 
+Parameters: 
 
 *   **data** (_array_like_) – The returned Tensor copies `data`.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired type of returned tensor. Default: if None, same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") as this tensor.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, same [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -155,15 +154,14 @@ new_full(size, fill_value, dtype=None, device=None, requires_grad=False) → Ten
 
 Returns a Tensor of size [`size`](#torch.Tensor.size "torch.Tensor.size") filled with `fill_value`. By default, the returned Tensor has the same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **fill_value** (_scalar_) – the number to fill the output tensor with.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired type of returned tensor. Default: if None, same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") as this tensor.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, same [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -182,14 +180,13 @@ new_empty(size, dtype=None, device=None, requires_grad=False) → Tensor
 
 Returns a Tensor of size [`size`](#torch.Tensor.size "torch.Tensor.size") filled with uninitialized data. By default, the returned Tensor has the same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired type of returned tensor. Default: if None, same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") as this tensor.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, same [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -207,15 +204,14 @@ new_ones(size, dtype=None, device=None, requires_grad=False) → Tensor
 
 Returns a Tensor of size [`size`](#torch.Tensor.size "torch.Tensor.size") filled with `1`. By default, the returned Tensor has the same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **size** (_int..._) – a list, tuple, or `torch.Size` of integers defining the shape of the output tensor.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired type of returned tensor. Default: if None, same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") as this tensor.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, same [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -233,15 +229,14 @@ new_zeros(size, dtype=None, device=None, requires_grad=False) → Tensor
 
 Returns a Tensor of size [`size`](#torch.Tensor.size "torch.Tensor.size") filled with `0`. By default, the returned Tensor has the same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **size** (_int..._) – a list, tuple, or `torch.Size` of integers defining the shape of the output tensor.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired type of returned tensor. Default: if None, same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") as this tensor.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, same [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as this tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -587,13 +582,12 @@ Copies the elements from `src` into `self` tensor and returns `self`.
 
 The `src` tensor must be [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the `self` tensor. It may be of a different data type or reside on a different device.
 
-| Parameters: | 
+Parameters: 
 
 *   **src** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the source tensor to copy from
 *   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True` and this copy is between CPU and GPU, the copy may occur asynchronously with respect to the host. For other cases, this argument has no effect.
 
- |
-| --- | --- |
+
 
 ```py
 cos() → Tensor
@@ -641,13 +635,12 @@ Returns a copy of this object in CUDA memory.
 
 If this object is already in CUDA memory and on the correct device, then no copy is performed and the original object is returned.
 
-| Parameters: | 
+Parameters: 
 
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device")) – The destination GPU device. Defaults to the current CUDA device.
 *   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True` and the source is in pinned memory, the copy will be asynchronous with respect to the host. Otherwise, the argument has no effect. Default: `False`.
 
- |
-| --- | --- |
+
 
 ```py
 cumprod(dim, dtype=None) → Tensor
@@ -1034,14 +1027,13 @@ Note
 
 When using the CUDA backend, this operation may induce nondeterministic behaviour that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension along which to index
 *   **index** (_LongTensor_) – indices of [`tensor`](torch.html#torch.tensor "torch.tensor") to select from
 *   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the tensor containing values to add
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1066,14 +1058,13 @@ Copies the elements of [`tensor`](torch.html#torch.tensor "torch.tensor") into t
 
 The [`dim`](#torch.Tensor.dim "torch.Tensor.dim")th dimension of [`tensor`](torch.html#torch.tensor "torch.tensor") must have the same size as the length of `index` (which must be a vector), and all other dimensions must match `self`, or an error will be raised.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension along which to index
 *   **index** (_LongTensor_) – indices of [`tensor`](torch.html#torch.tensor "torch.tensor") to select from
 *   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the tensor containing values to copy
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1096,14 +1087,13 @@ index_fill_(dim, index, val) → Tensor
 
 Fills the elements of the `self` tensor with value `val` by selecting the indices in the order given in `index`.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension along which to index
 *   **index** (_LongTensor_) – indices of `self` tensor to fill in
 *   **val** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the value to fill with
 
- |
-| --- | --- |
+
 
 ```py
 Example::
@@ -1127,14 +1117,13 @@ Puts values from the tensor `value` into the tensor `self` using the indices spe
 
 If `accumulate` is `True`, the elements in [`tensor`](torch.html#torch.tensor "torch.tensor") are added to `self`. If accumulate is `False`, the behavior is undefined if indices contain duplicate elements.
 
-| Parameters: | 
+Parameters: 
 
 *   **indices** (_tuple of LongTensor_) – tensors used to index into `self`.
 *   **value** ([_Tensor_](#torch.Tensor "torch.Tensor")) – tensor of same dtype as `self`.
 *   **accumulate** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to accumulate into self
 
- |
-| --- | --- |
+
 
 ```py
 index_select(dim, index) → Tensor
@@ -1328,13 +1317,12 @@ masked_scatter_(mask, source)
 
 Copies elements from `source` into `self` tensor at positions where the `mask` is one. The shape of `mask` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the shape of the underlying tensor. The `source` should have at least as many elements as the number of ones in `mask`
 
-| Parameters: | 
+Parameters: 
 
 *   **mask** ([_ByteTensor_](#torch.ByteTensor "torch.ByteTensor")) – the binary mask
 *   **source** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the tensor to copy from
 
- |
-| --- | --- |
+
 
 Note
 
@@ -1346,13 +1334,12 @@ masked_fill_(mask, value)
 
 Fills elements of `self` tensor with `value` where `mask` is one. The shape of `mask` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the shape of the underlying tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **mask** ([_ByteTensor_](#torch.ByteTensor "torch.ByteTensor")) – the binary mask
 *   **value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the value to fill in with
 
- |
-| --- | --- |
+
 
 ```py
 masked_select(mask) → Tensor
@@ -1622,14 +1609,13 @@ Copies the elements from [`tensor`](torch.html#torch.tensor "torch.tensor") into
 
 If `accumulate` is `True`, the elements in [`tensor`](torch.html#torch.tensor "torch.tensor") are added to `self`. If accumulate is `False`, the behavior is undefined if indices contain duplicate elements.
 
-| Parameters: | 
+Parameters: 
 
 *   **indices** (_LongTensor_) – the indices into self
 *   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the tensor containing values to copy from
 *   **accumulate** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to accumulate into self
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1846,14 +1832,13 @@ This is the reverse operation of the manner described in [`gather()`](#torch.Ten
 
 Moreover, as for [`gather()`](#torch.Tensor.gather "torch.Tensor.gather"), the values of `index` must be between `0` and `self.size(dim) - 1` inclusive, and all values in a row along the specified dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim") must be unique.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the axis along which to index
 *   **index** (_LongTensor_) – the indices of elements to scatter, can be either empty or the same size of src. When empty, the operation returns identity
 *   **src** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the source element(s) to scatter
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1897,14 +1882,13 @@ Note
 
 When using the CUDA backend, this operation may induce nondeterministic behaviour that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the axis along which to index
 *   **index** (_LongTensor_) – the indices of elements to scatter and add, can be either empty or the same size of src. When empty, the operation returns identity.
 *   **other** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the source elements to scatter and add
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1926,13 +1910,12 @@ select(dim, index) → Tensor
 
 Slices the `self` tensor along the selected dimension at the given index. This function returns a tensor with the given dimension removed.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to slice
 *   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the index to select with
 
- |
-| --- | --- |
+
 
 Note
 
@@ -1946,15 +1929,14 @@ Sets the underlying storage, size, and strides. If `source` is a tensor, `self` 
 
 If `source` is a `Storage`, the method sets the underlying storage, offset, size, and stride.
 
-| Parameters: | 
+Parameters: 
 
 *   **source** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ _Storage_) – the tensor or storage to use
 *   **storage_offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the offset in the storage
 *   **size** (_torch.Size__,_ _optional_) – the desired size. Defaults to the size of the source.
 *   **stride** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the desired stride. Defaults to C-contiguous strides.
 
- |
-| --- | --- |
+
 
 ```py
 share_memory_()
@@ -2056,13 +2038,12 @@ sparse_mask(input, mask) → Tensor
 
 Returns a new SparseTensor with values from Tensor `input` filtered by indices of `mask` and values are ignored. `input` and `mask` must have the same shape.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](#torch.Tensor "torch.Tensor")) – an input Tensor
 *   **mask** (_SparseTensor_) – a SparseTensor which we filter `input` based on its indices
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2424,14 +2405,13 @@ Returns the type if `dtype` is not provided, else casts this object to the speci
 
 If this is already of the correct type, no copy is performed and the original object is returned.
 
-| Parameters: | 
+Parameters: 
 
 *   **dtype** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – The desired type
 *   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, and the source is in pinned memory and destination is on the GPU or vice versa, the copy is performed asynchronously with respect to the host. Otherwise, the argument has no effect.
 *   ****kwargs** – For compatibility, may contain the key `async` in place of the `non_blocking` argument. The `async` arg is deprecated.
 
- |
-| --- | --- |
+
 
 ```py
 type_as(tensor) → Tensor
@@ -2464,14 +2444,13 @@ If `sizedim` is the size of dimension dim for `self`, the size of dimension [`di
 
 An additional dimension of size size is appended in the returned tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension in which unfolding happens
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of each slice that is unfolded
 *   **step** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the step between each slice
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2609,14 +2588,13 @@ Returns True if all elements in each row of the tensor in the given dimension `d
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
 *   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2661,14 +2639,13 @@ Returns True if any elements in each row of the tensor in the given dimension `d
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
 *   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 

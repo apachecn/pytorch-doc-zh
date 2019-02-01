@@ -12,15 +12,14 @@ If the object is already present in `model_dir`, it’s deserialized and returne
 
 The default value of `model_dir` is `$TORCH_HOME/models` where `$TORCH_HOME` defaults to `~/.torch`. The default directory can be overridden with the `$TORCH_MODEL_ZOO` environment variable.
 
-| Parameters: | 
+Parameters: 
 
 *   **url** (_string_) – URL of the object to download
 *   **model_dir** (_string__,_ _optional_) – directory in which to save the object
 *   **map_location** (_optional_) – a function or a dict specifying how to remap storage locations (see torch.load)
 *   **progress** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether or not to display a progress bar to stderr
 
- |
-| --- | --- |
+
 
 Example
 

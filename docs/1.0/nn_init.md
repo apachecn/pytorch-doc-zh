@@ -16,7 +16,7 @@ Return the recommended gain value for the given nonlinearity function. The value
 | Leaky Relu | ![](http://latex.codecogs.com/gif.latex?%5Csqrt%7B%5Cfrac%7B2%7D%7B1%20%2B%20%5Ctext%7Bnegative%5C_slope%7D%5E2%7D%7D) |
 
  
-| Parameters: | 
+Parameters: 
 
 *   **nonlinearity** – the non-linear function (`nn.functional` name)
 *   **param** – optional parameter for the non-linear function
@@ -38,7 +38,7 @@ torch.nn.init.uniform_(tensor, a=0, b=1)
 Fills the input Tensor with values drawn from the uniform distribution ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(a%2C%20b)).
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **a** – the lower bound of the uniform distribution
@@ -62,7 +62,7 @@ torch.nn.init.normal_(tensor, mean=0, std=1)
 Fills the input Tensor with values drawn from the normal distribution ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(%5Ctext%7Bmean%7D%2C%20%5Ctext%7Bstd%7D)).
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **mean** – the mean of the normal distribution
@@ -86,7 +86,7 @@ torch.nn.init.constant_(tensor, val)
 Fills the input Tensor with the value ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bval%7D).
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **val** – the value to fill the tensor with
@@ -149,7 +149,7 @@ Fills the input `Tensor` with values according to the method described in “Und
 Also known as Glorot initialization.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **gain** – an optional scaling factor
@@ -176,7 +176,7 @@ Fills the input `Tensor` with values according to the method described in “Und
 Also known as Glorot initialization.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **gain** – an optional scaling factor
@@ -203,7 +203,7 @@ Fills the input `Tensor` with values according to the method described in “Del
 Also known as He initialization.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **a** – the negative slope of the rectifier used after this layer (0 for ReLU by default)
@@ -232,7 +232,7 @@ Fills the input `Tensor` with values according to the method described in “Del
 Also known as He initialization.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **a** – the negative slope of the rectifier used after this layer (0 for ReLU by default)
@@ -257,7 +257,7 @@ torch.nn.init.orthogonal_(tensor, gain=1)
 Fills the input `Tensor` with a (semi) orthogonal matrix, as described in “Exact solutions to the nonlinear dynamics of learning in deep linear neural networks” - Saxe, A. et al. (2013). The input tensor must have at least 2 dimensions, and for tensors with more than 2 dimensions the trailing dimensions are flattened.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`, where ![](http://latex.codecogs.com/gif.latex?n%20%5Cgeq%202)
 *   **gain** – optional scaling factor
@@ -280,7 +280,7 @@ torch.nn.init.sparse_(tensor, sparsity, std=0.01)
 Fills the 2D input `Tensor` as a sparse matrix, where the non-zero elements will be drawn from the normal distribution ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%200.01)), as described in “Deep learning via Hessian-free optimization” - Martens, J. (2010).
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** – an n-dimensional `torch.Tensor`
 *   **sparsity** – The fraction of elements in each column to be set to zero

@@ -80,7 +80,7 @@ ImageNet 1-crop error rates (224x224)
 ## Alexnet
 
 ```py
-torchvision.models.alexnet(pretrained=False, **kwargs)¶
+torchvision.models.alexnet(pretrained=False, **kwargs)
 ```
 
 AlexNet model architecture from the [“One weird trick…”](https://arxiv.org/abs/1404.5997) paper.
@@ -92,7 +92,7 @@ AlexNet model architecture from the [“One weird trick…”](https://arxiv.org
 ## VGG
 
 ```py
-torchvision.models.vgg11(pretrained=False, **kwargs)¶
+torchvision.models.vgg11(pretrained=False, **kwargs)
 ```
 
 VGG 11-layer model (configuration “A”)
@@ -102,7 +102,7 @@ VGG 11-layer model (configuration “A”)
 | --- | --- |
 
 ```py
-torchvision.models.vgg11_bn(pretrained=False, **kwargs)¶
+torchvision.models.vgg11_bn(pretrained=False, **kwargs)
 ```
 
 VGG 11-layer model (configuration “A”) with batch normalization
@@ -112,7 +112,7 @@ VGG 11-layer model (configuration “A”) with batch normalization
 | --- | --- |
 
 ```py
-torchvision.models.vgg13(pretrained=False, **kwargs)¶
+torchvision.models.vgg13(pretrained=False, **kwargs)
 ```
 
 VGG 13-layer model (configuration “B”)
@@ -122,7 +122,7 @@ VGG 13-layer model (configuration “B”)
 | --- | --- |
 
 ```py
-torchvision.models.vgg13_bn(pretrained=False, **kwargs)¶
+torchvision.models.vgg13_bn(pretrained=False, **kwargs)
 ```
 
 VGG 13-layer model (configuration “B”) with batch normalization
@@ -132,7 +132,7 @@ VGG 13-layer model (configuration “B”) with batch normalization
 | --- | --- |
 
 ```py
-torchvision.models.vgg16(pretrained=False, **kwargs)¶
+torchvision.models.vgg16(pretrained=False, **kwargs)
 ```
 
 VGG 16-layer model (configuration “D”)
@@ -142,7 +142,7 @@ VGG 16-layer model (configuration “D”)
 | --- | --- |
 
 ```py
-torchvision.models.vgg16_bn(pretrained=False, **kwargs)¶
+torchvision.models.vgg16_bn(pretrained=False, **kwargs)
 ```
 
 VGG 16-layer model (configuration “D”) with batch normalization
@@ -152,7 +152,7 @@ VGG 16-layer model (configuration “D”) with batch normalization
 | --- | --- |
 
 ```py
-torchvision.models.vgg19(pretrained=False, **kwargs)¶
+torchvision.models.vgg19(pretrained=False, **kwargs)
 ```
 
 VGG 19-layer model (configuration “E”)
@@ -162,7 +162,7 @@ VGG 19-layer model (configuration “E”)
 | --- | --- |
 
 ```py
-torchvision.models.vgg19_bn(pretrained=False, **kwargs)¶
+torchvision.models.vgg19_bn(pretrained=False, **kwargs)
 ```
 
 VGG 19-layer model (configuration ‘E’) with batch normalization
@@ -174,7 +174,7 @@ VGG 19-layer model (configuration ‘E’) with batch normalization
 ## ResNet
 
 ```py
-torchvision.models.resnet18(pretrained=False, **kwargs)¶
+torchvision.models.resnet18(pretrained=False, **kwargs)
 ```
 
 Constructs a ResNet-18 model.
@@ -184,7 +184,7 @@ Constructs a ResNet-18 model.
 | --- | --- |
 
 ```py
-torchvision.models.resnet34(pretrained=False, **kwargs)¶
+torchvision.models.resnet34(pretrained=False, **kwargs)
 ```
 
 Constructs a ResNet-34 model.
@@ -194,7 +194,7 @@ Constructs a ResNet-34 model.
 | --- | --- |
 
 ```py
-torchvision.models.resnet50(pretrained=False, **kwargs)¶
+torchvision.models.resnet50(pretrained=False, **kwargs)
 ```
 
 Constructs a ResNet-50 model.
@@ -204,7 +204,7 @@ Constructs a ResNet-50 model.
 | --- | --- |
 
 ```py
-torchvision.models.resnet101(pretrained=False, **kwargs)¶
+torchvision.models.resnet101(pretrained=False, **kwargs)
 ```
 
 Constructs a ResNet-101 model.
@@ -214,7 +214,7 @@ Constructs a ResNet-101 model.
 | --- | --- |
 
 ```py
-torchvision.models.resnet152(pretrained=False, **kwargs)¶
+torchvision.models.resnet152(pretrained=False, **kwargs)
 ```
 
 Constructs a ResNet-152 model.
@@ -226,7 +226,7 @@ Constructs a ResNet-152 model.
 ## SqueezeNet
 
 ```py
-torchvision.models.squeezenet1_0(pretrained=False, **kwargs)¶
+torchvision.models.squeezenet1_0(pretrained=False, **kwargs)
 ```
 
 SqueezeNet model architecture from the [“SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and &lt;0.5MB model size”](https://arxiv.org/abs/1602.07360) paper.
@@ -236,7 +236,7 @@ SqueezeNet model architecture from the [“SqueezeNet: AlexNet-level accuracy wi
 | --- | --- |
 
 ```py
-torchvision.models.squeezenet1_1(pretrained=False, **kwargs)¶
+torchvision.models.squeezenet1_1(pretrained=False, **kwargs)
 ```
 
 SqueezeNet 1.1 model from the [official SqueezeNet repo](https://github.com/DeepScale/SqueezeNet/tree/master/SqueezeNet_v1.1). SqueezeNet 1.1 has 2.4x less computation and slightly fewer parameters than SqueezeNet 1.0, without sacrificing accuracy.
@@ -248,7 +248,7 @@ SqueezeNet 1.1 model from the [official SqueezeNet repo](https://github.com/Deep
 ## DenseNet
 
 ```py
-torchvision.models.densenet121(pretrained=False, **kwargs)¶
+torchvision.models.densenet121(pretrained=False, **kwargs)
 ```
 
 Densenet-121 model from [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
@@ -258,7 +258,7 @@ Densenet-121 model from [“Densely Connected Convolutional Networks”](https:/
 | --- | --- |
 
 ```py
-torchvision.models.densenet169(pretrained=False, **kwargs)¶
+torchvision.models.densenet169(pretrained=False, **kwargs)
 ```
 
 Densenet-169 model from [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
@@ -268,7 +268,7 @@ Densenet-169 model from [“Densely Connected Convolutional Networks”](https:/
 | --- | --- |
 
 ```py
-torchvision.models.densenet161(pretrained=False, **kwargs)¶
+torchvision.models.densenet161(pretrained=False, **kwargs)
 ```
 
 Densenet-161 model from [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
@@ -278,7 +278,7 @@ Densenet-161 model from [“Densely Connected Convolutional Networks”](https:/
 | --- | --- |
 
 ```py
-torchvision.models.densenet201(pretrained=False, **kwargs)¶
+torchvision.models.densenet201(pretrained=False, **kwargs)
 ```
 
 Densenet-201 model from [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
@@ -290,7 +290,7 @@ Densenet-201 model from [“Densely Connected Convolutional Networks”](https:/
 ## Inception v3
 
 ```py
-torchvision.models.inception_v3(pretrained=False, **kwargs)¶
+torchvision.models.inception_v3(pretrained=False, **kwargs)
 ```
 
 Inception v3 model architecture from [“Rethinking the Inception Architecture for Computer Vision”](http://arxiv.org/abs/1512.00567).

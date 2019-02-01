@@ -24,13 +24,12 @@ Warning
 
 If `function` invocation during backward does anything different than the one during forward, e.g., due to some global variable, the checkpointed version won’t be equivalent, and unfortunately it can’t be detected.
 
-| Parameters: | 
+Parameters: 
 
 *   **function** – describes what to run in the forward pass of the model or part of the model. It should also know how to handle the inputs passed as the tuple. For example, in LSTM, if user passes `(activation, hidden)`, `function` should correctly use the first input as `activation` and the second input as `hidden`
 *   **args** – tuple containing inputs to the `function`
 
- |
-| --- | --- |
+
 | Returns: | Output of running `function` on `*args` |
 | --- | --- |
 
@@ -48,14 +47,13 @@ Warning
 
 Checkpointing doesn’t work with [`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad"), but only with [`torch.autograd.backward()`](autograd.html#torch.autograd.backward "torch.autograd.backward").
 
-| Parameters: | 
+Parameters: 
 
 *   **functions** – A [`torch.nn.Sequential`](nn.html#torch.nn.Sequential "torch.nn.Sequential") or the list of modules or functions (comprising the model) to run sequentially.
 *   **segments** – Number of chunks to create in the model
 *   **inputs** – tuple of Tensors that are inputs to `functions`
 
- |
-| --- | --- |
+
 | Returns: | Output of running `functions` sequentially on `*inputs` |
 | --- | --- |
 

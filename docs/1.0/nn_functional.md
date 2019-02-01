@@ -17,7 +17,7 @@ Note
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kW))
@@ -54,7 +54,7 @@ Note
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kH%20%5Ctimes%20kW))
@@ -92,7 +92,7 @@ Note
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iT%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kT%20%5Ctimes%20kH%20%5Ctimes%20kW))
@@ -129,7 +129,7 @@ Note
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bout%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kW))
@@ -167,7 +167,7 @@ Note
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bout%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kH%20%5Ctimes%20kW))
@@ -206,7 +206,7 @@ Note
 In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iT%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bout%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kT%20%5Ctimes%20kH%20%5Ctimes%20kW))
@@ -270,7 +270,7 @@ Applies a 1D average pooling over an input signal composed of several input plan
 See [`AvgPool1d`](#torch.nn.AvgPool1d "torch.nn.AvgPool1d") for details and output shape.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
 *   **kernel_size** – the size of the window. Can be a single number or a tuple ![](http://latex.codecogs.com/gif.latex?(kW%2C))
@@ -305,7 +305,7 @@ Applies 2D average-pooling operation in ![](http://latex.codecogs.com/gif.latex?
 See [`AvgPool2d`](#torch.nn.AvgPool2d "torch.nn.AvgPool2d") for details and output shape.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **kernel_size** – size of the pooling region. Can be a single number or a tuple ![](http://latex.codecogs.com/gif.latex?(kH%20%5Ctimes%20kW))
@@ -328,7 +328,7 @@ Applies 3D average-pooling operation in ![](http://latex.codecogs.com/gif.latex?
 See [`AvgPool3d`](#torch.nn.AvgPool3d "torch.nn.AvgPool3d") for details and output shape.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iT%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **kernel_size** – size of the pooling region. Can be a single number or a tuple ![](http://latex.codecogs.com/gif.latex?(kT%20%5Ctimes%20kH%20%5Ctimes%20kW))
@@ -431,7 +431,7 @@ Applies a 1D adaptive max pooling over an input signal composed of several input
 See [`AdaptiveMaxPool1d`](#torch.nn.AdaptiveMaxPool1d "torch.nn.AdaptiveMaxPool1d") for details and output shape.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **output_size** – the target output size (single integer)
 *   **return_indices** – whether to return pooling indices. Default: `False`
@@ -450,7 +450,7 @@ Applies a 2D adaptive max pooling over an input signal composed of several input
 See [`AdaptiveMaxPool2d`](#torch.nn.AdaptiveMaxPool2d "torch.nn.AdaptiveMaxPool2d") for details and output shape.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **output_size** – the target output size (single integer or double-integer tuple)
 *   **return_indices** – whether to return pooling indices. Default: `False`
@@ -469,7 +469,7 @@ Applies a 3D adaptive max pooling over an input signal composed of several input
 See [`AdaptiveMaxPool3d`](#torch.nn.AdaptiveMaxPool3d "torch.nn.AdaptiveMaxPool3d") for details and output shape.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **output_size** – the target output size (single integer or triple-integer tuple)
 *   **return_indices** – whether to return pooling indices. Default: `False`
@@ -668,7 +668,7 @@ where `input` is split in half along `dim` to form `A` and `B`.
 See [Language Modeling with Gated Convolutional Networks](https://arxiv.org/abs/1612.08083).
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension on which to split the input
@@ -735,7 +735,7 @@ Note that ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BSoftmin%7D(x)%20%3D%
 See [`Softmin`](#torch.nn.Softmin "torch.nn.Softmin") for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – A dimension along which softmin will be computed (so every slice along dim will sum to 1).
@@ -763,7 +763,7 @@ It is applied to all slices along dim, and will re-scale them so that the elemen
 See [`Softmax`](#torch.nn.Softmax "torch.nn.Softmax") for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – A dimension along which softmax will be computed.
@@ -797,7 +797,7 @@ torch.nn.functional.gumbel_softmax(logits, tau=1.0, hard=False, eps=1e-10)
 Sample from the Gumbel-Softmax distribution and optionally discretize.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **logits** – `[batch_size, num_features]` unnormalized log probabilities
 *   **tau** – non-negative scalar temperature
@@ -827,7 +827,7 @@ While mathematically equivalent to log(softmax(x)), doing these two operations s
 See [`LogSoftmax`](#torch.nn.LogSoftmax "torch.nn.LogSoftmax") for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – A dimension along which log_softmax will be computed.
@@ -915,7 +915,7 @@ For a tensor `input` of sizes ![](http://latex.codecogs.com/gif.latex?(n_0%2C%20
 With the default arguments it uses the Euclidean norm over vectors along dimension ![](http://latex.codecogs.com/gif.latex?1) for normalization.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of any shape
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the exponent value in the norm formulation. Default: 2
@@ -962,7 +962,7 @@ During training, randomly zeroes some of the elements of the input tensor with p
 See [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **p** – probability of an element to be zeroed. Default: 0.5
 *   **training** – apply dropout if is `True`. Defualt: `True`
@@ -992,7 +992,7 @@ Randomly zero out entire channels (a channel is a 2D feature map, e.g., the ![](
 See [`Dropout2d`](#torch.nn.Dropout2d "torch.nn.Dropout2d") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **p** – probability of a channel to be zeroed. Default: 0.5
 *   **training** – apply dropout if is `True`. Defualt: `True`
@@ -1012,7 +1012,7 @@ Randomly zero out entire channels (a channel is a 3D feature map, e.g., the ![](
 See [`Dropout3d`](#torch.nn.Dropout3d "torch.nn.Dropout3d") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **p** – probability of a channel to be zeroed. Default: 0.5
 *   **training** – apply dropout if is `True`. Defualt: `True`
@@ -1036,7 +1036,7 @@ This module is often used to retrieve word embeddings using indices. The input t
 See [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding") for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** (_LongTensor_) – Tensor containing indices into the embedding matrix
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – The embedding matrix with number of rows equal to the maximum possible index + 1, and number of columns equal to the embedding size
@@ -1103,7 +1103,7 @@ Computes sums, means or maxes of ‘bags’ of embeddings, without instantiating
 See [`torch.nn.EmbeddingBag`](#torch.nn.EmbeddingBag "torch.nn.EmbeddingBag") for more details. .. include:: cuda_deterministic_backward.rst
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** (_LongTensor_) – Tensor containing bags of indices into the embedding matrix
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – The embedding matrix with number of rows equal to the maximum possible index + 1, and number of columns equal to the embedding size
@@ -1176,7 +1176,7 @@ Returns cosine similarity between x1 and x2, computed along dim.
 ![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bsimilarity%7D%20%3D%20%5Cdfrac%7Bx_1%20%5Ccdot%20x_2%7D%7B%5Cmax(%5CVert%20x_1%20%5CVert%20_2%20%5Ccdot%20%5CVert%20x_2%20%5CVert%20_2%2C%20%5Cepsilon)%7D%0D%0A%0D%0A)
 
  
-| Parameters: | 
+Parameters: 
 
 *   **x1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – First input.
 *   **x2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Second input (of size matching x1).
@@ -1216,7 +1216,7 @@ If input has shape ![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20M) the
 This function is equivalent to `scipy.spatial.distance.pdist(input, ‘minkowski’, p=p)` if ![](http://latex.codecogs.com/gif.latex?p%20%5Cin%20(0%2C%20%5Cinfty)). When ![](http://latex.codecogs.com/gif.latex?p%20%3D%200) it is equivalent to `scipy.spatial.distance.pdist(input, ‘hamming’) * M`. When ![](http://latex.codecogs.com/gif.latex?p%20%3D%20%5Cinfty), the closest scipy function is `scipy.spatial.distance.pdist(xn, lambda x, y: np.abs(x - y).max())`.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20M).
 *   **p** – p value for the p-norm distance to calculate between each vector pair ![](http://latex.codecogs.com/gif.latex?%5Cin%20%5B0%2C%20%5Cinfty%5D).
@@ -1237,7 +1237,7 @@ Function that measures the Binary Cross Entropy between the target and the outpu
 See [`BCELoss`](#torch.nn.BCELoss "torch.nn.BCELoss") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
@@ -1270,7 +1270,7 @@ Function that measures Binary Cross Entropy between target and output logits.
 See [`BCEWithLogitsLoss`](#torch.nn.BCEWithLogitsLoss "torch.nn.BCEWithLogitsLoss") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
@@ -1304,7 +1304,7 @@ Poisson negative log likelihood loss.
 See [`PoissonNLLLoss`](#torch.nn.PoissonNLLLoss "torch.nn.PoissonNLLLoss") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – expectation of underlying Poisson distribution.
 *   **target** – random sample ![](http://latex.codecogs.com/gif.latex?target%20%5Csim%20%5Ctext%7BPoisson%7D(input)).
@@ -1337,7 +1337,7 @@ This criterion combines `log_softmax` and `nll_loss` in a single function.
 See [`CrossEntropyLoss`](#torch.nn.CrossEntropyLoss "torch.nn.CrossEntropyLoss") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C)) where `C = number of classes` or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) in case of 2D Loss, or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) in the case of K-dimensional loss.
 *   **target** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – ![](http://latex.codecogs.com/gif.latex?(N)) where each value is ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), or ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) for K-dimensional loss.
@@ -1379,7 +1379,7 @@ Note
 When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **log_probs** – ![](http://latex.codecogs.com/gif.latex?(T%2C%20N%2C%20C)) where `C = number of characters in alphabet including blank`, `T = input length`, and `N = batch size`. The logarithmized probabilities of the outputs (e.g. obtained with [`torch.nn.functional.log_softmax()`](#torch.nn.functional.log_softmax "torch.nn.functional.log_softmax")).
 *   **targets** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20S)) or `(sum(target_lengths))`. Targets (cannot be blank). In the second form, the targets are assumed to be concatenated.
@@ -1422,7 +1422,7 @@ The [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback-Leibler
 See [`KLDivLoss`](#torch.nn.KLDivLoss "torch.nn.KLDivLoss") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
@@ -1506,7 +1506,7 @@ The negative log likelihood loss.
 See [`NLLLoss`](#torch.nn.NLLLoss "torch.nn.NLLLoss") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C)) where `C = number of classes` or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) in case of 2D Loss, or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) in the case of K-dimensional loss.
 *   **target** – ![](http://latex.codecogs.com/gif.latex?(N)) where each value is ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), or ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) for K-dimensional loss.
@@ -1570,7 +1570,7 @@ Rearranges elements in a tensor of shape ![](http://latex.codecogs.com/gif.latex
 See [`PixelShuffle`](#torch.nn.PixelShuffle "torch.nn.PixelShuffle") for details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **upscale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – factor to increase spatial resolution by
@@ -1613,7 +1613,7 @@ Note
 When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – `Nd` tensor
 *   **pad** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – m-elem tuple, where ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7Bm%7D%7B2%7D%20%5Cleq) input dimensions and ![](http://latex.codecogs.com/gif.latex?m) is even.
@@ -1660,7 +1660,7 @@ The input dimensions are interpreted in the form: `mini-batch x channels x [opti
 The modes available for resizing are: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only), `area`
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
@@ -1704,7 +1704,7 @@ The input dimensions are interpreted in the form: `mini-batch x channels x [opti
 The modes available for upsampling are: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only)
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
@@ -1734,7 +1734,7 @@ This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#t
 Currently spatial and volumetric upsampling are supported (i.e. expected inputs are 4 or 5 dimensional).
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatia size.
@@ -1762,7 +1762,7 @@ This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#t
 Expected inputs are spatial (4 dimensional). Use `upsample_trilinear` fo volumetric (5 dimensional) inputs.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
@@ -1806,7 +1806,7 @@ Note
 When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input of shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) (4-D case) or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20D_%5Ctext%7Bin%7D%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) (5-D case)
 *   **grid** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – flow-field of shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)) (4-D case) or ![](http://latex.codecogs.com/gif.latex?(N%2C%20D_%5Ctext%7Bout%7D%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%203)) (5-D case)
@@ -1829,7 +1829,7 @@ torch.nn.functional.affine_grid(theta, size)
 Generates a 2d flow field, given a batch of affine matrices `theta` Generally used in conjunction with [`grid_sample()`](#torch.nn.functional.grid_sample "torch.nn.functional.grid_sample") to implement Spatial Transformer Networks.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **theta** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input batch of affine matrices (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%202%20%5Ctimes%203))
 *   **size** (_torch.Size_) – the target output image size (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20C%20%5Ctimes%20H%20%5Ctimes%20W)) Example: torch.Size((32, 3, 24, 24))
@@ -1854,7 +1854,7 @@ Evaluates module(input) in parallel across the GPUs given in device_ids.
 This is the functional version of the DataParallel module.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to evaluate in parallel
 *   **inputs** (_tensor_) – inputs to the module

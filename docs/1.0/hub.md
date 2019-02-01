@@ -8,7 +8,7 @@ torch.hub.load(github, model, force_reload=False, *args, **kwargs)
 
 Load a model from a github repo, with pretrained weights.
 
-| Parameters: | 
+Parameters: 
 
 *   **github** – Required, a string with format “repo_owner/repo_name[:tag_name]” with an optional tag/branch. The default branch is `master` if not specified. Example: ‘pytorch/vision[:hub]’
 *   **model** – Required, a string of callable name defined in repo’s hubconf.py
@@ -16,8 +16,7 @@ Load a model from a github repo, with pretrained weights.
 *   ***args** – Optional, the corresponding args for callable `model`.
 *   ****kwargs** – Optional, the corresponding kwargs for callable `model`.
 
- |
-| --- | --- |
+
 | Returns: | a single model with corresponding pretrained weights. |
 | --- | --- |
 

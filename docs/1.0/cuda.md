@@ -268,13 +268,12 @@ torch.cuda.comm.broadcast(tensor, devices)
 
 Broadcasts a tensor to a number of GPUs.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – tensor to broadcast.
 *   **devices** (_Iterable_) – an iterable of devices among which to broadcast. Note that it should be like (src, dst1, dst2, …), the first element of which is the source device to broadcast from.
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing copies of the `tensor`, placed on devices corresponding to indices from `devices`. |
 | --- | --- |
 
@@ -284,14 +283,13 @@ torch.cuda.comm.broadcast_coalesced(tensors, devices, buffer_size=10485760)
 
 Broadcasts a sequence tensors to the specified GPUs. Small tensors are first coalesced into a buffer to reduce the number of synchronizations.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensors** (_sequence_) – tensors to broadcast.
 *   **devices** (_Iterable_) – an iterable of devices among which to broadcast. Note that it should be like (src, dst1, dst2, …), the first element of which is the source device to broadcast from.
 *   **buffer_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – maximum size of the buffer used for coalescing
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing copies of the `tensor`, placed on devices corresponding to indices from `devices`. |
 | --- | --- |
 
@@ -303,13 +301,12 @@ Sums tensors from multiple GPUs.
 
 All inputs should have matching shapes.
 
-| Parameters: | 
+Parameters: 
 
 *   **inputs** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – an iterable of tensors to add.
 *   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – a device on which the output will be placed (default: current device).
 
- |
-| --- | --- |
+
 | Returns: | A tensor containing an elementwise sum of all inputs, placed on the `destination` device. |
 | --- | --- |
 
@@ -319,15 +316,14 @@ torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)
 
 Scatters tensor across multiple GPUs.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – tensor to scatter.
 *   **devices** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – iterable of ints, specifying among which devices the tensor should be scattered.
 *   **chunk_sizes** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]__,_ _optional_) – sizes of chunks to be placed on each device. It should match `devices` in length and sum to `tensor.size(dim)`. If not specified, the tensor will be divided into equal chunks.
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – A dimension along which to chunk the tensor.
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing chunks of the `tensor`, spread across given `devices`. |
 | --- | --- |
 
@@ -339,14 +335,13 @@ Gathers tensors from multiple GPUs.
 
 Tensor sizes in all dimension different than `dim` have to match.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensors** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – iterable of tensors to gather.
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – a dimension along which the tensors will be concatenated.
 *   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – output device (-1 means CPU, default: current device)
 
- |
-| --- | --- |
+
 | Returns: | A tensor located on `destination` device, that is a result of concatenating `tensors` along `dim`. |
 | --- | --- |
 
@@ -360,13 +355,12 @@ Wrapper around a CUDA stream.
 
 A CUDA stream is a linear sequence of execution that belongs to a specific device, independent from other streams. See [CUDA semantics](notes/cuda.html#cuda-semantics) for details.
 
-| Parameters: | 
+Parameters: 
 
 *   **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – a device on which to allocate the stream. If [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default) or a negative integer, this will use the current device.
 *   **priority** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – priority of the stream. Lower numbers represent higher priorities.
 
- |
-| --- | --- |
+
 
 ```py
 query()
@@ -434,14 +428,13 @@ class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, 
 
 Wrapper around CUDA event.
 
-| Parameters: | 
+Parameters: 
 
 *   **enable_timing** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – indicates if the event should measure time (default: `False`)
 *   **blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True`, [`wait()`](#torch.cuda.Event.wait "torch.cuda.Event.wait") will be blocking (default: `False`)
 *   **interprocess** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True`, the event can be shared between processes (default: `False`)
 
- |
-| --- | --- |
+
 
 ```py
 elapsed_time(end_event)
