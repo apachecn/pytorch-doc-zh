@@ -294,7 +294,7 @@ class EncoderRNN(nn.Module):
 
 在最简单的seq2seq解码器中，我们只使用编码器的最后输出。这最后一个输出有时称为上下文向量因为它从整个序列中编码上下文。该上下文向量用作解码器的初始隐藏状态。
 
-在解码的每一步,解码器都被赋予一个输入指令和隐藏状态. 初始输入指令字符串开始的``&lt;SOS&gt;``指令,第一个隐藏状态是上下文向量(编码器的最后隐藏状态).
+在解码的每一步,解码器都被赋予一个输入指令和隐藏状态. 初始输入指令字符串开始的`<SOS>`指令,第一个隐藏状态是上下文向量(编码器的最后隐藏状态).
 
 ![](img/34b376e0c7299810f7349ab99c2c5497.jpg)
 
@@ -402,13 +402,13 @@ def tensorsFromPair(pair):
 
 ### 训练模型
 
-To train we run the input sentence through the encoder, and keep track of every output and the latest hidden state. Then the decoder is given the `&lt;SOS&gt;` token as its first input, and the last hidden state of the encoder as its first hidden state.
+为了训练我们通过编码器运行输入句子,并跟踪每个输出和最新的隐藏状态.  然后解码器被赋予`<SOS>` 标志作为其第一个输入, 并将编码器的最后一个隐藏状态作为其第一个隐藏状态.
 
-“Teacher forcing” is the concept of using the real target outputs as each next input, instead of using the decoder’s guess as the next input. Using teacher forcing causes it to converge faster but [when the trained network is exploited, it may exhibit instability](http://minds.jacobs-university.de/sites/default/files/uploads/papers/ESNTutorialRev.pdf).
+“Teacher forcing” 是将实际目标输出用作每个下一个输入的概念,而不是将解码器的 猜测用作下一个输入.使用教师强迫会使其更快地收敛,但是 [当训练好的网络被利用时,它可能表现出不稳定性.](http://minds.jacobs-university.de/sites/default/files/uploads/papers/ESNTutorialRev.pdf).
 
-You can observe outputs of teacher-forced networks that read with coherent grammar but wander far from the correct translation - intuitively it has learned to represent the output grammar and can “pick up” the meaning once the teacher tells it the first few words, but it has not properly learned how to create the sentence from the translation in the first place.
+你可以观察到教师的输出-用连贯的语法阅读，却远离正确的翻译-直观地说，它已经学会了表示输出语法，并且一旦老师告诉它前几个单词，它就可以“拾起”意义，但它一开始就没有学会如何从翻译中创造句子。
 
-Because of the freedom PyTorch’s autograd gives us, we can randomly choose to use teacher forcing or not with a simple if statement. Turn `teacher_forcing_ratio` up to use more of it.
+由于PyTorch的autograd给我们的自由,我们可以随意选择使用老师强制或不使用简单的if语句. 打开`teacher_forcing_ratio`来使用它.
 
 ```py
 teacher_forcing_ratio = 0.5
@@ -466,7 +466,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
 
 ```
 
-This is a helper function to print time elapsed and estimated time remaining given the current time and progress %.
+这是一个帮助函数，用于在给定当前时间和进度%的情况下打印经过的时间和估计的剩余时间。
 
 ```py
 import time
@@ -486,14 +486,14 @@ def timeSince(since, percent):
 
 ```
 
-The whole training process looks like this:
+整个训练过程如下所示:
 
-*   Start a timer
-*   Initialize optimizers and criterion
-*   Create set of training pairs
-*   Start empty losses array for plotting
+*   启动计时器
+*   初始化优化器和准则
+*   创建一组训练队
+*   为进行绘图启动空损失数组
 
-Then we call `train` many times and occasionally print the progress (% of examples, time so far, estimated time) and average loss.
+之后我们多次调用`train`函数，偶尔打印进度 (样本的百分比，到目前为止的时间，狙击的时间) 和平均损失
 
 ```py
 def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, learning_rate=0.01):
@@ -533,9 +533,9 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
 
 ```
 
-### Plotting results
+### 绘制结果
 
-Plotting is done with matplotlib, using the array of loss values `plot_losses` saved while training.
+使用matplotlib完成绘图，使用`plot_losses`保存训练时的数组。
 
 ```py
 import matplotlib.pyplot as plt
@@ -553,9 +553,9 @@ def showPlot(points):
 
 ```
 
-## Evaluation
+## 评估
 
-Evaluation is mostly the same as training, but there are no targets so we simply feed the decoder’s predictions back to itself for each step. Every time it predicts a word we add it to the output string, and if it predicts the EOS token we stop there. We also store the decoder’s attention outputs for display later.
+评估与训练大部分相同,但没有目标,因此我们只是将解码器的每一步预测反馈给它自身. 每当它预测到一个单词时,我们就会将它添加到输出字符串中,并且如果它预测到我们在那里停止的EOS指令. 我们还存储解码器的注意力输出以供稍后显示.
 
 ```py
 def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
@@ -595,7 +595,7 @@ def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
 
 ```
 
-We can evaluate random sentences from the training set and print out the input, target, and output to make some subjective quality judgements:
+我们可以从训练集中对随机句子进行评估，并打印出输入、目标和输出，从而做出一些主观的质量判断：
 
 ```py
 def evaluateRandomly(encoder, decoder, n=10):
@@ -610,15 +610,15 @@ def evaluateRandomly(encoder, decoder, n=10):
 
 ```
 
-## Training and Evaluating
+## 训练和评估
 
-With all these helper functions in place (it looks like extra work, but it makes it easier to run multiple experiments) we can actually initialize a network and start training.
+有了所有这些帮助函数(它看起来像是额外的工作，但它使运行多个实验更容易)，我们实际上可以初始化一个网络并开始训练。
 
-Remember that the input sentences were heavily filtered. For this small dataset we can use relatively small networks of 256 hidden nodes and a single GRU layer. After about 40 minutes on a MacBook CPU we’ll get some reasonable results.
+请记住输入句子被严重过滤, 对于这个小数据集,我们可以使用包含256个隐藏节点 和单个GRU层的相对较小的网络.在MacBook CPU上约40分钟后,我们会得到一些合理的结果.
 
-Note
+注
 
-If you run this notebook you can train, interrupt the kernel, evaluate, and continue training later. Comment out the lines where the encoder and decoder are initialized and run `trainIters` again.
+如果你运行这个笔记本，你可以训练，中断内核，评估，并在以后继续训练。 注释编码器和解码器初始化的行并再次运行 `trainIters` .
 
 ```py
 hidden_size = 256
@@ -632,7 +632,7 @@ trainIters(encoder1, attn_decoder1, 75000, print_every=5000)
 *   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_001.png](img/5015200eb4481feb8a71a658b384ec39.jpg)
 *   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_002.png](img/89adff7333b116436cf785388029ba1a.jpg)
 
-Out:
+输出:
 
 ```py
 1m 47s (- 25m 8s) (5000 6%) 2.8641
@@ -658,7 +658,7 @@ evaluateRandomly(encoder1, attn_decoder1)
 
 ```
 
-Out:
+输出:
 
 ```py
 > nous sommes contents que tu sois la .
@@ -703,11 +703,11 @@ Out:
 
 ```
 
-### Visualizing Attention
+### 可视化注意力
 
-A useful property of the attention mechanism is its highly interpretable outputs. Because it is used to weight specific encoder outputs of the input sequence, we can imagine looking where the network is focused most at each time step.
+注意力机制的一个有用的特性是其高度可解释的输出。由于它用于加权输入序列的特定编码器输出，因此我们可以想象，在每个时间步骤中，查看网络最集中的位置。
 
-You could simply run `plt.matshow(attentions)` to see attention output displayed as a matrix, with the columns being input steps and rows being output steps:
+你可以简单地运行`plt.matshow(attentions)`来查看显示为矩阵的注意力输出，列为输入步骤，行位输出步骤。
 
 ```py
 output_words, attentions = evaluate(
@@ -718,7 +718,7 @@ plt.matshow(attentions.numpy())
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_003.png](img/5412faceb18bc6fa2823be3ae1bdfd8d.jpg)
 
-For a better viewing experience we will do the extra work of adding axes and labels:
+为了获得更好的观看体验,我们将额外添加轴和标签:
 
 ```py
 def showAttention(input_sentence, output_words, attentions):
@@ -761,7 +761,7 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 *   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_006.png](img/b1ba956974f3e844b0b0cea490cc1148.jpg)
 *   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_007.png](img/1226e2e8b7633b50c2c45ce699d8f71f.jpg)
 
-Out:
+输出:
 
 ```py
 input = elle a cinq ans de moins que moi .
@@ -775,21 +775,21 @@ output = he s a talented young player . <EOS>
 
 ```
 
-## Exercises
+## 练习题
 
-*   Try with a different dataset
-    *   Another language pair
-    *   Human → Machine (e.g. IOT commands)
-    *   Chat → Response
-    *   Question → Answer
-*   Replace the embeddings with pre-trained word embeddings such as word2vec or GloVe
-*   Try with more layers, more hidden units, and more sentences. Compare the training time and results.
-*   If you use a translation file where pairs have two of the same phrase (`I am test \t I am test`), you can use this as an autoencoder. Try this:
-    *   Train as an autoencoder
-    *   Save only the Encoder network
-    *   Train a new Decoder for translation from there
+*   尝试使用不同的数据集
+    *   另一种语言对
+    *   人 → 及其 (例如 IOT 命令)
+    *   聊天 → 响应
+    *   问题 → 回答
+*   将嵌入替换为预先训练过的单词嵌入，例如word2vec或者GloVe
+*   尝试用更多的层次，更多的隐藏单位，更多的句子。比较训练时间和结果。
+*   如果使用一个翻译文件，其中成对有两个相同的短语(`I am test \t I am test`)，您可以将其用作自动编码器。试试这个：
+    *   训练为自动编码器
+    *   只保存编码器网络
+    *   训练一种新的翻译解码器
 
-**Total running time of the script:** ( 26 minutes 33.280 seconds)
+**脚本的总运行时间:** (26分33.280秒)
 
 [`Download Python source code: seq2seq_translation_tutorial.py`](../_downloads/a96a2daac1918ec72f68233dfe3f2c47/seq2seq_translation_tutorial.py)[`Download Jupyter notebook: seq2seq_translation_tutorial.ipynb`](../_downloads/a60617788061539b5449701ae76aee56/seq2seq_translation_tutorial.ipynb)
 
