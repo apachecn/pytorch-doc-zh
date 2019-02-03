@@ -1,6 +1,6 @@
 
 
-# 基于注意力机制的seq2seq神经网络进行翻译
+# 基于注意力机制的 seq2seq 神经网络翻译
 
 > 译者：[mengfu188](https://github.com/mengfu188)
 
