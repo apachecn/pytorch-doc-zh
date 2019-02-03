@@ -1,48 +1,48 @@
 
 
-# PyTorch 1.0 Distributed Trainer with Amazon AWS
+# PyTorch 1.0 使用 Amazon AWS 进行分布式训练
 
 **Author**: [Nathan Inkawhich](https://github.com/inkawhich)
 
 **Edited by**: [Teng Li](https://github.com/teng-li)
 
-In this tutorial we will show how to setup, code, and run a PyTorch 1.0 distributed trainer across two multi-gpu Amazon AWS nodes. We will start with describing the AWS setup, then the PyTorch environment configuration, and finally the code for the distributed trainer. Hopefully you will find that there is actually very little code change required to extend your current training code to a distributed application, and most of the work is in the one-time environment setup.
+在这篇教程中我们会展示如何使用 Amazon AWS 的双路GPU节点来设置，编写和运行 PyTorch 1.0 分布式训练程序。首先我们会介绍 AWS 设置, 然后是 PyTorch 环境配置, 最后是分布式训练的代码。你会发现想改成分布式应用你只需要对你目前写的训练程序做很少的代码改动, 绝大多数工作都只是一次性的环境配置。
 
-## Amazon AWS Setup
+## Amazon AWS 设置
 
-In this tutorial we will run distributed training across two multi-gpu nodes. In this section we will first cover how to create the nodes, then how to setup the security group so the nodes can communicate with eachother.
+在这篇教程中我们会在双路 GPU 节点上运行分布式训练。在这一节中我们首先会展示如何创建节点，然后是设置安全组(security group)来让节点之间能够通信。
 
-### Creating the Nodes
+### 创建节点
 
-In Amazon AWS, there are seven steps to creating an instance. To get started, login and select **Launch Instance**.
+在 Amazon AWS 上创建一个实例需要七个步骤。首先，登录并选择 **Launch Instance**.
 
-**Step 1: Choose an Amazon Machine Image (AMI)** - Here we will select the `Deep Learning AMI (Ubuntu) Version 14.0`. As described, this instance comes with many of the most popular deep learning frameworks installed and is preconfigured with CUDA, cuDNN, and NCCL. It is a very good starting point for this tutorial.
+**1: 选择 Amazon Machine Image (AMI)** - 我们选择 `Deep Learning AMI (Ubuntu) Version 14.0`。 正如介绍中所说的，这个实例安装了许多流行的深度学习框架并已经配置好了 CUDA, cuDNN 和 NCCL。 这是一个很好的开始。
 
-**Step 2: Choose an Instance Type** - Now, select the GPU compute unit called `p2.8xlarge`. Notice, each of these instances has a different cost but this instance provides 8 NVIDIA Tesla K80 GPUs per node, and provides a good architecture for multi-gpu distributed training.
+**2: 选择一个实例类型** - 选择GPU计算单元 `p2.8xlarge`。 注意，每个实例的价格不同，这个实例为每个节点提供 8 个 NVIDIA Tesla K80 GPU，并且提供了适合多路 GPU 分布式训练的架构。
 
-**Step 3: Configure Instance Details** - The only setting to change here is increasing the _Number of instances_ to 2\. All other configurations may be left at default.
+**3: 设置实例的细节** - 唯一需要设置的就是把 _Number of instances_ 加到 2\。其他的都可以保留默认设置。
 
-**Step 4: Add Storage** - Notice, by default these nodes do not come with a lot of storage (only 75 GB). For this tutorial, since we are only using the STL-10 dataset, this is plenty of storage. But, if you want to train on a larger dataset such as ImageNet, you will have to add much more storage just to fit the dataset and any trained models you wish to save.
+**4: 增加存储空间** - 注意, 默认情况下这些节点并没有很大的存储空间 (只有 75 GB)。对于这个教程, 我们只使用 STL-10 数据集, 存储空间是完全够用的。但如果你想要训练一个大的数据集比如 ImageNet , 你需要根据数据集和训练模型去增加存储空间。
 
-**Step 5: Add Tags** - Nothing to be done here, just move on.
+**5: 加 Tags** - 这一步没有什么需要设置的，直接进入下一步。
 
-**Step 6: Configure Security Group** - This is a critical step in the configuration process. By default two nodes in the same security group would not be able to communicate in the distributed training setting. Here, we want to create a **new** security group for the two nodes to be in. However, we cannot finish configuring in this step. For now, just remember your new security group name (e.g. launch-wizard-12) then move on to Step 7.
+**6: 设置安全组(Security Group)** - 这一步很重要。默认情况下同一安全组的两个节点无法在分布式训练设置下通信。 这里我们想要创建一个 **新的** 安全组并将两个节点加入组内。 但是我们没法在这一步完成这一设置。记住你设置的新的安全组名(例如 launch-wizard-12)然后进入下一步步骤7。
 
-**Step 7: Review Instance Launch** - Here, review the instance then launch it. By default, this will automatically start initializing the two instances. You can monitor the initialization progress from the dashboard.
+**7: 确认实例启动** - 接下来，确认例程并启动它。 默认情况下这会自动开始两个实例的初始化。你可以通过控制面板监视初始化的进程。
 
-### Configure Security Group
+### 设置安全组
 
-Recall that we were not able to properly configure the security group when creating the instances. Once you have launched the instance, select the _Network & Security &gt; Security Groups_ tab in the EC2 dashboard. This will bring up a list of security groups you have access to. Select the new security group you created in Step 6 (i.e. launch-wizard-12), which will bring up tabs called _Description, Inbound, Outbound, and Tags_. First, select the _Inbound_ tab and _Edit_ to add a rule to allow “All Traffic” from “Sources” in the launch-wizard-12 security group. Then select the _Outbound_ tab and do the exact same thing. Now, we have effectively allowed all Inbound and Outbound traffic of all types between nodes in the launch-wizard-12 security group.
+我们刚才在创建实例的时候没办法正确设置安全组。当你启动好实例后，在 EC2 的控制面板选择 _Network & Security &gt; Security Groups_ 选项。 这将显示你有权限访问的安全组列表。 选择你在第六步创建的新的安全组(也就是 launch-wizard-12), 会弹出选项 _Description, Inbound, Outbound, and Tags_。 首先，选择 _Inbound_ 和 _Edit_ 选项添加规则以允许来自 launch-wizard-12 安全组内源(“Sources”)的所有流量(“All Traffic”)。 然后选择 _Outbound_ 选项并做同样的工作。 现在，我们有效地允许了 launch-wizard-12 安全组所有类型的入站和出站流量(Inbound and Outbound traffic)。
 
-### Necessary Information
+### 必要的信息
 
-Before continuing, we must find and remember the IP addresses of both nodes. In the EC2 dashboard find your running instances. For both instances, write down the _IPv4 Public IP_ and the _Private IPs_. For the remainder of the document, we will refer to these as the **node0-publicIP**, **node0-privateIP**, **node1-publicIP**, and **node1-privateIP**. The public IPs are the addresses we will use to SSH in, and the private IPs will be used for inter-node communication.
+继续下一步之前，我们必须找到并记住节点的IP地址。 在 EC2 的控制面板找到你正在运行的实例。 记下实例的 _IPv4 Public IP_ 和 _Private IPs_。 在之后的文档中我们会把这些称为 **node0-publicIP**, **node0-privateIP**, **node1-publicIP** 和 **node1-privateIP**。 其中 public IP 地址用来 SSH 登录,  private IP 用来节点间通信。
 
-## Environment Setup
+## 环境配置
 
-The next critical step is the setup of each node. Unfortunately, we cannot configure both nodes at the same time, so this process must be done on each node separately. However, this is a one time setup, so once you have the nodes configured properly you will not have to reconfigure for future distributed training projects.
+下一个重要步骤是设置各个节点。 不幸的是，我们不能同时设置两个节点, 所以这一步必须每个节点分别做一遍。 然而，这是一次性的设置，一旦你的节点设置正常你就不需要再为你未来的分布式训练项目重新设置了。
 
-The first step, once logged onto the node, is to create a new conda environment with python 3.6 and numpy. Once created activate the environment.
+第一步，登录节点，创建一个带 python 3.6 和 numpy 的 conda 环境。 创建完成后激活环境。
 
 ```py
 $ conda create -n nightly_pt python=3.6 numpy
@@ -50,14 +50,14 @@ $ source activate nightly_pt
 
 ```
 
-Next, we will install a nightly build of Cuda 9.0 enabled PyTorch with pip in the conda environment.
+下一步，我们使用 pip 在 conda 环境中每日编译 (nightly build) 支持 Cuda 9.0 的 PyTorch 。
 
 ```py
 $ pip install torch_nightly -f https://download.pytorch.org/whl/nightly/cu90/torch_nightly.html
 
 ```
 
-We must also install torchvision so we can use the torchvision model and dataset. At this time, we must build torchvision from source as the pip installation will by default install an old version of PyTorch on top of the nightly build we just installed.
+我们还需要安装 torchvision 来使用 torchvision 的模型和数据集。这次我们需要从源代码构建 torchvision 因为使用 pip 安装会默认安装老版本的 PyTorch 。
 
 ```py
 $ cd
@@ -67,24 +67,24 @@ $ python setup.py install
 
 ```
 
-And finally, **VERY IMPORTANT** step is to set the network interface name for the NCCL socket. This is set with the environment variable `NCCL_SOCKET_IFNAME`. To get the correct name, run the `ifconfig` command on the node and look at the interface name that corresponds to the node’s _privateIP_ (e.g. ens3). Then set the environment variable as
+最后, 一步**很重要**的步骤是为 NCCL 设置网络接口名。这步是通过设置环境变量 `NCCL_SOCKET_IFNAME`。 为了获得正确的名字，在节点上执行 `ifconfig` 命令并看和节点对应的 _privateIP_ (例如 ens3)接口名字。 然后设置环境变量如下
 
 ```py
 $ export NCCL_SOCKET_IFNAME=ens3
 
 ```
 
-Remember, do this on both nodes. You may also consider adding the NCCL_SOCKET_IFNAME setting to your _.bashrc_. An important observation is that we did not setup a shared filesystem between the nodes. Therefore, each node will have to have a copy of the code and a copy of the datasets. For more information about setting up a shared network filesystem between nodes, see [here](https://aws.amazon.com/blogs/aws/amazon-elastic-file-system-shared-file-storage-for-amazon-ec2/).
+记住，对所有节点都执行这个操作。 你也许还需要考虑对 _.bashrc_ 添加 NCCL_SOCKET_IFNAME。 注意到我们没有在节点间设置共享文件系统。 因此，每个节点都需要复制一份代码和数据集。 想要了解更多有关设置节点间共享文件系统参考[这里](https://aws.amazon.com/blogs/aws/amazon-elastic-file-system-shared-file-storage-for-amazon-ec2/).
 
-## Distributed Training Code
+## 分布式训练代码
 
-With the instances running and the environments setup we can now get into the training code. Most of the code here has been taken from the [PyTorch ImageNet Example](https://github.com/pytorch/examples/tree/master/imagenet) which also supports distributed training. This code provides a good starting point for a custom trainer as it has much of the boilerplate training loop, validation loop, and accuracy tracking functionality. However, you will notice that the argument parsing and other non-essential functions have been stripped out for simplicity.
+实例开始运行，环境配置好了以后我们可以开始准备训练代码了。绝大多数代码是从 [PyTorch ImageNet Example](https://github.com/pytorch/examples/tree/master/imagenet) 来的，这些代码同样支持分布式训练。以这个代码为基础你可以搭自己的训练代码因为它有标准的训练循环，验证循环和准确率追踪函数。然而，你会注意到为了简洁起见参数解析和其他非必须的函数被去掉了。
 
-In this example we will use [torchvision.models.resnet18](https://pytorch.org/docs/stable/torchvision/models.html#torchvision.models.resnet18) model and will train it on the [torchvision.datasets.STL10](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.STL10) dataset. To accomodate for the dimensionality mismatch of STL-10 with Resnet18, we will resize each image to 224x224 with a transform. Notice, the choice of model and dataset are orthogonal to the distributed training code, you may use any dataset and model you wish and the process is the same. Lets get started by first handling the imports and talking about some helper functions. Then we will define the train and test functions, which have been largely taken from the ImageNet Example. At the end, we will build the main part of the code which handles the distributed training setup. And finally, we will discuss how to actually run the code.
+在这个例子中我们会使用 [torchvision.models.resnet18](https://pytorch.org/docs/stable/torchvision/models.html#torchvision.models.resnet18) 模型并将会在 [torchvision.datasets.STL10](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.STL10) 数据集上训练它。 为了解决 STL-10 和 Resnet18 维度不匹配的问题, 我们将会使用一个变换把图片的尺寸改为 224x224。 注意到，对于分布式训练代码，模型和数据集的选择是正交(orthogonal)的, 你可以选择任何你想用的数据集和模型，操作的步骤是一样的。 让我们首先操作import和一些辅助函数。然后我们会定义 train 和 test 函数，这些都可以从 ImageNet Example 示例中大量复制出来。 结尾部分，我们会搭建代码的 main 部分来设置分布式训练。 最后我们会讨论如何让代码运行起来。
 
 ### Imports
 
-The important distributed training specific imports here are [torch.nn.parallel](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel), [torch.distributed](https://pytorch.org/docs/stable/distributed.html), [torch.utils.data.distributed](https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler), and [torch.multiprocessing](https://pytorch.org/docs/stable/multiprocessing.html). It is also important to set the multiprocessing start method to _spawn_ or _forkserver_ (only supported in Python 3), as the default is _fork_ which may cause deadlocks when using multiple worker processes for dataloading.
+在分布式训练中特别需要 import 的东西是 [torch.nn.parallel](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel), [torch.distributed](https://pytorch.org/docs/stable/distributed.html), [torch.utils.data.distributed](https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler) 和 [torch.multiprocessing](https://pytorch.org/docs/stable/multiprocessing.html)。同时需要把多进程的 start 方法(multiprocessing start method) 设置为 _spawn_ 或 _forkserver_ (仅支持 Python 3), 因为默认是 _fork_ 会导致使用多进程加载数据时锁死。
 
 ```py
 import time
@@ -108,9 +108,9 @@ from torch.multiprocessing import Pool, Process
 
 ```
 
-### Helper Functions
+### 辅助函数
 
-We must also define some helper functions and classes that will make training easier. The `AverageMeter` class tracks training statistics like accuracy and iteration count. The `accuracy` function computes and returns the top-k accuracy of the model so we can track learning progress. Both are provided for training convenience but neither are distributed training specific.
+我们还需要定义一些辅助函数和类来使训练更简单。 `AverageMeter` 类追踪训练的状态比如准确率和循环次数。`accuracy` 函数计算并返还模型的 top-k 准确率这样我们就可以跟踪学习进程。 这两个都是为了训练方便而不是为分布式训练特别设定的。
 
 ```py
 class AverageMeter(object):
@@ -148,11 +148,11 @@ def accuracy(output, target, topk=(1,)):
 
 ```
 
-### Train Functions
+### 训练函数
 
-To simplify the main loop, it is best to separate a training epoch step into a function called `train`. This function trains the input model for one epoch of the _train_loader_. The only distributed training artifact in this function is setting the [non_blocking](https://pytorch.org/docs/stable/notes/cuda.html#use-pinned-memory-buffers) attributes of the data and label tensors to `True` before the forward pass. This allows asynchronous GPU copies of the data meaning transfers can be overlapped with computation. This function also outputs training statistics along the way so we can track progress throughout the epoch.
+为了简化 main 循环，最好把一步 training epoch 放进 `train` 函数中。 这个函数用于训练一个 epoch 的 _train_loader_ 的输入模型。 唯一需要为分布式训练特别调整的是在前向传播前将数据和标签张量的 [non_blocking](https://pytorch.org/docs/stable/notes/cuda.html#use-pinned-memory-buffers) 属性设置为 `True`。 这允许异步 GPU 复制数据也就是说计算和数据传输可以同时进行。 这个函数同时也输出训练状态这样我们就可以在整个 epoch 中跟踪进展。
 
-The other function to define here is `adjust_learning_rate`, which decays the initial learning rate at a fixed schedule. This is another boilerplate trainer function that is useful to train accurate models.
+另一个需要定义的函数是 `adjust_learning_rate`, 这个函数以一个固定的方式调低学习率。这是又一个标准的训练函数，有助于训练准确的模型。
 
 ```py
 def train(train_loader, model, criterion, optimizer, epoch):
@@ -163,37 +163,37 @@ def train(train_loader, model, criterion, optimizer, epoch):
     top1 = AverageMeter()
     top5 = AverageMeter()
 
-    # switch to train mode
+    # switch to train mode 转到训练模式
     model.train()
 
     end = time.time()
     for i, (input, target) in enumerate(train_loader):
 
-        # measure data loading time
+        # measure data loading time 计算加载数据的时间
         data_time.update(time.time() - end)
 
-        # Create non_blocking tensors for distributed training
+        # Create non_blocking tensors for distributed training 为分布式训练创建 non_blocking 张量
         input = input.cuda(non_blocking=True)
         target = target.cuda(non_blocking=True)
 
-        # compute output
+        # compute output 计算输出
         output = model(input)
         loss = criterion(output, target)
 
-        # measure accuracy and record loss
+        # measure accuracy and record loss 计算准确率并记录 loss
         prec1, prec5 = accuracy(output, target, topk=(1, 5))
         losses.update(loss.item(), input.size(0))
         top1.update(prec1[0], input.size(0))
         top5.update(prec5[0], input.size(0))
 
-        # compute gradients in a backward pass
+        # compute gradients in a backward pass 在反向传播中计算梯度
         optimizer.zero_grad()
         loss.backward()
 
-        # Call step of optimizer to update model params
+        # Call step of optimizer to update model params 调用一个 optimizer 步骤来更新模型参数
         optimizer.step()
 
-        # measure elapsed time
+        # measure elapsed time 计算花费的时间
         batch_time.update(time.time() - end)
         end = time.time()
 
@@ -215,9 +215,9 @@ def adjust_learning_rate(initial_lr, optimizer, epoch):
 
 ```
 
-### Validation Function
+### 验证函数
 
-To track generalization performance and simplify the main loop further we can also extract the validation step into a function called `validate`. This function runs a full validation step of the input model on the input validation dataloader and returns the top-1 accuracy of the model on the validation set. Again, you will notice the only distributed training feature here is setting `non_blocking=True` for the training data and labels before they are passed to the model.
+为了进一步简化 main 循环和追踪进程我们可以把验证过程放进命名为 `validate` 的函数中。 这个函数对输入的验证集数据在输入模型上执行一个完整的验证步骤并返还验证集对该模型的 top-1 准确率。 和刚才一样，你会注意到这里唯一需要为分布式训练特别设置的特性依然是在传递进模型前将训练数据和标签值设定 `non_blocking=True`。
 
 ```py
 def validate(val_loader, model, criterion):
@@ -227,7 +227,7 @@ def validate(val_loader, model, criterion):
     top1 = AverageMeter()
     top5 = AverageMeter()
 
-    # switch to evaluate mode
+    # switch to evaluate mode 转到验证模式
     model.eval()
 
     with torch.no_grad():
@@ -237,17 +237,17 @@ def validate(val_loader, model, criterion):
             input = input.cuda(non_blocking=True)
             target = target.cuda(non_blocking=True)
 
-            # compute output
+            # compute output 计算输出
             output = model(input)
             loss = criterion(output, target)
 
-            # measure accuracy and record loss
+            # measure accuracy and record loss 计算准确率并记录 loss
             prec1, prec5 = accuracy(output, target, topk=(1, 5))
             losses.update(loss.item(), input.size(0))
             top1.update(prec1[0], input.size(0))
             top5.update(prec5[0], input.size(0))
 
-            # measure elapsed time
+            # measure elapsed time 计算花费时间
             batch_time.update(time.time() - end)
             end = time.time()
 
@@ -267,137 +267,137 @@ def validate(val_loader, model, criterion):
 
 ```
 
-### Inputs
+### 输入
 
-With the helper functions out of the way, now we have reached the interesting part. Here is where we will define the inputs for the run. Some of the inputs are standard model training inputs such as batch size and number of training epochs, and some are specific to our distributed training task. The required inputs are:
+随着辅助函数的出现，我们进入了有趣的部分。这里我们将会定义程序的输入部分。一些输入的参数是标准的训练模型的输入比如 batch size 和训练的 epoch 数, 而有些则是我们的分布式训练任务特别需要的。需要的输入参数是：
 
-*   **batch_size** - batch size for _each_ process in the distributed training group. Total batch size across distributed model is batch_size*world_size
-*   **workers** - number of worker processes used with the dataloaders in each process
-*   **num_epochs** - total number of epochs to train for
-*   **starting_lr** - starting learning rate for training
-*   **world_size** - number of processes in the distributed training environment
-*   **dist_backend** - backend to use for distributed training communication (i.e. NCCL, Gloo, MPI, etc.). In this tutorial, since we are using several multi-gpu nodes, NCCL is suggested.
-*   **dist_url** - URL to specify the initialization method of the process group. This may contain the IP address and port of the rank0 process or be a non-existant file on a shared file system. Here, since we do not have a shared file system this will incorporate the **node0-privateIP** and the port on node0 to use.
+*   **batch_size** - 分布式训练组中_单一_进程的 batch size。 整个分布式模型总的 batch size 是 batch_size*world_size
+*   **workers** - 每个进程中数据加载使用的工作进程数
+*   **num_epochs** - 总的训练的 epoch 数
+*   **starting_lr** - 开始训练时的学习率
+*   **world_size** - 分布式训练环境的进程数
+*   **dist_backend** - 分布式训练通信使用的后端框架 (也就是 NCCL, Gloo, MPI 等)。 在这篇教程中因为我们使用了多个多路 GPU 节点因此推荐 NCCL。
+*   **dist_url** - 确定进程组的初始化方法的 URL。 这可能包含 IP 地址和 rank0 进程的端口或者是一个在共享文件系统中的 non-existant 文件。 这里由于我们没有共享文件系统因此是一个包含 **node0-privateIP** 和要使用的 node0 的端口。
 
 ```py
 print("Collect Inputs...")
 
-# Batch Size for training and testing
+# Batch Size for training and testing 训练和测试的 batch size
 batch_size = 32
 
-# Number of additional worker processes for dataloading
+# Number of additional worker processes for dataloading 数据加载的额外工作进程数
 workers = 2
 
-# Number of epochs to train for
+# Number of epochs to train for 训练的 epoch 数
 num_epochs = 2
 
-# Starting Learning Rate
+# Starting Learning Rate 初始学习率
 starting_lr = 0.1
 
-# Number of distributed processes
+# Number of distributed processes 分布式进程数
 world_size = 4
 
-# Distributed backend type
+# Distributed backend type 分布式后端类型
 dist_backend = 'nccl'
 
-# Url used to setup distributed training
+# Url used to setup distributed training 设置分布式训练的 url
 dist_url = "tcp://172.31.22.234:23456"
 
 ```
 
-### Initialize process group
+### 初始化进程组
 
-One of the most important parts of distributed training in PyTorch is to properly setup the process group, which is the **first** step in initializing the `torch.distributed` package. To do this, we will use the `torch.distributed.init_process_group` function which takes several inputs. First, a _backend_ input which specifies the backend to use (i.e. NCCL, Gloo, MPI, etc.). An _init_method_ input which is either a url containing the address and port of the rank0 machine or a path to a non-existant file on the shared file system. Note, to use the file init_method, all machines must have access to the file, similarly for the url method, all machines must be able to communicate on the network so make sure to configure any firewalls and network settings to accomodate. The _init_process_group_ function also takes _rank_ and _world_size_ arguments which specify the rank of this process when run and the number of processes in the collective, respectively. The _init_method_ input can also be “env://”. In this case, the address and port of the rank0 machine will be read from the following two environment variables respectively: MASTER_ADDR, MASTER_PORT. If _rank_ and _world_size_ arguments are not specified in the _init_process_group_ function, they both can be read from the following two environment variables respectively as well: RANK, WORLD_SIZE.
+在使用 PyTorch 进行分布式训练中有一个很重要的部分是正确设置进程组, 也就是初始化 `torch.distributed` 包的**第一**步。为了完成这一步我们将会使用 `torch.distributed.init_process_group` 函数，这个函数需要几个输入参数。首先，需要输入 _backend_ 参数，这个参数描述了需要什么后端(也就是 NCCL, Gloo, MPI 等)。 输入参数 _init_method_ 同时也是包含 rank0 地址和端口的 url 或是共享文件系统上的 non-existant 文件路径。注意，为了使用文件的 init_method, 所有机器必须有访问文件的权限，和使用 url 方法类似，所有机器必须要能够联网通信所以确保防火墙和网络设置正确。 _init_process_group_ 函数也接受 _rank_ 和 _world_size_ 参数，这些参数表明了进程运行时的编号并分别展示了集群内的进程数。_init_method_ 也可以是 “env://”。 在这种情况下，rank0 机器的地址和端口将会分别从以下环境变量中读出来：MASTER_ADDR, MASTER_PORT。 如果 _rank_ 和 _world_size_ 参数没有在 _init_process_group_ 函数中表示出来，他们都可以从以下环境变量中分别读出来：RANK, WORLD_SIZE。
 
-Another important step, especially when each node has multiple gpus is to set the _local_rank_ of this process. For example, if you have two nodes, each with 8 GPUs and you wish to train with all of them then `\(world\_size=16\)` and each node will have a process with local rank 0-7\. This local_rank is used to set the device (i.e. which GPU to use) for the process and later used to set the device when creating a distributed data parallel model. It is also recommended to use NCCL backend in this hypothetical environment as NCCL is preferred for multi-gpu nodes.
+另一个重要步骤，尤其是当一个节点使用多路 gpu 的时候，就是设置进程的 _local_rank_。 例如，如果你有两个节点，每个节点有8个 GPU 并且你希望使用所有 GPU 来训练那么设置 `\(world\_size=16\)` 这样每个节点都会有一个本地编号为 0-7 的进程。 这个本地编号(local_rank) 是用来为进程设置设备 (也就是所使用的 GPU ) 并且之后用来创建分布式数据并行模型时设置设备。 在这样的假定环境下同样推荐使用 NCCL 后端因为 NCCL 更适合多路 gpu 节点。
 
 ```py
 print("Initialize Process Group...")
-# Initialize Process Group
-# v1 - init with url
+# Initialize Process Group 初始化进程组
+# v1 - init with url  使用 url 初始化
 dist.init_process_group(backend=dist_backend, init_method=dist_url, rank=int(sys.argv[1]), world_size=world_size)
-# v2 - init with file
+# v2 - init with file 使用文件初始化
 # dist.init_process_group(backend="nccl", init_method="file:///home/ubuntu/pt-distributed-tutorial/trainfile", rank=int(sys.argv[1]), world_size=world_size)
-# v3 - init with environment variables
+# v3 - init with environment variables 使用环境变量初始化
 # dist.init_process_group(backend="nccl", init_method="env://", rank=int(sys.argv[1]), world_size=world_size)
 
-# Establish Local Rank and set device on this node
+# Establish Local Rank and set device on this node 设置节点的本地化编号和设备
 local_rank = int(sys.argv[2])
 dp_device_ids = [local_rank]
 torch.cuda.set_device(local_rank)
 
 ```
 
-### Initialize Model
+### 初始化模型
 
-The next major step is to initialize the model to be trained. Here, we will use a resnet18 model from `torchvision.models` but any model may be used. First, we initialize the model and place it in GPU memory. Next, we make the model `DistributedDataParallel`, which handles the distribution of the data to and from the model and is critical for distributed training. The `DistributedDataParallel` module also handles the averaging of gradients across the world, so we do not have to explicitly average the gradients in the training step.
+下一个主要步骤是初始化训练模型。这里我们将会使用 `torchvision.models` 中的 resnet18 模型但是你可以选用任何一种模型。首先，我们初始化模型并将它放进显存中。然后，我们创建模型 `DistributedDataParallel`, 它负责分配数据进出模型，这对分布式训练很重要。 `DistributedDataParallel` 模块同时也计算整体的平均梯度, 这样我们就不需要在训练步骤计算平均梯度。
 
-It is important to note that this is a blocking function, meaning program execution will wait at this function until _world_size_ processes have joined the process group. Also, notice we pass our device ids list as a parameter which contains the local rank (i.e. GPU) we are using. Finally, we specify the loss function and optimizer to train the model with.
+还要注意到这是一个阻塞函数 (blocking function), 也就是程序执行时会在这个函数等待直到 _world_size_ 进程加入进程组。 同时注意到，我们将我们的设备 ids 表以参数的形式传递，这个参数还包含了我们正在使用的本地编号 (也就是 GPU)。 最后，我们设定了训练模型使用的 loss function 和 optimizer。
 
 ```py
 print("Initialize Model...")
-# Construct Model
+# Construct Model 构建模型
 model = models.resnet18(pretrained=False).cuda()
-# Make model DistributedDataParallel
+# Make model DistributedDataParallel  
 model = torch.nn.parallel.DistributedDataParallel(model, device_ids=dp_device_ids, output_device=local_rank)
 
-# define loss function (criterion) and optimizer
+# define loss function (criterion) and optimizer 定义 loss 函数和 optimizer 
 criterion = nn.CrossEntropyLoss().cuda()
 optimizer = torch.optim.SGD(model.parameters(), starting_lr, momentum=0.9, weight_decay=1e-4)
 
 ```
 
-### Initialize Dataloaders
+### 初始化数据加载器 (dataloader)
 
-The last step in preparation for the training is to specify which dataset to use. Here we use the [STL-10 dataset](https://cs.stanford.edu/~acoates/stl10/) from [torchvision.datasets.STL10](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.STL10). The STL10 dataset is a 10 class dataset of 96x96px color images. For use with our model, we resize the images to 224x224px in the transform. One distributed training specific item in this section is the use of the `DistributedSampler` for the training set, which is designed to be used in conjunction with `DistributedDataParallel` models. This object handles the partitioning of the dataset across the distributed environment so that not all models are training on the same subset of data, which would be counterproductive. Finally, we create the `DataLoader`’s which are responsible for feeding the data to the processes.
+准备训练的最后一步是确认使用什么数据集。 这里我们使用 [torchvision.datasets.STL10](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.STL10) 中的 [STL-10 dataset](https://cs.stanford.edu/~acoates/stl10/)。 STL10 数据集是一个 10 分类 96x96px 彩色图片集。为了在我们的模型中使用它，我们在一个变换中把图片的尺寸调整为 224x224px。 在这节中特别需要为分布式训练准备的东西是为训练集使用 `DistributedSampler`，这是设计来与 `DistributedDataParallel` 模型相结合的。 这个对象控制进入分布式环境的数据集以确保模型不是对同一个子数据集训练，以达到训练目标。最后，我们创建 `DataLoader` 负责向模型喂数据。
 
-The STL-10 dataset will automatically download on the nodes if they are not present. If you wish to use your own dataset you should download the data, write your own dataset handler, and construct a dataloader for your dataset here.
+如果你的节点上没有 STL-10 数据集那么它会自动下载到节点上。如果你想要使用你自己的数据集那么下载你的数据集，搭建你自己的数据操作函数和加载器。
 
 ```py
 print("Initialize Dataloaders...")
-# Define the transform for the data. Notice, we must resize to 224x224 with this dataset and model.
+# Define the transform for the data. Notice, we must resize to 224x224 with this dataset and model. 定义数据的变换。尺寸转为224x224
 transform = transforms.Compose(
     [transforms.Resize(224),
      transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-# Initialize Datasets. STL10 will automatically download if not present
+# Initialize Datasets. STL10 will automatically download if not present 初始化数据集。如果没有STL10数据集则会自动下载
 trainset = datasets.STL10(root='./data', split='train', download=True, transform=transform)
 valset = datasets.STL10(root='./data', split='test', download=True, transform=transform)
 
-# Create DistributedSampler to handle distributing the dataset across nodes when training
-# This can only be called after torch.distributed.init_process_group is called
+# Create DistributedSampler to handle distributing the dataset across nodes when training 创建分布式采样器来控制训练中节点间的数据分发
+# This can only be called after torch.distributed.init_process_group is called 这个只能在 torch.distributed.init_process_group 被调用后调用
 train_sampler = torch.utils.data.distributed.DistributedSampler(trainset)
 
-# Create the Dataloaders to feed data to the training and validation steps
+# Create the Dataloaders to feed data to the training and validation steps 创建数据加载器，在训练和验证步骤中喂数据
 train_loader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=(train_sampler is None), num_workers=workers, pin_memory=False, sampler=train_sampler)
 val_loader = torch.utils.data.DataLoader(valset, batch_size=batch_size, shuffle=False, num_workers=workers, pin_memory=False)
 
 ```
 
-### Training Loop
+### 训练循环
 
-The last step is to define the training loop. We have already done most of the work for setting up the distributed training so this is not distributed training specific. The only detail is setting the current epoch count in the `DistributedSampler`, as the sampler shuffles the data going to each process deterministically based on epoch. After updating the sampler, the loop runs a full training epoch, runs a full validation step then prints the performance of the current model against the best performing model so far. After training for num_epochs, the loop exits and the tutorial is complete. Notice, since this is an exercise we are not saving models but one may wish to keep track of the best performing model then save it at the end of training (see [here](https://github.com/pytorch/examples/blob/master/imagenet/main.py#L184)).
+最后一步是定义训练循环。我们已经完成了设置分布式训练的绝大多数工作了，这一步不是特别为分布式训练做的。 唯一的细节是在 `DistributedSampler` 中记录目前的 epoch 数， 因为采样器是根据 epoch 来决定如何打乱分配数据进各个进程。 更新采样器后，循环执行一整个 epoch， 一整个验证步骤然后打印目前模型的表现对比目前表现最好的模型。 在训练了 num_epochs 后, 循环退出，教程结束。注意，因为这只是个例程，我们没有保存模型，但如果想要训练结束后保存最佳表现的模型看[这里](https://github.com/pytorch/examples/blob/master/imagenet/main.py#L184)).
 
 ```py
 best_prec1 = 0
 
 for epoch in range(num_epochs):
-    # Set epoch count for DistributedSampler
+    # Set epoch count for DistributedSampler 为分布式采样器设置 epoch 数
     train_sampler.set_epoch(epoch)
 
-    # Adjust learning rate according to schedule
+    # Adjust learning rate according to schedule 调整学习率
     adjust_learning_rate(starting_lr, optimizer, epoch)
 
-    # train for one epoch
+    # train for one epoch 训练1个 epoch
     print("\nBegin Training Epoch {}".format(epoch+1))
     train(train_loader, model, criterion, optimizer, epoch)
 
-    # evaluate on validation set
+    # evaluate on validation set 在验证集上验证
     print("Begin Validation @ Epoch {}".format(epoch+1))
     prec1 = validate(val_loader, model, criterion)
 
-    # remember best prec@1 and save checkpoint if desired
+    # remember best prec@1 and save checkpoint if desired 保存最佳的prec@1，如果需要的话保存检查点
     # is_best = prec1 > best_prec1
     best_prec1 = max(prec1, best_prec1)
 
@@ -407,21 +407,28 @@ for epoch in range(num_epochs):
 
 ```
 
-## Running the Code
+## 运行代码
 
-Unlike most of the other PyTorch tutorials, this code may not be run directly out of this notebook. To run, download the .py version of this file (or convert it using [this](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)) and upload a copy to both nodes. The astute reader would have noticed that we hardcoded the **node0-privateIP** and `\(world\_size=4\)` but input the _rank_ and _local_rank_ inputs as arg[1] and arg[2] command line arguments, respectively. Once uploaded, open two ssh terminals into each node.
+不像其他 PyTorch 教程, 这个代码也许不能直接以这个 notebook 的形式执行。 为了运行它需要以 .py 形式下载这份文件(或者使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)来转换它)然后复制到各个节点上。 聪明的读者也许注意到了我们写死了(硬编码，hardcode) **node0-privateIP** 和 `\(world\_size=4\)` 但把 _rank_ 和 _local_rank_ 以 arg[1] 和 arg[2] 命令行参数的形式分别输入。 上传后对每个节点分别打开两个 ssh 终端。
 
-*   On the first terminal for node0, run `$ python main.py 0 0`
-*   On the second terminal for node0 run `$ python main.py 1 1`
-*   On the first terminal for node1, run `$ python main.py 2 0`
-*   On the second terminal for node1 run `$ python main.py 3 1`
+*   对 node0 的第一个终端，运行 `$ python main.py 0 0`
+*   对 node0 的第二个终端，运行 `$ python main.py 1 1`
+*   对 node1 的第一个终端，运行 `$ python main.py 2 0`
+*   对 node1 的第二个终端，运行 `$ python main.py 3 1`
 
-The programs will start and wait after printing “Initialize Model…” for all four processes to join the process group. Notice the first argument is not repeated as this is the unique global rank of the process. The second argument is repeated as that is the local rank of the process running on the node. If you run `nvidia-smi` on each node, you will see two processes on each node, one running on GPU0 and one on GPU1.
+程序会开始运行并等待直到四个进程都加入进程组后打印 “Initialize Model…” 。 注意到第一个参数不能重复因为这是独一的进程的全局编号。 第二个参数可重复因为这是节点上进程的本地编号。 如果你对每个节点运行 `nvidia-smi`，你会看见每个节点上有两个进程，一个运行在 GPU0 上，另一个运行在 GPU1 上。
 
-We have now completed the distributed training example! Hopefully you can see how you would use this tutorial to help train your own models on your own datasets, even if you are not using the exact same distributed envrionment. If you are using AWS, don’t forget to **SHUT DOWN YOUR NODES** if you are not using them or you may find an uncomfortably large bill at the end of the month.
+我们现在已经实现了一个分布式训练的范例！ 希望你可以通过这个教程学会如何在你自己的数据集上搭建你自己的模型，即使你不是使用同样的分布式环境。 如果你在使用 AWS，切记在你不使用时**关掉你的节点**不然月末你会发现你要交好多钱。
 
-**Where to go next**
+**接下来看什么**
 
-*   Check out the [launcher utility](https://pytorch.org/docs/stable/distributed.html#launch-utility) for a different way of kicking off the run
-*   Check out the [torch.multiprocessing.spawn utility](https://pytorch.org/docs/master/multiprocessing.html#spawning-subprocesses) for another easy way of kicking off multiple distributed processes. [PyTorch ImageNet Example](https://github.com/pytorch/examples/tree/master/imagenet) has it implemented and can demonstrate how to use it.
-*   If possible, setup a NFS so you only need one copy of the dataset
+*   看看 [launcher utility](https://pytorch.org/docs/stable/distributed.html#launch-utility) 以了解另一种启动运行的方式
+*   看看 [torch.multiprocessing.spawn utility](https://pytorch.org/docs/master/multiprocessing.html#spawning-subprocesses) 以了解另一种简单的启动多路分布式进程的方式。 [PyTorch ImageNet Example](https://github.com/pytorch/examples/tree/master/imagenet) 已经实现并可以演示如何使用它。
+*   如果可能，请设置一个NFS，这样你只需要一个数据集副本
+
+**Total running time of the script:** ( 0 minutes 0.000 seconds)
+
+[`Download Python source code: aws_distributed_training_tutorial.py`](../_downloads/f8e87d04570b9a376652ece1006edccb/aws_distributed_training_tutorial.py)[`Download Jupyter notebook: aws_distributed_training_tutorial.ipynb`](../_downloads/80fe1ab73c6b2b3cefcd5ba0e4ed7609/aws_distributed_training_tutorial.ipynb)
+
+[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
+
