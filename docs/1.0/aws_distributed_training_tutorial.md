@@ -6,11 +6,11 @@
 
 **编辑**: [Teng Li](https://github.com/teng-li)
 
-在这篇教程中我们会展示如何使用 Amazon AWS 的双路GPU节点来设置，编写和运行 PyTorch 1.0 分布式训练程序。首先我们会介绍 AWS 设置, 然后是 PyTorch 环境配置, 最后是分布式训练的代码。你会发现想改成分布式应用你只需要对你目前写的训练程序做很少的代码改动, 绝大多数工作都只是一次性的环境配置。
+在这篇教程中我们会展示如何使用 Amazon AWS 的两个多路GPU节点来设置，编写和运行 PyTorch 1.0 分布式训练程序。首先我们会介绍 AWS 设置, 然后是 PyTorch 环境配置, 最后是分布式训练的代码。你会发现想改成分布式应用你只需要对你目前写的训练程序做很少的代码改动, 绝大多数工作都只是一次性的环境配置。
 
 ## Amazon AWS 设置
 
-在这篇教程中我们会在双路 GPU 节点上运行分布式训练。在这一节中我们首先会展示如何创建节点，然后是设置安全组(security group)来让节点之间能够通信。
+在这篇教程中我们会在两个多路 GPU 节点上运行分布式训练。在这一节中我们首先会展示如何创建节点，然后是设置安全组(security group)来让节点之间能够通信。
 
 ### 创建节点
 
@@ -20,19 +20,19 @@
 
 **2: 选择一个实例类型** - 选择GPU计算单元 `p2.8xlarge`。 注意，每个实例的价格不同，这个实例为每个节点提供 8 个 NVIDIA Tesla K80 GPU，并且提供了适合多路 GPU 分布式训练的架构。
 
-**3: 设置实例的细节** - 唯一需要设置的就是把 _Number of instances_ 加到 2\。其他的都可以保留默认设置。
+**3: 设置实例的细节** - 唯一需要设置的就是把 _Number of instances_ 加到 2。其他的都可以保留默认设置。
 
 **4: 增加存储空间** - 注意, 默认情况下这些节点并没有很大的存储空间 (只有 75 GB)。对于这个教程, 我们只使用 STL-10 数据集, 存储空间是完全够用的。但如果你想要训练一个大的数据集比如 ImageNet , 你需要根据数据集和训练模型去增加存储空间。
 
 **5: 加 Tags** - 这一步没有什么需要设置的，直接进入下一步。
 
-**6: 设置安全组(Security Group)** - 这一步很重要。默认情况下同一安全组的两个节点无法在分布式训练设置下通信。 这里我们想要创建一个 **新的** 安全组并将两个节点加入组内。 但是我们没法在这一步完成这一设置。记住你设置的新的安全组名(例如 launch-wizard-12)然后进入下一步步骤7。
+**6: 设置安全组(Security Group)** - 这一步很重要。默认情况下同一安全组的两个节点无法在分布式训练设置下通信。 这里我们想要创建一个**新的**安全组并将两个节点加入组内。 但是我们没法在这一步完成这一设置。记住你设置的新的安全组名(例如 launch-wizard-12)然后进入下一步步骤7。
 
 **7: 确认实例启动** - 接下来，确认例程并启动它。 默认情况下这会自动开始两个实例的初始化。你可以通过控制面板监视初始化的进程。
 
 ### 设置安全组
 
-我们刚才在创建实例的时候没办法正确设置安全组。当你启动好实例后，在 EC2 的控制面板选择 _Network & Security &gt; Security Groups_ 选项。 这将显示你有权限访问的安全组列表。 选择你在第六步创建的新的安全组(也就是 launch-wizard-12), 会弹出选项 _Description, Inbound, Outbound, and Tags_。 首先，选择 _Inbound_ 和 _Edit_ 选项添加规则以允许来自 launch-wizard-12 安全组内源(“Sources”)的所有流量(“All Traffic”)。 然后选择 _Outbound_ 选项并做同样的工作。 现在，我们有效地允许了 launch-wizard-12 安全组所有类型的入站和出站流量(Inbound and Outbound traffic)。
+我们刚才在创建实例的时候没办法正确设置安全组。当你启动好实例后，在 EC2 的控制面板选择 _Network & Security &gt; Security Groups_ 选项。 这将显示你有权限访问的安全组列表。 选择你在第六步创建的新的安全组(也就是 launch-wizard-12), 会弹出选项 _Description, Inbound, Outbound, and Tags_。 首先，选择 _Inbound_ 的 _Edit_ 选项添加规则以允许来自 launch-wizard-12 安全组内源(“Sources”)的所有流量(“All Traffic”)。 然后选择 _Outbound_ 选项并做同样的工作。 现在，我们有效地允许了 launch-wizard-12 安全组所有类型的入站和出站流量(Inbound and Outbound traffic)。
 
 ### 必要的信息
 
@@ -67,7 +67,7 @@ $ python setup.py install
 
 ```
 
-最后, 一步**很重要**的步骤是为 NCCL 设置网络接口名。这步是通过设置环境变量 `NCCL_SOCKET_IFNAME`。 为了获得正确的名字，在节点上执行 `ifconfig` 命令并看和节点对应的 _privateIP_ (例如 ens3)接口名字。 然后设置环境变量如下
+最后, 一步**很重要**的步骤是为 NCCL 设置网络接口名。这步通过设置环境变量 `NCCL_SOCKET_IFNAME` 来实现。 为了获得正确的名字，在节点上执行 `ifconfig` 命令并看和节点对应的 _privateIP_ (例如 ens3)接口名字。 然后设置环境变量如下
 
 ```py
 $ export NCCL_SOCKET_IFNAME=ens3
@@ -80,7 +80,7 @@ $ export NCCL_SOCKET_IFNAME=ens3
 
 实例开始运行，环境配置好了以后我们可以开始准备训练代码了。绝大多数代码是从 [PyTorch ImageNet Example](https://github.com/pytorch/examples/tree/master/imagenet) 来的，这些代码同样支持分布式训练。以这个代码为基础你可以搭自己的训练代码因为它有标准的训练循环，验证循环和准确率追踪函数。然而，你会注意到为了简洁起见参数解析和其他非必须的函数被去掉了。
 
-在这个例子中我们会使用 [torchvision.models.resnet18](https://pytorch.org/docs/stable/torchvision/models.html#torchvision.models.resnet18) 模型并将会在 [torchvision.datasets.STL10](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.STL10) 数据集上训练它。 为了解决 STL-10 和 Resnet18 维度不匹配的问题, 我们将会使用一个变换把图片的尺寸改为 224x224。 注意到，对于分布式训练代码，模型和数据集的选择是正交(orthogonal)的, 你可以选择任何你想用的数据集和模型，操作的步骤是一样的。 让我们首先操作import和一些辅助函数。然后我们会定义 train 和 test 函数，这些都可以从 ImageNet Example 示例中大量复制出来。 结尾部分，我们会搭建代码的 main 部分来设置分布式训练。 最后我们会讨论如何让代码运行起来。
+在这个例子中我们会使用 [torchvision.models.resnet18](https://pytorch.org/docs/stable/torchvision/models.html#torchvision.models.resnet18) 模型并将会在 [torchvision.datasets.STL10](https://pytorch.org/docs/stable/torchvision/datasets.html#torchvision.datasets.STL10) 数据集上训练它。 为了解决 STL-10 和 Resnet18 维度不匹配的问题, 我们将会使用一个变换把图片的尺寸改为 224x224。 注意到，对于分布式训练代码，模型和数据集的选择是正交(orthogonal)的, 你可以选择任何你想用的数据集和模型，操作的步骤是一样的。 让我们首先操作 import 和一些辅助函数。然后我们会定义 train 和 test 函数，这些都可以从 ImageNet Example 例程中大量复制出来。 结尾部分，我们会搭建代码的 main 部分来设置分布式训练。 最后我们会讨论如何让代码运行起来。
 
 ### Imports
 
@@ -152,7 +152,7 @@ def accuracy(output, target, topk=(1,)):
 
 为了简化 main 循环，最好把一步 training epoch 放进 `train` 函数中。 这个函数用于训练一个 epoch 的 _train_loader_ 的输入模型。 唯一需要为分布式训练特别调整的是在前向传播前将数据和标签张量的 [non_blocking](https://pytorch.org/docs/stable/notes/cuda.html#use-pinned-memory-buffers) 属性设置为 `True`。 这允许异步 GPU 复制数据也就是说计算和数据传输可以同时进行。 这个函数同时也输出训练状态这样我们就可以在整个 epoch 中跟踪进展。
 
-另一个需要定义的函数是 `adjust_learning_rate`, 这个函数以一个固定的方式调低学习率。这是又一个标准的训练函数，有助于训练准确的模型。
+另一个需要定义的函数是 `adjust_learning_rate`, 这个函数以一个固定的方式调低学习率。这也是一个标准的训练函数，有助于训练准确的模型。
 
 ```py
 def train(train_loader, model, criterion, optimizer, epoch):
@@ -277,7 +277,7 @@ def validate(val_loader, model, criterion):
 *   **starting_lr** - 开始训练时的学习率
 *   **world_size** - 分布式训练环境的进程数
 *   **dist_backend** - 分布式训练通信使用的后端框架 (也就是 NCCL, Gloo, MPI 等)。 在这篇教程中因为我们使用了多个多路 GPU 节点因此推荐 NCCL。
-*   **dist_url** - 确定进程组的初始化方法的 URL。 这可能包含 IP 地址和 rank0 进程的端口或者是一个在共享文件系统中的 non-existant 文件。 这里由于我们没有共享文件系统因此是一个包含 **node0-privateIP** 和要使用的 node0 的端口。
+*   **dist_url** - 确定进程组的初始化方法的 URL。 这可能包含 IP 地址和 rank0 进程的端口或者是一个在共享文件系统中的 non-existant 文件。 这里由于我们没有共享文件系统因此是包含 **node0-privateIP** 和要使用的 node0 的端口的 url。
 
 ```py
 print("Collect Inputs...")
@@ -309,7 +309,7 @@ dist_url = "tcp://172.31.22.234:23456"
 
 在使用 PyTorch 进行分布式训练中有一个很重要的部分是正确设置进程组, 也就是初始化 `torch.distributed` 包的**第一**步。为了完成这一步我们将会使用 `torch.distributed.init_process_group` 函数，这个函数需要几个输入参数。首先，需要输入 _backend_ 参数，这个参数描述了需要什么后端(也就是 NCCL, Gloo, MPI 等)。 输入参数 _init_method_ 同时也是包含 rank0 地址和端口的 url 或是共享文件系统上的 non-existant 文件路径。注意，为了使用文件的 init_method, 所有机器必须有访问文件的权限，和使用 url 方法类似，所有机器必须要能够联网通信所以确保防火墙和网络设置正确。 _init_process_group_ 函数也接受 _rank_ 和 _world_size_ 参数，这些参数表明了进程运行时的编号并分别展示了集群内的进程数。_init_method_ 也可以是 “env://”。 在这种情况下，rank0 机器的地址和端口将会分别从以下环境变量中读出来：MASTER_ADDR, MASTER_PORT。 如果 _rank_ 和 _world_size_ 参数没有在 _init_process_group_ 函数中表示出来，他们都可以从以下环境变量中分别读出来：RANK, WORLD_SIZE。
 
-另一个重要步骤，尤其是当一个节点使用多路 gpu 的时候，就是设置进程的 _local_rank_。 例如，如果你有两个节点，每个节点有8个 GPU 并且你希望使用所有 GPU 来训练那么设置 `\(world\_size=16\)` 这样每个节点都会有一个本地编号为 0-7 的进程。 这个本地编号(local_rank) 是用来为进程设置设备 (也就是所使用的 GPU ) 并且之后用来创建分布式数据并行模型时设置设备。 在这样的假定环境下同样推荐使用 NCCL 后端因为 NCCL 更适合多路 gpu 节点。
+另一个重要步骤，尤其是当一个节点使用多路 gpu 的时候，就是设置进程的 _local_rank_。 例如，如果你有两个节点，每个节点有8个 GPU 并且你希望使用所有 GPU 来训练那么设置 `\(world\_size=16\)` 这样每个节点都会有一个本地编号为 0-7 的进程。 这个本地编号(local_rank) 是用来为进程配置设备 (也就是所使用的 GPU ) 并且之后用来创建分布式数据并行模型时配置设备。 在这样的假定环境下同样推荐使用 NCCL 后端因为 NCCL 更适合多路 gpu 节点。
 
 ```py
 print("Initialize Process Group...")
@@ -377,7 +377,7 @@ val_loader = torch.utils.data.DataLoader(valset, batch_size=batch_size, shuffle=
 
 ### 训练循环
 
-最后一步是定义训练循环。我们已经完成了设置分布式训练的绝大多数工作了，这一步不是特别为分布式训练做的。 唯一的细节是在 `DistributedSampler` 中记录目前的 epoch 数， 因为采样器是根据 epoch 来决定如何打乱分配数据进各个进程。 更新采样器后，循环执行一整个 epoch， 一整个验证步骤然后打印目前模型的表现对比目前表现最好的模型。 在训练了 num_epochs 后, 循环退出，教程结束。注意，因为这只是个例程，我们没有保存模型，但如果想要训练结束后保存最佳表现的模型看[这里](https://github.com/pytorch/examples/blob/master/imagenet/main.py#L184)).
+最后一步是定义训练循环。我们已经完成了设置分布式训练的绝大多数工作了，这一步不是特别为分布式训练做的。 唯一的细节是在 `DistributedSampler` 中记录目前的 epoch 数， 因为采样器是根据 epoch 来决定如何打乱分配数据进各个进程。 更新采样器后，循环执行一个完整的 epoch， 一个完整的验证步骤然后打印目前模型的表现并和目前表现最好的模型对比。 在训练了 num_epochs 后, 循环退出，教程结束。注意，因为这只是个例程，我们没有保存模型，但如果想要训练结束后保存表现最好的模型请看[这里](https://github.com/pytorch/examples/blob/master/imagenet/main.py#L184)。
 
 ```py
 best_prec1 = 0
@@ -409,14 +409,14 @@ for epoch in range(num_epochs):
 
 ## 运行代码
 
-不像其他 PyTorch 教程, 这个代码也许不能直接以这个 notebook 的形式执行。 为了运行它需要以 .py 形式下载这份文件(或者使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)来转换它)然后复制到各个节点上。 聪明的读者也许注意到了我们写死了(硬编码，hardcode) **node0-privateIP** 和 `\(world\_size=4\)` 但把 _rank_ 和 _local_rank_ 以 arg[1] 和 arg[2] 命令行参数的形式分别输入。 上传后对每个节点分别打开两个 ssh 终端。
+和其他 PyTorch 教程不一样, 这个代码也许不能直接以 notebook 的形式执行。 为了运行它需要以 .py 形式下载这份文件(或者使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)来转换它)然后复制到各个节点上。 聪明的读者也许注意到了我们写死了(硬编码，hardcode) **node0-privateIP** 和 `\(world\_size=4\)` 但把 _rank_ 和 _local_rank_ 以 arg[1] 和 arg[2] 命令行参数的形式分别输入。 上传后对每个节点分别打开两个 ssh 终端。
 
 *   对 node0 的第一个终端，运行 `$ python main.py 0 0`
 *   对 node0 的第二个终端，运行 `$ python main.py 1 1`
 *   对 node1 的第一个终端，运行 `$ python main.py 2 0`
 *   对 node1 的第二个终端，运行 `$ python main.py 3 1`
 
-程序会开始运行并等待直到四个进程都加入进程组后打印 “Initialize Model…” 。 注意到第一个参数不能重复因为这是独一的进程的全局编号。 第二个参数可重复因为这是节点上进程的本地编号。 如果你对每个节点运行 `nvidia-smi`，你会看见每个节点上有两个进程，一个运行在 GPU0 上，另一个运行在 GPU1 上。
+程序会开始运行并等待直到四个进程都加入进程组后打印 “Initialize Model…” 。 注意到第一个参数不能重复因为这是进程的全局编号(唯一的)。 第二个参数可重复因为这是节点上进程的本地编号。 如果你对每个节点运行 `nvidia-smi`，你会看见每个节点上有两个进程，一个运行在 GPU0 上，另一个运行在 GPU1 上。
 
 我们现在已经实现了一个分布式训练的范例！ 希望你可以通过这个教程学会如何在你自己的数据集上搭建你自己的模型，即使你不是使用同样的分布式环境。 如果你在使用 AWS，切记在你不使用时**关掉你的节点**不然月末你会发现你要交好多钱。
 
