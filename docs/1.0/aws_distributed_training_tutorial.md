@@ -277,7 +277,7 @@ def validate(val_loader, model, criterion):
 *   **starting_lr** - 开始训练时的学习率
 *   **world_size** - 分布式训练环境的进程数
 *   **dist_backend** - 分布式训练通信使用的后端框架 (也就是 NCCL, Gloo, MPI 等)。 在这篇教程中因为我们使用了多个多路 GPU 节点因此推荐 NCCL。
-*   **dist_url** - 确定进程组的初始化方法的 URL。 这可能包含 IP 地址和 rank0 进程的端口或者是一个在共享文件系统中的 non-existant 文件。 这里由于我们没有共享文件系统因此包含 **node0-privateIP** 和要使用的 node0 的端口。
+*   **dist_url** - 确定进程组的初始化方法的 URL。 这可能包含 IP 地址和 rank0 进程的端口或者是一个在共享文件系统中的 non-existant 文件。 这里由于我们没有共享文件系统因此是包含 **node0-privateIP** 和要使用的 node0 的端口的 url。
 
 ```py
 print("Collect Inputs...")
