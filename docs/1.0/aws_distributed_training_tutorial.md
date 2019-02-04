@@ -1,10 +1,10 @@
-
-
 # PyTorch 1.0 使用 Amazon AWS 进行分布式训练
 
-**Author**: [Nathan Inkawhich](https://github.com/inkawhich)
+> 译者：[yportne13](https://github.com/yportne13)
 
-**Edited by**: [Teng Li](https://github.com/teng-li)
+**作者**: [Nathan Inkawhich](https://github.com/inkawhich)
+
+**编辑**: [Teng Li](https://github.com/teng-li)
 
 在这篇教程中我们会展示如何使用 Amazon AWS 的双路GPU节点来设置，编写和运行 PyTorch 1.0 分布式训练程序。首先我们会介绍 AWS 设置, 然后是 PyTorch 环境配置, 最后是分布式训练的代码。你会发现想改成分布式应用你只需要对你目前写的训练程序做很少的代码改动, 绝大多数工作都只是一次性的环境配置。
 
