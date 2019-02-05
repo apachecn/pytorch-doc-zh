@@ -2,7 +2,7 @@
 
 # torch.Tensor
 
-[`torch.Tensor`](#torch.Tensor "torch.Tensor") 是一种包含单一数据类型元素的多维矩阵。
+[`torch.Tensor`](#torch.Tensor "torch.Tensor") 是一种包含单一数据类型元素的多维矩阵.
 
 Torch定义了八种CPU张量类型和八种GPU张量类型：
 
@@ -17,7 +17,7 @@ Torch定义了八种CPU张量类型和八种GPU张量类型：
 | 32-bit integer (signed) | `torch.int32` or `torch.int` | `torch.IntTensor` | `torch.cuda.IntTensor` |
 | 64-bit integer (signed) | `torch.int64` or `torch.long` | `torch.LongTensor` | `torch.cuda.LongTensor` |
 
-[`torch.Tensor`](#torch.Tensor "torch.Tensor") 是默认的tensor类型 (`torch.FloatTensor`) 的简称。
+[`torch.Tensor`](#torch.Tensor "torch.Tensor") 是默认的tensor类型 (`torch.FloatTensor`) 的简称.
 
 Tensor 可以用[`torch.tensor()`](torch.html#torch.tensor "torch.tensor")转换Python的 [`list`](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") 或序列​​生成：
 
@@ -76,7 +76,7 @@ tensor(2.5000)
 
 ```
 
-Tensor可以通过参数 `requires_grad=True` 创建，这样 [`torch.autograd`](autograd.html#module-torch.autograd "torch.autograd") 会记录相关的运算实现自动求导.
+Tensor可以通过参数 `requires_grad=True` 创建, 这样 [`torch.autograd`](autograd.html#module-torch.autograd "torch.autograd") 会记录相关的运算实现自动求导.
 
 ```py
 >>> x = torch.tensor([[1., -1.], [1., 1.]], requires_grad=True)
@@ -88,7 +88,7 @@ tensor([[ 2.0000, -2.0000],
 
 ```
 
-每一个tensor都有一个相应的 `torch.Storage` 保存其数据. tensor 类提供了一个多维的、[strided](https://en.wikipedia.org/wiki/Stride_of_an_array)视图，并定义了数值操作。
+每一个tensor都有一个相应的 `torch.Storage` 保存其数据. tensor 类提供了一个多维的、[strided](https://en.wikipedia.org/wiki/Stride_of_an_array)视图, 并定义了数值操作.
 
 注意
 
@@ -96,7 +96,7 @@ tensor([[ 2.0000, -2.0000],
 
 注意
 
-注意： 改变张量的方法可以用一个下划线后缀来标示。比如，`torch.FloatTensor.abs_()` 会在原地计算绝对值并返回修改的张量，而 `torch.FloatTensor.abs()` 将会在新张量中计算结果。
+注意：修改tensor的方法可以用一个下划线后缀来标示.比如, `torch.FloatTensor.abs_()` 会在原地计算绝对值并返回修改的张量, 而 `torch.FloatTensor.abs()` 将会在新张量中计算结果.
 
 注意
 
@@ -106,7 +106,7 @@ tensor([[ 2.0000, -2.0000],
 class torch.Tensor
 ```
 
-这里有少数几种生成Tensor的方法，取决于你的实际情况.
+这里有少数几种生成Tensor的方法, 取决于你的实际情况.
 
 *  从已经存在的数据生成, 用 [`torch.tensor()`](torch.html#torch.tensor "torch.tensor").
 *  生成特殊尺寸的Tensor, 用 `torch.*` creation ops (见 [Creation Ops](torch.html#tensor-creation-ops)).
@@ -117,7 +117,7 @@ class torch.Tensor
 new_tensor(data, dtype=None, device=None, requires_grad=False) → Tensor
 ```
 
-返回一个新的Tensor用 `data` 作为tensor data。默认情况下, 返回的Tensor有相同的 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") .
+返回一个新的Tensor用 `data` 作为tensor data.默认情况下, 返回的Tensor有相同的 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") .
 
 警告
 
@@ -229,7 +229,7 @@ new_zeros(size, dtype=None, device=None, requires_grad=False) → Tensor
 
 返回一个Tesnor的尺寸等于 [`size`](#torch.Tensor.size "torch.Tensor.size") 用 `0`填充. 默认情况下, 返回的 Tensor 具有与此Tensor相同的 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device").
 
-Parameters: 
+参数: 
 
 *   **size** (_int..._) – list, tuple, 或者 `torch.Size` 定义了输出Tensor的形状.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), 可选) – 期望返回的Tensor的数据类型. 默认值: 如果是 None, 等于 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype").
@@ -386,7 +386,7 @@ apply_(callable) → Tensor
 
 注意
 
-这个函数仅仅能在CPU上工作，并且不要用于需要高性能的代码区域.
+这个函数仅仅能在CPU上工作, 并且不要用于需要高性能的代码区域.
 
 ```py
 argmax(dim=None, keepdim=False)
@@ -452,7 +452,7 @@ baddbmm_(beta=1, alpha=1, batch1, batch2) → Tensor
 bernoulli(*, generator=None) → Tensor
 ```
 
-返回一个Tensor，每一个 ![](img/dc666b1cb085659ba80fe7af990d3fa4.jpg) 都是独立采样于 ![](img/0fafd43e45fa221cf2d8f0b6f69e5685.jpg). `self` 必须有浮点型 `dtype`, 并且返回值有相同的 `dtype`.
+返回一个Tensor, 每一个 ![](img/dc666b1cb085659ba80fe7af990d3fa4.jpg) 都是独立采样于 ![](img/0fafd43e45fa221cf2d8f0b6f69e5685.jpg). `self` 必须是浮点型 `dtype`, 并且返回值有相同的 `dtype`.
 
 见 [`torch.bernoulli()`](torch.html#torch.bernoulli "torch.bernoulli")
 
@@ -464,7 +464,7 @@ bernoulli_()
 bernoulli_(p=0.5, *, generator=None) → Tensor
 ```
 
- 从 ![](img/25fd7267b85a9ee01d9c4b60beb89dc0.jpg) 独立采样填充 `self` 的每一个位置.`self` 可以有整型 `dtype`.
+ 从 ![](img/25fd7267b85a9ee01d9c4b60beb89dc0.jpg) 独立采样填充 `self` 的每一个位置.`self` 可以是整型 `dtype`.
 
 ```py
 bernoulli_(p_tensor, *, generator=None) → Tensor
@@ -566,13 +566,13 @@ clone() → Tensor
 
 注意
 
-与`copy_()`不同，此函数会被记录在计算图中。 传给克隆tensor的梯度将传播到原始tensor。
+与`copy_()`不同, 此函数会被记录在计算图中. 传给克隆tensor的梯度将传播到原始tensor.
 
 ```py
 contiguous() → Tensor
 ```
 
-返回一个连续的得Tensor，其data与 `self` 相同. 如果 `self` tensor 是连续的, 此函数返回 `self` tensor 自身.
+返回一个连续的得Tensor, 其data与 `self` 相同. 如果 `self` tensor 是连续的, 此函数返回 `self` tensor 自身.
 
 ```py
 copy_(src, non_blocking=False) → Tensor
@@ -580,7 +580,7 @@ copy_(src, non_blocking=False) → Tensor
 
 从 `src` 拷贝元素到 `self` tensor 然后返回 `self`.
 
-`src` tensor 必须与 `self` tensor 是 [broadcastable](notes/broadcasting.html#broadcasting-semantics). 但数据类型可以不同，所在的设备也可以不同.
+`src` tensor 必须与 `self` tensor 是 [broadcastable](notes/broadcasting.html#broadcasting-semantics). 但数据类型可以不同, 所在的设备也可以不同.
 
 参数: 
 
@@ -619,7 +619,7 @@ cpu() → Tensor
 
 返回一个拷贝对象于 CPU 内存中.
 
-如果这个对象已经在 CPU 内存中，并且在者正确的设备上，那么将会返回其本身.
+如果这个对象已经在 CPU 内存中, 并且在者正确的设备上, 那么将会返回其本身.
 
 ```py
 cross(other, dim=-1) → Tensor
@@ -633,7 +633,7 @@ cuda(device=None, non_blocking=False) → Tensor
 
 返回一个拷贝对象于 CUDA 内存中.
 
-如果这个对象已经在 CUDA 内存中，并且在者正确的设备上，那么将会返回其本身.
+如果这个对象已经在 CUDA 内存中, 并且在者正确的设备上, 那么将会返回其本身.
 
 参数: 
 
@@ -818,13 +818,13 @@ expm1_() → Tensor
 expand(*sizes) → Tensor
 ```
 
-返回一个新的 `self` tensor 的视图, 其中单一维度扩展到更大的尺寸。
+返回一个新的 `self` tensor 的视图, 其中单一维度扩展到更大的尺寸.
 
-传递`-1`意味着不改变该维度的大小。
+传递`-1`意味着不改变该维度的大小.
 
-tensor 也可以扩展到更大的维度，新的维度将会附加在前面。对于新维度，其大小不能设置为- 1。
+tensor 也可以扩展到更大的维度, 新的维度将会附加在前面.对于新维度, 其大小不能设置为- 1.
 
-扩展张量不会分配新的内存，但只会在现有张量上创建一个新的视图，其中通过将`stride`设置为0，第一个尺寸的维度会扩展到更大的尺寸。大小为1的任何维度都可以扩展到任意值，而无需分配新内存。
+扩展张量不会分配新的内存, 但只会在现有张量上创建一个新的视图, 其中通过将`stride`设置为0, 第一个尺寸的维度会扩展到更大的尺寸.大小为1的任何维度都可以扩展到任意值, 而无需分配新内存.
 
 | 参数: | ***sizes** (_torch.Size_ _or_ _int..._) – 期望扩展的尺寸 |
 | --- | --- |
@@ -979,7 +979,7 @@ gesv(A) → Tensor, Tensor
 get_device() -> Device ordinal (Integer)
 ```
 
-对于 CUDA tensors, 这个函数返回一个 GPU 序号，对应 tensor 所在的设备. 对于 CPU tensors, 抛出一个错误.
+对于 CUDA tensors, 这个函数返回一个 GPU 序号, 对应 tensor 所在的设备. 对于 CPU tensors, 抛出一个错误.
 
 Example:
 
@@ -987,7 +987,7 @@ Example:
 >>> x = torch.randn(3, 4, 5, device='cuda:0')
 >>> x.get_device()
 0
->>> x.cpu().get_device()  # RuntimeError: get_device is not implemented for type torch.FloatTensor
+>>> x.cpu().get_device()  # 运行时错误: get_device 没有在 torch.FloatTensor 上实现
 
 ```
 
@@ -1019,7 +1019,7 @@ histc(bins=100, min=0, max=0) → Tensor
 index_add_(dim, index, tensor) → Tensor
 ```
 
-根据参数`index` 中的索引的顺序，累加 [`tensor`](torch.html#torch.tensor "torch.tensor") 中的元素到 `self` tensor, 例如, 如果 `dim == 0` 并且 `index[i] == j`, 则第 `i` 行 [`tensor`](torch.html#torch.tensor "torch.tensor") 会被加到第 `j`行.
+根据参数`index` 中的索引的顺序, 累加 [`tensor`](torch.html#torch.tensor "torch.tensor") 中的元素到 `self` tensor, 例如, 如果 `dim == 0` 并且 `index[i] == j`, 则第 `i` 行 [`tensor`](torch.html#torch.tensor "torch.tensor") 会被加到第 `j`行.
 
 [`tensor`](#torch.Tensor.dim "torch.Tensor.dim") 第 [`dim`](torch.html#torch.tensor "torch.tensor") 维度 必须和 `index`(必须是一个向量) 的长度相同, 并且其它维度必须和 `self` 匹配, 否则将会抛出一个错误.
 
@@ -1054,7 +1054,7 @@ tensor([[  2.,   3.,   4.],
 index_copy_(dim, index, tensor) → Tensor
 ```
 
-根据参数`index` 中的选择的索引，复制 [`tensor`](torch.html#torch.tensor "torch.tensor") 中的元素到 `self` tensor, 例如, 如果 `dim == 0` 并且 `index[i] == j`, 则第 `i` 行 [`tensor`](torch.html#torch.tensor "torch.tensor") 会被加到第 `j`行.
+根据参数`index` 中的选择的索引, 复制 [`tensor`](torch.html#torch.tensor "torch.tensor") 中的元素到 `self` tensor, 例如, 如果 `dim == 0` 并且 `index[i] == j`, 则第 `i` 行 [`tensor`](torch.html#torch.tensor "torch.tensor") 会被加到第 `j`行.
 
 [`tensor`](#torch.Tensor.dim "torch.Tensor.dim") 第 [`dim`](torch.html#torch.tensor "torch.tensor") 维度 必须和 `index`(必须是一个向量) 的长度相同, 并且其它维度必须和 `self` 匹配, 否则将会抛出一个错误.
 
@@ -1085,7 +1085,7 @@ tensor([[ 1.,  2.,  3.],
 index_fill_(dim, index, val) → Tensor
 ```
 
-根据 `index` 中指定的顺序索引，用值 `val`填充 `self` tensor 中的元素.
+根据 `index` 中指定的顺序索引, 用值 `val`填充 `self` tensor 中的元素.
 
 参数: 
 
@@ -1111,9 +1111,9 @@ tensor([[-1.,  2., -1.],
 index_put_(indices, value, accumulate=False) → Tensor
 ```
 
-根据 `indices` (是一个 Tensors 的tuple)中指定的索引，取出 tensor `value` 中的值放入 tensor `self` . 表达式 `tensor.index_put_(indices, value)` 等价于 `tensor[indices] = value`. 返回 `self`.
+根据 `indices` (是一个 Tensors 的tuple)中指定的索引, 取出 tensor `value` 中的值放入 tensor `self` . 表达式 `tensor.index_put_(indices, value)` 等价于 `tensor[indices] = value`. 返回 `self`.
 
-如果 `accumulate` 等于 `True`,  [`tensor`](torch.html#torch.tensor "torch.tensor") 中的元素会被加到 `self`. 如果是 `False`, 且 `indices` 中含有重复的元素，则行为是未定义的.
+如果 `accumulate` 等于 `True`,  [`tensor`](torch.html#torch.tensor "torch.tensor") 中的元素会被加到 `self`. 如果是 `False`, 且 `indices` 中含有重复的元素, 则行为是未定义的.
 
 参数: 
 
@@ -1300,7 +1300,7 @@ lt_(other) → Tensor
 map_(tensor, callable)
 ```
 
-对 `self` tensor 和 给定的 [`tensor`](torch.html#torch.tensor "torch.tensor") 中的每一个元素应用 `callable` 然后把结果存于 `self` tensor. `self` tensor 和给定的 [`tensor`](torch.html#torch.tensor "torch.tensor") 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
+对 `self` tensor 和 给定的 [`tensor`](torch.html#torch.tensor "torch.tensor") 中的每一个元素应用 `callable` 然后把结果存于 `self` tensor. `self` tensor 和给定的 [`tensor`](torch.html#torch.tensor "torch.tensor") 必须可广播 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
 `callable` 应该有下面的函数签名:
 
@@ -1313,7 +1313,7 @@ def callable(a, b) -> number
 masked_scatter_(mask, source)
 ```
 
-从 `source` 复制元素到 `self` tensor 当对应 `mask` 对应的值是 1.  `mask` 的形状必须和底层 tensor [broadcastable](notes/broadcasting.html#broadcasting-semantics).  `source` 的元素数量至少和 `mask`里面的1一样多
+从 `source` 复制元素到 `self` tensor 当对应 `mask` 对应的值是 1.  `mask` 的形状必须和底层 tensor 可广播 [broadcastable](notes/broadcasting.html#broadcasting-semantics).  `source` 的元素数量至少和 `mask`里面的1一样多
 
 Parameters: 
 
@@ -1330,7 +1330,7 @@ Parameters:
 masked_fill_(mask, value)
 ```
 
-用`value`填充 `self` tensor 中的元素，当对应位置的 `mask` 是1. T `mask` 的形状必须和底层 tensor [broadcastable](notes/broadcasting.html#broadcasting-semantics).
+用`value`填充 `self` tensor 中的元素, 当对应位置的 `mask` 是1. `mask` 的形状必须和底层 tensor [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
 参数: 
 
@@ -1636,7 +1636,7 @@ qr() -> (Tensor, Tensor)
 random_(from=0, to=None, *, generator=None) → Tensor
 ```
 
-  用离散 uniform 分布 over `[from, to - 1]` 采样的数字填充 `self` tensor. 如果没有特别指定, 这些采样的数值被 `self` tensor’s 数据类型界定. 然而, 对于浮点型, 如果没有特别规定, 范围将是 `[0, 2^mantissa]` 来确保每一个值是可表示的. 例如, `torch.tensor(1, dtype=torch.double).random_()` 将会被设为 `[0, 2^53]`.
+  用离散均匀分布介于  `[from, to - 1]` 采样的数字填充 `self` tensor. 如果没有特别指定, 这些采样的数值被 `self` tensor’s 数据类型界定. 然而, 对于浮点型, 如果没有特别指定, 范围将是 `[0, 2^mantissa]` 来确保每一个值是可表示的. 例如, `torch.tensor(1, dtype=torch.double).random_()` 将会被设为 `[0, 2^53]`.
 
 ```py
 reciprocal() → Tensor
@@ -1738,7 +1738,7 @@ tensor([-1.1007,  0.9853, -4.2316, -1.6606])
 reshape(*shape) → Tensor
 ```
 
-返回一个 tensor, 其data和元素数量与 `self` 一样，但是改变成指定的形状. 这个方法返回一个tensor的试图 如果 `shape` 和当前的形状是兼容的. 见 [`torch.Tensor.view()`](#torch.Tensor.view "torch.Tensor.view") 关于是什么时候返回一个 view.
+返回一个 tensor, 其data和元素数量与 `self` 一样, 但是改变成指定的形状. 这个方法返回一个tensor的试图 如果 `shape` 和当前的形状是兼容的. 见 [`torch.Tensor.view()`](#torch.Tensor.view "torch.Tensor.view") 关于是什么时候返回一个 view.
 
 见 [`torch.reshape()`](torch.html#torch.reshape "torch.reshape")
 
@@ -1760,11 +1760,11 @@ reshape_as(other) → Tensor
 resize_(*sizes) → Tensor
 ```
 
-缩放 `self` tensor到指定的大小. 如果指定的元素数量比当前的要大, 底层的存储结构会缩放到合适的大小. 如果数量更小, 底层存储不变. 当前的元素都会被保留，没有任何的新的初始化.
+缩放 `self` tensor到指定的大小. 如果指定的元素数量比当前的要大, 底层的存储结构会缩放到合适的大小. 如果数量更小, 底层存储不变. 当前的元素都会被保留, 没有任何的新的初始化.
 
 警告
 
-这是一个底层的操作. 存储被重新解释为C-contiguous，忽略当前stride（除非目标大小等于当前大小，在这种情况下tensor保持不变）。在大多数情况下，您将要使用 [`view()`](#torch.Tensor.view "torch.Tensor.view"), 它会检查连续性, 或者 [`reshape()`](#torch.Tensor.reshape "torch.Tensor.reshape"), 在必要的时候会拷贝数据. 如果想要改变大小并且自定义stride, 见 [`set_()`](#torch.Tensor.set_ "torch.Tensor.set_").
+这是一个底层的操作. 存储被重新解释为C-contiguous, 忽略当前stride（除非目标大小等于当前大小, 在这种情况下tensor保持不变）.在大多数情况下, 您将要使用 [`view()`](#torch.Tensor.view "torch.Tensor.view"), 它会检查连续性, 或者 [`reshape()`](#torch.Tensor.reshape "torch.Tensor.reshape"), 在必要的时候会拷贝数据. 如果想要改变大小并且自定义stride, 见 [`set_()`](#torch.Tensor.set_ "torch.Tensor.set_").
 
 | 参数: | **sizes** (_torch.Size_ _or_ _int..._) – 期望的大小 |
 | --- | --- |
@@ -1813,9 +1813,9 @@ rsqrt_() → Tensor
 scatter_(dim, index, src) → Tensor
 ```
 
-Writes all values from the tensor `src` into `self` at the indices specified in the `index` tensor. For each value in `src`, its output index is specified by its index in `src` for `dimension != dim` and by the corresponding value in `index` for `dimension = dim`.
+根据 `index` tensor 中指定的索引, 将所有 tensor `src` 中的值写入`self` . 对于  `src` 中的每一个值, 当 `dimension != dim`, 它的输出的索引由 `src` 中的索引指定, 当 `dimension = dim`,  由 `index` 中对应的值指定.
 
-For a 3-D tensor, `self` is updated as:
+对于一个 3-D tensor, `self` 的更新规则如下:
 
 ```py
 self[index[i][j][k]][j][k] = src[i][j][k]  # if dim == 0
@@ -1824,21 +1824,21 @@ self[i][j][index[i][j][k]] = src[i][j][k]  # if dim == 2
 
 ```
 
-This is the reverse operation of the manner described in [`gather()`](#torch.Tensor.gather "torch.Tensor.gather").
+这是 [`gather()`](#torch.Tensor.gather "torch.Tensor.gather") 中描述的方式的逆向操作.
 
-`self`, `index` and `src` (if it is a Tensor) should have same number of dimensions. It is also required that `index.size(d) &lt;= src.size(d)` for all dimensions `d`, and that `index.size(d) &lt;= self.size(d)` for all dimensions `d != dim`.
+`self`, `index` and `src` (if it is a Tensor) 应该有相同数量的维度. 同时也要求 `index.size(d) <= src.size(d)` 对于每一个维度 `d`, 而且 `index.size(d) <= self.size(d)` 对于每一个维度 `d != dim`.
 
-Moreover, as for [`gather()`](#torch.Tensor.gather "torch.Tensor.gather"), the values of `index` must be between `0` and `self.size(dim) - 1` inclusive, and all values in a row along the specified dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim") must be unique.
+此外, 关于 [`gather()`](#torch.Tensor.gather "torch.Tensor.gather"),  `index` 的值必须介于 `0` 和 `self.size(dim) - 1` (包括), 并且沿着指定维度[`dim`](#torch.Tensor.dim "torch.Tensor.dim")的行中的所有值必须是唯一的.
 
-Parameters: 
+参数: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the axis along which to index
-*   **index** (_LongTensor_) – the indices of elements to scatter, can be either empty or the same size of src. When empty, the operation returns identity
-*   **src** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the source element(s) to scatter
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要索引的轴
+*   **index** (_LongTensor_) – 需要 scatter 的元素的索引, 可以是空的，也可以与src大小相同。当为空时，操作返回恒等
+*   **src** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – scatter 源
 
 
 
-Example:
+例子:
 
 ```py
 >>> x = torch.rand(2, 5)
@@ -1861,9 +1861,9 @@ tensor([[ 0.0000,  0.0000,  1.2300,  0.0000],
 scatter_add_(dim, index, other) → Tensor
 ```
 
-Adds all values from the tensor `other` into `self` at the indices specified in the `index` tensor in a similar fashion as [`scatter_()`](#torch.Tensor.scatter_ "torch.Tensor.scatter_"). For each value in `other`, it is added to an index in `self` which is specified by its index in `other` for `dimension != dim` and by the corresponding value in `index` for `dimension = dim`.
+根据 `index` tensor 中指定的索引(方式和[`scatter_()`](#torch.Tensor.scatter_ "torch.Tensor.scatter_")类似), 将所有 tensor `other` 中的值加到`self` . 对于  `other` 中的每一个值, 当 `dimension != dim`, 它的输出的索引由 `other` 中的索引指定, 当 `dimension = dim`,  由 `index` 中对应的值指定.
 
-For a 3-D tensor, `self` is updated as:
+对于一个 3-D tensor, `self` 的更新规则如下:
 
 ```py
 self[index[i][j][k]][j][k] += other[i][j][k]  # if dim == 0
@@ -1872,23 +1872,22 @@ self[i][j][index[i][j][k]] += other[i][j][k]  # if dim == 2
 
 ```
 
-`self`, `index` and `other` should have same number of dimensions. It is also required that `index.size(d) &lt;= other.size(d)` for all dimensions `d`, and that `index.size(d) &lt;= self.size(d)` for all dimensions `d != dim`.
+`self`, `index` and `other` 应该有相同数量的维度. 也要求 `index.size(d) <= other.size(d)` 对于所有的维度 `d`, 并且 `index.size(d) <= self.size(d)` 对于所有的维度 `d != dim`.
 
-Moreover, as for [`gather()`](#torch.Tensor.gather "torch.Tensor.gather"), the values of `index` must be between `0` and `self.size(dim) - 1` inclusive, and all values in a row along the specified dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim") must be unique.
+此外, 关于 [`gather()`](#torch.Tensor.gather "torch.Tensor.gather"),  `index` 的值必须介于 `0` 和 `self.size(dim) - 1` (包括), 并且沿着指定维度[`dim`](#torch.Tensor.dim "torch.Tensor.dim")的行中的所有值必须是唯一的.
 
-Note
+注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用 CUDA 作为后端, 这个操作将导致不确定性行为, 并且难以停止. 请参考 [Reproducibility](notes/randomness.html) 获得相关背景.
 
-Parameters: 
+参数: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the axis along which to index
-*   **index** (_LongTensor_) – the indices of elements to scatter and add, can be either empty or the same size of src. When empty, the operation returns identity.
-*   **other** ([_Tensor_](#torch.Tensor "torch.Tensor")) – the source elements to scatter and add
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要索引的轴
+*   **index** (_LongTensor_) – 需要 scatter add 的元素的索引, 可以是空的，也可以与src大小相同。当为空时，操作返回恒等
+*   **src** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – scatter 源
 
 
-
-Example:
+例子:
 
 ```py
 >>> x = torch.rand(2, 5)
@@ -1906,33 +1905,33 @@ tensor([[1.7404, 1.2009, 1.9154, 1.3806, 1.8328],
 select(dim, index) → Tensor
 ```
 
-Slices the `self` tensor along the selected dimension at the given index. This function returns a tensor with the given dimension removed.
+沿着选择的维度在给定的索引处切取 `self` tensor.这个函数返回的 tensor 指定的维度被移除了.
 
-Parameters: 
+参数: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to slice
-*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the index to select with
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要切片的维度
+*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 选择的索引
 
 
 
-Note
+注意
 
-[`select()`](#torch.Tensor.select "torch.Tensor.select") is equivalent to slicing. For example, `tensor.select(0, index)` is equivalent to `tensor[index]` and `tensor.select(2, index)` is equivalent to `tensor[:,:,index]`.
+[`select()`](#torch.Tensor.select "torch.Tensor.select") 等价于切片. 例如, `tensor.select(0, index)` 等价于 `tensor[index]` and `tensor.select(2, index)` 等价于 `tensor[:,:,index]`.
 
 ```py
 set_(source=None, storage_offset=0, size=None, stride=None) → Tensor
 ```
 
-Sets the underlying storage, size, and strides. If `source` is a tensor, `self` tensor will share the same storage and have the same size and strides as `source`. Changes to elements in one tensor will be reflected in the other.
+设置底层存储, 大小, 和 strides. 如果 `source` 是一个 tensor, `self` tensor 将会和 `source` 共享底层存储, 并有用一样的大小和 strides. 在一个 tensor 中改变元素将会反应到另一个tensor.
 
-If `source` is a `Storage`, the method sets the underlying storage, offset, size, and stride.
+如果 `source` 是一个 `Storage`, 此方法设置底层存储, offset, 大小, 和 stride.
 
-Parameters: 
+参数: 
 
-*   **source** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ _Storage_) – the tensor or storage to use
-*   **storage_offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the offset in the storage
-*   **size** (_torch.Size__,_ _optional_) – the desired size. Defaults to the size of the source.
-*   **stride** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the desired stride. Defaults to C-contiguous strides.
+*   **source** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ _Storage_) – 要设置的 tensor 或者 storage
+*   **storage_offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – storage 的 offset
+*   **size** (_torch.Size__,_ _optional_) – 期望的大小.默认是 source 的大小.
+*   **stride** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 期望的 stride.默认值是 C-contiguous strides.
 
 
 
@@ -1940,15 +1939,15 @@ Parameters:
 share_memory_()
 ```
 
-Moves the underlying storage to shared memory.
+移动底层存储到共享内存.
 
-This is a no-op if the underlying storage is already in shared memory and for CUDA tensors. Tensors in shared memory cannot be resized.
+这是一个空操作如果底层存储已经在共享内存中或者是 CUDA tensors. 共享内存中的 tensor 不能 resize.
 
 ```py
 short() → Tensor
 ```
 
-`self.short()` is equivalent to `self.to(torch.int16)`. See [`to()`](#torch.Tensor.to "torch.Tensor.to").
+`self.short()` 等价于 `self.to(torch.int16)`. 见 [`to()`](#torch.Tensor.to "torch.Tensor.to").
 
 ```py
 sigmoid() → Tensor
@@ -2002,9 +2001,9 @@ sinh_() → Tensor
 size() → torch.Size
 ```
 
-Returns the size of the `self` tensor. The returned value is a subclass of [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)").
+返回 `self` tensor 的尺寸. 返回值是  [`tuple`] 的子类(https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)").
 
-Example:
+例如:
 
 ```py
 >>> torch.empty(3, 4, 5).size()
@@ -2034,16 +2033,16 @@ split(split_size, dim=0)
 sparse_mask(input, mask) → Tensor
 ```
 
-Returns a new SparseTensor with values from Tensor `input` filtered by indices of `mask` and values are ignored. `input` and `mask` must have the same shape.
+用  `mask` 的索引过滤 Tensor `input`, 返回一个新的 SparseTensor. `input` 和 `mask` 必须有相同的形状.
 
-Parameters: 
+参数: 
 
-*   **input** ([_Tensor_](#torch.Tensor "torch.Tensor")) – an input Tensor
-*   **mask** (_SparseTensor_) – a SparseTensor which we filter `input` based on its indices
+*   **input** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 输入 Tensor
+*   **mask** (_SparseTensor_) – SparseTensor 用其索引过滤 `input` 
 
 
 
-Example:
+例子:
 
 ```py
 >>> nnz = 5
@@ -2106,15 +2105,15 @@ std(dim=None, unbiased=True, keepdim=False) → Tensor
 storage() → torch.Storage
 ```
 
-Returns the underlying storage
+返回底层的 storage
 
 ```py
 storage_offset() → int
 ```
 
-Returns `self` tensor’s offset in the underlying storage in terms of number of storage elements (not bytes).
+根据存储元素的数量(而不是字节)，返回底层存储中的`tesor`偏移量(offset)。
 
-Example:
+例子:
 
 ```py
 >>> x = torch.tensor([1, 2, 3, 4, 5])
@@ -2133,14 +2132,14 @@ storage_type()
 stride(dim) → tuple or int
 ```
 
-Returns the stride of `self` tensor.
+返回 `self` tensor 的 stride.
 
-Stride is the jump necessary to go from one element to the next one in the specified dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim"). A tuple of all strides is returned when no argument is passed in. Otherwise, an integer value is returned as the stride in the particular dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim").
+stride 是必要的用于在指定的维度 [`dim`](#torch.Tensor.dim "torch.Tensor.dim") 找到下一个元素. 如果传入空, 则返回一个 tuple 包含所有维度的 stride. 否则, 将会返回一个 int 表示指定维度 [`dim`](#torch.Tensor.dim "torch.Tensor.dim") 的 stride.
 
-| Parameters: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the desired dimension in which stride is required |
+| 参数: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 需要返回 stride 的维度 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> x = torch.tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -2157,9 +2156,9 @@ Example:
 sub(value, other) → Tensor
 ```
 
-Subtracts a scalar or tensor from `self` tensor. If both `value` and `other` are specified, each element of `other` is scaled by `value` before being used.
+ `self` tensor 减去一个 scalar 或者 tensor. 如果 `value` 和 `other` 都被指定,  在相减之前, `other` 的每个元素将会用 `value` 缩放.
 
-When `other` is a tensor, the shape of `other` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the shape of the underlying tensor.
+当 `other` 是一个 tensor,  `other` 的形状必须和底层存储是可广播的 [broadcastable](notes/broadcasting.html#broadcasting-semantics) .
 
 ```py
 sub_(x) → Tensor
@@ -2201,33 +2200,33 @@ t_() → Tensor
 to(*args, **kwargs) → Tensor
 ```
 
-Performs Tensor dtype and/or device conversion. A [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") are inferred from the arguments of `self.to(*args, **kwargs)`.
+执行 tensor 类型或者设备转换. [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") 是从参数中推断的 `self.to(*args, **kwargs)`.
 
-Note
+注意
 
-If the `self` Tensor already has the correct [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), then `self` is returned. Otherwise, the returned tensor is a copy of `self` with the desired [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device").
+如果 `self` Tensor 已经有正确的 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), 则 `self` 被返回. 否则, 将返回复制的 `self` 期望的 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device").
 
-Here are the ways to call `to`:
+下面是调用的方法 `to`:
 
 ```py
 to(dtype, non_blocking=False, copy=False) → Tensor
 ```
 
-Returns a Tensor with the specified `dtype`
+返回一个 Tensor 指定类型 `dtype`
 
 ```py
 to(device=None, dtype=None, non_blocking=False, copy=False) → Tensor
 ```
 
-Returns a Tensor with the specified [`device`](#torch.Tensor.device "torch.Tensor.device") and (optional) `dtype`. If `dtype` is `None` it is inferred to be `self.dtype`. When `non_blocking`, tries to convert asynchronously with respect to the host if possible, e.g., converting a CPU Tensor with pinned memory to a CUDA Tensor. When `copy` is set, a new Tensor is created even when the Tensor already matches the desired conversion.
+返回一个 Tensor 并指定 [`device`](#torch.Tensor.device "torch.Tensor.device") 和 (可选的) `dtype`. 如果 `dtype` 是 `None` 则推断为 `self.dtype` . 当启用 `non_blocking`, 试图在主机上执行异步转换, 例如, 转换一个 pinned memory 的 CPU Tensor 到 CUDA Tensor. 当 `copy` 被设置, 一个新的 tensor 被创建.
 
 ```py
 to(other, non_blocking=False, copy=False) → Tensor
 ```
 
-Returns a Tensor with same [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") and [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device") as the Tensor `other`. When `non_blocking`, tries to convert asynchronously with respect to the host if possible, e.g., converting a CPU Tensor with pinned memory to a CUDA Tensor. When `copy` is set, a new Tensor is created even when the Tensor already matches the desired conversion.
+返回一个 Tensor 并有和 Tensor `other` 相同的 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 和 [`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"). 当启用 `non_blocking`, 试图在主机上执行异步转换, 例如, 转换一个 pinned memory 的 CPU Tensor 到 CUDA Tensor. 当 `copy` 被设置, 一个新的 tensor 被创建.
 
-Example:
+例子:
 
 ```py
 >>> tensor = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
@@ -2285,11 +2284,11 @@ tolist()
 
 ” tolist() -&gt; list or number
 
-Returns the tensor as a (nested) list. For scalars, a standard Python number is returned, just like with [`item()`](#torch.Tensor.item "torch.Tensor.item"). Tensors are automatically moved to the CPU first if necessary.
+返回tensor 作为(嵌套的) list. 对于 scalars,一个标准的 Python number 被返回, 就像 [`item()`](#torch.Tensor.item "torch.Tensor.item") 一样. Tensors 会自动移动到 CPU 上如果有必要.
 
-This operation is not differentiable.
+这个操作是不可微分的.
 
-Examples:
+例子:
 
 ```py
 >>> a = torch.randn(2, 2)
@@ -2311,10 +2310,10 @@ topk(k, dim=None, largest=True, sorted=True) -> (Tensor, LongTensor)
 to_sparse(sparseDims) → Tensor
 ```
 
-Returns a sparse copy of the tensor. PyTorch supports sparse tensors in [coordinate format](sparse.html#sparse-docs). :param sparseDims: the number of sparse dimensions to include in the new sparse tensor :type sparseDims: int, optional
+返回一个稀疏复制的 tensor. PyTorch 支持 [coordinate 格式](sparse.html#sparse-docs) 的稀疏 tensors. :param sparseDims: 要包含在新稀疏tensor中的稀疏维数 :type sparseDims: int, 可选的
 
 ```py
-Example::
+例子::
 ```
 
 ```py
@@ -2399,15 +2398,15 @@ trunc_() → Tensor
 type(dtype=None, non_blocking=False, **kwargs) → str or Tensor
 ```
 
-Returns the type if `dtype` is not provided, else casts this object to the specified type.
+返回 type 如果 `dtype` 没有被设置, 否则将会强制转换成 `dtype` 类型.
 
-If this is already of the correct type, no copy is performed and the original object is returned.
+如果这已经是正确的类型，则不执行复制，并返回原始对象.
 
-Parameters: 
+参数: 
 
-*   **dtype** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – The desired type
-*   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, and the source is in pinned memory and destination is on the GPU or vice versa, the copy is performed asynchronously with respect to the host. Otherwise, the argument has no effect.
-*   ****kwargs** – For compatibility, may contain the key `async` in place of the `non_blocking` argument. The `async` arg is deprecated.
+*   **dtype** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – 期望类型
+*   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  如果 `True`，并且源在pinned memory中，目的地在GPU上，则拷贝相对于主机异步执行。否则，这个参数没有任何作用。
+*   ****kwargs** – 为了兼容性, 可能包含 `async` 用来置换 `non_blocking` 参数.  `async` 参数被废弃了.
 
 
 
@@ -2415,9 +2414,9 @@ Parameters:
 type_as(tensor) → Tensor
 ```
 
-Returns this tensor cast to the type of the given tensor.
+返回 tensor 强制转换为 tensor 的数据类型.
 
-This is a no-op if the tensor is already of the correct type. This is equivalent to:
+如果这已经是正确的类型，则是空操作. 等价于:
 
 ```py
 self.type(tensor.type())
@@ -2428,29 +2427,29 @@ self.type(tensor.type())
 Params:
 ```
 
-tensor (Tensor): the tensor which has the desired type
+tensor (Tensor): 拥有目标数据类型的 tensor
 
 ```py
 unfold(dim, size, step) → Tensor
 ```
 
-Returns a tensor which contains all slices of size [`size`](#torch.Tensor.size "torch.Tensor.size") from `self` tensor in the dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim").
+返回一个 tensor 包含 `self` tensor 在维度 [`dim`](#torch.Tensor.dim "torch.Tensor.dim") 上的所有切片, 每一个的大小为 size.
 
-Step between two slices is given by `step`.
+ `step` 指定每一个切片的间距.
 
-If `sizedim` is the size of dimension dim for `self`, the size of dimension [`dim`](#torch.Tensor.dim "torch.Tensor.dim") in the returned tensor will be `(sizedim - size) / step + 1`.
+如果 `sizedim` 是 `self` dim 维度的大小, 返回的 tensor 的维度 [`dim`](#torch.Tensor.dim "torch.Tensor.dim") 大小是 `(sizedim - size) / step + 1`.
 
-An additional dimension of size size is appended in the returned tensor.
+一个附加的size size的维度追加于返回的 tensor.
 
-Parameters: 
+参数: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension in which unfolding happens
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of each slice that is unfolded
-*   **step** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the step between each slice
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 指定 unfold 的维度
+*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 指定每个slice的大小
+*   **step** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 指定步长
 
 
 
-Example:
+例子:
 
 ```py
 >>> x = torch.arange(1., 8)
@@ -2474,7 +2473,7 @@ tensor([[ 1.,  2.],
 uniform_(from=0, to=1) → Tensor
 ```
 
-Fills `self` tensor with numbers sampled from the continuous uniform distribution:
+用连续均匀分布的采样值填充 `self` tensor:
 
 ![](img/759db301c6ca0348b6d47aaeac0a6b23.jpg)
 
@@ -2482,7 +2481,7 @@ Fills `self` tensor with numbers sampled from the continuous uniform distributio
 unique(sorted=False, return_inverse=False, dim=None)
 ```
 
-Returns the unique scalar elements of the tensor as a 1-D tensor.
+返回 tensor 中唯一的标量作为 1-D tensor.
 
 见 [`torch.unique()`](torch.html#torch.unique "torch.unique")
 
@@ -2508,18 +2507,18 @@ var(dim=None, unbiased=True, keepdim=False) → Tensor
 view(*shape) → Tensor
 ```
 
-Returns a new tensor with the same data as the `self` tensor but of a different `shape`.
+返回一个新的 tersor, 和 `self` 有相同的数据, 但是有不同的 `shape`.
 
-The returned tensor shares the same data and must have the same number of elements, but may have a different size. For a tensor to be viewed, the new view size must be compatible with its original size and stride, i.e., each new view dimension must either be a subspace of an original dimension, or only span across original dimensions ![](img/3e487bf64409a04d51b45d9f7de99192.jpg) that satisfy the following contiguity-like condition that ![](img/286a7af66db16ee513cef761bb621504.jpg),
+返回的 tensor 共享相同的数据，并且具有相同数量的元素，但是可能有不同的大小。要 `view()` 一个tensor，新视图大小必须与其原始大小和 stride 兼容, 例如, 每个新视图维度必须是原始维度的子空间，或者仅跨越原始维度 ![](img/3e487bf64409a04d51b45d9f7de99192.jpg) 满足以下连续性条件 ![](img/286a7af66db16ee513cef761bb621504.jpg),
 
 ![](img/b7a97800576bc71106c2607bb5f1eb37.jpg)
 
-Otherwise, [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous") needs to be called before the tensor can be viewed. See also: [`reshape()`](torch.html#torch.reshape "torch.reshape"), which returns a view if the shapes are compatible, and copies (equivalent to calling [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous")) otherwise.
+否则在 `view()` 之前, [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous") 需要被调用. 可参考: [`reshape()`](torch.html#torch.reshape "torch.reshape"), 返回一个view 当形状是兼容的, 否则复制 (等价于调用 [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous")).
 
-| Parameters: | **shape** (_torch.Size_ _or_ _int..._) – the desired size |
+| 参数: | **shape** (_torch.Size_ _or_ _int..._) – the desired size |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> x = torch.randn(4, 4)
@@ -2538,24 +2537,24 @@ torch.Size([2, 8])
 view_as(other) → Tensor
 ```
 
-View this tensor as the same size as `other`. `self.view_as(other)` is equivalent to `self.view(other.size())`.
+使用 `other` 的大小 View tensor . `self.view_as(other)` 等价于 `self.view(other.size())`.
 
-Please see [`view()`](#torch.Tensor.view "torch.Tensor.view") for more information about `view`.
+请参考 [`view()`](#torch.Tensor.view "torch.Tensor.view") 获得更多信息关于 `view`.
 
-| Parameters: | **other** ([`torch.Tensor`](#torch.Tensor "torch.Tensor")) – The result tensor has the same size as `other`. |
+| 参数: | **other** ([`torch.Tensor`](#torch.Tensor "torch.Tensor")) – 返回的tensor 和 `other` 大小相同. |
 | --- | --- |
 
 ```py
 zero_() → Tensor
 ```
 
-Fills `self` tensor with zeros.
+用 0 填充 `self` tensor.
 
 ```py
 class torch.ByteTensor
 ```
 
-The following methods are unique to [`torch.ByteTensor`](#torch.ByteTensor "torch.ByteTensor").
+下面的方法是 [`torch.ByteTensor`](#torch.ByteTensor "torch.ByteTensor") 独占.
 
 ```py
 all()
@@ -2565,9 +2564,9 @@ all()
 all() → bool
 ```
 
-Returns True if all elements in the tensor are non-zero, False otherwise.
+返回 True 如果所有的元素非零, 否则 False.
 
-Example:
+例子:
 
 ```py
 >>> a = torch.randn(1, 3).byte() % 2
@@ -2582,19 +2581,19 @@ tensor(0, dtype=torch.uint8)
 all(dim, keepdim=False, out=None) → Tensor
 ```
 
-Returns True if all elements in each row of the tensor in the given dimension `dim` are non-zero, False otherwise.
+返回 True 如果 tensor 在指定维度`dim`每一行的所有的元素非零, 否则 False.
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (见 [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
+如果 `keepdim` 是 `True`, 则输出 tensor 的大小与 `input`相同, 但尺寸为1的维度`dim`除外. 否则, `dim` 会被压缩 (见 [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), 导致输出张量比`input`少1维.
 
 Parameters: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要减少的维度
+*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – output tensor 是否保留 `dim` 
+*   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _可选的_) – output tensor
 
 
 
-Example:
+例子:
 
 ```py
 >>> a = torch.randn(4, 2).byte() % 2
@@ -2616,9 +2615,9 @@ any()
 any() → bool
 ```
 
-Returns True if any elements in the tensor are non-zero, False otherwise.
+返回 True 如果任意元素非零, 否则 False.
 
-Example:
+例子:
 
 ```py
 >>> a = torch.randn(1, 3).byte() % 2
@@ -2633,15 +2632,15 @@ tensor(1, dtype=torch.uint8)
 any(dim, keepdim=False, out=None) → Tensor
 ```
 
-Returns True if any elements in each row of the tensor in the given dimension `dim` are non-zero, False otherwise.
+返回 True 如果 tensor 在指定维度`dim`每一行的任意的元素非零, 否则 False.
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (见 [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
+如果 `keepdim` 是 `True`, 则输出 tensor 的大小与 `input`相同, 但尺寸为1的维度`dim`除外. 否则, `dim` 会被压缩 (见 [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), 导致输出张量比`input`少1维.
 
-Parameters: 
+参数: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要减少的维度
+*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – output tensor 是否保留 `dim` 
+*   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _可选的_) – output tensor
 
 
 
