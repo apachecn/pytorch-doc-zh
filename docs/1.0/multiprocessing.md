@@ -1,121 +1,121 @@
 
 
-# Multiprocessing package - torch.multiprocessing
+# 多进程包 - torch.multiprocessing
 
-torch.multiprocessing is a wrapper around the native [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") module. It registers custom reducers, that use shared memory to provide shared views on the same data in different processes. Once the tensor/storage is moved to shared_memory (see [`share_memory_()`](tensors.html#torch.Tensor.share_memory_ "torch.Tensor.share_memory_")), it will be possible to send it to other processes without making any copies.
+torch.multiprocessing 是一个本地 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") 模块的包装. 它注册了自定义的reducers, 它使用共享内存为不同的线程在同一份数据上提供共享的视图. 一旦 tensor/storage 被移动到共享内存 (见 [`share_memory_()`](tensors.html#torch.Tensor.share_memory_ "torch.Tensor.share_memory_")), 将其发送到任何进程不会造成任何的拷贝开销.
 
-The API is 100% compatible with the original module - it’s enough to change `import multiprocessing` to `import torch.multiprocessing` to have all the tensors sent through the queues or shared via other mechanisms, moved to shared memory.
+此 API 是 100% 兼容原生模块 - 足够将 `import multiprocessing` 改成 `import torch.multiprocessing` 使得所有的 tensors 通过队列发送或者使用其它共享机制, 移动到共享内存.
 
-Because of the similarity of APIs we do not document most of this package contents, and we recommend referring to very good docs of the original module.
+因为 APIs 的相似性, 我们没有为此包提供足够的文档, 所以我们非常推荐参考非常优秀的原生进程模块文档.
 
-Warning
+警告
 
-If the main process exits abruptly (e.g. because of an incoming signal), Python’s `multiprocessing` sometimes fails to clean up its children. It’s a known caveat, so if you’re seeing any resource leaks after interrupting the interpreter, it probably means that this has just happened to you.
+如果主进程意外退出 (比如 因为一个信号的到来), Python’s `multiprocessing` 有时候会无法请理它的子进程. 这是一个众所周知的警告, 因此，如果你在中断解释器后发现任何资源泄漏，这可能意味着你刚刚发生了这种情况.
 
-## Strategy management
+## 策略管理
 
 ```py
 torch.multiprocessing.get_all_sharing_strategies()
 ```
 
-Returns a set of sharing strategies supported on a current system.
+返回当前系统支持的共享策略的集合.
 
 ```py
 torch.multiprocessing.get_sharing_strategy()
 ```
 
-Returns the current strategy for sharing CPU tensors.
+返回当前的 CPU tensors 共享策略.
 
 ```py
 torch.multiprocessing.set_sharing_strategy(new_strategy)
 ```
 
-Sets the strategy for sharing CPU tensors.
+设置一个新的 CPU tensors 共享策略.
 
-| Parameters: | **new_strategy** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – Name of the selected strategy. Should be one of the values returned by [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies"). |
+| 参数: | **new_strategy** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 选定策略的名字. 必须是 [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies") 的返回值中的一个. |
 | --- | --- |
 
-## Sharing CUDA tensors
+## 共享 CUDA tensors
 
-Sharing CUDA tensors between processes is supported only in Python 3, using a `spawn` or `forkserver` start methods. [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") in Python 2 can only create subprocesses using `fork`, and it’s not supported by the CUDA runtime.
+在进程间共享 CUDA tensors 仅仅在 Python 3 中被支持, 使用 `spawn` 或者 `forkserver` 启动方法. [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") 在 Python 2 中只能使用 `fork` 创建新进程, 然而 CUDA 运行时不支持它.
 
-Warning
+警告
 
-CUDA API requires that the allocation exported to other processes remains valid as long as it’s used by them. You should be careful and ensure that CUDA tensors you shared don’t go out of scope as long as it’s necessary. This shouldn’t be a problem for sharing model parameters, but passing other kinds of data should be done with care. Note that this restriction doesn’t apply to shared CPU memory.
+CUDA API要求导出到其他进程的分配只要被其他进程使用就保持有效. 您应该小心，并确保共享的CUDA tensor在必要时不会超出范围. 共享模型参数不应该是一个问题，但是传递其他类型的数据应该小心。注意，此限制不适用于共享CPU内存.
 
-## Sharing strategies
+## 共享策略
 
-This section provides a brief overview into how different sharing strategies work. Note that it applies only to CPU tensor - CUDA tensors will always use the CUDA API, as that’s the only way they can be shared.
+本节简要概述不同的共享策略是如何工作的。注意，它只适用于CPU tensor——CUDA tensor总是使用CUDA API，因为这是它们可以共享的唯一方式。
 
-### File descriptor - `file_descriptor`
+### 文件描述符 - `file_descriptor`
 
-Note
+注意
 
-This is the default strategy (except for macOS and OS X where it’s not supported).
+这是默认策略(macOS和OS X因为不支持除外)
 
-This strategy will use file descriptors as shared memory handles. Whenever a storage is moved to shared memory, a file descriptor obtained from `shm_open` is cached with the object, and when it’s going to be sent to other processes, the file descriptor will be transferred (e.g. via UNIX sockets) to it. The receiver will also cache the file descriptor and `mmap` it, to obtain a shared view onto the storage data.
+该策略将使用文件描述符作为共享内存句柄。每当一个存储被移动到共享内存时，从`shm open`获得的文件描述符就会被对象缓存，当它被发送到其他进程时，文件描述符就会被传输(例如通过UNIX套接字)到它。接收者还将缓存文件描述符并`mmap`它，以获得存储数据上的共享视图。
 
-Note that if there will be a lot of tensors shared, this strategy will keep a large number of file descriptors open most of the time. If your system has low limits for the number of open file descriptors, and you can’t raise them, you should use the `file_system` strategy.
+请注意，如果共享了很多tensor，那么这种策略将在大多数情况下打开大量的文件描述符。如果您的系统对打开的文件描述符的数量限制很低，并且您不能提高它们的数量，那么您应该使用`file_system`策略。
 
-### File system - `file_system`
+### 文件系统 - `file_system`
 
-This strategy will use file names given to `shm_open` to identify the shared memory regions. This has a benefit of not requiring the implementation to cache the file descriptors obtained from it, but at the same time is prone to shared memory leaks. The file can’t be deleted right after its creation, because other processes need to access it to open their views. If the processes fatally crash, or are killed, and don’t call the storage destructors, the files will remain in the system. This is very serious, because they keep using up the memory until the system is restarted, or they’re freed manually.
+该策略将使用指定给`shm open`的文件名来标识共享内存区域。这样做的好处是不需要实现缓存从中获得的文件描述符，但同时容易导致共享内存泄漏。文件不能在创建之后立即删除，因为其他进程需要访问它来打开它们的视图。如果进程致命地崩溃或被杀死，并且不调用存储析构函数，那么文件将保留在系统中。这是非常严重的，因为它们会一直使用内存，直到系统重新启动，或者重新手动释放。
 
-To counter the problem of shared memory file leaks, [`torch.multiprocessing`](#module-torch.multiprocessing "torch.multiprocessing") will spawn a daemon named `torch_shm_manager` that will isolate itself from the current process group, and will keep track of all shared memory allocations. Once all processes connected to it exit, it will wait a moment to ensure there will be no new connections, and will iterate over all shared memory files allocated by the group. If it finds that any of them still exist, they will be deallocated. We’ve tested this method and it proved to be robust to various failures. Still, if your system has high enough limits, and `file_descriptor` is a supported strategy, we do not recommend switching to this one.
+为了解决共享内存文件泄漏的问题，`torch.multiprocessing`将生成一个名为`torch_shm_manager`的守护进程，它将自己与当前进程组隔离，并跟踪所有共享内存分配。连接到它的所有进程退出后，它将等待一段时间以确保没有新的连接，并将遍历组分配的所有共享内存文件。如果它发现其中任何一个仍然存在，就会解除它们的分配。我们对这种方法进行了测试，证明它对各种故障都具有鲁棒性。 不过，如果您的系统有足够高的限制，并且`file_descriptor`是受支持的策略，我们不建议切换到这个策略。
 
-## Spawning subprocesses
+## Spawning 子线程
 
-Note
+注意
 
-Available for Python &gt;= 3.4.
+仅支持 Python &gt;= 3.4.
 
-This depends on the `spawn` start method in Python’s `multiprocessing` package.
+依赖于 `spawn` 启动方法(在 Python 的 `multiprocessing` 包中)。
 
-Spawning a number of subprocesses to perform some function can be done by creating `Process` instances and calling `join` to wait for their completion. This approach works fine when dealing with a single subprocess but presents potential issues when dealing with multiple processes.
+通过创建`进程`实例并调用join来等待它们完成，可以生成大量子进程来执行某些功能。这种方法在处理单个子进程时工作得很好，但在处理多个进程时可能会出现问题。
 
-Namely, joining processes sequentially implies they will terminate sequentially. If they don’t, and the first process does not terminate, the process termination will go unnoticed. Also, there are no native facilities for error propagation.
+也就是说，顺序连接进程意味着它们将顺序终止。如果没有，并且第一个进程没有终止，那么进程终止将不被注意。 此外，没有用于错误传播的本地工具.
 
-The `spawn` function below addresses these concerns and takes care of error propagation, out of order termination, and will actively terminate processes upon detecting an error in one of them.
+下面的`spawn`函数解决了这些问题，并负责错误传播、无序终止，并在检测到其中一个错误时主动终止进程.
 
 ```py
 torch.multiprocessing.spawn(fn, args=(), nprocs=1, join=True, daemon=False)
 ```
 
-Spawns `nprocs` processes that run `fn` with `args`.
+Spawns `nprocs` 进程运行 `fn` 使用参数 `args`.
 
-If one of the processes exits with a non-zero exit status, the remaining processes are killed and an exception is raised with the cause of termination. In the case an exception was caught in the child process, it is forwarded and its traceback is included in the exception raised in the parent process.
+如果其中一个进程以非零退出状态退出，则会杀死其余进程，并引发异常，导致终止。在子进程中捕获异常的情况下，将转发该异常，并将其跟踪包含在父进程中引发的异常中。
 
-Parameters: 
+参数: 
 
 *   **fn** (_function_) –
 
-    Function is called as the entrypoint of the spawned process. This function must be defined at the top level of a module so it can be pickled and spawned. This is a requirement imposed by multiprocessing.
+    函数被称为派生进程的入口点。必须在模块的顶层定义此函数，以便对其进行pickle和派生。这是多进程强加的要求。
 
-    The function is called as `fn(i, *args)`, where `i` is the process index and `args` is the passed through tuple of arguments.
+    该函数称为`fn(i， *args)`，其中`i`是进程索引，`args`是传递的参数元组。
 
-*   **args** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Arguments passed to `fn`.
-*   **nprocs** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of processes to spawn.
-*   **join** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Perform a blocking join on all processes.
-*   **daemon** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – The spawned processes’ daemon flag. If set to True, daemonic processes will be created.
+*   **args** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 传递给 `fn` 的参数.
+*   **nprocs** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 派生的进程数.
+*   **join** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 执行一个阻塞的join对于所有进程.
+*   **daemon** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 派生进程守护进程标志。如果设置为True，将创建守护进程.
 
 
-| Returns: | None if `join` is `True`, [`SpawnContext`](#torch.multiprocessing.SpawnContext "torch.multiprocessing.SpawnContext") if `join` is `False` |
+| 返回值: | None 如果 `join` 是 `True`, [`SpawnContext`](#torch.multiprocessing.SpawnContext "torch.multiprocessing.SpawnContext") 如果 `join` 是 `False` |
 | --- | --- |
 
 ```py
 class torch.multiprocessing.SpawnContext
 ```
 
-Returned by [`spawn()`](#torch.multiprocessing.spawn "torch.multiprocessing.spawn") when called with `join=False`.
+由 [`spawn()`](#torch.multiprocessing.spawn "torch.multiprocessing.spawn") 返回, 当 `join=False`.
 
 ```py
 join(timeout=None)
 ```
 
-Tries to join one or more processes in this spawn context. If one of them exited with a non-zero exit status, this function kills the remaining processes and raises an exception with the cause of the first process exiting.
+尝试连接此派生上下文中的一个或多个进程。如果其中一个进程以非零退出状态退出，则此函数将杀死其余进程，并引发异常，导致第一个进程退出。
 
-Returns `True` if all processes have been joined successfully, `False` if there are more processes that need to be joined.
+返回 `True`如果所有进程正常退出, `False` 如果有更多的进程需要 join.
 
-| Parameters: | **timeout** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Wait this long before giving up on waiting. |
+| Parameters: | **timeout** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – 放弃等待的最长时间. |
 | --- | --- |
 
