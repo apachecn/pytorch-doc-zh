@@ -1,14 +1,12 @@
+# CUDA 语义
 
+[`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") 用于设置和运行 CUDA 操作。它会跟踪当前选定的GPU，并且默认情况下会在该设备上创建您分配的所有 CUDA tensors。可以使用 [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") 上下文管理器更改所选设备。
 
-# CUDA semantics
+但是，一旦分配了 tensor，就可以对其进行操作而不管所选择的设备如何，结果将始终与 tensor 放在同一设备上。
 
-[`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") is used to set up and run CUDA operations. It keeps track of the currently selected GPU, and all CUDA tensors you allocate will by default be created on that device. The selected device can be changed with a [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") context manager.
+默认情况下不允许跨 GPU 操作，除了 copy_() 具有类似复制功能的其他方法，例如 to() 和 cuda()。除非您启用点对点内存访问，否则任何尝试在不同设备上传播的 tensor 上启动操作都会引发错误。
 
-However, once a tensor is allocated, you can do operations on it irrespective of the selected device, and the results will be always placed in on the same device as the tensor.
-
-Cross-GPU operations are not allowed by default, with the exception of [`copy_()`](../tensors.html#torch.Tensor.copy_ "torch.Tensor.copy_") and other methods with copy-like functionality such as [`to()`](../tensors.html#torch.Tensor.to "torch.Tensor.to") and [`cuda()`](../tensors.html#torch.Tensor.cuda "torch.Tensor.cuda"). Unless you enable peer-to-peer memory access, any attempts to launch ops on tensors spread across different devices will raise an error.
-
-Below you can find a small example showcasing this:
+下面我们用一个小例子来展示:
 
 ```py
 cuda = torch.device('cuda')     # Default CUDA device
@@ -47,21 +45,21 @@ with torch.cuda.device(1):
 
 ```
 
-## Asynchronous execution
+## 异步执行
 
-By default, GPU operations are asynchronous. When you call a function that uses the GPU, the operations are _enqueued_ to the particular device, but not necessarily executed until later. This allows us to execute more computations in parallel, including operations on CPU or other GPUs.
+默认情况下，GPU 操作是异步的。当您调用使用 GPU 的函数时，操作将排入特定设备，但不一定要在以后执行。这允许我们并行执行更多计算，包括在 CPU 或其他 GPU 上的操作。
 
-In general, the effect of asynchronous computation is invisible to the caller, because (1) each device executes operations in the order they are queued, and (2) PyTorch automatically performs necessary synchronization when copying data between CPU and GPU or between two GPUs. Hence, computation will proceed as if every operation was executed synchronously.
+通常，异步计算的效果对于调用者是不可见的，因为 (1) 每个设备按照它们排队的顺序执行操作，以及 (2) PyTorch 在 CPU 和 GPU 之间或两个 GPU 之间复制数据时自动执行必要的同步。因此，计算将如同每个操作同步执行一样进行。
 
-You can force synchronous computation by setting environment variable `CUDA_LAUNCH_BLOCKING=1`. This can be handy when an error occurs on the GPU. (With asynchronous execution, such an error isn’t reported until after the operation is actually executed, so the stack trace does not show where it was requested.)
+您可以通过设置环境变量强制进行同步计算 `CUDA_LAUNCH_BLOCKING=1`。这在 GPU 上发生错误时非常方便。（使用异步执行时，直到实际执行操作后才会报告此类错误，因此堆栈跟踪不会显示请求的位置。）
 
-As an exception, several functions such as [`to()`](../tensors.html#torch.Tensor.to "torch.Tensor.to") and [`copy_()`](../tensors.html#torch.Tensor.copy_ "torch.Tensor.copy_") admit an explicit `non_blocking` argument, which lets the caller bypass synchronization when it is unnecessary. Another exception is CUDA streams, explained below.
+作为一个例外，有几个函数，例如 [`to()`](../tensors.html#torch.Tensor.to "torch.Tensor.to") 和 [`copy_()`](../tensors.html#torch.Tensor.copy_ "torch.Tensor.copy_") 允许一个显式 `non_blocking` 参数，它允许调用者在不需要时绕过同步。另一个例外是 CUDA streams，如下所述。
 
 ### CUDA streams
 
-A [CUDA stream](http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#streams) is a linear sequence of execution that belongs to a specific device. You normally do not need to create one explicitly: by default, each device uses its own “default” stream.
+[CUDA stream](http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#streams) 是执行的线性序列属于特定的设备。您通常不需要显式创建一个：默认情况下，每个设备使用自己的 “default” stream。
 
-Operations inside each stream are serialized in the order they are created, but operations from different streams can execute concurrently in any relative order, unless explicit synchronization functions (such as [`synchronize()`](../cuda.html#torch.cuda.synchronize "torch.cuda.synchronize") or [`wait_stream()`](../cuda.html#torch.cuda.Stream.wait_stream "torch.cuda.Stream.wait_stream")) are used. For example, the following code is incorrect:
+每个流内的操作按创建顺序进行序列化，但不同流的操作可以按任何相对顺序同时执行，除非使用显式同步功能（如  [`synchronize()`](../cuda.html#torch.cuda.synchronize "torch.cuda.synchronize") 或 [`wait_stream()`](../cuda.html#torch.cuda.Stream.wait_stream "torch.cuda.Stream.wait_stream") ）。例如，以下代码不正确:
 
 ```py
 cuda = torch.device('cuda')
@@ -73,19 +71,19 @@ with torch.cuda.stream(s):
 
 ```
 
-When the “current stream” is the default stream, PyTorch automatically performs necessary synchronization when data is moved around, as explained above. However, when using non-default streams, it is the user’s responsibility to ensure proper synchronization.
+当 “current stream” 是 default stream 时，PyTorch 在数据移动时自动执行必要的同步，如上所述。但是，使用 non-default streams 时，用户有责任确保正确同步。
 
-## Memory management
+## 内存管理
 
-PyTorch uses a caching memory allocator to speed up memory allocations. This allows fast memory deallocation without device synchronizations. However, the unused memory managed by the allocator will still show as if used in `nvidia-smi`. You can use [`memory_allocated()`](../cuda.html#torch.cuda.memory_allocated "torch.cuda.memory_allocated") and [`max_memory_allocated()`](../cuda.html#torch.cuda.max_memory_allocated "torch.cuda.max_memory_allocated") to monitor memory occupied by tensors, and use [`memory_cached()`](../cuda.html#torch.cuda.memory_cached "torch.cuda.memory_cached") and [`max_memory_cached()`](../cuda.html#torch.cuda.max_memory_cached "torch.cuda.max_memory_cached") to monitor memory managed by the caching allocator. Calling [`empty_cache()`](../cuda.html#torch.cuda.empty_cache "torch.cuda.empty_cache") can release all **unused** cached memory from PyTorch so that those can be used by other GPU applications. However, the occupied GPU memory by tensors will not be freed so it can not increase the amount of GPU memory available for PyTorch.
+PyTorch 使用缓存内存分配器来加速内存分配。这允许在没有设备同步的情况下快速释放内存。但是，分配器管理的未使用内存仍将显示为使用 `nvidia-smi`。您可以使用 [`memory_allocated()`](../cuda.html#torch.cuda.memory_allocated "torch.cuda.memory_allocated") 和 [`max_memory_allocated()`](../cuda.html#torch.cuda.max_memory_allocated "torch.cuda.max_memory_allocated") 监视张量占用的内存，并使用 [`memory_cached()`](../cuda.html#torch.cuda.memory_cached "torch.cuda.memory_cached") 和 [`max_memory_cached()`](../cuda.html#torch.cuda.max_memory_cached "torch.cuda.max_memory_cached") 监视缓存分配器管理的内存。调用 [`empty_cache()`](../cuda.html#torch.cuda.empty_cache "torch.cuda.empty_cache") 可以从 PyTorch 释放所有 **unused** 的缓存内存，以便其他 GPU 应用程序可以使用它们。但是，tensor 占用的 GPU 内存不会被释放，因此无法增加 PyTorch 可用的 GPU 内存量。
 
-## Best practices
+## 最佳做法
 
-### Device-agnostic code
+### 设备无关的代码
 
-Due to the structure of PyTorch, you may need to explicitly write device-agnostic (CPU or GPU) code; an example may be creating a new tensor as the initial hidden state of a recurrent neural network.
+由于 PyTorch 的结构，您可能需要显式编写设备无关（CPU或GPU）代码; 一个例子可能是创建一个新的张量作为递归神经网络的初始隐藏状态。
 
-The first step is to determine whether the GPU should be used or not. A common pattern is to use Python’s `argparse` module to read in user arguments, and have a flag that can be used to disable CUDA, in combination with [`is_available()`](../cuda.html#torch.cuda.is_available "torch.cuda.is_available"). In the following, `args.device` results in a `torch.device` object that can be used to move tensors to CPU or CUDA.
+第一步是确定是否应该使用GPU。常见的模式是使用Python的 `argparse` 模块读入用户参数，并有一个可用于禁用 CUDA 的标志，并结合使用 [`is_available()`](../cuda.html#torch.cuda.is_available "torch.cuda.is_available")。在下文中，`args.device` 结果 `torch.device` 可以用于将 tensor 移动到 CPU 或 CUDA 的对象。
 
 ```py
 import argparse
@@ -103,7 +101,7 @@ else:
 
 ```
 
-Now that we have `args.device`, we can use it to create a Tensor on the desired device.
+现在 `args.device` 我们可以使用它在所需的设备上创建 Tensor。
 
 ```py
 x = torch.empty((8, 42), device=args.device)
@@ -111,7 +109,7 @@ net = Network().to(device=args.device)
 
 ```
 
-This can be used in a number of cases to produce device agnostic code. Below is an example when using a dataloader:
+这可以在许多情况下用于产生与设备无关的代码。以下是使用 dataloader 时的示例:
 
 ```py
 cuda0 = torch.device('cuda:0')  # CUDA GPU 0
@@ -120,7 +118,7 @@ for i, x in enumerate(train_loader):
 
 ```
 
-When working with multiple GPUs on a system, you can use the `CUDA_VISIBLE_DEVICES` environment flag to manage which GPUs are available to PyTorch. As mentioned above, to manually control which GPU a tensor is created on, the best practice is to use a [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") context manager.
+在系统上使用多个 GPU 时，可以使用 `CUDA_VISIBLE_DEVICES` 环境标志来管理 PyTorch 可用的 GPU。如上所述，要手动控制创建张量的GPU，最佳做法是使用 [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") 上下文管理器。
 
 ```py
 print("Outside device is 0")  # On device 0 (default in most scenarios)
@@ -130,9 +128,9 @@ print("Outside device is still 0")  # On device 0
 
 ```
 
-If you have a tensor and would like to create a new tensor of the same type on the same device, then you can use a `torch.Tensor.new_*` method (see [`torch.Tensor`](../tensors.html#torch.Tensor "torch.Tensor")). Whilst the previously mentioned `torch.*` factory functions ([Creation Ops](../torch.html#tensor-creation-ops)) depend on the current GPU context and the attributes arguments you pass in, `torch.Tensor.new_*` methods preserve the device and other attributes of the tensor.
+如果你有一个 tensor 并且想在同一个设备上创建一个相同类型的新 tensor，那么你可以使用一个 `torch.Tensor.new_*` 方法（参见参考资料 [`torch.Tensor`](../tensors.html#torch.Tensor "torch.Tensor")）。虽然前面提到的 `torch.*` factory 函数（ [Creation Ops](../torch.html#tensor-creation-ops) ）依赖于当前 GPU 上下文和您传入的属性参数，但 `torch.Tensor.new_*` 方法会保留设备和 tensor 的其他属性。
 
-This is the recommended practice when creating modules in which new tensors need to be created internally during the forward pass.
+在创建在前向传递期间需要在内部创建新 tensor 的模块时，这是建议的做法。
 
 ```py
 cuda = torch.device('cuda')
@@ -161,7 +159,7 @@ print(y_cpu_long)
 
 ```
 
-If you want to create a tensor of the same type and size of another tensor, and fill it with either ones or zeros, [`ones_like()`](../torch.html#torch.ones_like "torch.ones_like") or [`zeros_like()`](../torch.html#torch.zeros_like "torch.zeros_like") are provided as convenient helper functions (which also preserve `torch.device` and `torch.dtype` of a Tensor).
+如果你想创建一个与另一个 tensor 相同类型和大小的 tensor，并用一个或零填充它，[`ones_like()`](../torch.html#torch.ones_like "torch.ones_like") 或 [`zeros_like()`](../torch.html#torch.zeros_like "torch.zeros_like") 作为方便的辅助函数（也保留 Tensor 的 `torch.device` 和 `torch.dtype`  ）提供。
 
 ```py
 x_cpu = torch.empty(2, 3)
@@ -172,19 +170,18 @@ y_gpu = torch.zeros_like(x_gpu)
 
 ```
 
-### Use pinned memory buffers
+### 使用固定内存缓冲区
 
-Host to GPU copies are much faster when they originate from pinned (page-locked) memory. CPU tensors and storages expose a [`pin_memory()`](../tensors.html#torch.Tensor.pin_memory "torch.Tensor.pin_memory") method, that returns a copy of the object, with data put in a pinned region.
+当源自固定（页面锁定）内存时，主机到 GPU 副本的速度要快得多。CPU tensor 和存储器公开一种 [`pin_memory()`](../tensors.html#torch.Tensor.pin_memory "torch.Tensor.pin_memory") 方法，该方法返回对象的副本，数据放在固定区域中。
 
-Also, once you pin a tensor or storage, you can use asynchronous GPU copies. Just pass an additional `non_blocking=True` argument to a [`cuda()`](../tensors.html#torch.Tensor.cuda "torch.Tensor.cuda") call. This can be used to overlap data transfers with computation.
+此外，一旦您固定张量或存储，您就可以使用异步GPU副本。只需将一个额外的 `non_blocking=True` 参数传递给一个 [`cuda()`](../tensors.html#torch.Tensor.cuda "torch.Tensor.cuda") 调用。这可以用于通过计算重叠数据传输。
 
-You can make the [`DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader") return batches placed in pinned memory by passing `pin_memory=True` to its constructor.
+您可以  [`DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader") 通过传递 `pin_memory=True` 给构造函数使返回批处理放置在固定内存中。
 
-### Use nn.DataParallel instead of multiprocessing
+## 使用 nn.DataParallel 而不是多处理
 
-Most use cases involving batched inputs and multiple GPUs should default to using [`DataParallel`](../nn.html#torch.nn.DataParallel "torch.nn.DataParallel") to utilize more than one GPU. Even with the GIL, a single Python process can saturate multiple GPUs.
+涉及批量输入和多个 GPU 的大多数用例应默认 [`DataParallel`](../nn.html#torch.nn.DataParallel "torch.nn.DataParallel") 使用多个GPU。即使使用GIL，单个 Python 进程也可以使多个 GPU 饱和。
 
-As of version 0.1.9, large numbers of GPUs (8+) might not be fully utilized. However, this is a known issue that is under active development. As always, test your use case.
+从版本 0.1.9 开始，可能无法充分利用大量 GPUs (8+)。但是，这是一个正在积极开发的已知问题。一如既往，测试您的用例。
 
-There are significant caveats to using CUDA models with [`multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing"); unless care is taken to meet the data handling requirements exactly, it is likely that your program will have incorrect or undefined behavior.
-
+使用带有 [`multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing") 的 CUDA 模型有一些重要的注意事项 ; 除非注意完全满足数据处理要求，否则您的程序可能会有不正确或未定义的行为。
