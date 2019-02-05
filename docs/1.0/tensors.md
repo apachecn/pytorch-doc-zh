@@ -2,6 +2,8 @@
 
 # torch.Tensor
 
+> 译者：[hijkzzz](https://github.com/hijkzzz)
+
 [`torch.Tensor`](#torch.Tensor "torch.Tensor") 是一种包含单一数据类型元素的多维矩阵.
 
 Torch定义了八种CPU张量类型和八种GPU张量类型：
