@@ -1,6 +1,7 @@
 
 
 # torch.Tensor
+> 译者: hijkzzz
 
 [`torch.Tensor`](#torch.Tensor "torch.Tensor") 是一种包含单一数据类型元素的多维矩阵.
 

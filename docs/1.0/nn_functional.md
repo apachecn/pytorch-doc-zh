@@ -1,6 +1,7 @@
 ﻿# torch.nn.functional
+> 译者: hijkzzz
 
-## Convolution functions
+## 卷积函数
 
 ### conv1d
 
@@ -8,29 +9,29 @@
 torch.nn.functional.conv1d(input, weight, bias=None, stride=1, padding=0, dilation=1, groups=1) → Tensor
 ```
 
-Applies a 1D convolution over an input signal composed of several input planes.
+对由多个输入平面组成的输入信号进行一维卷积。
 
-See [`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d") for details and output shape.
+有关详细信息和输出形状，请参见[`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d")。
 
-Note
+注意
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+在某些情况下，当使用CUDA后端与CuDNN时，该操作符可能会选择不确定性算法来提高性能。如果这不是您希望的，您可以通过设置`torch.backends.cudn .deterministic = True`来尝试使操作具有确定性(可能会以性能为代价)。请参阅关于 [Reproducibility](notes/randomness.html) 了解背景.
 
  
 Parameters: 
 
-*   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
-*   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kW))
-*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). Default: `None`
-*   **stride** – the stride of the convolving kernel. Can be a single number or a one-element tuple `(sW,)`. Default: 1
-*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a one-element tuple `(padW,)`. Default: 0
-*   **dilation** – the spacing between kernel elements. Can be a single number or a one-element tuple `(dW,)`. Default: 1
-*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. Default: 1
+*   **input** – 输入tensor, 形状为 ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
+*   **weight** – 卷积核, 形状为 ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kW))
+*   **bias** – 可选的偏置, 形状为 ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). 默认值: `None`
+*   **stride** – 卷积核的步幅, 可以是单个数字或一个元素元组`(sW,)`. 默认值: 1
+*   **padding** – 在输入的两边隐式加零。可以是单个数字或一个元素元组`(padW, )`. 默认值:  0
+*   **dilation** – 核元素之间的间距。可以是单个数字或单元素元组`(dW,)`. 默认值:  1
+*   **groups** – 将输入分成组, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) 应该可以被组的数目整除. 默认值:  1
 
  |
 | --- | --- |
 
-Examples:
+例子:
 
 ```py
 >>> filters = torch.randn(33, 16, 3)
@@ -58,11 +59,11 @@ Parameters:
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kH%20%5Ctimes%20kW))
-*   **bias** – optional bias tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). Default: `None`
-*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sH, sW)`. Default: 1
-*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padH, padW)`. Default: 0
-*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dH, dW)`. Default: 1
-*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. Default: 1
+*   **bias** – optional bias tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). 默认值:  `None`
+*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sH, sW)`. 默认值:  1
+*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padH, padW)`. 默认值:  0
+*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dH, dW)`. 默认值:  1
+*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. 默认值:  1
 
  |
 | --- | --- |
@@ -96,11 +97,11 @@ Parameters:
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iT%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bin%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kT%20%5Ctimes%20kH%20%5Ctimes%20kW))
-*   **bias** – optional bias tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). Default: None
-*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sT, sH, sW)`. Default: 1
-*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padT, padH, padW)`. Default: 0
-*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dT, dH, dW)`. Default: 1
-*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. Default: 1
+*   **bias** – optional bias tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). 默认值:  None
+*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sT, sH, sW)`. 默认值:  1
+*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padT, padH, padW)`. 默认值:  0
+*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dT, dH, dW)`. 默认值:  1
+*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. 默认值:  1
 
  |
 | --- | --- |
@@ -133,12 +134,12 @@ Parameters:
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bout%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kW))
-*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). Default: None
-*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sW,)`. Default: 1
-*   **padding** – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Can be a single number or a tuple `(padW,)`. Default: 0
-*   **output_padding** – additional size added to one side of each dimension in the output shape. Can be a single number or a tuple `(out_padW)`. Default: 0
-*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. Default: 1
-*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dW,)`. Default: 1
+*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). 默认值:  None
+*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sW,)`. 默认值:  1
+*   **padding** – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Can be a single number or a tuple `(padW,)`. 默认值:  0
+*   **output_padding** – additional size added to one side of each dimension in the output shape. Can be a single number or a tuple `(out_padW)`. 默认值:  0
+*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. 默认值:  1
+*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dW,)`. 默认值:  1
 
  |
 | --- | --- |
@@ -171,12 +172,12 @@ Parameters:
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bout%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kH%20%5Ctimes%20kW))
-*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). Default: None
-*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sH, sW)`. Default: 1
-*   **padding** – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Can be a single number or a tuple `(padH, padW)`. Default: 0
-*   **output_padding** – additional size added to one side of each dimension in the output shape. Can be a single number or a tuple `(out_padH, out_padW)`. Default: 0
-*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. Default: 1
-*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dH, dW)`. Default: 1
+*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). 默认值:  None
+*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sH, sW)`. 默认值:  1
+*   **padding** – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Can be a single number or a tuple `(padH, padW)`. 默认值:  0
+*   **output_padding** – additional size added to one side of each dimension in the output shape. Can be a single number or a tuple `(out_padH, out_padW)`. 默认值:  0
+*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. 默认值:  1
+*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dH, dW)`. 默认值:  1
 
  |
 | --- | --- |
@@ -210,12 +211,12 @@ Parameters:
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iT%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **weight** – filters of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20%5Cfrac%7B%5Ctext%7Bout%5C_channels%7D%7D%7B%5Ctext%7Bgroups%7D%7D%20%5Ctimes%20kT%20%5Ctimes%20kH%20%5Ctimes%20kW))
-*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). Default: None
-*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sT, sH, sW)`. Default: 1
-*   **padding** – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Can be a single number or a tuple `(padT, padH, padW)`. Default: 0
-*   **output_padding** – additional size added to one side of each dimension in the output shape. Can be a single number or a tuple `(out_padT, out_padH, out_padW)`. Default: 0
-*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. Default: 1
-*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dT, dH, dW)`. Default: 1
+*   **bias** – optional bias of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bout%5C_channels%7D)). 默认值:  None
+*   **stride** – the stride of the convolving kernel. Can be a single number or a tuple `(sT, sH, sW)`. 默认值:  1
+*   **padding** – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Can be a single number or a tuple `(padT, padH, padW)`. 默认值:  0
+*   **output_padding** – additional size added to one side of each dimension in the output shape. Can be a single number or a tuple `(out_padT, out_padH, out_padW)`. 默认值:  0
+*   **groups** – split input into groups, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bin%5C_channels%7D) should be divisible by the number of groups. 默认值:  1
+*   **dilation** – the spacing between kernel elements. Can be a single number or a tuple `(dT, dH, dW)`. 默认值:  1
 
  |
 | --- | --- |
@@ -274,10 +275,10 @@ Parameters:
 
 *   **input** – input tensor of shape ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iW))
 *   **kernel_size** – the size of the window. Can be a single number or a tuple ![](http://latex.codecogs.com/gif.latex?(kW%2C))
-*   **stride** – the stride of the window. Can be a single number or a tuple `(sW,)`. Default: `kernel_size`
-*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padW,)`. Default: 0
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape. Default: `False`
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation. Default: `True`
+*   **stride** – the stride of the window. Can be a single number or a tuple `(sW,)`. 默认值:  `kernel_size`
+*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padW,)`. 默认值:  0
+*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape. 默认值:  `False`
+*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation. 默认值:  `True`
 
  |
 | --- | --- |
@@ -309,10 +310,10 @@ Parameters:
 
 *   **input** – input tensor ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **kernel_size** – size of the pooling region. Can be a single number or a tuple ![](http://latex.codecogs.com/gif.latex?(kH%20%5Ctimes%20kW))
-*   **stride** – stride of the pooling operation. Can be a single number or a tuple `(sH, sW)`. Default: `kernel_size`
-*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padH, padW)`. Default: 0
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` in the formula to compute the output shape. Default: `False`
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation. Default: `True`
+*   **stride** – stride of the pooling operation. Can be a single number or a tuple `(sH, sW)`. 默认值:  `kernel_size`
+*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padH, padW)`. 默认值:  0
+*   **ceil_mode** – when True, will use `ceil` instead of `floor` in the formula to compute the output shape. 默认值:  `False`
+*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation. 默认值:  `True`
 
  |
 | --- | --- |
@@ -332,8 +333,8 @@ Parameters:
 
 *   **input** – input tensor ![](http://latex.codecogs.com/gif.latex?(%5Ctext%7Bminibatch%7D%20%5Ctimes%20%5Ctext%7Bin%5C_channels%7D%20%5Ctimes%20iT%20%5Ctimes%20iH%20%5Ctimes%20iW))
 *   **kernel_size** – size of the pooling region. Can be a single number or a tuple ![](http://latex.codecogs.com/gif.latex?(kT%20%5Ctimes%20kH%20%5Ctimes%20kW))
-*   **stride** – stride of the pooling operation. Can be a single number or a tuple `(sT, sH, sW)`. Default: `kernel_size`
-*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padT, padH, padW)`, Default: 0
+*   **stride** – stride of the pooling operation. Can be a single number or a tuple `(sT, sH, sW)`. 默认值:  `kernel_size`
+*   **padding** – implicit zero paddings on both sides of the input. Can be a single number or a tuple `(padT, padH, padW)`, 默认值:  0
 *   **ceil_mode** – when True, will use `ceil` instead of `floor` in the formula to compute the output shape
 *   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
 
@@ -434,7 +435,7 @@ See [`AdaptiveMaxPool1d`](#torch.nn.AdaptiveMaxPool1d "torch.nn.AdaptiveMaxPool1
 Parameters: 
 
 *   **output_size** – the target output size (single integer)
-*   **return_indices** – whether to return pooling indices. Default: `False`
+*   **return_indices** – whether to return pooling indices. 默认值:  `False`
 
  |
 | --- | --- |
@@ -453,7 +454,7 @@ See [`AdaptiveMaxPool2d`](#torch.nn.AdaptiveMaxPool2d "torch.nn.AdaptiveMaxPool2
 Parameters: 
 
 *   **output_size** – the target output size (single integer or double-integer tuple)
-*   **return_indices** – whether to return pooling indices. Default: `False`
+*   **return_indices** – whether to return pooling indices. 默认值:  `False`
 
  |
 | --- | --- |
@@ -472,7 +473,7 @@ See [`AdaptiveMaxPool3d`](#torch.nn.AdaptiveMaxPool3d "torch.nn.AdaptiveMaxPool3
 Parameters: 
 
 *   **output_size** – the target output size (single integer or triple-integer tuple)
-*   **return_indices** – whether to return pooling indices. Default: `False`
+*   **return_indices** – whether to return pooling indices. 默认值:  `False`
 
  |
 | --- | --- |
@@ -744,7 +745,7 @@ Parameters:
  |
 | --- | --- |
 
-:param If specified, the input tensor is casted to `dtype` before the operation: :param is performed. This is useful for preventing data type overflows. Default: None.
+:param If specified, the input tensor is casted to `dtype` before the operation: :param is performed. This is useful for preventing data type overflows. 默认值:  None.
 
 ### softmax
 
@@ -772,7 +773,7 @@ Parameters:
  |
 | --- | --- |
 
-:param If specified, the input tensor is casted to `dtype` before the operation: :param is performed. This is useful for preventing data type overflows. Default: None.
+:param If specified, the input tensor is casted to `dtype` before the operation: :param is performed. This is useful for preventing data type overflows. 默认值:  None.
 
 Note
 
@@ -836,7 +837,7 @@ Parameters:
  |
 | --- | --- |
 
-:param If specified, the input tensor is casted to `dtype` before the operation: :param is performed. This is useful for preventing data type overflows. Default: None.
+:param If specified, the input tensor is casted to `dtype` before the operation: :param is performed. This is useful for preventing data type overflows. 默认值:  None.
 
 ### tanh
 
@@ -918,9 +919,9 @@ With the default arguments it uses the Euclidean norm over vectors along dimensi
 Parameters: 
 
 *   **input** – input tensor of any shape
-*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the exponent value in the norm formulation. Default: 2
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce. Default: 1
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – small value to avoid division by zero. Default: 1e-12
+*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the exponent value in the norm formulation. 默认值:  2
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce. 默认值:  1
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – small value to avoid division by zero. 默认值:  1e-12
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor. If `out` is used, this operation won’t be differentiable.
 
  |
@@ -964,9 +965,9 @@ See [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout") for details.
  
 Parameters: 
 
-*   **p** – probability of an element to be zeroed. Default: 0.5
+*   **p** – probability of an element to be zeroed. 默认值:  0.5
 *   **training** – apply dropout if is `True`. Defualt: `True`
-*   **inplace** – If set to `True`, will do this operation in-place. Default: `False`
+*   **inplace** – If set to `True`, will do this operation in-place. 默认值:  `False`
 
  |
 | --- | --- |
@@ -994,9 +995,9 @@ See [`Dropout2d`](#torch.nn.Dropout2d "torch.nn.Dropout2d") for details.
  
 Parameters: 
 
-*   **p** – probability of a channel to be zeroed. Default: 0.5
+*   **p** – probability of a channel to be zeroed. 默认值:  0.5
 *   **training** – apply dropout if is `True`. Defualt: `True`
-*   **inplace** – If set to `True`, will do this operation in-place. Default: `False`
+*   **inplace** – If set to `True`, will do this operation in-place. 默认值:  `False`
 
  |
 | --- | --- |
@@ -1014,9 +1015,9 @@ See [`Dropout3d`](#torch.nn.Dropout3d "torch.nn.Dropout3d") for details.
  
 Parameters: 
 
-*   **p** – probability of a channel to be zeroed. Default: 0.5
+*   **p** – probability of a channel to be zeroed. 默认值:  0.5
 *   **training** – apply dropout if is `True`. Defualt: `True`
-*   **inplace** – If set to `True`, will do this operation in-place. Default: `False`
+*   **inplace** – If set to `True`, will do this operation in-place. 默认值:  `False`
 
  |
 | --- | --- |
@@ -1111,7 +1112,7 @@ Parameters:
 *   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – If given, each embedding vector with norm larger than `max_norm` is renormalized to have norm `max_norm`. Note: this will modify `weight` in-place.
 *   **norm_type** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – The `p` in the `p`-norm to compute for the `max_norm` option. Default `2`.
 *   **scale_grad_by_freq** (_boolean__,_ _optional_) – if given, this will scale gradients by the inverse of frequency of the words in the mini-batch. Default `False`. Note: this option is not supported when `mode="max"`.
-*   **mode** (_string__,_ _optional_) – `"sum"`, `"mean"` or `"max"`. Specifies the way to reduce the bag. Default: `"mean"`
+*   **mode** (_string__,_ _optional_) – `"sum"`, `"mean"` or `"max"`. Specifies the way to reduce the bag. 默认值:  `"mean"`
 *   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, gradient w.r.t. `weight` will be a sparse tensor. See Notes under [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding") for more details regarding sparse gradients. Note: this option is not supported when `mode="max"`.
 
  |
@@ -1180,8 +1181,8 @@ Parameters:
 
 *   **x1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – First input.
 *   **x2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Second input (of size matching x1).
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Dimension of vectors. Default: 1
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid division by zero. Default: 1e-8
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Dimension of vectors. 默认值:  1
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid division by zero. 默认值:  1e-8
 
  |
 | --- | --- |
@@ -1242,9 +1243,9 @@ Parameters:
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight if provided it’s repeated to match input tensor shape
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
 
  |
 | --- | --- |
@@ -1275,9 +1276,9 @@ Parameters:
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight if provided it’s repeated to match input tensor shape
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
 *   **pos_weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a weight of positive examples. Must be a vector with length equal to the number of classes.
 
  |
@@ -1308,12 +1309,12 @@ Parameters:
 
 *   **input** – expectation of underlying Poisson distribution.
 *   **target** – random sample ![](http://latex.codecogs.com/gif.latex?target%20%5Csim%20%5Ctext%7BPoisson%7D(input)).
-*   **log_input** – if `True` the loss is computed as ![](http://latex.codecogs.com/gif.latex?%5Cexp(%5Ctext%7Binput%7D)%20-%20%5Ctext%7Btarget%7D%20*%20%5Ctext%7Binput%7D), if `False` then loss is ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%20-%20%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Binput%7D%2B%5Ctext%7Beps%7D)). Default: `True`
-*   **full** – whether to compute full loss, i. e. to add the Stirling approximation term. Default: `False` ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Btarget%7D)%20-%20%5Ctext%7Btarget%7D%20%2B%200.5%20*%20%5Clog(2%20*%20%5Cpi%20*%20%5Ctext%7Btarget%7D)).
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid evaluation of ![](http://latex.codecogs.com/gif.latex?%5Clog(0)) when `log_input`=``False``. Default: 1e-8
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **log_input** – if `True` the loss is computed as ![](http://latex.codecogs.com/gif.latex?%5Cexp(%5Ctext%7Binput%7D)%20-%20%5Ctext%7Btarget%7D%20*%20%5Ctext%7Binput%7D), if `False` then loss is ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%20-%20%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Binput%7D%2B%5Ctext%7Beps%7D)). 默认值:  `True`
+*   **full** – whether to compute full loss, i. e. to add the Stirling approximation term. 默认值:  `False` ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Btarget%7D)%20-%20%5Ctext%7Btarget%7D%20%2B%200.5%20*%20%5Clog(2%20*%20%5Cpi%20*%20%5Ctext%7Btarget%7D)).
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid evaluation of ![](http://latex.codecogs.com/gif.latex?%5Clog(0)) when `log_input`=``False``. 默认值:  1e-8
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
 
  |
 | --- | --- |
@@ -1342,10 +1343,10 @@ Parameters:
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C)) where `C = number of classes` or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) in case of 2D Loss, or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) in the case of K-dimensional loss.
 *   **target** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – ![](http://latex.codecogs.com/gif.latex?(N)) where each value is ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), or ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) for K-dimensional loss.
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, has to be a Tensor of size `C`
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
-*   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets. Default: -100
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets. 默认值:  -100
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
 
  |
 | --- | --- |
@@ -1386,7 +1387,7 @@ Parameters:
 *   **input_lengths** – ![](http://latex.codecogs.com/gif.latex?(N)). Lengths of the inputs (must each be ![](http://latex.codecogs.com/gif.latex?%5Cleq%20T))
 *   **target_lengths** – ![](http://latex.codecogs.com/gif.latex?(N)). Lengths of the targets
 *   **blank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Blank label. Default ![](http://latex.codecogs.com/gif.latex?0).
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the output losses will be divided by the target lengths and then the mean over the batch is taken. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the output losses will be divided by the target lengths and then the mean over the batch is taken. 默认值:  ‘mean’
 
  |
 | --- | --- |
@@ -1426,9 +1427,9 @@ Parameters:
 
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘batchmean’ &#124; ‘sum’ &#124; ‘mean’. ‘none’: no reduction will be applied ‘batchmean’: the sum of the output will be divided by the batchsize ‘sum’: the output will be summed ‘mean’: the output will be divided by the number of elements in the output Default: ‘mean’
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘batchmean’ &#124; ‘sum’ &#124; ‘mean’. ‘none’: no reduction will be applied ‘batchmean’: the sum of the output will be divided by the batchsize ‘sum’: the output will be summed ‘mean’: the output will be divided by the number of elements in the output 默认值:  ‘mean’
 
  |
 | --- | --- |
@@ -1511,10 +1512,10 @@ Parameters:
 *   **input** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C)) where `C = number of classes` or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) in case of 2D Loss, or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) in the case of K-dimensional loss.
 *   **target** – ![](http://latex.codecogs.com/gif.latex?(N)) where each value is ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), or ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) for K-dimensional loss.
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, has to be a Tensor of size `C`
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
-*   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets. Default: -100
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets. 默认值:  -100
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
 
  |
 | --- | --- |
@@ -1617,8 +1618,8 @@ Parameters:
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – `Nd` tensor
 *   **pad** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – m-elem tuple, where ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7Bm%7D%7B2%7D%20%5Cleq) input dimensions and ![](http://latex.codecogs.com/gif.latex?m) is even.
-*   **mode** – ‘constant’, ‘reflect’ or ‘replicate’. Default: ‘constant’
-*   **value** – fill value for ‘constant’ padding. Default: 0
+*   **mode** – ‘constant’, ‘reflect’ or ‘replicate’. 默认值:  ‘constant’
+*   **value** – fill value for ‘constant’ padding. 默认值:  0
 
  |
 | --- | --- |
@@ -1665,8 +1666,8 @@ Parameters:
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
 *   **scale_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ _Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]_) – multiplier for spatial size. Has to match input size if it is a tuple.
-*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’ &#124; ‘area’. Default: ‘nearest’
-*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. Default: False
+*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’ &#124; ‘area’. 默认值:  ‘nearest’
+*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. 默认值:  False
 
  |
 | --- | --- |
@@ -1709,8 +1710,8 @@ Parameters:
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
 *   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – multiplier for spatial size. Has to be an integer.
-*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’. Default: ‘nearest’
-*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. Default: False
+*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’. 默认值:  ‘nearest’
+*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. 默认值:  False
 
  |
 | --- | --- |
@@ -1810,8 +1811,8 @@ Parameters:
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input of shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) (4-D case) or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20D_%5Ctext%7Bin%7D%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) (5-D case)
 *   **grid** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – flow-field of shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)) (4-D case) or ![](http://latex.codecogs.com/gif.latex?(N%2C%20D_%5Ctext%7Bout%7D%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%203)) (5-D case)
-*   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – interpolation mode to calculate output values ‘bilinear’ &#124; ‘nearest’. Default: ‘bilinear’
-*   **padding_mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – padding mode for outside grid values ‘zeros’ &#124; ‘border’ &#124; ‘reflection’. Default: ‘zeros’
+*   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – interpolation mode to calculate output values ‘bilinear’ &#124; ‘nearest’. 默认值:  ‘bilinear’
+*   **padding_mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – padding mode for outside grid values ‘zeros’ &#124; ‘border’ &#124; ‘reflection’. 默认值:  ‘zeros’
 
  |
 | --- | --- |
@@ -1859,7 +1860,7 @@ Parameters:
 *   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to evaluate in parallel
 *   **inputs** (_tensor_) – inputs to the module
 *   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU ids on which to replicate module
-*   **output_device** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU location of the output Use -1 to indicate the CPU. (default: device_ids[0])
+*   **output_device** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU location of the output Use -1 to indicate the CPU. (默认值:  device_ids[0])
 
  |
 | --- | --- |
