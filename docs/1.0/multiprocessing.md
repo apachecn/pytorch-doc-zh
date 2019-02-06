@@ -1,7 +1,8 @@
 
 
 # 多进程包 - torch.multiprocessing
-> 译者: hijkzzz
+
+> 译者：[hijkzzz](https://github.com/hijkzzz)
 
 torch.multiprocessing 是一个本地 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") 模块的包装. 它注册了自定义的reducers, 并使用共享内存为不同的进程在同一份数据上提供共享的视图. 一旦 tensor/storage 被移动到共享内存 (见 [`share_memory_()`](tensors.html#torch.Tensor.share_memory_ "torch.Tensor.share_memory_")), 将其发送到任何进程不会造成拷贝开销.
 

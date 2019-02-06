@@ -1,5 +1,6 @@
 ﻿# torch.nn.functional
-> 译者: hijkzzz
+
+> 译者：[hijkzzz](https://github.com/hijkzzz)
 
 ## 卷积函数
 
