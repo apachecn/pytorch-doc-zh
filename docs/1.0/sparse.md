@@ -2,6 +2,8 @@
 
 # torch.sparse
 
+> 译者：[hijkzzz](https://github.com/hijkzzz)
+
 警告
 
 这个API目前还处于试验阶段，可能在不久的将来会发生变化。
