@@ -808,7 +808,7 @@ torch.nn.functional.gumbel_softmax(logits, tau=1.0, hard=False, eps=1e-10)
 
  
 
-| Returns: | 从 Gumbel-Softmax 分布采样的 tensor, 形状为 `batch_size x num_features` . 如果 `hard=True`, 返回值是 one-hot 编码, 否则, 它们就是特征和为1的概率分布 
+| 返回值: | 从 Gumbel-Softmax 分布采样的 tensor, 形状为 `batch_size x num_features` . 如果 `hard=True`, 返回值是 one-hot 编码, 否则, 它们就是特征和为1的概率分布 
 
 
 约束:
@@ -1587,13 +1587,13 @@ torch.nn.functional.pad(input, pad, mode='constant', value=0)
 Pading size:
 ```
 
-要填充的维度数为 ![](http://latex.codecogs.com/gif.latex?%5Cleft%5Clfloor%5Cfrac%7B%5Ctext%7Blen(pad)%7D%7D%7B2%7D%5Cright%5Crfloor)填充的维度从最后一个维度开始向前移动. 例如, to pad the last dimension of the input tensor, then <cite>pad</cite> has form <cite>(padLeft, padRight)</cite>; to pad the last 2 dimensions of the input tensor, then use <cite>(padLeft, padRight, padTop, padBottom)</cite>; to pad the last 3 dimensions, use <cite>(padLeft, padRight, padTop, padBottom, padFront, padBack)</cite>.
+要填充的维度数为 ![](http://latex.codecogs.com/gif.latex?%5Cleft%5Clfloor%5Cfrac%7B%5Ctext%7Blen(pad)%7D%7D%7B2%7D%5Cright%5Crfloor)填充的维度从最后一个维度开始向前移动. 例如,  填充输入tensor的最后一个维度, 所以 <cite>pad</cite> 形如 <cite>(padLeft, padRight)</cite>; 填充最后 2 个维度, 使用 <cite>(padLeft, padRight, padTop, padBottom)</cite>; 填充最后 3 个维度, 使用 <cite>(padLeft, padRight, padTop, padBottom, padFront, padBack)</cite>.
 
 ```py
 Padding mode:
 ```
 
-请参见 [`torch.nn.ConstantPad2d`](#torch.nn.ConstantPad2d "torch.nn.ConstantPad2d"), [`torch.nn.ReflectionPad2d`](#torch.nn.ReflectionPad2d "torch.nn.ReflectionPad2d"), and [`torch.nn.ReplicationPad2d`](#torch.nn.ReplicationPad2d "torch.nn.ReplicationPad2d") for concrete examples on how each of the padding modes works. Constant padding is implemented for arbitrary dimensions. Replicate padding is implemented for padding the last 3 dimensions of 5D input tensor, or the last 2 dimensions of 4D input tensor, or the last dimension of 3D input tensor. Reflect padding is only implemented for padding the last 2 dimensions of 4D input tensor, or the last dimension of 3D input tensor.
+请参见 [`torch.nn.ConstantPad2d`](#torch.nn.ConstantPad2d "torch.nn.ConstantPad2d"), [`torch.nn.ReflectionPad2d`](#torch.nn.ReflectionPad2d "torch.nn.ReflectionPad2d"), and [`torch.nn.ReplicationPad2d`](#torch.nn.ReplicationPad2d "torch.nn.ReplicationPad2d") 有关每个填充模式如何工作的具体示例. Constant padding 已经实现于任意维度. 复制填充用于填充5D输入张量的最后3个维度，或4D输入张量的最后2个维度，或3D输入张量的最后一个维度. 反射填充仅用于填充4D输入张量的最后两个维度，或者3D输入张量的最后一个维度.
 
 注意
 
@@ -1636,31 +1636,30 @@ torch.Size([3, 9, 7, 3])
 torch.nn.functional.interpolate(input, size=None, scale_factor=None, mode='nearest', align_corners=None)
 ```
 
-Down/up samples the input to either the given `size` or the given `scale_factor`
+向下/向上采样输入到给定的`size`或给定的scale_facto
 
-The algorithm used for interpolation is determined by `mode`.
+由 `mode` 指定插值的算法.
 
-Currently temporal, spatial and volumetric sampling are supported, i.e. expected inputs are 3-D, 4-D or 5-D in shape.
+目前支持时间，空间和体积上采样，即预期输入为3-D，4-D或5-D形状.
 
-The input dimensions are interpreted in the form: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
+输入维度形式: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
 
-The modes available for resizing are: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only), `area`
+可用于上采样的模式是: `nearest`, `linear` (仅3D), `bilinear` (仅4D), `trilinear` (仅5D), `area`
 
  
 参数:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
-*   **scale_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ _Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]_) – multiplier for spatial size. Has to match input size if it is a tuple.
-*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’ &#124; ‘area’. 默认值:  ‘nearest’
-*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. 默认值:  False
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 tensor
+*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – 输出 size.
+*   **scale_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ _Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]_) –  空间大小的乘数. 如果是元组, 则必须匹配输入大小.
+*   **mode** (_string_) – 上采样算法: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’ &#124; ‘area’. 默认值:  ‘nearest’
+*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 如果为True，则输入和输出张量的角像素对齐，从而保留这些像素的值. 仅在 `mode` 是 `linear`, `bilinear`, 或者 `trilinear` 时生效. 默认值:  False
 
- 
 
 
 警告
 
-With `align_corners = True`, the linearly interpolating modes (`linear`, `bilinear`, and `trilinear`) don’t proportionally align the output and input pixels, and thus the output values can depend on the input size. This was the 默认 behavior for these modes up to version 0.3.1\. Since then, the 默认 behavior is `align_corners = False`. 请参见 [`Upsample`](#torch.nn.Upsample "torch.nn.Upsample") for concrete examples on how this affects the outputs.
+`align_corners = True`时，线性插值模式(`linear`, `bilinear`, and `trilinear`)不会按比例对齐输出和输入像素，因此输出值可能取决于输入大小。这是0.3.1版之前这些模式的默认行为.此后，默认行为为`align_corners = False`。有关这如何影响输出的具体示例，请参见上例。
 
 注意
 
@@ -1672,32 +1671,32 @@ With `align_corners = True`, the linearly interpolating modes (`linear`, `biline
 torch.nn.functional.upsample(input, size=None, scale_factor=None, mode='nearest', align_corners=None)
 ```
 
-Upsamples the input to either the given `size` or the given `scale_factor`
+将输入采样到给定`size`或给定的`scale_factor`
 
 警告
 
-This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). This is equivalent with `nn.functional.interpolate(...)`.
+ 此函数已被弃用，取而代之的是 [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). 等价于 `nn.functional.interpolate(...)`.
 
 注意
 
 当使用CUDA后端时，此操作可能会导致不确定的向后行为，并且不容易关闭。请参阅关于[Reproducibility](notes/randomness.html)的注释。
 
-The algorithm used for upsampling is determined by `mode`.
+用于上采样的算法由 `mode` 确定.
 
-Currently temporal, spatial and volumetric upsampling are supported, i.e. expected inputs are 3-D, 4-D or 5-D in shape.
+目前支持时间，空间和体积上采样，即预期输入为3-D，4-D或5-D形状.
 
-The input dimensions are interpreted in the form: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
+输入维度形式: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
 
-The modes available for upsampling are: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only)
+可用于上采样的模式是: `nearest`, `linear` (仅3D), `bilinear` (仅4D), `trilinear` (仅5D)
 
  
 参数:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
-*   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – multiplier for spatial size. Has to be an integer.
-*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’. 默认值:  ‘nearest’
-*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. 默认值:  False
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 tensor
+*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – 输出 size.
+*   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 空间大小的乘数. 必须是整数.
+*   **mode** (_string_) – 上采样算法: ‘nearest’ &#124; ‘linear’&#124; ‘bilinear’ &#124; ‘trilinear’. 默认值:  ‘nearest’
+*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 如果为True，则输入和输出张量的角像素对齐，从而保留这些像素的值. 仅在 `mode` 是 `linear`, `bilinear`, 或者 `trilinear` 时生效. 默认值:  False
 
  
 
@@ -1712,13 +1711,13 @@ With `align_corners = True`, the linearly interpolating modes (`linear`, `biline
 torch.nn.functional.upsample_nearest(input, size=None, scale_factor=None)
 ```
 
-Upsamples the input, using nearest neighbours’ pixel values.
+使用最近邻居的像素值对输入进行上采样.
 
 警告
 
-This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). This is equivalent with `nn.functional.interpolate(..., mode='nearest')`.
+不推荐使用此函数，而使用 [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). 等价于h `nn.functional.interpolate(..., mode='nearest')`.
 
-Currently spatial and volumetric upsampling are supported (i.e. expected inputs are 4 or 5 dimensional).
+目前支持空间和体积上采样 (即 inputs 是 4 或者 5 维的).
 
  
 参数:
@@ -1740,13 +1739,13 @@ Currently spatial and volumetric upsampling are supported (i.e. expected inputs 
 torch.nn.functional.upsample_bilinear(input, size=None, scale_factor=None)
 ```
 
-Upsamples the input, using bilinear upsampling.
+使用双线性上采样对输入进行上采样.
 
 警告
 
-This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). This is equivalent with `nn.functional.interpolate(..., mode='bilinear', align_corners=True)`.
+不推荐使用此函数，而使用 [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). 等价于 `nn.functional.interpolate(..., mode='bilinear', align_corners=True)`.
 
-Expected inputs are spatial (4 dimensional). Use `upsample_trilinear` fo volumetric (5 dimensional) inputs.
+期望输入是空间的 (4D). 用 `upsample_trilinear` 对体积 (5D) 输入.
 
  
 参数:
@@ -1768,25 +1767,25 @@ Expected inputs are spatial (4 dimensional). Use `upsample_trilinear` fo volumet
 torch.nn.functional.grid_sample(input, grid, mode='bilinear', padding_mode='zeros')
 ```
 
-Given an `input` and a flow-field `grid`, computes the `output` using `input` values and pixel locations from `grid`.
+给定`input` 和流场 `grid`, 使用 `input` 和 `grid` 中的像素位置计算`output`.
 
-Currently, only spatial (4-D) and volumetric (5-D) `input` are supported.
+目前, 仅支持 spatial (4-D) 和 volumetric (5-D) `input`.
 
-In the spatial (4-D) case, for `input` with shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) and `grid` with shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)), the output will have shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D)).
+在 spatial (4-D) 的情况下, 对于 `input` 形如 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) 和 `grid` 形如 ![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)), 输出的形状为 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D)).
 
-For each output location `output[n, :, h, w]`, the size-2 vector `grid[n, h, w]` specifies `input` pixel locations `x` and `y`, which are used to interpolate the output value `output[n, :, h, w]`. In the case of 5D inputs, `grid[n, d, h, w]` specifies the `x`, `y`, `z` pixel locations for interpolating `output[n, :, d, h, w]`. `mode` argument specifies `nearest` or `bilinear` interpolation method to sample the input pixels.
+对于每个输出位置 `output[n, :, h, w]`, 大小为2的向量 `grid[n, h, w]` 指定 `input` 的像素位置 `x` 和 `y`, 用于插值输出值 `output[n, :, h, w]`. 对于 5D 的 inputs, `grid[n, d, h, w]` 指定 `x`, `y`, `z` 像素位置用于插值 `output[n, :, d, h, w]`. `mode` 参数指定 `nearest` or `bilinear` 插值方法.
 
-`grid` should have most values in the range of `[-1, 1]`. This is because the pixel locations are normalized by the `input` spatial dimensions. For example, values `x = -1, y = -1` is the left-top pixel of `input`, and values `x = 1, y = 1` is the right-bottom pixel of `input`.
+`grid` 大多数值应该处于 `[-1, 1]`.  这是因为像素位置由`input` 空间维度标准化.例如, 值 `x = -1, y = -1` 是 `input` 的左上角, 值 `x = 1, y = 1` 是 `input` 的右下角.
 
-If `grid` has values outside the range of `[-1, 1]`, those locations are handled as defined by `padding_mode`. Options are
+如果 `grid` 有 `[-1, 1]` 之外的值, 那些坐标将由 `padding_mode` 定义. 选项如下
 
-> *   `padding_mode="zeros"`: use `0` for out-of-bound values,
-> *   `padding_mode="border"`: use border values for out-of-bound values,
-> *   `padding_mode="reflection"`: use values at locations reflected by the border for out-of-bound values. For location far away from the border, it will keep being reflected until becoming in bound, e.g., (normalized) pixel location `x = -3.5` reflects by `-1` and becomes `x' = 2.5`, then reflects by border `1` and becomes `x'' = -0.5`.
+> *   `padding_mode="zeros"`: 用 `0` 代替边界外的值,
+> *   `padding_mode="border"`: 用 border 值代替,
+> *   `padding_mode="reflection"`: 对于超出边界的值，用反射的值。对于距离边界较远的位置，它会一直被反射，直到到达边界，例如(归一化)像素位置`x = -3.5`被`-1`反射，变成`x' = 2.5`，然后被边界1反射，变成`x'' = -0.5`.
 
 注意
 
-This function is often used in building Spatial Transformer Networks.
+该功能常用于空间变换网络的构建.
 
 注意
 
@@ -1802,9 +1801,9 @@ This function is often used in building Spatial Transformer Networks.
 
  
 
-| Returns: | output Tensor 
+| 返回值: | output Tensor 
 
-| Return type: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
+| 返回类型: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
 
 
 ### affine_grid
@@ -1813,22 +1812,22 @@ This function is often used in building Spatial Transformer Networks.
 torch.nn.functional.affine_grid(theta, size)
 ```
 
-Generates a 2d flow field, given a batch of affine matrices `theta` Generally used in conjunction with [`grid_sample()`](#torch.nn.functional.grid_sample "torch.nn.functional.grid_sample") to implement Spatial Transformer Networks.
+在给定一批仿射矩阵`theta`的情况下生成二维流场。通常与[`grid_sample()`](#torch.nn.functional.grid_sample "torch.nn.functional.grid_sample")一起使用以实现`空间变换器网络`。
 
  
 参数:
 
-*   **theta** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input batch of affine matrices (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%202%20%5Ctimes%203))
-*   **size** (_torch.Size_) – the target output image size (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20C%20%5Ctimes%20H%20%5Ctimes%20W)) 例子:  torch.Size((32, 3, 24, 24))
+*   **theta** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的仿射矩阵 (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%202%20%5Ctimes%203))
+*   **size** (_torch.Size_) – 目标输出图像大小 (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20C%20%5Ctimes%20H%20%5Ctimes%20W)) 例子:  torch.Size((32, 3, 24, 24))
 
  
 
-| Returns: | output Tensor of size (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20H%20%5Ctimes%20W%20%5Ctimes%202)) 
+| 返回值: | 输出tensor, 形状为 (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20H%20%5Ctimes%20W%20%5Ctimes%202)) 
 
-| Return type: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
+| 返回类型: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
 
 
-## DataParallel functions (multi-GPU, distributed)
+## 数据并行函数 (multi-GPU, distributed)
 
 ### data_parallel
 
@@ -1836,18 +1835,18 @@ Generates a 2d flow field, given a batch of affine matrices `theta` Generally us
 torch.nn.parallel.data_parallel(module, inputs, device_ids=None, output_device=None, dim=0, module_kwargs=None)
 ```
 
-Evaluates module(input) in parallel across the GPUs given in device_ids.
+在设备id中给定的gpu上并行计算模块(输入).
 
-This is the functional version of the DataParallel module.
+这是DataParallel模块的函数版本.
 
  
 参数:
 
-*   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to evaluate in parallel
-*   **inputs** (_tensor_) – inputs to the module
-*   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU ids on which to replicate module
-*   **output_device** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU location of the output Use -1 to indicate the CPU. (默认值:  device_ids[0])
+*   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – 要并行评估的模块
+*   **inputs** (_tensor_) –  模块的输入
+*   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – 用于复制模块的GPU id
+*   **output_device** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) –  输出的GPU位置使用 -1表示CPU. (默认值:  device_ids[0])
 
  
 
-| Returns: | a Tensor containing the result of module(input) located on output_device 
+| 返回值: | 一个tensor，包含位于输出设备上的模块(输入)的结果
