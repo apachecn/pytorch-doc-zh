@@ -1699,11 +1699,9 @@ torch.nn.functional.upsample(input, size=None, scale_factor=None, mode='nearest'
 *   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 如果为True, 则输入和输出张量的角像素对齐, 从而保留这些像素的值. 仅在 `mode` 是 `linear`, `bilinear`, 或者 `trilinear` 时生效. 默认值:  False
 
  
-
-
 警告
 
-With `align_corners = True`, the linearly interpolating modes (`linear`, `bilinear`, and `trilinear`) don’t proportionally align the output and input pixels, and thus the output values can depend on the input size. This was the 默认 behavior for these modes up to version 0.3.1\. Since then, the 默认 behavior is `align_corners = False`. 请参见 [`Upsample`](#torch.nn.Upsample "torch.nn.Upsample") for concrete examples on how this affects the outputs.
+`align_corners = True`时, 线性插值模式(`linear`, `bilinear`, and `trilinear`)不会按比例对齐输出和输入像素, 因此输出值可能取决于输入大小. 这是0.3.1版之前这些模式的默认行为.此后, 默认行为为`align_corners = False`. 有关这如何影响输出的具体示例, 请参见 [`Upsample`](#torch.nn.Upsample "torch.nn.Upsample") 
 
 ### upsample_nearest
 
