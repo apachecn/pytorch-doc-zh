@@ -24,13 +24,13 @@ cf775cf1814914c00f5bf7ada7de4369.gif
 *   我们发现数学家和物理学家在句子里有相同的作用，所以在某种程度上，他们有语义的联系。
 *   当看见物理学家在新句子中的作用时，我们发现数学家也有起着相同的作用。
 
-and then infer that physicist is actually a good fit in the new unseen sentence? This is what we mean by a notion of similarity: we mean _semantic similarity_, not simply having similar orthographic representations. It is a technique to combat the sparsity of linguistic data, by connecting the dots between what we have seen and what we haven’t. This example of course relies on a fundamental linguistic assumption: that words appearing in similar contexts are related to each other semantically. This is called the [distributional hypothesis](https://en.wikipedia.org/wiki/Distributional_semantics).
+然后我们就推测，物理学家在上面的句子里也类似于数学家吗？ 这就是我们所指的相似性理念： 指的是语义相似，而不是简单的拼写相似。 这就是一种通过连接我们发现的和没发现的一些内容相似点、用于解决语言数据稀疏性的技术。 这个例子依赖于一个基本的语言假设： 那些在相似语句中出现的单词，在语义上也是相互关联的。 这就叫做 [distributional hypothesis（分布式假设）](https://en.wikipedia.org/wiki/Distributional_semantics)。
 
-## Getting Dense Word Embeddings
+## Getting Dense Word Embeddings（密集词嵌入）
 
-How can we solve this problem? That is, how could we actually encode semantic similarity in words? Maybe we think up some semantic attributes. For example, we see that both mathematicians and physicists can run, so maybe we give these words a high score for the “is able to run” semantic attribute. Think of some other attributes, and imagine what you might score some common words on those attributes.
+我们如何解决这个问题呢？也就是，怎么编码单词中的语义相似性？ 也许我们会想到一些语义属性。 举个例子，我们发现数学家和物理学家都能跑， 所以也许可以给含有“能跑”语义属性的单词打高分，考虑一下其他的属性，想象一下你可能会在这些属性上给普通的单词打什么分。
 
-If each attribute is a dimension, then we might give each word a vector, like this:
+如果每个属性都表示一个维度，那我们也许可以用一个向量表示一个单词，就像这样：
 
 ```py
 \[ q_\text{mathematician} = \left[ \overbrace{2.3}^\text{can run}, \overbrace{9.4}^\text{likes coffee}, \overbrace{-5.5}^\text{majored in Physics}, \dots \right]\]
@@ -40,21 +40,21 @@ If each attribute is a dimension, then we might give each word a vector, like th
 \[ q_\text{physicist} = \left[ \overbrace{2.5}^\text{can run}, \overbrace{9.1}^\text{likes coffee}, \overbrace{6.4}^\text{majored in Physics}, \dots \right]\]
 ```
 
-Then we can get a measure of similarity between these words by doing:
+那么，我们就这可以通过下面的方法得到这些单词之间的相似性：
 
 ```py
 \[\text{Similarity}(\text{physicist}, \text{mathematician}) = q_\text{physicist} \cdot q_\text{mathematician}\]
 ```
 
-Although it is more common to normalize by the lengths:
+尽管通常情况下需要进行长度归一化：
 
 ```py
 \[ \text{Similarity}(\text{physicist}, \text{mathematician}) = \frac{q_\text{physicist} \cdot q_\text{mathematician}} {\| q_\text{\physicist} \| \| q_\text{mathematician} \|} = \cos (\phi)\]
 ```
 
-Where `\(\phi\)` is the angle between the two vectors. That way, extremely similar words (words whose embeddings point in the same direction) will have similarity 1\. Extremely dissimilar words should have similarity -1.
+Φ是两个向量的夹角。 这就意味着，完全相似的单词相似度为1。完全不相似的单词相似度为-1。
 
-You can think of the sparse one-hot vectors from the beginning of this section as a special case of these new vectors we have defined, where each word basically has similarity 0, and we gave each word some unique semantic attribute. These new vectors are _dense_, which is to say their entries are (typically) non-zero.
+你可以把本章开头介绍的one-hot稀疏向量看做是我们新定义向量的一种特殊形式，那里的单词相似度为0， 现在我们给每个单词一些独特的语义属性。 这些向量数据密集，也就是说它们数字通常都非零。
 
 But these new vectors are a big pain: you could think of thousands of different semantic attributes that might be relevant to determining similarity, and how on earth would you set the values of the different attributes? Central to the idea of deep learning is that the neural network learns representations of the features, rather than requiring the programmer to design them herself. So why not just let the word embeddings be parameters in our model, and then be updated during training? This is exactly what we will do. We will have some _latent semantic attributes_ that the network can, in principle, learn. Note that the word embeddings will probably not be interpretable. That is, although with our hand-crafted vectors above we can see that mathematicians and physicists are similar in that they both like coffee, if we allow a neural network to learn the embeddings and see that both mathematicians and physicists have a large value in the second dimension, it is not clear what that means. They are similar in some latent semantic dimension, but this probably has no interpretation to us.
 
