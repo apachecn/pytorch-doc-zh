@@ -2,6 +2,8 @@
 
 # 多进程最佳实践
 
+> 译者：[cvley](https://github.com/cvley)
+
 [`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing") 是 Python 的 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") 的直接替代模块。它支持完全相同的操作，但进行了扩展，这样所有的张量就可以通过一个 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") 进行传递，将数据移动到共享内存并只将句柄传递到另一个进程。
 
 注意
