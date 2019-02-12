@@ -56,20 +56,20 @@ cf775cf1814914c00f5bf7ada7de4369.gif
 
 你可以把本章开头介绍的one-hot稀疏向量看做是我们新定义向量的一种特殊形式，那里的单词相似度为0， 现在我们给每个单词一些独特的语义属性。 这些向量数据密集，也就是说它们数字通常都非零。
 
-But these new vectors are a big pain: you could think of thousands of different semantic attributes that might be relevant to determining similarity, and how on earth would you set the values of the different attributes? Central to the idea of deep learning is that the neural network learns representations of the features, rather than requiring the programmer to design them herself. So why not just let the word embeddings be parameters in our model, and then be updated during training? This is exactly what we will do. We will have some _latent semantic attributes_ that the network can, in principle, learn. Note that the word embeddings will probably not be interpretable. That is, although with our hand-crafted vectors above we can see that mathematicians and physicists are similar in that they both like coffee, if we allow a neural network to learn the embeddings and see that both mathematicians and physicists have a large value in the second dimension, it is not clear what that means. They are similar in some latent semantic dimension, but this probably has no interpretation to us.
+但是新的这些向量存在一个严重的问题： 你可以想到数千种不同的语义属性，它们可能都与决定相似性有关，而且，到底如何设置不同属性的值呢？深度学习的中心思想是用神经网络来学习特征的表示，而不是程序员去设计它们。 所以为什么不把词嵌入只当做模型参数，而是通过训练来更新呢？ 这就才是我们要确切做的事。我们将用神经网络做一些潜在语义属性，但是原则上，学习才是关键。 注意，词嵌入可能无法解释。就是说，尽管使用我们上面手动制作的向量，能够发现数学家和物理学家都喜欢喝咖啡的相似性， 如果我们允许神经网络来学习词嵌入，那么就会发现数学家和物理学家在第二维度有个较大的值，它所代表的含义很不清晰。 它们在一些潜在语义上是相似的，但是对我们来说无法解释。
 
-In summary, **word embeddings are a representation of the *semantics* of a word, efficiently encoding semantic information that might be relevant to the task at hand**. You can embed other things too: part of speech tags, parse trees, anything! The idea of feature embeddings is central to the field.
+总结一下，**词嵌入是单词语义的表示，有效地编码语义信息可能与手头的任务有关**。你也可以嵌入其他的东西：语音标签，解析树，其他任何东西！特征嵌入是这个领域的核心思想。
 
-## Word Embeddings in Pytorch
+## Pytorch中的词嵌入
 
-Before we get to a worked example and an exercise, a few quick notes about how to use embeddings in Pytorch and in deep learning programming in general. Similar to how we defined a unique index for each word when making one-hot vectors, we also need to define an index for each word when using embeddings. These will be keys into a lookup table. That is, embeddings are stored as a `\(|V| \times D\)` matrix, where `\(D\)` is the dimensionality of the embeddings, such that the word assigned index `\(i\)` has its embedding stored in the `\(i\)`’th row of the matrix. In all of my code, the mapping from words to indices is a dictionary named word_to_ix.
+在我们举例或练习之前，这里有一份关于如何在Pytorch和常见的深度学习中使用词嵌入的简要介绍。 与制作one-hot向量时对每个单词定义一个特殊的索引类似，当我们使用词向量时也需要为每个单词定义一个索引。这些索引将是查询表的关键点。意思就是，词嵌入被被存储在一个|V|*D的向量中，其中D是词嵌入的维度。词被被分配的索引i，表示在向量的第i行存储它的嵌入。在所有的代码中，从单词到索引的映射是一个叫'word_to_ix'的字典。
 
-The module that allows you to use embeddings is torch.nn.Embedding, which takes two arguments: the vocabulary size, and the dimensionality of the embeddings.
+能使用词嵌入的模块是torch.nn.Embedding，这里面有两个参数：词汇表的大小和词嵌入的维度。
 
-To index into this table, you must use torch.LongTensor (since the indices are integers, not floats).
+索引这张表时，你必须使用torch.LongTensor（因为索引是整数，不是浮点数）。
 
 ```py
-# Author: Robert Guthrie
+# 作者: Robert Guthrie
 
 import torch
 import torch.nn as nn
@@ -89,7 +89,7 @@ print(hello_embed)
 
 ```
 
-Out:
+输出：
 
 ```py
 tensor([[ 0.6614,  0.2669,  0.0617,  0.6213, -0.4519]],
@@ -97,22 +97,19 @@ tensor([[ 0.6614,  0.2669,  0.0617,  0.6213, -0.4519]],
 
 ```
 
-## An Example: N-Gram Language Modeling
+## 例子： N-Gram语言模型
 
-Recall that in an n-gram language model, given a sequence of words `\(w\)`, we want to compute
-
+回想一下，在n-gram语言模型中,给定一个单词序列向量w，我们要计算的是
 ```py
 \[P(w_i | w_{i-1}, w_{i-2}, \dots, w_{i-n+1} )\]
 ```
 
-Where `\(w_i\)` is the ith word of the sequence.
-
-In this example, we will compute the loss function on some training examples and update the parameters with backpropagation.
-
+wi是单词序列的第i个单词。
+在本例中，我们将在训练样例上计算损失函数，并且用反向传播算法更新参数。
 ```py
 CONTEXT_SIZE = 2
 EMBEDDING_DIM = 10
-# We will use Shakespeare Sonnet 2
+# 我们用莎士比亚的十四行诗 Sonnet 2
 test_sentence = """When forty winters shall besiege thy brow,
 And dig deep trenches in thy beauty's field,
 Thy youth's proud livery so gazed on now,
@@ -189,7 +186,7 @@ print(losses)  # The loss decreased every iteration over the training data!
 
 ```
 
-Out:
+输出：
 
 ```py
 [(['When', 'forty'], 'winters'), (['forty', 'winters'], 'shall'), (['winters', 'shall'], 'besiege')]
