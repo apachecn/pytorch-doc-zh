@@ -124,11 +124,11 @@ Shall sum my count, and make my old excuse,'
 Proving his beauty by succession thine!
 This were to be new made when thou art old,
 And see thy blood warm when thou feel'st it cold.""".split()
-# we should tokenize the input, but we will ignore that for now
-# build a list of tuples.  Each tuple is ([ word_i-2, word_i-1 ], target word)
+# 应该对输入变量进行标记，但暂时忽略。
+# 创建一系列的元组，每个元组都是([ word_i-2, word_i-1 ], target word)的形式。
 trigrams = [([test_sentence[i], test_sentence[i + 1]], test_sentence[i + 2])
             for i in range(len(test_sentence) - 2)]
-# print the first 3, just so you can see what they look like
+# 输出前3行，先看下是什么样子。
 print(trigrams[:3])
 
 vocab = set(test_sentence)
@@ -158,31 +158,27 @@ for epoch in range(10):
     total_loss = 0
     for context, target in trigrams:
 
-        # Step 1\. Prepare the inputs to be passed to the model (i.e, turn the words
-        # into integer indices and wrap them in tensors)
+        # 步骤 1\. 准备好进入模型的数据 (例如将单词转换成整数索引,并将其封装在变量中)
         context_idxs = torch.tensor([word_to_ix[w] for w in context], dtype=torch.long)
 
-        # Step 2\. Recall that torch *accumulates* gradients. Before passing in a
-        # new instance, you need to zero out the gradients from the old
-        # instance
+        # 步骤 2\. Recall that torch *accumulates* gradients.
+        # 在传入一个新实例之前，需要把旧实例的梯度置零。
         model.zero_grad()
 
-        # Step 3\. Run the forward pass, getting log probabilities over next
-        # words
+        # 步骤 3\. 继续运行代码，得到单词的log概率值。
         log_probs = model(context_idxs)
 
-        # Step 4\. Compute your loss function. (Again, Torch wants the target
-        # word wrapped in a tensor)
+        # 步骤 4\. 计算损失函数（再次注意，Torch需要将目标单词封装在变量里）。
         loss = loss_function(log_probs, torch.tensor([word_to_ix[target]], dtype=torch.long))
 
-        # Step 5\. Do the backward pass and update the gradient
+        # 步骤 5\. 反向传播更新梯度
         loss.backward()
         optimizer.step()
 
-        # Get the Python number from a 1-element Tensor by calling tensor.item()
+        # 通过调tensor.item()得到单个Python数值。
         total_loss += loss.item()
     losses.append(total_loss)
-print(losses)  # The loss decreased every iteration over the training data!
+print(losses)  # 用训练数据每次迭代，损失函数都会下降。
 
 ```
 
@@ -194,25 +190,25 @@ print(losses)  # The loss decreased every iteration over the training data!
 
 ```
 
-## Exercise: Computing Word Embeddings: Continuous Bag-of-Words
+## 练习：计算连续词袋模型的词向量
 
-The Continuous Bag-of-Words model (CBOW) is frequently used in NLP deep learning. It is a model that tries to predict words given the context of a few words before and a few words after the target word. This is distinct from language modeling, since CBOW is not sequential and does not have to be probabilistic. Typcially, CBOW is used to quickly train word embeddings, and these embeddings are used to initialize the embeddings of some more complicated model. Usually, this is referred to as _pretraining embeddings_. It almost always helps performance a couple of percent.
+连续词袋模型（CBOW）在NLP深度学习中使用很频繁。它是一个模型，尝试通过目标词前后几个单词的文本，来预测目标词。这有别于语言模型，因为CBOW不是序列的，也不必是概率性的。 CBOW常用于快速地训练词向量，得到的嵌入用来初始化一些复杂模型的嵌入。通常情况下，这被称为预训练嵌入。 它几乎总能帮忙把模型性能提升几个百分点。
 
-The CBOW model is as follows. Given a target word `\(w_i\)` and an `\(N\)` context window on each side, `\(w_{i-1}, \dots, w_{i-N}\)` and `\(w_{i+1}, \dots, w_{i+N}\)`, referring to all context words collectively as `\(C\)`, CBOW tries to minimize
+CBOW模型如下所示： 给定一个单词Wi，N代表两边的滑窗距，如Wi-1, .... ,Wi-N 和 Wi+1, ..... Wi+N，并将所有的上下文词统称为C，CBOW试图最小化
 
 ```py
 \[-\log p(w_i | C) = -\log \text{Softmax}(A(\sum_{w \in C} q_w) + b)\]
 ```
 
-where `\(q_w\)` is the embedding for word `\(w\)`.
+其中q_w是单词W的嵌入。
 
-Implement this model in Pytorch by filling in the class below. Some tips:
+在Pytorch中，通过填充下面的类来实现这个模型，有两条需要注意：
 
-*   Think about which parameters you need to define.
-*   Make sure you know what shape each operation expects. Use .view() if you need to reshape.
+*   考虑下你需要定义哪些参数。
+*   确保你知道每步操作后的结构，如果想重构，请使用.view()
 
 ```py
-CONTEXT_SIZE = 2  # 2 words to the left, 2 to the right
+CONTEXT_SIZE = 2  # 左右各两个词
 raw_text = """We are about to study the idea of a computational process.
 Computational processes are abstract beings that inhabit computers.
 As they evolve, processes manipulate other abstract things called data.
@@ -220,7 +216,7 @@ The evolution of a process is directed by a pattern of rules
 called a program. People create programs to direct processes. In effect,
 we conjure the spirits of the computer with our spells.""".split()
 
-# By deriving a set from `raw_text`, we deduplicate the array
+# 通过对`raw_text`使用set()函数，我们进行去重操作
 vocab = set(raw_text)
 vocab_size = len(vocab)
 
@@ -241,8 +237,7 @@ class CBOW(nn.Module):
     def forward(self, inputs):
         pass
 
-# create your model and train.  here are some functions to help you make
-# the data ready for use by your module
+# 创建模型并且训练。这里有些函数帮你在使用模块之前制作数据。
 
 def make_context_vector(context, word_to_ix):
     idxs = [word_to_ix[w] for w in context]
@@ -252,15 +247,15 @@ make_context_vector(data[0][0], word_to_ix)  # example
 
 ```
 
-Out:
+输出：
 
 ```py
 [(['We', 'are', 'to', 'study'], 'about'), (['are', 'about', 'study', 'the'], 'to'), (['about', 'to', 'the', 'idea'], 'study'), (['to', 'study', 'idea', 'of'], 'the'), (['study', 'the', 'of', 'a'], 'idea')]
 
 ```
 
-**Total running time of the script:** ( 0 minutes 0.568 seconds)
+**脚本的总运行时间:** ( 0 分 0.568 秒)
 
-[`Download Python source code: word_embeddings_tutorial.py`](../../_downloads/8807094f6210189fde9923211274dc82/word_embeddings_tutorial.py)[`Download Jupyter notebook: word_embeddings_tutorial.ipynb`](../../_downloads/e6a250a908acf3362a7ae511adf55881/word_embeddings_tutorial.ipynb)
+[`下载Python脚本源码: word_embeddings_tutorial.py`](../../_downloads/8807094f6210189fde9923211274dc82/word_embeddings_tutorial.py)[`下载Jupyter notebook源码: word_embeddings_tutorial.ipynb`](../../_downloads/e6a250a908acf3362a7ae511adf55881/word_embeddings_tutorial.ipynb)
 
 [Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
