@@ -1,16 +1,29 @@
 
-
+```
 # Tensor Attributes
 
 Each `torch.Tensor` has a [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"), [`torch.device`](#torch.torch.device "torch.torch.device"), and [`torch.layout`](#torch.torch.layout "torch.torch.layout").
+```
+# Tensor（张量）的属性
+> 译者：[阿远](https://github.com/yuange250)
 
+每个 `torch.Tensor` 对象都有以下几个属性： [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"), [`torch.device`](#torch.torch.device "torch.torch.device"), 和 [`torch.layout`](#torch.torch.layout "torch.torch.layout").
+
+```
+## torch.dtype
+
+py
+class torch.dtype
+
+A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that represents the data type of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). PyTorch has eight different data types:
+```
 ## torch.dtype
 
 ```py
 class torch.dtype
 ```
 
-A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that represents the data type of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). PyTorch has eight different data types:
+[`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") 是一个标识 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")的数据类型的属性. PyTorch 有八种不同的数据类型:
 
 | Data type | dtype | Tensor types |
 | --- | --- | --- |
@@ -23,15 +36,29 @@ A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that repr
 | 32-bit integer (signed) | `torch.int32` or `torch.int` | `torch.*.IntTensor` |
 | 64-bit integer (signed) | `torch.int64` or `torch.long` | `torch.*.LongTensor` |
 
+```
+## torch.device
+
+py
+class torch.device
+
+A [`torch.device`](#torch.torch.device "torch.torch.device") is an object representing the device on which a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") is or will be allocated.
+
+The [`torch.device`](#torch.torch.device "torch.torch.device") contains a device type (`'cpu'` or `'cuda'`) and optional device ordinal for the device type. If the device ordinal is not present, this represents the current device for the device type; e.g. a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") constructed with device `'cuda'` is equivalent to `'cuda:X'` where X is the result of [`torch.cuda.current_device()`](cuda.html#torch.cuda.current_device "torch.cuda.current_device").
+
+A [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")’s device can be accessed via the [`Tensor.device`](tensors.html#torch.Tensor.device "torch.Tensor.device") property.
+
+A [`torch.device`](#torch.torch.device "torch.torch.device") can be constructed via a string or via a string and device ordinal
+```
 ## torch.device
 
 ```py
 class torch.device
 ```
 
-A [`torch.device`](#torch.torch.device "torch.torch.device") is an object representing the device on which a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") is or will be allocated.
+[`torch.device`](#torch.torch.device "torch.torch.device") 属性标识了[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")对象在创建之后所存储在的设备名称，而在对象创建之前此属性标识了即将为此对象申请存储空间的设备名称.
 
-The [`torch.device`](#torch.torch.device "torch.torch.device") contains a device type (`'cpu'` or `'cuda'`) and optional device ordinal for the device type. If the device ordinal is not present, this represents the current device for the device type; e.g. a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") constructed with device `'cuda'` is equivalent to `'cuda:X'` where X is the result of [`torch.cuda.current_device()`](cuda.html#torch.cuda.current_device "torch.cuda.current_device").
+[`torch.device`](#torch.torch.device "torch.torch.device") 包含了两种设备类型 (`'cpu'` 或者 `'cuda'`) ，分别标识将Tensor对象储存于cpu内存或者gpu内存中，同时支持指定设备编号，比如多张gpu，可以通过gpu编号指定某一块gpu. 如果没有指定设备编号，则默认将对象存储于current_device()当前设备中; 举个例子， 一个[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 对象构造函数中的设备字段如果填写`'cuda'`，那等价于填写了`'cuda:X'`，其中X是函数 [`torch.cuda.current_device()`](cuda.html#torch.cuda.current_device "torch.cuda.current_device")的返回值.
 
 A [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")’s device can be accessed via the [`Tensor.device`](tensors.html#torch.Tensor.device "torch.Tensor.device") property.
 
