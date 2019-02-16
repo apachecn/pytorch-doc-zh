@@ -1,43 +1,32 @@
-
-
-# torch.Storage
-
-A `torch.Storage` is a contiguous, one-dimensional array of a single data type.
-
-Every [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") has a corresponding storage of the same data type.
-
 # torch.Storage
 
 `torch.Storage` 跟绝大部分基于连续存储的数据结构类似，本质上是一个单一数据类型的一维连续数组(array)。
 
 每一个 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 都有一个与之相对应的`torch.Storage`对象，两者存储数据的数据类型(data type)保持一致。
-`torch.Storage`对象可以通过调用内部转型函数转变其数据类型：
 
-如对于一个数据类型为float的`torch.Storage`对象
+下面以数据类型为float的` torch.FloatStorage ` 为例介绍一下`torch.Storage`的成员函数。
 ```py
 class torch.FloatStorage
 ```
-
-调用
 
 ```py
 byte()
 ```
 
-可以将此storage对象的数据类型转换为byte
+byte()函数可以将此storage对象的数据类型转换为byte
 
-调用
+
 ```py
 char()
 ```
-可以将此storage对象的数据类型转换为char
+char()函数可以将此storage对象的数据类型转换为char
 
-调用
+
 ```py
 clone()
 ```
 
-Returns a copy of this storage
+clone()函数可以返回一个此storage对象的复制 
 
 ```py
 copy_()
@@ -47,21 +36,20 @@ copy_()
 cpu()
 ```
 
-Returns a CPU copy of this storage if it’s not already on the CPU
+如果此storage对象一开始不在cpu设备上，调用cpu()函数返回此storage对象的一个cpu上的复制
 
 ```py
 cuda(device=None, non_blocking=False, **kwargs)
 ```
 
-Returns a copy of this object in CUDA memory.
+cuda()函数返回一个存储在CUDA内存中的复制，其中device可以指定cuda设备。
+但如果此storage对象早已在CUDA内存中存储，并且其所在的设备编号与cuda()函数传入的device参数一致，则不会发生复制操作，返回原对象。
 
-If this object is already in CUDA memory and on the correct device, then no copy is performed and the original object is returned.
+cuda()函数的参数信息: 
 
-Parameters: 
-
-*   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The destination GPU id. Defaults to the current device.
-*   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True` and the source is in pinned memory, the copy will be asynchronous with respect to the host. Otherwise, the argument has no effect.
-*   ****kwargs** – For compatibility, may contain the key `async` in place of the `non_blocking` argument.
+*   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 指定的GPU设备id. 默认为当前设备，即 [`torch.cuda.current_device()`](cuda.html#torch.cuda.current_device "torch.cuda.current_device")的返回值。
+*   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
+*   ****kwargs** – 为了保证兼容性，也支持async参数，此参数的作用与no_blocking参数的作用完全相同，旧版本的遗留问题之一。
 
 
 
@@ -73,8 +61,7 @@ data_ptr()
 double()
 ```
 
-Casts this storage to double type
-
+double()函数可以将此storage对象的数据类型转换为double
 ```py
 element_size()
 ```
@@ -87,7 +74,7 @@ fill_()
 float()
 ```
 
-Casts this storage to float type
+float()函数可以将此storage对象的数据类型转换为float
 
 ```py
 static from_buffer()
@@ -97,15 +84,15 @@ static from_buffer()
 static from_file(filename, shared=False, size=0) → Storage
 ```
 
-If `shared` is `True`, then memory is shared between all processes. All changes are written to the file. If `shared` is `False`, then the changes on the storage do not affect the file.
+对于from_file()函数，如果`shared`参数被设置为`True`， 那么此部分内存可以在进程间共享，任何对storage对象的更改都会被写入存储文件。 如果 `shared` 被置为 `False`, 那么在内存中对storage对象的更改则不会影响到储存文件中的数据。
 
-`size` is the number of elements in the storage. If `shared` is `False`, then the file must contain at least `size * sizeof(Type)` bytes (`Type` is the type of storage). If `shared` is `True` the file will be created if needed.
+`size` 参数是此storage对象中的元素个数。 如果`shared`被置为`False`, 那么此存储文件必须要包含`size * sizeof(Type)`字节大小的数据 (`Type`是此storage对象的数据类型)。 如果 `shared` 被置为 `True`，那么此存储文件只有在需要的时候才会被创建。
 
-Parameters: 
+from_file()函数的参数： 
 
-*   **filename** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – file name to map
-*   **shared** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to share memory
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of elements in the storage
+*   **filename** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 对应的存储文件名
+*   **shared** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 是否共享内存
+*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 此storage对象中的元素个数
 
 
 
@@ -113,13 +100,14 @@ Parameters:
 half()
 ```
 
-Casts this storage to half type
+half()函数可以将此storage对象的数据类型转换为half
+
 
 ```py
 int()
 ```
 
-Casts this storage to int type
+int()函数可以将此storage对象的数据类型转换为int
 
 ```py
 is_cuda = False
@@ -141,7 +129,7 @@ is_sparse = False
 long()
 ```
 
-Casts this storage to long type
+long()函数可以将此storage对象的数据类型转换为long
 
 ```py
 new()
@@ -151,7 +139,7 @@ new()
 pin_memory()
 ```
 
-Copies the storage to pinned memory, if it’s not already pinned.
+如果此storage对象还没有被存储在固定内存中，则pin_memory()函数可以将此storage对象存储到固定内存中
 
 ```py
 resize_()
@@ -161,17 +149,19 @@ resize_()
 share_memory_()
 ```
 
-Moves the storage to shared memory.
+share_memory_()函数可以将此storage对象转移到共享内存中。
 
-This is a no-op for storages already in shared memory and for CUDA storages, which do not need to be moved for sharing across processes. Storages in shared memory cannot be resized.
+对于早已在共享内存中的storage对象，这个操作无效；对于存储在CUDA设备上的storage对象，无需移动即可实现此类对象在进程间的共享，所以此操作对于它们来说也无效。
 
-Returns: self
+在共享内存中存储的storage对象无法被更改大小。
+
+share_memory_()函数返回值: self
 
 ```py
 short()
 ```
 
-Casts this storage to short type
+short()函数可以将此storage对象的数据类型转换为short
 
 ```py
 size()
@@ -181,21 +171,18 @@ size()
 tolist()
 ```
 
-Returns a list containing the elements of this storage
-
+tolist()函数可以返回一个包含此storage对象所有元素的列表
 ```py
 type(dtype=None, non_blocking=False, **kwargs)
 ```
 
-Returns the type if `dtype` is not provided, else casts this object to the specified type.
+如果函数调用时没有提供`dtype`参数，则type()函数的调用结果是返回此storage对象的数据类型。如果提供了此参数，则将此storage对象转化为此参数指定的数据类型。如果所提供参数所指定的数据类型与当前storage对象的数据类型一致，则不会进行复制操作，将原对象返回。
 
-If this is already of the correct type, no copy is performed and the original object is returned.
+type()函数的参数信息: 
 
-Parameters: 
-
-*   **dtype** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – The desired type
-*   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, and the source is in pinned memory and destination is on the GPU or vice versa, the copy is performed asynchronously with respect to the host. Otherwise, the argument has no effect.
-*   ****kwargs** – For compatibility, may contain the key `async` in place of the `non_blocking` argument. The `async` arg is deprecated.
+*   **dtype** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – 想要转化为的数据类型
+*   **non_blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
+*   ****kwargs** – 为了保证兼容性，也支持async参数，此参数的作用与no_blocking参数的作用完全相同，旧版本的遗留问题之一 (已经被deprecated)。
 
 
 
