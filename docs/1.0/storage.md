@@ -1,5 +1,7 @@
 # torch.Storage
 
+> 译者：[yuange250](https://github.com/yuange250)
+
 `torch.Storage` 跟绝大部分基于连续存储的数据结构类似，本质上是一个单一数据类型的一维连续数组(array)。
 
 每一个 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 都有一个与之相对应的`torch.Storage`对象，两者存储数据的数据类型(data type)保持一致。
