@@ -1,4 +1,6 @@
-﻿# torch.nn.init
+# torch.nn.init
+
+> 译者：[GeneZC](https://github.com/GeneZC)
 
 ```py
 torch.nn.init.calculate_gain(nonlinearity, param=None)
