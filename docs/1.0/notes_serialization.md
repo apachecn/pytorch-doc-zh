@@ -1,6 +1,6 @@
-
-
 # 序列化的相关语义
+
+> 译者：[yuange250](https://github.com/yuange250)
 
 ## 最佳方案
 
