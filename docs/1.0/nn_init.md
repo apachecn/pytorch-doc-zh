@@ -4,9 +4,9 @@
 torch.nn.init.calculate_gain(nonlinearity, param=None)
 ```
 
-Return the recommended gain value for the given nonlinearity function. The values are as follows:
+返回给定非线性函数的推荐的增益值。对应关系如下表：
 
-| nonlinearity | gain |
+| 非线性函数 | 增益 |
 | --- | --- |
 | Linear / Identity | ![](http://latex.codecogs.com/gif.latex?1) |
 | Conv{1,2,3}D | ![](http://latex.codecogs.com/gif.latex?1) |
@@ -16,15 +16,13 @@ Return the recommended gain value for the given nonlinearity function. The value
 | Leaky Relu | ![](http://latex.codecogs.com/gif.latex?%5Csqrt%7B%5Cfrac%7B2%7D%7B1%20%2B%20%5Ctext%7Bnegative%5C_slope%7D%5E2%7D%7D) |
 
  
-Parameters: 
+参数：
 
-*   **nonlinearity** – the non-linear function (`nn.functional` name)
-*   **param** – optional parameter for the non-linear function
+*   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)
+*   **param** – 对应非线性函数的可选参数
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> gain = nn.init.calculate_gain('leaky_relu')
@@ -35,19 +33,17 @@ Examples
 torch.nn.init.uniform_(tensor, a=0, b=1)
 ```
 
-Fills the input Tensor with values drawn from the uniform distribution ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(a%2C%20b)).
+用均匀分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(a%2C%20b)) 初始化输入 `Tensor`。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **a** – the lower bound of the uniform distribution
-*   **b** – the upper bound of the uniform distribution
+*   **tensor** – n 维 `torch.Tensor`
+*   **a** – 均匀分布的下界
+*   **b** – 均匀分布的上界
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -59,19 +55,17 @@ Examples
 torch.nn.init.normal_(tensor, mean=0, std=1)
 ```
 
-Fills the input Tensor with values drawn from the normal distribution ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(%5Ctext%7Bmean%7D%2C%20%5Ctext%7Bstd%7D)).
+用正态分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(%5Ctext%7Bmean%7D%2C%20%5Ctext%7Bstd%7D)) 初始化输入 `Tensor`。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **mean** – the mean of the normal distribution
-*   **std** – the standard deviation of the normal distribution
+*   **tensor** – n 维 `torch.Tensor`
+*   **mean** – 正态分布的均值
+*   **std** – 正态分布的标准差
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -83,18 +77,16 @@ Examples
 torch.nn.init.constant_(tensor, val)
 ```
 
-Fills the input Tensor with the value ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bval%7D).
+用常数 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bval%7D) 初始化输入 `Tensor`。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **val** – the value to fill the tensor with
+*   **tensor** – n 维 `torch.Tensor`
+*   **val** – 用以填入张量的常数
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -106,13 +98,15 @@ Examples
 torch.nn.init.eye_(tensor)
 ```
 
-Fills the 2-dimensional input `Tensor` with the identity matrix. Preserves the identity of the inputs in `Linear` layers, where as many inputs are preserved as possible.
+用单位矩阵初始化 2 维输入 `Tensor`。 保持输入张量输入 `Linear` 时的独一性，并且越多越好.
 
  
-| Parameters: | **tensor** – a 2-dimensional `torch.Tensor` |
-| --- | --- |
+参数：  
 
-Examples
+*   **tensor** – 2 维 `torch.Tensor` 
+
+
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -124,13 +118,14 @@ Examples
 torch.nn.init.dirac_(tensor)
 ```
 
-Fills the {3, 4, 5}-dimensional input `Tensor` with the Dirac delta function. Preserves the identity of the inputs in `Convolutional` layers, where as many input channels are preserved as possible.
+用狄拉克δ函数初始化 {3, 4, 5} 维输入 `Tensor`。 保持输入张量输入 `Convolutional` 时的独一性，并且越多通道越好。
 
  
-| Parameters: | **tensor** – a {3, 4, 5}-dimensional `torch.Tensor` |
-| --- | --- |
+参数：  
 
-Examples
+*   **tensor** – {3, 4, 5} 维 `torch.Tensor` 
+
+例子
 
 ```py
 >>> w = torch.empty(3, 16, 5, 5)
@@ -142,22 +137,20 @@ Examples
 torch.nn.init.xavier_uniform_(tensor, gain=1)
 ```
 
-Fills the input `Tensor` with values according to the method described in “Understanding the difficulty of training deep feedforward neural networks” - Glorot, X. & Bengio, Y. (2010), using a uniform distribution. The resulting tensor will have values sampled from ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(-a%2C%20a)) where
+用论文 “Understanding the difficulty of training deep feedforward neural networks” - Glorot, X. & Bengio, Y. (2010) 中提及的均匀分布初始化输入 `Tensor`。初始化后的张量中的值采样自 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(-a%2C%20a)) 且
 
 ![](http://latex.codecogs.com/gif.latex?%0D%0Aa%20%3D%20%5Ctext%7Bgain%7D%20%5Ctimes%20%5Csqrt%7B%5Cfrac%7B6%7D%7B%5Ctext%7Bfan%5C_in%7D%20%2B%20%5Ctext%7Bfan%5C_out%7D%7D%7D%0D%0A%0D%0A)
 
-Also known as Glorot initialization.
+也被称作 Glorot 初始化。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **gain** – an optional scaling factor
+*   **tensor** – n 维 `torch.Tensor`
+*   **gain** – 可选缩放因子
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -169,22 +162,20 @@ Examples
 torch.nn.init.xavier_normal_(tensor, gain=1)
 ```
 
-Fills the input `Tensor` with values according to the method described in “Understanding the difficulty of training deep feedforward neural networks” - Glorot, X. & Bengio, Y. (2010), using a normal distribution. The resulting tensor will have values sampled from ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%20%5Ctext%7Bstd%7D)) where
+用论文 “Understanding the difficulty of training deep feedforward neural networks” - Glorot, X. & Bengio, Y. (2010) 中提及的正态分布初始化输入 `Tensor`。初始化后的张量中的值采样自 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%20%5Ctext%7Bstd%7D)) 且
 
 ![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bstd%7D%20%3D%20%5Ctext%7Bgain%7D%20%5Ctimes%20%5Csqrt%7B%5Cfrac%7B2%7D%7B%5Ctext%7Bfan%5C_in%7D%20%2B%20%5Ctext%7Bfan%5C_out%7D%7D%7D%0D%0A%0D%0A)
 
-Also known as Glorot initialization.
+也被称作 Glorot initialization。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **gain** – an optional scaling factor
+*   **tensor** – n 维 `torch.Tensor`
+*   **gain** – 可选缩放因子
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -196,24 +187,22 @@ Examples
 torch.nn.init.kaiming_uniform_(tensor, a=0, mode='fan_in', nonlinearity='leaky_relu')
 ```
 
-Fills the input `Tensor` with values according to the method described in “Delving deep into rectifiers: Surpassing human-level performance on ImageNet classification” - He, K. et al. (2015), using a uniform distribution. The resulting tensor will have values sampled from ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(-%5Ctext%7Bbound%7D%2C%20%5Ctext%7Bbound%7D)) where
+用论文 “Delving deep into rectifiers: Surpassing human-level performance on ImageNet classification” - He, K. et al. (2015) 中提及的均匀分布初始化输入 `Tensor`。初始化后的张量中的值采样自 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(-%5Ctext%7Bbound%7D%2C%20%5Ctext%7Bbound%7D)) 且
 
 ![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bbound%7D%20%3D%20%5Csqrt%7B%5Cfrac%7B6%7D%7B(1%20%2B%20a%5E2)%20%5Ctimes%20%5Ctext%7Bfan%5C_in%7D%7D%7D%0D%0A%0D%0A)
 
-Also known as He initialization.
+也被称作 He initialization。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **a** – the negative slope of the rectifier used after this layer (0 for ReLU by default)
-*   **mode** – either ‘fan_in’ (default) or ‘fan_out’. Choosing `fan_in` preserves the magnitude of the variance of the weights in the forward pass. Choosing `fan_out` preserves the magnitudes in the backwards pass.
-*   **nonlinearity** – the non-linear function (`nn.functional` name), recommended to use only with ‘relu’ or ‘leaky_relu’ (default).
+*   **tensor** – n 维 `torch.Tensor`
+*   **a** – 该层后面一层的整流函数中负的斜率 (默认为 0，此时为 Relu)
+*   **mode** – ‘fan_in’ (default) 或者 ‘fan_out’。使用fan_in保持weights的方差在前向传播中不变；使用fan_out保持weights的方差在反向传播中不变。
+*   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)，推荐只使用 ‘relu’ 或 ‘leaky_relu’ (default)。
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -225,24 +214,22 @@ Examples
 torch.nn.init.kaiming_normal_(tensor, a=0, mode='fan_in', nonlinearity='leaky_relu')
 ```
 
-Fills the input `Tensor` with values according to the method described in “Delving deep into rectifiers: Surpassing human-level performance on ImageNet classification” - He, K. et al. (2015), using a normal distribution. The resulting tensor will have values sampled from ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%20%5Ctext%7Bstd%7D)) where
+用论文 “Delving deep into rectifiers: Surpassing human-level performance on ImageNet classification” - He, K. et al. (2015) 中提及的正态分布初始化输入 `Tensor`。初始化后的张量中的值采样 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%20%5Ctext%7Bstd%7D)) 且
 
 ![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bstd%7D%20%3D%20%5Csqrt%7B%5Cfrac%7B2%7D%7B(1%20%2B%20a%5E2)%20%5Ctimes%20%5Ctext%7Bfan%5C_in%7D%7D%7D%0D%0A%0D%0A)
 
-Also known as He initialization.
+也被称作 He initialization。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **a** – the negative slope of the rectifier used after this layer (0 for ReLU by default)
-*   **mode** – either ‘fan_in’ (default) or ‘fan_out’. Choosing `fan_in` preserves the magnitude of the variance of the weights in the forward pass. Choosing `fan_out` preserves the magnitudes in the backwards pass.
-*   **nonlinearity** – the non-linear function (`nn.functional` name), recommended to use only with ‘relu’ or ‘leaky_relu’ (default).
+*   **tensor** – n 维 `torch.Tensor`
+*   **a** – 该层后面一层的整流函数中负的斜率 (默认为 0，此时为 Relu)
+*   **mode** – ‘fan_in’ (default) 或者 ‘fan_out’。使用fan_in保持weights的方差在前向传播中不变；使用fan_out保持weights的方差在反向传播中不变。
+*   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)，推荐只使用 ‘relu’ 或 ‘leaky_relu’ (default)。
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -254,18 +241,16 @@ Examples
 torch.nn.init.orthogonal_(tensor, gain=1)
 ```
 
-Fills the input `Tensor` with a (semi) orthogonal matrix, as described in “Exact solutions to the nonlinear dynamics of learning in deep linear neural networks” - Saxe, A. et al. (2013). The input tensor must have at least 2 dimensions, and for tensors with more than 2 dimensions the trailing dimensions are flattened.
+用论文 “Exact solutions to the nonlinear dynamics of learning in deep linear neural networks” - Saxe, A. et al. (2013) 中描述的（半）正定矩阵初始化输入 `Tensor`。输入张量必须至少有 2 维，如果输入张量的维度大于 2， 则对后续维度进行放平操作。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`, where ![](http://latex.codecogs.com/gif.latex?n%20%5Cgeq%202)
-*   **gain** – optional scaling factor
+*   **tensor** – n 维 `torch.Tensor`，且 ![](http://latex.codecogs.com/gif.latex?n%20%5Cgeq%202)
+*   **gain** – 可选缩放因子
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
@@ -277,19 +262,17 @@ Examples
 torch.nn.init.sparse_(tensor, sparsity, std=0.01)
 ```
 
-Fills the 2D input `Tensor` as a sparse matrix, where the non-zero elements will be drawn from the normal distribution ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%200.01)), as described in “Deep learning via Hessian-free optimization” - Martens, J. (2010).
+用论文 “Deep learning via Hessian-free optimization” - Martens, J. (2010). 提及的稀疏矩阵初始化 2 维输入 `Tensor`，且使用正态分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%200.01)) 初始化非零元素。
 
  
-Parameters: 
+参数： 
 
-*   **tensor** – an n-dimensional `torch.Tensor`
-*   **sparsity** – The fraction of elements in each column to be set to zero
-*   **std** – the standard deviation of the normal distribution used to generate the non-zero values
+*   **tensor** – n 维 `torch.Tensor`
+*   **sparsity** – 每一行置零元素的比例
+*   **std** – 初始化非零元素时使用正态分布的标准差
 
- |
-| --- | --- |
 
-Examples
+例子
 
 ```py
 >>> w = torch.empty(3, 5)
