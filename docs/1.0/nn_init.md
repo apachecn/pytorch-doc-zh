@@ -21,8 +21,6 @@ torch.nn.init.calculate_gain(nonlinearity, param=None)
 *   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)
 *   **param** – 对应非线性函数的可选参数
 
- |
-| --- | --- |
 
 例子
 
@@ -44,8 +42,6 @@ torch.nn.init.uniform_(tensor, a=0, b=1)
 *   **a** – 均匀分布的下界
 *   **b** – 均匀分布的上界
 
- |
-| --- | --- |
 
 例子
 
@@ -68,8 +64,6 @@ torch.nn.init.normal_(tensor, mean=0, std=1)
 *   **mean** – 正态分布的均值
 *   **std** – 正态分布的标准差
 
- |
-| --- | --- |
 
 例子
 
@@ -91,8 +85,6 @@ torch.nn.init.constant_(tensor, val)
 *   **tensor** – n 维 `torch.Tensor`
 *   **val** – 用以填入张量的常数
 
- |
-| --- | --- |
 
 例子
 
@@ -109,8 +101,10 @@ torch.nn.init.eye_(tensor)
 用单位矩阵初始化 2 维输入 `Tensor`。 保持输入张量输入 `Linear` 时的独一性，并且越多越好.
 
  
-| 参数： | **tensor** – 2 维 `torch.Tensor` |
-| --- | --- |
+参数：  
+
+*   **tensor** – 2 维 `torch.Tensor` 
+
 
 例子
 
@@ -127,8 +121,9 @@ torch.nn.init.dirac_(tensor)
 用狄拉克δ函数初始化 {3, 4, 5} 维输入 `Tensor`。 保持输入张量输入 `Convolutional` 时的独一性，并且越多通道越好。
 
  
-| 参数： | **tensor** – {3, 4, 5} 维 `torch.Tensor` |
-| --- | --- |
+参数：  
+
+*   **tensor** – {3, 4, 5} 维 `torch.Tensor` 
 
 例子
 
@@ -154,8 +149,6 @@ torch.nn.init.xavier_uniform_(tensor, gain=1)
 *   **tensor** – n 维 `torch.Tensor`
 *   **gain** – 可选缩放因子
 
- |
-| --- | --- |
 
 例子
 
@@ -181,8 +174,6 @@ torch.nn.init.xavier_normal_(tensor, gain=1)
 *   **tensor** – n 维 `torch.Tensor`
 *   **gain** – 可选缩放因子
 
- |
-| --- | --- |
 
 例子
 
@@ -210,8 +201,6 @@ torch.nn.init.kaiming_uniform_(tensor, a=0, mode='fan_in', nonlinearity='leaky_r
 *   **mode** – ‘fan_in’ (default) 或者 ‘fan_out’。使用fan_in保持weights的方差在前向传播中不变；使用fan_out保持weights的方差在反向传播中不变。
 *   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)，推荐只使用 ‘relu’ 或 ‘leaky_relu’ (default)。
 
- |
-| --- | --- |
 
 例子
 
@@ -239,8 +228,6 @@ torch.nn.init.kaiming_normal_(tensor, a=0, mode='fan_in', nonlinearity='leaky_re
 *   **mode** – ‘fan_in’ (default) 或者 ‘fan_out’。使用fan_in保持weights的方差在前向传播中不变；使用fan_out保持weights的方差在反向传播中不变。
 *   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)，推荐只使用 ‘relu’ 或 ‘leaky_relu’ (default)。
 
- |
-| --- | --- |
 
 例子
 
@@ -262,8 +249,6 @@ torch.nn.init.orthogonal_(tensor, gain=1)
 *   **tensor** – n 维 `torch.Tensor`，且 ![](http://latex.codecogs.com/gif.latex?n%20%5Cgeq%202)
 *   **gain** – 可选缩放因子
 
- |
-| --- | --- |
 
 例子
 
@@ -286,8 +271,6 @@ torch.nn.init.sparse_(tensor, sparsity, std=0.01)
 *   **sparsity** – 每一行置零元素的比例
 *   **std** – 初始化非零元素时使用正态分布的标准差
 
- |
-| --- | --- |
 
 例子
 
