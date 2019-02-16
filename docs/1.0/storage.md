@@ -6,22 +6,33 @@ A `torch.Storage` is a contiguous, one-dimensional array of a single data type.
 
 Every [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") has a corresponding storage of the same data type.
 
+# torch.Storage
+
+`torch.Storage` 跟绝大部分基于连续存储的数据结构类似，本质上是一个单一数据类型的一维连续数组(array)。
+
+每一个 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 都有一个与之相对应的`torch.Storage`对象，两者存储数据的数据类型(data type)保持一致。
+`torch.Storage`对象可以通过调用内部转型函数转变其数据类型：
+
+如对于一个数据类型为float的`torch.Storage`对象
 ```py
 class torch.FloatStorage
 ```
+
+调用
 
 ```py
 byte()
 ```
 
-Casts this storage to byte type
+可以将此storage对象的数据类型转换为byte
 
+调用
 ```py
 char()
 ```
+可以将此storage对象的数据类型转换为char
 
-Casts this storage to char type
-
+调用
 ```py
 clone()
 ```
