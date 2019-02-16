@@ -1,8 +1,8 @@
+# Tensor（张量）的属性
 
+> 译者：[阿远](https://github.com/yuange250)
 
-# Tensor Attributes
-
-Each `torch.Tensor` has a [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"), [`torch.device`](#torch.torch.device "torch.torch.device"), and [`torch.layout`](#torch.torch.layout "torch.torch.layout").
+每个 `torch.Tensor` 对象都有以下几个属性： [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"), [`torch.device`](#torch.torch.device "torch.torch.device")， 和 [`torch.layout`](#torch.torch.layout "torch.torch.layout")。
 
 ## torch.dtype
 
@@ -10,7 +10,7 @@ Each `torch.Tensor` has a [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"
 class torch.dtype
 ```
 
-A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that represents the data type of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). PyTorch has eight different data types:
+[`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") 属性标识了 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")的数据类型。PyTorch 有八种不同的数据类型：
 
 | Data type | dtype | Tensor types |
 | --- | --- | --- |
@@ -29,29 +29,29 @@ A [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype") is an object that repr
 class torch.device
 ```
 
-A [`torch.device`](#torch.torch.device "torch.torch.device") is an object representing the device on which a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") is or will be allocated.
+[`torch.device`](#torch.torch.device "torch.torch.device") 属性标识了[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")对象在创建之后所存储在的设备名称，而在对象创建之前此属性标识了即将为此对象申请存储空间的设备名称。
 
-The [`torch.device`](#torch.torch.device "torch.torch.device") contains a device type (`'cpu'` or `'cuda'`) and optional device ordinal for the device type. If the device ordinal is not present, this represents the current device for the device type; e.g. a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") constructed with device `'cuda'` is equivalent to `'cuda:X'` where X is the result of [`torch.cuda.current_device()`](cuda.html#torch.cuda.current_device "torch.cuda.current_device").
+[`torch.device`](#torch.torch.device "torch.torch.device") 包含了两种设备类型 (`'cpu'` 或者 `'cuda'`) ，分别标识将Tensor对象储存于cpu内存或者gpu内存中，同时支持指定设备编号，比如多张gpu，可以通过gpu编号指定某一块gpu。 如果没有指定设备编号，则默认将对象存储于current_device()当前设备中； 举个例子， 一个[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 对象构造函数中的设备字段如果填写`'cuda'`，那等价于填写了`'cuda:X'`，其中X是函数 [`torch.cuda.current_device()`](cuda.html#torch.cuda.current_device "torch.cuda.current_device")的返回值。
 
-A [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")’s device can be accessed via the [`Tensor.device`](tensors.html#torch.Tensor.device "torch.Tensor.device") property.
+在[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor")对象创建之后，可以通过访问[`Tensor.device`](tensors.html#torch.Tensor.device "torch.Tensor.device")属性实时访问当前对象所存储在的设备名称。
 
-A [`torch.device`](#torch.torch.device "torch.torch.device") can be constructed via a string or via a string and device ordinal
+[`torch.device`](#torch.torch.device "torch.torch.device") 对象支持使用字符串或者字符串加设备编号这两种方式来创建：
 
-Via a string:
+通过字符串创建：
 
 ```py
 >>> torch.device('cuda:0')
-device(type='cuda', index=0)
+device(type='cuda', index=0)  # 编号为0的cuda设备
 
->>> torch.device('cpu')
+>>> torch.device('cpu')  # cpu内存
 device(type='cpu')
 
->>> torch.device('cuda')  # current cuda device
+>>> torch.device('cuda')  # 当前cuda设备
 device(type='cuda')
 
 ```
 
-Via a string and device ordinal:
+通过字符串加设备编号创建：
 
 ```py
 >>> torch.device('cuda', 0)
@@ -64,24 +64,24 @@ device(type='cpu', index=0)
 
 Note
 
-The [`torch.device`](#torch.torch.device "torch.torch.device") argument in functions can generally be substituted with a string. This allows for fast prototyping of code.
+当[`torch.device`](#torch.torch.device "torch.torch.device")作为函数的参数的时候， 可以直接用字符串替换。 这样有助于加快代码创建原型的速度。
 
 ```py
->>> # Example of a function that takes in a torch.device
+>>> # 一个接受torch.device对象为参数的函数例子
 >>> cuda1 = torch.device('cuda:1')
 >>> torch.randn((2,3), device=cuda1)
 
 ```
 
 ```py
->>> # You can substitute the torch.device with a string
+>>> # 可以用一个字符串替换掉torch.device对象，一样的效果
 >>> torch.randn((2,3), 'cuda:1')
 
 ```
 
 Note
 
-For legacy reasons, a device can be constructed via a single device ordinal, which is treated as a cuda device. This matches [`Tensor.get_device()`](tensors.html#torch.Tensor.get_device "torch.Tensor.get_device"), which returns an ordinal for cuda tensors and is not supported for cpu tensors.
+由于一些历史遗留问题, device对象还可以仅通过一个设备编号来创建，这些设备编号对应的都是相应的cuda设备。 这正好对应了 [`Tensor.get_device()`](tensors.html#torch.Tensor.get_device "torch.Tensor.get_device")函数, 这个仅支持cuda Tensor的函数返回的就是当前tensor所在的cuda设备编号，cpu Tensor不支持这个函数。
 
 ```py
 >>> torch.device(1)
@@ -91,12 +91,12 @@ device(type='cuda', index=1)
 
 Note
 
-Methods which take a device will generally accept a (properly formatted) string or (legacy) integer device ordinal, i.e. the following are all equivalent:
+接受device参数的函数同时也可以接受一个正确格式的字符串或者正确代表设备编号的数字（数字这个是历史遗留问题）作为参数，以下的操作是等价的：
 
 ```py
 >>> torch.randn((2,3), device=torch.device('cuda:1'))
 >>> torch.randn((2,3), device='cuda:1')
->>> torch.randn((2,3), device=1)  # legacy
+>>> torch.randn((2,3), device=1)  # 历史遗留做法
 
 ```
 
@@ -106,21 +106,21 @@ Methods which take a device will generally accept a (properly formatted) string 
 class torch.layout
 ```
 
-A [`torch.layout`](#torch.torch.layout "torch.torch.layout") is an object that represents the memory layout of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). Currently, we support `torch.strided` (dense Tensors) and have experimental support for `torch.sparse_coo` (sparse COO Tensors).
+[`torch.layout`](#torch.torch.layout "torch.torch.layout") 属性标识了[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 在内存中的布局模式。 现在， 我们支持了两种内存布局模式 `torch.strided` (dense Tensors) 和尚处试验阶段的`torch.sparse_coo` (sparse COO Tensors， 一种经典的稀疏矩阵存储方式).
 
-`torch.strided` represents dense Tensors and is the memory layout that is most commonly used. Each strided tensor has an associated `torch.Storage`, which holds its data. These tensors provide multi-dimensional, [strided](https://en.wikipedia.org/wiki/Stride_of_an_array) view of a storage. Strides are a list of integers: the k-th stride represents the jump in the memory necessary to go from one element to the next one in the k-th dimension of the Tensor. This concept makes it possible to perform many tensor operations efficiently.
+`torch.strided` 跨步存储代表了密集张量的存储布局方式，当然也是最常用最经典的一种布局方式。 每一个strided tensor都有一个与之相连的`torch.Storage`对象, 这个对象存储着tensor的数据. 这些Storage对象为tensor提供了一种多维的， [跨步的(strided)](https://en.wikipedia.org/wiki/Stride_of_an_array)数据视图. 这一视图中的strides是一个interger整形列表：这个列表的主要作用是给出当前张量的各个维度的所占内存大小，严格的定义就是，strides中的第k个元素代表了在第k维度下，从一个元素跳转到下一个元素所需要跨越的内存大小。 跨步这个概念有助于提高多种张量运算的效率。
 
-Example:
+例子:
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
->>> x.stride()
-(5, 1)
+>>> x.stride() 
+(5, 1)     # 此时在这个二维张量中，在第0维度下，从一个元素到下一个元素需要跨越的内存大小是5，比如x[0] 到x[1]需要跨越x[0]这5个元素, 在第1维度下，是1，如x[0, 0]到x[0, 1]需要跨越1个元素
 
 >>> x.t().stride()
 (1, 5)
 
 ```
 
-For more information on `torch.sparse_coo` tensors, see [torch.sparse](sparse.html#sparse-docs).
+更多关于 `torch.sparse_coo` tensors的信息, 请看[torch.sparse](sparse.html#sparse-docs).
 

@@ -381,7 +381,7 @@ torch.nn.functional.max_unpool1d(input, indices, kernel_size, stride=None, paddi
 
 计算逆 `MaxPool1d`.
 
-见 [`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") 关于详情.
+请参见 [`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d").
 
 ### max_unpool2d
 
@@ -431,7 +431,7 @@ torch.nn.functional.adaptive_max_pool1d(*args, **kwargs)
 
 在由多个输入平面组成的输入信号上应用1D自适应最大池.
 
-见 [`AdaptiveMaxPool1d`](#torch.nn.AdaptiveMaxPool1d "torch.nn.AdaptiveMaxPool1d") 关于详情和输出形状.
+请参见 [`AdaptiveMaxPool1d`](#torch.nn.AdaptiveMaxPool1d "torch.nn.AdaptiveMaxPool1d")和输出形状.
 
  
 参数:
@@ -450,7 +450,7 @@ torch.nn.functional.adaptive_max_pool2d(*args, **kwargs)
 
 在由多个输入平面组成的输入信号上应用2D自适应最大池.
 
-见 [`AdaptiveMaxPool2d`](#torch.nn.AdaptiveMaxPool2d "torch.nn.AdaptiveMaxPool2d")  关于详情和输出形状.
+请参见 [`AdaptiveMaxPool2d`](#torch.nn.AdaptiveMaxPool2d "torch.nn.AdaptiveMaxPool2d")  关于详情和输出形状.
 
  
 参数:
@@ -469,7 +469,7 @@ torch.nn.functional.adaptive_max_pool3d(*args, **kwargs)
 
 在由多个输入平面组成的输入信号上应用3D自适应最大池.
 
-见 [`AdaptiveMaxPool3d`](#torch.nn.AdaptiveMaxPool3d "torch.nn.AdaptiveMaxPool3d") 关于详情和输出形状.
+请参见 [`AdaptiveMaxPool3d`](#torch.nn.AdaptiveMaxPool3d "torch.nn.AdaptiveMaxPool3d")和输出形状.
 
  
 参数:
@@ -488,7 +488,7 @@ torch.nn.functional.adaptive_avg_pool1d(input, output_size) → Tensor
 
 在由多个输入平面组成的输入信号上应用1D自适应平均池化.
 
-见 [`AdaptiveAvgPool1d`](#torch.nn.AdaptiveAvgPool1d "torch.nn.AdaptiveAvgPool1d")  关于详情和输出形状.
+请参见 [`AdaptiveAvgPool1d`](#torch.nn.AdaptiveAvgPool1d "torch.nn.AdaptiveAvgPool1d")  关于详情和输出形状.
 
  
 | 参数:| **output_size** – 输出目标大小(单个整数) 
@@ -502,7 +502,7 @@ torch.nn.functional.adaptive_avg_pool2d(input, output_size)
 
 在由多个输入平面组成的输入信号上应用2D自适应平均池化.
 
-见 [`AdaptiveAvgPool2d`](#torch.nn.AdaptiveAvgPool2d "torch.nn.AdaptiveAvgPool2d")  关于详情和输出形状.
+请参见 [`AdaptiveAvgPool2d`](#torch.nn.AdaptiveAvgPool2d "torch.nn.AdaptiveAvgPool2d")  关于详情和输出形状.
 
  
 | 参数:| **output_size** – 输出目标大小(单个整数 或者双整数元组) 
@@ -516,7 +516,7 @@ torch.nn.functional.adaptive_avg_pool3d(input, output_size)
 
 在由多个输入平面组成的输入信号上应用3D自适应平均池化.
 
-见 [`AdaptiveAvgPool3d`](#torch.nn.AdaptiveAvgPool3d "torch.nn.AdaptiveAvgPool3d")  关于详情和输出形状.
+请参见 [`AdaptiveAvgPool3d`](#torch.nn.AdaptiveAvgPool3d "torch.nn.AdaptiveAvgPool3d")  关于详情和输出形状.
 
  
 | 参数:| **output_size** – 输出目标大小(单个整数 或者三整数元组) 
@@ -532,7 +532,7 @@ torch.nn.functional.threshold(input, threshold, value, inplace=False)
 
 为 input Tensor 的每个元素设置阈值.
 
-见 [`Threshold`](#torch.nn.Threshold "torch.nn.Threshold")关于细节.
+请参见 [`Threshold`](#torch.nn.Threshold "torch.nn.Threshold").
 
 ```py
 torch.nn.functional.threshold_(input, threshold, value) → Tensor
@@ -546,7 +546,7 @@ torch.nn.functional.threshold_(input, threshold, value) → Tensor
 torch.nn.functional.relu(input, inplace=False) → Tensor
 ```
 
-逐元素应用整流线性单元函数. 见 [`ReLU`](#torch.nn.ReLU "torch.nn.ReLU")关于细节.
+逐元素应用整流线性单元函数. 请参见 [`ReLU`](#torch.nn.ReLU "torch.nn.ReLU").
 
 ```py
 torch.nn.functional.relu_(input) → Tensor
@@ -560,7 +560,7 @@ torch.nn.functional.relu_(input) → Tensor
 torch.nn.functional.hardtanh(input, min_val=-1., max_val=1., inplace=False) → Tensor
 ```
 
-逐元素应用hardtanh函数. 见 [`Hardtanh`](#torch.nn.Hardtanh "torch.nn.Hardtanh")关于细节.
+逐元素应用hardtanh函数. 请参见 [`Hardtanh`](#torch.nn.Hardtanh "torch.nn.Hardtanh").
 
 ```py
 torch.nn.functional.hardtanh_(input, min_val=-1., max_val=1.) → Tensor
@@ -576,7 +576,7 @@ torch.nn.functional.relu6(input, inplace=False) → Tensor
 
 逐元素应用函数 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BReLU6%7D(x)%20%3D%20%5Cmin(%5Cmax(0%2Cx)%2C%206)).
 
-见 [`ReLU6`](#torch.nn.ReLU6 "torch.nn.ReLU6")关于细节.
+请参见 [`ReLU6`](#torch.nn.ReLU6 "torch.nn.ReLU6").
 
 ### elu
 
@@ -586,7 +586,7 @@ torch.nn.functional.elu(input, alpha=1.0, inplace=False)
 
 逐元素应用, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BELU%7D(x)%20%3D%20%5Cmax(0%2Cx)%20%2B%20%5Cmin(0%2C%20%5Calpha%20*%20(%5Cexp(x)%20-%201))).
 
-见 [`ELU`](#torch.nn.ELU "torch.nn.ELU")关于细节.
+请参见 [`ELU`](#torch.nn.ELU "torch.nn.ELU").
 
 ```py
 torch.nn.functional.elu_(input, alpha=1.) → Tensor
@@ -602,7 +602,7 @@ torch.nn.functional.selu(input, inplace=False) → Tensor
 
 逐元素应用, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BSELU%7D(x)%20%3D%20scale%20*%20(%5Cmax(0%2Cx)%20%2B%20%5Cmin(0%2C%20%5Calpha%20*%20(%5Cexp(x)%20-%201)))), with ![](http://latex.codecogs.com/gif.latex?%5Calpha%3D1.6732632423543772848170429916717) and ![](http://latex.codecogs.com/gif.latex?scale%3D1.0507009873554804934193349852946).
 
-见 [`SELU`](#torch.nn.SELU "torch.nn.SELU")关于细节.
+请参见 [`SELU`](#torch.nn.SELU "torch.nn.SELU").
 
 ### celu
 
@@ -612,7 +612,7 @@ torch.nn.functional.celu(input, alpha=1., inplace=False) → Tensor
 
 逐元素应用, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BCELU%7D(x)%20%3D%20%5Cmax(0%2Cx)%20%2B%20%5Cmin(0%2C%20%5Calpha%20*%20(%5Cexp(x%2F%5Calpha)%20-%201))).
 
-见 [`CELU`](#torch.nn.CELU "torch.nn.CELU")关于细节.
+请参见 [`CELU`](#torch.nn.CELU "torch.nn.CELU").
 
 ### leaky_relu
 
@@ -622,7 +622,7 @@ torch.nn.functional.leaky_relu(input, negative_slope=0.01, inplace=False) → Te
 
 逐元素应用, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BLeakyReLU%7D(x)%20%3D%20%5Cmax(0%2C%20x)%20%2B%20%5Ctext%7Bnegative%5C_slope%7D%20*%20%5Cmin(0%2C%20x))
 
-见 [`LeakyReLU`](#torch.nn.LeakyReLU "torch.nn.LeakyReLU")关于细节.
+请参见 [`LeakyReLU`](#torch.nn.LeakyReLU "torch.nn.LeakyReLU").
 
 ```py
 torch.nn.functional.leaky_relu_(input, negative_slope=0.01) → Tensor
@@ -638,7 +638,7 @@ torch.nn.functional.prelu(input, weight) → Tensor
 
 逐元素应用函数 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BPReLU%7D(x)%20%3D%20%5Cmax(0%2Cx)%20%2B%20%5Ctext%7Bweight%7D%20*%20%5Cmin(0%2Cx)) where weight is a learnable parameter.
 
-见 [`PReLU`](#torch.nn.PReLU "torch.nn.PReLU")关于细节.
+请参见 [`PReLU`](#torch.nn.PReLU "torch.nn.PReLU").
 
 ### rrelu
 
@@ -648,7 +648,7 @@ torch.nn.functional.rrelu(input, lower=1./8, upper=1./3, training=False, inplace
 
 随机的 leaky ReLU.
 
-见 [`RReLU`](#torch.nn.RReLU "torch.nn.RReLU")关于细节.
+请参见 [`RReLU`](#torch.nn.RReLU "torch.nn.RReLU").
 
 ```py
 torch.nn.functional.rrelu_(input, lower=1./8, upper=1./3, training=False) → Tensor
@@ -687,7 +687,7 @@ torch.nn.functional.logsigmoid(input) → Tensor
 
 逐元素应用 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BLogSigmoid%7D(x)%20%3D%20%5Clog%20%5Cleft(%5Cfrac%7B1%7D%7B1%20%2B%20%5Cexp(-x_i)%7D%5Cright))
 
-见 [`LogSigmoid`](#torch.nn.LogSigmoid "torch.nn.LogSigmoid")关于细节.
+请参见 [`LogSigmoid`](#torch.nn.LogSigmoid "torch.nn.LogSigmoid").
 
 ### hardshrink
 
@@ -697,7 +697,7 @@ torch.nn.functional.hardshrink(input, lambd=0.5) → Tensor
 
 逐元素应用hardshrink函数
 
-见 [`Hardshrink`](#torch.nn.Hardshrink "torch.nn.Hardshrink")关于细节.
+请参见 [`Hardshrink`](#torch.nn.Hardshrink "torch.nn.Hardshrink").
 
 ### tanhshrink
 
@@ -707,7 +707,7 @@ torch.nn.functional.tanhshrink(input) → Tensor
 
 逐元素应用, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BTanhshrink%7D(x)%20%3D%20x%20-%20%5Ctext%7BTanh%7D(x))
 
-见 [`Tanhshrink`](#torch.nn.Tanhshrink "torch.nn.Tanhshrink")关于细节.
+请参见 [`Tanhshrink`](#torch.nn.Tanhshrink "torch.nn.Tanhshrink").
 
 ### softsign
 
@@ -717,7 +717,7 @@ torch.nn.functional.softsign(input) → Tensor
 
 逐元素应用, the function ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BSoftSign%7D(x)%20%3D%20%5Cfrac%7Bx%7D%7B1%20%2B%20%7Cx%7C%7D)
 
-见 [`Softsign`](#torch.nn.Softsign "torch.nn.Softsign")关于细节.
+请参见 [`Softsign`](#torch.nn.Softsign "torch.nn.Softsign").
 
 ### softplus
 
@@ -735,7 +735,7 @@ torch.nn.functional.softmin(input, dim=None, _stacklevel=3, dtype=None)
 
 注意 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BSoftmin%7D(x)%20%3D%20%5Ctext%7BSoftmax%7D(-x)). See softmax definition for mathematical formula.
 
-见 [`Softmin`](#torch.nn.Softmin "torch.nn.Softmin")关于细节.
+请参见 [`Softmin`](#torch.nn.Softmin "torch.nn.Softmin").
 
  
 参数:
@@ -763,7 +763,7 @@ Softmax定义为:
 
 它应用于dim上的所有切片, 并将对它们进行重新缩放, 使元素位于`(0,1)`范围内, 和为1.
 
-见 [`Softmax`](#torch.nn.Softmax "torch.nn.Softmax")关于细节.
+请参见 [`Softmax`](#torch.nn.Softmax "torch.nn.Softmax").
 
  
 参数:
@@ -789,7 +789,7 @@ torch.nn.functional.softshrink(input, lambd=0.5) → Tensor
 
 逐元素应用 soft shrinkage 函数
 
-见 [`Softshrink`](#torch.nn.Softshrink "torch.nn.Softshrink")关于细节.
+请参见 [`Softshrink`](#torch.nn.Softshrink "torch.nn.Softshrink").
 
 ### gumbel_softmax
 
@@ -808,7 +808,7 @@ torch.nn.functional.gumbel_softmax(logits, tau=1.0, hard=False, eps=1e-10)
 
  
 
-| Returns: | 从 Gumbel-Softmax 分布采样的 tensor, 形状为 `batch_size x num_features` . 如果 `hard=True`, 返回值是 one-hot 编码, 否则, 它们就是特征和为1的概率分布 
+| 返回值: | 从 Gumbel-Softmax 分布采样的 tensor, 形状为 `batch_size x num_features` . 如果 `hard=True`, 返回值是 one-hot 编码, 否则, 它们就是特征和为1的概率分布 
 
 
 约束:
@@ -827,7 +827,7 @@ torch.nn.functional.log_softmax(input, dim=None, _stacklevel=3, dtype=None)
 
 虽然在数学上等价于log(softmax(x)), 但分别执行这两个操作比较慢, 而且在数值上不稳定. 这个函数使用另一种公式来正确计算输出和梯度.
 
-见 [`LogSoftmax`](#torch.nn.LogSoftmax "torch.nn.LogSoftmax")关于细节.
+请参见 [`LogSoftmax`](#torch.nn.LogSoftmax "torch.nn.LogSoftmax").
 
  
 参数:
@@ -849,7 +849,7 @@ torch.nn.functional.tanh(input) → Tensor
 
 逐元素应用, ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BTanh%7D(x)%20%3D%20%5Ctanh(x)%20%3D%20%5Cfrac%7B%5Cexp(x)%20-%20%5Cexp(-x)%7D%7B%5Cexp(x)%20%2B%20%5Cexp(-x)%7D)
 
-见 [`Tanh`](#torch.nn.Tanh "torch.nn.Tanh")关于细节.
+请参见 [`Tanh`](#torch.nn.Tanh "torch.nn.Tanh").
 
 ### sigmoid
 
@@ -859,7 +859,7 @@ torch.nn.functional.sigmoid(input) → Tensor
 
 逐元素应用函数 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7BSigmoid%7D(x)%20%3D%20%5Cfrac%7B1%7D%7B1%20%2B%20%5Cexp(-x)%7D)
 
-见 [`Sigmoid`](#torch.nn.Sigmoid "torch.nn.Sigmoid")关于细节.
+请参见 [`Sigmoid`](#torch.nn.Sigmoid "torch.nn.Sigmoid").
 
 ## 规范化函数
 
@@ -871,7 +871,7 @@ torch.nn.functional.batch_norm(input, running_mean, running_var, weight=None, bi
 
 对一批数据中的每个通道应用批量标准化.
 
-见 [`BatchNorm1d`](#torch.nn.BatchNorm1d "torch.nn.BatchNorm1d"), [`BatchNorm2d`](#torch.nn.BatchNorm2d "torch.nn.BatchNorm2d"), [`BatchNorm3d`](#torch.nn.BatchNorm3d "torch.nn.BatchNorm3d") 关于详情.
+请参见 [`BatchNorm1d`](#torch.nn.BatchNorm1d "torch.nn.BatchNorm1d"), [`BatchNorm2d`](#torch.nn.BatchNorm2d "torch.nn.BatchNorm2d"), [`BatchNorm3d`](#torch.nn.BatchNorm3d "torch.nn.BatchNorm3d").
 
 ### instance_norm
 
@@ -881,7 +881,7 @@ torch.nn.functional.instance_norm(input, running_mean=None, running_var=None, we
 
 对批中每个数据样本中的每个通道应用实例规范化.
 
-见 [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d"), [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d"), [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") 关于详情.
+请参见 [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d"), [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d"), [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d").
 
 ### layer_norm
 
@@ -891,7 +891,7 @@ torch.nn.functional.layer_norm(input, normalized_shape, weight=None, bias=None, 
 
 对最后特定数量的维度应用layer规范化.
 
-见 [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") 关于详情.
+请参见 [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm").
 
 ### local_response_norm
 
@@ -901,7 +901,7 @@ torch.nn.functional.local_response_norm(input, size, alpha=0.0001, beta=0.75, k=
 
 对由多个输入平面组成的输入信号进行局部响应归一化, 其中通道占据第二维. 跨通道应用标准化.
 
-见 [`LocalResponseNorm`](#torch.nn.LocalResponseNorm "torch.nn.LocalResponseNorm") 关于详情.
+请参见 [`LocalResponseNorm`](#torch.nn.LocalResponseNorm "torch.nn.LocalResponseNorm").
 
 ### normalize
 
@@ -915,7 +915,7 @@ torch.nn.functional.normalize(input, p=2, dim=1, eps=1e-12, out=None)
 
 ![](http://latex.codecogs.com/gif.latex?%0D%0Av%20%3D%20%5Cfrac%7Bv%7D%7B%5Cmax(%5ClVert%20v%20%5CrVert_p%2C%20%5Cepsilon)%7D.%0D%0A%0D%0A)
 
-对于默认参数，它使用沿维度![](http://latex.codecogs.com/gif.latex?1)的欧几里得范数进行标准化.
+对于默认参数, 它使用沿维度![](http://latex.codecogs.com/gif.latex?1)的欧几里得范数进行标准化.
 
  
 参数:
@@ -960,9 +960,9 @@ torch.nn.functional.bilinear(input1, input2, weight, bias=None)
 torch.nn.functional.dropout(input, p=0.5, training=True, inplace=False)
 ```
 
-在训练过程中，使用伯努利分布的样本，随机地用概率`p`将输入张量的一些元素归零.
+在训练过程中, 使用伯努利分布的样本, 随机地用概率`p`将输入张量的一些元素归零.
 
-见 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout") 关于详情.
+请参见 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout").
 
  
 参数:
@@ -982,7 +982,7 @@ torch.nn.functional.alpha_dropout(input, p=0.5, training=False, inplace=False)
 
 应用 alpha dropout.
 
-见 [`AlphaDropout`](#torch.nn.AlphaDropout "torch.nn.AlphaDropout") 关于详情.
+请参见 [`AlphaDropout`](#torch.nn.AlphaDropout "torch.nn.AlphaDropout").
 
 ### dropout2d
 
@@ -990,9 +990,9 @@ torch.nn.functional.alpha_dropout(input, p=0.5, training=False, inplace=False)
 torch.nn.functional.dropout2d(input, p=0.5, training=True, inplace=False)
 ```
 
-随机归零input tensor的整个通道 (一个通道是一个 2D 特征图, 例如, ![](http://latex.codecogs.com/gif.latex?j)-th channel of the ![](http://latex.codecogs.com/gif.latex?i)-th sample in the batched input is a 2D tensor ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%5Bi%2C%20j%5D))). 每次前向传递时，每个信道都将被独立清零. 用概率 `p` 从 Bernoulli 分布采样.
+随机归零input tensor的整个通道 (一个通道是一个 2D 特征图, 例如, ![](http://latex.codecogs.com/gif.latex?j)-th channel of the ![](http://latex.codecogs.com/gif.latex?i)-th sample in the batched input is a 2D tensor ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%5Bi%2C%20j%5D))). 每次前向传递时, 每个信道都将被独立清零. 用概率 `p` 从 Bernoulli 分布采样.
 
-见 [`Dropout2d`](#torch.nn.Dropout2d "torch.nn.Dropout2d") 关于详情.
+请参见 [`Dropout2d`](#torch.nn.Dropout2d "torch.nn.Dropout2d").
 
  
 参数:
@@ -1010,9 +1010,9 @@ torch.nn.functional.dropout2d(input, p=0.5, training=True, inplace=False)
 torch.nn.functional.dropout3d(input, p=0.5, training=True, inplace=False)
 ```
 
-随机归零input tensor的整个通道 (一个通道是一个 3D 特征图, 例如, the ![](http://latex.codecogs.com/gif.latex?j)-th channel of the ![](http://latex.codecogs.com/gif.latex?i)-th sample in the batched input is a 3D tensor ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%5Bi%2C%20j%5D)). 每次前向传递时，每个信道都将被独立清零. 用概率 `p` 从 Bernoulli 分布采样.
+随机归零input tensor的整个通道 (一个通道是一个 3D 特征图, 例如, the ![](http://latex.codecogs.com/gif.latex?j)-th channel of the ![](http://latex.codecogs.com/gif.latex?i)-th sample in the batched input is a 3D tensor ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%5Bi%2C%20j%5D)). 每次前向传递时, 每个信道都将被独立清零. 用概率 `p` 从 Bernoulli 分布采样.
 
-见 [`Dropout3d`](#torch.nn.Dropout3d "torch.nn.Dropout3d") 关于详情.
+请参见 [`Dropout3d`](#torch.nn.Dropout3d "torch.nn.Dropout3d").
 
  
 参数:
@@ -1032,21 +1032,21 @@ torch.nn.functional.dropout3d(input, p=0.5, training=True, inplace=False)
 torch.nn.functional.embedding(input, weight, padding_idx=None, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, sparse=False)
 ```
 
-一个简单的查找表，查找固定字典中的embedding(嵌入)内容和大小.
+一个简单的查找表, 查找固定字典中的embedding(嵌入)内容和大小.
 
- 这个模块通常用于使用索引检索单词嵌入。模块的输入是索引列表和嵌入矩阵，输出是相应的单词嵌入.
+ 这个模块通常用于使用索引检索单词嵌入. 模块的输入是索引列表和嵌入矩阵, 输出是相应的单词嵌入.
 
-见 [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding")关于细节.
+请参见 [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding").
 
  
 参数:
 
 *   **input** (_LongTensor_) –  包含嵌入矩阵中的索引的tensor
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 嵌入矩阵的行数等于可能的最大索引数+ 1，列数等于嵌入大小
-*   **padding_idx** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) –  如果给定，每当遇到索引时，在`padding_idx` (初始化为零)用嵌入向量填充输出.
-*   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – 如果给定，则将范数大于`max_norm`的每个嵌入向量重新规范化，得到范数`max_norm`。注意:这将修改适当的`weight`.
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 嵌入矩阵的行数等于可能的最大索引数+ 1, 列数等于嵌入大小
+*   **padding_idx** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) –  如果给定, 每当遇到索引时, 在`padding_idx` (初始化为零)用嵌入向量填充输出.
+*   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – 如果给定, 则将范数大于`max_norm`的每个嵌入向量重新规范化, 得到范数`max_norm`. 注意:这将修改适当的`weight`.
 *   **norm_type** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – 用于计算`max_norm`选项的p范数的p. 默认 `2`.
-*   **scale_grad_by_freq** (_boolean__,_ _可选的_) – 如果给定，这将通过小批处理中单词频率的倒数来缩放梯度. 默认 `False`.
+*   **scale_grad_by_freq** (_boolean__,_ _可选的_) – 如果给定, 这将通过小批处理中单词频率的倒数来缩放梯度. 默认 `False`.
 *   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – If `True`, 梯度 w.r.t. `weight` 将会是一个稀疏 tensor. 请看 [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding")有关稀疏梯度的更多详细信息.
 
  
@@ -1056,7 +1056,7 @@ torch.nn.functional.embedding(input, weight, padding_idx=None, max_norm=None, no
 
 >*   Input:  任意形状LongTensor, 包含要提取的索引的
 >*   Weight: 浮点型嵌入矩阵, 形状为 (V, embedding_dim),
->    V = maximum index + 1 and embedding_dim = the embedding size
+>    V = maximum index + 1 并且 embedding_dim = the embedding size
 >*   Output: `(*, embedding_dim)`,  `*` 是输入形状
 
 例子:
@@ -1096,48 +1096,47 @@ tensor([[[ 0.0000,  0.0000,  0.0000],
 torch.nn.functional.embedding_bag(input, weight, offsets=None, max_norm=None, norm_type=2, scale_grad_by_freq=False, mode='mean', sparse=False)
 ```
 
-Computes sums, means or maxes of ‘bags’ of embeddings, without instantiating the intermediate embeddings.
+计算嵌入`bags`的和、平均值或最大值, 而不实例化中间嵌入. .
 
-见 [`torch.nn.EmbeddingBag`](#torch.nn.EmbeddingBag "torch.nn.EmbeddingBag")关于细节. .. include:: cuda_deterministic_backward.rst
+请参见 [`torch.nn.EmbeddingBag`](#torch.nn.EmbeddingBag "torch.nn.EmbeddingBag")
 
  
 参数:
 
-*   **input** (_LongTensor_) – Tensor containing bags of indices into the embedding matrix
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – The embedding matrix with number of rows equal to the maximum possible index + 1, and number of columns equal to the embedding size
-*   **offsets** (_LongTensor__,_ _可选的_) – Only used when `input` is 1D. `offsets` determines the starting index position of each bag (sequence) in `input`.
-*   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – If given, each embedding vector with norm larger than `max_norm` is renormalized to have norm `max_norm`. Note: this will modify `weight` in-place.
+*   **input** (_LongTensor_) – 包含索引`bags`的张量
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 嵌入矩阵的行数等于可能的最大索引数+ 1, 列数等于嵌入大小
+*   **offsets** (_LongTensor__,_ _可选的_) – 仅当`input`为1D时使用. `offsets`确定输入中每个`bag`(序列)的起始索引位置
+*   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) –  如果给定, 范数大于`max_norm`的每个嵌入向量将被重新规格化为范数`max_norm`. 注意:这将就地修改`weight`
 *   **norm_type** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – The `p` in the `p`-norm to compute for the `max_norm` option. 默认 `2`.
-*   **scale_grad_by_freq** (_boolean__,_ _可选的_) – if given, this will scale gradients by the inverse of frequency of the words in the mini-batch. 默认 `False`. Note: this option is not supported when `mode="max"`.
-*   **mode** (_string__,_ _可选的_) – `"sum"`, `"mean"` or `"max"`. Specifies the way to reduce the bag. 默认值:  `"mean"`
-*   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – if `True`, gradient w.r.t. `weight` will be a sparse tensor. See Notes under [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding")关于细节 regarding sparse gradients. Note: this option is not supported when `mode="max"`.
-
- 
+*   **scale_grad_by_freq** (_boolean__,_ _可选的_) – 如果给定, 这将通过小批处理中单词频率的倒数来缩放梯度. 默认假. 注意:当`mode="max"`时不支持此选项.
+*   **mode** (_string__,_ _可选的_) – `"sum"`, `"mean"` or `"max"`. 指定reduce`bag`的方法. 默认值:  `"mean"`
+*   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 如果`True`, 梯度w.r.t.权值就是一个稀疏张量.请参见 [`torch.nn.Embedding`](#torch.nn.Embedding "torch.nn.Embedding") 关于稀疏梯度. 注意: 此选项不支持 `mode="max"`.
 
 
-Shape:
 
-> *   `input` (LongTensor) and `offsets` (LongTensor, 可选的)
+形状:
+
+> *   `input` (LongTensor) 和 `offsets` (LongTensor, 可选的)
 >     
 >     
->     *   If `input` is 2D of shape `B x N`,
+>     *   如果 `input` 是 2D的, 形状为 `B x N`,
 >         
 >         
 >         
->         it will be treated as `B` bags (sequences) each of fixed length `N`, and this will return `B` values aggregated in a way depending on the `mode`. `offsets` is ignored and required to be `None` in this case.
+>         它将被视为每个固定长度`N`的`B`个bag(序列), 这将根据模式以某种方式返回`B`个聚合值. 在本例中, `offsets`被忽略, 并且要求为`None`
 >         
 >         
->     *   If `input` is 1D of shape `N`,
+>     *   如果 `input` 是 1D的, 形状为 `N`,
 >         
 >         
 >         
 >         it will be treated as a concatenation of multiple bags (sequences). `offsets` is required to be a 1D tensor containing the starting index positions of each bag in `input`. Therefore, for `offsets` of shape `B`, `input` will be viewed as having `B` bags. Empty bags (i.e., having 0-length) will have returned vectors filled by zeros.
+>         它将被视为多个`bag`(序列)的串联. `offsets`必须是一个一维tensor, 其中包含`input`中每个`bag`的起始索引位置. 因此, 对于形状`B`的偏移量, 输入将被视为有`B`个bag. 空bags( 即, 具有0长度)将返回由0填充的向量
 >         
->         
-> *   `weight` (Tensor): the learnable weights of the module of shape `(num_embeddings x embedding_dim)`
+> *   `weight` (Tensor): 模块的可学习权重, 形状 `(num_embeddings x embedding_dim)`
 >     
 >     
-> *   `output`: aggregated embedding values of shape `B x embedding_dim`
+> *   `output`: 聚合的嵌入值, 形状 `B x embedding_dim`
 
 例子:
 
@@ -1153,7 +1152,7 @@ tensor([[ 0.3397,  0.3552,  0.5545],
 
 ```
 
-## Distance functions
+## 距离函数
 
 ### pairwise_distance
 
@@ -1161,7 +1160,7 @@ tensor([[ 0.3397,  0.3552,  0.5545],
 torch.nn.functional.pairwise_distance(x1, x2, p=2.0, eps=1e-06, keepdim=False)
 ```
 
-见 [`torch.nn.PairwiseDistance`](#torch.nn.PairwiseDistance "torch.nn.PairwiseDistance") 关于详情
+请参见 [`torch.nn.PairwiseDistance`](#torch.nn.PairwiseDistance "torch.nn.PairwiseDistance")
 
 ### cosine_similarity
 
@@ -1169,29 +1168,29 @@ torch.nn.functional.pairwise_distance(x1, x2, p=2.0, eps=1e-06, keepdim=False)
 torch.nn.functional.cosine_similarity(x1, x2, dim=1, eps=1e-8) → Tensor
 ```
 
-Returns cosine similarity between x1 and x2, computed along dim.
+ 返回x1和x2之间的余弦相似度, 沿dim计算
 
 ![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bsimilarity%7D%20%3D%20%5Cdfrac%7Bx_1%20%5Ccdot%20x_2%7D%7B%5Cmax(%5CVert%20x_1%20%5CVert%20_2%20%5Ccdot%20%5CVert%20x_2%20%5CVert%20_2%2C%20%5Cepsilon)%7D%0D%0A%0D%0A)
 
  
 参数:
 
-*   **x1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – First input.
-*   **x2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Second input (of size matching x1).
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – Dimension of vectors. 默认值:  1
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – Small value to avoid division by zero. 默认值:  1e-8
+*   **x1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第一个input.
+*   **x2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个input (大小和 x1 匹配).
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 维度. 默认值:  1
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – 非常小的值避免除以0. 默认值:  1e-8
 
  
 
 
 ```py
-Shape:
+形状:
 ```
 
 *   Input: ![](http://latex.codecogs.com/gif.latex?(%5Cast_1%2C%20D%2C%20%5Cast_2)) where D is at position `dim`.
 *   Output: ![](http://latex.codecogs.com/gif.latex?(%5Cast_1%2C%20%5Cast_2)) where 1 is at position `dim`.
 
-Example:
+例子: 
 
 ```py
 >>> input1 = torch.randn(100, 128)
@@ -1207,22 +1206,22 @@ Example:
 torch.nn.functional.pdist(input, p=2) → Tensor
 ```
 
-Computes the p-norm distance between every pair of row vectors in the input. This is identical to the upper triangular portion, excluding the diagonal, of `torch.norm(input[:, None] - input, dim=2, p=p)`. This function will be faster if the rows are contiguous.
+计算输入中每​​对行向量之间的p范数距离.  这与`torch.norm(input[:, None] - input, dim=2, p=p)`的上三角形部分（不包括对角线）相同.  如果行是连续的, 则此函数将更快
 
-If input has shape ![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20M) then the output will have shape ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7D%20N%20(N%20-%201)).
+如果输入具有形状 ![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20M) 则输出将具有形状 ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7D%20N%20(N%20-%201)).
 
-This function is equivalent to `scipy.spatial.distance.pdist(input, ‘minkowski’, p=p)` if ![](http://latex.codecogs.com/gif.latex?p%20%5Cin%20(0%2C%20%5Cinfty)). When ![](http://latex.codecogs.com/gif.latex?p%20%3D%200) it is equivalent to `scipy.spatial.distance.pdist(input, ‘hamming’) * M`. When ![](http://latex.codecogs.com/gif.latex?p%20%3D%20%5Cinfty), the closest scipy function is `scipy.spatial.distance.pdist(xn, lambda x, y: np.abs(x - y).max())`.
+这个函数相当于 `scipy.spatial.distance.pdist(input, ‘minkowski’, p=p)` 如果 ![](http://latex.codecogs.com/gif.latex?p%20%5Cin%20(0%2C%20%5Cinfty)). 当 ![](http://latex.codecogs.com/gif.latex?p%20%3D%200) 它等价于 `scipy.spatial.distance.pdist(input, ‘hamming’) * M`. 当 ![](http://latex.codecogs.com/gif.latex?p%20%3D%20%5Cinfty), 最相近的scipy函数是 `scipy.spatial.distance.pdist(xn, lambda x, y: np.abs(x - y).max())`.
 
  
 参数:
 
 *   **input** – 输入tensor, 形状为 ![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20M).
-*   **p** – p value for the p-norm distance to calculate between each vector pair ![](http://latex.codecogs.com/gif.latex?%5Cin%20%5B0%2C%20%5Cinfty%5D).
+*   **p** – 计算每个向量对之间的p范数距离的p值 ![](http://latex.codecogs.com/gif.latex?%5Cin%20%5B0%2C%20%5Cinfty%5D).
 
  
 
 
-## Loss functions
+## 损失函数
 
 ### binary_cross_entropy
 
@@ -1230,22 +1229,20 @@ This function is equivalent to `scipy.spatial.distance.pdist(input, ‘minkowski
 torch.nn.functional.binary_cross_entropy(input, target, weight=None, size_average=None, reduce=None, reduction='mean')
 ```
 
-Function that measures the Binary Cross Entropy between the target and the output.
+计算目标和输出之间二进制交叉熵的函数.
 
-见 [`BCELoss`](#torch.nn.BCELoss "torch.nn.BCELoss") 关于详情.
+请参见 [`BCELoss`](#torch.nn.BCELoss "torch.nn.BCELoss").
 
  
 参数:
 
-*   **input** – Tensor of arbitrary shape
-*   **target** – Tensor of the same shape as input
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – a manual rescaling weight if provided it’s repeated to match input tensor shape
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
-
+*   **input** – 任意形状的tensor
+*   **target** – 与输入形状相同的tensor
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – 手动重新调整weight, 如果提供, 它重复来匹配输入张量的形状
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 批处理中的每个损失元素的平均损失. 注意, 对于某些损失, 每个样本有多个元素. 如果`size_average`设置为`False`, 则对每个小批的损失进行汇总. reduce为False时忽略. 默认值:  `True`
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 根据size_average, 对每个小批量的观察结果的损失进行平均或求和.  当reduce为False时, 返回每批元素的损失并忽略`size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _可选的_) – 指定要应用于输出的`reduction`：'none'| 'mean'| 'sum'.  'none'：没有reduction, 'mean'：输出的总和将除以输出中的元素数量 'sum'：输出将被求和.  注意：`size_average`和`reduce`正在被弃用, 同时, 指定这两个args中的任何一个都将覆盖reduce.  默认值：'mean', 默认值:  ‘mean’
  
-
 
 例子:
 
@@ -1263,20 +1260,20 @@ Function that measures the Binary Cross Entropy between the target and the outpu
 torch.nn.functional.binary_cross_entropy_with_logits(input, target, weight=None, size_average=None, reduce=None, reduction='mean', pos_weight=None)
 ```
 
-Function that measures Binary Cross Entropy between target and output logits.
+计算目标和输出logits之间的二进制交叉熵的函数.
 
-见 [`BCEWithLogitsLoss`](#torch.nn.BCEWithLogitsLoss "torch.nn.BCEWithLogitsLoss") 关于详情.
+请参见 [`BCEWithLogitsLoss`](#torch.nn.BCEWithLogitsLoss "torch.nn.BCEWithLogitsLoss").
 
  
 参数:
 
-*   **input** – Tensor of arbitrary shape
-*   **target** – Tensor of the same shape as input
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – a manual rescaling weight if provided it’s repeated to match input tensor shape
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
-*   **pos_weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – a weight of positive examples. Must be a vector with length equal to the number of classes.
+*   **input** – 任意形状的tensor
+*   **target** – 与输入形状相同的tensor
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – 手动重新调整weight, 如果提供, 它重复来匹配输入张量的形状
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 批处理中的每个损失元素的平均损失. 注意, 对于某些损失, 每个样本有多个元素. 如果`size_average`设置为`False`, 则对每个小批的损失进行汇总. reduce为False时忽略. 默认值:  `True`
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 根据size_average, 对每个小批量的观察结果的损失进行平均或求和.  当reduce为False时, 返回每批元素的损失并忽略`size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _可选的_) – 指定要应用于输出的`reduction`：'none'| 'mean'| 'sum'.  'none'：没有reduction, 'mean'：输出的总和将除以输出中的元素数量 'sum'：输出将被求和.  注意：`size_average`和`reduce`正在被弃用, 同时, 指定这两个args中的任何一个都将覆盖reduce.  默认值：'mean', 默认值:  ‘mean’
+*   **pos_weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – 正例样本的权重. 必须是长度等于类数的向量.
 
  
 
@@ -1297,21 +1294,21 @@ Function that measures Binary Cross Entropy between target and output logits.
 torch.nn.functional.poisson_nll_loss(input, target, log_input=True, full=False, size_average=None, eps=1e-08, reduce=None, reduction='mean')
 ```
 
-Poisson negative log likelihood loss.
+泊松负对数似然损失.
 
-见 [`PoissonNLLLoss`](#torch.nn.PoissonNLLLoss "torch.nn.PoissonNLLLoss") 关于详情.
+请参见 [`PoissonNLLLoss`](#torch.nn.PoissonNLLLoss "torch.nn.PoissonNLLLoss").
 
  
 参数:
 
-*   **input** – expectation of underlying Poisson distribution.
-*   **target** – random sample ![](http://latex.codecogs.com/gif.latex?target%20%5Csim%20%5Ctext%7BPoisson%7D(input)).
-*   **log_input** – if `True` the loss is computed as ![](http://latex.codecogs.com/gif.latex?%5Cexp(%5Ctext%7Binput%7D)%20-%20%5Ctext%7Btarget%7D%20*%20%5Ctext%7Binput%7D), if `False` then loss is ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%20-%20%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Binput%7D%2B%5Ctext%7Beps%7D)). 默认值:  `True`
-*   **full** – whether to compute full loss, i. e. to add the Stirling approximation term. 默认值:  `False` ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Btarget%7D)%20-%20%5Ctext%7Btarget%7D%20%2B%200.5%20*%20%5Clog(2%20*%20%5Cpi%20*%20%5Ctext%7Btarget%7D)).
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – Small value to avoid evaluation of ![](http://latex.codecogs.com/gif.latex?%5Clog(0)) when `log_input`=``False``. 默认值:  1e-8
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
+*   **input** – 潜在泊松分布的期望.
+*   **target** – 随机抽样 ![](http://latex.codecogs.com/gif.latex?target%20%5Csim%20%5Ctext%7BPoisson%7D(input)).
+*   **log_input** – 如果为`True`, 则损失计算为 ![](http://latex.codecogs.com/gif.latex?%5Cexp(%5Ctext%7Binput%7D)%20-%20%5Ctext%7Btarget%7D%20*%20%5Ctext%7Binput%7D), 如果为`False`, 则损失计算为 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Binput%7D%20-%20%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Binput%7D%2B%5Ctext%7Beps%7D)). 默认值:  `True`
+*   **full** – 是否计算全部损失, 即. 加入Stirling近似项. 默认值:  `False` ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Btarget%7D%20*%20%5Clog(%5Ctext%7Btarget%7D)%20-%20%5Ctext%7Btarget%7D%20%2B%200.5%20*%20%5Clog(2%20*%20%5Cpi%20*%20%5Ctext%7Btarget%7D)).
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 批处理中的每个损失元素的平均损失. 注意, 对于某些损失, 每个样本有多个元素. 如果`size_average`设置为`False`, 则对每个小批的损失进行汇总. reduce为False时忽略. 默认值:  `True`
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选的_) – 一个小值避免求值 ![](http://latex.codecogs.com/gif.latex?%5Clog(0)) when `log_input`=``False``. 默认值:  1e-8
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 根据size_average, 对每个小批量的观察结果的损失进行平均或求和.  当reduce为False时, 返回每批元素的损失并忽略`size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _可选的_) – 指定要应用于输出的`reduction`：'none'| 'mean'| 'sum'.  'none'：没有reduction, 'mean'：输出的总和将除以输出中的元素数量 'sum'：输出将被求和.  注意：`size_average`和`reduce`正在被弃用, 同时, 指定这两个args中的任何一个都将覆盖reduce.  默认值：'mean', 默认值:  ‘mean’
 
  
 
@@ -1322,7 +1319,7 @@ Poisson negative log likelihood loss.
 torch.nn.functional.cosine_embedding_loss(input1, input2, target, margin=0, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-见 [`CosineEmbeddingLoss`](#torch.nn.CosineEmbeddingLoss "torch.nn.CosineEmbeddingLoss") 关于详情.
+请参见 [`CosineEmbeddingLoss`](#torch.nn.CosineEmbeddingLoss "torch.nn.CosineEmbeddingLoss").
 
 ### cross_entropy
 
@@ -1330,20 +1327,20 @@ torch.nn.functional.cosine_embedding_loss(input1, input2, target, margin=0, size
 torch.nn.functional.cross_entropy(input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
 ```
 
-This criterion combines `log_softmax` and `nll_loss` in a single function.
+此函数结合了 `log_softmax` 和 `nll_loss`.
 
-见 [`CrossEntropyLoss`](#torch.nn.CrossEntropyLoss "torch.nn.CrossEntropyLoss") 关于详情.
+请参见 [`CrossEntropyLoss`](#torch.nn.CrossEntropyLoss "torch.nn.CrossEntropyLoss").
 
  
 参数:
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C)) where `C = number of classes` or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) in case of 2D Loss, or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) in the case of K-dimensional loss.
 *   **target** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – ![](http://latex.codecogs.com/gif.latex?(N)) where each value is ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), or ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) for K-dimensional loss.
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – a manual rescaling weight given to each class. If given, has to be a Tensor of size `C`
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – 给每个类别的手动重定权重. 如果给定, 必须是大小为`C`的tensor
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 批处理中的每个损失元素的平均损失. 注意, 对于某些损失, 每个样本有多个元素. 如果`size_average`设置为`False`, 则对每个小批的损失进行汇总. reduce为False时忽略. 默认值:  `True`
 *   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets. 默认值:  -100
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 根据size_average, 对每个小批量的观察结果的损失进行平均或求和.  当reduce为False时, 返回每批元素的损失并忽略`size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _可选的_) – 指定要应用于输出的`reduction`：'none'| 'mean'| 'sum'.  'none'：没有reduction, 'mean'：输出的总和将除以输出中的元素数量 'sum'：输出将被求和.  注意：`size_average`和`reduce`正在被弃用, 同时, 指定这两个args中的任何一个都将覆盖reduce.  默认值：'mean', 默认值:  ‘mean’
 
  
 
@@ -1364,9 +1361,9 @@ This criterion combines `log_softmax` and `nll_loss` in a single function.
 torch.nn.functional.ctc_loss(log_probs, targets, input_lengths, target_lengths, blank=0, reduction='mean')
 ```
 
-The Connectionist Temporal Classification loss.
+Connectionist Temporal Classification损失.
 
-见 [`CTCLoss`](#torch.nn.CTCLoss "torch.nn.CTCLoss") 关于详情.
+请参见 [`CTCLoss`](#torch.nn.CTCLoss "torch.nn.CTCLoss").
 
 注意
 
@@ -1374,9 +1371,8 @@ The Connectionist Temporal Classification loss.
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
- 
 参数:
 
 *   **log_probs** – ![](http://latex.codecogs.com/gif.latex?(T%2C%20N%2C%20C)) where `C = number of characters in alphabet including blank`, `T = input length`, and `N = batch size`. The logarithmized probabilities of the outputs (e.g. obtained with [`torch.nn.functional.log_softmax()`](#torch.nn.functional.log_softmax "torch.nn.functional.log_softmax")).
@@ -1384,12 +1380,10 @@ When using the CUDA backend, this operation may induce nondeterministic behaviou
 *   **input_lengths** – ![](http://latex.codecogs.com/gif.latex?(N)). Lengths of the inputs (must each be ![](http://latex.codecogs.com/gif.latex?%5Cleq%20T))
 *   **target_lengths** – ![](http://latex.codecogs.com/gif.latex?(N)). Lengths of the targets
 *   **blank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – Blank label. 默认 ![](http://latex.codecogs.com/gif.latex?0).
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the output losses will be divided by the target lengths and then the mean over the batch is taken. 默认值:  ‘mean’
+*   **reduction** (_string__,_ _可选的_)  - 指定要应用于输出的`reduction`：'none'| 'mean'| 'sum'.  'none'：不会应用`reduce`, 'mean'：输出损失将除以目标长度, 然后得到批次的平均值.  默认值：'mean'
 
  
-
-
-Example:
+例子: 
 
 ```py
 >>> log_probs = torch.randn(50, 16, 20).log_softmax(2).detach().requires_grad_()
@@ -1407,7 +1401,7 @@ Example:
 torch.nn.functional.hinge_embedding_loss(input, target, margin=1.0, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-见 [`HingeEmbeddingLoss`](#torch.nn.HingeEmbeddingLoss "torch.nn.HingeEmbeddingLoss") 关于详情.
+请参见 [`HingeEmbeddingLoss`](#torch.nn.HingeEmbeddingLoss "torch.nn.HingeEmbeddingLoss").
 
 ### kl_div
 
@@ -1415,25 +1409,23 @@ torch.nn.functional.hinge_embedding_loss(input, target, margin=1.0, size_average
 torch.nn.functional.kl_div(input, target, size_average=None, reduce=None, reduction='mean')
 ```
 
-The [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback-Leibler_divergence) Loss.
+[Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback-Leibler_divergence) 损失.
 
-见 [`KLDivLoss`](#torch.nn.KLDivLoss "torch.nn.KLDivLoss") 关于详情.
+请参见 [`KLDivLoss`](#torch.nn.KLDivLoss "torch.nn.KLDivLoss").
 
  
 参数:
 
 *   **input** – Tensor of arbitrary shape
 *   **target** – Tensor of the same shape as input
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘batchmean’ &#124; ‘sum’ &#124; ‘mean’. ‘none’: no reduction will be applied ‘batchmean’: the sum of the output will be divided by the batchsize ‘sum’: the output will be summed ‘mean’: the output will be divided by the number of elements in the output 默认值:  ‘mean’
-
- 
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 批处理中的每个损失元素的平均损失. 注意, 对于某些损失, 每个样本有多个元素. 如果`size_average`设置为`False`, 则对每个小批的损失进行汇总. reduce为False时忽略. 默认值:  `True`
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 根据size_average, 对每个小批量的观察结果的损失进行平均或求和.  当reduce为False时, 返回每批元素的损失并忽略`size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _可选的_) – 指定要应用于输出的缩减：'none'| 'batchmean'| 'sum'| 'mean'.  'none'：不会应用`reduction` 'batchmean'：输出的总和将除以batchsize 'sum'：输出将被加总 'mean'：输出将除以输出中的元素数 默认值：'mean'
 
 
-:param .. note:: `size_average` and `reduce` are in the process of being deprecated,: and in the meantime, specifying either of those two args will override `reduction`. :param .. note:: `reduction=’mean’` doesn’t return the true kl divergence value, please use: `reduction=’batchmean’` which aligns with KL math definition.
+:param . .注::`size average`和`reduce`正在被弃用, :同时, 指定这两个arg中的一个将覆盖reduce. :param . .注意::`reduce = mean`不返回真实的kl散度值, 请使用:`reduce = batchmean`, 它符合kl的数学定义. 
 
-> In the next major release, ‘mean’ will be changed to be the same as ‘batchmean’.
+> 在下一个主要版本中, “mean”将被修改为与“batchmean”相同.
 
 ### l1_loss
 
@@ -1441,9 +1433,9 @@ The [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback-Leibler
 torch.nn.functional.l1_loss(input, target, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-Function that takes the mean element-wise absolute value difference.
+函数的作用是求元素的绝对值的平均值.
 
-见 [`L1Loss`](#torch.nn.L1Loss "torch.nn.L1Loss") 关于详情.
+请参见 [`L1Loss`](#torch.nn.L1Loss "torch.nn.L1Loss").
 
 ### mse_loss
 
@@ -1451,9 +1443,9 @@ Function that takes the mean element-wise absolute value difference.
 torch.nn.functional.mse_loss(input, target, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-Measures the element-wise mean squared error.
+ 测量元素的均方误差.
 
-见 [`MSELoss`](#torch.nn.MSELoss "torch.nn.MSELoss") 关于详情.
+请参见 [`MSELoss`](#torch.nn.MSELoss "torch.nn.MSELoss").
 
 ### margin_ranking_loss
 
@@ -1461,7 +1453,7 @@ Measures the element-wise mean squared error.
 torch.nn.functional.margin_ranking_loss(input1, input2, target, margin=0, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-见 [`MarginRankingLoss`](#torch.nn.MarginRankingLoss "torch.nn.MarginRankingLoss") 关于详情.
+请参见 [`MarginRankingLoss`](#torch.nn.MarginRankingLoss "torch.nn.MarginRankingLoss").
 
 ### multilabel_margin_loss
 
@@ -1469,7 +1461,7 @@ torch.nn.functional.margin_ranking_loss(input1, input2, target, margin=0, size_a
 torch.nn.functional.multilabel_margin_loss(input, target, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-见 [`MultiLabelMarginLoss`](#torch.nn.MultiLabelMarginLoss "torch.nn.MultiLabelMarginLoss") 关于详情.
+请参见 [`MultiLabelMarginLoss`](#torch.nn.MultiLabelMarginLoss "torch.nn.MultiLabelMarginLoss").
 
 ### multilabel_soft_margin_loss
 
@@ -1477,7 +1469,7 @@ torch.nn.functional.multilabel_margin_loss(input, target, size_average=None, red
 torch.nn.functional.multilabel_soft_margin_loss(input, target, weight=None, size_average=None) → Tensor
 ```
 
-见 [`MultiLabelSoftMarginLoss`](#torch.nn.MultiLabelSoftMarginLoss "torch.nn.MultiLabelSoftMarginLoss") 关于详情.
+请参见 [`MultiLabelSoftMarginLoss`](#torch.nn.MultiLabelSoftMarginLoss "torch.nn.MultiLabelSoftMarginLoss").
 
 ### multi_margin_loss
 
@@ -1491,33 +1483,31 @@ multi_margin_loss(input, target, p=1, margin=1, weight=None, size_average=None,
 
 reduce=None, reduction=’mean’) -> Tensor
 
-见 [`MultiMarginLoss`](#torch.nn.MultiMarginLoss "torch.nn.MultiMarginLoss") 关于详情.
+请参见 [`MultiMarginLoss`](#torch.nn.MultiMarginLoss "torch.nn.MultiMarginLoss").
 
 ### nll_loss
 
 ```py
 torch.nn.functional.nll_loss(input, target, weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
 ```
+负的对数似然函数.
 
-The negative log likelihood loss.
-
-见 [`NLLLoss`](#torch.nn.NLLLoss "torch.nn.NLLLoss") 关于详情.
+请参见 [`NLLLoss`](#torch.nn.NLLLoss "torch.nn.NLLLoss").
 
  
 参数:
 
-*   **input** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C)) where `C = number of classes` or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) in case of 2D Loss, or ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) in the case of K-dimensional loss.
-*   **target** – ![](http://latex.codecogs.com/gif.latex?(N)) where each value is ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), or ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) where ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) for K-dimensional loss.
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) – a manual rescaling weight given to each class. If given, has to be a Tensor of size `C`
-*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. 默认值:  `True`
-*   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets. 默认值:  -100
-*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – Deprecated (see `reduction`). By 默认, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. 默认值:  `True`
-*   **reduction** (_string__,_ _可选的_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. 默认值:  ‘mean’
-
- 
+*   **input** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20C))  `C = 类别的数量` 或者 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H%2C%20W)) 在二维损失的情况下, 或者 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K))  ![](http://latex.codecogs.com/gif.latex?K%20%3E%201) 在K维损失的情况下.
+*   **target** – ![](http://latex.codecogs.com/gif.latex?(N)) 每个值是 ![](http://latex.codecogs.com/gif.latex?0%20%5Cleq%20%5Ctext%7Btargets%7D%5Bi%5D%20%5Cleq%20C-1), 或者 ![](http://latex.codecogs.com/gif.latex?(N%2C%20d_1%2C%20d_2%2C%20...%2C%20d_K)) ![](http://latex.codecogs.com/gif.latex?K%20%5Cgeq%201) K维损失.
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选的_) –  给每个类别的手动重定权重. 如果给定, 必须是大小为`C`的tensor
+*   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 批处理中的每个损失元素的平均损失. 注意, 对于某些损失, 每个样本有多个元素. 如果`size_average`设置为`False`, 则对每个小批的损失进行汇总. reduce为False时忽略. 默认值:  `True`
+*   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 指定一个被忽略的目标值, 该值不会影响输入梯度. 当`size_average`为`True`时, 损耗在未忽略的目标上平均. 默认值:  -100
+*   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 废弃的 (见 `reduction`). 默认情况下, 根据size_average, 对每个小批量的观察结果的损失进行平均或求和.  当reduce为False时, 返回每批元素的损失并忽略`size_average`. 默认值:  `True`
+*   **reduction** (_string__,_ _可选的_) – 指定要应用于输出的`reduction`：'none'| 'mean'| 'sum'.  'none'：没有reduction, 'mean'：输出的总和将除以输出中的元素数量 'sum'：输出将被求和.  注意：`size_average`和`reduce`正在被弃用, 同时, 指定这两个args中的任何一个都将覆盖reduce.  默认值：'mean', 默认值:  ‘mean’
 
 
-Example:
+
+例子: 
 
 ```py
 >>> # input is of size N x C = 3 x 5
@@ -1535,9 +1525,9 @@ Example:
 torch.nn.functional.smooth_l1_loss(input, target, size_average=None, reduce=None, reduction='mean')
 ```
 
-Function that uses a squared term if the absolute element-wise error falls below 1 and an L1 term otherwise.
+ 如果绝对元素误差低于1, 则使用平方项, 否则使用L1项的函数.
 
-见 [`SmoothL1Loss`](#torch.nn.SmoothL1Loss "torch.nn.SmoothL1Loss") 关于详情.
+请参见 [`SmoothL1Loss`](#torch.nn.SmoothL1Loss "torch.nn.SmoothL1Loss").
 
 ### soft_margin_loss
 
@@ -1545,7 +1535,7 @@ Function that uses a squared term if the absolute element-wise error falls below
 torch.nn.functional.soft_margin_loss(input, target, size_average=None, reduce=None, reduction='mean') → Tensor
 ```
 
-见 [`SoftMarginLoss`](#torch.nn.SoftMarginLoss "torch.nn.SoftMarginLoss") 关于详情.
+请参见 [`SoftMarginLoss`](#torch.nn.SoftMarginLoss "torch.nn.SoftMarginLoss").
 
 ### triplet_margin_loss
 
@@ -1553,9 +1543,9 @@ torch.nn.functional.soft_margin_loss(input, target, size_average=None, reduce=No
 torch.nn.functional.triplet_margin_loss(anchor, positive, negative, margin=1.0, p=2, eps=1e-06, swap=False, size_average=None, reduce=None, reduction='mean')
 ```
 
-见 [`TripletMarginLoss`](#torch.nn.TripletMarginLoss "torch.nn.TripletMarginLoss") 关于详情
+请参见 [`TripletMarginLoss`](#torch.nn.TripletMarginLoss "torch.nn.TripletMarginLoss")
 
-## Vision functions
+## 视觉函数
 
 ### pixel_shuffle
 
@@ -1563,16 +1553,15 @@ torch.nn.functional.triplet_margin_loss(anchor, positive, negative, margin=1.0, 
 torch.nn.functional.pixel_shuffle()
 ```
 
-Rearranges elements in a tensor of shape ![](http://latex.codecogs.com/gif.latex?(*%2C%20C%20%5Ctimes%20r%5E2%2C%20H%2C%20W)) to a tensor of shape ![](http://latex.codecogs.com/gif.latex?(C%2C%20H%20%5Ctimes%20r%2C%20W%20%5Ctimes%20r)).
+ 重新排列tensor中的元素, 从形状 ![](http://latex.codecogs.com/gif.latex?(*%2C%20C%20%5Ctimes%20r%5E2%2C%20H%2C%20W)) 到 ![](http://latex.codecogs.com/gif.latex?(C%2C%20H%20%5Ctimes%20r%2C%20W%20%5Ctimes%20r)).
 
-见 [`PixelShuffle`](#torch.nn.PixelShuffle "torch.nn.PixelShuffle") 关于详情.
+请参见 [`PixelShuffle`](#torch.nn.PixelShuffle "torch.nn.PixelShuffle").
 
  
 参数:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **upscale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – factor to increase spatial resolution by
-
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –输入 tensor
+*   **upscale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 提高空间解析度的参数
  
 
 
@@ -1592,23 +1581,23 @@ torch.Size([1, 1, 12, 12])
 torch.nn.functional.pad(input, pad, mode='constant', value=0)
 ```
 
-Pads tensor.
+填充 tensor.
 
 ```py
 Pading size:
 ```
 
-The number of dimensions to pad is ![](http://latex.codecogs.com/gif.latex?%5Cleft%5Clfloor%5Cfrac%7B%5Ctext%7Blen(pad)%7D%7D%7B2%7D%5Cright%5Crfloor) and the dimensions that get padded begins with the last dimension and moves forward. For example, to pad the last dimension of the input tensor, then <cite>pad</cite> has form <cite>(padLeft, padRight)</cite>; to pad the last 2 dimensions of the input tensor, then use <cite>(padLeft, padRight, padTop, padBottom)</cite>; to pad the last 3 dimensions, use <cite>(padLeft, padRight, padTop, padBottom, padFront, padBack)</cite>.
+要填充的维度数为 ![](http://latex.codecogs.com/gif.latex?%5Cleft%5Clfloor%5Cfrac%7B%5Ctext%7Blen(pad)%7D%7D%7B2%7D%5Cright%5Crfloor)填充的维度从最后一个维度开始向前移动. 例如,  填充输入tensor的最后一个维度, 所以 <cite>pad</cite> 形如 <cite>(padLeft, padRight)</cite>; 填充最后 2 个维度, 使用 <cite>(padLeft, padRight, padTop, padBottom)</cite>; 填充最后 3 个维度, 使用 <cite>(padLeft, padRight, padTop, padBottom, padFront, padBack)</cite>.
 
 ```py
 Padding mode:
 ```
 
-见 [`torch.nn.ConstantPad2d`](#torch.nn.ConstantPad2d "torch.nn.ConstantPad2d"), [`torch.nn.ReflectionPad2d`](#torch.nn.ReflectionPad2d "torch.nn.ReflectionPad2d"), and [`torch.nn.ReplicationPad2d`](#torch.nn.ReplicationPad2d "torch.nn.ReplicationPad2d") for concrete examples on how each of the padding modes works. Constant padding is implemented for arbitrary dimensions. Replicate padding is implemented for padding the last 3 dimensions of 5D input tensor, or the last 2 dimensions of 4D input tensor, or the last dimension of 3D input tensor. Reflect padding is only implemented for padding the last 2 dimensions of 4D input tensor, or the last dimension of 3D input tensor.
+请参见 [`torch.nn.ConstantPad2d`](#torch.nn.ConstantPad2d "torch.nn.ConstantPad2d"), [`torch.nn.ReflectionPad2d`](#torch.nn.ReflectionPad2d "torch.nn.ReflectionPad2d"), and [`torch.nn.ReplicationPad2d`](#torch.nn.ReplicationPad2d "torch.nn.ReplicationPad2d") 有关每个填充模式如何工作的具体示例. Constant padding 已经实现于任意维度. 复制填充用于填充5D输入张量的最后3个维度, 或4D输入张量的最后2个维度, 或3D输入张量的最后一个维度. 反射填充仅用于填充4D输入张量的最后两个维度, 或者3D输入张量的最后一个维度.
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
  
 参数:
@@ -1647,35 +1636,34 @@ torch.Size([3, 9, 7, 3])
 torch.nn.functional.interpolate(input, size=None, scale_factor=None, mode='nearest', align_corners=None)
 ```
 
-Down/up samples the input to either the given `size` or the given `scale_factor`
+向下/向上采样输入到给定的`size`或给定的scale_facto
 
-The algorithm used for interpolation is determined by `mode`.
+由 `mode` 指定插值的算法.
 
-Currently temporal, spatial and volumetric sampling are supported, i.e. expected inputs are 3-D, 4-D or 5-D in shape.
+目前支持时间, 空间和体积上采样, 即预期输入为3-D, 4-D或5-D形状.
 
-The input dimensions are interpreted in the form: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
+输入维度形式: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
 
-The modes available for resizing are: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only), `area`
+可用于上采样的模式是: `nearest`, `linear` (仅3D), `bilinear` (仅4D), `trilinear` (仅5D), `area`
 
  
 参数:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
-*   **scale_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ _Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]_) – multiplier for spatial size. Has to match input size if it is a tuple.
-*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’ &#124; ‘area’. 默认值:  ‘nearest’
-*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. 默认值:  False
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 tensor
+*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – 输出 size.
+*   **scale_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ _Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]_) –  空间大小的乘数. 如果是元组, 则必须匹配输入大小.
+*   **mode** (_string_) – 上采样算法: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’ &#124; ‘area’. 默认值:  ‘nearest’
+*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 如果为True, 则输入和输出张量的角像素对齐, 从而保留这些像素的值. 仅在 `mode` 是 `linear`, `bilinear`, 或者 `trilinear` 时生效. 默认值:  False
 
- 
 
 
 警告
 
-With `align_corners = True`, the linearly interpolating modes (`linear`, `bilinear`, and `trilinear`) don’t proportionally align the output and input pixels, and thus the output values can depend on the input size. This was the 默认 behavior for these modes up to version 0.3.1\. Since then, the 默认 behavior is `align_corners = False`. 见 [`Upsample`](#torch.nn.Upsample "torch.nn.Upsample") for concrete examples on how this affects the outputs.
+`align_corners = True`时, 线性插值模式(`linear`, `bilinear`, and `trilinear`)不会按比例对齐输出和输入像素, 因此输出值可能取决于输入大小. 这是0.3.1版之前这些模式的默认行为.此后, 默认行为为`align_corners = False`. 有关这如何影响输出的具体示例, 请参见上例. 
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
 ### upsample
 
@@ -1683,39 +1671,37 @@ When using the CUDA backend, this operation may induce nondeterministic behaviou
 torch.nn.functional.upsample(input, size=None, scale_factor=None, mode='nearest', align_corners=None)
 ```
 
-Upsamples the input to either the given `size` or the given `scale_factor`
+将输入采样到给定`size`或给定的`scale_factor`
 
 警告
 
-This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). This is equivalent with `nn.functional.interpolate(...)`.
+ 此函数已被弃用, 取而代之的是 [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). 等价于 `nn.functional.interpolate(...)`.
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
-The algorithm used for upsampling is determined by `mode`.
+用于上采样的算法由 `mode` 确定.
 
-Currently temporal, spatial and volumetric upsampling are supported, i.e. expected inputs are 3-D, 4-D or 5-D in shape.
+目前支持时间, 空间和体积上采样, 即预期输入为3-D, 4-D或5-D形状.
 
-The input dimensions are interpreted in the form: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
+输入维度形式: `mini-batch x channels x [可选的 depth] x [可选的 height] x width`.
 
-The modes available for upsampling are: `nearest`, `linear` (3D-only), `bilinear` (4D-only), `trilinear` (5D-only)
+可用于上采样的模式是: `nearest`, `linear` (仅3D), `bilinear` (仅4D), `trilinear` (仅5D)
 
  
 参数:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – output spatial size.
-*   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – multiplier for spatial size. Has to be an integer.
-*   **mode** (_string_) – algorithm used for upsampling: ‘nearest’ &#124; ‘linear’ &#124; ‘bilinear’ &#124; ‘trilinear’. 默认值:  ‘nearest’
-*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – if True, the corner pixels of the input and output tensors are aligned, and thus preserving the values at those pixels. This only has effect when `mode` is `linear`, `bilinear`, or `trilinear`. 默认值:  False
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 tensor
+*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_] or_ _Tuple__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – 输出 size.
+*   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 空间大小的乘数. 必须是整数.
+*   **mode** (_string_) – 上采样算法: ‘nearest’ &#124; ‘linear’&#124; ‘bilinear’ &#124; ‘trilinear’. 默认值:  ‘nearest’
+*   **align_corners** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选的_) – 如果为True, 则输入和输出张量的角像素对齐, 从而保留这些像素的值. 仅在 `mode` 是 `linear`, `bilinear`, 或者 `trilinear` 时生效. 默认值:  False
 
  
-
-
 警告
 
-With `align_corners = True`, the linearly interpolating modes (`linear`, `bilinear`, and `trilinear`) don’t proportionally align the output and input pixels, and thus the output values can depend on the input size. This was the 默认 behavior for these modes up to version 0.3.1\. Since then, the 默认 behavior is `align_corners = False`. 见 [`Upsample`](#torch.nn.Upsample "torch.nn.Upsample") for concrete examples on how this affects the outputs.
+`align_corners = True`时, 线性插值模式(`linear`, `bilinear`, and `trilinear`)不会按比例对齐输出和输入像素, 因此输出值可能取决于输入大小. 这是0.3.1版之前这些模式的默认行为.此后, 默认行为为`align_corners = False`. 有关这如何影响输出的具体示例, 请参见 [`Upsample`](#torch.nn.Upsample "torch.nn.Upsample") 
 
 ### upsample_nearest
 
@@ -1723,13 +1709,13 @@ With `align_corners = True`, the linearly interpolating modes (`linear`, `biline
 torch.nn.functional.upsample_nearest(input, size=None, scale_factor=None)
 ```
 
-Upsamples the input, using nearest neighbours’ pixel values.
+使用最近邻居的像素值对输入进行上采样.
 
 警告
 
-This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). This is equivalent with `nn.functional.interpolate(..., mode='nearest')`.
+不推荐使用此函数, 而使用 [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). 等价于h `nn.functional.interpolate(..., mode='nearest')`.
 
-Currently spatial and volumetric upsampling are supported (i.e. expected inputs are 4 or 5 dimensional).
+目前支持空间和体积上采样 (即 inputs 是 4 或者 5 维的).
 
  
 参数:
@@ -1743,7 +1729,7 @@ Currently spatial and volumetric upsampling are supported (i.e. expected inputs 
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
 ### upsample_bilinear
 
@@ -1751,13 +1737,13 @@ When using the CUDA backend, this operation may induce nondeterministic behaviou
 torch.nn.functional.upsample_bilinear(input, size=None, scale_factor=None)
 ```
 
-Upsamples the input, using bilinear upsampling.
+使用双线性上采样对输入进行上采样.
 
 警告
 
-This function is deprecated in favor of [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). This is equivalent with `nn.functional.interpolate(..., mode='bilinear', align_corners=True)`.
+不推荐使用此函数, 而使用 [`torch.nn.functional.interpolate()`](#torch.nn.functional.interpolate "torch.nn.functional.interpolate"). 等价于 `nn.functional.interpolate(..., mode='bilinear', align_corners=True)`.
 
-Expected inputs are spatial (4 dimensional). Use `upsample_trilinear` fo volumetric (5 dimensional) inputs.
+期望输入是空间的 (4D). 用 `upsample_trilinear` 对体积 (5D) 输入.
 
  
 参数:
@@ -1771,7 +1757,7 @@ Expected inputs are spatial (4 dimensional). Use `upsample_trilinear` fo volumet
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
 ### grid_sample
 
@@ -1779,29 +1765,29 @@ When using the CUDA backend, this operation may induce nondeterministic behaviou
 torch.nn.functional.grid_sample(input, grid, mode='bilinear', padding_mode='zeros')
 ```
 
-Given an `input` and a flow-field `grid`, computes the `output` using `input` values and pixel locations from `grid`.
+给定`input` 和流场 `grid`, 使用 `input` 和 `grid` 中的像素位置计算`output`.
 
-Currently, only spatial (4-D) and volumetric (5-D) `input` are supported.
+目前, 仅支持 spatial (4-D) 和 volumetric (5-D) `input`.
 
-In the spatial (4-D) case, for `input` with shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) and `grid` with shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)), the output will have shape ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D)).
+在 spatial (4-D) 的情况下, 对于 `input` 形如 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) 和 `grid` 形如 ![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)), 输出的形状为 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D)).
 
-For each output location `output[n, :, h, w]`, the size-2 vector `grid[n, h, w]` specifies `input` pixel locations `x` and `y`, which are used to interpolate the output value `output[n, :, h, w]`. In the case of 5D inputs, `grid[n, d, h, w]` specifies the `x`, `y`, `z` pixel locations for interpolating `output[n, :, d, h, w]`. `mode` argument specifies `nearest` or `bilinear` interpolation method to sample the input pixels.
+对于每个输出位置 `output[n, :, h, w]`, 大小为2的向量 `grid[n, h, w]` 指定 `input` 的像素位置 `x` 和 `y`, 用于插值输出值 `output[n, :, h, w]`. 对于 5D 的 inputs, `grid[n, d, h, w]` 指定 `x`, `y`, `z` 像素位置用于插值 `output[n, :, d, h, w]`. `mode` 参数指定 `nearest` or `bilinear` 插值方法.
 
-`grid` should have most values in the range of `[-1, 1]`. This is because the pixel locations are normalized by the `input` spatial dimensions. For example, values `x = -1, y = -1` is the left-top pixel of `input`, and values `x = 1, y = 1` is the right-bottom pixel of `input`.
+`grid` 大多数值应该处于 `[-1, 1]`.  这是因为像素位置由`input` 空间维度标准化.例如, 值 `x = -1, y = -1` 是 `input` 的左上角, 值 `x = 1, y = 1` 是 `input` 的右下角.
 
-If `grid` has values outside the range of `[-1, 1]`, those locations are handled as defined by `padding_mode`. Options are
+如果 `grid` 有 `[-1, 1]` 之外的值, 那些坐标将由 `padding_mode` 定义. 选项如下
 
-> *   `padding_mode="zeros"`: use `0` for out-of-bound values,
-> *   `padding_mode="border"`: use border values for out-of-bound values,
-> *   `padding_mode="reflection"`: use values at locations reflected by the border for out-of-bound values. For location far away from the border, it will keep being reflected until becoming in bound, e.g., (normalized) pixel location `x = -3.5` reflects by `-1` and becomes `x' = 2.5`, then reflects by border `1` and becomes `x'' = -0.5`.
-
-注意
-
-This function is often used in building Spatial Transformer Networks.
+> *   `padding_mode="zeros"`: 用 `0` 代替边界外的值,
+> *   `padding_mode="border"`: 用 border 值代替,
+> *   `padding_mode="reflection"`: 对于超出边界的值, 用反射的值. 对于距离边界较远的位置, 它会一直被反射, 直到到达边界, 例如(归一化)像素位置`x = -3.5`被`-1`反射, 变成`x' = 2.5`, 然后被边界1反射, 变成`x'' = -0.5`.
 
 注意
 
-When using the CUDA backend, this operation may induce nondeterministic behaviour in be backward that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+该功能常用于空间变换网络的构建.
+
+注意
+
+当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
  
 参数:
@@ -1813,9 +1799,9 @@ When using the CUDA backend, this operation may induce nondeterministic behaviou
 
  
 
-| Returns: | output Tensor 
+| 返回值: | output Tensor 
 
-| Return type: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
+| 返回类型: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
 
 
 ### affine_grid
@@ -1824,22 +1810,22 @@ When using the CUDA backend, this operation may induce nondeterministic behaviou
 torch.nn.functional.affine_grid(theta, size)
 ```
 
-Generates a 2d flow field, given a batch of affine matrices `theta` Generally used in conjunction with [`grid_sample()`](#torch.nn.functional.grid_sample "torch.nn.functional.grid_sample") to implement Spatial Transformer Networks.
+在给定一批仿射矩阵`theta`的情况下生成二维流场. 通常与[`grid_sample()`](#torch.nn.functional.grid_sample "torch.nn.functional.grid_sample")一起使用以实现`空间变换器网络`. 
 
  
 参数:
 
-*   **theta** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input batch of affine matrices (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%202%20%5Ctimes%203))
-*   **size** (_torch.Size_) – the target output image size (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20C%20%5Ctimes%20H%20%5Ctimes%20W)) Example: torch.Size((32, 3, 24, 24))
+*   **theta** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的仿射矩阵 (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%202%20%5Ctimes%203))
+*   **size** (_torch.Size_) – 目标输出图像大小 (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20C%20%5Ctimes%20H%20%5Ctimes%20W)) 例子:  torch.Size((32, 3, 24, 24))
 
  
 
-| Returns: | output Tensor of size (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20H%20%5Ctimes%20W%20%5Ctimes%202)) 
+| 返回值: | 输出tensor, 形状为 (![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20H%20%5Ctimes%20W%20%5Ctimes%202)) 
 
-| Return type: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
+| 返回类型: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) 
 
 
-## DataParallel functions (multi-GPU, distributed)
+## 数据并行函数 (multi-GPU, distributed)
 
 ### data_parallel
 
@@ -1847,18 +1833,18 @@ Generates a 2d flow field, given a batch of affine matrices `theta` Generally us
 torch.nn.parallel.data_parallel(module, inputs, device_ids=None, output_device=None, dim=0, module_kwargs=None)
 ```
 
-Evaluates module(input) in parallel across the GPUs given in device_ids.
+在设备id中给定的gpu上并行计算模块(输入).
 
-This is the functional version of the DataParallel module.
+这是DataParallel模块的函数版本.
 
  
 参数:
 
-*   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to evaluate in parallel
-*   **inputs** (_tensor_) – inputs to the module
-*   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU ids on which to replicate module
-*   **output_device** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – GPU location of the output Use -1 to indicate the CPU. (默认值:  device_ids[0])
+*   **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – 要并行评估的模块
+*   **inputs** (_tensor_) –  模块的输入
+*   **device_ids** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) – 用于复制模块的GPU id
+*   **output_device** (_list of python:int_ _or_ [_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device")) –  输出的GPU位置使用 -1表示CPU. (默认值:  device_ids[0])
 
  
 
-| Returns: | a Tensor containing the result of module(input) located on output_device 
+| 返回值: | 一个tensor, 包含位于输出设备上的模块(输入)的结果
