@@ -1,10 +1,5 @@
-
-```
-# Tensor Attributes
-
-Each `torch.Tensor` has a [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"), [`torch.device`](#torch.torch.device "torch.torch.device"), and [`torch.layout`](#torch.torch.layout "torch.torch.layout").
-```
 # Tensor（张量）的属性
+
 > 译者：[阿远](https://github.com/yuange250)
 
 每个 `torch.Tensor` 对象都有以下几个属性： [`torch.dtype`](#torch.torch.dtype "torch.torch.dtype"), [`torch.device`](#torch.torch.device "torch.torch.device")， 和 [`torch.layout`](#torch.torch.layout "torch.torch.layout")。
