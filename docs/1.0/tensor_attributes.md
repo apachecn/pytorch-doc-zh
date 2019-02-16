@@ -106,12 +106,6 @@ Note
 class torch.layout
 ```
 
-```
-A [`torch.layout`](#torch.torch.layout "torch.torch.layout") is an object that represents the memory layout of a [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor"). Currently, we support `torch.strided` (dense Tensors) and have experimental support for `torch.sparse_coo` (sparse COO Tensors).
-
-`torch.strided` represents dense Tensors and is the memory layout that is most commonly used. Each strided tensor has an associated `torch.Storage`, which holds its data. These tensors provide multi-dimensional, [strided](https://en.wikipedia.org/wiki/Stride_of_an_array) view of a storage. Strides are a list of integers: the k-th stride represents the jump in the memory necessary to go from one element to the next one in the k-th dimension of the Tensor. This concept makes it possible to perform many tensor operations efficiently.
-```
-
 [`torch.layout`](#torch.torch.layout "torch.torch.layout") 属性标识了[`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 在内存中的布局模式。 现在， 我们支持了两种内存布局模式 `torch.strided` (dense Tensors) 和尚处试验阶段的`torch.sparse_coo` (sparse COO Tensors， 一种经典的稀疏矩阵存储方式).
 
 `torch.strided` 跨步存储代表了密集张量的存储布局方式，当然也是最常用最经典的一种布局方式。 每一个strided tensor都有一个与之相连的`torch.Storage`对象, 这个对象存储着tensor的数据. 这些Storage对象为tensor提供了一种多维的， [跨步的(strided)](https://en.wikipedia.org/wiki/Stride_of_an_array)数据视图. 这一视图中的strides是一个interger整形列表：这个列表的主要作用是给出当前张量的各个维度的所占内存大小，严格的定义就是，strides中的第k个元素代表了在第k维度下，从一个元素跳转到下一个元素所需要跨越的内存大小。 跨步这个概念有助于提高多种张量运算的效率。
