@@ -2,36 +2,38 @@
 
 # torch.nn
 
-## Parameters
+## Parameters（参数）
 
 ```py
 class torch.nn.Parameter
 ```
 
+
+Parameters对象是一种会被视为模块参数（module parameter）的Tensor张量。
 A kind of Tensor that is to be considered a module parameter.
 
-Parameters are [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") subclasses, that have a very special property when used with [`Module`](#torch.nn.Module "torch.nn.Module") s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters") iterator. Assigning a Tensor doesn’t have such effect. This is because one might want to cache some temporary state, like last hidden state of the RNN, in the model. If there was no such class as [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"), these temporaries would get registered too.
+Parameters类是[`Tensor`](tensors.html#torch.Tensor "torch.Tensor") 的子类, 不过相对于它的父类，Parameters类有一个很重要的特性就是当其在 [`Module`](#torch.nn.Module "torch.nn.Module")类中被使用并被当做这个[`Module`](#torch.nn.Module "torch.nn.Module")类的模块属性的时候，那么这个Parameters对象会被自动地添加到这个[`Module`](#torch.nn.Module "torch.nn.Module")类的参数列表(list of parameters)之中，同时也就会被添加入此[`Module`](#torch.nn.Module "torch.nn.Module")类的 [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters")方法所返回的参数迭代器中。而Parameters类的父类Tensor类也可以被用为构建模块的属性，但不会被加入参数列表。这样主要是因为，有时可能需要在模型中存储一些非模型参数的临时状态，比如RNN中的最后一个隐状态。而通过使用非[`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")的Tensor类，可以将这些临时变量注册(register)为模型的属性的同时使其不被加入参数列表。
 
 Parameters: 
 
-*   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – parameter tensor.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if the parameter requires gradient. See [Excluding subgraphs from backward](notes/autograd.html#excluding-subgraphs) for more details. Default: `True`
+*   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 参数张量(parameter tensor).
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 参数是否需要梯度， 默认为 `True`。更多细节请看 [如何将子图踢出反向传播过程](notes/autograd.html#excluding-subgraphs)。 
 
 
 
-## Containers
+## Containers（容器）
 
-### Module
+### Module（模块）
 
 ```py
 class torch.nn.Module
 ```
 
-Base class for all neural network modules.
+模块（Module）是所有神经网络模型的基类。
 
-Your models should also subclass this class.
+你创建模型的时候也应该继承这个类哦。
 
-Modules can also contain other Modules, allowing to nest them in a tree structure. You can assign the submodules as regular attributes:
+模块(Module)中还可以包含其他的模块，你可以将一个模块赋值成为另一个模块的属性，从而成为这个模块的一个子模块。而通过不断的赋值，你可以将不同的模块组织成一个树结构:
 
 ```py
 import torch.nn as nn
@@ -40,7 +42,7 @@ import torch.nn.functional as F
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv1 = nn.Conv2d(1, 20, 5) # 当前的nn.Conv2d模块就被赋值成为Model模块的一个子模块，成为“树结构”的叶子
         self.conv2 = nn.Conv2d(20, 20, 5)
 
     def forward(self, x):
@@ -49,20 +51,18 @@ class Model(nn.Module):
 
 ```
 
-Submodules assigned in this way will be registered, and will have their parameters converted too when you call [`to()`](#torch.nn.Module.to "torch.nn.Module.to"), etc.
+通过赋值这种方式添加的子模块将会被模型注册(register)，而后当调用模块的一些参数转换函数（[`to()`](#torch.nn.Module.to "torch.nn.Module.to")）的时候，子模块的参数也会一并转换。
 
 ```py
 add_module(name, module)
 ```
+向当前模块添加一个子模块。
+此子模块可以作为当前模块的属性被访问到，而属性名就是add_module()函数中的name参数。
 
-Adds a child module to the current module.
+add_module()函数参数: 
 
-The module can be accessed as an attribute using the given name.
-
-Parameters: 
-
-*   **name** (_string_) – name of the child module. The child module can be accessed from this module using the given name
-*   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – child module to be added to the module.
+*   **name** (_string_) – 子模块的名字. 函数调用完成后，可以通过访问当前模块的此字段来访问该子模块。
+*   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – 要添加到当前模块的子模块。
 
 
 
@@ -70,16 +70,17 @@ Parameters:
 apply(fn)
 ```
 
-Applies `fn` recursively to every submodule (as returned by `.children()`) as well as self. Typical use includes initializing the parameters of a model (see also torch-nn-init).
 
-| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – function to be applied to each submodule |
+apply()函数的主要作用是将 `fn` 递归地应用于模块的所有子模块（`.children()`函数的返回值）以及模块自身。此函数的一个经典应用就是初始化模型的所有参数这一过程(同样参见于 torch-nn-init)。
+
+| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – 要应用于所有子模型的函数 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> def init_weights(m):
@@ -89,7 +90,7 @@ Example:
  print(m.weight)
 
 >>> net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))
->>> net.apply(init_weights)
+>>> net.apply(init_weights) # 将init_weights()函数应用于模块的所有子模块
 Linear(in_features=2, out_features=2, bias=True)
 Parameter containing:
 tensor([[ 1.,  1.],
@@ -112,15 +113,14 @@ Sequential(
 ```py
 buffers(recurse=True)
 ```
+返回一个模块缓存的迭代器
 
-Returns an iterator over module buffers.
-
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module. |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，产生的缓存迭代器会遍历模块自己与所有子模块，否则只会遍历模块的直连的成员。 |
 | --- | --- |
-| Yields: | _torch.Tensor_ – module buffer |
+| Yields: | _torch.Tensor_ – 模型缓存 |
 | --- | --- |
 
-Example:
+举例:
 
 ```py
 >>> for buf in model.buffers():
@@ -134,16 +134,17 @@ Example:
 children()
 ```
 
+返回一个当前所有子模块的迭代器
 Returns an iterator over immediate children modules.
 
-| Yields: | _Module_ – a child module |
+| Yields: | _Module_ – 子模块 |
 | --- | --- |
 
 ```py
 cpu()
 ```
 
-Moves all model parameters and buffers to the CPU.
+将模型的所有参数和缓存都转移到CPU内存中。
 
 | Returns: | self |
 | --- | --- |
@@ -154,11 +155,11 @@ Moves all model parameters and buffers to the CPU.
 cuda(device=None)
 ```
 
-Moves all model parameters and buffers to the GPU.
+将模型的所有参数和缓存都转移到CUDA设备内存中。
 
-This also makes associated parameters and buffers different objects. So it should be called before constructing optimizer if the module will live on GPU while being optimized.
+因为cuda()函数同时会将处理模块中的所有参数并缓存这些参数对象。所以如果想让模块在GPU上进行优化操作，一定要在构建优化器之前调用cuda()函数。
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – if specified, all parameters will be copied to that device |
+| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 如果设备编号被指定，所有的参数都会被拷贝到这个设备上 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -169,6 +170,7 @@ This also makes associated parameters and buffers different objects. So it shoul
 double()
 ```
 
+将所有float单浮点数类型的参数和缓存转换为`double`数据类型。
 Casts all floating point parameters and buffers to `double` datatype.
 
 | Returns: | self |
