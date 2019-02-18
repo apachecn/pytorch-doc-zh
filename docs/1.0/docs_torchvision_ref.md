@@ -2,9 +2,11 @@
 
 # torchvision 参考
 
-The [`torchvision`](#module-torchvision "torchvision") package consists of popular datasets, model architectures, and common image transformations for computer vision.
+> 译者：[BXuan694](https://github.com/BXuan694)
 
-Package Reference
+[`torchvision`](#module-torchvision "torchvision") 包收录了若干重要的公开数据集、网络模型和计算机视觉中的常用图像变换
+
+包参考
 
 *   [torchvision.datasets](datasets.html)
     *   [MNIST](datasets.html#mnist)
@@ -41,13 +43,13 @@ Package Reference
 torchvision.get_image_backend()
 ```
 
-Gets the name of the package used to load images
+查看载入图片的包的名称
 
 ```py
 torchvision.set_image_backend(backend)
 ```
 
-Specifies the package used to load images.
+指定用于载入图片的包
 
-| Parameters: | **backend** (_string_) – Name of the image backend. one of {‘PIL’, ‘accimage’}. The `accimage` package uses the Intel IPP library. It is generally faster than PIL, but does not support as many operations. |
+| 参数: | **backend** (_string_) – 图片处理后端的名称，须为{‘PIL’, ‘accimage’}中的一个。`accimage`包使用了英特尔IPP库。这个库通常比PIL快，但是支持的操作比PIL要少。|
 | --- | --- |
