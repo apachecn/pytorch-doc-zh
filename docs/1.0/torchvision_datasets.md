@@ -41,7 +41,7 @@ data_loader = torch.utils.data.DataLoader(imagenet_data,
 class torchvision.datasets.MNIST(root, train=True, transform=None, target_transform=None, download=False)
 ```
 
-[MNIST](http://yann.lecun.com/exdb/mnist/)数据集
+[MNIST](http://yann.lecun.com/exdb/mnist/)数据集。
 
  
 参数： 
