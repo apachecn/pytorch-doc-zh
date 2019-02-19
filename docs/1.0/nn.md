@@ -112,11 +112,11 @@ Sequential(
 ```py
 buffers(recurse=True)
 ```
-返回一个模块缓存的迭代器
+返回模块的缓冲区的迭代器
 
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，产生的缓存迭代器会遍历模块自己与所有子模块，否则只会遍历模块的直连的成员。 |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，产生的缓冲区迭代器会遍历模块自己与所有子模块，否则只会遍历模块的直连的成员。 |
 | --- | --- |
-| Yields: | _torch.Tensor_ – 模型缓存 |
+| Yields: | _torch.Tensor_ – 模型缓冲区 |
 | --- | --- |
 
 举例:
@@ -143,7 +143,7 @@ Returns an iterator over immediate children modules.
 cpu()
 ```
 
-将模型的所有参数和缓存都转移到CPU内存中。
+将模型的所有参数(parameter)和缓冲区(buffer)都转移到CPU内存中。
 
 | Returns: | self |
 | --- | --- |
@@ -154,11 +154,11 @@ cpu()
 cuda(device=None)
 ```
 
-将模型的所有参数和缓存都转移到CUDA设备内存中。
+将模型的所有参数和缓冲区都转移到CUDA设备内存中。
 
-因为cuda()函数同时会将处理模块中的所有参数并缓存这些参数对象。所以如果想让模块在GPU上进行优化操作，一定要在构建优化器之前调用cuda()函数。
+因为cuda()函数同时会将处理模块中的所有参数并缓存这些参数的对象。所以如果想让模块在GPU上进行优化操作，一定要在构建优化器之前调用模块的cuda()函数。
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 如果设备编号被指定，所有的参数都会被拷贝到这个设备上 |
+| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 如果设备编号被指定，所有的参数都会被拷贝到编号指定设备上 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -169,8 +169,7 @@ cuda(device=None)
 double()
 ```
 
-将所有float单浮点数类型的参数和缓存转换为`double`数据类型。
-Casts all floating point parameters and buffers to `double` datatype.
+将所有的参数(parameters)和缓冲区(buffers)转换为`double`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -184,7 +183,7 @@ dump_patches = False
 这个字段可以为[`load_state_dict()`](#torch.nn.Module.load_state_dict "torch.nn.Module.load_state_dict")提供 BC 支持（BC support实在不懂是什么意思-.-）。 在 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")函数返回的状态字典（state dict）中， 有一个名为`_metadata`的属性中存储了这个state_dict的版本号。`_metadata`是一个遵从了状态字典（state dict）的命名规范的关键字字典， 要想了解这个`_metadata`在加载状态（loading state dict）的时候是怎么用的，可以看一下 `_load_from_state_dict`部分的文档。
 
 
-如果新的参数/缓存被添加于/移除自这个模块之中时，这个版本号数字会随之发生变化。同时模块的`_load_from_state_dict`方法会比较版本号的信息并依据此状态词典（state dict）的变化做出一些适当的调整。
+如果新的参数/缓冲区被添加于/移除自这个模块之中时，这个版本号数字会随之发生变化。同时模块的`_load_from_state_dict`方法会比较版本号的信息并依据此状态词典（state dict）的变化做出一些适当的调整。
 
 ```py
 eval()
@@ -198,15 +197,16 @@ eval()
 extra_repr()
 ```
 
-Set the extra representation of the module
+为模块设置额外的展示信息(extra representation)。
 
-To print customized extra information, you should reimplement this method in your own modules. Both single-line and multi-line strings are acceptable.
+如果想要打印展示(print)你的模块的一些定制的额外信息，那你应该在你的模块中复现这个函数。单行和多行的字符串都可以被接受。
+
 
 ```py
 float()
 ```
 
-Casts all floating point parameters and buffers to float datatype.
+将所有的参数(parameters)和缓冲区(buffers)转换为`float`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -217,19 +217,19 @@ Casts all floating point parameters and buffers to float datatype.
 forward(*input)
 ```
 
-Defines the computation performed at every call.
+定义了每次模块被调用之后所进行的计算过程。
 
-Should be overridden by all subclasses.
+应该被Module类的所有子类重写。
 
 Note
 
-Although the recipe for forward pass needs to be defined within this function, one should call the [`Module`](#torch.nn.Module "torch.nn.Module") instance afterwards instead of this since the former takes care of running the registered hooks while the latter silently ignores them.
+尽管模块的前向操作都被定义在这个函数里面，但是当你要进行模块的前向操作的时候，还是要直接调用模块[`Module`](#torch.nn.Module "torch.nn.Module") 的实例函数，而不是直接调用这个forward()函数。这主要是因为前者会照顾到注册在此模块之上的钩子函数（the registered hooks）的运行，而后者则不会。
 
 ```py
 half()
 ```
 
-Casts all floating point parameters and buffers to `half` datatype.
+将所有的参数(parameters)和缓冲区(buffers)转换为`half`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -240,12 +240,12 @@ Casts all floating point parameters and buffers to `half` datatype.
 load_state_dict(state_dict, strict=True)
 ```
 
-Copies parameters and buffers from [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") into this module and its descendants. If `strict` is `True`, then the keys of [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") must exactly match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function.
+将[`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")中的参数（parameters）和缓冲区（buffers）拷贝到模块和其子模块之中。如果`strict`被设置为`True`，那么[`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")中的键值（keys）必须与模型的[`state_dict()`]函数所返回的键值（keys）信息保持完全的一致。
 
-Parameters: 
+load_state_dict()函数参数： 
 
-*   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – a dict containing parameters and persistent buffers.
-*   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to strictly enforce that the keys in [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function. Default: `True`
+*   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – 一个包含了参数和持久缓冲区的字典。
+*   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 是否严格要求 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 中的键值（keys）与模型 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 函数返回的键值（keys）信息保持完全一致。 默认： `True`
 
 
 
@@ -253,16 +253,16 @@ Parameters:
 modules()
 ```
 
-Returns an iterator over all modules in the network.
+返回一个当前模块内所有模块（包括自身）的迭代器。
 
 | Yields: | _Module_ – a module in the network |
 | --- | --- |
 
 Note
 
-Duplicate modules are returned only once. In the following example, `l` will be returned only once.
+注意重复的模块只会被返回一次。比在下面这个例子中，`l`就只会被返回一次。
 
-Example:
+例子:
 
 ```py
 >>> l = nn.Linear(2, 2)
@@ -282,18 +282,18 @@ Example:
 named_buffers(prefix='', recurse=True)
 ```
 
-Returns an iterator over module buffers, yielding both the name of the buffer as well as the buffer itself.
+返回一个模块缓冲区的迭代器，每次返回的元素是由缓冲区的名字和缓冲区自身组成的元组。
 
-Parameters: 
+named_buffers()函数的参数: 
 
-*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all buffer names.
-*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module.
+*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 要添加在所有缓冲区名字之前的前缀。
+*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的缓冲区，同时也会递归返回其子模块的缓冲区。否则，只返回这个模块直连成员的缓冲区。
 
 
-| Yields: | _(string, torch.Tensor)_ – Tuple containing the name and buffer |
+| Yields: | _(string, torch.Tensor)_ – 包含了缓冲区的名字和缓冲区自身的元组 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for name, buf in self.named_buffers():
@@ -306,12 +306,13 @@ Example:
 named_children()
 ```
 
-Returns an iterator over immediate children modules, yielding both the name of the module as well as the module itself.
+返回一个当前模型直连的子模块的迭代器，每次返回的元素是由子模块的名字和子模块自身组成的元组。
 
-| Yields: | _(string, Module)_ – Tuple containing a name and child module |
+
+| Yields: | _(string, Module)_ – 包含了子模块的名字和子模块自身的元组 |
 | --- | --- |
 
-Example:
+例子：
 
 ```py
 >>> for name, module in model.named_children():
@@ -324,16 +325,17 @@ Example:
 named_modules(memo=None, prefix='')
 ```
 
-Returns an iterator over all modules in the network, yielding both the name of the module as well as the module itself.
+返回一个当前模块内所有模块（包括自身）的迭代器，每次返回的元素是由模块的名字和模块自身组成的元组。
 
-| Yields: | _(string, Module)_ – Tuple of name and module |
+
+| Yields: | _(string, Module)_ – 模块名字和模块自身组成的元组 |
 | --- | --- |
 
 Note
 
-Duplicate modules are returned only once. In the following example, `l` will be returned only once.
+重复的模块只会被返回一次。在下面的例子中，`l`只被返回了一次。
 
-Example:
+例子：
 
 ```py
 >>> l = nn.Linear(2, 2)
@@ -353,18 +355,18 @@ Example:
 named_parameters(prefix='', recurse=True)
 ```
 
-Returns an iterator over module parameters, yielding both the name of the parameter as well as the parameter itself.
+返回一个当前模块内所有参数的迭代器，每次返回的元素是由参数的名字和参数自身组成的元组。
 
-Parameters: 
+named_parameters()函数参数：
 
-*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all parameter names.
-*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module.
+*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 要在所有参数名字前面添加的前缀。
+*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的参数，同时也会返回其子模块的参数。否则，只返回这个模块直连成员的参数。
 
 
-| Yields: | _(string, Parameter)_ – Tuple containing the name and parameter |
+| Yields: | _(string, Parameter)_ – 参数名字和参数自身组成的元组 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for name, param in self.named_parameters():
@@ -377,16 +379,15 @@ Example:
 parameters(recurse=True)
 ```
 
-Returns an iterator over module parameters.
+返回一个遍历模块所有参数的迭代器。
+parameters()函数一个经典的应用就是实践中经常将此函数的返回值传入优化器。
 
-This is typically passed to an optimizer.
-
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module. |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的参数，同时也会递归返回其子模块的参数。否则，只返回这个模块直连成员的参数。 |
 | --- | --- |
-| Yields: | _Parameter_ – module parameter |
+| Yields: | _Parameter_ – 模块参数 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for param in model.parameters():
@@ -400,25 +401,26 @@ Example:
 register_backward_hook(hook)
 ```
 
-Registers a backward hook on the module.
+在模块上注册一个反向的钩子函数。（挂载在backward之后这个点上的钩子函数）
 
-The hook will be called every time the gradients with respect to module inputs are computed. The hook should have the following signature:
+对于每次输入，当模块关于此次输入的反向梯度的计算过程完成，该钩子函数都会被调用一次。钩子函数需要遵从以下特点：
+
 
 ```py
 hook(module, grad_input, grad_output) -> Tensor or None
 
 ```
 
-The `grad_input` and `grad_output` may be tuples if the module has multiple inputs or outputs. The hook should not modify its arguments, but it can optionally return a new gradient with respect to input that will be used in place of `grad_input` in subsequent computations.
+如果模块的输入或输出是多重的（multiple inputs or outputs），那 `grad_input` 和 `grad_output` 应当是元组数据。 钩子函数不能对输入的参数进行任何更改，但是可以选择性地根据输入的参数返回一个新的梯度回去，而这个新的梯度在后续的计算中会替换掉`grad_input`。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。|
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
 
 Warning
 
-The current implementation will not have the presented behavior for complex [`Module`](#torch.nn.Module "torch.nn.Module") that perform many operations. In some failure cases, `grad_input` and `grad_output` will only contain the gradients for a subset of the inputs and outputs. For such [`Module`](#torch.nn.Module "torch.nn.Module"), you should use [`torch.Tensor.register_hook()`](autograd.html#torch.Tensor.register_hook "torch.Tensor.register_hook") directly on a specific input or output to get the required gradients.
+对于一些具有很多复杂操作的[`Module`](#torch.nn.Module "torch.nn.Module")，当前的hook实现版本还不能达到完全理想的效果。举个例子，有些错误的情况下，函数的输入参数`grad_input` 和 `grad_output`中可能只是真正的输入和输出变量的一个子集。对于此类的[`Module`](#torch.nn.Module "torch.nn.Module")，你应该使用[`torch.Tensor.register_hook()`]直接将钩子挂载到某个特定的输入输出的变量上，而不是当前的模块。
 
 ```py
 register_buffer(name, tensor)
