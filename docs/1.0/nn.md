@@ -169,7 +169,7 @@ cuda(device=None)
 double()
 ```
 
-将所有的参数(parameters)和缓冲区(buffers)转换为`double`数据类型。
+将所有的浮点数类型的参数(parameters)和缓冲区(buffers)转换为`double`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -191,7 +191,7 @@ eval()
 
 将模块转换为测试模式。
 
-这个方法只在某些特定的模块上有效，如[`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")， `BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下文档的特殊模块部分（particular modules）。
+这个函数只对特定的模块类型有效，如 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")和`BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下这些特殊模块的文档部分。
 
 ```py
 extra_repr()
@@ -206,7 +206,7 @@ extra_repr()
 float()
 ```
 
-将所有的参数(parameters)和缓冲区(buffers)转换为`float`数据类型。
+将所有浮点数类型的参数(parameters)和缓冲区(buffers)转换为`float`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -229,7 +229,7 @@ Note
 half()
 ```
 
-将所有的参数(parameters)和缓冲区(buffers)转换为`half`数据类型。
+将所有的浮点数类型的参数(parameters)和缓冲区(buffers)转换为`half`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -401,9 +401,9 @@ parameters()函数一个经典的应用就是实践中经常将此函数的返�
 register_backward_hook(hook)
 ```
 
-在模块上注册一个反向的钩子函数。（挂载在backward之后这个点上的钩子函数）
+在模块上注册一个挂载在反向操作之后的钩子函数。（挂载在backward之后这个点上的钩子函数）
 
-对于每次输入，当模块关于此次输入的反向梯度的计算过程完成，该钩子函数都会被调用一次。钩子函数需要遵从以下特点：
+对于每次输入，当模块关于此次输入的反向梯度的计算过程完成，该钩子函数都会被调用一次。此钩子函数需要遵从以下函数签名：
 
 
 ```py
@@ -411,7 +411,7 @@ hook(module, grad_input, grad_output) -> Tensor or None
 
 ```
 
-如果模块的输入或输出是多重的（multiple inputs or outputs），那 `grad_input` 和 `grad_output` 应当是元组数据。 钩子函数不能对输入的参数进行任何更改，但是可以选择性地根据输入的参数返回一个新的梯度回去，而这个新的梯度在后续的计算中会替换掉`grad_input`。
+如果模块的输入或输出是多重的（multiple inputs or outputs），那 `grad_input` 和 `grad_output` 应当是元组数据。 钩子函数不能对输入的参数`grad_input` 和 `grad_output`进行任何更改，但是可以选择性地根据输入的参数返回一个新的梯度回去，而这个新的梯度在后续的计算中会替换掉`grad_input`。
 
 | Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。|
 | --- | --- |
@@ -426,20 +426,20 @@ Warning
 register_buffer(name, tensor)
 ```
 
-Adds a persistent buffer to the module.
+往模块上添加一个持久缓冲区。
 
-This is typically used to register a buffer that should not to be considered a model parameter. For example, BatchNorm’s `running_mean` is not a parameter, but is part of the persistent state.
+这个函数的经常会被用于向模块添加不会被认为是模块参数（model parameter）的缓冲区。举个栗子，BatchNorm的`running_mean`就不是一个参数，但却属于持久状态。
 
-Buffers can be accessed as attributes using given names.
+所添加的缓冲区可以通过给定的名字(name参数)以访问模块的属性的方式进行访问。
 
-Parameters: 
+register_buffer()函数的参数: 
 
-*   **name** (_string_) – name of the buffer. The buffer can be accessed from this module using the given name
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – buffer to be registered.
+*   **name** (_string_) – 要添加的缓冲区的名字。所添加的缓冲区可以通过此名字以访问模块的属性的方式进行访问。
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 需要注册到模块上的缓冲区。
 
 
 
-Example:
+例子:
 
 ```py
 >>> self.register_buffer('running_mean', torch.zeros(num_features))
@@ -450,18 +450,18 @@ Example:
 register_forward_hook(hook)
 ```
 
-Registers a forward hook on the module.
+在模块上注册一个挂载在前向操作之后的钩子函数。（挂载在forward操作结束之后这个点）
 
-The hook will be called every time after [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") has computed an output. It should have the following signature:
+此钩子函数在每次模块的 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward")函数运行结束产生output之后就会被触发。此钩子函数需要遵从以下函数签名：
 
 ```py
 hook(module, input, output) -> None
 
 ```
 
-The hook should not modify the input or output.
+此钩子函数不能进行会修改 input 和 output 这两个参数的操作。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。 |
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
@@ -470,8 +470,10 @@ The hook should not modify the input or output.
 register_forward_pre_hook(hook)
 ```
 
-Registers a forward pre-hook on the module.
+在模块上注册一个挂载在前向操作之前的钩子函数。（挂载在forward操作开始之前这个点）
 
+
+此钩子函数在每次模块的 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward")函数运行开始之前会被触发。此钩子函数需要遵从以下函数签名：
 The hook will be called every time before [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") is invoked. It should have the following signature:
 
 ```py
@@ -479,9 +481,9 @@ hook(module, input) -> None
 
 ```
 
-The hook should not modify the input.
+此钩子函数不能进行会修改 input 这个参数的操作。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。 |
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
@@ -490,14 +492,14 @@ The hook should not modify the input.
 register_parameter(name, param)
 ```
 
-Adds a parameter to the module.
+向模块添加一个参数（parameter）。
 
-The parameter can be accessed as an attribute using given name.
+所添加的参数（parameter）可以通过给定的名字(name参数)以访问模块的属性的方式进行访问。
 
-Parameters: 
+register_parameter()函数的参数： 
 
-*   **name** (_string_) – name of the parameter. The parameter can be accessed from this module using the given name
-*   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to be added to the module.
+*   **name** (_string_) – 所添加的参数的名字. 所添加的参数（parameter）可以通过此名字以访问模块的属性的方式进行访问
+*   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要添加到模块之上的参数。
 
 
 
@@ -505,16 +507,17 @@ Parameters:
 state_dict(destination=None, prefix='', keep_vars=False)
 ```
 
-Returns a dictionary containing a whole state of the module.
+返回一个包含了模块当前所有状态(state)的字典(dictionary)。
 
-Both parameters and persistent buffers (e.g. running averages) are included. Keys are corresponding parameter and buffer names.
+所有的参数和持久缓冲区都被囊括在其中。字典的键值就是响应的参数和缓冲区的名字(name)。
 
-| Returns: | a dictionary containing a whole state of the module |
+
+| Returns: | 一个包含了模块当前所有状态的字典 |
 | --- | --- |
 | Return type: | [dict](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> module.state_dict().keys()
@@ -526,9 +529,9 @@ Example:
 to(*args, **kwargs)
 ```
 
-Moves and/or casts the parameters and buffers.
+移动 并且/或者（and/or）转换所有的参数和缓冲区。
 
-This can be called as
+这个函数可以这样调用：
 
 ```py
 to(device=None, dtype=None, non_blocking=False)
@@ -542,19 +545,19 @@ to(dtype, non_blocking=False)
 to(tensor, non_blocking=False)
 ```
 
-Its signature is similar to [`torch.Tensor.to()`](tensors.html#torch.Tensor.to "torch.Tensor.to"), but only accepts floating point desired `dtype` s. In addition, this method will only cast the floating point parameters and buffers to `dtype` (if given). The integral parameters and buffers will be moved `device`, if that is given, but with dtypes unchanged. When `non_blocking` is set, it tries to convert/move asynchronously with respect to the host if possible, e.g., moving CPU Tensors with pinned memory to CUDA devices.
+此函数的函数签名跟[`torch.Tensor.to()`](tensors.html#torch.Tensor.to "torch.Tensor.to")函数的函数签名很相似，只不过这个函数`dtype`参数只接受浮点数类型的dtype，如float， double， half（ floating point desired `dtype` s）。同时，这个方法只会将浮点数类型的参数和缓冲区（the floating point parameters and buffers）转化为`dtype`（如果输入参数中给定的话）的数据类型。而对于整数类型的参数和缓冲区（the integral parameters and buffers），即便输入参数中给定了`dtype`，也不会进行转换操作，而如果给定了 `device`参数，移动操作则会正常进行。当`non_blocking`参数被设置为True之后，此函数会尽可能地相对于 host 进行异步的 转换/移动 操作，比如，将存储在固定内存（pinned memory）上的CPU Tensors移动到CUDA设备上。
 
-See below for examples.
+例子在下面。
 
 Note
 
-This method modifies the module in-place.
+这个方法对模块的修改都是in-place操作。
 
-Parameters: 
+to()函数的参数: 
 
-*   **device** (`torch.device`) – the desired device of the parameters and buffers in this module
-*   **dtype** (`torch.dtype`) – the desired floating point type of the floating point parameters and buffers in this module
-*   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor whose dtype and device are the desired dtype and device for all parameters and buffers in this module
+*   **device** (`torch.device`) – 想要将这个模块中的参数和缓冲区转移到的设备。
+*   **dtype** (`torch.dtype`) – 想要将这个模块中浮点数的参数和缓冲区转化为的浮点数数据类型。
+*   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 一个Tensor，如果被指定，其dtype和device信息，将分别起到上面两个参数的作用，也就是说，这个模块的浮点数的参数和缓冲区的数据类型将会被转化为这个Tensor的dtype类型，同时被转移到此Tensor所处的设备device上去。
 
 
 | Returns: | self |
@@ -562,7 +565,7 @@ Parameters:
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> linear = nn.Linear(2, 2)
@@ -597,9 +600,9 @@ tensor([[ 0.1914, -0.3420],
 train(mode=True)
 ```
 
-Sets the module in training mode.
+将模块转换成训练模式。
 
-This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout"), `BatchNorm`, etc.
+这个函数只对特定的模块类型有效，如 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")和`BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下这些特殊模块的文档部分。
 
 | Returns: | self |
 | --- | --- |
@@ -610,9 +613,9 @@ This has any effect only on certain modules. See documentations of particular mo
 type(dst_type)
 ```
 
-Casts all parameters and buffers to `dst_type`.
+将所有的参数和缓冲区转化为 `dst_type`的数据类型。
 
-| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – the desired type |
+| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – 要转化的数据类型 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -623,7 +626,7 @@ Casts all parameters and buffers to `dst_type`.
 zero_grad()
 ```
 
-Sets gradients of all model parameters to zero.
+讲模块所有参数的梯度设置为0。
 
 ### Sequential
 
