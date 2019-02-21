@@ -18,7 +18,7 @@ torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None, progress=
 
 *   **url**（_string_）– 要下载的对象的URL链接
 *   **model_dir**（_string_ _,_ _可选_）– 保存下载对象的目录
-*   **map_location**（_可选_）– 函数或字典，指定如何重新映射存储位置（见see torch.load）
+*   **map_location**（_可选_）– 函数或字典，指定如何重新映射存储位置（见torch.load）
 *   **progress**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 是否向标准输出展示进度条
 
 
