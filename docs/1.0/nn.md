@@ -634,12 +634,12 @@ zero_grad()
 class torch.nn.Sequential(*args)
 ```
 
-A sequential container. Modules will be added to it in the order they are passed in the constructor. Alternatively, an ordered dict of modules can also be passed in.
+一种顺序容器。传入Sequential构造器中的模块会被按照他们传入的顺序依次添加到Sequential之上。相应的，一个由模块组成的顺序词典也可以被传入到Sequential的构造器中。
 
-To make it easier to understand, here is a small example:
+为了方便大家理解，举个简单的例子：
 
 ```py
-# Example of using Sequential
+# 构建Sequential的例子
 model = nn.Sequential(
           nn.Conv2d(1,20,5),
           nn.ReLU(),
@@ -647,7 +647,7 @@ model = nn.Sequential(
           nn.ReLU()
         )
 
-# Example of using Sequential with OrderedDict
+# 利用OrderedDict构建Sequential的例子
 model = nn.Sequential(OrderedDict([
           ('conv1', nn.Conv2d(1,20,5)),
           ('relu1', nn.ReLU()),
@@ -657,20 +657,20 @@ model = nn.Sequential(OrderedDict([
 
 ```
 
-### ModuleList
+### ModuleList (模块列表)
 
 ```py
 class torch.nn.ModuleList(modules=None)
 ```
 
-Holds submodules in a list.
+ModuleList的作用是将一堆模块（module）存储在一个列表之中。
 
-ModuleList can be indexed like a regular Python list, but modules it contains are properly registered, and will be visible by all Module methods.
+ModuleList 可以按一般的python列表的索引方式进行索引，但ModuleList中的模块都已被正确注册，并且对所有的Module method可见。
 
-| Parameters: | **modules** (_iterable__,_ _optional_) – an iterable of modules to add |
+| Parameters: | **modules** (_iterable__,_ _optional_) – 一个要添加到ModuleList中的由模块组成的可迭代结构(an iterable of modules)|
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -679,7 +679,7 @@ class MyModule(nn.Module):
         self.linears = nn.ModuleList([nn.Linear(10, 10) for i in range(10)])
 
     def forward(self, x):
-        # ModuleList can act as an iterable, or be indexed using ints
+        # ModuleList可以被当作一个迭代器，同时也可以使用index索引
         for i, l in enumerate(self.linears):
             x = self.linears[i // 2](x) + l(x)
         return x
@@ -690,44 +690,44 @@ class MyModule(nn.Module):
 append(module)
 ```
 
-Appends a given module to the end of the list.
+将一个模块添加到ModuleList的末尾，与python list的append()一致。
 
-| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to append |
+| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要添加的模块 |
 | --- | --- |
 
 ```py
 extend(modules)
 ```
 
-Appends modules from a Python iterable to the end of the list.
+将一个由模块组成的可迭代结构添加到ModuleList的末尾，与python list的extend()一致。
 
-| Parameters: | **modules** (_iterable_) – iterable of modules to append |
+| Parameters: | **modules** (_iterable_) – 要添加到ModuleList末尾的由模块组成的可迭代结构 |
 | --- | --- |
 
 ```py
 insert(index, module)
 ```
 
-Insert a given module before a given index in the list.
+将给定的`module`插入到ModuleList的`index`位置。
 
-Parameters: 
+insert()函数的参数: 
 
-*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – index to insert.
-*   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to insert
+*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要插入的位置
+*   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要插入的模块
 
 
-
-### ModuleDict
+### ModuleDict (模块词典)
 
 ```py
 class torch.nn.ModuleDict(modules=None)
 ```
 
-Holds submodules in a dictionary.
+ModuleDict的作用是将一堆模块（module）存储在一个词典之中。
 
-ModuleDict can be indexed like a regular Python dictionary, but modules it contains are properly registered, and will be visible by all Module methods.
 
-| Parameters: | **modules** (_iterable__,_ _optional_) – a mapping (dictionary) of (string: module) or an iterable of key/value pairs of type (string, module) |
+ModuleDict 可以按一般的python词典的索引方式进行索引，但ModuleDict中的模块都已被正确注册，并且对所有的Module method可见。
+
+| Parameters: | **modules** (_iterable__,_ _optional_) – 一个由(string: module)映射组成的映射集合（词典）或者 一个由(string, module)键/值对组成的可迭代结构 |
 | --- | --- |
 
 Example:
@@ -755,59 +755,57 @@ class MyModule(nn.Module):
 ```py
 clear()
 ```
-
-Remove all items from the ModuleDict.
+移除ModuleDict中所有的元素。
 
 ```py
 items()
 ```
 
-Return an iterable of the ModuleDict key/value pairs.
+返回一个由ModuleDict中的键/值对组成的可迭代结构
 
 ```py
 keys()
 ```
 
-Return an iterable of the ModuleDict keys.
+返回一个由ModuleDict中的键组成的可迭代结构
 
 ```py
 pop(key)
 ```
+将`key`这个键从ModuleDict中删除，并将其对应的模块返回。
 
-Remove key from the ModuleDict and return its module.
-
-| Parameters: | **key** (_string_) – key to pop from the ModuleDict |
+| Parameters: | **key** (_string_) – 要从ModuleDict中弹出的键 |
 | --- | --- |
 
 ```py
 update(modules)
 ```
 
-Update the ModuleDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
+通过传入的映射或者由键/值对组成的可迭代结构对当前的ModuleDict进行更新，如果传入对象与当前ModuleDict中存在键重复，当前ModuleDict中这些重复的键所对应的值将被覆盖。
 
-| Parameters: | **modules** (_iterable_) – a mapping (dictionary) of (string: `Module``) or an iterable of key/value pairs of type (string, `Module``) |
+| Parameters: | **modules** (_iterable_) – 一个由(string: `Module`)映射组成的映射集合（词典）或者 一个由(string: `Module`)键/值对组成的可迭代结构 |
 | --- | --- |
 
 ```py
 values()
 ```
 
-Return an iterable of the ModuleDict values.
+返回一个由ModuleDict中的值组成的可迭代结构
 
-### ParameterList
+### ParameterList (参数列表)
 
 ```py
 class torch.nn.ParameterList(parameters=None)
 ```
+ParameterList的作用是将一堆参数（parameter）存储到一个列表中。
 
-Holds parameters in a list.
+ParameterList 可以按一般的python列表的索引方式进行索引，但ParameterList中的参数（parameter）都已被正确注册，并且对所有的Module method可见。
 
-ParameterList can be indexed like a regular Python list, but parameters it contains are properly registered, and will be visible by all Module methods.
 
-| Parameters: | **parameters** (_iterable__,_ _optional_) – an iterable of `Parameter`` to add |
+| Parameters: | **parameters** (_iterable__,_ _optional_) – 要添加到ParameterList之上的由parameter组成的可迭代结构 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -816,7 +814,7 @@ class MyModule(nn.Module):
         self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) for i in range(10)])
 
     def forward(self, x):
-        # ParameterList can act as an iterable, or be indexed using ints
+        # ParameterList可以被当作一个迭代器，同时也可以使用index索引
         for i, p in enumerate(self.params):
             x = self.params[i // 2].mm(x) + p.mm(x)
         return x
@@ -827,18 +825,18 @@ class MyModule(nn.Module):
 append(parameter)
 ```
 
-Appends a given parameter at the end of the list.
+将一个parameter添加到ParameterList的末尾。
 
-| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to append |
+| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要添加的参数 |
 | --- | --- |
 
 ```py
 extend(parameters)
 ```
 
-Appends parameters from a Python iterable to the end of the list.
+将一个由parameter组成的Python可迭代结构添加到ParameterList的末尾。
 
-| Parameters: | **parameters** (_iterable_) – iterable of parameters to append |
+| Parameters: | **parameters** (_iterable_) – 要添加到ParameterList的末尾的由parameter组成的Python可迭代结构 |
 | --- | --- |
 
 ### ParameterDict
