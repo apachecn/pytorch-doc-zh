@@ -149,7 +149,7 @@ retain_grad()
 
 为非叶变量启用 .grad 属性.
 
-## :hidden:’Function(函数)’
+## Function (函数)
 
 ```py
 class torch.autograd.Function

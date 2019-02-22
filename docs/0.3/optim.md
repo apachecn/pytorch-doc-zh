@@ -30,7 +30,7 @@ optimizer = optim.Adam([var1, var2], lr = 0.0001)
 
 ### 为每个参数单独设置选项
 
-`Optimizer` 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 :class: `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
+`Optimizer` 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
 
 注解：
 
@@ -94,7 +94,10 @@ class torch.optim.Optimizer(params, defaults)
 
 优化器的基类.
 
-Args: * params (iterable): :class:`Variable 或 :class:`dict 的迭代, 指定了应该优化哪些参数. * defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
+参数：
+
+* `params (iterable)`: `Variable` 或 `dict` 的迭代, 指定了应该优化哪些参数. 
+* `defaults (dict)`: 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
 
 ```py
 add_param_group(param_group)

@@ -4492,7 +4492,7 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 `batch1` 和 `batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 ::attr:`mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
+如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 `mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
 
 换句话说, ![res = (beta * M) + (alpha * sum(batch1_i @ batch2_i, i = 0, b))](img/tex-7ef2304a9f7469a9bd7902e33b85981c.gif)
 
@@ -4530,7 +4530,7 @@ torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 
 执行矩阵 `mat1` 和 `mat2` 的相乘. 矩阵 `mat` 将与相乘的最终计算结果相加.
 
-如果 `mat1` 是一个 `n x m` 的张量, `mat2` 是一个 `m x p`的张量, 那么 ::attr:`mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
+如果 `mat1` 是一个 `n x m` 的张量, `mat2` 是一个 `m x p`的张量, 那么 `mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
 
 换句话说, ![out = (beta * M) + (alpha * mat1 @ mat2)](img/tex-3136ca146acddc296c21d3faf3238418.gif)
 
@@ -4538,7 +4538,7 @@ torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 
 参数：
 
-*   `beta (Number, 可选)` – 作用于:attr:`mat`的乘子
+*   `beta (Number, 可选)` – 作用于`mat`的乘子
 *   `mat (Tensor)` – 要被相加的矩阵
 *   `alpha (Number, 可选)` – 作用于`mat1 @ mat2`的乘子
 *   `mat1 (Tensor)` – 要相乘的第一个矩阵
@@ -4604,7 +4604,7 @@ torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 ```
 
-执行向量:attr:`vec1` 和 `vec2` 的外积, 并把外积计算结果与矩阵 `mat` 相加.
+执行向量 `vec1` 和 `vec2` 的外积, 并把外积计算结果与矩阵 `mat` 相加.
 
 可选值 `beta` 和 `alpha` 是标量, 分别与 `mat` 和 ![(vec1 \otimes vec2)](img/tex-ab16a4d3626255c0f2ff1b18ec903b95.gif) 相乘.
 
@@ -4647,7 +4647,7 @@ torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 `batch1` 和 `batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 ::attr:`mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `b x n x p` 的张量, 同时 attr:`out` 将是一个 `b x n x p` 的张量.
+如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 `mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `b x n x p` 的张量, 同时 attr:`out` 将是一个 `b x n x p` 的张量.
 
 换句话说, ![res_i = (beta * M_i) + (alpha * batch1_i \times batch2_i)](img/tex-4c174ea27877cea5aeef8649acf33a61.gif)
 

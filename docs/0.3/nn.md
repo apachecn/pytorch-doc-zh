@@ -655,7 +655,7 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 ![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
-!\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带:math:[`star`项为卷积项.
+![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带`*`项为卷积项.
 
 `stride` 计算相关系数的步长, 可以为 tuple .`padding` 处理边界时在每个维度首尾补0数量.`dilation` 采样间隔数量. 大于1时为非致密采样.`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时
 
@@ -721,7 +721,7 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 ![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
-!\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带:math:[`star`项为卷积项.
+!\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带`*`项为卷积项.
 
 `stride` 计算相关系数的步长, 可以为 tuple .`padding` 处理边界时在每个维度首尾补0数量.`dilation` 采样间隔数量. 大于1时为非致密采样.`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时
 
