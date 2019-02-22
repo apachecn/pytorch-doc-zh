@@ -202,7 +202,7 @@ load_state_dict(state_dict, strict=True)
 参数：
 
 *   `state_dict (dict)` – 一个包含 parameters 和 persistent buffers（持久化缓存的）字典.
-*   `strict (bool)` – 严格的强制 `state_dict` 属性中的 key 与该模块的函数 `:func:`state_dict()` 返回的 keys 相匹配.
+*   `strict (bool)` – 严格的强制 `state_dict` 属性中的 key 与该模块的函数 `state_dict()` 返回的 keys 相匹配.
 
 
 
@@ -556,7 +556,7 @@ class torch.nn.ParameterList(parameters=None)
 
 ParameterList 可以像普通的 Python list 那样被索引, 但是它所包含的参数被正确的注册了, 并且所有的 Module 方法都可见的.
 
-参数：`modules (list, 可选)` – 要被添加的 `Parameter`` 列表
+参数：`modules (list, 可选)` – 要被添加的 `Parameter` 列表
 
 
 示例：
@@ -3570,7 +3570,7 @@ loss(x, class) = class != ignoreIndex ? -weight[class] * x[class] : 0
 参数：
 
 *   `weight (Tensor, 可选)` – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss` 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
 *   `ignore_index (int, 可选)` – 设置一个目标值, 该目标值会被忽略, 从而不会影响到 输入的梯度. 当 size_average 为 `True` 时, loss 将会在没有被忽略的元素上 取平均值.
 *   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
@@ -3937,9 +3937,9 @@ class torch.nn.MultiMarginLoss(p=1, margin=1, weight=None, size_average=True)
 
 ```py
 loss(x, y) = sum_i(max(0, (margin - x[y] + x[i]))^p) / x.size(0)
-             其中 `i == 0` 至 `x.size(0)` 并且 `i != y`.
-
 ```
+
+其中 `i == 0` 至 `x.size(0)` 并且 `i != y`.
 
 可选择的, 如果您不想所有的类拥有同样的权重的话, 您可以通过在构造函数中传入 `weight` 参数来 解决这个问题, `weight` 是一个1维 Tensor.
 
@@ -4364,7 +4364,7 @@ torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=False)
 
 将填充过的变长序列打包(压紧).
 
-输入的形状可以是 `TxBx*` . T是最长序列长度(等于 `lengths0]`), B 是 batch size, [*代表任意维度(可以是0). 如果 `batch_first=True` , 那么相应的 input size 就是 `BxTx*` .
+输入的形状可以是 `TxBx*` . `T`是最长序列长度(等于 `lengths[0]`), `B`是批量大小, `*`代表任意维度(可以是 0). 如果 `batch_first=True` , 那么相应的输入大小就是 `BxTx*` .
 
 Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前, 短的在后. 即 input[:,0] 代表的是最长的序列, input[:, B-1] 保存的是最短的序列.
 
@@ -4376,7 +4376,7 @@ Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前,
 
 *   `input (Variable)` – 变长序列被填充后的 batch
 *   `lengths (list[int])` – Variable 中每个序列的长度.
-*   `batch_first (bool, 可选)` – 如果是 `True`, input 的形状应该是 BxTx*.
+*   `batch_first (bool, 可选)` – 如果是 `True`, input 的形状应该是 `BxTx*`.
 
 
 返回值：一个 `PackedSequence` 对象.
@@ -4392,14 +4392,14 @@ torch.nn.utils.rnn.pad_packed_sequence(sequence, batch_first=False, padding_valu
 
 这是 `pack_padded_sequence()` 的逆操作.
 
-返回的 Varaible 的值的 size 是 TxBx*, T 是最长序列的长度, B 是 batch_size, 如果 `batch_first=True`, 那么返回值是 BxTx*.
+返回的 Varaible 的值的 size 是 `TxBx*`, T 是最长序列的长度, B 是 batch_size, 如果 `batch_first=True`, 那么返回值是 `BxTx*`.
 
 Batch中的元素将会以它们长度的逆序排列.
 
 参数：
 
 *   `sequence (PackedSequence)` – 将要被填充的 batch
-*   `batch_first (bool, 可选)` – 如果为 `True`` , 返回的数据的格式为 BxTx*.
+*   `batch_first (bool, 可选)` – 如果为 `True` , 返回的数据的格式为 `BxTx*`.
 *   `padding_value (float, 可选)` – 用来填充元素的值
 
 

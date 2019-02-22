@@ -1,6 +1,6 @@
 # torch.Tensor
 
-> 译者：[[@Sylvester](https://github.com/coboe)、[@那伊抹微笑](https://github.com/wangyangting)
+> 译者：[@Sylvester](https://github.com/coboe)、[@那伊抹微笑](https://github.com/wangyangting)
 > 
 > 校对者：[@Sariel](https://github.com/Cyril-CC)
 
@@ -1450,7 +1450,7 @@ select(dim, index) → Tensor or number
 
 注解：
 
-`select`等效于切片. 例如, ``tensor.select(0, index)`()` 等效于 `tensor[index]` 和 `tensor.select(2, index)` 等效于 `tensor[:,:,index]`.
+`select`等效于切片. 例如, `tensor.select(0, index)` 等效于 `tensor[index]` 和 `tensor.select(2, index)` 等效于 `tensor[:,:,index]`.
 
 ```py
 set_(source=None, storage_offset=0, size=None, stride=None)

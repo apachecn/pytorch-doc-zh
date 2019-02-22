@@ -900,7 +900,7 @@ torch.set_rng_state(new_state)
 参数：`new_state (torch.ByteTensor)` – 理想状态
 
 
-`torch.``default_generator` _= <torch._C.Generator object at 0x28bcc10>_
+`torch.default_generator = <torch._C.Generator object at 0x28bcc10>`
 
 ```py
 torch.bernoulli(input, out=None) → Tensor

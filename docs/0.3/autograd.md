@@ -39,7 +39,7 @@ torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, creat
 * `inputs (变量序列)`: 需要计算的梯度的输入 (并且不会被累加到 `.grad` 参数中). 
 * `grad_outputs (张量或变量序列)`: 每一个输出的梯度. 所有的张量都会变成变量并且是可变的除非参数 `create_graph` 为 `True`. 没有值可以被指定为标量变量或者不需要变化的值. 如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
 *   `retain_graph (bool, 可选)`: 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
-*   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数. 默认为 `False`` , 除非参数 `grad_variables` 包含不只一个变量.
+*   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数. 默认为 `False` , 除非参数 `grad_variables` 包含不只一个变量.
 *   `only_inputs (bool, 可选)`: 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
 *   `allow_unused (bool, 可选)`: 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
 
@@ -90,21 +90,15 @@ backward(gradient=None, retain_graph=None, create_graph=None, retain_variables=N
 
 该图使用链式规则进行计算. 如果变量是非标量（即其数据具有多个元素）并且需要 改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量 微分函数的梯度w.r.t. `self` .
 
-> 这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
-> 
-> 参数: * gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
-> 
-> &gt; 到一个变量,这是挥发性的,除非 `create_graph` 为真.没有值可以被指定为标量变量或那些 不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
-> 
-> *   retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
-> 
-> &gt; 乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为
+这个功能在叶子上累积梯度 - 你可能需要调用之前将它们置零.
 
-     `create_graph`.
+参数: 
 
-*   `create_graph (bool, 可选)`: 如果“真”,派生图将会被构造,允许计算更高阶的导数.
+*    `gradient (Tensor, Variable or None)`: 计算变量的梯度. 如果是张量,则会自动转换到一个变量,这是挥发性的,除非 `create_graph` 为真.没有值可以被指定为标量变量或那些 不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
 
-> 默认为 `False`,除非 `gradient` 是一个volatile变量.
+*   `retain_graph (bool, 可选)`: 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为`create_graph`.
+
+*   `create_graph (bool, 可选)`: 如果“真”,派生图将会被构造,允许计算更高阶的导数. 默认为 `False`,除非 `gradient` 是一个volatile变量.
 
 ```py
 detach()

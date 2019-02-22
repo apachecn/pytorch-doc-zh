@@ -139,7 +139,7 @@ class torchvision.transforms.FiveCrop(size)
 
 该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配. 请参阅下面的例子来处理这个问题.
 
-参数：`size (sequence 或 int)` – 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的..
+参数：`size (sequence 或 int)` – 期望输出的裁剪尺寸. 如果 `size` 是 `int` 类型的整数, 而不是像 `(h, w)` 这样类型的序列, 裁剪出来的图像是 `(size, size)` 这样的正方形的..
 
 
 Example

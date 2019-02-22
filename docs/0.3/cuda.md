@@ -43,9 +43,11 @@ torch.cuda.device_count()
 
 返回可用的 GPU 数量.
 
-`torch.cuda.``device_ctx_manager`
+```py
+torch.cuda.device_ctx_manager
+```
 
-alias of `device`
+`device`的别名。
 
 ```py
 class torch.cuda.device_of(obj)
