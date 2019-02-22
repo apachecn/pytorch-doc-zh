@@ -992,31 +992,31 @@ Shape:
 ```py
 class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
+利用指定大小的二维卷积核对输入的多通道二维输入信号进行二维卷积操作的卷积层。
 
-Applies a 2D convolution over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/a6c3a4e9779c159b39576bee3400a00b.jpg) and output ![](img/4b354af142fb0f01680d390ef552829f.jpg) can be precisely described as:
+在最简单的情况下，对于输入大小为![](img/a6c3a4e9779c159b39576bee3400a00b.jpg)，输出大小为![](img/4b354af142fb0f01680d390ef552829f.jpg)的二维维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/a4928651cb959fa7871eaebdb489b083.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid 2D [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) denotes a number of channels, ![](img/9b7d9beafd65e2cf6493bdca741827a5.jpg) is a height of input planes in pixels, and ![](img/90490a34512e9bd1843ed4da713d0813.jpg) is width in pixels.
+这里的![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个二维互相关（[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)） 操作符（大家可以自己查一下互相关和真卷积的区别，互相关因为实现起来很简单，所以一般的深度学习框架都是用互相关操作取代真卷积）, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) 代表通道的数量, ![](img/9b7d9beafd65e2cf6493bdca741827a5.jpg) 是输入的二维数据的像素高度，![](img/90490a34512e9bd1843ed4da713d0813.jpg) 是输入的二维数据的像素宽度。
 
-*   `stride` controls the stride for the cross-correlation, a single number or a tuple.
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension.
+*   `stride` 参数控制了互相关操作（伪卷积）的步长，参数的数据类型一般是单个数字或者一个只有一个元素的元组。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `padding` 参数控制了要在二维卷积核的输入信号的上下左右各边填补的0的个数。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size: ![](img/19131f9f53448ae579b613bc7bc90158.jpg).
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+`kernel_size`, `stride`, `padding`, `dilation`这几个参数均支持一下输入形式：
+
+> *   一个 `int` 数字 – 二维数据的高和宽这两个维度都会采用这一个数字。
+> *   一个由两个int数字组成的`tuple`– 这种情况下，二维数据的高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
 
 Note
 
