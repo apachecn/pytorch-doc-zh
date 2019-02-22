@@ -45,7 +45,7 @@ set CMAKE_GENERATOR=Ninja
 
 你可以参考[这些脚本](https://github.com/peterjc123/pytorch-scripts)。它会给你指导方向。  
 
-## 扩张  
+## 扩展 
 
 ### CFEI扩展  
 
