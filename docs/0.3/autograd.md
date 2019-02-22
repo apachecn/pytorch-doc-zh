@@ -211,8 +211,8 @@ class torch.autograd.profiler.profile(enabled=True)
 
 结果的评价指标.
 
-| Parameters: | **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _可选_) – 如果设置为 False ,则没有评价指标. Default: `True`. |
-| --- | --- |
+参数：**enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _可选_) – 如果设置为 False ,则没有评价指标. Default: `True`.
+
 
 Example
 
@@ -245,8 +245,8 @@ export_chrome_trace(path)
 
 断点能够通过 `chrome://tracing` URL来读取.
 
-| Parameters: | **path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – 制定断点写的路径. |
-| --- | --- |
+参数：**path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – 制定断点写的路径.
+
 
 ```py
 key_averages()
@@ -254,8 +254,8 @@ key_averages()
 
 平均所有的功能指标通过他们的键.
 
-| Returns: | 包含 FunctionEventAvg 对象的 EventList. |
-| --- | --- |
+返回值：包含 FunctionEventAvg 对象的 EventList.
+
 
 ```py
 table(sort_by=None)
@@ -263,10 +263,10 @@ table(sort_by=None)
 
 打印操作表
 
-| Parameters: | **sort_by** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _可选_) – 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印. 有效的键: `cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`. |
-| --- | --- |
-| Returns: | 包含表的字符串. |
-| --- | --- |
+参数：**sort_by** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _可选_) – 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印. 有效的键: `cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`.
+
+返回值：包含表的字符串.
+
 
 ```py
 total_average()
@@ -274,8 +274,8 @@ total_average()
 
 所有事件的平均指标.
 
-| Returns: | 一个 FunctionEventAvg 对象. |
-| --- | --- |
+返回值：一个 FunctionEventAvg 对象.
+
 
 ```py
 class torch.autograd.profiler.emit_nvtx(enabled=True)
@@ -292,8 +292,8 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
 不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 [`torch.autograd.profiler.load_nvprof()`](#torch.autograd.profiler.load_nvprof "torch.autograd.profiler.load_nvprof") 可以加载检查结果.
 
-| Parameters: | **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _可选_) – 如果设置为 False ,则没有评价指标. 默认: `True`. |
-| --- | --- |
+参数：**enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _可选_) – 如果设置为 False ,则没有评价指标. 默认: `True`.
+
 
 Example
 
@@ -311,5 +311,4 @@ torch.autograd.profiler.load_nvprof(path)
 
 打开 nvprof trace 文件.
 
-| Parameters: | **path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – nvprof trace 文件路径. |
-| --- | --- |
+参数：**path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – nvprof trace 文件路径.

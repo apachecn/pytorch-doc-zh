@@ -128,10 +128,10 @@ u'A mountain view with a plume of smoke in the background']
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | Tuple (image, target). 目标是一个图像标注的列表. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：Tuple (image, target). 目标是一个图像标注的列表.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -157,10 +157,10 @@ class torchvision.datasets.CocoDetection(root, annFile, transform=None, target_t
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | Tuple (image, target). 目标是由 `coco.loadAnns` 返回的对象. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：Tuple (image, target). 目标是由 `coco.loadAnns` 返回的对象.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -186,10 +186,10 @@ class torchvision.datasets.LSUN(db_path, classes='train', transform=None, target
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | Tuple (image, target) 目标是目标类别的索引. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：Tuple (image, target) 目标是目标类别的索引.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -226,10 +226,10 @@ root/cat/asd932_.png
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | (image, target) 目标是目标类别的class_index. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：(image, target) 目标是目标类别的class_index.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -262,10 +262,10 @@ class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_tran
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | (image, target) 目标是目标分类的索引. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：(image, target) 目标是目标分类的索引.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -300,10 +300,10 @@ class torchvision.datasets.STL10(root, split='train', transform=None, target_tra
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | (image, target) 目标是目标类的索引. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：(image, target) 目标是目标类的索引.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -330,10 +330,10 @@ class torchvision.datasets.SVHN(root, split='train', transform=None, target_tran
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | (image, target) 目标是目标类的索引. |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：(image, target) 目标是目标类的索引.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |
 
@@ -359,9 +359,9 @@ class torchvision.datasets.PhotoTour(root, name, train=True, transform=None, dow
 __getitem__(index)
 ```
 
-| Parameters: | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index |
-| --- | --- |
-| Returns: | (data1, data2, matches) |
-| --- | --- |
+参数：**index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – Index
+
+返回值：(data1, data2, matches)
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") |
 | --- | --- |

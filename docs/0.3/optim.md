@@ -100,8 +100,8 @@ add_param_group(param_group)
 
 当微调一个预训练好的网络作为冻结层时是有用的, 它能够使用可训练的和可增加的参数到 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 作为一个训练预处理.
 
-| Parameters: | **param_group** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 指定这一组中具有特殊优化选项的那些 Variables 能够被优化. |
-| --- | --- |
+参数：**param_group** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 指定这一组中具有特殊优化选项的那些 Variables 能够被优化.
+
 
 ```py
 load_state_dict(state_dict)
@@ -109,8 +109,8 @@ load_state_dict(state_dict)
 
 加载优化器状态.
 
-| Parameters: | **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 优化器状态. 是调用 [`state_dict()`](#torch.optim.Optimizer.state_dict "torch.optim.Optimizer.state_dict") 时所返回的对象. |
-| --- | --- |
+参数：**state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 优化器状态. 是调用 [`state_dict()`](#torch.optim.Optimizer.state_dict "torch.optim.Optimizer.state_dict") 时所返回的对象.
+
 
 ```py
 state_dict()
@@ -129,8 +129,8 @@ step(closure)
 
 进行单次优化(参数更新).
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")) – 一个重新评价模型并返回 loss 的闭包大多数优化器可选择. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")) – 一个重新评价模型并返回 loss 的闭包大多数优化器可选择.
+
 
 ```py
 zero_grad()
@@ -154,8 +154,8 @@ step(closure=None)
 
 实行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 重新评估模型并返回误差损失的闭包. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 重新评估模型并返回误差损失的闭包.
+
 
 ```py
 class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0)
@@ -173,8 +173,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
@@ -192,8 +192,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)
@@ -211,8 +211,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ```py
 class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
@@ -230,8 +230,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, weight_decay=0)
@@ -249,8 +249,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad=1e-05, tolerance_change=1e-09, history_size=100, line_search_fn=None)
@@ -278,8 +278,8 @@ step(closure)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ```py
 class torch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)
@@ -299,8 +299,8 @@ step(closure=None)
 
 Performs a single optimization step.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – A closure that reevaluates the model and returns the loss. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – A closure that reevaluates the model and returns the loss.
+
 
 ```py
 class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50))
@@ -320,8 +320,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ```py
 class torch.optim.SGD(params, lr=<object object>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
@@ -363,8 +363,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：**closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ## 如何调整学习率
 

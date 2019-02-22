@@ -30,8 +30,8 @@ class torch.cuda.device(idx)
 
 更改选定设备的上下文管理器.
 
-| Parameters: | **idx** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 选择设备编号. 如果参数无效,则是无效操作. |
-| --- | --- |
+参数：**idx** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 选择设备编号. 如果参数无效,则是无效操作.
+
 
 ```py
 torch.cuda.device_count()
@@ -51,8 +51,8 @@ class torch.cuda.device_of(obj)
 
 可以使用张量和存储作为参数,如果给定的对象不是在 GPU 上分配的,这是一个无效操作.
 
-| Parameters: | **obj** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ _Storage_) – 在选定设备上分配的对象. |
-| --- | --- |
+参数：**obj** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ _Storage_) – 在选定设备上分配的对象.
+
 
 ```py
 torch.cuda.empty_cache()
@@ -66,10 +66,10 @@ torch.cuda.get_device_capability(device)
 
 获取设备的 CUDA 算力.
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 返回设备名, 参数无效时, 方法失效. |
-| --- | --- |
-| Returns: | 设备的主次要 CUDA 算力. |
-| --- | --- |
+参数：**device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 返回设备名, 参数无效时, 方法失效.
+
+返回值：设备的主次要 CUDA 算力.
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")([int](storage.html#torch.FloatStorage.int "torch.FloatStorage.int"), [int](storage.html#torch.FloatStorage.int "torch.FloatStorage.int")) |
 | --- | --- |
 
@@ -79,8 +79,8 @@ torch.cuda.get_device_name(device)
 
 获取设备名.
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 返回设备名. 参数无效时,则是无效操作. |
-| --- | --- |
+参数：**device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 返回设备名. 参数无效时,则是无效操作.
+
 
 ```py
 torch.cuda.is_available()
@@ -96,8 +96,8 @@ torch.cuda.set_device(device)
 
 不鼓励使用这个函数 [`device`](#torch.cuda.device "torch.cuda.device") . 在大多数情况下,最好使用 `CUDA_VISIBLE_DEVICES` 环境变量.
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 选择设备. 参数无效时,则是无效操作. |
-| --- | --- |
+参数：**device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 选择设备. 参数无效时,则是无效操作.
+
 
 ```py
 torch.cuda.stream(*args, **kwds)
@@ -107,8 +107,8 @@ torch.cuda.stream(*args, **kwds)
 
 在选定的流上, 所有的CUDA内核在其上下文内排队.
 
-| Parameters: | **stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – 选择流. 如果是 `None` , 管理器无效. |
-| --- | --- |
+参数：**stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – 选择流. 如果是 `None` , 管理器无效.
+
 
 ```py
 torch.cuda.synchronize()
@@ -124,8 +124,8 @@ torch.cuda.get_rng_state(device=-1)
 
 将当前 GPU 的随机数生成器状态作为 ByteTensor 返回.
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 设备的 RNG 状态. Default: -1 (i.e., 使用当前设备). |
-| --- | --- |
+参数：**device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 设备的 RNG 状态. Default: -1 (i.e., 使用当前设备).
+
 
 Warning
 
@@ -137,8 +137,8 @@ torch.cuda.set_rng_state(new_state, device=-1)
 
 设置当前 GPU 的随机数发生器状态.
 
-| Parameters: | **new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 所需的状态 |
-| --- | --- |
+参数：**new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 所需的状态
+
 
 ```py
 torch.cuda.manual_seed(seed)
@@ -146,8 +146,8 @@ torch.cuda.manual_seed(seed)
 
 设置用于当前 GPU 生成随机数的种子. 如果 CUDA 不可用,调用这个函数是安全的;在这种情况下,它将被忽略.
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 所需的种子. |
-| --- | --- |
+参数：**seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 所需的种子.
+
 
 Warning
 
@@ -159,8 +159,8 @@ torch.cuda.manual_seed_all(seed)
 
 设置在所有 GPU 上生成随机数的种子. 如果 CUDA 不可用, 调用此函数是安全的; 这种情况下,会被忽略.
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 所需的种子. |
-| --- | --- |
+参数：**seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 所需的种子.
+
 
 ```py
 torch.cuda.seed()
@@ -203,8 +203,8 @@ torch.cuda.comm.broadcast(tensor, devices)
 
  |
 | --- | --- |
-| Returns: | 一个元组, 包含 `tensor` 副本,放置在与设备的索引相对应的 `设备` 上. |
-| --- | --- |
+返回值：一个元组, 包含 `tensor` 副本,放置在与设备的索引相对应的 `设备` 上.
+
 
 ```py
 torch.cuda.comm.reduce_add(inputs, destination=None)
@@ -221,8 +221,8 @@ torch.cuda.comm.reduce_add(inputs, destination=None)
 
  |
 | --- | --- |
-| Returns: | 包含所有输入的元素和的张量, 存放在 `destination(目标)` 设备. |
-| --- | --- |
+返回值：包含所有输入的元素和的张量, 存放在 `destination(目标)` 设备.
+
 
 ```py
 torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)
@@ -239,8 +239,8 @@ torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)
 
  |
 | --- | --- |
-| Returns: | 一个元组包含 `tensor` 块, 传递给 `devices` . |
-| --- | --- |
+返回值：一个元组包含 `tensor` 块, 传递给 `devices` .
+
 
 ```py
 torch.cuda.comm.gather(tensors, dim=0, destination=None)
@@ -258,8 +258,8 @@ torch.cuda.comm.gather(tensors, dim=0, destination=None)
 
  |
 | --- | --- |
-| Returns: | 一个位于 `目标` 设备上的张量, 将 `tensors` 沿着 `dim` 连接起来的结果. |
-| --- | --- |
+返回值：一个位于 `目标` 设备上的张量, 将 `tensors` 沿着 `dim` 连接起来的结果.
+
 
 ## Streams and events
 
@@ -283,8 +283,8 @@ query()
 
 检查事件是否已被记录.
 
-| Returns: | 一个 BOOL 值, 指示事件是否已被记录. |
-| --- | --- |
+返回值：一个 BOOL 值, 指示事件是否已被记录.
+
 
 ```py
 record_event(event=None)
@@ -292,10 +292,10 @@ record_event(event=None)
 
 记录一个事件.
 
-| Parameters: | **event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")_,_ _optional_) – 要记录的事件.如果没有给出,将分配一个新的. |
-| --- | --- |
-| Returns: | 记录的事件. |
-| --- | --- |
+参数：**event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")_,_ _optional_) – 要记录的事件.如果没有给出,将分配一个新的.
+
+返回值：记录的事件.
+
 
 ```py
 synchronize()
@@ -309,8 +309,8 @@ wait_event(event)
 
 将所有未来的工作提交到流等待事件.
 
-| Parameters: | **event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")) – 等待的事件. |
-| --- | --- |
+参数：**event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")) – 等待的事件.
+
 
 ```py
 wait_stream(stream)
@@ -320,8 +320,8 @@ wait_stream(stream)
 
 提交到此流的所有未来工作将等待直到所有核心在调用完成时提交给给定的流.
 
-| Parameters: | **stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – 同步流. |
-| --- | --- |
+参数：**stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – 同步流.
+
 
 ```py
 class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, _handle=None)
@@ -356,8 +356,8 @@ query()
 
 检查事件是否已记录.
 
-| Returns: | 一个 BOOL 值, 指示事件是否已被记录. |
-| --- | --- |
+返回值：一个 BOOL 值, 指示事件是否已被记录.
+
 
 ```py
 record(stream=None)
@@ -393,8 +393,8 @@ torch.cuda.nvtx.mark(msg)
 
 描述在某个时刻发生的瞬间事件.
 
-| Parameters: | **msg** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 事件(用 ASCII 编码表示). |
-| --- | --- |
+参数：**msg** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 事件(用 ASCII 编码表示).
+
 
 ```py
 torch.cuda.nvtx.range_push(msg)
@@ -402,8 +402,8 @@ torch.cuda.nvtx.range_push(msg)
 
 设置一个固定范围的堆栈,返回的堆栈范围深度从0开始.
 
-| Parameters: | **msg** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 范围(用 ASCII 编码设置) |
-| --- | --- |
+参数：**msg** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 范围(用 ASCII 编码设置)
+
 
 ```py
 torch.cuda.nvtx.range_pop()

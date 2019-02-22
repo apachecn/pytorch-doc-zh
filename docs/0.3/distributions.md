@@ -35,8 +35,8 @@ log_prob(value)
 
 返回在`value`处的概率密度函数的对数.
 
-| Parameters: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – （基类的参数,没有实际用处） |
-| --- | --- |
+参数：**value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – （基类的参数,没有实际用处）
+
 
 ```py
 sample()
@@ -70,8 +70,8 @@ class torch.distributions.Bernoulli(probs)
 
 ```
 
-| Parameters: | **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 采样到 `1` 的概率 |
-| --- | --- |
+参数：**probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 采样到 `1` 的概率
+
 
 ## Categorical (类别分布)
 
@@ -101,8 +101,8 @@ class torch.distributions.Categorical(probs)
 
 ```
 
-| Parameters: | **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 事件概率 |
-| --- | --- |
+参数：**probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 事件概率
+
 
 ## Normal (正态分布)
 

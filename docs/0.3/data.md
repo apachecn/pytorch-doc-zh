@@ -30,8 +30,8 @@ class torch.utils.data.ConcatDataset(datasets)
 
 用以连结多个数据集的数据集. 目的: 对于组装不同的现有数据集非常有帮助, 可能是 大规模的数据集, 因为串联操作是以即时方式完成的.
 
-| Parameters: | **datasets** (_iterable_) – 需要连结的数据集列表 |
-| --- | --- |
+参数：**datasets** (_iterable_) – 需要连结的数据集列表
+
 
 ```py
 class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=<function default_collate at 0x4316c08>, pin_memory=False, drop_last=False)
@@ -68,8 +68,8 @@ class torch.utils.data.sampler.SequentialSampler(data_source)
 
 总是以相同的顺序, 依次对元素进行采样.
 
-| Parameters: | **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 采样的数据集 |
-| --- | --- |
+参数：**data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 采样的数据集
+
 
 ```py
 class torch.utils.data.sampler.RandomSampler(data_source)
@@ -77,8 +77,8 @@ class torch.utils.data.sampler.RandomSampler(data_source)
 
 采用无放回采样法, 随机对样本元素采样.
 
-| Parameters: | **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 采样的数据集 |
-| --- | --- |
+参数：**data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 采样的数据集
+
 
 ```py
 class torch.utils.data.sampler.SubsetRandomSampler(indices)
@@ -86,8 +86,8 @@ class torch.utils.data.sampler.SubsetRandomSampler(indices)
 
 采用无放回采样法, 样本元素从指定的索引列表中随机抽取.
 
-| Parameters: | **indices** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – 索引的列表 |
-| --- | --- |
+参数：**indices** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – 索引的列表
+
 
 ```py
 class torch.utils.data.sampler.WeightedRandomSampler(weights, num_samples, replacement=True)

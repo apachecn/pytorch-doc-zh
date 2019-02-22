@@ -41,5 +41,4 @@ torchvision.set_image_backend(backend)
 
 指定用于加载图像的包.
 
-| Parameters: | **backend** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 图像处理后端的名称. {‘PIL’, ‘accimage’} 之一. `accimage` 使用 Intel IPP library（高性能图像加载和增强程序模拟的程序）.通常比PIL库要快, 但是不支持许多操作. |
-| --- | --- |
+参数：**backend** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 图像处理后端的名称. {‘PIL’, ‘accimage’} 之一. `accimage` 使用 Intel IPP library（高性能图像加载和增强程序模拟的程序）.通常比PIL库要快, 但是不支持许多操作.

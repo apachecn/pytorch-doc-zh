@@ -12,8 +12,8 @@ torch.is_tensor(obj)
 
 如果 `obj` 是一个 pytorch tensor, 则返回True.
 
-| Parameters: | **obj** (_Object_) – 用于测试的对象 |
-| --- | --- |
+参数：**obj** (_Object_) – 用于测试的对象
+
 
 ```py
 torch.is_storage(obj)
@@ -21,8 +21,8 @@ torch.is_storage(obj)
 
 如果 `obj` 是一个 pytorch storage object, 则返回True.
 
-| Parameters: | **obj** (_Object_) – 用于测试的对象 |
-| --- | --- |
+参数：**obj** (_Object_) – 用于测试的对象
+
 
 ```py
 torch.set_default_tensor_type(t)
@@ -34,8 +34,8 @@ torch.numel(input) → int
 
 返回 `input` Tensor 中的元素总数.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的 `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的 `Tensor`
+
 
 Example:
 
@@ -82,8 +82,8 @@ torch.eye(n, m=None, out=None)
 
  |
 | --- | --- |
-| Returns: | 一个对角线位置全为1, 其它位置全为0的二维 tensor. |
-| --- | --- |
+返回值：一个对角线位置全为1, 其它位置全为0的二维 tensor.
+
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
 | --- | --- |
 
@@ -897,8 +897,8 @@ torch.manual_seed(seed)
 
 设置生成随机数的种子,并返回一个 `torch._C.Generator` 对象.
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 种子. |
-| --- | --- |
+参数：**seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 种子.
+
 
 ```py
 torch.initial_seed()
@@ -918,8 +918,8 @@ torch.set_rng_state(new_state)
 
 设置随机数发生器的参数.
 
-| Parameters: | **new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 理想状态 |
-| --- | --- |
+参数：**new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 理想状态
+
 
 `torch.``default_generator` _= <torch._C.Generator object at 0x28bcc10>_
 
@@ -1213,8 +1213,8 @@ torch.randperm(n, out=None) → LongTensor
 
 返回一个从 `0` to `n - 1` 的整数的随机排列.
 
-| Parameters: | **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 上限 (唯一的) |
-| --- | --- |
+参数：**n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 上限 (唯一的)
+
 
 Example:
 
@@ -3037,8 +3037,8 @@ torch.mean(input) → float
 
 返回张量 `input` 所有元素的均值.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
+
 
 Example:
 
@@ -3112,8 +3112,8 @@ torch.median(input) → float
 
 返回输出张量 `input` 所有元素的中位数.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input `Tensor`
+
 
 Example:
 
@@ -3340,8 +3340,8 @@ torch.prod(input) → float
 
 返回输入张量 `input` 所有元素的乘积.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
+
 
 Example:
 
@@ -3484,8 +3484,8 @@ torch.sum(input) → float
 
 返回输入张量 `input` 所有元素的和.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
+
 
 Example:
 
@@ -3636,8 +3636,8 @@ torch.eq(input, other, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0 |
-| --- | --- |
+返回值：一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0
+
 
 Example:
 
@@ -3679,8 +3679,8 @@ torch.ge(input, other, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt;= other ). |
-| --- | --- |
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt;= other ).
+
 | Return type: | 张量 |
 | --- | --- |
 
@@ -3712,8 +3712,8 @@ torch.gt(input, other, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt; other ). |
-| --- | --- |
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt; other ).
+
 | Return type: | 张量 |
 | --- | --- |
 
@@ -3806,8 +3806,8 @@ torch.le(input, other, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt;= other ). |
-| --- | --- |
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt;= other ).
+
 | Return type: | 张量 |
 | --- | --- |
 
@@ -3837,8 +3837,8 @@ torch.lt(input, other, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt; other ). |
-| --- | --- |
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt; other ).
+
 | Return type: | 张量 |
 | --- | --- |
 
@@ -3864,8 +3864,8 @@ torch.max(input) → float
 
 返回输入 `input` 张量所有元素的最大值.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
+
 
 Example:
 
@@ -3987,8 +3987,8 @@ torch.min(input) → float
 
 返回输入张量 `input` 所有元素的最小值.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor` |
-| --- | --- |
+参数：**input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
+
 
 Example:
 
@@ -4114,8 +4114,8 @@ torch.ne(input, other, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果 (是否 input != other ) . |
-| --- | --- |
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果 (是否 input != other ) .
+
 | Return type: | 张量 |
 | --- | --- |
 
@@ -4402,8 +4402,8 @@ torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 
  |
 | --- | --- |
-| Returns: | 直方图 |
-| --- | --- |
+返回值：直方图
+
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
 | --- | --- |
 
@@ -4834,8 +4834,8 @@ torch.btrifact(A, info=None, pivot=True) → Tensor, IntTensor
 
 返回一个包含 LU 分解和枢轴的元组. 对于每个 minibatch 示例, 如果分解成功, 可选参数 `info` 将提供分解信息. `info` 的值来自 dgetrf, 若是非零值, 则表示有错误发生. 如果 cuda 被使用的话, 具体的值来自 cublas, 否则来自 LAPACK. 如果设置了 pivot, 那么旋转操作将被执行.
 
-| Parameters: | **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要分解的张量. |
-| --- | --- |
+参数：**A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要分解的张量.
+
 
 Example:
 

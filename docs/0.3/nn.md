@@ -74,10 +74,10 @@ apply(fn)
 
 将 `fn` 函数递归的应用到每一个子模块 (由 `.children()` 方法所返回的) 以及 self. 典型的用于包括初始化模型的参数 (也可参阅 torch-nn-init).
 
-| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – 要被应用到每一个子模块上的函数 |
-| --- | --- |
-| Returns: | self |
-| --- | --- |
+参数：**fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – 要被应用到每一个子模块上的函数
+
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -124,8 +124,8 @@ cpu()
 
 将所有的模型参数和缓冲区移动到 CPU.
 
-| Returns: | self |
-| --- | --- |
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -137,10 +137,10 @@ cuda(device=None)
 
 这将会关联一些参数并且缓存不同的对象. 所以在构建优化器之前应该调用它, 如果模块在优化的情况下会生存在 GPU 上.
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 如果指定, 所有参数将被复制到指定的设备上 |
-| --- | --- |
-| Returns: | self |
-| --- | --- |
+参数：**device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 如果指定, 所有参数将被复制到指定的设备上
+
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -150,8 +150,8 @@ double()
 
 将所有的 parameters 和 buffers 的数据类型转换成 double.
 
-| Returns: | self |
-| --- | --- |
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -169,8 +169,8 @@ float()
 
 将所有的 parameters 和 buffers 的数据类型转换成float.
 
-| Returns: | self |
-| --- | --- |
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -192,8 +192,8 @@ half()
 
 将所有的 parameters 和 buffers 的数据类型转换成 half.
 
-| Returns: | self |
-| --- | --- |
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -335,8 +335,8 @@ hook(module, grad_input, grad_output) -> Tensor or None
 
 如果 module 有多个输入或输出的话, 那么 `grad_input` 和 `grad_output` 将会是个 tuple. hook 不应该修改它的参数, 但是它可以选择性地返回一个新的关于输入的梯度, 这个返回的梯度在后续的计算中会替代 `grad_input`.
 
-| Returns: | 通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 `handle.remove()` |
-| --- | --- |
+返回值：通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 `handle.remove()`
+
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
 
@@ -380,8 +380,8 @@ hook(module, input, output) -> None
 
 该钩子应该不会修改输入或输出.
 
-| Returns: | 通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 |
-| --- | --- |
+返回值：通过调用 `handle.remove()` 方法可以删除添加钩子的句柄
+
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
 
@@ -400,8 +400,8 @@ hook(module, input) -> None
 
 该钩子不应该修改输入.
 
-| Returns: | 通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 `handle.remove()` |
-| --- | --- |
+返回值：通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 `handle.remove()`
+
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
 
@@ -439,8 +439,8 @@ state_dict(destination=None, prefix='', keep_vars=False)
 
  |
 | --- | --- |
-| Returns: | 包含模块整体状态的字典 |
-| --- | --- |
+返回值：包含模块整体状态的字典
+
 | Return type: | [dict](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)") |
 | --- | --- |
 
@@ -460,8 +460,8 @@ train(mode=True)
 
 这只对诸如 Dropout 或 BatchNorm 等模块时才会有影响.
 
-| Returns: | self |
-| --- | --- |
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -471,10 +471,10 @@ type(dst_type)
 
 转换所有参数和缓冲区为 dst_type.
 
-| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.6)") _or_ [_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 理想的类型 |
-| --- | --- |
-| Returns: | self |
-| --- | --- |
+参数：**dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.6)") _or_ [_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 理想的类型
+
+返回值：self
+
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
@@ -523,8 +523,8 @@ class torch.nn.ModuleList(modules=None)
 
 ModuleList 可以像普通的 Python list 一样被索引, 但是它包含的模块已经被正确的注册了, 并且所有的 Module 方法都是可见的.
 
-| Parameters: | **modules** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_,_ _optional_) – 要添加的模块列表 |
-| --- | --- |
+参数：**modules** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_,_ _optional_) – 要添加的模块列表
+
 
 Example:
 
@@ -548,8 +548,8 @@ append(module)
 
 添加一个指定的模块到 list 尾部.
 
-| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要被添加的模块 |
-| --- | --- |
+参数：**module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要被添加的模块
+
 
 ```py
 extend(modules)
@@ -557,8 +557,8 @@ extend(modules)
 
 在最后添加 Python list 中的模块.
 
-| Parameters: | **modules** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – 要被添加的模块列表 |
-| --- | --- |
+参数：**modules** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – 要被添加的模块列表
+
 
 ### ParameterList
 
@@ -570,8 +570,8 @@ class torch.nn.ParameterList(parameters=None)
 
 ParameterList 可以像普通的 Python list 那样被索引, 但是它所包含的参数被正确的注册了, 并且所有的 Module 方法都可见的.
 
-| Parameters: | **modules** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_,_ _optional_) – 要被添加的 `Parameter`` 列表 |
-| --- | --- |
+参数：**modules** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_,_ _optional_) – 要被添加的 `Parameter`` 列表
+
 
 Example:
 
@@ -595,8 +595,8 @@ append(parameter)
 
 添加一个指定的参数到 list 尾部.
 
-| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to append |
-| --- | --- |
+参数：**parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to append
+
 
 ```py
 extend(parameters)
@@ -604,8 +604,8 @@ extend(parameters)
 
 在最后添加 Python list 中的参数.
 
-| Parameters: | **parameters** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – list of parameters to append |
-| --- | --- |
+参数：**parameters** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – list of parameters to append
+
 
 ## Convolution Layers (卷积层)
 
@@ -1634,8 +1634,8 @@ class torch.nn.AdaptiveAvgPool1d(output_size)
 
 对于任意大小的输入,可以指定输出的尺寸为 H 输出特征的数量与输入通道的数量相同.
 
-| Parameters: | **output_size** – 目标输出的尺寸 H |
-| --- | --- |
+参数：**output_size** – 目标输出的尺寸 H
+
 
 Examples
 
@@ -1657,8 +1657,8 @@ class torch.nn.AdaptiveAvgPool2d(output_size)
 
 对于任意大小的输入,可以指定输出的尺寸为 H x W 输出特征的数量与输入通道的数量相同.
 
-| Parameters: | **output_size** – H x W 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (H, W) 表示 H x W 的输出尺寸, 或者是单个的数字 H 表示 H x H 的输出尺寸 |
-| --- | --- |
+参数：**output_size** – H x W 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (H, W) 表示 H x W 的输出尺寸, 或者是单个的数字 H 表示 H x H 的输出尺寸
+
 
 Examples
 
@@ -1684,8 +1684,8 @@ class torch.nn.AdaptiveAvgPool3d(output_size)
 
 对于任意大小的输入,可以指定输出的尺寸为 D x H x W 输出特征的数量与输入通道的数量相同.
 
-| Parameters: | **output_size** – D x H x W 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (D, H, W) 表示 D x H x W 的输出尺寸, 或者是单个的数字 D 表示 D x D x D 的输出尺寸 |
-| --- | --- |
+参数：**output_size** – D x H x W 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (D, H, W) 表示 D x H x W 的输出尺寸, 或者是单个的数字 D 表示 D x D x D 的输出尺寸
+
 
 Examples
 
@@ -1744,8 +1744,8 @@ class torch.nn.ReplicationPad2d(padding)
 
 使用输入边界的复制填充输入张量.
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充的大小. 如果是int, 则在所有边界使用相同的填充. 如果是4个元组, 则使用(paddingLeft, paddingRight, paddingTop, paddingBottom) |
-| --- | --- |
+参数：**padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充的大小. 如果是int, 则在所有边界使用相同的填充. 如果是4个元组, 则使用(paddingLeft, paddingRight, paddingTop, paddingBottom)
+
 
 Shape:
 
@@ -1876,8 +1876,8 @@ class torch.nn.ReLU(inplace=False)
 
 对输入运用修正线性单元函数 ![{ReLU}(x)= max(0, x)](img/tex-98df823380c3c79a6f2651016f4e2d04.gif)
 
-| Parameters: | **inplace** – 选择是否进行覆盖运算 Default: `False` |
-| --- | --- |
+参数：**inplace** – 选择是否进行覆盖运算 Default: `False`
+
 
 Shape:
 
@@ -1902,8 +1902,8 @@ class torch.nn.ReLU6(inplace=False)
 
 对输入的每一个元素运用函数 ![{ReLU6}(x) = min(max(0,x), 6)](img/tex-5c301d6fee27c04949bb9a71a985c404.gif)
 
-| Parameters: | **inplace** – 选择是否进行覆盖运算 默认值: `False` |
-| --- | --- |
+参数：**inplace** – 选择是否进行覆盖运算 默认值: `False`
+
 
 Shape:
 
@@ -1961,8 +1961,8 @@ class torch.nn.SELU(inplace=False)
 
 更多地细节可以参阅论文 [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515) .
 
-| Parameters: | **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 选择是否进行覆盖运算. 默认值: `False` |
-| --- | --- |
+参数：**inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 选择是否进行覆盖运算. 默认值: `False`
+
 
 Shape:
 
@@ -2250,8 +2250,8 @@ f(x) = 0, otherwise
 
 ```
 
-| Parameters: | **lambd** – Softshrink 公式中的 lambda 值. 默认值: 0.5 |
-| --- | --- |
+参数：**lambd** – Softshrink 公式中的 lambda 值. 默认值: 0.5
+
 
 Shape:
 
@@ -2329,10 +2329,10 @@ Shape:
 *   Input: 任意shape
 *   Output: 和输入相同
 
-| Parameters: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 这是将计算 Softmax 的维度 (所以每个沿着 dim 的切片和为 1). |
-| --- | --- |
-| Returns: | 返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间. |
-| --- | --- |
+参数：**dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 这是将计算 Softmax 的维度 (所以每个沿着 dim 的切片和为 1).
+
+返回值：返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间.
+
 
 例:
 
@@ -2357,10 +2357,10 @@ Shape:
 *   Input: 任意shape
 *   Output: 和输入相同
 
-| Returns: | 返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间. |
-| --- | --- |
-| Parameters: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1). |
-| --- | --- |
+返回值：返回结果是一个与输入维度相同的张量, 每个元素的取值范围在 [0, 1] 区间.
+
+参数：**dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1).
+
 
 Note
 
@@ -2391,8 +2391,8 @@ Shape:
 *   Input: ![(N, C, H, W)](img/tex-38d00342060234da90e0c2c5493892cb.gif)
 *   Output: ![(N, C, H, W)](img/tex-38d00342060234da90e0c2c5493892cb.gif) (格式 shape 与输入相同)
 
-| Returns: | 一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在[0, 1] |
-| --- | --- |
+返回值：一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在[0, 1]
+
 
 例:
 
@@ -2420,10 +2420,10 @@ Shape:
 *   Input: 任意格式 shape
 *   Output: 和输入的格式 shape 一致
 
-| Parameters: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为1). |
-| --- | --- |
-| Returns: | 一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在 [-inf, 0) |
-| --- | --- |
+参数：**dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为1).
+
+返回值：一个维度及格式 shape 都和输入相同的 Tensor, 取值范围在 [-inf, 0)
+
 
 例:
 
@@ -4089,8 +4089,8 @@ class torch.nn.PixelShuffle(upscale_factor)
 
 参考如下论文获得更多信息: [Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network](https://arxiv.org/abs/1609.05158) Shi et. al (2016) .
 
-| Parameters: | **upscale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 增加空间分辨率的因子 |
-| --- | --- |
+参数：**upscale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 增加空间分辨率的因子
+
 
 Shape:
 
@@ -4363,8 +4363,8 @@ torch.nn.utils.clip_grad_norm(parameters, max_norm, norm_type=2)
 
  |
 | --- | --- |
-| Returns: | 梯度的范数 (视为单个向量的). |
-| --- | --- |
+返回值：梯度的范数 (视为单个向量的).
+
 
 ### weight_norm
 
@@ -4390,8 +4390,8 @@ torch.nn.utils.weight_norm(module, name='weight', dim=0)
 
  |
 | --- | --- |
-| Returns: | 添加了权重归一化钩子的原 module |
-| --- | --- |
+返回值：添加了权重归一化钩子的原 module
+
 
 Example:
 
@@ -4475,8 +4475,8 @@ Note
 
  |
 | --- | --- |
-| Returns: | 一个 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象. |
-| --- | --- |
+返回值：一个 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象.
+
 
 ### pad_packed_sequence
 
@@ -4500,5 +4500,4 @@ Batch中的元素将会以它们长度的逆序排列.
 
  |
 | --- | --- |
-| Returns: | 一个 tuple, 包含被填充后的序列, 和 batch 中序列的长度列表. |
-| --- | --- |
+返回值：一个 tuple, 包含被填充后的序列, 和 batch 中序列的长度列表.

@@ -8,8 +8,8 @@ class torchvision.transforms.Compose(transforms)
 
 将多个变换组合到一起.
 
-| Parameters: | **transforms** (list of `Transform` objects) – 要组合的变换列表. |
-| --- | --- |
+参数：**transforms** (list of `Transform` objects) – 要组合的变换列表.
+
 
 Example
 
@@ -49,8 +49,8 @@ class torchvision.transforms.CenterCrop(size)
 
 在中心裁剪指定的 PIL Image.
 
-| Parameters: | **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望裁剪的输出尺寸. 如果 size（尺寸）是 `int` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的. |
-| --- | --- |
+参数：**size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望裁剪的输出尺寸. 如果 size（尺寸）是 `int` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
+
 
 ```py
 class torchvision.transforms.RandomCrop(size, padding=0)
@@ -110,10 +110,10 @@ class torchvision.transforms.Grayscale(num_output_channels=1)
 
 将图像转换为灰度图像.
 
-| Parameters: | **num_output_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – (1 or 3) 输出图像所期望的通道数量 |
-| --- | --- |
-| Returns: | 灰度版本的输入. - 如果 num_output_channels == 1 : 返回的图像是 1 通道 - 如果 num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b |
-| --- | --- |
+参数：**num_output_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – (1 or 3) 输出图像所期望的通道数量
+
+返回值：灰度版本的输入. - 如果 num_output_channels == 1 : 返回的图像是 1 通道 - 如果 num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
+
 | Return type: | PIL Image |
 | --- | --- |
 
@@ -123,10 +123,10 @@ class torchvision.transforms.RandomGrayscale(p=0.1)
 
 随机将图像转换为灰度图像, 概率为 p (default 0.1).
 
-| Parameters: | **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 图像应该被转换成灰度的概率. |
-| --- | --- |
-| Returns: | 灰度版本的输入图像的概率为 p, 不变的概率为（1-p） - 如果输入图像为1个通道: 则灰度版本是 1 通道 - 如果输入图像为3个通道: 则灰度版本是 3 通道, 并且 r == g == b |
-| --- | --- |
+参数：**p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 图像应该被转换成灰度的概率.
+
+返回值：灰度版本的输入图像的概率为 p, 不变的概率为（1-p） - 如果输入图像为1个通道: 则灰度版本是 1 通道 - 如果输入图像为3个通道: 则灰度版本是 3 通道, 并且 r == g == b
+
 | Return type: | PIL Image |
 | --- | --- |
 
@@ -140,8 +140,8 @@ Note
 
 该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配. 请参阅下面的例子来处理这个问题.
 
-| Parameters: | **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.. |
-| --- | --- |
+参数：**size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int`` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的..
+
 
 Example
 
@@ -241,10 +241,10 @@ class torchvision.transforms.Normalize(mean, std)
 __call__(tensor)
 ```
 
-| Parameters: | **tensor** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")) – 需要被归一化的大小为 (C, H, W)Tensor image. |
-| --- | --- |
-| Returns: | 归一化后的 Tensor image. |
-| --- | --- |
+参数：**tensor** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")) – 需要被归一化的大小为 (C, H, W)Tensor image.
+
+返回值：归一化后的 Tensor image.
+
 | Return type: | [Tensor](../tensors.html#torch.Tensor "torch.Tensor") |
 | --- | --- |
 
@@ -262,10 +262,10 @@ class torchvision.transforms.ToTensor
 __call__(pic)
 ```
 
-| Parameters: | **pic** (_PIL Image_ _or_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)")) – 将要被转换为 tensor 的 Image. |
-| --- | --- |
-| Returns: | 转换后的 image. |
-| --- | --- |
+参数：**pic** (_PIL Image_ _or_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)")) – 将要被转换为 tensor 的 Image.
+
+返回值：转换后的 image.
+
 | Return type: | [Tensor](../tensors.html#torch.Tensor "torch.Tensor") |
 | --- | --- |
 
@@ -277,17 +277,17 @@ class torchvision.transforms.ToPILImage(mode=None)
 
 转换一个形状为(C x H x W) 的 torch.*Tensor 或一个形状为(H x W x C )的numpy ndarray 至一个 PIL Image ,同时保留值范围.
 
-| Parameters: | **mode** ([PIL.Image mode](http://pillow.readthedocs.io/en/3.4.x/handbook/concepts.html#modes)) – 输入数据的色域和像素深度 (可选). 如果 `mode` 为 `None` (默认) ,这里对输入数据有一些假设: 1\. 如果输入有3个通道, `mode` 假设为 `RGB`. 2\. 如果输入有4个通道, `mode` 假设为 `RGBA`. 3\. 如果输入有1个通道, `mode` 根据数据类型确定 (i,e, `int`, `float`, `short`). |
-| --- | --- |
+参数：**mode** ([PIL.Image mode](http://pillow.readthedocs.io/en/3.4.x/handbook/concepts.html#modes)) – 输入数据的色域和像素深度 (可选). 如果 `mode` 为 `None` (默认) ,这里对输入数据有一些假设: 1\. 如果输入有3个通道, `mode` 假设为 `RGB`. 2\. 如果输入有4个通道, `mode` 假设为 `RGBA`. 3\. 如果输入有1个通道, `mode` 根据数据类型确定 (i,e, `int`, `float`, `short`).
+
 
 ```py
 __call__(pic)
 ```
 
-| Parameters: | **pic** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor") _or_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)")) – 要转换为PIL Image的图像. |
-| --- | --- |
-| Returns: | 转换为PIL Image的图像. |
-| --- | --- |
+参数：**pic** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor") _or_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)")) – 要转换为PIL Image的图像.
+
+返回值：转换为PIL Image的图像.
+
 | Return type: | PIL Image |
 | --- | --- |
 
@@ -299,5 +299,4 @@ class torchvision.transforms.Lambda(lambd)
 
 应用一个用户定义的 Lambda 作为变换.
 
-| Parameters: | **lambd** (_function_) – Lambda/function 以用于 transform. |
-| --- | --- |
+参数：**lambd** (_function_) – Lambda/function 以用于 transform.

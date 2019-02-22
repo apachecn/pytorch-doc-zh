@@ -550,8 +550,8 @@ Tensor 也可以扩展到一个很大的维数, 新添加的维度将放在前�
 
 扩展一个 tensor 不是分配一个新的内存, 而只是在这个存在的 tensor 上, 通过设置 `stride` 为 0, 创建一个新的某个维度从 1 扩展到很大的视图. 任何大小为 1 的维度, 在不用重新分配内存的情况下, 可以扩展到随意任何一个值.
 
-| Parameters: | ***sizes** (_torch.Size_ _or_ _int..._) – 期望扩展的大小 |
-| --- | --- |
+参数：***sizes** (_torch.Size_ _or_ _int..._) – 期望扩展的大小
+
 
 Example
 
@@ -721,8 +721,8 @@ index(m) → Tensor
 
 用一个二进制的掩码或沿着一个给定的维度从 tensor 中选取元素. `tensor.index(m)` 等同于 `tensor[m]`.
 
-| Parameters: | **m** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_ByteTensor_](#torch.ByteTensor "torch.ByteTensor") _or_ [_slice_](https://docs.python.org/3/library/functions.html#slice "(in Python v3.6)")) – 用来选取元素的维度或掩码 |
-| --- | --- |
+参数：**m** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_ByteTensor_](#torch.ByteTensor "torch.ByteTensor") _or_ [_slice_](https://docs.python.org/3/library/functions.html#slice "(in Python v3.6)")) – 用来选取元素的维度或掩码
+
 
 ```py
 index_add_(dim, index, tensor) → Tensor
@@ -1177,8 +1177,8 @@ permute(*dims)
 
 排列该 tensor 的尺寸.
 
-| Parameters: | ***dims** (_int..._) – 按所期望的维数排序 |
-| --- | --- |
+参数：***dims** (_int..._) – 按所期望的维数排序
+
 
 Example
 
@@ -1324,8 +1324,8 @@ repeat(*sizes)
 
 和 [`expand()`](#torch.Tensor.expand "torch.Tensor.expand") 不同, 这个函数复制 tensor 的数据.
 
-| Parameters: | ***sizes** (_torch.Size_ _or_ _int..._) – 沿每个维度重复 tensor 的次数 |
-| --- | --- |
+参数：***sizes** (_torch.Size_ _or_ _int..._) – 沿每个维度重复 tensor 的次数
+
 
 Example
 
@@ -1348,8 +1348,8 @@ resize_(*sizes)
 
 将 tensor 的大小调整为指定的大小. 如果元素个数比当前的内存大小大, 就将底层存储大小调整为与新元素数目一致的大小. 如果元素个数比当前内存小, 则底层存储不会被改变. 原来tensor中被保存下来的元素将保持不变, 但新内存将不会被初始化.
 
-| Parameters: | **sizes** (_torch.Size_ _or_ _int..._) – 期望的大小 |
-| --- | --- |
+参数：**sizes** (_torch.Size_ _or_ _int..._) – 期望的大小
+
 
 Example
 
@@ -1628,8 +1628,8 @@ stride(dim) → tuple or int
 
 返回 tesnor 的步长. 步长是指按照 dim 指定的维度, 从一个元素到下一个元素需要跳跃的距离. 当没有指定维度, 会计算所有维度的步长, 并返回一个 tuple. 当给定维度时, 返回这个维度的步长.
 
-| Parameters: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望的需要计算步长的维度. |
-| --- | --- |
+参数：**dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望的需要计算步长的维度.
+
 
 Example
 
@@ -1906,8 +1906,8 @@ view(*args) → Tensor
 
 返回的 tensor 与原 tensor 共享相同的数据, 一定有相同数目的元素, 但大小不同. 一个 tensor 必须是连续的 ( [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous") ) 才能被查看.
 
-| Parameters: | **args** (_torch.Size_ _or_ _int..._) – 期望的大小 |
-| --- | --- |
+参数：**args** (_torch.Size_ _or_ _int..._) – 期望的大小
+
 
 Example
 

@@ -128,10 +128,10 @@ torch.distributed.new_group(ranks=None)
 
 此函数要求主组中的所有进程（即作为分布式作业一部分的所有进程）都会输入此函数, 即使它们不是该小组的成员. 此外, 应该在所有的进程中以相同的顺序创建新的小组.
 
-| Parameters: | **ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]_) – 小组内成员的 Rank 的列表. |
-| --- | --- |
-| Returns: | 分配组的句柄, 以便在集群中调用. |
-| --- | --- |
+参数：**ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]_) – 小组内成员的 Rank 的列表.
+
+返回值：分配组的句柄, 以便在集群中调用.
+
 
 ## Point-to-point communication
 
@@ -162,8 +162,8 @@ torch.distributed.recv(tensor, src=None)
 
  |
 | --- | --- |
-| Returns: | 发送端的Rank. |
-| --- | --- |
+返回值：发送端的Rank.
+
 
 [`isend()`](#torch.distributed.isend "torch.distributed.isend") 和 [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") 使用时返回分布式请求对象. 通常, 这个对象的类型是未指定的, 因为它们不能使用手动创建, 但是它们支持两种方法指定:
 
@@ -185,8 +185,8 @@ torch.distributed.isend(tensor, dst)
 
  |
 | --- | --- |
-| Returns: | 分布式请求对象. |
-| --- | --- |
+返回值：分布式请求对象.
+
 
 ```py
 torch.distributed.irecv(tensor, src)
@@ -201,8 +201,8 @@ torch.distributed.irecv(tensor, src)
 
  |
 | --- | --- |
-| Returns: | 一个分布式请求对象. |
-| --- | --- |
+返回值：一个分布式请求对象.
+
 
 ## Collective functions
 
@@ -314,5 +314,4 @@ torch.distributed.barrier(group=<object object>)
 
 这个集群阻塞进程, 直到全部的小组的计算结果都输入进这个函数中.
 
-| Parameters: | **group** (_optional_) – 集群的内的小组的名字. |
-| --- | --- |
+参数：**group** (_optional_) – 集群的内的小组的名字.
