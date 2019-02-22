@@ -8,7 +8,7 @@ class torch.nn.Parameter
 
 Variable 的一种, 常被用于 module parameter（模块参数）.
 
-Parameters 是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable") 的子类, 当它和 [`Module`](#torch.nn.Module "torch.nn.Module") 一起使用的时候会有一些特殊的属性 - 当它们被赋值给 Module 属性时, 它会自动的被加到 Module 的参数列表中, 并且会出现在 [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters") iterator 迭代器方法中. 将 Varibale 赋值给 Module 属性则不会有这样的影响. 这样做的原因是: 我们有时候会需要缓存一些临时的 state（状态）, 例如: 模型 RNN 中的最后一个隐藏状态. 如果没有 [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter") 这个类的话, 那么这些临时表也会注册为模型变量.
+Parameters 是 `Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable") 的子类, 当它和 [`Module` 一起使用的时候会有一些特殊的属性 - 当它们被赋值给 Module 属性时, 它会自动的被加到 Module 的参数列表中, 并且会出现在 `parameters()` iterator 迭代器方法中. 将 Varibale 赋值给 Module 属性则不会有这样的影响. 这样做的原因是: 我们有时候会需要缓存一些临时的 state（状态）, 例如: 模型 RNN 中的最后一个隐藏状态. 如果没有 `Parameter` 这个类的话, 那么这些临时表也会注册为模型变量.
 
 Variable 与 Parameter 的另一个不同之处在于, Parameter 不能被 volatile (即: 无法设置 volatile=True) 而且默认 requires_grad=True. Variable 默认 requires_grad=False.
 
@@ -177,7 +177,7 @@ forward(*input)
 
 注解：
 
-尽管需要在此函数中定义正向传递的方式, 但是应该事后尽量调用 [`Module`](#torch.nn.Module "torch.nn.Module") 实例, 因为前者负责运行已注册的钩子, 而后者静默的忽略它们.
+尽管需要在此函数中定义正向传递的方式, 但是应该事后尽量调用 `Module` 实例, 因为前者负责运行已注册的钩子, 而后者静默的忽略它们.
 
 ```py
 half()
@@ -193,12 +193,12 @@ half()
 load_state_dict(state_dict, strict=True)
 ```
 
-将 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 中的 parameters 和 buffers 复制到此模块和它的子后代中. 如果 `strict` 为 `True`, 则 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 的 key 必须和模块的 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 函数返回的 key 一致.
+将 `state_dict` 中的 parameters 和 buffers 复制到此模块和它的子后代中. 如果 `strict` 为 `True`, 则 `state_dict` 的 key 必须和模块的 `state_dict()` 函数返回的 key 一致.
 
 参数：
 
 *   `state_dict (dict)` – 一个包含 parameters 和 persistent buffers（持久化缓存的）字典.
-*   `strict (bool)` – 严格的强制 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 属性中的 key 与该模块的函数 `:func:`state_dict()` 返回的 keys 相匹配.
+*   `strict (bool)` – 严格的强制 `state_dict` 属性中的 key 与该模块的函数 `:func:`state_dict()` 返回的 keys 相匹配.
 
 
 
@@ -360,7 +360,7 @@ register_forward_hook(hook)
 
 在模块上注册一个 forward hook（前向钩子）.
 
-每一次 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") 函数计算出一个输出后, 该钩子将会被调用. 它应该具有以下结构
+每一次 `forward()` 函数计算出一个输出后, 该钩子将会被调用. 它应该具有以下结构
 
 ```py
 hook(module, input, output) -> None
@@ -379,7 +379,7 @@ register_forward_pre_hook(hook)
 
 在模块上注册一个预前向钩子.
 
-每一次在调用 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") 函数前都会调用该钩子. 它应该有以下结构:
+每一次在调用 `forward()` 函数前都会调用该钩子. 它应该有以下结构:
 
 ```py
 hook(module, input) -> None
@@ -607,7 +607,7 @@ class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 dilation 为1时, 使用 (a,b);(b,c)… 进行池化, dilation 为1时, 使用 (a,c);(b,d)… 进行池化. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积；group=2, 此时相当于 有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
-> `in_channels` 和 [`](#id1)out_channels`都要可以被 groups 整除.
+> `in_channels` 和 `out_channels`都要可以被 groups 整除.
 
 注解：
 
@@ -657,13 +657,13 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 ![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
-![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带:math:[`](#id3)star`项为卷积项.
+!\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带:math:[`star`项为卷积项.
 
 `stride` 计算相关系数的步长, 可以为 tuple .`padding` 处理边界时在每个维度首尾补0数量.`dilation` 采样间隔数量. 大于1时为非致密采样.`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时
 
 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
-> `in_channels` 和 [`](#id5)out_channels`都要可以被 groups 整除.
+> `in_channels` 和 `out_channels`都要可以被 groups 整除.
 
 `kernel_size`, `stride`, `padding`, `dilation` 可以为:
 
@@ -723,13 +723,13 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 ![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
-![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带:math:[`](#id9)star`项为卷积项.
+!\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带:math:[`star`项为卷积项.
 
 `stride` 计算相关系数的步长, 可以为 tuple .`padding` 处理边界时在每个维度首尾补0数量.`dilation` 采样间隔数量. 大于1时为非致密采样.`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时
 
 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
-> `in_channels` 和 [`](#id11)out_channels`都要可以被 groups 整除.
+> `in_channels` 和 `out_channels`都要可以被 groups 整除.
 
 `kernel_size`, `stride`, `padding`, `dilation` 可以为:
 
@@ -789,7 +789,7 @@ class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1,
 
 对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多 个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）. | `dilation` 采样间隔数量. 大于1时为非致密采样. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
-> `in_channels` 和 [`](#id15)out_channels`都要可以被 groups 整除.
+> `in_channels` 和 `out_channels`都要可以被 groups 整除.
 
 注解：
 
@@ -835,7 +835,7 @@ class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1,
 
 对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多 个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）. | `dilation` 采样间隔数量. 大于1时为非致密采样. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
-> `in_channels` 和 [`](#id17)out_channels`都应当可以被 groups 整除.
+> `in_channels` 和 `out_channels`都应当可以被 groups 整除.
 
 `kernel_size`, `stride`, `padding`, `output_padding` 可以为:
 
@@ -908,7 +908,7 @@ class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1,
 
 对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多 个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束） | `dilation` 采样间隔数量. 大于1时为非致密采样. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
-> `in_channels` 和 [`](#id21)out_channels`都应当可以被 groups 整除.
+> `in_channels` 和 `out_channels`都应当可以被 groups 整除.
 
 `kernel_size`, `stride`, `padding`, `output_padding` 可以为:
 
@@ -1101,11 +1101,11 @@ Examples:
 class torch.nn.MaxUnpool1d(kernel_size, stride=None, padding=0)
 ```
 
-[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") 的逆过程
+`MaxPool1d` 的逆过程
 
-要注意的是 [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
+要注意的是 `MaxPool1d` 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
 
-[`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") 以 [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
+`MaxUnpool1d` 以 `MaxPool1d` 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
 注解：
 
@@ -1168,11 +1168,11 @@ Variable containing:
 class torch.nn.MaxUnpool2d(kernel_size, stride=None, padding=0)
 ```
 
-[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") 的逆过程
+`MaxPool2d` 的逆过程
 
-要注意的是 [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
+要注意的是 `MaxPool2d` 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失
 
-[`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") 以 [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
+`MaxUnpool2d` 以 `MaxPool2d` 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
 注解：
 
@@ -1237,9 +1237,9 @@ Variable containing:
 class torch.nn.MaxUnpool3d(kernel_size, stride=None, padding=0)
 ```
 
-[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") 的逆过程
+`MaxPool3d` 的逆过程
 
-要注意的是 [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失 [`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") 以 [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
+要注意的是 `MaxPool3d` 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失 `MaxUnpool3d` 以 `MaxPool3d` 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
 注解：
 
@@ -2680,12 +2680,12 @@ class torch.nn.RNN(*args, **kwargs)
 
 Inputs: input, h_0
 
-*   `input (seq_len, batch, input_size)`: 包含输入序列特征的 `tensor` , `input` 可以是被填充的变长序列.细节请看 [`torch.nn.utils.rnn.pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence") .
+*   `input (seq_len, batch, input_size)`: 包含输入序列特征的 `tensor` , `input` 可以是被填充的变长序列.细节请看 `torch.nn.utils.rnn.pack_padded_sequence()` .
 *   `h_0 (num_layers * num_directions, batch, hidden_size)`: 包含 `batch` 中每个元素保存着初始隐状态的 `tensor`
 
 Outputs: output, h_n
 
-*   `output (seq_len, batch, hidden_size * num_directions)`: 包含 RNN 最后一层输出特征 (h_k) 的 `tensor` 对于每个 k ,如果输入是一个 [`torch.nn.utils.rnn.PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") , 那么输出也是一个可以是被填充的变长序列.
+*   `output (seq_len, batch, hidden_size * num_directions)`: 包含 RNN 最后一层输出特征 (h_k) 的 `tensor` 对于每个 k ,如果输入是一个 `torch.nn.utils.rnn.PackedSequence` , 那么输出也是一个可以是被填充的变长序列.
 *   `h_n (num_layers * num_directions, batch, hidden_size)`: 包含 k= seq_len 隐状态的 `tensor`.
 
 变量：
@@ -2735,13 +2735,13 @@ class torch.nn.LSTM(*args, **kwargs)
 
 Inputs: input, (h_0, c_0)
 
-*   `input (seq_len, batch, input_size)`: 包含输入序列特征的 `tensor` . 也可以是 `packed variable length sequence`, 详见 [`torch.nn.utils.rnn.pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence") .
+*   `input (seq_len, batch, input_size)`: 包含输入序列特征的 `tensor` . 也可以是 `packed variable length sequence`, 详见 `torch.nn.utils.rnn.pack_padded_sequence()` .
 *   `h_0 (num_layers * num_directions, batch, hidden_size)`: 包含 batch 中每个元素的初始化隐状态的 `tensor` .
 *   `c_0 (num_layers * num_directions, batch, hidden_size)`: 包含 batch 中每个元素的初始化细胞状态的 `tensor` .
 
 Outputs: output, (h_n, c_n)
 
-*   `output (seq_len, batch, hidden_size * num_directions)`: 包含 RNN 最后一层的输出特征 `(h_t)` 的 `tensor` , 对于每个 t . 如果输入是 [`torch.nn.utils.rnn.PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 那么输出也是一个可以是被填充的变长序列.
+*   `output (seq_len, batch, hidden_size * num_directions)`: 包含 RNN 最后一层的输出特征 `(h_t)` 的 `tensor` , 对于每个 t . 如果输入是 `torch.nn.utils.rnn.PackedSequence` 那么输出也是一个可以是被填充的变长序列.
 *   `h_n (num_layers * num_directions, batch, hidden_size)`: 包含 t=seq_len 隐状态的 `tensor`.
 *   `c_n (num_layers * num_directions, batch, hidden_size)`: 包含 t=seq_len 细胞状态的 `tensor`.
 
@@ -2793,12 +2793,12 @@ class torch.nn.GRU(*args, **kwargs)
 
 Inputs: input, h_0
 
-*   `input (seq_len, batch, input_size)`: 包含输入序列特征的 `tensor` . 也可以是 `packed variable length sequence`, 详见 [`torch.nn.utils.rnn.pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence") .
+*   `input (seq_len, batch, input_size)`: 包含输入序列特征的 `tensor` . 也可以是 `packed variable length sequence`, 详见 `torch.nn.utils.rnn.pack_padded_sequence()` .
 *   `h_0 (num_layers * num_directions, batch, hidden_size)`: 包含 batch 中每个元素的初始化隐状态的 `tensor`
 
 Outputs: output, h_n
 
-*   `output (seq_len, batch, hidden_size * num_directions)`: 包含 RNN 最后一层的输出特征 `(h_t)` 的 `tensor` , 对于每个 t . 如果输入是 [`torch.nn.utils.rnn.PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 那么输出也是一个可以是被填充的变长序列.
+*   `output (seq_len, batch, hidden_size * num_directions)`: 包含 RNN 最后一层的输出特征 `(h_t)` 的 `tensor` , 对于每个 t . 如果输入是 `torch.nn.utils.rnn.PackedSequence` 那么输出也是一个可以是被填充的变长序列.
 *   `h_n (num_layers * num_directions, batch, hidden_size)`: 包含 t=seq_len 隐状态的 `tensor`.
 
 变量：
@@ -3843,7 +3843,7 @@ loss(x, y) = sum_ij(max(0, 1 - (x[y[j]] - x[i]))) / x.size(0)
 class torch.nn.SmoothL1Loss(size_average=True, reduce=True)
 ```
 
-创建一个标准, 当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算. 此方法创建的标准对于异常值不如 [`](#id31)MSELoss`敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如 参见论文 “Fast R-CNN” 作者 Ross Girshick). 也被称为 Huber 损失函数:
+创建一个标准, 当某个元素的错误值的绝对值小于1时使用平方项计算, 其他情况则使用L1范式计算. 此方法创建的标准对于异常值不如 `MSELoss`敏感, 但是同时在某些情况下可以防止梯度爆炸 (比如 参见论文 “Fast R-CNN” 作者 Ross Girshick). 也被称为 Huber 损失函数:
 
 ```py
                       { 0.5 * (x_i - y_i)^2, if |x_i - y_i| < 1
@@ -3906,7 +3906,7 @@ loss(x, y) = - sum_i (y[i] * log( 1 / (1 + exp(-x[i])) )
 class torch.nn.CosineEmbeddingLoss(margin=0, size_average=True)
 ```
 
-新建一个标准, 用以衡量输入 `Tensor` x1, x2 和取值为 1 或者 -1 的标签 `Tensor` [`](#id33)y`之间的 损失值. 此标准用 cosine 距离来衡量2个输入参数之间是否相似, 并且一般用来学习非线性 embedding 或者半监督 学习.
+新建一个标准, 用以衡量输入 `Tensor` x1, x2 和取值为 1 或者 -1 的标签 `Tensor` `y`之间的 损失值. 此标准用 cosine 距离来衡量2个输入参数之间是否相似, 并且一般用来学习非线性 embedding 或者半监督 学习.
 
 `margin` 应该取 `-1` 到 `1` 之间的值, 建议取值范围是 `0` 到 `0.5`. 如果没有设置 `margin` 参数, 则默认值取 `0`.
 
@@ -4212,7 +4212,7 @@ class torch.nn.parallel.DistributedDataParallel(module, device_ids=None, output_
 
 batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍, 以便每个块大小 相同（以便每个 GPU 处理相同数量的样本）.
 
-引用 :[Basics](distributed.html#distributed-basics) 和 [使用 nn.DataParallel 替代 multiprocessing](notes/cuda.html#cuda-nn-dataparallel-instead). 对输入的约束和 [`torch.nn.DataParallel`](#torch.nn.DataParallel "torch.nn.DataParallel") 中一样.
+引用 :Basics](distributed.html#distributed-basics) 和 [使用 nn.DataParallel 替代 multiprocessing](notes/cuda.html#cuda-nn-dataparallel-instead). 对输入的约束和 [`torch.nn.DataParallel` 中一样.
 
 创建这个类需要分布式包已经在 process group 模式下被初始化 (引用 [`torch.distributed.init_process_group()`](distributed.html#torch.distributed.init_process_group "torch.distributed.init_process_group")).
 
@@ -4343,7 +4343,7 @@ torch.nn.utils.rnn.PackedSequence(_cls, data, batch_sizes)
 
 注解：
 
-永远不要手动创建这个类的实例. 它们应当被 [`pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence") 这样的函数实例化.
+永远不要手动创建这个类的实例. 它们应当被 `pack_padded_sequence()` 这样的函数实例化.
 
 变量：
 
@@ -4360,13 +4360,13 @@ torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=False)
 
 将填充过的变长序列打包(压紧).
 
-输入的形状可以是 `TxBx*` . T是最长序列长度(等于 `lengths[0]`), B 是 batch size, [*](#id35)代表任意维度(可以是0). 如果 `batch_first=True` , 那么相应的 input size 就是 `BxTx*` .
+输入的形状可以是 `TxBx*` . T是最长序列长度(等于 `lengths0]`), B 是 batch size, [*代表任意维度(可以是0). 如果 `batch_first=True` , 那么相应的 input size 就是 `BxTx*` .
 
 Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前, 短的在后. 即 input[:,0] 代表的是最长的序列, input[:, B-1] 保存的是最短的序列.
 
 注解：
 
-只要是维度大于等于2的 input 都可以作为这个函数的参数. 你可以用它来打包 labels, 然后用 RNN 的输出和打包后的 labels 来计算 loss. 通过 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象的 `.data` 属性可以获取 Variable.
+只要是维度大于等于2的 input 都可以作为这个函数的参数. 你可以用它来打包 labels, 然后用 RNN 的输出和打包后的 labels 来计算 loss. 通过 `PackedSequence` 对象的 `.data` 属性可以获取 Variable.
 
 参数：
 
@@ -4375,7 +4375,7 @@ Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前,
 *   `batch_first (bool, 可选)` – 如果是 `True`, input 的形状应该是 BxTx*.
 
 
-返回值：一个 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象.
+返回值：一个 `PackedSequence` 对象.
 
 
 ### pad_packed_sequence
@@ -4386,7 +4386,7 @@ torch.nn.utils.rnn.pad_packed_sequence(sequence, batch_first=False, padding_valu
 
 填充打包过的变长序列.
 
-这是 [`pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence") 的逆操作.
+这是 `pack_padded_sequence()` 的逆操作.
 
 返回的 Varaible 的值的 size 是 TxBx*, T 是最长序列的长度, B 是 batch_size, 如果 `batch_first=True`, 那么返回值是 BxTx*.
 

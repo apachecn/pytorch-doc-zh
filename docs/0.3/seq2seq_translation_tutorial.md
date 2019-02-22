@@ -82,7 +82,7 @@ use_cuda = torch.cuda.is_available()
 
 这个项目的数据是一组数以千计的英语到法语的翻译对.
 
-[`](#id2)这个问题在 Open Data Stack Exchange上 <[http://opendata.stackexchange.com/questions/3888/dataset-of-sentences-translated-into-many-languages](http://opendata.stackexchange.com/questions/3888/dataset-of-sentences-translated-into-many-languages)>`__
+`这个问题在 Open Data Stack Exchange上 <[http://opendata.stackexchange.com/questions/3888/dataset-of-sentences-translated-into-many-languages](http://opendata.stackexchange.com/questions/3888/dataset-of-sentences-translated-into-many-languages)>`__
 
 指导我们使用开放的翻译网站 [http://tatoeba.org/](http://tatoeba.org/) 可下载地址为 [http://tatoeba.org/eng/downloads](http://tatoeba.org/eng/downloads) - 更好的是, 有人做了额外的工作,切分语言对到单个文本文件中: [http://www.manythings.org/anki/](http://www.manythings.org/anki/)
 
@@ -151,7 +151,7 @@ def normalizeString(s):
 
 ```
 
-要读取数据文件,我们将把文件分成行,然后将行成对分开. 这些文件都是英文→其他语言,所以如果我们想从其他语言翻译→英文,我们添加了 翻转标志 [``](#id5)reverse``来翻转词语对.
+要读取数据文件,我们将把文件分成行,然后将行成对分开. 这些文件都是英文→其他语言,所以如果我们想从其他语言翻译→英文,我们添加了 翻转标志 ``reverse``来翻转词语对.
 
 ```py
 def readLangs(lang1, lang2, reverse=False):
@@ -320,7 +320,7 @@ class DecoderRNN(nn.Module):
 
 ![](img/3313f4800c7d01049e2a2ef2079e5905.jpg)
 
-使用解码器的输入和隐藏状态作为输入,利用另一个前馈层 [``](#id12)attn``计算注意力权重, 由于训练数据中有各种大小的句子,为了实际创建和训练此层, 我们必须选择最大长度的句子(输入长度,用于编码器输出),以适用于此层. 最大长度的句子将使用所有注意力权重,而较短的句子只使用前几个.
+使用解码器的输入和隐藏状态作为输入,利用另一个前馈层 ``attn``计算注意力权重, 由于训练数据中有各种大小的句子,为了实际创建和训练此层, 我们必须选择最大长度的句子(输入长度,用于编码器输出),以适用于此层. 最大长度的句子将使用所有注意力权重,而较短的句子只使用前几个.
 
 ![](img/dd6f408715e145310fe25f9e6e2bbc79.jpg)
 

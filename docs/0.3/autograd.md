@@ -1,6 +1,6 @@
 # Automatic differentiation package - torch.autograd
 
-torch.autograd 提供了类和函数用来对任意标量函数进行求导.只需要对已有的代码进行微小的改变-只需要将所有的 tensors 包含在 [`Variable`](#torch.autograd.Variable "torch.autograd.Variable") 对象中即可.
+torch.autograd 提供了类和函数用来对任意标量函数进行求导.只需要对已有的代码进行微小的改变-只需要将所有的 tensors 包含在 `Variable` 对象中即可.
 
 ```py
 torch.autograd.backward(variables, grad_variables=None, retain_graph=None, create_graph=None, retain_variables=None)
@@ -51,7 +51,7 @@ Variable API 几乎与常规 Tensor API 相同(一些会覆盖梯度计算输入
 
 ### In-place correctness checks
 
-所有的 [`Variable`](#torch.autograd.Variable "torch.autograd.Variable") 跟踪适用于它们的就地操作, 并且如果实现检测到一个变量是否被其中一个函数后台保存, 但是之后它被就地修改了, 会在开始求导时会报出异常. 这确保了如果你在就地使用函数并没有看到任何错误, 你可以肯定的是计算变量是正确的.
+所有的 `Variable` 跟踪适用于它们的就地操作, 并且如果实现检测到一个变量是否被其中一个函数后台保存, 但是之后它被就地修改了, 会在开始求导时会报出异常. 这确保了如果你在就地使用函数并没有看到任何错误, 你可以肯定的是计算变量是正确的.
 
 ```py
 class torch.autograd.Variable
@@ -165,7 +165,7 @@ class torch.autograd.Function
 
 每个 Function 只被使用一次(在forward过程中).
 
-参数: `requires_grad`: 布尔类型依赖于方法 [`backward()`](#torch.autograd.backward "torch.autograd.backward") 会不会还会被使用.
+参数: `requires_grad`: 布尔类型依赖于方法 `backward()` 会不会还会被使用.
 
 比如:
 
@@ -191,7 +191,7 @@ _static_ `backward`(_ctx_, _*grad_outputs_)[[source]](_modules/torch/autograd/fu
 
 这个方法将会被继承他的所有子类覆盖.
 
-第一个参数为上下文参数, 接下来可以输入任何张量或变量 (张量或其他类型), 并且有多个返回值, 并且为函数 [`forward()`](#torch.autograd.Function.forward "torch.autograd.Function.forward") 的输入. 每个参数都是给定输出的导数, 并且每一个输出都是输入的导数.
+第一个参数为上下文参数, 接下来可以输入任何张量或变量 (张量或其他类型), 并且有多个返回值, 并且为函数 `forward()` 的输入. 每个参数都是给定输出的导数, 并且每一个输出都是输入的导数.
 
 上下文可以用来检索转发过程中保存的变量.
 
@@ -209,7 +209,7 @@ static forward(ctx, *args, **kwargs)
 
 ## Profiler(分析器)
 
-Autograd 包含一个分析器, 可以让你检查你的模型在CPU 和 GPU 上不同运算的成本. 目前实现有两种模式 - 只使用 CPU 的 [`profile`](#torch.autograd.profiler.profile "torch.autograd.profiler.profile"). 和基于 nvprof (注册 CPU 和 GPU 活动) 的方式使用 [`emit_nvtx`](#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx").
+Autograd 包含一个分析器, 可以让你检查你的模型在CPU 和 GPU 上不同运算的成本. 目前实现有两种模式 - 只使用 CPU 的 `profile`. 和基于 nvprof (注册 CPU 和 GPU 活动) 的方式使用 `emit_nvtx`.
 
 ```py
 class torch.autograd.profiler.profile(enabled=True)
@@ -296,7 +296,7 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
 ```
 
-不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 [`torch.autograd.profiler.load_nvprof()`](#torch.autograd.profiler.load_nvprof "torch.autograd.profiler.load_nvprof") 可以加载检查结果.
+不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 `torch.autograd.profiler.load_nvprof()` 可以加载检查结果.
 
 参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. 默认: `True`.
 

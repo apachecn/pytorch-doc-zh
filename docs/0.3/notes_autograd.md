@@ -42,7 +42,7 @@ optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
 
 如果您确定不会调用 `.backward()`, 则推荐在纯粹的 inference mode (推断模式) 中使用 Volatile. 它比任何其它的 autograd (自动求导) 设置更高效 - 它将使用绝对最小量的内存来评估模型. `volatile` 也会确定 `require_grad 为 False`.
 
-Volatile 不同于 [requires_grad](#excluding-requires-grad) 的标记传播方式. 即使一个操作只有一个单一的 `volatile` 输入, 它的输出也将会是 `volatile` 这样的. Volatility 在整个图中比 `non-requiring gradient (不需要梯度) `` 更容易传播 - 您只需要一个 **单个的** ``volatile` 叶子即可得到一个 `volatile` 输出, 相对的, 您需要 **所有的** 叶子以 `不需要梯度` 的方式, 来产生一个 `不需要梯度` 的输出. 使用 `volatile` 标记, 您不需要更改模型参数的任何参数, 以便将其用于 inference (推断) . 创建一个 `volatile` 输入已经足够了, 这种方式也将确保没有中间状态被保存.
+Volatile 不同于 requires_grad 的标记传播方式. 即使一个操作只有一个单一的 `volatile` 输入, 它的输出也将会是 `volatile` 这样的. Volatility 在整个图中比 `non-requiring gradient (不需要梯度) `` 更容易传播 - 您只需要一个 **单个的** ``volatile` 叶子即可得到一个 `volatile` 输出, 相对的, 您需要 **所有的** 叶子以 `不需要梯度` 的方式, 来产生一个 `不需要梯度` 的输出. 使用 `volatile` 标记, 您不需要更改模型参数的任何参数, 以便将其用于 inference (推断) . 创建一个 `volatile` 输入已经足够了, 这种方式也将确保没有中间状态被保存.
 
 ```py
 >>> regular_input = Variable(torch.randn(1, 3, 227, 227))

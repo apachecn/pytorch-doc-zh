@@ -30,7 +30,7 @@ torch.multiprocessing.set_sharing_strategy(new_strategy)
 
 为共享的 CPU 张量来设置策略.
 
-参数：`new_strategy (str)` – 所选策略的名称. 必须是函数 [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies") 所返回的值之一.
+参数：`new_strategy (str)` – 所选策略的名称. 必须是函数 `get_all_sharing_strategies()` 所返回的值之一.
 
 
 ## 共享 CUDA 张量
@@ -59,4 +59,4 @@ CUDA API 要求输出到其他进程的分配保持有效, 只要它们被它们
 
 该策略将使用给 `shm_open` 的文件名来标识共享内存区. 这样做的好处是不需要缓存从中获取的文件描述符, 但同时也容易发生共享内存泄漏. 该文件创建后不能被删除, 因为其他进程需要访问它来打开它们各自的视图. 如果该进程崩溃, 并且不调用存储析构函数, 则这些文件将保留在系统中. 这种情况非常严重, 因为它们会一直使用内存, 直到系统重新启动, 或者被手动释放.
 
-为了解决共享内存文件泄漏的问题, [`torch.multiprocessing`](#module-torch.multiprocessing "torch.multiprocessing") 模块会产生一个名为 `torch_shm_manager` 的守护进程, 它将把自己从当前进程组中分离出来, 并跟踪所有的共享内存分配. 一旦连接到它的所有进程退出, 它将等待一会儿, 以确保不会有新的连接. 并将迭代组中已分配的所有共享内存文件. 如果发现其中任何一个仍然存在, 它们将被释放. 我们已经测试了这个方法, 并证明它对各种失败都是有效的. 不过, 如果你的系统有足够高的限制, `file_descriptor` 是一个所支持的策略, 虽然我们不建议切换到这个策略上.
+为了解决共享内存文件泄漏的问题, `torch.multiprocessing` 模块会产生一个名为 `torch_shm_manager` 的守护进程, 它将把自己从当前进程组中分离出来, 并跟踪所有的共享内存分配. 一旦连接到它的所有进程退出, 它将等待一会儿, 以确保不会有新的连接. 并将迭代组中已分配的所有共享内存文件. 如果发现其中任何一个仍然存在, 它们将被释放. 我们已经测试了这个方法, 并证明它对各种失败都是有效的. 不过, 如果你的系统有足够高的限制, `file_descriptor` 是一个所支持的策略, 虽然我们不建议切换到这个策略上.

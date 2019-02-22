@@ -2,7 +2,7 @@
 
 该 `distributions` 统计分布包中含有可自定义参数的概率分布和采样函数.
 
-当概率密度函数对其参数可微时, 可以使用 [`log_prob()`](#torch.distributions.Distribution.log_prob "torch.distributions.Distribution.log_prob") 方法来实施梯度方法 Policy Gradient. 它的一个基本方法是REINFORCE规则:
+当概率密度函数对其参数可微时, 可以使用 `log_prob()` 方法来实施梯度方法 Policy Gradient. 它的一个基本方法是REINFORCE规则:
 
 ![\Delta\theta = \alpha r \frac{\partial\log p(a|\pi^\theta(s))}{\partial\theta}](img/tex-f5266bbc067cb4ec950bd0fa9605541e.gif)
 

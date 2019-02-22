@@ -1,14 +1,14 @@
 # torch.optim
 
-[`torch.optim`](#module-torch.optim "torch.optim") is a package implementing various optimization algorithms. Most commonly used methods are already supported, and the interface is general enough, so that more sophisticated ones can be also easily integrated in the future.
+`torch.optim` is a package implementing various optimization algorithms. Most commonly used methods are already supported, and the interface is general enough, so that more sophisticated ones can be also easily integrated in the future.
 
 ## 如何使用 optimizer (优化器)
 
-为了使用 [`torch.optim`](#module-torch.optim "torch.optim") 你需要创建一个 optimizer 对象, 这个对象能够保持当前的状态以及依靠梯度计算 来完成参数更新.
+为了使用 `torch.optim` 你需要创建一个 optimizer 对象, 这个对象能够保持当前的状态以及依靠梯度计算 来完成参数更新.
 
 ### 构建
 
-要构建一个 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 你需要一个可迭代的参数 (全部都应该是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) 进行优化. 然后, 你能够设置优化器的参数选项, 例如学习率, 权重衰减等.
+要构建一个 `Optimizer` 你需要一个可迭代的参数 (全部都应该是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) 进行优化. 然后, 你能够设置优化器的参数选项, 例如学习率, 权重衰减等.
 
 注解：
 
@@ -26,7 +26,7 @@ optimizer = optim.Adam([var1, var2], lr = 0.0001)
 
 ### 为每个参数单独设置选项
 
-[`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 :class: `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
+`Optimizer` 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 :class: `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
 
 注解：
 
@@ -46,7 +46,7 @@ optim.SGD([
 
 ### 进行单步优化
 
-所有的优化器都实现了 [`step()`](#torch.optim.Optimizer.step "torch.optim.Optimizer.step") 方法, 且更新到所有的参数. 它可以通过以下两种方式来使用:
+所有的优化器都实现了 `step()` 方法, 且更新到所有的参数. 它可以通过以下两种方式来使用:
 
 #### `optimizer.step()`
 
@@ -90,15 +90,15 @@ class torch.optim.Optimizer(params, defaults)
 
 优化器的基类.
 
-Args: * params (iterable): :class:[`](#id5)Variable 或 :class:[`](#id7)dict 的迭代, 指定了应该优化哪些参数. * defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
+Args: * params (iterable): :class:`Variable 或 :class:`dict 的迭代, 指定了应该优化哪些参数. * defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
 
 ```py
 add_param_group(param_group)
 ```
 
-增加一组参数到 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 的 `param_groups` 里面.
+增加一组参数到 `Optimizer` 的 `param_groups` 里面.
 
-当微调一个预训练好的网络作为冻结层时是有用的, 它能够使用可训练的和可增加的参数到 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 作为一个训练预处理.
+当微调一个预训练好的网络作为冻结层时是有用的, 它能够使用可训练的和可增加的参数到 `Optimizer` 作为一个训练预处理.
 
 参数：`param_group (dict)` – 指定这一组中具有特殊优化选项的那些 Variables 能够被优化.
 
@@ -109,7 +109,7 @@ load_state_dict(state_dict)
 
 加载优化器状态.
 
-参数：`state_dict (dict)` – 优化器状态. 是调用 [`state_dict()`](#torch.optim.Optimizer.state_dict "torch.optim.Optimizer.state_dict") 时所返回的对象.
+参数：`state_dict (dict)` – 优化器状态. 是调用 `state_dict()` 时所返回的对象.
 
 
 ```py

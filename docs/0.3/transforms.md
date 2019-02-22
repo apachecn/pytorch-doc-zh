@@ -1,6 +1,6 @@
 # torchvision.transforms
 
-Transforms (变换) 是常见的 image transforms (图像变换) .他们可以使用 [`Compose`](#torchvision.transforms.Compose "torchvision.transforms.Compose") 类以链在一起来进行操作.
+Transforms (变换) 是常见的 image transforms (图像变换) .他们可以使用 `Compose` 类以链在一起来进行操作.
 
 ```py
 class torchvision.transforms.Compose(transforms)

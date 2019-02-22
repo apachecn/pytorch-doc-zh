@@ -2,7 +2,7 @@
 
 这个包增加了对 CUDA tensor (张量) 类型的支持,利用 GPUs 计算实现了与 CPU tensors 相同的类型.
 
-这个是 lazily initialized (懒加载,延迟加载), 所以你可以一直导入它,并且可以用 [`is_available()`](#torch.cuda.is_available "torch.cuda.is_available") 来判断 你的系统是否支持 CUDA.
+这个是 lazily initialized (懒加载,延迟加载), 所以你可以一直导入它,并且可以用 `is_available()` 来判断 你的系统是否支持 CUDA.
 
 [CUDA 语义](notes/cuda.html#cuda-semantics) 有更多关于使用 CUDA 的细节.
 
@@ -22,7 +22,7 @@ torch.cuda.current_device()
 torch.cuda.current_stream()
 ```
 
-返回当前选择的 [`Stream`](#torch.cuda.Stream "torch.cuda.Stream") .
+返回当前选择的 `Stream` .
 
 ```py
 class torch.cuda.device(idx)
@@ -41,7 +41,7 @@ torch.cuda.device_count()
 
 `torch.cuda.``device_ctx_manager`
 
-alias of [`device`](#torch.cuda.device "torch.cuda.device")
+alias of `device`
 
 ```py
 class torch.cuda.device_of(obj)
@@ -93,7 +93,7 @@ torch.cuda.set_device(device)
 
 设置当前设备.
 
-不鼓励使用这个函数 [`device`](#torch.cuda.device "torch.cuda.device") . 在大多数情况下,最好使用 `CUDA_VISIBLE_DEVICES` 环境变量.
+不鼓励使用这个函数 `device` . 在大多数情况下,最好使用 `CUDA_VISIBLE_DEVICES` 环境变量.
 
 参数：`device (int)` – 选择设备. 参数无效时,则是无效操作.
 
@@ -150,7 +150,7 @@ torch.cuda.manual_seed(seed)
 
 Warning
 
-如果您正在使用多 GPU 模型,则此功能不足以获得确定性. seef作用于所有 GPUs , 使用 [`manual_seed_all()`](#torch.cuda.manual_seed_all "torch.cuda.manual_seed_all") .
+如果您正在使用多 GPU 模型,则此功能不足以获得确定性. seef作用于所有 GPUs , 使用 `manual_seed_all()` .
 
 ```py
 torch.cuda.manual_seed_all(seed)
@@ -169,7 +169,7 @@ torch.cuda.seed()
 
 Warning
 
-如果您正在使用多 GPU 模型, 则此功能不足以获得确定性. seef作用于所有 GPUs , 使用 [`seed_all()`](#torch.cuda.seed_all "torch.cuda.seed_all").
+如果您正在使用多 GPU 模型, 则此功能不足以获得确定性. seef作用于所有 GPUs , 使用 `seed_all()`.
 
 ```py
 torch.cuda.seed_all()
@@ -326,7 +326,7 @@ CUDA 事件包装器.
 参数：
 
 *   `enable_timing (bool)` – 指示事件是否应测量时间 (默认: `False`)
-*   `blocking (bool)` – 如果 `True`, [`wait()`](#torch.cuda.Event.wait "torch.cuda.Event.wait") 将阻塞 (默认: `False` )
+*   `blocking (bool)` – 如果 `True`, `wait()` 将阻塞 (默认: `False` )
 *   `interprocess (bool)` – 如果 `True`, 事件可以在进程之间共享 (默认: `False`)
 
 

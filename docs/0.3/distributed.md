@@ -29,7 +29,7 @@ torch.distributed 提供类似 MPI 的前向运算机制, 支持在多台机的�
 
 ## Initialization
 
-在调用其他模型之前, 这个包需要使用 [`torch.distributed.init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") 函数进行初始化. 在初始化单元中, 所有进程都会参与.
+在调用其他模型之前, 这个包需要使用 `torch.distributed.init_process_group()` 函数进行初始化. 在初始化单元中, 所有进程都会参与.
 
 ```py
 torch.distributed.init_process_group(backend, init_method='env://', **kwargs)
@@ -117,7 +117,7 @@ dist.init_process_group(init_method='file:///mnt/nfs/sharedfile', world_size=4,
 
 ## Groups
 
-默认的集群 (collectives) 操作默认的小组 (group), 要求所有的进程进入分布式函数中调用. 一些工作负载可以从可以从更细粒度的通信中受益 这是分布式集群发挥作用的地方. [`new_group()`](#torch.distributed.new_group "torch.distributed.new_group") 函数可以用来创建新的组, 并且包含所有进程的任意子集. 它返回一个不透明的组句柄, 它可以作为集群的 `group` 参数 (集群 collectives 是一般的编程模式中的交换信息的分布式函数) .
+默认的集群 (collectives) 操作默认的小组 (group), 要求所有的进程进入分布式函数中调用. 一些工作负载可以从可以从更细粒度的通信中受益 这是分布式集群发挥作用的地方. `new_group()` 函数可以用来创建新的组, 并且包含所有进程的任意子集. 它返回一个不透明的组句柄, 它可以作为集群的 `group` 参数 (集群 collectives 是一般的编程模式中的交换信息的分布式函数) .
 
 ```py
 torch.distributed.new_group(ranks=None)
@@ -162,12 +162,12 @@ torch.distributed.recv(tensor, src=None)
 返回值：发送端的Rank.
 
 
-[`isend()`](#torch.distributed.isend "torch.distributed.isend") 和 [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") 使用时返回分布式请求对象. 通常, 这个对象的类型是未指定的, 因为它们不能使用手动创建, 但是它们支持两种方法指定:
+`isend()` 和 `irecv()` 使用时返回分布式请求对象. 通常, 这个对象的类型是未指定的, 因为它们不能使用手动创建, 但是它们支持两种方法指定:
 
 *   `is_completed()` - 如果操作完成返回True
 *   `wait()` - 如果操作完成会阻塞所有的进程. `is_completed()` 如果结果返回, 保证函数返回True.
 
-当使用MPI作为后端, [`isend()`](#torch.distributed.isend "torch.distributed.isend") 和 [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") 支持 “不超车” 式的工作方式, 这种方式可以保证消息的顺序. 更多的细节可以看 [http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54](http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54)
+当使用MPI作为后端, `isend()` 和 `irecv()` 支持 “不超车” 式的工作方式, 这种方式可以保证消息的顺序. 更多的细节可以看 [http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54](http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54)
 
 ```py
 torch.distributed.isend(tensor, dst)

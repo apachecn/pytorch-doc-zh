@@ -1,6 +1,6 @@
 # torch.Tensor
 
-> [`torch.Tensor`](#torch.Tensor "torch.Tensor") 是一种包含单一数据类型元素的多维矩阵.
+> `torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
 
 Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 
@@ -9,13 +9,13 @@ Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 | 32-bit floating point | `torch.FloatTensor` | `torch.cuda.FloatTensor` |
 | 64-bit floating point | `torch.DoubleTensor` | `torch.cuda.DoubleTensor` |
 | 16-bit floating point | `torch.HalfTensor` | `torch.cuda.HalfTensor` |
-| 8-bit integer (unsigned) | [`torch.ByteTensor`](#torch.ByteTensor "torch.ByteTensor") | `torch.cuda.ByteTensor` |
+| 8-bit integer (unsigned) | `torch.ByteTensor` | `torch.cuda.ByteTensor` |
 | 8-bit integer (signed) | `torch.CharTensor` | `torch.cuda.CharTensor` |
 | 16-bit integer (signed) | `torch.ShortTensor` | `torch.cuda.ShortTensor` |
 | 32-bit integer (signed) | `torch.IntTensor` | `torch.cuda.IntTensor` |
 | 64-bit integer (signed) | `torch.LongTensor` | `torch.cuda.LongTensor` |
 
-> [`torch.Tensor`](#torch.Tensor "torch.Tensor") 是默认的 tensor 类型(`torch.FloatTensor`)的简称.
+> `torch.Tensor` 是默认的 tensor 类型(`torch.FloatTensor`)的简称.
 
 一个 tensor 对象可以从 Python 的 [`list`](https://docs.python.org/3/library/stdtypes.html#list) 或者序列(sequence)构建:
 
@@ -87,7 +87,7 @@ class torch.Tensor(storage)
 
 可以通过提供大小或者数据来创建一个新的 tensor 对象.
 
-如果没有提供参数, 将返回一个空的零维的 tensor. 如果提供了 [`numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)"), [`torch.Tensor`](#torch.Tensor "torch.Tensor"), 或者 `torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象. 如果提供一个 Python 序列(sequence)作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
+如果没有提供参数, 将返回一个空的零维的 tensor. 如果提供了 `numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)"), [`torch.Tensor`, 或者 `torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象. 如果提供一个 Python 序列(sequence)作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
 
 ```py
 abs() → Tensor
@@ -99,7 +99,7 @@ abs() → Tensor
 abs_() → Tensor
 ```
 
-[`abs()`](#torch.Tensor.abs "torch.Tensor.abs") 的 in-place 运算形式
+`abs()` 的 in-place 运算形式
 
 ```py
 acos() → Tensor
@@ -111,7 +111,7 @@ acos() → Tensor
 acos_() → Tensor
 ```
 
-[`acos()`](#torch.Tensor.acos "torch.Tensor.acos") 的 in-place 运算形式
+`acos()` 的 in-place 运算形式
 
 ```py
 add(value)
@@ -123,7 +123,7 @@ add(value)
 add_(value)
 ```
 
-[`add()`](#torch.Tensor.add "torch.Tensor.add") 的 in-place 运算形式
+`add()` 的 in-place 运算形式
 
 ```py
 addbmm(beta=1, mat, alpha=1, batch1, batch2) → Tensor
@@ -135,7 +135,7 @@ addbmm(beta=1, mat, alpha=1, batch1, batch2) → Tensor
 addbmm_(beta=1, mat, alpha=1, batch1, batch2) → Tensor
 ```
 
-[`addbmm()`](#torch.Tensor.addbmm "torch.Tensor.addbmm") 的 in-place 运算形式
+`addbmm()` 的 in-place 运算形式
 
 ```py
 addcdiv(value=1, tensor1, tensor2) → Tensor
@@ -147,7 +147,7 @@ addcdiv(value=1, tensor1, tensor2) → Tensor
 addcdiv_(value=1, tensor1, tensor2) → Tensor
 ```
 
-[`addcdiv()`](#torch.Tensor.addcdiv "torch.Tensor.addcdiv") 的 in-place 运算形式
+`addcdiv()` 的 in-place 运算形式
 
 ```py
 addcmul(value=1, tensor1, tensor2) → Tensor
@@ -159,7 +159,7 @@ addcmul(value=1, tensor1, tensor2) → Tensor
 addcmul_(value=1, tensor1, tensor2) → Tensor
 ```
 
-[`addcmul()`](#torch.Tensor.addcmul "torch.Tensor.addcmul") 的 in-place 运算形式
+`addcmul()` 的 in-place 运算形式
 
 ```py
 addmm(beta=1, mat, alpha=1, mat1, mat2) → Tensor
@@ -171,7 +171,7 @@ addmm(beta=1, mat, alpha=1, mat1, mat2) → Tensor
 addmm_(beta=1, mat, alpha=1, mat1, mat2) → Tensor
 ```
 
-[`addmm()`](#torch.Tensor.addmm "torch.Tensor.addmm") 的 in-place 运算形式
+`addmm()` 的 in-place 运算形式
 
 ```py
 addmv(beta=1, tensor, alpha=1, mat, vec) → Tensor
@@ -183,7 +183,7 @@ addmv(beta=1, tensor, alpha=1, mat, vec) → Tensor
 addmv_(beta=1, tensor, alpha=1, mat, vec) → Tensor
 ```
 
-[`addmv()`](#torch.Tensor.addmv "torch.Tensor.addmv") 的 in-place 运算形式
+`addmv()` 的 in-place 运算形式
 
 ```py
 addr(beta=1, alpha=1, vec1, vec2) → Tensor
@@ -195,7 +195,7 @@ addr(beta=1, alpha=1, vec1, vec2) → Tensor
 addr_(beta=1, alpha=1, vec1, vec2) → Tensor
 ```
 
-[`addr()`](#torch.Tensor.addr "torch.Tensor.addr") 的 in-place 运算形式
+`addr()` 的 in-place 运算形式
 
 ```py
 apply_(callable) → Tensor
@@ -217,7 +217,7 @@ asin() → Tensor
 asin_() → Tensor
 ```
 
-[`asin()`](#torch.Tensor.asin "torch.Tensor.asin") 的 in-place 运算形式
+`asin()` 的 in-place 运算形式
 
 ```py
 atan() → Tensor
@@ -235,13 +235,13 @@ atan2(other) → Tensor
 atan2_(other) → Tensor
 ```
 
-[`atan2()`](#torch.Tensor.atan2 "torch.Tensor.atan2") 的 in-place 运算形式
+`atan2()` 的 in-place 运算形式
 
 ```py
 atan_() → Tensor
 ```
 
-[`atan()`](#torch.Tensor.atan "torch.Tensor.atan") 的 in-place 运算形式
+`atan()` 的 in-place 运算形式
 
 ```py
 baddbmm(beta=1, alpha=1, batch1, batch2) → Tensor
@@ -253,7 +253,7 @@ baddbmm(beta=1, alpha=1, batch1, batch2) → Tensor
 baddbmm_(beta=1, alpha=1, batch1, batch2) → Tensor
 ```
 
-[`baddbmm()`](#torch.Tensor.baddbmm "torch.Tensor.baddbmm") 的 in-place 运算形式
+`baddbmm()` 的 in-place 运算形式
 
 ```py
 bernoulli() → Tensor
@@ -265,7 +265,7 @@ bernoulli() → Tensor
 bernoulli_() → Tensor
 ```
 
-[`bernoulli()`](#torch.Tensor.bernoulli "torch.Tensor.bernoulli") 的 in-place 运算形式
+`bernoulli()` 的 in-place 运算形式
 
 ```py
 bmm(batch2) → Tensor
@@ -297,7 +297,7 @@ ceil() → Tensor
 ceil_() → Tensor
 ```
 
-[`ceil()`](#torch.Tensor.ceil "torch.Tensor.ceil") 的 in-place 运算形式
+`ceil()` 的 in-place 运算形式
 
 ```py
 char()
@@ -323,7 +323,7 @@ clamp(min, max) → Tensor
 clamp_(min, max) → Tensor
 ```
 
-[`clamp()`](#torch.Tensor.clamp "torch.Tensor.clamp") 的 in-place 运算形式
+`clamp()` 的 in-place 运算形式
 
 ```py
 clone() → Tensor
@@ -363,7 +363,7 @@ cos() → Tensor
 cos_() → Tensor
 ```
 
-[`cos()`](#torch.Tensor.cos "torch.Tensor.cos") 的 in-place 运算形式
+`cos()` 的 in-place 运算形式
 
 ```py
 cosh() → Tensor
@@ -375,7 +375,7 @@ cosh() → Tensor
 cosh_() → Tensor
 ```
 
-[`cosh()`](#torch.Tensor.cosh "torch.Tensor.cosh") 的 in-place 运算形式
+`cosh()` 的 in-place 运算形式
 
 ```py
 cpu()
@@ -450,7 +450,7 @@ div(value)
 div_(value)
 ```
 
-[`div()`](#torch.Tensor.div "torch.Tensor.div") 的 in-place 运算形式
+`div()` 的 in-place 运算形式
 
 ```py
 dot(tensor2) → float
@@ -496,7 +496,7 @@ eq(other) → Tensor
 eq_(other) → Tensor
 ```
 
-[`eq()`](#torch.Tensor.eq "torch.Tensor.eq") 的 in-place 运算形式
+`eq()` 的 in-place 运算形式
 
 ```py
 equal(other) → bool
@@ -534,7 +534,7 @@ exp() → Tensor
 exp_() → Tensor
 ```
 
-[`exp()`](#torch.Tensor.exp "torch.Tensor.exp") 的 in-place 运算形式
+`exp()` 的 in-place 运算形式
 
 ```py
 expand(*sizes) → Tensor
@@ -613,7 +613,7 @@ floor() → Tensor
 floor_() → Tensor
 ```
 
-[`floor()`](#torch.Tensor.floor "torch.Tensor.floor") 的 in-place 运算形式
+`floor()` 的 in-place 运算形式
 
 ```py
 fmod(divisor) → Tensor
@@ -625,7 +625,7 @@ fmod(divisor) → Tensor
 fmod_(divisor) → Tensor
 ```
 
-[`fmod()`](#torch.Tensor.fmod "torch.Tensor.fmod") 的 in-place 运算形式
+`fmod()` 的 in-place 运算形式
 
 ```py
 frac() → Tensor
@@ -637,7 +637,7 @@ frac() → Tensor
 frac_() → Tensor
 ```
 
-[`frac()`](#torch.Tensor.frac "torch.Tensor.frac") 的 in-place 运算形式
+`frac()` 的 in-place 运算形式
 
 ```py
 gather(dim, index) → Tensor
@@ -655,7 +655,7 @@ ge(other) → Tensor
 ge_(other) → Tensor
 ```
 
-[`ge()`](#torch.Tensor.ge "torch.Tensor.ge") 的 in-place 运算形式
+`ge()` 的 in-place 运算形式
 
 ```py
 gels(A) → Tensor
@@ -699,7 +699,7 @@ gt(other) → Tensor
 gt_(other) → Tensor
 ```
 
-[`gt()`](#torch.Tensor.gt "torch.Tensor.gt") 的 in-place 运算形式
+`gt()` 的 in-place 运算形式
 
 ```py
 half()
@@ -866,7 +866,7 @@ le(other) → Tensor
 le_(other) → Tensor
 ```
 
-[`le()`](#torch.Tensor.le "torch.Tensor.le") 的 in-place 运算形式
+`le()` 的 in-place 运算形式
 
 ```py
 lerp(start, end, weight)
@@ -878,7 +878,7 @@ lerp(start, end, weight)
 lerp_(start, end, weight)
 ```
 
-[`lerp()`](#torch.Tensor.lerp "torch.Tensor.lerp") 的 in-place 运算形式
+`lerp()` 的 in-place 运算形式
 
 ```py
 log() → Tensor
@@ -896,13 +896,13 @@ log1p() → Tensor
 log1p_() → Tensor
 ```
 
-[`log1p()`](#torch.Tensor.log1p "torch.Tensor.log1p") 的 in-place 运算形式
+`log1p()` 的 in-place 运算形式
 
 ```py
 log_() → Tensor
 ```
 
-[`log()`](#torch.Tensor.log "torch.Tensor.log") 的 in-place 运算形式
+`log()` 的 in-place 运算形式
 
 ```py
 log_normal_(mean=1, std=2, *, generator=None)
@@ -928,7 +928,7 @@ lt(other) → Tensor
 lt_(other) → Tensor
 ```
 
-[`lt()`](#torch.Tensor.lt "torch.Tensor.lt") 的 in-place 运算形式
+`lt()` 的 in-place 运算形式
 
 ```py
 map_(tensor, callable)
@@ -1035,7 +1035,7 @@ mul(value) → Tensor
 mul_(value)
 ```
 
-[`mul()`](#torch.Tensor.mul "torch.Tensor.mul") 的 in-place 运算形式
+`mul()` 的 in-place 运算形式
 
 ```py
 multinomial(num_samples, replacement=False, *, generator=None)
@@ -1083,7 +1083,7 @@ Example
 ndimension() → int
 ```
 
-[`dim()`](#torch.Tensor.dim "torch.Tensor.dim") 的另一种表示
+`dim()` 的另一种表示
 
 ```py
 ne(other) → Tensor
@@ -1095,7 +1095,7 @@ ne(other) → Tensor
 ne_(other) → Tensor
 ```
 
-[`ne()`](#torch.Tensor.ne "torch.Tensor.ne") 的 in-place 运算形式
+`ne()` 的 in-place 运算形式
 
 ```py
 neg() → Tensor
@@ -1107,13 +1107,13 @@ neg() → Tensor
 neg_() → Tensor
 ```
 
-[`neg()`](#torch.Tensor.neg "torch.Tensor.neg") 的 in-place 运算形式
+`neg()` 的 in-place 运算形式
 
 ```py
 nelement() → int
 ```
 
-[`numel()`](#torch.Tensor.numel "torch.Tensor.numel") 的另一种表示
+`numel()` 的另一种表示
 
 ```py
 new(*args, **kwargs)
@@ -1137,7 +1137,7 @@ norm(p=2, dim=None, keepdim=False) → float
 normal_(mean=0, std=1, *, generator=None)
 ```
 
-将 tensor 用均值为 [`mean`](torch.html#torch.mean "torch.mean") 和标准差为 :attr:[`](#id1)std`的正态分布填充.
+将 tensor 用均值为 `mean`](torch.html#torch.mean "torch.mean") 和标准差为 :attr:[`std`的正态分布填充.
 
 ```py
 numel() → int
@@ -1217,7 +1217,7 @@ pow(exponent)
 pow_(exponent)
 ```
 
-[`pow()`](#torch.Tensor.pow "torch.Tensor.pow") 的 in-place 运算形式
+`pow()` 的 in-place 运算形式
 
 ```py
 prod(dim=None, keepdim=False) → float
@@ -1281,7 +1281,7 @@ reciprocal() → Tensor
 reciprocal_() → Tensor
 ```
 
-[`reciprocal()`](#torch.Tensor.reciprocal "torch.Tensor.reciprocal") 的 in-place 运算形式
+`reciprocal()` 的 in-place 运算形式
 
 ```py
 remainder(divisor) → Tensor
@@ -1293,7 +1293,7 @@ remainder(divisor) → Tensor
 remainder_(divisor) → Tensor
 ```
 
-[`remainder()`](#torch.Tensor.remainder "torch.Tensor.remainder") 的 in-place 运算形式
+`remainder()` 的 in-place 运算形式
 
 ```py
 renorm(p, dim, maxnorm) → Tensor
@@ -1305,7 +1305,7 @@ renorm(p, dim, maxnorm) → Tensor
 renorm_(p, dim, maxnorm) → Tensor
 ```
 
-[`renorm()`](#torch.Tensor.renorm "torch.Tensor.renorm") 的 in-place 运算形式
+`renorm()` 的 in-place 运算形式
 
 ```py
 repeat(*sizes)
@@ -1313,7 +1313,7 @@ repeat(*sizes)
 
 沿着指定的尺寸重复 tensor.
 
-和 [`expand()`](#torch.Tensor.expand "torch.Tensor.expand") 不同, 这个函数复制 tensor 的数据.
+和 `expand()` 不同, 这个函数复制 tensor 的数据.
 
 参数：`*sizes (torch.Size 或 int...)` – 沿每个维度重复 tensor 的次数
 
@@ -1375,7 +1375,7 @@ round() → Tensor
 round_() → Tensor
 ```
 
-[`round()`](#torch.Tensor.round "torch.Tensor.round") 的 in-place 运算形式
+`round()` 的 in-place 运算形式
 
 ```py
 rsqrt() → Tensor
@@ -1387,13 +1387,13 @@ rsqrt() → Tensor
 rsqrt_() → Tensor
 ```
 
-[`rsqrt()`](#torch.Tensor.rsqrt "torch.Tensor.rsqrt") 的 in-place 运算形式
+`rsqrt()` 的 in-place 运算形式
 
 ```py
 scatter_(dim, index, src) → Tensor
 ```
 
-将 `src` 中的所有值按照 [`index`](#torch.Tensor.index "torch.Tensor.index") 确定的索引顺序写入本 tensor 中. 给定的 dim 声明索引的维度, dim 按照 [`gather()`](#torch.Tensor.gather "torch.Tensor.gather") 中的描述的规则来确定.
+将 `src` 中的所有值按照 `index` 确定的索引顺序写入本 tensor 中. 给定的 dim 声明索引的维度, dim 按照 `gather()` 中的描述的规则来确定.
 
 注意, 关于 gather, index 的值必须是 `0` 到 `(self.size(dim) -1)` 区间, 而且, 属于同一维度的一行的值必须是唯一的.
 
@@ -1489,7 +1489,7 @@ sigmoid() → Tensor
 sigmoid_() → Tensor
 ```
 
-[`sigmoid()`](#torch.Tensor.sigmoid "torch.Tensor.sigmoid") 的 in-place 运算形式
+`sigmoid()` 的 in-place 运算形式
 
 ```py
 sign() → Tensor
@@ -1501,7 +1501,7 @@ sign() → Tensor
 sign_() → Tensor
 ```
 
-[`sign()`](#torch.Tensor.sign "torch.Tensor.sign") 的 in-place 运算形式
+`sign()` 的 in-place 运算形式
 
 ```py
 sin() → Tensor
@@ -1513,7 +1513,7 @@ sin() → Tensor
 sin_() → Tensor
 ```
 
-[`sin()`](#torch.Tensor.sin "torch.Tensor.sin") 的 in-place 运算形式
+`sin()` 的 in-place 运算形式
 
 ```py
 sinh() → Tensor
@@ -1525,7 +1525,7 @@ sinh() → Tensor
 sinh_() → Tensor
 ```
 
-[`sinh()`](#torch.Tensor.sinh "torch.Tensor.sinh") 的 in-place 运算形式
+`sinh()` 的 in-place 运算形式
 
 ```py
 size() → torch.Size
@@ -1565,7 +1565,7 @@ sqrt() → Tensor
 sqrt_() → Tensor
 ```
 
-[`sqrt()`](#torch.Tensor.sqrt "torch.Tensor.sqrt") 的 in-place 运算形式
+`sqrt()` 的 in-place 运算形式
 
 ```py
 squeeze(dim=None)
@@ -1577,7 +1577,7 @@ squeeze(dim=None)
 squeeze_(dim=None)
 ```
 
-[`squeeze()`](#torch.Tensor.squeeze "torch.Tensor.squeeze") 的 in-place 运算形式
+`squeeze()` 的 in-place 运算形式
 
 ```py
 std(dim=None, unbiased=True, keepdim=False) → float
@@ -1644,7 +1644,7 @@ sub(value, other) → Tensor
 sub_(x) → Tensor
 ```
 
-[`sub()`](#torch.Tensor.sub "torch.Tensor.sub") 的 in-place 运算形式
+`sub()` 的 in-place 运算形式
 
 ```py
 sum(dim=None, keepdim=False) → float
@@ -1674,7 +1674,7 @@ t() → Tensor
 t_() → Tensor
 ```
 
-[`t()`](#torch.Tensor.t "torch.Tensor.t") 的 in-place 运算形式
+`t()` 的 in-place 运算形式
 
 ```py
 take(indices) → Tensor
@@ -1690,7 +1690,7 @@ tan()
 tan_() → Tensor
 ```
 
-[`tan()`](#torch.Tensor.tan "torch.Tensor.tan") 的 in-place 运算形式
+`tan()` 的 in-place 运算形式
 
 ```py
 tanh() → Tensor
@@ -1702,7 +1702,7 @@ tanh() → Tensor
 tanh_() → Tensor
 ```
 
-[`tanh()`](#torch.Tensor.tanh "torch.Tensor.tanh") 的 in-place 运算形式
+`tanh()` 的 in-place 运算形式
 
 ```py
 tolist()
@@ -1732,7 +1732,7 @@ transpose(dim0, dim1) → Tensor
 transpose_(dim0, dim1) → Tensor
 ```
 
-[`transpose()`](#torch.Tensor.transpose "torch.Tensor.transpose") 的 in-place 运算形式
+`transpose()` 的 in-place 运算形式
 
 ```py
 tril(k=0) → Tensor
@@ -1744,7 +1744,7 @@ tril(k=0) → Tensor
 tril_(k=0) → Tensor
 ```
 
-[`tril()`](#torch.Tensor.tril "torch.Tensor.tril")
+`tril()`
 
 ```py
 triu(k=0) → Tensor
@@ -1756,7 +1756,7 @@ triu(k=0) → Tensor
 triu_(k=0) → Tensor
 ```
 
-[`triu()`](#torch.Tensor.triu "torch.Tensor.triu") 的 in-place 运算形式
+`triu()` 的 in-place 运算形式
 
 ```py
 trtrs(A, upper=True, transpose=False, unitriangular=False) -> (Tensor, Tensor)
@@ -1774,7 +1774,7 @@ trunc() → Tensor
 trunc_() → Tensor
 ```
 
-[`trunc()`](#torch.Tensor.trunc "torch.Tensor.trunc") 的 in-place 运算形式
+`trunc()` 的 in-place 运算形式
 
 ```py
 type(new_type=None, async=False)
@@ -1810,7 +1810,7 @@ Params: tensor (Tensor): tensor 具有所需的类型
 unfold(dim, size, step) → Tensor
 ```
 
-返回一个在 [`dim`](#torch.Tensor.dim "torch.Tensor.dim") 维度上包含所有 [`size`](#torch.Tensor.size "torch.Tensor.size") 大小切片的 tensor.
+返回一个在 `dim` 维度上包含所有 `size` 大小切片的 tensor.
 
 > `step` 说明两个切片之间的步长.
 
@@ -1876,7 +1876,7 @@ unsqueeze(dim)
 unsqueeze_(dim)
 ```
 
-[`unsqueeze()`](#torch.Tensor.unsqueeze "torch.Tensor.unsqueeze") 的 in-place 运算形式
+`unsqueeze()` 的 in-place 运算形式
 
 ```py
 var(dim=None, unbiased=True, keepdim=False) → float
@@ -1890,7 +1890,7 @@ view(*args) → Tensor
 
 返回一个有相同数据但大小不同的新的 tensor.
 
-返回的 tensor 与原 tensor 共享相同的数据, 一定有相同数目的元素, 但大小不同. 一个 tensor 必须是连续的 ( [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous") ) 才能被查看.
+返回的 tensor 与原 tensor 共享相同的数据, 一定有相同数目的元素, 但大小不同. 一个 tensor 必须是连续的 ( `contiguous()` ) 才能被查看.
 
 参数：`args (torch.Size 或 int...)` – 期望的大小
 
@@ -1933,7 +1933,7 @@ zero_()
 class torch.ByteTensor
 ```
 
-下面这些函数方法只存在于 [`torch.ByteTensor`](#torch.ByteTensor "torch.ByteTensor").
+下面这些函数方法只存在于 `torch.ByteTensor`.
 
 ```py
 all() → bool

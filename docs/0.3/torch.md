@@ -314,7 +314,7 @@ torch.range(start, end, step=1, out=None) → Tensor
 
 Warning
 
-此功能已被弃用, 以支持 [`torch.arange()`](#torch.arange "torch.arange").
+此功能已被弃用, 以支持 `torch.arange()`.
 
 参数：
 
@@ -413,11 +413,11 @@ torch.zeros_like(input, out=None) → Tensor
 torch.cat(seq, dim=0, out=None) → Tensor
 ```
 
-在给定维度上对输入的张量序列 `seq` 进行连接操作. 所有张量必须具有相同的形状(在 [`cat`](#torch.cat "torch.cat") 维度中除外) 或为空.
+在给定维度上对输入的张量序列 `seq` 进行连接操作. 所有张量必须具有相同的形状(在 `cat` 维度中除外) 或为空.
 
-[`torch.cat()`](#torch.cat "torch.cat") 可以看做是 [`torch.split()`](#torch.split "torch.split") 和 [`torch.chunk()`](#torch.chunk "torch.chunk") 的逆操作.
+`torch.cat()` 可以看做是 `torch.split()` 和 `torch.chunk()` 的逆操作.
 
-[`cat()`](#torch.cat "torch.cat") 可以通过下面的例子更好地理解.
+`cat()` 可以通过下面的例子更好地理解.
 
 参数：
 
@@ -1016,9 +1016,9 @@ torch.normal(means, std, out=None)
 
 参数 `means` 是一个包含每个输出元素的正态分布均值的张量.
 
-参数 [`std`](#torch.std "torch.std") 是一个包含每个输出元素的正态分布标准差的张量.
+参数 `std` 是一个包含每个输出元素的正态分布标准差的张量.
 
-其中 `means` 和 [`std`](#torch.std "torch.std") 的形状不需要匹配, 但是每个张量中的元素总数需要相同.
+其中 `means` 和 `std` 的形状不需要匹配, 但是每个张量中的元素总数需要相同.
 
 注解：
 
@@ -1201,12 +1201,12 @@ torch.randperm(n, out=None) → LongTensor
 
 在Tensors模块上还定义了许多 in-place 随机采样函数,可以点击参考它们的文档:
 
-*   [`torch.Tensor.bernoulli_()`](tensors.html#torch.Tensor.bernoulli_ "torch.Tensor.bernoulli_") - 是 [`torch.bernoulli()`](#torch.bernoulli "torch.bernoulli") 的 in-place 版本
+*   `torch.Tensor.bernoulli_()`](tensors.html#torch.Tensor.bernoulli_ "torch.Tensor.bernoulli_") - 是 [`torch.bernoulli()` 的 in-place 版本
 *   [`torch.Tensor.cauchy_()`](tensors.html#torch.Tensor.cauchy_ "torch.Tensor.cauchy_") - 从柯西分布中抽取数字
 *   [`torch.Tensor.exponential_()`](tensors.html#torch.Tensor.exponential_ "torch.Tensor.exponential_") - 从指数分布中抽取数字
 *   [`torch.Tensor.geometric_()`](tensors.html#torch.Tensor.geometric_ "torch.Tensor.geometric_") - 从几何分布中抽取元素
 *   [`torch.Tensor.log_normal_()`](tensors.html#torch.Tensor.log_normal_ "torch.Tensor.log_normal_") - 对数正态分布中的样本
-*   [`torch.Tensor.normal_()`](tensors.html#torch.Tensor.normal_ "torch.Tensor.normal_") - 是 [`torch.normal()`](#torch.normal "torch.normal") 的 in-place 版本
+*   `torch.Tensor.normal_()`](tensors.html#torch.Tensor.normal_ "torch.Tensor.normal_") - 是 [`torch.normal()` 的 in-place 版本
 *   [`torch.Tensor.random_()`](tensors.html#torch.Tensor.random_ "torch.Tensor.random_") - 离散均匀分布中采样的数字
 *   [`torch.Tensor.uniform_()`](tensors.html#torch.Tensor.uniform_ "torch.Tensor.uniform_") - 正态分布中采样的数字
 
@@ -1226,7 +1226,7 @@ torch.save(obj, f, pickle_module=<module 'cPickle' from '/usr/lib64/python2.7/li
 torch.load(f, map_location=None, pickle_module=<module 'cPickle' from '/usr/lib64/python2.7/lib-dynload/cPickle.so'>)
 ```
 
-从磁盘文件中加载一个用 [`torch.save()`](#torch.save "torch.save") 保存的对象.
+从磁盘文件中加载一个用 `torch.save()` 保存的对象.
 
 | Func: | `torch.load` 使用 Python 的解封 (unpickling) 设施, 但特殊对待张量下的存储 (storages). |
 | --- | --- |
@@ -1620,7 +1620,7 @@ y_i = | x_i, if min <= x_i <= max
 
 ```
 
-如果输入张量 `input` 的类型 `FloatTensor` 或者 `DoubleTensor`, 那么参数 [`min`](#torch.min "torch.min") 和 [`max`](#torch.max "torch.max") 必须为实数, 否则为整数.
+如果输入张量 `input` 的类型 `FloatTensor` 或者 `DoubleTensor`, 那么参数 `min` 和 `max` 必须为实数, 否则为整数.
 
 参数：
 
@@ -1657,7 +1657,7 @@ y_i = | x_i, if min <= x_i <= max
 torch.clamp(input, *, min, out=None) → Tensor
 ```
 
-张量 `input` 的所有元素值大于或者等于 [`min`](#torch.min "torch.min").
+张量 `input` 的所有元素值大于或者等于 `min`.
 
 如果张量 `input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 `value` 必须是实数, 否则应该是整数.
 
@@ -1695,7 +1695,7 @@ torch.clamp(input, *, min, out=None) → Tensor
 torch.clamp(input, *, max, out=None) → Tensor
 ```
 
-张量 `input` 的所有元素值小于或者等于 [`max`](#torch.max "torch.max").
+张量 `input` 的所有元素值小于或者等于 `max`.
 
 如果张量 `input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 `value` 必须是实数, 否则应该是整数.
 
@@ -1999,7 +1999,7 @@ torch.FloatTensor([1.0, 0.5, 0.0, 1.0, 0.5])
 
 See also
 
-[`torch.remainder()`](#torch.remainder "torch.remainder"), 其计算等价于 Python’s `%` 操作符的元素余数
+`torch.remainder()`, 其计算等价于 Python’s `%` 操作符的元素余数
 
 ```py
 torch.frac(tensor, out=None) → Tensor
@@ -2112,7 +2112,7 @@ torch.log1p(input, out=None) → Tensor
 
 注解：
 
-对于较小的张量 `input` 的值, 此函数比 [`torch.log()`](#torch.log "torch.log") 更精确.
+对于较小的张量 `input` 的值, 此函数比 `torch.log()` 更精确.
 
 参数：
 
@@ -2449,7 +2449,7 @@ torch.FloatTensor([1.0, 0.5, 0.0, 1.0, 0.5])
 
 See also
 
-[`torch.fmod()`](#torch.fmod "torch.fmod") 同样计算除法余数, 等效于C库函数中的 `fmod()`
+`torch.fmod()` 同样计算除法余数, 等效于C库函数中的 `fmod()`
 
 ```py
 torch.round(input, out=None) → Tensor
@@ -2988,7 +2988,7 @@ torch.mean(input, dim, keepdim=False, out=None) → Tensor
 
 返回张量 `input` 在给定维度 `dim` 上每行的均值.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 参数：
 
@@ -3064,7 +3064,7 @@ torch.median(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor
 
 `dim` 的缺省值为输入张量 `input` 的最后一维.
 
-如果 `keepdim` 是 `True`, 输出张量与输入张量 `input` 形状相同, 除了维数 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量比输入张量 `input` 少一维.
+如果 `keepdim` 是 `True`, 输出张量与输入张量 `input` 形状相同, 除了维数 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量比输入张量 `input` 少一维.
 
 参数：
 
@@ -3121,7 +3121,7 @@ torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, 
 
 维度 `dim` 的缺省值是输入张量 `input` 的最后一维. .
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 注解：
 
@@ -3211,7 +3211,7 @@ torch.norm(input, p, dim, keepdim=False, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的p-范数.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除非维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除非维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 参数：
 
@@ -3286,7 +3286,7 @@ torch.prod(input, dim, keepdim=False, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的积.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 参数：
 
@@ -3358,7 +3358,7 @@ torch.std(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的标准差.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计来计算. 否则, Bessel’s correction 将被使用.
 
@@ -3427,7 +3427,7 @@ torch.sum(input, dim, keepdim=False, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的和.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 参数：
 
@@ -3499,7 +3499,7 @@ torch.var(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行的方差.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()`), 导致输出张量减少一维.
 
 如果 `unbiased` 是``False``, 方差的计算将通过有偏估计计算. 否则, Bessel’s correction 将会被使用.
 
@@ -3645,7 +3645,7 @@ torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTens
 
 返回一个元组 `(values,indices)` ,其中 `indices` 是原始输入张量 `input` 中沿 `dim` 维的第 `k` 个最小值下标.
 
-如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 大小相同, 除了在所有值都为1的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
+如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 大小相同, 除了在所有值都为1的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 `torch.squeeze()` ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
 
 参数：
 
@@ -3788,7 +3788,7 @@ torch.max(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回输入张量 `input` 在给定维度 `dim` 上每行的最大值, 并同时返回每个最大值的位置索引.
 
-如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 尺寸相同, 除了在所有值都为 1 的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
+如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 尺寸相同, 除了在所有值都为 1 的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 `torch.squeeze()` ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
 
 参数：
 
@@ -3909,7 +3909,7 @@ torch.min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的最小值. 其中第二个返回值是每个被找出的最小值的索引位置 ( argmin ) .
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维数 `dim` 是 1 . 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量比输入张量 `input` 少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维数 `dim` 是 1 . 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量比输入张量 `input` 少一维.
 
 参数：
 
@@ -4534,7 +4534,7 @@ torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 
 参数：
 
-*   `beta (Number, 可选)` – 作用于:attr:[`](#id1)mat`的乘子
+*   `beta (Number, 可选)` – 作用于:attr:`mat`的乘子
 *   `mat (Tensor)` – 要被相加的矩阵
 *   `alpha (Number, 可选)` – 作用于`mat1 @ mat2`的乘子
 *   `mat1 (Tensor)` – 要相乘的第一个矩阵
@@ -4683,7 +4683,7 @@ torch.bmm(batch1, batch2, out=None) → Tensor
 
 注解：
 
-这个函数不能参考 [broadcast](notes/broadcasting.html#broadcasting-semantics). 对于广播矩阵相乘, 参见 [`torch.matmul()`](#torch.matmul "torch.matmul").
+这个函数不能参考 broadcast](notes/broadcasting.html#broadcasting-semantics). 对于广播矩阵相乘, 参见 [`torch.matmul()`.
 
 参数：
 
@@ -4795,11 +4795,11 @@ torch.gels(B, A, out=None) → Tensor
 
 计算秩为 ![m](img/tex-6f8f57715090da2632453988d9a1501b.gif) 的， 大小为 m x n 的矩阵 ![A](img/tex-7fc56270e7a70fa81a5935b72eacbe29.gif) 最小二乘和最小范数问题的解
 
-如果 ![m &gt;= n](img/tex-67ab86856a95fdd869cf2a0fff67d8be.gif), [`gels()`](#torch.gels "torch.gels") 求解最小二乘问题:
+如果 !m &gt;= n](img/tex-67ab86856a95fdd869cf2a0fff67d8be.gif), [`gels()` 求解最小二乘问题:
 
 ![\begin{array}{ll} \mbox{minimize} & \|AX-B\|_F. \end{array}](img/tex-e616b1701f9adb598d4bc4809d5d9d13.gif)
 
-如果 ![m &lt; n](img/tex-ad3a40ab7b4c9be133873408eb36bcc1.gif), [`gels()`](#torch.gels "torch.gels") 求解最小范数问题:
+如果 !m &lt; n](img/tex-ad3a40ab7b4c9be133873408eb36bcc1.gif), [`gels()` 求解最小范数问题:
 
 ![\begin{array}{ll} \mbox{minimize} & \|X\|_F & \mbox{subject to} & AX = B. \end{array}](img/tex-3f143297c60126363ebd87566cbf4d03.gif)
 
@@ -4852,7 +4852,7 @@ torch.geqrf(input, out=None) -> (Tensor, Tensor)
 
 这是直接调用 LAPACK 的低层函数.
 
-通常您应该使用 [`torch.qr()`](#torch.qr "torch.qr") 来代替之.
+通常您应该使用 `torch.qr()` 来代替之.
 
 计算 `input` 的 QR 分解, 但不构造 `Q` 和 `R` 作为显示分开的矩阵.
 
@@ -5034,7 +5034,7 @@ torch.mm(mat1, mat2, out=None) → Tensor
 
 注解：
 
-这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics). 要使用支持广播矩阵乘法, 参见 [`torch.matmul()`](#torch.matmul "torch.matmul").
+这个函数不支持 broadcast](notes/broadcasting.html#broadcasting-semantics). 要使用支持广播矩阵乘法, 参见 [`torch.matmul()`.
 
 参数：
 

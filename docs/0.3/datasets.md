@@ -17,22 +17,22 @@ data_loader = torch.utils.data.DataLoader(imagenet_data,
 
 Datasets
 
-*   [MNIST](#mnist)
-*   [Fashion-MNIST](#fashion-mnist)
-*   [COCO](#coco)
-    *   [Captions](#captions)
-    *   [Detection](#detection)
-*   [LSUN](#lsun)
-*   [ImageFolder](#imagefolder)
-*   [Imagenet-12](#imagenet-12)
-*   [CIFAR](#cifar)
-*   [STL10](#stl10)
-*   [SVHN](#svhn)
-*   [PhotoTour](#phototour)
+*   MNIST
+*   Fashion-MNIST
+*   COCO
+    *   Captions
+    *   Detection
+*   LSUN
+*   ImageFolder
+*   Imagenet-12
+*   CIFAR
+*   STL10
+*   SVHN
+*   PhotoTour
 
 所有数据集都有几乎相似的 API, 它们有两个普通的参数: `transform` 和 `target_transform` 可分别的对输入和目标数据集进行变换. - `transform`: 输入原始图片, 返回转换后的图片. - `target_transform`: 输入为 target, 返回转换后的 target.
 
-## [MNIST](#id10)
+## MNIST
 
 ```py
 class torchvision.datasets.MNIST(root, train=True, transform=None, target_transform=None, download=False)
@@ -50,7 +50,7 @@ class torchvision.datasets.MNIST(root, train=True, transform=None, target_transf
 
 
 
-## [Fashion-MNIST](#id11)
+## Fashion-MNIST
 
 ```py
 class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target_transform=None, download=False)
@@ -68,13 +68,13 @@ class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target
 
 
 
-## [COCO](#id12)
+## COCO
 
 注解：
 
 需要安装 [COCO API](https://github.com/pdollar/coco/tree/master/PythonAPI)
 
-### [Captions](#id13)
+### Captions
 
 ```py
 class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_transform=None)
@@ -131,7 +131,7 @@ __getitem__(index)
 
 返回类型：`tuple`
 
-### [Detection](#id14)
+### Detection
 
 ```py
 class torchvision.datasets.CocoDetection(root, annFile, transform=None, target_transform=None)
@@ -158,7 +158,7 @@ __getitem__(index)
 
 返回类型：`tuple`
 
-## [LSUN](#id15)
+## LSUN
 
 ```py
 class torchvision.datasets.LSUN(db_path, classes='train', transform=None, target_transform=None)
@@ -185,7 +185,7 @@ __getitem__(index)
 
 返回类型：`tuple`
 
-## [ImageFolder](#id16)
+## ImageFolder
 
 ```py
 class torchvision.datasets.ImageFolder(root, transform=None, target_transform=None, loader=<function default_loader at 0x432aa28>)
@@ -223,13 +223,13 @@ __getitem__(index)
 
 返回类型：`tuple`
 
-## [Imagenet-12](#id17)
+## Imagenet-12
 
 这可以通过一个 `ImageFolder` 数据集轻易实现. 该数据预处理过程如 [这里描述的](https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset) 所示
 
 [这里是一个预处理示例](https://github.com/pytorch/examples/blob/27e2a46c1d1505324032b1d94fc6ce24d5b67e97/imagenet/main.py#L48-L62).
 
-## [CIFAR](#id18)
+## CIFAR
 
 ```py
 class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_transform=None, download=False)
@@ -265,7 +265,7 @@ class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_tra
 
 `CIFAR10` Dataset 的一个子类.
 
-## [STL10](#id19)
+## STL10
 
 ```py
 class torchvision.datasets.STL10(root, split='train', transform=None, target_transform=None, download=False)
@@ -293,7 +293,7 @@ __getitem__(index)
 
 返回类型：`tuple`
 
-## [SVHN](#id20)
+## SVHN
 
 ```py
 class torchvision.datasets.SVHN(root, split='train', transform=None, target_transform=None, download=False)
@@ -321,7 +321,7 @@ __getitem__(index)
 
 返回类型：`tuple`
 
-## [PhotoTour](#id21)
+## PhotoTour
 
 ```py
 class torchvision.datasets.PhotoTour(root, name, train=True, transform=None, download=False)
