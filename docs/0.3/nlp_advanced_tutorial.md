@@ -1,5 +1,7 @@
 # 高级教程: 作出动态决策和 Bi-LSTM CRF
 
+> 译者：[@JingTao](https://github.com/jingwangfei)、[@friedhelm739](https://github.com/friedhelm739)
+
 ## 动态 VS 静态深度学习工具集
 
 Pytorch 是一个 _动态_ 神经网络工具包. 另一个动态工具包的例子是 [Dynet](https://github.com/clab/dynet) (我之所以提这个是因为使用 Pytorch 和 Dynet 是十分类似的. 如果你看过 Dynet 中的例子, 那么它将有可能对你在 Pytorch 下实现它有帮助). 与动态相反的是 _静态_ 工具包, 包括了 Theano, Keras, TensorFlow 等等. 下面是这两者核心的一些区别:

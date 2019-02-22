@@ -1,5 +1,7 @@
 # PyTorch深度学习
 
+> 译者：[@JingTao](https://github.com/jingwangfei)、[@friedhelm739](https://github.com/friedhelm739)
+
 ## 深度学习构建模块: Affine maps, non-linearities and objectives
 
 深度学习以巧妙的方式将non-linearities和linearities组合在一起.non-linearities的引入允许强大的模型. 在本节中, 我们将使用这些核心组件, 构建一个objective函数, 并且看看模型是如何训练的.

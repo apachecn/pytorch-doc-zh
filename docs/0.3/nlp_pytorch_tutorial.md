@@ -1,5 +1,7 @@
 # PyTorch介绍
 
+> 译者：[@JingTao](https://github.com/jingwangfei)、[@friedhelm739](https://github.com/friedhelm739)
+
 ## Torch张量库介绍
 
 所有的深度学习都是在张量上计算的,其中张量是一个可以被超过二维索引的矩阵的一般化. 稍后我们将详细讨论这意味着什么.首先,我们先来看一下我们可以用张量来干什么.
