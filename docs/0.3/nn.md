@@ -175,7 +175,7 @@ forward(*input)
 
 应该被所有的子类重写.
 
-Note
+注解：
 
 尽管需要在此函数中定义正向传递的方式, 但是应该事后尽量调用 [`Module`](#torch.nn.Module "torch.nn.Module") 实例, 因为前者负责运行已注册的钩子, 而后者静默的忽略它们.
 
@@ -211,7 +211,7 @@ modules()
 | Yields: | _Module_ – a module in the network |
 | --- | --- |
 
-Note
+注解：
 
 重复的模块只返回一次. 在下面的例子中, `1` 只会被返回一次. example, `l` will be returned only once.
 
@@ -255,7 +255,7 @@ named_modules(memo=None, prefix='')
 | Yields: | _(string, Module)_ – 名字和模块的 Tuple（元组） |
 | --- | --- |
 
-Note
+注解：
 
 重复的模块只返回一次. 在下面的例子中, `1` 只会被返回一次.
 
@@ -508,7 +508,7 @@ ModuleList 可以像普通的 Python list 一样被索引, 但是它包含的模
 参数：`modules (list, 可选)` – 要添加的模块列表
 
 
-Example:
+示例：
 
 ```py
 class MyModule(nn.Module):
@@ -555,7 +555,7 @@ ParameterList 可以像普通的 Python list 那样被索引, 但是它所包含
 参数：`modules (list, 可选)` – 要被添加的 `Parameter`` 列表
 
 
-Example:
+示例：
 
 ```py
 class MyModule(nn.Module):
@@ -609,7 +609,7 @@ dilation 为1时, 使用 (a,b);(b,c)… 进行池化, dilation 为1时, 使用 (
 
 > `in_channels` 和 [`](#id1)out_channels`都要可以被 groups 整除.
 
-Note
+注解：
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
@@ -670,7 +670,7 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 > *   单个 `int` 值 – 宽和高均被设定为此值.
 > *   由两个 `int` 组成的 `tuple` – 第一个 `int` 为高, 第二个 `int` 为宽.
 
-Note
+注解：
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
@@ -736,7 +736,7 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 > *   单个 `int` 值 – 宽和高和深度均被设定为此值.
 > *   由三个 `int` 组成的 `tuple` – 第一个 `int` 为深度, 第二个 `int` 为高度, 第三个 `int` 为宽度.
 
-Note
+注解：
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
@@ -791,7 +791,7 @@ class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1,
 
 > `in_channels` 和 [`](#id15)out_channels`都要可以被 groups 整除.
 
-Note
+注解：
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
@@ -842,7 +842,7 @@ class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1,
 > *   单个 `int` 值 – 宽和高均被设定为此值.
 > *   由两个 `int` 组成的 `tuple` – 第一个 `int` 为高度, 第二个 `int` 为宽度.
 
-Note
+注解：
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
@@ -915,7 +915,7 @@ class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1,
 > *   单个 `int` 值 – 深和宽和高均被设定为此值.
 > *   由三个 `int` 组成的 `tuple` – 第一个 `int` 为深度, 第二个 `int` 为高度,第三个 `int` 为宽度.
 
-Note
+注解：
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
@@ -1107,7 +1107,7 @@ class torch.nn.MaxUnpool1d(kernel_size, stride=None, padding=0)
 
 [`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") 以 [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
-Note
+注解：
 
 <cite>MaxPool1d</cite> 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可 为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 <cite>output_size</cite> 传入.
 
@@ -1132,7 +1132,7 @@ Inputs:
 *   输入：![(N, C, H_{in})](img/tex-99d3564b110d4919681501387a6ddf09.gif)
 *   输出：![(N, C, H_{out})](img/tex-ec05c6d8987b027dc39dd18a863a9e03.gif) 遵从如下关系 ![H_{out} = (H_{in} - 1) * stride[0] - 2 * padding[0] + kernel\_size[0]](img/tex-3e4cc86575ff480ad4c4141a89f2b470.gif) 或者在调用时指定输出大小 `output_size`
 
-Example:
+示例：
 
 ```py
 >>> pool = nn.MaxPool1d(2, stride=2, return_indices=True)
@@ -1174,7 +1174,7 @@ class torch.nn.MaxUnpool2d(kernel_size, stride=None, padding=0)
 
 [`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") 以 [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
-Note
+注解：
 
 <cite>MaxPool2d</cite> 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可. 为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 <cite>output_size</cite> 传入.
 
@@ -1199,7 +1199,7 @@ Inputs:
 *   输入：![(N, C, H_{in}, W_{in})](img/tex-d5acb55d3d2dd49b5b0d71ab7cf3b2d1.gif)
 *   输出：![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif) 遵从如下关系 ![H_{out} = (H_{in} - 1) * stride[0] -2 * padding[0] + kernel\_size[0]](img/tex-bc6952442952352a9c45fd1615b9c8ab.gif) ![W_{out} = (W_{in} - 1) * stride[1] -2 * padding[1] + kernel\_size[1]](img/tex-271dbbdd3ca44e09a3a07b7353048057.gif) 或者在调用时指定输出大小 `output_size`
 
-Example:
+示例：
 
 ```py
 >>> pool = nn.MaxPool2d(2, stride=2, return_indices=True)
@@ -1241,7 +1241,7 @@ class torch.nn.MaxUnpool3d(kernel_size, stride=None, padding=0)
 
 要注意的是 [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") 并不是完全可逆的, 因为在max pooling过程中非最大值已经丢失 [`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") 以 [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") 的输出, 包含最大值的索引作为输入 计算max poooling的部分逆过程(对于那些最大值区域), 对于那些非最大值区域将设置为0值
 
-Note
+注解：
 
 <cite>MaxPool3d</cite> 可以将多个输入大小映射到相同的输出大小, 因此反演过程可能会模棱两可. 为适应这一点, 在调用forward函数时可以将需要的输出大小作为额外的参数 <cite>output_size</cite> 传入.
 
@@ -1266,7 +1266,7 @@ Inputs:
 *   输入：![(N, C, D_{in}, H_{in}, W_{in})](img/tex-ce19deda602cf16ded15c0fb9cd5d280.gif)
 *   输出：![(N, C, D_{out}, H_{out}, W_{out})](img/tex-d14df6868b2b3f7ee945a69616a0b867.gif) 遵从如下关系 ![D_{out} = (D_{in} - 1) * stride[0] - 2 * padding[0] + kernel\_size[0]](img/tex-570c38500306b160a0747f548ed0f215.gif) ![H_{out} = (H_{in} - 1) * stride[1] - 2 * padding[1] + kernel\_size[1]](img/tex-f359d5e863d259e3983a5b5c33f30f38.gif) ![W_{out} = (W_{in} - 1) * stride[2] - 2 * padding[2] + kernel\_size[2]](img/tex-0aaee5bf5ff41e2d03d399eead71c93e.gif) 或者在调用时指定输出大小 `output_size`
 
-Example:
+示例：
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1679,7 +1679,7 @@ class torch.nn.ReflectionPad2d(padding)
 *   输入：![(N, C, H_{in}, W_{in})](img/tex-d5acb55d3d2dd49b5b0d71ab7cf3b2d1.gif)
 *   输出：![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif) where ![H_{out} = H_{in} + paddingTop + paddingBottom](img/tex-aadeb8a243fd73b11a90d3e81647b9ce.gif) ![W_{out} = W_{in} + paddingLeft + paddingRight](img/tex-b59826cca9d58f84da90f697b0482901.gif)
 
-Example:
+示例：
 
 ```py
 >>> m = nn.ReflectionPad2d(3)
@@ -1707,7 +1707,7 @@ class torch.nn.ReplicationPad2d(padding)
 *   输入：![(N, C, H_{in}, W_{in})](img/tex-d5acb55d3d2dd49b5b0d71ab7cf3b2d1.gif)
 *   输出：![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif) where ![H_{out} = H_{in} + paddingTop + paddingBottom](img/tex-aadeb8a243fd73b11a90d3e81647b9ce.gif) ![W_{out} = W_{in} + paddingLeft + paddingRight](img/tex-b59826cca9d58f84da90f697b0482901.gif)
 
-Example:
+示例：
 
 ```py
 >>> m = nn.ReplicationPad2d(3)
@@ -1740,7 +1740,7 @@ class torch.nn.ReplicationPad3d(padding)
 *   输入：![(N, C, D_{in}, H_{in}, W_{in})](img/tex-ce19deda602cf16ded15c0fb9cd5d280.gif)
 *   输出：![(N, C, D_{out}, H_{out}, W_{out})](img/tex-d14df6868b2b3f7ee945a69616a0b867.gif) where ![D_{out} = D_{in} + paddingFront + paddingBack](img/tex-1c73dcb800c79e8783388e4bd8318e9b.gif) ![H_{out} = H_{in} + paddingTop + paddingBottom](img/tex-aadeb8a243fd73b11a90d3e81647b9ce.gif) ![W_{out} = W_{in} + paddingLeft + paddingRight](img/tex-b59826cca9d58f84da90f697b0482901.gif)
 
-Example:
+示例：
 
 ```py
 >>> m = nn.ReplicationPad3d(3)
@@ -1771,7 +1771,7 @@ class torch.nn.ZeroPad2d(padding)
 *   输入：![(N, C, H_{in}, W_{in})](img/tex-d5acb55d3d2dd49b5b0d71ab7cf3b2d1.gif)
 *   输出：![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif) where ![H_{out} = H_{in} + paddingTop + paddingBottom](img/tex-aadeb8a243fd73b11a90d3e81647b9ce.gif) ![W_{out} = W_{in} + paddingLeft + paddingRight](img/tex-b59826cca9d58f84da90f697b0482901.gif)
 
-Example:
+示例：
 
 ```py
 >>> m = nn.ZeroPad2d(3)
@@ -1805,7 +1805,7 @@ class torch.nn.ConstantPad2d(padding, value)
 *   输入：![(N, C, H_{in}, W_{in})](img/tex-d5acb55d3d2dd49b5b0d71ab7cf3b2d1.gif)
 *   输出：![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif) where ![H_{out} = H_{in} + paddingTop + paddingBottom](img/tex-aadeb8a243fd73b11a90d3e81647b9ce.gif) ![W_{out} = W_{in} + paddingLeft + paddingRight](img/tex-b59826cca9d58f84da90f697b0482901.gif)
 
-Example:
+示例：
 
 ```py
 >>> m = nn.ConstantPad2d(3, 3.5)
@@ -1937,7 +1937,7 @@ class torch.nn.PReLU(num_parameters=1, init=0.25)
 
 对输入的每一个元素运用函数 ![PReLU(x) = max(0,x) + a * min(0,x)](img/tex-1fdf83b42b80c315119cb53c14c86985.gif) 这里的 “a” 是自学习的参数. 当不带参数地调用时, nn.PReLU() 在所有输入通道中使用单个参数 “a” . 而如果用 nn.PReLU(nChannels) 调用, “a” 将应用到每个输入.
 
-Note
+注解：
 
 当为了表现更佳的模型而学习参数 “a” 时不要使用权重衰减 (weight decay)
 
@@ -2307,7 +2307,7 @@ class torch.nn.Softmax(dim=None)
 参数：`dim (int)` – 这是将计算 Softmax 的那个维度 (所以每个沿着 dim 的切片和为 1).
 
 
-Note
+注解：
 
 如果你想对原始 Softmax 数据计算 Log 进行收缩, 并不能使该模块直接使用 NLLLoss 负对数似然损失函数. 取而代之, 应该使用 Logsoftmax (它有更快的运算速度和更好的数值性质).
 
@@ -4236,7 +4236,7 @@ Warning
 
 这个模块不能用于 : func: `torch.autograd.grad` （即只有在参数的 `.grad` 属性中 累积梯度才能使用）.
 
-Note
+注解：
 
 参数永远不会在进程之间广播.模块在梯度上执行全部优化步骤, 并假定它们将以相同的方式在 所有进程中进行优化.缓冲区（e.g. BatchNorm stats）在等级0的过程中从模块广播到系统 中的每个迭代中的所有其他副本.
 
@@ -4296,7 +4296,7 @@ torch.nn.utils.weight_norm(module, name='weight', dim=0)
 返回值：添加了权重归一化钩子的原 module
 
 
-Example:
+示例：
 
 ```py
 >>> m = weight_norm(nn.Linear(20, 40), name='weight')
@@ -4341,7 +4341,7 @@ torch.nn.utils.rnn.PackedSequence(_cls, data, batch_sizes)
 
 所有的 RNN 模块都接收这种被包裹后的序列作为它们的输入.
 
-Note
+注解：
 
 永远不要手动创建这个类的实例. 它们应当被 [`pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence") 这样的函数实例化.
 
@@ -4364,7 +4364,7 @@ torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=False)
 
 Variable 中保存的序列, 应该按序列长度的长短排序, 长的在前, 短的在后. 即 input[:,0] 代表的是最长的序列, input[:, B-1] 保存的是最短的序列.
 
-Note
+注解：
 
 只要是维度大于等于2的 input 都可以作为这个函数的参数. 你可以用它来打包 labels, 然后用 RNN 的输出和打包后的 labels 来计算 loss. 通过 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象的 `.data` 属性可以获取 Variable.
 

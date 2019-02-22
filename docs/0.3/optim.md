@@ -10,7 +10,7 @@
 
 要构建一个 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 你需要一个可迭代的参数 (全部都应该是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) 进行优化. 然后, 你能够设置优化器的参数选项, 例如学习率, 权重衰减等.
 
-Note
+注解：
 
 如果你需要通过 `.cuda()` 将模型移动到 GPU 上, 请在构建优化器之前来移动. 模型的参数在进行 `.cuda()` 之后将变成不同的对象,该对象与之前调用的参数不同.
 
@@ -28,7 +28,7 @@ optimizer = optim.Adam([var1, var2], lr = 0.0001)
 
 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 :class: `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
 
-Note
+注解：
 
 你仍然能够传递选项作为关键字参数.在未重写这些选项的组中, 它们会被用作默认值. 这非常适用于当你只想改动一个参数组的选项, 但其他参数组的选项不变的情况.
 
@@ -266,7 +266,7 @@ Warning
 
 目前所有的参数不得不都在同一设备上. 这在将来会得到改进.
 
-Note
+注解：
 
 这是一个内存高度密集的 optimizer (它要求额外的 `param_bytes * (history_size + 1)` 个字节). 如果它不适应内存, 尝试减小历史规格, 或者使用不同的算法.
 
@@ -343,7 +343,7 @@ Example
 
 ```
 
-Note
+注解：
 
 带有动量 /Nesterov 的 SGD 的实现稍微不同于 Sutskever 等人以及其他框架中的实现. 考虑动量的具体情况, 更新可以写成
 

@@ -19,7 +19,7 @@ print(a.size())
 
 ```
 
-Note
+注解：
 
 `torch.Size` 实际上是一个 tuple, 因此它支持相同的操作
 

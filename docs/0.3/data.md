@@ -109,7 +109,7 @@ class torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None
 
 当与:class:`torch.nn.parallel.DistributedDataParallel` 组合使用时, 特别有用. 在这种情况下, 每个进程都可以将分布式采样器实例作为Data Loader采样器, 并且加载一个原始数据集的子集并独占该数据子集.
 
-Note
+注解：
 
 数据集被假定为不变的大小.
 

@@ -47,7 +47,7 @@ Iun
 
 ## 数据准备
 
-Note
+注解：
 
 从 [这里](https://download.pytorch.org/tutorial/data.zip) 下载数据, 并解压到当前目录.
 
@@ -301,7 +301,7 @@ plt.plot(all_losses)
     *   如果输出是常规字母, 将其加入到 `output_name` 并继续
 *   返回最终的名字
 
-Note
+注解：
 
 与给定起始字母不同的是, 有其他的策略是在训练的时候包含一个“串起始”标记, 让网络选择属于自己的起始字母.
 

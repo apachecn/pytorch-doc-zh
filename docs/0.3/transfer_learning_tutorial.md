@@ -44,7 +44,7 @@ plt.ion()   # interactive mode
 
 这个数据集是一个非常小的 imagenet 子集
 
-Note
+注解：
 
 从`这里 &lt;[https://download.pytorch.org/tutorial/hymenoptera_data.zip](https://download.pytorch.org/tutorial/hymenoptera_data.zip)&gt;`_ 下载数据, 然后解压到当前目录.
 

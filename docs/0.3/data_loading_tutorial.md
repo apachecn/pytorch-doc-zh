@@ -34,7 +34,7 @@ plt.ion()   # 交互模式
 
 每张人脸图像上, 总共有68个不同的标注点被标记出来.
 
-Note
+注解：
 
 点击 [这里 &lt;https://download.pytorch.org/tutorial/faces.zip&gt; `下载数据集, 这些图像在目录 ‘ faces/ ‘下. 这个数据集实际上是从imagenet数据集中选取标记为人脸的一些图片, 使用`dlib’s pose estimation](http://blog.dlib.net/2014/08/real-time-face-pose-estimation.html) 方法生成的.
 

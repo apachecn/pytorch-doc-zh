@@ -2,7 +2,7 @@
 
 [`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing") 是 Python 中 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing) 模块的替代. 它支持完全相同的操作, 但进一步扩展了它的功能, 使得所有张量可以通过 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue) 传输, 将其数据移动到共享内存中, 并且只会向其他进程发送一个句柄.
 
-Note
+注解：
 
 当一个 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 被发送到另一个进程中, `Variable.data` 和 `Variable.grad.data` 都将被共享.
 

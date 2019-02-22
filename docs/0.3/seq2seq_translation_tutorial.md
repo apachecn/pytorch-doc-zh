@@ -93,7 +93,7 @@ I am cold.    Je suis froid.
 
 ```
 
-Note
+注解：
 
 下载数据文件在 [这里](https://download.pytorch.org/tutorial/data.zip) 并解压到正确的路径.
 
@@ -367,7 +367,7 @@ class AttnDecoderRNN(nn.Module):
 
 ```
 
-Note
+注解：
 
 还有其他形式的注意力通过使用相对位置方法来解决长度限制. 阅读关于 “local attention” 在 [基于注意力的神经机器翻译的有效途径](https://arxiv.org/abs/1508.04025).为了训练,对于每一对我们将需要输入的张量(输入句子中的词的索引)和 目标张量(目标语句中的词的索引). 在创建这些向量时,我们会将EOS标记添加到两个序列中.
 
@@ -616,7 +616,7 @@ def evaluateRandomly(encoder, decoder, n=10):
 
 请记住输入句子被严重过滤, 对于这个小数据集,我们可以使用包含256个隐藏节点 和单个GRU层的相对较小的网络.在MacBook CPU上约40分钟后,我们会得到一些合理的结果.
 
-Note
+注解：
 
 如果你运行这个notebook,你可以训练,打断内核,评估并在以后继续训练. 注释编码器和解码器初始化的行并再次运行 `trainIters` .
 

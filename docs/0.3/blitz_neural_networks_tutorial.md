@@ -96,7 +96,7 @@ out.backward(torch.randn(1, 10))
 
 ```
 
-Note
+注解：
 
 `torch.nn` 只支持小批量(mini-batches), 不支持一次输入一个样本, 即一次必须是一个 batch.
 
@@ -224,6 +224,6 @@ optimizer.step()    # 更新参数
 
 ```
 
-Note
+注解：
 
 观察如何使用手动设置梯度清零 `optimizer.zero_grad()` . 需要手动清零的原因在 [`Backprop`_](#id9) 中已经说明了(梯度会累加之前的梯度).

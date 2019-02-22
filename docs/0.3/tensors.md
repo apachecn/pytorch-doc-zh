@@ -53,7 +53,7 @@ Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 
 每一个 tensor 对象都有一个相应的 `torch.Storage` 用来保存数据. tensor 类提供了一个存储的多维的, 有 [跨度(strided)](https://en.wikipedia.org/wiki/Stride_of_an_array) 的视图, 并且在视图上定义了数值运算.
 
-Note
+注解：
 
 会改变 tensor 对象的函数方法名, 其使用了一个下划线后缀作为标识. 比如, `torch.FloatTensor.abs_()` 会在原地(in-place)计算绝对值并返回改变后的 tensor. 而 `torch.FloatTensor.abs()` 会在一个新建的 tensor 中计算结果.
 
@@ -203,7 +203,7 @@ apply_(callable) → Tensor
 
 将函数 `callable` 作用于 tensor 的每一个元素, 并将每个元素用 `callable` 的返回值替换.
 
-Note
+注解：
 
 该函数只能在 CPU tensor 中使用, 并且不应该用在有较高性能的要求的代码块中.
 
@@ -956,7 +956,7 @@ masked_scatter_(mask, source)
 
 
 
-Note
+注解：
 
 `mask` 作用于 `self` 自身的 tensor, 而不是参数 `source` 的 tensor.
 
@@ -1247,7 +1247,7 @@ put_(indices, tensor, accumulate=False) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> src = torch.Tensor([[4, 3, 5],
@@ -1405,7 +1405,7 @@ scatter_(dim, index, src) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.rand(2, 5)
@@ -1444,7 +1444,7 @@ select(dim, index) → Tensor or number
 
 
 
-Note
+注解：
 
 `select`等效于切片. 例如, ``tensor.select(0, index)`()` 等效于 `tensor[index]` 和 `tensor.select(2, index)` 等效于 `tensor[:,:,index]`.
 
@@ -1826,7 +1826,7 @@ unfold(dim, size, step) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.arange(1, 8)

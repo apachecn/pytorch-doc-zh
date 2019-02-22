@@ -2,7 +2,7 @@
 
 所有的数据集都是 [`torch.utils.data.Dataset`](../data.html#torch.utils.data.Dataset "torch.utils.data.Dataset") 类的子类, 也就是说, 他们内部都实现了 `__getitem__` 和 `__len__` 这两个方法. 同时, 他们也都可以传递给类 [`torch.utils.data.Dataset`](../data.html#torch.utils.data.Dataset "torch.utils.data.Dataset"), 它可以使用 `torch.multiprocessing` 工作器来并行的加载多个样本.
 
-Example:
+示例：
 
 ```py
 imagenet_data = torchvision.datasets.ImageFolder('path/to/imagenet_root/')
@@ -70,7 +70,7 @@ class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target
 
 ## [COCO](#id12)
 
-Note
+注解：
 
 需要安装 [COCO API](https://github.com/pdollar/coco/tree/master/PythonAPI)
 

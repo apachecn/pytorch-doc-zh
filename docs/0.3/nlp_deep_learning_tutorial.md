@@ -105,7 +105,7 @@ Objective function 是一个目标函数，你训练网络的目的是使其最�
 
 我们来编写一个带有注释的网络示例, 该网络采用稀疏的词袋表示法, 并输出概率分布在两个标签上: “英语”和“西班牙语”.使用的模型是逻辑回归.
 
-### Example: Logistic Regression Bag-of-Words classifier(例子: 基于词袋表示法的逻辑斯蒂回归分类器)
+### 示例： Logistic Regression Bag-of-Words classifier(例子: 基于词袋表示法的逻辑斯蒂回归分类器)
 
 我们的模型将映射一个稀疏的BOW表示来记录标签上的概率.我们为词汇表中的每个单词分配一个索引. 例如, 我们的完整的词汇表有两个单词: “你好” 和 “世界”, 这两个单词的索引分别为0和1\. 句子为 “hello hello hello hello” 的BoW向量为
 

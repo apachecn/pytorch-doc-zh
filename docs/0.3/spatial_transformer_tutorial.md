@@ -62,7 +62,7 @@ test_loader = torch.utils.data.DataLoader(
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/stn-arch.png](img/3864cede91518c948be774422c076cc0.jpg)
 
-Note
+注解：
 
 我们需要包含 affine_grid 和 grid_sample 模块的 PyTorch 最新版本.
 

@@ -9,7 +9,7 @@
 
 _本教程假设您对 numpy 有基本的了解_
 
-Note
+注解：
 
 请确认您已经安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包.
 

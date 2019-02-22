@@ -37,7 +37,7 @@ torch.numel(input) → int
 参数：`input (Tensor)` – 输入的 `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1,2,3,4,5)
@@ -84,7 +84,7 @@ torch.eye(n, m=None, out=None)
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.eye(3)
@@ -103,7 +103,7 @@ torch.from_numpy(ndarray) → Tensor
 
 返回 tensor 和 `ndarray` 共享相同的内存. 对 tensor 的修改将反映在 `ndarray` 中, 反之亦然. 返回 tensor 不可调整大小.
 
-Example:
+示例：
 
 ```py
 >>> a = numpy.array([1, 2, 3])
@@ -133,7 +133,7 @@ torch.linspace(start, end, steps=100, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.linspace(3, 10, steps=5)
@@ -182,7 +182,7 @@ torch.logspace(start, end, steps=100, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.logspace(start=-10, end=10, steps=5)
@@ -218,7 +218,7 @@ torch.ones(*sizes, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.ones(2, 3)
@@ -251,7 +251,7 @@ torch.ones_like(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> input = torch.FloatTensor(2, 3)
@@ -278,7 +278,7 @@ torch.arange(start=0, end, step=1, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.arange(5)
@@ -325,7 +325,7 @@ Warning
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.range(1, 4)
@@ -362,7 +362,7 @@ torch.zeros(*sizes, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.zeros(2, 3)
@@ -395,7 +395,7 @@ torch.zeros_like(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> input = torch.FloatTensor(2, 3)
@@ -427,7 +427,7 @@ torch.cat(seq, dim=0, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(2, 3)
@@ -495,7 +495,7 @@ out[i][j][k] = input[i][j][index[i][j][k]]  # if dim == 2
 
 
 
-Example:
+示例：
 
 ```py
 >>> t = torch.Tensor([[1,2],[3,4]])
@@ -514,7 +514,7 @@ torch.index_select(input, dim, index, out=None) → Tensor
 
 > 返回的张量与原始张量 `Tensor` 有相同的维度(在指定轴上).
 
-Note
+注解：
 
 返回的张量不与原始张量共享内存空间.
 
@@ -527,7 +527,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(3, 4)
@@ -562,7 +562,7 @@ torch.masked_select(input, mask, out=None) → Tensor
 
 张量 `mask` 与 `input` 的 shape 或维度不需要相同,但是他们必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) .
 
-Note
+注解：
 
 返回的张量不与原始张量共享内存空间.
 
@@ -574,7 +574,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(3, 4)
@@ -621,7 +621,7 @@ torch.nonzero(input, out=None) → LongTensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.nonzero(torch.Tensor([1, 1, 1, 0, 1]))
@@ -671,11 +671,11 @@ torch.squeeze(input, dim=None, out=None)
 
 当给定 `dim` 时,那么挤压操作只在给定维度上.例如, `input` 的 shape 为: ![(A x 1 x B)](img/tex-b06a8b322f4713a58fe712d57c9ceda0.gif) , `squeeze(input, 0)` 将会保持张量不变,只有用 `squeeze(input, 1)` , shape 会变成 ![(A x B)](img/tex-c6d3e8cfc2d4f7d1ef61fc25eb14f67f.gif) .
 
-Note
+注解：
 
 作为上述的一个例外,size 为 1 的一维张量不会改变维度.
 
-Note
+注解：
 
 返回张量与输入张量共享内存,所以改变其中一个的内容会改变另一个.
 
@@ -687,7 +687,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.zeros(2,1,2,1,2)
@@ -735,7 +735,7 @@ torch.t(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(2, 3)
@@ -767,7 +767,7 @@ torch.take(input, indices) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> src = torch.Tensor([[4, 3, 5],
@@ -796,7 +796,7 @@ torch.transpose(input, dim0, dim1, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(2, 3)
@@ -917,7 +917,7 @@ The `input` 张量包含用于抽取二进制随机数的概率. 因此, `input`
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.Tensor(3, 3).uniform_(0, 1) # generate a uniform random matrix with range [0, 1]
@@ -959,7 +959,7 @@ torch.multinomial(input, num_samples, replacement=False, out=None) → LongTenso
 
 返回一个张量, 其中每一行包含在 `input` 张量对应行中多项式分布取样的 `num_samples` 索引.
 
-Note
+注解：
 
 `input` 的每行值不需要总和为 1 (我们只使用这些值作为权重), 但必须是非负且非零和的.
 
@@ -982,7 +982,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> weights = torch.Tensor([0, 10, 3, 0]) # create a Tensor of weights
@@ -1020,7 +1020,7 @@ torch.normal(means, std, out=None)
 
 其中 `means` 和 [`std`](#torch.std "torch.std") 的形状不需要匹配, 但是每个张量中的元素总数需要相同.
 
-Note
+注解：
 
 当形状不匹配时, `means` 的形状将作为返回输出张量的形状.
 
@@ -1032,7 +1032,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 torch.normal(means=torch.arange(1, 11), std=torch.arange(1, 0, -0.1))
@@ -1065,7 +1065,7 @@ torch.normal(mean=0.0, std, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.normal(mean=0.5, std=torch.arange(1, 6))
@@ -1093,7 +1093,7 @@ torch.normal(means, std=1.0, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.normal(means=torch.arange(1, 6))
@@ -1122,7 +1122,7 @@ torch.rand(*sizes, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.rand(4)
@@ -1156,7 +1156,7 @@ torch.randn(*sizes, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.randn(4)
@@ -1184,7 +1184,7 @@ torch.randperm(n, out=None) → LongTensor
 参数：`n (int)` – 上限 (唯一的)
 
 
-Example:
+示例：
 
 ```py
 >>> torch.randperm(4)
@@ -1276,7 +1276,7 @@ torch.abs(input, out=None) → Tensor
 
 计算给定 `input` 张量的元素的绝对值.
 
-Example:
+示例：
 
 ```py
 >>> torch.abs(torch.FloatTensor([-1, -2, 3]))
@@ -1297,7 +1297,7 @@ torch.acos(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1340,7 +1340,7 @@ torch.add(input, value, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1383,7 +1383,7 @@ torch.add(input, value=1, other, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> import torch
@@ -1432,7 +1432,7 @@ torch.addcdiv(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> t = torch.randn(2, 3)
@@ -1456,7 +1456,7 @@ torch.addcmul(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 
 对于类型为 `FloatTensor` 或者 `DoubleTensor` 的张量输入, `value` 必须为实数, 否则为整数. :param tensor: 张量, 对 `tensor1 .* tensor2` 进行相加 :type tensor: Tensor :param value: 标量, 对 `tensor1 .* tensor2` 进行相乘 :type value: Number, 可选 :param tensor1: 张量, 作为乘子1 :type tensor1: Tensor :param tensor2: 张量, 作为乘子2 :type tensor2: Tensor :param out: 输出张量 :type out: Tensor, 可选
 
-Example:
+示例：
 
 ```py
 >>> t = torch.randn(2, 3)
@@ -1483,7 +1483,7 @@ torch.asin(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1516,7 +1516,7 @@ torch.atan(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1552,7 +1552,7 @@ torch.atan2(input1, input2, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1585,7 +1585,7 @@ torch.ceil(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1631,7 +1631,7 @@ y_i = | x_i, if min <= x_i <= max
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1669,7 +1669,7 @@ torch.clamp(input, *, min, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1707,7 +1707,7 @@ torch.clamp(input, *, max, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1742,7 +1742,7 @@ torch.cos(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1775,7 +1775,7 @@ torch.cosh(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1817,7 +1817,7 @@ torch.div(input, value, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -1857,7 +1857,7 @@ torch.div(input, other, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4,4)
@@ -1898,7 +1898,7 @@ torch.erf(tensor, out=None) → Tensor
 
 计算每个元素的误差函数.
 
-Example:
+示例：
 
 ```py
 >>> torch.erf(torch.Tensor([0, -1., 10.]))
@@ -1912,7 +1912,7 @@ torch.erfinv(tensor, out=None) → Tensor
 
 计算每个元素的反向误差函数.
 
-Example:
+示例：
 
 ```py
 >>> torch.erfinv(torch.Tensor([0, 0.5., -1.]))
@@ -1926,7 +1926,7 @@ torch.exp(tensor, out=None) → Tensor
 
 计算每个元素的指数.
 
-Example:
+示例：
 
 ```py
 >>> torch.exp(torch.Tensor([0, math.log(2)]))
@@ -1947,7 +1947,7 @@ torch.floor(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1987,7 +1987,7 @@ torch.fmod(input, divisor, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.fmod(torch.Tensor([-3, -2, -1, 1, 2, 3]), 2)
@@ -2007,7 +2007,7 @@ torch.frac(tensor, out=None) → Tensor
 
 计算张量 `tensor` 每个元素的分数部分.
 
-Example:
+示例：
 
 ```py
 >>> torch.frac(torch.Tensor([1, 2.5, -3.2])
@@ -2034,7 +2034,7 @@ torch.lerp(start, end, weight, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> start = torch.arange(1, 5)
@@ -2078,7 +2078,7 @@ torch.log(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -2110,7 +2110,7 @@ torch.log1p(input, out=None) → Tensor
 
 ![y_i = log(x_i + 1)](img/tex-44ae3e6c45bdb0992887549eecbdcca1.gif)
 
-Note
+注解：
 
 对于较小的张量 `input` 的值, 此函数比 [`torch.log()`](#torch.log "torch.log") 更精确.
 
@@ -2121,7 +2121,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -2167,7 +2167,7 @@ torch.mul(input, value, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3)
@@ -2205,7 +2205,7 @@ torch.mul(input, other, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4,4)
@@ -2249,7 +2249,7 @@ torch.neg(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -2303,7 +2303,7 @@ torch.pow(input, exponent, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2369,7 +2369,7 @@ torch.pow(base, input, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> exp = torch.arange(1, 5)
@@ -2397,7 +2397,7 @@ torch.reciprocal(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2437,7 +2437,7 @@ torch.remainder(input, divisor, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> torch.remainder(torch.Tensor([-3, -2, -1, 1, 2, 3]), 2)
@@ -2464,7 +2464,7 @@ torch.round(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2499,7 +2499,7 @@ torch.rsqrt(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2534,7 +2534,7 @@ torch.sigmoid(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2569,7 +2569,7 @@ torch.sign(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2603,7 +2603,7 @@ torch.sin(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2636,7 +2636,7 @@ torch.sinh(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2669,7 +2669,7 @@ torch.sqrt(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2704,7 +2704,7 @@ torch.tan(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2737,7 +2737,7 @@ torch.tanh(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2770,7 +2770,7 @@ torch.trunc(input, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2810,7 +2810,7 @@ torch.cumprod(input, dim, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(10)
@@ -2875,7 +2875,7 @@ torch.cumsum(input, dim, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(10)
@@ -2923,7 +2923,7 @@ torch.dist(input, other, p=2) → float
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(4)
@@ -2968,7 +2968,7 @@ torch.mean(input) → float
 参数：`input (Tensor)` – 输入 `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -2999,7 +2999,7 @@ torch.mean(input, dim, keepdim=False, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3042,7 +3042,7 @@ torch.median(input) → float
 参数：`input (Tensor)` – the input `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3076,7 +3076,7 @@ torch.median(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a
@@ -3123,7 +3123,7 @@ torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, 
 
 如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
 
-Note
+注解：
 
 这个函数至今没有为 `torch.cuda.Tensor` 定义.
 
@@ -3137,7 +3137,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> a
@@ -3191,7 +3191,7 @@ torch.norm(input, p=2) → float
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3223,7 +3223,7 @@ torch.norm(input, p, dim, keepdim=False, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 2)
@@ -3266,7 +3266,7 @@ torch.prod(input) → float
 参数：`input (Tensor)` – 输入张量 `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3297,7 +3297,7 @@ torch.prod(input, dim, keepdim=False, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 2)
@@ -3338,7 +3338,7 @@ torch.std(input, unbiased=True) → float
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3372,7 +3372,7 @@ torch.std(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3407,7 +3407,7 @@ torch.sum(input) → float
 参数：`input (Tensor)` – 输入张量 `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3438,7 +3438,7 @@ torch.sum(input, dim, keepdim=False, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3479,7 +3479,7 @@ torch.var(input, unbiased=True) → float
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3513,7 +3513,7 @@ torch.var(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3555,7 +3555,7 @@ torch.eq(input, other, out=None) → Tensor
 返回值：一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0
 
 
-Example:
+示例：
 
 ```py
 >>> torch.eq(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3571,7 +3571,7 @@ torch.equal(tensor1, tensor2) → bool
 
 如果两个张量有相同的形状和元素值, 则返回 `True` , 否则 `False` .
 
-Example:
+示例：
 
 ```py
 >>> torch.equal(torch.Tensor([1, 2]), torch.Tensor([1, 2]))
@@ -3598,7 +3598,7 @@ torch.ge(input, other, out=None) → Tensor
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.ge(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3627,7 +3627,7 @@ torch.gt(input, other, out=None) → Tensor
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.gt(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3657,7 +3657,7 @@ torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTens
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.arange(1, 6)
@@ -3716,7 +3716,7 @@ torch.le(input, other, out=None) → Tensor
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.le(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3745,7 +3745,7 @@ torch.lt(input, other, out=None) → Tensor
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.lt(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3768,7 +3768,7 @@ torch.max(input) → float
 参数：`input (Tensor)` – 输入 `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3800,7 +3800,7 @@ torch.max(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 
 
-Example:
+示例：
 
 ```py
 >> a = torch.randn(4, 4)
@@ -3845,7 +3845,7 @@ torch.max(input, other, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -3889,7 +3889,7 @@ torch.min(input) → float
 参数：`input (Tensor)` – 输入 `Tensor`
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3920,7 +3920,7 @@ torch.min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 
 
-Example:
+示例：
 
 ```py
 >> a = torch.randn(4, 4)
@@ -3964,7 +3964,7 @@ torch.min(input, other, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -4014,7 +4014,7 @@ torch.ne(input, other, out=None) → Tensor
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.ne(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -4045,7 +4045,7 @@ torch.sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.randn(3, 4)
@@ -4098,7 +4098,7 @@ torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, 
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.arange(1, 6)
@@ -4157,7 +4157,7 @@ torch.cross(input, other, dim=-1, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(4, 3)
@@ -4217,7 +4217,7 @@ torch.diag(input, diagonal=0, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 获得以 `input` 为对角线的方阵:
 
@@ -4294,7 +4294,7 @@ torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 
 返回类型：`Tensor`
 
-Example:
+示例：
 
 ```py
 >>> torch.histc(torch.FloatTensor([1, 2, 1]), bins=4, min=0, max=3)
@@ -4308,7 +4308,7 @@ torch.renorm(input, p, dim, maxnorm, out=None) → Tensor
 
 返回一个张量, 包含规范化后的各个子张量, 使得沿着 `dim` 维划分的各子张量的 `p` 范数小于 `maxnorm`
 
-Note
+注解：
 
 如果 p 范数的值小于 `maxnorm`, 则当前子张量不需要修改.
 
@@ -4322,7 +4322,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.ones(3, 3)
@@ -4350,7 +4350,7 @@ torch.trace(input) → float
 
 返回输入 2 维矩阵对角线元素的和(迹).
 
-Example:
+示例：
 
 ```py
 >>> x = torch.arange(1, 10).view(3, 3)
@@ -4388,7 +4388,7 @@ torch.tril(input, diagonal=0, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -4444,7 +4444,7 @@ torch.triu(input, diagonal=0, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -4505,7 +4505,7 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> M = torch.randn(3, 5)
@@ -4543,7 +4543,7 @@ torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> M = torch.randn(2, 3)
@@ -4582,7 +4582,7 @@ torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> M = torch.randn(2)
@@ -4621,7 +4621,7 @@ torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> vec1 = torch.arange(1, 4)
@@ -4660,7 +4660,7 @@ torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> M = torch.randn(10, 3, 5)
@@ -4681,7 +4681,7 @@ torch.bmm(batch1, batch2, out=None) → Tensor
 
 如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p` 的张量, `out` 将是一个 `b x n x p` 的张量.
 
-Note
+注解：
 
 这个函数不能参考 [broadcast](notes/broadcasting.html#broadcasting-semantics). 对于广播矩阵相乘, 参见 [`torch.matmul()`](#torch.matmul "torch.matmul").
 
@@ -4693,7 +4693,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> batch1 = torch.randn(10, 3, 4)
@@ -4715,7 +4715,7 @@ torch.btrifact(A, info=None, pivot=True) → Tensor, IntTensor
 参数：`A (Tensor)` – 要分解的张量.
 
 
-Example:
+示例：
 
 ```py
 >>> A = torch.randn(2, 3, 3)
@@ -4739,7 +4739,7 @@ torch.btrisolve(b, LU_data, LU_pivots) → Tensor
 
 
 
-Example:
+示例：
 
 ```py
 >>> A = torch.randn(2, 3, 3)
@@ -4757,11 +4757,11 @@ torch.dot(tensor1, tensor2) → float
 
 计算两个张量的点乘 (内积).
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
-Example:
+示例：
 
 ```py
 >>> torch.dot(torch.Tensor([2, 3]), torch.Tensor([2, 1]))
@@ -4782,11 +4782,10 @@ torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 *   `out (tuple, 可选)` – 输出张量
 
 
-| Returns: | 包含
+返回值：包含以下的元组：
 
-&gt; *   **e** (Tensor): `a` 的左特征值
-&gt; *   **v** (Tensor): 如果 `eigenvectors` 为 `True`, 表示 `a` 的特征向量; 否则是一个空的张量
-
+*   `e (Tensor)`: `a` 的左特征值
+*   `v (Tensor)`: 如果 `eigenvectors` 为 `True`, 表示 `a` 的特征向量; 否则是一个空的张量
 
 返回类型：返回一个元组, `(Tensor, Tensor)`
 
@@ -4813,19 +4812,19 @@ torch.gels(B, A, out=None) → Tensor
 *   `out (tuple, 可选)` – Optional destination tensor
 
 
-| Returns: | tuple containing:
+返回值：包含以下的元组：
 
-&gt; *   **X** (Tensor): 最小二乘解
-&gt; *   **qr** (Tensor): QR 分解的详细信息
+*   `X (Tensor)`: 最小二乘解
+*   `qr (Tensor)`: QR 分解的详细信息
 
 
 返回类型：`(Tensor, Tensor)`
 
-Note
+注解：
 
 不管输入矩阵的步长如何, 返回来的矩阵将总是被转置. 也就是, 他们的步长是 `(1, m)` 而不是 `(m, 1)`.
 
-Example:
+示例：
 
 ```py
 >>> A = torch.Tensor([[1, 1, 1],
@@ -4874,7 +4873,7 @@ torch.ger(vec1, vec2, out=None) → Tensor
 
 计算 `vec1` 和 `vec2` 的外积. 如果 `vec1` 是一个长度为 `n` 的向量, `vec2` 是一个长度为 `m` 的向量, 那么 `out` 必须是一个 `n x m` 的矩阵.
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
@@ -4886,7 +4885,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> v1 = torch.arange(1, 5)
@@ -4913,7 +4912,7 @@ torch.gesv(B, A, out=None) -> (Tensor, Tensor)
 
 如果 `A` 是一个 `m x m` 矩阵, `B` 是一个 `m x k` 的矩阵, 那么结果 `LU` 的大小为 `m x m`, `X` 的大小为 `m x k` .
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrices `X` and `LU` will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
@@ -4925,7 +4924,7 @@ Irrespective of the original strides, the returned matrices `X` and `LU` will be
 
 
 
-Example:
+示例：
 
 ```py
 >>> A = torch.Tensor([[6.80, -2.11,  5.66,  5.97,  8.23],
@@ -4948,7 +4947,7 @@ torch.inverse(input, out=None) → Tensor
 
 计算方阵 `input` 的逆.
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrix will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`
 
@@ -4959,7 +4958,7 @@ Irrespective of the original strides, the returned matrix will be transposed, i.
 
 
 
-Example:
+示例：
 
 ```py
 >>> x = torch.rand(10, 10)
@@ -5013,7 +5012,7 @@ The behavior depends on the dimensionality of the tensors as follows:
 *   If the first argument is 2-dimensional and the second argument is 1-dimensional, the matrix-vector product is returned.
 *   If both arguments are at least 1-dimensional and at least one argument is N-dimensional (where N &gt; 2), then a batched matrix multiply is returned. If the first argument is 1-dimensional, a 1 is prepended to its dimension for the purpose of the batched matrix multiply and removed after. If the second argument is 1-dimensional, a 1 is appended to its dimension for the purpose of the batched matrix multiple and removed after. The non-matrix (i.e. batch) dimensions are [broadcasted](notes/broadcasting.html#broadcasting-semantics) (and thus must be broadcastable). For example, if `tensor1` is a `j x 1 x n x m` Tensor and `tensor2` is a `k x m x p` Tensor, `out` will be an `j x k x n x p` Tensor.
 
-Note
+注解：
 
 The 1-dimensional dot product version of this function does not support an `out` parameter.
 
@@ -5033,7 +5032,7 @@ torch.mm(mat1, mat2, out=None) → Tensor
 
 如果 `mat1` 是一个 `n x m` 张量, `mat2` 是一个 `m x p` 张量, `out` 将是一个 `n x p` 张量.
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics). 要使用支持广播矩阵乘法, 参见 [`torch.matmul()`](#torch.matmul "torch.matmul").
 
@@ -5045,7 +5044,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> mat1 = torch.randn(2, 3)
@@ -5065,7 +5064,7 @@ torch.mv(mat, vec, out=None) → Tensor
 
 如果 `mat` 是一个 `n x m` 张量, `vec` 是一个大小为 `m` 的一维张量, `out` 将是一个大小为 `n` 的张量.
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
@@ -5077,7 +5076,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> mat = torch.randn(2, 3)
@@ -5113,7 +5112,7 @@ potrf(a, upper, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5158,7 +5157,7 @@ potri(u, upper, out=None)
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5195,7 +5194,7 @@ potrs(b, u, upper, out=None)
 
 Solves a linear system of equations with a positive semidefinite matrix to be inverted given its given a Cholesky factor matrix `u`: returns matrix `c` If `upper` is `True` or not provided, `u` is and upper triangular such that ![c = (u^T u)^{-1} b](img/tex-8adaa3f465e6b647154735a77655849a.gif). If `upper` is `False`, `u` is and lower triangular such that ![c = (u u^T)^{-1} b](img/tex-d746800a59c0e059328a7275a82f2109.gif).
 
-Note
+注解：
 
 `b` is always a 2D `Tensor`, use `b.unsqueeze(1)` to convert a vector.
 
@@ -5208,7 +5207,7 @@ Note
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5261,7 +5260,7 @@ Computes the pivoted Cholesky decomposition of a positive semidefinite matrix `a
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5306,15 +5305,15 @@ torch.qr(input, out=None) -> (Tensor, Tensor)
 
 This returns the thin (reduced) QR factorization.
 
-Note
+注解：
 
 如果矩阵 `input` 中的元素太大, 那么精度可能会丢失.
 
-Note
+注解：
 
 尽管该函数总是能给您一个有效的分解, 但在不同平台上结果可能不同 - 取决于该平台上 LAPACK 的实现.
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrix `q` will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
@@ -5325,7 +5324,7 @@ Irrespective of the original strides, the returned matrix `q` will be transposed
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.Tensor([[12, -51, 4], [6, 167, -68], [-4, 24, -41]])
@@ -5374,7 +5373,7 @@ torch.svd(input, some=True, out=None) -> (Tensor, Tensor, Tensor)
 
 `some` 表示将被计算的奇异值的总数. 如果 `some=True`, 它将计算指定的 some 数量个奇异值, 如果 `some=False`, 则计算所有奇异值.
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrix `U` will be transposed, i.e. with strides `(1, n)` instead of `(n, 1)`.
 
@@ -5386,7 +5385,7 @@ Irrespective of the original strides, the returned matrix `U` will be transposed
 
 
 
-Example:
+示例：
 
 ```py
 >>> a = torch.Tensor([[8.79,  6.11, -9.15,  9.57, -3.49,  9.84],

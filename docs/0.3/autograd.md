@@ -12,17 +12,12 @@ torch.autograd.backward(variables, grad_variables=None, retain_graph=None, creat
 
 此函数累积叶子节点 variables 计算的梯度 - 调用此函数之前应先将叶子节点 variables 梯度置零.
 
-参数说明: * variables(Variable 列表): 被求微分的叶子节点. * grad_variables ((Tensor,Variable or None)列表):对应 variable 的梯度.任何张量将自动转换为变量除非
+参数: 
 
-> `create_graph` 是 `True`. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
-
-*   `retain_graph (bool, 可选)`: 如果是 `False`, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``
-
-> 并不是必须的并且能够高效的计算.将该 `create_graph` 参数值设置为默认即可.
-
-*   `create_graph (bool, 可选)`: 如果是 `True`, 将会建立一个梯度图, 用来求解高阶导数.
-
-> 默认为 `False`, 除非 `grad_variables` 拥有不止一个 易变的 Variable.
+* `variables (Variable 列表)`: 被求微分的叶子节点. 
+* `grad_variables ((Tensor, Variable 或 None) 列表)`:对应 variable 的梯度. 任何张量将自动转换为变量除非`create_graph` 是 `True`. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
+*   `retain_graph (bool, 可选)`: 如果是 `False`, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``并不是必须的并且能够高效的计算.将该 `create_graph` 参数值设置为默认即可.
+*   `create_graph (bool, 可选)`: 如果是 `True`, 将会建立一个梯度图, 用来求解高阶导数.默认为 `False`, 除非 `grad_variables` 拥有不止一个 易变的 Variable.
 
 ```py
 torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=None, only_inputs=True, allow_unused=False)
@@ -34,15 +29,13 @@ torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, creat
 
 如果参数 `only_inputs` 为 `True`, 该方法将会返回给定输入的梯度值列表.如果为 `False`, 那么遗留下来的所有叶子节点的梯度都会被计算, 被且会被列加到 `.grad` 参数中.
 
-参数说明: * outputs (变量序列): 梯度函数的返回值. * inputs (变量序列): 需要计算的梯度的输入 (并且不会被累加到 `.grad` 参数中). * grad_outputs (张量或变量序列): 每一个输出的梯度.
+参数: 
 
-> 所有的张量都会变成变量并且是可变的除非参数 `create_graph` 为 `True`. 没有值可以被指定为标量变量或者不需要变化的值. 如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
-
+* `outputs (变量序列)`: 梯度函数的返回值. 
+* `inputs (变量序列)`: 需要计算的梯度的输入 (并且不会被累加到 `.grad` 参数中). 
+* `grad_outputs (张量或变量序列)`: 每一个输出的梯度. 所有的张量都会变成变量并且是可变的除非参数 `create_graph` 为 `True`. 没有值可以被指定为标量变量或者不需要变化的值. 如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
 *   `retain_graph (bool, 可选)`: 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
-*   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数.
-
-> 默认为 `False`` , 除非参数 `grad_variables` 包含不只一个变量.
-
+*   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数. 默认为 `False`` , 除非参数 `grad_variables` 包含不只一个变量.
 *   `only_inputs (bool, 可选)`: 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
 *   `allow_unused (bool, 可选)`: 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
 
@@ -70,9 +63,20 @@ class torch.autograd.Variable
 
 由于 autograd 只支持标量值函数微分, grad 大小始终与数据大小匹配. 此外,导数通常只分配 叶变量,否则将始终为零.
 
-参数说明: * data: 包裹任何类型的张量. * grad: 变量保持类型和位置匹配的变量 `.data`. 这个属性是懒惰的分配,不能被重新分配. * requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它.     有关更多详细信息,请参阅 excluded-subgraphs.只能在叶变量上进行更改. * volatile: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 [反向排除 subgraphs (子图)](notes/autograd.html#excluding-subgraphs) 更多细节.     只能在叶变量上进行更改. * is_leaf: 指示是否为叶子节点,即是否由用户创建的节点. * grad_fn: 导数函数跟踪.
+参数: 
 
-参数: * data (any tensor class): 用来包装的张量. * requires_grad (bool): 指示是否要被求导. **Keyword only.** * volatile (bool): 指示是否可变. **Keyword only.**
+* `data`: 包裹任何类型的张量. 
+* `grad`: 变量保持类型和位置匹配的变量 `.data`. 这个属性是懒惰的分配,不能被重新分配. 
+* `requires_grad`: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它. 有关更多详细信息,请参阅 excluded-subgraphs.只能在叶变量上进行更改. 
+* `volatile`: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 [反向排除 subgraphs (子图)](notes/autograd.html#excluding-subgraphs) 更多细节. 只能在叶变量上进行更改. 
+* `is_leaf`: 指示是否为叶子节点,即是否由用户创建的节点. 
+* `grad_fn`: 导数函数跟踪.
+
+参数: 
+
+* `data (任何 tensor 类)`: 用来包装的张量. 
+* `requires_grad (bool)`: 指示是否要被求导. **仅限关键字.** 
+* `volatile (bool)`: 指示是否可变. **仅限关键字.**
 
 ```py
 backward(gradient=None, retain_graph=None, create_graph=None, retain_variables=None)
@@ -161,7 +165,7 @@ class torch.autograd.Function
 
 每个 Function 只被使用一次(在forward过程中).
 
-参数说明: requires_grad: 布尔类型依赖于方法 [`backward()`](#torch.autograd.backward "torch.autograd.backward") 会不会还会被使用.
+参数: `requires_grad`: 布尔类型依赖于方法 [`backward()`](#torch.autograd.backward "torch.autograd.backward") 会不会还会被使用.
 
 比如:
 
@@ -191,7 +195,9 @@ _static_ `backward`(_ctx_, _*grad_outputs_)[[source]](_modules/torch/autograd/fu
 
 上下文可以用来检索转发过程中保存的变量.
 
-_static_ `forward`(_ctx_, _*args_, _**kwargs_)[[source]](_modules/torch/autograd/function.html#Function.forward)
+```py
+static forward(ctx, *args, **kwargs)
+```
 
 进行操作.
 

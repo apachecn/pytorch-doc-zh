@@ -47,7 +47,7 @@ CUDA API 要求输出到其他进程的分配保持有效, 只要它们被它们
 
 ### File descriptor - `file_descriptor`
 
-Note
+注解：
 
 这是默认的策略 (除了不支持的 macOS 和 OS X之外) This is the default strategy (except for macOS and OS X where it’s not supported).
 

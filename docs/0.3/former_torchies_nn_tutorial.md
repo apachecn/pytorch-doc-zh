@@ -80,7 +80,7 @@ print(net)
 
 ```
 
-Note
+注解：
 
 `torch.nn` 只支持 mini-batches , 整个 `torch.nn` package 只支持输入 mini-batch 格式的样本, 而不支持输入单个样本.
 

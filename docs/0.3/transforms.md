@@ -131,7 +131,7 @@ class torchvision.transforms.FiveCrop(size)
 
 将给定的 PIL Image 裁剪成四个角落和中心裁剪
 
-Note
+注解：
 
 该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配. 请参阅下面的例子来处理这个问题.
 
@@ -159,7 +159,7 @@ class torchvision.transforms.TenCrop(size, vertical_flip=False)
 
 将给定的 PIL Image 裁剪成四个角, 中心裁剪, 并加上这些的翻转版本（默认使用水平翻转）
 
-Note
+注解：
 
 该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配. 请参阅下面的例子来处理这个问题.
 
