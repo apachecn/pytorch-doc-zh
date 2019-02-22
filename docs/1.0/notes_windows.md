@@ -1,12 +1,13 @@
 
 
-# Windows FAQ
 
-## Building from source
+# Windows FAQ  
 
-### Include optional components
+## 从源码中构建  
 
-There are two supported components for Windows PyTorch: MKL and MAGMA. Here are the steps to build with them.
+### 包含可选组件  
+
+Windows PyTorch有两个受支持的组件：MKL和MAGMA。 以下是使用它们构建的步骤。  
 
 ```py
 REM Make sure you have 7z and curl installed.
@@ -28,30 +29,29 @@ set "MAGMA_HOME=%cd%\\magma"
 
 ```
 
-### Speeding CUDA build for Windows
+### 为Windows构建加速CUDA  
 
-Visual Studio doesn’t support parallel custom task currently. As an alternative, we can use `Ninja` to parallelize CUDA build tasks. It can be used by typing only a few lines of code.
+Visual Studio当前不支持并行自定义任务。 作为替代方案，我们可以使用Ninja来并行化CUDA构建任务。 只需键入几行代码即可使用它。 
 
-```py
+```
 REM Let's install ninja first.
 pip install ninja
 
 REM Set it as the cmake generator
-set CMAKE_GENERATOR=Ninja
+set CMAKE_GENERATOR=Ninja  
+``` 
 
-```
+### 脚本一键安装  
 
-### One key install script
+你可以参考[这些脚本](https://github.com/peterjc123/pytorch-scripts)。它会给你指导方向。  
 
-You can take a look at [this set of scripts](https://github.com/peterjc123/pytorch-scripts). It will lead the way for you.
+## 扩张  
 
-## Extension
+### CFEI扩展  
 
-### CFFI Extension
+对[CFFI](https://cffi.readthedocs.io/en/latest/)扩展的支持是非常试验性的。在Windows下启用它通常有两个步骤。
 
-The support for CFFI Extension is very experimental. There’re generally two steps to enable it under Windows.
-
-First, specify additional `libraries` in `Extension` object to make it build on Windows.
+首先，在Extension对象中指定其他库以使其在Windows上构建。   
 
 ```py
 ffi = create_extension(
@@ -65,11 +65,10 @@ ffi = create_extension(
     libraries=['ATen', '_C'] # Append cuda libaries when necessary, like cudart
 )
 
-```
+```  
+其次，这是“由`extern THCState *state`状态引起的未解决的外部符号状态”的工作场所;
 
-Second, here is a workground for “unresolved external symbol state caused by `extern THCState *state;`”
-
-Change the source code from C to C++. An example is listed below.
+将源代码从C更改为C ++。 下面列出了一个例子。 
 
 ```py
 #include <THC/THC.h>
@@ -94,15 +93,15 @@ extern "C" int my_lib_add_backward_cuda(THCudaTensor *grad_output, THCudaTensor 
     return 1;
 }
 
-```
+```  
 
-### Cpp Extension
+### C++扩展  
 
-This type of extension has better support compared with the previous one. However, it still needs some manual configuration. First, you should open the **x86_x64 Cross Tools Command Prompt for VS 2017**. And then, you can open the Git-Bash in it. It is usually located in `C:\Program Files\Git\git-bash.exe`. Finally, you can start your compiling process.
+与前一种类型相比，这种类型的扩展具有更好的支持。不过它仍然需要一些手动配置。首先，打开VS 2017的x86_x64交叉工具命令提示符。然后，在其中打开Git-Bash。它通常位于C：\Program Files\Git\git-bash.exe中。最后，您可以开始编译过程。  
 
-## Installation
+## 安装  
 
-### Package not found in win-32 channel.
+### 在Win32 找不到安装包  
 
 ```py
 Solving environment: failed
@@ -126,56 +125,43 @@ Current channels:
 - https://repo.continuum.io/pkgs/msys2/noarch
 
 ```
+Pytorch不能在32位系统中工作运行。请安装使用64位的Windows和Python。  
 
-PyTorch doesn’t work on 32-bit system. Please use Windows and Python 64-bit version.
+### 导入错误  
 
-### Why are there no Python 2 packages for Windows?
-
-Because it’s not stable enough. There’re some issues that need to be solved before we officially release it. You can build it by yourself.
-
-### Import error
-
-```py
+```
 from torch._C import *
 
 ImportError: DLL load failed: The specified module could not be found.
-
 ```
 
-The problem is caused by the missing of the essential files. Actually, we include almost all the essential files that PyTorch need for the conda package except VC2017 redistributable and some mkl libraries. You can resolve this by typing the following command.
+问题是由基本文件丢失导致的。实际上，除了VC2017可再发行组件和一些mkl库之外，我们几乎包含了PyTorch对conda包所需的所有基本文件。您可以通过键入以下命令来解决此问题。
 
-```py
+```
 conda install -c peterjc123 vc vs2017_runtime
 conda install mkl_fft intel_openmp numpy mkl
-
 ```
 
-As for the wheels package, since we didn’t pack some libaries and VS2017 redistributable files in, please make sure you install them manually. The [VS 2017 redistributable installer](https://aka.ms/vs/15/release/VC_redist.x64.exe) can be downloaded. And you should also pay attention to your installation of Numpy. Make sure it uses MKL instead of OpenBLAS. You may type in the following command.
+至于wheel包(轮子)，由于我们没有包含一些库和VS2017可再发行文件，请手动安装它们。可以下载[VS 2017可再发行安装程序]((https://aka.ms/vs/15/release/VC_redist.x64.exe))。你还应该注意你的Numpy的安装。 确保它使用MKL而不是OpenBLAS版本的。您可以输入以下命令。  
 
-```py
+```
 pip install numpy mkl intel-openmp mkl_fft
+```  
+
+另外一种可能是你安装了GPU版本的Pytorch但是电脑中并没有NVIDIA的显卡。碰到这种情况，就把GPU版本的Pytorch换成CPU版本的就好了。  
+
 
 ```
-
-Another possible cause may be you are using GPU version without NVIDIA graphics cards. Please replace your GPU package with the CPU one.
-
-```py
 from torch._C import *
 
 ImportError: DLL load failed: The operating system cannot run %1.
-
 ```
 
-This is actually an upstream issue of Anaconda. When you initialize your environment with conda-forge channel, this issue will emerge. You may fix the intel-openmp libraries through this command.
+这实际上是Anaconda的上游问题。使用conda-forge通道初始化环境时,将出现此问题。您可以通过此命令修复intel-openmp库。  
 
-```py
-conda install -c defaults intel-openmp -f
+## 使用（多处理）  
 
-```
-
-## Usage (multiprocessing)
-
-### Multiprocessing error without if-clause protection
+### 无if语句保护的多进程处理错误  
 
 ```py
 RuntimeError:
@@ -193,11 +179,11 @@ RuntimeError:
    The "freeze_support()" line can be omitted if the program
    is not going to be frozen to produce an executable.
 
+```  
+
+在Windows上实现`多进程处理`是不同的，它使用的是spawn而不是fork。 因此，我们必须使用if子句包装代码，以防止代码执行多次。将您的代码重构为以下结构。 
+
 ```
-
-The implementation of `multiprocessing` is different on Windows, which uses `spawn` instead of `fork`. So we have to wrap the code with an if-clause to protect the code from executing multiple times. Refactor your code into the following structure.
-
-```py
 import torch
 
 def main()
@@ -206,41 +192,37 @@ def main()
 
 if __name__ == '__main__':
     main()
-
 ```
 
-### Multiprocessing error “Broken pipe”
+### 多进程处理错误“坏道”  
 
-```py
+```
 ForkingPickler(file, protocol).dump(obj)
 
 BrokenPipeError: [Errno 32] Broken pipe
-
 ```
 
-This issue happens when the child process ends before the parent process finishes sending data. There may be something wrong with your code. You can debug your code by reducing the `num_worker` of [`DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader") to zero and see if the issue persists.
+当在父进程完成发送数据之前子进程结束时，会发生此问题。您的代码可能有问题。您可以通过将DataLoader的num_worker减少为零来调试代码，并查看问题是否仍然存在。  
 
-### Multiprocessing error “driver shut down”
+### 多进程处理错误“驱动程序关闭”  
 
-```py
+```
 Couldn’t open shared file mapping: <torch_14808_1591070686>, error code: <1455> at torch\lib\TH\THAllocator.c:154
 
 [windows] driver shut down
-
 ```
 
-Please update your graphics driver. If this persists, this may be that your graphics card is too old or the calculation is too heavy for your card. Please update the TDR settings according to this [post](https://www.pugetsystems.com/labs/hpc/Working-around-TDR-in-Windows-for-a-better-GPU-computing-experience-777/).
+请更新您的显卡驱动程序。如果这种情况持续存在，则可能是您的显卡太旧或所需要的计算能力对您的显卡负担太重。请根据[这篇文章]((https://www.pugetsystems.com/labs/hpc/Working-around-TDR-in-Windows-for-a-better-GPU-computing-experience-777/).)更新TDR设置。
 
-### CUDA IPC operations
+### CUDA IPC操作  
 
-```py
+```
 THCudaCheck FAIL file=torch\csrc\generic\StorageSharing.cpp line=252 error=63 : OS call failed or operation not supported on this OS
-
 ```
 
-They are not supported on Windows. Something like doing multiprocessing on CUDA tensors cannot succeed, there are two alternatives for this.
+Windows不支持它们。在CUDA张量上进行多处理这样的事情无法成功，有两种选择:  
 
-1\. Don’t use `multiprocessing`. Set the `num_worker` of [`DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader") to zero.
+1\.不要使用多处理。将Data Loader的num_worker设置为零。  
 
-2\. Share CPU tensors instead. Make sure your custom `DataSet` returns CPU tensors.
+2\.采用共享CPU张量方法。确保您的自定义`DataSet`返回CPU张量。
 
