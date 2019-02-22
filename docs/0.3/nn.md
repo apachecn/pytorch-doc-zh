@@ -74,7 +74,7 @@ apply(fn)
 
 参数：fn (Module -> None) – 要被应用到每一个子模块上的函数
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -121,7 +121,7 @@ cpu()
 
 将所有的模型参数和缓冲区移动到 CPU.
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -135,7 +135,7 @@ cuda(device=None)
 
 参数：device (int, 可选) – 如果指定, 所有参数将被复制到指定的设备上
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -145,7 +145,7 @@ double()
 
 将所有的 parameters 和 buffers 的数据类型转换成 double.
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -163,7 +163,7 @@ float()
 
 将所有的 parameters 和 buffers 的数据类型转换成float.
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -185,7 +185,7 @@ half()
 
 将所有的 parameters 和 buffers 的数据类型转换成 half.
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -426,7 +426,7 @@ state_dict(destination=None, prefix='', keep_vars=False)
 
 返回值：包含模块整体状态的字典
 
-返回类型：dict
+返回类型：`dict`
 
 Example
 
@@ -444,7 +444,7 @@ train(mode=True)
 
 这只对诸如 Dropout 或 BatchNorm 等模块时才会有影响.
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 
@@ -456,7 +456,7 @@ type(dst_type)
 
 参数：dst_type (type 或 string) – 理想的类型
 
-返回值：self
+返回值：`self`
 
 返回类型：`Module`
 

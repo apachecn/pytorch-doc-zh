@@ -127,7 +127,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：Tuple (image, target). 目标是一个图像标注的列表.
+返回值：`Tuple (image, target)`. 目标是一个图像标注的列表.
 
 返回类型：`tuple`
 
@@ -154,7 +154,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：Tuple (image, target). 目标是由 `coco.loadAnns` 返回的对象.
+返回值：`Tuple (image, target)`. 目标是由 `coco.loadAnns` 返回的对象.
 
 返回类型：`tuple`
 
@@ -181,7 +181,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：Tuple (image, target) 目标是目标类别的索引.
+返回值：`Tuple (image, target)` 目标是目标类别的索引.
 
 返回类型：`tuple`
 
@@ -219,7 +219,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：(image, target) 目标是目标类别的class_index.
+返回值：`(image, target)` 目标是目标类别的class_index.
 
 返回类型：`tuple`
 
@@ -253,7 +253,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：(image, target) 目标是目标分类的索引.
+返回值：`(image, target)` 目标是目标分类的索引.
 
 返回类型：`tuple`
 
@@ -289,7 +289,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：(image, target) 目标是目标类的索引.
+返回值：`(image, target)` 目标是目标类的索引.
 
 返回类型：`tuple`
 
@@ -317,7 +317,7 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：(image, target) 目标是目标类的索引.
+返回值：`(image, target)` 目标是目标类的索引.
 
 返回类型：`tuple`
 
@@ -344,6 +344,6 @@ __getitem__(index)
 
 参数：index (int) – Index
 
-返回值：(data1, data2, matches)
+返回值：`(data1, data2, matches)`
 
 返回类型：`tuple`
