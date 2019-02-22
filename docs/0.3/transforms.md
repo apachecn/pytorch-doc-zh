@@ -111,8 +111,7 @@ class torchvision.transforms.Grayscale(num_output_channels=1)
 
 返回值：灰度版本的输入. - 如果 num_output_channels == 1 : 返回的图像是 1 通道 - 如果 num_output_channels == 3 : 返回的图像是 3 通道, 并且 r == g == b
 
-| Return type: | PIL Image |
-| --- | --- |
+返回类型：`PIL Image`
 
 ```py
 class torchvision.transforms.RandomGrayscale(p=0.1)
@@ -124,8 +123,7 @@ class torchvision.transforms.RandomGrayscale(p=0.1)
 
 返回值：灰度版本的输入图像的概率为 p, 不变的概率为（1-p） - 如果输入图像为1个通道: 则灰度版本是 1 通道 - 如果输入图像为3个通道: 则灰度版本是 3 通道, 并且 r == g == b
 
-| Return type: | PIL Image |
-| --- | --- |
+返回类型：`PIL Image`
 
 ```py
 class torchvision.transforms.FiveCrop(size)
@@ -238,8 +236,7 @@ __call__(tensor)
 
 返回值：归一化后的 Tensor image.
 
-| Return type: | [Tensor](../tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+返回类型：`Tensor`
 
 ## 转换类型的变换
 
@@ -259,8 +256,7 @@ __call__(pic)
 
 返回值：转换后的 image.
 
-| Return type: | [Tensor](../tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+返回类型：`Tensor`
 
 ```py
 class torchvision.transforms.ToPILImage(mode=None)
@@ -281,8 +277,7 @@ __call__(pic)
 
 返回值：转换为PIL Image的图像.
 
-| Return type: | PIL Image |
-| --- | --- |
+返回类型：`PIL Image`
 
 ## 通用的变换
 

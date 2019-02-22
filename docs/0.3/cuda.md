@@ -70,8 +70,7 @@ torch.cuda.get_device_capability(device)
 
 返回值：设备的主次要 CUDA 算力.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple)([int](storage.html#torch.FloatStorage.int "torch.FloatStorage.int"), [int](storage.html#torch.FloatStorage.int "torch.FloatStorage.int")) |
-| --- | --- |
+返回类型：`tuple(int, int)`
 
 ```py
 torch.cuda.get_device_name(device)

@@ -257,7 +257,7 @@ torch.distributed.all_gather(tensor_list, tensor, group=<object object>)
 
 参数：
 
-*   tensor_list (list_[_Tensor_]_) – 输出列表. 它应该包含正确大小的张量以用于集体的输出.
+*   tensor_list (list_[Tensor]_) – 输出列表. 它应该包含正确大小的张量以用于集体的输出.
 *   tensor (Tensor) – 张量从当前进程中进行广播.
 *   group (optional) – 集群的内的小组的名字.
 
@@ -273,7 +273,7 @@ torch.distributed.gather(tensor, **kwargs)
 
 *   tensor (Tensor) – 输入的数据.
 *   dst (int) – 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
-*   gather_list (list_[_Tensor_]_) – 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
+*   gather_list (list_[Tensor]_) – 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
 *   group (optional) – 集群的内的小组的名字.
 
 
@@ -290,7 +290,7 @@ torch.distributed.scatter(tensor, **kwargs)
 
 *   tensor (Tensor) – 输出的张量.
 *   src (int) – 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
-*   scatter_list (list_[_Tensor_]_) – 张量分散的列表. 仅在发送数据的过程中需要.
+*   scatter_list (list_[Tensor]_) – 张量分散的列表. 仅在发送数据的过程中需要.
 *   group (optional) – 集群的内的小组的名字.
 
 

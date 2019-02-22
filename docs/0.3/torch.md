@@ -82,8 +82,7 @@ torch.eye(n, m=None, out=None)
 
 返回值：一个对角线位置全为1, 其它位置全为0的二维 tensor.
 
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+返回类型：`Tensor`
 
 Example:
 
@@ -3597,10 +3596,7 @@ torch.ge(input, other, out=None) → Tensor
 
 返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt;= other ).
 
-| Return type: | 张量 |
-| --- | --- |
-
-Return type: 张量
+返回类型：`Tensor`
 
 Example:
 
@@ -3629,10 +3625,7 @@ torch.gt(input, other, out=None) → Tensor
 
 返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt; other ).
 
-| Return type: | 张量 |
-| --- | --- |
-
-Return type: 张量
+返回类型：`Tensor`
 
 Example:
 
@@ -3721,8 +3714,7 @@ torch.le(input, other, out=None) → Tensor
 
 返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt;= other ).
 
-| Return type: | 张量 |
-| --- | --- |
+返回类型：`Tensor`
 
 Example:
 
@@ -3751,10 +3743,7 @@ torch.lt(input, other, out=None) → Tensor
 
 返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt; other ).
 
-| Return type: | 张量 |
-| --- | --- |
-
-Return type: 张量
+返回类型：`Tensor`
 
 Example:
 
@@ -4023,10 +4012,7 @@ torch.ne(input, other, out=None) → Tensor
 
 返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果 (是否 input != other ) .
 
-| Return type: | 张量 |
-| --- | --- |
-
-返回类型: `Tensor`
+返回类型：`Tensor`
 
 Example:
 
@@ -4306,8 +4292,7 @@ torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 
 返回值：直方图
 
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+返回类型：`Tensor`
 
 Example:
 
@@ -4799,12 +4784,11 @@ torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 
 | Returns: | 包含
 
-&gt; *   **e** (_Tensor_): `a` 的左特征值
-&gt; *   **v** (_Tensor_): 如果 `eigenvectors` 为 `True`, 表示 `a` 的特征向量; 否则是一个空的张量
+&gt; *   **e** (Tensor): `a` 的左特征值
+&gt; *   **v** (Tensor): 如果 `eigenvectors` 为 `True`, 表示 `a` 的特征向量; 否则是一个空的张量
 
 
-| Return type: | 返回一个元组, ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
-| --- | --- |
+返回类型：返回一个元组, `(Tensor, Tensor)`
 
 ```py
 torch.gels(B, A, out=None) → Tensor
@@ -4831,12 +4815,11 @@ torch.gels(B, A, out=None) → Tensor
 
 | Returns: | tuple containing:
 
-&gt; *   **X** (_Tensor_): 最小二乘解
-&gt; *   **qr** (_Tensor_): QR 分解的详细信息
+&gt; *   **X** (Tensor): 最小二乘解
+&gt; *   **qr** (Tensor): QR 分解的详细信息
 
 
-| Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
-| --- | --- |
+返回类型：`(Tensor, Tensor)`
 
 Note
 

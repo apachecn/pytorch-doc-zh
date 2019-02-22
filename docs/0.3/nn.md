@@ -76,8 +76,7 @@ apply(fn)
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 Example
 
@@ -124,8 +123,7 @@ cpu()
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 cuda(device=None)
@@ -139,8 +137,7 @@ cuda(device=None)
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 double()
@@ -150,8 +147,7 @@ double()
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 eval()
@@ -169,8 +165,7 @@ float()
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 forward(*input)
@@ -192,8 +187,7 @@ half()
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 load_state_dict(state_dict, strict=True)
@@ -334,8 +328,7 @@ hook(module, grad_input, grad_output) -> Tensor or None
 
 返回值：通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 `handle.remove()`
 
-| Return type: | `torch.utils.hooks.RemovableHandle` |
-| --- | --- |
+返回类型：`torch.utils.hooks.RemovableHandle`
 
 ```py
 register_buffer(name, tensor)
@@ -378,8 +371,7 @@ hook(module, input, output) -> None
 
 返回值：通过调用 `handle.remove()` 方法可以删除添加钩子的句柄
 
-| Return type: | `torch.utils.hooks.RemovableHandle` |
-| --- | --- |
+返回类型：`torch.utils.hooks.RemovableHandle`
 
 ```py
 register_forward_pre_hook(hook)
@@ -398,8 +390,7 @@ hook(module, input) -> None
 
 返回值：通过调用 `handle.remove()` 方法可以删除添加钩子的句柄 `handle.remove()`
 
-| Return type: | `torch.utils.hooks.RemovableHandle` |
-| --- | --- |
+返回类型：`torch.utils.hooks.RemovableHandle`
 
 ```py
 register_parameter(name, param)
@@ -435,8 +426,7 @@ state_dict(destination=None, prefix='', keep_vars=False)
 
 返回值：包含模块整体状态的字典
 
-| Return type: | [dict](https://docs.python.org/3/library/stdtypes.html#dict) |
-| --- | --- |
+返回类型：dict
 
 Example
 
@@ -456,8 +446,7 @@ train(mode=True)
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 type(dst_type)
@@ -469,8 +458,7 @@ type(dst_type)
 
 返回值：self
 
-| Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
-| --- | --- |
+返回类型：`Module`
 
 ```py
 zero_grad()

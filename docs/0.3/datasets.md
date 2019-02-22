@@ -129,8 +129,7 @@ __getitem__(index)
 
 返回值：Tuple (image, target). 目标是一个图像标注的列表.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ### [Detection](#id14)
 
@@ -157,8 +156,7 @@ __getitem__(index)
 
 返回值：Tuple (image, target). 目标是由 `coco.loadAnns` 返回的对象.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ## [LSUN](#id15)
 
@@ -185,8 +183,7 @@ __getitem__(index)
 
 返回值：Tuple (image, target) 目标是目标类别的索引.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ## [ImageFolder](#id16)
 
@@ -224,8 +221,7 @@ __getitem__(index)
 
 返回值：(image, target) 目标是目标类别的class_index.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ## [Imagenet-12](#id17)
 
@@ -259,8 +255,7 @@ __getitem__(index)
 
 返回值：(image, target) 目标是目标分类的索引.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ```py
 class torchvision.datasets.CIFAR100(root, train=True, transform=None, target_transform=None, download=False)
@@ -296,8 +291,7 @@ __getitem__(index)
 
 返回值：(image, target) 目标是目标类的索引.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ## [SVHN](#id20)
 
@@ -325,8 +319,7 @@ __getitem__(index)
 
 返回值：(image, target) 目标是目标类的索引.
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
 
 ## [PhotoTour](#id21)
 
@@ -353,5 +346,4 @@ __getitem__(index)
 
 返回值：(data1, data2, matches)
 
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple) |
-| --- | --- |
+返回类型：`tuple`
