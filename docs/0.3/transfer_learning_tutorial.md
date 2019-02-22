@@ -1,5 +1,9 @@
 # 迁移学习教程
 
+> 译者：[@Sylvester](https://github.com/coboe)
+> 
+> 校对者：[@Archie Yu](https://github.com/archie-yu)
+
 **作者**: [Sasank Chilamkurthy](https://chsasank.github.io)
 
 这个教程将教你如何使用迁移学习训练你的网络. 你可以在 [cs231n 笔记](http://cs231n.github.io/transfer-learning/) 中 阅读更多有关迁移学习的信息.

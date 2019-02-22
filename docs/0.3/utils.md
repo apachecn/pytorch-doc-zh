@@ -1,5 +1,9 @@
 # torchvision.utils
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@dawenzi123、[@LeeGeong](https://github.com/LeeGeong)、@liandongze
+> 
+> 校对者：[@咸鱼](https://github.com/Watermelon233)
+
 ```py
 torchvision.utils.make_grid(tensor, nrow=8, padding=2, normalize=False, range=None, scale_each=False, pad_value=0)
 ```

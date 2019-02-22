@@ -1,5 +1,7 @@
 # 用字符级RNN分类名称
 
+> 译者：[@孙永杰](https://github.com/yongjay13)
+
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 我们将建立和训练一个基本的字符级RNN进行分类单词. 字符级别的RNN将单词读为一系列字符 - 在每个步骤输出一个预测和“隐藏状态”, 将先前的隐藏状态作为下一步的输入. 我们采取最后的预测作为输出,即该单词属于哪一类.

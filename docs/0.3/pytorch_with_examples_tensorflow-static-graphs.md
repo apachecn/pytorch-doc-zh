@@ -1,5 +1,9 @@
 # TensorFlow: 静态图
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
 在实现中, 我们会用基本的TensorFlow操作来建立一个计算图, 随后多次执行这个图来训练网络.

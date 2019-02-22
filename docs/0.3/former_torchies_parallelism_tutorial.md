@@ -1,5 +1,9 @@
 # Multi-GPU examples
 
+> 译者：@unknown
+> 
+> 校对者：[@bringtree](https://github.com/bringtree)
+
 数据并行是指当我们将 mini-batch 的样本分成更小的 mini-batches, 并行地计算每个更小的 mini-batches.
 
 数据并行通过使用 `torch.nn.DataParallel` 实现. 我们可以用 `DataParallel` 包装一个模块, 然后它将在 batch 维度(默认是0轴) 平分数据给多个 GPUs 进行并行计算.

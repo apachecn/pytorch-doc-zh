@@ -1,5 +1,9 @@
 # PyTorch 是什么？
 
+> 译者：[@小王子](https://github.com/VPrincekin)
+> 
+> 校对者：[@李子文](https://github.com/liziwenzzzz)
+
 它是一个基于 Python 的科学计算包, 其主要是为了解决两类场景:
 
 *   NumPy 的替代品, 以使用 GPU 的强大加速功能

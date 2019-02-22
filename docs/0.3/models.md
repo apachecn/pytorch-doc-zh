@@ -1,5 +1,9 @@
 # torchvision.models
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@dawenzi123、[@LeeGeong](https://github.com/LeeGeong)、@liandongze
+> 
+> 校对者：[@咸鱼](https://github.com/Watermelon233)
+
 torchvision.models 模块的子模块中包含以下模型结构:
 
 *   [AlexNet](https://arxiv.org/abs/1404.5997)

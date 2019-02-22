@@ -1,5 +1,7 @@
 # 使用 numpy 和 scipy 创建扩展
 
+> 译者：[@飞龙](https://github.com/wizardforcel)
+
 **作者**: [Adam Paszke](https://github.com/apaszke)
 
 这个教程中, 我们将完成以下两个任务:

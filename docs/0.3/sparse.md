@@ -1,5 +1,9 @@
 # torch.sparse
 
+> 译者：[@王帅](https://github.com/sirwangshuai)
+> 
+> 校对者：[@Timor](https://github.com/timors)
+
 Warning
 
 此 API 目前是实验性的 , 可能会在不久的将来发生变化 .

@@ -1,5 +1,7 @@
 # 强化学习（DQN）教程
 
+> 译者：[@Lisanaaa](https://github.com/Lisanaaa)
+
 **作者**: [Adam Paszke](https://github.com/apaszke)
 
 本教程演示如何使用 PyTorch 对任务 CartPole-v0 训练 Deep Q Learning（DQN）代理（即一个算法黑箱）, 该任务来自于 [OpenAI Gym](https://gym.openai.com/).

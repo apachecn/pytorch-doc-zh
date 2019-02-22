@@ -1,5 +1,7 @@
 # 空间转换网络 (Spatial Transformer Networks) 教程
 
+> 译者：[@Twinkle](https://github.com/kemingzeng)
+
 **原作者**: [Ghassen HAMROUNI](https://github.com/GHamrouni)
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/FSeq.png](img/01cb117c4c0d3fcaa29ac2f3c359529a.jpg)

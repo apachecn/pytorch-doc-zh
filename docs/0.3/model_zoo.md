@@ -1,5 +1,9 @@
 # torch.utils.model_zoo
 
+> 译者：[@之茗](https://github.com/mayuanucas)
+> 
+> 校对者：[@aleczhang](http://community.apachecn.org/?/people/aleczhang)
+
 ```py
 torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None)
 ```

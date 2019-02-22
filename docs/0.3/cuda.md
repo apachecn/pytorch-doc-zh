@@ -1,5 +1,9 @@
 # torch.cuda
 
+> 译者：[@谈笑风生](https://github.com/zhu1040028623)
+> 
+> 校对者：[@smilesboy](https://github.com/smilesboy)
+
 这个包增加了对 CUDA tensor (张量) 类型的支持,利用 GPUs 计算实现了与 CPU tensors 相同的类型.
 
 这个是 lazily initialized (懒加载,延迟加载), 所以你可以一直导入它,并且可以用 `is_available()` 来判断 你的系统是否支持 CUDA.

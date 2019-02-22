@@ -1,5 +1,9 @@
 # 扩展 PyTorch
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)
+> 
+> 校对者：[@Twinkle](https://github.com/kemingzeng)
+
 在本文中, 我们将介绍如何扩展 [`torch.nn`](../nn.html#module-torch.nn "torch.nn"), [`torch.autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块, 并且使用我们的 C 库来编写自定义的 C 扩展工具.
 
 ## 扩展 [`torch.autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块

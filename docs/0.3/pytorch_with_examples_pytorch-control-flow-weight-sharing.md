@@ -1,5 +1,9 @@
 # PyTorch: 动态控制流程 + 权重共享
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 为了展示PyTorch的动态图的强大, 我们实现了一个非常奇异的模型: 一个全连接的ReLU激活的神经网络, 每次前向计算时都随机选一个1到4之间的数字n, 然后接下来就有n层隐藏层, 每个隐藏层的连接权重共享.
 
 ```py

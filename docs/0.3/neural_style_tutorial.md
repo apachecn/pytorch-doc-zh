@@ -1,5 +1,7 @@
 # 用 PyTorch 做 神经转换 (Neural Transfer)
 
+> 译者：[@Twinkle](https://github.com/kemingzeng)
+
 **原作者**: [Alexis Jacq](https://alexis-jacq.github.io)
 
 ## 介绍

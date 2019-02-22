@@ -1,5 +1,7 @@
 # Writing Distributed Applications with PyTorch
 
+> 译者：[@Sylvester](https://github.com/coboe)
+
 **Author**: [Séb Arnold](http://seba1511.com)
 
 In this short tutorial, we will be going over the distributed package of PyTorch. We’ll see how to set up the distributed setting, use the different communication strategies, and go over some the internals of the package.

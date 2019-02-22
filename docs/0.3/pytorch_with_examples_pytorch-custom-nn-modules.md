@@ -1,5 +1,9 @@
 # PyTorch: 定制化nn模块
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时通过最小化欧式距离的平方, 来学习从x到y的映射.
 
 在实现中我们将定义一个定制化的模块子类. 如果已有模块串起来不能满足你的复杂需求, 那么你就能以这种方式来定义自己的模块。

@@ -1,5 +1,7 @@
 # 用基于注意力机制的seq2seq神经网络进行翻译
 
+> 译者：[@EWilsen](http://community.apachecn.org/?/people/EWilsen)
+
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 这个教程主要讲解用一个神经网络将法语翻译成英语.

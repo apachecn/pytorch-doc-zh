@@ -1,5 +1,9 @@
 # torchvision.datasets
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@dawenzi123、[@LeeGeong](https://github.com/LeeGeong)、@liandongze
+> 
+> 校对者：[@咸鱼](https://github.com/Watermelon233)
+
 所有的数据集都是 [`torch.utils.data.Dataset`](../data.html#torch.utils.data.Dataset "torch.utils.data.Dataset") 类的子类, 也就是说, 他们内部都实现了 `__getitem__` 和 `__len__` 这两个方法. 同时, 他们也都可以传递给类 [`torch.utils.data.Dataset`](../data.html#torch.utils.data.Dataset "torch.utils.data.Dataset"), 它可以使用 `torch.multiprocessing` 工作器来并行的加载多个样本.
 
 示例：

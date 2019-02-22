@@ -1,5 +1,9 @@
 # 神经网络
 
+> 译者：[@小王子](https://github.com/VPrincekin)
+> 
+> 校对者：[@李子文](https://github.com/liziwenzzzz)
+
 神经网络可以使用 `torch.nn` 包构建.
 
 `autograd` 实现了反向传播功能, 但是直接用来写深度学习的代码在很多情况下还是稍显复杂, `torch.nn` 是专门为神经网络设计的模块化接口. `nn` 构建于 `Autograd` 之上, 可用来定义和运行神经网络. `nn.Module` 是 `nn` 中最重要的类, 可把它看成是一个网络的封装, 包含网络各层定义以及 `forward` 方法, 调用 `forward(input)` 方法, 可返回前向传播的结果.

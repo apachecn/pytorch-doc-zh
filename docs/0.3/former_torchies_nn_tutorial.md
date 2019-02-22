@@ -1,5 +1,9 @@
 # nn package
 
+> 译者：@unknown
+> 
+> 校对者：[@bringtree](https://github.com/bringtree)
+
 我们重新设计了 nn package, 以便与 autograd 完全集成. 让我们来回顾一下这些变化.
 
 **用 autograd 替换 containers:**

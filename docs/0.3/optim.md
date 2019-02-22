@@ -1,5 +1,9 @@
 # torch.optim
 
+> 译者：[@于增源](https://github.com/ZengyuanYu)
+> 
+> 校对者：[@青梅往事](https://github.com/2556120684)
+
 `torch.optim` is a package implementing various optimization algorithms. Most commonly used methods are already supported, and the interface is general enough, so that more sophisticated ones can be also easily integrated in the future.
 
 ## 如何使用 optimizer (优化器)

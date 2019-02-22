@@ -1,5 +1,9 @@
 # torch.Tensor
 
+> 译者：[[@Sylvester](https://github.com/coboe)、[@那伊抹微笑](https://github.com/wangyangting)
+> 
+> 校对者：[@Sariel](https://github.com/Cyril-CC)
+
 > `torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
 
 Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:

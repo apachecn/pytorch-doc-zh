@@ -1,5 +1,7 @@
 # 基与字符级RNN（Char-RNN）的人名生成
 
+> 译者：[@jianchengss](https://github.com/jianchengss)
+
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 在 [上一个教程](char_rnn_classification_tutorial.html) 里我们使用RNN把名字分类到它所属的语言中, 这次我们改变一下来学习从语言中生成名字.

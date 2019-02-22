@@ -1,5 +1,9 @@
 # 跟着例子学习 PyTorch
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 **Author**: [Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
 
 这个教程通过一些单独的示例介绍了 [PyTorch](https://github.com/pytorch/pytorch) 的基本概念.

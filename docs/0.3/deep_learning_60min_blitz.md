@@ -1,5 +1,9 @@
 # PyTorch 深度学习: 60 分钟极速入门教程
 
+> 译者：[@小王子](https://github.com/VPrincekin)
+> 
+> 校对者：[@李子文](https://github.com/liziwenzzzz)
+
 **Author**: [Soumith Chintala](http://soumith.ch)
 
 本教程的目标:

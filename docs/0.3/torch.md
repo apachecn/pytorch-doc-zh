@@ -1,5 +1,9 @@
 # torch
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@yudong、[@小瑶](https://github.com/chenyyx)、[@片刻](https://github.com/jiangzhonglian)、[@李雨龙](https://github.com/sawyer7246)、[@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992)、[@张假飞](https://github.com/nothingcouldbebetter)、[@rickllyxu](https://github.com/rickllyxu)
+> 
+> 校对者：[@张假飞](https://github.com/nothingcouldbebetter)、[@飞龙](https://github.com/wizardforcel)
+
 torch package 包含了多维张量的数据结构, 以及基于其上的多种数学操作. 此外, 它还提供了许多用于高效序列化 Tensor 和任意类型的实用工具包, 以及一起其它有用的实用工具包.
 
 它有一个 CUDA 的对应实现, 它使您能够在计算能力 &gt;=0.3 的 NVIDIA GPU 上进行张量运算.

@@ -1,5 +1,9 @@
 # Automatic differentiation package - torch.autograd
 
+> 译者：[@ZhenLei Xu](https://github.com/HadXu)
+> 
+> 校对者：[@青梅往事](https://github.com/2556120684)
+
 torch.autograd 提供了类和函数用来对任意标量函数进行求导.只需要对已有的代码进行微小的改变-只需要将所有的 tensors 包含在 `Variable` 对象中即可.
 
 ```py

@@ -1,5 +1,9 @@
 # Warm-up: numpy
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 本例中的神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时使用欧几里得误差来学习从x到y的映射.
 
 我们只用到了numpy, 完全手写实现神经网络, 包括前向计算, 误差计算和后向传播.

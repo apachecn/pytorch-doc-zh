@@ -1,5 +1,9 @@
 # torch.Storage
 
+> 译者：@FanXing
+> 
+> 校对者：[@Timor](https://github.com/timors)
+
 一个 `torch.Storage` 是一个单一数据类型的连续一维数组 .
 
 每个 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 都有一个对应的相同数据类型的存储 .

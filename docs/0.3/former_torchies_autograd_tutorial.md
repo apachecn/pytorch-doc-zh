@@ -1,5 +1,9 @@
 # Autograd (自动求导)
 
+> 译者：@unknown
+> 
+> 校对者：[@bringtree](https://github.com/bringtree)
+
 Autograd 现在是 torch 自动微分的核心包 . 它是使用基于 tape 的系统来进行自动微分的.
 
 在前向阶段, autograd tape 会记住它执行的所有操作, 在反向阶段, 它将重放这些操作

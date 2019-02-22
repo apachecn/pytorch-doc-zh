@@ -1,5 +1,9 @@
 # torch.utils.ffi
 
+> 译者：[@之茗](https://github.com/mayuanucas)
+> 
+> 校对者：[@aleczhang](http://community.apachecn.org/?/people/aleczhang)
+
 ```py
 torch.utils.ffi.create_extension(name, headers, sources, verbose=True, with_cuda=False, package=False, relative_to='.', **kwargs)
 ```

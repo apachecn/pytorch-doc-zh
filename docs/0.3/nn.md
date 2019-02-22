@@ -1,5 +1,9 @@
 # torch.nn
 
+> 译者：[@小王子](https://github.com/VPrincekin)、[@那伊抹微笑](https://github.com/wangyangting)、[@Yang Shun](https://github.com/busyboxs)、[@Zhu Yansen](https://github.com/zhuyansen)、[@woaichipinngguo](https://github.com/woaichipinngguo)、[@buldajs](https://github.com/buldajs)、[@吉思雨](https://github.com/swardsman)、[@王云峰](https://github.com/vra)、[@李雨龙](https://github.com/sawyer7246)、[@Yucong Zhu](https://github.com/Eadral)、[@林嘉应](https://github.com/garry1ng)、[@QianFanCe](https://github.com/QianFanCe)、[@dabney777](https://github.com/dabney777)、[@Alex](https://github.com/jizg)、[@SiKai Yao](https://github.com/Mabinogiysk)、[@小乔](https://github.com/QiaoXie) @laihongchang @噼里啪啦嘣 [@BarrettLi](https://github.com/BarrettLi)、[@KrokYin](https://github.com/KrokYin)、[@MUSK1881](https://github.com/JoinsenQ)
+> 
+> 校对者：[@clown9804](http://community.apachecn.org/?/people/clown9804)、[@飞龙](https://github.com/wizardforcel)
+
 ## Parameters (参数)
 
 ```py

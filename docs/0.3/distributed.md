@@ -1,5 +1,9 @@
 # Distributed communication package - torch.distributed
 
+> 译者：[@Mu Wu9527](https://github.com/yichuan9527)
+> 
+> 校对者：[@smilesboy](https://github.com/smilesboy)
+
 torch.distributed 提供类似 MPI 的前向运算机制, 支持在多台机的网络中交换数据. 支持不同的后段和初始化方法.
 
 目前torch.distributed支持三个后端, 每个都有不同的功能. 下表显示哪些功能可用于 CPU/CUDA 张量. 只有在设备上编译安装PyTorch, 才能在MPI的设备上支持cuda.

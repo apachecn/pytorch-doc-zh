@@ -1,5 +1,7 @@
 # 针对NLP的Pytorch深度学习
 
+> 译者：[@JingTao](https://github.com/jingwangfei)、[@friedhelm739](https://github.com/friedhelm739)
+
 **作者**: [Robert Guthrie](https://github.com/rguthrie3/DeepLearningForNLPInPytorch)
 
 本教程将带你浏览基于Pytorch深度学习编程的核心思想.其中很多思想(例如计算图形抽象化以及自动求导) 并不是Pytorch特有的,他们和任何深度学习工具包都是相关的.

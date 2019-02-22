@@ -1,5 +1,9 @@
 # PyTorch: Tensors
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 本例中的全连接神经网络有一个隐藏层, 后接ReLU激活层, 并且不带偏置参数. 训练时使用欧式距离平方来学习从x到y的映射.
 
 实现中我们使用了PyTorch的张量来进行前向计算, 误差计算和后向传播.

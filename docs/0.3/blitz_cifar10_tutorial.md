@@ -1,5 +1,9 @@
 # 训练一个分类器
 
+> 译者：[@小王子](https://github.com/VPrincekin)
+> 
+> 校对者：[@李子文](https://github.com/liziwenzzzz)
+
 就是这个, 你已经看到了如何定义神经网络, 计算损失并更新网络的权重.
 
 现在你可能会想,

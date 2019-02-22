@@ -1,5 +1,9 @@
 # torchvision.transforms
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@dawenzi123、[@LeeGeong](https://github.com/LeeGeong)、@liandongze
+> 
+> 校对者：[@咸鱼](https://github.com/Watermelon233)
+
 Transforms (变换) 是常见的 image transforms (图像变换) .他们可以使用 `Compose` 类以链在一起来进行操作.
 
 ```py

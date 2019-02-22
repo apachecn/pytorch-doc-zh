@@ -1,5 +1,9 @@
 # torchvision
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@dawenzi123、[@LeeGeong](https://github.com/LeeGeong)、@liandongze
+> 
+> 校对者：[@咸鱼](https://github.com/Watermelon233)
+
 模块 `torchvision` 库包含了计算机视觉中一些常用的数据集, 模型架构以及图像变换方法.
 
 Package Reference

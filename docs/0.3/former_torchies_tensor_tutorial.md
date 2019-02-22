@@ -1,5 +1,9 @@
 # Tensors
 
+> 译者：@unknown
+> 
+> 校对者：[@bringtree](https://github.com/bringtree)
+
 Tensors 在 PyTorch 中的操作方式 与 Torch 几乎完全相同.
 
 用未初始化的内存创建一个大小为 (5 x 7) 的 tensor:

@@ -1,5 +1,9 @@
 # 自动求导机制
 
+> 译者： [@那伊抹微笑](https://github.com/wangyangting)
+> 
+> 校对者：[@Twinkle](https://github.com/kemingzeng)
+
 本文将介绍 autograd (自动求导) 如何工作并记录操作. 理解这一切并不是必须的, 但我们建议您熟悉它, 因为它会帮助您编写出更高效, 更简洁的程序, 并且可以帮助您进行调试.
 
 ## 反向排除 subgraphs (子图)

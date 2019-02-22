@@ -1,5 +1,9 @@
 # 数据加载和处理教程
 
+> 译者：[@distant1219](https://github.com/distant1219)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree)
+
 **作者**: [Sasank Chilamkurthy](https://chsasank.github.io)
 
 在解决机器学习问题时, 我们需要付出很多努力来准备数据, 为了使代码更具可读性, PyTorch提供了许多工具来使数据加载变得简单易行. 在本教程中, 我们将要学习如何对 一个重要的数据集进行加载、预处理数据增强.

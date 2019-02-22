@@ -1,5 +1,9 @@
 # torch.utils.data
 
+> 译者：[@之茗](https://github.com/mayuanucas)
+> 
+> 校对者：[@aleczhang](http://community.apachecn.org/?/people/aleczhang)
+
 ```py
 class torch.utils.data.Dataset
 ```

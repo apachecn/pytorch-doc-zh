@@ -1,5 +1,9 @@
 # 可选: 数据并行
 
+> 译者：[@小王子](https://github.com/VPrincekin)
+> 
+> 校对者：[@李子文](https://github.com/liziwenzzzz)
+
 **作者**: [Sung Kim](https://github.com/hunkim) 和 [Jenny Kang](https://github.com/jennykang)
 
 在这个教程中, 我们将会学习如何在多个GPU上使用 `DataParallel` .
