@@ -3,6 +3,8 @@
 
 # Windows FAQ  
 
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)
+
 ## 从源码中构建  
 
 ### 包含可选组件  

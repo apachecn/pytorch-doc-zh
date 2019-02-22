@@ -2,6 +2,8 @@
 
 # 常见问题解答  
 
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)
+
 ## 我的模型报告“cuda runtime error(2): out of memory”  
 
 正如错误消息所示，您的GPU显存已耗尽。由于经常在PyTorch中处理大量数据，因此小错误会迅速导致程序耗尽所有GPU资源; 幸运的是，这些情况下的修复通常很简单。这里有一些常见点需要检查：  
