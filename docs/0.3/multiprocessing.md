@@ -30,7 +30,7 @@ torch.multiprocessing.set_sharing_strategy(new_strategy)
 
 为共享的 CPU 张量来设置策略.
 
-参数：new_strategy (str) – 所选策略的名称. 必须是函数 [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies") 所返回的值之一.
+参数：`new_strategy (str)` – 所选策略的名称. 必须是函数 [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies") 所返回的值之一.
 
 
 ## 共享 CUDA 张量

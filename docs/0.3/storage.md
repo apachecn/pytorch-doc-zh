@@ -46,8 +46,8 @@ cuda(device=None, async=False)
 
 参数：
 
-*   device (int) – 目标 GPU 的 id . 默认值是当前设备 .
-*   async (bool) – 如果为 `True` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 否则此参数不起效果 .
+*   `device (int)` – 目标 GPU 的 id . 默认值是当前设备 .
+*   `async (bool)` – 如果为 `True` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 否则此参数不起效果 .
 
 
 
@@ -89,9 +89,9 @@ size 是存储中所包含的元素个数 . 如果 shared 为 False 则文件必
 
 参数：
 
-*   filename (str) – 要映射到的文件名
-*   shared (bool) – 是否共享内存
-*   size (int) – 存储中包含元素的个数
+*   `filename (str)` – 要映射到的文件名
+*   `shared (bool)` – 是否共享内存
+*   `size (int)` – 存储中包含元素的个数
 
 
 
@@ -175,6 +175,6 @@ type(new_type=None, async=False)
 
 参数：
 
-*   new_type (type 或 string) – 期望的类型
-*   async (bool) – 如果为 `True` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 .
+*   `new_type (type 或 string)` – 期望的类型
+*   `async (bool)` – 如果为 `True` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 .
 

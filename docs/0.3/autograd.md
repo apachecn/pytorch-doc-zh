@@ -16,11 +16,11 @@ torch.autograd.backward(variables, grad_variables=None, retain_graph=None, creat
 
 > `create_graph` 是 `True`. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
 
-*   retain_graph (bool, 可选): 如果是 `False`, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``
+*   `retain_graph (bool, 可选)`: 如果是 `False`, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``
 
 > 并不是必须的并且能够高效的计算.将该 `create_graph` 参数值设置为默认即可.
 
-*   create_graph (bool, 可选): 如果是 `True`, 将会建立一个梯度图, 用来求解高阶导数.
+*   `create_graph (bool, 可选)`: 如果是 `True`, 将会建立一个梯度图, 用来求解高阶导数.
 
 > 默认为 `False`, 除非 `grad_variables` 拥有不止一个 易变的 Variable.
 
@@ -38,13 +38,13 @@ torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, creat
 
 > 所有的张量都会变成变量并且是可变的除非参数 `create_graph` 为 `True`. 没有值可以被指定为标量变量或者不需要变化的值. 如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
 
-*   retain_graph (bool, 可选): 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
-*   create_graph (bool, 可选): 如果是 `True`, 梯度图将会被建立,用来求解高阶导数.
+*   `retain_graph (bool, 可选)`: 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
+*   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数.
 
 > 默认为 `False`` , 除非参数 `grad_variables` 包含不只一个变量.
 
-*   only_inputs (bool, 可选): 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
-*   allow_unused (bool, 可选): 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
+*   `only_inputs (bool, 可选)`: 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
+*   `allow_unused (bool, 可选)`: 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
 
 ## Variable (变量)
 
@@ -94,7 +94,7 @@ backward(gradient=None, retain_graph=None, create_graph=None, retain_variables=N
 
      `create_graph`.
 
-*   create_graph (bool, 可选): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
+*   `create_graph (bool, 可选)`: 如果“真”,派生图将会被构造,允许计算更高阶的导数.
 
 > 默认为 `False`,除非 `gradient` 是一个volatile变量.
 
@@ -211,7 +211,7 @@ class torch.autograd.profiler.profile(enabled=True)
 
 结果的评价指标.
 
-参数：enabled (bool, 可选) – 如果设置为 False ,则没有评价指标. Default: `True`.
+参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. Default: `True`.
 
 
 Example
@@ -245,7 +245,7 @@ export_chrome_trace(path)
 
 断点能够通过 `chrome://tracing` URL来读取.
 
-参数：path (str) – 制定断点写的路径.
+参数：`path (str)` – 制定断点写的路径.
 
 
 ```py
@@ -263,7 +263,7 @@ table(sort_by=None)
 
 打印操作表
 
-参数：sort_by (str, 可选) – 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印. 有效的键: `cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`.
+参数：`sort_by (str, 可选)` – 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印. 有效的键: `cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`.
 
 返回值：包含表的字符串.
 
@@ -292,7 +292,7 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
 不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 [`torch.autograd.profiler.load_nvprof()`](#torch.autograd.profiler.load_nvprof "torch.autograd.profiler.load_nvprof") 可以加载检查结果.
 
-参数：enabled (bool, 可选) – 如果设置为 False ,则没有评价指标. 默认: `True`.
+参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. 默认: `True`.
 
 
 Example
@@ -311,4 +311,4 @@ torch.autograd.profiler.load_nvprof(path)
 
 打开 nvprof trace 文件.
 
-参数：path (str) – nvprof trace 文件路径.
+参数：`path (str)` – nvprof trace 文件路径.

@@ -35,7 +35,7 @@ log_prob(value)
 
 返回在`value`处的概率密度函数的对数.
 
-参数：value (Tensor 或 Variable) – （基类的参数,没有实际用处）
+参数：`value (Tensor 或 Variable)` – （基类的参数,没有实际用处）
 
 
 ```py
@@ -70,7 +70,7 @@ class torch.distributions.Bernoulli(probs)
 
 ```
 
-参数：probs (Tensor 或 Variable) – 采样到 `1` 的概率
+参数：`probs (Tensor 或 Variable)` – 采样到 `1` 的概率
 
 
 ## Categorical (类别分布)
@@ -101,7 +101,7 @@ class torch.distributions.Categorical(probs)
 
 ```
 
-参数：probs (Tensor 或 Variable) – 事件概率
+参数：`probs (Tensor 或 Variable)` – 事件概率
 
 
 ## Normal (正态分布)
@@ -124,6 +124,6 @@ class torch.distributions.Normal(mean, std)
 
 参数：
 
-*   mean (float 或 Tensor 或 Variable) – 分布的均值
-*   std (float 或 Tensor 或 Variable) – 分布的标准差
+*   `mean (float 或 Tensor 或 Variable)` – 分布的均值
+*   `std (float 或 Tensor 或 Variable)` – 分布的标准差
 

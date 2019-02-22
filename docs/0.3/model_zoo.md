@@ -10,9 +10,9 @@ torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None)
 
 参数：
 
-*   url (string) – 需要下载对象的 URL
-*   model_dir (string, 可选) – 保存对象的目录
-*   map_location (optional) – 一个函数或者一个字典,指定如何重新映射存储位置 (详情查阅 torch.load)
+*   `url (string)` – 需要下载对象的 URL
+*   `model_dir (string, 可选)` – 保存对象的目录
+*   `map_location (optional)` – 一个函数或者一个字典,指定如何重新映射存储位置 (详情查阅 torch.load)
 
 
 

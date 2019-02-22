@@ -37,10 +37,10 @@ DataParallel 的文档为 [here](http://pytorch.org/docs/nn.html#torch.nn.DataPa
 
 通常, pytorch 的 `nn.parallel` 原函数可以单独使用. 我们实现了简单的类似 MPI 的原函数:
 
-*   replicate: 在多个设备上复制模块
-*   scatter: 在第一维中分配输入
-*   gather: 在第一维 gather 和 concatenate 输入
-*   parallel_apply: 将一组已经分配的输入应用于一组已经分配的模型.
+*   `replicate`: 在多个设备上复制模块
+*   `scatter`: 在第一维中分配输入
+*   `gather`: 在第一维 gather 和 concatenate 输入
+*   `parallel_apply`: 将一组已经分配的输入应用于一组已经分配的模型.
 
 为了更清晰起见, 这里使用这些集合组成的函数 `data_parallel`
 

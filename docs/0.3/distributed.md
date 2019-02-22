@@ -39,11 +39,11 @@ torch.distributed.init_process_group(backend, init_method='env://', **kwargs)
 
 参数：
 
-*   backend (str) – 使用后端的名字. 输入的有效值包括: `tcp` , `mpi` and `gloo` .
-*   init_method (str, 可选) – 指定如何初始化的URL.
-*   world_size (int, 可选) – 参与工作的进程数量.
-*   rank (int, 可选) – 当前进程的排名.
-*   group_name (str, 可选) – 集群的名字. 请参阅init方法的描述.
+*   `backend (str)` – 使用后端的名字. 输入的有效值包括: `tcp` , `mpi` and `gloo` .
+*   `init_method (str, 可选)` – 指定如何初始化的URL.
+*   `world_size (int, 可选)` – 参与工作的进程数量.
+*   `rank (int, 可选)` – 当前进程的排名.
+*   `group_name (str, 可选)` – 集群的名字. 请参阅init方法的描述.
 
 
 
@@ -127,7 +127,7 @@ torch.distributed.new_group(ranks=None)
 
 此函数要求主组中的所有进程（即作为分布式作业一部分的所有进程）都会输入此函数, 即使它们不是该小组的成员. 此外, 应该在所有的进程中以相同的顺序创建新的小组.
 
-参数：ranks (list[int]) – 小组内成员的 Rank 的列表.
+参数：`ranks (list[int])` – 小组内成员的 Rank 的列表.
 
 返回值：分配组的句柄, 以便在集群中调用.
 
@@ -142,8 +142,8 @@ torch.distributed.send(tensor, dst)
 
 参数：
 
-*   tensor (Tensor) – 发送的张量.
-*   dst (int) – 指定发送的目的地的 Rank.
+*   `tensor (Tensor)` – 发送的张量.
+*   `dst (int)` – 指定发送的目的地的 Rank.
 
 
 
@@ -155,8 +155,8 @@ torch.distributed.recv(tensor, src=None)
 
 参数：
 
-*   tensor (Tensor) – 用收到的数据填充张量.
-*   src (int, 可选) – 发送端的Rank, 如果没有指定, 将会接收任何发送的数据.
+*   `tensor (Tensor)` – 用收到的数据填充张量.
+*   `src (int, 可选)` – 发送端的Rank, 如果没有指定, 将会接收任何发送的数据.
 
 
 返回值：发送端的Rank.
@@ -177,8 +177,8 @@ torch.distributed.isend(tensor, dst)
 
 参数：
 
-*   tensor (Tensor) – 发送的张量的数据.
-*   dst (int) – 指定发送到的 Rank.
+*   `tensor (Tensor)` – 发送的张量的数据.
+*   `dst (int)` – 指定发送到的 Rank.
 
 
 返回值：分布式请求对象.
@@ -192,8 +192,8 @@ torch.distributed.irecv(tensor, src)
 
 参数：
 
-*   tensor (Tensor) – 用收到的数据填充张量.
-*   src (int) – 指定发送张量的 Rank.
+*   `tensor (Tensor)` – 用收到的数据填充张量.
+*   `src (int)` – 指定发送张量的 Rank.
 
 
 返回值：一个分布式请求对象.
@@ -211,9 +211,9 @@ torch.distributed.broadcast(tensor, src, group=<object object>)
 
 参数：
 
-*   tensor (Tensor) – 如果发送端 `src` 是当前进程的 Rank, 则发送数据, 否则使用张量保存接收的数据.
-*   src (int) – 发送端的 Rank.
-*   group (optional) – 集群内的小组的名字.
+*   `tensor (Tensor)` – 如果发送端 `src` 是当前进程的 Rank, 则发送数据, 否则使用张量保存接收的数据.
+*   `src (int)` – 发送端的 Rank.
+*   `group (optional)` – 集群内的小组的名字.
 
 
 
@@ -227,9 +227,9 @@ torch.distributed.all_reduce(tensor, op=<object object>, group=<object object>)
 
 参数：
 
-*   tensor (Tensor) – 集群的输入和输出.
-*   op (optional) – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
-*   group (optional) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 集群的输入和输出.
+*   `op (optional)` – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
+*   `group (optional)` – 集群的内的小组的名字.
 
 
 
@@ -243,9 +243,9 @@ torch.distributed.reduce(tensor, dst, op=<object object>, group=<object object>)
 
 参数：
 
-*   tensor (Tensor) – 集群的输入和输出数据. 分别在每台机器上本地处理.
-*   op (optional) – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
-*   group (optional) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 集群的输入和输出数据. 分别在每台机器上本地处理.
+*   `op (optional)` – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
+*   `group (optional)` – 集群的内的小组的名字.
 
 
 
@@ -257,9 +257,9 @@ torch.distributed.all_gather(tensor_list, tensor, group=<object object>)
 
 参数：
 
-*   tensor_list (list_[Tensor]_) – 输出列表. 它应该包含正确大小的张量以用于集体的输出.
-*   tensor (Tensor) – 张量从当前进程中进行广播.
-*   group (optional) – 集群的内的小组的名字.
+*   `tensor_list (list_[Tensor]_)` – 输出列表. 它应该包含正确大小的张量以用于集体的输出.
+*   `tensor (Tensor)` – 张量从当前进程中进行广播.
+*   `group (optional)` – 集群的内的小组的名字.
 
 
 
@@ -271,10 +271,10 @@ torch.distributed.gather(tensor, **kwargs)
 
 参数：
 
-*   tensor (Tensor) – 输入的数据.
-*   dst (int) – 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
-*   gather_list (list_[Tensor]_) – 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
-*   group (optional) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 输入的数据.
+*   `dst (int)` – 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
+*   `gather_list (list_[Tensor]_)` – 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
+*   `group (optional)` – 集群的内的小组的名字.
 
 
 
@@ -288,10 +288,10 @@ torch.distributed.scatter(tensor, **kwargs)
 
 参数：
 
-*   tensor (Tensor) – 输出的张量.
-*   src (int) – 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
-*   scatter_list (list_[Tensor]_) – 张量分散的列表. 仅在发送数据的过程中需要.
-*   group (optional) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 输出的张量.
+*   `src (int)` – 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
+*   `scatter_list (list_[Tensor]_)` – 张量分散的列表. 仅在发送数据的过程中需要.
+*   `group (optional)` – 集群的内的小组的名字.
 
 
 
@@ -303,4 +303,4 @@ torch.distributed.barrier(group=<object object>)
 
 这个集群阻塞进程, 直到全部的小组的计算结果都输入进这个函数中.
 
-参数：group (optional) – 集群的内的小组的名字.
+参数：`group (optional)` – 集群的内的小组的名字.
