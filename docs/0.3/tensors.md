@@ -91,7 +91,7 @@ class torch.Tensor(storage)
 
 可以通过提供大小或者数据来创建一个新的 tensor 对象.
 
-如果没有提供参数, 将返回一个空的零维的 tensor. 如果提供了 `numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)"), [`torch.Tensor`, 或者 `torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象. 如果提供一个 Python 序列(sequence)作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
+如果没有提供参数, 将返回一个空的零维的 tensor. 如果提供了 `numpy.ndarray`, `torch.Tensor`, 或者 `torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象. 如果提供一个 Python 序列 (sequence) 作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
 
 ```py
 abs() → Tensor
