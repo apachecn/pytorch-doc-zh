@@ -99,7 +99,7 @@ class FaceLandmarksDataset(Dataset):
  Args:
  csv_file (string): 带有标记点的csv文件路径
  root_dir (string): 图片路径
- transform (callable, optional):可选择进行的图像变换
+ transform (callable, 可选):可选择进行的图像变换
  """
         self.landmarks_frame = pd.read_csv(csv_file)
         self.root_dir = root_dir

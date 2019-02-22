@@ -1,6 +1,6 @@
 # Multiprocessing package - torch.multiprocessing
 
-torch.multiprocessing 是本地 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.6)") 多进程处理模块的一个 wrapper（包装器）. 它通过注册自定义的 reducers（缩减器）, 使用共享内存来提供不同进程中相同数据的共享视图. 一旦 tensor/storage（张量/存储）移动到共享内存 (请参阅 [`share_memory_()`](tensors.html#torch.Tensor.share_memory_ "torch.Tensor.share_memory_")), 就可以将其发送到其他进程而不做任何复制.
+torch.multiprocessing 是本地 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing) 多进程处理模块的一个 wrapper（包装器）. 它通过注册自定义的 reducers（缩减器）, 使用共享内存来提供不同进程中相同数据的共享视图. 一旦 tensor/storage（张量/存储）移动到共享内存 (请参阅 [`share_memory_()`](tensors.html#torch.Tensor.share_memory_ "torch.Tensor.share_memory_")), 就可以将其发送到其他进程而不做任何复制.
 
 该 API 与原始模块 100% 兼容 - 只需将 `import multiprocessing` 更改为 `import torch.multiprocessing` 就 可以将所有张量通过队列发送, 或通过其它机制共享, 移动到共享内存.
 
@@ -30,12 +30,12 @@ torch.multiprocessing.set_sharing_strategy(new_strategy)
 
 为共享的 CPU 张量来设置策略.
 
-参数：**new_strategy** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – 所选策略的名称. 必须是函数 [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies") 所返回的值之一.
+参数：new_strategy (str) – 所选策略的名称. 必须是函数 [`get_all_sharing_strategies()`](#torch.multiprocessing.get_all_sharing_strategies "torch.multiprocessing.get_all_sharing_strategies") 所返回的值之一.
 
 
 ## 共享 CUDA 张量
 
-在进程之间共享 CUDA 张量仅在 Python 3 中支持, 使用 `spawn` 或 `forkserver` 启动方法. Python 2 中的 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.6)") 只能使用 `fork` 创建子进程, 而中 CUDA 运行时是不支持的.
+在进程之间共享 CUDA 张量仅在 Python 3 中支持, 使用 `spawn` 或 `forkserver` 启动方法. Python 2 中的 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing) 只能使用 `fork` 创建子进程, 而中 CUDA 运行时是不支持的.
 
 Warning
 

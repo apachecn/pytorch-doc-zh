@@ -634,7 +634,7 @@ for t in range(500):
 
 [PyTorch: 变量和autograd](examples_autograd/two_layer_net_autograd.html#sphx-glr-beginner-examples-autograd-two-layer-net-autograd-py)
 
-![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_custom_function_thumb.png](img/541910b14ff1f4153ca61f6bead64788.jpg)
+![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_customfunctionthumb.png](img/541910b14ff1f4153ca61f6bead64788.jpg)
 
 [PyTorch: 定义新的autograd函数](examples_autograd/two_layer_net_custom_function.html#sphx-glr-beginner-examples-autograd-two-layer-net-custom-function-py)
 

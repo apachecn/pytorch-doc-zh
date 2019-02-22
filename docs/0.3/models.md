@@ -79,7 +79,7 @@ torchvision.models.alexnet(pretrained=False, **kwargs)
 
 AlexNet 模型结构论文地址 [“One weird trick…”](https://arxiv.org/abs/1404.5997) .
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ## VGG
@@ -90,7 +90,7 @@ torchvision.models.vgg11(pretrained=False, **kwargs)
 
 VGG 11层模型 (configuration “A”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -99,7 +99,7 @@ torchvision.models.vgg11_bn(pretrained=False, **kwargs)
 
 带有批标准化（batch normalization) 的VGG 11层模型 (configuration “A”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -108,7 +108,7 @@ torchvision.models.vgg13(pretrained=False, **kwargs)
 
 VGG 13层模型 (configuration “B”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -117,7 +117,7 @@ torchvision.models.vgg13_bn(pretrained=False, **kwargs)
 
 带有批标准化（batch normalization) 的 VGG 13层模型 (configuration “B”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -126,7 +126,7 @@ torchvision.models.vgg16(pretrained=False, **kwargs)
 
 VGG 16层模型 (configuration “D”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -135,7 +135,7 @@ torchvision.models.vgg16_bn(pretrained=False, **kwargs)
 
 带有批标准化（batch normalization) 的 VGG 16层模型 (configuration “D”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -144,7 +144,7 @@ torchvision.models.vgg19(pretrained=False, **kwargs)
 
 VGG 19层模型 (configuration “E”)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -153,7 +153,7 @@ torchvision.models.vgg19_bn(pretrained=False, **kwargs)
 
 带有批标准化（batch normalization) 的 VGG 19层模型 (configuration ‘E’)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ## ResNet
@@ -164,7 +164,7 @@ torchvision.models.resnet18(pretrained=False, **kwargs)
 
 构造一个 ResNet-18 模型.
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -173,7 +173,7 @@ torchvision.models.resnet34(pretrained=False, **kwargs)
 
 构造一个 ResNet-34 模型.
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -182,7 +182,7 @@ torchvision.models.resnet50(pretrained=False, **kwargs)
 
 构造一个 ResNet-50 模型.
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -191,7 +191,7 @@ torchvision.models.resnet101(pretrained=False, **kwargs)
 
 构造一个 ResNet-101 模型.
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -200,7 +200,7 @@ torchvision.models.resnet152(pretrained=False, **kwargs)
 
 构造一个 ResNet-152 模型.
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ## SqueezeNet
@@ -211,7 +211,7 @@ torchvision.models.squeezenet1_0(pretrained=False, **kwargs)
 
 SqueezeNet 模型结构源于论文: [“SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and &lt;0.5MB model size”](https://arxiv.org/abs/1602.07360)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -220,7 +220,7 @@ torchvision.models.squeezenet1_1(pretrained=False, **kwargs)
 
 SqueezeNet 1.1 模型源于论文: [official SqueezeNet repo](https://github.com/DeepScale/SqueezeNet/tree/master/SqueezeNet_v1.1). SqueezeNet 1.1 比 SqueezeNet 1.0 减少了 2.4倍的运算量, 并在不损伤准确率的基础上减少了少许参数.
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ## DenseNet
@@ -231,7 +231,7 @@ torchvision.models.densenet121(pretrained=False, **kwargs)
 
 Densenet-121 模型源自于: [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -240,7 +240,7 @@ torchvision.models.densenet169(pretrained=False, **kwargs)
 
 Densenet-169 模型源自于: [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -249,7 +249,7 @@ torchvision.models.densenet161(pretrained=False, **kwargs)
 
 Densenet-161 模型源自于: [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ```py
@@ -258,7 +258,7 @@ torchvision.models.densenet201(pretrained=False, **kwargs)
 
 Densenet-201 模型源自于: [“Densely Connected Convolutional Networks”](https://arxiv.org/pdf/1608.06993.pdf)
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
 
 
 ## Inception v3
@@ -269,4 +269,4 @@ torchvision.models.inception_v3(pretrained=False, **kwargs)
 
 Inception v3 模型结构源自于 [“Rethinking the Inception Architecture for Computer Vision”](http://arxiv.org/abs/1512.00567).
 
-参数：**pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – True, 返回一个在 ImageNet 上预训练的模型.
+参数：pretrained (bool) – True, 返回一个在 ImageNet 上预训练的模型.
