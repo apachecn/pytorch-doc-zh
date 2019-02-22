@@ -10,7 +10,7 @@ torch.multiprocessing 是本地 [`multiprocessing`](https://docs.python.org/3/li
 
 由于 API 的相似性, 我们没有记录大部分这个包的内容, 我们参考引用原始模块中非常优秀的文档.
 
-Warning
+警告：
 
 如果主进程突然退出 (例如, 由于传入的信号) , Python 的多进程有时无法清理其子进程. 这是一个已知的警告, 所以如果你在中断解释器之后发现任何资源泄漏, 这可能意味着这只是发生在你身上.
 
@@ -41,7 +41,7 @@ torch.multiprocessing.set_sharing_strategy(new_strategy)
 
 在进程之间共享 CUDA 张量仅在 Python 3 中支持, 使用 `spawn` 或 `forkserver` 启动方法. Python 2 中的 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing) 只能使用 `fork` 创建子进程, 而中 CUDA 运行时是不支持的.
 
-Warning
+警告：
 
 CUDA API 要求输出到其他进程的分配保持有效, 只要它们被它们使用. 您应该注意, 并确保您共享的 CUDA 张量不会超出范围, 在有必要的情况下. 这不应该是共享模型参数的问题, 而是应该小心地传递其他类型的数据. 请注意, 此限制不适用于共享 CPU 内存.
 

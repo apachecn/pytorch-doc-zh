@@ -262,11 +262,11 @@ class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad
 
 实现 L-BFGS 算法.
 
-Warning
+警告：
 
 这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
 
-Warning
+警告：
 
 目前所有的参数不得不都在同一设备上. 这在将来会得到改进.
 
@@ -337,7 +337,7 @@ Nesterov 动量基于 [On the importance of initialization and momentum in deep 
 
 Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float): 学习率 * momentum (float, 可选): 动量因子 (默认值: 0) * weight_decay (float, 可选): 权重衰减 (L2 正则化) (默认值: 0) * dampening (float, 可选): 动量的抑制因子 (默认值: 0) * nesterov (bool, 可选): 使用 Nesterov 动量 (默认值: False)
 
-Example
+示例：
 
 ```py
 >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
@@ -385,7 +385,7 @@ class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)
 
 Args: * optimizer (Optimizer): 封装好的优化器. * lr_lambda (function or list): 计算给定整数参数历元的乘法因子的函数, 或者一系列的此类函数, 每组的一个都在 optimizer.param_groups 中. * last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
-Example
+示例：
 
 ```py
 >>> # Assuming optimizer has two groups.
@@ -407,7 +407,7 @@ class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoc
 
 Args: * optimizer (Optimizer): 封装好的优化器. * step_size (int): 学习率衰减周期. * gamma (float): 学习率衰减的乘法因子. 默认值: 0.1. * last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
-Example
+示例：
 
 ```py
 >>> # Assuming optimizer uses lr = 0.5 for all groups
@@ -435,7 +435,7 @@ Args: * optimizer (Optimizer): 封装好的优化器. * milestones (list): epoch
 
 *   `last_epoch (int)`: 最后一个 epoch 的索引. 默认值: -1.
 
-Example
+示例：
 
 ```py
 >>> # Assuming optimizer uses lr = 0.5 for all groups
@@ -476,7 +476,7 @@ Args: * optimizer (Optimizer): 封装好的优化器.
 *   `min_lr (float or list)`: 一个列表的标量.所有参数组或每个组的学习率下限. 默认值: 0.
 *   `eps (float)`: lr 最小的衰减值适应于. 如果新 lr 和旧 lr 之间的差异小于 eps,更新可以忽略. 默认值: 1e-8.
 
-Example
+示例：
 
 ```py
 >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)

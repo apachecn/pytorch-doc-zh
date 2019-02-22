@@ -16,7 +16,7 @@
 
 只有 Python 3 支持使用 `spawn` 或 `forkserver` 启动方法在进程中共享 CUDA 向量. [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing) 在 Python 2 使用 `fork` 只能创建子进程, 但是在 CUDA 运行时不被支持.
 
-Warning
+警告：
 
 CUDA API 要求被导出到其他进程的分配只要被使用, 就要一直保持有效. 您应该小心, 确保您共享的CUDA张量只要有必要就不要超出范围. 这不是共享模型参数的问题, 但传递其他类型的数据应该小心. 注意, 此限制不适用于共享 CPU 内存.
 
@@ -40,7 +40,7 @@ CUDA API 要求被导出到其他进程的分配只要被使用, 就要一直保
 
 我们建议使用 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue) 来在进程之间传输各种 PyTorch 对象. 例如, 当使用 `fork` 启动方法, 有可能会继承共享内存中的张量和存储量. 但这是非常容易出错的, 应谨慎使用, 最好是成为深度用户以后, 再使用这个方法. 队列虽然有时是一个较不优雅的解决方案, 但基本上能在所有情况下都正常工作.
 
-Warning
+警告：
 
 当使用全局的声明时, 你应该注意, 因为它们没有被 `if __name__ == '__main__'` 限制. 如果使用与 `fork` 不同的启动方法, 它们将在所有子进程中被执行.
 

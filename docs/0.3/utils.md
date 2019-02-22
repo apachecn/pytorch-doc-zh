@@ -22,7 +22,7 @@ torchvision.utils.make_grid(tensor, nrow=8, padding=2, normalize=False, range=No
 
 
 
-Example
+示例：
 
 请参阅 [这里](https://gist.github.com/anonymous/bf16430f7750c023141c562f3e9f2a91) 的手册
 

@@ -480,7 +480,7 @@ element_size() → int
 
 返回单个元素的字节大小.
 
-Example
+示例：
 
 ```py
 >>> torch.FloatTensor().element_size()
@@ -555,7 +555,7 @@ Tensor 也可以扩展到一个很大的维数, 新添加的维度将放在前�
 参数：`sizes (torch.Size 或 int...)` – 期望扩展的大小
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([[1], [2], [3]])
@@ -740,7 +740,7 @@ index_add_(dim, index, tensor) → Tensor
 
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
@@ -769,7 +769,7 @@ index_copy_(dim, index, tensor) → Tensor
 
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor(3, 3)
@@ -798,7 +798,7 @@ index_fill_(dim, index, val) → Tensor
 
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -1067,7 +1067,7 @@ narrow(dimension, start, length) → Tensor
 
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -1176,7 +1176,7 @@ permute(*dims)
 参数：`*dims (int...)` – 按所期望的维数排序
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.randn(2, 3, 5)
@@ -1322,7 +1322,7 @@ repeat(*sizes)
 参数：`*sizes (torch.Size 或 int...)` – 沿每个维度重复 tensor 的次数
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([1, 2, 3])
@@ -1346,7 +1346,7 @@ resize_(*sizes)
 参数：`*sizes (torch.Size 或 int...)` – 期望的大小
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2], [3, 4], [5, 6]])
@@ -1537,7 +1537,7 @@ size() → torch.Size
 
 返回 tensor 的大小. 返回的值是 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple) 的子类.
 
-Example
+示例：
 
 ```py
 >>> torch.Tensor(3, 4, 5).size()
@@ -1601,7 +1601,7 @@ storage_offset() → int
 
 按照储存元素个数的偏移返回 tensor 在底层存储中的偏移量(不是按照字节计算).
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([1, 2, 3, 4, 5])
@@ -1623,7 +1623,7 @@ stride(dim) → tuple or int
 参数：`dim (int)` – 期望的需要计算步长的维度.
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -1899,7 +1899,7 @@ view(*args) → Tensor
 参数：`args (torch.Size 或 int...)` – 期望的大小
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.randn(4, 4)

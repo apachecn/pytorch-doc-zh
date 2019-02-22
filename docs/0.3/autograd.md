@@ -128,7 +128,7 @@ hook不应该修改它的输入,但是它可以选择性的返回一个替代当
 
 这个函数返回一个 句柄 (handle).它有一个方法 handle.remove(),可以用这个方法将 hook 从 module 移除.
 
-Example
+示例：
 
 ```py
 >>> v = Variable(torch.Tensor([0, 0, 0]), requires_grad=True)
@@ -218,7 +218,7 @@ class torch.autograd.profiler.profile(enabled=True)
 参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. Default: `True`.
 
 
-Example
+示例：
 
 ```py
 >>> x = Variable(torch.randn(1, 1), requires_grad=True)
@@ -299,7 +299,7 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. 默认: `True`.
 
 
-Example
+示例：
 
 ```py
 >>> with torch.cuda.profiler.profile():

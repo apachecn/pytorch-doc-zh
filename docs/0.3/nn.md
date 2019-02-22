@@ -82,7 +82,7 @@ apply(fn)
 
 返回类型：`Module`
 
-Example
+示例：
 
 ```py
 >>> def init_weights(m):
@@ -116,8 +116,7 @@ children()
 
 返回一个最近子模块的 iterator（迭代器）.
 
-| Yields: | _Module_ – 一个子模块 |
-| --- | --- |
+Yields: `Module` – 一个子模块
 
 ```py
 cpu()
@@ -212,8 +211,7 @@ modules()
 
 返回一个覆盖神经网络中所有模块的 iterator（迭代器）.
 
-| Yields: | _Module_ – a module in the network |
-| --- | --- |
+Yields: `Module` – 网络中的一个模块
 
 注解：
 
@@ -238,10 +236,9 @@ named_children()
 
 返回一个 iterator（迭代器）, 而不是最接近的子模块, 产生模块的 name 以及模块本身.
 
-| Yields: | _(string, Module)_ – 包含名称和子模块的 Tuple（元组） |
-| --- | --- |
+Yields: `(string, Module)` – 包含名称和子模块的 Tuple（元组）
 
-Example
+示例：
 
 ```py
 >>> for name, module in model.named_children():
@@ -256,8 +253,7 @@ named_modules(memo=None, prefix='')
 
 返回一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
 
-| Yields: | _(string, Module)_ – 名字和模块的 Tuple（元组） |
-| --- | --- |
+Yields: `(string, Module)` – 名字和模块的 Tuple（元组）
 
 注解：
 
@@ -282,10 +278,9 @@ named_parameters(memo=None, prefix='')
 
 返回模块参数的迭代器, 产生参数的名称以及参数本身
 
-| Yields: | _(string, Parameter)_ – Tuple 包含名称很参数的 Tuple（元组） |
-| --- | --- |
+Yields: `(string, Parameter)` – Tuple 包含名称很参数的 Tuple（元组）
 
-Example
+示例：
 
 ```py
 >>> for name, param in self.named_parameters():
@@ -302,10 +297,9 @@ parameters()
 
 这通常传递给优化器.
 
-| Yields: | _Parameter_ – 模型参数 |
-| --- | --- |
+Yields: `Parameter` – 模型参数
 
-Example
+示例：
 
 ```py
 >>> for param in model.parameters():
@@ -351,7 +345,7 @@ Buffers 可以使用指定的 name 作为属性访问.
 
 
 
-Example
+示例：
 
 ```py
 >>> self.register_buffer('running_mean', torch.zeros(num_features))
@@ -432,7 +426,7 @@ state_dict(destination=None, prefix='', keep_vars=False)
 
 返回类型：`dict`
 
-Example
+示例：
 
 ```py
 >>> module.state_dict().keys()
@@ -3220,7 +3214,7 @@ class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_no
 *   输入：LongTensor `(N, W)`, N = mini-batch, W = 每个 mini-batch 中用来提取的索引数
 *   输出：`(N, W, embedding_dim)`
 
-Notes
+注解：
 
 请注意, 只支持有限数量的优化器. 稀疏梯度: 当前是 (`cuda` 和 `cpu`) 版本的 `optim.SGD`, 和 (`cpu`) 版本的 `optim.Adagrad`.
 
@@ -4220,23 +4214,23 @@ batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍
 
 创建这个类需要分布式包已经在 process group 模式下被初始化 (引用 [`torch.distributed.init_process_group()`](distributed.html#torch.distributed.init_process_group "torch.distributed.init_process_group")).
 
-Warning
+警告：
 
 这个模块只能和``gloo``后端一起工作.
 
-Warning
+警告：
 
 构造器, 转发方法和输出（或者这个模块的输出功能）的区分是分布式同步点.考虑到不同的 进程可能会执行不同的代码.
 
-Warning
+警告：
 
 该模块假设所有参数在创建时都在模型中注册.之后不应该添加或删除参数.同样适用于缓冲区.
 
-Warning
+警告：
 
 这个模块假定所有的缓冲区和梯度都是密集的.
 
-Warning
+警告：
 
 这个模块不能用于 : func: `torch.autograd.grad` （即只有在参数的 `.grad` 属性中 累积梯度才能使用）.
 
@@ -4327,7 +4321,7 @@ torch.nn.utils.remove_weight_norm(module, name='weight')
 
 
 
-Example
+示例：
 
 ```py
 >>> m = weight_norm(nn.Linear(20, 40))

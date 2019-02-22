@@ -316,7 +316,7 @@ torch.range(start, end, step=1, out=None) → Tensor
 
 返回一个在 `start` 到 `end` 并且步长为 `step` 的区间内, 大小为 ![floor((end - start) / step) + 1](img/tex-a8d4b9eb08b29e4455688db33c092ae9.gif) 为一维 Tensor. `step` 是 tensor 中两个值之间的差距. ![x_{i+1} = x_i + step](img/tex-b99fbae9badbed7f3e2e937599966cd4.gif)
 
-Warning
+警告：
 
 此功能已被弃用, 以支持 `torch.arange()`.
 
@@ -852,7 +852,7 @@ torch.unsqueeze(input, dim, out=None)
 
 
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([1, 2, 3, 4])

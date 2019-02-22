@@ -15,7 +15,7 @@ class torchvision.transforms.Compose(transforms)
 参数：`transforms (Transform 对象列表)` – 要组合的变换列表.
 
 
-Example
+示例：
 
 ```py
 >>> transforms.Compose([
@@ -142,7 +142,7 @@ class torchvision.transforms.FiveCrop(size)
 参数：`size (sequence 或 int)` – 期望输出的裁剪尺寸. 如果 `size` 是 `int` 类型的整数, 而不是像 `(h, w)` 这样类型的序列, 裁剪出来的图像是 `(size, size)` 这样的正方形的..
 
 
-Example
+示例：
 
 ```py
 >>> transform = Compose([
@@ -174,7 +174,7 @@ class torchvision.transforms.TenCrop(size, vertical_flip=False)
 
 
 
-Example
+示例：
 
 ```py
 >>> transform = Compose([

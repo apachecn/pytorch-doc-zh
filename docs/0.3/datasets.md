@@ -95,7 +95,7 @@ class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_tr
 
 
 
-Example
+示例：
 
 ```py
 import torchvision.datasets as dset

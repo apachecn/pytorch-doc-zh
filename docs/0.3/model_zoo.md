@@ -20,7 +20,7 @@ torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None)
 
 
 
-Example
+示例：
 
 ```py
 >>> state_dict = torch.utils.model_zoo.load_url('https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth')

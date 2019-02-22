@@ -4,7 +4,7 @@
 > 
 > 校对者：[@Timor](https://github.com/timors)
 
-Warning
+警告：
 
 此 API 目前是实验性的 , 可能会在不久的将来发生变化 .
 

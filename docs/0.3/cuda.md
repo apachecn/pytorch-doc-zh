@@ -132,7 +132,7 @@ torch.cuda.get_rng_state(device=-1)
 参数：`device (int, 可选)` – 设备的 RNG 状态. Default: -1 (i.e., 使用当前设备).
 
 
-Warning
+警告：
 
 函数需要提前初始化 CUDA .
 
@@ -154,7 +154,7 @@ torch.cuda.manual_seed(seed)
 参数：`seed (int 或 long)` – 所需的种子.
 
 
-Warning
+警告：
 
 如果您正在使用多 GPU 模型,则此功能不足以获得确定性. seef作用于所有 GPUs , 使用 `manual_seed_all()` .
 
@@ -173,7 +173,7 @@ torch.cuda.seed()
 
 将用于生成随机数的种子设置为当前 GPU 的随机数. 如果 CUDA 不可用,则调用此函数是安全的. 在那种情况下,会被忽略.
 
-Warning
+警告：
 
 如果您正在使用多 GPU 模型, 则此功能不足以获得确定性. seef作用于所有 GPUs , 使用 `seed_all()`.
 
@@ -189,7 +189,7 @@ torch.cuda.initial_seed()
 
 返回当前 GPU 的当前随机种子.
 
-Warning
+警告：
 
 函数提前初始化 CUDA .
 
