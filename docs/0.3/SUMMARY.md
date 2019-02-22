@@ -28,7 +28,7 @@
             +   [PyTorch介绍](nlp_pytorch_tutorial.md)
             +   [PyTorch深度学习](nlp_deep_learning_tutorial.md)
             +   [词汇嵌入:编码词汇语义](nlp_word_embeddings_tutorial.md)
-            +   [序列模型和 LSTM 网络（长短记忆网络）](nlpsequencemodels_tutorial.md)
+            +   [序列模型和 LSTM 网络（长短记忆网络）](nlp_sequencemodels_tutorial.md)
             +   [高级教程: 作出动态决策和 Bi-LSTM CRF](nlp_advanced_tutorial.md)
     +   [中级教程](intermediate_tutorials.md)
         +   [用字符级RNN分类名称](char_rnn_classification_tutorial.md)
