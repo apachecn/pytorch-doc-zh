@@ -122,10 +122,8 @@ class torch.distributions.Normal(mean, std)
 
 ```
 
-| Parameters: | 
+参数：
 
 *   **mean** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 分布的均值
 *   **std** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 分布的标准差
 
- |
-| --- | --- |

@@ -44,13 +44,12 @@ cuda(device=None, async=False)
 
 如果此对象已经在 CUDA 内存中并且在正确的设备上 , 那么不会执行复制操作 , 直接返回原对象 .
 
-| Parameters: | 
+参数：
 
 *   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 目标 GPU 的 id . 默认值是当前设备 .
 *   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果为 `True` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 否则此参数不起效果 .
 
- |
-| --- | --- |
+
 
 ```py
 data_ptr()
@@ -88,14 +87,13 @@ from_file(filename, shared=False, size=0) → Storage
 
 size 是存储中所包含的元素个数 . 如果 shared 为 False 则文件必须包含至少 `size * sizeof(Type)` 字节 ( `Type` 是所存储的类型) . 如果 shared 为 True , 文件会在需要的时候被创建 .
 
-| Parameters: | 
+参数：
 
 *   **filename** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – 要映射到的文件名
 *   **shared** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 是否共享内存
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 存储中包含元素的个数
 
- |
-| --- | --- |
+
 
 ```py
 half()
@@ -175,10 +173,8 @@ type(new_type=None, async=False)
 
 如果已经是正确的类型 , 则不执行复制并直接返回原对象 .
 
-| Parameters: | 
+参数：
 
 *   **new_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.6)") _or_ [_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 期望的类型
 *   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果为 `True` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 .
 
- |
-| --- | --- |

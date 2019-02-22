@@ -12,13 +12,12 @@ Parameters 是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autogra
 
 Variable 与 Parameter 的另一个不同之处在于, Parameter 不能被 volatile (即: 无法设置 volatile=True) 而且默认 requires_grad=True. Variable 默认 requires_grad=False.
 
-| Parameters: | 
+参数：
 
 *   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – parameter tensor.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果参数需要梯度. 更多细节请参阅 [反向排除 subgraphs (子图)](notes/autograd.html#excluding-subgraphs).
 
- |
-| --- | --- |
+
 
 ## Containers (容器)
 
@@ -60,13 +59,12 @@ add_module(name, module)
 
 被添加的 module 还可以通过指定的 name 属性来获取它.
 
-| Parameters: | 
+参数：
 
 *   **name** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 子模块的名称. 可以使用指定的 name 从该模块访问子模块
 *   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – 被添加到模块的子模块.
 
- |
-| --- | --- |
+
 
 ```py
 apply(fn)
@@ -203,13 +201,12 @@ load_state_dict(state_dict, strict=True)
 
 将 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 中的 parameters 和 buffers 复制到此模块和它的子后代中. 如果 `strict` 为 `True`, 则 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 的 key 必须和模块的 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 函数返回的 key 一致.
 
-| Parameters: | 
+参数：
 
 *   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 一个包含 parameters 和 persistent buffers（持久化缓存的）字典.
 *   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 严格的强制 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 属性中的 key 与该模块的函数 `:func:`state_dict()` 返回的 keys 相匹配.
 
- |
-| --- | --- |
+
 
 ```py
 modules()
@@ -350,13 +347,12 @@ register_buffer(name, tensor)
 
 Buffers 可以使用指定的 name 作为属性访问.
 
-| Parameters: | 
+参数：
 
 *   **name** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – buffer 的名称. 可以使用指定的 name 从该模块访问 buffer
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 被注册的 buffer.
 
- |
-| --- | --- |
+
 
 Example
 
@@ -413,13 +409,12 @@ register_parameter(name, param)
 
 可以使用指定的 name 属性来访问参数.
 
-| Parameters: | 
+参数：
 
 *   **name** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 参数名. 可以使用指定的 name 来从该模块中访问参数
 *   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要被添加到模块的参数.
 
- |
-| --- | --- |
+
 
 ```py
 state_dict(destination=None, prefix='', keep_vars=False)
@@ -431,14 +426,13 @@ state_dict(destination=None, prefix='', keep_vars=False)
 
 当 keep_vars 为 `True` 时, 它为每一个参数（而不是一个张量）返回一个 Variable.
 
-| Parameters: | 
+参数：
 
 *   **destination** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")_,_ _optional_) – 如果不是 None, 该返回的字典应该被存储到 destination 中. Default: None
 *   **prefix** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")_,_ _optional_) – 向结果字典中的每个参数和缓冲区的 key（名称）添加一个前缀. Default: ‘’
 *   **keep_vars** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果为 `True`, 为每一个参数返回一个 Variable. 如果为 `False`, 为每一个参数返回一个 Tensor. Default: `False`
 
- |
-| --- | --- |
+
 返回值：包含模块整体状态的字典
 
 | Return type: | [dict](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)") |
@@ -631,7 +625,7 @@ Note
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
-| Parameters: | 
+参数：
 
 *   **in_channels** (_-_) – 输入信号的通道数.
 *   **out_channels** (_-_) – 卷积后输出结果的通道数.
@@ -642,8 +636,7 @@ Note
 *   **groups** (_-_) – 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
 *   **bias** (_-_) – 为 `True` 时, 添加偏置.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -655,8 +648,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为 (out_channels, in_channels, kernel_size)
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -694,7 +686,7 @@ Note
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
-| Parameters: | 
+参数：
 
 *   **in_channels** (_-_) – 输入信号的通道数.
 *   **out_channels** (_-_) – 卷积后输出结果的通道数.
@@ -705,8 +697,7 @@ Note
 *   **groups** (_-_) – 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
 *   **bias** (_-_) – 为 `True` 时, 添加偏置.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -718,8 +709,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为 (out_channels, in_channels, kernel_size[0], kernel_size[1])
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -762,7 +752,7 @@ Note
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
-| Parameters: | 
+参数：
 
 *   **in_channels** (_-_) – 输入信号的通道数.
 *   **out_channels** (_-_) – 卷积后输出结果的通道数.
@@ -773,8 +763,7 @@ Note
 *   **groups** (_-_) – 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
 *   **bias** (_-_) – 为 `True` 时, 添加偏置.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -786,8 +775,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为 (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2])
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -819,7 +807,7 @@ Note
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
-| Parameters: | 
+参数：
 
 *   **in_channels** (_-_) – 输入信号的通道数.
 *   **out_channels** (_-_) – 卷积后输出结果的通道数.
@@ -833,8 +821,7 @@ Note
 *   **bias** (_-_) – 为 `True` 时, 添加偏置.
 *   **dilation** (_-_) – 采样间隔数量, 默认为1, 无间隔采样.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -846,8 +833,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为 (in_channels, out_channels, kernel_size[0], kernel_size[1])
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
- |
-| --- | --- |
+
 
 ### ConvTranspose2d
 
@@ -872,7 +858,7 @@ Note
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
-| Parameters: | 
+参数：
 
 *   **in_channels** (_-_) – 输入信号的通道数.
 *   **out_channels** (_-_) – 卷积后输出结果的通道数.
@@ -886,8 +872,7 @@ Note
 *   **bias** (_-_) – 为 `True` 时, 添加偏置.
 *   **dilation** (_-_) – 采样间隔数量, 默认为1, 无间隔采样.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -899,8 +884,7 @@ Shape:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为weight (Tensor): 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为 (in_channels, out_channels, kernel_size[0], kernel_size[1])
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -947,7 +931,7 @@ Note
 
 数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
-| Parameters: | 
+参数：
 
 *   **in_channels** (_-_) – 输入信号的通道数.
 *   **out_channels** (_-_) – 卷积后输出结果的通道数.
@@ -961,8 +945,7 @@ Note
 *   **bias** (_-_) – 为 `True` 时, 添加偏置.
 *   **dilation** (_-_) – 采样间隔数量, 默认为1, 无间隔采样.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -974,8 +957,7 @@ Shape:
 *   **是模型需要学习的变量, 形状为weight** (_卷积网络层间连接的权重__,_) – 卷积网络层间连接的权重, 是模型需要学习的变量, 形状为 (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2])
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 偏置, 是模型需要学习的变量, 形状为 (out_channels)
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -1005,7 +987,7 @@ class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return
 
 如果 `padding` 不是0,那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点`dilation` 用于控制内核点之间的间隔, [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) 很好地可视化展示了 `dilation` 的功能
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 最大池化操作时的窗口大小
 *   **stride** – 最大池化操作时窗口移动的步长, 默认值是 `kernel_size`
@@ -1014,8 +996,7 @@ class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return
 *   **return_indices** – 如果等于 `True`, 在返回 max pooling 结果的同时返回最大值的索引. 这在之后的 Unpooling 时很有用
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1051,7 +1032,7 @@ class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return
 > *   单个 `int` 类型数据 – 此时在 height 和 width 维度上将使用相同的值
 > *   包含两个 int 类型数据的 `tuple` 元组 – 此时第一个 `int` 数据表示 height 维度上的数值, 第二个 `int` 数据表示 width 维度上的数值
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 最大池化操作时的窗口大小
 *   **stride** – 最大池化操作时窗口移动的步长, 默认值是 `kernel_size`
@@ -1060,8 +1041,7 @@ class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return
 *   **return_indices** – 如果等于 `True`, 在返回 max pooling 结果的同时返回最大值的索引 这在之后的 Unpooling 时很有用
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1099,7 +1079,7 @@ class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return
 > *   单个 `int` 类型数据 – 此时在 depth, height 和 width 维度上将使用相同的值
 > *   包含三个 int 类型数据的 `tuple` 元组 – 此时第一个 `int` 数据表示 depth 维度上的数值, 第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 最大池化操作时的窗口大小
 *   **stride** – 最大池化操作时窗口移动的步长, 默认值是 `kernel_size`
@@ -1108,8 +1088,7 @@ class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return
 *   **return_indices** – 如果等于 `True`, 在返回 max pooling 结果的同时返回最大值的索引 这在之后的 Unpooling 时很有用
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1146,14 +1125,13 @@ Note
 
 � 具体用法,请参阅下面的输入和示例
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 最大池化操作时的窗口大小
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 最大池化操作时窗口移动的步长, 默认值是 `kernel_size`
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 输入的每条边填充0值的个数
 
- |
-| --- | --- |
+
 
 Inputs:
 
@@ -1214,14 +1192,13 @@ Note
 
 � 具体用法,请参阅下面的输入和示例
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 最大池化操作时的窗口大小
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 最大池化操作时窗口移动的步长, 默认值是 `kernel_size`
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 输入的每条边填充0值的个数
 
- |
-| --- | --- |
+
 
 Inputs:
 
@@ -1282,14 +1259,13 @@ Note
 
 � 具体用法,请参阅下面的输入和示例
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 最大池化操作时的窗口大小
 *   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 最大池化操作时窗口移动的步长, 默认值是 `kernel_size`
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 输入的每条边填充0值的个数
 
- |
-| --- | --- |
+
 
 Inputs:
 
@@ -1331,7 +1307,7 @@ class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 
 参数 `kernel_size`, `stride`, `padding` 可以为单个 `int` 类型的数据 或者是一个单元素的tuple元组
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 平均池化操作时取平均值的窗口的大小
 *   **stride** – 平均池化操作时窗口移动的步长, 默认值是 `kernel_size`
@@ -1339,8 +1315,7 @@ class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 *   **count_include_pad** – 如果等于 `True`, 在计算平均池化的值时,将考虑 `padding` 填充的0
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1379,7 +1354,7 @@ class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 > *   单个 `int` 类型数据 – 此时在 height 和 width 维度上将使用相同的值
 > *   包含两个 int 类型数据的 `tuple` 元组 – 此时第一个 `int` 数据表示 height 维度上的数值, 第二个 `int` 数据表示 width 维度上的数值
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 平均池化操作时取平均值的窗口的大小
 *   **stride** – 平均池化操作时窗口移动的步长, 默认值是 `kernel_size`
@@ -1387,8 +1362,7 @@ class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 *   **count_include_pad** – 如果等于 `True`, 在计算平均池化的值时,将考虑 `padding` 填充的0
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1426,7 +1400,7 @@ class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 > *   单个 `int` 类型数据 – 此时在 depth, height 和 width 维度上将使用相同的值
 > *   包含三个 int 类型数据的 `tuple` 元组 – 此时第一个 `int` 数据表示 depth 维度上的数值, 第二个 `int` 数据表示 height 维度上的数值,第三个 `int` 数据表示 width 维度上的数值
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 平均池化操作时取平均值的窗口的大小
 *   **stride** – 平均池化操作时窗口移动的步长, 默认值是 `kernel_size`
@@ -1434,8 +1408,7 @@ class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 *   **count_include_pad** – 如果等于 `True`, 在计算平均池化的值时,将考虑 `padding` 填充的0
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1466,15 +1439,14 @@ class torch.nn.FractionalMaxPool2d(kernel_size, output_size=None, output_ratio=N
 
 由目标输出大小确定随机步长,在 kH x kW 区域内进行最大池化的操作 输出特征的数量与输入通道的数量相同
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 最大池化操作时窗口的大小. 可以是单个数字 k (等价于 k x k 的正方形窗口) 或者是 一个元组 tuple (kh x kw)
 *   **output_size** – oH x oW 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (oH, oW) 表示 oH x oW 的输出尺寸, 或者是单个的数字 oH 表示 oH x oH 的输出尺寸
 *   **output_ratio** – 如果想用输入图像的百分比来指定输出图像的大小,可选用该选项. 使用范围在 (0,1) 之间的一个值来指定.
 *   **return_indices** – 如果等于 `True`,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool2d 有用. 默认情况下该值等于 `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -1506,14 +1478,13 @@ class torch.nn.LPPool2d(norm_type, kernel_size, stride=None, ceil_mode=False)
 > *   单个 `int` 类型数据 – 此时在height和width维度上将使用相同的值
 > *   包含两个 int 类型数据的 `tuple` 元组 – 此时第一个 `int` 数据表示 height 维度上的数值, 第二个 `int` 数据表示 width 维度上的数值
 
-| Parameters: | 
+参数：
 
 *   **kernel_size** – 幂平均池化时窗口的大小
 *   **stride** – 幂平均池化操作时窗口移动的步长, 默认值是 `kernel_size`
 *   **ceil_mode** – 如果等于 `True`, 在计算输出大小时,将采用向上取整来代替默认的向下取整的方式
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1542,13 +1513,12 @@ class torch.nn.AdaptiveMaxPool1d(output_size, return_indices=False)
 
 对于任意大小的输入,可以指定输出的尺寸为 H 输出特征的数量与输入通道的数量相同.
 
-| Parameters: | 
+参数：
 
 *   **output_size** – 目标输出的尺寸 H
 *   **return_indices** – 如果等于 `True`,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool1d 有用. 默认情况下该值等于 `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -1570,13 +1540,12 @@ class torch.nn.AdaptiveMaxPool2d(output_size, return_indices=False)
 
 对于任意大小的输入,可以指定输出的尺寸为 H x W 输出特征的数量与输入通道的数量相同.
 
-| Parameters: | 
+参数：
 
 *   **output_size** – H x W 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (H, W) 表示 H x W 的输出尺寸, 或者是单个的数字 H 表示 H x H 的输出尺寸
 *   **return_indices** – 如果等于 `True`,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool2d 有用. 默认情况下该值等于 `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -1602,13 +1571,12 @@ class torch.nn.AdaptiveMaxPool3d(output_size, return_indices=False)
 
 对于任意大小的输入,可以指定输出的尺寸为 D x H x W 输出特征的数量与输入通道的数量相同.
 
-| Parameters: | 
+参数：
 
 *   **output_size** – D x H x W 形式的输出图像的尺寸. 可以用 一个 tuple 元组 (D, H, W) 表示 D x H x W 的输出尺寸, 或者是单个的数字 D 表示 D x D x D 的输出尺寸
 *   **return_indices** – 如果等于 `True`,在返回输出结果的同时返回最大值的索引,该索引对 nn.MaxUnpool3d 有用. 默认情况下该值等于 `False`
 
- |
-| --- | --- |
+
 
 Examples
 
@@ -1711,13 +1679,12 @@ class torch.nn.ReflectionPad2d(padding)
 
 使用输入边界的反射填充输入张量.
 
-| Parameters: | 
+参数：
 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充的大小. 如果是int, 则在所有边界填充使用相同的.
 *   **则使用** (_如果是4个元组__,_) –
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1772,14 +1739,13 @@ class torch.nn.ReplicationPad3d(padding)
 
 使用输入边界的复制填充输入张量.
 
-| Parameters: | 
+参数：
 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充的大小. 如果是int, 则在所有边界使用相同的填充.
 *   **则使用 (paddingLeft, paddingRight,** (_如果是四个元组__,_) –
 *   **paddingBottom, paddingFront, paddingBack)** (_paddingTop__,_) –
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1806,13 +1772,12 @@ class torch.nn.ZeroPad2d(padding)
 
 用零填充输入张量边界.
 
-| Parameters: | 
+参数：
 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充的大小. 如果是int, 则在所有边界使用相同的填充.
 *   **如果是四个元组, 则使用** () –
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1841,13 +1806,12 @@ class torch.nn.ConstantPad2d(padding, value)
 
 对于 Nd-padding, 使用 nn.functional.pad().
 
-| Parameters: | 
+参数：
 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充的大小. 如果是int, 则在所有边界使用相同的填充.
 *   **使用** (_如果是4个元组__,_) –
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1928,13 +1892,12 @@ class torch.nn.ELU(alpha=1.0, inplace=False)
 
 对输入的每一个元素运用函数, ![f(x) = max(0,x) + min(0, alpha * (exp(x) - 1))](img/tex-41cc8dcdf01c5ef5ba2584557d879fa6.gif)
 
-| Parameters: | 
+参数：
 
 *   **alpha** – ELU 定义公式中的 alpha 值. 默认值: 1.0
 *   **inplace** – 选择是否进行覆盖运算 默认值: `False`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -1991,13 +1954,12 @@ Note
 
 当为了表现更佳的模型而学习参数 “a” 时不要使用权重衰减 (weight decay)
 
-| Parameters: | 
+参数：
 
 *   **num_parameters** – 需要学习的 “a” 的个数. 默认等于1
 *   **init** – “a” 的初始值. 默认等于0.25
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2022,13 +1984,12 @@ class torch.nn.LeakyReLU(negative_slope=0.01, inplace=False)
 
 对输入的每一个元素运用, ![f(x) = max(0, x) + {negative\_slope} * min(0, x)](img/tex-82e596913d879999b551a54f1e7b1d62.gif)
 
-| Parameters: | 
+参数：
 
 *   **negative_slope** – 控制负斜率的角度, 默认值: 1e-2
 *   **inplace** – 选择是否进行覆盖运算 默认值: `False`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2061,14 +2022,13 @@ y =  x        if x >  threshold
 
 ```
 
-| Parameters: | 
+参数：
 
 *   **threshold** – 阈值
 *   **value** – 输入值小于阈值则会被 value 代替
 *   **inplace** – 选择是否进行覆盖运算. 默认值: `False`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2104,14 +2064,13 @@ f(x) =  x,  otherwise
 
 线性区域的范围 ![[-1, 1]](img/tex-7dec1d46e68831c4eca28b020fcb1604.gif) 可以被调整
 
-| Parameters: | 
+参数：
 
 *   **min_val** – 线性区域范围最小值. 默认值: -1
 *   **max_val** – 线性区域范围最大值. 默认值: 1
 *   **inplace** – 选择是否进行覆盖运算. 默认值: `False`
 
- |
-| --- | --- |
+
 
 关键字参数 `min_value` 以及 `max_value` 已被弃用. 更改为 `min_val` 和 `max_val`
 
@@ -2211,13 +2170,12 @@ Softplus 函数是ReLU函数的平滑逼近. Softplus 函数可以使得输出�
 
 为了保证数值稳定性. 线性函数的转换可以使输出大于某个值.
 
-| Parameters: | 
+参数：
 
 *   **beta** – Softplus 公式中的 beta 值. 默认值: 1
 *   **threshold** – 阈值. 当输入到该值以上时我们的SoftPlus实现将还原为线性函数. 默认值: 20
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2455,15 +2413,14 @@ class torch.nn.BatchNorm1d(num_features, eps=1e-05, momentum=0.1, affine=True)
 
 BatchNorm 在 ‘C’ 维上处理,即 ‘(N,L)’ 部分运行,被称作 ‘Temporal BatchNorm’
 
-| Parameters: | 
+参数：
 
 *   **num_features** – 预期输入的特征数,大小为 ‘batch_size x num_features [x width]’
 *   **eps** – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   **momentum** – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   **affine** – 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2500,15 +2457,14 @@ class torch.nn.BatchNorm2d(num_features, eps=1e-05, momentum=0.1, affine=True)
 
 BatchNorm 在 ‘C’ 维上处理,即 ‘(N, H, W)’ 部分运行,被称作 ‘Spatial BatchNorm’.
 
-| Parameters: | 
+参数：
 
 *   **num_features** – 预期输入的特征数,大小为 ‘batch_size x num_features x height x width’
 *   **eps** – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   **momentum** – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   **affine** – 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2545,15 +2501,14 @@ class torch.nn.BatchNorm3d(num_features, eps=1e-05, momentum=0.1, affine=True)
 
 BatchNorm 在 ‘C’ 维上处理,即 ‘(N, D, H, W)’ 部分运行,被称作 ‘Volumetric BatchNorm’ 或者 ‘Spatio-temporal BatchNorm’
 
-| Parameters: | 
+参数：
 
 *   **num_features** – 预期输入的特征数,大小为 ‘batch_size x num_features x depth x height x width’
 *   **eps** – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   **momentum** – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   **affine** – 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2591,15 +2546,14 @@ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
 在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据, 但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
-| Parameters: | 
+参数：
 
 *   **num_features** – 预期输入的特征数,大小为 ‘batch_size x num_features x width’
 *   **eps** – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   **momentum** – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   **affine** – 布尔值,设为 `True` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 `False`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2637,15 +2591,14 @@ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
 在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据, 但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
-| Parameters: | 
+参数：
 
 *   **num_features** – 预期输入的特征数,大小为 ‘batch_size x num_features x height x width’
 *   **eps** – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   **momentum** – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   **affine** – 布尔值,设为 `True` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 `False`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2683,15 +2636,14 @@ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
 在验证时 (`.eval()`),InstanceNorm 模型默认保持不变,即求得的均值/方差不用于标准化验证数据, 但可以用 `.train(False)` 方法强制使用存储的均值和方差.
 
-| Parameters: | 
+参数：
 
 *   **num_features** – 预期输入的特征数,大小为 ‘batch_size x num_features x depth x height x width’
 *   **eps** – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   **momentum** – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   **affine** – 布尔值,设为 `True` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 `False`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -2726,7 +2678,7 @@ class torch.nn.RNN(*args, **kwargs)
 
 这里 ![h_t](img/tex-6c4ff69dbcc329835a33b80fe3a145c7.gif) 是当前在时刻 `t` 的隐状态, 并且 ![x_t](img/tex-cf7ee950cf61a6003c0ec4af7971d8a8.gif) 是之前一层在 `t` 时刻的隐状态, 或者是第一层的输入. 如果 `nonlinearity='relu'` ,那么将使用 relu 代替 tanh 作为激活函数.
 
-| Parameters: | 
+参数：
 
 *   **input_size** – 输入 x 的特征数量
 *   **hidden_size** – 隐状态 `h` 中的特征数量
@@ -2737,8 +2689,7 @@ class torch.nn.RNN(*args, **kwargs)
 *   **dropout** – 如果值非零, 那么除了最后一层外, 其它层的输出都会套上一个 `dropout` 层
 *   **bidirectional** – 如果 `True` , 将会变成一个双向 RNN, 默认为 `False`
 
- |
-| --- | --- |
+
 
 Inputs: input, h_0
 
@@ -2757,8 +2708,7 @@ Outputs: output, h_n
 *   **bias_ih_l[k]** – 第 k 层的 input-hidden 偏置, 可学习, shape 是 `(hidden_size)`
 *   **bias_hh_l[k]** – 第 k 层的 hidden-hidden 偏置, 可学习, shape 是 `(hidden_size)`
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -2784,7 +2734,7 @@ class torch.nn.LSTM(*args, **kwargs)
 
 这里 ![h_t](img/tex-6c4ff69dbcc329835a33b80fe3a145c7.gif) 是在时刻 `t` 的隐状态, ![c_t](img/tex-da6834ea306c993ae190d8ac693a25f0.gif) 是在时刻 `t` 的细胞状态 (cell state), ![x_t](img/tex-cf7ee950cf61a6003c0ec4af7971d8a8.gif) 是上一层的在时刻 `t` 的隐状态或者是第一层的 ![input_t](img/tex-bbcb26ab6bab8f51269870e0abcec697.gif) , 而 ![i_t](img/tex-56e99db17308c13a71cfc5da5a3165df.gif), ![f_t](img/tex-bae155438877126b42cbddee193c048a.gif), ![g_t](img/tex-f752008a78c8519e9f8f178faf0b87ed.gif), ![o_t](img/tex-2b2a0a4b3fbc78a61cec549a40912932.gif) 分别代表 输入门,遗忘门,细胞和输出门.
 
-| Parameters: | 
+参数：
 
 *   **input_size** – 输入的特征维度
 *   **hidden_size** – 隐状态的特征维度
@@ -2794,8 +2744,7 @@ class torch.nn.LSTM(*args, **kwargs)
 *   **dropout** – 如果非零的话, 将会在 RNN 的输出上加个 dropout , 最后一层除外
 *   **bidirectional** – 如果为 `True`,将会变成一个双向 RNN ,默认为 `False`
 
- |
-| --- | --- |
+
 
 Inputs: input, (h_0, c_0)
 
@@ -2816,8 +2765,7 @@ Outputs: output, (h_n, c_n)
 *   **bias_ih_l[k]** – 第 k 层可学习的 input-hidden 偏置 `(b_ii&#124;b_if&#124;b_ig&#124;b_io)`, shape 是 `(4*hidden_size)`
 *   **bias_hh_l[k]** – 第 k 层可学习的 hidden-hidden 偏置 `(b_hi&#124;b_hf&#124;b_hg&#124;b_ho)`, shape 是 `(4*hidden_size)`
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -2844,7 +2792,7 @@ class torch.nn.GRU(*args, **kwargs)
 
 这里 ![h_t](img/tex-6c4ff69dbcc329835a33b80fe3a145c7.gif) 是在时刻 `t` 的隐状态, ![x_t](img/tex-cf7ee950cf61a6003c0ec4af7971d8a8.gif) 是前一层在时刻 `t` 的隐状态或者是第一层的 ![input_t](img/tex-bbcb26ab6bab8f51269870e0abcec697.gif) , 而 ![r_t](img/tex-3d1dfe70cdc0d574aa6cf3e228a57166.gif), ![z_t](img/tex-0bcd91fb6432f991d5b4cbb079e562c7.gif), ![n_t](img/tex-871b354d265716a852eea9970e53ff5e.gif) 分别是重置门,输入门和新门.
 
-| Parameters: | 
+参数：
 
 *   **input_size** – 输入的特征维度
 *   **hidden_size** – 隐状态的特征维度
@@ -2854,8 +2802,7 @@ class torch.nn.GRU(*args, **kwargs)
 *   **dropout** – 如果非零的话,将会在 RNN 的输出上加个 dropout ,最后一层除外
 *   **bidirectional** – 如果为 `True`, 将会变成一个双向 RNN . 默认: `False`
 
- |
-| --- | --- |
+
 
 Inputs: input, h_0
 
@@ -2874,8 +2821,7 @@ Outputs: output, h_n
 *   **bias_ih_l[k]** – 第 k 层可学习的 input-hidden 偏置 (b_ir&#124;b_iz&#124;b_in), shape 为 `(3*hidden_size)`
 *   **bias_hh_l[k]** – 第 k 层可学习的 hidden-hidden 偏置 (b_hr&#124;b_hz&#124;b_hn), shape 为 `(3*hidden_size)`
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -2899,15 +2845,14 @@ class torch.nn.RNNCell(input_size, hidden_size, bias=True, nonlinearity='tanh')
 
 如果 nonlinearity=’relu’, 那么将会使用 ReLU 来代替 tanh .
 
-| Parameters: | 
+参数：
 
 *   **input_size** – 输入的特征维度
 *   **hidden_size** – 隐状态的特征维度
 *   **bias** – 如果为 `False`, 那么RNN层将不会使用偏置权重 b_ih 和 b_hh. 默认: `True`
 *   **nonlinearity** – 用于选择非线性激活函数 [‘tanh’&#124;’relu’]. 默认: ‘tanh’
 
- |
-| --- | --- |
+
 
 Inputs: input, hidden
 
@@ -2925,8 +2870,7 @@ Outputs: h’
 *   **bias_ih** – `input-hidden` 偏置,可学习, shape 为 `(hidden_size)`
 *   **bias_hh** – `hidden-hidden` 偏置,可学习, shape 为 `(hidden_size)`
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -2951,14 +2895,13 @@ LSTM 细胞.
 
 ![\begin{split}\begin{array}{ll} i = \mathrm{sigmoid}(W_{ii} x + b_{ii} + W_{hi} h + b_{hi}) \\ f = \mathrm{sigmoid}(W_{if} x + b_{if} + W_{hf} h + b_{hf}) \\ g = \tanh(W_{ig} x + b_{ig} + W_{hc} h + b_{hg}) \\ o = \mathrm{sigmoid}(W_{io} x + b_{io} + W_{ho} h + b_{ho}) \\ c' = f * c + i * g \\ h' = o * \tanh(c') \\ \end{array}\end{split}](img/tex-00f313e58f35fa58da4f06223a36c475.gif)
 
-| Parameters: | 
+参数：
 
 *   **input_size** – 输入的特征维度
 *   **hidden_size** – 隐状态的维度
 *   **bias** – 如果为 `False`, 那么RNN层将不会使用偏置权重 b_ih 和 b_hh 默认: `True`
 
- |
-| --- | --- |
+
 
 Inputs: input, (h_0, c_0)
 
@@ -2978,8 +2921,7 @@ Outputs: h_1, c_1
 *   **bias_ih** – `input-hidden` 偏置, 可学习, 形状为 `(4*hidden_size)`
 *   **bias_hh** – `hidden-hidden` 偏置, 可学习, 形状为 `(4*hidden_size)`
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -3005,14 +2947,13 @@ GRU 细胞
 
 ![\begin{split}\begin{array}{ll} r = \mathrm{sigmoid}(W_{ir} x + b_{ir} + W_{hr} h + b_{hr}) \\ z = \mathrm{sigmoid}(W_{iz} x + b_{iz} + W_{hz} h + b_{hz}) \\ n = \tanh(W_{in} x + b_{in} + r * (W_{hn} h + b_{hn})) \\ h' = (1 - z) * n + z * h \end{array}\end{split}](img/tex-16404bdd55736af51799dd91ad2bcbf4.gif)
 
-| Parameters: | 
+参数：
 
 *   **input_size** – 输入的特征维度
 *   **hidden_size** – 隐状态的维度
 *   **bias** – 如果为 `False`, 那么RNN层将不会使用偏置权重 b_ih 和 b_hh 默认: `True`
 
- |
-| --- | --- |
+
 
 Inputs: input, hidden
 
@@ -3030,8 +2971,7 @@ Outputs: h’
 *   **bias_ih** – `input-hidden` 偏置, 可学习, shape 为 `(3*hidden_size)`
 *   **bias_hh** – `hidden-hidden` 偏置, 可学习, shape 为 `(3*hidden_size)`
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -3056,14 +2996,13 @@ class torch.nn.Linear(in_features, out_features, bias=True)
 
 对输入数据进行线性变换: ![y = Ax + b](img/tex-7b9f11d97a4a0531566a8b3ceb4b3cd2.gif)
 
-| Parameters: | 
+参数：
 
 *   **in_features** – 每个输入样本的大小
 *   **out_features** – 每个输出样本的大小
 *   **bias** – 若设置为 False, 这层不会学习偏置. 默认值: True
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3075,8 +3014,7 @@ Shape:
 *   **weight** – 形状为 (out_features x in_features) 的模块中可学习的权值
 *   **bias** – 形状为 (out_features) 的模块中可学习的偏置
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -3096,15 +3034,14 @@ class torch.nn.Bilinear(in1_features, in2_features, out_features, bias=True)
 
 对输入数据进行双线性变换: ![y = x_1 * A * x_2 + b](img/tex-aaf171cac82685c3c340333937649cd0.gif)
 
-| Parameters: | 
+参数：
 
 *   **in1_features** – 输入一的每个输入样本的大小
 *   **in2_features** – 输入二的每个输入样本的大小
 *   **out_features** – 每个输出样本的大小
 *   **bias** – 若设置为False, 这层不会学习偏置. 默认值: True
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3116,8 +3053,7 @@ Shape:
 *   **weight** – 形状为 (out_features x in1_features x in2_features) 的模块中可学习的权值
 *   **bias** – 形状为 (out_features) 的模块中可学习的偏置
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -3274,7 +3210,7 @@ class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_no
 
 这个模块经常用来存储 word embeddings, 并通过索引来检索, 模块的输入是索引构成的列表, 输出是对应的 word embeddings.
 
-| Parameters: | 
+参数：
 
 *   **num_embeddings** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – embeddings 字典的大小
 *   **embedding_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 每个 embedding 向量的大小
@@ -3284,8 +3220,7 @@ class torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx=None, max_no
 *   **scale_grad_by_freq** (_boolean__,_ _optional_) – 如果给出, 会根据 words 在 mini-batch 中的频率缩放梯度
 *   **sparse** (_boolean__,_ _optional_) – 如果为 `True`, 关于权重矩阵的梯度是一个稀疏张量, 详情请参考稀疏梯度
 
- |
-| --- | --- |
+
 | Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – shape 为 (num_embeddings, embedding_dim) 的模块的可学习权重 |
 | --- | --- |
 
@@ -3351,7 +3286,7 @@ class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_t
 
 然而, 比起一连串这样的操作, nn.EmbeddingBag 在时间和内存上更加高效.
 
-| Parameters: | 
+参数：
 
 *   **num_embeddings** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – embeddings 字典的大小
 *   **embedding_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 每个 embedding 向量的大小
@@ -3360,8 +3295,7 @@ class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_t
 *   **scale_grad_by_freq** (_boolean__,_ _optional_) – 如果给出, 会根据 words 在 mini-batch 中的频率缩放梯度
 *   **mode** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")_,_ _optional_) – ‘sum’ &#124; ‘mean’. 指定减少 bag 的方式. 默认: ‘mean’
 
- |
-| --- | --- |
+
 | Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – shape 为 (num_embeddings, embedding_dim) 的模块的可学习权重 |
 | --- | --- |
 
@@ -3408,13 +3342,12 @@ class torch.nn.CosineSimilarity(dim=1, eps=1e-08)
 
 ![\text{similarity} = \dfrac{x_1 \cdot x_2}{\max(\Vert x_1 \Vert _2 \cdot \Vert x_2 \Vert _2, \epsilon)}](img/tex-ff1174b83879355a400c05f671e9b5f0.gif)
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 计算余弦相似度的维度. Default: 1
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 小的值以避免被零除. Default: 1e-8
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3443,13 +3376,12 @@ class torch.nn.PairwiseDistance(p=2, eps=1e-06)
 
 ![\Vert x \Vert _p := \left( \sum_{i=1}^n \vert x_i \vert ^ p \right) ^ {1/p}](img/tex-917e152b0e5035ea50d39db268bf9fca.gif)
 
-| Parameters: | 
+参数：
 
 *   **p** (_real_) – norm degree(规范程度). Default: 2
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 小的值以避免被零除. Default: 1e-6
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3485,13 +3417,12 @@ class torch.nn.L1Loss(size_average=True, reduce=True)
 
 在构造函数的参数中传入 `size_average=False`, 最后求出来的绝对值将不会除以 `n`.
 
-| Parameters: | 
+参数：
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3528,13 +3459,12 @@ class torch.nn.MSELoss(size_average=True, reduce=True)
 
 要得到每个 batch 中每个元素的 loss, 设置 `reduce` 为 `False`. 返回的 loss 将不会 取平均值, 也不会被 `size_average` 影响.
 
-| Parameters: | 
+参数：
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch（小批量）上求和. 只有当 reduce 的值为 `True` 才会生效. 默认值: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会根据 size_average 的值在每 个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对每 个 batch 元素都返回一个 loss 并忽略 size_average字段. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3585,15 +3515,14 @@ loss(x, class) = weight[class] * (-x[class] + log(\sum_j exp(x[j])))
 
 loss 在每个 mini-batch（小批量）上取平均值.
 
-| Parameters: | 
+参数：
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略.
 *   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 设置一个目标值, 该目标值会被忽略, 从而不会影响到 输入的梯度. 当 size_average 字段为 `True` 时, loss 将会在没有被忽略的元素上 取平均.
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会根据 size_average 的值在每 个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对 每个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3647,15 +3576,14 @@ loss(x, class) = class != ignoreIndex ? -weight[class] * x[class] : 0
 
 ```
 
-| Parameters: | 
+参数：
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss` 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
 *   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 设置一个目标值, 该目标值会被忽略, 从而不会影响到 输入的梯度. 当 size_average 为 `True` 时, loss 将会在没有被忽略的元素上 取平均值.
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3691,15 +3619,14 @@ class torch.nn.PoissonNLLLoss(log_input=True, full=False, size_average=True, eps
 
 最后一项可以被省略或者用 Stirling 公式来近似. 该近似用于大于1的目标值. 当目标值 小于或等于1时, 则将0加到 loss 中.
 
-| Parameters: | 
+参数：
 
 *   **log_input** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果设置为 `True` , loss 将会按照公 式 `exp(input) - target * input` 来计算, 如果设置为 `False` , loss 将会按照 `input - target * log(input+eps)` 计算.
 *   **full** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 是否计算全部的 loss, i. e. 加上 Stirling 近似项 `target * log(target) - target + 0.5 * log(2 * pi * target)`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值.
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 当 log_input==``False`` 时, 取一个很小的值用来避免计算 log(0). 默认值: 1e-8
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -3720,14 +3647,13 @@ class torch.nn.NLLLoss2d(weight=None, size_average=True, ignore_index=-100, redu
 
 对于图片输入的负对数似然损失. 它计算每个像素的负对数似然损失.
 
-| Parameters: | 
+参数：
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
 *   **size_average** – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3769,13 +3695,12 @@ KL 散度可用于衡量不同的连续分布之间的距离, 在连续的输出
 
 默认情况下, loss 会在每个 mini-batch（小批量）上和 **维度** 上取平均值. 如果字段 `size_average` 设置为 `False`, 则 loss 不会取平均值.
 
-| Parameters: | 
+参数：
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量）上 和 **维度** 上取平均值. 如果设置为 `False`, 则 loss 会累加, 而不是取平均值.
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会根据 size_average 在每 个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对每 个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3799,13 +3724,12 @@ class torch.nn.BCELoss(weight=None, size_average=True)
 
 这可用于测量重构的误差, 例如自动编码机. 注意目标的值 `t[i]` 的范围为0到1之间.
 
-| Parameters: | 
+参数：
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度为 “nbatch” 的 的 Tensor
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3842,13 +3766,12 @@ class torch.nn.BCEWithLogitsLoss(weight=None, size_average=True)
 
 这可用于测量重构的误差, 例如自动编码机. 注意目标的值 `t[i]` 的范围为0到1之间.
 
-| Parameters: | 
+参数：
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度 为 “nbatch” 的 Tensor
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -3946,13 +3869,12 @@ loss(x, y) = 1/n \sum {
 
 如果把内部变量 `size_average` 设置为 `False`, 则不会被除以 `n`.
 
-| Parameters: | 
+参数：
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 损失值默认会按照所有元素取平均值. 但是, 如果 size_average 被 设置为 `False`, 则损失值为所有元素的合计. 如果 reduce 参数设为 `False`, 则忽略此参数的值. 默认: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 损失值默认会按照所有元素取平均值或者取合计值. 当 reduce 设置为 `False` 时, 损失函数对于每个元素都返回损失值并且忽略 size_average 参数. 默认: `True`
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -4050,15 +3972,14 @@ class torch.nn.TripletMarginLoss(margin=1.0, p=2, eps=1e-06, swap=False)
 
 其中 ![d(x_i, y_i) = \left\lVert {\bf x}_i - {\bf y}_i \right\rVert_p](img/tex-58c638474fe46f788c74d4a7a62c5e1f.gif).
 
-| Parameters: | 
+参数：
 
 *   **anchor** – anchor 输入 tensor
 *   **positive** – positive 输入 tensor
 *   **negative** – negative 输入 tensor
 *   **p** – 正则化率. Default: 2
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -4122,14 +4043,13 @@ class torch.nn.Upsample(size=None, scale_factor=None, mode='nearest')
 
 可以提供 `scale_factor` 或目标输出的 `size` 来计算输出的大小. （不能同时都给, 因为这样做是含糊不清的. ）
 
-| Parameters: | 
+参数：
 
 *   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 整型数的元组 ([D_out], [H_out], W_out) 输出大小
 *   **scale_factor** (_int / tuple of python:ints__,_ _optional_) – 图像高度/宽度/深度的乘数
 *   **mode** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")_,_ _optional_) – 上采样算法: nearest &#124; linear &#124; bilinear &#124; trilinear. 默认为: nearest
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -4187,13 +4107,12 @@ class torch.nn.UpsamplingNearest2d(size=None, scale_factor=None)
 
 当给定 `size`, 输出图像的大小为 (h, w).
 
-| Parameters: | 
+参数：
 
 *   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 输出图片大小的整型元组(H_out, W_out)
 *   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 图像的 长和宽的乘子.
 
- |
-| --- | --- |
+
 
 Shape:
 
@@ -4234,13 +4153,12 @@ class torch.nn.UpsamplingBilinear2d(size=None, scale_factor=None)
 
 当给定 `size`, 输出图像的大小为 (h, w).
 
-| Parameters: | 
+参数：
 
 *   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 输出图片大小的整型元组(H_out, W_out)
 *   **scale_factor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 图像的 长和宽的乘子.
 
- |
-| --- | --- |
+
 
 shape:
 
@@ -4355,14 +4273,13 @@ torch.nn.utils.clip_grad_norm(parameters, max_norm, norm_type=2)
 
 范数是对所有梯度进行计算的, 等价于把所有输入变量的梯度连接成一个向量, 然后对这个向量按范数进行裁剪. 梯度将会被原地修改.
 
-| Parameters: | 
+参数：
 
 *   **parameters** (_Iterable__[_[_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")_]_) – 一个可迭代对象, 其包含将要进行梯度正规化的 Variable
 *   **max_norm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 梯度的最大范数
 *   **norm_type** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – p 范数(指定 p ). 用 `'inf'` 表示无穷范数
 
- |
-| --- | --- |
+
 返回值：梯度的范数 (视为单个向量的).
 
 
@@ -4382,14 +4299,13 @@ torch.nn.utils.weight_norm(module, name='weight', dim=0)
 
 参见 [https://arxiv.org/abs/1602.07868](https://arxiv.org/abs/1602.07868)
 
-| Parameters: | 
+参数：
 
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 给定的 module
 *   **name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _optional_) – 权重参数的 name
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 进行范数计算的维度
 
- |
-| --- | --- |
+
 返回值：添加了权重归一化钩子的原 module
 
 
@@ -4413,13 +4329,12 @@ torch.nn.utils.remove_weight_norm(module, name='weight')
 
 从模块中移除权重归一化/再参数化.
 
-| Parameters: | 
+参数：
 
 *   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 给定的 module
 *   **name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _optional_) – 权重参数的 name
 
- |
-| --- | --- |
+
 
 Example
 
@@ -4448,8 +4363,7 @@ Note
 *   **data** ([_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 包含打包后序列的 Variable
 *   **batch_sizes** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]_) – 包含每个序列步的 batch size 的列表
 
- |
-| --- | --- |
+
 
 ### pack_padded_sequence
 
@@ -4467,14 +4381,13 @@ Note
 
 只要是维度大于等于2的 input 都可以作为这个函数的参数. 你可以用它来打包 labels, 然后用 RNN 的输出和打包后的 labels 来计算 loss. 通过 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象的 `.data` 属性可以获取 Variable.
 
-| Parameters: | 
+参数：
 
 *   **input** ([_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 变长序列被填充后的 batch
 *   **lengths** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]_) – Variable 中每个序列的长度.
 *   **batch_first** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果是 `True`, input 的形状应该是 BxTx*.
 
- |
-| --- | --- |
+
 返回值：一个 [`PackedSequence`](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence") 对象.
 
 
@@ -4492,12 +4405,11 @@ torch.nn.utils.rnn.pad_packed_sequence(sequence, batch_first=False, padding_valu
 
 Batch中的元素将会以它们长度的逆序排列.
 
-| Parameters: | 
+参数：
 
 *   **sequence** ([_PackedSequence_](#torch.nn.utils.rnn.PackedSequence "torch.nn.utils.rnn.PackedSequence")) – 将要被填充的 batch
 *   **batch_first** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果为 `True`` , 返回的数据的格式为 BxTx*.
 *   **padding_value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 用来填充元素的值
 
- |
-| --- | --- |
+
 返回值：一个 tuple, 包含被填充后的序列, 和 batch 中序列的长度列表.

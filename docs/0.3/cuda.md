@@ -196,13 +196,12 @@ torch.cuda.comm.broadcast(tensor, devices)
 
 将张量广播给多个 GPU .
 
-| Parameters: | 
+参数：
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 需要广播的张量.
 *   **devices** (_Iterable_) – 在一个可迭代设备中广播. 请注意, 它应该像 (src, dst1, dst2, …), 其中的第一个元素是来至其广播的源设备.
 
- |
-| --- | --- |
+
 返回值：一个元组, 包含 `tensor` 副本,放置在与设备的索引相对应的 `设备` 上.
 
 
@@ -214,13 +213,12 @@ torch.cuda.comm.reduce_add(inputs, destination=None)
 
 所有的输入应该有匹配的 shapes (形状).
 
-| Parameters: | 
+参数：
 
 *   **inputs** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 添加一个可迭代的张量.
 *   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 放置输出的设备 (默认: 当前设备).
 
- |
-| --- | --- |
+
 返回值：包含所有输入的元素和的张量, 存放在 `destination(目标)` 设备.
 
 
@@ -230,15 +228,14 @@ torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)
 
 分散张量到多个 GPU.
 
-| Parameters: | 
+参数：
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 需要分散的张量.
 *   **devices** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]_) – 整数的迭代,指定张量应分散在哪些设备之间.
 *   **chunk_sizes** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]__,_ _optional_) – 要放在每个设备上的块的大小. 应该匹配 `设备` 长度和 `tensor.size(dim)` 的和. 如果未指定,张量将被划分成相等的块.
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 分块张量沿着的维度
 
- |
-| --- | --- |
+
 返回值：一个元组包含 `tensor` 块, 传递给 `devices` .
 
 
@@ -250,14 +247,13 @@ torch.cuda.comm.gather(tensors, dim=0, destination=None)
 
 张量尺寸在不同于 `dim` 的维度上都应该匹配.
 
-| Parameters: | 
+参数：
 
 *   **tensors** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 张量集合的迭代器.
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 张量被连接的维度.
 *   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 输出设备 (-1 代表 CPU, 默认: 当前设备)
 
- |
-| --- | --- |
+
 返回值：一个位于 `目标` 设备上的张量, 将 `tensors` 沿着 `dim` 连接起来的结果.
 
 
@@ -269,13 +265,12 @@ class torch.cuda.Stream
 
 CUDA 流的包装.
 
-| Parameters: | 
+参数：
 
 *   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 分配流的设备.
 *   **priority** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 流的优先级. 较低的数字代表较高的优先级.
 
- |
-| --- | --- |
+
 
 ```py
 query()
@@ -329,14 +324,13 @@ class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, 
 
 CUDA 事件包装器.
 
-| Parameters: | 
+参数：
 
 *   **enable_timing** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 指示事件是否应测量时间 (默认: `False`)
 *   **blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果 `True`, [`wait()`](#torch.cuda.Event.wait "torch.cuda.Event.wait") 将阻塞 (默认: `False` )
 *   **interprocess** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果 `True`, 事件可以在进程之间共享 (默认: `False`)
 
- |
-| --- | --- |
+
 
 ```py
 elapsed_time(end_event)

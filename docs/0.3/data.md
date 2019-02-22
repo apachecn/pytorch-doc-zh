@@ -16,13 +16,12 @@ class torch.utils.data.TensorDataset(data_tensor, target_tensor)
 
 通过沿着第一个维度索引两个张量来恢复每个样本.
 
-| Parameters: | 
+参数：
 
 *   **data_tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 包含样本数据.
 *   **target_tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 包含样本目标 (标签).
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.ConcatDataset(datasets)
@@ -39,7 +38,7 @@ class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=
 
 数据加载器. 组合数据集和采样器,并在数据集上提供单进程或多进程迭代器.
 
-| Parameters: | 
+参数：
 
 *   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 从该数据集中加载数据.
 *   **batch_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 每个 batch 加载多少个样本 (默认值: 1).
@@ -51,8 +50,7 @@ class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=
 *   **pin_memory** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果为 `True`, 数据加载器会将张量复制到 CUDA 固定内存中, 然后再返回它们.
 *   **drop_last** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 设定为 `True` 以丢掉最后一个不完整的 batch, 如果数据集大小不能被 batch size整除. 设定为 `False` 并且数据集的大小不能被 batch size整除, 则最后一个 batch 将会更小. (default: False)
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.sampler.Sampler(data_source)
@@ -95,14 +93,13 @@ class torch.utils.data.sampler.WeightedRandomSampler(weights, num_samples, repla
 
 使用给定的概率 (权重) 对 [0,..,len(weights)-1] 范围的元素进行采样.
 
-| Parameters: | 
+参数：
 
 *   **weights** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – 权重列表, 没必要加起来等于 1
 *   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 抽样数量
 *   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 设定为 `True`, 使用有放回采样法. 设定为 `False`, 采用无放回采样法, 这意味着对于一行来说,当一个 样本索引被取到后, 对于改行, 这个样本索引不能再次被取到.
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank=None)
@@ -116,11 +113,9 @@ Note
 
 数据集被假定为不变的大小.
 
-| Parameters: | 
+参数：
 
 *   **dataset** – 采样的数据集.
 *   **num_replicas** (_optional_) – 参与分布式训练的进程数量.
 *   **rank** (_optional_) – 在 num_replicas 中, 当前进程的等级.
 
- |
-| --- | --- |

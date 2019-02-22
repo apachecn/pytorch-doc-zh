@@ -6,7 +6,7 @@ torchvision.utils.make_grid(tensor, nrow=8, padding=2, normalize=False, range=No
 
 制作一个图形网格.
 
-| Parameters: | 
+参数：
 
 *   **tensor** (_Tensor 或者 list_) – 给定 4D mini-batch Tensor 形状为 (B x C x H x W) 或者一个同样形状的 list of images.
 *   **nrow** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 网格每一行显示的image数量. 最后网格的形状是 (B / nrow, nrow). 默认是 8.
@@ -16,8 +16,7 @@ torchvision.utils.make_grid(tensor, nrow=8, padding=2, normalize=False, range=No
 *   **scale_each** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 如果值为True, 每个image独立规范化, 而不是根据所有image的像素最大最小值来归一化.
 *   **pad_value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 填充像素的值.
 
- |
-| --- | --- |
+
 
 Example
 
@@ -29,10 +28,8 @@ torchvision.utils.save_image(tensor, filename, nrow=8, padding=2, normalize=Fals
 
 将一个给定的 Tensor 保存为 image（图像）文件.
 
-| Parameters: | 
+参数：
 
 *   **tensor** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor") _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")) – 被保存的图片. 如果给定的是 mini-batch tensor, 通过调用 `make_grid` 将 tensor 保存为网格图像.
 *   ****kwargs** – 其它参数文档在 `make_grid` 中.
 
- |
-| --- | --- |

@@ -345,14 +345,13 @@ copy_(src, async=False, broadcast=True) → Tensor
 
 如果 `broadcast` 是 True, 源 tensor 一定和这个 tensor [broadcastable](notes/broadcasting.html#broadcasting-semantics). 另外, 源 tensor 的元素数量应该和这个 tensor 的元素个数一致. 源 tensor 可以是另一种数据类型, 或者在别的的设备上.
 
-| Parameters: | 
+参数：
 
 *   **src** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 被复制的源 tensor
 *   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果值为 `True` 并且这个复制操作在 CPU 和 GPU 之间进行, 则拷贝的副本与源信息可能会出现异步(asynchronously). 对于其他类型的复制操作, 这个参数不起作用.
 *   **broadcast** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果值为 `True`, `src` 将广播基础的 tensor 的形状.
 
- |
-| --- | --- |
+
 
 ```py
 cos() → Tensor
@@ -398,13 +397,12 @@ cuda(device=None, async=False)
 
 如果此对象已经在 CUDA 内存中并且在正确的设备上 , 那么不会执行复制操作 , 直接返回原对象 .
 
-| Parameters: | 
+参数：
 
 *   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 目标 GPU 的 id . 默认值是当前设备 .
 *   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果为 `True` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 否则此参数不起效果 .
 
- |
-| --- | --- |
+
 
 ```py
 cumprod(dim) → Tensor
@@ -730,14 +728,13 @@ index_add_(dim, index, tensor) → Tensor
 
 按参数 index 给出的索引序列, 将参数 tensor 中的元素加到原来的 tensor 中. 参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误.
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引 index 所指向的维度
 *   **index** (_LongTensor_) – 从参数 tensor 中选取数据的索引序列
 *   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 包含需要相加的元素的 tensor
 
- |
-| --- | --- |
+
 
 Example
 
@@ -760,14 +757,13 @@ index_copy_(dim, index, tensor) → Tensor
 
 按参数 index 给出的索引序列, 将参数 tensor 中的元素复制到原来的 tensor 中. 参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误.
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引 index 所指向的维度
 *   **index** (_LongTensor_) – 从参数 tensor 中选取数据的索引序列
 *   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 包含需要复制的元素的 tensor
 
- |
-| --- | --- |
+
 
 Example
 
@@ -790,14 +786,13 @@ index_fill_(dim, index, val) → Tensor
 
 按参数 index 给出的索引序列, 将原 tensor 中的元素用 `val` 填充.
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引 index 所指向的维度
 *   **index** (_LongTensor_) – 从参数 val 中选取数据的索引序列
 *   **val** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 用来填充的值
 
- |
-| --- | --- |
+
 
 Example
 
@@ -954,13 +949,12 @@ masked_scatter_(mask, source)
 
 复制 `source` 的元素到本 tensor 被:attr:<cite>mask</cite> 中值为 1 的元素标记的位置中. `mask` 的形状和本 tensor 的形状必须是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics) ). `source` 中元素的个数最少为 `mask` 中值为1的元素的个数.
 
-| Parameters: | 
+参数：
 
 *   **mask** ([_ByteTensor_](#torch.ByteTensor "torch.ByteTensor")) – 二进制掩码
 *   **source** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 复制的源 tensor
 
- |
-| --- | --- |
+
 
 Note
 
@@ -974,13 +968,12 @@ masked_fill_(mask, value)
 
 Fills elements of this tensor with `value` where `mask` is one.
 
-| Parameters: | 
+参数：
 
 *   **mask** ([_ByteTensor_](#torch.ByteTensor "torch.ByteTensor")) – 二进制掩码
 *   **value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 用来填充的值
 
- |
-| --- | --- |
+
 
 ```py
 masked_select(mask) → Tensor
@@ -1062,14 +1055,13 @@ narrow(dimension, start, length) → Tensor
 
 返回一个本 tensor 经过缩小后的 tensor. 维度 dim 缩小范围是 `start` 到 `start + length`. 原 tensor 与返回的 tensor 共享相同的底层存储.
 
-| Parameters: | 
+参数：
 
 *   **dimension** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 需要缩小的维度
 *   **start** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 起始维度
 *   **length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) –
 
- |
-| --- | --- |
+
 
 Example
 
@@ -1247,14 +1239,13 @@ put_(indices, tensor, accumulate=False) → Tensor
 
 如果 `accumulate` 是 `True`, `tensor` 内的元素累加到 `self` 中. 如果 `accumulate` 是 `False`, 在索引包含重复的值时, 行为未定义.
 
-| Parameters: | 
+参数：
 
 *   **indices** (_LongTensor_) – self 的索引
 *   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 包含需要复制值的 tensor
 *   **accumulate** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果是 True, 元素累加到 self
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1406,14 +1397,13 @@ scatter_(dim, index, src) → Tensor
 
 注意, 关于 gather, index 的值必须是 `0` 到 `(self.size(dim) -1)` 区间, 而且, 属于同一维度的一行的值必须是唯一的.
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引的轴向
 *   **index** (_LongTensor_) – 散射元素的索引指数
 *   **src** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 散射的源元素
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1447,13 +1437,12 @@ select(dim, index) → Tensor or number
 
 沿着 dim 给定的维度, 按照 index 切片. 如果这个 tensor 是一维的, 返回一个数字. 否则, 返回一个给定维度已经被移除的 tensor.
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 切片的维度
 *   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 用来选取的索引
 
- |
-| --- | --- |
+
 
 Note
 
@@ -1467,15 +1456,14 @@ set_(source=None, storage_offset=0, size=None, stride=None)
 
 如果 `source` 是一个 `Storage`, 则将设置底层内存, 偏移量, 大小和步长.
 
-| Parameters: | 
+参数：
 
 *   **source** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ _Storage_) – 用到的 tensor 或 storage
 *   **storage_offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – storage 的偏移量
 *   **size** (_torch.Size_) – 期望的大小. 默认为源 tensor 的大小.
 *   **stride** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 期望的步长. 默认为 C 相邻内存的步长.
 
- |
-| --- | --- |
+
 
 ```py
 share_memory_()
@@ -1796,13 +1784,12 @@ type(new_type=None, async=False)
 
 如果已经是正确的类型 , 则不执行复制并直接返回原对象 .
 
-| Parameters: | 
+参数：
 
 *   **new_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.6)") _or_ [_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 期望的类型
 *   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果为 `True` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 .
 
- |
-| --- | --- |
+
 
 ```py
 type_as(tensor)
@@ -1831,14 +1818,13 @@ unfold(dim, size, step) → Tensor
 
 一个额外的切片大小的维度已经添加在返回的 tensor 中.
 
-| Parameters: | 
+参数：
 
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 需要展开的维度
 *   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 每一个分片需要展开的大小
 *   **step** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 相邻分片之间的步长
 
- |
-| --- | --- |
+
 
 Example:
 

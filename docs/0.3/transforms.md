@@ -29,13 +29,12 @@ class torchvision.transforms.Resize(size, interpolation=2)
 
 调整输入的 PIL Image 尺寸为给定的 size（尺寸）.
 
-| Parameters: | 
+参数：
 
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望输出的尺寸. 如果 size（尺寸）是一个像 (h, w) 这样的序列, 则 output size（输出尺寸）将于此匹配. 如果 size（尺寸）是一个 int 类型的数字, 图像较小的边缘将被匹配到该数字. 例如, 如果 height &gt; width, 那么图像将会被重新缩放到 (size * height / width, size). 即按照size/width的比值缩放
 *   **interpolation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 期望的插值. 默认是 `PIL.Image.BILINEAR`
 
- |
-| --- | --- |
+
 
 ```py
 class torchvision.transforms.Scale(*args, **kwargs)
@@ -58,13 +57,12 @@ class torchvision.transforms.RandomCrop(size, padding=0)
 
 在一个随机位置裁剪指定的 PIL Image.
 
-| Parameters: | 
+参数：
 
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _sequence__,_ _optional_) – 图像的每个边框上的可选填充. 缺省值是 0, 即没有填充. 如果提供长度为 4 的序列, 则分别用于填充左侧, 顶部, 右侧, 底部边界.
 
- |
-| --- | --- |
+
 
 ```py
 class torchvision.transforms.RandomHorizontalFlip
@@ -88,15 +86,14 @@ class torchvision.transforms.RandomResizedCrop(size, scale=(0.08, 1.0), ratio=(0
 
 该操作普遍用于训练 Inception networks.
 
-| Parameters: | 
+参数：
 
 *   **size** – 每条边的期望的输出尺寸
 *   **scale** – 原始剪裁尺寸大小的范围
 *   **ratio** – 原始裁剪纵横比的范围
 *   **interpolation** – Default: PIL.Image.BILINEAR
 
- |
-| --- | --- |
+
 
 ```py
 class torchvision.transforms.RandomSizedCrop(*args, **kwargs)
@@ -168,13 +165,12 @@ Note
 
 该变换返回一个图像元组, 并且数据集返回的输入和目标的数量可能不匹配. 请参阅下面的例子来处理这个问题.
 
-| Parameters: | 
+参数：
 
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望输出的裁剪尺寸. 如果 size（尺寸）是 `int` 类型的整数, 而不是像 (h, w) 这样类型的序列, 裁剪出来的图像是 (size, size) 这样的正方形的.
 *   **vertical_flip** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 使用垂直翻转而不是水平的方式
 
- |
-| --- | --- |
+
 
 Example
 
@@ -197,13 +193,12 @@ class torchvision.transforms.Pad(padding, fill=0)
 
 用指定的 “pad” 值填充指定的 PIL image.
 
-| Parameters: | 
+参数：
 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 填充每个边框. 如果提供了一个 int 型的整数, 则用于填充所有边界. 如果提供长度为 2 的元组, 则这是分别在 左/右 和 上/下 的填充. 如果提供长度为 4 的元组, 则这是分别用于 左, 上, 右 和 下 部边界的填充.
 *   **fill** – 像素填充. 默认值为 0\. 如果长度为 3 的元组, 分别用于填充 R, G, B 通道.
 
- |
-| --- | --- |
+
 
 ```py
 class torchvision.transforms.ColorJitter(brightness=0, contrast=0, saturation=0, hue=0)
@@ -211,15 +206,14 @@ class torchvision.transforms.ColorJitter(brightness=0, contrast=0, saturation=0,
 
 随机更改图像的亮度, 对比度和饱和度.
 
-| Parameters: | 
+参数：
 
 *   **brightness** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 亮度改变的范围. brightness_factor 从 [max(0, 1 - brightness), 1 + brightness]的范围中一致选择.
 *   **contrast** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 对比度改变的范围. contrast_factor 从 [max(0, 1 - contrast), 1 + contrast]的范围中一致选择.
 *   **saturation** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 饱和度改变的范围. saturation_factor 从[max(0, 1 - saturation), 1 + saturation]的范围中一致选择.
 *   **hue** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 色调改变的范围. hue_factor 从 [-hue, hue]的范围中一致选择. 应该 &gt;=0 且 &lt;= 0.5.
 
- |
-| --- | --- |
+
 
 ## torch.*Tensor 上的变换
 
@@ -229,13 +223,12 @@ class torchvision.transforms.Normalize(mean, std)
 
 用均值和标准偏差对张量图像进行归一化. 给定均值: `(M1,...,Mn)` 和标准差: `(S1,..,Sn)` 用于 `n` 个通道, 该变换将标准化输入 `torch.*Tensor` 的每一个通道. 例如: `input[channel] = (input[channel] - mean[channel]) / std[channel]`
 
-| Parameters: | 
+参数：
 
 *   **mean** (_sequence_) – 每一个通道的均值序列.
 *   **std** (_sequence_) – 每一个通道的标准差序列.
 
- |
-| --- | --- |
+
 
 ```py
 __call__(tensor)
