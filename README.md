@@ -1,5 +1,7 @@
 # PyTorch 中文文档
 
+![](docs/img/logo.svg)
+
 PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库) .
 
 > 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。

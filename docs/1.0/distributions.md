@@ -109,13 +109,12 @@ expand(batch_shape, _instance=None)
 
 Returns a new distribution instance (or populates an existing instance provided by a derived class) with batch dimensions expanded to `batch_shape`. This method calls [`expand`](tensors.html#torch.Tensor.expand "torch.Tensor.expand") on the distribution’s parameters. As such, this does not allocate new memory for the expanded distribution instance. Additionally, this does not repeat any args checking or parameter broadcasting in `__init__.py`, when an instance is first created.
 
-| Parameters: | 
+Parameters: 
 
 *   **batch_shape** (_torch.Size_) – the desired expanded size.
 *   **_instance** – new instance provided by subclasses that need to override `.expand`.
 
- |
-| --- | --- |
+
 | Returns: | New distribution instance with batch dimensions expanded to `batch_size`. |
 | --- | --- |
 
@@ -233,13 +232,12 @@ tensor([ 0.])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`
 *   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
@@ -312,13 +310,12 @@ tensor([ 0.1046])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **concentration1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 1st concentration parameter of the distribution (often referred to as alpha)
 *   **concentration0** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 2nd concentration parameter of the distribution (often referred to as beta)
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'concentration0': GreaterThan(lower_bound=0.0), 'concentration1': GreaterThan(lower_bound=0.0)}
@@ -388,14 +385,13 @@ tensor([[ 4.,  5.],
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **total_count** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – number of Bernoulli trials
 *   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Event probabilities
 *   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Event log-odds
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0), 'total_count': IntegerGreaterThan(lower_bound=0)}
@@ -480,13 +476,12 @@ tensor(3)
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
 *   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Simplex()}
@@ -559,13 +554,12 @@ tensor([ 2.3214])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mode or median of the distribution.
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – half width at half maximum.
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
@@ -792,13 +786,12 @@ tensor([ 0.2453])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **df1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – degrees of freedom parameter 1
 *   **df2** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – degrees of freedom parameter 2
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'df1': GreaterThan(lower_bound=0.0), 'df2': GreaterThan(lower_bound=0.0)}
@@ -851,13 +844,12 @@ tensor([ 0.1046])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – shape parameter of the distribution (often referred to as alpha)
 *   **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 / scale of the distribution (often referred to as beta)
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'rate': GreaterThan(lower_bound=0.0)}
@@ -916,13 +908,12 @@ tensor([ 2.])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`. Must be in range (0, 1]
 *   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`.
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
@@ -983,13 +974,12 @@ tensor([ 1.0124])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Location parameter of the distribution
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of the distribution
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
@@ -1190,13 +1180,12 @@ This is mainly useful for changing the shape of the result of [`log_prob()`](#to
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **base_distribution** ([_torch.distributions.distribution.Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – a base distribution
 *   **reinterpreted_batch_ndims** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of batch dims to reinterpret as event dims
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {}
@@ -1265,13 +1254,12 @@ tensor([ 0.1046])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the distribution
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
@@ -1346,13 +1334,12 @@ tensor([ 0.1046])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of log of distribution
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – standard deviation of log of the distribution
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
@@ -1414,14 +1401,13 @@ tensor([-0.2102, -0.5429])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution with shape `batch_shape + event_shape`
 *   **cov_factor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – factor part of low-rank form of covariance matrix with shape `batch_shape + event_shape + (rank,)`
 *   **cov_diag** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – diagonal part of low-rank form of covariance matrix with shape `batch_shape + event_shape`
 
- |
-| --- | --- |
+
 
 Note
 
@@ -1511,14 +1497,13 @@ tensor([-4.1338])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **total_count** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of trials
 *   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
 *   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Simplex()}
@@ -1581,15 +1566,14 @@ tensor([-0.2102, -0.5429])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
 *   **covariance_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – positive-definite covariance matrix
 *   **precision_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – positive-definite precision matrix
 *   **scale_tril** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – lower-triangular factor of covariance, with positive-valued diagonal
 
- |
-| --- | --- |
+
 
 Note
 
@@ -1655,14 +1639,13 @@ Bases: [`torch.distributions.distribution.Distribution`](#torch.distributions.di
 
 Creates a Negative Binomial distribution, i.e. distribution of the number of independent identical Bernoulli trials needed before `total_count` failures are achieved. The probability of success of each Bernoulli trial is [`probs`](#torch.distributions.negative_binomial.NegativeBinomial.probs "torch.distributions.negative_binomial.NegativeBinomial.probs").
 
-| Parameters: | 
+Parameters: 
 
 *   **total_count** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – non-negative number of negative Bernoulli trials to stop, although the distribution is still valid for real valued count
 *   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Event probabilities of success in the half open interval [0, 1)
 *   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Event log-odds for probabilities of success
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': HalfOpenInterval(lower_bound=0.0, upper_bound=1.0), 'total_count': GreaterThanEq(lower_bound=0)}
@@ -1723,13 +1706,12 @@ tensor([ 0.1046])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution (often referred to as mu)
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – standard deviation of the distribution (often referred to as sigma)
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
@@ -1810,13 +1792,12 @@ tensor([ 0.,  0.,  0.,  1.])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
 *   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Simplex()}
@@ -1889,13 +1870,12 @@ tensor([ 1.5623])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of the distribution
 *   **alpha** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Shape parameter of the distribution
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'alpha': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}
@@ -1995,14 +1975,13 @@ tensor([ 0.2951,  0.3442,  0.8918,  0.9021])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
 *   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`
 *   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
@@ -2052,14 +2031,13 @@ tensor([ 0.1294,  0.2324,  0.3859,  0.2523])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
 *   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
 *   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log probability of each event.
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'logits': Real(), 'probs': Simplex()}
@@ -2108,14 +2086,13 @@ tensor([ 0.1046])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **df** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – degrees of freedom
 *   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the distribution
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'df': GreaterThan(lower_bound=0.0), 'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
@@ -2252,13 +2229,12 @@ tensor([ 2.3418])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **low** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – lower range (inclusive).
 *   **high** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – upper range (exclusive).
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'high': Dependent(), 'low': Dependent()}
@@ -2327,13 +2303,12 @@ tensor([ 0.4784])
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of distribution (lambda).
 *   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Concentration parameter of distribution (k/shape).
 
- |
-| --- | --- |
+
 
 ```py
 arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}
@@ -2369,13 +2344,12 @@ Compute Kullback-Leibler divergence ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg
 
 ![](img/ff8dcec3abe559720f8b0b464d2471b2.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **p** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – A `Distribution` object.
 *   **q** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – A `Distribution` object.
 
- |
-| --- | --- |
+
 | Returns: | A batch of KL divergences of shape `batch_shape`. |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -2413,13 +2387,12 @@ register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **type_p** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – A subclass of `Distribution`.
 *   **type_q** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – A subclass of `Distribution`.
 
- |
-| --- | --- |
+
 
 ## `Transforms`
 
@@ -2458,8 +2431,7 @@ Derived classes should implement one or both of `_call()` or `_inverse()`. Deriv
 *   **sign** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – For bijective univariate transforms, this should be +1 or -1 depending on whether transform is monotone increasing or decreasing.
 *   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of dimensions that are correlated together in the transform `event_shape`. This should be 0 for pointwise transforms, 1 for transforms that act jointly on vectors, 2 for transforms that act jointly on matrices, etc.
 
- |
-| --- | --- |
+
 
 ```py
 inv
@@ -2518,14 +2490,13 @@ class torch.distributions.transforms.AffineTransform(loc, scale, event_dim=0, ca
 
 Transform via the pointwise affine mapping ![](img/e1df459e7ff26d682fc956b62868f7c4.jpg).
 
-| Parameters: | 
+Parameters: 
 
 *   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Location parameter.
 *   **scale** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Scale parameter.
 *   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Optional size of `event_shape`. This should be zero for univariate random variables, 1 for distributions over vectors, 2 for distributions over matrices, etc.
 
- |
-| --- | --- |
+
 
 ```py
 class torch.distributions.transforms.SoftmaxTransform(cache_size=0)
@@ -2699,11 +2670,10 @@ def construct_transform(constraint):
 
 ```
 
-| Parameters: | 
+Parameters: 
 
 *   **constraint** (subclass of [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) – A subclass of [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint"), or a singleton object of the desired class.
 *   **factory** (_callable_) – A callable that inputs a constraint object and returns a [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") object.
 
- |
-| --- | --- |
+
 

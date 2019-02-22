@@ -79,7 +79,7 @@ torch.distributed.init_process_group(backend, init_method='env://', timeout=date
 
 Initializes the default distributed process group, and this will also initialize the distributed package
 
-| Parameters: | 
+Parameters: 
 
 *   **backend** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)") _or_ [_Backend_](#torch.distributed.Backend "torch.distributed.Backend")) – The backend to use. Depending on build-time configurations, valid values include `mpi`, `gloo`, and `nccl`. This field should be given as a lowercase string (e.g., `"gloo"`), which can also be accessed via [`Backend`](#torch.distributed.Backend "torch.distributed.Backend") attributes (e.g., `Backend.GLOO`).
 *   **init_method** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – URL specifying how to initialize the process group.
@@ -88,8 +88,7 @@ Initializes the default distributed process group, and this will also initialize
 *   **timeout** (_timedelta__,_ _optional_) – Timeout for operations executed against the process group. Default value equals 30 minutes. This is only applicable for the `gloo` backend.
 *   **group_name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional__,_ _deprecated_) – Group name.
 
- |
-| --- | --- |
+
 
 To enable `backend == Backend.MPI`, PyTorch needs to built from source on a system that supports MPI. The same applies to NCCL as well.
 
@@ -229,13 +228,12 @@ Creates a new distributed group.
 
 This function requires that all processes in the main group (i.e. all processes that are part of the distributed job) enter this function, even if they are not going to be members of the group. Additionally, groups should be created in the same order in all processes.
 
-| Parameters: | 
+Parameters: 
 
 *   **ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – List of ranks of group members.
 *   **timeout** (_timedelta__,_ _optional_) – Timeout for operations executed against the process group. Default value equals 30 minutes. This is only applicable for the `gloo` backend.
 
- |
-| --- | --- |
+
 | Returns: | A handle of distributed group that can be given to collective calls. |
 | --- | --- |
 
@@ -247,15 +245,14 @@ torch.distributed.send(tensor, dst, group=<object object>, tag=0)
 
 Sends a tensor synchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match send with remote recv
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.recv(tensor, src=None, group=<object object>, tag=0)
@@ -263,15 +260,14 @@ torch.distributed.recv(tensor, src=None, group=<object object>, tag=0)
 
 Receives a tensor synchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Source rank. Will receive from any process if unspecified.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match recv with remote send
 
- |
-| --- | --- |
+
 | Returns: | Sender rank -1, if not part of the group |
 | --- | --- |
 
@@ -286,15 +282,14 @@ torch.distributed.isend(tensor, dst, group=<object object>, tag=0)
 
 Sends a tensor asynchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match send with remote recv
 
- |
-| --- | --- |
+
 | Returns: | A distributed request object. None, if not part of the group |
 | --- | --- |
 
@@ -304,15 +299,14 @@ torch.distributed.irecv(tensor, src, group=<object object>, tag=0)
 
 Receives a tensor asynchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match recv with remote send
 
- |
-| --- | --- |
+
 | Returns: | A distributed request object. None, if not part of the group |
 | --- | --- |
 
@@ -337,15 +331,14 @@ Broadcasts the tensor to the whole group.
 
 `tensor` must have the same number of elements in all processes participating in the collective.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Data to be sent if `src` is the rank of current process, and tensor to be used to save received data otherwise.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -357,15 +350,14 @@ Reduces the tensor data across all machines in such a way that all get the final
 
 After the call `tensor` is going to be bitwise identical in all processes.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
 *   **op** (_optional_) – One of the values from `torch.distributed.ReduceOp` enum. Specifies an operation used for element-wise reductions.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -377,7 +369,7 @@ Reduces the tensor data across all machines.
 
 Only the process with rank `dst` is going to receive the final result.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
@@ -385,8 +377,7 @@ Only the process with rank `dst` is going to receive the final result.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -396,15 +387,14 @@ torch.distributed.all_gather(tensor_list, tensor, group=<object object>, async_o
 
 Gathers tensors from the whole group in a list.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Output list. It should contain correctly-sized tensors to be used for output of the collective.
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to be broadcast from current process.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -414,7 +404,7 @@ torch.distributed.gather(tensor, gather_list, dst, group=<object object>, async_
 
 Gathers a list of tensors in a single process.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input tensor.
 *   **gather_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of appropriately-sized tensors to use for received data. Required only in the receiving process.
@@ -422,8 +412,7 @@ Gathers a list of tensors in a single process.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -435,7 +424,7 @@ Scatters a list of tensors to all processes in a group.
 
 Each process will receive exactly one tensor and store its data in the `tensor` argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Output tensor.
 *   **scatter_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors to scatter. Required only in the process that is sending the data.
@@ -443,8 +432,7 @@ Each process will receive exactly one tensor and store its data in the `tensor` 
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -456,13 +444,12 @@ Synchronizes all processes.
 
 This collective blocks processes until the whole group enters this function, if async_op is False, or if async work handle is called on wait().
 
-| Parameters: | 
+Parameters: 
 
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -546,7 +533,7 @@ Broadcasts the tensor to the whole group with multiple GPU tensors per node.
 
 Only nccl and gloo backend are currently supported tensors should only be GPU tensors
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Tensors that participate in the collective operation. if `src` is the rank, then `src_tensor``th element of ``tensor_list` (`tensor_list[src_tensor]`) will be broadcasted to all other tensors (on different GPUs) in the src process and all tensors in `tensor_list` of other non-src processes. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
@@ -554,8 +541,7 @@ Only nccl and gloo backend are currently supported tensors should only be GPU te
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 *   **src_tensor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Source tensor rank within `tensor_list`
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -569,15 +555,14 @@ After the call, all `tensor` in `tensor_list` is going to be bitwise identical i
 
 Only nccl and gloo backend is currently supported tensors should only be GPU tensors
 
-| Parameters: | 
+Parameters: 
 
 *   **list** (_tensor_) – List of input and output tensors of the collective. The function operates in-place and requires that each tensor to be a GPU tensor on different GPUs. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
 *   **op** (_optional_) – One of the values from `torch.distributed.ReduceOp` enum. Specifies an operation used for element-wise reductions.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 
@@ -591,7 +576,7 @@ Only the GPU of `tensor_list[dst_tensor]` on the process with rank `dst` is goin
 
 Only nccl backend is currently supported tensors should only be GPU tensors
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Input and output GPU tensors of the collective. The function operates in-place. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
@@ -600,8 +585,7 @@ Only nccl backend is currently supported tensors should only be GPU tensors
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 *   **dst_tensor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Destination tensor rank within `tensor_list`
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, otherwise |
 | --- | --- |
 
@@ -613,15 +597,14 @@ Gathers tensors from the whole group in a list. Each tensor in `tensor_list` sho
 
 Only nccl backend is currently supported tensors should only be GPU tensors
 
-| Parameters: | 
+Parameters: 
 
 *   **output_tensor_lists** (_List__[__List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]__]_) – Output lists. It should contain correctly-sized tensors on each GPU to be used for output of the collective. e.g. `output_tensor_lists[i]` contains the all_gather result that resides on the GPU of `input_tensor_list[i]`. Note that each element of `output_tensor_lists[i]` has the size of `world_size * len(input_tensor_list)`, since the function all gathers the result from every single GPU in the group. To interpret each element of `output_tensor_list[i]`, note that `input_tensor_list[j]` of rank k will be appear in `output_tensor_list[i][rank * world_size + j]` Also note that `len(output_tensor_lists)`, and the size of each element in `output_tensor_lists` (each element is a list, therefore `len(output_tensor_lists[i])`) need to be the same for all the distributed processes calling this function.
 *   **input_tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors(on different GPUs) to be broadcast from current process. Note that `len(input_tensor_list)` needs to be the same for all the distributed processes calling this function.
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
 *   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
 
- |
-| --- | --- |
+
 | Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
 | --- | --- |
 

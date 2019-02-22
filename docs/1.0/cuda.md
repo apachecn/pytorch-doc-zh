@@ -2,368 +2,370 @@
 
 # torch.cuda
 
-This package adds support for CUDA tensor types, that implement the same function as CPU tensors, but they utilize GPUs for computation.
+> 译者：[bdqfork](https://github.com/bdqfork)
 
-It is lazily initialized, so you can always import it, and use [`is_available()`](#torch.cuda.is_available "torch.cuda.is_available") to determine if your system supports CUDA.
+这个包添加了对CUDA张量类型的支持，它实现了与CPU张量同样的功能，但是它使用GPU进计算。
 
-[CUDA semantics](notes/cuda.html#cuda-semantics) has more details about working with CUDA.
+它是懒加载的，所以你可以随时导入它，并使用 [`is_available()`](#torch.cuda.is_available "torch.cuda.is_available") 来决定是否让你的系统支持CUDA。
+
+[CUDA semantics](notes/cuda.html#cuda-semantics) 有关于使用CUDA更详细的信息。
 
 ```py
 torch.cuda.current_blas_handle()
 ```
 
-Returns cublasHandle_t pointer to current cuBLAS handle
+返回一个cublasHandle_t指针给当前的cuBLAS处理。
 
 ```py
 torch.cuda.current_device()
 ```
 
-Returns the index of a currently selected device.
+返回当前选择地设备索引。
 
 ```py
 torch.cuda.current_stream()
 ```
 
-Returns a currently selected [`Stream`](#torch.cuda.Stream "torch.cuda.Stream").
+返回当前选择地 [`Stream`](#torch.cuda.Stream "torch.cuda.Stream")。
 
 ```py
 class torch.cuda.device(device)
 ```
 
-Context-manager that changes the selected device.
+Context-manager 用来改变选择的设备。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – device index to select. It’s a no-op if this argument is a negative integer or `None`. |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要选择的设备索引。如果这个参数是负数或者是 `None`，那么它不会起任何作用。 |
 | --- | --- |
 
 ```py
 torch.cuda.device_count()
 ```
 
-Returns the number of GPUs available.
+返回可用的GPU数量。
 
 ```py
 torch.cuda.device_ctx_manager
 ```
 
-alias of [`torch.cuda.device`](#torch.cuda.device "torch.cuda.device")
+ [`torch.cuda.device`](#torch.cuda.device "torch.cuda.device") 的别名。
 
 ```py
 class torch.cuda.device_of(obj)
 ```
 
-Context-manager that changes the current device to that of given object.
+Context-manager 将当前的设备改变成传入的对象。.
 
-You can use both tensors and storages as arguments. If a given object is not allocated on a GPU, this is a no-op.
+你可以使用张量或者存储作为参数。如果传入的对象没有分配在GPU上，这个操作是无效的。
 
-| Parameters: | **obj** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ _Storage_) – object allocated on the selected device. |
+| 参数: | **obj** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _或者_ _Storage_) – 分配在已选择的设备上的对象。|
 | --- | --- |
 
 ```py
 torch.cuda.empty_cache()
 ```
 
-Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in `nvidia-smi`.
+释放缓存分配器当前持有的所有未占用的缓存显存，使其可以用在其他GPU应用且可以在 `nvidia-smi`可视化。
 
-Note
+注意
 
-[`empty_cache()`](#torch.cuda.empty_cache "torch.cuda.empty_cache") doesn’t increase the amount of GPU memory available for PyTorch. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+[`empty_cache()`](#torch.cuda.empty_cache "torch.cuda.empty_cache") 并不会增加PyTorch可以使用的GPU显存的大小。 查看 [显存管理](notes/cuda.html#cuda-memory-management) 来获取更多的GPU显存管理的信息。
 
 ```py
 torch.cuda.get_device_capability(device)
 ```
 
-Gets the cuda capability of a device.
+获取一个设备的cuda容量。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – device for which to return the device capability. This function is a no-op if this argument is a negative integer. Uses the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ 可选的) – 需要返回容量的设备。如果这个参数传入的是负数，那么这个方法不会起任何作用。如果[`device`](#torch.cuda.device "torch.cuda.device")是`None`（默认值），会通过 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")传入当前设备。 |
 | --- | --- |
-| Returns: | the major and minor cuda capability of the device |
+| 返回: | 设备的最大和最小的cuda容量。 |
 | --- | --- |
-| Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")([int](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)"), [int](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) |
+| 返回 类型: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")([int](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)"), [int](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) |
 | --- | --- |
 
 ```py
 torch.cuda.get_device_name(device)
 ```
 
-Gets the name of a device.
+获取设备名称。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – device for which to return the name. This function is a no-op if this argument is a negative integer. Uses the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 需要返回名称的设备。如果参数是负数，那么将不起作用。如果[`device`](#torch.cuda.device "torch.cuda.device")是`None`（默认值），会通过 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")传入当前设备。 |
 | --- | --- |
 
 ```py
 torch.cuda.init()
 ```
 
-Initialize PyTorch’s CUDA state. You may need to call this explicitly if you are interacting with PyTorch via its C API, as Python bindings for CUDA functionality will not be until this initialization takes place. Ordinary users should not need this, as all of PyTorch’s CUDA methods automatically initialize CUDA state on-demand.
+初始化PyTorch的CUDA状态。如果你通过C API与PyTorch进行交互，你可能需要显式调用这个方法。只有CUDA的初始化完成，CUDA的功能才会绑定到Python。用户一般不应该需要这个，因为所有PyTorch的CUDA方法都会自动在需要的时候初始化CUDA。
 
-Does nothing if the CUDA state is already initialized.
+如果CUDA的状态已经初始化了，将不起任何作用。
 
 ```py
 torch.cuda.is_available()
 ```
 
-Returns a bool indicating if CUDA is currently available.
+返回一个bool值，表示当前CUDA是否可用。
 
 ```py
 torch.cuda.max_memory_allocated(device=None)
 ```
 
-Returns the maximum GPU memory usage by tensors in bytes for a given device.
+返回给定设备的张量的最大GPU显存使用量（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
-Note
+注意
 
-See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.max_memory_cached(device=None)
 ```
 
-Returns the maximum GPU memory managed by the caching allocator in bytes for a given device.
+返回给定设备的缓存分配器管理的最大GPU显存（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
 | --- | --- |
 
-Note
+注意
 
-See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.memory_allocated(device=None)
 ```
 
-Returns the current GPU memory usage by tensors in bytes for a given device.
+返回给定设备的当前GPU显存使用量（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
-Note
+注意
 
-This is likely less than the amount shown in `nvidia-smi` since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+这可能比 `nvidia-smi` 显示的数量少，因为一些没有使用的显存会被缓存分配器持有，且一些上下文需要在GPU中创建。查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.memory_cached(device=None)
 ```
 
-Returns the current GPU memory managed by the caching allocator in bytes for a given device.
+返回由缓存分配器管理的当前GPU显存（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
 | --- | --- |
 
-Note
+注意
 
-See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.set_device(device)
 ```
 
-Sets the current device.
+设置当前设备。
 
-Usage of this function is discouraged in favor of [`device`](#torch.cuda.device "torch.cuda.device"). In most cases it’s better to use `CUDA_VISIBLE_DEVICES` environmental variable.
+不鼓励使用此功能以支持 [`device`](#torch.cuda.device "torch.cuda.device").。在多数情况下，最好使用`CUDA_VISIBLE_DEVICES`环境变量。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – selected device. This function is a no-op if this argument is negative. |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 选择的设备。如果参数是负数，将不会起任何作用。 |
 | --- | --- |
 
 ```py
 torch.cuda.stream(stream)
 ```
 
-Context-manager that selects a given stream.
+给定流的上下文管理器。
 
-All CUDA kernels queued within its context will be enqueued on a selected stream.
+所有CUDA在上下文中排队的内核将会被添加到选择的流中。
 
-| Parameters: | **stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – selected stream. This manager is a no-op if it’s `None`. |
+| 参数: | **stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – 选择的流。如果为`None`，这个管理器将不起任何作用。|
 | --- | --- |
 
-Note
+注意
 
-Streams are per-device, and this function changes the “current stream” only for the currently selected device. It is illegal to select a stream that belongs to a different device.
+流是针对每个设备的，这个方法只更改当前选择设备的“当前流”。选择一个不同的设备流是不允许的。
 
 ```py
 torch.cuda.synchronize()
 ```
 
-Waits for all kernels in all streams on current device to complete.
+等待所有当前设备的所有流完成。
 
-## Random Number Generator
+## 随机数生成器
 
 ```py
 torch.cuda.get_rng_state(device=-1)
 ```
 
-Returns the random number generator state of the current GPU as a ByteTensor.
+以ByteTensor的形式返回当前GPU的随机数生成器的状态。
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – The device to return the RNG state of. Default: -1 (i.e., use the current device). |
+| 参数: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 需要返回RNG状态的目标设备。默认：-1 (例如，使用当前设备)。 |
 | --- | --- |
 
-Warning
+警告
 
-This function eagerly initializes CUDA.
+此函数会立即初始化CUDA。
 
 ```py
 torch.cuda.set_rng_state(new_state, device=-1)
 ```
 
-Sets the random number generator state of the current GPU.
+设置当前GPU的随机数生成器状态。
 
-| Parameters: | **new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – The desired state |
+| 参数: | **new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 目标状态 |
 | --- | --- |
 
 ```py
 torch.cuda.manual_seed(seed)
 ```
 
-Sets the seed for generating random numbers for the current GPU. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
+设置为当前GPU生成随机数的种子。如果CUDA不可用，可以安全地调用此函数；在这种情况下，它将被静默地忽略。
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The desired seed. |
+| 参数: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目标种子。 |
 | --- | --- |
 
-Warning
+警告
 
-If you are working with a multi-GPU model, this function is insufficient to get determinism. To seed all GPUs, use [`manual_seed_all()`](#torch.cuda.manual_seed_all "torch.cuda.manual_seed_all").
+如果您使用的是多GPU模型，那么这个函数不具有确定性。设置用于在所有GPU上生成随机数的种子，使用 [`manual_seed_all()`](#torch.cuda.manual_seed_all "torch.cuda.manual_seed_all").
 
 ```py
 torch.cuda.manual_seed_all(seed)
 ```
 
-Sets the seed for generating random numbers on all GPUs. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
+设置用于在所有GPU上生成随机数的种子。 如果CUDA不可用，可以安全地调用此函数；在这种情况下，它将被静默地忽略。
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The desired seed. |
+| 参数: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目标种子。|
 | --- | --- |
 
 ```py
 torch.cuda.seed()
 ```
 
-Sets the seed for generating random numbers to a random number for the current GPU. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
+将用于生成随机数的种子设置为当前GPU的随机数。 如果CUDA不可用，可以安全地调用此函数；在这种情况下，它将被静默地忽略。
 
-Warning
+警告
 
-If you are working with a multi-GPU model, this function will only initialize the seed on one GPU. To initialize all GPUs, use [`seed_all()`](#torch.cuda.seed_all "torch.cuda.seed_all").
+如果您使用的是多GPU模型，此函数将只初始化一个GPU上的种子。在所有GPU上将用于生成随机数的种子设置为随机数， 使用 [`seed_all()`](#torch.cuda.seed_all "torch.cuda.seed_all").
 
 ```py
 torch.cuda.seed_all()
 ```
 
-Sets the seed for generating random numbers to a random number on all GPUs. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
+在所有GPU上将用于生成随机数的种子设置为随机数。 如果CUDA不可用，可以安全地调用此函数；在这种情况下，它将被静默地忽略。
 
 ```py
 torch.cuda.initial_seed()
 ```
 
-Returns the current random seed of the current GPU.
+返回当前GPU的当前随机种子。
 
-Warning
+警告
 
-This function eagerly initializes CUDA.
+此函数会立即初始化CUDA。
 
-## Communication collectives
+## 通信集合
 
 ```py
 torch.cuda.comm.broadcast(tensor, devices)
 ```
 
-Broadcasts a tensor to a number of GPUs.
+将张量广播到多个GPU。
 
-| Parameters: | 
+| 参数: | 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – tensor to broadcast.
-*   **devices** (_Iterable_) – an iterable of devices among which to broadcast. Note that it should be like (src, dst1, dst2, …), the first element of which is the source device to broadcast from.
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 需要广播的张量。
+*   **devices** (_Iterable_) – 一个要被广播的可迭代的张量集合。注意，它应该是这样的形式 (src, dst1, dst2, …)，其中第一个元素是广播的源设备。
 
  |
 | --- | --- |
-| Returns: | A tuple containing copies of the `tensor`, placed on devices corresponding to indices from `devices`. |
+| 返回: | 一个包含`tensor`副本的元组，放置在与设备索引相对应的设备上。|
 | --- | --- |
 
 ```py
 torch.cuda.comm.broadcast_coalesced(tensors, devices, buffer_size=10485760)
 ```
 
-Broadcasts a sequence tensors to the specified GPUs. Small tensors are first coalesced into a buffer to reduce the number of synchronizations.
+将序列张量广播到指定的GPU。 首先将小型张量合并到缓冲区中以减少同步次数。
 
-| Parameters: | 
+| 参数: | 
 
-*   **tensors** (_sequence_) – tensors to broadcast.
-*   **devices** (_Iterable_) – an iterable of devices among which to broadcast. Note that it should be like (src, dst1, dst2, …), the first element of which is the source device to broadcast from.
-*   **buffer_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – maximum size of the buffer used for coalescing
+*   **tensors** (_sequence_) – 要被广播的张量。
+*   **devices** (_Iterable_) – 一个要被广播的可迭代的张量集合。注意，它应该是这样的形式 (src, dst1, dst2, …)，其中第一个元素是广播的源设备。
+*   **buffer_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 用于合并的缓冲区的最大大小
 
  |
 | --- | --- |
-| Returns: | A tuple containing copies of the `tensor`, placed on devices corresponding to indices from `devices`. |
+| 返回: | 一个包含`tensor`副本的元组，放置在与设备索引相对应的设备上。 |
 | --- | --- |
 
 ```py
 torch.cuda.comm.reduce_add(inputs, destination=None)
 ```
 
-Sums tensors from multiple GPUs.
+从多个GPU上对张量进行求和。
 
-All inputs should have matching shapes.
+所有输入必须有相同的形状。
 
-| Parameters: | 
+| 参数: | 
 
-*   **inputs** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – an iterable of tensors to add.
-*   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – a device on which the output will be placed (default: current device).
+*   **inputs** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 一个可迭代的要添加的张量集合。
+*   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 输出所在的设备。(默认值: 当前设备)。
 
  |
 | --- | --- |
-| Returns: | A tensor containing an elementwise sum of all inputs, placed on the `destination` device. |
+| 返回: | 一个包含按元素相加的所有输入的和的张量，在 `destination` 设备上。 |
 | --- | --- |
 
 ```py
 torch.cuda.comm.scatter(tensor, devices, chunk_sizes=None, dim=0, streams=None)
 ```
 
-Scatters tensor across multiple GPUs.
+将张量分散在多个GPU上。
 
-| Parameters: | 
+| 参数: | 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – tensor to scatter.
-*   **devices** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – iterable of ints, specifying among which devices the tensor should be scattered.
-*   **chunk_sizes** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]__,_ _optional_) – sizes of chunks to be placed on each device. It should match `devices` in length and sum to `tensor.size(dim)`. If not specified, the tensor will be divided into equal chunks.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – A dimension along which to chunk the tensor.
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要分散的张量.
+*   **devices** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – 可迭代的数字集合，指明在哪个设备上的张量要被分散。
+*   **chunk_sizes** (_Iterable__[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]__,_ _可选的_) – 每个设备上放置的块的大小。它应该和`devices`的长度相等，并相加等于`tensor.size(dim)`。如果没有指定，张量将会被分散成相同的块。
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 分块张量所在的维度。
 
  |
 | --- | --- |
-| Returns: | A tuple containing chunks of the `tensor`, spread across given `devices`. |
+| 返回: | 一个包含`tensor`块的元组，分散在给定的`devices`上。 |
 | --- | --- |
 
 ```py
 torch.cuda.comm.gather(tensors, dim=0, destination=None)
 ```
 
-Gathers tensors from multiple GPUs.
+从多个GPU收集张量。
 
-Tensor sizes in all dimension different than `dim` have to match.
+在所有维度中与`dim`不同的张量尺寸必须匹配。
 
-| Parameters: | 
+| 参数: | 
 
-*   **tensors** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – iterable of tensors to gather.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – a dimension along which the tensors will be concatenated.
-*   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – output device (-1 means CPU, default: current device)
+*   **tensors** (_Iterable__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 可迭代的张量集合。
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 纬度，张量将会在这个维度上被连接。
+*   **destination** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 输出设备(-1 表示 CPU, 默认值: 当前设备)
 
  |
 | --- | --- |
-| Returns: | A tensor located on `destination` device, that is a result of concatenating `tensors` along `dim`. |
+| 返回: | 在`destination` 设备上的张量，这是沿着`dim`连接张量的结果。 |
 | --- | --- |
 
-## Streams and events
+## 流和事件
 
 ```py
 class torch.cuda.Stream
 ```
 
-Wrapper around a CUDA stream.
+围绕CUDA流的包装器。
 
-A CUDA stream is a linear sequence of execution that belongs to a specific device, independent from other streams. See [CUDA semantics](notes/cuda.html#cuda-semantics) for details.
+CUDA流是属于特定设备的线性执行序列，独立于其他流。 查看 [CUDA semantics](notes/cuda.html#cuda-semantics) 获取更详细的信息。
 
-| Parameters: | 
+| 参数: | 
 
-*   **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – a device on which to allocate the stream. If [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default) or a negative integer, this will use the current device.
-*   **priority** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – priority of the stream. Lower numbers represent higher priorities.
+*   **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 要在其上分配流的设备。 如果 [`device`](#torch.cuda.device "torch.cuda.device") 为`None`（默认值）或负整数，则将使用当前设备。
+*   **priority** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 流的优先级。数字越小，优先级越高。 
 
  |
 | --- | --- |
@@ -372,73 +374,73 @@ A CUDA stream is a linear sequence of execution that belongs to a specific devic
 query()
 ```
 
-Checks if all the work submitted has been completed.
+检查提交的所有工作是否已完成。
 
-| Returns: | A boolean indicating if all kernels in this stream are completed. |
+| 返回: | 一个布尔值，表示此流中的所有内核是否都已完成。|
 | --- | --- |
 
 ```py
 record_event(event=None)
 ```
 
-Records an event.
+记录一个事件。
 
-| Parameters: | **event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")_,_ _optional_) – event to record. If not given, a new one will be allocated. |
+| 参数: | **event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")_,_ _可选的_) – 需要记录的事件。如果没有给出，将分配一个新的。 |
 | --- | --- |
-| Returns: | Recorded event. |
+| 返回: | 记录的事件。 |
 | --- | --- |
 
 ```py
 synchronize()
 ```
 
-Wait for all the kernels in this stream to complete.
+等待此流中的所有内核完成。
 
-Note
+注意
 
-This is a wrapper around `cudaStreamSynchronize()`: see [CUDA documentation](http://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__STREAM.html) for more info.
+这是一个围绕 `cudaStreamSynchronize()`的包装： 查看 [CUDA 文档](http://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__STREAM.html) 获取更详细的信息。
 
 ```py
 wait_event(event)
 ```
 
-Makes all future work submitted to the stream wait for an event.
+使提交给流的所有未来工作等待事件。
 
-| Parameters: | **event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")) – an event to wait for. |
+| 参数: | **event** ([_Event_](#torch.cuda.Event "torch.cuda.Event")) – 需要等待的事件。 |
 | --- | --- |
 
-Note
+注意
 
-This is a wrapper around `cudaStreamWaitEvent()`: see [CUDA documentation](http://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__STREAM.html) for more info.
+这是一个围绕 `cudaStreamWaitEvent()`的包装： 查看 [CUDA 文档](http://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__STREAM.html) 获取更详细的信息。
 
-This function returns without waiting for `event`: only future operations are affected.
+此函数返回时无需等待`event`： 只有未来的操作受到影响。
 
 ```py
 wait_stream(stream)
 ```
 
-Synchronizes with another stream.
+与另一个流同步。
 
-All future work submitted to this stream will wait until all kernels submitted to a given stream at the time of call complete.
+提交给此流的所有未来工作将等到所有内核在呼叫完成时提交给给定流。
 
-| Parameters: | **stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – a stream to synchronize. |
+| 参数: | **stream** ([_Stream_](#torch.cuda.Stream "torch.cuda.Stream")) – 要同步的流。 |
 | --- | --- |
 
-Note
+注意
 
-This function returns without waiting for currently enqueued kernels in [`stream`](#torch.cuda.stream "torch.cuda.stream"): only future operations are affected.
+此函数返回时不等待`stream`中当前排队的内核 ： 只有未来的操作受到影响。
 
 ```py
 class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, _handle=None)
 ```
 
-Wrapper around CUDA event.
+围绕CUDA事件的包装。
 
-| Parameters: | 
+| 参数: | 
 
-*   **enable_timing** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – indicates if the event should measure time (default: `False`)
-*   **blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True`, [`wait()`](#torch.cuda.Event.wait "torch.cuda.Event.wait") will be blocking (default: `False`)
-*   **interprocess** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True`, the event can be shared between processes (default: `False`)
+*   **enable_timing** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 表示事件是否应该测量时间（默认值：`False`）
+*   **blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果是`True`， [`wait()`](#torch.cuda.Event.wait "torch.cuda.Event.wait") 将会阻塞 (默认值: `False`)
+*   **interprocess** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果是 `True`，事件将会在进程中共享 (默认值: `False`)
 
  |
 | --- | --- |
@@ -447,104 +449,104 @@ Wrapper around CUDA event.
 elapsed_time(end_event)
 ```
 
-Returns the time elapsed before the event was recorded.
+返回记录事件之前经过的时间。
 
 ```py
 ipc_handle()
 ```
 
-Returns an IPC handle of this event.
+返回此事件的IPC句柄。
 
 ```py
 query()
 ```
 
-Checks if the event has been recorded.
+检测事件是否被记录。
 
-| Returns: | A boolean indicating if the event has been recorded. |
+| 返回: | 一个布尔值，表示事件是否被记录。|
 | --- | --- |
 
 ```py
 record(stream=None)
 ```
 
-Records the event in a given stream.
+记录给定流的一个事件。
 
 ```py
 synchronize()
 ```
 
-Synchronizes with the event.
+和一个事件同步。
 
 ```py
 wait(stream=None)
 ```
 
-Makes a given stream wait for the event.
+使给定的流等待一个事件。
 
-## Memory management
+## 显存管理
 
 ```py
 torch.cuda.empty_cache()
 ```
 
-Releases all unoccupied cached memory currently held by the caching allocator so that those can be used in other GPU application and visible in `nvidia-smi`.
+释放当前由缓存分配器保存的所有未占用的缓存显存，以便可以在其他GPU应用程序中使用这些缓存并在`nvidia-smi`中可见。
 
-Note
+注意
 
-[`empty_cache()`](#torch.cuda.empty_cache "torch.cuda.empty_cache") doesn’t increase the amount of GPU memory available for PyTorch. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+[`empty_cache()`](#torch.cuda.empty_cache "torch.cuda.empty_cache") 不会增加PyTorch可用的GPU显存量。 查看 [显存管理](notes/cuda.html#cuda-memory-management) 以了解更多GPU显存管理的详细信息。
 
 ```py
 torch.cuda.memory_allocated(device=None)
 ```
 
-Returns the current GPU memory usage by tensors in bytes for a given device.
+返回给定设备的当前GPU显存使用量（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选定的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
-Note
+注意
 
-This is likely less than the amount shown in `nvidia-smi` since some unused memory can be held by the caching allocator and some context needs to be created on GPU. See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+这可能比 `nvidia-smi` 显示的数量少，因为一些没有使用的显存会被缓存分配器持有，且一些上下文需要在GPU中创建。查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.max_memory_allocated(device=None)
 ```
 
-Returns the maximum GPU memory usage by tensors in bytes for a given device.
+返回给定设备的张量的最大GPU显存使用量（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) –  选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。  |
 | --- | --- |
 
-Note
+注意
 
-See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.memory_cached(device=None)
 ```
 
-Returns the current GPU memory managed by the caching allocator in bytes for a given device.
+返回由缓存分配器管理的当前GPU显存（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
-Note
+注意
 
-See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ```py
 torch.cuda.max_memory_cached(device=None)
 ```
 
-Returns the maximum GPU memory managed by the caching allocator in bytes for a given device.
+返回给定设备的缓存分配器管理的最大GPU显存（以字节为单位）。
 
-| Parameters: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – selected device. Returns statistic for the current device, given by [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device"), if [`device`](#torch.cuda.device "torch.cuda.device") is `None` (default). |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
 | --- | --- |
 
-Note
+注意
 
-See [Memory management](notes/cuda.html#cuda-memory-management) for more details about GPU memory management.
+查看 [显存管理](notes/cuda.html#cuda-memory-management) 部分了解更多关于GPU显存管理部分的详细信息。
 
 ## NVIDIA Tools Extension (NVTX)
 
@@ -552,23 +554,23 @@ See [Memory management](notes/cuda.html#cuda-memory-management) for more details
 torch.cuda.nvtx.mark(msg)
 ```
 
-Describe an instantaneous event that occurred at some point.
+描述某个时刻发生的瞬时事件。
 
-| Parameters: | **msg** (_string_) – ASCII message to associate with the event. |
+| 参数: | **msg** (_string_) – 与时间相关的ASCII信息。 |
 | --- | --- |
 
 ```py
 torch.cuda.nvtx.range_push(msg)
 ```
 
-Pushes a range onto a stack of nested range span. Returns zero-based depth of the range that is started.
+将范围推到嵌套范围跨度的堆栈上。 返回启动范围的从零开始的深度。
 
-| Parameters: | **msg** (_string_) – ASCII message to associate with range |
+| 参数: | **msg** (_string_) – 与时间相关的ASCII信息。 |
 | --- | --- |
 
 ```py
 torch.cuda.nvtx.range_pop()
 ```
 
-Pops a range off of a stack of nested range spans. Returns the zero-based depth of the range that is ended.
+从一堆嵌套范围跨度中弹出一个范围。 返回结束范围的从零开始的深度。
 

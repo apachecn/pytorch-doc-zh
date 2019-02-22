@@ -1,21 +1,22 @@
+# 序列化的相关语义
 
+> 译者：[yuange250](https://github.com/yuange250)
 
-# Serialization semantics
+## 最佳方案
 
-## Best practices
+### 保存模型的推荐方法
 
-### Recommended approach for saving a model
+Pytorch主要有两种方法可用于序列化和保存一个模型。
 
-There are two main approaches for serializing and restoring a model.
-
-The first (recommended) saves and loads only the model parameters:
+第一种只存取模型的参数（更为推荐）：
+保存参数：
 
 ```py
 torch.save(the_model.state_dict(), PATH)
 
 ```
 
-Then later:
+读取参数：
 
 ```py
 the_model = TheModelClass(*args, **kwargs)
@@ -23,19 +24,18 @@ the_model.load_state_dict(torch.load(PATH))
 
 ```
 
-The second saves and loads the entire model:
+第二种方法则将整个模型都保存下来：
 
 ```py
 torch.save(the_model, PATH)
 
 ```
 
-Then later:
+读取的时候也是读取整个模型：
 
 ```py
 the_model = torch.load(PATH)
 
 ```
 
-However in this case, the serialized data is bound to the specific classes and the exact directory structure used, so it can break in various ways when used in other projects, or after some serious refactors.
-
+在第二种方法中, 由于特定的序列化的数据与其特定的类别(class)相绑定，并且在序列化的时候使用了固定的目录结构，所以在很多情况下，如在其他的一些项目中使用，或者代码进行了较大的重构的时候，很容易出现问题。

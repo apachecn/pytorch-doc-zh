@@ -1,6 +1,6 @@
 # ONNX 现场演示教程  
 
-> 译者：[PEGASUS1993](https://github.com/PEGASUS1993)
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
 
 本教程将向您展示如何使用ONNX将已从PyTorch导出的神经模型传输模型转换为Apple CoreML格式。这将允许您在Apple设备上轻松运行深度学习模型，在这种情况下，可以从摄像机直播演示。  
 

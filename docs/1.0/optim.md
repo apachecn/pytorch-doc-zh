@@ -96,13 +96,12 @@ Warning
 
 Parameters need to be specified as collections that have a deterministic ordering that is consistent between runs. Examples of objects that don’t satisfy those properties are sets and iterators over values of dictionaries.
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – an iterable of [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") s or [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)") s. Specifies what Tensors should be optimized.
 *   **defaults** – (dict): a dict containing default values of optimization options (used when a parameter group doesn’t specify them).
 
- |
-| --- | --- |
+
 
 ```py
 add_param_group(param_group)
@@ -112,13 +111,12 @@ Add a param group to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optim
 
 This can be useful when fine tuning a pre-trained network as frozen layers can be made trainable and added to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") as training progresses.
 
-| Parameters: | 
+Parameters: 
 
 *   **param_group** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – Specifies what Tensors should be optimized along with group
 *   **optimization options.** (_specific_) –
 
- |
-| --- | --- |
+
 
 ```py
 load_state_dict(state_dict)
@@ -167,7 +165,7 @@ Implements Adadelta algorithm.
 
 It has been proposed in [ADADELTA: An Adaptive Learning Rate Method](https://arxiv.org/abs/1212.5701).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **rho** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – coefficient used for computing a running average of squared gradients (default: 0.9)
@@ -175,8 +173,7 @@ It has been proposed in [ADADELTA: An Adaptive Learning Rate Method](https://arx
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – coefficient that scale delta before it is applied to the parameters (default: 1.0)
 *   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -195,15 +192,14 @@ Implements Adagrad algorithm.
 
 It has been proposed in [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](http://jmlr.org/papers/v12/duchi11a.html).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
 *   **lr_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate decay (default: 0)
 *   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -222,7 +218,7 @@ Implements Adam algorithm.
 
 It has been proposed in [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-3)
@@ -231,8 +227,7 @@ It has been proposed in [Adam: A Method for Stochastic Optimization](https://arx
 *   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
 *   **amsgrad** (_boolean__,_ _optional_) – whether to use the AMSGrad variant of this algorithm from the paper [On the Convergence of Adam and Beyond](https://openreview.net/forum?id=ryQu7f-RZ) (default: False)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -251,15 +246,14 @@ Implements lazy version of Adam algorithm suitable for sparse tensors.
 
 In this variant, only moments that show up in the gradient get updated, and only those portions of the gradient get applied to the parameters.
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-3)
 *   **betas** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – coefficients used for computing running averages of gradient and its square (default: (0.9, 0.999))
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-8)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -278,7 +272,7 @@ Implements Adamax algorithm (a variant of Adam based on infinity norm).
 
 It has been proposed in [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 2e-3)
@@ -286,8 +280,7 @@ It has been proposed in [Adam: A Method for Stochastic Optimization](https://arx
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-8)
 *   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -306,7 +299,7 @@ Implements Averaged Stochastic Gradient Descent.
 
 It has been proposed in [Acceleration of stochastic approximation by averaging](http://dl.acm.org/citation.cfm?id=131098).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
@@ -315,8 +308,7 @@ It has been proposed in [Acceleration of stochastic approximation by averaging](
 *   **t0** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – point at which to start averaging (default: 1e6)
 *   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -345,7 +337,7 @@ Note
 
 This is a very memory intensive optimizer (it requires additional `param_bytes * (history_size + 1)` bytes). If it doesn’t fit in memory try reducing the history size, or use a different algorithm.
 
-| Parameters: | 
+Parameters: 
 
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – learning rate (default: 1)
 *   **max_iter** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – maximal number of iterations per optimization step (default: 20)
@@ -354,8 +346,7 @@ This is a very memory intensive optimizer (it requires additional `param_bytes *
 *   **tolerance_change** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – termination tolerance on function value/parameter changes (default: 1e-9).
 *   **history_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – update history size (default: 100).
 
- |
-| --- | --- |
+
 
 ```py
 step(closure)
@@ -376,7 +367,7 @@ Proposed by G. Hinton in his [course](http://www.cs.toronto.edu/~tijmen/csc321/s
 
 The centered version first appears in [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850v5.pdf).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
@@ -386,8 +377,7 @@ The centered version first appears in [Generating Sequences With Recurrent Neura
 *   **centered** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, compute the centered RMSProp, the gradient is normalized by an estimation of its variance
 *   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -404,15 +394,14 @@ class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50)
 
 Implements the resilient backpropagation algorithm.
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
 *   **etas** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – pair of (etaminus, etaplis), that are multiplicative increase and decrease factors (default: (0.5, 1.2))
 *   **step_sizes** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – a pair of minimal and maximal allowed step sizes (default: (1e-6, 50))
 
- |
-| --- | --- |
+
 
 ```py
 step(closure=None)
@@ -431,7 +420,7 @@ Implements stochastic gradient descent (optionally with momentum).
 
 Nesterov momentum is based on the formula from [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf).
 
-| Parameters: | 
+Parameters: 
 
 *   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
 *   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – learning rate
@@ -440,8 +429,7 @@ Nesterov momentum is based on the formula from [On the importance of initializat
 *   **dampening** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – dampening for momentum (default: 0)
 *   **nesterov** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – enables Nesterov momentum (default: False)
 
- |
-| --- | --- |
+
 
 Example
 
@@ -488,14 +476,13 @@ class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)
 
 Sets the learning rate of each parameter group to the initial lr times a given function. When last_epoch=-1, sets initial lr as lr.
 
-| Parameters: | 
+Parameters: 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
 *   **lr_lambda** (_function_ _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – A function which computes a multiplicative factor given an integer parameter epoch, or a list of such functions, one for each group in optimizer.param_groups.
 *   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
 
- |
-| --- | --- |
+
 
 Example
 
@@ -534,15 +521,14 @@ class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoc
 
 Sets the learning rate of each parameter group to the initial lr decayed by gamma every step_size epochs. When last_epoch=-1, sets initial lr as lr.
 
-| Parameters: | 
+Parameters: 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
 *   **step_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Period of learning rate decay.
 *   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Multiplicative factor of learning rate decay. Default: 0.1.
 *   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
 
- |
-| --- | --- |
+
 
 Example
 
@@ -566,15 +552,14 @@ class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, las
 
 Set the learning rate of each parameter group to the initial lr decayed by gamma once the number of epoch reaches one of the milestones. When last_epoch=-1, sets initial lr as lr.
 
-| Parameters: | 
+Parameters: 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
 *   **milestones** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – List of epoch indices. Must be increasing.
 *   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Multiplicative factor of learning rate decay. Default: 0.1.
 *   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
 
- |
-| --- | --- |
+
 
 Example
 
@@ -597,14 +582,13 @@ class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1)
 
 Set the learning rate of each parameter group to the initial lr decayed by gamma every epoch. When last_epoch=-1, sets initial lr as lr.
 
-| Parameters: | 
+Parameters: 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
 *   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Multiplicative factor of learning rate decay.
 *   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
 
- |
-| --- | --- |
+
 
 ```py
 class torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0, last_epoch=-1)
@@ -618,15 +602,14 @@ When last_epoch=-1, sets initial lr as lr.
 
 It has been proposed in [SGDR: Stochastic Gradient Descent with Warm Restarts](https://arxiv.org/abs/1608.03983). Note that this only implements the cosine annealing part of SGDR, and not the restarts.
 
-| Parameters: | 
+Parameters: 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
 *   **T_max** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Maximum number of iterations.
 *   **eta_min** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Minimum learning rate. Default: 0.
 *   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
 
- |
-| --- | --- |
+
 
 ```py
 class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
@@ -634,7 +617,7 @@ class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0
 
 Reduce learning rate when a metric has stopped improving. Models often benefit from reducing the learning rate by a factor of 2-10 once learning stagnates. This scheduler reads a metrics quantity and if no improvement is seen for a ‘patience’ number of epochs, the learning rate is reduced.
 
-| Parameters: | 
+Parameters: 
 
 *   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
 *   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of `min`, `max`. In `min` mode, lr will be reduced when the quantity monitored has stopped decreasing; in `max` mode it will be reduced when the quantity monitored has stopped increasing. Default: ‘min’.
@@ -647,8 +630,7 @@ Reduce learning rate when a metric has stopped improving. Models often benefit f
 *   **min_lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – A scalar or a list of scalars. A lower bound on the learning rate of all param groups or each group respectively. Default: 0.
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Minimal decay applied to lr. If the difference between new and old lr is smaller than eps, the update is ignored. Default: 1e-8.
 
- |
-| --- | --- |
+
 
 Example
 

@@ -8,6 +8,7 @@
 +   [1.0 英文教程](https://pytorch.org/tutorials/)
 +   [0.3 中文教程 & 文档](https://pytorch.apachecn.org/docs/0.3/)
 +   [0.4 中文文档](https://pytorch.apachecn.org/docs/0.4/)
++   [0.3 和 1.0 之间的 DIFF 文件](diff/0.3-1.0)
 
 负责人：
 
@@ -113,6 +114,8 @@
 如果遇到格式问题，请随手把它改正。
 
 ### 三、提交
+
+**提交的时候不要改动文件名称，即使它跟章节标题不一样也不要改，因为文件名和原文的链接是对应的！！！**
 
 +   `fork` Github 项目
 +   将译文放在`docs/1.0`文件夹下

@@ -117,7 +117,7 @@ torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth
 
 Set options for printing. Items shamelessly taken from NumPy
 
-| Parameters: | 
+Parameters: 
 
 *   **precision** – Number of digits of precision for floating point output (default = 4).
 *   **threshold** – Total number of array elements which trigger summarization rather than full `repr` (default = 1000).
@@ -125,8 +125,7 @@ Set options for printing. Items shamelessly taken from NumPy
 *   **linewidth** – The number of characters per line for the purpose of inserting line breaks (default = 80). Thresholded matrices will ignore this parameter.
 *   **profile** – Sane defaults for pretty printing. Can override with any of the above options. (any one of `default`, `short`, `full`)
 
- |
-| --- | --- |
+
 
 ```py
 torch.set_flush_denormal(mode) → bool
@@ -174,15 +173,14 @@ Warning
 
 When data is a tensor `x`, [`torch.tensor()`](#torch.tensor "torch.tensor") reads out ‘the data’ from whatever it is passed, and constructs a leaf variable. Therefore `torch.tensor(x)` is equivalent to `x.clone().detach()` and `torch.tensor(x, requires_grad=True)` is equivalent to `x.clone().detach().requires_grad_(True)`. The equivalents using `clone()` and `detach()` are recommended.
 
-| Parameters: | 
+Parameters: 
 
 *   **data** (_array_like_) – Initial data for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, infers data type from `data`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -214,7 +212,7 @@ torch.sparse_coo_tensor(indices, values, size=None, dtype=None, device=None, req
 
 Constructs a sparse tensors in COO(rdinate) format with non-zero elements at the given `indices` with the given `values`. A sparse tensor can be `uncoalesced`, in that case, there are duplicate coordinates in the indices, and the value at that index is the sum of all duplicate value entries: [torch.sparse](https://pytorch.org/docs/stable/sparse.html).
 
-| Parameters: | 
+Parameters: 
 
 *   **indices** (_array_like_) – Initial data for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types. Will be cast to a `torch.LongTensor` internally. The indices are the coordinates of the non-zero values in the matrix, and thus should be two-dimensional where the first dimension is the number of tensor dimensions and the second dimension is the number of non-zero values.
 *   **values** (_array_like_) – Initial values for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types.
@@ -223,8 +221,7 @@ Constructs a sparse tensors in COO(rdinate) format with non-zero elements at the
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -280,14 +277,13 @@ torch.as_tensor(data, dtype=None, device=None) → Tensor
 
 Convert the data into a `torch.Tensor`. If the data is already a `Tensor` with the same `dtype` and `device`, no copy will be performed, otherwise a new `Tensor` will be returned with computational graph retained if data `Tensor` has `requires_grad=True`. Similarly, if the data is an `ndarray` of the corresponding `dtype` and the `device` is the cpu, no copy will be performed.
 
-| Parameters: | 
+Parameters: 
 
 *   **data** (_array_like_) – Initial data for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types.
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, infers data type from `data`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -337,7 +333,7 @@ torch.zeros(*sizes, out=None, dtype=None, layout=torch.strided, device=None, req
 
 Returns a tensor filled with the scalar value `0`, with the shape defined by the variable argument `sizes`.
 
-| Parameters: | 
+Parameters: 
 
 *   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
@@ -346,8 +342,7 @@ Returns a tensor filled with the scalar value `0`, with the shape defined by the
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -371,7 +366,7 @@ Warning
 
 As of 0.4, this function does not support an `out` keyword. As an alternative, the old `torch.zeros_like(input, out=output)` is equivalent to `torch.zeros(input.size(), out=output)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
@@ -379,8 +374,7 @@ As of 0.4, this function does not support an `out` keyword. As an alternative, t
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -398,7 +392,7 @@ torch.ones(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requ
 
 Returns a tensor filled with the scalar value `1`, with the shape defined by the variable argument `sizes`.
 
-| Parameters: | 
+Parameters: 
 
 *   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
@@ -407,8 +401,7 @@ Returns a tensor filled with the scalar value `1`, with the shape defined by the
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -432,7 +425,7 @@ Warning
 
 As of 0.4, this function does not support an `out` keyword. As an alternative, the old `torch.ones_like(input, out=output)` is equivalent to `torch.ones(input.size(), out=output)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
@@ -440,8 +433,7 @@ As of 0.4, this function does not support an `out` keyword. As an alternative, t
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -463,7 +455,7 @@ Note that non-integer `step` is subject to floating point rounding errors when c
 
 ![](img/9e6fd079c910af8a8a6486e341b02282.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **start** (_Number_) – the starting value for the set of points. Default: `0`.
 *   **end** (_Number_) – the ending value for the set of points
@@ -474,8 +466,7 @@ Note that non-integer `step` is subject to floating point rounding errors when c
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -501,7 +492,7 @@ Warning
 
 This function is deprecated in favor of [`torch.arange()`](#torch.arange "torch.arange").
 
-| Parameters: | 
+Parameters: 
 
 *   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the starting value for the set of points. Default: `0`.
 *   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the ending value for the set of points
@@ -512,8 +503,7 @@ This function is deprecated in favor of [`torch.arange()`](#torch.arange "torch.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -533,7 +523,7 @@ Returns a one-dimensional tensor of `steps` equally spaced points between `start
 
 The output tensor is 1-D of size `steps`.
 
-| Parameters: | 
+Parameters: 
 
 *   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the starting value for the set of points
 *   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the ending value for the set of points
@@ -544,8 +534,7 @@ The output tensor is 1-D of size `steps`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -567,7 +556,7 @@ Returns a one-dimensional tensor of `steps` points logarithmically spaced betwee
 
 The output tensor is 1-D of size `steps`.
 
-| Parameters: | 
+Parameters: 
 
 *   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the starting value for the set of points
 *   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the ending value for the set of points
@@ -578,8 +567,7 @@ The output tensor is 1-D of size `steps`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -597,7 +585,7 @@ torch.eye(n, m=None, out=None, dtype=None, layout=torch.strided, device=None, re
 
 Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.
 
-| Parameters: | 
+Parameters: 
 
 *   **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of rows
 *   **m** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the number of columns with default being `n`
@@ -607,8 +595,7 @@ Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 | Returns: | A 2-D tensor with ones on the diagonal and zeros elsewhere |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -630,7 +617,7 @@ torch.empty(*sizes, out=None, dtype=None, layout=torch.strided, device=None, req
 
 Returns a tensor filled with uninitialized data. The shape of the tensor is defined by the variable argument `sizes`.
 
-| Parameters: | 
+Parameters: 
 
 *   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
@@ -639,8 +626,7 @@ Returns a tensor filled with uninitialized data. The shape of the tensor is defi
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -658,7 +644,7 @@ torch.empty_like(input, dtype=None, layout=None, device=None, requires_grad=Fals
 
 Returns an uninitialized tensor with the same size as `input`. `torch.empty_like(input)` is equivalent to `torch.empty(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
@@ -666,8 +652,7 @@ Returns an uninitialized tensor with the same size as `input`. `torch.empty_like
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -684,7 +669,7 @@ torch.full(size, fill_value, out=None, dtype=None, layout=torch.strided, device=
 
 Returns a tensor of size `size` filled with `fill_value`.
 
-| Parameters: | 
+Parameters: 
 
 *   **size** (_int..._) – a list, tuple, or `torch.Size` of integers defining the shape of the output tensor.
 *   **fill_value** – the number to fill the output tensor with.
@@ -694,8 +679,7 @@ Returns a tensor of size `size` filled with `fill_value`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -712,7 +696,7 @@ torch.full_like(input, fill_value, out=None, dtype=None, layout=torch.strided, d
 
 Returns a tensor with the same size as `input` filled with `fill_value`. `torch.full_like(input, fill_value)` is equivalent to `torch.full_like(input.size(), fill_value, dtype=input.dtype, layout=input.layout, device=input.device)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **fill_value** – the number to fill the output tensor with.
@@ -721,8 +705,7 @@ Returns a tensor with the same size as `input` filled with `fill_value`. `torch.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 ### Indexing, Slicing, Joining, Mutating Ops
 
@@ -736,14 +719,13 @@ Concatenates the given sequence of `seq` tensors in the given dimension. All ten
 
 [`torch.cat()`](#torch.cat "torch.cat") can be best understood via examples.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensors** (_sequence of Tensors_) – any python sequence of tensors of the same type. Non-empty tensors provided must have the same shape, except in the cat dimension.
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension over which the tensors are concatenated
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -775,14 +757,13 @@ Splits a tensor into a specific number of chunks.
 
 Last chunk will be smaller if the tensor size along the given dimension `dim` is not divisible by `chunks`.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to split
 *   **chunks** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of chunks to return
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension along which to split the tensor
 
- |
-| --- | --- |
+
 
 ```py
 torch.gather(input, dim, index, out=None) → Tensor
@@ -801,15 +782,14 @@ out[i][j][k] = input[i][j][index[i][j][k]]  # if dim == 2
 
 If `input` is an n-dimensional tensor with size ![](img/cc51a9d31af24562d403cf82e9e26cb9.jpg) and `dim = i`, then `index` must be an ![](img/493731e423d5db62086d0b8705dda0c8.jpg)-dimensional tensor with size ![](img/28ad1437dec91c9b5a9e20d1e044527a.jpg) where ![](img/e03000f13271a1cd4b262e91f1e8f846.jpg) and `out` will have the same size as `index`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the source tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the axis along which to index
 *   **index** (_LongTensor_) – the indices of elements to gather
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the destination tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -833,15 +813,14 @@ Note
 
 The returned tensor does **not** use the same storage as the original tensor. If `out` has a different shape than expected, we silently change it to the correct shape, reallocating the underlying storage if necessary.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension in which we index
 *   **index** (_LongTensor_) – the 1-D tensor containing the indices to index
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -874,14 +853,13 @@ Note
 
 The returned tensor does **not** use the same storage as the original tensor
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input data
 *   **mask** ([_ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – the tensor containing the binary mask to index with
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -907,15 +885,14 @@ torch.narrow(input, dimension, start, length) → Tensor
 
 Returns a new tensor that is a narrowed version of `input` tensor. The dimension `dim` is input from `start` to `start + length`. The returned tensor and `input` tensor share the same underlying storage.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to narrow
 *   **dimension** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension along which to narrow
 *   **start** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the starting dimension
 *   **length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the distance to the ending dimension
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -939,13 +916,12 @@ Returns a tensor containing the indices of all non-zero elements of `input`. Eac
 
 If `input` has `n` dimensions, then the resulting indices tensor `out` is of size ![](img/a6282f8c351e427a676fb9abf237e01f.jpg), where ![](img/d132b400654f0a1c0bf2cf921b391c8a.jpg) is the total number of non-zero elements in the `input` tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** (_LongTensor__,_ _optional_) – the output tensor containing indices
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -976,13 +952,12 @@ See [`torch.Tensor.view()`](tensors.html#torch.Tensor.view "torch.Tensor.view") 
 
 A single dimension may be -1, in which case it’s inferred from the remaining dimensions and the number of elements in `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to be reshaped
 *   **shape** (_tuple of python:ints_) – the new shape
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1007,14 +982,13 @@ If `split_size_or_sections` is an integer type, then [`tensor`](#torch.tensor "t
 
 If `split_size_or_sections` is a list, then [`tensor`](#torch.tensor "torch.tensor") will be split into `len(split_size_or_sections)` chunks with sizes in `dim` according to `split_size_or_sections`.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – tensor to split.
 *   **split_size_or_sections** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_) or_ _(_[_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_(_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_)_) – size of a single chunk or list of sizes for each chunk
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension along which to split the tensor.
 
- |
-| --- | --- |
+
 
 ```py
 torch.squeeze(input, dim=None, out=None) → Tensor
@@ -1030,14 +1004,13 @@ Note
 
 The returned tensor shares the storage with the input tensor, so changing the contents of one will change the contents of the other.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – if given, the input will be squeezed only in this dimension
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1065,14 +1038,13 @@ Concatenates sequence of tensors along a new dimension.
 
 All tensors need to be of the same size.
 
-| Parameters: | 
+Parameters: 
 
 *   **seq** (_sequence of Tensors_) – sequence of tensors to concatenate
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension to insert. Has to be between 0 and the number of dimensions of concatenated tensors (inclusive)
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 ```py
 torch.t(input) → Tensor
@@ -1105,13 +1077,12 @@ torch.take(input, indices) → Tensor
 
 Returns a new tensor with the elements of `input` at the given indices. The input tensor is treated as if it were viewed as a 1-D tensor. The result takes the same shape as the indices.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **indices** (_LongTensor_) – the indices into tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1131,14 +1102,13 @@ Returns a tensor that is a transposed version of `input`. The given dimensions `
 
 The resulting `out` tensor shares it’s underlying storage with the `input` tensor, so changing the content of one would change the content of the other.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim0** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the first dimension to be transposed
 *   **dim1** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the second dimension to be transposed
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1162,13 +1132,12 @@ Removes a tensor dimension.
 
 Returns a tuple of all slices along a given dimension, already without it.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to unbind
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – dimension to remove
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1190,14 +1159,13 @@ The returned tensor shares the same underlying data with this tensor.
 
 A `dim` value within the range `[-input.dim() - 1, input.dim() + 1)` can be used. Negative `dim` will correspond to [`unsqueeze()`](#torch.unsqueeze "torch.unsqueeze") applied at `dim` = `dim + input.dim() + 1`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the index at which to insert the singleton dimension
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1227,14 +1195,13 @@ Note
 
 The tensors `condition`, `x`, `y` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **condition** ([_ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – When True (nonzero), yield x, otherwise yield y
 *   **x** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – values selected at indices where `condition` is `True`
 *   **y** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – values selected at indices where `condition` is `False`
 
- |
-| --- | --- |
+
 | Returns: | A tensor of shape equal to the broadcasted shape of `condition`, `x`, `y` |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -1308,13 +1275,12 @@ The returned `out` tensor only has values 0 or 1 and is of the same shape as `in
 
 `out` can have integral `dtype`, but :attr`input` must have floating point `dtype`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of probability values for the Bernoulli distribution
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1364,15 +1330,14 @@ If not, they are drawn without replacement, which means that when a sample index
 
 This implies the constraint that `num_samples` must be lower than `input` length (or number of columns of `input` if it is a matrix).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor containing probabilities
 *   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of samples to draw
 *   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to draw with replacement or not
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1405,14 +1370,13 @@ Note
 
 When the shapes do not match, the shape of [`mean`](#torch.mean "torch.mean") is used as the shape for the returned output tensor
 
-| Parameters: | 
+Parameters: 
 
 *   **mean** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element means
 *   **std** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element standard deviations
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1429,14 +1393,13 @@ torch.normal(mean=0.0, std, out=None) → Tensor
 
 Similar to the function above, but the means are shared among all drawn elements.
 
-| Parameters: | 
+Parameters: 
 
 *   **mean** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the mean for all distributions
 *   **std** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element standard deviations
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1452,14 +1415,13 @@ torch.normal(mean, std=1.0, out=None) → Tensor
 
 Similar to the function above, but the standard-deviations are shared among all drawn elements.
 
-| Parameters: | 
+Parameters: 
 
 *   **mean** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element means
 *   **std** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the standard deviation for all distributions
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1477,7 +1439,7 @@ Returns a tensor filled with random numbers from a uniform distribution on the i
 
 The shape of the tensor is defined by the variable argument `sizes`.
 
-| Parameters: | 
+Parameters: 
 
 *   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
@@ -1486,8 +1448,7 @@ The shape of the tensor is defined by the variable argument `sizes`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1506,7 +1467,7 @@ torch.rand_like(input, dtype=None, layout=None, device=None, requires_grad=False
 
 Returns a tensor with the same size as `input` that is filled with random numbers from a uniform distribution on the interval ![](img/a686b817a52173e9e124e756a19344be.jpg). `torch.rand_like(input)` is equivalent to `torch.rand(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
@@ -1514,8 +1475,7 @@ Returns a tensor with the same size as `input` that is filled with random number
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 ```py
 torch.randint(low=0, high, size, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
@@ -1525,7 +1485,7 @@ Returns a tensor filled with random integers generated uniformly between `low` (
 
 The shape of the tensor is defined by the variable argument `size`.
 
-| Parameters: | 
+Parameters: 
 
 *   **low** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Lowest integer to be drawn from the distribution. Default: 0.
 *   **high** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – One above the highest integer to be drawn from the distribution.
@@ -1536,8 +1496,7 @@ The shape of the tensor is defined by the variable argument `size`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1561,7 +1520,7 @@ torch.randint_like(input, low=0, high, dtype=None, layout=torch.strided, device=
 
 Returns a tensor with the same shape as Tensor `input` filled with random integers generated uniformly between `low` (inclusive) and `high` (exclusive).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **low** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Lowest integer to be drawn from the distribution. Default: 0.
@@ -1571,8 +1530,7 @@ Returns a tensor with the same shape as Tensor `input` filled with random intege
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 ```py
 torch.randn(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
@@ -1584,7 +1542,7 @@ Returns a tensor filled with random numbers from a normal distribution with mean
 
 The shape of the tensor is defined by the variable argument `sizes`.
 
-| Parameters: | 
+Parameters: 
 
 *   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
@@ -1593,8 +1551,7 @@ The shape of the tensor is defined by the variable argument `sizes`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1613,7 +1570,7 @@ torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=Fals
 
 Returns a tensor with the same size as `input` that is filled with random numbers from a normal distribution with mean 0 and variance 1. `torch.randn_like(input)` is equivalent to `torch.randn(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
@@ -1621,8 +1578,7 @@ Returns a tensor with the same size as `input` that is filled with random number
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 ```py
 torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None, requires_grad=False) → LongTensor
@@ -1630,7 +1586,7 @@ torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None
 
 Returns a random permutation of integers from `0` to `n - 1`.
 
-| Parameters: | 
+Parameters: 
 
 *   **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the upper bound (exclusive)
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
@@ -1639,8 +1595,7 @@ Returns a random permutation of integers from `0` to `n - 1`.
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1673,15 +1628,14 @@ Saves an object to a disk file.
 
 See also: [Recommended approach for saving a model](notes/serialization.html#recommend-saving-models)
 
-| Parameters: | 
+Parameters: 
 
 *   **obj** – saved object
 *   **f** – a file-like object (has to implement write and flush) or a string containing a file name
 *   **pickle_module** – module used for pickling metadata and objects
 *   **pickle_protocol** – can be specified to override the default protocol
 
- |
-| --- | --- |
+
 
 Warning
 
@@ -1717,14 +1671,13 @@ Otherwise, if `map_location` is a dict, it will be used to remap location tags a
 
 User extensions can register their own location tags and tagging and deserialization methods using `register_package`.
 
-| Parameters: | 
+Parameters: 
 
 *   **f** – a file-like object (has to implement read, readline, tell, and seek), or a string containing a file name
 *   **map_location** – a function, torch.device, string or a dict specifying how to remap storage locations
 *   **pickle_module** – module used for unpickling metadata and objects (has to match the pickle_module used to serialize file)
 
- |
-| --- | --- |
+
 
 Note
 
@@ -1806,13 +1759,12 @@ Computes the element-wise absolute value of the given `input` tensor.
 
 ![](img/1a4bcc75ec995f7b04a37cccd88b214b.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1830,13 +1782,12 @@ Returns a new tensor with the arccosine of the elements of `input`.
 
 ![](img/3533abc4adcb633e8fb0bfc683c437bb.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1863,13 +1814,12 @@ Adds the scalar `value` to each element of the input `input` and returns a new r
 
 If `input` is of type FloatTensor or DoubleTensor, `value` must be a real number, otherwise it should be an integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **value** (_Number_) – the number to be added to each element of `input`
 
- |
-| --- | --- |
+
 | Keyword Arguments: |
 | --- |
 |   | **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor |
@@ -1897,14 +1847,13 @@ The shapes of `input` and `other` must be [broadcastable](notes/broadcasting.htm
 
 If `other` is of type FloatTensor or DoubleTensor, `value` must be a real number, otherwise it should be an integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the first input tensor
 *   **value** (_Number_) – the scalar multiplier for `other`
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
 
- |
-| --- | --- |
+
 | Keyword Arguments: |
 | --- |
 |   | **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor |
@@ -1941,7 +1890,7 @@ The shapes of [`tensor`](#torch.tensor "torch.tensor"), `tensor1`, and `tensor2`
 
 For inputs of type `FloatTensor` or `DoubleTensor`, `value` must be a real number, otherwise an integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to be added
 *   **value** (_Number__,_ _optional_) – multiplier for ![](img/1b168c1663790fbd38202af8bfea37bc.jpg)
@@ -1949,8 +1898,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, `value` must be a real numbe
 *   **tensor2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the denominator tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -1977,7 +1925,7 @@ The shapes of [`tensor`](#torch.tensor "torch.tensor"), `tensor1`, and `tensor2`
 
 For inputs of type `FloatTensor` or `DoubleTensor`, `value` must be a real number, otherwise an integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to be added
 *   **value** (_Number__,_ _optional_) – multiplier for ![](img/b345d1a46cebf2308e450926de3195ef.jpg)
@@ -1985,8 +1933,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, `value` must be a real numbe
 *   **tensor2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2009,13 +1956,12 @@ Returns a new tensor with the arcsine of the elements of `input`.
 
 ![](img/eb9c70310a0ed5b865beb34bc1e28a99.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2036,13 +1982,12 @@ Returns a new tensor with the arctangent of the elements of `input`.
 
 ![](img/cd3367165f341b3ab7dd3ee6dcfbb92c.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2063,14 +2008,13 @@ Returns a new tensor with the arctangent of the elements of `input1` and `input2
 
 The shapes of `input1` and `input2` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the first input tensor
 *   **input2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2091,13 +2035,12 @@ Returns a new tensor with the ceil of the elements of `input`, the smallest inte
 
 ![](img/efa1e00e060e0787c8b7ea48fe74745d.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2120,15 +2063,14 @@ Clamp all elements in `input` into the range `[` [`min`](#torch.min "torch.min")
 
 If `input` is of type `FloatTensor` or `DoubleTensor`, args [`min`](#torch.min "torch.min") and [`max`](#torch.max "torch.max") must be real numbers, otherwise they should be integers.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **min** (_Number_) – lower-bound of the range to be clamped to
 *   **max** (_Number_) – upper-bound of the range to be clamped to
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2149,14 +2091,13 @@ Clamps all elements in `input` to be larger or equal [`min`](#torch.min "torch.m
 
 If `input` is of type `FloatTensor` or `DoubleTensor`, `value` should be a real number, otherwise it should be an integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **value** (_Number_) – minimal value of each element in the output
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2177,14 +2118,13 @@ Clamps all elements in `input` to be smaller or equal [`max`](#torch.max "torch.
 
 If `input` is of type `FloatTensor` or `DoubleTensor`, `value` should be a real number, otherwise it should be an integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **value** (_Number_) – maximal value of each element in the output
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2205,13 +2145,12 @@ Returns a new tensor with the cosine of the elements of `input`.
 
 ![](img/ba6a1422eca60e84b7e3e9c551761d18.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2232,13 +2171,12 @@ Returns a new tensor with the hyperbolic cosine of the elements of `input`.
 
 ![](img/676476d8f75c5c5d3a52347cb5576435.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2265,14 +2203,13 @@ Divides each element of the input `input` with the scalar `value` and returns a 
 
 If `input` is of type `FloatTensor` or `DoubleTensor`, `value` should be a real number, otherwise it should be an integer
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **value** (_Number_) – the number to be divided to each element of `input`
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2293,14 +2230,13 @@ Each element of the tensor `input` is divided by each element of the tensor `oth
 
 ![](img/19b90d4ca4770702635c981d243185b9.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the numerator tensor
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the denominator tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2350,13 +2286,12 @@ Computes the error function of each element. The error function is defined as fo
 
 ![](img/486fba0c8b6d762f89942dff1e3067f8.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2374,13 +2309,12 @@ Computes the complementary error function of each element of `input`. The comple
 
 ![](img/6100237da75310da52ebc2247d9918f1.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2398,13 +2332,12 @@ Computes the inverse error function of each element of `input`. The inverse erro
 
 ![](img/ff1b16ddc6ea5e8c13cd48cf7e4e26c4.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2422,13 +2355,12 @@ Returns a new tensor with the exponential of the elements of the input tensor `i
 
 ![](img/c1c7df2e920de2c586fe0c1040d8e7cd.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2446,13 +2378,12 @@ Returns a new tensor with the exponential of the elements minus 1 of `input`.
 
 ![](img/3f5d893e1a9355354b0f64666f45b4ff.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2470,13 +2401,12 @@ Returns a new tensor with the floor of the elements of `input`, the largest inte
 
 ![](img/17860fe2f89c3d742fd5a35e3616d8b4.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2499,14 +2429,13 @@ The dividend and divisor may contain both for integer and floating point numbers
 
 When `divisor` is a tensor, the shapes of `input` and `divisor` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the dividend
 *   **divisor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the divisor, which may be either a number or a tensor of the same shape as the dividend
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2544,15 +2473,14 @@ Does a linear interpolation of two tensors `start` and `end` based on a scalar `
 
 The shapes of `start` and `end` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **start** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor with the starting points
 *   **end** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor with the ending points
 *   **weight** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the weight for the interpolation formula
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2576,13 +2504,12 @@ Returns a new tensor with the natural logarithm of the elements of `input`.
 
 ![](img/63dc128af37016ef7e59d39837eccc3d.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2603,13 +2530,12 @@ Returns a new tensor with the logarithm to the base 10 of the elements of `input
 
 ![](img/8020f6f65d1d242403c13ad15b32ad43.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2635,13 +2561,12 @@ Note
 
 This function is more accurate than [`torch.log()`](#torch.log "torch.log") for small values of `input`
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2662,13 +2587,12 @@ Returns a new tensor with the logarithm to the base 2 of the elements of `input`
 
 ![](img/a6be5b946e4f6d5d157679d60642a747.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2696,14 +2620,13 @@ Multiplies each element of the input `input` with the scalar `value` and returns
 
 If `input` is of type `FloatTensor` or `DoubleTensor`, `value` should be a real number, otherwise it should be an integer
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **value** (_Number_) – the number to be multiplied to each element of `input`
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2726,14 +2649,13 @@ The shapes of `input` and `other` must be [broadcastable](notes/broadcasting.htm
 
 ![](img/13296a8d428f985a8702d83e100d4153.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the first multiplicand tensor
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second multiplicand tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2767,13 +2689,12 @@ where ![](img/8890ddee156302958d8906a2799dc16b.jpg) and ![](img/94c1ba406fbf0f76
 
 If any of the elements are less than or equal to ![](img/80e27a556a24dac8f2985689098c1a82.jpg), then an error is thrown.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compute the multivariate log-gamma function
 *   **p** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2796,13 +2717,12 @@ Returns a new tensor with the negative of the elements of `input`.
 
 ![](img/5ea71e988dcc7de6c27b28ca79f4e893.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2837,14 +2757,13 @@ When `exponent` is a tensor, the operation applied is:
 
 When `exponent` is a tensor, the shapes of `input` and `exponent` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **exponent** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ _tensor_) – the exponent value
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2876,14 +2795,13 @@ The operation applied is:
 
 ![](img/0c98533a385eed5ae6f333583d9d239e.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **base** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the scalar base value for the power operation
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the exponent tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2903,13 +2821,12 @@ Returns a new tensor with the reciprocal of the elements of `input`
 
 ![](img/a4cb9bbdd43eddd6583c288380fe9704.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2932,14 +2849,13 @@ The divisor and dividend may contain both for integer and floating point numbers
 
 When `divisor` is a tensor, the shapes of `input` and `divisor` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the dividend
 *   **divisor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the divisor that may be either a number or a Tensor of the same shape as the dividend
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2961,13 +2877,12 @@ torch.round(input, out=None) → Tensor
 
 Returns a new tensor with each of the elements of `input` rounded to the closest integer.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -2988,13 +2903,12 @@ Returns a new tensor with the reciprocal of the square-root of each of the eleme
 
 ![](img/ba016159f6eee3d6e907b3f1f4690148.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3015,13 +2929,12 @@ Returns a new tensor with the sigmoid of the elements of `input`.
 
 ![](img/35490743ae06a50e628101c524fa3557.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3040,13 +2953,12 @@ torch.sign(input, out=None) → Tensor
 
 Returns a new tensor with the sign of the elements of `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3067,13 +2979,12 @@ Returns a new tensor with the sine of the elements of `input`.
 
 ![](img/4bb3f3689a942de005b6ed433517a99a.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3094,13 +3005,12 @@ Returns a new tensor with the hyperbolic sine of the elements of `input`.
 
 ![](img/ef01436f55bc1cd4c0407857bb6b41d0.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3121,13 +3031,12 @@ Returns a new tensor with the square-root of the elements of `input`.
 
 ![](img/5407c7228f589f6c48f1bdd755f1e4c8.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3148,13 +3057,12 @@ Returns a new tensor with the tangent of the elements of `input`.
 
 ![](img/0cab489cdb9e93ea59ac064d58876397.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3175,13 +3083,12 @@ Returns a new tensor with the hyperbolic tangent of the elements of `input`.
 
 ![](img/29f29380f07881b913efa1bcc641e2ae.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3200,13 +3107,12 @@ torch.trunc(input, out=None) → Tensor
 
 Returns a new tensor with the truncated integer values of the elements of `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3229,14 +3135,13 @@ Returns the indices of the maximum values of a tensor across a dimension.
 
 This is the second value returned by [`torch.max()`](#torch.max "torch.max"). See its documentation for the exact semantics of this method.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce. If `None`, the argmax of the flattened input is returned.
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not. Ignored if `dim=None`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3261,14 +3166,13 @@ Returns the indices of the minimum values of a tensor across a dimension.
 
 This is the second value returned by [`torch.min()`](#torch.min "torch.min"). See its documentation for the exact semantics of this method.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce. If `None`, the argmin of the flattened input is returned.
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not. Ignored if `dim=None`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3295,14 +3199,13 @@ For example, if `input` is a vector of size N, the result will also be a vector 
 
 ![](img/9e9045e46c1b7fca7acb598cf474f16e.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to do the operation over
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3332,14 +3235,13 @@ For example, if `input` is a vector of size N, the result will also be a vector 
 
 ![](img/70f741993caea1156636d61e6f21e463.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to do the operation over
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3362,14 +3264,13 @@ Returns the p-norm of (`input` - `other`)
 
 The shapes of `input` and `other` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the Right-hand-side input tensor
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the norm to be computed
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3403,15 +3304,14 @@ For summation index ![](img/d8fdd0e28cfb03738fc5227885ee035a.jpg) given by `dim`
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – the dimension or dimensions to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 ```py
 Example::
@@ -3456,15 +3356,14 @@ Returns the mean value of each row of the `input` tensor in the given dimension 
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether the output tensor has `dim` retained or not
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3519,7 +3418,7 @@ By default, `dim` is the last dimension of the `input` tensor.
 
 If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the outputs tensor having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
@@ -3527,8 +3426,7 @@ If `keepdim` is `True`, the output tensors are of the same size as `input` excep
 *   **values** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 *   **indices** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output index tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3558,7 +3456,7 @@ Note
 
 This function is not defined for `torch.cuda.Tensor` yet.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
@@ -3566,8 +3464,7 @@ This function is not defined for `torch.cuda.Tensor` yet.
 *   **values** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 *   **indices** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output index tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3589,7 +3486,7 @@ torch.norm(input, p='fro', dim=None, keepdim=False, out=None)
 
 Returns the matrix norm or vector norm of a given tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **p** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _inf__,_ _-inf__,_ _'fro'__,_ _'nuc'__,_ _optional_) –
@@ -3607,8 +3504,7 @@ Returns the matrix norm or vector norm of a given tensor.
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether the output tensors have `dim` retained or not. Ignored if `dim` = `None` and `out` = `None`. Default: `False`
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor. Ignored if `dim` = `None` and `out` = `None`.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3649,13 +3545,12 @@ torch.prod(input, dtype=None) → Tensor
 
 Returns the product of all elements in the `input` tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3676,15 +3571,14 @@ Returns the product of each row of the `input` tensor in the given dimension `di
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3712,13 +3606,12 @@ Returns the standard-deviation of all elements in the `input` tensor.
 
 If `unbiased` is `False`, then the standard-deviation will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3741,7 +3634,7 @@ If `keepdim` is `True`, the output tensor is of the same size as `input` except 
 
 If `unbiased` is `False`, then the standard-deviation will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
@@ -3749,8 +3642,7 @@ If `unbiased` is `False`, then the standard-deviation will be calculated via the
 *   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3776,13 +3668,12 @@ torch.sum(input, dtype=None) → Tensor
 
 Returns the sum of all elements in the `input` tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3803,15 +3694,14 @@ Returns the sum of each row of the `input` tensor in the given dimension `dim`. 
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – the dimension or dimensions to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
 *   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3836,22 +3726,20 @@ torch.unique(input, sorted=False, return_inverse=False, dim=None)
 
 Returns the unique scalar elements of the input tensor as a 1-D tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **sorted** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Whether to sort the unique elements in ascending order before returning as output.
 *   **return_inverse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Whether to also return the indices for where elements in the original input ended up in the returned unique list.
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to apply unique. If `None`, the unique of the flattened input is returned. default: `None`
 
- |
-| --- | --- |
+
 | Returns: | A tensor or a tuple of tensors containing
 
 &gt; *   **output** (_Tensor_): the output list of unique scalar elements.
 &gt; *   **inverse_indices** (_Tensor_): (optional) if `return_inverse` is True, there will be a 2nd returned tensor (same shape as input) representing the indices for where elements in the original input map to in the output; otherwise, this function will only return a single tensor.
 
- |
-| --- | --- |
+
 | Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor") (optional)) |
 | --- | --- |
 
@@ -3891,13 +3779,12 @@ Returns the variance of all elements in the `input` tensor.
 
 If `unbiased` is `False`, then the variance will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3920,7 +3807,7 @@ If `keepdim` is `True`, the output tensors are of the same size as `input` excep
 
 If `unbiased` is `False`, then the variance will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
@@ -3928,8 +3815,7 @@ If `unbiased` is `False`, then the variance will be calculated via the biased es
 *   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3957,7 +3843,7 @@ This function checks if all `self` and `other` satisfy the condition:
 
 elementwise, for all elements of `self` and `other`. The behaviour of this function is analogous to [numpy.allclose](https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html)
 
-| Parameters: | 
+Parameters: 
 
 *   **self** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – first tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – second tensor to compare
@@ -3965,8 +3851,7 @@ elementwise, for all elements of `self` and `other`. The behaviour of this funct
 *   **rtol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – relative tolerance. Default: 1e-05
 *   **equal_nan** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – if `True`, then two `NaN` s will be compared as equal. Default: `False`
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -3990,14 +3875,13 @@ Returns the indices that sort a tensor along a given dimension in ascending orde
 
 This is the second value returned by [`torch.sort()`](#torch.sort "torch.sort"). See its documentation for the exact semantics of this method.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to sort along
 *   **descending** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls the sorting order (ascending or descending)
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4025,14 +3909,13 @@ Computes element-wise equality
 
 The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor. Must be a `ByteTensor`
 
- |
-| --- | --- |
+
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4069,14 +3952,13 @@ Computes ![](img/7cedf1d52401b16530bccf12f96edd5a.jpg) element-wise.
 
 The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
 
- |
-| --- | --- |
+
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4099,14 +3981,13 @@ Computes ![](img/9d325c4b6e2e06380eb65ceae1e84d76.jpg) element-wise.
 
 The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
 
- |
-| --- | --- |
+
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4196,7 +4077,7 @@ A tuple of `(values, indices)` is returned, where the `indices` is the indices o
 
 If `keepdim` is `True`, both the `values` and `indices` tensors are the same size as `input`, except in the dimension `dim` where they are of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in both the `values` and `indices` tensors having 1 fewer dimension than the `input` tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – k for the k-th smallest element
@@ -4204,8 +4085,7 @@ If `keepdim` is `True`, both the `values` and `indices` tensors are the same siz
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (Tensor, LongTensor) can be optionally given to be used as output buffers
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4233,14 +4113,13 @@ Computes ![](img/7cce834f96c0e53d76c3ec5ed63cf099.jpg) element-wise.
 
 The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
 
- |
-| --- | --- |
+
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4263,14 +4142,13 @@ Computes ![](img/26b8f23e09743e63a71bcf53c650f1a8.jpg) element-wise.
 
 The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
 
- |
-| --- | --- |
+
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4317,15 +4195,14 @@ Returns the maximum value of each row of the `input` tensor in the given dimensi
 
 If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensors having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the result tuple of two output tensors (max, max_indices)
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4355,14 +4232,13 @@ Note
 
 When the shapes do not match, the shape of the returned output tensor follows the [broadcasting rules](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4410,15 +4286,14 @@ Returns the minimum value of each row of the `input` tensor in the given dimensi
 
 If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensors having 1 fewer dimension than `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the tuple of two output tensors (min, min_indices)
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4448,14 +4323,13 @@ Note
 
 When the shapes do not match, the shape of the returned output tensor follows the [broadcasting rules](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4479,14 +4353,13 @@ Computes ![](img/9b7e900c499f533c33aac63d7b487c24.jpg) element-wise.
 
 The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
 
- |
-| --- | --- |
+
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true. |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4513,15 +4386,14 @@ If `descending` is `True` then the elements are sorted in descending order by va
 
 A tuple of (sorted_tensor, sorted_indices) is returned, where the sorted_indices are the indices of the elements in the original `input` tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to sort along
 *   **descending** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls the sorting order (ascending or descending)
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (`Tensor`, `LongTensor`) that can be optionally given to be used as output buffers
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4563,7 +4435,7 @@ A tuple of `(values, indices)` is returned, where the `indices` are the indices 
 
 The boolean option `sorted` if `True`, will make sure that the returned `k` elements are themselves sorted
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the k in “top-k”
@@ -4572,8 +4444,7 @@ The boolean option `sorted` if `True`, will make sure that the returned `k` elem
 *   **sorted** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return the elements in sorted order
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (Tensor, LongTensor) that can be optionally given to be used as output buffers
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -4616,14 +4487,13 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` `+ 1` dimensions
 *   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
 *   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
 
- |
-| --- | --- |
+
 | Returns: | A tensor containing the complex-to-complex Fourier transform result |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4703,14 +4573,13 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` `+ 1` dimensions
 *   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
 *   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
 
- |
-| --- | --- |
+
 | Returns: | A tensor containing the complex-to-complex inverse Fourier transform result |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4776,15 +4645,14 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` dimensions
 *   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
 *   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
 *   **onesided** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return half of results to avoid redundancy. Default: `True`
 
- |
-| --- | --- |
+
 | Returns: | A tensor containing the real-to-complex Fourier transform result |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4833,7 +4701,7 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` `+ 1` dimensions
 *   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
@@ -4841,8 +4709,7 @@ For CPU tensors, this method is currently only available with MKL. Use `torch.ba
 *   **onesided** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether `input` was halfed to avoid redundancy, e.g., by [`rfft()`](#torch.rfft "torch.rfft"). Default: `True`
 *   **signal_sizes** (list or `torch.Size`, optional) – the size of the original signal (without batch dimension). Default: `None`
 
- |
-| --- | --- |
+
 | Returns: | A tensor containing the complex-to-real inverse Fourier transform result |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4903,7 +4770,7 @@ Warning
 
 This function changed signature at version 0.4.1\. Calling with the previous signature may cause error or return incorrect result.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **n_fft** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – size of Fourier transform
@@ -4915,8 +4782,7 @@ This function changed signature at version 0.4.1\. Calling with the previous sig
 *   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return the normalized STFT results Default: `False`
 *   **onesided** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return half of results to avoid redundancy Default: `True`
 
- |
-| --- | --- |
+
 | Returns: | A tensor containing the STFT result with shape described above |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4938,7 +4804,7 @@ Note
 
 If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
 
-| Parameters: | 
+Parameters: 
 
 *   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
 *   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
@@ -4947,8 +4813,7 @@ If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned w
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 | Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -4970,7 +4835,7 @@ Note
 
 If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
 
-| Parameters: | 
+Parameters: 
 
 *   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
 *   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
@@ -4979,8 +4844,7 @@ If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned w
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 | Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -5006,7 +4870,7 @@ Note
 
 This is a generalized version of [`torch.hann_window()`](#torch.hann_window "torch.hann_window").
 
-| Parameters: | 
+Parameters: 
 
 *   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
 *   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
@@ -5015,8 +4879,7 @@ This is a generalized version of [`torch.hann_window()`](#torch.hann_window "tor
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 | Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -5038,7 +4901,7 @@ Note
 
 If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
 
-| Parameters: | 
+Parameters: 
 
 *   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
 *   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
@@ -5047,8 +4910,7 @@ If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned w
 *   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
 *   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
 
- |
-| --- | --- |
+
 | Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -5068,14 +4930,13 @@ Note
 
 When using the CUDA backend, this operation may induce nondeterministic behaviour that is not easily switched off. Please see the notes on [Reproducibility](notes/randomness.html) for background.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 1-d int tensor
 *   **weights** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – optional, weight for each value in the input tensor. Should be of same size as input tensor.
 *   **minlength** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – optional, minimum number of bins. Should be non-negative.
 
- |
-| --- | --- |
+
 | Returns: | a tensor of shape `Size([max(input) + 1])` if `input` is non-empty, else `Size(0)` |
 | --- | --- |
 | Return type: | output ([Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
@@ -5131,15 +4992,14 @@ Returns the cross product of vectors in dimension `dim` of `input` and `other`.
 
 If `dim` is not given, it defaults to the first dimension found with the size 3.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
 *   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to take the cross-product in.
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5182,14 +5042,13 @@ The argument [`diagonal`](#torch.diagonal "torch.diagonal") controls which diago
 *   If [`diagonal`](#torch.diagonal "torch.diagonal") &gt; 0, it is above the main diagonal.
 *   If [`diagonal`](#torch.diagonal "torch.diagonal") &lt; 0, it is below the main diagonal.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **diagonal** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the diagonal to consider
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 See also
 
@@ -5248,15 +5107,14 @@ The size of the new matrix will be calculated to make the specified diagonal of 
 
 Applying [`torch.diagonal()`](#torch.diagonal "torch.diagonal") to the output of this function with the same arguments yields a matrix identical to input. However, [`torch.diagonal()`](#torch.diagonal "torch.diagonal") has different default dimensions, so those need to be explicitly specified.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor. Must be at least 1-dimensional.
 *   **offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – which diagonal to consider. Default: 0 (main diagonal).
 *   **dim1** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – first dimension with respect to which to take diagonal. Default: -2.
 *   **dim2** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – second dimension with respect to which to take diagonal. Default: -1.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5299,13 +5157,12 @@ The argument `offset` controls which diagonal to consider:
 *   If `offset` &gt; 0, it is above the main diagonal.
 *   If `offset` &lt; 0, it is below the main diagonal.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the diagonal to consider. Default: 0 (main diagonal).
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -5349,15 +5206,14 @@ The argument `offset` controls which diagonal to consider:
 
 Applying [`torch.diag_embed()`](#torch.diag_embed "torch.diag_embed") to the output of this function with the same arguments yields a diagonal matrix with the diagonal entries of the input. However, [`torch.diag_embed()`](#torch.diag_embed "torch.diag_embed") has different default dimensions, so those need to be explicitly specified.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor. Must be at least 2-dimensional.
 *   **offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – which diagonal to consider. Default: 0 (main diagonal).
 *   **dim1** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – first dimension with respect to which to take diagonal. Default: 0.
 *   **dim2** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – second dimension with respect to which to take diagonal. Default: 1.
 
- |
-| --- | --- |
+
 
 Note
 
@@ -5394,13 +5250,12 @@ torch.einsum(equation, *operands) → Tensor
 
 This function provides a way of computing multilinear expressions (i.e. sums of products) using the Einstein summation convention.
 
-| Parameters: | 
+Parameters: 
 
 *   **equation** (_string_) – The equation is given in terms of lower case letters (indices) to be associated with each dimension of the operands and result. The left hand side lists the operands dimensions, separated by commas. There should be one index letter per tensor dimension. The right hand side follows after `-&gt;` and gives the indices for the output. If the `-&gt;` and right hand side are omitted, it implicitly defined as the alphabetically sorted list of all indices appearing exactly once in the left hand side. The indices not apprearing in the output are summed over after multiplying the operands entries. If an index appears several times for the same operand, a diagonal is taken. Ellipses `…` represent a fixed number of dimensions. If the right hand side is inferred, the ellipsis dimensions are at the beginning of the output.
 *   **operands** (_list of Tensors_) – The operands to compute the Einstein sum of. Note that the operands are passed as a list, not as individual arguments.
 
- |
-| --- | --- |
+
 
 Examples:
 
@@ -5456,14 +5311,13 @@ torch.flatten(input, start_dim=0, end_dim=-1) → Tensor
 
 Flattens a contiguous range of dims in a tensor.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **start_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the first dim to flatten
 *   **end_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the last dim to flatten
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5486,13 +5340,12 @@ torch.flip(input, dims) → Tensor
 
 Reverse the order of a n-D tensor along given axis in dims.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **dims** (_a list_ _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – axis to flip on
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5521,7 +5374,7 @@ Computes the histogram of a tensor.
 
 The elements are sorted into equal width bins between [`min`](#torch.min "torch.min") and [`max`](#torch.max "torch.max"). If [`min`](#torch.min "torch.min") and [`max`](#torch.max "torch.max") are both zero, the minimum and maximum values of the data are used.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **bins** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of histogram bins
@@ -5529,8 +5382,7 @@ The elements are sorted into equal width bins between [`min`](#torch.min "torch.
 *   **max** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – upper end of the range (inclusive)
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 | Returns: | Histogram represented as a tensor |
 | --- | --- |
 | Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
@@ -5589,7 +5441,7 @@ Note
 
 If the norm of a row is lower than `maxnorm`, the row is unchanged
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the power for the norm computation
@@ -5597,8 +5449,7 @@ If the norm of a row is lower than `maxnorm`, the row is unchanged
 *   **maxnorm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the maximum norm to keep each sub-tensor under
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5627,14 +5478,13 @@ Returns a contraction of a and b over multiple dimensions.
 
 [`tensordot`](#torch.tensordot "torch.tensordot") implements a generalizes the matrix product.
 
-| Parameters: | 
+Parameters: 
 
 *   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Left tensor to contract
 *   **b** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Right tensor to contract
 *   **dims** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of two lists of python:integers_) – number of dimensions to contract or explicit lists of dimensions for `a` and `b` respectively
 
- |
-| --- | --- |
+
 
 When called with an integer argument `dims` = ![](img/9566974d45a96737f7e0ecf302d877b8.jpg), and the number of dimensions of `a` and `b` is ![](img/20ddd8181c2e0d0fb893637e8572d475.jpg) and ![](img/493731e423d5db62086d0b8705dda0c8.jpg), respectively, it computes
 
@@ -5692,14 +5542,13 @@ The lower triangular part of the matrix is defined as the elements on and below 
 
 The argument [`diagonal`](#torch.diagonal "torch.diagonal") controls which diagonal to consider. If [`diagonal`](#torch.diagonal "torch.diagonal") = 0, all elements on and below the main diagonal are retained. A positive value includes just as many diagonals above the main diagonal, and similarly a negative value excludes just as many diagonals below the main diagonal. The main diagonal are the set of indices ![](img/6291ea635817db74920cd048cc3cb8d4.jpg) for ![](img/1bfb3770a124b38b3aba63186b7c8f46.jpg) where ![](img/5ccb16cb4e75340b0c2b2d022fd778a7.jpg) are the dimensions of the matrix.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **diagonal** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the diagonal to consider
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5743,14 +5592,13 @@ The upper triangular part of the matrix is defined as the elements on and above 
 
 The argument [`diagonal`](#torch.diagonal "torch.diagonal") controls which diagonal to consider. If [`diagonal`](#torch.diagonal "torch.diagonal") = 0, all elements on and below the main diagonal are retained. A positive value excludes just as many diagonals above the main diagonal, and similarly a negative value includes just as many diagonals below the main diagonal. The main diagonal are the set of indices ![](img/6291ea635817db74920cd048cc3cb8d4.jpg) for ![](img/1bfb3770a124b38b3aba63186b7c8f46.jpg) where ![](img/5ccb16cb4e75340b0c2b2d022fd778a7.jpg) are the dimensions of the matrix.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **diagonal** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the diagonal to consider
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5808,7 +5656,7 @@ If `batch1` is a ![](img/eccd104fbbbbb116c7e98ca54b2214a0.jpg) tensor, `batch2` 
 
 For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha` must be real numbers, otherwise they should be integers.
 
-| Parameters: | 
+Parameters: 
 
 *   **beta** (_Number__,_ _optional_) – multiplier for `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – matrix to be added
@@ -5817,8 +5665,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 *   **batch2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second batch of matrices to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5847,7 +5694,7 @@ If `mat1` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` is a
 
 For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha` must be real numbers, otherwise they should be integers.
 
-| Parameters: | 
+Parameters: 
 
 *   **beta** (_Number__,_ _optional_) – multiplier for `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – matrix to be added
@@ -5856,8 +5703,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 *   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second matrix to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5885,7 +5731,7 @@ If `mat` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `vec` is a 1
 
 For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha` must be real numbers, otherwise they should be integers
 
-| Parameters: | 
+Parameters: 
 
 *   **beta** (_Number__,_ _optional_) – multiplier for [`tensor`](#torch.tensor "torch.tensor") (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – vector to be added
@@ -5894,8 +5740,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 *   **vec** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – vector to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5922,7 +5767,7 @@ If `vec1` is a vector of size `n` and `vec2` is a vector of size `m`, then `mat`
 
 For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha` must be real numbers, otherwise they should be integers
 
-| Parameters: | 
+Parameters: 
 
 *   **beta** (_Number__,_ _optional_) – multiplier for `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – matrix to be added
@@ -5931,8 +5776,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 *   **vec2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second vector of the outer product
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -5961,7 +5805,7 @@ If `batch1` is a ![](img/eccd104fbbbbb116c7e98ca54b2214a0.jpg) tensor, `batch2` 
 
 For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha` must be real numbers, otherwise they should be integers.
 
-| Parameters: | 
+Parameters: 
 
 *   **beta** (_Number__,_ _optional_) – multiplier for `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to be added
@@ -5970,8 +5814,7 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 *   **batch2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second batch of matrices to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6000,14 +5843,13 @@ Note
 
 This function does not [broadcast](notes/broadcasting.html#broadcasting-semantics). For broadcasting matrix products, see [`torch.matmul()`](#torch.matmul "torch.matmul").
 
-| Parameters: | 
+Parameters: 
 
 *   **batch1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the first batch of matrices to be multiplied
 *   **batch2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second batch of matrices to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6034,14 +5876,13 @@ Warning
 
 The `info` argument is deprecated in favor of [`torch.btrifact_with_info()`](#torch.btrifact_with_info "torch.btrifact_with_info").
 
-| Parameters: | 
+Parameters: 
 
 *   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to factor
 *   **info** (_IntTensor__,_ _optional_) – (deprecated) an `IntTensor` to store values indicating whether factorization succeeds
 *   **pivot** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether pivoting is done
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing factorization and pivots. |
 | --- | --- |
 
@@ -6073,13 +5914,12 @@ Batch LU factorization with additional error information.
 
 This is a version of [`torch.btrifact()`](#torch.btrifact "torch.btrifact") that always creates an info `IntTensor`, and returns it as the third return value.
 
-| Parameters: | 
+Parameters: 
 
 *   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to factor
 *   **pivot** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether pivoting is done
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing factorization, pivots, and an `IntTensor` where non-zero values indicate whether factorization for each minibatch sample succeeds. |
 | --- | --- |
 
@@ -6102,14 +5942,13 @@ Batch LU solve.
 
 Returns the LU solve of the linear system ![](img/79f5b7df86014d0a54c744c91d8b351d.jpg).
 
-| Parameters: | 
+Parameters: 
 
 *   **b** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the RHS tensor
 *   **LU_data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the pivoted LU factorization of A from [`btrifact()`](#torch.btrifact "torch.btrifact").
 *   **LU_pivots** (_IntTensor_) – the pivots of the LU factorization
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6132,15 +5971,14 @@ Unpacks the data and pivots from a batched LU factorization (btrifact) of a tens
 
 Returns a tuple of tensors as `(the pivots, the L tensor, the U tensor)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **LU_data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the packed LU factorization data
 *   **LU_pivots** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the packed LU factorization pivots
 *   **unpack_data** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – flag indicating if the data should be unpacked
 *   **unpack_pivots** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – flag indicating if the pivots should be unpacked
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6197,14 +6035,13 @@ If `upper` is `False`, the returned matrix `L` is lower-triangular, and the deco
 
 If `upper` is `True`, and `A` is a batch of symmetric positive-definite matrices, then the returned tensor will be composed of upper-triangular Cholesky factors of each of the individual matrices. Similarly, when `upper` is `False`, the returned tensor will be composed of lower-triangular Cholesky factors of each of the individual matrices.
 
-| Parameters: | 
+Parameters: 
 
 *   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of size ([*](#id6), n, n) where `*` is zero or more batch dimensions consisting of symmetric positive-definite matrices.
 *   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – flag that indicates whether to return a upper or lower triangular matrix. Default: `False`
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output matrix
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6257,21 +6094,19 @@ torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 
 Computes the eigenvalues and eigenvectors of a real square matrix.
 
-| Parameters: | 
+Parameters: 
 
 *   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the square matrix of shape ![](img/7819768bc0adceb9951cf2ce9a0525f2.jpg) for which the eigenvalues and eigenvectors will be computed
 *   **eigenvectors** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – `True` to compute both eigenvalues and eigenvectors; otherwise, only eigenvalues will be computed
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tensors
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing
 
 &gt; *   **e** (_Tensor_): Shape ![](img/6bb1e4cc787b2a2a3e362c6385033b7d.jpg). Each row is an eigenvalue of `a`, where the first element is the real part and the second element is the imaginary part. The eigenvalues are not necessarily ordered.
 &gt; *   **v** (_Tensor_): If `eigenvectors=False`, it’s an empty tensor. Otherwise, this tensor of shape ![](img/7819768bc0adceb9951cf2ce9a0525f2.jpg) can be used to compute normalized (unit length) eigenvectors of corresponding eigenvalues `e` as follows. If the corresponding e[j] is a real number, column v[:, j] is the eigenvector corresponding to eigenvalue e[j]. If the corresponding e[j] and e[j + 1] eigenvalues form a complex conjugate pair, then the true eigenvectors can be computed as ![](img/ec9513691a2c7521c03807425da807ed.jpg), ![](img/a532b8aa12f3a5051c8105bf8e226b64.jpg).
 
- |
-| --- | --- |
+
 | Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
 | --- | --- |
 
@@ -6291,21 +6126,19 @@ If ![](img/bc0a7901ab359873a58a64e43f9fc85a.jpg), [`gels()`](#torch.gels "torch.
 
 Returned tensor ![](img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg) has shape ![](img/b10f10ee19a21653d24c909eb3e0877a.jpg). The first ![](img/493731e423d5db62086d0b8705dda0c8.jpg) rows of ![](img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg) contains the solution. If ![](img/199260d72e51fe506909a150c6f77020.jpg), the residual sum of squares for the solution in each column is given by the sum of squares of elements in the remaining ![](img/51e590a6a852e7b2d4cd0a3476859fc5.jpg) rows of that column.
 
-| Parameters: | 
+Parameters: 
 
 *   **B** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the matrix ![](img/813135a6280e2672503128d3d2080d4a.jpg)
 *   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the ![](img/20ddd8181c2e0d0fb893637e8572d475.jpg) by ![](img/493731e423d5db62086d0b8705dda0c8.jpg) matrix ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg)
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the optional destination tensor
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing:
 
 &gt; *   **X** (_Tensor_): the least squares solution
 &gt; *   **qr** (_Tensor_): the details of the QR factorization
 
- |
-| --- | --- |
+
 | Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
 | --- | --- |
 
@@ -6350,13 +6183,12 @@ Rather, this directly calls the underlying LAPACK function `?geqrf` which produc
 
 See [LAPACK documentation for geqrf](https://software.intel.com/en-us/node/521004) for further details.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input matrix
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (Tensor, Tensor)
 
- |
-| --- | --- |
+
 
 ```py
 torch.ger(vec1, vec2, out=None) → Tensor
@@ -6368,14 +6200,13 @@ Note
 
 This function does not [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **vec1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 1-D input vector
 *   **vec2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 1-D input vector
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – optional output matrix
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6408,14 +6239,13 @@ Note
 
 Irrespective of the original strides, the returned matrices `X` and `LU` will be transposed, i.e. with strides like `B.contiguous().transpose(-1, -2).strides()` and `A.contiguous().transpose(-1, -2).strides()` respectively.
 
-| Parameters: | 
+Parameters: 
 
 *   **B** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input matrix of size ![](img/d9795910f977049c4df2084f47c592ed.jpg) , where ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) is zero or more batch dimensions.
 *   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input square matrix of size ![](img/494aaae2a24df44c813ce87b9f21d745.jpg), where ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) is zero or more batch dimensions.
 *   **out** (_(_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_)__,_ _optional_) – optional output tuple.
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6453,13 +6283,12 @@ Note
 
 Irrespective of the original strides, the returned tensors will be transposed, i.e. with strides like `input.contiguous().transpose(-2, -1).strides()`
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of size ([*](#id8), n, n) where `*` is zero or more batch dimensions
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the optional output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6583,14 +6412,13 @@ Note
 
 The 1-dimensional dot product version of this function does not support an `out` parameter.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the first tensor to be multiplied
 *   **tensor2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second tensor to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6631,13 +6459,12 @@ Returns the matrix raised to the power `n` for square matrices. For batch of mat
 
 If `n` is negative, then the inverse of the matrix (if invertible) is raised to the power `n`. For a batch of matrices, the batched inverse (if invertible) is raised to the power `n`. If `n` is 0, then an identity matrix is returned.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
 *   **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the power to raise the matrix to
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6666,14 +6493,13 @@ Returns the numerical rank of a 2-D tensor. The method to compute the matrix ran
 
 `tol` is the threshold below which the singular values (or the eigenvalues when `symmetric` is `True`) are considered to be 0\. If `tol` is not specified, `tol` is set to `S.max() * max(S.size()) * eps` where `S` is the singular values (or the eigenvalues when `symmetric` is `True`), and `eps` is the epsilon value for the datatype of `input`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2-D tensor
 *   **tol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the tolerance value. Default: `None`
 *   **symmetric** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – indicates whether `input` is symmetric. Default: `False`
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6700,14 +6526,13 @@ Note
 
 This function does not [broadcast](notes/broadcasting.html#broadcasting-semantics). For broadcasting matrix products, see [`torch.matmul()`](#torch.matmul "torch.matmul").
 
-| Parameters: | 
+Parameters: 
 
 *   **mat1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the first matrix to be multiplied
 *   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second matrix to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6732,14 +6557,13 @@ Note
 
 This function does not [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+Parameters: 
 
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – matrix to be multiplied
 *   **vec** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – vector to be multiplied
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6759,13 +6583,12 @@ Computes the orthogonal matrix `Q` of a QR factorization, from the `(a, tau)` tu
 
 This directly calls the underlying LAPACK function `?orgqr`. See [LAPACK documentation for orgqr](https://software.intel.com/en-us/mkl-developer-reference-c-orgqr) for further details.
 
-| Parameters: | 
+Parameters: 
 
 *   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the `a` from [`torch.geqrf()`](#torch.geqrf "torch.geqrf").
 *   **tau** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the `tau` from [`torch.geqrf()`](#torch.geqrf "torch.geqrf").
 
- |
-| --- | --- |
+
 
 ```py
 torch.ormqr(a, tau, mat, left=True, transpose=False) -> (Tensor, Tensor)
@@ -6775,14 +6598,13 @@ Multiplies `mat` by the orthogonal `Q` matrix of the QR factorization formed by 
 
 This directly calls the underlying LAPACK function `?ormqr`. See [LAPACK documentation for ormqr](https://software.intel.com/en-us/mkl-developer-reference-c-ormqr) for further details.
 
-| Parameters: | 
+Parameters: 
 
 *   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the `a` from [`torch.geqrf()`](#torch.geqrf "torch.geqrf").
 *   **tau** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the `tau` from [`torch.geqrf()`](#torch.geqrf "torch.geqrf").
 *   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the matrix to be multiplied.
 
- |
-| --- | --- |
+
 
 ```py
 torch.pinverse(input, rcond=1e-15) → Tensor
@@ -6798,13 +6620,12 @@ Note
 
 The pseudo-inverse is not necessarily a continuous function in the elements of the matrix [[1]](https://epubs.siam.org/doi/10.1137/0117004). Therefore, derivatives are not always existent, and exist for a constant rank only [[2]](https://www.jstor.org/stable/2156365). However, this method is backprop-able due to the implementation by using SVD results, and could be unstable. Double-backward will also be unstable due to the usage of SVD internally. See [`svd()`](#torch.svd "torch.svd") for more details.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – The input 2D tensor of dimensions ![](img/ee12b6c487a34051534acf84ddb3f98f.jpg)
 *   **rcond** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – A floating point value to determine the cutoff for small singular values. Default: 1e-15
 
- |
-| --- | --- |
+
 | Returns: | The pseudo-inverse of `input` of dimensions ![](img/3380c6697127aa874110f3e6faef8bdf.jpg) |
 | --- | --- |
 
@@ -6851,14 +6672,13 @@ If `upper` is `False`, `u` is lower triangular such that the returned tensor is
 
 ![](img/41fe857d2b3b29df4a984ddab7b21847.jpg)
 
-| Parameters: | 
+Parameters: 
 
 *   **u** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2-D tensor, a upper or lower triangular Cholesky factor
 *   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to return a upper (default) or lower triangular matrix
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor for `inv`
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6901,15 +6721,14 @@ Note
 
 The `out` keyword only supports 2D matrix inputs, that is, `b, u` must be 2D matrices.
 
-| Parameters: | 
+Parameters: 
 
 *   **b** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input matrix of size ![](img/d9795910f977049c4df2084f47c592ed.jpg), where ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) is zero or more batch dimensions
 *   **u** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input matrix of size ![](img/494aaae2a24df44c813ce87b9f21d745.jpg), where ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) is zero of more batch dimensions composed of upper or lower triangular Cholesky factor
 *   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to return a upper (default) or lower triangular matrix
 *   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor for `c`
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -6947,14 +6766,13 @@ If `upper` is `True` or not provided, `u` is upper triangular such that ![](img/
 
 If `upper` is `False`, `u` is lower triangular such that ![](img/294e0994f5012c83c1e0c122c5a406a2.jpg).
 
-| Parameters: | 
+Parameters: 
 
 *   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2-D tensor
 *   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to return a upper (default) or lower triangular matrix
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – tuple of `u` and `piv` tensors
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -7000,13 +6818,12 @@ Note
 
 Irrespective of the original strides, the returned matrix ![](img/1d680db5f32fd278f8d48e5407691154.jpg) will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2-D tensor
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – tuple of `Q` and `R` tensors
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -7068,14 +6885,13 @@ Note
 
 When `compute_uv` = `False`, backward cannot be performed since `U` and `V` from the forward pass is required for the backward operation.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2-D tensor
 *   **some** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls the shape of returned `U` and `V`
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of tensors
 
- |
-| --- | --- |
+
 
 Example:
 
@@ -7128,22 +6944,20 @@ If `upper` is `False`, then lower triangular portion is used.
 
 Note: Irrespective of the original strides, the returned matrix `V` will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
-| Parameters: | 
+Parameters: 
 
 *   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input symmetric matrix
 *   **eigenvectors** (_boolean__,_ _optional_) – controls whether eigenvectors have to be computed
 *   **upper** (_boolean__,_ _optional_) – controls whether to consider upper-triangular or lower-triangular region
 *   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (Tensor, Tensor)
 
- |
-| --- | --- |
+
 | Returns: | A tuple containing
 
 &gt; *   **e** (_Tensor_): Shape ![](img/2f4b02bcd5b11d436474c4c4cdb91683.jpg). Each element is an eigenvalue of `input`, The eigenvalues are in ascending order.
 &gt; *   **V** (_Tensor_): Shape ![](img/be5a855e888d33755dcdfa9d94e598d4.jpg). If `eigenvectors=False`, it’s a tensor filled with zeros. Otherwise, this tensor contains the orthonormal eigenvectors of the `input`.
 
- |
-| --- | --- |
+
 | Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
 | --- | --- |
 
@@ -7175,7 +6989,7 @@ Solves a system of equations with a triangular coefficient matrix ![](img/efdb05
 
 In particular, solves ![](img/79ccd3754eebf815ed3195b42f93bacb.jpg) and assumes ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) is upper-triangular with the default keyword arguments.
 
-| Parameters: | 
+Parameters: 
 
 *   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input triangular coefficient matrix
 *   **b** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – multiple right-hand sides. Each column of ![](img/6872867a863714d15d9a0d64c20734ce.jpg) is a right-hand side for the system of equations.
@@ -7183,8 +6997,7 @@ In particular, solves ![](img/79ccd3754eebf815ed3195b42f93bacb.jpg) and assumes 
 *   **transpose** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) should be transposed before being sent into the solver. Default: False.
 *   **unitriangular** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) is unit triangular. If True, the diagonal elements of ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) are assumed to be 1 and not referenced from ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg). Default: False.
 
- |
-| --- | --- |
+
 | Returns: | A tuple ![](img/1044f4a1887b042eb41d12f782c0582f.jpg) where ![](img/f8961918eb987d8916766b1d77790ecb.jpg) is a clone of ![](img/efdb05f076173b39fdd26ef663e7b0d8.jpg) and ![](img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg) is the solution to ![](img/79ccd3754eebf815ed3195b42f93bacb.jpg) (or whatever variant of the system of equations, depending on the keyword arguments.) |
 | --- | --- |
 

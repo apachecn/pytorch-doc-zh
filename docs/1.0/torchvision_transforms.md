@@ -5,7 +5,7 @@
 Transforms are common image transformations. They can be chained together using [`Compose`](#torchvision.transforms.Compose "torchvision.transforms.Compose"). Additionally, there is the [`torchvision.transforms.functional`](#module-torchvision.transforms.functional "torchvision.transforms.functional") module. Functional transforms give fine-grained control over the transformations. This is useful if you have to build a more complex transformation pipeline (e.g. in the case of segmentation tasks).
 
 ```py
-class torchvision.transforms.Compose(transforms)¶
+class torchvision.transforms.Compose(transforms)
 ```
 
 Composes several transforms together.
@@ -27,7 +27,7 @@ Example
 ## Transforms on PIL Image
 
 ```py
-class torchvision.transforms.CenterCrop(size)¶
+class torchvision.transforms.CenterCrop(size)
 ```
 
 Crops the given PIL Image at the center.
@@ -37,24 +37,23 @@ Crops the given PIL Image at the center.
 | --- | --- |
 
 ```py
-class torchvision.transforms.ColorJitter(brightness=0, contrast=0, saturation=0, hue=0)¶
+class torchvision.transforms.ColorJitter(brightness=0, contrast=0, saturation=0, hue=0)
 ```
 
 Randomly change the brightness, contrast and saturation of an image.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **brightness** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to jitter brightness. brightness_factor is chosen uniformly from [max(0, 1 - brightness), 1 + brightness].
 *   **contrast** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to jitter contrast. contrast_factor is chosen uniformly from [max(0, 1 - contrast), 1 + contrast].
 *   **saturation** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to jitter saturation. saturation_factor is chosen uniformly from [max(0, 1 - saturation), 1 + saturation].
 *   **hue** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to jitter hue. hue_factor is chosen uniformly from [-hue, hue]. Should be &gt;=0 and &lt;= 0.5.
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.FiveCrop(size)¶
+class torchvision.transforms.FiveCrop(size)
 ```
 
 Crop the given PIL Image into four corners and the central crop
@@ -83,7 +82,7 @@ Example
 ```
 
 ```py
-class torchvision.transforms.Grayscale(num_output_channels=1)¶
+class torchvision.transforms.Grayscale(num_output_channels=1)
 ```
 
 Convert image to grayscale.
@@ -97,7 +96,7 @@ Convert image to grayscale.
 | --- | --- |
 
 ```py
-class torchvision.transforms.LinearTransformation(transformation_matrix)¶
+class torchvision.transforms.LinearTransformation(transformation_matrix)
 ```
 
 Transform a tensor image with a square transformation matrix computed offline.
@@ -113,13 +112,13 @@ Applications: - whitening: zero-center the data, compute the data covariance mat
 | --- | --- |
 
 ```py
-class torchvision.transforms.Pad(padding, fill=0, padding_mode='constant')¶
+class torchvision.transforms.Pad(padding, fill=0, padding_mode='constant')
 ```
 
 Pad the given PIL Image on all sides with the given “pad” value.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding on each border. If a single int is provided this is used to pad all borders. If tuple of length 2 is provided this is the padding on left/right and top/bottom respectively. If a tuple of length 4 is provided this is the padding for the left, top, right and bottom borders respectively.
 *   **fill** – Pixel fill value for constant fill. Default is 0\. If a tuple of length 3, it is used to fill R, G, B channels respectively. This value is only used when the padding_mode is constant
@@ -135,17 +134,16 @@ Pad the given PIL Image on all sides with the given “pad” value.
 
     padding [1, 2, 3, 4] with 2 elements on both sides in symmetric mode will result in [2, 1, 1, 2, 3, 4, 4, 3]
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.RandomAffine(degrees, translate=None, scale=None, shear=None, resample=False, fillcolor=0)¶
+class torchvision.transforms.RandomAffine(degrees, translate=None, scale=None, shear=None, resample=False, fillcolor=0)
 ```
 
 Random affine transformation of the image keeping center invariant
 
  
-| Parameters: | 
+Parameters: 
 
 *   **degrees** (_sequence_ _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Range of degrees to select from. If degrees is a number instead of sequence like (min, max), the range of degrees will be (-degrees, +degrees). Set to 0 to desactivate rotations.
 *   **translate** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – tuple of maximum absolute fraction for horizontal and vertical translations. For example translate=(a, b), then horizontal shift is randomly sampled in the range -img_width * a &lt; dx &lt; img_width * a and vertical shift is randomly sampled in the range -img_height * b &lt; dy &lt; img_height * b. Will not translate by default.
@@ -154,48 +152,45 @@ Random affine transformation of the image keeping center invariant
 *   **resample** (_{PIL.Image.NEAREST__,_ _PIL.Image.BILINEAR__,_ _PIL.Image.BICUBIC}__,_ _optional_) – An optional resampling filter. See [http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters) If omitted, or if the image has mode “1” or “P”, it is set to PIL.Image.NEAREST.
 *   **fillcolor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Optional fill color for the area outside the transform in the output image. (Pillow&gt;=5.0.0)
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.RandomApply(transforms, p=0.5)¶
+class torchvision.transforms.RandomApply(transforms, p=0.5)
 ```
 
 Apply randomly a list of transformations with a given probability
 
  
-| Parameters: | 
+Parameters: 
 
 *   **transforms** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – list of transformations
 *   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – probability
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.RandomChoice(transforms)¶
+class torchvision.transforms.RandomChoice(transforms)
 ```
 
 Apply single transformation randomly picked from a list
 
 ```py
-class torchvision.transforms.RandomCrop(size, padding=0, pad_if_needed=False)¶
+class torchvision.transforms.RandomCrop(size, padding=0, pad_if_needed=False)
 ```
 
 Crop the given PIL Image at a random location.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Desired output size of the crop. If size is an int instead of sequence like (h, w), a square crop (size, size) is made.
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _sequence__,_ _optional_) – Optional padding on each border of the image. Default is 0, i.e no padding. If a sequence of length 4 is provided, it is used to pad left, top, right, bottom borders respectively.
 *   **pad_if_needed** (_boolean_) – It will pad the image if smaller than the desired size to avoid raising an exception.
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.RandomGrayscale(p=0.1)¶
+class torchvision.transforms.RandomGrayscale(p=0.1)
 ```
 
 Randomly convert image to grayscale with a probability of p (default 0.1).
@@ -209,7 +204,7 @@ Randomly convert image to grayscale with a probability of p (default 0.1).
 | --- | --- |
 
 ```py
-class torchvision.transforms.RandomHorizontalFlip(p=0.5)¶
+class torchvision.transforms.RandomHorizontalFlip(p=0.5)
 ```
 
 Horizontally flip the given PIL Image randomly with a given probability.
@@ -219,13 +214,13 @@ Horizontally flip the given PIL Image randomly with a given probability.
 | --- | --- |
 
 ```py
-class torchvision.transforms.RandomOrder(transforms)¶
+class torchvision.transforms.RandomOrder(transforms)
 ```
 
 Apply a list of transformations in a random order
 
 ```py
-class torchvision.transforms.RandomResizedCrop(size, scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333), interpolation=2)¶
+class torchvision.transforms.RandomResizedCrop(size, scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333), interpolation=2)
 ```
 
 Crop the given PIL Image to random size and aspect ratio.
@@ -233,41 +228,39 @@ Crop the given PIL Image to random size and aspect ratio.
 A crop of random size (default: of 0.08 to 1.0) of the original size and a random aspect ratio (default: of 3/4 to 4/3) of the original aspect ratio is made. This crop is finally resized to given size. This is popularly used to train the Inception networks.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **size** – expected output size of each edge
 *   **scale** – range of size of the origin size cropped
 *   **ratio** – range of aspect ratio of the origin aspect ratio cropped
 *   **interpolation** – Default: PIL.Image.BILINEAR
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.RandomRotation(degrees, resample=False, expand=False, center=None)¶
+class torchvision.transforms.RandomRotation(degrees, resample=False, expand=False, center=None)
 ```
 
 Rotate the image by angle.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **degrees** (_sequence_ _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Range of degrees to select from. If degrees is a number instead of sequence like (min, max), the range of degrees will be (-degrees, +degrees).
 *   **resample** (_{PIL.Image.NEAREST__,_ _PIL.Image.BILINEAR__,_ _PIL.Image.BICUBIC}__,_ _optional_) – An optional resampling filter. See [http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters) If omitted, or if the image has mode “1” or “P”, it is set to PIL.Image.NEAREST.
 *   **expand** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Optional expansion flag. If true, expands the output to make it large enough to hold the entire rotated image. If false or omitted, make the output image the same size as the input image. Note that the expand flag assumes rotation around the center and no translation.
 *   **center** (_2-tuple__,_ _optional_) – Optional center of rotation. Origin is the upper left corner. Default is the center of the image.
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.RandomSizedCrop(*args, **kwargs)¶
+class torchvision.transforms.RandomSizedCrop(*args, **kwargs)
 ```
 
 Note: This transform is deprecated in favor of RandomResizedCrop.
 
 ```py
-class torchvision.transforms.RandomVerticalFlip(p=0.5)¶
+class torchvision.transforms.RandomVerticalFlip(p=0.5)
 ```
 
 Vertically flip the given PIL Image randomly with a given probability.
@@ -277,28 +270,27 @@ Vertically flip the given PIL Image randomly with a given probability.
 | --- | --- |
 
 ```py
-class torchvision.transforms.Resize(size, interpolation=2)¶
+class torchvision.transforms.Resize(size, interpolation=2)
 ```
 
 Resize the input PIL Image to the given size.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Desired output size. If size is a sequence like (h, w), output size will be matched to this. If size is an int, smaller edge of the image will be matched to this number. i.e, if height &gt; width, then image will be rescaled to (size * height / width, size)
 *   **interpolation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Desired interpolation. Default is `PIL.Image.BILINEAR`
 
- |
-| --- | --- |
+
 
 ```py
-class torchvision.transforms.Scale(*args, **kwargs)¶
+class torchvision.transforms.Scale(*args, **kwargs)
 ```
 
 Note: This transform is deprecated in favor of Resize.
 
 ```py
-class torchvision.transforms.TenCrop(size, vertical_flip=False)¶
+class torchvision.transforms.TenCrop(size, vertical_flip=False)
 ```
 
 Crop the given PIL Image into four corners and the central crop plus the flipped version of these (horizontal flipping is used by default)
@@ -308,13 +300,12 @@ Note
 This transform returns a tuple of images and there may be a mismatch in the number of inputs and targets your Dataset returns. See below for an example of how to deal with this.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Desired output size of the crop. If size is an int instead of sequence like (h, w), a square crop (size, size) is made.
 *   **vertical_flip** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Use vertical flipping instead of horizontal
 
- |
-| --- | --- |
+
 
 Example
 
@@ -334,22 +325,21 @@ Example
 ## Transforms on torch.*Tensor
 
 ```py
-class torchvision.transforms.Normalize(mean, std)¶
+class torchvision.transforms.Normalize(mean, std)
 ```
 
 Normalize a tensor image with mean and standard deviation. Given mean: `(M1,...,Mn)` and std: `(S1,..,Sn)` for `n` channels, this transform will normalize each channel of the input `torch.*Tensor` i.e. `input[channel] = (input[channel] - mean[channel]) / std[channel]`
 
  
-| Parameters: | 
+Parameters: 
 
 *   **mean** (_sequence_) – Sequence of means for each channel.
 *   **std** (_sequence_) – Sequence of standard deviations for each channel.
 
- |
-| --- | --- |
+
 
 ```py
-__call__(tensor)¶
+__call__(tensor)
 ```
 
  
@@ -363,7 +353,7 @@ __call__(tensor)¶
 ## Conversion Transforms
 
 ```py
-class torchvision.transforms.ToPILImage(mode=None)¶
+class torchvision.transforms.ToPILImage(mode=None)
 ```
 
 Convert a tensor or an ndarray to PIL Image.
@@ -375,7 +365,7 @@ Converts a torch.*Tensor of shape C x H x W or a numpy ndarray of shape H x W x 
 | --- | --- |
 
 ```py
-__call__(pic)¶
+__call__(pic)
 ```
 
  
@@ -387,7 +377,7 @@ __call__(pic)¶
 | --- | --- |
 
 ```py
-class torchvision.transforms.ToTensor¶
+class torchvision.transforms.ToTensor
 ```
 
 Convert a `PIL Image` or `numpy.ndarray` to tensor.
@@ -395,7 +385,7 @@ Convert a `PIL Image` or `numpy.ndarray` to tensor.
 Converts a PIL Image or numpy.ndarray (H x W x C) in the range [0, 255] to a torch.FloatTensor of shape (C x H x W) in the range [0.0, 1.0].
 
 ```py
-__call__(pic)¶
+__call__(pic)
 ```
 
  
@@ -409,7 +399,7 @@ __call__(pic)¶
 ## Generic Transforms
 
 ```py
-class torchvision.transforms.Lambda(lambd)¶
+class torchvision.transforms.Lambda(lambd)
 ```
 
 Apply a user-defined lambda as a transform.
@@ -437,45 +427,43 @@ def my_segmentation_transforms(image, segmentation):
 ```
 
 ```py
-torchvision.transforms.functional.adjust_brightness(img, brightness_factor)¶
+torchvision.transforms.functional.adjust_brightness(img, brightness_factor)
 ```
 
 Adjust brightness of an Image.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be adjusted.
 *   **brightness_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to adjust the brightness. Can be any non negative number. 0 gives a black image, 1 gives the original image while 2 increases the brightness by a factor of 2.
 
- |
-| --- | --- |
+
 | Returns: | Brightness adjusted image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.adjust_contrast(img, contrast_factor)¶
+torchvision.transforms.functional.adjust_contrast(img, contrast_factor)
 ```
 
 Adjust contrast of an Image.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be adjusted.
 *   **contrast_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to adjust the contrast. Can be any non negative number. 0 gives a solid gray image, 1 gives the original image while 2 increases the contrast by a factor of 2.
 
- |
-| --- | --- |
+
 | Returns: | Contrast adjusted image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.adjust_gamma(img, gamma, gain=1)¶
+torchvision.transforms.functional.adjust_gamma(img, gamma, gain=1)
 ```
 
 Perform gamma correction on an image.
@@ -487,17 +475,16 @@ Also known as Power Law Transform. Intensities in RGB mode are adjusted based on
 See [https://en.wikipedia.org/wiki/Gamma_correction](https://en.wikipedia.org/wiki/Gamma_correction) for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be adjusted.
 *   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Non negative real number. gamma larger than 1 make the shadows darker, while gamma smaller than 1 make dark regions lighter.
 *   **gain** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – The constant multiplier.
 
- |
-| --- | --- |
+
 
 ```py
-torchvision.transforms.functional.adjust_hue(img, hue_factor)¶
+torchvision.transforms.functional.adjust_hue(img, hue_factor)
 ```
 
 Adjust hue of an image.
@@ -509,45 +496,43 @@ The image hue is adjusted by converting the image to HSV and cyclically shifting
 See [https://en.wikipedia.org/wiki/Hue](https://en.wikipedia.org/wiki/Hue) for more details on Hue.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be adjusted.
 *   **hue_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to shift the hue channel. Should be in [-0.5, 0.5]. 0.5 and -0.5 give complete reversal of hue channel in HSV space in positive and negative direction respectively. 0 means no shift. Therefore, both -0.5 and 0.5 will give an image with complementary colors while 0 gives the original image.
 
- |
-| --- | --- |
+
 | Returns: | Hue adjusted image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.adjust_saturation(img, saturation_factor)¶
+torchvision.transforms.functional.adjust_saturation(img, saturation_factor)
 ```
 
 Adjust color saturation of an image.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be adjusted.
 *   **saturation_factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – How much to adjust the saturation. 0 will give a black and white image, 1 will give the original image while 2 will enhance the saturation by a factor of 2.
 
- |
-| --- | --- |
+
 | Returns: | Saturation adjusted image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.affine(img, angle, translate, scale, shear, resample=0, fillcolor=None)¶
+torchvision.transforms.functional.affine(img, angle, translate, scale, shear, resample=0, fillcolor=None)
 ```
 
 Apply affine transformation on the image keeping image center invariant
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be rotated.
 *   **angle** (_{python:float__,_ _int}_) – rotation angle in degrees between -180 and 180, clockwise direction.
@@ -557,17 +542,16 @@ Apply affine transformation on the image keeping image center invariant
 *   **resample** (_{PIL.Image.NEAREST__,_ _PIL.Image.BILINEAR__,_ _PIL.Image.BICUBIC}__,_ _optional_) – An optional resampling filter. See [http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters) If omitted, or if the image has mode “1” or “P”, it is set to PIL.Image.NEAREST.
 *   **fillcolor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Optional fill color for the area outside the transform in the output image. (Pillow&gt;=5.0.0)
 
- |
-| --- | --- |
+
 
 ```py
-torchvision.transforms.functional.crop(img, i, j, h, w)¶
+torchvision.transforms.functional.crop(img, i, j, h, w)
 ```
 
 Crop the given PIL Image.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – Image to be cropped.
 *   **i** – Upper pixel coordinate.
@@ -575,15 +559,14 @@ Crop the given PIL Image.
 *   **h** – Height of the cropped image.
 *   **w** – Width of the cropped image.
 
- |
-| --- | --- |
+
 | Returns: | Cropped image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.five_crop(img, size)¶
+torchvision.transforms.functional.five_crop(img, size)
 ```
 
 Crop the given PIL Image into four corners and the central crop.
@@ -603,13 +586,12 @@ tuple (tl, tr, bl, br, center) corresponding top left,
 
 top right, bottom left, bottom right and center crop.
 
- |
-| --- | --- |
+
 | Return type: | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.hflip(img)¶
+torchvision.transforms.functional.hflip(img)
 ```
 
 Horizontally flip the given PIL Image.
@@ -623,7 +605,7 @@ Horizontally flip the given PIL Image.
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.normalize(tensor, mean, std)¶
+torchvision.transforms.functional.normalize(tensor, mean, std)
 ```
 
 Normalize a tensor image with mean and standard deviation.
@@ -631,27 +613,26 @@ Normalize a tensor image with mean and standard deviation.
 See `Normalize` for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")) – Tensor image of size (C, H, W) to be normalized.
 *   **mean** (_sequence_) – Sequence of means for each channel.
 *   **std** (_sequence_) – Sequence of standard deviations for each channely.
 
- |
-| --- | --- |
+
 | Returns: | Normalized Tensor image. |
 | --- | --- |
 | Return type: | [Tensor](../tensors.html#torch.Tensor "torch.Tensor") |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.pad(img, padding, fill=0, padding_mode='constant')¶
+torchvision.transforms.functional.pad(img, padding, fill=0, padding_mode='constant')
 ```
 
 Pad the given PIL Image on all sides with speficified padding mode and fill value.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – Image to be padded.
 *   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding on each border. If a single int is provided this is used to pad all borders. If tuple of length 2 is provided this is the padding on left/right and top/bottom respectively. If a tuple of length 4 is provided this is the padding for the left, top, right and bottom borders respectively.
@@ -668,35 +649,33 @@ Pad the given PIL Image on all sides with speficified padding mode and fill valu
 
     padding [1, 2, 3, 4] with 2 elements on both sides in symmetric mode will result in [2, 1, 1, 2, 3, 4, 4, 3]
 
- |
-| --- | --- |
+
 | Returns: | Padded image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.resize(img, size, interpolation=2)¶
+torchvision.transforms.functional.resize(img, size, interpolation=2)
 ```
 
 Resize the input PIL Image to the given size.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – Image to be resized.
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Desired output size. If size is a sequence like (h, w), the output size will be matched to this. If size is an int, the smaller edge of the image will be matched to this number maintaing the aspect ratio. i.e, if height &gt; width, then image will be rescaled to (size * height / width, size)
 *   **interpolation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Desired interpolation. Default is `PIL.Image.BILINEAR`
 
- |
-| --- | --- |
+
 | Returns: | Resized image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.resized_crop(img, i, j, h, w, size, interpolation=2)¶
+torchvision.transforms.functional.resized_crop(img, i, j, h, w, size, interpolation=2)
 ```
 
 Crop the given PIL Image and resize it to desired size.
@@ -704,7 +683,7 @@ Crop the given PIL Image and resize it to desired size.
 Notably used in RandomResizedCrop.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – Image to be cropped.
 *   **i** – Upper pixel coordinate.
@@ -714,21 +693,20 @@ Notably used in RandomResizedCrop.
 *   **size** (_sequence_ _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Desired output size. Same semantics as `scale`.
 *   **interpolation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Desired interpolation. Default is `PIL.Image.BILINEAR`.
 
- |
-| --- | --- |
+
 | Returns: | Cropped image. |
 | --- | --- |
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.rotate(img, angle, resample=False, expand=False, center=None)¶
+torchvision.transforms.functional.rotate(img, angle, resample=False, expand=False, center=None)
 ```
 
 Rotate the image by angle.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **img** (_PIL Image_) – PIL Image to be rotated.
 *   **angle** (_{python:float__,_ _int}_) – In degrees degrees counter clockwise order.
@@ -736,11 +714,10 @@ Rotate the image by angle.
 *   **expand** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Optional expansion flag. If true, expands the output image to make it large enough to hold the entire rotated image. If false or omitted, make the output image the same size as the input image. Note that the expand flag assumes rotation around the center and no translation.
 *   **center** (_2-tuple__,_ _optional_) – Optional center of rotation. Origin is the upper left corner. Default is the center of the image.
 
- |
-| --- | --- |
+
 
 ```py
-torchvision.transforms.functional.ten_crop(img, size, vertical_flip=False)¶
+torchvision.transforms.functional.ten_crop(img, size, vertical_flip=False)
 ```
 
 ```py
@@ -776,7 +753,7 @@ tuple: tuple (tl, tr, bl, br, center, tl_flip, tr_flip, bl_flip,
 br_flip, center_flip) corresponding top left, top right, bottom left, bottom right and center crop and same for the flipped image.
 
 ```py
-torchvision.transforms.functional.to_grayscale(img, num_output_channels=1)¶
+torchvision.transforms.functional.to_grayscale(img, num_output_channels=1)
 ```
 
 Convert image to grayscale version of image.
@@ -792,13 +769,12 @@ Grayscale version of the image.
 
 if num_output_channels == 1 : returned image is single channel if num_output_channels == 3 : returned image is 3 channel with r == g == b
 
- |
-| --- | --- |
+
 | Return type: | PIL Image |
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.to_pil_image(pic, mode=None)¶
+torchvision.transforms.functional.to_pil_image(pic, mode=None)
 ```
 
 Convert a tensor or an ndarray to PIL Image.
@@ -806,13 +782,12 @@ Convert a tensor or an ndarray to PIL Image.
 See `ToPIlImage` for more details.
 
  
-| Parameters: | 
+Parameters: 
 
 *   **pic** ([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor") _or_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.15)")) – Image to be converted to PIL Image.
 *   **mode** ([PIL.Image mode](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes)) – color space and pixel depth of input data (optional).
 
- |
-| --- | --- |
+
 
  
 | Returns: | Image converted to PIL Image. |
@@ -821,7 +796,7 @@ See `ToPIlImage` for more details.
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.to_tensor(pic)¶
+torchvision.transforms.functional.to_tensor(pic)
 ```
 
 Convert a `PIL Image` or `numpy.ndarray` to tensor.
@@ -837,7 +812,7 @@ See `ToTensor` for more details.
 | --- | --- |
 
 ```py
-torchvision.transforms.functional.vflip(img)¶
+torchvision.transforms.functional.vflip(img)
 ```
 
 Vertically flip the given PIL Image.

@@ -142,13 +142,12 @@ Load a `ScriptModule` previously saved with `save`
 
 All previously saved modules, no matter their device, are first loaded onto CPU, and then are moved to the devices they were saved from. If this fails (e.g. because the run time system doesn’t have certain devices), an exception is raised. However, storages can be dynamically remapped to an alternative set of devices using the `map_location` argument. Comparing to [`torch.load()`](torch.html#torch.load "torch.load"), `map_location` in this function is simplified, which only accepts a string (e.g., ‘cpu’, ‘cuda:0’), or torch.device (e.g., torch.device(‘cpu’))
 
-| Parameters: | 
+Parameters: 
 
 *   **f** – a file-like object (has to implement read, readline, tell, and seek), or a string containing a file name
 *   **map_location** – can a string (e.g., ‘cpu’, ‘cuda:0’), a device (e.g., torch.device(‘cpu’))
 
- |
-| --- | --- |
+
 | Returns: | A `ScriptModule` object. |
 | --- | --- |
 
@@ -178,13 +177,12 @@ Warning
 
 Tracing only correctly records functions and modules which are not data dependent (e.g., have conditionals on data in tensors) and do not have any untracked external dependencies (e.g., perform input/output or access global variables). If you trace such models, you may silently get incorrect results on subsequent invocations of the model. The tracer will try to emit warnings when doing something that may cause an incorrect trace to be produced.
 
-| Parameters: | 
+Parameters: 
 
 *   **func** (_callable_ _or_ [_torch.nn.Module_](nn.html#torch.nn.Module "torch.nn.Module")) – a python function or torch.nn.Module that will be run with example_inputs. arguments and returns to func must be Tensors or (possibly nested) tuples that contain tensors.
 *   **example_inputs** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – a tuple of example inputs that will be passed to the function while tracing. The resulting trace can be run with inputs of different types and shapes assuming the traced operations support those types and shapes. example_inputs may also be a single Tensor in which case it is automatically wrapped in a tuple
 
- |
-| --- | --- |
+
 | Keyword Arguments: |
 | --- |
 |   | 

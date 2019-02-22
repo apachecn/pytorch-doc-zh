@@ -1,5 +1,7 @@
 # Writing Distributed Applications with PyTorch
 
+> 译者：[@Sylvester](https://github.com/coboe)
+
 **Author**: [Séb Arnold](http://seba1511.com)
 
 In this short tutorial, we will be going over the distributed package of PyTorch. We’ll see how to set up the distributed setting, use the different communication strategies, and go over some the internals of the package.
@@ -44,7 +46,7 @@ if __name__ == "__main__":
 
 The above script spawns two processes who will each setup the distributed environment, initialize the process group (`dist.init_process_group`), and finally execute the given `run` function.
 
-Let’s have a look at the `init_processes` function. It ensures that every process will be able to coordinate through a master, using the same ip address and port. Note that we used the TCP backend, but we could have used [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) or [Gloo](http://github.com/facebookincubator/gloo) instead. (c.f. [Section 5.1](#communication-backends)) We will go over the magic happening in `dist.init_process_group` at the end of this tutorial, but it essentially allows processes to communicate with each other by sharing their locations.
+Let’s have a look at the `init_processes` function. It ensures that every process will be able to coordinate through a master, using the same ip address and port. Note that we used the TCP backend, but we could have used MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) or [Gloo](http://github.com/facebookincubator/gloo) instead. (c.f. [Section 5.1) We will go over the magic happening in `dist.init_process_group` at the end of this tutorial, but it essentially allows processes to communicate with each other by sharing their locations.
 
 ## Point-to-Point Communication
 
@@ -101,7 +103,7 @@ When using immediates we have to be careful about with our usage of the sent and
 
 However, after `req.wait()` has been executed we are guaranteed that the communication took place, and that the value stored in `tensor[0]` is 1.0.
 
-Point-to-point communication is useful when we want a fine-grained control over the communication of our processes. They can be used to implement fancy algorithms, such as the one used in [Baidu’s DeepSpeech](https://github.com/baidu-research/baidu-allreduce) or [Facebook’s large-scale experiments](https://research.fb.com/publications/imagenet1kin1h/).(c.f. [Section 4.1](#our-own-ring-allreduce))
+Point-to-point communication is useful when we want a fine-grained control over the communication of our processes. They can be used to implement fancy algorithms, such as the one used in Baidu’s DeepSpeech](https://github.com/baidu-research/baidu-allreduce) or [Facebook’s large-scale experiments](https://research.fb.com/publications/imagenet1kin1h/).(c.f. [Section 4.1)
 
 ## Collective Communication
 
@@ -351,7 +353,7 @@ In order to test our newly installed backend, a few modifications are required.
 1.  Replace the content under `if __name__ == '__main__':` with `init_processes(0, 0, run, backend='mpi')`.
 2.  Run `mpirun -n 4 python myscript.py`.
 
-The reason for these changes is that MPI needs to create its own environment before spawning the processes. MPI will also spawn its own processes and perform the handshake described in [Initialization Methods](#initialization-methods), making the `rank`and `size` arguments of `init_process_group` superfluous. This is actually quite powerful as you can pass additional arguments to `mpirun` in order to tailor computational resources for each process. (Things like number of cores per process, hand-assigning machines to specific ranks, and [some more](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile)) Doing so, you should obtain the same familiar output as with the other communication backends.
+The reason for these changes is that MPI needs to create its own environment before spawning the processes. MPI will also spawn its own processes and perform the handshake described in Initialization Methods, making the `rank`and `size` arguments of `init_process_group` superfluous. This is actually quite powerful as you can pass additional arguments to `mpirun` in order to tailor computational resources for each process. (Things like number of cores per process, hand-assigning machines to specific ranks, and [some more](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile)) Doing so, you should obtain the same familiar output as with the other communication backends.
 
 ### Initialization Methods
 

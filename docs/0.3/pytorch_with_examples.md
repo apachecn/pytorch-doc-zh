@@ -1,5 +1,9 @@
 # 跟着例子学习 PyTorch
 
+> 译者：[@yongjay13](https://github.com/yongjay13)、[@speedmancs](https://github.com/speedmancs)
+> 
+> 校对者：[@bringtree](https://github.com/bringtree) 
+
 **Author**: [Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
 
 这个教程通过一些单独的示例介绍了 [PyTorch](https://github.com/pytorch/pytorch) 的基本概念.
@@ -11,32 +15,32 @@ PyTorch 的核心部分提供了两个主要功能:
 
 我们将使用全连接的 ReLU 网络作为我们的运行示例. 该网络将有一个隐藏层, 并将使用梯度下降训练去最小化随机数字的预测输出和真实输出之间的欧式距离.
 
-Note
+注解：
 
 你可以下载这些单独的例子在页面的底端 &lt;examples-download&gt;.
 
 本章内容目录
 
-*   [Tensors](#tensors)
-    *   [Warm-up: numpy](#warm-up-numpy)
-    *   [PyTorch: Tensors](#pytorch-tensors)
-*   [Autograd](#autograd)
-    *   [PyTorch: Variables and autograd](#pytorch-variables-and-autograd)
-    *   [PyTorch: Defining new autograd functions](#pytorch-defining-new-autograd-functions)
-    *   [TensorFlow: Static Graphs](#tensorflow-static-graphs)
-*   [`nn` module](#nn-module)
-    *   [PyTorch: nn](#pytorch-nn)
-    *   [PyTorch: optim](#pytorch-optim)
-    *   [PyTorch: Custom nn Modules](#pytorch-custom-nn-modules)
-    *   [PyTorch: Control Flow + Weight Sharing](#pytorch-control-flow-weight-sharing)
-*   [Examples](#examples)
-    *   [Tensors](#id2)
-    *   [Autograd](#id3)
-    *   [`nn` module](#id4)
+*   Tensors
+    *   Warm-up: numpy
+    *   PyTorch: Tensors
+*   Autograd
+    *   PyTorch: Variables and autograd
+    *   PyTorch: Defining new autograd functions
+    *   TensorFlow: Static Graphs
+*   `nn` module
+    *   PyTorch: nn
+    *   PyTorch: optim
+    *   PyTorch: Custom nn Modules
+    *   PyTorch: Control Flow + Weight Sharing
+*   Examples
+    *   Tensors
+    *   Autograd
+    *   `nn` module
 
-## [Tensors](#id14)
+## Tensors
 
-### [Warm-up: numpy](#id15)
+### Warm-up: numpy
 
 在介绍 PyTorch 之前, 我们先使用 numpy 实现网络.
 
@@ -84,7 +88,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch: Tensors](#id16)
+### PyTorch: Tensors
 
 Numpy 是一个伟大的框架, 但它不能利用 GPU 加速它数值计算. 对于现代的深度神经网络, GPU 往往是提供 [50倍或更大的加速](https://github.com/jcjohnson/cnn-benchmarks), 所以不幸的是, numpy 不足以满足现在深度学习的需求.
 
@@ -139,9 +143,9 @@ for t in range(500):
 
 ```
 
-## [Autograd](#id17)
+## Autograd
 
-### [PyTorch: Variables and autograd](#id18)
+### PyTorch: Variables and autograd
 
 在上面的例子中, 我们不得不手写实现神经网络的正反向传播的代码. 而手写实现反向传播的代码对于一个 小型的双层网络来说是没什么大问题的, 但是在面对大型复杂网络手写方向传播代码就会变得很棘手.
 
@@ -207,7 +211,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch: Defining new autograd functions](#id19)
+### PyTorch: Defining new autograd functions
 
 在这层覆盖下, 每个原始的 autograd 操作符实际上是两个函数在张量上运行. **前向传播** 函数从输入的 Tensor 计算将要输出的 Tensor . **后向传播** 函数接收上一个 Tensor 关于 scalar 的梯度, 以 及计算当前输入 Tensor 对相同 scalar 值的梯度.
 
@@ -288,7 +292,7 @@ for t in range(500):
 
 ```
 
-### [TensorFlow: Static Graphs](#id20)
+### TensorFlow: Static Graphs
 
 Pytorch 的 autograd 看上去有点像 TensorFlow .两个框架的共同点是他们都是定义了自己的计算图. 和使用自动求微分的方法来计算梯度. 两者之间最大的不同在于 TensorFlow 的计算图是 **静态的** 和 PyTorch 的计算图是 **动态的** .
 
@@ -362,9 +366,9 @@ with tf.Session() as sess:
 
 ```
 
-## [`nn` module](#id21)
+## `nn` module
 
-### [PyTorch: nn](#id22)
+### PyTorch: nn
 
 计算图( Computational graphs )和 autograd 是一个非常强大的定义复杂的运算符并自动地导出的范式；然而对于 大型的神经网络, 原始的 autograd 仍然显得有点太低级.
 
@@ -429,7 +433,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch: optim](#id23)
+### PyTorch: optim
 
 到目前为止, 我们一直通过手动更新的方法更新模型的可学习参数( learnable parameters )的权重 `.data` 这对于简单的优化算法像随机梯度下降来还算轻松, 但是在实际中我们经常使用更巧妙的 优化器来训练神经网络, 如 AdaGrad, RMSProp, Adam 等.
 
@@ -484,7 +488,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch: Custom nn Modules](#id24)
+### PyTorch: Custom nn Modules
 
 有时你会想要使用比现有模块组合更复杂的特殊模型；对于这些情况, 你可以 通过继承 `nn.Module` 来定义你自己的模块, 并定义一个 `forward` 来实现模块接收输入 Variable 并使用其他模块输出的 Variable 和 其他 autograd 操作.
 
@@ -543,7 +547,7 @@ for t in range(500):
 
 ```
 
-### [PyTorch: Control Flow + Weight Sharing](#id25)
+### PyTorch: Control Flow + Weight Sharing
 
 作为一个动态图和权值共享的例子, 我们实现一个奇葩的模型: 随机1-4次重复搭建同个正向传播的全连接 的 ReLU 网络, 并且多个隐藏层使用相同的权重来计算最内层隐藏层(译者注: 这里的相同权重,是指随机1-4次重复搭建的这个middle_linear).
 
@@ -614,11 +618,11 @@ for t in range(500):
 
 ```
 
-## [Examples](#id26)
+## Examples
 
 你可以在这里浏览上网提到的例子
 
-### [Tensors](#id27)
+### Tensors
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_numpy_thumb.png](img/fde5e398e4c2beb25656f2673648db70.jpg)
 
@@ -628,13 +632,13 @@ for t in range(500):
 
 [PyTorch: Tensors](examples_tensor/two_layer_net_tensor.html#sphx-glr-beginner-examples-tensor-two-layer-net-tensor-py)
 
-### [Autograd](#id28)
+### Autograd
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_autograd_thumb.png](img/4cbc01edb4f350d5b1b3d2049b607cd6.jpg)
 
 [PyTorch: 变量和autograd](examples_autograd/two_layer_net_autograd.html#sphx-glr-beginner-examples-autograd-two-layer-net-autograd-py)
 
-![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_custom_function_thumb.png](img/541910b14ff1f4153ca61f6bead64788.jpg)
+![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_customfunctionthumb.png](img/541910b14ff1f4153ca61f6bead64788.jpg)
 
 [PyTorch: 定义新的autograd函数](examples_autograd/two_layer_net_custom_function.html#sphx-glr-beginner-examples-autograd-two-layer-net-custom-function-py)
 
@@ -642,7 +646,7 @@ for t in range(500):
 
 [TensorFlow: 静态图](examples_autograd/tf_two_layer_net.html#sphx-glr-beginner-examples-autograd-tf-two-layer-net-py)
 
-### [`nn` module](#id29)
+### `nn` module
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_two_layer_net_nn_thumb.png](img/4b23d725d5ca881ded3fd853fe416d66.jpg)
 

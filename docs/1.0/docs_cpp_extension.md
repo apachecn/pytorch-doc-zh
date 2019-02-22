@@ -85,7 +85,7 @@ To compile the sources, the default system compiler (`c++`) is used, which can b
 
 CUDA support with mixed compilation is provided. Simply pass CUDA source files (`.cu` or `.cuh`) along with other sources. Such files will be detected and compiled with nvcc rather than the C++ compiler. This includes passing the CUDA lib64 directory as a library directory, and linking `cudart`. You can pass additional flags to nvcc via `extra_cuda_cflags`, just like with `extra_cflags` for C++. Various heuristics for finding the CUDA install directory are used, which usually work fine. If not, setting the `CUDA_HOME` environment variable is the safest option.
 
-| Parameters: | 
+Parameters: 
 
 *   **name** – The name of the extension to build. This MUST be the same as the name of the pybind11 module!
 *   **sources** – A list of relative or absolute paths to C++ source files.
@@ -98,8 +98,7 @@ CUDA support with mixed compilation is provided. Simply pass CUDA source files (
 *   **with_cuda** – Determines whether CUDA headers and libraries are added to the build. If set to `None` (default), this value is automatically determined based on the existence of `.cu` or `.cuh` in `sources`. Set it to `True`` to force CUDA headers and libraries to be included.
 *   **is_python_module** – If `True` (default), imports the produced shared library as a Python module. If `False`, loads it into the process as a plain dynamic library.
 
- |
-| --- | --- |
+
 | Returns: | If `is_python_module` is `True`, returns the loaded PyTorch extension as a Python module. If `is_python_module` is `False` returns nothing (the shared library is loaded into the process as a side effect). |
 | --- | --- |
 
@@ -133,15 +132,14 @@ The sources in `cuda_sources` are concatenated into a separate `.cu` file and pr
 
 See [`load()`](#torch.utils.cpp_extension.load "torch.utils.cpp_extension.load") for a description of arguments omitted below.
 
-| Parameters: | 
+Parameters: 
 
 *   **cpp_sources** – A string, or list of strings, containing C++ source code.
 *   **cuda_sources** – A string, or list of strings, containing CUDA source code.
 *   **functions** – A list of function names for which to generate function bindings. If a dictionary is given, it should map function names to docstrings (which are otherwise just the function names).
 *   **with_cuda** – Determines whether CUDA headers and libraries are added to the build. If set to `None` (default), this value is automatically determined based on whether `cuda_sources` is provided. Set it to `True`` to force CUDA headers and libraries to be included.
 
- |
-| --- | --- |
+
 
 Example
 

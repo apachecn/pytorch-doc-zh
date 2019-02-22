@@ -1,13 +1,17 @@
 # 扩展 PyTorch
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)
+> 
+> 校对者：[@Twinkle](https://github.com/kemingzeng)
+
 在本文中, 我们将介绍如何扩展 [`torch.nn`](../nn.html#module-torch.nn "torch.nn"), [`torch.autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块, 并且使用我们的 C 库来编写自定义的 C 扩展工具.
 
 ## 扩展 [`torch.autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块
 
 将操作添加到 [`autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块需要为每一个操作实现一个新的 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 类的子类. 回想一下, [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 函数是 [`autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块用来计算结果和梯度, 并对操作历史进行编码的. 每一个新的函数需要你来实现两个方法:
 
-*   [`forward()`](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward") - 进行操作的代码. 如果您指定默认值, 则可以根据需要使用任意数量的参数, 其中一些参数是可选的. 参数可接收各种类型的 Python 对象. [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 参数在被调用之前将被转换为 `Tensor` 对象, 并且它们的使用情况将会被注册到 graph (图) 中. 请注意, 这个逻辑不会遍历 lists, dicts, 和任何其它的数据结构, 只会考虑被调用为直接参数的变量. 如果有多个输出, 则可以考虑返回单个的 `Tensor` 类格式的输出, 或者 `Tensor` 类的 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") 类格式输出. 此外, 请参阅 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 类的文档来查找只能从 [`forward()`](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 调用的有用方法的描述.
-*   [`backward()`](../autograd.html#torch.autograd.Function.backward "torch.autograd.Function.backward") - 计算梯度的公式. 它将被赋予与输出一样多的 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 参数, 其中的每一个表示对应梯度的输出. 它应该返回与输入一样多的 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable"), 其中的每一个表示都包含其相应输入的梯度. 如果输入不需要计算梯度 (请参阅 `needs_input_grad` 属性), 或者是非 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 对象, 则可返回 `None` 类. 此外, 如果你在 `forward()` 方法中有可选的参数, 则可以返回比输入更多的梯度, 只要它们都是 [`None`](https://docs.python.org/3/library/constants.html#None "(in Python v3.6)") 类型即可.
+*   [`forward()`](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward") - 进行操作的代码. 如果您指定默认值, 则可以根据需要使用任意数量的参数, 其中一些参数是可选的. 参数可接收各种类型的 Python 对象. [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 参数在被调用之前将被转换为 `Tensor` 对象, 并且它们的使用情况将会被注册到 graph (图) 中. 请注意, 这个逻辑不会遍历 lists, dicts, 和任何其它的数据结构, 只会考虑被调用为直接参数的变量. 如果有多个输出, 则可以考虑返回单个的 `Tensor` 类格式的输出, 或者 `Tensor` 类的 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple) 类格式输出. 此外, 请参阅 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 类的文档来查找只能从 [`forward()`](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 调用的有用方法的描述.
+*   [`backward()`](../autograd.html#torch.autograd.Function.backward "torch.autograd.Function.backward") - 计算梯度的公式. 它将被赋予与输出一样多的 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 参数, 其中的每一个表示对应梯度的输出. 它应该返回与输入一样多的 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable"), 其中的每一个表示都包含其相应输入的梯度. 如果输入不需要计算梯度 (请参阅 `needs_input_grad` 属性), 或者是非 [`Variable`](../autograd.html#torch.autograd.Variable "torch.autograd.Variable") 对象, 则可返回 `None` 类. 此外, 如果你在 `forward()` 方法中有可选的参数, 则可以返回比输入更多的梯度, 只要它们都是 [`None`](https://docs.python.org/3/library/constants.html#None) 类型即可.
 
 下面你可以找到来自 [`torch.nn`](../nn.html#module-torch.nn "torch.nn") 模块的 `Linear` 函数代码, 以及注解
 
@@ -101,7 +105,7 @@ print(test)
 
 由于 [`nn`](../nn.html#module-torch.nn "torch.nn") 模块大量的利用了 [`autograd`](../autograd.html#module-torch.autograd "torch.autograd") 模块, 添加一个新的 [`Module`](../nn.html#torch.nn.Module "torch.nn.Module") 类需要实现一个 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 类, 它会执行对应的操作并且计算梯度. 从现在开始, 假设我们想要实现一个 `Linear` 模块, 并且我们具有如上所列实现的功能. 有很少的代码需要添加这个. 现在有两个函数需要实现:
 
-*   `__init__` (_optional_) - 接收诸如 kernel sizes (核大小) , numbers of features (特征数量) 等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
+*   `__init__` (optional) - 接收诸如 kernel sizes (核大小) , numbers of features (特征数量) 等参数, 并初始化 parameters(参数) 和 buffers(缓冲区).
 *   [`forward()`](../nn.html#torch.nn.Module.forward "torch.nn.Module.forward") - 实例化一个 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 类, 并且用于执行操作. 这与上面的 functional wrapper (函数的包装) 非常相似.
 
 这就是 `Linear` 模块的实现方式

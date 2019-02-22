@@ -43,7 +43,7 @@ torch.distributed.deprecated.init_process_group(backend, init_method='env://', *
 
 Initializes the distributed package.
 
-| Parameters: | 
+Parameters: 
 
 *   **backend** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – Name of the backend to use. Depending on build-time configuration valid values include: `tcp`, `mpi`, `gloo` and `nccl`.
 *   **init_method** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – URL specifying how to initialize the package.
@@ -51,8 +51,7 @@ Initializes the distributed package.
 *   **rank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Rank of the current process.
 *   **group_name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – Group name. See description of init methods.
 
- |
-| --- | --- |
+
 
 To enable `backend == mpi`, PyTorch needs to built from source on a system that supports MPI. If you want to use Open MPI with CUDA-aware support, please use Open MPI major version 2 and above.
 
@@ -151,13 +150,12 @@ torch.distributed.deprecated.send(tensor, dst)
 
 Sends a tensor synchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.recv(tensor, src=None)
@@ -165,13 +163,12 @@ torch.distributed.deprecated.recv(tensor, src=None)
 
 Receives a tensor synchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Source rank. Will receive from any process if unspecified.
 
- |
-| --- | --- |
+
 | Returns: | Sender rank. |
 | --- | --- |
 
@@ -188,13 +185,12 @@ torch.distributed.deprecated.isend(tensor, dst)
 
 Sends a tensor asynchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
 
- |
-| --- | --- |
+
 | Returns: | A distributed request object. |
 | --- | --- |
 
@@ -204,13 +200,12 @@ torch.distributed.deprecated.irecv(tensor, src)
 
 Receives a tensor asynchronously.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
 
- |
-| --- | --- |
+
 | Returns: | A distributed request object. |
 | --- | --- |
 
@@ -224,14 +219,13 @@ Broadcasts the tensor to the whole group.
 
 `tensor` must have the same number of elements in all processes participating in the collective.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Data to be sent if `src` is the rank of current process, and tensor to be used to save received data otherwise.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
@@ -241,14 +235,13 @@ Reduces the tensor data across all machines in such a way that all get the final
 
 After the call `tensor` will be bitwise identical in all processes.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
 *   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)
@@ -258,15 +251,14 @@ Reduces the tensor data across all machines.
 
 Only the process with rank `dst` is going to receive the final result.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
 *   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
@@ -274,14 +266,13 @@ torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object objec
 
 Gathers tensors from the whole group in a list.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Output list. It should contain correctly-sized tensors to be used for output of the collective.
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to be broadcast from current process.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.gather(tensor, **kwargs)
@@ -289,15 +280,14 @@ torch.distributed.deprecated.gather(tensor, **kwargs)
 
 Gathers a list of tensors in a single process.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input tensor.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank. Required in all processes except the one that is receiveing the data.
 *   **gather_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of appropriately-sized tensors to use for received data. Required only in the receiving process.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.scatter(tensor, **kwargs)
@@ -307,15 +297,14 @@ Scatters a list of tensors to all processes in a group.
 
 Each process will receive exactly one tensor and store its data in the `tensor` argument.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Output tensor.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank. Required in all processes except the one that is sending the data.
 *   **scatter_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors to scatter. Required only in the process that is sending the data.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.barrier(group=<object object>)
@@ -384,14 +373,13 @@ Note
 
 Only NCCL backend is currently supported. `tensor_list` should only contain GPU tensors.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Tensors that participate in the collective operation. if `src` is the rank, then the first element of `tensor_list` (`tensor_list[0]`) will be broadcasted to all other tensors (on different GPUs) in the src process and all tensors in `tensor_list` of other non-src processes. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
 *   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.all_reduce_multigpu(tensor_list, op=<object object>, group=<object object>)
@@ -405,14 +393,13 @@ Note
 
 Only NCCL backend is currently supported. `tensor_list` should only contain GPU tensors.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of input and output tensors of the collective. The function operates in-place and requires that each tensor to be a GPU tensor on different GPUs. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
 *   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.reduce_multigpu(tensor_list, dst, op=<object object>, group=<object object>)
@@ -426,15 +413,14 @@ Note
 
 Only NCCL backend is currently supported. `tensor_list` should only contain GPU tensors.
 
-| Parameters: | 
+Parameters: 
 
 *   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Input and output GPU tensors of the collective. The function operates in-place. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
 *   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
 *   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.deprecated.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>)
@@ -446,14 +432,13 @@ Note
 
 Only NCCL backend is currently supported. `output_tensor_lists` and `input_tensor_list` should only contain GPU tensors.
 
-| Parameters: | 
+Parameters: 
 
 *   **output_tensor_lists** (_List__[__List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]__]_) – Output lists. It should contain correctly-sized tensors on each GPU to be used for output of the collective. e.g. `output_tensor_lists[i]` contains the all_gather result that resides on the GPU of `input_tensor_list[i]`. Note that each element of `output_tensor_lists[i]` has the size of `world_size * len(input_tensor_list)`, since the function all gathers the result from every single GPU in the group. To interpret each element of `output_tensor_list[i]`, note that `input_tensor_list[j]` of rank k will be appear in `output_tensor_list[i][rank * world_size + j]` Also note that `len(output_tensor_lists)`, and the size of each element in `output_tensor_lists` (each element is a list, therefore `len(output_tensor_lists[i])`) need to be the same for all the distributed processes calling this function.
 *   **input_tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors (on different GPUs) to be broadcast from current process. Note that `len(input_tensor_list)` needs to be the same for all the distributed processes calling this function.
 *   **group** (_optional_) – Group of the collective.
 
- |
-| --- | --- |
+
 
 ## Launch utility
 

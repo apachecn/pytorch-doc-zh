@@ -1,5 +1,9 @@
 # PyTorch 深度学习: 60 分钟极速入门教程
 
+> 译者：[@小王子](https://github.com/VPrincekin)
+> 
+> 校对者：[@李子文](https://github.com/liziwenzzzz)
+
 **Author**: [Soumith Chintala](http://soumith.ch)
 
 本教程的目标:
@@ -9,7 +13,7 @@
 
 _本教程假设您对 numpy 有基本的了解_
 
-Note
+注解：
 
 请确认您已经安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包.
 

@@ -1,6 +1,10 @@
 # Automatic differentiation package - torch.autograd
 
-torch.autograd 提供了类和函数用来对任意标量函数进行求导.只需要对已有的代码进行微小的改变-只需要将所有的 tensors 包含在 [`Variable`](#torch.autograd.Variable "torch.autograd.Variable") 对象中即可.
+> 译者：[@ZhenLei Xu](https://github.com/HadXu)
+> 
+> 校对者：[@青梅往事](https://github.com/2556120684)
+
+torch.autograd 提供了类和函数用来对任意标量函数进行求导.只需要对已有的代码进行微小的改变-只需要将所有的 tensors 包含在 `Variable` 对象中即可.
 
 ```py
 torch.autograd.backward(variables, grad_variables=None, retain_graph=None, create_graph=None, retain_variables=None)
@@ -12,17 +16,12 @@ torch.autograd.backward(variables, grad_variables=None, retain_graph=None, creat
 
 此函数累积叶子节点 variables 计算的梯度 - 调用此函数之前应先将叶子节点 variables 梯度置零.
 
-参数说明: * variables(Variable 列表): 被求微分的叶子节点. * grad_variables ((Tensor,Variable or None)列表):对应 variable 的梯度.任何张量将自动转换为变量除非
+参数: 
 
-> `create_graph` 是 `True`. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
-
-*   retain_graph (bool, 可选): 如果是 `False`, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``
-
-> 并不是必须的并且能够高效的计算.将该 `create_graph` 参数值设置为默认即可.
-
-*   create_graph (bool, 可选): 如果是 `True`, 将会建立一个梯度图, 用来求解高阶导数.
-
-> 默认为 `False`, 除非 `grad_variables` 拥有不止一个 易变的 Variable.
+* `variables (Variable 列表)`: 被求微分的叶子节点. 
+* `grad_variables ((Tensor, Variable 或 None) 列表)`:对应 variable 的梯度. 任何张量将自动转换为变量除非`create_graph` 是 `True`. 没有值可以被指定为标量变量或者不需要被求导. 如果没有值被所有的grad_variables接受, 那么该参数是可以被省略的.
+*   `retain_graph (bool, 可选)`: 如果是 `False`, 该图计算过的梯度被释放掉.注意的是,几乎所有情况都设置为``True``并不是必须的并且能够高效的计算.将该 `create_graph` 参数值设置为默认即可.
+*   `create_graph (bool, 可选)`: 如果是 `True`, 将会建立一个梯度图, 用来求解高阶导数.默认为 `False`, 除非 `grad_variables` 拥有不止一个 易变的 Variable.
 
 ```py
 torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=None, only_inputs=True, allow_unused=False)
@@ -34,17 +33,15 @@ torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, creat
 
 如果参数 `only_inputs` 为 `True`, 该方法将会返回给定输入的梯度值列表.如果为 `False`, 那么遗留下来的所有叶子节点的梯度都会被计算, 被且会被列加到 `.grad` 参数中.
 
-参数说明: * outputs (变量序列): 梯度函数的返回值. * inputs (变量序列): 需要计算的梯度的输入 (并且不会被累加到 `.grad` 参数中). * grad_outputs (张量或变量序列): 每一个输出的梯度.
+参数: 
 
-> 所有的张量都会变成变量并且是可变的除非参数 `create_graph` 为 `True`. 没有值可以被指定为标量变量或者不需要变化的值. 如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
-
-*   retain_graph (bool, 可选): 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
-*   create_graph (bool, 可选): 如果是 `True`, 梯度图将会被建立,用来求解高阶导数.
-
-> 默认为 `False`` , 除非参数 `grad_variables` 包含不只一个变量.
-
-*   only_inputs (bool, 可选): 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
-*   allow_unused (bool, 可选): 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
+* `outputs (变量序列)`: 梯度函数的返回值. 
+* `inputs (变量序列)`: 需要计算的梯度的输入 (并且不会被累加到 `.grad` 参数中). 
+* `grad_outputs (张量或变量序列)`: 每一个输出的梯度. 所有的张量都会变成变量并且是可变的除非参数 `create_graph` 为 `True`. 没有值可以被指定为标量变量或者不需要变化的值. 如果所有 grad_variabls 都可以接受 None 值,那么这个参数是可选的.
+*   `retain_graph (bool, 可选)`: 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
+*   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数. 默认为 `False` , 除非参数 `grad_variables` 包含不只一个变量.
+*   `only_inputs (bool, 可选)`: 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
+*   `allow_unused (bool, 可选)`: 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
 
 ## Variable (变量)
 
@@ -58,7 +55,7 @@ Variable API 几乎与常规 Tensor API 相同(一些会覆盖梯度计算输入
 
 ### In-place correctness checks
 
-所有的 [`Variable`](#torch.autograd.Variable "torch.autograd.Variable") 跟踪适用于它们的就地操作, 并且如果实现检测到一个变量是否被其中一个函数后台保存, 但是之后它被就地修改了, 会在开始求导时会报出异常. 这确保了如果你在就地使用函数并没有看到任何错误, 你可以肯定的是计算变量是正确的.
+所有的 `Variable` 跟踪适用于它们的就地操作, 并且如果实现检测到一个变量是否被其中一个函数后台保存, 但是之后它被就地修改了, 会在开始求导时会报出异常. 这确保了如果你在就地使用函数并没有看到任何错误, 你可以肯定的是计算变量是正确的.
 
 ```py
 class torch.autograd.Variable
@@ -70,9 +67,20 @@ class torch.autograd.Variable
 
 由于 autograd 只支持标量值函数微分, grad 大小始终与数据大小匹配. 此外,导数通常只分配 叶变量,否则将始终为零.
 
-参数说明: * data: 包裹任何类型的张量. * grad: 变量保持类型和位置匹配的变量 `.data`. 这个属性是懒惰的分配,不能被重新分配. * requires_grad: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它.     有关更多详细信息,请参阅 excluded-subgraphs.只能在叶变量上进行更改. * volatile: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 [反向排除 subgraphs (子图)](notes/autograd.html#excluding-subgraphs) 更多细节.     只能在叶变量上进行更改. * is_leaf: 指示是否为叶子节点,即是否由用户创建的节点. * grad_fn: 导数函数跟踪.
+参数: 
 
-参数: * data (any tensor class): 用来包装的张量. * requires_grad (bool): 指示是否要被求导. **Keyword only.** * volatile (bool): 指示是否可变. **Keyword only.**
+* `data`: 包裹任何类型的张量. 
+* `grad`: 变量保持类型和位置匹配的变量 `.data`. 这个属性是懒惰的分配,不能被重新分配. 
+* `requires_grad`: 指示变量是否已被使用的布尔值由包含任何变量的子图创建,需要它. 有关更多详细信息,请参阅 excluded-subgraphs.只能在叶变量上进行更改. 
+* `volatile`: 布尔值表示应该使用变量推理模式,即不保存历史. 查看 [反向排除 subgraphs (子图)](notes/autograd.html#excluding-subgraphs) 更多细节. 只能在叶变量上进行更改. 
+* `is_leaf`: 指示是否为叶子节点,即是否由用户创建的节点. 
+* `grad_fn`: 导数函数跟踪.
+
+参数: 
+
+* `data (任何 tensor 类)`: 用来包装的张量. 
+* `requires_grad (bool)`: 指示是否要被求导. **仅限关键字.** 
+* `volatile (bool)`: 指示是否可变. **仅限关键字.**
 
 ```py
 backward(gradient=None, retain_graph=None, create_graph=None, retain_variables=None)
@@ -82,21 +90,15 @@ backward(gradient=None, retain_graph=None, create_graph=None, retain_variables=N
 
 该图使用链式规则进行计算. 如果变量是非标量（即其数据具有多个元素）并且需要 改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量 微分函数的梯度w.r.t. `self` .
 
-> 这个功能在叶子上累积渐变 - 你可能需要调用之前将它们置零.
-> 
-> 参数: * gradient (Tensor, Variable or None): 计算变量的梯度. 如果是张量,则会自动转换
-> 
-> &gt; 到一个变量,这是挥发性的,除非 `create_graph` 为真.没有值可以被指定为标量变量或那些 不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
-> 
-> *   retain_graph (bool, 可选): 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几
-> 
-> &gt; 乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为
+这个功能在叶子上累积梯度 - 你可能需要调用之前将它们置零.
 
-     `create_graph`.
+参数: 
 
-*   create_graph (bool, optional): 如果“真”,派生图将会被构造,允许计算更高阶的导数.
+*    `gradient (Tensor, Variable or None)`: 计算变量的梯度. 如果是张量,则会自动转换到一个变量,这是挥发性的,除非 `create_graph` 为真.没有值可以被指定为标量变量或那些 不要求毕业. 如果一个None值是可以接受的这个参数是可选的.
 
-> 默认为 `False`,除非 `gradient` 是一个volatile变量.
+*   `retain_graph (bool, 可选)`: 如果 “False” ,则用于计算的图形导数将被释放. 请注意,在几乎所有情况下设置这个选项为 True 是不需要的,通常可以解决在一个更有效的方式. 默认值为`create_graph`.
+
+*   `create_graph (bool, 可选)`: 如果“真”,派生图将会被构造,允许计算更高阶的导数. 默认为 `False`,除非 `gradient` 是一个volatile变量.
 
 ```py
 detach()
@@ -126,7 +128,7 @@ hook不应该修改它的输入,但是它可以选择性的返回一个替代当
 
 这个函数返回一个 句柄 (handle).它有一个方法 handle.remove(),可以用这个方法将 hook 从 module 移除.
 
-Example
+示例：
 
 ```py
 >>> v = Variable(torch.Tensor([0, 0, 0]), requires_grad=True)
@@ -147,7 +149,7 @@ retain_grad()
 
 为非叶变量启用 .grad 属性.
 
-## :hidden:’Function(函数)’
+## Function (函数)
 
 ```py
 class torch.autograd.Function
@@ -161,7 +163,7 @@ class torch.autograd.Function
 
 每个 Function 只被使用一次(在forward过程中).
 
-参数说明: requires_grad: 布尔类型依赖于方法 [`backward()`](#torch.autograd.backward "torch.autograd.backward") 会不会还会被使用.
+参数: `requires_grad`: 布尔类型依赖于方法 `backward()` 会不会还会被使用.
 
 比如:
 
@@ -187,11 +189,13 @@ _static_ `backward`(_ctx_, _*grad_outputs_)[[source]](_modules/torch/autograd/fu
 
 这个方法将会被继承他的所有子类覆盖.
 
-第一个参数为上下文参数, 接下来可以输入任何张量或变量 (张量或其他类型), 并且有多个返回值, 并且为函数 [`forward()`](#torch.autograd.Function.forward "torch.autograd.Function.forward") 的输入. 每个参数都是给定输出的导数, 并且每一个输出都是输入的导数.
+第一个参数为上下文参数, 接下来可以输入任何张量或变量 (张量或其他类型), 并且有多个返回值, 并且为函数 `forward()` 的输入. 每个参数都是给定输出的导数, 并且每一个输出都是输入的导数.
 
 上下文可以用来检索转发过程中保存的变量.
 
-_static_ `forward`(_ctx_, _*args_, _**kwargs_)[[source]](_modules/torch/autograd/function.html#Function.forward)
+```py
+static forward(ctx, *args, **kwargs)
+```
 
 进行操作.
 
@@ -203,7 +207,7 @@ _static_ `forward`(_ctx_, _*args_, _**kwargs_)[[source]](_modules/torch/autograd
 
 ## Profiler(分析器)
 
-Autograd 包含一个分析器, 可以让你检查你的模型在CPU 和 GPU 上不同运算的成本. 目前实现有两种模式 - 只使用 CPU 的 [`profile`](#torch.autograd.profiler.profile "torch.autograd.profiler.profile"). 和基于 nvprof (注册 CPU 和 GPU 活动) 的方式使用 [`emit_nvtx`](#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx").
+Autograd 包含一个分析器, 可以让你检查你的模型在CPU 和 GPU 上不同运算的成本. 目前实现有两种模式 - 只使用 CPU 的 `profile`. 和基于 nvprof (注册 CPU 和 GPU 活动) 的方式使用 `emit_nvtx`.
 
 ```py
 class torch.autograd.profiler.profile(enabled=True)
@@ -211,10 +215,10 @@ class torch.autograd.profiler.profile(enabled=True)
 
 结果的评价指标.
 
-| Parameters: | **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _可选_) – 如果设置为 False ,则没有评价指标. Default: `True`. |
-| --- | --- |
+参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. Default: `True`.
 
-Example
+
+示例：
 
 ```py
 >>> x = Variable(torch.randn(1, 1), requires_grad=True)
@@ -245,8 +249,8 @@ export_chrome_trace(path)
 
 断点能够通过 `chrome://tracing` URL来读取.
 
-| Parameters: | **path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – 制定断点写的路径. |
-| --- | --- |
+参数：`path (str)` – 制定断点写的路径.
+
 
 ```py
 key_averages()
@@ -254,8 +258,8 @@ key_averages()
 
 平均所有的功能指标通过他们的键.
 
-| Returns: | 包含 FunctionEventAvg 对象的 EventList. |
-| --- | --- |
+返回值：包含 FunctionEventAvg 对象的 EventList.
+
 
 ```py
 table(sort_by=None)
@@ -263,10 +267,10 @@ table(sort_by=None)
 
 打印操作表
 
-| Parameters: | **sort_by** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _可选_) – 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印. 有效的键: `cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`. |
-| --- | --- |
-| Returns: | 包含表的字符串. |
-| --- | --- |
+参数：`sort_by (str, 可选)` – 用来对参数进行排序. 默认情况下,它们以与登记相同的顺序打印. 有效的键: `cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`.
+
+返回值：包含表的字符串.
+
 
 ```py
 total_average()
@@ -274,8 +278,8 @@ total_average()
 
 所有事件的平均指标.
 
-| Returns: | 一个 FunctionEventAvg 对象. |
-| --- | --- |
+返回值：一个 FunctionEventAvg 对象.
+
 
 ```py
 class torch.autograd.profiler.emit_nvtx(enabled=True)
@@ -290,12 +294,12 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
 ```
 
-不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 [`torch.autograd.profiler.load_nvprof()`](#torch.autograd.profiler.load_nvprof "torch.autograd.profiler.load_nvprof") 可以加载检查结果.
+不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 `torch.autograd.profiler.load_nvprof()` 可以加载检查结果.
 
-| Parameters: | **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _可选_) – 如果设置为 False ,则没有评价指标. 默认: `True`. |
-| --- | --- |
+参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. 默认: `True`.
 
-Example
+
+示例：
 
 ```py
 >>> with torch.cuda.profiler.profile():
@@ -311,5 +315,4 @@ torch.autograd.profiler.load_nvprof(path)
 
 打开 nvprof trace 文件.
 
-| Parameters: | **path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – nvprof trace 文件路径. |
-| --- | --- |
+参数：`path (str)` – nvprof trace 文件路径.

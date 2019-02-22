@@ -36,13 +36,12 @@ class torch.utils.data.Subset(dataset, indices)
 
 Subset of a dataset at specified indices.
 
-| Parameters: | 
+Parameters: 
 
 *   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – The whole Dataset
 *   **indices** (_sequence_) – Indices in the whole set selected for subset
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=<function default_collate>, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None)
@@ -50,7 +49,7 @@ class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=
 
 Data loader. Combines a dataset and a sampler, and provides single- or multi-process iterators over the dataset.
 
-| Parameters: | 
+Parameters: 
 
 *   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – dataset from which to load the data.
 *   **batch_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – how many samples per batch to load (default: `1`).
@@ -64,8 +63,7 @@ Data loader. Combines a dataset and a sampler, and provides single- or multi-pro
 *   **timeout** (_numeric__,_ _optional_) – if positive, the timeout value for collecting a batch from workers. Should always be non-negative. (default: `0`)
 *   **worker_init_fn** (_callable__,_ _optional_) – If not `None`, this will be called on each worker subprocess with the worker id (an int in `[0, num_workers - 1]`) as input, after seeding and before data loading. (default: `None`)
 
- |
-| --- | --- |
+
 
 Note
 
@@ -81,13 +79,12 @@ torch.utils.data.random_split(dataset, lengths)
 
 Randomly split a dataset into non-overlapping new datasets of given lengths.
 
-| Parameters: | 
+Parameters: 
 
 *   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – Dataset to be split
 *   **lengths** (_sequence_) – lengths of splits to be produced
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.Sampler(data_source)
@@ -112,14 +109,13 @@ class torch.utils.data.RandomSampler(data_source, replacement=False, num_samples
 
 Samples elements randomly. If without replacement, then sample from a shuffled dataset. If with replacement, then user can specify `num_samples` to draw.
 
-| Parameters: | 
+Parameters: 
 
 *   **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – dataset to sample from
 *   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of samples to draw, default=len(dataset)
 *   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – samples are drawn with replacement if `True`, default=False
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.SubsetRandomSampler(indices)
@@ -136,14 +132,13 @@ class torch.utils.data.WeightedRandomSampler(weights, num_samples, replacement=T
 
 Samples elements from [0,..,len(weights)-1] with given probabilities (weights).
 
-| Parameters: | 
+Parameters: 
 
 *   **weights** (_sequence_) – a sequence of weights, not necessary summing up to one
 *   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of samples to draw
 *   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True`, samples are drawn with replacement. If not, they are drawn without replacement, which means that when a sample index is drawn for a row, it cannot be drawn again for that row.
 
- |
-| --- | --- |
+
 
 ```py
 class torch.utils.data.BatchSampler(sampler, batch_size, drop_last)
@@ -151,14 +146,13 @@ class torch.utils.data.BatchSampler(sampler, batch_size, drop_last)
 
 Wraps another sampler to yield a mini-batch of indices.
 
-| Parameters: | 
+Parameters: 
 
 *   **sampler** ([_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")) – Base sampler.
 *   **batch_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Size of mini-batch.
 *   **drop_last** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, the sampler will drop the last batch if its size would be less than `batch_size`
 
- |
-| --- | --- |
+
 
 Example
 
@@ -182,12 +176,11 @@ Note
 
 Dataset is assumed to be of constant size.
 
-| Parameters: | 
+Parameters: 
 
 *   **dataset** – Dataset used for sampling.
 *   **num_replicas** (_optional_) – Number of processes participating in distributed training.
 *   **rank** (_optional_) – Rank of the current process within num_replicas.
 
- |
-| --- | --- |
+
 

@@ -1,5 +1,9 @@
 # 序列化语义
 
+> 译者：[@胡东瑶](https://github.com/psubnwell)
+> 
+> 校对者：[@Twinkle](https://github.com/kemingzeng)
+
 ## 最佳实践
 
 ### 保存模型的推荐方法

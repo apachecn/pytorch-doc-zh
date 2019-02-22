@@ -1,5 +1,7 @@
 # 为 pytorch 自定义 C 扩展
 
+> 译者：[@飞龙](https://github.com/wizardforcel)
+
 **作者**: [Soumith Chintala](http://soumith.ch)
 
 ## 第一步. 准备你的 C 代码
