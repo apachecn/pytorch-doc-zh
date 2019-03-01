@@ -1,35 +1,36 @@
 
-
 # torch.utils.bottleneck
+> 译者:  [belonHan](https://github.com/belonHan)
 
-`torch.utils.bottleneck` is a tool that can be used as an initial step for debugging bottlenecks in your program. It summarizes runs of your script with the Python profiler and PyTorch’s autograd profiler.
+`torch.utils.bottleneck`是 调试瓶颈`bottleneck`时首先用到的工具.它总结了python分析工具与PyTorch自动梯度分析工具在脚本运行中情况.
 
-Run it on the command line with
+在命令行运行如下命令
 
 ```py
 python -m torch.utils.bottleneck /path/to/source/script.py [args]
 
 ```
 
-where [args] are any number of arguments to `script.py`, or run `python -m torch.utils.bottleneck -h` for more usage instructions.
+其中 `[args]` 是`script.py`脚本的参数(任意个数).运行`python -m torch.utils.bottleneck -h`命令获取更多帮助说明.
 
-Warning
+警告
 
-Because your script will be profiled, please ensure that it exits in a finite amount of time.
+请确保脚本在分析时能够在有限时间内退出.
 
-Warning
+警告
 
-Due to the asynchronous nature of CUDA kernels, when running against CUDA code, the cProfile output and CPU-mode autograd profilers may not show correct timings: the reported CPU time reports the amount of time used to launch the kernels but does not include the time the kernel spent executing on a GPU unless the operation does a synchronize. Ops that do synchronize appear to be extremely expensive under regular CPU-mode profilers. In these case where timings are incorrect, the CUDA-mode autograd profiler may be helpful.
+当运行CUDA代码时，由于CUDA内核的异步特性, cProfile的输出 和cpu模式的autograd分析工具可能无法显示正确的计时: 报告的CPU时间 是用于启动内核的时间,不包括在GPU上执行的时间。 在常规cpu模式分析器下，同步操作是非常昂贵的。在这种无法准确计时的情况下，可以使用cuda模式的autograd分析工具。
 
-Note
+注意
 
-To decide which (CPU-only-mode or CUDA-mode) autograd profiler output to look at, you should first check if your script is CPU-bound (“CPU total time is much greater than CUDA total time”). If it is CPU-bound, looking at the results of the CPU-mode autograd profiler will help. If on the other hand your script spends most of its time executing on the GPU, then it makes sense to start looking for responsible CUDA operators in the output of the CUDA-mode autograd profiler.
+选择查看哪个分析工具的输出结果(CPU模式还是CUDA模式) ,首先应确定脚本是不是CPU密集型`CPU-bound`(“CPU总时间远大于CUDA总时间”)。如果是cpu密集型，选择查看cpu模式的结果。相反，如果大部分时间都运行在GPU上，再查看CUDA分析结果中相应的CUDA操作。
 
-Of course the reality is much more complicated and your script might not be in one of those two extremes depending on the part of the model you’re evaluating. If the profiler outputs don’t help, you could try looking at the result of [`torch.autograd.profiler.emit_nvtx()`](autograd.html#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx") with `nvprof`. However, please take into account that the NVTX overhead is very high and often gives a heavily skewed timeline.
+当然，实际情况取决于您的模型，可能会更复杂，不属于上面两种极端情况。除了分析结果之外,可以尝试使用`nvprof`命令查看[`torch.autograd.profiler.emit_nvtx()`](autograd.html#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx")的结果.然而需要注意NVTX的开销是非常高的,时间线经常会有严重的偏差。
 
-Warning
 
-If you are profiling CUDA code, the first profiler that `bottleneck` runs (cProfile) will include the CUDA startup time (CUDA buffer allocation cost) in its time reporting. This should not matter if your bottlenecks result in code much slower than the CUDA startup time.
+警告
 
-For more complicated uses of the profilers (like in a multi-GPU case), please see [https://docs.python.org/3/library/profile.html](https://docs.python.org/3/library/profile.html) or [`torch.autograd.profiler.profile()`](autograd.html#torch.autograd.profiler.profile "torch.autograd.profiler.profile") for more information.
+如果您在分析CUDA代码, `bottleneck`运行的第一个分析工具 (cProfile),它的时间中会包含CUDA的启动(CUDA缓存分配)时间。当然，如果CUDA启动时间远小于代码的中瓶颈,这就被可以忽略。
+
+更多更复杂关于分析工具的使用方法(比如多GPU),请点击[https://docs.python.org/3/library/profile.html](https://docs.python.org/3/library/profile.html) 或者 [`torch.autograd.profiler.profile()`](autograd.html#torch.autograd.profiler.profile "torch.autograd.profiler.profile").
 
