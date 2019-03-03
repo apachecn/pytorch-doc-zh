@@ -1,6 +1,6 @@
-
-
 # 分布式通信包 -  torch.distributed
+
+> 译者：[univeryinli](https://github.com/univeryinli)
 
 ## 后端
 
