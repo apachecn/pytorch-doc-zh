@@ -12,20 +12,74 @@
     *   [Use of Python Values](#use-of-python-values)
     *   [Debugging](#debugging)
     *   [Builtin Functions](#builtin-functions)
-
+*   [创建Torch Script代码](#creating-torch-script-code)
+*   [将追踪和脚本化结合起来](#mixing-tracing-and-scripting)
+*   [Torch Script语言参考](#torch-script-language-reference)
+    *   [类型](#types)
+    *   [表达式](#expressions)
+    *   [Statements](#statements)
+    *   [Variable Resolution](#variable-resolution)
+    *   [Use of Python Values](#use-of-python-values)
+    *   [Debugging](#debugging)
+    *   [Builtin Functions](#builtin-functions)
+    
 Torch Script is a way to create serializable and optimizable models from PyTorch code. Any code written in Torch Script can be saved from your Python process and loaded in a process where there is no Python dependency.
 
 We provide tools to incrementally transition a model from being a pure Python program to a Torch Script program that can be run independently from Python, for instance, in a standalone C++ program. This makes it possible to train models in PyTorch using familiar tools and then export the model to a production environment where it is not a good idea to run models as Python programs for performance and multi-threading reasons.
 
+Torch脚本是一种从PyTorch代码创建可序列化和可优化模型的方法。用Torch脚本编写的代码可以从Python进程中保存，并在没有Python依赖的进程中加载。
+
+我们提供了一些工具帮助我们将模型从纯Python程序逐步转换为可以独立于Python运行的Torch脚本程序。Torch脚本程序可以在其他语言的程序中运行（例如，在独立的C ++程序中）。这使得我们可以使用熟悉的工具在PyTorch中训练模型，而将模型导出到出于性能和多线程原因不能将模型作为Python程序运行的生产环境中去。
 ```py
 class torch.jit.ScriptModule(optimize=True)
 ```
 
 The core data structure in Torch Script is the `ScriptModule`. It is an analogue of torch’s nn.Module and represents an entire model as a tree of submodules. Like normal modules, each individual module in a ScriptModule can have submodules, parameters, and methods. In nn.Modules methods are implemented as Python functions, but in ScriptModules methods typically implemented as _Torch Script_ functions, a statically-typed subset of Python that contains all of PyTorch’s built-in Tensor operations. This difference allows your ScriptModules code to run without the need for a Python interpreter.
 
+Torch脚本中的核心数据结构是`ScriptModule`。它与Torch的nn.Module类似，用子模块树代表整个模型。与普通模块一样，ScriptModule中每个模块都可以包含子模块，参数和方法。不同的是，nn.Modules中的方法是用Python函数实现的，而ScriptModules中的方法通常由 _Torch脚本_ 函数实现，这种函数是Python的一个静态类型子集，包含PyTorch的所有内置Tensor操作。这种差异使得ScriptModules代码的运行不依赖于Python解释器。
+
 ScriptModules and the Torch Script functions inside of them can be created in two ways:
 
 **Tracing:**
+
+ScriptModule与其内部的Torch脚本函数可以通过两种方式创建：
+
+**追踪：**
+
+> 使用`torch.jit.trace`。torch.jit.trace以现有模块或python函数和样例输入作为参数，它会运行该python函数，记录函数在所有张量上执行的操作，并将记录转换为Torch脚本方法以作为ScriptModule的forward方法。创建的模块包含原始模块的所有参数。
+>
+> 例：
+> 
+> ```py
+> import torch
+> def foo(x, y):
+>     return 2*x + y
+> traced_foo = torch.jit.trace(foo, (torch.rand(3), torch.rand(3)))
+> 
+> ```
+>
+> 注意
+>
+> 追踪一个 _函数_ 将生成一个`ScriptModule`，该ScriptModule中包含一个实现被追踪函数的`forward`方法，但不包含任何参数。
+>
+> 例：
+> 
+> ```py
+> import torch
+> import torchvision
+> traced_net = torch.jit.trace(torchvision.models.resnet18(),
+>                              torch.rand(1, 3, 224, 224))
+> 
+> ```
+>
+> 注意
+>
+> 追踪仅记录在给定张量上运行给定函数时执行的操作。因此，返回的`ScriptModule`在任何输入上将运行相同的追踪图。当你的模块需要根据输入和/或模块状态运行不同的操作集时，这会产生一些重要的影响。例如，
+> &gt;* 追踪不会记录if语句或循环之类的控制流。当这个控制流在你的模块中保持不变时，这很好，它通常只是内联配置决策。但有时控制流实际上是模型本身的一部分。例如，序列到序列转换中的beam搜索是对（可变）输入序列长度的循环。
+> 
+> &gt;*在返回的`ScriptModule`中，在`training`和`eval`模式中具有不同行为的操作将始终表现为处于追踪期间的模式。
+>
+> 在上述情况下，脚本化是一个比追踪更好的选择。
 
 > Using `torch.jit.trace`, you can take an existing module or python function, provide example inputs, and we run the function, recording the operations performed on all the tensors. We turn the resulting recording into a Torch Script method that is installed as the `forward` method of a ScriptModule. This module also contains any parameters that the original module had as well.
 > 
@@ -122,6 +176,66 @@ ScriptModules and the Torch Script functions inside of them can be created in tw
 > 
 > ```
 
+**脚本化**
+
+> 你可以使用Python语法直接编写Torch脚本代码。你可以使用`torch.jit.script`注释（对于函数）或`torch.jit.script_method`注释（对于ScriptModule子类的方法）来编写Torch脚本代码。通过注释，被注释函数的主体将直接转换为Torch脚本。 Torch脚本本身只是Python语言的一个子集，因此不是python中的所有特性都可以使用，但我们提供了足够的功能来计算张量并执行与控制相关的操作。
+> 
+> 例:
+> 
+> ```py
+> import torch
+> @torch.jit.script
+> def foo(x, y):
+>     if x.max() &gt; y.max():
+>         r = x
+>     else:
+>         r = y
+>     return r
+> 
+> ```
+> 
+> 注意
+> 
+> 脚本 _函数_ 注释将构造带有一个`forward`方法的ScriptModule，该forward方法实现被注释函数，并且不包含任何参数。
+> 
+> 例：
+> 
+> ```py
+> import torch
+> class MyModule(torch.jit.ScriptModule):
+>     def __init__(self, N, M):
+>         super(MyModule, self).__init__()
+>         self.weight = torch.nn.Parameter(torch.rand(N, M))
+> 
+>     @torch.jit.script_method
+>     def forward(self, input):
+>         return self.weight.mv(input)
+> 
+> ```
+> 
+> 例：
+> 
+> ```py
+> import torch
+> import torch.nn as nn
+> import torch.nn.functional as F
+> from torch.jit import ScriptModule, script_method, trace
+> 
+> class MyScriptModule(ScriptModule):
+>     def __init__(self):
+>         super(MyScriptModule, self).__init__()
+>         # trace produces a ScriptModule's conv1 and conv2
+>         self.conv1 = trace(nn.Conv2d(1, 20, 5), torch.rand(1, 1, 16, 16))
+>         self.conv2 = trace(nn.Conv2d(20, 20, 5), torch.rand(1, 20, 16, 16))
+> 
+>     @script_method
+>     def forward(self, input):
+>       input = F.relu(self.conv1(input))
+>       input = F.relu(self.conv2(input))
+>       return input
+> 
+> ```
+
 ```py
 save(filename)
 ```
@@ -142,6 +256,28 @@ Load a `ScriptModule` previously saved with `save`
 
 All previously saved modules, no matter their device, are first loaded onto CPU, and then are moved to the devices they were saved from. If this fails (e.g. because the run time system doesn’t have certain devices), an exception is raised. However, storages can be dynamically remapped to an alternative set of devices using the `map_location` argument. Comparing to [`torch.load()`](torch.html#torch.load "torch.load"), `map_location` in this function is simplified, which only accepts a string (e.g., ‘cpu’, ‘cuda:0’), or torch.device (e.g., torch.device(‘cpu’))
 
+```py
+save(filename)
+```
+
+保存离线版本的模块，以便将来在其他的进程中使用。保存的模块会序列化当前模块的所有方法和参数。保存的模块可以使用`torch :: jit :: load（filename）`加载到C ++ API中，也可以使用`torch.jit.load（filename）`加载到Python API中。
+
+为了能够保存模块，当前模块不能调用原生python函数。也就是说要保存模块的所有子模块也必须是ScriptModules的子类。
+
+危险
+
+所有模块，不论其设备，在加载过程中始终都会加载到CPU中。这与`torch.load()`的语义不同，将来可能会发生变化。
+
+
+```py
+torch.jit.load(f, map_location=None)
+```
+
+使用`load`加载之前用`save`保存的`ScriptModule`。
+
+所有先前保存的模块，不论其设备，首先加载到CPU上，然后移动到之前保存它们的设备上。如果此操作失败（例如，运行时系统没有某些设备），则会引发异常。此时可以使用`map_location`参数将存储重新映射到另一组设备。与`torch.load()`相比，此函数中的`map_location`被简化为只接受字符串（例如'cpu'，'cuda：0'）或torch.device（例如，torch.device（'cpu'））
+
+
 Parameters: 
 
 *   **f** – a file-like object (has to implement read, readline, tell, and seek), or a string containing a file name
@@ -150,19 +286,27 @@ Parameters:
 
 | Returns: | A `ScriptModule` object. |
 | --- | --- |
+参数：
 
-Example
+*   **f** – 文件类对象（必须实现read，readline，tell和seek），或为文件名的字符串
+*   **map_location** – 可以是一个字符串（例如，'cpu'，'cuda：0'），一个设备（例如，torch.device（'cpu'））
+
+
+| 返回值: |  `ScriptModule` 对象. |
+| --- | --- |
+
+例
 
 ```py
 >>> torch.jit.load('scriptmodule.pt')
-# Load ScriptModule from io.BytesIO object
+# 从io.BytesIO对象加载ScriptModule
 >>> with open('scriptmodule.pt', 'rb') as f:
  buffer = io.BytesIO(f.read())
-# Load all tensors to the original device
+# 将所有张量加载到原来的设备上
 >>> torch.jit.load(buffer)
-# Load all tensors onto CPU, using a device
+# 用设备将所有张量加载到CPU上
 >>> torch.jit.load(buffer, map_location=torch.device('cpu'))
-# Load all tensors onto CPU, using a string
+# 用字符串将所有张量加载到CPU上
 >>> torch.jit.load(buffer, map_location='cpu')
 
 ```
@@ -171,32 +315,32 @@ Example
 torch.jit.trace(func, example_inputs, optimize=True, check_trace=True, check_inputs=None, check_tolerance=1e-05, _force_outplace=False)
 ```
 
-Trace a function and return an executable trace that will be optimized using just-in-time compilation.
+追踪一个函数并返回一个使用即时编译优化过的可执行追踪。
 
-Warning
+警告
 
-Tracing only correctly records functions and modules which are not data dependent (e.g., have conditionals on data in tensors) and do not have any untracked external dependencies (e.g., perform input/output or access global variables). If you trace such models, you may silently get incorrect results on subsequent invocations of the model. The tracer will try to emit warnings when doing something that may cause an incorrect trace to be produced.
+追踪仅正确记录不依赖于数据的函数和模块（例如，对张量中的数据进行条件判断），并且没有任何未追踪的外部依赖性（例如，执行输入/输出或访问全局变量）。如果你追踪此类模型，则可能会在随后的模型调用中静默获取不正确的结果。当执行可能生成错误追踪的内容时，追踪器将尝试发出警告。
 
-Parameters: 
+参数： 
 
-*   **func** (_callable_ _or_ [_torch.nn.Module_](nn.html#torch.nn.Module "torch.nn.Module")) – a python function or torch.nn.Module that will be run with example_inputs. arguments and returns to func must be Tensors or (possibly nested) tuples that contain tensors.
-*   **example_inputs** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – a tuple of example inputs that will be passed to the function while tracing. The resulting trace can be run with inputs of different types and shapes assuming the traced operations support those types and shapes. example_inputs may also be a single Tensor in which case it is automatically wrapped in a tuple
+*   **func** (_callable_ _or_ [_torch.nn.Module_](nn.html#torch.nn.Module "torch.nn.Module")) – 将使用example_inputs作为输入运行的python函数或torch.nn.Module。参数和返回值必须是Tensor或（嵌套的）包含张量的元组。
+*   **example_inputs** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 在追踪时将传递给函数的示例输入元组。假设被追踪操作支持这些类型和形状的情况下，生成的追踪可以在不同类型和形状的输入下运行。 example_inputs也可以是单个Tensor，这种情况下，它会自动包装到元组中。
 
 
-| Keyword Arguments: |
+| 关键字参数： |
 | --- |
 |   | 
 
-*   **optimize** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether or not to apply optimizations. Default: `True`.
-*   **check_trace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – check if the same inputs run through traced code produce the same outputs. Default: `True`. You might want to disable this if, for example, your network contains non- deterministic ops or if you are sure that the network is correct despite a checker failure.
-*   **check_inputs** (_list of tuples__,_ _optional_) – A list of tuples of input arguments that should be used to check the trace against what is expected. Each tuple is equivalent to a seet of input arguments that would be specified in `args`. For best results, pass in a set of checking inputs representative of the space of shapes and types of inputs you expect the network to see. If not specified, the original `args` is used for checking
-*   **check_tolerance** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Floating-point comparison tolerance to use in the checker procedure. This can be used to relax the checker strictness in the event that results diverge numerically for a known reason, such as operator fusion.
+*   **optimize** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 是否应用优化。默认值：`True`。
+*   **check_trace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 检查被追踪代码在相同输入下输出是否相同。默认值：`True`。你可以在某些情况下禁用此功能。例如，你的网络包含非确定性操作，或者你确定网络正确。
+*   **check_inputs** (_list of tuples__,_ _optional_) – 应该用于根据预期检查追踪的输入参数元组列表。每个元组相当于一个将在`args`中指定的输入参数集合。为获得最佳结果，请传递一组检查输入表示你期望网络接受的形状和输入类型范围。如果未指定，则用原来的`args`检查。
+*   **check_tolerance** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – 在检查过程中使用的浮点比较容差。用于放松检查严格性。 
 
- |
-| Returns: | A `ScriptModule` object with a single `forward()` method containing the traced code. When func is a `torch.nn.Module`, the returned `ScriptModule` will have the same set of sub-modules and parameters as func. |
+ 
+| 返回值： | 含有`forward（）`方法的`ScriptModule`对象，该方法包含被追踪代码。当func是`torch.nn.Module`时，返回的`ScriptModule`具有与原始模块相同的子模块和参数集。|
 | --- | --- |
 
-Example
+例
 
 ```py
 >>> def f(x):
@@ -205,11 +349,11 @@ Example
 
 ```
 
-In many cases either tracing or script is an easier approach for converting a model. We allow you to compose tracing and scripting to suit the particular requirements of a part of a model.
+在许多情况下，追踪或脚本是转换模型的更简单方法。我们允许你将追踪和脚本组合使用以满足模型特定部分的特定要求。
 
-Scripted functions can call traced ones. This is particularly useful when you need to use control-flow around a simple feed-forward model. For instance the beam search of a sequence to sequence model will typically be written in script but can call an encoder module generated using tracing.
+脚本函数可以调用被追踪函数。当你需要使用控制流控制简单的前馈模型时，这尤其有用。例如，序列到序列模型的beam搜索通常将以脚本编写，但可以调用使用追踪生成的编码器模块。
 
-Example:
+例：
 
 ```py
 import torch
@@ -224,9 +368,9 @@ def bar(x):
 
 ```
 
-Traced functions can call script functions. This is useful when a small part of a model requires some control-flow even though most of the model is just a feed-forward network. Control-flow inside of a script function called by a traced function is preserved correctly:
+被追踪函数也可以调用脚本函数。当模型大体是一个前馈网络，只有模型的一小部分需要一些控制流时，这也很有用。由追踪函数调用的脚本函数内部的控制流会被正确地保留。
 
-Example:
+例：
 
 ```py
 import torch
@@ -246,9 +390,9 @@ traced_bar = torch.jit.trace(bar, (torch.rand(3), torch.rand(3), torch.rand(3))
 
 ```
 
-This composition also works for modules as well, where it can be used to generate a submodule using tracing that can be called from the methods of a script module:
+组合也适用于模块，例如可以从脚本模块的方法调用追踪来生成子模块：
 
-Example:
+例：
 
 ```py
 import torch
