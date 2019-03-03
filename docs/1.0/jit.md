@@ -412,53 +412,57 @@ class MyScriptModule(torch.jit.ScriptModule):
 
 ```
 
-Torch Script is a subset of Python that can either be written directly (using the @script annotations) or generated automatically from Python code via tracing. When using tracing, code is automatically converted into this subset of Python by recording only the actual operators on tensors and simply executing and discarding the other surrounding Python code.
+Torch脚本是Python的一个子集，可以直接编写（使用@script注释），也可以通过追踪从Python代码自动生成。使用追踪时，代码会自动转换为Python的这个子集，方法是仅记录和执行张量上的实际运算符，并丢弃其他Python代码。
 
-When writing Torch Script directly using @script annotations, the programmer must only use the subset of Python supported in Torch Script. This section documents what is supported in Torch Script as if it were a language reference for a stand alone language. Any features of Python not mentioned in this reference are not part of Torch Script.
+使用@script注释直接编写Torch脚本时，程序员必须只使用Torch脚本支持的Python子集。本节以语言参考的形式介绍Torch脚本支持的功能。本参考中未提及的Python的其他功能都不是Torch脚本的一部分。
 
-As a subset of Python any valid Torch Script function is also a valid Python function. This makes it possible to remove the @script annotations and debug the function using standard Python tools like pdb. The reverse is not true: there are many valid python programs that are not valid Torch Script programs. Instead, Torch Script focuses specifically on the features of Python that are needed to represent neural network models in Torch.
+作为Python的一个子集，任何有效的Torch脚本函数也是一个有效的Python函数。因此你可以删除@script注释后使用标准Python工具（如pdb）调试函数。反之则不然：有许多有效的python程序不是有效的Torch脚本程序。Torch脚本专注于在Torch中表示神经网络模型所需的Python特性。
+
+
 
 ```py
 PYTORCH_JIT=1
 ```
 
-Setting the environment variable `PYTORCH_JIT=0` will disable all script and tracing annotations. If there is hard-to-debug error in one of your ScriptModules, you can use this flag to force everything to run using native Python. This allows the use of tools like `pdb` to debug code.
+设置环境变量`PYTORCH_JIT = 0`将禁用所有脚本和追踪注释。如果在ScriptModule中遇到难以调试的错误，则可以使用此标志强制使用原生Python运行所有内容。此时可使用`pdb`之类的工具调试代码。
+ 
+ Torch脚本与完整Python语言之间的最大区别在于Torch脚本仅支持表达神经网络模型所需的一些类型。特别地，Torch脚本支持：
 
-The largest difference between Torch Script and the full Python language is that Torch Script only support a small set of types that are needed to express neural net models. In particular Torch Script supports:
 
 ```py
 Tensor
 ```
 
-A PyTorch tensor of any dtype, dimension, or backend.
+具有任何dtype，维度或backend的PyTorch张量。
 
 ```py
 Tuple[T0, T1, ...]
 ```
 
-A tuple containing subtypes `T0`, `T1`, etc. (e.g. `Tuple[Tensor, Tensor]`)
+包含子类型`T0`，`T1`等的元组（例如`Tuple [Tensor，Tensor]`）。
+
 
 ```py
 int
 ```
 
-A scalar integer
+标量整数
 
 ```py
 float
 ```
-
-A scalar floating point number
+标量浮点数
 
 ```py
 List[T]
 ```
 
-A list of which all members are type `T`
+所有成员都是T类型的列表`T`
 
-Unlike Python, each variable in Torch Script function must have a single static type. This makes it easier to optimize Torch Script functions.
+与Python不同，Torch脚本函数中的每个变量都必须具有一个静态类型。这样以便于优化Torch脚本功能。
 
-Example:
+
+例：
 
 ```py
 @torch.jit.script
@@ -467,14 +471,14 @@ def an_error(x):
         r = torch.rand(1)
     else:
         r = 4
-    return r # Type mismatch: r is set to type Tensor in the true branch
-             # and type int in the false branch
+    return r # 类型不匹配：在条件为真时r为Tensor类型
+             # 而为假时却是int类型
 
 ```
 
-By default, all parameters to a Torch Script function are assumed to be Tensor because this is the most common type used in modules. To specify that an argument to a Torch Script function is another type, it is possible to use MyPy-style type annotations using the types listed above:
+默认情况下，Torch脚本函数的所有参数都为Tensor类型，因为这是模块中最常用的类型。要将Torch脚本函数的参数指定为另一种类型，可以通过MyPy风格的注释使用上面列出的类型：
 
-Example:
+例：
 
 ```py
 @torch.jit.script
@@ -487,79 +491,81 @@ print(foo(3, (torch.rand(3), torch.rand(3))))
 
 ```
 
-Note
+注意
 
-It is also possible to annotate types with Python 3 type annotations. In our examples, we use comment-based annotations to ensure Python 2 compatibility as well.
+也可以使用Python 3类型注释来注释类型。在示例中，我们使用基于注释的注释来确保对Python 2的兼容性。
 
-The following Python Expressions are supported
+Torch脚本支持以下Python表达式
 
 ```py
-Literals
+字面常量
 ```
 
-`True`, `False`, `None`, `'string literals'`, `"string literals"`, number literals `3` (interpreted as int) `3.4` (interpreter as a float)
+`True`, `False`, `None`, `'string literals'`, `"string literals"`,  字面值`3`（解释为int）`3.4`（解释为float）
 
 ```py
-Variables
+变量
 ```
 
 `a`
 
-Note
+注意
 
-See [Variable Resolution](#variable-resolution) for how variables are resolved.
+请参阅[变量解析](#variable-resolution)，了解变量的解析方式。
 
 ```py
-Tuple Construction
+元组构造
 ```
 
 `(3, 4)`, `(3,)`
 
 ```py
-List Construction
+列表构造
 ```
 
 `[3, 4]`, `[]`, `[torch.rand(3), torch.rand(4)]`
 
-Note
+注意
 
-an empty list is assumed have type `List[Tensor]`. The types of other list literals are derived from the type of the members.
+空列表具有类型`List[Tensor]` 。其他列表字面常量的类型由成员的类型推出。
+
 
 ```py
-Arithmetic Operators
+算术运算符
 ```
 
 `a + b` `a - b` `a * b` `a / b` `a ^ b` `a @ b`
 
 ```py
-Comparison Operators
+比较运算符
 ```
 
 `a == b` `a != b` `a < b` `a > b` `a <= b` `a >= b`
 
 ```py
-Logical Operators
+逻辑运算符
 ```
 
 `a and b` `a or b` `not b`
 
 ```py
-Subscripts
+索引
 ```
 
 `t[0]` `t[-1]` `t[0:2]` `t[1:]` `t[:1]` `t[:]` `t[0, 1]` `t[0, 1:2]` `t[0, :1]` `t[-1, 1:, 0]` `t[1:, -1, 0]` `t[i:j, i]`
 
-Note
+注意
 
-Torch Script currently does not support mutating tensors in place, so any tensor indexing can only appear on the right-hand size of an expression.
+Torch脚本目前不支持原地修改张量，因此对张量索引只能出现在表达式的右侧。
+
 
 ```py
-Function calls
+函数调用
 ```
 
-Calls to built-in functions: `torch.rand(3, dtype=torch.int)`
+调用内置函数：`torch.rand(3, dtype=torch.int)`
 
-Calls to other script functions:
+调用其他脚本函数：
 
 ```py
 import torch
@@ -575,14 +581,14 @@ def bar(x):
 ```
 
 ```py
-Method calls
+方法调用
 ```
 
-Calls to methods of builtin types like tensor: `x.mm(y)`
+调用内置类型的方法，如tensor: `x.mm(y)`
 
-When defining a Script method inside of a ScriptModule, the `@script_method` annotation is used. Inside of these methods it is possible to call other methods of this class or access methods on the submodules.
+在ScriptModule中定义Script方法时，使用`@script_method`批注。Script方法可以调用模块内其他方法或子模块的方法。
 
-Calling a submodule directly (e.g. `self.resnet(input)`) is equivalent to calling its `forward` method (e.g. `self.resnet.forward(input)`)
+直接调用子模块（例如`self.resnet（input）`）等同于调用其`forward`方法（例如`self.resnet.forward（input）`）
 
 ```py
 import torch
@@ -606,26 +612,26 @@ class MyScriptModule(torch.jit.ScriptModule):
 ```
 
 ```py
-If expressions
+If 表达式
 ```
 
 `x if x > y else y`
 
 ```py
-Casts
+类型转换
 ```
 
 `float(ten)`, `int(3.5)`, `bool(ten)`
 
 ```py
-Accessing Module Parameters
+访问模块参数
 ```
 
 `self.my_parameter` `self.my_submodule.my_parameter`
 
-Torch Script supports the following types of statements:
+Torch脚本支持以下类型的语句：
 
-Simple Assignments
+简单赋值
 
 > ```py
 > a = b
@@ -634,7 +640,7 @@ Simple Assignments
 > 
 > ```
 
-Pattern Matching Assignments
+模式匹配赋值
 
 > ```py
 > a, b = tuple_or_list
@@ -642,11 +648,11 @@ Pattern Matching Assignments
 > 
 > ```
 
-Print Statements
+Print 语句
 
 > `print("the result of an add:", a + b)`
 
-If Statements
+If 语句
 
 > ```py
 > if a &lt; 4:
@@ -658,7 +664,7 @@ If Statements
 > 
 > ```
 
-While Loops
+While 循环
 
 > ```py
 > a = 0
@@ -668,7 +674,7 @@ While Loops
 > 
 > ```
 
-For loops with `range`
+带 `range` 的for循环
 
 > ```py
 > x = 0
@@ -677,11 +683,11 @@ For loops with `range`
 > 
 > ```
 > 
-> Note
+> 注意
 > 
-> Script currently does not support iterating over generic iterable objects like lists or tensors. Script currently does not support start or increment parameters to range. These will be added in a future version.
+> 脚本目前不支持对一般可迭代对象（如列表或张量）进行迭代，也不支持range起始与增量参数，这些将在未来版本中添加。
 
-For loops over tuples:
+对元组的for循环：
 
 > ```py
 > tup = (3, torch.rand(4))
@@ -690,11 +696,11 @@ For loops over tuples:
 > 
 > ```
 > 
-> Note
+> 注意
 > 
-> for loops over tuples will unroll the loop, generating a body for each member of the tuple. The body must type-check correctly for each member.
+> 对于元组循环将展开循环，为元组的每个成员生成一个循环体。循环体内必须确保每个成员类型正确。
 
-For loops over constant `torch.nn.ModuleList`
+对常量 `torch.nn.ModuleList` 的for循环
 
 > ```py
 > class SubModule(torch.jit.ScriptModule):
@@ -721,46 +727,46 @@ For loops over constant `torch.nn.ModuleList`
 > 
 > ```
 > 
-> Note
+> 注意
 > 
-> To use a module list inside a `@script_method` it must be marked constant by adding the name of the attribute to the `__constants__` list for the type. For loops over a ModuleList will unroll the body of the loop at compile time, with each member of the constant module list.
+> 要在`@script_method`中使用模块列表，必须通过将属性的名称添加到类型的`__constants__`列表来将其标记为常量。ModuleList上的for循环在编译时使用常量模块列表的每个成员展开循环体。
 
 ```py
-Return
+Return 语句
 ```
 
 `return a, b`
 
-Note
+注意
 
-there must be a return statement as the last member of the function and return statements cannot appear anywhere else in the function. This restriction will be removed in the future.
+return语句必须作为函数的最后一个成员，而不能出现在函数的其他位置。此限制将在以后删除。
 
-Torch Script supports a subset of Python’s variable resolution (i.e. scoping) rules. Local variables behave the same as in Python, except for the restriction that a variable must have the same type along all paths through a function. If a variable has a different type on different sides of an if statement, it is an error to use it after the end of the if statement.
+Torch脚本支持Python变量解析（即作用域）规则的子集。局部变量的行为与Python中的相同，但变量必须在函数的所有路径中具有相同类型。如果变量在if语句的不同侧具有不同的类型，则在if语句结束后使用它会抱错。
 
-Similarly, a variable is not allowed to be used if it is only _defined_ along some paths through the function.
+类似地，如果仅在函数的某些执行路径上定义变量也会出错。
 
-Example:
+例：
 
 ```py
 @torch.jit.script
 def foo(x):
     if x < 0:
         y = 4
-    print(y) # Error: undefined value y
+    print(y) # 错误: y 值未定义
 
 ```
 
-Non-local variables are resolved to Python values at compile time when the function is defined. These values are then converted into Torch Script values using the rules described in [Use of Python Values](#use-of-python-values).
+定义函数的非局部变量在编译时解析为Python值。然后，用[Python值的使用](#use-of-python-values)中的规则将这些值转换为Torch脚本值。
 
-To make writing Torch Script more convenient, we allow script code to refer to Python values in the surrounding scope. For instance, any time there is a reference to `torch`, the Torch Script compiler is actually resolving it to the `torch` Python module when the function is declared. These Python values are not a first class part of Torch Script. Instead they are desugared at compile-time into the primitive types that Torch Script supports. This section describes the rules that are used when accessing Python values in Torch Script. They depend on the dynamic type of the python valued referenced.
+为了使编写Torch脚本更方便，我们允许脚本代码引用周围的Python值。例如，当我们引用`torch`时，Torch脚本编译器实际上在声明函数时将其解析为Python的`torch`模块。这些Python值不是Torch脚本的一部分，它们在编译时被转换成Torch脚本支持的原始类型。本节介绍在Torch脚本中访问Python值时使用的规则。它们依赖于引用的python值的动态类型。
 
 ```py
-Functions
+函数
 ```
 
-Torch Script can call python functions. This functionality is very useful when incrementally converting a model into script. The model can be moved function-by-function to script, leaving calls to Python functions in place. This way you can incrementally check the correctness of the model as you go.
+Torch脚本可以调用python函数。此功能在将模型逐步转换为脚本时非常有用。可以将模型中的函数逐个转成脚本，保留对其余Python函数的调用。这样，在逐步转换的过程中你可以随时检查模型的正确性。
 
-Example:
+例：
 
 ```py
 def foo(x):
@@ -774,27 +780,27 @@ def bar(x)
 
 ```
 
-Note
+注意
 
-Attempting to call `save` on a ScriptModule that contains calls to Python functions will fail. The intention is that this pathway is used for debugging and the calls removed or turned into script functions before saving.
-
-```py
-Attribute Lookup On Python Modules
-```
-
-Torch Script can lookup attributes on modules. Builtin functions like `torch.add` are accessed this way. This allows Torch Script to call functions defined in other modules.
+不能在包含Python函数调用的ScriptModule上调用`save`。该功能仅用于调试，应在保存之前删除调用或将其转换为脚本函数。
 
 ```py
-Python-defined Constants
+Python模块的属性查找
 ```
 
-Torch Script also provides a way to use constants that are defined in Python. These can be used to hard-code hyper-parameters into the function, or to define universal constants. There are two ways of specifying that a Python value should be treated as a constant.
+Torch脚本可以在模块上查找属性。像`torch.add`这样的内置函数就以这种方式访问。这允许Torch脚本调用其他模块中定义的函数。
 
-1.  Values looked up as attributes of a module are assumed to be constant. Example: `math.pi`
+```py
+Python 中定义的常量
+```
 
-2.  Attributes of a ScriptModule can be marked constant by listing them as a member of the `__constants__` property of the class:
+Torch脚本还提供了使用Python常量的方法。这可用于将超参数硬编码到函数中，或用于定义通用常量。有两种方法可以指定Python值为常量。
 
-    Example:
+1.  查找的值为模块的属性,例如：`math.pi`
+
+2.  可以将ScriptModule的属性标记为常量，方法是将其列为类的`__constants__`属性成员：
+
+    例：
 
     ```py
     class Foo(torch.jit.ScriptModule):
@@ -810,21 +816,21 @@ Torch Script also provides a way to use constants that are defined in Python. Th
 
     ```
 
-Supported constant Python Values are
+支持的Python常量值有
 
 *   `int`
 *   `bool`
 *   `torch.device`
 *   `torch.layout`
 *   `torch.dtype`
-*   tuples containing supported types
-*   `torch.nn.ModuleList` which can be used in a TorchScript for loop
+*   包含支持类型的元组
+*   `torch.nn.ModuleList` ，可以将其用在Torch 脚本for循环中
 
 ```py
-Disable JIT for Debugging
+禁用JIT以方便调试
 ```
 
-If you want to disable all JIT modes (tracing and scripting) so you can debug your program in raw Python, you can use the `PYTORCH_JIT` environment variable. `PYTORCH_JIT` can be used to globally disable the JIT by setting its value to `0`. Given an example script:
+可以通过将`PYTORCH_JIT`环境变量值设置为`0`禁用所有`JIT`模式（追踪和脚本化）以便在原始Python中调试程序。下面是一个示例脚本：
 
 ```py
 @torch.jit.script
@@ -844,20 +850,20 @@ traced_fn(torch.rand(3, 4))
 
 ```
 
-Debugging this script with PDB works except for when we invoke the @script function. We can globally disable JIT, so that we can call the @script function as a normal python function and not compile it. If the above script is called `disable_jit_example.py`, we can invoke it like so:
+为了使用PDB调试此脚本。我们可以全局禁用JIT，这样我们就可以将@script函数作为普通的python函数调用而不会编译它。如果上面的脚本名为`disable_jit_example.py`，我们这样调用它：
 
 ```py
 $ PYTORCH_JIT=0 python disable_jit_example.py
 
 ```
 
-and we will be able to step into the @script function as a normal Python function.
+这样,我们就能够作为普通的Python函数步入@script函数。
 
 ```py
-Interpreting Graphs
+解释图
 ```
 
-TorchScript uses a static single assignment (SSA) intermediate representation (IR) to represent computation. The instructions in this format consist of ATen (the C++ backend of PyTorch) operators and other primitive operators, including control flow operators for loops and conditionals. As an example:
+TorchScript使用静态单一指派（SSA）中间表示（IR）来表示计算。这种格式的指令包括ATen（PyTorch的C ++后端）运算符和其他原始运算符，包括循环和条件的控制流运算符。举个例子：
 
 ```py
 @torch.jit.script
@@ -875,9 +881,9 @@ print(foo.graph)
 
 ```
 
-A `ScriptModule` with a single `forward` method will have an attribute `graph`, which you can use to inspect the IR representing the computation. If the ScriptModule has more than one method, you will need to access `.graph` on the method itself and not the module. We can inspect the graph of a method named `bar` on a ScriptModule by accessing `.bar.graph`.
+具有单个`forward`方法的`ScriptModule`具有`graph`属性，你可以使用该图来检查表示计算的IR。如果ScriptModule有多个方法，则需要访问方法本身的`.graph`属性。例如我们可以通过访问`.bar.graph`来检查ScriptModule上名为`bar`的方法的图。
 
-The example script above produces the graph:
+上面的示例脚本生成图形：
 
 ```py
 graph(%len : int) {
@@ -913,28 +919,28 @@ graph(%len : int) {
 
 ```
 
-Take the instruction `%rv.1 : Dynamic = aten::zeros(%3, %4, %5, %6)` for example. `%rv.1 : Dynamic` means we assign the output to a (unique) value named `rv.1`, and that value is of `Dynamic` type, i.e. we do not know its concrete shape. `aten::zeros` is the operator (equivalent to `torch.zeros`) and the input list `(%3, %4, %5, %6)` specifies which values in scope should be passed as inputs. The schema for built-in functions like `aten::zeros` can be found at [Builtin Functions](#builtin-functions).
+以指令`％rv.1：Dynamic = aten :: zeros（％3，％4，％5，％6）`为例。` ％rv.1：Dynamic`将输出分配给名为`rv.1`的（唯一）值，该值是动态类型，即我们不知道它的具体形状。` aten :: zeros`是运算符（相当于`torch.zeros`），它的输入列表`（％3，％4，％5，％6）`指定范围中的哪些值应作为输入传递。内置函数（如`aten :: zeros`）的模式可以在[内置函数](#builtin-functions)中找到。
 
-Notice that operators can also have associated `blocks`, namely the `prim::Loop` and `prim::If` operators. In the graph print-out, these operators are formatted to reflect their equivalent source code forms to facilitate easy debugging.
+注意，运算符也可以有关联的`block`，如`prim :: Loop`和`prim :: If`运算符。在图形打印输出中，这些运算符被格式化以反映与其等价的源代码形式，以便于调试。
 
-Graphs can be inspected as shown to confirm that the computation described by a `ScriptModule` is correct, in both automated and manual fashion, as described below.
-
-```py
-Tracing Edge Cases
-```
-
-There are some edge cases that exist where the trace of a given Python function/module will not be representative of the underlying code. These cases can include:
-
-*   Tracing of control flow that is dependent on inputs (e.g. tensor shapes)
-*   Tracing of in-place operations of tensor views (e.g. indexing on the left-hand side of an assignment)
-
-Note that these cases may in fact be traceable in the future.
+可以检查图以确认`ScriptModule`描述的计算是正确的，方法如下所述。
 
 ```py
-Automatic Trace Checking
+追踪的边缘情况
 ```
 
-One way to automatically catch many errors in traces is by using `check_inputs` on the `torch.jit.trace()` API. `check_inputs` takes a list of tuples of inputs that will be used to re-trace the computation and verify the results. For example:
+在一些边缘情况下一些Python函数/模块的追踪不能代表底层代码。这些情况可以包括：
+
+*   追踪依赖于输入的控制流（例如张量形状）
+*   追踪张量视图的就地操作（例如，在分配的左侧进行索引）
+
+请注意，这些情况在将来版本中可能是可追踪的。
+
+```py
+自动追踪检查
+```
+
+通过在`torch.jit.trace（）`API上使用`check_inputs`，是自动捕获追踪中错误的一种方法。 `check_inputs`是用于重新追踪计算并验证结果的输入元组列表。例如：
 
 ```py
 def loop_in_traced_fn(x):
@@ -950,7 +956,7 @@ traced = torch.jit.trace(loop_in_traced_fn, inputs, check_inputs=check_inputs)
 
 ```
 
-Gives us the following diagnostic information:
+上面代码会为我们提供以下诊断信息：
 
 ```py
 ERROR: Graphs differed across invocations!
@@ -983,9 +989,9 @@ Graph diff:
 
 ```
 
-This message indicates to us that the computation differed between when we first traced it and when we traced it with the `check_inputs`. Indeed, the loop within the body of `loop_in_traced_fn` depends on the shape of the input `x`, and thus when we try another `x` with a different shape, the trace differs.
+此消息表明，我们第一次追踪函数和使用`check_inputs`追踪函数时的计算存在差异。事实上，`loop_in_traced_fn`体内的循环取决于输入x的形状，因此当我们输入不同形状的`x`时，轨迹会有所不同。
 
-In this case, data-dependent control flow like this can be captured using script instead:
+在这种情况下，可以使用脚本捕获此类数据相关控制流：
 
 ```py
 def fn(x):
@@ -1005,7 +1011,7 @@ for input_tuple in [inputs] + check_inputs:
 
 ```
 
-Which produces:
+上面代码会为我们提供以下信息：
 
 ```py
 graph(%x : Dynamic) {
@@ -1028,10 +1034,10 @@ graph(%x : Dynamic) {
 ```
 
 ```py
-Tracer Warnings
+追踪器警告
 ```
 
-The tracer produces warnings for several problematic patterns in traced computation. As an example, take a trace of a function that contains an in-place assignment on a slice (a view) of a Tensor:
+追踪器会在追踪计算中对有问题的模式生成警告。例如，追踪包含在Tensor的切片（视图）上就地赋值操作的函数：
 
 ```py
 def fill_row_zero(x):
@@ -1043,7 +1049,7 @@ print(traced.graph)
 
 ```
 
-Produces several warnings and a graph which simply returns the input:
+这会出现如下警告和一个简单返回输入的图：
 
 ```py
 fill_row_zero.py:4: TracerWarning: There are 2 live references to the data region being modified when tracing in-place operator copy_ (possibly due to an assignment). This might cause the trace to be incorrect, because all other views that also reference this data will not not reflect this change in the trace! On the other hand, if all other views use the same memory chunk, but are disjoint (e.g. are outputs of torch.split), this might still be safe.
@@ -1057,7 +1063,7 @@ graph(%0 : Float(3, 4)) {
 
 ```
 
-We can fix this by modifying the code to not use the in-place update, but rather build up the result tensor out-of-place with `torch.cat`:
+我们可以通过使用`torch.cat`返回结果张量避免就地更新问题：
 
 ```py
 def fill_row_zero(x):
@@ -1069,7 +1075,9 @@ print(traced.graph)
 
 ```
 
-Torch Script supports a subset of the builtin tensor and neural network functions that PyTorch provides. Most methods on Tensor as well as functions in the `torch` namespace are available. Many functions in `torch.nn.functional` are also availiable.
+Torch脚本支持部分PyTorch内置张量和神经网络函数。 Tensor上的大多数方法以及`torch`命名空间中的函数都可用。 `torch.nn.functional`中的许多函数也可用。
 
-We currently do not provide any builtin ScriptModules e.g. a `Linear` or `Conv` module. This functionality is something that will be developed in the future. For now we suggest using `torch.jit.trace` to transform standard `torch.nn` modules into ScriptModules on construction.
+
+我们目前不提供像 `Linear` 或 `Conv` 模块之类内置ScriptModule,此功能将在未来开发。目前我们建议使用`torch.jit.trace`将标准的`torch.nn`模块转换为ScriptModule。
+
 
