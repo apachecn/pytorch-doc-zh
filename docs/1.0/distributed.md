@@ -1,256 +1,253 @@
 
 
-# Distributed communication package - torch.distributed
+# 分布式通信包 -  torch.distributed
 
-## Backends
+## 后端
 
-`torch.distributed` supports three backends, each with different capabilities. The table below shows which functions are available for use with CPU / CUDA tensors. MPI supports CUDA only if the implementation used to build PyTorch supports it.
+`torch.distributed` 支持三个后端，每个后端具有不同的功能。下表显示哪些功能可用于CPU/CUDA张量。仅当用于构建PyTorch的实现支持时，MPI才支持CUDA。
 
-| Backend | `gloo` | `mpi` | `nccl` |
+| 后端 | `gloo` | `mpi` | `nccl` |
 | --- | --- | --- | --- |
-| Device | CPU | GPU | CPU | GPU | CPU | GPU |
+| 设备 | CPU | GPU | CPU | GPU | CPU | GPU |
 | --- | --- | --- | --- | --- | --- | --- |
-| send | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
-| recv | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
-| broadcast | ✓ | ✓ | ✓ | ? | ✘ | ✓ |
+| 发送 | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
+| 接收 | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
+| 广播| ✓ | ✓ | ✓ | ? | ✘ | ✓ |
 | all_reduce | ✓ | ✓ | ✓ | ? | ✘ | ✓ |
 | reduce | ✓ | ✘ | ✓ | ? | ✘ | ✓ |
 | all_gather | ✓ | ✘ | ✓ | ? | ✘ | ✓ |
-| gather | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
-| scatter | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
-| barrier | ✓ | ✘ | ✓ | ? | ✘ | ✓ |
+| 收集 | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
+| 分散 | ✓ | ✘ | ✓ | ? | ✘ | ✘ |
+| 屏障 | ✓ | ✘ | ✓ | ? | ✘ | ✓ |
 
-### Backends that come with PyTorch
+### PyTorch附带的后端
 
-PyTorch distributed currently only supports Linux. By default, the Gloo and NCCL backends are built and included in PyTorch distributed (NCCL only when building with CUDA). MPI is an optional backend that can only be included if you build PyTorch from source. (e.g. building PyTorch on a host that has MPI installed.)
+目前PyTorch分发版仅支持Linux。默认情况下，Gloo和NCCL后端构建并包含在PyTorch的分布之中（仅在使用CUDA构建时为NCCL）。MPI是一个可选的后端，只有从源代码构建PyTorch时才能包含它。（例如，在安装了MPI的主机上构建PyTorch）
 
-### Which backend to use?
+### 哪个后端使用？
 
-In the past, we were often asked: “which backend should I use?”.
+在过去，我们经常被问到：“我应该使用哪个后端？”。
 
-*   Rule of thumb
-    *   Use the NCCL backend for distributed **GPU** training
-    *   Use the Gloo backend for distributed **CPU** training.
-*   GPU hosts with InfiniBand interconnect
-    *   Use NCCL, since it’s the only backend that currently supports InfiniBand and GPUDirect.
-*   GPU hosts with Ethernet interconnect
-    *   Use NCCL, since it currently provides the best distributed GPU training performance, especially for multiprocess single-node or multi-node distributed training. If you encounter any problem with NCCL, use Gloo as the fallback option. (Note that Gloo currently runs slower than NCCL for GPUs.)
-*   CPU hosts with InfiniBand interconnect
-    *   If your InfiniBand has enabled IP over IB, use Gloo, otherwise, use MPI instead. We are planning on adding InfiniBand support for Gloo in the upcoming releases.
-*   CPU hosts with Ethernet interconnect
-    *   Use Gloo, unless you have specific reasons to use MPI.
+*   经验法则
+    *   使用NCCL后端进行分布式 **GPU** 训练。
+    *   使用Gloo后端进行分布式 **CPU** 训练。
+*   具有InfiniBand互连的GPU主机
+    *   使用NCCL，因为它是目前唯一支持InfiniBand和GPUDirect的后端。
+*   GPU主机与以太网互连
+    *   使用NCCL，因为它目前提供最佳的分布式GPU训练性能，特别是对于多进程单节点或多节点分布式训练。如果您遇到NCCL的任何问题，请使用Gloo作为后备选项。（请注意，Gloo目前运行速度比GPU的NCCL慢。）
+*   具有InfiniBand互连的CPU主机
+    *   如果您的InfiniBand在IB上已启用IP，请使用Gloo，否则请使用MPI。我们计划在即将发布的版本中为Gloo添加InfiniBand支持。
+*   具有以太网互连的CPU主机
+    *   除非您有特殊原因要使用MPI，否则请使用Gloo。
 
-### Common environment variables
+### 常见的环境变量
 
-#### Choosing the network interface to use
+#### 选择要使用的网络接口
 
-By default, both NCCL and Gloo backends will try to find the network interface to use for communication. However, this is not always guaranteed to be successful from our experiences. Therefore, if you encounter any problem on either backend not being able to find the correct network interface. You can try to set the following environment variables (each one applicable to its respective backend):
+默认情况下，NCCL和Gloo后端都会尝试查找用于通信的网络接口。但是，从我们的经验来看，并不总能保证这一点。因此，如果您在后端遇到任何问题而无法找到正确的网络接口。您可以尝试设置以下环境变量（每个变量适用于其各自的后端）：
 
-*   **NCCL_SOCKET_IFNAME**, for example `export NCCL_SOCKET_IFNAME=eth0`
-*   **GLOO_SOCKET_IFNAME**, for example `export GLOO_SOCKET_IFNAME=eth0`
+*   **NCCL_SOCKET_IFNAME**, 比如 `export NCCL_SOCKET_IFNAME=eth0`
+*   **GLOO_SOCKET_IFNAME**, 比如 `export GLOO_SOCKET_IFNAME=eth0`
 
-#### Other NCCL environment variables
+#### 其他NCCL环境变量
 
-NCCL has also provided a number of environment variables for fine-tuning purposes.
+NCCL还提供了许多用于微调目的的环境变量
 
-Commonly used ones include the following for debugging purposes:
+常用的包括以下用于调试目的：
 
 *   `export NCCL_DEBUG=INFO`
 *   `export NCCL_DEBUG_SUBSYS=ALL`
 
-For the full list of NCCL environment variables, please refer to [NVIDIA NCCL’s official documentation](https://docs.nvidia.com/deeplearning/sdk/nccl-developer-guide/docs/env.html)
+有关NCCL环境变量的完整列表，请参阅[NVIDIA NCCL的官方文档](https://docs.nvidia.com/deeplearning/sdk/nccl-developer-guide/docs/env.html)
 
-## Basics
+## 基本
 
-The `torch.distributed` package provides PyTorch support and communication primitives for multiprocess parallelism across several computation nodes running on one or more machines. The class [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") builds on this functionality to provide synchronous distributed training as a wrapper around any PyTorch model. This differs from the kinds of parallelism provided by [Multiprocessing package - torch.multiprocessing](multiprocessing.html) and [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") in that it supports multiple network-connected machines and in that the user must explicitly launch a separate copy of the main training script for each process.
+`torch.distributed`包为在一台或多台机器上运行的多个计算节点上的多进程并行性提供PyTorch支持和通信原语。类 [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel")基于此功能构建，以提供同步分布式训练作为包装器任何PyTorch模型。这与 [Multiprocessing package - torch.multiprocessing](multiprocessing.html) 和 [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") 因为它支持多个联网的机器，并且用户必须为每个进程显式启动主训练脚本的单独副本。
 
-In the single-machine synchronous case, `torch.distributed` or the [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") wrapper may still have advantages over other approaches to data-parallelism, including [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
+在单机同步的情况下，`torch.distributed` 或者 [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") 与其他数据并行方法相比，包装器仍然具有优势，包含 [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
 
-*   Each process maintains its own optimizer and performs a complete optimization step with each iteration. While this may appear redundant, since the gradients have already been gathered together and averaged across processes and are thus the same for every process, this means that no parameter broadcast step is needed, reducing time spent transferring tensors between nodes.
-*   Each process contains an independent Python interpreter, eliminating the extra interpreter overhead and “GIL-thrashing” that comes from driving several execution threads, model replicas, or GPUs from a single Python process. This is especially important for models that make heavy use of the Python runtime, including models with recurrent layers or many small components.
+*   每个进程都维护自己的优化器，并在每次迭代时执行完整的优化步骤。虽然这可能看起来是多余的，但由于梯度已经聚集在一起并且在整个过程中平均，因此对于每个过程都是相同的，这意味着不需要参数广播步骤，减少了在节点之间传输张量所花费的时间。
+*   每个进程都包含一个独立的Python解释器，消除了额外的解释器开销和来自单个Python进程驱动多个执行线程，模型副本或GPU的“GIL-thrashing”。这对于大量使用Python运行时的模型尤其重要，包括具有循环层或许多小组件的模型。
 
-## Initialization
+## 初始化
 
-The package needs to be initialized using the [`torch.distributed.init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") function before calling any other methods. This blocks until all processes have joined.
+这个包在调用其他的方法之前，需要使用 [`torch.distributed.init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") 函数进行初始化。这将阻止所有进程加入。
 
 ```py
 torch.distributed.init_process_group(backend, init_method='env://', timeout=datetime.timedelta(seconds=1800), **kwargs)
 ```
 
-Initializes the default distributed process group, and this will also initialize the distributed package
+初始化默认的分布式进程组，这也将初始化分布式程序包
 
-Parameters: 
+参数: 
 
-*   **backend** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)") _or_ [_Backend_](#torch.distributed.Backend "torch.distributed.Backend")) – The backend to use. Depending on build-time configurations, valid values include `mpi`, `gloo`, and `nccl`. This field should be given as a lowercase string (e.g., `"gloo"`), which can also be accessed via [`Backend`](#torch.distributed.Backend "torch.distributed.Backend") attributes (e.g., `Backend.GLOO`).
-*   **init_method** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – URL specifying how to initialize the process group.
-*   **world_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of processes participating in the job.
-*   **rank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Rank of the current process.
-*   **timeout** (_timedelta__,_ _optional_) – Timeout for operations executed against the process group. Default value equals 30 minutes. This is only applicable for the `gloo` backend.
-*   **group_name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional__,_ _deprecated_) – Group name.
+*   **backend** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)") _or_ [_Backend_](#torch.distributed.Backend "torch.distributed.Backend")) – 后端使用。根据构建时配置，有效值包括 `mpi`，`gloo`和`nccl`。该字段应该以小写字符串形式给出(例如`"gloo"`)，也可以通过[`Backend`](#torch.distributed.Backend "torch.distributed.Backend")访问属性(例如`Backend.GLOO`)。
+*   **init_method** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – 指定如何初始化进程组的URL。
+*   **world_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 参与作业的进程数。
+*   **rank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 当前流程的排名。
+*   **timeout** (_timedelta__,_ _optional_) – 针对进程组执行的操作超时，默认值等于30分钟，这仅适用于`gloo`后端。
+*   **group_name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional__,_ _deprecated_) – 团队名字。
 
-
-
-To enable `backend == Backend.MPI`, PyTorch needs to built from source on a system that supports MPI. The same applies to NCCL as well.
+要启用`backend == Backend.MPI`，PyTorch需要在支持MPI的系统上从源构建，这同样适用于NCCL。
 
 ```py
 class torch.distributed.Backend
 ```
 
-An enum-like class of available backends: GLOO, NCCL, and MPI.
+类似枚举的可用后端类：GLOO，NCCL和MPI。
 
-The values of this class are lowercase strings, e.g., `"gloo"`. They can be accessed as attributes, e.g., `Backend.NCCL`.
+这个类的值是小写字符串，例如“gloo”。它们可以作为属性访问，例如`Backend.NCCL`。
 
-This class can be directly called to parse the string, e.g., `Backend(backend_str)` will check if `backend_str` is valid, and return the parsed lowercase string if so. It also accepts uppercase strings, e.g., `Backend("GLOO")` returns `"gloo"`.
+可以直接调用此类来解析字符串，例如，`Backend（backend_str）`将检查`backend_str`是否有效，如果是，则返回解析的小写字符串。它也接受大写字符串，例如``Backend（“GLOO”）`return`“gloo”`。
+注意
 
-Note
-
-The entry `Backend.UNDEFINED` is present but only used as initial value of some fields. Users should neither use it directly nor assume its existence.
+条目`Backend.UNDEFINED`存在但仅用作某些字段的初始值。用户既不应直接使用也不应假设存在。
 
 ```py
 torch.distributed.get_backend(group=<object object>)
 ```
 
-Returns the backend of the given process group.
+返回给定进程组的后端
 
-| Parameters: | **group** (_ProcessGroup__,_ _optional_) – The process group to work on. The default is the general main process group. If another specific group is specified, the calling process must be part of `group`. |
+| 参数: | **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。默认值是常规主进程组。如果指定了另一个特定组，则调用进程必须是`group`的一部分。
 | --- | --- |
-| Returns: | The backend of the given process group as a lower case string. |
+| 返回: | 给定进程组的后端作为小写字符串 |
 | --- | --- |
 
 ```py
 torch.distributed.get_rank(group=<object object>)
 ```
 
-Returns the rank of currrent process group
+返回当前进程组的排名
 
-Rank is a unique identifier assigned to each process within a distributed process group. They are always consecutive integers ranging from 0 to `world_size`.
+Rank是分配给分布式进程组中每个进程的唯一标识符。它们总是从0到`world_size`的连续整数。
 
-| Parameters: | **group** (_ProcessGroup__,_ _optional_) – The process group to work on |
+| 参数: | **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组|
 | --- | --- |
-| Returns: | The rank of the process group -1, if not part of the group |
+| 返回: | 进程组-1的等级，如果不是该组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.get_world_size(group=<object object>)
 ```
 
-Returns the number of processes in the current process group
+返回当前进程组中的进程数
 
-| Parameters: | **group** (_ProcessGroup__,_ _optional_) – The process group to work on |
+| 参数: | **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组 |
 | --- | --- |
-| Returns: | The world size of the process group -1, if not part of the group |
+| 返回: | 进程组-1的世界大小，如果不是该组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.is_initialized()
 ```
 
-Checking if the default process group has been initialized
+检查是否已初始化默认进程组
 
 ```py
 torch.distributed.is_mpi_available()
 ```
 
-Checks if MPI is available
+检查MPI是否可用
 
 ```py
 torch.distributed.is_nccl_available()
 ```
 
-Checks if NCCL is available
+检查NCCL是否可用
 
 * * *
 
-Currently three initialization methods are supported:
+目前支持三种初始化方法：
 
-### TCP initialization
+### TCP初始化
 
-There are two ways to initialize using TCP, both requiring a network address reachable from all processes and a desired `world_size`. The first way requires specifying an address that belongs to the rank 0 process. This initialization method requires that all processes have manually specified ranks.
+有两种方法可以使用TCP进行初始化，这两种方法都需要从所有进程可以访问的网络地址和所需的`world_size`。第一种方法需要指定属于rank 0进程的地址。此初始化方法要求所有进程都具有手动指定的排名。
 
-Note that multicast address is not supported anymore in the latest distributed package. `group_name` is deprecated as well.
+请注意，最新的分布式软件包中不再支持多播地址。`group_name`也被弃用了。
 
 ```py
 import torch.distributed as dist
 
-# Use address of one of the machines
+# 使用其中一台机器的地址
 dist.init_process_group(backend, init_method='tcp://10.1.1.20:23456',
                         rank=args.rank, world_size=4)
 
 ```
 
-### Shared file-system initialization
+### 共享文件系统初始化
 
-Another initialization method makes use of a file system that is shared and visible from all machines in a group, along with a desired `world_size`. The URL should start with `file://` and contain a path to a non-existent file (in an existing directory) on a shared file system. File-system initialization will automatically create that file if it doesn’t exist, but will not delete the file. Therefore, it is your responsibility to make sure that the file is cleaned up before the next [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") call on the same file path/name.
+另一种初始化方法使用一个文件系统，该文件系统与组中的所有机器共享和可见，以及所需的`world_size`。URL应以`file：//`开头，并包含共享文件系统上不存在的文件（在现有目录中）的路径。如果文件不存在，文件系统初始化将自动创建该文件，但不会删除该文件。因此，下一步初始化 [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") 在相同的文件路径发生之前您有责任确保清理文件。
 
-Note that automatic rank assignment is not supported anymore in the latest distributed package and `group_name` is deprecated as well.
+请注意，在最新的分布式软件包中不再支持自动排名分配，并且也不推荐使用`group_name`。
 
-Warning
+警告
 
-This method assumes that the file system supports locking using `fcntl` - most local systems and NFS support it.
+此方法假定文件系统支持使用`fcntl`进行锁定 - 大多数本地系统和NFS都支持它。
 
-Warning
+警告
 
-This method will always create the file and try its best to clean up and remove the file at the end of the program. In other words, each initialization with the file init method will need a brand new empty file in order for the initialization to succeed. If the same file used by the previous initialization (which happens not to get cleaned up) is used again, this is unexpected behavior and can often cause deadlocks and failures. Therefore, even though this method will try its best to clean up the file, if the auto-delete happens to be unsuccessful, it is your responsibility to ensure that the file is removed at the end of the training to prevent the same file to be reused again during the next time. This is especially important if you plan to call [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") multiple times on the same file name. In other words, if the file is not removed/cleaned up and you call [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") again on that file, failures are expected. The rule of thumb here is that, make sure that the file is non-existent or empty everytime [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") is called.
+此方法将始终创建该文件，并尽力在程序结束时清理并删除该文件。换句话说，每次进行初始化都需要创建一个全新的空文件，以便初始化成功。如果再次使用先前初始化使用的相同文件（不会被清除），则这是意外行为，并且经常会导致死锁和故障。因此，即使此方法将尽力清理文件，如果自动删除不成功，您有责任确保在训练结束时删除该文件以防止同一文件被删除 下次再次使用。如果你打算在相同的文件系统路径下多次调用 [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") 的时候，就显得尤为重要了。换一种说法，如果那个文件没有被移除并且你再次调用 [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group")，那么失败是可想而知的。这里的经验法则是，每当调用[`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group")的时候，确保文件不存在或为空。
 
 ```py
 import torch.distributed as dist
 
-# rank should always be specified
+# 应始终指定等级
 dist.init_process_group(backend, init_method='file:///mnt/nfs/sharedfile',
                         world_size=4, rank=args.rank)
 
 ```
 
-### Environment variable initialization
+### 环境变量初始化
 
-This method will read the configuration from environment variables, allowing one to fully customize how the information is obtained. The variables to be set are:
+此方法将从环境变量中读取配置，从而可以完全自定义信息的获取方式。要设置的变量是：
 
-*   `MASTER_PORT` - required; has to be a free port on machine with rank 0
-*   `MASTER_ADDR` - required (except for rank 0); address of rank 0 node
-*   `WORLD_SIZE` - required; can be set either here, or in a call to init function
-*   `RANK` - required; can be set either here, or in a call to init function
+*   `MASTER_PORT` - 需要; 必须是机器上的自由端口，等级为0。
+*   `MASTER_ADDR` - 要求（0级除外）; 等级0节点的地址。
+*   `WORLD_SIZE` - 需要; 可以在这里设置，也可以在调用init函数时设置。
+*   `RANK` - 需要; 可以在这里设置，也可以在调用init函数时设置。
 
-The machine with rank 0 will be used to set up all connections.
+等级为0的机器将用于设置所有连接。
 
-This is the default method, meaning that `init_method` does not have to be specified (or can be `env://`).
+这是默认方法，意味着不必指定`init_method`（或者可以是`env：//`）。
 
-## Groups
+## 组
 
-By default collectives operate on the default group (also called the world) and require all processes to enter the distributed function call. However, some workloads can benefit from more fine-grained communication. This is where distributed groups come into play. [`new_group()`](#torch.distributed.new_group "torch.distributed.new_group") function can be used to create new groups, with arbitrary subsets of all processes. It returns an opaque group handle that can be given as a `group` argument to all collectives (collectives are distributed functions to exchange information in certain well-known programming patterns).
+默认情况下，集合体在默认组（也称为世界）上运行，并要求所有进程都进入分布式函数调用。但是，一些工作负载可以从更细粒度的通信中受益。这是分布式群体发挥作用的地方。[`new_group()`](#torch.distributed.new_group "torch.distributed.new_group") 函数可用于创建新组，具有所有进程的任意子集。它返回一个不透明的组句柄，可以作为所有集合体的“group”参数给出（集合体是分布式函数，用于在某些众所周知的编程模式中交换信息）。
 
-Currently `torch.distributed` does not support creating groups with different backends. In other words, each group being created will use the same backend as you specified in [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group").
+目前`torch.distributed`不支持创建具有不同后端的组。换一种说法，每一个正在被创建的组都会用相同的后端，只要你在 [`init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") 里面声明清楚。
 
 ```py
 torch.distributed.new_group(ranks=None, timeout=datetime.timedelta(seconds=1800))
 ```
 
-Creates a new distributed group.
+创建一个新的分布式组
 
-This function requires that all processes in the main group (i.e. all processes that are part of the distributed job) enter this function, even if they are not going to be members of the group. Additionally, groups should be created in the same order in all processes.
+此功能要求主组中的所有进程（即属于分布式作业的所有进程）都进入此功能，即使它们不是该组的成员也是如此。此外，应在所有进程中以相同的顺序创建组。
 
-Parameters: 
+参数: 
 
-*   **ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – List of ranks of group members.
-*   **timeout** (_timedelta__,_ _optional_) – Timeout for operations executed against the process group. Default value equals 30 minutes. This is only applicable for the `gloo` backend.
+*   **ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – 小组成员的等级列表。
+*   **timeout** (_timedelta__,_ _optional_) – 针对进程组执行的操作超时，默认值等于30分钟，这仅适用于`gloo`后端。
 
 
-| Returns: | A handle of distributed group that can be given to collective calls. |
+| 返回: | 分布式组的句柄，可以给予集体调用 |
 | --- | --- |
 
-## Point-to-point communication
+## 点对点通信
 
 ```py
 torch.distributed.send(tensor, dst, group=<object object>, tag=0)
 ```
 
-Sends a tensor synchronously.
+同步发送张量
 
-Parameters: 
+参数: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match send with remote recv
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 准备发送的张量。
+*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目的地排名。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 标记以匹配发送与远程接收。
 
 
 
@@ -258,210 +255,210 @@ Parameters:
 torch.distributed.recv(tensor, src=None, group=<object object>, tag=0)
 ```
 
-Receives a tensor synchronously.
+同步接收张量
 
-Parameters: 
+参数： 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Source rank. Will receive from any process if unspecified.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match recv with remote send
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 张量填充接收的数据。
+*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 来源排名。如果未指定，将从任何流程收到。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 标记以匹配接收与远程发送。
 
 
-| Returns: | Sender rank -1, if not part of the group |
+| 返回: | 发件人排名-1，如果不是该组的一部分 |
 | --- | --- |
 
-[`isend()`](#torch.distributed.isend "torch.distributed.isend") and [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") return distributed request objects when used. In general, the type of this object is unspecified as they should never be created manually, but they are guaranteed to support two methods:
+[`isend()`](#torch.distributed.isend "torch.distributed.isend") 和 [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") 使用时返回分布式请求对象。通常，此对象的类型未指定，因为它们永远不应手动创建，但它们保证支持两种方法：
 
-*   `is_completed()` - returns True if the operation has finished
-*   `wait()` - will block the process until the operation is finished. `is_completed()` is guaranteed to return True once it returns.
+*   `is_completed()` - 如果操作已完成，则返回True。
+*   `wait()` - 将阻止该过程，直到操作完成，`is_completed（）`保证一旦返回就返回True。
 
 ```py
 torch.distributed.isend(tensor, dst, group=<object object>, tag=0)
 ```
 
-Sends a tensor asynchronously.
+异步发送张量
 
-Parameters: 
+参数: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match send with remote recv
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 准本发送的张量。
+*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目的地排名。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 标记以匹配发送与远程接收。
 
 
-| Returns: | A distributed request object. None, if not part of the group |
+| 返回: | 分布式请求对象。没有，如果不是该组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.irecv(tensor, src, group=<object object>, tag=0)
 ```
 
-Receives a tensor asynchronously.
+异步接收张量
 
-Parameters: 
+参数: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Tag to match recv with remote send
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 张量填充接收的数据。
+*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 来源排名。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **tag** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 标记以匹配接收与远程发送。
 
 
-| Returns: | A distributed request object. None, if not part of the group |
+| 返回: | 分布式请求对象。没有，如果不是该组的一部分 |
 | --- | --- |
 
-## Synchronous and asynchronous collective operations
+## 同步和异步集合操作
 
-Every collective operation function supports the following two kinds of operations:
+每个集合操作函数都支持以下两种操作：
 
-synchronous operation - the default mode, when `async_op` is set to False. when the function returns, it is guaranteed that the collective operation is performed (not necessarily completed if it’s a CUDA op since all CUDA ops are asynchronous), and any further function calls depending on the data of the collective operation can be called. In the synchronous mode, the collective function does not return anything
+同步操作 - 默认模式，当`async_op`设置为False时。当函数返回时，保证执行集合操作（如果它是CUDA操作，则不一定完成，因为所有CUDA操作都是异步的），并且可以调用任何进一步的函数调用，这取决于集合操作的数据。在同步模式下，集合函数不返回任何内容。
 
-asynchronous operation - when `async_op` is set to True. The collective operation function returns a distributed request object. In general, you don’t need to create it manually and it is guaranteed to support two methods:
+asynchronous operation - 当`async_op`设置为True时。集合操作函数返回分布式请求对象。通常，您不需要手动创建它，并且保证支持两种方法：
 
-*   `is_completed()` - returns True if the operation has finished
-*   `wait()` - will block the process until the operation is finished.
+*   `is_completed()` - 如果操作已完成，则返回True。
+*   `wait()` - 将阻止该过程，直到操作完成。
 
-## Collective functions
+## 集体职能
 
 ```py
 torch.distributed.broadcast(tensor, src, group=<object object>, async_op=False)
 ```
 
-Broadcasts the tensor to the whole group.
+将张量广播到整个群体
 
-`tensor` must have the same number of elements in all processes participating in the collective.
+`tensor`必须在参与集合体的所有进程中具有相同数量的元素。
 
-Parameters: 
+参数: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Data to be sent if `src` is the rank of current process, and tensor to be used to save received data otherwise.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 如果`src`是当前进程的等级，则发送的数据，否则用于保存接收数据的张量。
+*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 来源排名。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.all_reduce(tensor, op=ReduceOp.SUM, group=<object object>, async_op=False)
 ```
 
-Reduces the tensor data across all machines in such a way that all get the final result.
+减少所有机器上的张量数据，以便获得最终结果
 
-After the call `tensor` is going to be bitwise identical in all processes.
+调用`tensor`之后在所有进程中将按位相同。
 
-Parameters: 
+参数: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
-*   **op** (_optional_) – One of the values from `torch.distributed.ReduceOp` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 集体的输入和输出。该功能就地运行。
+*   **op** (_optional_) – 来自`torch.distributed.ReduceOp`枚举的值之一。指定用于逐元素减少的操作。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.reduce(tensor, dst, op=ReduceOp.SUM, group=<object object>, async_op=False)
 ```
 
-Reduces the tensor data across all machines.
+减少所有机器的张量数据
 
-Only the process with rank `dst` is going to receive the final result.
+只有排名为“dst”的进程才会收到最终结果。
 
-Parameters: 
+参数: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
-*   **op** (_optional_) – One of the values from `torch.distributed.ReduceOp` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 集体的输入和输出。该功能就地运行。
+*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目的地排名。
+*   **op** (_optional_) – 来自`torch.distributed.ReduceOp`枚举的值之一。指定用于逐元素减少的操作。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.all_gather(tensor_list, tensor, group=<object object>, async_op=False)
 ```
 
-Gathers tensors from the whole group in a list.
+从列表中收集整个组的张量
 
-Parameters: 
+参数：
 
-*   **tensor_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Output list. It should contain correctly-sized tensors to be used for output of the collective.
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to be broadcast from current process.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **tensor_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 输出列表。它应包含正确大小的张量，用于集合的输出。
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 从当前进程广播的张量。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.gather(tensor, gather_list, dst, group=<object object>, async_op=False)
 ```
 
-Gathers a list of tensors in a single process.
+在一个过程中收集张量列表
 
-Parameters: 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input tensor.
-*   **gather_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of appropriately-sized tensors to use for received data. Required only in the receiving process.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank. Required in all processes except the one that is receiveing the data.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量。
+*   **gather_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 用于接收数据的适当大小的张量列表。仅在接收过程中需要。
+*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目的地排名。除接收数据的进程外，在所有进程中都是必需的。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.scatter(tensor, scatter_list, src, group=<object object>, async_op=False)
 ```
 
-Scatters a list of tensors to all processes in a group.
+将张量列表分散到组中的所有进程
 
-Each process will receive exactly one tensor and store its data in the `tensor` argument.
+每个进程只接收一个张量并将其数据存储在`tensor`参数中。
 
-Parameters: 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Output tensor.
-*   **scatter_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors to scatter. Required only in the process that is sending the data.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank. Required in all processes except the one that is sending the data.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输出张量。
+*   **scatter_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 要分散的张量列表。仅在发送数据的过程中需要。
+*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 来源排名。除发送数据的进程外，在所有进程中都是必需的。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。如果不是async_op或不是组的一部分，无 |
 | --- | --- |
 
 ```py
 torch.distributed.barrier(group=<object object>, async_op=False)
 ```
 
-Synchronizes all processes.
+同步所有进程
 
-This collective blocks processes until the whole group enters this function, if async_op is False, or if async work handle is called on wait().
+如果async_op为False，或者在wait（）上调用异步工作句柄，则此集合会阻止进程直到整个组进入此函数。
 
-Parameters: 
+参数：
 
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 class torch.distributed.ReduceOp
 ```
 
-An enum-like class of available reduce operations: `SUM`, `PRODUCT`, `MIN`, and `MAX`.
+类似枚举的可用减少操作类：`SUM`，`PRODUCT`，`MIN`和`MAX`。
 
-The values of this class can be accessed as attributes, e.g., `ReduceOp.SUM`. They are used in specifying strategies for reduction collectives, e.g., [`reduce()`](#torch.distributed.reduce "torch.distributed.reduce"), [`all_reduce_multigpu()`](#torch.distributed.all_reduce_multigpu "torch.distributed.all_reduce_multigpu"), etc.
+该类的值可以作为属性访问，例如，`ReduceOp.SUM`。它们用于指定减少集群的战略，例如 [`reduce()`](#torch.distributed.reduce "torch.distributed.reduce"), [`all_reduce_multigpu()`](#torch.distributed.all_reduce_multigpu "torch.distributed.all_reduce_multigpu")。
 
-Members:
+成员：
 
 > SUM
 > 
@@ -475,17 +472,17 @@ Members:
 class torch.distributed.reduce_op
 ```
 
-Deprecated enum-like class for reduction operations: `SUM`, `PRODUCT`, `MIN`, and `MAX`.
+用于还原操作的不再使用的枚举类：`SUM`，`PRODUCT`，`MIN`和`MAX`。
 
-[`ReduceOp`](#torch.distributed.ReduceOp "torch.distributed.ReduceOp") is recommended to use instead.
+建议使用[`ReduceOp`](#torch.distributed.ReduceOp "torch.distributed.ReduceOp") 代替。
 
-## Multi-GPU collective functions
+## 多GPU集群功能
 
-If you have more than one GPU on each node, when using the NCCL and Gloo backend, [`broadcast_multigpu()`](#torch.distributed.broadcast_multigpu "torch.distributed.broadcast_multigpu") [`all_reduce_multigpu()`](#torch.distributed.all_reduce_multigpu "torch.distributed.all_reduce_multigpu") [`reduce_multigpu()`](#torch.distributed.reduce_multigpu "torch.distributed.reduce_multigpu") and [`all_gather_multigpu()`](#torch.distributed.all_gather_multigpu "torch.distributed.all_gather_multigpu") support distributed collective operations among multiple GPUs within each node. These functions can potentially improve the overall distributed training performance and be easily used by passing a list of tensors. Each Tensor in the passed tensor list needs to be on a separate GPU device of the host where the function is called. Note that the length of the tensor list needs to be identical among all the distributed processes. Also note that currently the multi-GPU collective functions are only supported by the NCCL backend.
+如果每个节点上有多个GPU，则在使用NCCL和Gloo后端时，[`broadcast_multigpu()`](#torch.distributed.broadcast_multigpu "torch.distributed.broadcast_multigpu") [`all_reduce_multigpu()`](#torch.distributed.all_reduce_multigpu "torch.distributed.all_reduce_multigpu") [`reduce_multigpu()`](#torch.distributed.reduce_multigpu "torch.distributed.reduce_multigpu") 和 [`all_gather_multigpu()`](#torch.distributed.all_gather_multigpu "torch.distributed.all_gather_multigpu") 支持每个节点内多个GPU之间的分布式集合操作。这些功能可以潜在地提高整体分布式训练性能，并通过传递张量列表轻松使用。传递的张量列表中的每个张量需要位于调用该函数的主机的单独GPU设备上。请注意，张量列表的长度在所有分布式进程中需要相同。另请注意，目前只有NCCL后端支持多GPU集合功能。
 
-For example, if the system we use for distributed training has 2 nodes, each of which has 8 GPUs. On each of the 16 GPUs, there is a tensor that we would like to all-reduce. The following code can serve as a reference:
+例如，如果我们用于分布式训练的系统有2个节点，每个节点有8个GPU。在16个GPU中的每一个上，都有一个我们希望减少的张量，以下代码可以作为参考：
 
-Code running on Node 0
+代码在节点0上运行
 
 ```py
 import torch
@@ -503,7 +500,7 @@ dist.all_reduce_multigpu(tensor_list)
 
 ```
 
-Code running on Node 1
+代码在节点1上运行
 
 ```py
 import torch
@@ -521,106 +518,106 @@ dist.all_reduce_multigpu(tensor_list)
 
 ```
 
-After the call, all 16 tensors on the two nodes will have the all-reduced value of 16
+调用结束后，两个节点上的所有16个张量都将具有16的全减值。
 
 ```py
 torch.distributed.broadcast_multigpu(tensor_list, src, group=<object object>, async_op=False, src_tensor=0)
 ```
 
-Broadcasts the tensor to the whole group with multiple GPU tensors per node.
+使用每个节点多个GPU张量将张量广播到整个组
 
-`tensor` must have the same number of elements in all the GPUs from all processes participating in the collective. each tensor in the list must be on a different GPU
+`tensor`必须在参与集合体的所有进程的所有GPU中具有相同数量的元素。列表中的每个张量必须位于不同的GPU上。
 
-Only nccl and gloo backend are currently supported tensors should only be GPU tensors
+目前仅支持nccl和gloo后端张量应该只是GPU张量
 
-Parameters: 
+参数：
 
-*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Tensors that participate in the collective operation. if `src` is the rank, then `src_tensor``th element of ``tensor_list` (`tensor_list[src_tensor]`) will be broadcasted to all other tensors (on different GPUs) in the src process and all tensors in `tensor_list` of other non-src processes. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
-*   **src_tensor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Source tensor rank within `tensor_list`
+*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 参与集群操作行动的张量。如果`src`是排名，那么``tensor_list`（`tensor_list [src_tensor]`）的`src_tensor``元素将被广播到src进程中的所有其他张量（在不同的GPU上）以及`tensor_list中的所有张量 `其他非src进程。您还需要确保调用此函数的所有分布式进程的`len（tensor_list）`是相同的。
+*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 源排行。
+*   **group** (_ProcessGroup__,_ _optional_) – 要被处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
+*   **src_tensor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 源张量等级在`tensor_list`内。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.all_reduce_multigpu(tensor_list, op=ReduceOp.SUM, group=<object object>, async_op=False)
 ```
 
-Reduces the tensor data across all machines in such a way that all get the final result. This function reduces a number of tensors on every node, while each tensor resides on different GPUs. Therefore, the input tensor in the tensor list needs to be GPU tensors. Also, each tensor in the tensor list needs to reside on a different GPU.
+减少所有机器上的张量数据，以便获得最终结果。此功能可减少每个节点上的多个张量，而每个张量位于不同的GPU上。因此，张量列表中的输入张量需要是GPU张量。此外，张量列表中的每个张量都需要驻留在不同的GPU上。
 
-After the call, all `tensor` in `tensor_list` is going to be bitwise identical in all processes.
+在调用之后，`tensor_list`中的所有`tensor`在所有进程中都是按位相同的。
 
-Only nccl and gloo backend is currently supported tensors should only be GPU tensors
+目前仅支持nccl和gloo后端，张量应仅为GPU张量。
 
-Parameters: 
+参数：
 
-*   **list** (_tensor_) – List of input and output tensors of the collective. The function operates in-place and requires that each tensor to be a GPU tensor on different GPUs. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
-*   **op** (_optional_) – One of the values from `torch.distributed.ReduceOp` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **list** (_tensor_) – 集体的输入和输出张量列表。该功能就地运行，并要求每个张量在不同的GPU上为GPU张量。您还需要确保调用此函数的所有分布式进程的`len（tensor_list）`是相同的。
+*   **op** (_optional_) – 来自`torch.distributed.ReduceOp`枚举的值之一，并且指定一个逐元素减少的操作。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
 ```py
 torch.distributed.reduce_multigpu(tensor_list, dst, op=ReduceOp.SUM, group=<object object>, async_op=False, dst_tensor=0)
 ```
 
-Reduces the tensor data on multiple GPUs across all machines. Each tensor in `tensor_list` should reside on a separate GPU
+减少所有计算机上多个GPU的张量数据。`tensor_list`中的每个张量应位于单独的GPU上。
 
-Only the GPU of `tensor_list[dst_tensor]` on the process with rank `dst` is going to receive the final result.
+只有级别为'dst`的进程中的'tensor_list [dst_tensor]`的GPU才会收到最终结果。
 
-Only nccl backend is currently supported tensors should only be GPU tensors
+目前仅支持nccl后端张量应该只是GPU张量。
 
-Parameters: 
+参数：
 
-*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Input and output GPU tensors of the collective. The function operates in-place. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
-*   **op** (_optional_) – One of the values from `torch.distributed.ReduceOp` enum. Specifies an operation used for element-wise reductions.
+*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 输入和输出集体的GPU张量。该功能就地运行，您还需要确保调用此函数的所有分布式进程的`len（tensor_list）`是相同的。
+*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 目的地排名。
+*   **op** (_optional_) – 来自`torch.distributed.ReduceOp`枚举的值之一。指定一个逐元素减少的操作。
 *   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
-*   **dst_tensor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Destination tensor rank within `tensor_list`
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作。
+*   **dst_tensor** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 目标张量在`tensor_list`中排名。
 
 
-| Returns: | Async work handle, if async_op is set to True. None, otherwise |
+| 返回: | 异步工作句柄，如果async_op设置为True。没有，否则 |
 | --- | --- |
 
 ```py
 torch.distributed.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>, async_op=False)
 ```
 
-Gathers tensors from the whole group in a list. Each tensor in `tensor_list` should reside on a separate GPU
+从列表中收集整个组的张量。`tensor_list`中的每个张量应位于单独的GPU上。
 
-Only nccl backend is currently supported tensors should only be GPU tensors
+目前仅支持nccl后端张量应该只是GPU张量。
 
-Parameters: 
+参数： 
 
-*   **output_tensor_lists** (_List__[__List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]__]_) – Output lists. It should contain correctly-sized tensors on each GPU to be used for output of the collective. e.g. `output_tensor_lists[i]` contains the all_gather result that resides on the GPU of `input_tensor_list[i]`. Note that each element of `output_tensor_lists[i]` has the size of `world_size * len(input_tensor_list)`, since the function all gathers the result from every single GPU in the group. To interpret each element of `output_tensor_list[i]`, note that `input_tensor_list[j]` of rank k will be appear in `output_tensor_list[i][rank * world_size + j]` Also note that `len(output_tensor_lists)`, and the size of each element in `output_tensor_lists` (each element is a list, therefore `len(output_tensor_lists[i])`) need to be the same for all the distributed processes calling this function.
-*   **input_tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors(on different GPUs) to be broadcast from current process. Note that `len(input_tensor_list)` needs to be the same for all the distributed processes calling this function.
-*   **group** (_ProcessGroup__,_ _optional_) – The process group to work on
-*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Whether this op should be an async op
+*   **output_tensor_lists** (_List__[__List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]__]_) – 输出列表。它应该在每个GPU上包含正确大小的张量，以用于集合的输出。例如 `output_tensor_lists [i]`包含驻留在`input_tensor_list [i]`的GPU上的all_gather结果。请注意，`output_tensor_lists [i]`的每个元素都具有`world_size * len（input_tensor_list）`的大小，因为该函数全部收集组中每个GPU的结果。要解释`output_tensor_list [i]`的每个元素，请注意等级k的`input_tensor_list [j]`将出现在`output_tensor_list [i] [rank * world_size + j]中。还要注意`len（output_tensor_lists）`，并且`output_tensor_lists`中的每个元素的大小（每个元素都是一个列表，因此`len（output_tensor_lists [i]）`）对于调用此函数的所有分布式进程都需要相同。
+*   **input_tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 从当前进程广播的张量（在不同的GPU上）的列表。请注意，调用此函数的所有分布式进程的`len（input_tensor_list）`必须相同。
+*   **group** (_ProcessGroup__,_ _optional_) – 要处理的进程组。
+*   **async_op** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 这个操作是否应该是异步操作
 
 
-| Returns: | Async work handle, if async_op is set to True. None, if not async_op or if not part of the group |
+| 返回: | 异步工作句柄，如果async_op设置为True。无，如果不是async_op或不是组的一部分 |
 | --- | --- |
 
-## Launch utility
+## 启动实用程序
 
-The `torch.distributed` package also provides a launch utility in `torch.distributed.launch`. This helper utility can be used to launch multiple processes per node for distributed training. This utility also supports both python2 and python3.
+`torch.distributed`包还在`torch.distributed.launch`中提供了一个启动实用程序。此帮助实用程序可用于为每个节点启动多个进程以进行分布式训练。该实用程序还支持python2和python3。
 
-`torch.distributed.launch` is a module that spawns up multiple distributed training processes on each of the training nodes.
+`torch.distributed.launch`是一个模块，它在每个训练节点上产生多个分布式训练过程。
 
-The utility can be used for single-node distributed training, in which one or more processes per node will be spawned. The utility can be used for either CPU training or GPU training. If the utility is used for GPU training, each distributed process will be operating on a single GPU. This can achieve well-improved single-node training performance. It can also be used in multi-node distributed training, by spawning up multiple processes on each node for well-improved multi-node distributed training performance as well. This will especially be benefitial for systems with multiple Infiniband interfaces that have direct-GPU support, since all of them can be utilized for aggregated communication bandwidth.
+该实用程序可用于单节点分布式训练，其中将生成每个节点的一个或多个进程。该实用程序可用于CPU训练或GPU训练。如果该实用程序用于GPU训练，则每个分布式进程将在单个GPU上运行。这可以实现良好改进的单节点训练性能。它还可以用于多节点分布式训练，通过在每个节点上产生多个进程来获得良好改进的多节点分布式训练性能。这对于具有多个具有直接GPU支持的Infiniband接口的系统尤其有利，因为所有这些接口都可用于聚合通信带宽。
 
-In both cases of single-node distributed training or multi-node distributed training, this utility will launch the given number of processes per node (`--nproc_per_node`). If used for GPU training, this number needs to be less or euqal to the number of GPUs on the current system (`nproc_per_node`), and each process will be operating on a single GPU from _GPU 0 to GPU (nproc_per_node - 1)_.
+在单节点分布式训练或多节点分布式训练的两种情况下，该实用程序将为每个节点启动给定数量的进程（`--nproc_per_node`）。如果用于GPU训练，此数字需要小于或等于当前系统上的GPU数量（'nproc_per_node`），并且每个进程将在单个GPU上运行，从_GPU 0到GPU（nproc_per_node - 1）_。
 
-**How to use this module:**
+**如何使用这个模块：**
 
-1.  Single-Node multi-process distributed training
+1.  单节点多进程分布式训练
 
 ```py
 >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
@@ -629,9 +626,9 @@ In both cases of single-node distributed training or multi-node distributed trai
 
 ```
 
-1.  Multi-Node multi-process distributed training: (e.g. two nodes)
+1.  多节点多进程分布式训练:(例如两个节点）
 
-Node 1: _(IP: 192.168.1.1, and has a free port: 1234)_
+节点1：_（IP：192.168.1.1，并且有一个空闲端口：1234）_
 
 ```py
 >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
@@ -641,7 +638,7 @@ Node 1: _(IP: 192.168.1.1, and has a free port: 1234)_
 
 ```
 
-Node 2:
+节点2：
 
 ```py
 >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
@@ -651,20 +648,20 @@ Node 2:
 
 ```
 
-1.  To look up what optional arguments this module offers:
+1.查找此模块提供的可选参数：
 
 ```py
 >>> python -m torch.distributed.launch --help
 
 ```
 
-**Important Notices:**
+**重要告示：**
 
-1\. This utilty and multi-process distributed (single-node or multi-node) GPU training currently only achieves the best performance using the NCCL distributed backend. Thus NCCL backend is the recommended backend to use for GPU training.
+1\. 这种实用和多进程分布式（单节点或多节点）GPU训练目前仅使用NCCL分布式后端实现最佳性能。因此，NCCL后端是用于GPU训练的推荐后端。
 
-2\. In your training program, you must parse the command-line argument: `--local_rank=LOCAL_PROCESS_RANK`, which will be provided by this module. If your training program uses GPUs, you should ensure that your code only runs on the GPU device of LOCAL_PROCESS_RANK. This can be done by:
+2\. 在您的训练程序中，您必须解析命令行参数：`--local_rank = LOCAL_PROCESS_RANK`，这将由此模块提供。如果您的训练计划使用GPU，则应确保您的代码仅在LOCAL_PROCESS_RANK的GPU设备上运行。这可以通过以下方式完成：
 
-Parsing the local_rank argument
+解析local_rank参数
 
 ```py
 >>> import argparse
@@ -674,14 +671,14 @@ Parsing the local_rank argument
 
 ```
 
-Set your device to local rank using either
+使用其中一个将您的设备设置为本地排名
 
 ```py
 >>> torch.cuda.set_device(arg.local_rank)  # before your code runs
 
 ```
 
-or
+或者
 
 ```py
 >>> with torch.cuda.device(arg.local_rank):
@@ -689,7 +686,7 @@ or
 
 ```
 
-3\. In your training program, you are supposed to call the following function at the beginning to start the distributed backend. You need to make sure that the init_method uses `env://`, which is the only supported `init_method` by this module.
+3\. 在您的训练计划中，您应该在开始时调用以下函数来启动分布式后端。您需要确保init_method使用`env：//`，这是该模块唯一支持的`init_method`。
 
 ```py
 torch.distributed.init_process_group(backend='YOUR BACKEND',
@@ -697,7 +694,7 @@ torch.distributed.init_process_group(backend='YOUR BACKEND',
 
 ```
 
-4\. In your training program, you can either use regular distributed functions or use [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") module. If your training program uses GPUs for training and you would like to use [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") module, here is how to configure it.
+4\. 在您的训练计划中，您可以使用常规分布式功能或使用 [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") 模块。如果您的训练计划使用GPU进行训练，并且您希望使用 [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") 模块。这里是如何配置它。
 
 ```py
 model = torch.nn.parallel.DistributedDataParallel(model,
@@ -706,17 +703,17 @@ model = torch.nn.parallel.DistributedDataParallel(model,
 
 ```
 
-Please ensure that `device_ids` argument is set to be the only GPU device id that your code will be operating on. This is generally the local rank of the process. In other words, the `device_ids` needs to be `[args.local_rank]`, and `output_device` needs to be `args.local_rank` in order to use this utility
+请确保将`device_ids`参数设置为您的代码将在其上运行的唯一GPU设备ID。这通常是流程的本地排名。换句话说，`device_ids`需要是`[args.local_rank]`，`output_device`需要是'args.local_rank`才能使用这个实用程序。
 
-Warning
+警告
 
-`local_rank` is NOT globally unique: it is only unique per process on a machine. Thus, don’t use it to decide if you should, e.g., write to a networked filesystem. See [https://github.com/pytorch/pytorch/issues/12042](https://github.com/pytorch/pytorch/issues/12042) for an example of how things can go wrong if you don’t do this correctly.
+`local_rank`不是全局唯一的：它只对机器上的每个进程唯一。因此，不要使用它来决定是否应该，例如，写入网络文件系统，参考 [https://github.com/pytorch/pytorch/issues/12042](https://github.com/pytorch/pytorch/issues/12042) 例如，如果您没有正确执行此操作，事情可能会出错。
 
-## Spawn utility
+## Spawn实用程序
 
-The torch.multiprocessing package also provides a `spawn` function in [`torch.multiprocessing.spawn()`](multiprocessing.html#torch.multiprocessing.spawn "torch.multiprocessing.spawn"). This helper function can be used to spawn multiple processes. It works by passing in the function that you want to run and spawns N processes to run it. This can be used for multiprocess distributed training as well.
+在  [`torch.multiprocessing.spawn()`](multiprocessing.html#torch.multiprocessing.spawn "torch.multiprocessing.spawn") 里面，torch.multiprocessing包还提供了一个`spawn`函数. 此辅助函数可用于生成多个进程。它通过传递您要运行的函数并生成N个进程来运行它。这也可以用于多进程分布式训练。
 
-For references on how to use it, please refer to [PyToch example - ImageNet implementation](https://github.com/pytorch/examples/tree/master/imagenet)
+有关如何使用它的参考，请参阅 [PyToch example - ImageNet implementation](https://github.com/pytorch/examples/tree/master/imagenet)
 
-Note that this function requires Python 3.4 or higher.
+请注意，此函数需要Python 3.4或更高版本。
 
