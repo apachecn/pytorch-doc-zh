@@ -192,7 +192,7 @@ torch.jit.trace(func, example_inputs, optimize=True, check_trace=True, check_inp
 *   **check_tolerance** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – 在检查过程中使用的浮点比较容差。用于放松检查严格性。 
 
  
-| 返回值： | 含有`forward（）`方法的`ScriptModule`对象，该方法包含被追踪代码。当func是`torch.nn.Module`时，返回的`ScriptModule`具有与原始模块相同的子模块和参数集。|
+| 返回值： | 含有`forward()`方法的`ScriptModule`对象，该方法包含被追踪代码。当func是`torch.nn.Module`时，返回的`ScriptModule`具有与原始模块相同的子模块和参数集。|
 | --- | --- |
 
 例：
@@ -795,7 +795,7 @@ graph(%len : int) {
 自动追踪检查
 ```
 
-通过在`torch.jit.trace（）`API上使用`check_inputs`，是自动捕获追踪中错误的一种方法。 `check_inputs`是用于重新追踪计算并验证结果的输入元组列表。例如：
+通过在`torch.jit.trace()`API上使用`check_inputs`，是自动捕获追踪中错误的一种方法。 `check_inputs`是用于重新追踪计算并验证结果的输入元组列表。例如：
 
 ```py
 def loop_in_traced_fn(x):
