@@ -2,6 +2,8 @@
 
 # 概率分布 - torch.distributions
 
+> 译者：[hijkzzz](https://github.com/hijkzzz)
+
 `distributions` 包含可参数化的概率分布和采样函数. 这允许构造用于优化的随机计算图和随机梯度估计器.  这个包一般遵循 [TensorFlow Distributions](https://arxiv.org/abs/1711.10604) 包的设计.
 
 通常, 不可能直接通过随机样本反向传播.  但是, 有两种主要方法可创建可以反向传播的代理函数.  即得分函数估计器/似然比估计器/REINFORCE和pathwise derivative估计器.  REINFORCE通常被视为强化学习中策略梯度方法的基础, 并且pathwise derivative估计器常见于变分自动编码器中的重新参数化技巧. 得分函数仅需要样本的值 ![](img/cb804637f7fdaaf91569cfe4f047b418.jpg), pathwise derivative 需要导数 ![](img/385dbaaac9dd8aad33acc31ac64d2f27.jpg). 接下来的部分将在一个强化学习示例中讨论这两个问题.  有关详细信息, 请参阅 [Gradient Estimation Using Stochastic Computation Graphs](https://arxiv.org/abs/1506.05254) .
