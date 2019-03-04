@@ -1,6 +1,6 @@
-
-
 # Torch 脚本
+
+> 译者：[keyianpai](https://github.com/keyianpai)
 
 *   [创建 Torch 脚本代码](#creating-torch-script-code)
 *   [将追踪和脚本化结合起来](#mixing-tracing-and-scripting)
@@ -934,6 +934,3 @@ Torch脚本支持部分PyTorch内置张量和神经网络函数。 Tensor上的�
 
 
 我们目前不提供像 `Linear` 或 `Conv` 模块之类内置ScriptModule,此功能将在未来开发。目前我们建议使用`torch.jit.trace`将标准的`torch.nn`模块转换为ScriptModule。
-
-
-
