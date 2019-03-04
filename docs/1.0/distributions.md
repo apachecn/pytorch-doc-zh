@@ -704,7 +704,7 @@ class torch.distributions.exponential.Exponential(rate, validate_args=None)
 
 基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-Creates a Exponential distribution parameterized by `rate`.
+创建由`rate`参数化的指数分布.
 
 例子:
 
@@ -715,7 +715,7 @@ tensor([ 0.1046])
 
 ```
 
-| 参数: | **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 / scale of the distribution |
+| 参数: | **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 / 分布的scale  |
 
 
 ```py
@@ -774,7 +774,7 @@ class torch.distributions.fishersnedecor.FisherSnedecor(df1, df2, validate_args=
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a Fisher-Snedecor distribution parameterized by `df1` and `df2`.
+创建由`df1`和`df2`参数化的Fisher-Snedecor分布
 
 例子:
 
@@ -787,8 +787,8 @@ tensor([ 0.2453])
 
 参数: 
 
-*   **df1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – degrees of freedom parameter 1
-*   **df2** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – degrees of freedom parameter 2
+*   **df1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  自由度参数1
+*   **df2** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 自由度参数2
 
 
 
@@ -832,7 +832,7 @@ class torch.distributions.gamma.Gamma(concentration, rate, validate_args=None)
 
 基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-Creates a Gamma distribution parameterized by shape `concentration` and `rate`.
+创建由`concentration`和`rate`参数化的伽马分布。.
 
 例子:
 
@@ -845,8 +845,8 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – shape parameter of the distribution (often referred to as alpha)
-*   **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 / scale of the distribution (often referred to as beta)
+*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的形状参数（通常称为alpha）
+*   **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 /  分布scale (通常称为beta )
 
 
 
@@ -894,9 +894,9 @@ class torch.distributions.geometric.Geometric(probs=None, logits=None, validate_
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a Geometric distribution parameterized by [`probs`](#torch.distributions.geometric.Geometric.probs "torch.distributions.geometric.Geometric.probs"), where [`probs`](#torch.distributions.geometric.Geometric.probs "torch.distributions.geometric.Geometric.probs") is the probability of success of Bernoulli trials. It represents the probability that in ![](img/10396db36bab7b7242cfe94f04374444.jpg) Bernoulli trials, the first ![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) trials failed, before seeing a success.
+创建由`probs`参数化的几何分布，其中`probs`是伯努利试验成功的概率. 它表示概率在 ![](img/10396db36bab7b7242cfe94f04374444.jpg) 次伯努利试验中,  前 ![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) 试验失败, 然后成功.
 
-Samples are non-negative integers [0, ![](img/06485c2c6e992cf346fdfe033a86a10d.jpg)).
+样本是非负整数 [0, ![](img/06485c2c6e992cf346fdfe033a86a10d.jpg)).
 
 例子:
 
@@ -909,8 +909,8 @@ tensor([ 2.])
 
 参数: 
 
-*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`. Must be in range (0, 1]
-*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`.
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  抽样`1`的概率 . 必须是在范围 (0, 1]
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 抽样 `1`的log-odds.
 
 
 
@@ -962,7 +962,7 @@ class torch.distributions.gumbel.Gumbel(loc, scale, validate_args=None)
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Samples from a Gumbel Distribution.
+来自Gumbel分布的样本.
 
 Examples:
 
@@ -975,8 +975,8 @@ tensor([ 1.0124])
 
 参数: 
 
-*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Location parameter of the distribution
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of the distribution
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的位置参数
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的scale 参数
 
 
 
@@ -1016,7 +1016,7 @@ class torch.distributions.half_cauchy.HalfCauchy(scale, validate_args=None)
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a half-normal distribution parameterized by `scale` where:
+创建`scale`参数化的半正态分布:
 
 ```py
 X ~ Cauchy(0, scale)
@@ -1033,7 +1033,7 @@ tensor([ 2.3214])
 
 ```
 
-| 参数: | **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the full Cauchy distribution |
+| 参数: | **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 完全柯西分布的scale |
 
 
 ```py
@@ -1088,7 +1088,7 @@ class torch.distributions.half_normal.HalfNormal(scale, validate_args=None)
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a half-normal distribution parameterized by `scale` where:
+创建按`scale`参数化的半正态分布:
 
 ```py
 X ~ Normal(0, scale)
@@ -1105,7 +1105,7 @@ tensor([ 0.1046])
 
 ```
 
-| 参数: | **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the full Normal distribution |
+| 参数: | **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 完全正态分布的scale |
 
 
 ```py
@@ -1160,9 +1160,9 @@ class torch.distributions.independent.Independent(base_distribution, reinterpret
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Reinterprets some of the batch dims of a distribution as event dims.
+重新解释一些分布的批量 dims 作为 event dims.
 
-This is mainly useful for changing the shape of the result of [`log_prob()`](#torch.distributions.independent.Independent.log_prob "torch.distributions.independent.Independent.log_prob"). For example to create a diagonal Normal distribution with the same shape as a Multivariate Normal distribution (so they are interchangeable), you can:
+ 这主要用于改变[`log_prob()`](#torch.distributions.independent.Independent.log_prob "torch.distributions.independent.Independent.log_prob")结果的形状.例如，要创建与多元正态分布形状相同的对角正态分布(因此它们是可互换的)，您可以这样做:
 
 ```py
 >>> loc = torch.zeros(3)
@@ -1181,9 +1181,8 @@ This is mainly useful for changing the shape of the result of [`log_prob()`](#to
 
 参数: 
 
-*   **base_distribution** ([_torch.distributions.distribution.Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – a base distribution
-*   **reinterpreted_batch_ndims** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of batch dims to reinterpret as event dims
-
+*   **base_distribution** ([_torch.distributions.distribution.Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – 基础分布
+*   **reinterpreted_batch_ndims** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) –要重解释的批量dims的数量
 
 
 ```py
@@ -1242,7 +1241,7 @@ class torch.distributions.laplace.Laplace(loc, scale, validate_args=None)
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a Laplace distribution parameterized by `loc` and :attr:’scale’.
+创建参数化的拉普拉斯分布，参数是 `loc` 和 :attr:’scale’.
 
 例子:
 
@@ -1255,9 +1254,8 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the distribution
-
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布均值
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布scale
 
 
 ```py
@@ -1316,7 +1314,7 @@ class torch.distributions.log_normal.LogNormal(loc, scale, validate_args=None)
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a log-normal distribution parameterized by [`loc`](#torch.distributions.log_normal.LogNormal.loc "torch.distributions.log_normal.LogNormal.loc") and [`scale`](#torch.distributions.log_normal.LogNormal.scale "torch.distributions.log_normal.LogNormal.scale") where:
+ 创建参数化的对数正态分布，参数为 [`loc`](#torch.distributions.log_normal.LogNormal.loc "torch.distributions.log_normal.LogNormal.loc") 和 [`scale`](#torch.distributions.log_normal.LogNormal.scale "torch.distributions.log_normal.LogNormal.scale"):
 
 ```py
 X ~ Normal(loc, scale)
@@ -1335,9 +1333,8 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of log of distribution
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – standard deviation of log of the distribution
-
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布对数平均值
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布对数的标准差
 
 
 ```py
@@ -1384,7 +1381,7 @@ class torch.distributions.lowrank_multivariate_normal.LowRankMultivariateNormal(
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a multivariate normal distribution with covariance matrix having a low-rank form parameterized by `cov_factor` and `cov_diag`:
+使用由`cov_factor`和`cov_diag`参数化的低秩形式的协方差矩阵创建多元正态分布:
 
 ```py
 covariance_matrix = cov_factor @ cov_factor.T + cov_diag
@@ -1402,15 +1399,15 @@ tensor([-0.2102, -0.5429])
 
 参数: 
 
-*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution with shape `batch_shape + event_shape`
-*   **cov_factor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – factor part of low-rank form of covariance matrix with shape `batch_shape + event_shape + (rank,)`
-*   **cov_diag** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – diagonal part of low-rank form of covariance matrix with shape `batch_shape + event_shape`
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的均值，形状为 `batch_shape + event_shape`
+*   **cov_factor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 协方差矩阵低秩形式的因子部分, 形状为 `batch_shape + event_shape + (rank,)`
+*   **cov_diag** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 协方差矩阵的低秩形式的对角部分, 形状为 `batch_shape + event_shape`
 
 
 
-Note
+注意
 
-The computation for determinant and inverse of covariance matrix is avoided when `cov_factor.shape[1] &lt;&lt; cov_factor.shape[0]` thanks to [Woodbury matrix identity](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) and [matrix determinant lemma](https://en.wikipedia.org/wiki/Matrix_determinant_lemma). Thanks to these formulas, we just need to compute the determinant and inverse of the small size “capacitance” matrix:
+避免了协方差矩阵的行列式和逆的计算，当 `cov_factor.shape[1] << cov_factor.shape[0]` 由于 [Woodbury matrix identity](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) 和 [matrix determinant lemma](https://en.wikipedia.org/wiki/Matrix_determinant_lemma).  由于这些公式，我们只需要计算小尺寸“capacitance”矩阵的行列式和逆:
 
 ```py
 capacitance = I + cov_factor.T @ inv(cov_diag) @ cov_factor
@@ -1473,16 +1470,16 @@ class torch.distributions.multinomial.Multinomial(total_count=1, probs=None, log
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a Multinomial distribution parameterized by `total_count` and either [`probs`](#torch.distributions.multinomial.Multinomial.probs "torch.distributions.multinomial.Multinomial.probs") or [`logits`](#torch.distributions.multinomial.Multinomial.logits "torch.distributions.multinomial.Multinomial.logits") (但不是同时都有). The innermost dimension of [`probs`](#torch.distributions.multinomial.Multinomial.probs "torch.distributions.multinomial.Multinomial.probs") indexes over categories. All other dimensions index over batches.
+创建由`total_count`和`probs`或`logits`（但不是两者）参数化的多项式分布。 `probs`的最内层维度是对类别的索引。 所有其他维度索引批次。
 
-Note that `total_count` need not be specified if only [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") is called (see example below)
+注意 `total_count` 不需要指定，当只有 [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") 被调用
 
-Note
+注意
 
-[`probs`](#torch.distributions.multinomial.Multinomial.probs "torch.distributions.multinomial.Multinomial.probs") must be non-negative, finite and have a non-zero sum, and it will be normalized to sum to 1.
+[`probs`](#torch.distributions.multinomial.Multinomial.probs "torch.distributions.multinomial.Multinomial.probs") 必须是非负的、有限的并且具有非零和，并且它将被归一化为和为1.
 
-*   [`sample()`](#torch.distributions.multinomial.Multinomial.sample "torch.distributions.multinomial.Multinomial.sample") requires a single shared `total_count` for all parameters and samples.
-*   [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") allows different `total_count` for each parameter and sample.
+*   [`sample()`](#torch.distributions.multinomial.Multinomial.sample "torch.distributions.multinomial.Multinomial.sample") 所有参数和样本都需要一个共享的`total_count`.
+*   [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob")  允许每个参数和样本使用不同的`total_count`.
 
 例子:
 
@@ -1498,9 +1495,9 @@ tensor([-4.1338])
 
 参数: 
 
-*   **total_count** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of trials
-*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
-*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
+*   **total_count** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 试验次数
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件对数概率
 
 
 
@@ -1552,11 +1549,11 @@ class torch.distributions.multivariate_normal.MultivariateNormal(loc, covariance
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a multivariate normal (also called Gaussian) distribution parameterized by a mean vector and a covariance matrix.
+创建由均值向量和协方差矩阵参数化的多元正态(也称为高斯)分布.
 
-The multivariate normal distribution can be parameterized either in terms of a positive definite covariance matrix ![](img/ea86c11eaef9af2b4d699b88c2474ffd.jpg) or a positive definite precision matrix ![](img/1949bfcc1decf198a2ff50b6e25f4cf6.jpg) or a lower-triangular matrix ![](img/f4996f1b5056dd364eab16f975b808ff.jpg) with positive-valued diagonal entries, such that ![](img/6749b6afc75abfc8e0652ac8e5c0b8d8.jpg). This triangular matrix can be obtained via e.g. Cholesky decomposition of the covariance.
+多元正态分布可以用正定协方差矩阵![](img/ea86c11eaef9af2b4d699b88c2474ffd.jpg)来参数化或者一个正定的精度矩阵 ![](img/1949bfcc1decf198a2ff50b6e25f4cf6.jpg)  或者是一个正对角项的下三角矩阵 ![](img/f4996f1b5056dd364eab16f975b808ff.jpg), 例如 ![](img/6749b6afc75abfc8e0652ac8e5c0b8d8.jpg). 这个三角矩阵可以通过协方差的Cholesky分解得到.
 
-Example
+例子
 
 ```py
 >>> m = MultivariateNormal(torch.zeros(2), torch.eye(2))
@@ -1567,18 +1564,18 @@ tensor([-0.2102, -0.5429])
 
 参数: 
 
-*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
-*   **covariance_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – positive-definite covariance matrix
-*   **precision_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – positive-definite precision matrix
-*   **scale_tril** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – lower-triangular factor of covariance, with positive-valued diagonal
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的均值
+*   **covariance_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 正定协方差矩阵
+*   **precision_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 正定精度矩阵
+*   **scale_tril** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 具有正值对角线的下三角协方差因子
 
 
 
-Note
+注意
 
-Only one of [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") or [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") or [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril") can be specified.
+仅仅一个 [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") 或者 [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") 或者 [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril") 可被指定.
 
-Using [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril") will be more efficient: all computations internally are based on [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril"). If [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") or [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") is passed instead, it is only used to compute the corresponding lower triangular matrices using a Cholesky decomposition.
+使用 [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril")  会更有效率: 内部的所有计算都基于 [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril"). 如果 [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") 或者 [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") 已经被传入, 它仅用于使用Cholesky分解计算相应的下三角矩阵.
 
 ```py
 arg_constraints = {'covariance_matrix': PositiveDefinite(), 'loc': RealVector(), 'precision_matrix': PositiveDefinite(), 'scale_tril': LowerCholesky()}
@@ -1636,13 +1633,13 @@ class torch.distributions.negative_binomial.NegativeBinomial(total_count, probs=
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a Negative Binomial distribution, i.e. distribution of the number of independent identical Bernoulli trials needed before `total_count` failures are achieved. The probability of success of each Bernoulli trial is [`probs`](#torch.distributions.negative_binomial.NegativeBinomial.probs "torch.distributions.negative_binomial.NegativeBinomial.probs").
+创建一个负二项分布，即在达到`total_count`失败之前所需的独立相同伯努利试验的数量的分布。每次伯努利试验成功的概率都是`probs`。
 
 参数: 
 
-*   **total_count** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – non-negative number of negative Bernoulli trials to stop, although the distribution is still valid for real valued count
-*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Event probabilities of success in the half open interval [0, 1)
-*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Event log-odds for probabilities of success
+*   **total_count** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  非负数伯努利试验停止的次数, 虽然分布仍然对实数有效
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率，区间为 [0, 1)
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件对数几率 - 成功概率的几率
 
 
 
@@ -1694,7 +1691,7 @@ class torch.distributions.normal.Normal(loc, scale, validate_args=None)
 
 基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-Creates a normal (also called Gaussian) distribution parameterized by `loc` and `scale`.
+创建由`loc`和`scale`参数化的正态（也称为高斯）分布
 
 例子:
 
@@ -1707,8 +1704,8 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution (often referred to as mu)
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – standard deviation of the distribution (often referred to as sigma)
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 均值 (也被称为 mu)
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 标准差(也被称为) sigma)
 
 
 
@@ -1772,15 +1769,15 @@ class torch.distributions.one_hot_categorical.OneHotCategorical(probs=None, logi
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a one-hot categorical distribution parameterized by [`probs`](#torch.distributions.one_hot_categorical.OneHotCategorical.probs "torch.distributions.one_hot_categorical.OneHotCategorical.probs") or [`logits`](#torch.distributions.one_hot_categorical.OneHotCategorical.logits "torch.distributions.one_hot_categorical.OneHotCategorical.logits").
+创建一个由`probs`或l`ogits`参数化的One Hot Categorical 分布
 
-Samples are one-hot coded vectors of size `probs.size(-1)`.
+样本是大小为 `probs.size(-1)`热编码向量.
 
-Note
+注意
 
-[`probs`](#torch.distributions.one_hot_categorical.OneHotCategorical.probs "torch.distributions.one_hot_categorical.OneHotCategorical.probs") must be non-negative, finite and have a non-zero sum, and it will be normalized to sum to 1.
+`probs`必须是非负的，有限的并且具有非零和，并且它将被归一化为总和为1。
 
-See also: `torch.distributions.Categorical()` for specifications of [`probs`](#torch.distributions.one_hot_categorical.OneHotCategorical.probs "torch.distributions.one_hot_categorical.OneHotCategorical.probs") and [`logits`](#torch.distributions.one_hot_categorical.OneHotCategorical.logits "torch.distributions.one_hot_categorical.OneHotCategorical.logits").
+请参见: `torch.distributions.Categorical()` 对于指定 [`probs`](#torch.distributions.one_hot_categorical.OneHotCategorical.probs "torch.distributions.one_hot_categorical.OneHotCategorical.probs") 和 [`logits`](#torch.distributions.one_hot_categorical.OneHotCategorical.logits "torch.distributions.one_hot_categorical.OneHotCategorical.logits").
 
 例子:
 
@@ -1858,7 +1855,7 @@ class torch.distributions.pareto.Pareto(scale, alpha, validate_args=None)
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Samples from a Pareto Type 1 distribution.
+来自Pareto Type 1分布的样本.
 
 例子:
 
@@ -1871,8 +1868,8 @@ tensor([ 1.5623])
 
 参数: 
 
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of the distribution
-*   **alpha** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Shape parameter of the distribution
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的Scale
+*   **alpha** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的Shape
 
 
 
@@ -1908,9 +1905,9 @@ class torch.distributions.poisson.Poisson(rate, validate_args=None)
 
 基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-Creates a Poisson distribution parameterized by `rate`, the rate parameter.
+创建按`rate`参数化的泊松分布
 
-Samples are nonnegative integers, with a pmf given by
+样本是非负整数，pmf是
 
 ![](img/32c47de57300c954795486fea3201bdc.jpg)
 
@@ -1923,7 +1920,7 @@ tensor([ 3.])
 
 ```
 
-| 参数: | **rate** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the rate parameter |
+| 参数: | **rate** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate 参数 |
 
 
 ```py
@@ -1962,7 +1959,7 @@ class torch.distributions.relaxed_bernoulli.RelaxedBernoulli(temperature, probs=
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a RelaxedBernoulli distribution, parametrized by [`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature"), and either [`probs`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.probs "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.probs") or [`logits`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.logits "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.logits") (但不是同时都有). This is a relaxed version of the `Bernoulli` distribution, so the values are in (0, 1), and has reparametrizable samples.
+创建一个RelaxedBernoulli分布，通过[`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature")参数化，以及`probs`或`logits`（但不是两者）。 这是伯努利分布的松弛版本，因此值在（0,1）中，并且具有可重参数化的样本。
 
 例子:
 
@@ -1976,9 +1973,9 @@ tensor([ 0.2951,  0.3442,  0.8918,  0.9021])
 
 参数: 
 
-*   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
-*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`
-*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`
+*   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 松弛 temperature
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –采样 `1` 的概率
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 采样 `1` 的对数概率
 
 
 
@@ -2018,7 +2015,7 @@ class torch.distributions.relaxed_categorical.RelaxedOneHotCategorical(temperatu
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Creates a RelaxedOneHotCategorical distribution parametrized by [`temperature`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical.temperature "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical.temperature"), and either [`probs`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical.probs "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical.probs") or [`logits`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical.logits "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical.logits"). This is a relaxed version of the `OneHotCategorical` distribution, so its samples are on simplex, and are reparametrizable.
+创建一个由温度参数化的`RelaxedOneHotCategorical`分布，以及`probs`或`logits`。 这是`OneHotCategorical`分布的松弛版本，因此它的样本是单一的，并且可以重参数化。
 
 例子:
 
@@ -2032,9 +2029,9 @@ tensor([ 0.1294,  0.2324,  0.3859,  0.2523])
 
 参数: 
 
-*   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
-*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
-*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log probability of each event.
+*   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 松弛 temperature
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –对数事件概率.
 
 
 
@@ -2074,7 +2071,7 @@ class torch.distributions.studentT.StudentT(df, loc=0.0, scale=1.0, validate_arg
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Creates a Student’s t-distribution parameterized by degree of freedom `df`, mean `loc` and scale `scale`.
+根据自由度`df`，平均`loc`和`scale`创建学生t分布。
 
 例子:
 
@@ -2087,9 +2084,9 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **df** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – degrees of freedom
-*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the distribution
+*   **df** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 自由度
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 均值
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的scale
 
 
 
@@ -2137,7 +2134,7 @@ class torch.distributions.transformed_distribution.TransformedDistribution(base_
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Extension of the Distribution class, which applies a sequence of Transforms to a base distribution. Let f be the composition of transforms applied:
+Distribution类的扩展，它将一系列变换应用于基本分布。假设f是所应用变换的组成:
 
 ```py
 X ~ BaseDistribution
@@ -2146,9 +2143,9 @@ log p(Y) = log p(X) + log |det (dX/dY)|
 
 ```
 
-Note that the `.event_shape` of a [`TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution") is the maximum shape of its base distribution and its transforms, since transforms can introduce correlations among events.
+注意 `.event_shape` of a [`TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution") 是其基本分布及其变换的最大形状，因为变换可以引入事件之间的相关性.
 
-An example for the usage of [`TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution") would be:
+一个使用例子 [`TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution"):
 
 ```py
 # Building a Logistic Distribution
@@ -2161,7 +2158,7 @@ logistic = TransformedDistribution(base_distribution, transforms)
 
 ```
 
-For more examples, please look at the implementations of [`Gumbel`](#torch.distributions.gumbel.Gumbel "torch.distributions.gumbel.Gumbel"), [`HalfCauchy`](#torch.distributions.half_cauchy.HalfCauchy "torch.distributions.half_cauchy.HalfCauchy"), [`HalfNormal`](#torch.distributions.half_normal.HalfNormal "torch.distributions.half_normal.HalfNormal"), [`LogNormal`](#torch.distributions.log_normal.LogNormal "torch.distributions.log_normal.LogNormal"), [`Pareto`](#torch.distributions.pareto.Pareto "torch.distributions.pareto.Pareto"), [`Weibull`](#torch.distributions.weibull.Weibull "torch.distributions.weibull.Weibull"), [`RelaxedBernoulli`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli "torch.distributions.relaxed_bernoulli.RelaxedBernoulli") and [`RelaxedOneHotCategorical`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical")
+有关更多示例，请查看有关实现 [`Gumbel`](#torch.distributions.gumbel.Gumbel "torch.distributions.gumbel.Gumbel"), [`HalfCauchy`](#torch.distributions.half_cauchy.HalfCauchy "torch.distributions.half_cauchy.HalfCauchy"), [`HalfNormal`](#torch.distributions.half_normal.HalfNormal "torch.distributions.half_normal.HalfNormal"), [`LogNormal`](#torch.distributions.log_normal.LogNormal "torch.distributions.log_normal.LogNormal"), [`Pareto`](#torch.distributions.pareto.Pareto "torch.distributions.pareto.Pareto"), [`Weibull`](#torch.distributions.weibull.Weibull "torch.distributions.weibull.Weibull"), [`RelaxedBernoulli`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli "torch.distributions.relaxed_bernoulli.RelaxedBernoulli") 和 [`RelaxedOneHotCategorical`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical")
 
 ```py
 arg_constraints = {}
@@ -2171,7 +2168,7 @@ arg_constraints = {}
 cdf(value)
 ```
 
-Computes the cumulative distribution function by inverting the transform(s) and computing the score of the base distribution.
+通过逆变换和计算基分布的分数来计算累积分布函数.
 
 ```py
 expand(batch_shape, _instance=None)
@@ -2185,25 +2182,25 @@ has_rsample
 icdf(value)
 ```
 
-Computes the inverse cumulative distribution function using transform(s) and computing the score of the base distribution.
+使用transform(s)计算逆累积分布函数，并计算基分布的分数.
 
 ```py
 log_prob(value)
 ```
 
-Scores the sample by inverting the transform(s) and computing the score using the score of the base distribution and the log abs det jacobian.
+通过反转变换并使用基本分布的分数和日志abs det jacobian计算分数来对样本进行评分
 
 ```py
 rsample(sample_shape=torch.Size([]))
 ```
 
-Generates a sample_shape shaped reparameterized sample or sample_shape shaped batch of reparameterized samples if the distribution parameters are batched. Samples first from base distribution and applies `transform()` for every transform in the list.
+如果分布参数是批处理的，则生成sample_shape形状的重新参数化样本或sample_shape形状的重新参数化样本批次。 首先从基本分布中采样，并对列表中的每个变换应用`transform()`
 
 ```py
 sample(sample_shape=torch.Size([]))
 ```
 
-Generates a sample_shape shaped sample or sample_shape shaped batch of samples if the distribution parameters are batched. Samples first from base distribution and applies `transform()` for every transform in the list.
+如果分布参数是批处理的，则生成sample_shape形样本或sample_shape形样本批处理。 首先从基本分布中采样，并对列表中的每个变换应用`transform()`。
 
 ```py
 support
@@ -2217,7 +2214,8 @@ class torch.distributions.uniform.Uniform(low, high, validate_args=None)
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Generates uniformly distributed random samples from the half-open interval `[low, high)`.
+
+从半开区间`[low, high)`生成均匀分布的随机样本
 
 例子:
 
@@ -2230,9 +2228,8 @@ tensor([ 2.3418])
 
 参数: 
 
-*   **low** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – lower range (inclusive).
-*   **high** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – upper range (exclusive).
-
+*   **low** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  下限（含）.
+*   **high** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 上限(排除).
 
 
 ```py
@@ -2291,7 +2288,7 @@ class torch.distributions.weibull.Weibull(scale, concentration, validate_args=No
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-Samples from a two-parameter Weibull distribution.
+来自双参数Weibull分布的样本.
 
 Example
 
@@ -2304,8 +2301,8 @@ tensor([ 0.4784])
 
 参数: 
 
-*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of distribution (lambda).
-*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Concentration parameter of distribution (k/shape).
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale (lambda).
+*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Concentration (k/shape).
 
 
 
@@ -2339,28 +2336,28 @@ variance
 torch.distributions.kl.kl_divergence(p, q)
 ```
 
-Compute Kullback-Leibler divergence ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg) between two distributions.
+计算Kullback-Leibler散度 ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg) 对于两个分布.
 
 ![](img/ff8dcec3abe559720f8b0b464d2471b2.jpg)
 
 参数: 
 
-*   **p** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – A `Distribution` object.
-*   **q** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – A `Distribution` object.
+*   **p** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – `Distribution` 对象.
+*   **q** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – `Distribution` 对象.
 
 
-| 返回值: | A batch of KL divergences of shape `batch_shape`. |
+| 返回值: | 批量的 KL 散度，形状为 `batch_shape`. |
 
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
+| 返回类型： | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
 
-| Raises: | [`NotImplementedError`](https://docs.python.org/3/library/exceptions.html#NotImplementedError "(in Python v3.7)") – If the distribution types have not been registered via [`register_kl()`](#torch.distributions.kl.register_kl "torch.distributions.kl.register_kl"). |
+| 异常: | [`NotImplementedError`](https://docs.python.org/3/library/exceptions.html#NotImplementedError "(in Python v3.7)") – 如果分布类型尚未通过注册 [`register_kl()`](#torch.distributions.kl.register_kl "torch.distributions.kl.register_kl"). |
 
 
 ```py
 torch.distributions.kl.register_kl(type_p, type_q)
 ```
 
-Decorator to register a pairwise function with [`kl_divergence()`](#torch.distributions.kl.kl_divergence "torch.distributions.kl.kl_divergence"). Usage:
+装饰器注册[`kl_divergence()`](#torch.distributions.kl.kl_divergence "torch.distributions.kl.kl_divergence")的成对函数
 
 ```py
 @register_kl(Normal, Normal)
@@ -2369,7 +2366,7 @@ def kl_normal_normal(p, q):
 
 ```
 
-Lookup returns the most specific (type,type) match ordered by subclass. If the match is ambiguous, a `RuntimeWarning` is raised. For example to resolve the ambiguous situation:
+Lookup返回由子类排序的最具体(type,type)匹配。 如果匹配不明确，则会引发`RuntimeWarning`。 例如，解决模棱两可的情况
 
 ```py
 @register_kl(BaseP, DerivedQ)
@@ -2379,7 +2376,7 @@ def kl_version2(p, q): ...
 
 ```
 
-you should register a third most-specific implementation, e.g.:
+你应该注册第三个最具体的实现, 例如:
 
 ```py
 register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
@@ -2388,8 +2385,8 @@ register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
 
 参数: 
 
-*   **type_p** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – A subclass of `Distribution`.
-*   **type_q** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – A subclass of `Distribution`.
+*   **type_p** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – 子类 `Distribution`.
+*   **type_q** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – 子类 `Distribution`.
 
 
 
