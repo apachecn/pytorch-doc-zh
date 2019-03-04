@@ -2423,74 +2423,73 @@ grad(z.sum(), [y])  # error because z is x
 
 *   **domain** ([`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) –  表示该变换有效输入的约束.
 *   **codomain** ([`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) – 表示此转换的有效输出的约束, 这些输出是逆变换的输入.
-*   **bijective** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Whether this transform is bijective. A transform `t` is bijective iff `t.inv(t(x)) == x` and `t(t.inv(y)) == y` for every `x` in the domain and `y` in the codomain. Transforms that are not bijective should at least maintain the weaker pseudoinverse properties `t(t.inv(t(x)) == t(x)` and `t.inv(t(t.inv(y))) == t.inv(y)`.
+*   **bijective** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  这个变换是否是双射的. 变换 `t` 是双射的 如果 `t.inv(t(x)) == x` 并且 `t(t.inv(y)) == y` 对于每一个 `x` 和 `y`. 不是双射的变形应该至少保持较弱的伪逆属性 `t(t.inv(t(x)) == t(x)` and `t.inv(t(t.inv(y))) == t.inv(y)`.
 *   **sign** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 对于双射单变量变换, 它应该是+1或-1, 这取决于变换是单调递增还是递减.
 *   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 变换event_shape中相关的维数.  这对于逐点变换应该是0, 对于在矢量上共同作用的变换是1, 对于在矩阵上共同作用的变换是2, 等等.
-
 
 
 ```py
 inv
 ```
 
-Returns the inverse [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") of this transform. This should satisfy `t.inv.inv is t`.
+返回逆[`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform"). 满足 `t.inv.inv is t`.
 
 ```py
 sign
 ```
 
-Returns the sign of the determinant of the Jacobian, if applicable. In general this only makes sense for bijective transforms.
+如果适用, 返回雅可比行列式的符号.  一般来说, 这只适用于双射变换.
 
 ```py
 log_abs_det_jacobian(x, y)
 ```
 
-Computes the log det jacobian `log |dy/dx|` given input and output.
+计算 log det jacobian `log |dy/dx|` 给定输入和输出.
 
 ```py
 class torch.distributions.transforms.ComposeTransform(parts)
 ```
 
-Composes multiple transforms in a chain. The transforms being composed are responsible for caching.
+在一个链中组合多个转换. 正在组合的转换负责缓存.
 
-| 参数: | **parts** (list of [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform")) – A list of transforms to compose. |
+| 参数: | **parts** (list of [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform")) – 列表 transforms. |
 
 
 ```py
 class torch.distributions.transforms.ExpTransform(cache_size=0)
 ```
 
-Transform via the mapping ![](img/ec8d939394f24908d017d86153e312ea.jpg).
+转换通过映射 ![](img/ec8d939394f24908d017d86153e312ea.jpg).
 
 ```py
 class torch.distributions.transforms.PowerTransform(exponent, cache_size=0)
 ```
 
-Transform via the mapping ![](img/2062af7179e0c19c3599816de6768cee.jpg).
+转换通过映射 ![](img/2062af7179e0c19c3599816de6768cee.jpg).
 
 ```py
 class torch.distributions.transforms.SigmoidTransform(cache_size=0)
 ```
 
-Transform via the mapping ![](img/749abef3418941161a1c6ff80d9eae76.jpg) and ![](img/6feb73eb74f2267e5caa87d9693362cb.jpg).
+转换通过映射 ![](img/749abef3418941161a1c6ff80d9eae76.jpg) and ![](img/6feb73eb74f2267e5caa87d9693362cb.jpg).
 
 ```py
 class torch.distributions.transforms.AbsTransform(cache_size=0)
 ```
 
-Transform via the mapping ![](img/dca0dc2e17c81b7ec261e70549de5507.jpg).
+转换通过映射 ![](img/dca0dc2e17c81b7ec261e70549de5507.jpg).
 
 ```py
 class torch.distributions.transforms.AffineTransform(loc, scale, event_dim=0, cache_size=0)
 ```
 
-Transform via the pointwise affine mapping ![](img/e1df459e7ff26d682fc956b62868f7c4.jpg).
+通过逐点仿射映射![](img/e1df459e7ff26d682fc956b62868f7c4.jpg)进行转换 .
 
 参数: 
 
-*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Location parameter.
-*   **scale** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Scale parameter.
-*   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Optional size of `event_shape`. This should be zero for univariate random variables, 1 for distributions over vectors, 2 for distributions over matrices, etc.
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Location.
+*   **scale** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Scale.
+*   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 可选的 `event_shape` 大小. T对于单变量随机变量, 该值应为零, 对于矢量分布, 1应为零, 对于矩阵的分布, 应为2.
 
 
 
@@ -2498,27 +2497,27 @@ Transform via the pointwise affine mapping ![](img/e1df459e7ff26d682fc956b62868f
 class torch.distributions.transforms.SoftmaxTransform(cache_size=0)
 ```
 
-Transform from unconstrained space to the simplex via ![](img/ec8d939394f24908d017d86153e312ea.jpg) then normalizing.
+从无约束空间到单纯形的转换, 通过 ![](img/ec8d939394f24908d017d86153e312ea.jpg) 然后归一化.
 
-This is not bijective and cannot be used for HMC. However this acts mostly coordinate-wise (except for the final normalization), and thus is appropriate for coordinate-wise optimization algorithms.
+这不是双射的, 不能用于HMC.  然而, 这主要是协调的（除了最终的归一化）, 因此适合于坐标方式的优化算法. 
 
 ```py
 class torch.distributions.transforms.StickBreakingTransform(cache_size=0)
 ```
 
-Transform from unconstrained space to the simplex of one additional dimension via a stick-breaking process.
+将无约束空间通过 stick-breaking 过程转化为一个额外维度的单纯形. 
 
-This transform arises as an iterated sigmoid transform in a stick-breaking construction of the `Dirichlet` distribution: the first logit is transformed via sigmoid to the first probability and the probability of everything else, and then the process recurses.
+这种变换是`Dirichlet`分布的破棒构造中的迭代sigmoid变换:第一个逻辑通过sigmoid变换成第一个概率和所有其他概率, 然后这个过程重复出现. 
 
-This is bijective and appropriate for use in HMC; however it mixes coordinates together and is less appropriate for optimization.
+这是双射的, 适合在HMC中使用; 然而, 它将坐标混合在一起, 不太适合优化.
 
 ```py
 class torch.distributions.transforms.LowerCholeskyTransform(cache_size=0)
 ```
 
-Transform from unconstrained matrices to lower-triangular matrices with nonnegative diagonal entries.
+将无约束矩阵转换为具有非负对角项的下三角矩阵.
 
-This is useful for parameterizing positive definite matrices in terms of their Cholesky factorization.
+这对于根据Cholesky分解来参数化正定矩阵是有用的.
 
 ## `Constraints`
 
@@ -2544,15 +2543,15 @@ The following constraints are implemented:
 class torch.distributions.constraints.Constraint
 ```
 
-Abstract base class for constraints.
+constraints 的抽象基类.
 
-A constraint object represents a region over which a variable is valid, e.g. within which a variable can be optimized.
+constraint对象表示变量有效的区域, 例如,  其中可以优化变量
 
 ```py
 check(value)
 ```
 
-Returns a byte tensor of `sample_shape + batch_shape` indicating whether each event in value satisfies this constraint.
+返回一个字节张量 `sample_shape + batch_shape` 指示值中的每个事件是否满足此约束.
 
 ```py
 torch.distributions.constraints.dependent_property
@@ -2598,12 +2597,12 @@ alias of `torch.distributions.constraints._HalfOpenInterval`
 
 ## `Constraint Registry`
 
-PyTorch provides two global [`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry") objects that link [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") objects to [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") objects. These objects both input constraints and return transforms, but they have different guarantees on bijectivity.
+PyTorch 提供两个全局 [`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry") 对象 , 链接 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 对象到 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 对象. 这些对象既有输入约束, 也有返回变换, 但是它们对双射性有不同的保证.
 
-1.  `biject_to(constraint)` looks up a bijective [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") from `constraints.real` to the given `constraint`. The returned transform is guaranteed to have `.bijective = True` and should implement `.log_abs_det_jacobian()`.
-2.  `transform_to(constraint)` looks up a not-necessarily bijective [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") from `constraints.real` to the given `constraint`. The returned transform is not guaranteed to implement `.log_abs_det_jacobian()`.
+1.  `biject_to(constraint)`  查找一个双射的 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 从 `constraints.real` 到给定的 `constraint`.  返回的转换保证具有 `.bijective = True` 并且应该实现了 `.log_abs_det_jacobian()`.
+2.  `transform_to(constraint)` 查找一个不一定是双射的 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 从 `constraints.real` 到给定的 `constraint`. 返回的转换不保证实现 `.log_abs_det_jacobian()`.
 
-The `transform_to()` registry is useful for performing unconstrained optimization on constrained parameters of probability distributions, which are indicated by each distribution’s `.arg_constraints` dict. These transforms often overparameterize a space in order to avoid rotation; they are thus more suitable for coordinate-wise optimization algorithms like Adam:
+`transform_to()`注册表对于对概率分布的约束参数执行无约束优化非常有用, 这些参数由每个分布的`.arg_constraints`指示.  这些变换通常会过度参数化空间以避免旋转; 因此, 它们更适合像Adam那样的坐标优化算法
 
 ```py
 loc = torch.zeros(100, requires_grad=True)
@@ -2613,7 +2612,7 @@ loss = -Normal(loc, scale).log_prob(data).sum()
 
 ```
 
-The `biject_to()` registry is useful for Hamiltonian Monte Carlo, where samples from a probability distribution with constrained `.support` are propagated in an unconstrained space, and algorithms are typically rotation invariant.:
+`biject_to()` 注册表对于Hamiltonian Monte Carlo非常有用, 其中来自具有约束. `.support`的概率分布的样本在无约束空间中传播, 并且算法通常是旋转不变的
 
 ```py
 dist = Exponential(rate)
@@ -2623,18 +2622,18 @@ potential_energy = -dist.log_prob(sample).sum()
 
 ```
 
-Note
+注意
 
-An example where `transform_to` and `biject_to` differ is `constraints.simplex`: `transform_to(constraints.simplex)` returns a [`SoftmaxTransform`](#torch.distributions.transforms.SoftmaxTransform "torch.distributions.transforms.SoftmaxTransform") that simply exponentiates and normalizes its inputs; this is a cheap and mostly coordinate-wise operation appropriate for algorithms like SVI. In contrast, `biject_to(constraints.simplex)` returns a [`StickBreakingTransform`](#torch.distributions.transforms.StickBreakingTransform "torch.distributions.transforms.StickBreakingTransform") that bijects its input down to a one-fewer-dimensional space; this a more expensive less numerically stable transform but is needed for algorithms like HMC.
+一个 `transform_to` 和 `biject_to` 不同的例子是 `constraints.simplex`: `transform_to(constraints.simplex)` 返回一个 [`SoftmaxTransform`](#torch.distributions.transforms.SoftmaxTransform "torch.distributions.transforms.SoftmaxTransform") 简单地对其输入进行指数化和归一化;  这是一种廉价且主要是坐标的操作, 适用于像SVI这样的算法. 相反, `biject_to(constraints.simplex)` 返回一个 [`StickBreakingTransform`](#torch.distributions.transforms.StickBreakingTransform "torch.distributions.transforms.StickBreakingTransform") 将其输入生成一个较小维度的空间; 这是一种更昂贵的数值更少的数值稳定的变换, 但对于像HM​​C这样的算法是必需的. 
 
-The `biject_to` and `transform_to` objects can be extended by user-defined constraints and transforms using their `.register()` method either as a function on singleton constraints:
+`biject_to` 和 `transform_to` 对象可以通过用户定义的约束进行扩展, 并使用`.register()`方法进行转换, 作为单例约束的函数
 
 ```py
 transform_to.register(my_constraint, my_transform)
 
 ```
 
-or as a decorator on parameterized constraints:
+或作为参数化约束的装饰器:
 
 ```py
 @transform_to.register(MyConstraintClass)
@@ -2644,19 +2643,19 @@ def my_factory(constraint):
 
 ```
 
-You can create your own registry by creating a new [`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry") object.
+ 您可以通过创建新的[`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry")创建自己的注册表.
 
 ```py
 class torch.distributions.constraint_registry.ConstraintRegistry
 ```
 
-Registry to link constraints to transforms.
+注册表, 将约束链接到转换.
 
 ```py
 register(constraint, factory=None)
 ```
 
-Registers a [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") subclass in this registry. Usage:
+在此注册表注册一个 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 子类. 用法:
 
 ```py
 @my_registry.register(MyConstraintClass)
@@ -2668,8 +2667,8 @@ def construct_transform(constraint):
 
 参数: 
 
-*   **constraint** (subclass of [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) – A subclass of [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint"), or a singleton object of the desired class.
-*   **factory** (_callable_) – A callable that inputs a constraint object and returns a [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") object.
+*   **constraint** (subclass of [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) –  [`Constraint`]的子类(#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint"), 或者派生类的对象.
+*   **factory** (_callable_) – 可调用对象, 输入 constraint 对象返回 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 对象.
 
 
 
