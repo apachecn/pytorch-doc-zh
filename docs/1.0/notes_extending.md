@@ -1,8 +1,6 @@
-
-
-
 # 扩展PyTorch
 
+> 译者：[PEGASUS1993](https://github.com/PEGASUS1993)
 
 本章中，将要介绍使用我们的C库如何扩展`torch.nn`，`torch.autograd`和编写自定义的`C`扩展工具。
 
@@ -151,9 +149,7 @@ class Linear(nn.Module):
 ### 编写自定义的C++扩展  
 
 有关详细说明和示例，请参阅此[PyTorch教程](https://pytorch.org/tutorials/advanced/cpp_extension.html)。
-文档可在t[orch.utils.cpp_extension](../cpp_extension.html).获得。
+文档可在[torch.utils.cpp_extension](../cpp_extension.html).获得。
 ### 编写自定义的C扩展
 
 可用示例可以在[这个Github](https://github.com/pytorch/extension-ffi)仓库里面查看参考。
-
-
