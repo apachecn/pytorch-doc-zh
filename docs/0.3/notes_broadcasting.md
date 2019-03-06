@@ -1,5 +1,9 @@
 # 广播语义
 
+> 译者：[@谢家柯](https://github.com/kelisiya)
+> 
+> [@Twinkle](https://github.com/kemingzeng)
+
 一些 PyTorch 的操作支持基于 [`NumPy Broadcasting Semantics`](https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html#module-numpy.doc.broadcasting "(in NumPy v1.14)").
 
 简而言之, 如果一个 PyTorch 操作支持广播语义, 那么它的张量参数可以自动扩展为相同的大小 (不需要复制数据)

@@ -1,5 +1,9 @@
 # torch.onnx
 
+> 译者：[@Haofan Wang](https://github.com/haofanwang)
+> 
+> 校对者：[@aleczhang](http://community.apachecn.org/?/people/aleczhang)
+
 torch.onnx 模块可以将模型导出成 ONNX IR 形式.被导出的模型可以通过 ONNX 库被重新导入, 然后转化为可以在其它的深度学习框架上运行的模型.
 
 ## 示例:从Pytorch到Caffe2的端对端AlexNet模型

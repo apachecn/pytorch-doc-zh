@@ -1,31 +1,31 @@
 
 
-# Neural Transfer Using PyTorch
+# 使用PyTorch进行图像风格转换
 
-**Author**: [Alexis Jacq](https://alexis-jacq.github.io)
+> 译者：[bdqfork](https://github.com/bdqfork)
 
-**Edited by**: [Winston Herring](https://github.com/winston6)
+**作者**: [Alexis Jacq](https://alexis-jacq.github.io)
 
-## Introduction
+## 简介
 
-This tutorial explains how to implement the [Neural-Style algorithm](https://arxiv.org/abs/1508.06576) developed by Leon A. Gatys, Alexander S. Ecker and Matthias Bethge. Neural-Style, or Neural-Transfer, allows you to take an image and reproduce it with a new artistic style. The algorithm takes three images, an input image, a content-image, and a style-image, and changes the input to resemble the content of the content-image and the artistic style of the style-image.
+本教程主要讲解如何实现由Leon A. Gatys，Alexander S. Ecker和Matthias Bethge提出的 [Neural-Style 算法](https://arxiv.org/abs/1508.06576)。Neural-Style或者叫Neural-Transfer，可以让你使用一种新的风格将指定的图片进行重构。这个算法使用三张图片，一张输入图片，一张内容图片和一张风格图片，并将输入的图片变得与内容图片相似，且拥有风格图片的优美风格。
 
 ![content1](img/9e391afbc4d6554a08722fbf6b6cd4c8.jpg)
 
-## Underlying Principle
+## 基本原理
 
-The principle is simple: we define two distances, one for the content (`\(D_C\)`) and one for the style (`\(D_S\)`). `\(D_C\)` measures how different the content is between two images while `\(D_S\)` measures how different the style is between two images. Then, we take a third image, the input, and transform it to minimize both its content-distance with the content-image and its style-distance with the style-image. Now we can import the necessary packages and begin the neural transfer.
+原理很简单：我们定义两个间距，一个用于内容`D_C`，另一个用于风格`D_S`。`D_C`测量两张图片内容的不同，而`D_S`用来测量两张图片风格的不同。然后，我们输入第三张图片，并改变这张图片，使其与内容图片的内容间距和风格图片的风格间距最小化。现在，我们可以导入必要的包，开始图像风格转换。
 
-## Importing Packages and Selecting a Device
+## 导包并选择设备
 
-Below is a list of the packages needed to implement the neural transfer.
+下面是一张实现图像风格转换所需包的清单。
 
-*   `torch`, `torch.nn`, `numpy` (indispensables packages for neural networks with PyTorch)
-*   `torch.optim` (efficient gradient descents)
-*   `PIL`, `PIL.Image`, `matplotlib.pyplot` (load and display images)
-*   `torchvision.transforms` (transform PIL images into tensors)
-*   `torchvision.models` (train or load pre-trained models)
-*   `copy` (to deep copy the models; system package)
+*   `torch`, `torch.nn`, `numpy` (使用PyTorch进行风格转换必不可少的包)
+*   `torch.optim` (高效的梯度下降)
+*   `PIL`, `PIL.Image`, `matplotlib.pyplot` (加载和展示图片)
+*   `torchvision.transforms` (将PIL图片转换成张量)
+*   `torchvision.models` (训练或加载预训练模型)
+*   `copy` (对模型进行深度拷贝；系统包)
 
 ```py
 from __future__ import print_function
@@ -45,20 +45,19 @@ import copy
 
 ```
 
-Next, we need to choose which device to run the network on and import the content and style images. Running the neural transfer algorithm on large images takes longer and will go much faster when running on a GPU. We can use `torch.cuda.is_available()` to detect if there is a GPU available. Next, we set the `torch.device` for use throughout the tutorial. Also the `.to(device)` method is used to move tensors or modules to a desired device.
+下一步，我们选择用哪一个设备来运行神经网络，导入内容和风格图片。在大量图片上运行图像风格算法需要很长时间，在GPU上运行可以加速。我们可以使用`torch.cuda.is_available()`来判断是否有可用的GPU。下一步，我们在整个教程中使用 `torch.device` 。 `.to(device)` 方法也被用来将张量或者模型移动到指定设备。
 
 ```py
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 ```
 
-## Loading the Images
+## 加载图片
 
-Now we will import the style and content images. The original PIL images have values between 0 and 255, but when transformed into torch tensors, their values are converted to be between 0 and 1\. The images also need to be resized to have the same dimensions. An important detail to note is that neural networks from the torch library are trained with tensor values ranging from 0 to 1\. If you try to feed the networks with 0 to 255 tensor images, then the activated feature maps will be unable sense the intended content and style. However, pre-trained networks from the Caffe library are trained with 0 to 255 tensor images.
+现在我们将导入风格和内容图片。原始的PIL图片的值介于0到255之间，但是当转换成torch张量时，它们的值被转换成0到1之间。图片也需要被重设成相同的维度。一个重要的细节是，注意torch库中的神经网络用来训练的张量的值为0到1之间。如果你尝试将0到255的张量图片加载到神经网络，然后激活的特征映射将不能侦测到目标内容和风格。然而，Caffe库中的预训练网络用来训练的张量值为0到255之间的图片。
 
-Note
+**注意**
 
-Here are links to download the images required to run the tutorial: [picasso.jpg](https://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg) and [dancing.jpg](https://pytorch.org/tutorials/_static/img/neural-style/dancing.jpg). Download these two images and add them to a directory with name `images` in your current working directory.
+这是一个下载本教程需要用到的图片的链接： [picasso.jpg](https://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg) 和 [dancing.jpg](https://pytorch.org/tutorials/_static/img/neural-style/dancing.jpg)。下载这两张图片并且将它们添加到你当前工作目录中的 `images` 文件夹。
 
 ```py
 # desired size of the output image
@@ -82,7 +81,7 @@ assert style_img.size() == content_img.size(), \
 
 ```
 
-Now, let’s create a function that displays an image by reconverting a copy of it to PIL format and displaying the copy using `plt.imshow`. We will try displaying the content and style images to ensure they were imported correctly.
+现在，让我们创建一个方法，通过重新将图片转换成PIL格式来展示，并使用`plt.imshow`展示它的拷贝。我们将尝试展示内容和风格图片来确保它们被正确的导入。
 
 ```py
 unloader = transforms.ToPILImage()  # reconvert into PIL image
@@ -109,13 +108,13 @@ imshow(content_img, title='Content Image')
 *   ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png](img/e178f5ca9ae2ab8c25c7422b15a30c8b.jpg)
 *   ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png](img/a6e4faa1c21617842b01bae3538bb6f5.jpg)
 
-## Loss Functions
+## 损失函数
 
-### Content Loss
+### 内容损失
 
-The content loss is a function that represents a weighted version of the content distance for an individual layer. The function takes the feature maps `\(F_{XL}\)` of a layer `\(L\)` in a network processing input `\(X\)` and returns the weighted content distance `\(w_{CL}.D_C^L(X,C)\)` between the image `\(X\)` and the content image `\(C\)`. The feature maps of the content image(`\(F_{CL}\)`) must be known by the function in order to calculate the content distance. We implement this function as a torch module with a constructor that takes `\(F_{CL}\)` as an input. The distance `\(\|F_{XL} - F_{CL}\|^2\)` is the mean square error between the two sets of feature maps, and can be computed using `nn.MSELoss`.
+内容损失是一个表示一层内容间距的加权版本。这个方法使用网络中的L层的特征映射`F_XL`，该网络处理输入X并返回在图片X和内容图片C之间的加权内容间距`W_CL*D_C^L(X,C)`。该方法必须知道内容图片（`F_CL`）的特征映射来计算内容间距。我们使用一个以`F_CL`作为构造参数输入的torch模型来实现这个方法。间距`||F_XL-F_CL||^2`是两个特征映射集合之间的平均方差，可以使用`nn.MSELoss`来计算。
 
-We will add this content loss module directly after the convolution layer(s) that are being used to compute the content distance. This way each time the network is fed an input image the content losses will be computed at the desired layers and because of auto grad, all the gradients will be computed. Now, in order to make the content loss layer transparent we must define a `forward` method that computes the content loss and then returns the layer’s input. The computed loss is saved as a parameter of the module.
+我们将直接添加这个内容损失模型到被用来计算内容间距的卷积层之后。这样每一次输入图片到网络中时，内容损失都会在目标层被计算。而且因为自动求导的缘故，所有的梯度都会被计算。现在，为了使内容损失层透明化，我们必须定义一个`forward`方法来计算内容损失，同时返回该层的输入。计算的损失作为模型的参数被保存。
 
 ```py
 class ContentLoss(nn.Module):
@@ -134,15 +133,15 @@ class ContentLoss(nn.Module):
 
 ```
 
-Note
+**注意**
 
-**Important detail**: although this module is named `ContentLoss`, it is not a true PyTorch Loss function. If you want to define your content loss as a PyTorch Loss function, you have to create a PyTorch autograd function to recompute/implement the gradient manually in the `backward` method.
+**重要细节**：尽管这个模型的名称被命名为 `ContentLoss`, 它不是一个真实的PyTorch损失方法。如果你想要定义你的内容损失为PyTorch Loss方法，你必须创建一个PyTorch自动求导方法来手动的在`backward`方法中重计算/实现梯度.
 
-### Style Loss
+### 风格损失
 
-The style loss module is implemented similarly to the content loss module. It will act as a transparent layer in a network that computes the style loss of that layer. In order to calculate the style loss, we need to compute the gram matrix `\(G_{XL}\)`. A gram matrix is the result of multiplying a given matrix by its transposed matrix. In this application the given matrix is a reshaped version of the feature maps `\(F_{XL}\)` of a layer `\(L\)`. `\(F_{XL}\)` is reshaped to form `\(\hat{F}_{XL}\)`, a `\(K\)`x`\(N\)` matrix, where `\(K\)` is the number of feature maps at layer `\(L\)` and `\(N\)` is the length of any vectorized feature map `\(F_{XL}^k\)`. For example, the first line of `\(\hat{F}_{XL}\)` corresponds to the first vectorized feature map `\(F_{XL}^1\)`.
+风格损失模型与内容损失模型的实现方法类似。它要作为一个网络中的透明层，来计算相应层的风格损失。为了计算风格损失，我们需要计算Gram矩阵`G_XL`。Gram矩阵是将给定矩阵和它的转置矩阵的乘积。在这个应用中，给定的矩阵是L层特征映射`F_XL`的重塑版本。`F_XL`被重塑成` F̂_XL`，一个*KxN*的矩阵，其中K是L层特征映射的数量，N是任何向量化特征映射`F_XL^K`的长度。例如，第一行的`F̂_XL`与第一个向量化的`F_XL^1`。
 
-Finally, the gram matrix must be normalized by dividing each element by the total number of elements in the matrix. This normalization is to counteract the fact that `\(\hat{F}_{XL}\)` matrices with a large `\(N\)` dimension yield larger values in the Gram matrix. These larger values will cause the first layers (before pooling layers) to have a larger impact during the gradient descent. Style features tend to be in the deeper layers of the network so this normalization step is crucial.
+最后，Gram矩阵必须通过将每一个元素除以矩阵中所有元素的数量进行标准化。标准化是为了消除拥有很大的N维度`F̂_XL`在Gram矩阵中产生的很大的值。这些很大的值将在梯度下降的时候，对第一层（在池化层之前）产生很大的影响。风格特征往往在网络中更深的层，所以标准化步骤是很重要的。
 
 ```py
 def gram_matrix(input):
@@ -160,7 +159,7 @@ def gram_matrix(input):
 
 ```
 
-Now the style loss module looks almost exactly like the content loss module. The style distance is also computed using the mean square error between `\(G_{XL}\)` and `\(G_{SL}\)`.
+现在风格损失模型看起来和内容损失模型很像。风格间距也用`G_XL`和`G_SL`之间的均方差来计算。
 
 ```py
 class StyleLoss(nn.Module):
@@ -176,18 +175,18 @@ class StyleLoss(nn.Module):
 
 ```
 
-## Importing the Model
+## 导入模型
 
-Now we need to import a pre-trained neural network. We will use a 19 layer VGG network like the one used in the paper.
+现在我们需要导入预训练的神经网络。我们将使用19层的VGG网络，就像论文中使用的一样。
 
-PyTorch’s implementation of VGG is a module divided into two child `Sequential` modules: `features` (containing convolution and pooling layers), and `classifier` (containing fully connected layers). We will use the `features` module because we need the output of the individual convolution layers to measure content and style loss. Some layers have different behavior during training than evaluation, so we must set the network to evaluation mode using `.eval()`.
+PyTorch的VGG模型实现被分为了两个字`Sequential`模型：`features`（包含卷积层和池化层）和`classifier`（包含全连接层）。我们将使用`features`模型，因为我们需要每一层卷积层的输出来计算内容和风格损失。在训练的时候有些层会有和评估不一样的行为，所以我们必须用`.eval()`将网络设置成评估模式。
 
 ```py
 cnn = models.vgg19(pretrained=True).features.to(device).eval()
 
 ```
 
-Additionally, VGG networks are trained on images with each channel normalized by mean=[0.485, 0.456, 0.406] and std=[0.229, 0.224, 0.225]. We will use them to normalize the image before sending it into the network.
+此外，VGG网络通过使用mean=[0.485, 0.456, 0.406]和std=[0.229, 0.224, 0.225]参数来标准化图片的每一个通道，并在图片上进行训练。因此，我们将在把图片输入神经网络之前，先使用这些参数对图片进行标准化。
 
 ```py
 cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
@@ -210,7 +209,7 @@ class Normalization(nn.Module):
 
 ```
 
-A `Sequential` module contains an ordered list of child modules. For instance, `vgg19.features` contains a sequence (Conv2d, ReLU, MaxPool2d, Conv2d, ReLU…) aligned in the right order of depth. We need to add our content loss and style loss layers immediately after the convolution layer they are detecting. To do this we must create a new `Sequential` module that has content loss and style loss modules correctly inserted.
+一个`Sequential`模型包含一个顺序排列的子模型序列。例如，`vff19.features`包含一个以正确的深度顺序排列的序列（Conv2d, ReLU, MaxPool2d, Conv2d, ReLU…）。我们需要将我们自己的内容损失和风格损失层在感知到卷积层之后立即添加进去。因此，我们必须创建一个新的`Sequential`模型，并正确的插入内容损失和风格损失模型。
 
 ```py
 # desired depth layers to compute style/content losses :
@@ -280,7 +279,7 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
 
 ```
 
-Next, we select the input image. You can use a copy of the content image or white noise.
+下一步，我们选择输入图片。你可以使用内容图片的副本或者白噪声。
 
 ```py
 input_img = content_img.clone()
@@ -295,9 +294,9 @@ imshow(input_img, title='Input Image')
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_003.png](img/a86564f4cf7dced2373382aaeeb02dba.jpg)
 
-## Gradient Descent
+## 梯度下降
 
-As Leon Gatys, the author of the algorithm, suggested [here](https://discuss.pytorch.org/t/pytorch-tutorial-for-neural-transfert-of-artistic-style/336/20?u=alexis-jacq), we will use L-BFGS algorithm to run our gradient descent. Unlike training a network, we want to train the input image in order to minimise the content/style losses. We will create a PyTorch L-BFGS optimizer `optim.LBFGS` and pass our image to it as the tensor to optimize.
+和算法的作者Leon Gatys的在 [这里](https://discuss.pytorch.org/t/pytorch-tutorial-for-neural-transfert-of-artistic-style/336/20?u=alexis-jacq)建议的一样，我们将使用L-BFGS算法来进行我们的梯度下降。与训练一般网络不同，我们训练输入图片是为了最小化内容/风格损失。我们要创建一个PyTorch的L-BFGS优化器`optim.LBFGS`，并传入我们的图片到其中，作为张量去优化。
 
 ```py
 def get_input_optimizer(input_img):
@@ -307,9 +306,9 @@ def get_input_optimizer(input_img):
 
 ```
 
-Finally, we must define a function that performs the neural transfer. For each iteration of the networks, it is fed an updated input and computes new losses. We will run the `backward` methods of each loss module to dynamicaly compute their gradients. The optimizer requires a “closure” function, which reevaluates the modul and returns the loss.
+最后，我们必须定义一个方法来展示图像风格转换。对于每一次的网络迭代，都将更新过的输入传入其中并计算损失。我们要运行每一个损失模型的`backward`方法来计算它们的梯度。优化器需要一个“关闭”方法，它重新估计模型并且返回损失。
 
-We still have one final constraint to address. The network may try to optimize the input with values that exceed the 0 to 1 tensor range for the image. We can address this by correcting the input values to be between 0 to 1 each time the network is run.
+我们还有最后一个问题要解决。神经网络可能会尝试使张量图片的值超过0到1之间来优化输入。我们可以通过在每次网络运行的时候将输入的值矫正到0到1之间来解决这个问题。
 
 ```py
 def run_style_transfer(cnn, normalization_mean, normalization_std,
@@ -363,7 +362,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std,
 
 ```
 
-Finally, we can run the algorithm.
+最后，我们可以运行这个算法。
 
 ```py
 output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
@@ -380,7 +379,7 @@ plt.show()
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_004.png](img/5b26bbfa2d58003c55e10218fa303d14.jpg)
 
-Out:
+输出:
 
 ```py
 Building the style transfer model..
@@ -404,10 +403,4 @@ run [300]:
 Style Loss : 0.263698 Content Loss: 2.358449
 
 ```
-
-**Total running time of the script:** ( 0 minutes 58.617 seconds)
-
-[`Download Python source code: neural_style_tutorial.py`](../_downloads/7d103bc16c40d35006cd24e65cf978d0/neural_style_tutorial.py)[`Download Jupyter notebook: neural_style_tutorial.ipynb`](../_downloads/f16c4cab7b50f6dea0beb900dee4bf0e/neural_style_tutorial.ipynb)
-
-[Gallery generated by Sphinx-Gallery](https://sphinx-gallery.readthedocs.io)
 

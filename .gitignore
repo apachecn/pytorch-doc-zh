@@ -114,5 +114,8 @@ Thumbs.db
 ~$*.docx
 ~$*.doc
 
+# IDEA
+.idea/
+
 # custom
 docs/README.md

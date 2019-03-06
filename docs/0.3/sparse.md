@@ -1,6 +1,10 @@
 # torch.sparse
 
-Warning
+> 译者：[@王帅](https://github.com/sirwangshuai)
+> 
+> 校对者：[@Timor](https://github.com/timors)
+
+警告：
 
 此 API 目前是实验性的 , 可能会在不久的将来发生变化 .
 
@@ -57,17 +61,17 @@ and values:
 
 ```
 
-Note
+注解：
 
 我们的稀疏张量格式允许非聚合稀疏张量 , 索引可能对应有重复的坐标 ; 在这 种情况下 , 该索引处的值代表所有重复条目值的总和 . 非聚合张量允许我们更 有效地实现确定的操作符 .
 
 在大多数情况下 , 你不必关心稀疏张量是否聚合 , 因为大多数操作在聚合或 不聚合稀疏张量的情况下都会以相同的方式工作 . 但是 , 你可能需要关心两种情况 .
 
-首先 , 如果你反复执行可以产生重复条目的操作 (例如 , [`torch.sparse.FloatTensor.add()`](#torch.sparse.FloatTensor.add "torch.sparse.FloatTensor.add")) , 则应适当聚合稀疏张量以防止它们变得太大.
+首先 , 如果你反复执行可以产生重复条目的操作 (例如 , `torch.sparse.FloatTensor.add()`) , 则应适当聚合稀疏张量以防止它们变得太大.
 
-其次 , 一些操作符将根据是否聚合 (例如 , [`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values") 和 [`torch.sparse.FloatTensor._indices()`](#torch.sparse.FloatTensor._indices "torch.sparse.FloatTensor._indices") , 还有 `torch.Tensor._sparse_mask()`) 来生成不同的值 . 这些运算符前面加下划线表示它们揭示 内部实现细节 , 因此应谨慎使 , 因为与聚合的稀疏张量一起工作的代码可能不适用于未聚合的稀疏张量 ; 一般来说 , 在运用这些运算符之前 , 最安全的就是确保是聚合的 .
+其次 , 一些操作符将根据是否聚合 (例如 , `torch.sparse.FloatTensor._values()` 和 `torch.sparse.FloatTensor._indices()` , 还有 `torch.Tensor._sparse_mask()`) 来生成不同的值 . 这些运算符前面加下划线表示它们揭示 内部实现细节 , 因此应谨慎使 , 因为与聚合的稀疏张量一起工作的代码可能不适用于未聚合的稀疏张量 ; 一般来说 , 在运用这些运算符之前 , 最安全的就是确保是聚合的 .
 
-例如 , 假设我们想直接通过 [`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values") 来实现一个操作 . 随着乘法分布的增加 , 标量的乘法可以轻易实现 ; 然而 , 平方根不能直接实现 , `sqrt(a + b) != sqrt(a) +sqrt(b)` (如果给定一个非聚合张量 , 这将被计算出来 . )
+例如 , 假设我们想直接通过 `torch.sparse.FloatTensor._values()` 来实现一个操作 . 随着乘法分布的增加 , 标量的乘法可以轻易实现 ; 然而 , 平方根不能直接实现 , `sqrt(a + b) != sqrt(a) +sqrt(b)` (如果给定一个非聚合张量 , 这将被计算出来 . )
 
 ```py
 class torch.sparse.FloatTensor

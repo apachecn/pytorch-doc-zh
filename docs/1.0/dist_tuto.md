@@ -1,14 +1,12 @@
 # 使用PyTorch编写分布式应用程序
 
 > 译者：[firdameng](https://github.com/firdameng)
->
 
 **作者**：[Soumith Chintala](http://soumith.ch)
 
 在这个简短的教程中，我们将讨论PyTorch的分布式软件包。 我们将看到如何设置分布式设置，使用不同的通信策略，并查看包的内部部分。
 
-### 开始
-------
+## 开始
 
 PyTorch中包含的分布式软件包（即torch.distributed）使研究人员和从业人员能够轻松地跨进程和计算机集群并行化他们的计算。 为此，它利用消息传递语义，允许每个进程将数据传递给任何其他进程。 与多处理（torch.multiprocessing）包相反，进程可以使用不同的通信后端，并且不限于在同一台机器上执行。
 
@@ -49,9 +47,10 @@ if __name__ == "__main__":
 
 我们来看看init_processes函数。 它确保每个进程都能够使用相同的IP地址和端口通过主站进行协调。 请注意，我们使用了TCP后端，但我们可以使用MPI或Gloo。 （参见5.1节）我们将在本教程结束时讨论dist.init_process_group中产生的特效，但它实质上允许进程通过共享其位置来相互通信。
 
-### 点对点通信
-------
+## 点对点通信
+
 ![https://pytorch.org/tutorials/_images/send_recv.png](img/f29264b289639882a61fb5c3447b1ecc.jpg)
+
 发送与接收
 
 将数据从一个进程传输到另一个进程称为点对点通信。 这些是通过send和recv函数或它们的直接对应部分isend和irecv实现的。
@@ -103,12 +102,12 @@ def run(rank, size):
 
 当我们想要对流程的通信进行细粒度控制时，点对点通信非常有用。 它们可用于实现奇妙的算法，例如百度DeepSpeech或Facebook的大规模实验中使用的算法。（参见4.1节）
 
-### 集体通信
-------
+## 集体通信
 
 ![https://pytorch.org/tutorials/_images/scatter.png](img/3aa3584628cb0526c8b0e9d02b15d876.jpg)
 
 **Scatter**
+
 ![https://pytorch.org/tutorials/_images/gather.png](img/7e8670a3b7cdc7848394514ef1da090a.jpg)
 
 **Gather**
@@ -116,12 +115,15 @@ def run(rank, size):
 ![https://pytorch.org/tutorials/_images/reduce.png](img/1c451df4406aea85e640d1ae7df6df31.jpg)
 
 **Reduce**
+
 ![https://pytorch.org/tutorials/_images/all_reduce.png](img/0ef9693f0008d5a75aa5ac2b542b83ac.jpg)
 
 **All-Reduce**
+
 ![https://pytorch.org/tutorials/_images/broadcast.png](img/525847c9d4b48933cb231204a2d13e0e.jpg)
 
 **Broadcast**
+
 ![https://pytorch.org/tutorials/_images/all_gather.png](img/4a48977cd9545f897942a4a4ef1175ac.jpg)
 
 **All_gather**
@@ -155,9 +157,8 @@ def run(rank, size):
 - `dist.all_gather(tensor_list, tensor, group)`: Copies `tensor` from all processes to `tensor_list`, on all processes.
 - `dist.barrier(group)`: block all processes in `group` until each one has entered this function.
 
-### 分布式训练
+## 分布式训练
 
-------
 
 注意：您可以在此GitHub存储库中找到此部分的 [示例脚本](https://github.com/seba-1511/dist_tuto.pth/)
 
@@ -298,23 +299,22 @@ def allreduce(send, recv):
 
 在上面的脚本中，allreduce（send，recv）函数的签名与PyTorch中的签名略有不同。 它需要一个recv张量，并将所有发送张量的总和存储在其中。 作为练习留给读者，我们的版本和DeepSpeech中的版本之间仍然存在一个区别：它们的实现将梯度张量划分为块，以便最佳地利用通信带宽。 （提示：[torch.chunk](https://pytorch.org/docs/stable/torch.html#torch.chunk)）
 
-### 高级主题
-------
+## 高级主题
 
 我们现在准备发现torch.distributed的一些更高级的功能。 由于有很多内容需要介绍，本节分为两个小节：
 
 1. 通信后端：我们学习如何使用MPI和Gloo进行GPU-GPU通信。
 2. 初始化方法：我们了解如何在dist.init_process_group（）中最好地设置初始协调阶段。
 
-#### 通信后端
+### 通信后端
 
 torch.distributed最优雅的方面之一是它能够在不同的后端之上进行抽象和构建。 如前所述，目前在PyTorch中实现了三个后端：TCP，MPI和Gloo。 根据所需的用例，它们各自具有不同的规格和权衡。 可以在[此处](https://pytorch.org/docs/stable/distributed.html#module-torch.distributed)找到支持功能的比较表。 请注意，自本教程创建以来，已添加第四个后端NCCL。 有关其使用和值的更多信息，请参阅torch.distributed docs的[此部分](https://pytorch.org/docs/stable/distributed.html#multi-gpu-collective-functions)。
 
-##### TCP后端
+**TCP后端**
 
 到目前为止，我们已广泛使用TCP后端。 它作为一个开发平台非常方便，因为它可以保证在大多数机器和操作系统上运行。 它还支持CPU上的所有点对点和集合功能。 但是，不支持GPU，并且其通信例程不像MPI那样优化。
 
-##### Gloo后端
+**Gloo后端**
 
 [Gloo后端](https://github.com/facebookincubator/gloo)为CPU和GPU提供了集体通信程序的优化实现。 它特别适用于GPU，因为它可以执行通信而无需使用[GPUDirect](https://developer.nvidia.com/gpudirect)将数据传输到CPU的内存。 它还能够使用[NCCL](https://github.com/NVIDIA/nccl)执行快速的节点内通信，并实现其自己的节点间[例程算法](https://github.com/facebookincubator/gloo/blob/master/docs/algorithms.md)。
 
@@ -327,7 +327,7 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
 
 通过上述修改，我们的模型现在在两个GPU上进行培训，您可以通过运行nvidia-smi监控它们的使用情况。
 
-##### MPI后端
+**MPI后端**
 
 消息传递接口（MPI）是高性能计算领域的标准化工具。 它允许进行点对点和集体通信，并且是torch.distributed的API的主要灵感。 存在MPI的若干实现（例如，[Open-MPI](https://www.open-mpi.org/)，[MVAPICH2](http://mvapich.cse.ohio-state.edu/)，[Intel MPI](https://software.intel.com/en-us/intel-mpi-library)），每个实现针对不同目的而优化。 使用MPI后端的优势在于MPI在大型计算机集群上的广泛可用性和高级优化。 最近的一些[实现](https://www.open-mpi.org/)也能够利用CUDA IPC和GPU Direct技术，以避免通过CPU进行内存复制。
 
@@ -344,7 +344,7 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
 
 这些更改的原因是MPI需要在生成流程之前创建自己的环境。 MPI还将生成自己的进程并执行[初始化方法](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)中描述的握手，使得init_process_group的rankand size参数变得多余。 这实际上非常强大，因为您可以将其他参数传递给mpirun，以便为每个进程定制计算资源。 （例如每个进程的内核数量，将机器分配给特定的等级，以及[更多内容](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)）这样做，您应该获得与其他通信后端相同的熟悉输出。
 
-#### 初始化方法
+### 初始化方法
 
 为了完成本教程，我们来谈谈我们调用的第一个函数：dist.init_process_group（backend，init_method）。 特别是，我们将讨论不同的初始化方法，这些方法负责每个进程之间的初始协调步骤。 这些方法允许您定义如何完成此协调。 根据您的硬件设置，其中一种方法应该比其他方法更合适。 除了以下部分，您还应该查看[官方文档](https://pytorch.org/docs/stable/distributed.html#initialization)。
 
@@ -372,7 +372,7 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
     （4）打开套接字并与所有其他工作进程握手。
 7. 初始化完成，每个进程都相互建立连接。
 
-#### 环境变量
+**环境变量**
 
 在本教程中，我们一直在使用环境变量初始化方法。 通过在所有计算机上设置以下四个环境变量，所有进程都能够正确连接到主进程，获取有关其他进程的信息，最后与它们握手。
 
@@ -381,7 +381,7 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
 - WORLD_SIZE：进程总数，以便master知道要等待多少worker。
 - RANK：每个流程的等级，因此他们将知道它是否是worker的master。
 
-#### 共享文件系统
+**共享文件系统**
 
 共享文件系统要求所有进程都可以访问共享文件系统，并通过共享文件协调它们。 这意味着每个进程都将打开文件，写入其信息，并等到每个人都这样做。 在所有必需信息将随时可用于所有流程之后。 为了避免竞争条件，文件系统必须支持通过[fcntl](http://man7.org/linux/man-pages/man2/fcntl.2.html)锁定。 请注意，您可以手动指定排名，也可以让流程自行计算。 要为每个作业定义一个唯一的组名，您可以为多个作业使用相同的文件路径并安全地避免冲突。
 
@@ -390,7 +390,7 @@ dist.init_process_group(init_method='file:///mnt/nfs/sharedfile', world_size=4,
                         group_name='mygroup')
 ```
 
-#### TCP初始化和多播
+**TCP初始化和多播**
 
 通过TCP初始化可以通过两种不同的方式实现：
 
@@ -410,6 +410,6 @@ dist.init_process_group(init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b
                         world_size=4)
 ```
 
-### 致谢
+## 致谢
 
 我要感谢PyTorch开发人员在他们的实现，[文档](https://pytorch.org/docs/stable/distributed.html)和[测试](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py)方面做得很好。 当代码不清楚时，我总是可以依靠文档或测试来找到答案。 特别是，我要感谢Soumith Chintala，Adam Paszke和Natalia Gimelshein提供有见地的评论并回答有关早期草稿的问题。
