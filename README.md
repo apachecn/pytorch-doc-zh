@@ -22,4 +22,4 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 
 ## 赞助我们
 
-<img src="http://www.apachecn.org/img/about/donate.jpg" alt="微信&支付宝" />
+<img src="http://data.apachecn.org/img/about/donate.jpg" alt="微信&支付宝" />
