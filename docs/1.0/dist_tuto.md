@@ -1,18 +1,20 @@
+# 使用PyTorch编写分布式应用程序
 
+> 译者：[firdameng](https://github.com/firdameng)
+>
 
-# Writing Distributed Applications with PyTorch
+**作者**：[Soumith Chintala](http://soumith.ch)
 
-**Author**: [Séb Arnold](https://seba1511.com)
+在这个简短的教程中，我们将讨论PyTorch的分布式软件包。 我们将看到如何设置分布式设置，使用不同的通信策略，并查看包的内部部分。
 
-In this short tutorial, we will be going over the distributed package of PyTorch. We’ll see how to set up the distributed setting, use the different communication strategies, and go over some the internals of the package.
+### 开始
+------
 
-## Setup
+PyTorch中包含的分布式软件包（即torch.distributed）使研究人员和从业人员能够轻松地跨进程和计算机集群并行化他们的计算。 为此，它利用消息传递语义，允许每个进程将数据传递给任何其他进程。 与多处理（torch.multiprocessing）包相反，进程可以使用不同的通信后端，并且不限于在同一台机器上执行。
 
-The distributed package included in PyTorch (i.e., `torch.distributed`) enables researchers and practitioners to easily parallelize their computations across processes and clusters of machines. To do so, it leverages the messaging passing semantics allowing each process to communicate data to any of the other processes. As opposed to the multiprocessing (`torch.multiprocessing`) package, processes can use different communication backends and are not restricted to being executed on the same machine.
+开始我们需要能够同时运行多个进程。 如果您有权访问计算群集，则应使用本地sysadmin进行检查，或使用您喜欢的协调工具。 （例如，pdsh，clustershell或其他）为了本教程的目的，我们将使用单个机器并使用以下模板建立多个进程。
 
-In order to get started we need the ability to run multiple processes simultaneously. If you have access to compute cluster you should check with your local sysadmin or use your favorite coordination tool. (e.g., [pdsh](https://linux.die.net/man/1/pdsh), [clustershell](https://cea-hpc.github.io/clustershell/), or [others](https://slurm.schedmd.com/)) For the purpose of this tutorial, we will use a single machine and fork multiple processes using the following template.
-
-```py
+```python
 """run.py:"""
 #!/usr/bin/env python
 import os
@@ -41,22 +43,20 @@ if __name__ == "__main__":
 
     for p in processes:
         p.join()
-
 ```
 
-The above script spawns two processes who will each setup the distributed environment, initialize the process group (`dist.init_process_group`), and finally execute the given `run` function.
+上面的脚本产生了两个进程，每个进程将设置分布式环境，初始化进程组（dist.init_process_group），最后执行给定的运行函数。
 
-Let’s have a look at the `init_processes` function. It ensures that every process will be able to coordinate through a master, using the same ip address and port. Note that we used the TCP backend, but we could have used [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) or [Gloo](https://github.com/facebookincubator/gloo) instead. (c.f. [Section 5.1](#communication-backends)) We will go over the magic happening in `dist.init_process_group` at the end of this tutorial, but it essentially allows processes to communicate with each other by sharing their locations.
+我们来看看init_processes函数。 它确保每个进程都能够使用相同的IP地址和端口通过主站进行协调。 请注意，我们使用了TCP后端，但我们可以使用MPI或Gloo。 （参见5.1节）我们将在本教程结束时讨论dist.init_process_group中产生的特效，但它实质上允许进程通过共享其位置来相互通信。
 
-## Point-to-Point Communication
+### 点对点通信
+------
+![https://pytorch.org/tutorials/_images/send_recv.png](img/f29264b289639882a61fb5c3447b1ecc.jpg)
+发送与接收
 
-[![Send and Recv](img/f29264b289639882a61fb5c3447b1ecc.jpg)](https://pytorch.org/tutorials/_images/send_recv.png)
+将数据从一个进程传输到另一个进程称为点对点通信。 这些是通过send和recv函数或它们的直接对应部分isend和irecv实现的。
 
-Send and Recv
-
-A transfer of data from one process to another is called a point-to-point communication. These are achieved through the `send` and `recv` functions or their _immediate_ counter-parts, `isend` and `irecv`.
-
-```py
+```python
 """Blocking point-to-point communication."""
 
 def run(rank, size):
@@ -69,14 +69,13 @@ def run(rank, size):
         # Receive tensor from process 0
         dist.recv(tensor=tensor, src=0)
     print('Rank ', rank, ' has data ', tensor[0])
-
 ```
 
-In the above example, both processes start with a zero tensor, then process 0 increments the tensor and sends it to process 1 so that they both end up with 1.0\. Notice that process 1 needs to allocate memory in order to store the data it will receive.
+在上面的例子中，两个进程都以零张量开始，然后进程0递增张量并将其发送到进程1，以便它们都以1.0结束。 请注意，进程1需要分配内存以存储它将接收的数据。
 
-Also notice that `send`/`recv` are **blocking**: both processes stop until the communication is completed. On the other hand immediates are **non-blocking**; the script continues its execution and the methods return a `DistributedRequest` object upon which we can choose to `wait()`.
+另请注意，send / recv正在阻塞：两个进程都会停止，直到通信完成。 另一方面，immediates是非阻塞的; 脚本继续执行，方法返回一个DistributedRequest对象，我们可以选择wait（）。
 
-```py
+```python
 """Non-blocking point-to-point communication."""
 
 def run(rank, size):
@@ -93,52 +92,43 @@ def run(rank, size):
         print('Rank 1 started receiving')
     req.wait()
     print('Rank ', rank, ' has data ', tensor[0])
-
 ```
 
-When using immediates we have to be careful about with our usage of the sent and received tensors. Since we do not know when the data will be communicated to the other process, we should not modify the sent tensor nor access the received tensor before `req.wait()` has completed. In other words,
+当使用immediates时，我们必须小心使用发送和接收的张量。 由于我们不知道何时将数据传递给另一个进程，因此我们不应该在req.wait（）完成之前修改发送的张量或访问接收的张量。 换一种说法，
 
-*   writing to `tensor` after `dist.isend()` will result in undefined behaviour.
-*   reading from `tensor` after `dist.irecv()` will result in undefined behaviour.
+- 在dist.isend（）之后写入张量将导致未定义的行为。
+- 在dist.irecv（）之后读取张量将导致未定义的行为。
 
-However, after `req.wait()` has been executed we are guaranteed that the communication took place, and that the value stored in `tensor[0]` is 1.0.
+但是，在执行req.wait（）之后，我们保证发生通信，并且存储在tensor [0]中的值为1.0。
 
-Point-to-point communication is useful when we want a fine-grained control over the communication of our processes. They can be used to implement fancy algorithms, such as the one used in [Baidu’s DeepSpeech](https://github.com/baidu-research/baidu-allreduce) or [Facebook’s large-scale experiments](https://research.fb.com/publications/imagenet1kin1h/).(c.f. [Section 4.1](#our-own-ring-allreduce))
+当我们想要对流程的通信进行细粒度控制时，点对点通信非常有用。 它们可用于实现奇妙的算法，例如百度DeepSpeech或Facebook的大规模实验中使用的算法。（参见4.1节）
 
-## Collective Communication
+### 集体通信
+------
 
-<colgroup><col width="50%"> <col width="50%"></colgroup> 
-| [![Scatter](img/3aa3584628cb0526c8b0e9d02b15d876.jpg)](https://pytorch.org/tutorials/_images/scatter.png)
+![https://pytorch.org/tutorials/_images/scatter.png](img/3aa3584628cb0526c8b0e9d02b15d876.jpg)
 
-Scatter
+**Scatter**
+![https://pytorch.org/tutorials/_images/gather.png](img/7e8670a3b7cdc7848394514ef1da090a.jpg)
 
- | [![Gather](img/7e8670a3b7cdc7848394514ef1da090a.jpg)](https://pytorch.org/tutorials/_images/gather.png)
+**Gather**
 
-Gather
+![https://pytorch.org/tutorials/_images/reduce.png](img/1c451df4406aea85e640d1ae7df6df31.jpg)
 
- |
-| [![Reduce](img/1c451df4406aea85e640d1ae7df6df31.jpg)](https://pytorch.org/tutorials/_images/reduce.png)
+**Reduce**
+![https://pytorch.org/tutorials/_images/all_reduce.png](img/0ef9693f0008d5a75aa5ac2b542b83ac.jpg)
 
-Reduce
+**All-Reduce**
+![https://pytorch.org/tutorials/_images/broadcast.png](img/525847c9d4b48933cb231204a2d13e0e.jpg)
 
- | [![All-Reduce](img/0ef9693f0008d5a75aa5ac2b542b83ac.jpg)](https://pytorch.org/tutorials/_images/all_reduce.png)
+**Broadcast**
+![https://pytorch.org/tutorials/_images/all_gather.png](img/4a48977cd9545f897942a4a4ef1175ac.jpg)
 
-All-Reduce
+**All_gather**
 
- |
-| [![Broadcast](img/525847c9d4b48933cb231204a2d13e0e.jpg)](https://pytorch.org/tutorials/_images/broadcast.png)
+与点对点通信相反，在集体中允许通信模式跨越组中所有进程。 组是我们所有进程的子集。 要创建组，我们可以将队列列表传递给dist.new_group（组）。 默认情况下，集合体在所有进程（也称为world）上执行。 例如，为了获得所有过程中所有张量的总和，我们可以使用dist.all_reduce（tensor，op，group）集合。
 
-Broadcast
-
- | [![All-Gather](img/4a48977cd9545f897942a4a4ef1175ac.jpg)](https://pytorch.org/tutorials/_images/all_gather.png)
-
-All-Gather
-
- |
-
-As opposed to point-to-point communcation, collectives allow for communication patterns across all processes in a **group**. A group is a subset of all our processes. To create a group, we can pass a list of ranks to `dist.new_group(group)`. By default, collectives are executed on the all processes, also known as the **world**. For example, in order to obtain the sum of all tensors at all processes, we can use the `dist.all_reduce(tensor, op, group)` collective.
-
-```py
+```python
 """ All-Reduce example."""
 def run(rank, size):
     """ Simple point-to-point communication. """
@@ -146,35 +136,36 @@ def run(rank, size):
     tensor = torch.ones(1)
     dist.all_reduce(tensor, op=dist.reduce_op.SUM, group=group)
     print('Rank ', rank, ' has data ', tensor[0])
-
 ```
 
-Since we want the sum of all tensors in the group, we use `dist.reduce_op.SUM` as the reduce operator. Generally speaking, any commutative mathematical operation can be used as an operator. Out-of-the-box, PyTorch comes with 4 such operators, all working at the element-wise level:
+由于我们想要组中所有张量的总和，我们使用dist.reduce_op.SUM作为reduce运算符。 一般而言，任何可交换的数学运算都可以用作运算符。 开箱即用，PyTorch带有4个这样的运算符，所有运算符都在元素级别上运行：
 
-*   `dist.reduce_op.SUM`,
-*   `dist.reduce_op.PRODUCT`,
-*   `dist.reduce_op.MAX`,
-*   `dist.reduce_op.MIN`.
+- `dist.reduce_op.SUM`,
+- `dist.reduce_op.PRODUCT`,
+- `dist.reduce_op.MAX`,
+- `dist.reduce_op.MIN`.
 
-In addition to `dist.all_reduce(tensor, op, group)`, there are a total of 6 collectives currently implemented in PyTorch.
+除了dist.all_reduce（tensor，op，group）之外，PyTorch目前共有6个集体。
 
-*   `dist.broadcast(tensor, src, group)`: Copies `tensor` from `src` to all other processes.
-*   `dist.reduce(tensor, dst, op, group)`: Applies `op` to all `tensor` and stores the result in `dst`.
-*   `dist.all_reduce(tensor, op, group)`: Same as reduce, but the result is stored in all processes.
-*   `dist.scatter(tensor, src, scatter_list, group)`: Copies the `\(i^{\text{th}}\)` tensor `scatter_list[i]` to the `\(i^{\text{th}}\)` process.
-*   `dist.gather(tensor, dst, gather_list, group)`: Copies `tensor` from all processes in `dst`.
-*   `dist.all_gather(tensor_list, tensor, group)`: Copies `tensor` from all processes to `tensor_list`, on all processes.
-*   `dist.barrier(group)`: block all processes in &lt;cite&gt;group&lt;/cite&gt; until each one has entered this function.
+- `dist.broadcast(tensor, src, group)`: Copies `tensor` from `src` to all other processes.
+- `dist.reduce(tensor, dst, op, group)`: Applies `op` to all `tensor` and stores the result in `dst`.
+- `dist.all_reduce(tensor, op, group)`: Same as reduce, but the result is stored in all processes.
+- `dist.scatter(tensor, src, scatter_list, group)`: Copies the `\(i^{\text{th}}\)` tensor `scatter_list[i]` to the `\(i^{\text{th}}\)` process.
+- `dist.gather(tensor, dst, gather_list, group)`: Copies `tensor` from all processes in `dst`.
+- `dist.all_gather(tensor_list, tensor, group)`: Copies `tensor` from all processes to `tensor_list`, on all processes.
+- `dist.barrier(group)`: block all processes in `group` until each one has entered this function.
 
-## Distributed Training
+### 分布式训练
 
-**Note:** You can find the example script of this section in [this GitHub repository](https://github.com/seba-1511/dist_tuto.pth/).
+------
 
-Now that we understand how the distributed module works, let us write something useful with it. Our goal will be to replicate the functionality of [DistributedDataParallel](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel). Of course, this will be a didactic example and in a real-world situtation you should use the official, well-tested and well-optimized version linked above.
+注意：您可以在此GitHub存储库中找到此部分的 [示例脚本](https://github.com/seba-1511/dist_tuto.pth/)
 
-Quite simply we want to implement a distributed version of stochastic gradient descent. Our script will let all processes compute the gradients of their model on their batch of data and then average their gradients. In order to ensure similar convergence results when changing the number of processes, we will first have to partition our dataset. (You could also use [tnt.dataset.SplitDataset](https://github.com/pytorch/tnt/blob/master/torchnet/dataset/splitdataset.py#L4), instead of the snippet below.)
+现在我们已经了解了分布式模块的工作原理，让我们编写一些有用的东西。 我们的目标是复制[DistributedDataParallel](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel)的功能。 当然，这将是一个教学示例，在现实世界中，您应该使用上面链接的官方，经过良好测试和优化的版本。
 
-```py
+很简单，我们想要实现随机梯度下降的分布式版本。 我们的脚本将允许所有进程在其批量数据上计算其模型的梯度，然后平均其渐变。 为了在更改进程数时确保类似的收敛结果，我们首先必须对数据集进行分区。 （您也可以使用[tnt.dataset.SplitDataset](https://github.com/pytorch/tnt/blob/master/torchnet/dataset/splitdataset.py#L4)，而不是下面的代码段。）
+
+```python
 """ Dataset partitioning helper """
 class Partition(object):
 
@@ -207,12 +198,11 @@ class DataPartitioner(object):
 
     def use(self, partition):
         return Partition(self.data, self.partitions[partition])
-
 ```
 
-With the above snippet, we can now simply partition any dataset using the following few lines:
+通过上面的代码片段，我们现在可以使用以下几行简单地对任何数据集进行分区：
 
-```py
+```python
 """ Partitioning MNIST """
 def partition_dataset():
     dataset = datasets.MNIST('./data', train=True, download=True,
@@ -229,14 +219,13 @@ def partition_dataset():
                                          batch_size=bsz,
                                          shuffle=True)
     return train_set, bsz
-
 ```
 
-Assuming we have 2 replicas, then each process will have a `train_set` of 60000 / 2 = 30000 samples. We also divide the batch size by the number of replicas in order to maintain the _overall_ batch size of 128.
+假设我们有2个副本，那么每个进程将具有60000/2 = 30000个样本的train_set。 我们还将批量大小除以副本数量，以保持总批量大小为128。
 
-We can now write our usual forward-backward-optimize training code, and add a function call to average the gradients of our models. (The following is largely inspired from the official [PyTorch MNIST example](https://github.com/pytorch/examples/blob/master/mnist/main.py).)
+我们现在可以编写我们通常的前向后向优化训练代码，并添加一个函数调用来平均我们模型的渐变。 （以下内容主要来自官方的[PyTorch MNIST](https://github.com/pytorch/examples/blob/master/mnist/main.py)示例。）
 
-```py
+```python
 """ Distributed Synchronous SGD Example """
 def run(rank, size):
     torch.manual_seed(1234)
@@ -258,30 +247,28 @@ def run(rank, size):
             optimizer.step()
         print('Rank ', dist.get_rank(), ', epoch ',
               epoch, ': ', epoch_loss / num_batches)
-
 ```
 
-It remains to implement the `average_gradients(model)` function, which simply takes in a model and averages its gradients across the whole world.
+它仍然是实现average_gradients（模型）函数，它只是简单地接受一个模型并在整个空间中平均其渐变。
 
-```py
+```python
 """ Gradient averaging. """
 def average_gradients(model):
     size = float(dist.get_world_size())
     for param in model.parameters():
         dist.all_reduce(param.grad.data, op=dist.reduce_op.SUM)
         param.grad.data /= size
-
 ```
 
-_Et voilà_! We successfully implemented distributed synchronous SGD and could train any model on a large computer cluster.
+我们成功实现了分布式同步SGD，可以在大型计算机集群上训练任何模型。
 
-**Note:** While the last sentence is _technically_ true, there are [a lot more tricks](https://seba-1511.github.io/dist_blog) required to implement a production-level implementation of synchronous SGD. Again, use what [has been tested and optimized](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel).
+注意：虽然最后一句在技术上是正确的，但实现同步SGD的生产级实现需要更多[技巧](https://seba-1511.github.io/dist_blog/)。 再次，使用已经过[测试和优化](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel)的内容。
 
-### Our Own Ring-Allreduce
+### 自定义Ring-Allreduce
 
-As an additional challenge, imagine that we wanted to implement DeepSpeech’s efficient ring allreduce. This is fairly easily implemented using point-to-point collectives.
+作为一个额外的挑战，想象一下我们想要实现DeepSpeech的高效环allreduce。 使用点对点集合相当容易实现。
 
-```py
+```python
 """ Implementation of a ring-reduce with addition. """
 def allreduce(send, recv):
     rank = dist.get_rank()
@@ -307,123 +294,122 @@ def allreduce(send, recv):
             accum[:] += send[:]
         send_req.wait()
     recv[:] = accum[:]
-
 ```
 
-In the above script, the `allreduce(send, recv)` function has a slightly different signature than the ones in PyTorch. It takes a `recv` tensor and will store the sum of all `send` tensors in it. As an exercise left to the reader, there is still one difference between our version and the one in DeepSpeech: their implementation divide the gradient tensor into _chunks_, so as to optimally utilize the communication bandwidth. (Hint: [torch.chunk](https://pytorch.org/docs/stable/torch.html#torch.chunk))
+在上面的脚本中，allreduce（send，recv）函数的签名与PyTorch中的签名略有不同。 它需要一个recv张量，并将所有发送张量的总和存储在其中。 作为练习留给读者，我们的版本和DeepSpeech中的版本之间仍然存在一个区别：它们的实现将梯度张量划分为块，以便最佳地利用通信带宽。 （提示：[torch.chunk](https://pytorch.org/docs/stable/torch.html#torch.chunk)）
 
-## Advanced Topics
+### 高级主题
+------
 
-We are now ready to discover some of the more advanced functionalities of `torch.distributed`. Since there is a lot to cover, this section is divided into two subsections:
+我们现在准备发现torch.distributed的一些更高级的功能。 由于有很多内容需要介绍，本节分为两个小节：
 
-1.  Communication Backends: where we learn how to use MPI and Gloo for GPU-GPU communication.
-2.  Initialization Methods: where we understand how to best setup the initial coordination phase in `dist.init_process_group()`.
+1. 通信后端：我们学习如何使用MPI和Gloo进行GPU-GPU通信。
+2. 初始化方法：我们了解如何在dist.init_process_group（）中最好地设置初始协调阶段。
 
-### Communication Backends
+#### 通信后端
 
-One of the most elegant aspects of `torch.distributed` is its ability to abstract and build on top of different backends. As mentioned before, there are currently three backends implemented in PyTorch: TCP, MPI, and Gloo. They each have different specifications and tradeoffs, depending on the desired use-case. A comparative table of supported functions can be found [here](https://pytorch.org/docs/stable/distributed.html#module-torch.distributed). Note that a fourth backend, NCCL, has been added since the creation of this tutorial. See [this section](https://pytorch.org/docs/stable/distributed.html#multi-gpu-collective-functions) of the `torch.distributed` docs for more information about its use and value.
+torch.distributed最优雅的方面之一是它能够在不同的后端之上进行抽象和构建。 如前所述，目前在PyTorch中实现了三个后端：TCP，MPI和Gloo。 根据所需的用例，它们各自具有不同的规格和权衡。 可以在[此处](https://pytorch.org/docs/stable/distributed.html#module-torch.distributed)找到支持功能的比较表。 请注意，自本教程创建以来，已添加第四个后端NCCL。 有关其使用和值的更多信息，请参阅torch.distributed docs的[此部分](https://pytorch.org/docs/stable/distributed.html#multi-gpu-collective-functions)。
 
-**TCP Backend**
+##### TCP后端
 
-So far we have made extensive usage of the TCP backend. It is quite handy as a development platform, as it is guaranteed to work on most machines and operating systems. It also supports all point-to-point and collective functions on CPU. However, there is no support for GPUs and its communication routines are not as optimized as the MPI one.
+到目前为止，我们已广泛使用TCP后端。 它作为一个开发平台非常方便，因为它可以保证在大多数机器和操作系统上运行。 它还支持CPU上的所有点对点和集合功能。 但是，不支持GPU，并且其通信例程不像MPI那样优化。
 
-**Gloo Backend**
+##### Gloo后端
 
-The [Gloo backend](https://github.com/facebookincubator/gloo) provides an optimized implementation of _collective_ communication procedures, both for CPUs and GPUs. It particularly shines on GPUs as it can perform communication without transferring data to the CPU’s memory using [GPUDirect](https://developer.nvidia.com/gpudirect). It is also capable of using [NCCL](https://github.com/NVIDIA/nccl) to perform fast intra-node communication and implements its [own algorithms](https://github.com/facebookincubator/gloo/blob/master/docs/algorithms.md) for inter-node routines.
+[Gloo后端](https://github.com/facebookincubator/gloo)为CPU和GPU提供了集体通信程序的优化实现。 它特别适用于GPU，因为它可以执行通信而无需使用[GPUDirect](https://developer.nvidia.com/gpudirect)将数据传输到CPU的内存。 它还能够使用[NCCL](https://github.com/NVIDIA/nccl)执行快速的节点内通信，并实现其自己的节点间[例程算法](https://github.com/facebookincubator/gloo/blob/master/docs/algorithms.md)。
 
-Since version 0.2.0, the Gloo backend is automatically included with the pre-compiled binaries of PyTorch. As you have surely noticed, our distributed SGD example does not work if you put `model` on the GPU. Let’s fix it by first replacing `backend='gloo'` in `init_processes(rank, size, fn, backend='tcp')`. At this point, the script will still run on CPU but uses the Gloo backend behind the scenes. In order to use multiple GPUs, let us also do the following modifications:
+从版本0.2.0开始，Gloo后端自动包含在PyTorch的预编译二进制文件中。 正如您已经注意到的那样，如果您将模型放在GPU上，我们的分布式SGD示例将不起作用。 让我们通过首先替换init_processes中的backend ='gloo'来修复它（rank，size，fn，backend ='tcp'）。 此时，脚本仍将在CPU上运行，但在幕后使用Gloo后端。 为了使用多个GPU，我们还要进行以下修改：
 
-1.  `init_processes(rank, size, fn, backend='tcp')` `\(\rightarrow\)` `init_processes(rank, size, fn, backend='gloo')`
-2.  Use `device = torch.device("cuda:{}".format(rank))`
-3.  `model = Net()` `\(\rightarrow\)` `model = Net().to(device)`
-4.  Use `data, target = data.to(device), target.to(device)`
+1. `init_processes(rank, size, fn, backend='tcp')` `\(\rightarrow\)` `init_processes(rank, size, fn, backend='gloo')`
+2. Use `device = torch.device("cuda:{}".format(rank))`
+3. `model = Net()` `\(\rightarrow\)` `model = Net().to(device)`
+4. Use `data, target = data.to(device), target.to(device)`
 
-With the above modifications, our model is now training on two GPUs and you can monitor their utilization with `watch nvidia-smi`.
+通过上述修改，我们的模型现在在两个GPU上进行培训，您可以通过运行nvidia-smi监控它们的使用情况。
 
-**MPI Backend**
+##### MPI后端
 
-The Message Passing Interface (MPI) is a standardized tool from the field of high-performance computing. It allows to do point-to-point and collective communications and was the main inspiration for the API of `torch.distributed`. Several implementations of MPI exist (e.g. [Open-MPI](https://www.open-mpi.org/), [MVAPICH2](http://mvapich.cse.ohio-state.edu/), [Intel MPI](https://software.intel.com/en-us/intel-mpi-library)) each optimized for different purposes. The advantage of using the MPI backend lies in MPI’s wide availability - and high-level of optimization - on large computer clusters. [Some](https://developer.nvidia.com/mvapich) [recent](https://developer.nvidia.com/ibm-spectrum-mpi) [implementations](https://www.open-mpi.org/) are also able to take advantage of CUDA IPC and GPU Direct technologies in order to avoid memory copies through the CPU.
+消息传递接口（MPI）是高性能计算领域的标准化工具。 它允许进行点对点和集体通信，并且是torch.distributed的API的主要灵感。 存在MPI的若干实现（例如，[Open-MPI](https://www.open-mpi.org/)，[MVAPICH2](http://mvapich.cse.ohio-state.edu/)，[Intel MPI](https://software.intel.com/en-us/intel-mpi-library)），每个实现针对不同目的而优化。 使用MPI后端的优势在于MPI在大型计算机集群上的广泛可用性和高级优化。 最近的一些[实现](https://www.open-mpi.org/)也能够利用CUDA IPC和GPU Direct技术，以避免通过CPU进行内存复制。
 
-Unfortunately, PyTorch’s binaries can not include an MPI implementation and we’ll have to recompile it by hand. Fortunately, this process is fairly simple given that upon compilation, PyTorch will look _by itself_ for an available MPI implementation. The following steps install the MPI backend, by installing PyTorch [from source](https://github.com/pytorch/pytorch#from-source).
+不幸的是，PyTorch的二进制文件不能包含MPI实现，我们必须手动重新编译它。 幸运的是，这个过程非常简单，因为在编译时，PyTorch会自行查看可用的MPI实现。 以下步骤通过从源安装PyTorch来安装MPI后端。
 
-1.  Create and activate your Anaconda environment, install all the pre-requisites following [the guide](https://github.com/pytorch/pytorch#from-source), but do **not** run `python setup.py install` yet.
-2.  Choose and install your favorite MPI implementation. Note that enabling CUDA-aware MPI might require some additional steps. In our case, we’ll stick to Open-MPI _without_ GPU support: `conda install -c conda-forge openmpi`
-3.  Now, go to your cloned PyTorch repo and execute `python setup.py install`.
+1. 创建并激活您的Anaconda环境，按照指南安装所有先决条件，但不要运行python setup.py install。
+2. 选择并安装您最喜欢的MPI实现。 请注意，启用支持CUDA的MPI可能需要一些额外的步骤。 在我们的例子中，我们将坚持不支持GPU的Open-MPI：conda install -c conda-forge openmpi
+3. 现在，转到克隆的PyTorch repo并执行python setup.py install。
 
-In order to test our newly installed backend, a few modifications are required.
+为了测试我们新安装的后端，需要进行一些修改。
 
-1.  Replace the content under `if __name__ == '__main__':` with `init_processes(0, 0, run, backend='mpi')`.
-2.  Run `mpirun -n 4 python myscript.py`.
+1. 使用init_processes（0,0，run，backend ='mpi'）替换if __name__ =='__ main__'下的内容：
+2. 运行mpirun -n 4 python myscript.py。
 
-The reason for these changes is that MPI needs to create its own environment before spawning the processes. MPI will also spawn its own processes and perform the handshake described in [Initialization Methods](#initialization-methods), making the `rank`and `size` arguments of `init_process_group` superfluous. This is actually quite powerful as you can pass additional arguments to `mpirun` in order to tailor computational resources for each process. (Things like number of cores per process, hand-assigning machines to specific ranks, and [some more](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile)) Doing so, you should obtain the same familiar output as with the other communication backends.
+这些更改的原因是MPI需要在生成流程之前创建自己的环境。 MPI还将生成自己的进程并执行[初始化方法](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)中描述的握手，使得init_process_group的rankand size参数变得多余。 这实际上非常强大，因为您可以将其他参数传递给mpirun，以便为每个进程定制计算资源。 （例如每个进程的内核数量，将机器分配给特定的等级，以及[更多内容](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)）这样做，您应该获得与其他通信后端相同的熟悉输出。
 
-### Initialization Methods
+#### 初始化方法
 
-To finish this tutorial, let’s talk about the very first function we called: `dist.init_process_group(backend, init_method)`. In particular, we will go over the different initialization methods which are responsible for the initial coordination step between each process. Those methods allow you to define how this coordination is done. Depending on your hardware setup, one of these methods should be naturally more suitable than the others. In addition to the following sections, you should also have a look at the [official documentation](https://pytorch.org/docs/stable/distributed.html#initialization).
+为了完成本教程，我们来谈谈我们调用的第一个函数：dist.init_process_group（backend，init_method）。 特别是，我们将讨论不同的初始化方法，这些方法负责每个进程之间的初始协调步骤。 这些方法允许您定义如何完成此协调。 根据您的硬件设置，其中一种方法应该比其他方法更合适。 除了以下部分，您还应该查看[官方文档](https://pytorch.org/docs/stable/distributed.html#initialization)。
 
-Before diving into the initialization methods, let’s have a quick look at what happens behind `init_process_group` from the C/C++ perspective.
+在深入研究初始化方法之前，让我们从C / C ++的角度快速了解init_process_group背后的情况。
 
-1.  First, the arguments are parsed and validated.
-2.  The backend is resolved via the `name2channel.at()` function. A `Channel` class is returned, and will be used to perform the data transmission.
-3.  The GIL is dropped, and `THDProcessGroupInit()` is called. This instantiates the channel and adds the address of the master node.
-4.  The process with rank 0 will execute the `master` procedure, while all other ranks will be `workers`.
-5.  The master
-    1.  Creates sockets for all workers.
-    2.  Waits for all workers to connect.
-    3.  Sends them information about the location of the other processes.
-6.  Each worker
-    1.  Creates a socket to the master.
-    2.  Sends their own location information.
-    3.  Receives information about the other workers.
-    4.  Opens a socket and handshakes with all other workers.
-7.  The initialization is done, and everyone is connected to everyone.
+1. 首先，解析和验证参数。
 
-**Environment Variable**
+2. 后端通过name2channel.at（）函数解析。 返回Channel类，将用于执行数据传输。
 
-We have been using the environment variable initialization method throughout this tutorial. By setting the following four environment variables on all machines, all processes will be able to properly connect to the master, obtain information about the other processes, and finally handshake with them.
+3. GIL被删除，并调用THDProcessGroupInit（）。 这会实例化通道并添加主节点的地址。
 
-*   `MASTER_PORT`: A free port on the machine that will host the process with rank 0.
-*   `MASTER_ADDR`: IP address of the machine that will host the process with rank 0.
-*   `WORLD_SIZE`: The total number of processes, so that the master knows how many workers to wait for.
-*   `RANK`: Rank of each process, so they will know whether it is the master of a worker.
+4. 等级0的过程将执行主过程，而所有其他等级将是工作进程。
 
-**Shared File System**
+5. 主进程
 
-The shared filesystem requires all processes to have access to a shared file system, and will coordinate them through a shared file. This means that each process will open the file, write its information, and wait until everybody did so. After what all required information will be readily available to all processes. In order to avoid race conditions, the file system must support locking through [fcntl](http://man7.org/linux/man-pages/man2/fcntl.2.html). Note that you can specify ranks manually or let the processes figure it out by themselves. Be defining a unique `groupname` per job you can use the same file path for multiple jobs and safely avoid collision.
+   （1）为所有工作进程创建套接字。
+   （2）等待所有工作进程连接。
+   （3）向他们发送有关其他进程位置的信息。
 
-```py
+6. 每个工作进程
+
+   （1）为主进程创建一个套接字。
+    （2）发送自己的位置信息。
+    （3）接收有关其他工作进程的信息。
+    （4）打开套接字并与所有其他工作进程握手。
+7. 初始化完成，每个进程都相互建立连接。
+
+#### 环境变量
+
+在本教程中，我们一直在使用环境变量初始化方法。 通过在所有计算机上设置以下四个环境变量，所有进程都能够正确连接到主进程，获取有关其他进程的信息，最后与它们握手。
+
+- MASTER_PORT：计算机上的一个空闲端口，用于承载排名为0的进程。
+- MASTER_ADDR：将以0级托管进程的计算机的IP地址。
+- WORLD_SIZE：进程总数，以便master知道要等待多少worker。
+- RANK：每个流程的等级，因此他们将知道它是否是worker的master。
+
+#### 共享文件系统
+
+共享文件系统要求所有进程都可以访问共享文件系统，并通过共享文件协调它们。 这意味着每个进程都将打开文件，写入其信息，并等到每个人都这样做。 在所有必需信息将随时可用于所有流程之后。 为了避免竞争条件，文件系统必须支持通过[fcntl](http://man7.org/linux/man-pages/man2/fcntl.2.html)锁定。 请注意，您可以手动指定排名，也可以让流程自行计算。 要为每个作业定义一个唯一的组名，您可以为多个作业使用相同的文件路径并安全地避免冲突。
+
+```python
 dist.init_process_group(init_method='file:///mnt/nfs/sharedfile', world_size=4,
                         group_name='mygroup')
-
 ```
 
-**TCP Init & Multicast**
+#### TCP初始化和多播
 
-Initializing via TCP can be achieved in two different ways:
+通过TCP初始化可以通过两种不同的方式实现：
 
-1.  By providing the IP address of the process with rank 0 and the world size.
-2.  By providing _any_ valid IP [multicast address](https://en.wikipedia.org/wiki/Multicast_address) and the world size.
+- 通过提供具有等级0和世界大小的进程的IP地址。
+- 通过提供任何有效的IP[多播](https://en.wikipedia.org/wiki/Multicast_address)地址和世界大小。
 
-In the first case, all workers will be able to connect to the process with rank 0 and follow the procedure described above.
+在第一种情况下，所有工作进程将能够连接到等级为0的进程并按照上述步骤进行操作。
 
-```py
+```python
 dist.init_process_group(init_method='tcp://10.1.1.20:23456', rank=args.rank, world_size=4)
-
 ```
 
-In the second case, the multicast address specifies the group of nodes who might potentially be active and the coordination can be handled by allowing each process to have an initial handshake before following the above procedure. In addition TCP multicast initialization also supports a `group_name` argument (as with the shared file method) allowing multiple jobs to be scheduled on the same cluster.
+在第二种情况下，多播地址指定可能处于活动状态的节点组，并且可以通过允许每个进程在执行上述过程之前进行初始握手来处理协调。 此外，TCP多播初始化还支持group_name参数（与共享文件方法一样），允许在同一群集上调度多个作业。
 
-```py
+```python
 dist.init_process_group(init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b0a7]:23456',
                         world_size=4)
-
 ```
 
-<center>
+### 致谢
 
-**Acknowledgements**
-
-</center>
-
-I’d like to thank the PyTorch developers for doing such a good job on their implementation, documentation, and tests. When the code was unclear, I could always count on the [docs](https://pytorch.org/docs/stable/distributed.html) or the [tests](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py) to find an answer. In particular, I’d like to thank Soumith Chintala, Adam Paszke, and Natalia Gimelshein for providing insightful comments and answering questions on early drafts.
-
+我要感谢PyTorch开发人员在他们的实现，[文档](https://pytorch.org/docs/stable/distributed.html)和[测试](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py)方面做得很好。 当代码不清楚时，我总是可以依靠文档或测试来找到答案。 特别是，我要感谢Soumith Chintala，Adam Paszke和Natalia Gimelshein提供有见地的评论并回答有关早期草稿的问题。
