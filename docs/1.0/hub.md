@@ -1,6 +1,6 @@
-
-
 # torch.hub
+
+> 译者：[kunwuz](https://github.com/kunwuz)
 
 ```py
 torch.hub.load(github, model, force_reload=False, *args, **kwargs)
@@ -24,8 +24,6 @@ torch.hub.load(github, model, force_reload=False, *args, **kwargs)
 torch.hub.set_dir(d)
 ```
 
-```py
-Optionally set hub_dir to a local dir to save the intermediate model & checkpoint files.
-```
+也可以将`hub_dir`设置为本地目录来保存中间模型和检查点文件。
 
 如果未设置此参数,环境变量<cite>TORCH_HUB_DIR</cite> 会被首先搜寻，<cite>~/.torch/hub</cite> 将被创建并用作后备。
