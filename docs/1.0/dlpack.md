@@ -19,7 +19,7 @@ torch.utils.dlpack.to_dlpack(tensor) → PyCapsule
 
 返回一个表示张量的DLPack。
 
-| Parameters: | **tensor** – a tensor to be exported |
+| 参数: | **tensor** –一个用来输出的tensor张量 |
 | --- | --- |
 
 这个张量会与dlpack对象共享存储空间。注意每个dlpack对象只能使用一次。
