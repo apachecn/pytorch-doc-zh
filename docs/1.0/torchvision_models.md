@@ -39,11 +39,11 @@ inception = models.inception_v3(pretrained=True)
 
 ```
 
-定义预训练模型时会把权值下载到一个缓存文件夹中，这个缓存文件可以通过环境变量`TORCH_MODEL_ZOO`来指定。更多细节见[`torch.utils.model_zoo.load_url()`](../model_zoo.html#torch.utils.model_zoo.load_url "torch.utils.model_zoo.load_url")。
+定义预训练模型时会把权值下载到一个缓存文件夹中，这个缓存文件可以通过环境变量`TORCH_MODEL_ZOO`来指定。更多细节见[`torch.utils.model_zoo.load_url()`](../model_zoo.html#torch.utils.model_zoo.load_url "torch.utils.model_zoo.load_url")。
 
 有些模型在训练和测试阶段用到了不同的模块，例如批标准化（batch normalization）。使用`model.train()`或`model.eval()`可以切换到相应的模式。更多细节见[`train()`](../nn.html#torch.nn.Module.train "torch.nn.Module.train")或[`eval()`](../nn.html#torch.nn.Module.eval "torch.nn.Module.eval")。
 
-所有的预训练模型都要求输入图片以相同的方式进行标准化，即：小批（mini-batch）三通道RGB格式（3 x H x W），其中H和W不得小于224。图片加载时像素值的范围应在[0, 1]内，然后通过指定`mean = [0.485, 0.456, 0.406]`和`std = [0.229, 0.224, 0.225]`进行标准化，例如：
+所有的预训练模型都要求输入图片以相同的方式进行标准化，即：小批（mini-batch）三通道RGB格式（3 x H x W），其中H和W不得小于224。图片加载时像素值的范围应在[0, 1]内，然后通过指定`mean = [0.485, 0.456, 0.406]`和`std = [0.229, 0.224, 0.225]`进行标准化，例如：
 
 ```py
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -107,7 +107,7 @@ VGG11模型。（论文中的“A”模型）
 torchvision.models.vgg11_bn(pretrained=False, **kwargs)
 ```
 
-VGG11模型，带有批标准化。（论文中的“A”模型）
+VGG11模型，带有批标准化。（论文中的“A”模型）
 
  
 | 参数： | **pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，返回ImageNet预训练模型 |
@@ -127,7 +127,7 @@ VGG13模型。（论文中的“B”模型）
 torchvision.models.vgg13_bn(pretrained=False, **kwargs)
 ```
 
-VGG13模型，带有批标准化。（论文中的“B”模型）
+VGG13模型，带有批标准化。（论文中的“B”模型）
 
  
 | 参数： | **pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，返回ImageNet预训练模型 |
@@ -147,7 +147,7 @@ VGG16模型。（论文中的“D”模型）
 torchvision.models.vgg16_bn(pretrained=False, **kwargs)
 ```
 
-VGG16模型，带有批标准化。（论文中的“D”模型）
+VGG16模型，带有批标准化。（论文中的“D”模型）
 
  
 | 参数： | **pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，返回ImageNet预训练模型 |
@@ -167,7 +167,7 @@ VGG19模型。（论文中的“E”模型）
 torchvision.models.vgg19_bn(pretrained=False, **kwargs)
 ```
 
-VGG19模型，带有批标准化。（论文中的“E”模型）
+VGG19模型，带有批标准化。（论文中的“E”模型）
 
  
 | 参数： | **pretrained** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，返回ImageNet预训练模型 |

@@ -8,9 +8,9 @@
 torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None, progress=True)
 ```
 
-由给定URL加载Torch序列化对象。
+由给定URL加载Torch序列化对象。
 
-如果该对象已经存在于`model_dir`中，将被反序列化并返回。URL的文件名部分应该遵循约定`filename-<sha256>.ext`，其中`<sha256>`是文件内容的SHA256哈希的前八位或更多位数。（哈希用于确保唯一的名称并验证文件的内容）
+如果该对象已经存在于`model_dir`中，将被反序列化并返回。URL的文件名部分应该遵循约定`filename-<sha256>.ext`，其中`<sha256>`是文件内容的SHA256哈希的前八位或更多位数。（哈希用于确保唯一的名称并验证文件的内容）
 
 `model_dir`默认为`$TORCH_HOME/models`，其中`$TORCH_HOME`默认是`~/.torch`。如果不需要默认目录，可以通过环境变量`$TORCH_MODEL_ZOO`指定其它的目录。
 

@@ -47,10 +47,10 @@ class torchvision.datasets.MNIST(root, train=True, transform=None, target_transf
 参数： 
 
 *   **root**（_string_）– 数据集的根目录，其中存放`processed/training.pt`和`processed/test.pt`文件。
-*   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从`training.pt`创建数据集，否则从`test.pt`创建。
-*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True, 从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从`training.pt`创建数据集，否则从`test.pt`创建。
+*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True, 从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform** （_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **target_transform** （_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 
 
 
@@ -64,10 +64,10 @@ class torchvision.datasets.FashionMNIST(root, train=True, transform=None, target
 参数： 
 
 *   **root**（_string_）– 数据集的根目录，其中存放`processed/training.pt`和`processed/test.pt`文件。
-*   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从`training.pt`创建数据集，否则从`test.pt`创建。
-*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从`training.pt`创建数据集，否则从`test.pt`创建。
+*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 
 
 
@@ -82,16 +82,16 @@ class torchvision.datasets.EMNIST(root, split, **kwargs)
 
 *   **root**（_string_）– 数据集的根目录，其中存放`processed/training.pt`和`processed/test.pt`文件。
 *   **split**（_string_）– 该数据集分成6种：`byclass`，`bymerge`，`balanced`，`letters`，`digits`和`mnist`。这个参数指定了选择其中的哪一种。
-*   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从`training.pt`创建数据集，否则从`test.pt`创建。
-*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True, 从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从`training.pt`创建数据集，否则从`test.pt`创建。
+*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True, 从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_) – 一种函数或变换，输入目标，进行变换。
+*   **target_transform**（_可被调用_ _,_ _可选_) – 一种函数或变换，输入目标，进行变换。
 
 
 
 注意：
 
-以下要求预先[安装COCO API](https://github.com/pdollar/coco/tree/master/PythonAPI)。
+以下要求预先[安装COCO API](https://github.com/pdollar/coco/tree/master/PythonAPI)。
 
 ```py
 class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_transform=None)
@@ -105,7 +105,7 @@ class torchvision.datasets.CocoCaptions(root, annFile, transform=None, target_tr
 *   **root**（_string_）– 下载数据的目标目录。
 *   **annFile**（_string_）– json标注文件的路径。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.ToTensor`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 
 
 
@@ -163,7 +163,7 @@ class torchvision.datasets.CocoDetection(root, annFile, transform=None, target_t
 *   **root**（_string_）– 下载数据的目标目录。
 *   **annFile**（_string_）– json标注文件的路径。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.ToTensor`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 
 
 
@@ -191,7 +191,7 @@ class torchvision.datasets.LSUN(root, classes='train', transform=None, target_tr
 *   **root**（_string_）– 存放数据文件的根目录。
 *   **classes**（_string_ _或_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")）– {‘train’, ‘val’, ‘test’}之一，或要加载类别的列表，如[‘bedroom_train’, ‘church_train’]。
 *   **transform**（_可被调用_ _,_ _可选_) – 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 
 
 
@@ -229,7 +229,7 @@ root/cat/asd932_.png
 
 *   **root**（_string_）– 根目录路径。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 *   **loader** – 一种函数，可以由给定的路径加载图片。
 
 
@@ -268,9 +268,9 @@ root/class_y/asd932_.ext
 
 *   **root**（_string_）– 根目录路径。
 *   **loader**（_可被调用_）– 一种函数，可以由给定的路径加载数据。
-*   **extensions**（[_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[__string__]_）– 列表，包含允许的扩展。
+*   **extensions**（[_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[__string__]_）– 列表，包含允许的扩展。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入数据，返回变换之后的数据。如：对于图片有`transforms.RandomCrop`。
-*   **target_transform** – 一种函数或变换，输入目标，进行变换。
+*   **target_transform** – 一种函数或变换，输入目标，进行变换。
 
 
 
@@ -288,7 +288,7 @@ __getitem__(index)
 
 这个类可以很容易地实现`ImageFolder`数据集。数据预处理见[此处](https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset)。
 
-[示例](https://github.com/pytorch/examples/blob/e0d33a69bec3eb4096c265451dbb85975eb961ea/imagenet/main.py#L113-L126)。
+[示例](https://github.com/pytorch/examples/blob/e0d33a69bec3eb4096c265451dbb85975eb961ea/imagenet/main.py#L113-L126)。
 
 ```py
 class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_transform=None, download=False)
@@ -302,8 +302,8 @@ class torchvision.datasets.CIFAR10(root, train=True, transform=None, target_tran
 *   **root**（_string_）– 数据集根目录，要么其中应存在`cifar-10-batches-py`文件夹，要么当download设置为True时`cifar-10-batches-py`文件夹保存在此处。
 *   **train**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True, 从训练集中创建，否则从测试集中创建。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
-*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 
 
 
@@ -339,8 +339,8 @@ class torchvision.datasets.STL10(root, split='train', transform=None, target_tra
 *   **root**（_string_）– 数据集根目录，应该包含`stl10_binary`文件夹。
 *   **split**（_string_）– {‘train’, ‘test’, ‘unlabeled’, ‘train+unlabeled’}之一，选择相应的数据集。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
-*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 
 
 
@@ -351,7 +351,7 @@ __getitem__(index)
  
 | 参数： | **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 索引 |
 | --- | --- |
-| 返回： | (image, target)，其中target应是目标类的类索引。 |
+| 返回： | (image, target)，其中target应是目标类的类索引。 |
 | --- | --- |
 | 返回类型： | [tuple](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") |
 | --- | --- |
@@ -360,7 +360,7 @@ __getitem__(index)
 class torchvision.datasets.SVHN(root, split='train', transform=None, target_transform=None, download=False)
 ```
 
-[SVHN](http://ufldl.stanford.edu/housenumbers/)数据集。注意：SVHN数据集将`10`指定为数字`0`的标签。然而，这里我们将`0`指定为数字`0`的标签以兼容PyTorch的损失函数，因为损失函数要求类标签在`[0, C-1]`的范围内。
+[SVHN](http://ufldl.stanford.edu/housenumbers/)数据集。注意：SVHN数据集将`10`指定为数字`0`的标签。然而，这里我们将`0`指定为数字`0`的标签以兼容PyTorch的损失函数，因为损失函数要求类标签在`[0, C-1]`的范围内。
 
  
 参数：
@@ -368,8 +368,8 @@ class torchvision.datasets.SVHN(root, split='train', transform=None, target_tran
 *   **root**（_string_）– 数据集根目录，应包含`SVHN`文件夹。
 *   **split**（_string_）– {‘train’, ‘test’, ‘extra’}之一，相应的数据集会被选择。‘extra’是extra训练集。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
-*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
-*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **target_transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
+*   **download**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 
 
 
@@ -397,7 +397,7 @@ class torchvision.datasets.PhotoTour(root, name, train=True, transform=None, dow
 *   **root**（_string_）– 保存图片的根目录。
 *   **name**（_string_）– 要加载的数据集。
 *   **transform**（_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。
-*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
+*   **download** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
 
 
 
