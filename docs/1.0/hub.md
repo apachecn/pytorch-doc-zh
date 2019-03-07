@@ -6,18 +6,18 @@
 torch.hub.load(github, model, force_reload=False, *args, **kwargs)
 ```
 
-Load a model from a github repo, with pretrained weights.
+从github上加载一个带有预训练权重的模型。
 
-Parameters: 
+参数: 
 
-*   **github** – Required, a string with format “repo_owner/repo_name[:tag_name]” with an optional tag/branch. The default branch is `master` if not specified. Example: ‘pytorch/vision[:hub]’
-*   **model** – Required, a string of callable name defined in repo’s hubconf.py
-*   **force_reload** – Optional, whether to discard the existing cache and force a fresh download. Default is `False`.
-*   ***args** – Optional, the corresponding args for callable `model`.
-*   ****kwargs** – Optional, the corresponding kwargs for callable `model`.
+*   **github** – 必需，一个字符串对象，格式为“repo_owner/repo_name[:tag_name]”，可选 tag/branch。如果未做指定，默认的 branch 是 `master` 。比方说: ‘pytorch/vision[:hub]’
+*   **model** – 必须，一个字符串对象，名字在hubconf.py中定义。
+*   **force_reload** – 可选， 是否丢弃现有缓存并强制重新下载。默认是：`False`。
+*   ***args** – 可选， 可调用的`model`的相关args参数。
+*   ****kwargs** – 可选， 可调用的`model`的相关kwargs参数。
 
 
-| Returns: | a single model with corresponding pretrained weights. |
+| 返回: | 一个有相关预训练权重的单一模型。 |
 | --- | --- |
 
 ```py
@@ -28,4 +28,4 @@ torch.hub.set_dir(d)
 Optionally set hub_dir to a local dir to save the intermediate model & checkpoint files.
 ```
 
-If this argument is not set, env variable <cite>TORCH_HUB_DIR</cite> will be searched first, <cite>~/.torch/hub</cite> will be created and used as fallback. 
+如果未设置此参数,环境变量<cite>TORCH_HUB_DIR</cite> 会被首先搜寻，<cite>~/.torch/hub</cite> 将被创建并用作后备。

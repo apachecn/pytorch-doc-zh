@@ -6,21 +6,21 @@
 torch.utils.dlpack.from_dlpack(dlpack) → Tensor
 ```
 
-Decodes a DLPack to a tensor.
+将DLPack解码成Tensor张量。
 
-| Parameters: | **dlpack** – a PyCapsule object with the dltensor |
+| 参数: | **dlpack** – 一个有着dltensor张量的PyCapsule对象 |
 | --- | --- |
 
-The tensor will share the memory with the object represented in the dlpack. Note that each dlpack can only be consumed once.
+这个张量会与dlpack对象共享存储空间。注意每个dlpack对象只能使用一次。
 
 ```py
 torch.utils.dlpack.to_dlpack(tensor) → PyCapsule
 ```
 
-Returns a DLPack representing the tensor.
+返回一个表示张量的DLPack。
 
 | Parameters: | **tensor** – a tensor to be exported |
 | --- | --- |
 
-The dlpack shares the tensors memory. Note that each dlpack can only be consumed once.
+这个张量会与dlpack对象共享存储空间。注意每个dlpack对象只能使用一次。
 
