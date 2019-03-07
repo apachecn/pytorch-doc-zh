@@ -1,6 +1,6 @@
-
-
 # torch.utils.dlpack
+
+> 译者：[kunwuz](https://github.com/kunwuz)
 
 ```py
 torch.utils.dlpack.from_dlpack(dlpack) → Tensor
