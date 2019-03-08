@@ -1,5 +1,7 @@
 # 针对NLP的Pytorch深度学习
 
+> 译者：[@JingTao](https://github.com/jingwangfei)、[@friedhelm739](https://github.com/friedhelm739)
+
 **作者**: [Robert Guthrie](https://github.com/rguthrie3/DeepLearningForNLPInPytorch)
 
 本教程将带你浏览基于Pytorch深度学习编程的核心思想.其中很多思想(例如计算图形抽象化以及自动求导) 并不是Pytorch特有的,他们和任何深度学习工具包都是相关的.
@@ -20,7 +22,7 @@
 
 [词汇嵌入:编码词汇语义](nlp/word_embeddings_tutorial.html#sphx-glr-beginner-nlp-word-embeddings-tutorial-py)
 
-![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_sequence_models_tutorial_thumb.png](img/d039aef9c9fb8610d9dcaa67c63a2a8e.jpg)
+![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glrsequencemodels_tutorial_thumb.png](img/d039aef9c9fb8610d9dcaa67c63a2a8e.jpg)
 
 [序列模型和 LSTM 网络（长短记忆网络）](nlp/sequence_models_tutorial.html#sphx-glr-beginner-nlp-sequence-models-tutorial-py)
 

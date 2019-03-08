@@ -1,5 +1,9 @@
 # torch
 
+> 译者：[@那伊抹微笑](https://github.com/wangyangting)、@yudong、[@小瑶](https://github.com/chenyyx)、[@片刻](https://github.com/jiangzhonglian)、[@李雨龙](https://github.com/sawyer7246)、[@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992)、[@张假飞](https://github.com/nothingcouldbebetter)、[@rickllyxu](https://github.com/rickllyxu)
+> 
+> 校对者：[@张假飞](https://github.com/nothingcouldbebetter)、[@飞龙](https://github.com/wizardforcel)
+
 torch package 包含了多维张量的数据结构, 以及基于其上的多种数学操作. 此外, 它还提供了许多用于高效序列化 Tensor 和任意类型的实用工具包, 以及一起其它有用的实用工具包.
 
 它有一个 CUDA 的对应实现, 它使您能够在计算能力 &gt;=0.3 的 NVIDIA GPU 上进行张量运算.
@@ -12,8 +16,8 @@ torch.is_tensor(obj)
 
 如果 `obj` 是一个 pytorch tensor, 则返回True.
 
-| Parameters: | **obj** (_Object_) – 用于测试的对象 |
-| --- | --- |
+参数：`obj (Object)` – 用于测试的对象
+
 
 ```py
 torch.is_storage(obj)
@@ -21,8 +25,8 @@ torch.is_storage(obj)
 
 如果 `obj` 是一个 pytorch storage object, 则返回True.
 
-| Parameters: | **obj** (_Object_) – 用于测试的对象 |
-| --- | --- |
+参数：`obj (Object)` – 用于测试的对象
+
 
 ```py
 torch.set_default_tensor_type(t)
@@ -34,10 +38,10 @@ torch.numel(input) → int
 
 返回 `input` Tensor 中的元素总数.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的 `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – 输入的 `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1,2,3,4,5)
@@ -55,16 +59,15 @@ torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth
 
 设置打印选项. 从 Numpy 中采集数据
 
-| Parameters: | 
+参数：
 
-*   **precision** – 浮点输出精度的位数 (默认值为 8).
-*   **threshold** – 触发汇总显示而不是完全显示(repr)的数组元素的总数 (默认值为 1000).
-*   **edgeitems** – 每个维度开始和结束时总结的数组项数 (默认值为 3).
-*   **linewidth** – 插入换行符的每行字符数 (默认值为 80). Thresholded matricies(阈值矩阵) 将忽略这个参数.
-*   **profile** – 用于漂亮格式的打印. 可以用以下任何选项来进行覆盖 (default, short, full)
+*   `precision` – 浮点输出精度的位数 (默认值为 8).
+*   `threshold` – 触发汇总显示而不是完全显示(repr)的数组元素的总数 (默认值为 1000).
+*   `edgeitems` – 每个维度开始和结束时总结的数组项数 (默认值为 3).
+*   `linewidth` – 插入换行符的每行字符数 (默认值为 80). Thresholded matricies(阈值矩阵) 将忽略这个参数.
+*   `profile` – 用于漂亮格式的打印. 可以用以下任何选项来进行覆盖 (default, short, full)
 
- |
-| --- | --- |
+
 
 ### Creation Ops (创建操作)
 
@@ -74,20 +77,18 @@ torch.eye(n, m=None, out=None)
 
 返回对角线位置全为1, 其它位置全为0的二维 tensor.
 
-| Parameters: | 
+参数：
 
-*   **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 行数
-*   **m** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 列数. 如果为 None,则默认为 `n`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 tensor
+*   `n (int)` – 行数
+*   `m (int, 可选)` – 列数. 如果为 None,则默认为 `n`
+*   `out (Tensor, 可选)` – 输出 tensor
 
- |
-| --- | --- |
-| Returns: | 一个对角线位置全为1, 其它位置全为0的二维 tensor. |
-| --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
 
-Example:
+返回值：一个对角线位置全为1, 其它位置全为0的二维 tensor.
+
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.eye(3)
@@ -106,7 +107,7 @@ torch.from_numpy(ndarray) → Tensor
 
 返回 tensor 和 `ndarray` 共享相同的内存. 对 tensor 的修改将反映在 `ndarray` 中, 反之亦然. 返回 tensor 不可调整大小.
 
-Example:
+示例：
 
 ```py
 >>> a = numpy.array([1, 2, 3])
@@ -127,17 +128,16 @@ torch.linspace(start, end, steps=100, out=None) → Tensor
 
 输出 是尺寸 `steps` 为一维 tensor
 
-| Parameters: | 
+参数：
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的起始值
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的结束值
-*   **steps** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 在 `start` 和 `end` 之间的样本数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果的 `Tensor`
+*   `start (float)` – 点集合的起始值
+*   `end (float)` – 点集合的结束值
+*   `steps (int)` – 在 `start` 和 `end` 之间的样本数
+*   `out (Tensor, 可选)` – 输出结果的 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.linspace(3, 10, steps=5)
@@ -177,17 +177,16 @@ torch.logspace(start, end, steps=100, out=None) → Tensor
 
 输出是长度为 `steps` 的一维 tensor
 
-| Parameters: | 
+参数：
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的起始值
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的结束值
-*   **steps** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 在 `start` 和 `end` 之间的样本数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果`Tensor`
+*   `start (float)` – 点集合的起始值
+*   `end (float)` – 点集合的结束值
+*   `steps (int)` – 在 `start` 和 `end` 之间的样本数
+*   `out (Tensor, 可选)` – 输出结果`Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.logspace(start=-10, end=10, steps=5)
@@ -216,15 +215,14 @@ torch.ones(*sizes, out=None) → Tensor
 
 返回填充了标量值 `1` 的 Tensor, 其形状由可变参数 `sizes` 定义.
 
-| Parameters: | 
+参数：
 
-*   **sizes** (_int..._) – 一组定义输出 Tensor 形状的整数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果 Tensor
+*   `sizes (int...)` – 一组定义输出 Tensor 形状的整数
+*   `out (Tensor, 可选)` – 输出结果 Tensor
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.ones(2, 3)
@@ -250,15 +248,14 @@ torch.ones_like(input, out=None) → Tensor
 
 返回一个用标量值 `1` 填充的张量, 大小与 `input` 相同.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的大小将决定输出的大小.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果 Tensor
+*   `input (Tensor)` – 输入的大小将决定输出的大小.
+*   `out (Tensor, 可选)` – 输出结果 Tensor
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> input = torch.FloatTensor(2, 3)
@@ -276,17 +273,16 @@ torch.arange(start=0, end, step=1, out=None) → Tensor
 
 从 `start` 用步长为 `step` 开始, 间隔在 `[start, end)` 中的值返回大小层次为 ![floor((end - start) / step)](img/tex-11a8e3f324d6a7b187a0eb8b25d3926e.gif) 的一维 Tensor.
 
-| Parameters: | 
+参数：
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的起始值
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的结束值
-*   **step** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 每对相邻点之间的间隔
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果 `Tensor`
+*   `start (float)` – 点集合的起始值
+*   `end (float)` – 点集合的结束值
+*   `step (float)` – 每对相邻点之间的间隔
+*   `out (Tensor, 可选)` – 输出结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.arange(5)
@@ -320,21 +316,20 @@ torch.range(start, end, step=1, out=None) → Tensor
 
 返回一个在 `start` 到 `end` 并且步长为 `step` 的区间内, 大小为 ![floor((end - start) / step) + 1](img/tex-a8d4b9eb08b29e4455688db33c092ae9.gif) 为一维 Tensor. `step` 是 tensor 中两个值之间的差距. ![x_{i+1} = x_i + step](img/tex-b99fbae9badbed7f3e2e937599966cd4.gif)
 
-Warning
+警告：
 
-此功能已被弃用, 以支持 [`torch.arange()`](#torch.arange "torch.arange").
+此功能已被弃用, 以支持 `torch.arange()`.
 
-| Parameters: | 
+参数：
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的起始值
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 点集合的结束值
-*   **step** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 每对相邻点之间的间隔
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果 `Tensor`
+*   `start (float)` – 点集合的起始值
+*   `end (float)` – 点集合的结束值
+*   `step (float)` – 每对相邻点之间的间隔
+*   `out (Tensor, 可选)` – 输出结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.range(1, 4)
@@ -364,15 +359,14 @@ torch.zeros(*sizes, out=None) → Tensor
 
 返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 `sizes` 定义.
 
-| Parameters: | 
+参数：
 
-*   **sizes** (_int..._) – 定义输出 Tensor 形状的一组整数.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果 Tensor
+*   `sizes (int...)` – 定义输出 Tensor 形状的一组整数.
+*   `out (Tensor, 可选)` – 输出结果 Tensor
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.zeros(2, 3)
@@ -398,15 +392,14 @@ torch.zeros_like(input, out=None) → Tensor
 
 返回一个用标量值 `0` 填充的 Tensor, 其大小与 `input` 相同.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的大小将决定输出的大小.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果 Tensor
+*   `input (Tensor)` – 输入的大小将决定输出的大小.
+*   `out (Tensor, 可选)` – 输出结果 Tensor
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> input = torch.FloatTensor(2, 3)
@@ -424,22 +417,21 @@ Example:
 torch.cat(seq, dim=0, out=None) → Tensor
 ```
 
-在给定维度上对输入的张量序列 `seq` 进行连接操作. 所有张量必须具有相同的形状(在 [`cat`](#torch.cat "torch.cat") 维度中除外) 或为空.
+在给定维度上对输入的张量序列 `seq` 进行连接操作. 所有张量必须具有相同的形状(在 `cat` 维度中除外) 或为空.
 
-[`torch.cat()`](#torch.cat "torch.cat") 可以看做是 [`torch.split()`](#torch.split "torch.split") 和 [`torch.chunk()`](#torch.chunk "torch.chunk") 的逆操作.
+`torch.cat()` 可以看做是 `torch.split()` 和 `torch.chunk()` 的逆操作.
 
-[`cat()`](#torch.cat "torch.cat") 可以通过下面的例子更好地理解.
+`cat()` 可以通过下面的例子更好地理解.
 
-| Parameters: | 
+参数：
 
-*   **seq** (_sequence of Tensors_) – 可以是任何相同类型的 `Tensor` 的 Python 序列.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – tensors 级联的维数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出参数
+*   `seq (_sequence of Tensors_)` – 可以是任何相同类型的 `Tensor` 的 Python 序列.
+*   `dim (int, 可选)` – tensors 级联的维数
+*   `out (Tensor, 可选)` – 输出参数
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(2, 3)
@@ -473,14 +465,13 @@ torch.chunk(tensor, chunks, dim=0)
 
 在给定维度(轴)上将输入张量进行分块处理.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待分块的输入张量.
-*   **chunks** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要返回的分块的个数.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 切分张量所需要沿着的维度.
+*   `tensor (Tensor)` – 待分块的输入张量.
+*   `chunks (int)` – 要返回的分块的个数.
+*   `dim (int)` – 切分张量所需要沿着的维度.
 
- |
-| --- | --- |
+
 
 ```py
 torch.gather(input, dim, index, out=None) → Tensor
@@ -499,17 +490,16 @@ out[i][j][k] = input[i][j][index[i][j][k]]  # if dim == 2
 
 如果 `input` 是 size 为 ![(x_0, x_1..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})](img/tex-b2b722f612a0a739ffabe888b56158d5.gif) 且 `dim` = i 的 n 维张量,则 `index` 必须是具有 size 为 ![(x_0, x_1, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})](img/tex-07123a18476a076323dd412ea5acc56c.gif) 的 n 维张量,其中 y &gt;= 1 ,并且 `out` 将与 `index` 的 size 相同.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 源张量
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引的轴
-*   **index** (_LongTensor_) – 聚合元素的下标
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 目标张量
+*   `input (Tensor)` – 源张量
+*   `dim (int)` – 索引的轴
+*   `index (LongTensor)` – 聚合元素的下标
+*   `out (Tensor, 可选)` – 目标张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> t = torch.Tensor([[1,2],[3,4]])
@@ -528,21 +518,20 @@ torch.index_select(input, dim, index, out=None) → Tensor
 
 > 返回的张量与原始张量 `Tensor` 有相同的维度(在指定轴上).
 
-Note
+注解：
 
 返回的张量不与原始张量共享内存空间.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引的轴
-*   **index** (_LongTensor_) – 包含索引下标的一维张量
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出参数/目标张量
+*   `input (Tensor)` – 输入张量
+*   `dim (int)` – 索引的轴
+*   `index (LongTensor)` – 包含索引下标的一维张量
+*   `out (Tensor, 可选)` – 输出参数/目标张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(3, 4)
@@ -577,20 +566,19 @@ torch.masked_select(input, mask, out=None) → Tensor
 
 张量 `mask` 与 `input` 的 shape 或维度不需要相同,但是他们必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) .
 
-Note
+注解：
 
 返回的张量不与原始张量共享内存空间.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **mask** ([_ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 掩码张量,包含了二元索引值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出参数/目标张量
+*   `input (Tensor)` – 输入张量
+*   `mask (ByteTensor)` – 掩码张量,包含了二元索引值
+*   `out (Tensor, 可选)` – 输出参数/目标张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(3, 4)
@@ -630,15 +618,14 @@ torch.nonzero(input, out=None) → LongTensor
 
 如果输入张量 `input` 有 `n` 维,则输出的索引张量 `out` 的 size 为 `z x n` , 这里 `z` 是输入张量 `input` 中所有非零元素的个数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量/源张量
-*   **out** (_LongTensor__,_ _optional_) – 包含索引值的输出张量
+*   `input (Tensor)` – 输入张量/源张量
+*   `out (LongTensor, 可选)` – 包含索引值的输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.nonzero(torch.Tensor([1, 1, 1, 0, 1]))
@@ -670,14 +657,13 @@ torch.split(tensor, split_size, dim=0)
 
 如果沿指定维的张量形状大小不能被 `split_size` 整分, 则最后一个分块会小于其它分块.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待分割张量.
-*   **split_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 单个分块的 size 大小.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 沿着此维进行分割.
+*   `tensor (Tensor)` – 待分割张量.
+*   `split_size (int)` – 单个分块的 size 大小.
+*   `dim (int)` – 沿着此维进行分割.
 
- |
-| --- | --- |
+
 
 ```py
 torch.squeeze(input, dim=None, out=None)
@@ -689,24 +675,23 @@ torch.squeeze(input, dim=None, out=None)
 
 当给定 `dim` 时,那么挤压操作只在给定维度上.例如, `input` 的 shape 为: ![(A x 1 x B)](img/tex-b06a8b322f4713a58fe712d57c9ceda0.gif) , `squeeze(input, 0)` 将会保持张量不变,只有用 `squeeze(input, 1)` , shape 会变成 ![(A x B)](img/tex-c6d3e8cfc2d4f7d1ef61fc25eb14f67f.gif) .
 
-Note
+注解：
 
 作为上述的一个例外,size 为 1 的一维张量不会改变维度.
 
-Note
+注解：
 
 返回张量与输入张量共享内存,所以改变其中一个的内容会改变另一个.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 如果给定 `dim` 时,则 `input` 只会在给定维度执行挤压
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量
+*   `dim (int, 可选)` – 如果给定 `dim` 时,则 `input` 只会在给定维度执行挤压
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.zeros(2,1,2,1,2)
@@ -732,13 +717,12 @@ torch.stack(sequence, dim=0, out=None)
 
 序列中所有的张量都应该为相同 size .
 
-| Parameters: | 
+参数：
 
-*   **sequence** (_Sequence_) – 待连接的张量序列.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 插入的维度.必须介于 0 与待连接的张量序列数（包含）之间.
+*   `sequence (_Sequence_)` – 待连接的张量序列.
+*   `dim (int)` – 插入的维度.必须介于 0 与待连接的张量序列数（包含）之间.
 
- |
-| --- | --- |
+
 
 ```py
 torch.t(input, out=None) → Tensor
@@ -748,15 +732,14 @@ torch.t(input, out=None) → Tensor
 
 可以被视为函数 `transpose(input, 0, 1)` 的简写函数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(2, 3)
@@ -781,15 +764,14 @@ torch.take(input, indices) → Tensor
 
 在给定的索引处返回一个新的 `Tensor` ,其元素为 `input` . 输入张量被看作是一维张量.结果与索引具有相同的 shape .
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **indices** (_LongTensor_) – 进入 `Tensor` 的索引
+*   `input (Tensor)` – 输入张量
+*   `indices (LongTensor)` – 进入 `Tensor` 的索引
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> src = torch.Tensor([[4, 3, 5],
@@ -810,16 +792,15 @@ torch.transpose(input, dim0, dim1, out=None) → Tensor
 
 `out` 张量与 `input` 张量共享内存,所以改变其中一个会导致另外一个也被修改.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **dim0** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 转置的第一个维度
-*   **dim1** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 转置的第二个维度
+*   `input (Tensor)` – 输入张量
+*   `dim0 (int)` – 转置的第一个维度
+*   `dim1 (int)` – 转置的第二个维度
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(2, 3)
@@ -846,13 +827,12 @@ torch.unbind(tensor, dim=0)
 
 移除指定维后,返回一个元组,包含了沿着指定维切片后的各个切片 (已经没有了移除的维度).
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要执行 unbind 的张量/输入张量.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要移除的维度.
+*   `tensor (Tensor)` – 要执行 unbind 的张量/输入张量.
+*   `dim (int)` – 要移除的维度.
 
- |
-| --- | --- |
+
 
 ```py
 torch.unsqueeze(input, dim, out=None)
@@ -864,16 +844,15 @@ torch.unsqueeze(input, dim, out=None)
 
 如果 `dim` 为负,则将会被转化 ![dim + input.dim() + 1](img/tex-722443b33cb36edca0e69759f3fa99de.gif) .
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 插入维度的索引
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量
+*   `dim (int)` – 插入维度的索引
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([1, 2, 3, 4])
@@ -897,8 +876,8 @@ torch.manual_seed(seed)
 
 设置生成随机数的种子,并返回一个 `torch._C.Generator` 对象.
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ _long_) – 种子. |
-| --- | --- |
+参数：`seed (int 或 long)` – 种子.
+
 
 ```py
 torch.initial_seed()
@@ -918,10 +897,10 @@ torch.set_rng_state(new_state)
 
 设置随机数发生器的参数.
 
-| Parameters: | **new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – 理想状态 |
-| --- | --- |
+参数：`new_state (torch.ByteTensor)` – 理想状态
 
-`torch.``default_generator` _= <torch._C.Generator object at 0x28bcc10>_
+
+`torch.default_generator = <torch._C.Generator object at 0x28bcc10>`
 
 ```py
 torch.bernoulli(input, out=None) → Tensor
@@ -935,15 +914,14 @@ The `input` 张量包含用于抽取二进制随机数的概率. 因此, `input`
 
 返回的 `out` 张量的值只有 0 或者 1 并且大小与 `input` 张量相同.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 伯努利分布的概率值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `input (Tensor)` – 伯努利分布的概率值
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.Tensor(3, 3).uniform_(0, 1) # generate a uniform random matrix with range [0, 1]
@@ -985,7 +963,7 @@ torch.multinomial(input, num_samples, replacement=False, out=None) → LongTenso
 
 返回一个张量, 其中每一行包含在 `input` 张量对应行中多项式分布取样的 `num_samples` 索引.
 
-Note
+注解：
 
 `input` 的每行值不需要总和为 1 (我们只使用这些值作为权重), 但必须是非负且非零和的.
 
@@ -999,17 +977,16 @@ Note
 
 参数 `num_samples` 必须小于 `input` 长度 (如果是一个矩阵, 则是 `input` 的列数).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 包含概率值的张量
-*   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 抽取的样本数
-*   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 是否重复抽取样本
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 包含概率值的张量
+*   `num_samples (int)` – 抽取的样本数
+*   `replacement (bool, 可选)` – 是否重复抽取样本
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> weights = torch.Tensor([0, 10, 3, 0]) # create a Tensor of weights
@@ -1043,24 +1020,23 @@ torch.normal(means, std, out=None)
 
 参数 `means` 是一个包含每个输出元素的正态分布均值的张量.
 
-参数 [`std`](#torch.std "torch.std") 是一个包含每个输出元素的正态分布标准差的张量.
+参数 `std` 是一个包含每个输出元素的正态分布标准差的张量.
 
-其中 `means` 和 [`std`](#torch.std "torch.std") 的形状不需要匹配, 但是每个张量中的元素总数需要相同.
+其中 `means` 和 `std` 的形状不需要匹配, 但是每个张量中的元素总数需要相同.
 
-Note
+注解：
 
 当形状不匹配时, `means` 的形状将作为返回输出张量的形状.
 
-| Parameters: | 
+参数：
 
-*   **means** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 均值
-*   **std** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 标准差
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `means (Tensor)` – 均值
+*   `std (Tensor)` – 标准差
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 torch.normal(means=torch.arange(1, 11), std=torch.arange(1, 0, -0.1))
@@ -1085,16 +1061,15 @@ torch.normal(mean=0.0, std, out=None)
 
 功能与上面函数类似, 但所有被抽取的元素共享均值.
 
-| Parameters: | 
+参数：
 
-*   **means** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 所有分布的均值
-*   **std** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 每个元素标准差的张量
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `means (float, 可选)` – 所有分布的均值
+*   `std (Tensor)` – 每个元素标准差的张量
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.normal(mean=0.5, std=torch.arange(1, 6))
@@ -1114,16 +1089,15 @@ torch.normal(means, std=1.0, out=None)
 
 功能与上面函数类似, 但所有被抽取的元素共享标准差.
 
-| Parameters: | 
+参数：
 
-*   **means** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 每个元素均值的张量
-*   **std** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 所有分布的标准差
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `means (Tensor)` – 每个元素均值的张量
+*   `std (float, 可选)` – 所有分布的标准差
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.normal(means=torch.arange(1, 6))
@@ -1145,15 +1119,14 @@ torch.rand(*sizes, out=None) → Tensor
 
 这个张量的形状由可变参数 `sizes` 来定义.
 
-| Parameters: | 
+参数：
 
-*   **sizes** (_int..._) – 定义输出张量形状的整数集.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `sizes (int...)` – 定义输出张量形状的整数集.
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.rand(4)
@@ -1180,15 +1153,14 @@ torch.randn(*sizes, out=None) → Tensor
 
 这个张量的形状被可变参数 `sizes` 定义.
 
-| Parameters: | 
+参数：
 
-*   **sizes** (_int..._) – 定义输出张量形状的整数集.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `sizes (int...)` – 定义输出张量形状的整数集.
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.randn(4)
@@ -1213,10 +1185,10 @@ torch.randperm(n, out=None) → LongTensor
 
 返回一个从 `0` to `n - 1` 的整数的随机排列.
 
-| Parameters: | **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 上限 (唯一的) |
-| --- | --- |
+参数：`n (int)` – 上限 (唯一的)
 
-Example:
+
+示例：
 
 ```py
 >>> torch.randperm(4)
@@ -1233,12 +1205,12 @@ Example:
 
 在Tensors模块上还定义了许多 in-place 随机采样函数,可以点击参考它们的文档:
 
-*   [`torch.Tensor.bernoulli_()`](tensors.html#torch.Tensor.bernoulli_ "torch.Tensor.bernoulli_") - 是 [`torch.bernoulli()`](#torch.bernoulli "torch.bernoulli") 的 in-place 版本
+*   `torch.Tensor.bernoulli_()`](tensors.html#torch.Tensor.bernoulli_ "torch.Tensor.bernoulli_") - 是 [`torch.bernoulli()` 的 in-place 版本
 *   [`torch.Tensor.cauchy_()`](tensors.html#torch.Tensor.cauchy_ "torch.Tensor.cauchy_") - 从柯西分布中抽取数字
 *   [`torch.Tensor.exponential_()`](tensors.html#torch.Tensor.exponential_ "torch.Tensor.exponential_") - 从指数分布中抽取数字
 *   [`torch.Tensor.geometric_()`](tensors.html#torch.Tensor.geometric_ "torch.Tensor.geometric_") - 从几何分布中抽取元素
 *   [`torch.Tensor.log_normal_()`](tensors.html#torch.Tensor.log_normal_ "torch.Tensor.log_normal_") - 对数正态分布中的样本
-*   [`torch.Tensor.normal_()`](tensors.html#torch.Tensor.normal_ "torch.Tensor.normal_") - 是 [`torch.normal()`](#torch.normal "torch.normal") 的 in-place 版本
+*   `torch.Tensor.normal_()`](tensors.html#torch.Tensor.normal_ "torch.Tensor.normal_") - 是 [`torch.normal()` 的 in-place 版本
 *   [`torch.Tensor.random_()`](tensors.html#torch.Tensor.random_ "torch.Tensor.random_") - 离散均匀分布中采样的数字
 *   [`torch.Tensor.uniform_()`](tensors.html#torch.Tensor.uniform_ "torch.Tensor.uniform_") - 正态分布中采样的数字
 
@@ -1258,7 +1230,7 @@ torch.save(obj, f, pickle_module=<module 'cPickle' from '/usr/lib64/python2.7/li
 torch.load(f, map_location=None, pickle_module=<module 'cPickle' from '/usr/lib64/python2.7/lib-dynload/cPickle.so'>)
 ```
 
-从磁盘文件中加载一个用 [`torch.save()`](#torch.save "torch.save") 保存的对象.
+从磁盘文件中加载一个用 `torch.save()` 保存的对象.
 
 | Func: | `torch.load` 使用 Python 的解封 (unpickling) 设施, 但特殊对待张量下的存储 (storages). |
 | --- | --- |
@@ -1308,7 +1280,7 @@ torch.abs(input, out=None) → Tensor
 
 计算给定 `input` 张量的元素的绝对值.
 
-Example:
+示例：
 
 ```py
 >>> torch.abs(torch.FloatTensor([-1, -2, 3]))
@@ -1322,15 +1294,14 @@ torch.acos(input, out=None) → Tensor
 
 用 `input` 元素的反余弦返回一个新的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – The result `Tensor`
+*   `input (Tensor)` – the input `Tensor`
+*   `out (Tensor, 可选)` – The result `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1365,16 +1336,15 @@ torch.add(input, value, out=None)
 
 如果输入张量 `input` 是 FloatTensor 或者 DoubleTensor 类型, 则 `value` 必须为实数, 否则为整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **value** (_Number_) – 要添加到 `input` 每个元素的数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `value (Number)` – 要添加到 `input` 每个元素的数
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1408,17 +1378,16 @@ torch.add(input, value=1, other, out=None)
 
 如果张量 `other` 是 FloatTensor 或者 DoubleTensor 类型, 则 `value` 必须为实数, 否则为整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第一个输入 `Tensor`
-*   **value** (_Number_) – 张量 `other` 的标量乘数
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 第一个输入 `Tensor`
+*   `value (Number)` – 张量 `other` 的标量乘数
+*   `other (Tensor)` – 第二个输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> import torch
@@ -1457,18 +1426,17 @@ torch.addcdiv(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 
 对于类型为 `FloatTensor` 或者 `DoubleTensor` 的张量输入, `value` 必须为实数, 否则为整数.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 张量, 对 `tensor1 ./ tensor2` 进行相加
-*   **value** (_Number__,_ _optional_) – 标量, 对 `tensor1 ./ tensor2` 进行相乘
-*   **tensor1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分子张量, 即作为被除数
-*   **tensor2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分母张量, 即作为除数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `tensor (Tensor)` – 张量, 对 `tensor1 ./ tensor2` 进行相加
+*   `value (Number, 可选)` – 标量, 对 `tensor1 ./ tensor2` 进行相乘
+*   `tensor1 (Tensor)` – 分子张量, 即作为被除数
+*   `tensor2 (Tensor)` – 分母张量, 即作为除数
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> t = torch.randn(2, 3)
@@ -1490,9 +1458,9 @@ torch.addcmul(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 
 张量 `tensor`, 张量 `tensor1`, 张量 `tensor2` 的形状必须 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-对于类型为 `FloatTensor` 或者 `DoubleTensor` 的张量输入, `value` 必须为实数, 否则为整数. :param tensor: 张量, 对 `tensor1 .* tensor2` 进行相加 :type tensor: Tensor :param value: 标量, 对 `tensor1 .* tensor2` 进行相乘 :type value: Number, optional :param tensor1: 张量, 作为乘子1 :type tensor1: Tensor :param tensor2: 张量, 作为乘子2 :type tensor2: Tensor :param out: 输出张量 :type out: Tensor, optional
+对于类型为 `FloatTensor` 或者 `DoubleTensor` 的张量输入, `value` 必须为实数, 否则为整数. :param tensor: 张量, 对 `tensor1 .* tensor2` 进行相加 :type tensor: Tensor :param value: 标量, 对 `tensor1 .* tensor2` 进行相乘 :type value: Number, 可选 :param tensor1: 张量, 作为乘子1 :type tensor1: Tensor :param tensor2: 张量, 作为乘子2 :type tensor2: Tensor :param out: 输出张量 :type out: Tensor, 可选
 
-Example:
+示例：
 
 ```py
 >>> t = torch.randn(2, 3)
@@ -1512,15 +1480,14 @@ torch.asin(input, out=None) → Tensor
 
 返回一个新的 `Tensor` , 其元素为张量 `input` 的每个元素的反正弦.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1546,15 +1513,14 @@ torch.atan(input, out=None) → Tensor
 
 返回一个新的 `Tensor` , 其元素为张量 `input` 的每个元素的反正切.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1582,16 +1548,15 @@ torch.atan2(input1, input2, out=None) → Tensor
 
 输入张量 `input1` 的形状和输入张量 `input2` 的形状必须可 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **input1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第一个输入 `Tensor`
-*   **input2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input1 (Tensor)` – 第一个输入 `Tensor`
+*   `input2 (Tensor)` – 第二个输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1617,15 +1582,14 @@ torch.ceil(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 的元素向上取整(取不小于每个元素的最小整数).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1660,19 +1624,18 @@ y_i = | x_i, if min <= x_i <= max
 
 ```
 
-如果输入张量 `input` 的类型 `FloatTensor` 或者 `DoubleTensor`, 那么参数 [`min`](#torch.min "torch.min") 和 [`max`](#torch.max "torch.max") 必须为实数, 否则为整数.
+如果输入张量 `input` 的类型 `FloatTensor` 或者 `DoubleTensor`, 那么参数 `min` 和 `max` 必须为实数, 否则为整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **min** (_Number_) – 限制范围下限
-*   **max** (_Number_) – 限制范围上限
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `min (Number)` – 限制范围下限
+*   `max (Number)` – 限制范围上限
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1698,20 +1661,19 @@ Example:
 torch.clamp(input, *, min, out=None) → Tensor
 ```
 
-张量 `input` 的所有元素值大于或者等于 [`min`](#torch.min "torch.min").
+张量 `input` 的所有元素值大于或者等于 `min`.
 
 如果张量 `input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 `value` 必须是实数, 否则应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **value** (_Number_) – 输出中每个元素的最小值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `value (Number)` – 输出中每个元素的最小值
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1737,20 +1699,19 @@ Example:
 torch.clamp(input, *, max, out=None) → Tensor
 ```
 
-张量 `input` 的所有元素值小于或者等于 [`max`](#torch.max "torch.max").
+张量 `input` 的所有元素值小于或者等于 `max`.
 
 如果张量 `input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则 `value` 必须是实数, 否则应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **value** (_Number_) – 输出中每个元素的最大值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `value (Number)` – 输出中每个元素的最大值
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1778,15 +1739,14 @@ torch.cos(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 每个元素的余弦.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1812,15 +1772,14 @@ torch.cosh(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 每个元素的双曲余弦.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -1854,16 +1813,15 @@ torch.div(input, value, out=None)
 
 如果张量 `input` 的类型是 `FloatTensor` 或者 `DoubleTensor`, 则标量值 `value` 必须是实数, 否则应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **value** (_Number_) – 除数, 被张量 `input` 的元素除
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `value (Number)` – 除数, 被张量 `input` 的元素除
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -1895,16 +1853,15 @@ torch.div(input, other, out=None)
 
 ![out_i = input_i / other_i](img/tex-56a7e74c24c6530b63af32b9792a1775.gif)
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分子 `Tensor` (被除数)
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分母 `Tensor` (除数)
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 分子 `Tensor` (被除数)
+*   `other (Tensor)` – 分母 `Tensor` (除数)
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4,4)
@@ -1945,7 +1902,7 @@ torch.erf(tensor, out=None) → Tensor
 
 计算每个元素的误差函数.
 
-Example:
+示例：
 
 ```py
 >>> torch.erf(torch.Tensor([0, -1., 10.]))
@@ -1959,7 +1916,7 @@ torch.erfinv(tensor, out=None) → Tensor
 
 计算每个元素的反向误差函数.
 
-Example:
+示例：
 
 ```py
 >>> torch.erfinv(torch.Tensor([0, 0.5., -1.]))
@@ -1973,7 +1930,7 @@ torch.exp(tensor, out=None) → Tensor
 
 计算每个元素的指数.
 
-Example:
+示例：
 
 ```py
 >>> torch.exp(torch.Tensor([0, math.log(2)]))
@@ -1987,15 +1944,14 @@ torch.floor(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 的元素向下取整(取不大于每个元素的最大整数).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2027,16 +1983,15 @@ torch.fmod(input, divisor, out=None) → Tensor
 
 当除数 `divisor` 是一个张量时r, 张量 `input` 和张量 `divisor` 的形状必须可 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 被除数
-*   **divisor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 除数. 可能是一个数或者是一个与被除数相同形状的张量.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `input (Tensor)` – 被除数
+*   `divisor (Tensor 或 float)` – 除数. 可能是一个数或者是一个与被除数相同形状的张量.
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.fmod(torch.Tensor([-3, -2, -1, 1, 2, 3]), 2)
@@ -2048,7 +2003,7 @@ torch.FloatTensor([1.0, 0.5, 0.0, 1.0, 0.5])
 
 See also
 
-[`torch.remainder()`](#torch.remainder "torch.remainder"), 其计算等价于 Python’s `%` 操作符的元素余数
+`torch.remainder()`, 其计算等价于 Python’s `%` 操作符的元素余数
 
 ```py
 torch.frac(tensor, out=None) → Tensor
@@ -2056,7 +2011,7 @@ torch.frac(tensor, out=None) → Tensor
 
 计算张量 `tensor` 每个元素的分数部分.
 
-Example:
+示例：
 
 ```py
 >>> torch.frac(torch.Tensor([1, 2.5, -3.2])
@@ -2074,17 +2029,16 @@ torch.lerp(start, end, weight, out=None)
 
 张量 `start` 和张量 `end` 的形状必须可 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **start** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 起始点 `Tensor`
-*   **end** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 终点 `Tensor`
-*   **weight** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 插值公式的权重
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `start (Tensor)` – 起始点 `Tensor`
+*   `end (Tensor)` – 终点 `Tensor`
+*   `weight (float)` – 插值公式的权重
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> start = torch.arange(1, 5)
@@ -2121,15 +2075,14 @@ torch.log(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 所有元素的自然对数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -2161,19 +2114,18 @@ torch.log1p(input, out=None) → Tensor
 
 ![y_i = log(x_i + 1)](img/tex-44ae3e6c45bdb0992887549eecbdcca1.gif)
 
-Note
+注解：
 
-对于较小的张量 `input` 的值, 此函数比 [`torch.log()`](#torch.log "torch.log") 更精确.
+对于较小的张量 `input` 的值, 此函数比 `torch.log()` 更精确.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -2211,16 +2163,15 @@ torch.mul(input, value, out=None)
 
 如果张量 `input` 的类型为 `FloatTensor` or `DoubleTensor`, 则 `value` 应该是实数, 否则为整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **value** (_Number_) – 与张量 `input` 每个元素相乘的数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `value (Number)` – 与张量 `input` 每个元素相乘的数
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3)
@@ -2250,16 +2201,15 @@ torch.mul(input, other, out=None)
 
 ![out_i = input_i * other_i](img/tex-66ff7c38b998757c54474f8da6085fa7.gif)
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第一个乘数 `Tensor`
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个乘数 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 第一个乘数 `Tensor`
+*   `other (Tensor)` – 第二个乘数 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4,4)
@@ -2296,15 +2246,14 @@ torch.neg(input, out=None) → Tensor
 
 ![out = -1 * input](img/tex-12f8b36dc85a819313fa0fdebe068228.gif)
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(5)
@@ -2350,16 +2299,15 @@ torch.pow(input, exponent, out=None)
 
 当幂值 `exponent` 是一个张量, 张量 `input` 和张量 `exponent` 的形状必须可 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **exponent** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 指数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `exponent (float 或 Tensor)` – 指数
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2417,16 +2365,15 @@ torch.pow(base, input, out=None)
 
 ![out_i = base ^ {input_i}](img/tex-14e62bb86c53bc82b02aea5663311bbb.gif)
 
-| Parameters: | 
+参数：
 
-*   **base** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 幂运算的底数
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 指数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `base (float)` – 幂运算的底数
+*   `input (Tensor)` – 指数
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> exp = torch.arange(1, 5)
@@ -2447,15 +2394,14 @@ torch.reciprocal(input, out=None) → Tensor
 
 返回一个新的 `Tensor` , 其元素是张量 `input` 元素的倒数, i.e. ![1.0 / x](img/tex-e8d4c459fa54ec9efacf485b78522de6.gif)
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2487,16 +2433,15 @@ torch.remainder(input, divisor, out=None) → Tensor
 
 当除数 `divisor` 是一个张量, 张量 `input` 的形状和张量 `divisor` 得形状必须可 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 被除数
-*   **divisor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 除数. 可能是一个数或者可能是一个与被除数大小相同的张量
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   `input (Tensor)` – 被除数
+*   `divisor (Tensor 或 float)` – 除数. 可能是一个数或者可能是一个与被除数大小相同的张量
+*   `out (Tensor, 可选)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> torch.remainder(torch.Tensor([-3, -2, -1, 1, 2, 3]), 2)
@@ -2508,7 +2453,7 @@ torch.FloatTensor([1.0, 0.5, 0.0, 1.0, 0.5])
 
 See also
 
-[`torch.fmod()`](#torch.fmod "torch.fmod") 同样计算除法余数, 等效于C库函数中的 `fmod()`
+`torch.fmod()` 同样计算除法余数, 等效于C库函数中的 `fmod()`
 
 ```py
 torch.round(input, out=None) → Tensor
@@ -2516,15 +2461,14 @@ torch.round(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是输入张量的元素四舍五入到最近的整数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2552,15 +2496,14 @@ torch.rsqrt(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的平方根的倒数.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2588,15 +2531,14 @@ torch.sigmoid(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的sigmoid值.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2624,15 +2566,14 @@ torch.sign(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的符号.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2659,15 +2600,14 @@ torch.sin(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的正弦.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2693,15 +2633,14 @@ torch.sinh(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的双曲正弦.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2727,15 +2666,14 @@ torch.sqrt(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的平方根.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2763,15 +2701,14 @@ torch.tan(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的正切.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2797,15 +2734,14 @@ torch.tanh(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的双曲正切.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2831,15 +2767,14 @@ torch.trunc(input, out=None) → Tensor
 
 返回一个新的张量 `Tensor` , 其元素是张量 `input` 元素的截断整数值 (直接去除小数部分) .
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -2871,16 +2806,15 @@ torch.cumprod(input, dim, out=None) → Tensor
 
 例如, 如果 `input` 是一个N元张量, 结果也是一个N元张量, 元素为: ![y_i = x_1 * x_2 * x_3 * ... * x_i](img/tex-06f4d1ef079a78930f949d6df01e2cb1.gif)
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 进行操作的维度
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `dim (int)` – 进行操作的维度
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(10)
@@ -2937,16 +2871,15 @@ torch.cumsum(input, dim, out=None) → Tensor
 
 例如, 如果 `input` 是一个N元张量, 结果将也是一个N元张量, 元素为: ![y_i = x_1 + x_2 + x_3 + ... + x_i](img/tex-ee3d5bc08d5e2b0c0ad809ad0a991bd8.gif)
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 进行操作的维度
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `dim (int)` – 进行操作的维度
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(10)
@@ -2986,16 +2919,15 @@ torch.dist(input, other, p=2) → float
 
 返回(`input` - `other`)的p-范数 `input` 和 `other` 的形状必须满足 [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 右侧输入 `Tensor`
-*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 所计算的范数.
+*   `input (Tensor)` – 输入 `Tensor`
+*   `other (Tensor)` – 右侧输入 `Tensor`
+*   `p (float, 可选)` – 所计算的范数.
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(4)
@@ -3037,10 +2969,10 @@ torch.mean(input) → float
 
 返回张量 `input` 所有元素的均值.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – 输入 `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3060,19 +2992,18 @@ torch.mean(input, dim, keepdim=False, out=None) → Tensor
 
 返回张量 `input` 在给定维度 `dim` 上每行的均值.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 输出张量的维度 `dim` 保持与否
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输出张量
+*   `input (Tensor)` – 输入 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool, 可选)` – 输出张量的维度 `dim` 保持与否
+*   `out (Tensor)` – 输出张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3112,10 +3043,10 @@ torch.median(input) → float
 
 返回输出张量 `input` 所有元素的中位数.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – the input `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3137,20 +3068,19 @@ torch.median(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor
 
 `dim` 的缺省值为输入张量 `input` 的最后一维.
 
-如果 `keepdim` 是 `True`, 输出张量与输入张量 `input` 形状相同, 除了维数 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量比输入张量 `input` 少一维.
+如果 `keepdim` 是 `True`, 输出张量与输入张量 `input` 形状相同, 除了维数 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量比输入张量 `input` 少一维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保留与否
-*   **values** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
-*   **indices** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量索引
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保留与否
+*   `values (Tensor, 可选)` – 结果张量
+*   `indices (Tensor, 可选)` – 结果张量索引
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a
@@ -3195,24 +3125,23 @@ torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, 
 
 维度 `dim` 的缺省值是输入张量 `input` 的最后一维. .
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
-Note
+注解：
 
 这个函数至今没有为 `torch.cuda.Tensor` 定义.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保持与否
-*   **values** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
-*   **indices** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果索引张量
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保持与否
+*   `values (Tensor, 可选)` – 结果张量
+*   `indices (Tensor, 可选)` – 结果索引张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a
@@ -3259,15 +3188,14 @@ torch.norm(input, p=2) → float
 
 返回输入张量 `input` 的p-范数
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")_,_ _optional_) – 范数计算中的幂指数值
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `p (float, 可选)` – 范数计算中的幂指数值
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3287,20 +3215,19 @@ torch.norm(input, p, dim, keepdim=False, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的p-范数.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除非维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除非维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 范数计算中的幂指数值
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保持与否
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `p (float)` – 范数计算中的幂指数值
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保持与否
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 2)
@@ -3340,10 +3267,10 @@ torch.prod(input) → float
 
 返回输入张量 `input` 所有元素的乘积.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – 输入张量 `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3363,19 +3290,18 @@ torch.prod(input, dim, keepdim=False, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的积.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保持与否
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保持与否
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 2)
@@ -3409,15 +3335,14 @@ torch.std(input, unbiased=True) → float
 
 如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计计算.否则, Bessel’s correction 将被使用.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 是否使用无偏估计
+*   `input (Tensor)` – 输入 `Tensor`
+*   `unbiased (bool)` – 是否使用无偏估计
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3437,22 +3362,21 @@ torch.std(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的标准差.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
 如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计来计算. 否则, Bessel’s correction 将被使用.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保持与否
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 是否使用无偏估计
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保持与否
+*   `unbiased (bool)` – 是否使用无偏估计
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3484,10 +3408,10 @@ torch.sum(input) → float
 
 返回输入张量 `input` 所有元素的和.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – 输入张量 `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3507,19 +3431,18 @@ torch.sum(input, dim, keepdim=False, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的和.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保持与否
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保持与否
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3553,15 +3476,14 @@ torch.var(input, unbiased=True) → float
 
 如果 `unbiased` 是 `False` , 方差的计算将通过有偏估计计算. 否则, Bessel’s correction 将会被使用.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 是否使用无偏估计
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `unbiased (bool)` – 是否使用无偏估计
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3581,22 +3503,21 @@ torch.var(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 返回输入张量 `input` 在给定维度 `dim` 下每行的方差.
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), 导致输出张量减少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()`), 导致输出张量减少一维.
 
 如果 `unbiased` 是``False``, 方差的计算将通过有偏估计计算. 否则, Bessel’s correction 将会被使用.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保留与否
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 是否使用无偏估计
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保留与否
+*   `unbiased (bool)` – 是否使用无偏估计
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 4)
@@ -3628,18 +3549,17 @@ torch.eq(input, other, out=None) → Tensor
 
 第二个元素可以是一个数字或 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 为与第一个参数形状相同的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待比较张量
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 比较张量或数
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量, 须为 ByteTensor 类型或与 input (Tensor) 同类型
+*   `input (Tensor)` – 待比较张量
+*   `other (Tensor 或 float)` – 比较张量或数
+*   `out (Tensor, 可选)` – 输出张量, 须为 ByteTensor 类型或与 input (Tensor) 同类型
 
- |
-| --- | --- |
-| Returns: | 一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0 |
-| --- | --- |
 
-Example:
+返回值：一个 torch.ByteTensor 张量, 待比较和要比较张量逐位置比较, 相等为 1 , 不等为 0
+
+
+示例：
 
 ```py
 >>> torch.eq(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3655,7 +3575,7 @@ torch.equal(tensor1, tensor2) → bool
 
 如果两个张量有相同的形状和元素值, 则返回 `True` , 否则 `False` .
 
-Example:
+示例：
 
 ```py
 >>> torch.equal(torch.Tensor([1, 2]), torch.Tensor([1, 2]))
@@ -3671,22 +3591,18 @@ torch.ge(input, other, out=None) → Tensor
 
 第二个参数可以为一个数或形状可 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 为和第一个参数相同类型的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待对比的张量
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 对比的张量或 `float` 值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
+*   `input (Tensor)` – 待对比的张量
+*   `other (Tensor 或 float)` – 对比的张量或 `float` 值
+*   `out (Tensor, 可选)` – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
 
- |
-| --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt;= other ). |
-| --- | --- |
-| Return type: | 张量 |
-| --- | --- |
 
-Return type: 张量
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt;= other ).
 
-Example:
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.ge(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3704,22 +3620,18 @@ torch.gt(input, other, out=None) → Tensor
 
 第二个参数可以为一个数或形状可 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 为和第一个参数相同类型的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待对比的张量
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 对比的张量或 `float` 值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
+*   `input (Tensor)` – 待对比的张量
+*   `other (Tensor 或 float)` – 对比的张量或 `float` 值
+*   `out (Tensor, 可选)` – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
 
- |
-| --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt; other ). |
-| --- | --- |
-| Return type: | 张量 |
-| --- | --- |
 
-Return type: 张量
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &gt; other ).
 
-Example:
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.gt(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3737,20 +3649,19 @@ torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTens
 
 返回一个元组 `(values,indices)` ,其中 `indices` 是原始输入张量 `input` 中沿 `dim` 维的第 `k` 个最小值下标.
 
-如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 大小相同, 除了在所有值都为1的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
+如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 大小相同, 除了在所有值都为1的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 `torch.squeeze()` ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 第 `k` 个最小值
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 沿着此维进行排序
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量是否保持维度 `dim` 不变
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 输出元组 ( Tensor, LongTensor ) 可选参数(作为输出 buffers )
+*   `input (Tensor)` – 输入 `Tensor`
+*   `k (int)` – 第 `k` 个最小值
+*   `dim (int, 可选)` – 沿着此维进行排序
+*   `keepdim (bool)` – 输出张量是否保持维度 `dim` 不变
+*   `out (tuple, 可选)` – 输出元组 ( Tensor, LongTensor ) 可选参数(作为输出 buffers )
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.arange(1, 6)
@@ -3798,20 +3709,18 @@ torch.le(input, other, out=None) → Tensor
 
 第二个参数可以为一个数或形状可 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 为和第一个参数相同类型的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待对比的张量
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 对比的张量或 `float` 值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
+*   `input (Tensor)` – 待对比的张量
+*   `other (Tensor 或 float)` – 对比的张量或 `float` 值
+*   `out (Tensor, 可选)` – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
 
- |
-| --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt;= other ). |
-| --- | --- |
-| Return type: | 张量 |
-| --- | --- |
 
-Example:
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt;= other ).
+
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.le(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3829,22 +3738,18 @@ torch.lt(input, other, out=None) → Tensor
 
 第二个参数可以为一个数或形状可 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 为和第一个参数相同类型的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待对比的张量
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 对比的张量或 `float` 值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
+*   `input (Tensor)` – 待对比的张量
+*   `other (Tensor 或 float)` – 对比的张量或 `float` 值
+*   `out (Tensor, 可选)` – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
 
- |
-| --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt; other ). |
-| --- | --- |
-| Return type: | 张量 |
-| --- | --- |
 
-Return type: 张量
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果(是否 input &lt; other ).
 
-Example:
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.lt(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -3864,10 +3769,10 @@ torch.max(input) → float
 
 返回输入 `input` 张量所有元素的最大值.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – 输入 `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -3887,20 +3792,19 @@ torch.max(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回输入张量 `input` 在给定维度 `dim` 上每行的最大值, 并同时返回每个最大值的位置索引.
 
-如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 尺寸相同, 除了在所有值都为 1 的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
+如果 `keepdim` 为 `True` , `values` 和 `indices` 张量都和 `input` 尺寸相同, 除了在所有值都为 1 的 `dim` 维度上. 如果 `keepdim` 为 `False` , `dim` 被压缩. (参见 `torch.squeeze()` ), 使 `values` 和 `indices` 两个张量比 `input` 张量小一个的维度.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 第 `k` 个最小值
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 沿着此维进行排序
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量是否保持维度 `dim` 不变
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 输出元组 (max, max_indices)
+*   `input (Tensor)` – 输入 `Tensor`
+*   `k (int)` – 第 `k` 个最小值
+*   `dim (int, 可选)` – 沿着此维进行排序
+*   `keepdim (bool)` – 输出张量是否保持维度 `dim` 不变
+*   `out (tuple, 可选)` – 输出元组 (max, max_indices)
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >> a = torch.randn(4, 4)
@@ -3937,16 +3841,15 @@ torch.max(input, other, out=None) → Tensor
 
 要比较的张量 `input` 与比较张量 `other` 不必大小一致, 但它们一定要能 [broadcastable](notes/broadcasting.html#broadcasting-semantics) .
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要比较张量 `Tensor`
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 比较张量 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量 `Tensor`
+*   `input (Tensor)` – 要比较张量 `Tensor`
+*   `other (Tensor)` – 比较张量 `Tensor`
+*   `out (Tensor, 可选)` – 输出张量 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -3987,10 +3890,10 @@ torch.min(input) → float
 
 返回输入张量 `input` 所有元素的最小值.
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor` |
-| --- | --- |
+参数：`input (Tensor)` – 输入 `Tensor`
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(1, 3)
@@ -4010,19 +3913,18 @@ torch.min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 
 返回输入张量 `input` 在给定维度 `dim` 下每行元素的最小值. 其中第二个返回值是每个被找出的最小值的索引位置 ( argmin ) .
 
-如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维数 `dim` 是 1 . 另外, `dim` 被挤压 (参看 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ), 导致输出张量比输入张量 `input` 少一维.
+如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维数 `dim` 是 1 . 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量比输入张量 `input` 少一维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 要减少的维度
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 输出张量的维度 `dim` 保持与否
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 两个输出张量的结果元组 (min, min_indices)
+*   `input (Tensor)` – 输入张量 `Tensor`
+*   `dim (int)` – 要减少的维度
+*   `keepdim (bool)` – 输出张量的维度 `dim` 保持与否
+*   `out (tuple, 可选)` – 两个输出张量的结果元组 (min, min_indices)
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >> a = torch.randn(4, 4)
@@ -4058,16 +3960,15 @@ torch.min(input, other, out=None) → Tensor
 
 要比较的张量 `input` 与比较张量 `other` 不必尺寸一致, 但它们一定要能广播 [broadcastable](notes/broadcasting.html#broadcasting-semantics) .
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第一个张量 `Tensor`
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个张量 `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出的张量 `Tensor`
+*   `input (Tensor)` – 第一个张量 `Tensor`
+*   `other (Tensor)` – 第二个张量 `Tensor`
+*   `out (Tensor, 可选)` – 输出的张量 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4)
@@ -4106,22 +4007,18 @@ torch.ne(input, other, out=None) → Tensor
 
 第二个参数可以为一个数或形状广播 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 为和第一个参数相同类型的张量.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 待对比的张量
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 对比的张量或 `float` 值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
+*   `input (Tensor)` – 待对比的张量
+*   `other (Tensor 或 float)` – 对比的张量或 `float` 值
+*   `out (Tensor, 可选)` – 输出张量. 必须为 `ByteTensor` 或者与第一个参数 `tensor` 相同类型.
 
- |
-| --- | --- |
-| Returns: | 一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果 (是否 input != other ) . |
-| --- | --- |
-| Return type: | 张量 |
-| --- | --- |
 
-返回类型: `Tensor`
+返回值：一个 `torch.ByteTensor` 张量, 包含了每个位置的比较结果 (是否 input != other ) .
 
-Example:
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.ne(torch.Tensor([[1, 2], [3, 4]]), torch.Tensor([[1, 1], [4, 4]]))
@@ -4143,17 +4040,16 @@ torch.sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 
 返回元组 (sorted_tensor, sorted_indices) , sorted_indices 为原始输入中的下标.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要对比的张量
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 沿着此维排序
-*   **descending** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 布尔值, 控制升降排序
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型.
+*   `input (Tensor)` – 要对比的张量
+*   `dim (int, 可选)` – 沿着此维排序
+*   `descending (bool, 可选)` – 布尔值, 控制升降排序
+*   `out (tuple, 可选)` – 输出张量. 必须为 ByteTensor 或者与第一个参数 tensor 相同类型.
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.randn(3, 4)
@@ -4195,19 +4091,18 @@ torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, 
 
 沿给定 dim 维度返回输入张量 `input` 中 `k` 个最大值. 如果不指定 `dim` , 则默认为 `input` 的最后一维. 如果为 `largest` 为 `False` ,则返回最小的 `k` 个值. 返回一个元组 `(values, indices)` , 其中 indices 是原始输入张量 input 中测元素下标. 如果设定布尔值 `sorted` 为 `True` , 将会确保返回的 `k` 个值被排序.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – “top-k” 中的 k
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 排序的维
-*   **largest** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 布尔值, 控制返回最大或最小值
-*   **sorted** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – 布尔值, 控制返回值是否排序
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 可选输出张量 (Tensor, LongTensor) output buffers
+*   `input (Tensor)` – 输入张量
+*   `k (int)` – “top-k” 中的 k
+*   `dim (int, 可选)` – 排序的维
+*   `largest (bool, 可选)` – 布尔值, 控制返回最大或最小值
+*   `sorted (bool, 可选)` – 布尔值, 控制返回值是否排序
+*   `out (tuple, 可选)` – 可选输出张量 (Tensor, LongTensor) output buffers
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.arange(1, 6)
@@ -4257,17 +4152,16 @@ torch.cross(input, other, dim=-1, out=None) → Tensor
 
 如果不指定 `dim`, 则默认为第一个尺度为 3 的维.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个输入 `Tensor`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 沿着此维进行叉积操作.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `other (Tensor)` – 第二个输入 `Tensor`
+*   `dim (int, 可选)` – 沿着此维进行叉积操作.
+*   `out (Tensor, 可选)` – 结果 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(4, 3)
@@ -4319,16 +4213,15 @@ torch.diag(input, diagonal=0, out=None) → Tensor
 *   `diagonal` &gt; 0, 主对角线之上.
 *   `diagonal` &lt; 0, 主对角线之下.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **diagonal** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 指定对角线
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `diagonal (int, 可选)` – 指定对角线
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 获得以 `input` 为对角线的方阵:
 
@@ -4392,22 +4285,20 @@ torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 
 以 `min` 和 `max` 为 `range` 边界, 将其均分成 `bins` 个直条, 然后将排序好的数据划分到各个直条 `(bins)` 中. 如果 `min` 和 `max` 都为 0, 则利用数据中的最大最小值作为边界.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入张量
-*   **bins** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 直方图 `bins` (直条)的个数(默认100个)
-*   **min** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – `range` 的下边界(包含)
-*   **max** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – `range` 的上边界(包含)
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入张量
+*   `bins (int)` – 直方图 `bins` (直条)的个数(默认100个)
+*   `min (int)` – `range` 的下边界(包含)
+*   `max (int)` – `range` 的上边界(包含)
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
-| Returns: | 直方图 |
-| --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
 
-Example:
+返回值：直方图
+
+返回类型：`Tensor`
+
+示例：
 
 ```py
 >>> torch.histc(torch.FloatTensor([1, 2, 1]), bins=4, min=0, max=3)
@@ -4421,22 +4312,21 @@ torch.renorm(input, p, dim, maxnorm, out=None) → Tensor
 
 返回一个张量, 包含规范化后的各个子张量, 使得沿着 `dim` 维划分的各子张量的 `p` 范数小于 `maxnorm`
 
-Note
+注解：
 
 如果 p 范数的值小于 `maxnorm`, 则当前子张量不需要修改.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 范数的 `p`
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 沿着此维切片, 得到张量子集
-*   **maxnorm** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 每个子张量的范数的最大值
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 结果张量
+*   `input (Tensor)` – 输入 `Tensor`
+*   `p (float)` – 范数的 `p`
+*   `dim (int)` – 沿着此维切片, 得到张量子集
+*   `maxnorm (float)` – 每个子张量的范数的最大值
+*   `out (Tensor, 可选)` – 结果张量
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.ones(3, 3)
@@ -4464,7 +4354,7 @@ torch.trace(input) → float
 
 返回输入 2 维矩阵对角线元素的和(迹).
 
-Example:
+示例：
 
 ```py
 >>> x = torch.arange(1, 10).view(3, 3)
@@ -4494,16 +4384,15 @@ torch.tril(input, diagonal=0, out=None) → Tensor
 *   `diagonal` &gt; 0, 主对角线之上.
 *   `diagonal` &lt; 0, 主对角线之下.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **diagonal** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 指定对角线
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `diagonal (int, 可选)` – 指定对角线
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -4551,16 +4440,15 @@ torch.triu(input, diagonal=0, out=None) → Tensor
 *   `diagonal` &gt; 0, 主对角线之上.
 *   `diagonal` &lt; 0, 主对角线之下.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入 `Tensor`
-*   **diagonal** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 指定对角线
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出 `Tensor`
+*   `input (Tensor)` – 输入 `Tensor`
+*   `diagonal (int, 可选)` – 指定对角线
+*   `out (Tensor, 可选)` – 输出 `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -4604,25 +4492,24 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 `batch1` 和 `batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 ::attr:`mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
+如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 `mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
 
 换句话说, ![res = (beta * M) + (alpha * sum(batch1_i @ batch2_i, i = 0, b))](img/tex-7ef2304a9f7469a9bd7902e33b85981c.gif)
 
 对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha` 必须是实数, 否则他们应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **beta** (_Number__,_ _optional_) – 作用于 `mat` 的乘子 (系数)
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被相加的矩阵
-*   **alpha** (_Number__,_ _optional_) – 作用于 `batch1 @ batch2` 的乘子
-*   **batch1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第一批矩阵
-*   **batch2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第二批矩阵
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出的张量结果
+*   `beta (Number, 可选)` – 作用于 `mat` 的乘子 (系数)
+*   `mat (Tensor)` – 要被相加的矩阵
+*   `alpha (Number, 可选)` – 作用于 `batch1 @ batch2` 的乘子
+*   `batch1 (Tensor)` – 要相乘的第一批矩阵
+*   `batch2 (Tensor)` – 要相乘的第二批矩阵
+*   `out (Tensor, 可选)` – 输出的张量结果
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> M = torch.randn(3, 5)
@@ -4643,25 +4530,24 @@ torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 
 执行矩阵 `mat1` 和 `mat2` 的相乘. 矩阵 `mat` 将与相乘的最终计算结果相加.
 
-如果 `mat1` 是一个 `n x m` 的张量, `mat2` 是一个 `m x p`的张量, 那么 ::attr:`mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
+如果 `mat1` 是一个 `n x m` 的张量, `mat2` 是一个 `m x p`的张量, 那么 `mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `n x p` 的张量, 同时 attr:`out` 将是一个 `n x p` 的张量.
 
 换句话说, ![out = (beta * M) + (alpha * mat1 @ mat2)](img/tex-3136ca146acddc296c21d3faf3238418.gif)
 
 对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha` 必须是实数, 否则他们应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **beta** (_Number__,_ _optional_) – 作用于:attr:[`](#id1)mat`的乘子
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被相加的矩阵
-*   **alpha** (_Number__,_ _optional_) – 作用于`mat1 @ mat2`的乘子
-*   **mat1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第一个矩阵
-*   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第二个矩阵
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果
+*   `beta (Number, 可选)` – 作用于`mat`的乘子
+*   `mat (Tensor)` – 要被相加的矩阵
+*   `alpha (Number, 可选)` – 作用于`mat1 @ mat2`的乘子
+*   `mat1 (Tensor)` – 要相乘的第一个矩阵
+*   `mat2 (Tensor)` – 要相乘的第二个矩阵
+*   `out (Tensor, 可选)` – 输出结果
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> M = torch.randn(2, 3)
@@ -4689,19 +4575,18 @@ torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 
 对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha` 必须是实数, 否则他们应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **beta** (_Number__,_ _optional_) – 作用于 `tensor` 的乘子
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被相加的向量
-*   **alpha** (_Number__,_ _optional_) – 作用于 `mat @ vec` 的乘子
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被相乘的矩阵
-*   **vec** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被要乘的向量
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果
+*   `beta (Number, 可选)` – 作用于 `tensor` 的乘子
+*   `tensor (Tensor)` – 要被相加的向量
+*   `alpha (Number, 可选)` – 作用于 `mat @ vec` 的乘子
+*   `mat (Tensor)` – 要被相乘的矩阵
+*   `vec (Tensor)` – 要被要乘的向量
+*   `out (Tensor, 可选)` – 输出结果
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> M = torch.randn(2)
@@ -4719,7 +4604,7 @@ Example:
 torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 ```
 
-执行向量:attr:`vec1` 和 `vec2` 的外积, 并把外积计算结果与矩阵 `mat` 相加.
+执行向量 `vec1` 和 `vec2` 的外积, 并把外积计算结果与矩阵 `mat` 相加.
 
 可选值 `beta` 和 `alpha` 是标量, 分别与 `mat` 和 ![(vec1 \otimes vec2)](img/tex-ab16a4d3626255c0f2ff1b18ec903b95.gif) 相乘.
 
@@ -4729,19 +4614,18 @@ torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 
 对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha` 必须是实数, 否则他们应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **beta** (_Number__,_ _optional_) – 作用于 `mat` 的乘子
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被相加的矩阵
-*   **alpha** (_Number__,_ _optional_) – 作用于 `vec1` 和 `vec2` 外积计算结果的乘子
-*   **vec1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 外积计算的第一个向量
-*   **vec2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 外积计算的第二个向量
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果
+*   `beta (Number, 可选)` – 作用于 `mat` 的乘子
+*   `mat (Tensor)` – 要被相加的矩阵
+*   `alpha (Number, 可选)` – 作用于 `vec1` 和 `vec2` 外积计算结果的乘子
+*   `vec1 (Tensor)` – 外积计算的第一个向量
+*   `vec2 (Tensor)` – 外积计算的第二个向量
+*   `out (Tensor, 可选)` – 输出结果
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> vec1 = torch.arange(1, 4)
@@ -4763,25 +4647,24 @@ torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 `batch1` 和 `batch2` 必须是三维的张量, 且每个包含相同数量的矩阵.
 
-如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 ::attr:`mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `b x n x p` 的张量, 同时 attr:`out` 将是一个 `b x n x p` 的张量.
+如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p`的张量, 那么 `mat` 必须是 [broadcastable](notes/broadcasting.html#broadcasting-semantics) 且是一个 `b x n x p` 的张量, 同时 attr:`out` 将是一个 `b x n x p` 的张量.
 
 换句话说, ![res_i = (beta * M_i) + (alpha * batch1_i \times batch2_i)](img/tex-4c174ea27877cea5aeef8649acf33a61.gif)
 
 对于 `FloatTensor` 或者 `DoubleTensor` 类型的输入, 参数 `beta` 和 `alpha` 必须是实数, 否则他们应该是整数.
 
-| Parameters: | 
+参数：
 
-*   **beta** (_Number__,_ _optional_) – 作用于 `mat` 的乘子 (系数)
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要被相加的张量
-*   **alpha** (_Number__,_ _optional_) – 作用于 `batch1 @ batch2` 的乘子
-*   **batch1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第一批矩阵
-*   **batch2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第二批矩阵
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出的张量结果
+*   `beta (Number, 可选)` – 作用于 `mat` 的乘子 (系数)
+*   `mat (Tensor)` – 要被相加的张量
+*   `alpha (Number, 可选)` – 作用于 `batch1 @ batch2` 的乘子
+*   `batch1 (Tensor)` – 要相乘的第一批矩阵
+*   `batch2 (Tensor)` – 要相乘的第二批矩阵
+*   `out (Tensor, 可选)` – 输出的张量结果
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> M = torch.randn(10, 3, 5)
@@ -4802,20 +4685,19 @@ torch.bmm(batch1, batch2, out=None) → Tensor
 
 如果 `batch1` 是一个 `b x n x m` 的张量, `batch2` 是一个 `b x m x p` 的张量, `out` 将是一个 `b x n x p` 的张量.
 
-Note
+注解：
 
-这个函数不能参考 [broadcast](notes/broadcasting.html#broadcasting-semantics). 对于广播矩阵相乘, 参见 [`torch.matmul()`](#torch.matmul "torch.matmul").
+这个函数不能参考 broadcast](notes/broadcasting.html#broadcasting-semantics). 对于广播矩阵相乘, 参见 [`torch.matmul()`.
 
-| Parameters: | 
+参数：
 
-*   **batch1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第一批矩阵
-*   **batch2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要相乘的第二批矩阵
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出结果
+*   `batch1 (Tensor)` – 要相乘的第一批矩阵
+*   `batch2 (Tensor)` – 要相乘的第二批矩阵
+*   `out (Tensor, 可选)` – 输出结果
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> batch1 = torch.randn(10, 3, 4)
@@ -4834,10 +4716,10 @@ torch.btrifact(A, info=None, pivot=True) → Tensor, IntTensor
 
 返回一个包含 LU 分解和枢轴的元组. 对于每个 minibatch 示例, 如果分解成功, 可选参数 `info` 将提供分解信息. `info` 的值来自 dgetrf, 若是非零值, 则表示有错误发生. 如果 cuda 被使用的话, 具体的值来自 cublas, 否则来自 LAPACK. 如果设置了 pivot, 那么旋转操作将被执行.
 
-| Parameters: | **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 要分解的张量. |
-| --- | --- |
+参数：`A (Tensor)` – 要分解的张量.
 
-Example:
+
+示例：
 
 ```py
 >>> A = torch.randn(2, 3, 3)
@@ -4853,16 +4735,15 @@ torch.btrisolve(b, LU_data, LU_pivots) → Tensor
 
 返回线性系统 Ax = b 的 LU 解.
 
-| Parameters: | 
+参数：
 
-*   **b** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – RHS tensor.
-*   **LU_data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Pivoted LU factorization of A from btrifact.
-*   **LU_pivots** (_IntTensor_) – Pivots of the LU factorization.
+*   `b (Tensor)` – RHS tensor.
+*   `LU_data (Tensor)` – Pivoted LU factorization of A from btrifact.
+*   `LU_pivots (IntTensor)` – Pivots of the LU factorization.
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> A = torch.randn(2, 3, 3)
@@ -4880,11 +4761,11 @@ torch.dot(tensor1, tensor2) → float
 
 计算两个张量的点乘 (内积).
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
-Example:
+示例：
 
 ```py
 >>> torch.dot(torch.Tensor([2, 3]), torch.Tensor([2, 1]))
@@ -4898,23 +4779,19 @@ torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 
 计算实数方阵的特征值和特征向量.
 
-| Parameters: | 
+参数：
 
-*   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 一个要被计算特征值与特征向量的方阵
-*   **eigenvectors** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 若为 `True`, 表示特征值与特征向量都被计算. 否则, 仅计算特征值.
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – 输出张量
+*   `a (Tensor)` – 一个要被计算特征值与特征向量的方阵
+*   `eigenvectors (bool)` – 若为 `True`, 表示特征值与特征向量都被计算. 否则, 仅计算特征值.
+*   `out (tuple, 可选)` – 输出张量
 
- |
-| --- | --- |
-| Returns: | 包含
 
-&gt; *   **e** (_Tensor_): `a` 的左特征值
-&gt; *   **v** (_Tensor_): 如果 `eigenvectors` 为 `True`, 表示 `a` 的特征向量; 否则是一个空的张量
+返回值：包含以下的元组：
 
- |
-| --- | --- |
-| Return type: | 返回一个元组, ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
-| --- | --- |
+*   `e (Tensor)`: `a` 的左特征值
+*   `v (Tensor)`: 如果 `eigenvectors` 为 `True`, 表示 `a` 的特征向量; 否则是一个空的张量
+
+返回类型：返回一个元组, `(Tensor, Tensor)`
 
 ```py
 torch.gels(B, A, out=None) → Tensor
@@ -4922,39 +4799,36 @@ torch.gels(B, A, out=None) → Tensor
 
 计算秩为 ![m](img/tex-6f8f57715090da2632453988d9a1501b.gif) 的， 大小为 m x n 的矩阵 ![A](img/tex-7fc56270e7a70fa81a5935b72eacbe29.gif) 最小二乘和最小范数问题的解
 
-如果 ![m &gt;= n](img/tex-67ab86856a95fdd869cf2a0fff67d8be.gif), [`gels()`](#torch.gels "torch.gels") 求解最小二乘问题:
+如果 !m &gt;= n](img/tex-67ab86856a95fdd869cf2a0fff67d8be.gif), [`gels()` 求解最小二乘问题:
 
 ![\begin{array}{ll} \mbox{minimize} & \|AX-B\|_F. \end{array}](img/tex-e616b1701f9adb598d4bc4809d5d9d13.gif)
 
-如果 ![m &lt; n](img/tex-ad3a40ab7b4c9be133873408eb36bcc1.gif), [`gels()`](#torch.gels "torch.gels") 求解最小范数问题:
+如果 !m &lt; n](img/tex-ad3a40ab7b4c9be133873408eb36bcc1.gif), [`gels()` 求解最小范数问题:
 
 ![\begin{array}{ll} \mbox{minimize} & \|X\|_F & \mbox{subject to} & AX = B. \end{array}](img/tex-3f143297c60126363ebd87566cbf4d03.gif)
 
 返回的矩阵 ![X](img/tex-02129bb861061d1a052c592e2dc6b383.gif) 的头 ![n](img/tex-7b8b965ad4bca0e41ab51de7b31363a1.gif) 行包含解信息. 其余行包含剩余信息: 从第 ![n](img/tex-7b8b965ad4bca0e41ab51de7b31363a1.gif) 行开始的每列的 euclidean 范数, 是对应列的剩余.
 
-| Parameters: | 
+参数：
 
-*   **B** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – The matrix ![B](img/tex-9d5ed678fe57bcca610140957afab571.gif)
-*   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – The ![m](img/tex-6f8f57715090da2632453988d9a1501b.gif) by ![n](img/tex-7b8b965ad4bca0e41ab51de7b31363a1.gif) matrix ![A](img/tex-7fc56270e7a70fa81a5935b72eacbe29.gif)
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – Optional destination tensor
+*   `B (Tensor)` – The matrix ![B](img/tex-9d5ed678fe57bcca610140957afab571.gif)
+*   `A (Tensor)` – The ![m](img/tex-6f8f57715090da2632453988d9a1501b.gif) by ![n](img/tex-7b8b965ad4bca0e41ab51de7b31363a1.gif) matrix ![A](img/tex-7fc56270e7a70fa81a5935b72eacbe29.gif)
+*   `out (tuple, 可选)` – Optional destination tensor
 
- |
-| --- | --- |
-| Returns: | tuple containing:
 
-&gt; *   **X** (_Tensor_): 最小二乘解
-&gt; *   **qr** (_Tensor_): QR 分解的详细信息
+返回值：包含以下的元组：
 
- |
-| --- | --- |
-| Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor")) |
-| --- | --- |
+*   `X (Tensor)`: 最小二乘解
+*   `qr (Tensor)`: QR 分解的详细信息
 
-Note
+
+返回类型：`(Tensor, Tensor)`
+
+注解：
 
 不管输入矩阵的步长如何, 返回来的矩阵将总是被转置. 也就是, 他们的步长是 `(1, m)` 而不是 `(m, 1)`.
 
-Example:
+示例：
 
 ```py
 >>> A = torch.Tensor([[1, 1, 1],
@@ -4982,7 +4856,7 @@ torch.geqrf(input, out=None) -> (Tensor, Tensor)
 
 这是直接调用 LAPACK 的低层函数.
 
-通常您应该使用 [`torch.qr()`](#torch.qr "torch.qr") 来代替之.
+通常您应该使用 `torch.qr()` 来代替之.
 
 计算 `input` 的 QR 分解, 但不构造 `Q` 和 `R` 作为显示分开的矩阵.
 
@@ -4990,13 +4864,12 @@ torch.geqrf(input, out=None) -> (Tensor, Tensor)
 
 更多信息请参见 [LAPACK documentation](https://software.intel.com/en-us/node/521004) .
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input matrix
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – The result tuple of (Tensor, Tensor)
+*   `input (Tensor)` – the input matrix
+*   `out (tuple, 可选)` – The result tuple of (Tensor, Tensor)
 
- |
-| --- | --- |
+
 
 ```py
 torch.ger(vec1, vec2, out=None) → Tensor
@@ -5004,20 +4877,19 @@ torch.ger(vec1, vec2, out=None) → Tensor
 
 计算 `vec1` 和 `vec2` 的外积. 如果 `vec1` 是一个长度为 `n` 的向量, `vec2` 是一个长度为 `m` 的向量, 那么 `out` 必须是一个 `n x m` 的矩阵.
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **vec1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 1D input vector
-*   **vec2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 1D input vector
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – optional output matrix
+*   `vec1 (Tensor)` – 1D input vector
+*   `vec2 (Tensor)` – 1D input vector
+*   `out (Tensor, 可选)` – optional output matrix
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> v1 = torch.arange(1, 5)
@@ -5044,20 +4916,19 @@ torch.gesv(B, A, out=None) -> (Tensor, Tensor)
 
 如果 `A` 是一个 `m x m` 矩阵, `B` 是一个 `m x k` 的矩阵, 那么结果 `LU` 的大小为 `m x m`, `X` 的大小为 `m x k` .
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrices `X` and `LU` will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
-| Parameters: | 
+参数：
 
-*   **B** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input matrix of `m x k` dimensions
-*   **A** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – input square matrix of `m x m` dimensions
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – optional output matrix
+*   `B (Tensor)` – input matrix of `m x k` dimensions
+*   `A (Tensor)` – input square matrix of `m x m` dimensions
+*   `out (Tensor, 可选)` – optional output matrix
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> A = torch.Tensor([[6.80, -2.11,  5.66,  5.97,  8.23],
@@ -5080,19 +4951,18 @@ torch.inverse(input, out=None) → Tensor
 
 计算方阵 `input` 的逆.
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrix will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D square `Tensor`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the optional output `Tensor`
+*   `input (Tensor)` – the input 2D square `Tensor`
+*   `out (Tensor, 可选)` – the optional output `Tensor`
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.rand(10, 10)
@@ -5146,18 +5016,17 @@ The behavior depends on the dimensionality of the tensors as follows:
 *   If the first argument is 2-dimensional and the second argument is 1-dimensional, the matrix-vector product is returned.
 *   If both arguments are at least 1-dimensional and at least one argument is N-dimensional (where N &gt; 2), then a batched matrix multiply is returned. If the first argument is 1-dimensional, a 1 is prepended to its dimension for the purpose of the batched matrix multiply and removed after. If the second argument is 1-dimensional, a 1 is appended to its dimension for the purpose of the batched matrix multiple and removed after. The non-matrix (i.e. batch) dimensions are [broadcasted](notes/broadcasting.html#broadcasting-semantics) (and thus must be broadcastable). For example, if `tensor1` is a `j x 1 x n x m` Tensor and `tensor2` is a `k x m x p` Tensor, `out` will be an `j x k x n x p` Tensor.
 
-Note
+注解：
 
 The 1-dimensional dot product version of this function does not support an `out` parameter.
 
-| Parameters: | 
+参数：
 
-*   **tensor1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – First tensor to be multiplied
-*   **tensor2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Second tensor to be multiplied
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – Output tensor
+*   `tensor1 (Tensor)` – First tensor to be multiplied
+*   `tensor2 (Tensor)` – Second tensor to be multiplied
+*   `out (Tensor, 可选)` – Output tensor
 
- |
-| --- | --- |
+
 
 ```py
 torch.mm(mat1, mat2, out=None) → Tensor
@@ -5167,20 +5036,19 @@ torch.mm(mat1, mat2, out=None) → Tensor
 
 如果 `mat1` 是一个 `n x m` 张量, `mat2` 是一个 `m x p` 张量, `out` 将是一个 `n x p` 张量.
 
-Note
+注解：
 
-这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics). 要使用支持广播矩阵乘法, 参见 [`torch.matmul()`](#torch.matmul "torch.matmul").
+这个函数不支持 broadcast](notes/broadcasting.html#broadcasting-semantics). 要使用支持广播矩阵乘法, 参见 [`torch.matmul()`.
 
-| Parameters: | 
+参数：
 
-*   **mat1** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – First matrix to be multiplied
-*   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Second matrix to be multiplied
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – Output tensor
+*   `mat1 (Tensor)` – First matrix to be multiplied
+*   `mat2 (Tensor)` – Second matrix to be multiplied
+*   `out (Tensor, 可选)` – Output tensor
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> mat1 = torch.randn(2, 3)
@@ -5200,20 +5068,19 @@ torch.mv(mat, vec, out=None) → Tensor
 
 如果 `mat` 是一个 `n x m` 张量, `vec` 是一个大小为 `m` 的一维张量, `out` 将是一个大小为 `n` 的张量.
 
-Note
+注解：
 
 这个函数不支持 [broadcast](notes/broadcasting.html#broadcasting-semantics).
 
-| Parameters: | 
+参数：
 
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – matrix to be multiplied
-*   **vec** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – vector to be multiplied
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – Output tensor
+*   `mat (Tensor)` – matrix to be multiplied
+*   `vec (Tensor)` – vector to be multiplied
+*   `out (Tensor, 可选)` – Output tensor
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> mat = torch.randn(2, 3)
@@ -5241,16 +5108,15 @@ potrf(a, upper, out=None)
 
 计算半正定矩阵 `a`: 的 Cholesky 分解. 返回结果 `u`, 若 `upper` 设为 `True` 或未提供时, `u` 是一个上三角矩阵, 使得 ![a = u^T u](img/tex-a495982217ecb8f8c1c154c349699217.gif) 成立; 若 `upper` 设为 `False`, `u` 是一个下三角矩阵, 使得 ![a = u u^T](img/tex-af2a8f54be49d4fb8cc53b20d501b681.gif) 成立.
 
-| Parameters: | 
+参数：
 
-*   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D `Tensor`, a symmetric positive semidefinite matrix
-*   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – Return upper (default) or lower triangular matrix
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – A Tensor for u
+*   `a (Tensor)` – the input 2D `Tensor`, a symmetric positive semidefinite matrix
+*   `upper (bool, 可选)` – Return upper (default) or lower triangular matrix
+*   `out (Tensor, 可选)` – A Tensor for u
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5287,16 +5153,15 @@ potri(u, upper, out=None)
 
 给定一个半正定矩阵的 Cholesky 分解因子 `u`, 计算该半正定矩阵的逆. 返回矩阵 `inv`, 若 `upper` 设为 `True` 或为提供, `u` 是一个上三角矩阵, 使得 ![inv = (u^T u)^{-1}](img/tex-9c4b0a3ec8f2662acb48158c085131b6.gif) 成立; 若 `upper` 设为 `False`, `u` 是一个下三角矩阵, 使得 ![inv = (u u^T)^{-1}](img/tex-a516e9c3e09592a93fa8a11efe052352.gif) 成立.
 
-| Parameters: | 
+参数：
 
-*   **u** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D `Tensor`, a upper or lower triangular Cholesky factor
-*   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – Flag if upper (default) or lower triangular matrix
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – A Tensor for inv
+*   `u (Tensor)` – the input 2D `Tensor`, a upper or lower triangular Cholesky factor
+*   `upper (bool, 可选)` – Flag if upper (default) or lower triangular matrix
+*   `out (Tensor, 可选)` – A Tensor for inv
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5333,21 +5198,20 @@ potrs(b, u, upper, out=None)
 
 Solves a linear system of equations with a positive semidefinite matrix to be inverted given its given a Cholesky factor matrix `u`: returns matrix `c` If `upper` is `True` or not provided, `u` is and upper triangular such that ![c = (u^T u)^{-1} b](img/tex-8adaa3f465e6b647154735a77655849a.gif). If `upper` is `False`, `u` is and lower triangular such that ![c = (u u^T)^{-1} b](img/tex-d746800a59c0e059328a7275a82f2109.gif).
 
-Note
+注解：
 
 `b` is always a 2D `Tensor`, use `b.unsqueeze(1)` to convert a vector.
 
-| Parameters: | 
+参数：
 
-*   **b** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the right hand side 2D `Tensor`
-*   **u** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D `Tensor`, a upper or lower triangular Cholesky factor
-*   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – Return upper (default) or lower triangular matrix
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – A Tensor for c
+*   `b (Tensor)` – the right hand side 2D `Tensor`
+*   `u (Tensor)` – the input 2D `Tensor`, a upper or lower triangular Cholesky factor
+*   `upper (bool, 可选)` – Return upper (default) or lower triangular matrix
+*   `out (Tensor, 可选)` – A Tensor for c
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5392,16 +5256,15 @@ pstrf(a, upper, out=None)
 
 Computes the pivoted Cholesky decomposition of a positive semidefinite matrix `a`: returns matrices `u` and `piv`. If `upper` is `True` or not provided, `u` is and upper triangular such that ![a = p^T u^T u p](img/tex-a15f289c6963aee50745ebf64701af1a.gif), with `p` the permutation given by `piv`. If `upper` is `False`, `u` is and lower triangular such that ![a = p^T u u^T p](img/tex-09b54d58ebd0ed1f4092bda5c5ecb4f8.gif).
 
-| Parameters: | 
+参数：
 
-*   **a** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D `Tensor`
-*   **upper** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – Return upper (default) or lower triangular matrix
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – A tuple of u and piv Tensors
+*   `a (Tensor)` – the input 2D `Tensor`
+*   `upper (bool, 可选)` – Return upper (default) or lower triangular matrix
+*   `out (tuple, 可选)` – A tuple of u and piv Tensors
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.randn(3,3)
@@ -5446,27 +5309,26 @@ torch.qr(input, out=None) -> (Tensor, Tensor)
 
 This returns the thin (reduced) QR factorization.
 
-Note
+注解：
 
 如果矩阵 `input` 中的元素太大, 那么精度可能会丢失.
 
-Note
+注解：
 
 尽管该函数总是能给您一个有效的分解, 但在不同平台上结果可能不同 - 取决于该平台上 LAPACK 的实现.
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrix `q` will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D `Tensor`
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – A tuple of Q and R Tensors
+*   `input (Tensor)` – the input 2D `Tensor`
+*   `out (tuple, 可选)` – A tuple of Q and R Tensors
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.Tensor([[12, -51, 4], [6, 167, -68], [-4, 24, -41]])
@@ -5515,20 +5377,19 @@ torch.svd(input, some=True, out=None) -> (Tensor, Tensor, Tensor)
 
 `some` 表示将被计算的奇异值的总数. 如果 `some=True`, 它将计算指定的 some 数量个奇异值, 如果 `some=False`, 则计算所有奇异值.
 
-Note
+注解：
 
 Irrespective of the original strides, the returned matrix `U` will be transposed, i.e. with strides `(1, n)` instead of `(n, 1)`.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input 2D Tensor
-*   **some** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")_,_ _optional_) – controls the number of singular values to be computed
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – the result tuple
+*   `input (Tensor)` – the input 2D Tensor
+*   `some (bool, 可选)` – controls the number of singular values to be computed
+*   `out (tuple, 可选)` – the result tuple
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> a = torch.Tensor([[8.79,  6.11, -9.15,  9.57, -3.49,  9.84],
@@ -5598,15 +5459,14 @@ torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor
 
 Note: Irrespective of the original strides, the returned matrix `V` will be transposed, i.e. with strides `(1, m)` instead of `(m, 1)`.
 
-| Parameters: | 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input symmetric matrix
-*   **eigenvectors** (_boolean__,_ _optional_) – controls whether eigenvectors have to be computed
-*   **upper** (_boolean__,_ _optional_) – controls whether to consider upper-triangular or lower-triangular region
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")_,_ _optional_) – The result tuple of (Tensor, Tensor)
+*   `input (Tensor)` – the input symmetric matrix
+*   `eigenvectors (boolean, 可选)` – controls whether eigenvectors have to be computed
+*   `upper (boolean, 可选)` – controls whether to consider upper-triangular or lower-triangular region
+*   `out (tuple, 可选)` – The result tuple of (Tensor, Tensor)
 
- |
-| --- | --- |
+
 
 Examples:
 

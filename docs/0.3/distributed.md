@@ -1,5 +1,9 @@
 # Distributed communication package - torch.distributed
 
+> 译者：[@Mu Wu9527](https://github.com/yichuan9527)
+> 
+> 校对者：[@smilesboy](https://github.com/smilesboy)
+
 torch.distributed 提供类似 MPI 的前向运算机制, 支持在多台机的网络中交换数据. 支持不同的后段和初始化方法.
 
 目前torch.distributed支持三个后端, 每个都有不同的功能. 下表显示哪些功能可用于 CPU/CUDA 张量. 只有在设备上编译安装PyTorch, 才能在MPI的设备上支持cuda.
@@ -29,7 +33,7 @@ torch.distributed 提供类似 MPI 的前向运算机制, 支持在多台机的�
 
 ## Initialization
 
-在调用其他模型之前, 这个包需要使用 [`torch.distributed.init_process_group()`](#torch.distributed.init_process_group "torch.distributed.init_process_group") 函数进行初始化. 在初始化单元中, 所有进程都会参与.
+在调用其他模型之前, 这个包需要使用 `torch.distributed.init_process_group()` 函数进行初始化. 在初始化单元中, 所有进程都会参与.
 
 ```py
 torch.distributed.init_process_group(backend, init_method='env://', **kwargs)
@@ -37,16 +41,15 @@ torch.distributed.init_process_group(backend, init_method='env://', **kwargs)
 
 初始化方法.
 
-| Parameters: | 
+参数：
 
-*   **backend** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")) – 使用后端的名字. 输入的有效值包括: `tcp` , `mpi` and `gloo` .
-*   **init_method** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _optional_) – 指定如何初始化的URL.
-*   **world_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 参与工作的进程数量.
-*   **rank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 当前进程的排名.
-*   **group_name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.6)")_,_ _optional_) – 集群的名字. 请参阅init方法的描述.
+*   `backend (str)` – 使用后端的名字. 输入的有效值包括: `tcp` , `mpi` and `gloo` .
+*   `init_method (str, 可选)` – 指定如何初始化的URL.
+*   `world_size (int, 可选)` – 参与工作的进程数量.
+*   `rank (int, 可选)` – 当前进程的排名.
+*   `group_name (str, 可选)` – 集群的名字. 请参阅init方法的描述.
 
- |
-| --- | --- |
+
 
 为了支持 `backend == mpi` , PyTorch 需要在支持 MPI 的系统上用进行源码编译安装
 
@@ -90,7 +93,7 @@ dist.init_process_group(init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b
 
 另一个初始化方法使用一个文件系统, 这个文件系统在一个组中的所有机器上共享和可见, 以及一个所需的 `world_size` 参数. URL应该以 `file://` 开头, 并包含一个可以和共享文件系统所有现有目录中的路径相区别的路径, 作为URL. 这个初始化方法也 支持 `group_name` 参数, 它允许你为多个作业使用相同的共享文件路径, 只要它们使用不同的小组名.
 
-Warning
+警告：
 
 这种方法假设文件系统支持使用 `fcntl` 进行锁定 -大多数本地系统和NFS都支持它.
 
@@ -118,7 +121,7 @@ dist.init_process_group(init_method='file:///mnt/nfs/sharedfile', world_size=4,
 
 ## Groups
 
-默认的集群 (collectives) 操作默认的小组 (group), 要求所有的进程进入分布式函数中调用. 一些工作负载可以从可以从更细粒度的通信中受益 这是分布式集群发挥作用的地方. [`new_group()`](#torch.distributed.new_group "torch.distributed.new_group") 函数可以用来创建新的组, 并且包含所有进程的任意子集. 它返回一个不透明的组句柄, 它可以作为集群的 `group` 参数 (集群 collectives 是一般的编程模式中的交换信息的分布式函数) .
+默认的集群 (collectives) 操作默认的小组 (group), 要求所有的进程进入分布式函数中调用. 一些工作负载可以从可以从更细粒度的通信中受益 这是分布式集群发挥作用的地方. `new_group()` 函数可以用来创建新的组, 并且包含所有进程的任意子集. 它返回一个不透明的组句柄, 它可以作为集群的 `group` 参数 (集群 collectives 是一般的编程模式中的交换信息的分布式函数) .
 
 ```py
 torch.distributed.new_group(ranks=None)
@@ -128,10 +131,10 @@ torch.distributed.new_group(ranks=None)
 
 此函数要求主组中的所有进程（即作为分布式作业一部分的所有进程）都会输入此函数, 即使它们不是该小组的成员. 此外, 应该在所有的进程中以相同的顺序创建新的小组.
 
-| Parameters: | **ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_]_) – 小组内成员的 Rank 的列表. |
-| --- | --- |
-| Returns: | 分配组的句柄, 以便在集群中调用. |
-| --- | --- |
+参数：`ranks (list[int])` – 小组内成员的 Rank 的列表.
+
+返回值：分配组的句柄, 以便在集群中调用.
+
 
 ## Point-to-point communication
 
@@ -141,13 +144,12 @@ torch.distributed.send(tensor, dst)
 
 同步发送张量.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 发送的张量.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 指定发送的目的地的 Rank.
+*   `tensor (Tensor)` – 发送的张量.
+*   `dst (int)` – 指定发送的目的地的 Rank.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.recv(tensor, src=None)
@@ -155,22 +157,21 @@ torch.distributed.recv(tensor, src=None)
 
 同步接收张量.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 用收到的数据填充张量.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")_,_ _optional_) – 发送端的Rank, 如果没有指定, 将会接收任何发送的数据.
+*   `tensor (Tensor)` – 用收到的数据填充张量.
+*   `src (int, 可选)` – 发送端的Rank, 如果没有指定, 将会接收任何发送的数据.
 
- |
-| --- | --- |
-| Returns: | 发送端的Rank. |
-| --- | --- |
 
-[`isend()`](#torch.distributed.isend "torch.distributed.isend") 和 [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") 使用时返回分布式请求对象. 通常, 这个对象的类型是未指定的, 因为它们不能使用手动创建, 但是它们支持两种方法指定:
+返回值：发送端的Rank.
+
+
+`isend()` 和 `irecv()` 使用时返回分布式请求对象. 通常, 这个对象的类型是未指定的, 因为它们不能使用手动创建, 但是它们支持两种方法指定:
 
 *   `is_completed()` - 如果操作完成返回True
 *   `wait()` - 如果操作完成会阻塞所有的进程. `is_completed()` 如果结果返回, 保证函数返回True.
 
-当使用MPI作为后端, [`isend()`](#torch.distributed.isend "torch.distributed.isend") 和 [`irecv()`](#torch.distributed.irecv "torch.distributed.irecv") 支持 “不超车” 式的工作方式, 这种方式可以保证消息的顺序. 更多的细节可以看 [http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54](http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54)
+当使用MPI作为后端, `isend()` 和 `irecv()` 支持 “不超车” 式的工作方式, 这种方式可以保证消息的顺序. 更多的细节可以看 [http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54](http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54)
 
 ```py
 torch.distributed.isend(tensor, dst)
@@ -178,15 +179,14 @@ torch.distributed.isend(tensor, dst)
 
 异步发送张量数据.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 发送的张量的数据.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 指定发送到的 Rank.
+*   `tensor (Tensor)` – 发送的张量的数据.
+*   `dst (int)` – 指定发送到的 Rank.
 
- |
-| --- | --- |
-| Returns: | 分布式请求对象. |
-| --- | --- |
+
+返回值：分布式请求对象.
+
 
 ```py
 torch.distributed.irecv(tensor, src)
@@ -194,15 +194,14 @@ torch.distributed.irecv(tensor, src)
 
 异步接收张量.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 用收到的数据填充张量.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 指定发送张量的 Rank.
+*   `tensor (Tensor)` – 用收到的数据填充张量.
+*   `src (int)` – 指定发送张量的 Rank.
 
- |
-| --- | --- |
-| Returns: | 一个分布式请求对象. |
-| --- | --- |
+
+返回值：一个分布式请求对象.
+
 
 ## Collective functions
 
@@ -214,14 +213,13 @@ torch.distributed.broadcast(tensor, src, group=<object object>)
 
 > `tensor` 在该小组处理数据的所有过程中元素的数目必须相同.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 如果发送端 `src` 是当前进程的 Rank, 则发送数据, 否则使用张量保存接收的数据.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 发送端的 Rank.
-*   **group** (_optional_) – 集群内的小组的名字.
+*   `tensor (Tensor)` – 如果发送端 `src` 是当前进程的 Rank, 则发送数据, 否则使用张量保存接收的数据.
+*   `src (int)` – 发送端的 Rank.
+*   `group (optional)` – 集群内的小组的名字.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.all_reduce(tensor, op=<object object>, group=<object object>)
@@ -231,14 +229,13 @@ torch.distributed.all_reduce(tensor, op=<object object>, group=<object object>)
 
 在所有进程中调用 `tensor` 将按位相同.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 集群的输入和输出.
-*   **op** (_optional_) – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
-*   **group** (_optional_) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 集群的输入和输出.
+*   `op (optional)` – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
+*   `group (optional)` – 集群的内的小组的名字.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.reduce(tensor, dst, op=<object object>, group=<object object>)
@@ -248,14 +245,13 @@ torch.distributed.reduce(tensor, dst, op=<object object>, group=<object object>)
 
 只有级别为 `dst` 的进程才会收到最终结果.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 集群的输入和输出数据. 分别在每台机器上本地处理.
-*   **op** (_optional_) – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
-*   **group** (_optional_) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 集群的输入和输出数据. 分别在每台机器上本地处理.
+*   `op (optional)` – “torch.distributed.reduce_op” 枚举值之一. 指定用于元素减少的操作.
+*   `group (optional)` – 集群的内的小组的名字.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.all_gather(tensor_list, tensor, group=<object object>)
@@ -263,14 +259,13 @@ torch.distributed.all_gather(tensor_list, tensor, group=<object object>)
 
 在整个集群中收集list表格中的张量.
 
-| Parameters: | 
+参数：
 
-*   **tensor_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 输出列表. 它应该包含正确大小的张量以用于集体的输出.
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 张量从当前进程中进行广播.
-*   **group** (_optional_) – 集群的内的小组的名字.
+*   `tensor_list (list_[Tensor]_)` – 输出列表. 它应该包含正确大小的张量以用于集体的输出.
+*   `tensor (Tensor)` – 张量从当前进程中进行广播.
+*   `group (optional)` – 集群的内的小组的名字.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.gather(tensor, **kwargs)
@@ -278,15 +273,14 @@ torch.distributed.gather(tensor, **kwargs)
 
 收集一个张量列表从一个单一进程中.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输入的数据.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
-*   **gather_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
-*   **group** (_optional_) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 输入的数据.
+*   `dst (int)` – 目的地的 Rank. 包括除了正在接收数据的进程的所有进程.
+*   `gather_list (list_[Tensor]_)` – 用于接收数据的适当大小的张量列表. 只在接收过程中需要.
+*   `group (optional)` – 集群的内的小组的名字.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.scatter(tensor, **kwargs)
@@ -296,15 +290,14 @@ torch.distributed.scatter(tensor, **kwargs)
 
 每个进程只会收到一个张量, 并将其数据存储在 `tensor` 的参数中.
 
-| Parameters: | 
+参数：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 输出的张量.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
-*   **scatter_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – 张量分散的列表. 仅在发送数据的过程中需要.
-*   **group** (_optional_) – 集群的内的小组的名字.
+*   `tensor (Tensor)` – 输出的张量.
+*   `src (int)` – 发送端的 Rank. 包括除了正在接收数据的进程的所有进程.
+*   `scatter_list (list_[Tensor]_)` – 张量分散的列表. 仅在发送数据的过程中需要.
+*   `group (optional)` – 集群的内的小组的名字.
 
- |
-| --- | --- |
+
 
 ```py
 torch.distributed.barrier(group=<object object>)
@@ -314,5 +307,4 @@ torch.distributed.barrier(group=<object object>)
 
 这个集群阻塞进程, 直到全部的小组的计算结果都输入进这个函数中.
 
-| Parameters: | **group** (_optional_) – 集群的内的小组的名字. |
-| --- | --- |
+参数：`group (optional)` – 集群的内的小组的名字.

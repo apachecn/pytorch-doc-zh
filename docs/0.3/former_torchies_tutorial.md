@@ -1,5 +1,9 @@
 # PyTorch for former Torch users
 
+> 译者：@unknown
+> 
+> 校对者：[@bringtree](https://github.com/bringtree)
+
 **Author**: [Soumith Chintala](http://soumith.ch)
 
 在本教程中, 你将学习到以下内容:

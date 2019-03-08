@@ -1,16 +1,20 @@
 # torch.optim
 
-[`torch.optim`](#module-torch.optim "torch.optim") is a package implementing various optimization algorithms. Most commonly used methods are already supported, and the interface is general enough, so that more sophisticated ones can be also easily integrated in the future.
+> 译者：[@于增源](https://github.com/ZengyuanYu)
+> 
+> 校对者：[@青梅往事](https://github.com/2556120684)
+
+`torch.optim` is a package implementing various optimization algorithms. Most commonly used methods are already supported, and the interface is general enough, so that more sophisticated ones can be also easily integrated in the future.
 
 ## 如何使用 optimizer (优化器)
 
-为了使用 [`torch.optim`](#module-torch.optim "torch.optim") 你需要创建一个 optimizer 对象, 这个对象能够保持当前的状态以及依靠梯度计算 来完成参数更新.
+为了使用 `torch.optim` 你需要创建一个 optimizer 对象, 这个对象能够保持当前的状态以及依靠梯度计算 来完成参数更新.
 
 ### 构建
 
-要构建一个 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 你需要一个可迭代的参数 (全部都应该是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) 进行优化. 然后, 你能够设置优化器的参数选项, 例如学习率, 权重衰减等.
+要构建一个 `Optimizer` 你需要一个可迭代的参数 (全部都应该是 [`Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) 进行优化. 然后, 你能够设置优化器的参数选项, 例如学习率, 权重衰减等.
 
-Note
+注解：
 
 如果你需要通过 `.cuda()` 将模型移动到 GPU 上, 请在构建优化器之前来移动. 模型的参数在进行 `.cuda()` 之后将变成不同的对象,该对象与之前调用的参数不同.
 
@@ -26,9 +30,9 @@ optimizer = optim.Adam([var1, var2], lr = 0.0001)
 
 ### 为每个参数单独设置选项
 
-[`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 :class: `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)") 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
+`Optimizer` 也支持为每个参数单独设置选项. 若要这么做, 不要直接使用 `~torch.autograd.Variable` 的迭代, 而是使用 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的迭代. 每一个 dict 都分别定义了一组参数, 并且应该要包含 `params` 键,这个键对应列表的参数. 其他的键应该与 optimizer 所接受的其他参数的关键字相匹配, 并且会被用于对这组参数的优化.
 
-Note
+注解：
 
 你仍然能够传递选项作为关键字参数.在未重写这些选项的组中, 它们会被用作默认值. 这非常适用于当你只想改动一个参数组的选项, 但其他参数组的选项不变的情况.
 
@@ -46,7 +50,7 @@ optim.SGD([
 
 ### 进行单步优化
 
-所有的优化器都实现了 [`step()`](#torch.optim.Optimizer.step "torch.optim.Optimizer.step") 方法, 且更新到所有的参数. 它可以通过以下两种方式来使用:
+所有的优化器都实现了 `step()` 方法, 且更新到所有的参数. 它可以通过以下两种方式来使用:
 
 #### `optimizer.step()`
 
@@ -90,18 +94,21 @@ class torch.optim.Optimizer(params, defaults)
 
 优化器的基类.
 
-Args: * params (iterable): :class:[`](#id5)Variable 或 :class:[`](#id7)dict 的迭代, 指定了应该优化哪些参数. * defaults: (dict): 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
+参数：
+
+* `params (iterable)`: `Variable` 或 `dict` 的迭代, 指定了应该优化哪些参数. 
+* `defaults (dict)`: 包含了优化选项默认值的字典(一个参数组没有指定的参数选项将会使用默认值).
 
 ```py
 add_param_group(param_group)
 ```
 
-增加一组参数到 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 的 `param_groups` 里面.
+增加一组参数到 `Optimizer` 的 `param_groups` 里面.
 
-当微调一个预训练好的网络作为冻结层时是有用的, 它能够使用可训练的和可增加的参数到 [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") 作为一个训练预处理.
+当微调一个预训练好的网络作为冻结层时是有用的, 它能够使用可训练的和可增加的参数到 `Optimizer` 作为一个训练预处理.
 
-| Parameters: | **param_group** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 指定这一组中具有特殊优化选项的那些 Variables 能够被优化. |
-| --- | --- |
+参数：`param_group (dict)` – 指定这一组中具有特殊优化选项的那些 Variables 能够被优化.
+
 
 ```py
 load_state_dict(state_dict)
@@ -109,14 +116,14 @@ load_state_dict(state_dict)
 
 加载优化器状态.
 
-| Parameters: | **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)")) – 优化器状态. 是调用 [`state_dict()`](#torch.optim.Optimizer.state_dict "torch.optim.Optimizer.state_dict") 时所返回的对象. |
-| --- | --- |
+参数：`state_dict (dict)` – 优化器状态. 是调用 `state_dict()` 时所返回的对象.
+
 
 ```py
 state_dict()
 ```
 
-以 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.6)") 的形式返回优化器的状态.
+以 [`dict`](https://docs.python.org/3/library/stdtypes.html#dict) 的形式返回优化器的状态.
 
 它包含两部分内容:
 
@@ -129,8 +136,8 @@ step(closure)
 
 进行单次优化(参数更新).
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")) – 一个重新评价模型并返回 loss 的闭包大多数优化器可选择. |
-| --- | --- |
+参数：`closure (callable)` – 一个重新评价模型并返回 loss 的闭包大多数优化器可选择.
+
 
 ```py
 zero_grad()
@@ -146,7 +153,7 @@ class torch.optim.Adadelta(params, lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)
 
 它在 [ADADELTA: 一种可调节学习率的方法](https://arxiv.org/abs/1212.5701) 中提出
 
-Args: * params (iterable): 通过参数迭代去优化或者字典的形式定义参数组. * rho (float, optional): 用来计算平均平方梯度的系数(默认值: 0.9) * eps (float, optional): 增加分母来确保数值稳定性(默认值: 1e-6) * lr (float, optional): 在将 delta 应用于参数之前对其进行系数的缩放(默认值: 1.0) * weight_decay (float, optional): 权重衰减 (L2正则化) (默认值: 0)
+Args: * params (iterable): 通过参数迭代去优化或者字典的形式定义参数组. * rho (float, 可选): 用来计算平均平方梯度的系数(默认值: 0.9) * eps (float, 可选): 增加分母来确保数值稳定性(默认值: 1e-6) * lr (float, 可选): 在将 delta 应用于参数之前对其进行系数的缩放(默认值: 1.0) * weight_decay (float, 可选): 权重衰减 (L2正则化) (默认值: 0)
 
 ```py
 step(closure=None)
@@ -154,8 +161,8 @@ step(closure=None)
 
 实行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 重新评估模型并返回误差损失的闭包. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 重新评估模型并返回误差损失的闭包.
+
 
 ```py
 class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0)
@@ -165,7 +172,7 @@ class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0)
 
 它在 [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](http://jmlr.org/papers/v12/duchi11a.html) 中被提出.
 
-Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组 * lr (float, optional): 学习率 (默认值: 1e-2) * lr_decay (float, optional): 学习率衰减 (默认值: 0) * weight_decay (float, optional): 权重衰减 (L2正则化) (默认值: 0)
+Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组 * lr (float, 可选): 学习率 (默认值: 1e-2) * lr_decay (float, 可选): 学习率衰减 (默认值: 0) * weight_decay (float, 可选): 权重衰减 (L2正则化) (默认值: 0)
 
 ```py
 step(closure=None)
@@ -173,8 +180,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
@@ -184,7 +191,7 @@ class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_d
 
 它在 [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980) 中被提出.
 
-Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组. * lr (float, optional): 学习率 (默认值: 1e-3) * betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999)) * eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8) * weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组. * lr (float, 可选): 学习率 (默认值: 1e-3) * betas (Tuple[float, float], 可选): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999)) * eps (float, 可选): 增加分母来确保数值稳定性 (默认值: 1e-8) * weight_decay (float, 可选): 权重衰减 (L2 正则化) (默认值: 0)
 
 ```py
 step(closure=None)
@@ -192,8 +199,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)
@@ -203,7 +210,7 @@ class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)
 
 在这个变化下,只将显示出来的梯度进行更新存储并且只将这部分梯度应用到参数中.
 
-Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float, optional): 学习率 (default: 1e-3) * betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999)) * eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8)
+Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float, 可选): 学习率 (default: 1e-3) * betas (Tuple[float, float], 可选): 用来计算梯度和平方梯度的系数 (默认值: (0.9, 0.999)) * eps (float, 可选): 增加分母来确保数值稳定性 (默认值: 1e-8)
 
 ```py
 step(closure=None)
@@ -211,8 +218,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ```py
 class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
@@ -222,7 +229,7 @@ class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight
 
 它在 [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980) 中被提出.
 
-Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组. * lr (float, optional): 学习率 (默认值: 2e-3) * betas (Tuple[float, float], optional): 用来计算梯度和平方梯度的系数 * eps (float, optional): 增加分母来确保数值稳定性 (默认值: 1e-8) * weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组. * lr (float, 可选): 学习率 (默认值: 2e-3) * betas (Tuple[float, float], 可选): 用来计算梯度和平方梯度的系数 * eps (float, 可选): 增加分母来确保数值稳定性 (默认值: 1e-8) * weight_decay (float, 可选): 权重衰减 (L2 正则化) (默认值: 0)
 
 ```py
 step(closure=None)
@@ -230,8 +237,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, weight_decay=0)
@@ -241,7 +248,7 @@ class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, 
 
 它在 [Acceleration of stochastic approximation by averaging](http://dl.acm.org/citation.cfm?id=131098) 中被提出
 
-Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组 * lr (float, optional): 学习率 (默认值: 1e-2) * lambd (float, optional): 衰减期 (默认值: 1e-4) * alpha (float, optional): eta 更新的权重 (默认值: 0.75) * t0 (float, optional): 指明在哪一次开始平均化 (默认值: 1e6) * weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0)
+Args: * params (iterable): 迭代的优化参数或者以字典的形式定义参数组 * lr (float, 可选): 学习率 (默认值: 1e-2) * lambd (float, 可选): 衰减期 (默认值: 1e-4) * alpha (float, 可选): eta 更新的权重 (默认值: 0.75) * t0 (float, 可选): 指明在哪一次开始平均化 (默认值: 1e6) * weight_decay (float, 可选): 权重衰减 (L2 正则化) (默认值: 0)
 
 ```py
 step(closure=None)
@@ -249,8 +256,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回误差的闭包. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回误差的闭包.
+
 
 ```py
 class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad=1e-05, tolerance_change=1e-09, history_size=100, line_search_fn=None)
@@ -258,15 +265,15 @@ class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad
 
 实现 L-BFGS 算法.
 
-Warning
+警告：
 
 这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
 
-Warning
+警告：
 
 目前所有的参数不得不都在同一设备上. 这在将来会得到改进.
 
-Note
+注解：
 
 这是一个内存高度密集的 optimizer (它要求额外的 `param_bytes * (history_size + 1)` 个字节). 如果它不适应内存, 尝试减小历史规格, 或者使用不同的算法.
 
@@ -278,8 +285,8 @@ step(closure)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：`closure (callable)` – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ```py
 class torch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)
@@ -291,7 +298,7 @@ class torch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0
 
 中心版本首次出现在 [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850v5.pdf).
 
-算法: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float, optional): 学习率 (默认值: 1e-2) * momentum (float, optional): 动量因子 (默认值: 0) * alpha (float, optional): 平滑常量 (default: 0.99) * eps (float, optional): 为了增加数值计算的稳定性而加到分母里的项 (默认值: 1e-8) * centered (bool, optional) : 如果为 `True`, 计算 RMSProp 的中值, 并且用它的方差预测值对梯度进行归一化 * weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
+算法: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float, 可选): 学习率 (默认值: 1e-2) * momentum (float, 可选): 动量因子 (默认值: 0) * alpha (float, 可选): 平滑常量 (default: 0.99) * eps (float, 可选): 为了增加数值计算的稳定性而加到分母里的项 (默认值: 1e-8) * centered (bool, 可选) : 如果为 `True`, 计算 RMSProp 的中值, 并且用它的方差预测值对梯度进行归一化 * weight_decay (float, 可选): weight decay (L2 penalty) (default: 0)
 
 ```py
 step(closure=None)
@@ -299,8 +306,8 @@ step(closure=None)
 
 Performs a single optimization step.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – A closure that reevaluates the model and returns the loss. |
-| --- | --- |
+参数：`closure (callable, 可选)` – A closure that reevaluates the model and returns the loss.
+
 
 ```py
 class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50))
@@ -308,11 +315,11 @@ class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50)
 
 实现弹性反向传播算法.
 
-Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float, optional): 学习率 (默认值: 1e-2) * etas (Tuple[float, float], optional): 一对 (etaminus, etaplis), t它们分别是乘法
+Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float, 可选): 学习率 (默认值: 1e-2) * etas (Tuple[float, float], 可选): 一对 (etaminus, etaplis), t它们分别是乘法
 
 > 的增加和减小的因子 (默认值: (0.5, 1.2))
 
-*   step_sizes (Tuple[float, float], optional): 允许的一对最小和最大的步长 (默认值: (1e-6, 50))
+*   `step_sizes (Tuple[float, float], 可选)`: 允许的一对最小和最大的步长 (默认值: (1e-6, 50))
 
 ```py
 step(closure=None)
@@ -320,8 +327,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ```py
 class torch.optim.SGD(params, lr=<object object>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
@@ -331,9 +338,9 @@ class torch.optim.SGD(params, lr=<object object>, momentum=0, dampening=0, weigh
 
 Nesterov 动量基于 [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf) 中的公式.
 
-Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float): 学习率 * momentum (float, optional): 动量因子 (默认值: 0) * weight_decay (float, optional): 权重衰减 (L2 正则化) (默认值: 0) * dampening (float, optional): 动量的抑制因子 (默认值: 0) * nesterov (bool, optional): 使用 Nesterov 动量 (默认值: False)
+Args: * params (iterable): 待优化的迭代参数或者是定义了参数组的 dict * lr (float): 学习率 * momentum (float, 可选): 动量因子 (默认值: 0) * weight_decay (float, 可选): 权重衰减 (L2 正则化) (默认值: 0) * dampening (float, 可选): 动量的抑制因子 (默认值: 0) * nesterov (bool, 可选): 使用 Nesterov 动量 (默认值: False)
 
-Example
+示例：
 
 ```py
 >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
@@ -343,7 +350,7 @@ Example
 
 ```
 
-Note
+注解：
 
 带有动量 /Nesterov 的 SGD 的实现稍微不同于 Sutskever 等人以及其他框架中的实现. 考虑动量的具体情况, 更新可以写成
 
@@ -363,8 +370,8 @@ step(closure=None)
 
 进行单步优化.
 
-| Parameters: | **closure** ([_callable_](https://docs.python.org/3/library/functions.html#callable "(in Python v3.6)")_,_ _optional_) – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的. |
-| --- | --- |
+参数：`closure (callable, 可选)` – 一个重新评价模型并返回 loss 的闭包, 对于大多数参数来说是可选的.
+
 
 ## 如何调整学习率
 
@@ -381,7 +388,7 @@ class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)
 
 Args: * optimizer (Optimizer): 封装好的优化器. * lr_lambda (function or list): 计算给定整数参数历元的乘法因子的函数, 或者一系列的此类函数, 每组的一个都在 optimizer.param_groups 中. * last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
-Example
+示例：
 
 ```py
 >>> # Assuming optimizer has two groups.
@@ -403,7 +410,7 @@ class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoc
 
 Args: * optimizer (Optimizer): 封装好的优化器. * step_size (int): 学习率衰减周期. * gamma (float): 学习率衰减的乘法因子. 默认值: 0.1. * last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
 
-Example
+示例：
 
 ```py
 >>> # Assuming optimizer uses lr = 0.5 for all groups
@@ -429,9 +436,9 @@ Args: * optimizer (Optimizer): 封装好的优化器. * milestones (list): epoch
 
 > 默认值: 0.1.
 
-*   last_epoch (int): 最后一个 epoch 的索引. 默认值: -1.
+*   `last_epoch (int)`: 最后一个 epoch 的索引. 默认值: -1.
 
-Example
+示例：
 
 ```py
 >>> # Assuming optimizer uses lr = 0.5 for all groups
@@ -462,17 +469,17 @@ Args: * optimizer (Optimizer): 封装好的优化器.
 
 > mode (str): `min`, `max` 其中一个. 在 `min` 模块下,当质量监测已经 停止下降时 lr 将被减少; 在 `max` 模块下 当质量监测已经停止上升时 lr 将 被减少. 默认值: ‘min’.
 
-*   factor (float): 哪个学习率将会被减少的影响因子 .
+*   `factor (float)`: 哪个学习率将会被减少的影响因子 .
 *   new_lr = lr * factor. 默认值: 0.1.
-*   patience (int): epoch 中没有改善的次数, 学习率将会降低. . 默认值: 10.
-*   verbose (bool): 若为 `True`, 每次更新打印信息到控制台输出. 默认值: `False`.
-*   threshold (float): 测量新的最佳阈值, 只关注有重大意义的改变. 默认值: 1e-4.
-*   threshold_mode (str): `rel`, `abs` 中的一个. 在 `rel` 模式下, dynamic_threshold = best * ( 1 + threshold ) 在 ‘max’ 模式下或者在 `min` 模式下 best * ( 1 - threshold ) . 在 `abs` 模式下, dynamic_threshold = best + threshold 在 `max` 模式下或者在 `min` 模式下 best - threshold . 默认值: ‘rel’.
-*   cooldown (int): lr 已经减少之后去等待最佳的正常操作之前的 epoch 数目. 默认值: 0.
-*   min_lr (float or list): 一个列表的标量.所有参数组或每个组的学习率下限. 默认值: 0.
-*   eps (float): lr 最小的衰减值适应于. 如果新 lr 和旧 lr 之间的差异小于 eps,更新可以忽略. 默认值: 1e-8.
+*   `patience (int)`: epoch 中没有改善的次数, 学习率将会降低. . 默认值: 10.
+*   `verbose (bool)`: 若为 `True`, 每次更新打印信息到控制台输出. 默认值: `False`.
+*   `threshold (float)`: 测量新的最佳阈值, 只关注有重大意义的改变. 默认值: 1e-4.
+*   `threshold_mode (str)`: `rel`, `abs` 中的一个. 在 `rel` 模式下, dynamic_threshold = best * ( 1 + threshold ) 在 ‘max’ 模式下或者在 `min` 模式下 best * ( 1 - threshold ) . 在 `abs` 模式下, dynamic_threshold = best + threshold 在 `max` 模式下或者在 `min` 模式下 best - threshold . 默认值: ‘rel’.
+*   `cooldown (int)`: lr 已经减少之后去等待最佳的正常操作之前的 epoch 数目. 默认值: 0.
+*   `min_lr (float or list)`: 一个列表的标量.所有参数组或每个组的学习率下限. 默认值: 0.
+*   `eps (float)`: lr 最小的衰减值适应于. 如果新 lr 和旧 lr 之间的差异小于 eps,更新可以忽略. 默认值: 1e-8.
 
-Example
+示例：
 
 ```py
 >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)

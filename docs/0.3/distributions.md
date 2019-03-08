@@ -1,8 +1,12 @@
 # Probability distributions - torch.distributions
 
+> 译者：[@叶舒泉](https://github.com/pleaseconnectwifi)
+> 
+> 校对者：[@smilesboy](https://github.com/smilesboy)、[@Charles Xu](https://github.com/the0demiurge)
+
 该 `distributions` 统计分布包中含有可自定义参数的概率分布和采样函数.
 
-当概率密度函数对其参数可微时, 可以使用 [`log_prob()`](#torch.distributions.Distribution.log_prob "torch.distributions.Distribution.log_prob") 方法来实施梯度方法 Policy Gradient. 它的一个基本方法是REINFORCE规则:
+当概率密度函数对其参数可微时, 可以使用 `log_prob()` 方法来实施梯度方法 Policy Gradient. 它的一个基本方法是REINFORCE规则:
 
 ![\Delta\theta = \alpha r \frac{\partial\log p(a|\pi^\theta(s))}{\partial\theta}](img/tex-f5266bbc067cb4ec950bd0fa9605541e.gif)
 
@@ -35,8 +39,8 @@ log_prob(value)
 
 返回在`value`处的概率密度函数的对数.
 
-| Parameters: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – （基类的参数,没有实际用处） |
-| --- | --- |
+参数：`value (Tensor 或 Variable)` – （基类的参数,没有实际用处）
+
 
 ```py
 sample()
@@ -70,8 +74,8 @@ class torch.distributions.Bernoulli(probs)
 
 ```
 
-| Parameters: | **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 采样到 `1` 的概率 |
-| --- | --- |
+参数：`probs (Tensor 或 Variable)` – 采样到 `1` 的概率
+
 
 ## Categorical (类别分布)
 
@@ -101,8 +105,8 @@ class torch.distributions.Categorical(probs)
 
 ```
 
-| Parameters: | **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 事件概率 |
-| --- | --- |
+参数：`probs (Tensor 或 Variable)` – 事件概率
+
 
 ## Normal (正态分布)
 
@@ -122,10 +126,8 @@ class torch.distributions.Normal(mean, std)
 
 ```
 
-| Parameters: | 
+参数：
 
-*   **mean** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 分布的均值
-*   **std** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_Variable_](autograd.html#torch.autograd.Variable "torch.autograd.Variable")) – 分布的标准差
+*   `mean (float 或 Tensor 或 Variable)` – 分布的均值
+*   `std (float 或 Tensor 或 Variable)` – 分布的标准差
 
- |
-| --- | --- |
