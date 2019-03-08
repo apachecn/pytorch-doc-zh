@@ -310,7 +310,7 @@ class Discriminator(nn.Module):
 
 ```
 
-Now, as with the generator, we can create the discriminator, apply the `weights_init` function, and print the model’s structure.
+现在，我们可以实例化判别器并应用`weights_init`函数。查看打印的模型以查看判别器对象的结构。
 
 ```py
 # 创建判别器
@@ -360,48 +360,47 @@ Discriminator(
 \[\ell(x, y) = L = \{l_1,\dots,l_N\}^\top, \quad l_n = - \left[ y_n \cdot \log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]\]
 ```
 
-Notice how this function provides the calculation of both log components in the objective function (i.e. `\(log(D(x))\)` and `\(log(1-D(G(z)))\)`). We can specify what part of the BCE equation to use with the `\(y\)` input. This is accomplished in the training loop which is coming up soon, but it is important to understand how we can choose which component we wish to calculate just by changing `\(y\)` (i.e. GT labels).
+需要注意的是目标函数中两个log组件是怎么提供计算的(i.e. `\(log(D(x))\)` and `\(log(1-D(G(z)))\)`)。 我们可以详细的介绍BCE公式的怎么使用输入 `\(y\)` 的部分。 这是在即将介绍的训练循环中完成的，但重要的是要了解我们如何通过改变`\（y \）`（即GT标签）来选择我们想要计算的组件。
 
-Next, we define our real label as 1 and the fake label as 0\. These labels will be used when calculating the losses of `\(D\)` and `\(G\)`, and this is also the convention used in the original GAN paper. Finally, we set up two separate optimizers, one for `\(D\)` and one for `\(G\)`. As specified in the DCGAN paper, both are Adam optimizers with learning rate 0.0002 and Beta1 = 0.5\. For keeping track of the generator’s learning progression, we will generate a fixed batch of latent vectors that are drawn from a Gaussian distribution (i.e. fixed_noise) . In the training loop, we will periodically input this fixed_noise into `\(G\)`, and over the iterations we will see images form out of the noise.
+下一步，我们定义真实图片标记为1，假图片标记为0。这个标记将在计算`\(D\)` 和 `\(G\) ` 的损失函数的时候使用，这是在原始的GAN文献中使用的惯例。最后我们设置两个单独的优化器，一个给判别器`\(D\)`使用，一个给生成器`\(G\)`使用。 就像DCGAN文章中说的那样，两个Adam优化算法都是用学习率为0.0002以及Beta1参数为0.5。为了保存追踪生成器学习的过程，我们将生成一个批固定不变的来自于高斯分布的本征向量(例如 fixed_noise)。在训练的循环中，我们将周期性的输入这个fixed_noise到生成器 `\(G\)`中， 在训练都完成后我们将看一下由fixed_noise生成的图片。 
 
 ```py
-# Initialize BCELoss function
+# 初始化 BCE损失函数
 criterion = nn.BCELoss()
 
-# Create batch of latent vectors that we will use to visualize
-#  the progression of the generator
+# 创建一个批次的本征向量用于可视化生成器训练的过程。
 fixed_noise = torch.randn(64, nz, 1, 1, device=device)
 
-# Establish convention for real and fake labels during training
+# 建立一个在训练中使用的真实和假的标记
 real_label = 1
 fake_label = 0
 
-# Setup Adam optimizers for both G and D
+# 为G和D都设置Adam优化器
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
 ```
 
-### Training
+### 训练
 
-Finally, now that we have all of the parts of the GAN framework defined, we can train it. Be mindful that training GANs is somewhat of an art form, as incorrect hyperparameter settings lead to mode collapse with little explanation of what went wrong. Here, we will closely follow Algorithm 1 from Goodfellow’s paper, while abiding by some of the best practices shown in [ganhacks](https://github.com/soumith/ganhacks). Namely, we will “construct different mini-batches for real and fake” images, and also adjust G’s objective function to maximize `\(logD(G(z))\)`. Training is split up into two main parts. Part 1 updates the Discriminator and Part 2 updates the Generator.
+最后，既然已经定义了GAN框架的所有部分，我们就可以对其进行训练。 请注意，训练GAN在某种程度上是一种艺术形式，因为不正确的超参数设置会导致mode collapse，而对错误的解释很少。 在这里，我们将密切关注Goodfellow的论文中的算法1，同时遵守[ganhacks](https://github.com/soumith/ganhacks)中显示的一些最佳实践。 也就是说，我们将“为真实和假冒”图像构建不同的小批量，并调整G的目标函数以最大化`\(logD(G(z))\)`。 训练分为两个主要部分。 第1部分更新判别器Discriminator，第2部分更新生成器Generator。 
 
-**Part 1 - Train the Discriminator**
+**Part 1 - 训练判别器**
 
-Recall, the goal of training the discriminator is to maximize the probability of correctly classifying a given input as real or fake. In terms of Goodfellow, we wish to “update the discriminator by ascending its stochastic gradient”. Practically, we want to maximize `\(log(D(x)) + log(1-D(G(z)))\)`. Due to the separate mini-batch suggestion from ganhacks, we will calculate this in two steps. First, we will construct a batch of real samples from the training set, forward pass through `\(D\)`, calculate the loss (`\(log(D(x))\)`), then calculate the gradients in a backward pass. Secondly, we will construct a batch of fake samples with the current generator, forward pass this batch through `\(D\)`, calculate the loss (`\(log(1-D(G(z)))\)`), and _accumulate_ the gradients with a backward pass. Now, with the gradients accumulated from both the all-real and all-fake batches, we call a step of the Discriminator’s optimizer.
+回想一下，训练判别器的目的是最大化将给定输入正确分类为真实或假的概率。 就Goodfellow而言，我们希望“通过提升其随机梯度来更新判别器”。 实际上，我们想要最大化损失`\(log(D(x))+ log(1-D(G(z)))\)`。 由于ganhacks的单独小批量建议，我们将分两步计算。 首先，我们将从训练集中构造一批实际样本，向前通过`\(D \)`，计算损失（`\(log(D(x))\)`），然后计算梯度 向后传递。 其次，我们将用当前的生成器构造一批假样本，通过`\(D \)`转发该批次，计算损失（`\(log(1-D(G(z)))\)` ）和  _accumulate_ 带有向后传递。 现在，随着从全真实和全假批量累积的梯度，我们称之为Discriminator优化器的一步。 
 
-**Part 2 - Train the Generator**
+**Part 2 - 训练生成器**
 
-As stated in the original paper, we want to train the Generator by minimizing `\(log(1-D(G(z)))\)` in an effort to generate better fakes. As mentioned, this was shown by Goodfellow to not provide sufficient gradients, especially early in the learning process. As a fix, we instead wish to maximize `\(log(D(G(z)))\)`. In the code we accomplish this by: classifying the Generator output from Part 1 with the Discriminator, computing G’s loss _using real labels as GT_, computing G’s gradients in a backward pass, and finally updating G’s parameters with an optimizer step. It may seem counter-intuitive to use the real labels as GT labels for the loss function, but this allows us to use the `\(log(x)\)` part of the BCELoss (rather than the `\(log(1-x)\)` part) which is exactly what we want.
+正如原始论文所述，我们希望通过最小化`\（log（1-D（G（z）））\）`来训练生成器Generator，以便产生更好的假样本。 如上所述，Goodfellow表明这不会提供足够的梯度，尤其是在学习过程的早期阶段。 作为修改，我们希望最大化`\（log（D（G（z）））\）`。 在代码中，我们通过以下方式实现此目的：使用判别器Discriminator对第1部分的生成器Generator输出进行分类，计算生成器G的损失 _使用实际标签作为GT_ ，在向后传递中计算生成器G的梯度，最后使用优化步骤更新G的参数。 使用真实标签作为损失函数的GT标签似乎是违反直觉的，但这允许我们使用BCELoss的`\（log（x）\）`部分（而不是`\（log（1） -x）\）`这部分）这正是我们想要的。
 
-Finally, we will do some statistic reporting and at the end of each epoch we will push our fixed_noise batch through the generator to visually track the progress of G’s training. The training statistics reported are:
+最后，我们将进行一些统计报告，在每个循环结束时，我们将通过生成器推送我们的fixed_noise批次，以直观地跟踪G训练的进度。 报告的训练统计数据是：
 
-*   **Loss_D** - discriminator loss calculated as the sum of losses for the all real and all fake batches (`\(log(D(x)) + log(D(G(z)))\)`).
-*   **Loss_G** - generator loss calculated as `\(log(D(G(z)))\)`
-*   **D(x)** - the average output (across the batch) of the discriminator for the all real batch. This should start close to 1 then theoretically converge to 0.5 when G gets better. Think about why this is.
-*   **D(G(z))** - average discriminator outputs for the all fake batch. The first number is before D is updated and the second number is after D is updated. These numbers should start near 0 and converge to 0.5 as G gets better. Think about why this is.
+*   **Loss_D** - 判别器损失是所有真实样本批次和所有假样本批次的损失之和 (`\(log(D(x)) + log(D(G(z)))\)`).
+*   **Loss_G** - 生成器损失 `\(log(D(G(z)))\)`
+*   **D(x)** - 所有真实批次的判别器的平均输出（整批）。 这应该从接近1开始，然后当G变好时理论上收敛到0.5。 想想为什么会这样。
+*   **D(G(z))** - 所有假批次的平均判别器输出。 第一个数字是在D更新之前，第二个数字是在D更新之后。 当G变好时，这些数字应该从0开始并收敛到0.5。 想想为什么会这样。
 
-**Note:** This step might take a while, depending on how many epochs you run and if you removed some data from the dataset.
+**Note:** 此步骤可能需要一段时间，具体取决于您运行的循环数以及是否从数据集中删除了一些数据。
 
 ```py
 # 训练循环
@@ -413,72 +412,72 @@ D_losses = []
 iters = 0
 
 print("Starting Training Loop...")
-# For each epoch
+# 每个epoh
 for epoch in range(num_epochs):
-    # For each batch in the dataloader
+    # 数据加载器中的每个批次
     for i, data in enumerate(dataloader, 0):
 
         ############################
-        # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
+        # (1) 更新 D 网络: 最大化 log(D(x)) + log(1 - D(G(z)))
         ###########################
-        ## Train with all-real batch
+        ## 使用所有真实样本批次训练
         netD.zero_grad()
-        # Format batch
+        # 格式化批
         real_cpu = data[0].to(device)
         b_size = real_cpu.size(0)
         label = torch.full((b_size,), real_label, device=device)
-        # Forward pass real batch through D
+        # 通过D向前传递真实批次
         output = netD(real_cpu).view(-1)
-        # Calculate loss on all-real batch
+        # 对所有真实样本批次计算损失
         errD_real = criterion(output, label)
-        # Calculate gradients for D in backward pass
+        # 计算后向传递中D的梯度
         errD_real.backward()
         D_x = output.mean().item()
 
-        ## Train with all-fake batch
-        # Generate batch of latent vectors
+        ## 使用所有假样本批次训练
+        # 生成本征向量批次
         noise = torch.randn(b_size, nz, 1, 1, device=device)
-        # Generate fake image batch with G
+        # 使用生成器G生成假图片
         fake = netG(noise)
         label.fill_(fake_label)
-        # Classify all fake batch with D
+        # 使用判别器分类所有的假批次样本
         output = netD(fake.detach()).view(-1)
-        # Calculate D's loss on the all-fake batch
+        # 计算判别器D的损失对所有的假样本批次
         errD_fake = criterion(output, label)
-        # Calculate the gradients for this batch
+        # 对这个批次计算梯度
         errD_fake.backward()
         D_G_z1 = output.mean().item()
-        # Add the gradients from the all-real and all-fake batches
+        # 把所有真样本和假样本批次的梯度加起来
         errD = errD_real + errD_fake
-        # Update D
+        # 更新判别器D
         optimizerD.step()
 
         ############################
-        # (2) Update G network: maximize log(D(G(z)))
+        # (2) 更新 G 网络: 最大化 log(D(G(z)))
         ###########################
         netG.zero_grad()
-        label.fill_(real_label)  # fake labels are real for generator cost
-        # Since we just updated D, perform another forward pass of all-fake batch through D
+        label.fill_(real_label)  # 假样本的标签对于生成器成本是真的
+        # 因为我们之更新了D，通过D执行所有假样本批次的正向传递
         output = netD(fake).view(-1)
-        # Calculate G's loss based on this output
+        # 基于这个输出计算G的损失
         errG = criterion(output, label)
-        # Calculate gradients for G
+        # 为生成器计算梯度
         errG.backward()
         D_G_z2 = output.mean().item()
-        # Update G
+        # 更新生成器G
         optimizerG.step()
 
-        # Output training stats
+        # 输出训练状态
         if i % 50 == 0:
             print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f / %.4f'
                   % (epoch, num_epochs, i, len(dataloader),
                      errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
 
-        # Save Losses for plotting later
+        # 为以后画损失图，保存损失
         G_losses.append(errG.item())
         D_losses.append(errD.item())
 
-        # Check how the generator is doing by saving G's output on fixed_noise
+        # 检查生成器generator做了什么，通过保存的fixed_noise通过G的输出
         if (iters % 500 == 0) or ((epoch == num_epochs-1) and (i == len(dataloader)-1)):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
