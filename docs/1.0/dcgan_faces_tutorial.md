@@ -5,7 +5,7 @@
 
 ## 介绍
 
-本教程将通过一个例子来介绍DCGAN。我们将使用很多真正的名人照片训练一个生成对抗网络（GAN）后，生成新的名人照片。这里的大多数代码来自于[pytorch/examples](https://github.com/pytorch/examples)对DCGAN的实现，并且本文档将对DCGAN的实现进行全面解释，并阐明该模型是怎样工作的以及为什么能工作。但是不要担心，我们并不需要事先了解GAN，但是可能需要先花一些时间来弄明白实际发生了什么。 此外，拥有一两个GPU将对节省运行时间很有帮助。 让我们从头开始吧。
+本教程将通过一个例子来介绍DCGAN。我们将使用很多真正的名人照片训练一个生成对抗网络（GAN）后，生成新的假名人照片。这里的大多数代码来自于[pytorch/examples](https://github.com/pytorch/examples)中对DCGAN的实现，并且本文档将对DCGAN的实现进行全面解释，并阐明该模型是怎样工作的以及为什么能工作。但是不要担心，我们并不需要你事先了解GAN，但是可能需要先花一些时间来弄明白实际发生了什么。 此外，拥有一两个GPU将对节省运行时间很有帮助。 让我们从头开始吧。
 
 ## 对抗生成网络
 
@@ -13,11 +13,11 @@
 
 对抗生成网络（GAN）是一个教深度模型获取训练数据分布的一种框架，因此我们能够使用类似的分布来生成新的数据。对抗生成网络是Ian Goodfellow在2014年发明的，并首次发表在文章 [Generative Adversarial Nets](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)中。它们由两种不同的模块组成，一个生成器  _generator_ 以及一个判别器 _discriminator_ 。生成器的工作是产生看起来像训练图像的“假”图像。 判别器的工作是查看图像并输出它是否是来自真实训练图像或生成器的伪图像。在训练期间，生成器不断尝试通过产生越来越好的假图片来超越判别器，与此同时判别器逐渐更好的检测并正确分类真假图片。 这个过程最后逐渐的变得平衡，生成器生成完美的假图片，这些假图片看起来好像它们直接来自训练数据，并且判别器总是猜测生成器输出的图片真假都是50%。
 
-现在，我们先定义一些整个教程中使用的符号，首先从判别器开始。 `\(x\)` 表示图像数据。`\(D(x)\)` 表示判别网络，它的输出表示数据 `\(x\)` 来自与训练数据而不是生成数据的概率。这里`\(D(x)\)`的输入图像是大小为3x64x64。 直观地说，当`\(x \)`来自训练数据时，`\(D(x)\)`的值应当大的；而当`\(x \)`来自发生器时，`\(D(x)\`的值应为小的。 `\(D(x)\)`也可以被认为是传统的二元分类器。
+现在，我们先定义一些整个教程中要使用的符号，首先从判别器开始。 `\(x\)` 表示图像数据。`\(D(x)\)` 表示判别网络，它的输出表示数据 `\(x\)` 来自与训练数据而不是生成数据的概率。这里`\(D(x)\)`的输入图像是大小为3x64x64。 直观地说，当`\(x \)`来自训练数据时，`\(D(x)\)`的值应当是大的；而当`\(x \)`来自发生器时，`\(D(x)\`的值应为小的。 `\(D(x)\)`也可以被认为是传统的二元分类器。
 
-对于生成器`\(z \)`表示从标准正态分布中采样的空间矢量。 `\(G(z)\)`表示将潜在向量`\(z \)`映射到数据空间的生成器函数。 `\(G \)`的目标是估计训练数据来自的分布（`\(p_ {data} \)`），这样就可以从估计的分布（`\(p_g \)`）中生成假样本。
+对于生成器`\(z \)`表示从标准正态分布中采样的空间矢量（本征向量）。 `\(G(z)\)`表示将本征向量`\(z \)`映射到数据空间的生成器函数。 `\(G \)`的目标是估计训练数据来自的分布（`\(p_ {data} \)`），这样就可以从估计的分布（`\(p_g \)`）中生成假样本。
 
-因此，`\(D(G(z))\)`表示生成器输出`\(G\)`是真实图片的概率。就像在 [Goodfellow’s paper](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)描述的那样，`\(D\)` 和 `\(G\)` 在玩一个极大极小游侠。在这个游戏中 `\(D\)` 试图最大化正确分类真假图片的概率(`\(logD(x)\)`)，`\(G\)` 试图最小化`\(D\)`预测其输出为假图片的概率 (`\(log(1-D(G(x)))\)`)。文章中GAN的损失函数是
+因此，`\(D(G(z))\)`表示生成器输出`\(G\)`是真实图片的概率。就像在 [Goodfellow’s paper](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)中描述的那样，`\(D\)` 和 `\(G\)` 在玩一个极大极小游戏。在这个游戏中 `\(D\)` 试图最大化正确分类真假图片的概率(`\(logD(x)\)`)，`\(G\)` 试图最小化`\(D\)`预测其输出为假图片的概率 (`\(log(1-D(G(x)))\)`)。文章中GAN的损失函数是
 
 ```py
 \[\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim p_{data}(x)}\big[logD(x)\big] + \mathbb{E}_{z\sim p_{z}(z)}\big[log(1-D(G(x)))\big]\]
@@ -27,7 +27,7 @@
 
 ### 什么是DCGAN?
 
-DCGAN是对上面描述的GAN的直接扩展，除了它分别在判别器和生成器中明确地使用卷积和卷积转置层。 DCGAN是在Radford等的文章[Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf)中首次被描述的。判别器由[卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d)层、[批归一化](https://pytorch.org/docs/stable/nn.html#torch.nn.BatchNorm2d) 层以及[LeakyReLU](https://pytorch.org/docs/stable/nn.html#torch.nn.LeakyReLU) 激活层组成。输入是3x64x64的图像，输出是输入图像来自实际数据的概率。生成器由[转置卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.ConvTranspose2d)层，批归一化层以及[ReLU](https://pytorch.org/docs/stable/nn.html#relu) 激活层组成。 输入是一个本征向量（latent vector） `\(z\)`，它是从标准正态分布中得到的，输出是一个3x64x64 的RGB图像。 转置卷积层能够把本征向量转换成和图像具有相同大小。 在本文中，作者还提供了一些有关如何设置优化器，如何计算损失函数以及如何初始化模型权重的建议，所有这些都将在后面的章节中进行说明。
+DCGAN是对上面描述的GAN的直接扩展，除了它分别在判别器和生成器中明确地使用卷积和卷积转置层。 DCGAN是在Radford等的文章[Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf)中首次被提出的。判别器由[卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d)层、[批标准化](https://pytorch.org/docs/stable/nn.html#torch.nn.BatchNorm2d) 层以及[LeakyReLU](https://pytorch.org/docs/stable/nn.html#torch.nn.LeakyReLU) 激活层组成。输入是3x64x64的图像，输出是输入图像来自实际数据的概率。生成器由[转置卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.ConvTranspose2d)层，批标准化层以及[ReLU](https://pytorch.org/docs/stable/nn.html#relu) 激活层组成。 输入是一个本征向量（latent vector） `\(z\)`，它是从标准正态分布中采样得到的，输出是一个3x64x64 的RGB图像。 转置卷积层能够把本征向量转换成和图像具有相同大小。 在本文中，作者还提供了一些有关如何设置优化器，如何计算损失函数以及如何初始化模型权重的建议，所有这些都将在后面的章节中进行说明。
 
 ```py
 from __future__ import print_function
@@ -65,14 +65,14 @@ Random Seed:  999
 
 ```
 
-## 输入
+## 变量
 
-为了能够运行，定义一些输入：
+为了能够运行，定义一些变量：
 
 *   **dataroot** - 数据集文件夹的路径。我们将在后面的章节中讨论更多关于数据集的内容 
-*   **workers** - 数据加载器DataLoader加载数据能够使用的进程数
+*   **workers** - 数据加载器DataLoader加载数据时能够使用的进程数
 *   **batch_size** - 训练时的批大小。在DCGAN文献中使用的批大小是128
-*   **image_size** - 训练时使用的图片大小。 这里设置默认值为64x64\。如果想使用别的大小生成器G和判别器D的结构也要改变。 想看更多详细内容请点击[这里](https://github.com/pytorch/examples/issues/70)
+*   **image_size** - 训练时使用的图片大小。 这里设置默认值为 64x64\ 。如果想使用别的大小，生成器G和判别器D的结构也要改变。 想看更多详细内容请点击[这里](https://github.com/pytorch/examples/issues/70)
 *   **nc** - 输入图片的颜色通道个数。彩色图片是3
 *   **nz** - 本征向量的长度
 *   **ngf** - 生成器使用的特征图深度
@@ -92,7 +92,7 @@ workers = 2
 # 训练时的批大小
 batch_size = 128
 
-# 训练图片给的大小，所有的图片给都将改变到该大小
+# 训练图片的大小，所有的图片给都将改变到该大小
 # 转换器使用的大小.
 image_size = 64
 
@@ -169,14 +169,14 @@ plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=
 
 ## 实现方法（implementation）
 
-随着我们输入参数的设置以及数据集的准备，我们将开始详细的介绍权重初始化策略、生成器、判别器、损失函数以及训练循环。
+随着我们变量的设置以及数据集的准备，我们将开始详细的介绍权重初始化策略、生成器、判别器、损失函数以及训练过程。
 
 ### 权重初始化
 
-在DCGAN论文中，作者指出所有模型权重应从均值为0方差为0.2的正态分布随机初始化。 `weights_init`函数将初始化模型作为输入，并重新初始化所有卷积，卷积转置和批标准化层以满足此标准。 初始化后立即将此功能应用于模型。
+在DCGAN论文中，作者指出所有模型权重应从均值为0方差为0.2的正态分布随机初始化。 `weights_init`函数将未初始化模型作为输入，并初始化所有卷积，卷积转置和批标准化层以满足此标准。 初始化后立即将此功能应用于模型。
 
 ```py
-# 在netG和netD上调用自定义权重初始化
+# 在netG和netD上调用的自定义权重初始化函数
 def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
@@ -189,11 +189,11 @@ def weights_init(m):
 
 ### 生成器
 
-生成器`\(G \)`用于将本征空间向量(`\(z \)`)映射到数据空间。 由于我们的数据是图像，因此将`\(z \)`转换为数据空间意味着最终创建一个与训练图像大小相同的RGB图像（即3x64x64）。 实际上，这是通过一系列跨步的二维卷积转置层实现的，每个转换层与二维批标准化层和relu激活层配对。 生成器的输出通过tanh层，使其输出数据范围和输入图片一样，在`\([ -  1,1] \)`之间。 值得注意的是在转换层之后存在批标准化函数，因为这是DCGAN论文的关键贡献。 这些层有助于训练期间的梯度传播。 DCGAN论文中的生成器图片如下所示。
+生成器`\(G \)`用于将本征向量(`\(z \)`)映射到数据空间。 由于我们的数据是图像，因此将`\(z \)`转换为数据空间意味着最终创建一个与训练图像大小相同的RGB图像（即3x64x64）。 实际上，这是通过一系列跨步的二维卷积转置层实现的，每个转换层与二维批标准化层和relu激活层配对。 生成器的输出通过tanh层，使其输出数据范围和输入图片一样，在`\([ -  1,1] \)`之间。 值得注意的是在转换层之后存在批标准化函数，因为这是DCGAN论文的关键贡献。 这些层有助于训练期间的梯度传播。 DCGAN论文中的生成器图片如下所示。
 
 ![dcgan_generator](img/85974d98be6202902f21ce274418953f.jpg)
 
-请注意，我们在输入部分（ _nz_ ，_ngf_ 和 _nc_ ）中设置的输入如何影响代码中的生成器体系结构。 _nz_ 是z输入向量的长度，_ngf_ 生成器要生成的图片大小，_nc_ 是输出图像中的通道数（对于RGB图像，设置为3）。 下面是生成器的代码。
+请注意，我们在变量定义部分（ _nz_ ，_ngf_ 和 _nc_ ）中设置的输入如何影响代码中的生成器体系结构。 _nz_ 是z输入向量的长度，_ngf_ 生成器要生成的特征图个数大小，_nc_ 是输出图像中的通道数（对于RGB图像，设置为3）。 下面是生成器的代码。
 
 ```py
 # 生成器代码
@@ -230,13 +230,13 @@ class Generator(nn.Module):
 
 ```
 
-现在，我们可以实例化生成器并应用`weights_init`函数。查看打印的模型以查看生成器对象的结构。
+现在，我们可以实例化生成器并对其使用`weights_init`函数。打印出生成器模型，用以查看生成器的结构。
 
 ```py
 # 创建生成器
 netG = Generator(ngpu).to(device)
 
-# 如果期望使用多个GPU，操控一下。
+# 如果期望使用多个GPU，设置一下。
 if (device.type == 'cuda') and (ngpu > 1):
     netG = nn.DataParallel(netG, list(range(ngpu)))
 
@@ -310,13 +310,13 @@ class Discriminator(nn.Module):
 
 ```
 
-现在，我们可以实例化判别器并应用`weights_init`函数。查看打印的模型以查看判别器对象的结构。
+现在，我们可以实例化判别器并对其应用`weights_init`函数。查看打印的模型以查看判别器对象的结构。
 
 ```py
 # 创建判别器
 netD = Discriminator(ngpu).to(device)
 
-# 如果期望使用多GPU，处理一下
+# 如果期望使用多GPU，设置一下
 if (device.type == 'cuda') and (ngpu > 1):
     netD = nn.DataParallel(netD, list(range(ngpu)))
 
@@ -354,13 +354,13 @@ Discriminator(
 
 ### 损失函数和优化器
 
-随着对判别器 `\(D\)` 和生成器 `\(G\)` 完成设置， 我们能够详细的叙述它们怎么通过损失函数和优化器老进行学习的。我们将使用Binary Cross Entropy loss ([BCELoss](https://pytorch.org/docs/stable/nn.html#torch.nn.BCELoss)) 函数，在pyTorch中的定义如下：
+随着对判别器 `\(D\)` 和生成器 `\(G\)` 完成了设置， 我们能够详细的叙述它们怎么通过损失函数和优化器来进行学习的。我们将使用Binary Cross Entropy loss ([BCELoss](https://pytorch.org/docs/stable/nn.html#torch.nn.BCELoss)) 函数，其在pyTorch中的定义如下：
 
 ```py
 \[\ell(x, y) = L = \{l_1,\dots,l_N\}^\top, \quad l_n = - \left[ y_n \cdot \log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]\]
 ```
 
-需要注意的是目标函数中两个log组件是怎么提供计算的(i.e. `\(log(D(x))\)` and `\(log(1-D(G(z)))\)`)。 我们可以详细的介绍BCE公式的怎么使用输入 `\(y\)` 的部分。 这是在即将介绍的训练循环中完成的，但重要的是要了解我们如何通过改变`\（y \）`（即GT标签）来选择我们想要计算的组件。
+需要注意的是目标函数中两个log部分是怎么提供计算的(i.e. `\(log(D(x))\)` and `\(log(1-D(G(z)))\)`)。 即将介绍的训练循环中我们将详细的介绍BCE公式的怎么使用输入 `\(y\)` 的。但重要的是要了解我们如何通过改变`\（y \）`（即GT标签）来选择我们想要计算的部分损失。
 
 下一步，我们定义真实图片标记为1，假图片标记为0。这个标记将在计算`\(D\)` 和 `\(G\) ` 的损失函数的时候使用，这是在原始的GAN文献中使用的惯例。最后我们设置两个单独的优化器，一个给判别器`\(D\)`使用，一个给生成器`\(G\)`使用。 就像DCGAN文章中说的那样，两个Adam优化算法都是用学习率为0.0002以及Beta1参数为0.5。为了保存追踪生成器学习的过程，我们将生成一个批固定不变的来自于高斯分布的本征向量(例如 fixed_noise)。在训练的循环中，我们将周期性的输入这个fixed_noise到生成器 `\(G\)`中， 在训练都完成后我们将看一下由fixed_noise生成的图片。 
 
