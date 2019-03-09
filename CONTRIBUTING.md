@@ -121,4 +121,4 @@
 +   `push`
 +   `pull request`
 
-请见 [Github 入门指南](https://github.com/apachecn/kaggle/blob/dev/docs/GitHub)。
+请见 [Github 入门指南](https://github.com/apachecn/kaggle/blob/master/docs/GitHub)。
