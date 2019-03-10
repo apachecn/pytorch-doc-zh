@@ -1,10 +1,12 @@
 
 
-# Deep Learning for NLP with Pytorch
+# 在深度学习领域NLP中使用Pytorch编程 
 
-**Author**: [Robert Guthrie](https://github.com/rguthrie3/DeepLearningForNLPInPytorch)
+> 译者 [bruce1408](https://github.com/bruce1408)
 
-本文带您进入使用pytorch框架进行深度学习编程的核心思想。Pytorch的很多概念(比如计算图抽象和自动求导)并非它所独有的,和其他深度学习框架相关。
+**作者**: [Robert Guthrie](https://github.com/rguthrie3/DeepLearningForNLPInPytorch)
+
+本文带您进入pytorch框架进行深度学习编程的核心思想。Pytorch的很多概念(比如计算图抽象和自动求导)并非它所独有的,和其他深度学习框架相关。
 我写这篇教程是专门针对那些从未用任何深度学习框架(例如：Tensorflow, Theano, Keras, Dynet)编写代码而从事NLP领域的人。我假设你已经知道NLP领域要解决的核心问题：词性标注、语言模型等等。我也认为你通过[AI](http://aima.cs.berkeley.edu/)这本书中所讲的知识熟悉了神经网络达到了入门的级别.
 通常这些课程都会介绍反向传播算法和前馈神经网络，并指出它们是线性组合和非线性组合构成的链。本文在假设你已经有了这些知识的情况下，教你如何开始写深度学习代码。
 
