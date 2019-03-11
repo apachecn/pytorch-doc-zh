@@ -1,8 +1,8 @@
-
-
 # 基于注意力机制的 seq2seq 神经网络翻译
 
 > 译者：[mengfu188](https://github.com/mengfu188)
+> 
+> 校对者：[Zhiyu-Chen](https://github.com/Zhiyu-Chen)
 
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
