@@ -2,36 +2,37 @@
 
 # torch.nn
 
-## Parameters
+## Parameters（参数）
 
 ```py
 class torch.nn.Parameter
 ```
 
-A kind of Tensor that is to be considered a module parameter.
 
-Parameters are [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") subclasses, that have a very special property when used with [`Module`](#torch.nn.Module "torch.nn.Module") s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters") iterator. Assigning a Tensor doesn’t have such effect. This is because one might want to cache some temporary state, like last hidden state of the RNN, in the model. If there was no such class as [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"), these temporaries would get registered too.
+Parameters对象是一种会被视为模块参数（module parameter）的Tensor张量。
+
+Parameters类是[`Tensor`](tensors.html#torch.Tensor "torch.Tensor") 的子类, 不过相对于它的父类，Parameters类有一个很重要的特性就是当其在 [`Module`](#torch.nn.Module "torch.nn.Module")类中被使用并被当做这个[`Module`](#torch.nn.Module "torch.nn.Module")类的模块属性的时候，那么这个Parameters对象会被自动地添加到这个[`Module`](#torch.nn.Module "torch.nn.Module")类的参数列表(list of parameters)之中，同时也就会被添加入此[`Module`](#torch.nn.Module "torch.nn.Module")类的 [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters")方法所返回的参数迭代器中。而Parameters类的父类Tensor类也可以被用为构建模块的属性，但不会被加入参数列表。这样主要是因为，有时可能需要在模型中存储一些非模型参数的临时状态，比如RNN中的最后一个隐状态。而通过使用非[`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")的Tensor类，可以将这些临时变量注册(register)为模型的属性的同时使其不被加入参数列表。
 
 Parameters: 
 
-*   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – parameter tensor.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if the parameter requires gradient. See [Excluding subgraphs from backward](notes/autograd.html#excluding-subgraphs) for more details. Default: `True`
+*   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 参数张量(parameter tensor).
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 参数是否需要梯度， 默认为 `True`。更多细节请看 [如何将子图踢出反向传播过程](notes/autograd.html#excluding-subgraphs)。 
 
 
 
-## Containers
+## Containers（容器）
 
-### Module
+### Module（模块）
 
 ```py
 class torch.nn.Module
 ```
 
-Base class for all neural network modules.
+模块（Module）是所有神经网络模型的基类。
 
-Your models should also subclass this class.
+你创建模型的时候也应该继承这个类哦。
 
-Modules can also contain other Modules, allowing to nest them in a tree structure. You can assign the submodules as regular attributes:
+模块(Module)中还可以包含其他的模块，你可以将一个模块赋值成为另一个模块的属性，从而成为这个模块的一个子模块。而通过不断的赋值，你可以将不同的模块组织成一个树结构:
 
 ```py
 import torch.nn as nn
@@ -40,7 +41,7 @@ import torch.nn.functional as F
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv1 = nn.Conv2d(1, 20, 5) # 当前的nn.Conv2d模块就被赋值成为Model模块的一个子模块，成为“树结构”的叶子
         self.conv2 = nn.Conv2d(20, 20, 5)
 
     def forward(self, x):
@@ -49,20 +50,18 @@ class Model(nn.Module):
 
 ```
 
-Submodules assigned in this way will be registered, and will have their parameters converted too when you call [`to()`](#torch.nn.Module.to "torch.nn.Module.to"), etc.
+通过赋值这种方式添加的子模块将会被模型注册(register)，而后当调用模块的一些参数转换函数（[`to()`](#torch.nn.Module.to "torch.nn.Module.to")）的时候，子模块的参数也会一并转换。
 
 ```py
 add_module(name, module)
 ```
+向当前模块添加一个子模块。
+此子模块可以作为当前模块的属性被访问到，而属性名就是add_module()函数中的name参数。
 
-Adds a child module to the current module.
+add_module()函数参数: 
 
-The module can be accessed as an attribute using the given name.
-
-Parameters: 
-
-*   **name** (_string_) – name of the child module. The child module can be accessed from this module using the given name
-*   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – child module to be added to the module.
+*   **name** (_string_) – 子模块的名字. 函数调用完成后，可以通过访问当前模块的此字段来访问该子模块。
+*   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – 要添加到当前模块的子模块。
 
 
 
@@ -70,16 +69,17 @@ Parameters:
 apply(fn)
 ```
 
-Applies `fn` recursively to every submodule (as returned by `.children()`) as well as self. Typical use includes initializing the parameters of a model (see also torch-nn-init).
 
-| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – function to be applied to each submodule |
+apply()函数的主要作用是将 `fn` 递归地应用于模块的所有子模块（`.children()`函数的返回值）以及模块自身。此函数的一个经典应用就是初始化模型的所有参数这一过程(同样参见于 torch-nn-init)。
+
+| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – 要应用于所有子模型的函数 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> def init_weights(m):
@@ -89,7 +89,7 @@ Example:
  print(m.weight)
 
 >>> net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))
->>> net.apply(init_weights)
+>>> net.apply(init_weights) # 将init_weights()函数应用于模块的所有子模块
 Linear(in_features=2, out_features=2, bias=True)
 Parameter containing:
 tensor([[ 1.,  1.],
@@ -112,15 +112,14 @@ Sequential(
 ```py
 buffers(recurse=True)
 ```
+返回模块的缓冲区的迭代器
 
-Returns an iterator over module buffers.
-
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module. |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，产生的缓冲区迭代器会遍历模块自己与所有子模块，否则只会遍历模块的直连的成员。 |
 | --- | --- |
-| Yields: | _torch.Tensor_ – module buffer |
+| Yields: | _torch.Tensor_ – 模型缓冲区 |
 | --- | --- |
 
-Example:
+举例:
 
 ```py
 >>> for buf in model.buffers():
@@ -134,16 +133,17 @@ Example:
 children()
 ```
 
+返回一个当前所有子模块的迭代器
 Returns an iterator over immediate children modules.
 
-| Yields: | _Module_ – a child module |
+| Yields: | _Module_ – 子模块 |
 | --- | --- |
 
 ```py
 cpu()
 ```
 
-Moves all model parameters and buffers to the CPU.
+将模型的所有参数(parameter)和缓冲区(buffer)都转移到CPU内存中。
 
 | Returns: | self |
 | --- | --- |
@@ -154,11 +154,11 @@ Moves all model parameters and buffers to the CPU.
 cuda(device=None)
 ```
 
-Moves all model parameters and buffers to the GPU.
+将模型的所有参数和缓冲区都转移到CUDA设备内存中。
 
-This also makes associated parameters and buffers different objects. So it should be called before constructing optimizer if the module will live on GPU while being optimized.
+因为cuda()函数同时会将处理模块中的所有参数并缓存这些参数的对象。所以如果想让模块在GPU上进行优化操作，一定要在构建优化器之前调用模块的cuda()函数。
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – if specified, all parameters will be copied to that device |
+| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 如果设备编号被指定，所有的参数都会被拷贝到编号指定设备上 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -169,7 +169,7 @@ This also makes associated parameters and buffers different objects. So it shoul
 double()
 ```
 
-Casts all floating point parameters and buffers to `double` datatype.
+将所有的浮点数类型的参数(parameters)和缓冲区(buffers)转换为`double`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -180,31 +180,33 @@ Casts all floating point parameters and buffers to `double` datatype.
 dump_patches = False
 ```
 
-This allows better BC support for [`load_state_dict()`](#torch.nn.Module.load_state_dict "torch.nn.Module.load_state_dict"). In [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict"), the version number will be saved as in the attribute `_metadata` of the returned state dict, and thus pickled. `_metadata` is a dictionary with keys that follow the naming convention of state dict. See `_load_from_state_dict` on how to use this information in loading.
+这个字段可以为[`load_state_dict()`](#torch.nn.Module.load_state_dict "torch.nn.Module.load_state_dict")提供 BC 支持（BC support实在不懂是什么意思-.-）。 在 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")函数返回的状态字典（state dict）中， 有一个名为`_metadata`的属性中存储了这个state_dict的版本号。`_metadata`是一个遵从了状态字典（state dict）的命名规范的关键字字典， 要想了解这个`_metadata`在加载状态（loading state dict）的时候是怎么用的，可以看一下 `_load_from_state_dict`部分的文档。
 
-If new parameters/buffers are added/removed from a module, this number shall be bumped, and the module’s `_load_from_state_dict` method can compare the version number and do appropriate changes if the state dict is from before the change.
+
+如果新的参数/缓冲区被添加于/移除自这个模块之中时，这个版本号数字会随之发生变化。同时模块的`_load_from_state_dict`方法会比较版本号的信息并依据此状态词典（state dict）的变化做出一些适当的调整。
 
 ```py
 eval()
 ```
 
-Sets the module in evaluation mode.
+将模块转换为测试模式。
 
-This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout"), `BatchNorm`, etc.
+这个函数只对特定的模块类型有效，如 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")和`BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下这些特殊模块的文档部分。
 
 ```py
 extra_repr()
 ```
 
-Set the extra representation of the module
+为模块设置额外的展示信息(extra representation)。
 
-To print customized extra information, you should reimplement this method in your own modules. Both single-line and multi-line strings are acceptable.
+如果想要打印展示(print)你的模块的一些定制的额外信息，那你应该在你的模块中复现这个函数。单行和多行的字符串都可以被接受。
+
 
 ```py
 float()
 ```
 
-Casts all floating point parameters and buffers to float datatype.
+将所有浮点数类型的参数(parameters)和缓冲区(buffers)转换为`float`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -215,19 +217,19 @@ Casts all floating point parameters and buffers to float datatype.
 forward(*input)
 ```
 
-Defines the computation performed at every call.
+定义了每次模块被调用之后所进行的计算过程。
 
-Should be overridden by all subclasses.
+应该被Module类的所有子类重写。
 
 Note
 
-Although the recipe for forward pass needs to be defined within this function, one should call the [`Module`](#torch.nn.Module "torch.nn.Module") instance afterwards instead of this since the former takes care of running the registered hooks while the latter silently ignores them.
+尽管模块的前向操作都被定义在这个函数里面，但是当你要进行模块的前向操作的时候，还是要直接调用模块[`Module`](#torch.nn.Module "torch.nn.Module") 的实例函数，而不是直接调用这个forward()函数。这主要是因为前者会照顾到注册在此模块之上的钩子函数（the registered hooks）的运行，而后者则不会。
 
 ```py
 half()
 ```
 
-Casts all floating point parameters and buffers to `half` datatype.
+将所有的浮点数类型的参数(parameters)和缓冲区(buffers)转换为`half`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -238,12 +240,12 @@ Casts all floating point parameters and buffers to `half` datatype.
 load_state_dict(state_dict, strict=True)
 ```
 
-Copies parameters and buffers from [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") into this module and its descendants. If `strict` is `True`, then the keys of [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") must exactly match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function.
+将[`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")中的参数（parameters）和缓冲区（buffers）拷贝到模块和其子模块之中。如果`strict`被设置为`True`，那么[`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")中的键值（keys）必须与模型的[`state_dict()`]函数所返回的键值（keys）信息保持完全的一致。
 
-Parameters: 
+load_state_dict()函数参数： 
 
-*   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – a dict containing parameters and persistent buffers.
-*   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to strictly enforce that the keys in [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function. Default: `True`
+*   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – 一个包含了参数和持久缓冲区的字典。
+*   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 是否严格要求 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 中的键值（keys）与模型 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 函数返回的键值（keys）信息保持完全一致。 默认： `True`
 
 
 
@@ -251,16 +253,16 @@ Parameters:
 modules()
 ```
 
-Returns an iterator over all modules in the network.
+返回一个当前模块内所有模块（包括自身）的迭代器。
 
 | Yields: | _Module_ – a module in the network |
 | --- | --- |
 
 Note
 
-Duplicate modules are returned only once. In the following example, `l` will be returned only once.
+注意重复的模块只会被返回一次。比在下面这个例子中，`l`就只会被返回一次。
 
-Example:
+例子:
 
 ```py
 >>> l = nn.Linear(2, 2)
@@ -280,18 +282,18 @@ Example:
 named_buffers(prefix='', recurse=True)
 ```
 
-Returns an iterator over module buffers, yielding both the name of the buffer as well as the buffer itself.
+返回一个模块缓冲区的迭代器，每次返回的元素是由缓冲区的名字和缓冲区自身组成的元组。
 
-Parameters: 
+named_buffers()函数的参数: 
 
-*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all buffer names.
-*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module.
+*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 要添加在所有缓冲区名字之前的前缀。
+*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的缓冲区，同时也会递归返回其子模块的缓冲区。否则，只返回这个模块直连成员的缓冲区。
 
 
-| Yields: | _(string, torch.Tensor)_ – Tuple containing the name and buffer |
+| Yields: | _(string, torch.Tensor)_ – 包含了缓冲区的名字和缓冲区自身的元组 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for name, buf in self.named_buffers():
@@ -304,12 +306,13 @@ Example:
 named_children()
 ```
 
-Returns an iterator over immediate children modules, yielding both the name of the module as well as the module itself.
+返回一个当前模型直连的子模块的迭代器，每次返回的元素是由子模块的名字和子模块自身组成的元组。
 
-| Yields: | _(string, Module)_ – Tuple containing a name and child module |
+
+| Yields: | _(string, Module)_ – 包含了子模块的名字和子模块自身的元组 |
 | --- | --- |
 
-Example:
+例子：
 
 ```py
 >>> for name, module in model.named_children():
@@ -322,16 +325,17 @@ Example:
 named_modules(memo=None, prefix='')
 ```
 
-Returns an iterator over all modules in the network, yielding both the name of the module as well as the module itself.
+返回一个当前模块内所有模块（包括自身）的迭代器，每次返回的元素是由模块的名字和模块自身组成的元组。
 
-| Yields: | _(string, Module)_ – Tuple of name and module |
+
+| Yields: | _(string, Module)_ – 模块名字和模块自身组成的元组 |
 | --- | --- |
 
 Note
 
-Duplicate modules are returned only once. In the following example, `l` will be returned only once.
+重复的模块只会被返回一次。在下面的例子中，`l`只被返回了一次。
 
-Example:
+例子：
 
 ```py
 >>> l = nn.Linear(2, 2)
@@ -351,18 +355,18 @@ Example:
 named_parameters(prefix='', recurse=True)
 ```
 
-Returns an iterator over module parameters, yielding both the name of the parameter as well as the parameter itself.
+返回一个当前模块内所有参数的迭代器，每次返回的元素是由参数的名字和参数自身组成的元组。
 
-Parameters: 
+named_parameters()函数参数：
 
-*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all parameter names.
-*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module.
+*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 要在所有参数名字前面添加的前缀。
+*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的参数，同时也会返回其子模块的参数。否则，只返回这个模块直连成员的参数。
 
 
-| Yields: | _(string, Parameter)_ – Tuple containing the name and parameter |
+| Yields: | _(string, Parameter)_ – 参数名字和参数自身组成的元组 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for name, param in self.named_parameters():
@@ -375,16 +379,15 @@ Example:
 parameters(recurse=True)
 ```
 
-Returns an iterator over module parameters.
+返回一个遍历模块所有参数的迭代器。
+parameters()函数一个经典的应用就是实践中经常将此函数的返回值传入优化器。
 
-This is typically passed to an optimizer.
-
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module. |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的参数，同时也会递归返回其子模块的参数。否则，只返回这个模块直连成员的参数。 |
 | --- | --- |
-| Yields: | _Parameter_ – module parameter |
+| Yields: | _Parameter_ – 模块参数 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for param in model.parameters():
@@ -398,44 +401,45 @@ Example:
 register_backward_hook(hook)
 ```
 
-Registers a backward hook on the module.
+在模块上注册一个挂载在反向操作之后的钩子函数。（挂载在backward之后这个点上的钩子函数）
 
-The hook will be called every time the gradients with respect to module inputs are computed. The hook should have the following signature:
+对于每次输入，当模块关于此次输入的反向梯度的计算过程完成，该钩子函数都会被调用一次。此钩子函数需要遵从以下函数签名：
+
 
 ```py
 hook(module, grad_input, grad_output) -> Tensor or None
 
 ```
 
-The `grad_input` and `grad_output` may be tuples if the module has multiple inputs or outputs. The hook should not modify its arguments, but it can optionally return a new gradient with respect to input that will be used in place of `grad_input` in subsequent computations.
+如果模块的输入或输出是多重的（multiple inputs or outputs），那 `grad_input` 和 `grad_output` 应当是元组数据。 钩子函数不能对输入的参数`grad_input` 和 `grad_output`进行任何更改，但是可以选择性地根据输入的参数返回一个新的梯度回去，而这个新的梯度在后续的计算中会替换掉`grad_input`。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。|
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
 
 Warning
 
-The current implementation will not have the presented behavior for complex [`Module`](#torch.nn.Module "torch.nn.Module") that perform many operations. In some failure cases, `grad_input` and `grad_output` will only contain the gradients for a subset of the inputs and outputs. For such [`Module`](#torch.nn.Module "torch.nn.Module"), you should use [`torch.Tensor.register_hook()`](autograd.html#torch.Tensor.register_hook "torch.Tensor.register_hook") directly on a specific input or output to get the required gradients.
+对于一些具有很多复杂操作的[`Module`](#torch.nn.Module "torch.nn.Module")，当前的hook实现版本还不能达到完全理想的效果。举个例子，有些错误的情况下，函数的输入参数`grad_input` 和 `grad_output`中可能只是真正的输入和输出变量的一个子集。对于此类的[`Module`](#torch.nn.Module "torch.nn.Module")，你应该使用[`torch.Tensor.register_hook()`]直接将钩子挂载到某个特定的输入输出的变量上，而不是当前的模块。
 
 ```py
 register_buffer(name, tensor)
 ```
 
-Adds a persistent buffer to the module.
+往模块上添加一个持久缓冲区。
 
-This is typically used to register a buffer that should not to be considered a model parameter. For example, BatchNorm’s `running_mean` is not a parameter, but is part of the persistent state.
+这个函数的经常会被用于向模块添加不会被认为是模块参数（model parameter）的缓冲区。举个栗子，BatchNorm的`running_mean`就不是一个参数，但却属于持久状态。
 
-Buffers can be accessed as attributes using given names.
+所添加的缓冲区可以通过给定的名字(name参数)以访问模块的属性的方式进行访问。
 
-Parameters: 
+register_buffer()函数的参数: 
 
-*   **name** (_string_) – name of the buffer. The buffer can be accessed from this module using the given name
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – buffer to be registered.
+*   **name** (_string_) – 要添加的缓冲区的名字。所添加的缓冲区可以通过此名字以访问模块的属性的方式进行访问。
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 需要注册到模块上的缓冲区。
 
 
 
-Example:
+例子:
 
 ```py
 >>> self.register_buffer('running_mean', torch.zeros(num_features))
@@ -446,18 +450,18 @@ Example:
 register_forward_hook(hook)
 ```
 
-Registers a forward hook on the module.
+在模块上注册一个挂载在前向操作之后的钩子函数。（挂载在forward操作结束之后这个点）
 
-The hook will be called every time after [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") has computed an output. It should have the following signature:
+此钩子函数在每次模块的 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward")函数运行结束产生output之后就会被触发。此钩子函数需要遵从以下函数签名：
 
 ```py
 hook(module, input, output) -> None
 
 ```
 
-The hook should not modify the input or output.
+此钩子函数不能进行会修改 input 和 output 这两个参数的操作。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。 |
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
@@ -466,8 +470,10 @@ The hook should not modify the input or output.
 register_forward_pre_hook(hook)
 ```
 
-Registers a forward pre-hook on the module.
+在模块上注册一个挂载在前向操作之前的钩子函数。（挂载在forward操作开始之前这个点）
 
+
+此钩子函数在每次模块的 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward")函数运行开始之前会被触发。此钩子函数需要遵从以下函数签名：
 The hook will be called every time before [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") is invoked. It should have the following signature:
 
 ```py
@@ -475,9 +481,9 @@ hook(module, input) -> None
 
 ```
 
-The hook should not modify the input.
+此钩子函数不能进行会修改 input 这个参数的操作。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。 |
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
@@ -486,14 +492,14 @@ The hook should not modify the input.
 register_parameter(name, param)
 ```
 
-Adds a parameter to the module.
+向模块添加一个参数（parameter）。
 
-The parameter can be accessed as an attribute using given name.
+所添加的参数（parameter）可以通过给定的名字(name参数)以访问模块的属性的方式进行访问。
 
-Parameters: 
+register_parameter()函数的参数： 
 
-*   **name** (_string_) – name of the parameter. The parameter can be accessed from this module using the given name
-*   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to be added to the module.
+*   **name** (_string_) – 所添加的参数的名字. 所添加的参数（parameter）可以通过此名字以访问模块的属性的方式进行访问
+*   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要添加到模块之上的参数。
 
 
 
@@ -501,16 +507,17 @@ Parameters:
 state_dict(destination=None, prefix='', keep_vars=False)
 ```
 
-Returns a dictionary containing a whole state of the module.
+返回一个包含了模块当前所有状态(state)的字典(dictionary)。
 
-Both parameters and persistent buffers (e.g. running averages) are included. Keys are corresponding parameter and buffer names.
+所有的参数和持久缓冲区都被囊括在其中。字典的键值就是响应的参数和缓冲区的名字(name)。
 
-| Returns: | a dictionary containing a whole state of the module |
+
+| Returns: | 一个包含了模块当前所有状态的字典 |
 | --- | --- |
 | Return type: | [dict](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> module.state_dict().keys()
@@ -522,9 +529,9 @@ Example:
 to(*args, **kwargs)
 ```
 
-Moves and/or casts the parameters and buffers.
+移动 并且/或者（and/or）转换所有的参数和缓冲区。
 
-This can be called as
+这个函数可以这样调用：
 
 ```py
 to(device=None, dtype=None, non_blocking=False)
@@ -538,19 +545,19 @@ to(dtype, non_blocking=False)
 to(tensor, non_blocking=False)
 ```
 
-Its signature is similar to [`torch.Tensor.to()`](tensors.html#torch.Tensor.to "torch.Tensor.to"), but only accepts floating point desired `dtype` s. In addition, this method will only cast the floating point parameters and buffers to `dtype` (if given). The integral parameters and buffers will be moved `device`, if that is given, but with dtypes unchanged. When `non_blocking` is set, it tries to convert/move asynchronously with respect to the host if possible, e.g., moving CPU Tensors with pinned memory to CUDA devices.
+此函数的函数签名跟[`torch.Tensor.to()`](tensors.html#torch.Tensor.to "torch.Tensor.to")函数的函数签名很相似，只不过这个函数`dtype`参数只接受浮点数类型的dtype，如float， double， half（ floating point desired `dtype` s）。同时，这个方法只会将浮点数类型的参数和缓冲区（the floating point parameters and buffers）转化为`dtype`（如果输入参数中给定的话）的数据类型。而对于整数类型的参数和缓冲区（the integral parameters and buffers），即便输入参数中给定了`dtype`，也不会进行转换操作，而如果给定了 `device`参数，移动操作则会正常进行。当`non_blocking`参数被设置为True之后，此函数会尽可能地相对于 host 进行异步的 转换/移动 操作，比如，将存储在固定内存（pinned memory）上的CPU Tensors移动到CUDA设备上这一过程既是如此。
 
-See below for examples.
+例子在下面。
 
 Note
 
-This method modifies the module in-place.
+这个方法对模块的修改都是in-place操作。
 
-Parameters: 
+to()函数的参数: 
 
-*   **device** (`torch.device`) – the desired device of the parameters and buffers in this module
-*   **dtype** (`torch.dtype`) – the desired floating point type of the floating point parameters and buffers in this module
-*   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor whose dtype and device are the desired dtype and device for all parameters and buffers in this module
+*   **device** (`torch.device`) – 想要将这个模块中的参数和缓冲区转移到的设备。
+*   **dtype** (`torch.dtype`) – 想要将这个模块中浮点数的参数和缓冲区转化为的浮点数数据类型。
+*   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 一个Tensor，如果被指定，其dtype和device信息，将分别起到上面两个参数的作用，也就是说，这个模块的浮点数的参数和缓冲区的数据类型将会被转化为这个Tensor的dtype类型，同时被转移到此Tensor所处的设备device上去。
 
 
 | Returns: | self |
@@ -558,7 +565,7 @@ Parameters:
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> linear = nn.Linear(2, 2)
@@ -593,9 +600,9 @@ tensor([[ 0.1914, -0.3420],
 train(mode=True)
 ```
 
-Sets the module in training mode.
+将模块转换成训练模式。
 
-This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout"), `BatchNorm`, etc.
+这个函数只对特定的模块类型有效，如 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")和`BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下这些特殊模块的文档部分。
 
 | Returns: | self |
 | --- | --- |
@@ -606,9 +613,9 @@ This has any effect only on certain modules. See documentations of particular mo
 type(dst_type)
 ```
 
-Casts all parameters and buffers to `dst_type`.
+将所有的参数和缓冲区转化为 `dst_type`的数据类型。
 
-| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – the desired type |
+| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – 要转化的数据类型 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -619,7 +626,7 @@ Casts all parameters and buffers to `dst_type`.
 zero_grad()
 ```
 
-Sets gradients of all model parameters to zero.
+讲模块所有参数的梯度设置为0。
 
 ### Sequential
 
@@ -627,12 +634,12 @@ Sets gradients of all model parameters to zero.
 class torch.nn.Sequential(*args)
 ```
 
-A sequential container. Modules will be added to it in the order they are passed in the constructor. Alternatively, an ordered dict of modules can also be passed in.
+一种顺序容器。传入Sequential构造器中的模块会被按照他们传入的顺序依次添加到Sequential之上。相应的，一个由模块组成的顺序词典也可以被传入到Sequential的构造器中。
 
-To make it easier to understand, here is a small example:
+为了方便大家理解，举个简单的例子：
 
 ```py
-# Example of using Sequential
+# 构建Sequential的例子
 model = nn.Sequential(
           nn.Conv2d(1,20,5),
           nn.ReLU(),
@@ -640,7 +647,7 @@ model = nn.Sequential(
           nn.ReLU()
         )
 
-# Example of using Sequential with OrderedDict
+# 利用OrderedDict构建Sequential的例子
 model = nn.Sequential(OrderedDict([
           ('conv1', nn.Conv2d(1,20,5)),
           ('relu1', nn.ReLU()),
@@ -650,20 +657,20 @@ model = nn.Sequential(OrderedDict([
 
 ```
 
-### ModuleList
+### ModuleList (模块列表)
 
 ```py
 class torch.nn.ModuleList(modules=None)
 ```
 
-Holds submodules in a list.
+ModuleList的作用是将一堆模块（module）存储在一个列表之中。
 
-ModuleList can be indexed like a regular Python list, but modules it contains are properly registered, and will be visible by all Module methods.
+ModuleList 可以按一般的python列表的索引方式进行索引，但ModuleList中的模块都已被正确注册，并且对所有的Module method可见。
 
-| Parameters: | **modules** (_iterable__,_ _optional_) – an iterable of modules to add |
+| Parameters: | **modules** (_iterable__,_ _optional_) – 一个要添加到ModuleList中的由模块组成的可迭代结构(an iterable of modules)|
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -672,7 +679,7 @@ class MyModule(nn.Module):
         self.linears = nn.ModuleList([nn.Linear(10, 10) for i in range(10)])
 
     def forward(self, x):
-        # ModuleList can act as an iterable, or be indexed using ints
+        # ModuleList可以被当作一个迭代器，同时也可以使用index索引
         for i, l in enumerate(self.linears):
             x = self.linears[i // 2](x) + l(x)
         return x
@@ -683,44 +690,44 @@ class MyModule(nn.Module):
 append(module)
 ```
 
-Appends a given module to the end of the list.
+将一个模块添加到ModuleList的末尾，与python list的append()一致。
 
-| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to append |
+| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要添加的模块 |
 | --- | --- |
 
 ```py
 extend(modules)
 ```
 
-Appends modules from a Python iterable to the end of the list.
+将一个由模块组成的可迭代结构添加到ModuleList的末尾，与python list的extend()一致。
 
-| Parameters: | **modules** (_iterable_) – iterable of modules to append |
+| Parameters: | **modules** (_iterable_) – 要添加到ModuleList末尾的由模块组成的可迭代结构 |
 | --- | --- |
 
 ```py
 insert(index, module)
 ```
 
-Insert a given module before a given index in the list.
+将给定的`module`插入到ModuleList的`index`位置。
 
-Parameters: 
+insert()函数的参数: 
 
-*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – index to insert.
-*   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to insert
+*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要插入的位置
+*   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要插入的模块
 
 
-
-### ModuleDict
+### ModuleDict (模块词典)
 
 ```py
 class torch.nn.ModuleDict(modules=None)
 ```
 
-Holds submodules in a dictionary.
+ModuleDict的作用是将一堆模块（module）存储在一个词典之中。
 
-ModuleDict can be indexed like a regular Python dictionary, but modules it contains are properly registered, and will be visible by all Module methods.
 
-| Parameters: | **modules** (_iterable__,_ _optional_) – a mapping (dictionary) of (string: module) or an iterable of key/value pairs of type (string, module) |
+ModuleDict 可以按一般的python词典的索引方式进行索引，但ModuleDict中的模块都已被正确注册，并且对所有的Module method可见。
+
+| Parameters: | **modules** (_iterable__,_ _optional_) – 一个由(string: module)映射组成的映射集合（词典）或者 一个由(string, module)键/值对组成的可迭代结构 |
 | --- | --- |
 
 Example:
@@ -748,59 +755,57 @@ class MyModule(nn.Module):
 ```py
 clear()
 ```
-
-Remove all items from the ModuleDict.
+移除ModuleDict中所有的元素。
 
 ```py
 items()
 ```
 
-Return an iterable of the ModuleDict key/value pairs.
+返回一个由ModuleDict中的键/值对组成的可迭代结构。
 
 ```py
 keys()
 ```
 
-Return an iterable of the ModuleDict keys.
+返回一个由ModuleDict中的键组成的可迭代结构。
 
 ```py
 pop(key)
 ```
+将`key`这个键从ModuleDict中删除，并将其对应的模块返回。
 
-Remove key from the ModuleDict and return its module.
-
-| Parameters: | **key** (_string_) – key to pop from the ModuleDict |
+| Parameters: | **key** (_string_) – 要从ModuleDict中弹出的键 |
 | --- | --- |
 
 ```py
 update(modules)
 ```
 
-Update the ModuleDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
+通过传入的映射或者由键/值对组成的可迭代结构对当前的ModuleDict进行更新，如果传入对象与当前ModuleDict中存在键重复，当前ModuleDict中这些重复的键所对应的值将被覆盖。
 
-| Parameters: | **modules** (_iterable_) – a mapping (dictionary) of (string: `Module``) or an iterable of key/value pairs of type (string, `Module``) |
+| Parameters: | **modules** (_iterable_) – 一个由(string: `Module`)映射组成的映射集合（词典）或者 一个由(string: `Module`)键/值对组成的可迭代结构 |
 | --- | --- |
 
 ```py
 values()
 ```
 
-Return an iterable of the ModuleDict values.
+返回一个由ModuleDict中的值组成的可迭代结构。
 
-### ParameterList
+### ParameterList (参数列表)
 
 ```py
 class torch.nn.ParameterList(parameters=None)
 ```
+ParameterList的作用是将一堆参数（parameter）存储到一个列表中。
 
-Holds parameters in a list.
+ParameterList 可以按一般的python列表的索引方式进行索引，但ParameterList中的参数（parameter）都已被正确注册，并且对所有的Module method可见。
 
-ParameterList can be indexed like a regular Python list, but parameters it contains are properly registered, and will be visible by all Module methods.
 
-| Parameters: | **parameters** (_iterable__,_ _optional_) – an iterable of `Parameter`` to add |
+| Parameters: | **parameters** (_iterable__,_ _optional_) – 要添加到ParameterList之上的由parameter组成的可迭代结构 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -809,7 +814,7 @@ class MyModule(nn.Module):
         self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) for i in range(10)])
 
     def forward(self, x):
-        # ParameterList can act as an iterable, or be indexed using ints
+        # ParameterList可以被当作一个迭代器，同时也可以使用index索引
         for i, p in enumerate(self.params):
             x = self.params[i // 2].mm(x) + p.mm(x)
         return x
@@ -820,34 +825,34 @@ class MyModule(nn.Module):
 append(parameter)
 ```
 
-Appends a given parameter at the end of the list.
+将一个parameter添加到ParameterList的末尾。
 
-| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to append |
+| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要添加的参数 |
 | --- | --- |
 
 ```py
 extend(parameters)
 ```
 
-Appends parameters from a Python iterable to the end of the list.
+将一个由parameter组成的Python可迭代结构添加到ParameterList的末尾。
 
-| Parameters: | **parameters** (_iterable_) – iterable of parameters to append |
+| Parameters: | **parameters** (_iterable_) – 要添加到ParameterList的末尾的由parameter组成的Python可迭代结构 |
 | --- | --- |
 
-### ParameterDict
+### ParameterDict (参数词典)
 
 ```py
 class torch.nn.ParameterDict(parameters=None)
 ```
 
-Holds parameters in a dictionary.
+ParameterDict的作用是将一堆参数（Parameter）存储在一个词典之中。
 
-ParameterDict can be indexed like a regular Python dictionary, but parameters it contains are properly registered, and will be visible by all Module methods.
+ParameterDict 可以按一般的python词典的索引方式进行索引，但ParameterDictt中的参数都已被正确注册，并且对所有的Module method可见。
 
-| Parameters: | **parameters** (_iterable__,_ _optional_) – a mapping (dictionary) of (string : [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) or an iterable of key,value pairs of type (string, [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) |
+| Parameters: | **parameters** (_iterable__,_ _optional_) – 一个由(string:[`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))映射组成的映射集合（词典）或者 一个由(string, [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))键/值对组成的可迭代结构 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -867,46 +872,45 @@ class MyModule(nn.Module):
 ```py
 clear()
 ```
-
-Remove all items from the ParameterDict.
+移除ParameterDict中所有的元素。
 
 ```py
 items()
 ```
 
-Return an iterable of the ParameterDict key/value pairs.
+返回一个由ParameterDict中的键/值对组成的可迭代结构。
 
 ```py
 keys()
 ```
 
-Return an iterable of the ParameterDict keys.
+返回一个由 ParameterDict中的键组成的可迭代结构。
 
 ```py
 pop(key)
 ```
 
-Remove key from the ParameterDict and return its parameter.
+将key这个键从ParameterDict中删除，并将其对应的模块返回。
 
-| Parameters: | **key** (_string_) – key to pop from the ParameterDict |
+| Parameters: | **key** (_string_) – 要从ParameterDict中弹出的键 |
 | --- | --- |
 
 ```py
 update(parameters)
 ```
 
-Update the ParameterDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
+通过传入的映射或者由键/值对组成的可迭代结构对当前的ParameterDict进行更新，如果传入对象与当前ParameterDict中存在键重复，当前ParameterDict中这些重复的键所对应的值将被覆盖。
 
-| Parameters: | **parameters** (_iterable_) – a mapping (dictionary) of (string : [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) or an iterable of key/value pairs of type (string, [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) |
+| Parameters: | **parameters** (_iterable_) – modules (iterable) – 一个由(string: [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))映射组成的映射集合（词典）或者 一个由(string: [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))键/值对组成的可迭代结构 |
 | --- | --- |
 
 ```py
 values()
 ```
 
-Return an iterable of the ParameterDict values.
+返回一个由ParameterDict中的值组成的可迭代结构。
 
-## Convolution layers
+## Convolution layers (卷积层)
 
 ### Conv1d
 
@@ -914,50 +918,48 @@ Return an iterable of the ParameterDict values.
 class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
-Applies a 1D convolution over an input signal composed of several input planes.
+利用指定大小的一维卷积核对输入的多通道一维输入信号进行一维卷积操作的卷积层。
 
-In the simplest case, the output value of the layer with input size ![](img/1dad4f3ff614c986028f7100e0205f6d.jpg) and output ![](img/a03de8b18f61a493174a56530fb03f1d.jpg) can be precisely described as:
+在最简单的情况下，对于输入大小为![](img/1dad4f3ff614c986028f7100e0205f6d.jpg)，输出大小为![](img/a03de8b18f61a493174a56530fb03f1d.jpg)的一维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/806f7530da55bf294a636b8c7ed38bcb.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) denotes a number of channels, ![](img/db4a9fef02111450bf98261889de550c.jpg) is a length of signal sequence.
+这里的![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个互相关（[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)） 操作符（大家可以自己查一下互相关和真卷积的区别，互相关因为实现起来很简单，所以一般的深度学习框架都是用互相关操作取代真卷积）, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) 代表通道的数量, ![](img/db4a9fef02111450bf98261889de550c.jpg) 代表信号序列的长度。
 
-*   `stride` controls the stride for the cross-correlation, a single number or a one-element tuple.
+*   `stride` 参数控制了互相关操作（伪卷积）的步长，参数的数据类型一般是单个数字或者一个只有一个元素的元组。
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points.
+*   `padding` 参数控制了要在一维卷积核的输入信号的两边填补的0的个数。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size ![](img/19131f9f53448ae579b613bc7bc90158.jpg)
-
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
 
 Note
 
-When `groups == in_channels` and `out_channels == K * in_channels`, where `K` is a positive integer, this operation is also termed in literature as depthwise convolution.
-
-In other words, for an input of size ![](img/7db3e5e5d600c81e77756d5eee050505.jpg), a depthwise convolution with a depthwise multiplier `K`, can be constructed by arguments ![](img/eab8f2745761d762e48a59446243af90.jpg).
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当`groups == in_channels` 并且 `out_channels == K * in_channels`（其中K是正整数）的时候，这个操作也被称为深度卷积。
+举个创建深度卷积层的例子，对于一个大小为 ![](img/7db3e5e5d600c81e77756d5eee050505.jpg) 的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/eab8f2745761d762e48a59446243af90.jpg)。
 
-Parameters: 
+Note
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Zero-padding added to both sides of the input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
+Conv1d的参数: 
+
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输出通道个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输入数据各边要补齐0的个数。 默认： 0
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
 
 
 
@@ -965,20 +967,18 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/7db3e5e5d600c81e77756d5eee050505.jpg)
+*   输入: ![](img/7db3e5e5d600c81e77756d5eee050505.jpg)
 
-*   Output: ![](img/3423094375906aa21d1b2e095e95c230.jpg) where
+*   输出: ![](img/3423094375906aa21d1b2e095e95c230.jpg) 其中
 
     ![](img/91d48a39a90c6b4ed37ac863c1a8ff7b.jpg)
 
-| Variables: | 
+| 变量： | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv1d模块中的一个大小为(out_channels, in_channels, kernel_size)的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv1d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中 ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
 
-
-
-Examples:
+例子:
 
 ```py
 >>> m = nn.Conv1d(16, 33, 3, stride=2)
@@ -992,31 +992,31 @@ Examples:
 ```py
 class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
+利用指定大小的二维卷积核对输入的多通道二维输入信号进行二维卷积操作的卷积层。
 
-Applies a 2D convolution over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/a6c3a4e9779c159b39576bee3400a00b.jpg) and output ![](img/4b354af142fb0f01680d390ef552829f.jpg) can be precisely described as:
+在最简单的情况下，对于输入大小为![](img/a6c3a4e9779c159b39576bee3400a00b.jpg)，输出大小为![](img/4b354af142fb0f01680d390ef552829f.jpg)的二维维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/a4928651cb959fa7871eaebdb489b083.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid 2D [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) denotes a number of channels, ![](img/9b7d9beafd65e2cf6493bdca741827a5.jpg) is a height of input planes in pixels, and ![](img/90490a34512e9bd1843ed4da713d0813.jpg) is width in pixels.
+这里的![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个二维互相关（[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)） 操作符（大家可以自己查一下互相关和真卷积的区别，互相关因为实现起来很简单，所以一般的深度学习框架都是用互相关操作取代真卷积）, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) 代表通道的数量, ![](img/9b7d9beafd65e2cf6493bdca741827a5.jpg) 是输入的二维数据的像素高度，![](img/90490a34512e9bd1843ed4da713d0813.jpg) 是输入的二维数据的像素宽度。
 
-*   `stride` controls the stride for the cross-correlation, a single number or a tuple.
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension.
+*   `stride` 参数控制了互相关操作（伪卷积）的步长，参数的数据类型一般是单个数字或者一个只有一个元素的元组。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `padding` 参数控制了要在二维卷积核的输入信号的上下左右各边填补的0的个数。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size: ![](img/19131f9f53448ae579b613bc7bc90158.jpg).
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+`kernel_size`, `stride`, `padding`, `dilation`这几个参数均支持一下输入形式：
+
+> *   一个 `int` 数字 – 二维数据的高和宽这两个维度都会采用这一个数字。
+> *   一个由两个int数字组成的`tuple`– 这种情况下，二维数据的高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
 
 Note
 
