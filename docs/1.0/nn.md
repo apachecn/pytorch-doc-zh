@@ -934,8 +934,10 @@ class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 *   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
     &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
     &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
 
 Note
@@ -948,6 +950,7 @@ Note
 举个创建深度卷积层的例子，对于一个大小为 ![](img/7db3e5e5d600c81e77756d5eee050505.jpg) 的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/eab8f2745761d762e48a59446243af90.jpg)。
 
 Note
+
 当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
 Conv1d的参数: 
@@ -973,7 +976,7 @@ Shape:
 
     ![](img/91d48a39a90c6b4ed37ac863c1a8ff7b.jpg)
 
-| 变量： | 
+| 内部Variables： | 
 
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv1d模块中的一个大小为(out_channels, in_channels, kernel_size)的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
 *   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv1d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中 ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
@@ -1009,9 +1012,12 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 *   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
     &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
     &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
+
 
 `kernel_size`, `stride`, `padding`, `dilation`这几个参数均支持一下输入形式：
 
@@ -1020,51 +1026,48 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 Note
 
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
+
+Note
+当`groups == in_channels` 并且 `out_channels == K * in_channels`（其中K是正整数）的时候，这个操作也被称为深度卷积。
+
+换句话说，对于一个大小为![](img/0385ad868fed790d36381b9e8788c18b.jpg)的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/8aee041e54a302b342d50912ce67f44b.jpg)。
 
 Note
 
-When `groups == in_channels` and `out_channels == K * in_channels`, where `K` is a positive integer, this operation is also termed in literature as depthwise convolution.
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
-In other words, for an input of size ![](img/0385ad868fed790d36381b9e8788c18b.jpg), a depthwise convolution with a depthwise multiplier `K`, can be constructed by arguments ![](img/8aee041e54a302b342d50912ce67f44b.jpg).
+Conv2d的参数: 
 
-Note
-
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
-
-Parameters: 
-
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Zero-padding added to both sides of the input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
-
-
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输出通道个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) –卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输入数据各边要补齐0的个数。 默认： 0
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) –卷积核各元素之间的距离。 默认： 1
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/0385ad868fed790d36381b9e8788c18b.jpg)
+*   输入: ![](img/0385ad868fed790d36381b9e8788c18b.jpg)
 
-*   Output: ![](img/d3edfe8a9bbdd73ba5c4b566353777f0.jpg) where
+*   输出: ![](img/d3edfe8a9bbdd73ba5c4b566353777f0.jpg) 其中
 
     ![](img/a89a5326ab89279b92f4720f63b4eaae.jpg)
 
     ![](img/03f69d6e3dffc3254359e41f8b310667.jpg)
 
-| Variables: | 
+| 内部Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size[0], kernel_size[1]). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv2d模块中的一个大小为 (out_channels, in_channels, kernel_size[0], kernel_size[1])的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中![](img/c12e2153347b696ebb784e5675cc566e.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv2d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中![](img/c12e2153347b696ebb784e5675cc566e.jpg)。
 
 
 
-Examples:
+例子:
 
 ```py
 >>> # With square kernels and equal stride
@@ -1084,65 +1087,67 @@ Examples:
 class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
-Applies a 3D convolution over an input signal composed of several input planes.
+利用指定大小的三维卷积核对输入的多通道三维输入信号进行三维卷积操作的卷积层。
 
-In the simplest case, the output value of the layer with input size ![](img/ca863d6b44a0246998de77c7c423ec32.jpg) and output ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为![](img/ca863d6b44a0246998de77c7c423ec32.jpg)，输出大小为![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) 的三维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/39831867c152a21de6e580bf01c0cb7f.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid 3D [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator
+这里的 ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个三维互相关 [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) 操作符。
 
-*   `stride` controls the stride for the cross-correlation.
+*   `stride` 数控制了互相关操作（伪卷积）的步长。
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension.
+*   `padding` 参数控制了要在三维卷积核的输入信号的各个维度的两边填补0的个数。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子，
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size ![](img/648a514da1dace3deacf3f078287e157.jpg).
+   &gt; *   当 groups=1, 此Conv3d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+   
+   &gt; *   当 groups=2, 此时Conv3d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv3d层的输出。
+   
+   &gt; *   当 groups= in_channels, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是 ![](img/648a514da1dace3deacf3f078287e157.jpg).
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+`kernel_size`, `stride`, `padding`, `dilation`这几个参数均支持一下输入形式：
 
-> *   a single `int` – in which case the same value is used for the depth, height and width dimension
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
+> *   一个 `int` 数字 – 三维维数据的深度，高和宽这三个维度都会采用这一个数字。
+> *   一个由三个int数字组成的`tuple`– 这种情况下，三维数据的深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
 
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
-
-Note
-
-When `groups == in_channels` and `out_channels == K * in_channels`, where `K` is a positive integer, this operation is also termed in literature as depthwise convolution.
-
-> In other words, for an input of size ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg), a depthwise convolution with a depthwise multiplier `K`, can be constructed by arguments ![](img/8aee041e54a302b342d50912ce67f44b.jpg).
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
+
+Note
+
+当`groups == in_channels` 并且 `out_channels == K * in_channels`（其中K是正整数）的时候，这个操作也被称为深度卷积。
+
+换句话说，对于一个大小为  ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg) 的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/8aee041e54a302b342d50912ce67f44b.jpg)。
+
+Note
+
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
 Parameters: 
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Zero-padding added to all three sides of the input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
-
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道的个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 卷积操作输出通道的个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输入数据各边要补齐0的个数。 默认： 0
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg)
+*   输入: ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg)
 
-*   Output: ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) where
+*   输出: ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) where
 
     ![](img/bbc2662490bb72269672fe81af1fe003.jpg)
 
@@ -1150,14 +1155,14 @@ Shape:
 
     ![](img/d040a26cd9a91c4d230afd4c15d0e1e6.jpg)
 
-| Variables: | 
+| 内部Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv3d模块中的一个大小为 (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2]) 的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv1d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) ，其中 ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)。
 
 
 
-Examples:
+例子:
 
 ```py
 >>> # With square kernels and equal stride
@@ -1175,7 +1180,11 @@ Examples:
 class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
+利用指定大小的一维转置卷积核对输入的多通道一维输入信号进行转置卷积操作的卷积层。
+
 Applies a 1D transposed convolution operator over an input image composed of several input planes.
+
+
 
 This module can be seen as the gradient of Conv1d with respect to its input. It is also known as a fractionally-strided convolution or a deconvolution (although it is not an actual deconvolution operation).
 
@@ -1183,7 +1192,7 @@ This module can be seen as the gradient of Conv1d with respect to its input. It 
 
 *   `padding` controls the amount of implicit zero-paddings on both sides for `kernel_size - 1 - padding` number of points. See note below for details.
 
-*   `output_padding` controls the additional size added to one side of the output shape. See note below for details.
+  *   `output_padding` controls the additional size added to one side of the output shape. See note below for details.
 
 *   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
 
