@@ -1595,13 +1595,13 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
+*   输入: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
 
-*   Output: ![](img/d131773750846713475c600aa8cd917a.jpg), where
+*   输出: ![](img/d131773750846713475c600aa8cd917a.jpg) 其中
 
     ![](img/ff16cce6b4741640e8adc0a271cd4592.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of size=3, stride=2
@@ -1617,6 +1617,7 @@ Examples:
 class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
+对输入的多通道信号执行一维最大池化操作。
 Applies a 2D max pooling over an input signal composed of several input planes.
 
 In the simplest case, the output value of the layer with input size ![](img/23f8772594b27bd387be708fe9c085e1.jpg), output ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) and `kernel_size` ![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg) can be precisely described as:
