@@ -1617,44 +1617,42 @@ Shape:
 class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
-对输入的多通道信号执行一维最大池化操作。
-Applies a 2D max pooling over an input signal composed of several input planes.
+对输入的多通道信号执行二维最大池化操作。
 
-In the simplest case, the output value of the layer with input size ![](img/23f8772594b27bd387be708fe9c085e1.jpg), output ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) and `kernel_size` ![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/23f8772594b27bd387be708fe9c085e1.jpg) ，输出大小为![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg)，`kernel_size`为![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/caa8cbcbb8bbbbc6b0e47f9daa80ab12.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
+`dilation` 参数控制了池化核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+`kernel_size`, `stride`, `padding`, `dilation` 等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的宽和高这两个维度的大小
+> *   一个由两个`int`组成的`tuple` – 这种情况下，高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **dilation** – a parameter that controls the stride of elements in the window
-*   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") later
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   **kernel_size** – 最大池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **dilation** – 滑动窗中各元素之间的距离
+*   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d")中被用到。
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/991d42318f90dcb68b26938c542b8457.jpg)
 
     ![](img/1e35edf42ee6921adb435b5ca638d406.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1672,37 +1670,37 @@ Examples:
 class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
-Applies a 3D max pooling over an input signal composed of several input planes. This is not a test
+对输入的多通道信号执行三维最大池化操作。
 
-In the simplest case, the output value of the layer with input size ![](img/f5a45f7b445db562b21cfcb525637aab.jpg), output ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) and `kernel_size` ![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/f5a45f7b445db562b21cfcb525637aab.jpg) ，输出大小为![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg)，`kernel_size`为 ![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg) 的池化操作，此池化过程可表述如下：
 
 ![](img/f0f7a770dcfb802e7fc0f8995cfad3d7.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
+`dilation` 参数控制了池化核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+`kernel_size`, `stride`, `padding`, `dilation` 等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the depth, height and width dimension
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的深度，宽和高这三个维度的大小
+> *   一个由三个`int`组成的`tuple` – 这种情况下，深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
+
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on all three sides
-*   **dilation** – a parameter that controls the stride of elements in the window
-*   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") later
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   **kernel_size** – 最大池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **dilation** – 滑动窗中各元素之间的距离
+*   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d")中被用到。
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
 
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), where
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), 其中
 
     ![](img/0e49f319aa911192458f7b02321eff3a.jpg)
 
@@ -1710,7 +1708,7 @@ Shape:
 
     ![](img/eb1d0c30d1cf681f38e8391bd7d03dff.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1728,21 +1726,17 @@ Examples:
 class torch.nn.MaxUnpool1d(kernel_size, stride=None, padding=0)
 ```
 
-Computes a partial inverse of [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d").
-
-[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") is not fully invertible, since the non-maximal values are lost.
-
-[`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") takes in as input the output of [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") including the indices of the maximal values and computes a partial inverse in which all non-maximal values are set to zero.
+[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")的逆过程，不过并不是完全的逆过程，因为在[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")的过程中，池化窗区域内的非最大值都已经丢失。 [`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")的输入是[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")的输出，其中也包括包括滑动窗最大值的索引（即return_indices所控制的输出），逆池化操作的过程就是将[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")过程中产生的最大值插回到原来的位置，并将非最大值区域置为0。
 
 Note
 
-[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs and Example below.
+[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")操作可以将多个大小不同的输入映射到相同的输出大小。因此，池化操作的反过程，[`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")的上采样过程的输出大小就不唯一了。为了适应这一点，可以在设置控制上采样输出大小的（`output_size`）参数。 具体用法，请参阅下面的输入和示例
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的步长。默认`kernel_size`
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 输入信号的各维度各边要补齐0的层数
 
 
 
@@ -1750,23 +1744,23 @@ Parameters:
 Inputs:
 ```
 
-*   `input`: the input Tensor to invert
-*   `indices`: the indices given out by [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")
-*   `output_size` (optional): the targeted output size
+*   `input`: 要执行上采样操作的张量
+*   `indices`: [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")池化过程中输出的池化窗最大值的位置索引
+*   `output_size` (选填): 指定的输出大小
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ccc1792005f1eb97a439118aeba930e9.jpg)
+*   输入: ![](img/ccc1792005f1eb97a439118aeba930e9.jpg)
 
-*   Output: ![](img/1b0403b4ee318895368afc8fa37b9407.jpg), where
+*   输出: ![](img/1b0403b4ee318895368afc8fa37b9407.jpg), 其中
 
     ![](img/9618fc866026e724d16c5481dd67dc4c.jpg)
 
-    or as given by `output_size` in the call operator
+    也可以使用`output_size`指定输出的大小
 
-Example:
+例子:
 
 ```py
 >>> pool = nn.MaxPool1d(2, stride=2, return_indices=True)
