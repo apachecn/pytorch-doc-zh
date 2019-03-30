@@ -1588,8 +1588,7 @@ Parameters:
 *   **padding** – 要在输入信号的各维度各边上要补齐0的层数
 *   **dilation** – 滑动窗中各元素之间的距离
 *   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")中被用到。
-*   **ceil_mode** – 如果此参数被设置·True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作 when True, will use `ceil` instead of `floor` to compute the output shape
-
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
 
 
 ```py
