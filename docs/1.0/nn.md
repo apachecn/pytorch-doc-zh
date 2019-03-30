@@ -1432,8 +1432,7 @@ Shape:
 class torch.nn.Unfold(kernel_size, dilation=1, padding=0, stride=1)
 ```
 
-将一个batch的输入张量展开成由多个滑动局部块组成的形式。
-Extracts sliding local blocks from a batched input tensor.
+将一个batch的输入张量展开成由多个滑动局部块组成的形式。（im2col的扩展模块，起到基本类似im2col的作用）
 
 以一个大小为![](img/2468b226c29a7e754a9c20f0214fa85f.jpg)的批次化(batched)输入张量为例，其中![](img/9341d9048ac485106d2b2ee8de14876f.jpg)是batch的大小，![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)是通道数量，![](img/28ec51e742166ea3400be6e7343bbfa5.jpg)代表了任意空间维度。那Unfold这个操作在此张量上的操作就是，将这个张量展开成由多个`kernel_size`大小的滑动块组成的大小为![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg)的三维张量，其中![](img/a8846766f2e1b47021f1520993773ccb.jpg)是每个块中数的个数（每个块有![](img/8c7a54ca7193bc3a6c5ace8c3b07d24c.jpg)个空间位置，每个空间位置存储一个通道大小为![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)的向量），![](img/db4a9fef02111450bf98261889de550c.jpg)是块的个数：
 
@@ -1465,7 +1464,7 @@ Parameters:
 *   如果输出向量有两个空间维度，那么此Fold操作有时又被称为`im2col`。
 
 Note
-[`Fold`](#torch.nn.Fold "torch.nn.Fold") 的主要作用是通过求和输入张量中各block的值来生成输出张量，而[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")则是通过从输入张量中不断拷贝数值到相应的block中来生成输出张量。所以，这两个操作并不是互逆操作。
+[`Fold`](#torch.nn.Fold "torch.nn.Fold")在执行类`col2im`的操作的时候，主要是是通过集成此im（输出张量）分裂出所有对应位置的col（输入的滑动块）来复原原im。而[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")则是通过从输入张量中不断拷贝数值到相应的block中来生成由滑动块组成的输出张量。所以，如果滑动块之间如果有数值重叠，那这些滑动块之间并不是互逆的。
 
 Warning
 
@@ -1508,8 +1507,7 @@ tensor(1.9073e-06)
 class torch.nn.Fold(output_size, kernel_size, dilation=1, padding=0, stride=1)
 ```
 
-将由滑动局部块组成的数组集合为一个大张量。
-Combines an array of sliding local blocks into a large containing tensor.
+将由滑动局部块组成的数组集合为一个大张量。(类col2im)
 
 考虑一个包含了很多个滑动局部块的输入张量，比如，一批图像分割块(patches of images)的集合，大小为![](img/9e56ff5e3827b936da5cfa3a5258b12e.jpg)，其中![](img/9341d9048ac485106d2b2ee8de14876f.jpg)是batch大小， ![](img/a8846766f2e1b47021f1520993773ccb.jpg) 是一个块中的数值个数（每个块有![](img/8c7a54ca7193bc3a6c5ace8c3b07d24c.jpg)个空间位置，每个空间位置存储一个通道大小为![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)的向量），![](img/db4a9fef02111450bf98261889de550c.jpg)是滑动块的个数。（这些大小参数严格遵循了[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")操作的输出向量的大小规定。）Fold操作通过求和重叠值的方式来将这些局部块集合为一个大小为![](img/c2176aae9e099eeee07cc00c4dc7b7e7.jpg)的`output`张量。与 [`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")类似，这些参数必须满足：
 
@@ -1541,7 +1539,7 @@ Parameters:
 *   如果此输出向量的空间维度数为2，那么此Fold操作有时又被称为`col2im`。
 
 Note
-[`Fold`](#torch.nn.Fold "torch.nn.Fold") 的主要作用是通过求和输入张量中各block的值来生成输出张量，而[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")则是通过从输入张量中不断拷贝数值到相应的block中来生成输出张量。所以，这两个操作并不是互逆操作。
+[`Fold`](#torch.nn.Fold "torch.nn.Fold")在执行类`col2im`的操作的时候，主要是是通过集成此im（输出张量）分裂出所有对应位置的col（输入的滑动块）来复原原im。而[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")则是通过从输入张量中不断拷贝数值到相应的block中来生成由滑动块组成的输出张量。所以，如果滑动块之间如果有数值重叠，那这些滑动块之间并不是互逆的。
 
 Warning
 
@@ -1567,30 +1565,30 @@ Shape:
 
 ` 卷积层部分Fold 与 Unfold 是1.0新增的内容，猜测其主要目的是开放col2im和im2col这两个通过矩阵乘法实现卷积操作的前序接口，要好好理解这部分可能要了解一下现在主流框架通过大矩阵乘法来实现卷积操作这一通用做法了，这一篇文章就介绍的很好[Implementing convolution as a matrix multiplication](https://buptldy.github.io/2016/10/01/2016-10-01-im2col/)，这一段如果感觉我的直译晦涩难懂，那我深感抱歉并建议看一下英文原版，虽然我觉得英文原版介绍的也是晦涩难懂`
 
-## Pooling layers
+## 池化层（Pooling layers）
 
 ### MaxPool1d
 
 ```py
 class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
+对输入的多通道信号执行一维最大池化操作。
 
-Applies a 1D max pooling over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) and output ![](img/d131773750846713475c600aa8cd917a.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) ，输出大小为![](img/d131773750846713475c600aa8cd917a.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/9e414c5b7df992e54f3227bb130be349.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
+`dilation` 参数控制了池化核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **dilation** – a parameter that controls the stride of elements in the window
-*   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") later
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
+*   **kernel_size** – 最大池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **dilation** – 滑动窗中各元素之间的距离
+*   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")中被用到。
+*   **ceil_mode** – 如果此参数被设置·True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作 when True, will use `ceil` instead of `floor` to compute the output shape
 
 
 
