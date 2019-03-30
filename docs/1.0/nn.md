@@ -1787,47 +1787,41 @@ tensor([[[ 0.,  2.,  0.,  4.,  0.,  6.,  0., 8.]]])
 class torch.nn.MaxUnpool2d(kernel_size, stride=None, padding=0)
 ```
 
-Computes a partial inverse of [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d").
-
-[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") is not fully invertible, since the non-maximal values are lost.
-
-[`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") takes in as input the output of [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") including the indices of the maximal values and computes a partial inverse in which all non-maximal values are set to zero.
+[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")的逆过程，不过并不是完全的逆过程，因为在[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")的过程中，池化窗区域内的非最大值都已经丢失。 [`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d")的输入是[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")的输出，其中也包括包括滑动窗最大值的索引（即return_indices所控制的输出），逆池化操作的过程就是将[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")过程中产生的最大值插回到原来的位置，并将非最大值区域置为0。
 
 Note
 
-[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs and Example below.
+[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")操作可以将多个大小不同的输入映射到相同的输出大小。因此，池化操作的反过程，[`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d")的上采样过程的输出大小就不唯一了。为了适应这一点，可以在设置控制上采样输出大小的（`output_size`）参数。 具体用法，请参阅下面的输入和示例
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
-
-
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的步长。默认`kernel_size`
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 输入信号的各维度各边要补齐0的层数
 
 ```py
 Inputs:
 ```
 
-*   `input`: the input Tensor to invert
-*   `indices`: the indices given out by [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")
-*   `output_size` (optional): the targeted output size
+*   `input`: 要执行上采样操作的张量
+*   `indices`: [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")池化过程中输出的池化窗最大值的位置索引
+*   `output_size` (选填): 指定的输出大小
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/f6dd707e18ccbf75f607d05338443e87.jpg)
 
     ![](img/ac5d54ef9922f9e0dbe2dc916bf9d80b.jpg)
 
-    or as given by `output_size` in the call operator
+    也可以使用`output_size`指定输出的大小
 
-Example:
+例子:
 
 ```py
 >>> pool = nn.MaxPool2d(2, stride=2, return_indices=True)
@@ -1859,37 +1853,33 @@ tensor([[[[  0.,   0.,   0.,   0.,   0.],
 class torch.nn.MaxUnpool3d(kernel_size, stride=None, padding=0)
 ```
 
-Computes a partial inverse of [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d").
-
-[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") is not fully invertible, since the non-maximal values are lost. [`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") takes in as input the output of [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") including the indices of the maximal values and computes a partial inverse in which all non-maximal values are set to zero.
+[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")的逆过程，不过并不是完全的逆过程，因为在[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")的过程中，池化窗区域内的非最大值都已经丢失。 [`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d")的输入是[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")的输出，其中也包括包括滑动窗最大值的索引（即return_indices所控制的输出），逆池化操作的过程就是将[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")过程中产生的最大值插回到原来的位置，并将非最大值区域置为0。
 
 Note
 
-[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs section below.
+[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")操作可以将多个大小不同的输入映射到相同的输出大小。因此，池化操作的反过程，[`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d")的上采样过程的输出大小就不唯一了。为了适应这一点，可以在设置控制上采样输出大小的（`output_size`）参数。 具体用法，请参阅下面的输入和示例
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
-
-
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的步长。默认`kernel_size`
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 输入信号的各维度各边要补齐0的层数
 
 ```py
 Inputs:
 ```
 
-*   `input`: the input Tensor to invert
-*   `indices`: the indices given out by [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")
-*   `output_size` (optional): the targeted output size
+*   `input`: 要执行上采样操作的张量
+*   `indices`: [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")池化过程中输出的池化窗最大值的位置索引
+*   `output_size` (选填): 指定的输出大小
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
 
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), where
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), 其中
 
     ![](img/190cbccb4ab554a9b19bfc3df956f982.jpg)
 
@@ -1897,9 +1887,9 @@ Shape:
 
     ![](img/e666e9d78ffab5d03b4cf1adf1a6e331.jpg)
 
-    or as given by `output_size` in the call operator
+    也可以使用`output_size`指定输出的大小
 
-Example:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1918,37 +1908,35 @@ torch.Size([20, 16, 51, 33, 15])
 class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
 
-Applies a 1D average pooling over an input signal composed of several input planes.
+对输入的多通道信号执行一维平均池化操作。
 
-In the simplest case, the output value of the layer with input size ![](img/5816e96aa78b7425cf792435bba8bc29.jpg), output ![](img/d131773750846713475c600aa8cd917a.jpg) and `kernel_size` ![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) ，输出大小为![](img/d131773750846713475c600aa8cd917a.jpg)，`kernel_size`为![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/5df0036df168f4a16d4437d91968f640.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
 
-The parameters `kernel_size`, `stride`, `padding` can each be an `int` or a one-element tuple.
+`kernel_size`, `stride`, `padding`, `dilation` 等参数均支持输入一个int或者由一个int组成的tuple。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
-
-
+*   **kernel_size** – 平均池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
+*   **count_include_pad** – 如果被设置为True, 那么在进行平均运算的时候也会将用于补齐的0加入运算。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
+*   输入: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
 
-*   Output: ![](img/d131773750846713475c600aa8cd917a.jpg), where
+*   输出: ![](img/d131773750846713475c600aa8cd917a.jpg), 其中
 
     ![](img/ad61a9298a545292682229fef2f1a910.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool with window of size=3, stride=2
@@ -1963,43 +1951,41 @@ tensor([[[ 2.,  4.,  6.]]])
 ```py
 class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
-
-Applies a 2D average pooling over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/23f8772594b27bd387be708fe9c085e1.jpg), output ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) and `kernel_size` ![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg) can be precisely described as:
+对输入的多通道信号执行二维平均池化操作。
+最简单的情况下，对于输入大小为  ![](img/23f8772594b27bd387be708fe9c085e1.jpg) ，输出大小为![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg)，`kernel_size`为![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/b7a0e1d0a42a3626724c14d89a10a44f.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
 
-The parameters `kernel_size`, `stride`, `padding` can either be:
+`kernel_size`, `stride`, `padding`等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的宽和高这两个维度的大小
+> *   一个由两个`int`组成的`tuple` – 这种情况下，高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
+
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
-
+*   **kernel_size** – 平均池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
+*   **count_include_pad** – 如果被设置为True, 那么在进行平均运算的时候也会将用于补齐的0加入运算。
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/8b8b2b1a77c4f104a936efb1708366ef.jpg)
 
     ![](img/2792347200dabe493ae8baee428f9bf8.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -2016,37 +2002,33 @@ Examples:
 ```py
 class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
-
-Applies a 3D average pooling over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/f5a45f7b445db562b21cfcb525637aab.jpg), output ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) and `kernel_size` ![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg) can be precisely described as:
+对输入的多通道信号执行三维平均池化操作。
+最简单的情况下，对于输入大小为![](img/f5a45f7b445db562b21cfcb525637aab.jpg)，输出大小为![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg)，`kernel_size`为![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/79acedd31cd18baac8d97ab96a7092e0.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on all three sides for `padding` number of points.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
 
-The parameters `kernel_size`, `stride` can either be:
+`kernel_size`, `stride`, `padding`等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the depth, height and width dimension
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的深度，宽和高这两个维度的大小
+> *   一个由三个`int`组成的`tuple` – 这种情况下，深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on all three sides
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
-
-
+*   **kernel_size** – 平均池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
+*   **count_include_pad** – 如果被设置为True, 那么在进行平均运算的时候也会将用于补齐的0加入运算。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
 
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), where
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), 其中
 
     ![](img/443035401ce7a1144122a862f34493cf.jpg)
 
@@ -2054,7 +2036,7 @@ Shape:
 
     ![](img/c799c115b670c02d039f828fe1afa443.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
