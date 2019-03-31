@@ -2053,23 +2053,21 @@ Shape:
 ```py
 class torch.nn.FractionalMaxPool2d(kernel_size, output_size=None, output_ratio=None, return_indices=False, _random_samples=None)
 ```
+对输入的多通道信号执行小数级二维最大池化操作。`小数级`指的是此操作的输出大小与输入大小成指定的小数倍数关系。
 
-Applies a 2D fractional max pooling over an input signal composed of several input planes.
+Ben Graham的这篇文章[Fractional MaxPooling](http://arxiv.org/abs/1412.6071)中详细地介绍了小数级二维最大池化的基本思想和技术细节。
 
-Fractional MaxPooling is described in detail in the paper [Fractional MaxPooling](http://arxiv.org/abs/1412.6071) by Ben Graham
-
-The max-pooling operation is applied in ![](img/52ec12db6613ee8a0f6f41143ab2e8a2.jpg) regions by a stochastic step size determined by the target output size. The number of output features is equal to the number of input planes.
+小数级二维最大池化的基本思想就是将最大池化操作应用于![](img/52ec12db6613ee8a0f6f41143ab2e8a2.jpg)个由随机步长大小采集的区域中，这些步长大小是由输出目标的大小决定的。小数级二维最大池化的输出特征的数量等于输入通道的数量。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over. Can be a single number k (for a square kernel of k x k) or a tuple `(kh x kw)`
-*   **output_size** – the target output size of the image of the form `oH x oW`. Can be a tuple `(oH, oW)` or a single number oH for a square image `oH x oH`
-*   **output_ratio** – If one wants to have an output size as a ratio of the input size, this option can be given. This has to be a number or tuple in the range (0, 1)
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to `nn.MaxUnpool2d()`. Default: `False`
+*   **kernel_size** – 执行最大操作的窗口大小。支持的数据类型包括一个单独的数字k(生成一个大小为k x k的正方形kernal)，或者一个元组 `(kh x kw)`
+*   **output_size** – 池化输出目标大小，具体形式是 `oH x oW`。支持的数据类型包括一个单独的数字`oH`，或者一个元组 `(oH, oW)`，注意此处`oH x oW`与`kernal_size`中的`kh x ow`相呼应，两者成一定的小数级倍数关系
+*   **output_ratio** – 如果想让输出目标的大小是输入目标大小的ratio倍，可以通过设置此参数来实现。此参数可以是一个小数数字或者小数元组，数字范围是(0, 1)
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool2d()`可以被用到。此参数默认为`False`
 
 
-
-Examples
+例子
 
 ```py
 >>> # pool of square window of size=3, and target output size 13x12
@@ -2086,40 +2084,37 @@ Examples
 ```py
 class torch.nn.LPPool1d(norm_type, kernel_size, stride=None, ceil_mode=False)
 ```
+对输入的多通道信号执行一维幂平均池化操作。
 
-Applies a 1D power-average pooling over an input signal composed of several input planes.
-
-On each window, the function computed is:
+对于每个池化窗口，此池化操作的计算方式如下：
 
 ![](img/e4451f809255881ee286970ddf3fb377.jpg)
 
-*   At p = infinity, one gets Max Pooling
-*   At p = 1, one gets Sum Pooling (which is proportional to Average Pooling)
+*   当p为无穷大的时候时，等价于最大池化操作
+*   当`p=1`时，等价于求和池化操作（一定程度上等价于平均池化）
 
 Note
 
-If the sum to the power of `p` is zero, the gradient of this function is not defined. This implementation will set the gradient to zero in this case.
+如果某个特殊的输入导致这个输入关于幂指数`p`的求和是0，那上述池化函数在这一点是没有意义的。在实际实现过程中，此点的梯度被设置为0。
 
 Parameters: 
 
-*   **kernel_size** – a single int, the size of the window
-*   **stride** – a single int, the stride of the window. Default value is `kernel_size`
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   kernel_size: 池化窗口的大小
+*   stride：池化窗口移动的步长。默认值是`kernel_size`
+*   ceil_mode: 当此参数被设置为`True`时，在计算输出大小的时候将使用向下取整代替向上取整
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
+*   输入: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
 
-*   Output: ![](img/d131773750846713475c600aa8cd917a.jpg), where
+*   输出: ![](img/d131773750846713475c600aa8cd917a.jpg)，其中
 
     ![](img/5d246e9891509c48081bc89191e64418.jpg)
 
 ```py
-Examples::
+例子:
 ```
 
 ```py
@@ -2136,45 +2131,43 @@ Examples::
 class torch.nn.LPPool2d(norm_type, kernel_size, stride=None, ceil_mode=False)
 ```
 
-Applies a 2D power-average pooling over an input signal composed of several input planes.
+对输入的多通道信号执行二维幂平均池化操作。
 
-On each window, the function computed is:
+对于每个池化窗口，此池化操作的计算方式如下：
 
 ![](img/e4451f809255881ee286970ddf3fb377.jpg)
 
-*   At p = ![](img/b0c1b8fa38555e0b1ca3265b84bb3974.jpg), one gets Max Pooling
-*   At p = 1, one gets Sum Pooling (which is proportional to average pooling)
+*   当p等于![](img/b0c1b8fa38555e0b1ca3265b84bb3974.jpg)时候时，等价于最大池化操作
+*   当`p=1`时，等价于求和池化操作（一定程度上等价于平均池化）
 
-The parameters `kernel_size`, `stride` can either be:
+参数`kernel_size`, `stride`支持的数据类型：
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+*   `int`，池化窗口的宽和高相等
+*   `tuple`数组（两个数字的），第一个元素是池化窗口的高，第二个是宽
 
 Note
 
-If the sum to the power of `p` is zero, the gradient of this function is not defined. This implementation will set the gradient to zero in this case.
+如果某个特殊的输入导致这个输入关于幂指数`p`的求和是0，那上述池化函数在这一点是没有意义的。在实际实现过程中，此点的梯度被设置为0。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   kernel_size: 池化窗口的大小
+*   stride：池化窗口移动的步长。默认值是`kernel_size`
+*   ceil_mode: 当此参数被设置为`True`时，在计算输出大小的时候将使用向下取整代替向上取整
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/44bfdaa5e6b603085c2da3eddb558556.jpg)
 
     ![](img/d59b07475dea090e5f7110600d8f8bdc.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # power-2 pool of square window of size=3, stride=2
@@ -2192,18 +2185,16 @@ Examples:
 class torch.nn.AdaptiveMaxPool1d(output_size, return_indices=False)
 ```
 
-Applies a 1D adaptive max pooling over an input signal composed of several input planes.
+对输入的多通道信号进行1维的自适应最大池化操作。
 
-The output size is H, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
 Parameters: 
 
-*   **output_size** – the target output size H
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool1d. Default: `False`
+*   **output_size** – 指定的输出大小H
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool1d()`可以被用到。此参数默认为`False`
 
-
-
-Examples
+例子
 
 ```py
 >>> # target output size of 5
@@ -2219,18 +2210,16 @@ Examples
 class torch.nn.AdaptiveMaxPool2d(output_size, return_indices=False)
 ```
 
-Applies a 2D adaptive max pooling over an input signal composed of several input planes.
+对输入的多通道信号进行2维的自适应最大池化操作。
 
-The output is of size H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
 Parameters: 
 
-*   **output_size** – the target output size of the image of the form H x W. Can be a tuple (H, W) or a single H for a square image H x H. H and W can be either a `int`, or `None` which means the size will be the same as that of the input.
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool2d. Default: `False`
+*   **output_size** – 指定的输出大小H x W。此参数支持的数据类型可以是一个元组(H, W)，又或者是一个单独的`int` H（等价于H x H）。H 和 W这两个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool2d()`可以被用到。此参数默认为`False`
 
-
-
-Examples
+例子
 
 ```py
 >>> # target output size of 5x7
@@ -2253,19 +2242,16 @@ Examples
 ```py
 class torch.nn.AdaptiveMaxPool3d(output_size, return_indices=False)
 ```
+对输入的多通道信号进行3维的自适应最大池化操作。
 
-Applies a 3D adaptive max pooling over an input signal composed of several input planes.
-
-The output is of size D x H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小D x H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
 Parameters: 
 
-*   **output_size** – the target output size of the image of the form D x H x W. Can be a tuple (D, H, W) or a single D for a cube D x D x D. D, H and W can be either a `int`, or `None` which means the size will be the same as that of the input.
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool3d. Default: `False`
+*   **output_size** – 指定的输出大小D x H x W。此参数支持的数据类型可以是一个元组(D, H, W)，又或者是一个单独的`int` D（等价于D x D x D)。D, H 和 W这三个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool3d()`可以被用到。此参数默认为`False`
 
-
-
-Examples
+例子
 
 ```py
 >>> # target output size of 5x7x9
@@ -2289,14 +2275,15 @@ Examples
 class torch.nn.AdaptiveAvgPool1d(output_size)
 ```
 
-Applies a 1D adaptive average pooling over an input signal composed of several input planes.
+对输入的多通道信号进行1维的自适应平均池化操作。
 
-The output size is H, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
-| Parameters: | **output_size** – the target output size H |
-| --- | --- |
+Parameters: 
 
-Examples
+*   **output_size** – 指定的输出大小H
+
+例子
 
 ```py
 >>> # target output size of 5
@@ -2312,14 +2299,16 @@ Examples
 class torch.nn.AdaptiveAvgPool2d(output_size)
 ```
 
-Applies a 2D adaptive average pooling over an input signal composed of several input planes.
+对输入的多通道信号进行2维的自适应平均池化操作。
 
-The output is of size H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
-| Parameters: | **output_size** – the target output size of the image of the form H x W. Can be a tuple (H, W) or a single H for a square image H x H H and W can be either a `int`, or `None` which means the size will be the same as that of the input. |
-| --- | --- |
+Parameters: 
 
-Examples
+*   **output_size** – 指定的输出大小H x W。此参数支持的数据类型可以是一个元组(H, W)，又或者是一个单独的`int` H（等价于H x H）。H 和 W这两个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+
+例子
+
 
 ```py
 >>> # target output size of 5x7
@@ -2343,14 +2332,16 @@ Examples
 class torch.nn.AdaptiveAvgPool3d(output_size)
 ```
 
-Applies a 3D adaptive average pooling over an input signal composed of several input planes.
+对输入的多通道信号进行3维的自适应平均池化操作。
 
-The output is of size D x H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小D x H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
-| Parameters: | **output_size** – the target output size of the form D x H x W. Can be a tuple (D, H, W) or a single number D for a cube D x D x D D, H and W can be either a `int`, or `None` which means the size will be the same as that of the input. |
-| --- | --- |
+Parameters: 
 
-Examples
+*   **output_size** – 指定的输出大小D x H x W。此参数支持的数据类型可以是一个元组(D, H, W)，又或者是一个单独的`int` D（等价于D x D x D)。D, H 和 W这三个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+
+例子
+
 
 ```py
 >>> # target output size of 5x7x9
