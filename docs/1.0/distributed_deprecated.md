@@ -171,6 +171,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
     torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
 
+
 减少所有机器上的张量数据，以便获得最终结果。
 
 在所有进程中调用张量将按位相同。
@@ -183,6 +184,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
 
     torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)  
+
 
 减少所有机器的张量数据。
 
@@ -198,6 +200,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
     torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
 
+
 从列表中收集整个组的张量。
 
 参数：
@@ -208,6 +211,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
 
     torch.distributed.deprecated.gather(tensor, **kwargs)
+
 
 从单个进程中收集张量列表。
 
@@ -220,6 +224,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
 
     torch.distributed.deprecated.scatter(tensor, **kwargs)
+
 
 将张量列表分散到组中的所有进程。
 
@@ -235,9 +240,10 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
     torch.distributed.deprecated.barrier（group = < object  object >）
 
-    同步所有进程。
 
-    此集合会阻止进程，直到整个组进入此函数。
+同步所有进程。
+
+此集合会阻止进程，直到整个组进入此函数。
 
 ![para](img/para.png)
 
