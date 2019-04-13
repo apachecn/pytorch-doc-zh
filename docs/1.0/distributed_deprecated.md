@@ -176,6 +176,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 在所有进程中调用张量将按位相同。
 
 参数：
+
 * tensor(Tensor)-集体的输入和输出，该函数原地运行
 * op(optional)-一个来自torch.distributed.deprecated.reduce_op枚举的值。指定一个操作用于逐元素减少
 * group(optional)-整体的组
@@ -200,6 +201,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 从列表中收集整个组的张量。
 
 参数：
+
 * tensor_list(list[Tensor])-输出列表。它包括用来作为整体输出的正确尺寸的张量。
 * tensor(tensor)-在当前进程进行广播的张量
 * group(optional)-整体的组
@@ -210,6 +212,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 从单个进程中收集张量列表。
 
 参数：
+
 * tensor(Tensor)-输入的张量
 * dst(int)-目的等级。除了接收数据的进程外，其余进程都需要这个值
 * gather_list(list[Tensor])-用于接收数据的适当大小的张量列表。 仅在接收进程中需要。
@@ -223,6 +226,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 每个进程将只接收一个张量并将其数据存储在tensor参数中。
 
 参数：
+
 * tensor（Tensor） - 输出张量。
 * src（int） - 源排名。除发送数据的进程外，在所有进程中都是必需的。
 * scatter_list（list [ Tensor ]） - 要分散的张量列表。仅在发送数据的过程中需要。
