@@ -370,7 +370,7 @@ torch.distributed.launch 是一个模块，它在每个训练节点上产生多�
  1. 要查找此模块提供的可选参数：
 
 
-    >>> python -m torch.distributed.launch --help
+        >>> python -m torch.distributed.launch --help
 
 
 **重要提示**
