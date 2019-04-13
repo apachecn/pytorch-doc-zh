@@ -1,546 +1,407 @@
+# 分布式通信包（已弃用）-torch.distributed.deprecated
+**警告**
+
+torch.distributed.deprecated 是 torch.distributed 的早期版本，当前已被弃用，并且很快将被删除。请参照使用 torch.distributed 的文档，这是PyTorch最新的分布式通信包。
+
+torch.distributed提供类似MPI的接口，用于跨多机网络交换张量数据。它提供一些不同的后台并且支持不同的初始化方法。
+
+当前的torch.distributed.deprecated支持四个后台，每个都有不同的功能。这个表展示了对于CPU/GPU张量来说，哪些函数是可以使用的。只有在用于构建PyTorch的实现支持时，MPI才支持cuda。
+
+![picture](img/backend.png)
+
+## 基础
+
+torch.distributed.deprecated为在一台或多台机器上运行的多个计算节点上的多进程并行性提供PyTorch支持和通信原语。torch.nn.parallel.deprecated.DistributedDataParallel()类以此功能为基础，提供同步分布式培训，作为任何PyTorch模型的包装器。这与Multiprocessing包提供的那种并行性不同，[torch.multiprocessing](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/multiprocessing.html)和[torch.nn.DataParallel()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.DataParallel)支持多个联网的计算机，并且用户必须为每个进程显式地启动主要训练脚本的独立副本。
+
+在单机同步的情况下，torch.distributed.deprecated或者torch.nn.parallel.deprecated.DistributedDataParallel()包装器仍比其他数据并行方法有优势，包括[torch.nn.DataParallel()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.DataParallel):
+* 每个进程都维护自己的优化器，并在每次迭代时执行完整的优化步骤。虽然这可能看似多余，但由于梯度已经聚集在一起并且在整个过程中进行平均，因此对于每个过程都是相同的，这意味着不需要参数广播步骤，从而减少了在节点之间传输张量所花费的时间
+* 每个进程都包含一个独立的Python解释器，消除了额外的解释器开销以及来自单个Python进程驱动多个执行单元、模型副本或者GPUs的“GIL-thrashing”
+
+## 初始化
+
+在调用任何其他方法之前，需要使用[torch.distributed.deprecated.init_process_group（）](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.init_process_group)函数初始化包。这将阻止所有进程加入。
 
 
-# Distributed communication package (deprecated) - torch.distributed.deprecated
+    torch.distributed.deprecated.init_process_group(backend, init_method='env://', **kwargs)
 
-Warning
+初始化分布式包
 
-torch.distributed.deprecated is the older version of torch.distributed and currently deprecated. It will be removed soon. Please use and refer the doc for torch.distributed, which is the latest distributed communication package for PyTorch
+参数：
+* backend(str)-待使用后台的名字。取决于构建时配置有效值，包括：tco,mpi,gloo以及nccl。
+* init_method(str,optional)-指定如何初始化包的URL
+* world_size(int,optional)-参与的进程数量
+* rank(int,optional)-当前进程的等级
+* group_name(str,optional)-组名。可以参考初始化方法的描述。
 
-torch.distributed.deprecated provides an MPI-like interface for exchanging tensor data across multi-machine networks. It supports a few different backends and initialization methods.
+设置backend == mpi，需要在支持MPI的系统上用源码构建。如果您想使用支持CUDA的Open MPI，请使用Open MPI主要版本2及更高版本。
 
-Currently torch.distributed.deprecated supports four backends, each with different capabilities. The table below shows which functions are available for use with CPU / CUDA tensors. MPI supports cuda only if the implementation used to build PyTorch supports it.
+**注意**
 
-| Backend | `tcp` | `gloo` | `mpi` | `nccl` |
-| --- | --- | --- | --- | --- |
-| Device | CPU | GPU | CPU | GPU | CPU | GPU | CPU | GPU |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| send | ✓ | ✘ | ✘ | ✘ | ✓ | ? | ✘ | ✘ |
-| recv | ✓ | ✘ | ✘ | ✘ | ✓ | ? | ✘ | ✘ |
-| broadcast | ✓ | ✘ | ✓ | ✓ | ✓ | ? | ✘ | ✓ |
-| all_reduce | ✓ | ✘ | ✓ | ✓ | ✓ | ? | ✘ | ✓ |
-| reduce | ✓ | ✘ | ✘ | ✘ | ✓ | ? | ✘ | ✓ |
-| all_gather | ✓ | ✘ | ✘ | ✘ | ✓ | ? | ✘ | ✓ |
-| gather | ✓ | ✘ | ✘ | ✘ | ✓ | ? | ✘ | ✘ |
-| scatter | ✓ | ✘ | ✘ | ✘ | ✓ | ? | ✘ | ✘ |
-| barrier | ✓ | ✘ | ✓ | ✓ | ✓ | ? | ✘ | ✘ |
+此方法初始化CUDA上下文。 因此，如果多个进程在单个计算机上运行但使用不同的GPU，请确保在此方法之前使用[torch.cuda.set_device（）](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/cuda.html#torch.cuda.set_device)以避免在第一个可见设备上不必要地创建上下文。
 
-## Basics
+    torch.distributed.deprecated.get_rank()
 
-The `torch.distributed.deprecated` package provides PyTorch support and communication primitives for multiprocess parallelism across several computation nodes running on one or more machines. The class `torch.nn.parallel.deprecated.DistributedDataParallel()` builds on this functionality to provide synchronous distributed training as a wrapper around any PyTorch model. This differs from the kinds of parallelism provided by [Multiprocessing package - torch.multiprocessing](multiprocessing.html) and [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel") in that it supports multiple network-connected machines and in that the user must explicitly launch a separate copy of the main training script for each process.
+返回当前进程的等级。Rank是分配给分布式组中每个进程的唯一标识符。 它们总是连续的整数，范围从0到world_size  -  1（包括）。
 
-In the single-machine synchronous case, `torch.distributed.deprecated` or the `torch.nn.parallel.deprecated.DistributedDataParallel()` wrapper may still have advantages over other approaches to data-parallelism, including [`torch.nn.DataParallel()`](nn.html#torch.nn.DataParallel "torch.nn.DataParallel"):
+    torch.distributed.deprecated.get_world_size()
 
-*   Each process maintains its own optimizer and performs a complete optimization step with each iteration. While this may appear redundant, since the gradients have already been gathered together and averaged across processes and are thus the same for every process, this means that no parameter broadcast step is needed, reducing time spent transferring tensors between nodes.
-*   Each process contains an independent Python interpreter, eliminating the extra interpreter overhead and “GIL-thrashing” that comes from driving several execution threads, model replicas, or GPUs from a single Python process. This is especially important for models that make heavy use of the Python runtime, including models with recurrent layers or many small components.
+返回分布式组中进程的数量。
 
-## Initialization
+当前支持三种初始化方法：
 
-The package needs to be initialized using the [`torch.distributed.deprecated.init_process_group()`](#torch.distributed.deprecated.init_process_group "torch.distributed.deprecated.init_process_group") function before calling any other methods. This blocks until all processes have joined.
+## TCP初始化
 
-```py
-torch.distributed.deprecated.init_process_group(backend, init_method='env://', **kwargs)
-```
+有两种使用TCP初始化的方法，两种方法都需要从所有进程可以访问的网络地址和所需的world_size。 第一种方法需要指定属于rank 0进程的地址。 此初始化方法要求所有进程都具有手动指定的等级。
 
-Initializes the distributed package.
-
-Parameters: 
-
-*   **backend** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – Name of the backend to use. Depending on build-time configuration valid values include: `tcp`, `mpi`, `gloo` and `nccl`.
-*   **init_method** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – URL specifying how to initialize the package.
-*   **world_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of processes participating in the job.
-*   **rank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Rank of the current process.
-*   **group_name** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – Group name. See description of init methods.
+或者，地址必须是有效的IP多播地址，在这种情况下，可以自动分配等级。 多播初始化还支持group_name参数，该参数允许您为多个作业使用相同的地址，只要它们使用不同的组名称即可。
 
 
+    import torch.distributed.deprecated as dist
 
-To enable `backend == mpi`, PyTorch needs to built from source on a system that supports MPI. If you want to use Open MPI with CUDA-aware support, please use Open MPI major version 2 and above.
+    #Use address of one of the machines
+    dist.init_process_group(backend, init_method='tcp://10.1.1.20:23456', rank=args.rank, world_size=4)
 
-Note
+    #or a multicast address - rank will be assigned automatically if unspecified
+    dist.init_process_group(backend,init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b0a7]:23456',world_size=4)
 
-This method initializes CUDA context. Therefore, if multiple processes run on a single machine but use different GPUs, make sure to use [`torch.cuda.set_device()`](cuda.html#torch.cuda.set_device "torch.cuda.set_device") before this method to avoid unnecessarily creating context on the first visible device.
+## 共享文件系统初始化
 
-```py
-torch.distributed.deprecated.get_rank()
-```
+另一种初始化方法使用从组中的所有机器共享和可见的文件系统，以及期望的world_size。 URL应以file：//开头，并包含共享文件系统上不存在的文件（在现有目录中）的路径。 此初始化方法还支持group_name参数，该参数允许您为多个作业使用相同的共享文件路径，只要它们使用不同的组名称即可。
 
-Returns the rank of current process.
+**警告**
 
-Rank is a unique identifier assigned to each process within a distributed group. They are always consecutive integers ranging from `0` to `world_size - 1` (inclusive).
+此方法假定文件系统支持使用fcntl进行锁定 - 大多数本地系统和NFS都支持它
 
-```py
-torch.distributed.deprecated.get_world_size()
-```
+    import torch.distributed.deprecated as dist
 
-Returns the number of processes in the distributed group.
-
-* * *
-
-Currently three initialization methods are supported:
-
-### TCP initialization
-
-There are two ways to initialize using TCP, both requiring a network address reachable from all processes and a desired `world_size`. The first way requires specifying an address that belongs to the rank 0 process. This initialization method requires that all processes have manually specified ranks.
-
-Alternatively, the address has to be a valid IP multicast address, in which case ranks can be assigned automatically. Multicast initialization also supports a `group_name` argument, which allows you to use the same address for multiple jobs, as long as they use different group names.
-
-```py
-import torch.distributed.deprecated as dist
-
-# Use address of one of the machines
-dist.init_process_group(backend, init_method='tcp://10.1.1.20:23456', rank=args.rank, world_size=4)
-
-# or a multicast address - rank will be assigned automatically if unspecified
-dist.init_process_group(backend, init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b0a7]:23456',
-                        world_size=4)
-
-```
-
-### Shared file-system initialization
-
-Another initialization method makes use of a file system that is shared and visible from all machines in a group, along with a desired `world_size`. The URL should start with `file://` and contain a path to a non-existent file (in an existing directory) on a shared file system. This initialization method also supports a `group_name` argument, which allows you to use the same shared file path for multiple jobs, as long as they use different group names.
-
-Warning
-
-This method assumes that the file system supports locking using `fcntl` - most local systems and NFS support it.
-
-```py
-import torch.distributed.deprecated as dist
-
-# Rank will be assigned automatically if unspecified
-dist.init_process_group(backend, init_method='file:///mnt/nfs/sharedfile',
+    #Rank will be assigned automatically if unspecified
+    dist.init_process_group(backend, init_method='file:///mnt/nfs/sharedfile',
                         world_size=4, group_name=args.group)
 
-```
+## 环境变量初始化
 
-### Environment variable initialization
+此方法将从环境变量中读取配置，从而可以完全自定义信息的获取方式。 要设置的变量是：
 
-This method will read the configuration from environment variables, allowing one to fully customize how the information is obtained. The variables to be set are:
+* MASTER_PORT-必要；必须是机器上的自由端口且等级为0
+* MASTER_ADDR-必要（除非等级为0）；等级为0的节点的地址
+* WORLD_SIZE-必要；可以在这里设置，也可以在调用初始化函数中
+* RANK-必要；可以在这里设置，也可以在调用初始化函数中
 
-*   `MASTER_PORT` - required; has to be a free port on machine with rank 0
-*   `MASTER_ADDR` - required (except for rank 0); address of rank 0 node
-*   `WORLD_SIZE` - required; can be set either here, or in a call to init function
-*   `RANK` - required; can be set either here, or in a call to init function
+等级为0的机器将用于设置所有连接。
 
-The machine with rank 0 will be used to set up all connections.
+这是默认方法，这意味着不必指定init_method（或者可以是env：//）。
 
-This is the default method, meaning that `init_method` does not have to be specified (or can be `env://`).
+## 组
 
-## Groups
+默认情况下，集合体在默认组（也称为世界）上运行，并要求所有进程都进入分布式函数调用。但是，一些工作负载可以从更细粒度的通信中受益。 这是分布式群体发挥作用的地方。[new_group()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.new_group)函数可以用来创建具有所有进程的任意子集的新组。它返回一个不透明的组句柄，可以作为所有集合体的组参数给出（集合体是分布式函数，用于在某些众所周知的编程模式中交换信息）。
 
-By default collectives operate on the default group (also called the world) and require all processes to enter the distributed function call. However, some workloads can benefit from more fine-grained communication. This is where distributed groups come into play. [`new_group()`](#torch.distributed.deprecated.new_group "torch.distributed.deprecated.new_group") function can be used to create new groups, with arbitrary subsets of all processes. It returns an opaque group handle that can be given as a `group` argument to all collectives (collectives are distributed functions to exchange information in certain well-known programming patterns).
+    torch.distributed.deprecated.new_group(ranks=None)
 
-```py
-torch.distributed.deprecated.new_group(ranks=None)
-```
+创建一个新的分布式组。
 
-Creates a new distributed group.
+此功能要求主组中的所有进程（即，作为分布式作业一部分的所有进程）都进入此功能，即使它们不是该组的成员也是如此。 此外，应在所有进程中以相同的顺序创建组。
 
-This function requires that all processes in the main group (i.e., all processes that are part of the distributed job) enter this function, even if they are not going to be members of the group. Additionally, groups should be created in the same order in all processes.
+![rank](img/rank.png)
 
-| Parameters: | **ranks** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_]_) – List of ranks of group members. |
-| --- | --- |
-| Returns: | A handle of distributed group that can be given to collective calls. |
-| --- | --- |
+## 点到点通讯
 
-## Point-to-point communication
+    torch.distributed.deprecated.send(tensor, dst)
 
-```py
-torch.distributed.deprecated.send(tensor, dst)
-```
+同步发送张量。
 
-Sends a tensor synchronously.
+参数：
 
-Parameters: 
+* tensor(Tensor)-接受数据的张量
+* dst(int)-目的等级
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
+    orch.distributed.deprecated.recv(tensor, src=None)
 
+同步接收张量。
 
+参数：
 
-```py
-torch.distributed.deprecated.recv(tensor, src=None)
-```
+* tensor(Tensor)-接收数据的张量
+* src(int,optional)-源等级，如果未指定，将会接受任意进程的数据
 
-Receives a tensor synchronously.
+![sender](img/Sender.png)
 
-Parameters: 
+[isend（）](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.isend)和[irecv（）](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.irecv)在使用时返回分布式请求对象。 通常，此对象的类型未指定，因为它们永远不应手动创建，但它们保证支持两种方法：
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Source rank. Will receive from any process if unspecified.
+* is_completed()-操作完成返回真
+* wait()-将阻止该过程，直到操作完成。 is_completed（）保证一旦返回就返回True。
 
+当使用MPI后台时，[isend()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.isend)和[irecv()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.irecv)支持非插队特性，这样可以保证信息的顺序。关于更多细节，请访问 http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54
 
-| Returns: | Sender rank. |
-| --- | --- |
+    torch.distributed.deprecated.isend(tensor, dst)
 
-[`isend()`](#torch.distributed.deprecated.isend "torch.distributed.deprecated.isend") and [`irecv()`](#torch.distributed.deprecated.irecv "torch.distributed.deprecated.irecv") return distributed request objects when used. In general, the type of this object is unspecified as they should never be created manually, but they are guaranteed to support two methods:
+异步发送张量。
 
-*   `is_completed()` - returns True if the operation has finished
-*   `wait()` - will block the process until the operation is finished. `is_completed()` is guaranteed to return True once it returns.
+参数：
 
-When using the MPI backend, [`isend()`](#torch.distributed.deprecated.isend "torch.distributed.deprecated.isend") and [`irecv()`](#torch.distributed.deprecated.irecv "torch.distributed.deprecated.irecv") support non-overtaking, which has some guarantees on supporting message order. For more detail, see [http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54](http://mpi-forum.org/docs/mpi-2.2/mpi22-report/node54.htm#Node54)
+* tensor(Tensor)-发送的张量
+* dst(int)-目的等级
 
-```py
-torch.distributed.deprecated.isend(tensor, dst)
-```
+![dis](img/distributed.png)
 
-Sends a tensor asynchronously.
+    torch.distributed.deprecated.irecv(tensor, src)
 
-Parameters: 
+异步接收张量
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to send.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank.
+参数：
 
+* tensor(Tensor)-接收数据的张量
+* src(int)-源等级
 
-| Returns: | A distributed request object. |
-| --- | --- |
+![dis](img/distributed.png)
 
-```py
-torch.distributed.deprecated.irecv(tensor, src)
-```
+## 集体函数
 
-Receives a tensor asynchronously.
+    torch.distributed.deprecated.broadcast(tensor, src, group=<object object>)
 
-Parameters: 
+将张量广播到整个组。
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to fill with received data.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
+tensor必须在参与集合体的所有过程中具有相同数量的元素。
 
+参数：
 
-| Returns: | A distributed request object. |
-| --- | --- |
+* tensor(Tensor)-如果src是当前进程的等级，则发送数据，否则张量则用于保存接收的数据。
+* src(int)-源等级
+* group(optional)-整体的组
 
-## Collective functions
 
-```py
-torch.distributed.deprecated.broadcast(tensor, src, group=<object object>)
-```
+    torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
 
-Broadcasts the tensor to the whole group.
+减少所有机器上的张量数据，以便获得最终结果。
 
-`tensor` must have the same number of elements in all processes participating in the collective.
+在所有进程中调用张量将按位相同。
 
-Parameters: 
+参数：
+* tensor(Tensor)-集体的输入和输出，该函数原地运行
+* op(optional)-一个来自torch.distributed.deprecated.reduce_op枚举的值。指定一个操作用于逐元素减少
+* group(optional)-整体的组
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Data to be sent if `src` is the rank of current process, and tensor to be used to save received data otherwise.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
-*   **group** (_optional_) – Group of the collective.
 
+    torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)  
 
+减少所有机器的张量数据。
 
-```py
-torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
-```
+只有等级为dst的进程将接收最终结果。
 
-Reduces the tensor data across all machines in such a way that all get the final result.
+参数：
 
-After the call `tensor` will be bitwise identical in all processes.
+* tensor(tensor)-集体的输入和输出，该函数原地运行
+* dst(int)-目的等级
+* op(optional)-一个来自torch.distributed.deprecated.reduce_op枚举的值。指定一个操作用于逐元素减少
+* group(optional)-整体的组
 
-Parameters: 
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
-*   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_optional_) – Group of the collective.
+    torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
 
+从列表中收集整个组的张量。
 
+参数：
+* tensor_list(list[Tensor])-输出列表。它包括用来作为整体输出的正确尺寸的张量。
+* tensor(tensor)-在当前进程进行广播的张量
+* group(optional)-整体的组
 
-```py
-torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)
-```
 
-Reduces the tensor data across all machines.
+    torch.distributed.deprecated.gather(tensor, **kwargs)
 
-Only the process with rank `dst` is going to receive the final result.
+从单个进程中收集张量列表。
 
-Parameters: 
+参数：
+* tensor(Tensor)-输入的张量
+* dst(int)-目的等级。除了接收数据的进程外，其余进程都需要这个值
+* gather_list(list[Tensor])-用于接收数据的适当大小的张量列表。 仅在接收进程中需要。
+* group(optional)-整体的组
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input and output of the collective. The function operates in-place.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
-*   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_optional_) – Group of the collective.
 
+    torch.distributed.deprecated.scatter(tensor, **kwargs)
 
+将张量列表分散到组中的所有进程。
 
-```py
-torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
-```
+每个进程将只接收一个张量并将其数据存储在tensor参数中。
 
-Gathers tensors from the whole group in a list.
+参数：
+* tensor（Tensor） - 输出张量。
+* src（int） - 源排名。除发送数据的进程外，在所有进程中都是必需的。
+* scatter_list（list [ Tensor ]） - 要分散的张量列表。仅在发送数据的过程中需要。
+* group(optional)-整体的组
 
-Parameters: 
 
-*   **tensor_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Output list. It should contain correctly-sized tensors to be used for output of the collective.
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor to be broadcast from current process.
-*   **group** (_optional_) – Group of the collective.
+    torch.distributed.deprecated.barrier（group = < object  object >）
 
+    同步所有进程。
 
+    此集合会阻止进程，直到整个组进入此函数。
 
-```py
-torch.distributed.deprecated.gather(tensor, **kwargs)
-```
+![para](img/para.png)
 
-Gathers a list of tensors in a single process.
+## 多GPU整体函数
 
-Parameters: 
+如果每个节点上有多个GPU，则在使用NCCL后端时，支持每个节点内多个GPU之间的分布式集合操作。这些函数可以潜在地提高整体分布式训练性能，并通过传递张量列表轻松使用。传递的张量列表中的每个Tensor需要位于调用该函数的主机的单独GPU设备上。请注意，张量列表的长度在所有分布式进程中需要相同。另请注意，目前只有NCCL后端支持多GPU整体函数。[broadcast_multigpu()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.broadcast_multigpu)[all_reduce_multigpu()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.all_reduce_multigpu)[reduce_multigpu()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.reduce_multigpu)[all_gather_multigpu()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/distributed_deprecated.md#torch.distributed.deprecated.all_gather_multigpu)
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Input tensor.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank. Required in all processes except the one that is receiveing the data.
-*   **gather_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of appropriately-sized tensors to use for received data. Required only in the receiving process.
-*   **group** (_optional_) – Group of the collective.
+例如，如果我们用于分布式培训的系统有2个节点，每个节点有8个GPU。在16个GPU中的每一个上，都有一个我们希望减少的张量。以下代码可以作为参考：
 
+代码在节点0上运行：
 
+    import torch
+    import torch.distributed.deprecated as dist
 
-```py
-torch.distributed.deprecated.scatter(tensor, **kwargs)
-```
+    dist.init_process_group(backend="nccl",
+                            init_method="file:///distributed_test",
+                            world_size=2,
+                            rank=0)
+    tensor_list = []
+    for dev_idx in range(torch.cuda.device_count()):
+        tensor_list.append(torch.FloatTensor([1]).cuda(dev_idx))
 
-Scatters a list of tensors to all processes in a group.
+    dist.all_reduce_multigpu(tensor_list)
 
-Each process will receive exactly one tensor and store its data in the `tensor` argument.
+代码在节点1上运行：
 
-Parameters: 
+    import torch
+    import torch.distributed.deprecated as dist
 
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Output tensor.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank. Required in all processes except the one that is sending the data.
-*   **scatter_list** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")_[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors to scatter. Required only in the process that is sending the data.
-*   **group** (_optional_) – Group of the collective.
+    dist.init_process_group(backend="nccl",
+                            init_method="file:///distributed_test",
+                            world_size=2,
+                            rank=1)
+    tensor_list = []
+    for dev_idx in range(torch.cuda.device_count()):
+        tensor_list.append(torch.FloatTensor([1]).cuda(dev_idx))
 
+    dist.all_reduce_multigpu(tensor_list)
 
+调用结束后，两个节点上的16个张量均具有16的全减值。
 
-```py
-torch.distributed.deprecated.barrier(group=<object object>)
-```
+    torch.distributed.deprecated.broadcast_multigpu(tensor_list, src, group=<object object>)
 
-Synchronizes all processes.
+使用每个节点多个GPU张量将张量广播到整个组。
 
-This collective blocks processes until the whole group enters this function.
+tensor必须在参与集合体的所有进程的所有GPU中具有相同数量的元素。列表中的每个张量必须位于不同的GPU上。
 
-| Parameters: | **group** (_optional_) – Group of the collective. |
-| --- | --- |
+**注意**
 
-## Multi-GPU collective functions
+目前仅支持NCCL后端。tensor_list应该只包含GPU张量。
 
-If you have more than one GPU on each node, when using the NCCL backend, [`broadcast_multigpu()`](#torch.distributed.deprecated.broadcast_multigpu "torch.distributed.deprecated.broadcast_multigpu") [`all_reduce_multigpu()`](#torch.distributed.deprecated.all_reduce_multigpu "torch.distributed.deprecated.all_reduce_multigpu") [`reduce_multigpu()`](#torch.distributed.deprecated.reduce_multigpu "torch.distributed.deprecated.reduce_multigpu") and [`all_gather_multigpu()`](#torch.distributed.deprecated.all_gather_multigpu "torch.distributed.deprecated.all_gather_multigpu") support distributed collective operations among multiple GPUs within each node. These functions can potentially improve the overall distributed training performance and be easily used by passing a list of tensors. Each Tensor in the passed tensor list needs to be on a separate GPU device of the host where the function is called. Note that the length of the tensor list needs to be identical among all the distributed processes. Also note that currently the multi-GPU collective functions are only supported by the NCCL backend.
+参数：
+* tensor_list（List _ [ Tensor ] _) - 整体的输入和输出张量列表。该函数原地运行，并要求每个张量在不同的GPU上为GPU张量。您还需要确保len(tensor_list)调用此函数的所有分布式进程都是相同的。
+*  op（optional） - torch.distributed.deprecated.reduce_op枚举中的一个值。指定用于逐元素减少的操作。
+* group(optional)-整体的组
 
-For example, if the system we use for distributed training has 2 nodes, each of which has 8 GPUs. On each of the 16 GPUs, there is a tensor that we would like to all-reduce. The following code can serve as a reference:
 
-Code running on Node 0
+    torch.distributed.deprecated.reduce_multigpu（tensor_list，dst，op = < object  object >，group = < object  object >）
 
-```py
-import torch
-import torch.distributed.deprecated as dist
 
-dist.init_process_group(backend="nccl",
-                        init_method="file:///distributed_test",
-                        world_size=2,
-                        rank=0)
-tensor_list = []
-for dev_idx in range(torch.cuda.device_count()):
-    tensor_list.append(torch.FloatTensor([1]).cuda(dev_idx))
+减少所有计算机上多个GPU的张量数据。每个张量：attr tensor_list应该驻留在一个单独的GPU上。
 
-dist.all_reduce_multigpu(tensor_list)
+只有tensor_list[0]的GPU上的等级为dst的进程可以接收最终值。
 
-```
+**注意**
 
-Code running on Node 1
+目前仅支持NCCL后端。tensor_list应该只包含GPU张量。
 
-```py
-import torch
-import torch.distributed.deprecated as dist
+参数：
+* tensor_list（List _ [ Tensor ] _) -整体的输入和输出张量列表。该函数原地运行，并要求每个张量在不同的GPU上为GPU张量。您还需要确保len(tensor_list)调用此函数的所有分布式进程都是相同的。
+* dst(int)-目的等级
+* op（optional） - torch.distributed.deprecated.reduce_op枚举中的一个值。指定用于逐元素减少的操作。
+* group(optional)-整体的组
 
-dist.init_process_group(backend="nccl",
-                        init_method="file:///distributed_test",
-                        world_size=2,
-                        rank=1)
-tensor_list = []
-for dev_idx in range(torch.cuda.device_count()):
-    tensor_list.append(torch.FloatTensor([1]).cuda(dev_idx))
 
-dist.all_reduce_multigpu(tensor_list)
+    torch.distributed.deprecated.all_gather_multigpu（output_tensor_lists，input_tensor_list，group = < object  object >）
 
-```
+从列表中收集整个组的张量。每个张量input_tensor_list应位于单独的GPU上。
 
-After the call, all 16 tensors on the two nodes will have the all-reduced value of 16
+**注意**
 
-```py
-torch.distributed.deprecated.broadcast_multigpu(tensor_list, src, group=<object object>)
-```
+目前仅支持NCCL后端。output_tensor_lists和input_tensor_list应该只包含GPU张量。
 
-Broadcasts the tensor to the whole group with multiple GPU tensors per node.
+参数：
+* output_tensor_lists（List _ [ List [ Tensor ] __] _） - 输出列表。它应该在每个GPU上包含正确大小的张量，以用于整体的输出。例如，output_tensor_lists[i]包含驻留在GPU上的all_gather结果input_tensor_list[i]。请注意，每个元素output_tensor_lists[i]的大小都是world_size * len(input_tensor_list)，因为函数都会从组中的每个GPU中收集结果。为了解释每个元素output_tensor_list[i]，请注意input_tensor_list[j]等级k将出现在output_tensor_list[i][rank * world_size + j]另外注意len(output_tensor_lists)，并且因此，每个元素的大小output_tensor_lists（每个元素是一个列表len(output_tensor_lists[i])）对于调用此函数的所有分布式进程都需要相同。
+* input_tensor_list（List _ [ Tensor ] _） - 要从当前进程广播的张量列表（在不同的GPU上）。请注意，len(input_tensor_list)调用此函数的所有分布式进程需要相同。
+* group(optional)-整体的组
 
-`tensor` must have the same number of elements in all the GPUs from all processes participating in the collective. each tensor in the list must be on a different GPU.
+## 启动实用程序
 
-Note
+该torch.distributed.deprecated软件包还提供了一个启动实用程序torch.distributed.deprecated.launch。
 
-Only NCCL backend is currently supported. `tensor_list` should only contain GPU tensors.
+torch.distributed.launch 是一个模块，它在每个训练节点上产生多个分布式训练过程。
 
-Parameters: 
+该实用程序可用于单节点分布式训练，其中将生成每个节点的一个或多个进程。该应用程序可以用CPU或者GPU训练。这可以实现良好改进的单节点训练性能。它还可以用于多节点分布式训练，通过在每个节点上产生多个进程来获得良好改进的多节点分布式训练性能。这对于具有多个具有直接GPU支持的Infiniband接口的系统尤其有利，因为所有这些接口都可用于聚合通信带宽。
 
-*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Tensors that participate in the collective operation. if `src` is the rank, then the first element of `tensor_list` (`tensor_list[0]`) will be broadcasted to all other tensors (on different GPUs) in the src process and all tensors in `tensor_list` of other non-src processes. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
-*   **src** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Source rank.
-*   **group** (_optional_) – Group of the collective.
+在单节点分布式训练或多节点分布式训练的两种情况下，该实用程序将为每个节点启动给定数量的进程（--nproc_per_node）。如果用于GPU训练，则此数字需要小于或等于当前系统上的GPU数量（nproc_per_node），并且每个进程将在GPU 0到GPU（nproc_per_node - 1）的单个GPU上运行。
 
+### 如何使用这个模块：
+1. 单节点多进程分布式训练
 
 
-```py
-torch.distributed.deprecated.all_reduce_multigpu(tensor_list, op=<object object>, group=<object object>)
-```
+‘’‘python
+<<<python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
+YOUR_TRAINING_SCRIPT.py(--arg1 --arg2 --arg3 and all other arguments of your training script)
+'''
 
-Reduces the tensor data across all machines in such a way that all get the final result. This function reduces a number of tensors on every node, while each tensor resides on a different GPU. Therefore, the input tensor in the tensor list needs to be GPU tensors. Also, each tensor in the tensor list needs to reside on a different GPU.
+1. 多节点多进程分布式训练:(比如，两个节点)
 
-After the call, all tensors in `tensor_list` will be bitwise identical in all processes.
 
-Note
-
-Only NCCL backend is currently supported. `tensor_list` should only contain GPU tensors.
-
-Parameters: 
-
-*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of input and output tensors of the collective. The function operates in-place and requires that each tensor to be a GPU tensor on different GPUs. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
-*   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_optional_) – Group of the collective.
-
-
-
-```py
-torch.distributed.deprecated.reduce_multigpu(tensor_list, dst, op=<object object>, group=<object object>)
-```
-
-Reduces the tensor data on multiple GPUs across all machines. Each tensor in :attr`tensor_list` should reside on a separate GPU.
-
-Only the GPU of `tensor_list[0]` on the process with rank `dst` is going to receive the final result.
-
-Note
-
-Only NCCL backend is currently supported. `tensor_list` should only contain GPU tensors.
-
-Parameters: 
-
-*   **tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – Input and output GPU tensors of the collective. The function operates in-place. You also need to make sure that `len(tensor_list)` is the same for all the distributed processes calling this function.
-*   **dst** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Destination rank
-*   **op** (_optional_) – One of the values from `torch.distributed.deprecated.reduce_op` enum. Specifies an operation used for element-wise reductions.
-*   **group** (_optional_) – Group of the collective.
-
-
-
-```py
-torch.distributed.deprecated.all_gather_multigpu(output_tensor_lists, input_tensor_list, group=<object object>)
-```
-
-Gathers tensors from the whole group in a list. Each tensor in `input_tensor_list` should reside on a separate GPU.
-
-Note
-
-Only NCCL backend is currently supported. `output_tensor_lists` and `input_tensor_list` should only contain GPU tensors.
-
-Parameters: 
-
-*   **output_tensor_lists** (_List__[__List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]__]_) – Output lists. It should contain correctly-sized tensors on each GPU to be used for output of the collective. e.g. `output_tensor_lists[i]` contains the all_gather result that resides on the GPU of `input_tensor_list[i]`. Note that each element of `output_tensor_lists[i]` has the size of `world_size * len(input_tensor_list)`, since the function all gathers the result from every single GPU in the group. To interpret each element of `output_tensor_list[i]`, note that `input_tensor_list[j]` of rank k will be appear in `output_tensor_list[i][rank * world_size + j]` Also note that `len(output_tensor_lists)`, and the size of each element in `output_tensor_lists` (each element is a list, therefore `len(output_tensor_lists[i])`) need to be the same for all the distributed processes calling this function.
-*   **input_tensor_list** (_List__[_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_]_) – List of tensors (on different GPUs) to be broadcast from current process. Note that `len(input_tensor_list)` needs to be the same for all the distributed processes calling this function.
-*   **group** (_optional_) – Group of the collective.
-
-
-
-## Launch utility
-
-The `torch.distributed.deprecated` package also provides a launch utility in `torch.distributed.deprecated.launch`.
-
-`torch.distributed.launch` is a module that spawns up multiple distributed training processes on each of the training nodes.
-
-The utility can be used for single-node distributed training, in which one or more processes per node will be spawned. The utility can be used for either CPU training or GPU training. If the utility is used for GPU training, each distributed process will be operating on a single GPU. This can achieve well-improved single-node training performance. It can also be used in multi-node distributed training, by spawning up multiple processes on each node for well-improved multi-node distributed training performance as well. This will especially be benefitial for systems with multiple Infiniband interfaces that have direct-GPU support, since all of them can be utilized for aggregated communication bandwidth.
-
-In both cases of single-node distributed training or multi-node distributed training, this utility will launch the given number of processes per node (`--nproc_per_node`). If used for GPU training, this number needs to be less or euqal to the number of GPUs on the current system (`nproc_per_node`), and each process will be operating on a single GPU from _GPU 0 to GPU (nproc_per_node - 1)_.
-
-**How to use this module:**
-
-1.  Single-Node multi-process distributed training
-
-```py
->>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
- YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3 and all other
- arguments of your training script)
-
-```
-
-1.  Multi-Node multi-process distributed training: (e.g. two nodes)
-
-Node 1: _(IP: 192.168.1.1, and has a free port: 1234)_
-
-```py
+节点1：(IP:192.168.1.1,一个自由接口：1234)
+'''python
 >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
  --nnodes=2 --node_rank=0 --master_addr="192.168.1.1"
  --master_port=1234 YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3
  and all other arguments of your training script)
+'''
 
-```
-
-Node 2:
-
-```py
+节点2：
+'''python
 >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
  --nnodes=2 --node_rank=1 --master_addr="192.168.1.1"
  --master_port=1234 YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3
  and all other arguments of your training script)
+ '''
 
-```
+ 1. 要查找此模块提供的可选参数：
 
-1.  To look up what optional arguments this module offers:
 
-```py
->>> python -m torch.distributed.launch --help
+    >>> python -m torch.distributed.launch --help
 
-```
 
-**Important Notices:**
+**重要提示**
 
-1\. This utilty and multi-process distributed (single-node or multi-node) GPU training currently only achieves the best performance using the NCCL distributed backend. Thus NCCL backend is the recommended backend to use for GPU training.
+1. 此实用和多进程分布式（单节点或多节点）GPU训练目前仅使用NCCL分布式后端实现最佳性能。因此，NCCL后端是用于GPU训练的推荐后端。
+2. 在训练程序中，必须解析命令行参数：--local_rank=LOCAL_PROCESS_RANK，该参数将由此模块提供。如果您的训练计划使用GPU，则应确保您的代码仅在LOCAL_PROCESS_RANK的GPU设备上运行。这可以通过以下方式完成：
 
-2\. In your training program, you must parse the command-line argument: `--local_rank=LOCAL_PROCESS_RANK`, which will be provided by this module. If your training program uses GPUs, you should ensure that your code only runs on the GPU device of LOCAL_PROCESS_RANK. This can be done by:
+解析local_rank参数
 
-Parsing the local_rank argument
+    >>> import argparse
+    >>> parser = argparse.ArgumentParser()
+    >>> parser.add_argument("--local_rank", type=int)
+    >>> args = parser.parse_args()
 
-```py
->>> import argparse
->>> parser = argparse.ArgumentParser()
->>> parser.add_argument("--local_rank", type=int)
->>> args = parser.parse_args()
+使用其中一个将您的设备设置为本地等级
 
-```
+    >>> torch.cuda.set_device(arg.local_rank)  # before your code runs
 
-Set your device to local rank using either
+或
 
-```py
->>> torch.cuda.set_device(arg.local_rank)  # before your code runs
+    >>> with torch.cuda.device(arg.local_rank):
+    >>>    # your code to run
 
-```
+3. 在训练程序中，您应该在开始时调用以下函数来启动分布式后端。您需要确保init_method使用env://，这是init_method此模块唯一支持的。
 
-or
 
-```py
->>> with torch.cuda.device(arg.local_rank):
->>>    # your code to run
-
-```
-
-3\. In your training program, you are supposed to call the following function at the beginning to start the distributed backend. You need to make sure that the init_method uses `env://`, which is the only supported `init_method` by this module.
-
-```py
-torch.distributed.init_process_group(backend='YOUR BACKEND',
+    torch.distributed.init_process_group(backend='YOUR BACKEND',
                                      init_method='env://')
 
-```
+4. 在你的训练程序中，你可以选择常规分布式函数或使用[torch.nn.parallel.DistributedDataParallel()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.parallel.DistributedDataParallel)。如果计划使用GPU训练，并且您希望使用[torch.nn.parallel.DistributedDataParallel()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.parallel.DistributedDataParallel)模块，以下是如何配置它。
 
-4\. In your training program, you can either use regular distributed functions or use [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") module. If your training program uses GPUs for training and you would like to use [`torch.nn.parallel.DistributedDataParallel()`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel") module, here is how to configure it.
 
-```py
-model = torch.nn.parallel.DistributedDataParallel(model,
-                                                  device_ids=[arg.local_rank],
-                                                  output_device=arg.local_rank)
+    model = torch.nn.parallel.DistributedDataParallel（model，
+                                                       device_ids = [arg.local_rank]，
+                                                       output_device = arg.local_rank）
 
-```
+请确保将device_ids参数设置为您的代码将在其上运行的唯一GPU设备ID。这通常是程序的本地排名。换句话说，为了使用这个实用程序，device_ids需要是[args.local_rank]，并且output_device需要是args.local_rank。
 
-Please ensure that `device_ids` argument is set to be the only GPU device id that your code will be operating on. This is generally the local rank of the process. In other words, the `device_ids` needs to be `[args.local_rank]`, and `output_device` needs to be `args.local_rank` in order to use this utility
+**警告**
 
-Warning
-
-`local_rank` is NOT globally unique: it is only unique per process on a machine. Thus, don’t use it to decide if you should, e.g., write to a networked filesystem. See [https://github.com/pytorch/pytorch/issues/12042](https://github.com/pytorch/pytorch/issues/12042) for an example of how things can go wrong if you don’t do this correctly.
-
+local_rank并非全局唯一：它在计算机上的每个进程唯一。因此，不要使用它来决定是否应该写入网络文件系统。有关如何正确执行此操作可能出错的示例，请参阅https://github.com/pytorch/pytorch/issues/12042。
