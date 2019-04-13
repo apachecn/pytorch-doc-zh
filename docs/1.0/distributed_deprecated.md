@@ -335,30 +335,27 @@ torch.distributed.launch 是一个模块，它在每个训练节点上产生多�
 ### 如何使用这个模块：
 1. 单节点多进程分布式训练
 
+    <<<python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
+    YOUR_TRAINING_SCRIPT.py(--arg1 --arg2 --arg3 and all other arguments of your training script)
 
-‘’‘python
-<<<python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
-YOUR_TRAINING_SCRIPT.py(--arg1 --arg2 --arg3 and all other arguments of your training script)
-'''
 
 1. 多节点多进程分布式训练:(比如，两个节点)
 
 
 节点1：(IP:192.168.1.1,一个自由接口：1234)
-'''python
->>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
- --nnodes=2 --node_rank=0 --master_addr="192.168.1.1"
- --master_port=1234 YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3
- and all other arguments of your training script)
-'''
+
+    >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
+    --nnodes=2 --node_rank=0 --master_addr="192.168.1.1"
+    --master_port=1234 YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3
+    and all other arguments of your training script)
+
 
 节点2：
-'''python
->>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
- --nnodes=2 --node_rank=1 --master_addr="192.168.1.1"
- --master_port=1234 YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3
- and all other arguments of your training script)
- '''
+
+    >>> python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
+     --nnodes=2 --node_rank=1 --master_addr="192.168.1.1"
+     --master_port=1234 YOUR_TRAINING_SCRIPT.py (--arg1 --arg2 --arg3
+    and all other arguments of your training script)
 
  1. 要查找此模块提供的可选参数：
 
