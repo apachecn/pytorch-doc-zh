@@ -114,7 +114,7 @@ torch.distributed.deprecated为在一台或多台机器上运行的多个计算�
 * tensor(Tensor)-接受数据的张量
 * dst(int)-目的等级
 
-    orch.distributed.deprecated.recv(tensor, src=None)
+      orch.distributed.deprecated.recv(tensor, src=None)
 
 同步接收张量。
 
@@ -397,13 +397,13 @@ torch.distributed.launch 是一个模块，它在每个训练节点上产生多�
 3. 在训练程序中，您应该在开始时调用以下函数来启动分布式后端。您需要确保init_method使用env://，这是init_method此模块唯一支持的。
 
 
-    torch.distributed.init_process_group(backend='YOUR BACKEND',
+       torch.distributed.init_process_group(backend='YOUR BACKEND',
                                      init_method='env://')
 
 4. 在你的训练程序中，你可以选择常规分布式函数或使用[torch.nn.parallel.DistributedDataParallel()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.parallel.DistributedDataParallel)。如果计划使用GPU训练，并且您希望使用[torch.nn.parallel.DistributedDataParallel()](https://github.com/luxinfeng/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.parallel.DistributedDataParallel)模块，以下是如何配置它。
 
 
-    model = torch.nn.parallel.DistributedDataParallel（model，
+       model = torch.nn.parallel.DistributedDataParallel（model，
                                                        device_ids = [arg.local_rank]，
                                                        output_device = arg.local_rank）
 
