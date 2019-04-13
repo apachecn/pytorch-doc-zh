@@ -169,7 +169,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
+      torch.distributed.deprecated.all_reduce(tensor, op=<object object>, group=<object object>)
 
 
 减少所有机器上的张量数据，以便获得最终结果。
@@ -183,7 +183,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)  
+      torch.distributed.deprecated.reduce(tensor, dst, op=<object object>, group=<object object>)  
 
 
 减少所有机器的张量数据。
@@ -198,7 +198,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
+      torch.distributed.deprecated.all_gather(tensor_list, tensor, group=<object object>)
 
 
 从列表中收集整个组的张量。
@@ -210,7 +210,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.gather(tensor, **kwargs)
+      torch.distributed.deprecated.gather(tensor, **kwargs)
 
 
 从单个进程中收集张量列表。
@@ -223,7 +223,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.scatter(tensor, **kwargs)
+      torch.distributed.deprecated.scatter(tensor, **kwargs)
 
 
 将张量列表分散到组中的所有进程。
@@ -238,7 +238,7 @@ tensor必须在参与集合体的所有过程中具有相同数量的元素。
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.barrier（group = < object  object >）
+      torch.distributed.deprecated.barrier（group = < object  object >）
 
 
 同步所有进程。
@@ -301,7 +301,7 @@ tensor必须在参与集合体的所有进程的所有GPU中具有相同数量�
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.reduce_multigpu（tensor_list，dst，op = < object  object >，group = < object  object >）
+      torch.distributed.deprecated.reduce_multigpu（tensor_list，dst，op = < object  object >，group = < object  object >）
 
 
 减少所有计算机上多个GPU的张量数据。每个张量：attr tensor_list应该驻留在一个单独的GPU上。
@@ -319,7 +319,7 @@ tensor必须在参与集合体的所有进程的所有GPU中具有相同数量�
 * group(optional)-整体的组
 
 
-    torch.distributed.deprecated.all_gather_multigpu（output_tensor_lists，input_tensor_list，group = < object  object >）
+      torch.distributed.deprecated.all_gather_multigpu（output_tensor_lists，input_tensor_list，group = < object  object >）
 
 从列表中收集整个组的张量。每个张量input_tensor_list应位于单独的GPU上。
 
@@ -345,8 +345,8 @@ torch.distributed.launch 是一个模块，它在每个训练节点上产生多�
 ### 如何使用这个模块：
 1. 单节点多进程分布式训练
 
-    <<<python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
-    YOUR_TRAINING_SCRIPT.py(--arg1 --arg2 --arg3 and all other arguments of your training script)
+       >>>python -m torch.distributed.launch --nproc_per_node=NUM_GPUS_YOU_HAVE
+       YOUR_TRAINING_SCRIPT.py(--arg1 --arg2 --arg3 and all other arguments of your training script)
 
 
 1. 多节点多进程分布式训练:(比如，两个节点)
