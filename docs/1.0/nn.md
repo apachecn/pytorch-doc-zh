@@ -2359,7 +2359,7 @@ Parameters:
 
 ```
 
-## Padding layers
+## 填充层（Padding layers）
 
 ### ReflectionPad1d
 
@@ -2579,21 +2579,21 @@ Shape:
 class torch.nn.ZeroPad2d(padding)
 ```
 
-Pads the input tensor boundaries with zero.
+通过在各边上填充0的方式对输入张量进行填充操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中 ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ZeroPad2d(2)
@@ -2627,21 +2627,22 @@ tensor([[[[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 class torch.nn.ConstantPad1d(padding, value)
 ```
 
-Pads the input tensor boundaries with a constant value.
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+通过在各边上填充固定数字的方式对输入张量进行填充操作
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in both boundaries. If a 2-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg)) |
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
+
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个两个元素的元组，那么按照 (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
-*   Output: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) where ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
+*   输出: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) 其中 ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ConstantPad1d(2, 3.5)
@@ -2676,21 +2677,21 @@ tensor([[[ 3.5000,  3.5000,  3.5000,  1.6616,  1.4523, -1.1255,  3.5000],
 class torch.nn.ConstantPad2d(padding, value)
 ```
 
-Pads the input tensor boundaries with a constant value.
+通过在各边上填充固定数字的方式对输入张量进行填充操作
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中 ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ConstantPad2d(2, 3.5)
@@ -2729,21 +2730,21 @@ tensor([[[ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
 class torch.nn.ConstantPad3d(padding, value)
 ```
 
-Pads the input tensor boundaries with a constant value.
+通过在各边上填充固定数字的方式对输入张量进行填充操作
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 6-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg), ![](img/bffb266183e8fa640240e16a45076c34.jpg), ![](img/9138ac0ee6f6e96dfe795ead91ec0003.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个六个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg), ![](img/bffb266183e8fa640240e16a45076c34.jpg), ![](img/9138ac0ee6f6e96dfe795ead91ec0003.jpg))的大小设定来在各边上填充。 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) where ![](img/006114d9c80210ede5da92f2f3a44bb7.jpg) ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) 其中 ![](img/006114d9c80210ede5da92f2f3a44bb7.jpg) ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ConstantPad3d(3, 3.5)
@@ -2755,7 +2756,7 @@ Examples:
 
 ```
 
-## Non-linear activations (weighted sum, nonlinearity)
+## 非线性激活(加权求和，非线性) ( Non-linear activations (weighted sum, nonlinearity) )
 
 ### ELU
 
@@ -2763,14 +2764,14 @@ Examples:
 class torch.nn.ELU(alpha=1.0, inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/1285687f031aec0751f4e0481f97b6b0.jpg)
 
 Parameters: 
 
-*   **alpha** – the ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) value for the ELU formulation. Default: 1.0
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **alpha** – ELU操作的![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg)值。 默认： 1.0
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -2778,12 +2779,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//ELU.png](img/5d789140032850b13d5c00493bf62412.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ELU()
@@ -2797,24 +2798,23 @@ Examples:
 ```py
 class torch.nn.Hardshrink(lambd=0.5)
 ```
-
-Applies the hard shrinkage function element-wise:
+将下面的元素级hard shrinkage函数应用到输入张量上：
 
 ![](img/f934a1a7fa1553c38403f2e010708ed9.jpg)
 
-| Parameters: | **lambd** – the ![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg) value for the Hardshrink formulation. Default: 0.5 |
+| Parameters: | **lambd** – Hardshrink运算中的 ![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg) 值。 默认: 0.5 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Hardshrink.png](img/45889773f687ed0d33a3ef9b66b0da32.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Hardshrink()
@@ -2829,34 +2829,33 @@ Examples:
 class torch.nn.Hardtanh(min_val=-1.0, max_val=1.0, inplace=False, min_value=None, max_value=None)
 ```
 
-Applies the HardTanh function element-wise
+将下面的元素级HardTanh函数应用到输入张量上。
 
-HardTanh is defined as:
+HardTanh函数定义如下:
 
 ![](img/988cd664634d88b1e654ea5e8fe27d9a.jpg)
 
-The range of the linear region ![](img/f30fa7744d61427a11bf0e75b1557a16.jpg) can be adjusted using `min_val` and `max_val`.
+线性区域![](img/f30fa7744d61427a11bf0e75b1557a16.jpg) 的大小可以通过设置`min_val` 参数 `max_val`来进行调整。
 
 ![https://pytorch.org/docs/stable/_images//Hardtanh.png](img/b22ab176e5aca7ca2b17e84fe525620e.jpg)
 
-Parameters: 
+参数: 
 
-*   **min_val** – minimum value of the linear region range. Default: -1
-*   **max_val** – maximum value of the linear region range. Default: 1
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **min_val** – 线性区域的下限. 默认: -1
+*   **max_val** – 线性区域的上限. 默认: 1
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
-
-Keyword arguments `min_value` and `max_value` have been deprecated in favor of `min_val` and `max_val`.
+之前版本的`min_value` 和 `max_value` 参数已经被废弃掉了，改为`min_val` 和 `max_val`参数。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Hardtanh(-2, 2)
@@ -2871,18 +2870,18 @@ Examples:
 class torch.nn.LeakyReLU(negative_slope=0.01, inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/92ce1c3da3211f30ef5273403da71c7a.jpg)
 
-or
+或
 
 ![](img/377c237cda65f4c68e3138efcc2bfef4.jpg)
 
 Parameters: 
 
-*   **negative_slope** – Controls the angle of the negative slope. Default: 1e-2
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **negative_slope** – 控制负数范围函数的斜率。 默认: 1e-2
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -2890,12 +2889,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//LeakyReLU.png](img/7df3c1e498d7d00e9e32ce7716e15fc3.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.LeakyReLU(0.1)
@@ -2910,18 +2909,18 @@ Examples:
 class torch.nn.LogSigmoid
 ```
 
-Applies the element-wise function:
+将下面的元素级函数LogSigmoid应用到输入张量上：(此处漏了一张图，后期补一下)
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//LogSigmoid.png](img/f03b653b702dcd536fbb404c6461b399.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.LogSigmoid()
@@ -2936,28 +2935,28 @@ Examples:
 class torch.nn.PReLU(num_parameters=1, init=0.25)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/96fb709d31ba330ca192080e660d4cf1.jpg)
 
-or
+或
 
 ![](img/f460dc15bedfa96b8a320033b3f4fd6f.jpg)
 
-Here ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is a learnable parameter. When called without arguments, `nn.PReLU()` uses a single parameter ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) across all input channels. If called with `nn.PReLU(nChannels)`, a separate ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is used for each input channel.
+此处 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 是一个可学习的参数。 如果在调用`nn.PReLU()`函数的时候没有传入参数，那么会默认在所有的输入通道上应用同一个![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 参数。 如果以`nn.PReLU(nChannels)`这种方式调用， 每个输入通道都会有一个单独的![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 参数。
 
 Note
 
-weight decay should not be used when learning ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) for good performance.
+想要学一个好的![](img/070b1af5eca3a5c5d72884b536090f17.jpg)参数，最好不要用weight decay。
 
 Note
 
-Channel dim is the 2nd dim of input. When input has dims &lt; 2, then there is no channel dim and the number of channels = 1.
+通道维度是输入张量的第二个维度。当输入张量的维度数 &lt; 2的时候，那此输入张量就没有通道维度，而此时其通道数被认为是1。
 
 Parameters: 
 
-*   **num_parameters** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) to learn. Although it takes an int as input, there is only two values are legitimate: 1, or the number of channels at input. Default: 1
-*   **init** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the initial value of ![](img/070b1af5eca3a5c5d72884b536090f17.jpg). Default: 0.25
+*   **num_parameters** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要进行训练学习的 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 参数的数量。尽管此函数的输入是一个整形，但此函数要求输入的整形只能为两个值，1或者输入张量的通道数。默认：1 
+*   **init** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – ![](img/070b1af5eca3a5c5d72884b536090f17.jpg)的初始值，默认: 0.25
 
 
 
@@ -2965,15 +2964,15 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-| Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of shape (attr:`num_parameters`). The attr:`dtype` is default to |
+| Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 大小为`num_parameters`的可学习参数。The attr:`dtype` is default to（这句话有点问题， to后面漏掉了） |
 | --- | --- |
 
 ![https://pytorch.org/docs/stable/_images//PReLU.png](img/59baba7257ac05b747455a25a3457baf.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.PReLU()
@@ -2988,21 +2987,22 @@ Examples:
 class torch.nn.ReLU(inplace=False)
 ```
 
-Applies the rectified linear unit function element-wise ![](img/f859c48107afb47986b3297459048c80.jpg)
+将元素级线性整流函数函数应用到输入张量上![](img/f859c48107afb47986b3297459048c80.jpg)
+Applies the rectified linear unit function element-wise 
 
 ![https://pytorch.org/docs/stable/_images//ReLU.png](img/6bfe295d2f51e4e33648ffb4273723a6.jpg)
 
-| Parameters: | **inplace** – can optionally do the operation in-place. Default: `False` |
+| Parameters: | **inplace** – 是否进行原位操作。 默认： `False` |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReLU()
@@ -3017,23 +3017,23 @@ Examples:
 class torch.nn.ReLU6(inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/38c45c0cb00fa6f9a372816012b26b01.jpg)
 
-| Parameters: | **inplace** – can optionally do the operation in-place. Default: `False` |
+| Parameters: | **inplace** – 是否进行原位操作。 默认： `False` |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//ReLU6.png](img/3a82f9216f0db7d59f6c0f1c169156b0.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReLU6()
@@ -3047,24 +3047,23 @@ Examples:
 ```py
 class torch.nn.RReLU(lower=0.125, upper=0.3333333333333333, inplace=False)
 ```
-
-Applies the randomized leaky rectified liner unit function, element-wise, as described in the paper:
+将元素级随机线性整流函数函数应用到输入张量上，详情此文章：
 
 [Empirical Evaluation of Rectified Activations in Convolutional Network](https://arxiv.org/abs/1505.00853).
 
-The function is defined as:
+此函数定义如下:
 
 ![](img/69aa6828f2f0bcd0ee1e173223ff4640.jpg)
 
-where ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is randomly sampled from uniform distribution ![](img/7323b93ed925c9e5b0ce10c8a6c99daf.jpg).
+其中 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 是从此均匀分布中采样而来：![](img/7323b93ed925c9e5b0ce10c8a6c99daf.jpg).
 
-> See: [https://arxiv.org/pdf/1505.00853.pdf](https://arxiv.org/pdf/1505.00853.pdf)
+> 详见: [https://arxiv.org/pdf/1505.00853.pdf](https://arxiv.org/pdf/1505.00853.pdf)
 
 Parameters: 
 
-*   **lower** – lower bound of the uniform distribution. Default: ![](img/444fc0427eb64f0bd2c9c16edf680d4f.jpg)
-*   **upper** – upper bound of the uniform distribution. Default: ![](img/a90c89c913a1fe1e9462d60d8668936b.jpg)
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **lower** – 均匀分布下限， 默认: ![](img/444fc0427eb64f0bd2c9c16edf680d4f.jpg)
+*   **upper** – 均匀分布上限，默认: ![](img/a90c89c913a1fe1e9462d60d8668936b.jpg)
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -3072,10 +3071,10 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.RReLU(0.1, 0.3)
@@ -3090,27 +3089,28 @@ Examples:
 class torch.nn.SELU(inplace=False)
 ```
 
-Applied element-wise, as:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/c6753a504d14886a424af779f5906dc5.jpg)
 
-with ![](img/e97a0b3de4bafa3464e17a8d8f66fd9d.jpg) and ![](img/aa01199f9b814d719de1e728e4a44ac3.jpg).
+其中 ![](img/e97a0b3de4bafa3464e17a8d8f66fd9d.jpg) 而且 ![](img/aa01199f9b814d719de1e728e4a44ac3.jpg).
 
 ![https://pytorch.org/docs/stable/_images//SELU.png](img/10123138310ae40f4a78f55cefe37008.jpg)
 
 More details can be found in the paper [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515) .
 
-| Parameters: | **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – can optionally do the operation in-place. Default: `False` |
+| Parameters: | **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 是否进行原位操作。 默认： `False` |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
+
 
 ```py
 >>> m = nn.SELU()
@@ -3125,16 +3125,16 @@ Examples:
 class torch.nn.CELU(alpha=1.0, inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/86d69b42683362b7781f1a5809c0d0d1.jpg)
 
-More details can be found in the paper [Continuously Differentiable Exponential Linear Units](https://arxiv.org/abs/1704.07483) .
+更多细节请见paper: [Continuously Differentiable Exponential Linear Units](https://arxiv.org/abs/1704.07483) .
 
 Parameters: 
 
-*   **alpha** – the ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) value for the CELU formulation. Default: 1.0
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **alpha** – CELU操作中的 ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) 值，默认: 1.0
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -3142,12 +3142,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//CELU.png](img/8d5fd8f893fb491c170f9a38af6edef9.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.CELU()
@@ -3162,7 +3162,7 @@ Examples:
 class torch.nn.Sigmoid
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/8bf3a718397550598124548beb8c6b23.jpg)
 
@@ -3170,12 +3170,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Sigmoid.png](img/961caeb46e669eb70392afd515f9bde7.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Sigmoid()
@@ -3190,18 +3190,18 @@ Examples:
 class torch.nn.Softplus(beta=1, threshold=20)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/a0855ca512a1ba09192648efd45082ad.jpg)
 
-SoftPlus is a smooth approximation to the ReLU function and can be used to constrain the output of a machine to always be positive.
+SoftPlus是一个平滑的类ReLU函数，可以用于将输出结果规范到全正。
 
-For numerical stability the implementation reverts to the linear function for inputs above a certain value.
+为了数值稳定性，在实现此函数的过程中，当 `x` 超过某个特定值之后，我们会将此函数转化为一个线性函数。
 
 Parameters: 
 
-*   **beta** – the ![](img/50705df736e9a7919e768cf8c4e4f794.jpg) value for the Softplus formulation. Default: 1
-*   **threshold** – values above this revert to a linear function. Default: 20
+*   **beta** – Softplus操作的 ![](img/50705df736e9a7919e768cf8c4e4f794.jpg) 值，默认: 1
+*   **threshold** – 将函数转化为线性函数的阈值， 默认: 20
 
 
 
@@ -3209,12 +3209,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Softplus.png](img/af06304134e1f56d7abc15570fa5adb9.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Softplus()
@@ -3229,23 +3229,23 @@ Examples:
 class torch.nn.Softshrink(lambd=0.5)
 ```
 
-Applies the soft shrinkage function elementwise:
+将下面的元素级软收缩函数应用到输入张量上:
 
 ![](img/5baf58b3007cf434725f41bf2dfae2ce.jpg)
 
-| Parameters: | **lambd** – the ![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg) value for the Softshrink formulation. Default: 0.5 |
+| Parameters: | **lambd** – 软收缩运算的![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg)值，默认: 0.5 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Softshrink.png](img/cec198ab680657d41c1d2ac2176e5664.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Softshrink()
@@ -3260,7 +3260,7 @@ Examples:
 class torch.nn.Softsign
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/39ba3e3786920ceb12bc26b08b00de1c.jpg)
 
@@ -3268,12 +3268,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Softsign.png](img/b92a09469ce9fc0abfbe8c9af4228391.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Softsign()
@@ -3288,7 +3288,7 @@ Examples:
 class torch.nn.Tanh
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/e3f58d9a8cbc89b247dd8de1c28bf7ce.jpg)
 
@@ -3296,12 +3296,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Tanh.png](img/5605304fc1fec06669e17cc872d47580.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Tanh()
@@ -3316,7 +3316,7 @@ Examples:
 class torch.nn.Tanhshrink
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/136fda10bacf7ae9068ca487ba861805.jpg)
 
@@ -3324,12 +3324,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Tanhshrink.png](img/8aea39259742ccdb14701a8f3c351b56.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Tanhshrink()
@@ -3344,17 +3344,17 @@ Examples:
 class torch.nn.Threshold(threshold, value, inplace=False)
 ```
 
-Thresholds each element of the input Tensor
+使用阈值过滤输入张量的每个元素
 
-Threshold is defined as:
+阈值被定义如下：
 
 ![](img/3b32031caba73686c02a117e8e307c6f.jpg)
 
 Parameters: 
 
-*   **threshold** – The value to threshold at
-*   **value** – The value to replace with
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **threshold** – 阈值大小 
+*   **value** – 小于阈值的元素的替换值
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -3362,10 +3362,10 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Threshold(0.1, 20)
