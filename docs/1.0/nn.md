@@ -2367,11 +2367,12 @@ Parameters:
 class torch.nn.ReflectionPad1d(padding)
 ```
 
-Pads the input tensor using the reflection of the input boundary.
+以输入张量的各边界为轴，通过对输入张量数据的进行镜像复制的方式来对输入张量进行补齐操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于一个`N`维的镜像复制补齐操作，是通过调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")函数来实现的。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 2-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg)) |
+
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要补齐的范围大小。如果输入数据是一个`int`, 那各个边界上都会补齐同样大小的数据。如果是一个两个元素的元组，那么按照 (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg))的大小设定来在各边上补齐。 |
 | --- | --- |
 
 ```py
@@ -2409,24 +2410,24 @@ tensor([[[3., 2., 1., 0., 1., 2., 3., 2.],
 class torch.nn.ReflectionPad2d(padding)
 ```
 
-Pads the input tensor using the reflection of the input boundary.
+以输入张量的各边界为轴，通过对输入张量数据的进行镜像复制的方式来对输入张量进行补齐操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于一个`N`维的镜像复制补齐操作，是通过调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")函数来实现的。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要补齐的范围大小。如果输入数据是一个`int`, 那各个边界上都会补齐同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上补齐。  |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中
 
     ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReflectionPad2d(2)
