@@ -1,88 +1,82 @@
-
-
 # torch.utils.data
+
+> 译者：[BXuan694](https://github.com/BXuan694)
 
 ```py
 class torch.utils.data.Dataset
 ```
+表示数据集的抽象类。
 
-An abstract class representing a Dataset.
-
-All other datasets should subclass it. All subclasses should override `__len__`, that provides the size of the dataset, and `__getitem__`, supporting integer indexing in range from 0 to len(self) exclusive.
+所有用到的数据集都必须是其子类。这些子类都必须重写以下方法：`__len__`：定义了数据集的规模；`__getitem__`：支持0到len(self)范围内的整数索引。
 
 ```py
 class torch.utils.data.TensorDataset(*tensors)
 ```
 
-Dataset wrapping tensors.
+用于张量封装的Dataset类。
 
-Each sample will be retrieved by indexing tensors along the first dimension.
+张量可以沿第一个维度划分为样例之后进行检索。
 
-| Parameters: | ***tensors** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – tensors that have the same size of the first dimension. |
+| 参数： | ***tensors** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第一个维度相同的张量。 |
 | --- | --- |
 
 ```py
 class torch.utils.data.ConcatDataset(datasets)
 ```
 
-Dataset to concatenate multiple datasets. Purpose: useful to assemble different existing datasets, possibly large-scale datasets as the concatenation operation is done in an on-the-fly manner.
+用于融合不同数据集的Dataset类。目的：组合不同的现有数据集，鉴于融合操作是同时执行的，数据集规模可以很大。
 
-| Parameters: | **datasets** (_sequence_) – List of datasets to be concatenated |
+| 参数： | **datasets**（_序列_）– 要融合的数据集列表。 |
 | --- | --- |
 
 ```py
 class torch.utils.data.Subset(dataset, indices)
 ```
 
-Subset of a dataset at specified indices.
+用索引指定的数据集子集。
 
-Parameters: 
+参数： 
 
-*   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – The whole Dataset
-*   **indices** (_sequence_) – Indices in the whole set selected for subset
-
-
+*   **dataset**（[_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")）– 原数据集。
+*   **indices**（_序列_）– 全集中选择作为子集的索引。
 
 ```py
 class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=<function default_collate>, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None)
 ```
+数据加载器。组合数据集和采样器，并在数据集上提供单进程或多进程迭代器。
 
-Data loader. Combines a dataset and a sampler, and provides single- or multi-process iterators over the dataset.
-
-Parameters: 
-
-*   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – dataset from which to load the data.
-*   **batch_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – how many samples per batch to load (default: `1`).
-*   **shuffle** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – set to `True` to have the data reshuffled at every epoch (default: `False`).
-*   **sampler** ([_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")_,_ _optional_) – defines the strategy to draw samples from the dataset. If specified, `shuffle` must be False.
-*   **batch_sampler** ([_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")_,_ _optional_) – like sampler, but returns a batch of indices at a time. Mutually exclusive with `batch_size`, `shuffle`, `sampler`, and `drop_last`.
-*   **num_workers** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – how many subprocesses to use for data loading. 0 means that the data will be loaded in the main process. (default: `0`)
-*   **collate_fn** (_callable__,_ _optional_) – merges a list of samples to form a mini-batch.
-*   **pin_memory** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, the data loader will copy tensors into CUDA pinned memory before returning them.
-*   **drop_last** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – set to `True` to drop the last incomplete batch, if the dataset size is not divisible by the batch size. If `False` and the size of dataset is not divisible by the batch size, then the last batch will be smaller. (default: `False`)
-*   **timeout** (_numeric__,_ _optional_) – if positive, the timeout value for collecting a batch from workers. Should always be non-negative. (default: `0`)
-*   **worker_init_fn** (_callable__,_ _optional_) – If not `None`, this will be called on each worker subprocess with the worker id (an int in `[0, num_workers - 1]`) as input, after seeding and before data loading. (default: `None`)
+参数： 
+*   **dataset**（[_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 要加载数据的数据集。
+*   **batch_size**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_) – 每一批要加载多少数据（默认：`1`）。
+*   **shuffle**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果每一个epoch内要打乱数据，就设置为`True`（默认：`False`）。
+*   **sampler**（[_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")_,_ _可选_）– 定义了从数据集采数据的策略。如果这一选项指定了，`shuffle`必须是False。
+*   **batch_sampler**（[_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")_,_ _可选_）– 类似于sampler，但是每次返回一批索引。和`batch_size`，`shuffle`，`sampler`，`drop_last`互相冲突。
+*   **num_workers**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_) – 加载数据的子进程数量。0表示主进程加载数据（默认：`0`）。
+*   **collate_fn**（_可调用_ _,_ _可选_）– 归并样例列表来组成小批。
+*   **pin_memory**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为`True`，数据加载器会在返回前将张量拷贝到CUDA锁页内存。
+*   **drop_last**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果数据集的大小不能不能被批大小整除，该选项设为`True`后不会把最后的残缺批作为输入；如果设置为`False`，最后一个批将会稍微小一点。（默认：`False`）
+*   **timeout**（_数值_ _,_ _可选_） – 如果是正数，即为收集一个批数据的时间限制。必须非负。（默认：`0`）
+*   **worker_init_fn**（_可调用_ _,_ _可选_）– 如果不是`None`，每个worker子进程都会使用worker id（在`[0, num_workers - 1]`内的整数）进行调用作为输入，这一过程发生在设置种子之后、加载数据之前。（默认：`None`）
 
 
 
-Note
+注意：
 
-By default, each worker will have its PyTorch seed set to `base_seed + worker_id`, where `base_seed` is a long generated by main process using its RNG. However, seeds for other libraies may be duplicated upon initializing workers (w.g., NumPy), causing each worker to return identical random numbers. (See [My data loader workers return identical random numbers](notes/faq.html#dataloader-workers-random-seed) section in FAQ.) You may use [`torch.initial_seed()`](torch.html#torch.initial_seed "torch.initial_seed") to access the PyTorch seed for each worker in `worker_init_fn`, and use it to set other seeds before data loading.
+默认地，每个worker都会有各自的PyTorch种子，设置方法是`base_seed + worker_id`，其中`base_seed`是主进程通过随机数生成器生成的long型数。而其它库（如NumPy）的种子可能由初始worker复制得到, 使得每一个worker返回相同的种子。（见FAQ中的[My data loader workers return identical random numbers](notes/faq.html#dataloader-workers-random-seed)部分。）你可以用[`torch.initial_seed()`](torch.html#torch.initial_seed "torch.initial_seed")查看`worker_init_fn`中每个worker的PyTorch种子，也可以在加载数据之前设置其他种子。
 
-Warning
+警告：
 
-If `spawn` start method is used, `worker_init_fn` cannot be an unpicklable object, e.g., a lambda function.
+如果使用了`spawn`方法，那么`worker_init_fn`不能是不可序列化对象，如lambda函数。
 
 ```py
 torch.utils.data.random_split(dataset, lengths)
 ```
 
-Randomly split a dataset into non-overlapping new datasets of given lengths.
+以给定的长度将数据集随机划分为不重叠的子数据集。
 
-Parameters: 
-
-*   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – Dataset to be split
-*   **lengths** (_sequence_) – lengths of splits to be produced
+参数：
+*   **dataset** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 要划分的数据集。
+*   **lengths**（_序列_）– 要划分的长度。
 
 
 
@@ -90,97 +84,86 @@ Parameters:
 class torch.utils.data.Sampler(data_source)
 ```
 
-Base class for all Samplers.
+所有采样器的基类。
 
-Every Sampler subclass has to provide an __iter__ method, providing a way to iterate over indices of dataset elements, and a __len__ method that returns the length of the returned iterators.
+每个Sampler子类必须提供__iter__方法，以便基于索引迭代数据集元素，同时__len__方法可以返回数据集大小。
 
 ```py
 class torch.utils.data.SequentialSampler(data_source)
 ```
+以相同的顺序依次采样。
 
-Samples elements sequentially, always in the same order.
-
-| Parameters: | **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – dataset to sample from |
+| 参数： | **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 要从中采样的数据集。 |
 | --- | --- |
 
 ```py
 class torch.utils.data.RandomSampler(data_source, replacement=False, num_samples=None)
 ```
 
-Samples elements randomly. If without replacement, then sample from a shuffled dataset. If with replacement, then user can specify `num_samples` to draw.
+随机采样元素。如果replacement不设置，则从打乱之后的数据集采样。如果replacement设置了，那么用户可以指定`num_samples`来采样。
 
-Parameters: 
+参数：
 
-*   **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – dataset to sample from
-*   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of samples to draw, default=len(dataset)
-*   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – samples are drawn with replacement if `True`, default=False
-
-
+*   **data_source** ([_Dataset_](#torch.utils.data.Dataset "torch.utils.data.Dataset")) – 要从中采样的数据集。
+*   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 采样的样本数，默认为len(dataset)。
+*   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为`True`，替换采样。默认False。
 
 ```py
 class torch.utils.data.SubsetRandomSampler(indices)
 ```
 
-Samples elements randomly from a given list of indices, without replacement.
+从给定的索引列表中采样，不替换。
 
-| Parameters: | **indices** (_sequence_) – a sequence of indices |
+| 参数： | **indices**（_序列_）– 索引序列 |
 | --- | --- |
 
 ```py
 class torch.utils.data.WeightedRandomSampler(weights, num_samples, replacement=True)
 ```
 
-Samples elements from [0,..,len(weights)-1] with given probabilities (weights).
+样本元素来自[0,..,len(weights)-1]，，给定概率(权重)。
 
-Parameters: 
+参数：
 
-*   **weights** (_sequence_) – a sequence of weights, not necessary summing up to one
-*   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of samples to draw
-*   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if `True`, samples are drawn with replacement. If not, they are drawn without replacement, which means that when a sample index is drawn for a row, it cannot be drawn again for that row.
-
-
+*   **weights**（_序列_) – 权重序列，不需要和为1。
+*   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 采样数。
+*   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果是`True`，替换采样。否则不替换，即：如果某个样本索引已经采过了，那么不会继续被采。
 
 ```py
 class torch.utils.data.BatchSampler(sampler, batch_size, drop_last)
 ```
 
-Wraps another sampler to yield a mini-batch of indices.
+打包采样器来获得小批。
 
-Parameters: 
+参数： 
 
-*   **sampler** ([_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")) – Base sampler.
-*   **batch_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Size of mini-batch.
-*   **drop_last** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, the sampler will drop the last batch if its size would be less than `batch_size`
+*   **sampler**（[_Sampler_](#torch.utils.data.Sampler "torch.utils.data.Sampler")）– 基采样器。
+*   **batch_size**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 小批的规模。
+*   **drop_last**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")）– 如果设置为`True`，采样器会丢弃最后一个不够`batch_size`的小批（如果存在的话）。
 
-
-
-Example
+示例
 
 ```py
 >>> list(BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=False))
 [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 >>> list(BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=True))
 [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
-
 ```
 
 ```py
 class torch.utils.data.distributed.DistributedSampler(dataset, num_replicas=None, rank=None)
 ```
 
-Sampler that restricts data loading to a subset of the dataset.
+将数据加载限制到数据集子集的采样器。
 
-It is especially useful in conjunction with [`torch.nn.parallel.DistributedDataParallel`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel"). In such case, each process can pass a DistributedSampler instance as a DataLoader sampler, and load a subset of the original dataset that is exclusive to it.
+和[`torch.nn.parallel.DistributedDataParallel`](nn.html#torch.nn.parallel.DistributedDataParallel "torch.nn.parallel.DistributedDataParallel")同时使用时尤其有效。在这中情况下，每个进程会传递一个DistributedSampler实例作为DataLoader采样器，并加载独占的原始数据集的子集。
 
-Note
+注意：
 
-Dataset is assumed to be of constant size.
+假设数据集的大小不变。
 
-Parameters: 
+参数： 
 
-*   **dataset** – Dataset used for sampling.
-*   **num_replicas** (_optional_) – Number of processes participating in distributed training.
-*   **rank** (_optional_) – Rank of the current process within num_replicas.
-
-
-
+*   **dataset** – 采样的数据集。
+*   **num_replicas**（_可选_）– 参与分布式训练的进程数。
+*   **rank**（_可选_）– num_replicas中当前进程的等级。

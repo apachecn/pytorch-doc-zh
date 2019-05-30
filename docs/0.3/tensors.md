@@ -1,6 +1,10 @@
 # torch.Tensor
 
-> [`torch.Tensor`](#torch.Tensor "torch.Tensor") 是一种包含单一数据类型元素的多维矩阵.
+> 译者：[@Sylvester](https://github.com/coboe)、[@那伊抹微笑](https://github.com/wangyangting)
+> 
+> 校对者：[@Sariel](https://github.com/Cyril-CC)
+
+> `torch.Tensor` 是一种包含单一数据类型元素的多维矩阵.
 
 Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 
@@ -9,15 +13,15 @@ Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 | 32-bit floating point | `torch.FloatTensor` | `torch.cuda.FloatTensor` |
 | 64-bit floating point | `torch.DoubleTensor` | `torch.cuda.DoubleTensor` |
 | 16-bit floating point | `torch.HalfTensor` | `torch.cuda.HalfTensor` |
-| 8-bit integer (unsigned) | [`torch.ByteTensor`](#torch.ByteTensor "torch.ByteTensor") | `torch.cuda.ByteTensor` |
+| 8-bit integer (unsigned) | `torch.ByteTensor` | `torch.cuda.ByteTensor` |
 | 8-bit integer (signed) | `torch.CharTensor` | `torch.cuda.CharTensor` |
 | 16-bit integer (signed) | `torch.ShortTensor` | `torch.cuda.ShortTensor` |
 | 32-bit integer (signed) | `torch.IntTensor` | `torch.cuda.IntTensor` |
 | 64-bit integer (signed) | `torch.LongTensor` | `torch.cuda.LongTensor` |
 
-> [`torch.Tensor`](#torch.Tensor "torch.Tensor") 是默认的 tensor 类型(`torch.FloatTensor`)的简称.
+> `torch.Tensor` 是默认的 tensor 类型(`torch.FloatTensor`)的简称.
 
-一个 tensor 对象可以从 Python 的 [`list`](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.6)") 或者序列(sequence)构建:
+一个 tensor 对象可以从 Python 的 [`list`](https://docs.python.org/3/library/stdtypes.html#list) 或者序列(sequence)构建:
 
 ```py
 >>> torch.FloatTensor([[1, 2, 3], [4, 5, 6]])
@@ -53,7 +57,7 @@ Torch 定义了七种 CPU tensor 类型和八种 GPU tensor 类型:
 
 每一个 tensor 对象都有一个相应的 `torch.Storage` 用来保存数据. tensor 类提供了一个存储的多维的, 有 [跨度(strided)](https://en.wikipedia.org/wiki/Stride_of_an_array) 的视图, 并且在视图上定义了数值运算.
 
-Note
+注解：
 
 会改变 tensor 对象的函数方法名, 其使用了一个下划线后缀作为标识. 比如, `torch.FloatTensor.abs_()` 会在原地(in-place)计算绝对值并返回改变后的 tensor. 而 `torch.FloatTensor.abs()` 会在一个新建的 tensor 中计算结果.
 
@@ -87,7 +91,7 @@ class torch.Tensor(storage)
 
 可以通过提供大小或者数据来创建一个新的 tensor 对象.
 
-如果没有提供参数, 将返回一个空的零维的 tensor. 如果提供了 [`numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.14)"), [`torch.Tensor`](#torch.Tensor "torch.Tensor"), 或者 `torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象. 如果提供一个 Python 序列(sequence)作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
+如果没有提供参数, 将返回一个空的零维的 tensor. 如果提供了 `numpy.ndarray`, `torch.Tensor`, 或者 `torch.Storage` 作为参数, 其将返回一个与参数共享数据的 tensor 对象. 如果提供一个 Python 序列 (sequence) 作为参数, 将返回从序列的副本中创建的一个新的 tensor 对象.
 
 ```py
 abs() → Tensor
@@ -99,7 +103,7 @@ abs() → Tensor
 abs_() → Tensor
 ```
 
-[`abs()`](#torch.Tensor.abs "torch.Tensor.abs") 的 in-place 运算形式
+`abs()` 的 in-place 运算形式
 
 ```py
 acos() → Tensor
@@ -111,7 +115,7 @@ acos() → Tensor
 acos_() → Tensor
 ```
 
-[`acos()`](#torch.Tensor.acos "torch.Tensor.acos") 的 in-place 运算形式
+`acos()` 的 in-place 运算形式
 
 ```py
 add(value)
@@ -123,7 +127,7 @@ add(value)
 add_(value)
 ```
 
-[`add()`](#torch.Tensor.add "torch.Tensor.add") 的 in-place 运算形式
+`add()` 的 in-place 运算形式
 
 ```py
 addbmm(beta=1, mat, alpha=1, batch1, batch2) → Tensor
@@ -135,7 +139,7 @@ addbmm(beta=1, mat, alpha=1, batch1, batch2) → Tensor
 addbmm_(beta=1, mat, alpha=1, batch1, batch2) → Tensor
 ```
 
-[`addbmm()`](#torch.Tensor.addbmm "torch.Tensor.addbmm") 的 in-place 运算形式
+`addbmm()` 的 in-place 运算形式
 
 ```py
 addcdiv(value=1, tensor1, tensor2) → Tensor
@@ -147,7 +151,7 @@ addcdiv(value=1, tensor1, tensor2) → Tensor
 addcdiv_(value=1, tensor1, tensor2) → Tensor
 ```
 
-[`addcdiv()`](#torch.Tensor.addcdiv "torch.Tensor.addcdiv") 的 in-place 运算形式
+`addcdiv()` 的 in-place 运算形式
 
 ```py
 addcmul(value=1, tensor1, tensor2) → Tensor
@@ -159,7 +163,7 @@ addcmul(value=1, tensor1, tensor2) → Tensor
 addcmul_(value=1, tensor1, tensor2) → Tensor
 ```
 
-[`addcmul()`](#torch.Tensor.addcmul "torch.Tensor.addcmul") 的 in-place 运算形式
+`addcmul()` 的 in-place 运算形式
 
 ```py
 addmm(beta=1, mat, alpha=1, mat1, mat2) → Tensor
@@ -171,7 +175,7 @@ addmm(beta=1, mat, alpha=1, mat1, mat2) → Tensor
 addmm_(beta=1, mat, alpha=1, mat1, mat2) → Tensor
 ```
 
-[`addmm()`](#torch.Tensor.addmm "torch.Tensor.addmm") 的 in-place 运算形式
+`addmm()` 的 in-place 运算形式
 
 ```py
 addmv(beta=1, tensor, alpha=1, mat, vec) → Tensor
@@ -183,7 +187,7 @@ addmv(beta=1, tensor, alpha=1, mat, vec) → Tensor
 addmv_(beta=1, tensor, alpha=1, mat, vec) → Tensor
 ```
 
-[`addmv()`](#torch.Tensor.addmv "torch.Tensor.addmv") 的 in-place 运算形式
+`addmv()` 的 in-place 运算形式
 
 ```py
 addr(beta=1, alpha=1, vec1, vec2) → Tensor
@@ -195,7 +199,7 @@ addr(beta=1, alpha=1, vec1, vec2) → Tensor
 addr_(beta=1, alpha=1, vec1, vec2) → Tensor
 ```
 
-[`addr()`](#torch.Tensor.addr "torch.Tensor.addr") 的 in-place 运算形式
+`addr()` 的 in-place 运算形式
 
 ```py
 apply_(callable) → Tensor
@@ -203,7 +207,7 @@ apply_(callable) → Tensor
 
 将函数 `callable` 作用于 tensor 的每一个元素, 并将每个元素用 `callable` 的返回值替换.
 
-Note
+注解：
 
 该函数只能在 CPU tensor 中使用, 并且不应该用在有较高性能的要求的代码块中.
 
@@ -217,7 +221,7 @@ asin() → Tensor
 asin_() → Tensor
 ```
 
-[`asin()`](#torch.Tensor.asin "torch.Tensor.asin") 的 in-place 运算形式
+`asin()` 的 in-place 运算形式
 
 ```py
 atan() → Tensor
@@ -235,13 +239,13 @@ atan2(other) → Tensor
 atan2_(other) → Tensor
 ```
 
-[`atan2()`](#torch.Tensor.atan2 "torch.Tensor.atan2") 的 in-place 运算形式
+`atan2()` 的 in-place 运算形式
 
 ```py
 atan_() → Tensor
 ```
 
-[`atan()`](#torch.Tensor.atan "torch.Tensor.atan") 的 in-place 运算形式
+`atan()` 的 in-place 运算形式
 
 ```py
 baddbmm(beta=1, alpha=1, batch1, batch2) → Tensor
@@ -253,7 +257,7 @@ baddbmm(beta=1, alpha=1, batch1, batch2) → Tensor
 baddbmm_(beta=1, alpha=1, batch1, batch2) → Tensor
 ```
 
-[`baddbmm()`](#torch.Tensor.baddbmm "torch.Tensor.baddbmm") 的 in-place 运算形式
+`baddbmm()` 的 in-place 运算形式
 
 ```py
 bernoulli() → Tensor
@@ -265,7 +269,7 @@ bernoulli() → Tensor
 bernoulli_() → Tensor
 ```
 
-[`bernoulli()`](#torch.Tensor.bernoulli "torch.Tensor.bernoulli") 的 in-place 运算形式
+`bernoulli()` 的 in-place 运算形式
 
 ```py
 bmm(batch2) → Tensor
@@ -297,7 +301,7 @@ ceil() → Tensor
 ceil_() → Tensor
 ```
 
-[`ceil()`](#torch.Tensor.ceil "torch.Tensor.ceil") 的 in-place 运算形式
+`ceil()` 的 in-place 运算形式
 
 ```py
 char()
@@ -323,7 +327,7 @@ clamp(min, max) → Tensor
 clamp_(min, max) → Tensor
 ```
 
-[`clamp()`](#torch.Tensor.clamp "torch.Tensor.clamp") 的 in-place 运算形式
+`clamp()` 的 in-place 运算形式
 
 ```py
 clone() → Tensor
@@ -345,14 +349,13 @@ copy_(src, async=False, broadcast=True) → Tensor
 
 如果 `broadcast` 是 True, 源 tensor 一定和这个 tensor [broadcastable](notes/broadcasting.html#broadcasting-semantics). 另外, 源 tensor 的元素数量应该和这个 tensor 的元素个数一致. 源 tensor 可以是另一种数据类型, 或者在别的的设备上.
 
-| Parameters: | 
+参数：
 
-*   **src** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 被复制的源 tensor
-*   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果值为 `True` 并且这个复制操作在 CPU 和 GPU 之间进行, 则拷贝的副本与源信息可能会出现异步(asynchronously). 对于其他类型的复制操作, 这个参数不起作用.
-*   **broadcast** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果值为 `True`, `src` 将广播基础的 tensor 的形状.
+*   `src (Tensor)` – 被复制的源 tensor
+*   `async (bool)` – 如果值为 `True` 并且这个复制操作在 CPU 和 GPU 之间进行, 则拷贝的副本与源信息可能会出现异步(asynchronously). 对于其他类型的复制操作, 这个参数不起作用.
+*   `broadcast (bool)` – 如果值为 `True`, `src` 将广播基础的 tensor 的形状.
 
- |
-| --- | --- |
+
 
 ```py
 cos() → Tensor
@@ -364,7 +367,7 @@ cos() → Tensor
 cos_() → Tensor
 ```
 
-[`cos()`](#torch.Tensor.cos "torch.Tensor.cos") 的 in-place 运算形式
+`cos()` 的 in-place 运算形式
 
 ```py
 cosh() → Tensor
@@ -376,7 +379,7 @@ cosh() → Tensor
 cosh_() → Tensor
 ```
 
-[`cosh()`](#torch.Tensor.cosh "torch.Tensor.cosh") 的 in-place 运算形式
+`cosh()` 的 in-place 运算形式
 
 ```py
 cpu()
@@ -398,13 +401,12 @@ cuda(device=None, async=False)
 
 如果此对象已经在 CUDA 内存中并且在正确的设备上 , 那么不会执行复制操作 , 直接返回原对象 .
 
-| Parameters: | 
+参数：
 
-*   **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 目标 GPU 的 id . 默认值是当前设备 .
-*   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果为 `True` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 否则此参数不起效果 .
+*   `device (int)` – 目标 GPU 的 id . 默认值是当前设备 .
+*   `async (bool)` – 如果为 `True` 并且源位于锁定内存中 , 则副本相对于主机是异步的 . 否则此参数不起效果 .
 
- |
-| --- | --- |
+
 
 ```py
 cumprod(dim) → Tensor
@@ -452,7 +454,7 @@ div(value)
 div_(value)
 ```
 
-[`div()`](#torch.Tensor.div "torch.Tensor.div") 的 in-place 运算形式
+`div()` 的 in-place 运算形式
 
 ```py
 dot(tensor2) → float
@@ -478,7 +480,7 @@ element_size() → int
 
 返回单个元素的字节大小.
 
-Example
+示例：
 
 ```py
 >>> torch.FloatTensor().element_size()
@@ -498,7 +500,7 @@ eq(other) → Tensor
 eq_(other) → Tensor
 ```
 
-[`eq()`](#torch.Tensor.eq "torch.Tensor.eq") 的 in-place 运算形式
+`eq()` 的 in-place 运算形式
 
 ```py
 equal(other) → bool
@@ -536,7 +538,7 @@ exp() → Tensor
 exp_() → Tensor
 ```
 
-[`exp()`](#torch.Tensor.exp "torch.Tensor.exp") 的 in-place 运算形式
+`exp()` 的 in-place 运算形式
 
 ```py
 expand(*sizes) → Tensor
@@ -550,10 +552,10 @@ Tensor 也可以扩展到一个很大的维数, 新添加的维度将放在前�
 
 扩展一个 tensor 不是分配一个新的内存, 而只是在这个存在的 tensor 上, 通过设置 `stride` 为 0, 创建一个新的某个维度从 1 扩展到很大的视图. 任何大小为 1 的维度, 在不用重新分配内存的情况下, 可以扩展到随意任何一个值.
 
-| Parameters: | ***sizes** (_torch.Size_ _or_ _int..._) – 期望扩展的大小 |
-| --- | --- |
+参数：`sizes (torch.Size 或 int...)` – 期望扩展的大小
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([[1], [2], [3]])
@@ -615,7 +617,7 @@ floor() → Tensor
 floor_() → Tensor
 ```
 
-[`floor()`](#torch.Tensor.floor "torch.Tensor.floor") 的 in-place 运算形式
+`floor()` 的 in-place 运算形式
 
 ```py
 fmod(divisor) → Tensor
@@ -627,7 +629,7 @@ fmod(divisor) → Tensor
 fmod_(divisor) → Tensor
 ```
 
-[`fmod()`](#torch.Tensor.fmod "torch.Tensor.fmod") 的 in-place 运算形式
+`fmod()` 的 in-place 运算形式
 
 ```py
 frac() → Tensor
@@ -639,7 +641,7 @@ frac() → Tensor
 frac_() → Tensor
 ```
 
-[`frac()`](#torch.Tensor.frac "torch.Tensor.frac") 的 in-place 运算形式
+`frac()` 的 in-place 运算形式
 
 ```py
 gather(dim, index) → Tensor
@@ -657,7 +659,7 @@ ge(other) → Tensor
 ge_(other) → Tensor
 ```
 
-[`ge()`](#torch.Tensor.ge "torch.Tensor.ge") 的 in-place 运算形式
+`ge()` 的 in-place 运算形式
 
 ```py
 gels(A) → Tensor
@@ -701,7 +703,7 @@ gt(other) → Tensor
 gt_(other) → Tensor
 ```
 
-[`gt()`](#torch.Tensor.gt "torch.Tensor.gt") 的 in-place 运算形式
+`gt()` 的 in-place 运算形式
 
 ```py
 half()
@@ -721,8 +723,8 @@ index(m) → Tensor
 
 用一个二进制的掩码或沿着一个给定的维度从 tensor 中选取元素. `tensor.index(m)` 等同于 `tensor[m]`.
 
-| Parameters: | **m** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)") _or_ [_ByteTensor_](#torch.ByteTensor "torch.ByteTensor") _or_ [_slice_](https://docs.python.org/3/library/functions.html#slice "(in Python v3.6)")) – 用来选取元素的维度或掩码 |
-| --- | --- |
+参数：`m (int 或 ByteTensor 或 slice)` – 用来选取元素的维度或掩码
+
 
 ```py
 index_add_(dim, index, tensor) → Tensor
@@ -730,16 +732,15 @@ index_add_(dim, index, tensor) → Tensor
 
 按参数 index 给出的索引序列, 将参数 tensor 中的元素加到原来的 tensor 中. 参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误.
 
-| Parameters: | 
+参数：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引 index 所指向的维度
-*   **index** (_LongTensor_) – 从参数 tensor 中选取数据的索引序列
-*   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 包含需要相加的元素的 tensor
+*   `dim (int)` – 索引 index 所指向的维度
+*   `index (LongTensor)` – 从参数 tensor 中选取数据的索引序列
+*   `tensor (Tensor)` – 包含需要相加的元素的 tensor
 
- |
-| --- | --- |
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
@@ -760,16 +761,15 @@ index_copy_(dim, index, tensor) → Tensor
 
 按参数 index 给出的索引序列, 将参数 tensor 中的元素复制到原来的 tensor 中. 参数 tensor 的尺寸必须严格地与原 tensor 匹配, 否则会发生错误.
 
-| Parameters: | 
+参数：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引 index 所指向的维度
-*   **index** (_LongTensor_) – 从参数 tensor 中选取数据的索引序列
-*   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 包含需要复制的元素的 tensor
+*   `dim (int)` – 索引 index 所指向的维度
+*   `index (LongTensor)` – 从参数 tensor 中选取数据的索引序列
+*   `tensor (Tensor)` – 包含需要复制的元素的 tensor
 
- |
-| --- | --- |
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor(3, 3)
@@ -790,16 +790,15 @@ index_fill_(dim, index, val) → Tensor
 
 按参数 index 给出的索引序列, 将原 tensor 中的元素用 `val` 填充.
 
-| Parameters: | 
+参数：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引 index 所指向的维度
-*   **index** (_LongTensor_) – 从参数 val 中选取数据的索引序列
-*   **val** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 用来填充的值
+*   `dim (int)` – 索引 index 所指向的维度
+*   `index (LongTensor)` – 从参数 val 中选取数据的索引序列
+*   `val (float)` – 用来填充的值
 
- |
-| --- | --- |
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -871,7 +870,7 @@ le(other) → Tensor
 le_(other) → Tensor
 ```
 
-[`le()`](#torch.Tensor.le "torch.Tensor.le") 的 in-place 运算形式
+`le()` 的 in-place 运算形式
 
 ```py
 lerp(start, end, weight)
@@ -883,7 +882,7 @@ lerp(start, end, weight)
 lerp_(start, end, weight)
 ```
 
-[`lerp()`](#torch.Tensor.lerp "torch.Tensor.lerp") 的 in-place 运算形式
+`lerp()` 的 in-place 运算形式
 
 ```py
 log() → Tensor
@@ -901,13 +900,13 @@ log1p() → Tensor
 log1p_() → Tensor
 ```
 
-[`log1p()`](#torch.Tensor.log1p "torch.Tensor.log1p") 的 in-place 运算形式
+`log1p()` 的 in-place 运算形式
 
 ```py
 log_() → Tensor
 ```
 
-[`log()`](#torch.Tensor.log "torch.Tensor.log") 的 in-place 运算形式
+`log()` 的 in-place 运算形式
 
 ```py
 log_normal_(mean=1, std=2, *, generator=None)
@@ -933,7 +932,7 @@ lt(other) → Tensor
 lt_(other) → Tensor
 ```
 
-[`lt()`](#torch.Tensor.lt "torch.Tensor.lt") 的 in-place 运算形式
+`lt()` 的 in-place 运算形式
 
 ```py
 map_(tensor, callable)
@@ -952,17 +951,16 @@ map_(tensor, callable)
 masked_scatter_(mask, source)
 ```
 
-复制 `source` 的元素到本 tensor 被:attr:<cite>mask</cite> 中值为 1 的元素标记的位置中. `mask` 的形状和本 tensor 的形状必须是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics) ). `source` 中元素的个数最少为 `mask` 中值为1的元素的个数.
+复制 `source` 的元素到本 tensor 被`mask`中值为 1 的元素标记的位置中. `mask` 的形状和本 tensor 的形状必须是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics) ). `source` 中元素的个数最少为 `mask` 中值为1的元素的个数.
 
-| Parameters: | 
+参数：
 
-*   **mask** ([_ByteTensor_](#torch.ByteTensor "torch.ByteTensor")) – 二进制掩码
-*   **source** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 复制的源 tensor
+*   `mask (ByteTensor)` – 二进制掩码
+*   `source (Tensor)` – 复制的源 tensor
 
- |
-| --- | --- |
 
-Note
+
+注解：
 
 `mask` 作用于 `self` 自身的 tensor, 而不是参数 `source` 的 tensor.
 
@@ -974,13 +972,12 @@ masked_fill_(mask, value)
 
 Fills elements of this tensor with `value` where `mask` is one.
 
-| Parameters: | 
+参数：
 
-*   **mask** ([_ByteTensor_](#torch.ByteTensor "torch.ByteTensor")) – 二进制掩码
-*   **value** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 用来填充的值
+*   `mask (ByteTensor)` – 二进制掩码
+*   `value (float)` – 用来填充的值
 
- |
-| --- | --- |
+
 
 ```py
 masked_select(mask) → Tensor
@@ -1042,7 +1039,7 @@ mul(value) → Tensor
 mul_(value)
 ```
 
-[`mul()`](#torch.Tensor.mul "torch.Tensor.mul") 的 in-place 运算形式
+`mul()` 的 in-place 运算形式
 
 ```py
 multinomial(num_samples, replacement=False, *, generator=None)
@@ -1062,16 +1059,15 @@ narrow(dimension, start, length) → Tensor
 
 返回一个本 tensor 经过缩小后的 tensor. 维度 dim 缩小范围是 `start` 到 `start + length`. 原 tensor 与返回的 tensor 共享相同的底层存储.
 
-| Parameters: | 
+参数：
 
-*   **dimension** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 需要缩小的维度
-*   **start** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 起始维度
-*   **length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) –
+*   `dimension (int)` – 需要缩小的维度
+*   `start (int)` – 起始维度
+*   `length (int)` –
 
- |
-| --- | --- |
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -1091,7 +1087,7 @@ Example
 ndimension() → int
 ```
 
-[`dim()`](#torch.Tensor.dim "torch.Tensor.dim") 的另一种表示
+`dim()` 的另一种表示
 
 ```py
 ne(other) → Tensor
@@ -1103,7 +1099,7 @@ ne(other) → Tensor
 ne_(other) → Tensor
 ```
 
-[`ne()`](#torch.Tensor.ne "torch.Tensor.ne") 的 in-place 运算形式
+`ne()` 的 in-place 运算形式
 
 ```py
 neg() → Tensor
@@ -1115,13 +1111,13 @@ neg() → Tensor
 neg_() → Tensor
 ```
 
-[`neg()`](#torch.Tensor.neg "torch.Tensor.neg") 的 in-place 运算形式
+`neg()` 的 in-place 运算形式
 
 ```py
 nelement() → int
 ```
 
-[`numel()`](#torch.Tensor.numel "torch.Tensor.numel") 的另一种表示
+`numel()` 的另一种表示
 
 ```py
 new(*args, **kwargs)
@@ -1145,7 +1141,7 @@ norm(p=2, dim=None, keepdim=False) → float
 normal_(mean=0, std=1, *, generator=None)
 ```
 
-将 tensor 用均值为 [`mean`](torch.html#torch.mean "torch.mean") 和标准差为 :attr:[`](#id1)std`的正态分布填充.
+将 tensor 用均值为 `mean` 和标准差为`std`的正态分布填充.
 
 ```py
 numel() → int
@@ -1177,10 +1173,10 @@ permute(*dims)
 
 排列该 tensor 的尺寸.
 
-| Parameters: | ***dims** (_int..._) – 按所期望的维数排序 |
-| --- | --- |
+参数：`*dims (int...)` – 按所期望的维数排序
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.randn(2, 3, 5)
@@ -1225,7 +1221,7 @@ pow(exponent)
 pow_(exponent)
 ```
 
-[`pow()`](#torch.Tensor.pow "torch.Tensor.pow") 的 in-place 运算形式
+`pow()` 的 in-place 运算形式
 
 ```py
 prod(dim=None, keepdim=False) → float
@@ -1247,16 +1243,15 @@ put_(indices, tensor, accumulate=False) → Tensor
 
 如果 `accumulate` 是 `True`, `tensor` 内的元素累加到 `self` 中. 如果 `accumulate` 是 `False`, 在索引包含重复的值时, 行为未定义.
 
-| Parameters: | 
+参数：
 
-*   **indices** (_LongTensor_) – self 的索引
-*   **tensor** ([_Tensor_](#torch.Tensor "torch.Tensor")) – 包含需要复制值的 tensor
-*   **accumulate** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果是 True, 元素累加到 self
+*   `indices (LongTensor)` – self 的索引
+*   `tensor (Tensor)` – 包含需要复制值的 tensor
+*   `accumulate (bool)` – 如果是 True, 元素累加到 self
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> src = torch.Tensor([[4, 3, 5],
@@ -1290,7 +1285,7 @@ reciprocal() → Tensor
 reciprocal_() → Tensor
 ```
 
-[`reciprocal()`](#torch.Tensor.reciprocal "torch.Tensor.reciprocal") 的 in-place 运算形式
+`reciprocal()` 的 in-place 运算形式
 
 ```py
 remainder(divisor) → Tensor
@@ -1302,7 +1297,7 @@ remainder(divisor) → Tensor
 remainder_(divisor) → Tensor
 ```
 
-[`remainder()`](#torch.Tensor.remainder "torch.Tensor.remainder") 的 in-place 运算形式
+`remainder()` 的 in-place 运算形式
 
 ```py
 renorm(p, dim, maxnorm) → Tensor
@@ -1314,7 +1309,7 @@ renorm(p, dim, maxnorm) → Tensor
 renorm_(p, dim, maxnorm) → Tensor
 ```
 
-[`renorm()`](#torch.Tensor.renorm "torch.Tensor.renorm") 的 in-place 运算形式
+`renorm()` 的 in-place 运算形式
 
 ```py
 repeat(*sizes)
@@ -1322,12 +1317,12 @@ repeat(*sizes)
 
 沿着指定的尺寸重复 tensor.
 
-和 [`expand()`](#torch.Tensor.expand "torch.Tensor.expand") 不同, 这个函数复制 tensor 的数据.
+和 `expand()` 不同, 这个函数复制 tensor 的数据.
 
-| Parameters: | ***sizes** (_torch.Size_ _or_ _int..._) – 沿每个维度重复 tensor 的次数 |
-| --- | --- |
+参数：`*sizes (torch.Size 或 int...)` – 沿每个维度重复 tensor 的次数
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([1, 2, 3])
@@ -1348,10 +1343,10 @@ resize_(*sizes)
 
 将 tensor 的大小调整为指定的大小. 如果元素个数比当前的内存大小大, 就将底层存储大小调整为与新元素数目一致的大小. 如果元素个数比当前内存小, 则底层存储不会被改变. 原来tensor中被保存下来的元素将保持不变, 但新内存将不会被初始化.
 
-| Parameters: | **sizes** (_torch.Size_ _or_ _int..._) – 期望的大小 |
-| --- | --- |
+参数：`*sizes (torch.Size 或 int...)` – 期望的大小
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2], [3, 4], [5, 6]])
@@ -1384,7 +1379,7 @@ round() → Tensor
 round_() → Tensor
 ```
 
-[`round()`](#torch.Tensor.round "torch.Tensor.round") 的 in-place 运算形式
+`round()` 的 in-place 运算形式
 
 ```py
 rsqrt() → Tensor
@@ -1396,26 +1391,25 @@ rsqrt() → Tensor
 rsqrt_() → Tensor
 ```
 
-[`rsqrt()`](#torch.Tensor.rsqrt "torch.Tensor.rsqrt") 的 in-place 运算形式
+`rsqrt()` 的 in-place 运算形式
 
 ```py
 scatter_(dim, index, src) → Tensor
 ```
 
-将 `src` 中的所有值按照 [`index`](#torch.Tensor.index "torch.Tensor.index") 确定的索引顺序写入本 tensor 中. 给定的 dim 声明索引的维度, dim 按照 [`gather()`](#torch.Tensor.gather "torch.Tensor.gather") 中的描述的规则来确定.
+将 `src` 中的所有值按照 `index` 确定的索引顺序写入本 tensor 中. 给定的 dim 声明索引的维度, dim 按照 `gather()` 中的描述的规则来确定.
 
 注意, 关于 gather, index 的值必须是 `0` 到 `(self.size(dim) -1)` 区间, 而且, 属于同一维度的一行的值必须是唯一的.
 
-| Parameters: | 
+参数：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 索引的轴向
-*   **index** (_LongTensor_) – 散射元素的索引指数
-*   **src** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.6)")) – 散射的源元素
+*   `dim (int)` – 索引的轴向
+*   `index (LongTensor)` – 散射元素的索引指数
+*   `src (Tensor 或 float)` – 散射的源元素
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.rand(2, 5)
@@ -1447,17 +1441,16 @@ select(dim, index) → Tensor or number
 
 沿着 dim 给定的维度, 按照 index 切片. 如果这个 tensor 是一维的, 返回一个数字. 否则, 返回一个给定维度已经被移除的 tensor.
 
-| Parameters: | 
+参数：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 切片的维度
-*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 用来选取的索引
+*   `dim (int)` – 切片的维度
+*   `index (int)` – 用来选取的索引
 
- |
-| --- | --- |
 
-Note
 
-`select`等效于切片. 例如, ``tensor.select(0, index)`()` 等效于 `tensor[index]` 和 `tensor.select(2, index)` 等效于 `tensor[:,:,index]`.
+注解：
+
+`select`等效于切片. 例如, `tensor.select(0, index)` 等效于 `tensor[index]` 和 `tensor.select(2, index)` 等效于 `tensor[:,:,index]`.
 
 ```py
 set_(source=None, storage_offset=0, size=None, stride=None)
@@ -1467,15 +1460,14 @@ set_(source=None, storage_offset=0, size=None, stride=None)
 
 如果 `source` 是一个 `Storage`, 则将设置底层内存, 偏移量, 大小和步长.
 
-| Parameters: | 
+参数：
 
-*   **source** ([_Tensor_](#torch.Tensor "torch.Tensor") _or_ _Storage_) – 用到的 tensor 或 storage
-*   **storage_offset** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – storage 的偏移量
-*   **size** (_torch.Size_) – 期望的大小. 默认为源 tensor 的大小.
-*   **stride** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)")) – 期望的步长. 默认为 C 相邻内存的步长.
+*   `source (Tensor 或 Storage)` – 用到的 tensor 或 storage
+*   `storage_offset (int)` – storage 的偏移量
+*   `size (torch.Size)` – 期望的大小. 默认为源 tensor 的大小.
+*   `stride (tuple)` – 期望的步长. 默认为 C 相邻内存的步长.
 
- |
-| --- | --- |
+
 
 ```py
 share_memory_()
@@ -1501,7 +1493,7 @@ sigmoid() → Tensor
 sigmoid_() → Tensor
 ```
 
-[`sigmoid()`](#torch.Tensor.sigmoid "torch.Tensor.sigmoid") 的 in-place 运算形式
+`sigmoid()` 的 in-place 运算形式
 
 ```py
 sign() → Tensor
@@ -1513,7 +1505,7 @@ sign() → Tensor
 sign_() → Tensor
 ```
 
-[`sign()`](#torch.Tensor.sign "torch.Tensor.sign") 的 in-place 运算形式
+`sign()` 的 in-place 运算形式
 
 ```py
 sin() → Tensor
@@ -1525,7 +1517,7 @@ sin() → Tensor
 sin_() → Tensor
 ```
 
-[`sin()`](#torch.Tensor.sin "torch.Tensor.sin") 的 in-place 运算形式
+`sin()` 的 in-place 运算形式
 
 ```py
 sinh() → Tensor
@@ -1537,15 +1529,15 @@ sinh() → Tensor
 sinh_() → Tensor
 ```
 
-[`sinh()`](#torch.Tensor.sinh "torch.Tensor.sinh") 的 in-place 运算形式
+`sinh()` 的 in-place 运算形式
 
 ```py
 size() → torch.Size
 ```
 
-返回 tensor 的大小. 返回的值是 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.6)") 的子类.
+返回 tensor 的大小. 返回的值是 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple) 的子类.
 
-Example
+示例：
 
 ```py
 >>> torch.Tensor(3, 4, 5).size()
@@ -1577,7 +1569,7 @@ sqrt() → Tensor
 sqrt_() → Tensor
 ```
 
-[`sqrt()`](#torch.Tensor.sqrt "torch.Tensor.sqrt") 的 in-place 运算形式
+`sqrt()` 的 in-place 运算形式
 
 ```py
 squeeze(dim=None)
@@ -1589,7 +1581,7 @@ squeeze(dim=None)
 squeeze_(dim=None)
 ```
 
-[`squeeze()`](#torch.Tensor.squeeze "torch.Tensor.squeeze") 的 in-place 运算形式
+`squeeze()` 的 in-place 运算形式
 
 ```py
 std(dim=None, unbiased=True, keepdim=False) → float
@@ -1609,7 +1601,7 @@ storage_offset() → int
 
 按照储存元素个数的偏移返回 tensor 在底层存储中的偏移量(不是按照字节计算).
 
-Example
+示例：
 
 ```py
 >>> x = torch.Tensor([1, 2, 3, 4, 5])
@@ -1628,10 +1620,10 @@ stride(dim) → tuple or int
 
 返回 tesnor 的步长. 步长是指按照 dim 指定的维度, 从一个元素到下一个元素需要跳跃的距离. 当没有指定维度, 会计算所有维度的步长, 并返回一个 tuple. 当给定维度时, 返回这个维度的步长.
 
-| Parameters: | **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 期望的需要计算步长的维度. |
-| --- | --- |
+参数：`dim (int)` – 期望的需要计算步长的维度.
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.Tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -1648,7 +1640,7 @@ Example
 sub(value, other) → Tensor
 ```
 
-从 tensor 中抽取一个标量或张量. 如果 `value` 和 `other` 都是给定的, 则在使用之前 `other`的每一个元素都会被 :attr:`value` 缩放.
+从 tensor 中抽取一个标量或张量. 如果 `value` 和 `other` 都是给定的, 则在使用之前 `other`的每一个元素都会被 `value` 缩放.
 
 如果 `other` 是一个tensor, `other` 的形状必须于基础 tensor 的形状是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics) ).
 
@@ -1656,7 +1648,7 @@ sub(value, other) → Tensor
 sub_(x) → Tensor
 ```
 
-[`sub()`](#torch.Tensor.sub "torch.Tensor.sub") 的 in-place 运算形式
+`sub()` 的 in-place 运算形式
 
 ```py
 sum(dim=None, keepdim=False) → float
@@ -1686,7 +1678,7 @@ t() → Tensor
 t_() → Tensor
 ```
 
-[`t()`](#torch.Tensor.t "torch.Tensor.t") 的 in-place 运算形式
+`t()` 的 in-place 运算形式
 
 ```py
 take(indices) → Tensor
@@ -1702,7 +1694,7 @@ tan()
 tan_() → Tensor
 ```
 
-[`tan()`](#torch.Tensor.tan "torch.Tensor.tan") 的 in-place 运算形式
+`tan()` 的 in-place 运算形式
 
 ```py
 tanh() → Tensor
@@ -1714,7 +1706,7 @@ tanh() → Tensor
 tanh_() → Tensor
 ```
 
-[`tanh()`](#torch.Tensor.tanh "torch.Tensor.tanh") 的 in-place 运算形式
+`tanh()` 的 in-place 运算形式
 
 ```py
 tolist()
@@ -1744,7 +1736,7 @@ transpose(dim0, dim1) → Tensor
 transpose_(dim0, dim1) → Tensor
 ```
 
-[`transpose()`](#torch.Tensor.transpose "torch.Tensor.transpose") 的 in-place 运算形式
+`transpose()` 的 in-place 运算形式
 
 ```py
 tril(k=0) → Tensor
@@ -1756,7 +1748,7 @@ tril(k=0) → Tensor
 tril_(k=0) → Tensor
 ```
 
-[`tril()`](#torch.Tensor.tril "torch.Tensor.tril")
+`tril()`
 
 ```py
 triu(k=0) → Tensor
@@ -1768,7 +1760,7 @@ triu(k=0) → Tensor
 triu_(k=0) → Tensor
 ```
 
-[`triu()`](#torch.Tensor.triu "torch.Tensor.triu") 的 in-place 运算形式
+`triu()` 的 in-place 运算形式
 
 ```py
 trtrs(A, upper=True, transpose=False, unitriangular=False) -> (Tensor, Tensor)
@@ -1786,7 +1778,7 @@ trunc() → Tensor
 trunc_() → Tensor
 ```
 
-[`trunc()`](#torch.Tensor.trunc "torch.Tensor.trunc") 的 in-place 运算形式
+`trunc()` 的 in-place 运算形式
 
 ```py
 type(new_type=None, async=False)
@@ -1796,13 +1788,12 @@ type(new_type=None, async=False)
 
 如果已经是正确的类型 , 则不执行复制并直接返回原对象 .
 
-| Parameters: | 
+参数：
 
-*   **new_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.6)") _or_ [_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 期望的类型
-*   **async** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.6)")) – 如果为 `True` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 .
+*   `new_type (type 或 string)` – 期望的类型
+*   `async (bool)` – 如果为 `True` , 并且源在锁定内存中而目标在GPU中 , 则副本将与主机异步执行 , 反之亦然 . 否则此参数不起效果 .
 
- |
-| --- | --- |
+
 
 ```py
 type_as(tensor)
@@ -1823,7 +1814,7 @@ Params: tensor (Tensor): tensor 具有所需的类型
 unfold(dim, size, step) → Tensor
 ```
 
-返回一个在 [`dim`](#torch.Tensor.dim "torch.Tensor.dim") 维度上包含所有 [`size`](#torch.Tensor.size "torch.Tensor.size") 大小切片的 tensor.
+返回一个在 `dim` 维度上包含所有 `size` 大小切片的 tensor.
 
 > `step` 说明两个切片之间的步长.
 
@@ -1831,16 +1822,15 @@ unfold(dim, size, step) → Tensor
 
 一个额外的切片大小的维度已经添加在返回的 tensor 中.
 
-| Parameters: | 
+参数：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 需要展开的维度
-*   **size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 每一个分片需要展开的大小
-*   **step** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.6)")) – 相邻分片之间的步长
+*   `dim (int)` – 需要展开的维度
+*   `size (int)` – 每一个分片需要展开的大小
+*   `step (int)` – 相邻分片之间的步长
 
- |
-| --- | --- |
 
-Example:
+
+示例：
 
 ```py
 >>> x = torch.arange(1, 8)
@@ -1890,7 +1880,7 @@ unsqueeze(dim)
 unsqueeze_(dim)
 ```
 
-[`unsqueeze()`](#torch.Tensor.unsqueeze "torch.Tensor.unsqueeze") 的 in-place 运算形式
+`unsqueeze()` 的 in-place 运算形式
 
 ```py
 var(dim=None, unbiased=True, keepdim=False) → float
@@ -1904,12 +1894,12 @@ view(*args) → Tensor
 
 返回一个有相同数据但大小不同的新的 tensor.
 
-返回的 tensor 与原 tensor 共享相同的数据, 一定有相同数目的元素, 但大小不同. 一个 tensor 必须是连续的 ( [`contiguous()`](#torch.Tensor.contiguous "torch.Tensor.contiguous") ) 才能被查看.
+返回的 tensor 与原 tensor 共享相同的数据, 一定有相同数目的元素, 但大小不同. 一个 tensor 必须是连续的 ( `contiguous()` ) 才能被查看.
 
-| Parameters: | **args** (_torch.Size_ _or_ _int..._) – 期望的大小 |
-| --- | --- |
+参数：`args (torch.Size 或 int...)` – 期望的大小
 
-Example
+
+示例：
 
 ```py
 >>> x = torch.randn(4, 4)
@@ -1947,7 +1937,7 @@ zero_()
 class torch.ByteTensor
 ```
 
-下面这些函数方法只存在于 [`torch.ByteTensor`](#torch.ByteTensor "torch.ByteTensor").
+下面这些函数方法只存在于 `torch.ByteTensor`.
 
 ```py
 all() → bool

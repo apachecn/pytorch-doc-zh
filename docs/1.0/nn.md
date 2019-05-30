@@ -2,36 +2,37 @@
 
 # torch.nn
 
-## Parameters
+## Parameters（参数）
 
 ```py
 class torch.nn.Parameter
 ```
 
-A kind of Tensor that is to be considered a module parameter.
 
-Parameters are [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") subclasses, that have a very special property when used with [`Module`](#torch.nn.Module "torch.nn.Module") s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters") iterator. Assigning a Tensor doesn’t have such effect. This is because one might want to cache some temporary state, like last hidden state of the RNN, in the model. If there was no such class as [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"), these temporaries would get registered too.
+Parameters对象是一种会被视为模块参数（module parameter）的Tensor张量。
+
+Parameters类是[`Tensor`](tensors.html#torch.Tensor "torch.Tensor") 的子类, 不过相对于它的父类，Parameters类有一个很重要的特性就是当其在 [`Module`](#torch.nn.Module "torch.nn.Module")类中被使用并被当做这个[`Module`](#torch.nn.Module "torch.nn.Module")类的模块属性的时候，那么这个Parameters对象会被自动地添加到这个[`Module`](#torch.nn.Module "torch.nn.Module")类的参数列表(list of parameters)之中，同时也就会被添加入此[`Module`](#torch.nn.Module "torch.nn.Module")类的 [`parameters()`](#torch.nn.Module.parameters "torch.nn.Module.parameters")方法所返回的参数迭代器中。而Parameters类的父类Tensor类也可以被用为构建模块的属性，但不会被加入参数列表。这样主要是因为，有时可能需要在模型中存储一些非模型参数的临时状态，比如RNN中的最后一个隐状态。而通过使用非[`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")的Tensor类，可以将这些临时变量注册(register)为模型的属性的同时使其不被加入参数列表。
 
 Parameters: 
 
-*   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – parameter tensor.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if the parameter requires gradient. See [Excluding subgraphs from backward](notes/autograd.html#excluding-subgraphs) for more details. Default: `True`
+*   **data** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 参数张量(parameter tensor).
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 参数是否需要梯度， 默认为 `True`。更多细节请看 [如何将子图踢出反向传播过程](notes/autograd.html#excluding-subgraphs)。 
 
 
 
-## Containers
+## Containers（容器）
 
-### Module
+### Module（模块）
 
 ```py
 class torch.nn.Module
 ```
 
-Base class for all neural network modules.
+模块（Module）是所有神经网络模型的基类。
 
-Your models should also subclass this class.
+你创建模型的时候也应该继承这个类哦。
 
-Modules can also contain other Modules, allowing to nest them in a tree structure. You can assign the submodules as regular attributes:
+模块(Module)中还可以包含其他的模块，你可以将一个模块赋值成为另一个模块的属性，从而成为这个模块的一个子模块。而通过不断的赋值，你可以将不同的模块组织成一个树结构:
 
 ```py
 import torch.nn as nn
@@ -40,7 +41,7 @@ import torch.nn.functional as F
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv1 = nn.Conv2d(1, 20, 5) # 当前的nn.Conv2d模块就被赋值成为Model模块的一个子模块，成为“树结构”的叶子
         self.conv2 = nn.Conv2d(20, 20, 5)
 
     def forward(self, x):
@@ -49,20 +50,18 @@ class Model(nn.Module):
 
 ```
 
-Submodules assigned in this way will be registered, and will have their parameters converted too when you call [`to()`](#torch.nn.Module.to "torch.nn.Module.to"), etc.
+通过赋值这种方式添加的子模块将会被模型注册(register)，而后当调用模块的一些参数转换函数（[`to()`](#torch.nn.Module.to "torch.nn.Module.to")）的时候，子模块的参数也会一并转换。
 
 ```py
 add_module(name, module)
 ```
+向当前模块添加一个子模块。
+此子模块可以作为当前模块的属性被访问到，而属性名就是add_module()函数中的name参数。
 
-Adds a child module to the current module.
+add_module()函数参数: 
 
-The module can be accessed as an attribute using the given name.
-
-Parameters: 
-
-*   **name** (_string_) – name of the child module. The child module can be accessed from this module using the given name
-*   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – child module to be added to the module.
+*   **name** (_string_) – 子模块的名字. 函数调用完成后，可以通过访问当前模块的此字段来访问该子模块。
+*   **parameter** ([_Module_](#torch.nn.Module "torch.nn.Module")) – 要添加到当前模块的子模块。
 
 
 
@@ -70,16 +69,17 @@ Parameters:
 apply(fn)
 ```
 
-Applies `fn` recursively to every submodule (as returned by `.children()`) as well as self. Typical use includes initializing the parameters of a model (see also torch-nn-init).
 
-| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – function to be applied to each submodule |
+apply()函数的主要作用是将 `fn` 递归地应用于模块的所有子模块（`.children()`函数的返回值）以及模块自身。此函数的一个经典应用就是初始化模型的所有参数这一过程(同样参见于 torch-nn-init)。
+
+| Parameters: | **fn** ([`Module`](#torch.nn.Module "torch.nn.Module") -&gt; None) – 要应用于所有子模型的函数 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> def init_weights(m):
@@ -89,7 +89,7 @@ Example:
  print(m.weight)
 
 >>> net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))
->>> net.apply(init_weights)
+>>> net.apply(init_weights) # 将init_weights()函数应用于模块的所有子模块
 Linear(in_features=2, out_features=2, bias=True)
 Parameter containing:
 tensor([[ 1.,  1.],
@@ -112,15 +112,14 @@ Sequential(
 ```py
 buffers(recurse=True)
 ```
+返回模块的缓冲区的迭代器
 
-Returns an iterator over module buffers.
-
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module. |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，产生的缓冲区迭代器会遍历模块自己与所有子模块，否则只会遍历模块的直连的成员。 |
 | --- | --- |
-| Yields: | _torch.Tensor_ – module buffer |
+| Yields: | _torch.Tensor_ – 模型缓冲区 |
 | --- | --- |
 
-Example:
+举例:
 
 ```py
 >>> for buf in model.buffers():
@@ -134,16 +133,17 @@ Example:
 children()
 ```
 
+返回一个当前所有子模块的迭代器
 Returns an iterator over immediate children modules.
 
-| Yields: | _Module_ – a child module |
+| Yields: | _Module_ – 子模块 |
 | --- | --- |
 
 ```py
 cpu()
 ```
 
-Moves all model parameters and buffers to the CPU.
+将模型的所有参数(parameter)和缓冲区(buffer)都转移到CPU内存中。
 
 | Returns: | self |
 | --- | --- |
@@ -154,11 +154,11 @@ Moves all model parameters and buffers to the CPU.
 cuda(device=None)
 ```
 
-Moves all model parameters and buffers to the GPU.
+将模型的所有参数和缓冲区都转移到CUDA设备内存中。
 
-This also makes associated parameters and buffers different objects. So it should be called before constructing optimizer if the module will live on GPU while being optimized.
+因为cuda()函数同时会将处理模块中的所有参数并缓存这些参数的对象。所以如果想让模块在GPU上进行优化操作，一定要在构建优化器之前调用模块的cuda()函数。
 
-| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – if specified, all parameters will be copied to that device |
+| Parameters: | **device** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 如果设备编号被指定，所有的参数都会被拷贝到编号指定设备上 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -169,7 +169,7 @@ This also makes associated parameters and buffers different objects. So it shoul
 double()
 ```
 
-Casts all floating point parameters and buffers to `double` datatype.
+将所有的浮点数类型的参数(parameters)和缓冲区(buffers)转换为`double`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -180,31 +180,33 @@ Casts all floating point parameters and buffers to `double` datatype.
 dump_patches = False
 ```
 
-This allows better BC support for [`load_state_dict()`](#torch.nn.Module.load_state_dict "torch.nn.Module.load_state_dict"). In [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict"), the version number will be saved as in the attribute `_metadata` of the returned state dict, and thus pickled. `_metadata` is a dictionary with keys that follow the naming convention of state dict. See `_load_from_state_dict` on how to use this information in loading.
+这个字段可以为[`load_state_dict()`](#torch.nn.Module.load_state_dict "torch.nn.Module.load_state_dict")提供 BC 支持（BC support实在不懂是什么意思-.-）。 在 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")函数返回的状态字典（state dict）中， 有一个名为`_metadata`的属性中存储了这个state_dict的版本号。`_metadata`是一个遵从了状态字典（state dict）的命名规范的关键字字典， 要想了解这个`_metadata`在加载状态（loading state dict）的时候是怎么用的，可以看一下 `_load_from_state_dict`部分的文档。
 
-If new parameters/buffers are added/removed from a module, this number shall be bumped, and the module’s `_load_from_state_dict` method can compare the version number and do appropriate changes if the state dict is from before the change.
+
+如果新的参数/缓冲区被添加于/移除自这个模块之中时，这个版本号数字会随之发生变化。同时模块的`_load_from_state_dict`方法会比较版本号的信息并依据此状态词典（state dict）的变化做出一些适当的调整。
 
 ```py
 eval()
 ```
 
-Sets the module in evaluation mode.
+将模块转换为测试模式。
 
-This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout"), `BatchNorm`, etc.
+这个函数只对特定的模块类型有效，如 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")和`BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下这些特殊模块的文档部分。
 
 ```py
 extra_repr()
 ```
 
-Set the extra representation of the module
+为模块设置额外的展示信息(extra representation)。
 
-To print customized extra information, you should reimplement this method in your own modules. Both single-line and multi-line strings are acceptable.
+如果想要打印展示(print)你的模块的一些定制的额外信息，那你应该在你的模块中复现这个函数。单行和多行的字符串都可以被接受。
+
 
 ```py
 float()
 ```
 
-Casts all floating point parameters and buffers to float datatype.
+将所有浮点数类型的参数(parameters)和缓冲区(buffers)转换为`float`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -215,19 +217,19 @@ Casts all floating point parameters and buffers to float datatype.
 forward(*input)
 ```
 
-Defines the computation performed at every call.
+定义了每次模块被调用之后所进行的计算过程。
 
-Should be overridden by all subclasses.
+应该被Module类的所有子类重写。
 
 Note
 
-Although the recipe for forward pass needs to be defined within this function, one should call the [`Module`](#torch.nn.Module "torch.nn.Module") instance afterwards instead of this since the former takes care of running the registered hooks while the latter silently ignores them.
+尽管模块的前向操作都被定义在这个函数里面，但是当你要进行模块的前向操作的时候，还是要直接调用模块[`Module`](#torch.nn.Module "torch.nn.Module") 的实例函数，而不是直接调用这个forward()函数。这主要是因为前者会照顾到注册在此模块之上的钩子函数（the registered hooks）的运行，而后者则不会。
 
 ```py
 half()
 ```
 
-Casts all floating point parameters and buffers to `half` datatype.
+将所有的浮点数类型的参数(parameters)和缓冲区(buffers)转换为`half`数据类型。
 
 | Returns: | self |
 | --- | --- |
@@ -238,12 +240,12 @@ Casts all floating point parameters and buffers to `half` datatype.
 load_state_dict(state_dict, strict=True)
 ```
 
-Copies parameters and buffers from [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") into this module and its descendants. If `strict` is `True`, then the keys of [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") must exactly match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function.
+将[`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")中的参数（parameters）和缓冲区（buffers）拷贝到模块和其子模块之中。如果`strict`被设置为`True`，那么[`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict")中的键值（keys）必须与模型的[`state_dict()`]函数所返回的键值（keys）信息保持完全的一致。
 
-Parameters: 
+load_state_dict()函数参数： 
 
-*   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – a dict containing parameters and persistent buffers.
-*   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to strictly enforce that the keys in [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") match the keys returned by this module’s [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") function. Default: `True`
+*   **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – 一个包含了参数和持久缓冲区的字典。
+*   **strict** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 是否严格要求 [`state_dict`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 中的键值（keys）与模型 [`state_dict()`](#torch.nn.Module.state_dict "torch.nn.Module.state_dict") 函数返回的键值（keys）信息保持完全一致。 默认： `True`
 
 
 
@@ -251,16 +253,16 @@ Parameters:
 modules()
 ```
 
-Returns an iterator over all modules in the network.
+返回一个当前模块内所有模块（包括自身）的迭代器。
 
 | Yields: | _Module_ – a module in the network |
 | --- | --- |
 
 Note
 
-Duplicate modules are returned only once. In the following example, `l` will be returned only once.
+注意重复的模块只会被返回一次。比在下面这个例子中，`l`就只会被返回一次。
 
-Example:
+例子:
 
 ```py
 >>> l = nn.Linear(2, 2)
@@ -280,18 +282,18 @@ Example:
 named_buffers(prefix='', recurse=True)
 ```
 
-Returns an iterator over module buffers, yielding both the name of the buffer as well as the buffer itself.
+返回一个模块缓冲区的迭代器，每次返回的元素是由缓冲区的名字和缓冲区自身组成的元组。
 
-Parameters: 
+named_buffers()函数的参数: 
 
-*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all buffer names.
-*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields buffers of this module and all submodules. Otherwise, yields only buffers that are direct members of this module.
+*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 要添加在所有缓冲区名字之前的前缀。
+*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的缓冲区，同时也会递归返回其子模块的缓冲区。否则，只返回这个模块直连成员的缓冲区。
 
 
-| Yields: | _(string, torch.Tensor)_ – Tuple containing the name and buffer |
+| Yields: | _(string, torch.Tensor)_ – 包含了缓冲区的名字和缓冲区自身的元组 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for name, buf in self.named_buffers():
@@ -304,12 +306,13 @@ Example:
 named_children()
 ```
 
-Returns an iterator over immediate children modules, yielding both the name of the module as well as the module itself.
+返回一个当前模型直连的子模块的迭代器，每次返回的元素是由子模块的名字和子模块自身组成的元组。
 
-| Yields: | _(string, Module)_ – Tuple containing a name and child module |
+
+| Yields: | _(string, Module)_ – 包含了子模块的名字和子模块自身的元组 |
 | --- | --- |
 
-Example:
+例子：
 
 ```py
 >>> for name, module in model.named_children():
@@ -322,16 +325,17 @@ Example:
 named_modules(memo=None, prefix='')
 ```
 
-Returns an iterator over all modules in the network, yielding both the name of the module as well as the module itself.
+返回一个当前模块内所有模块（包括自身）的迭代器，每次返回的元素是由模块的名字和模块自身组成的元组。
 
-| Yields: | _(string, Module)_ – Tuple of name and module |
+
+| Yields: | _(string, Module)_ – 模块名字和模块自身组成的元组 |
 | --- | --- |
 
 Note
 
-Duplicate modules are returned only once. In the following example, `l` will be returned only once.
+重复的模块只会被返回一次。在下面的例子中，`l`只被返回了一次。
 
-Example:
+例子：
 
 ```py
 >>> l = nn.Linear(2, 2)
@@ -351,18 +355,18 @@ Example:
 named_parameters(prefix='', recurse=True)
 ```
 
-Returns an iterator over module parameters, yielding both the name of the parameter as well as the parameter itself.
+返回一个当前模块内所有参数的迭代器，每次返回的元素是由参数的名字和参数自身组成的元组。
 
-Parameters: 
+named_parameters()函数参数：
 
-*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – prefix to prepend to all parameter names.
-*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module.
+*   **prefix** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 要在所有参数名字前面添加的前缀。
+*   **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的参数，同时也会返回其子模块的参数。否则，只返回这个模块直连成员的参数。
 
 
-| Yields: | _(string, Parameter)_ – Tuple containing the name and parameter |
+| Yields: | _(string, Parameter)_ – 参数名字和参数自身组成的元组 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for name, param in self.named_parameters():
@@ -375,16 +379,15 @@ Example:
 parameters(recurse=True)
 ```
 
-Returns an iterator over module parameters.
+返回一个遍历模块所有参数的迭代器。
+parameters()函数一个经典的应用就是实践中经常将此函数的返回值传入优化器。
 
-This is typically passed to an optimizer.
-
-| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – if True, then yields parameters of this module and all submodules. Otherwise, yields only parameters that are direct members of this module. |
+| Parameters: | **recurse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  如果设置为True，那样迭代器中不光会返回这个模块自身直连成员的参数，同时也会递归返回其子模块的参数。否则，只返回这个模块直连成员的参数。 |
 | --- | --- |
-| Yields: | _Parameter_ – module parameter |
+| Yields: | _Parameter_ – 模块参数 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> for param in model.parameters():
@@ -398,44 +401,45 @@ Example:
 register_backward_hook(hook)
 ```
 
-Registers a backward hook on the module.
+在模块上注册一个挂载在反向操作之后的钩子函数。（挂载在backward之后这个点上的钩子函数）
 
-The hook will be called every time the gradients with respect to module inputs are computed. The hook should have the following signature:
+对于每次输入，当模块关于此次输入的反向梯度的计算过程完成，该钩子函数都会被调用一次。此钩子函数需要遵从以下函数签名：
+
 
 ```py
 hook(module, grad_input, grad_output) -> Tensor or None
 
 ```
 
-The `grad_input` and `grad_output` may be tuples if the module has multiple inputs or outputs. The hook should not modify its arguments, but it can optionally return a new gradient with respect to input that will be used in place of `grad_input` in subsequent computations.
+如果模块的输入或输出是多重的（multiple inputs or outputs），那 `grad_input` 和 `grad_output` 应当是元组数据。 钩子函数不能对输入的参数`grad_input` 和 `grad_output`进行任何更改，但是可以选择性地根据输入的参数返回一个新的梯度回去，而这个新的梯度在后续的计算中会替换掉`grad_input`。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。|
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
 
 Warning
 
-The current implementation will not have the presented behavior for complex [`Module`](#torch.nn.Module "torch.nn.Module") that perform many operations. In some failure cases, `grad_input` and `grad_output` will only contain the gradients for a subset of the inputs and outputs. For such [`Module`](#torch.nn.Module "torch.nn.Module"), you should use [`torch.Tensor.register_hook()`](autograd.html#torch.Tensor.register_hook "torch.Tensor.register_hook") directly on a specific input or output to get the required gradients.
+对于一些具有很多复杂操作的[`Module`](#torch.nn.Module "torch.nn.Module")，当前的hook实现版本还不能达到完全理想的效果。举个例子，有些错误的情况下，函数的输入参数`grad_input` 和 `grad_output`中可能只是真正的输入和输出变量的一个子集。对于此类的[`Module`](#torch.nn.Module "torch.nn.Module")，你应该使用[`torch.Tensor.register_hook()`]直接将钩子挂载到某个特定的输入输出的变量上，而不是当前的模块。
 
 ```py
 register_buffer(name, tensor)
 ```
 
-Adds a persistent buffer to the module.
+往模块上添加一个持久缓冲区。
 
-This is typically used to register a buffer that should not to be considered a model parameter. For example, BatchNorm’s `running_mean` is not a parameter, but is part of the persistent state.
+这个函数的经常会被用于向模块添加不会被认为是模块参数（model parameter）的缓冲区。举个栗子，BatchNorm的`running_mean`就不是一个参数，但却属于持久状态。
 
-Buffers can be accessed as attributes using given names.
+所添加的缓冲区可以通过给定的名字(name参数)以访问模块的属性的方式进行访问。
 
-Parameters: 
+register_buffer()函数的参数: 
 
-*   **name** (_string_) – name of the buffer. The buffer can be accessed from this module using the given name
-*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – buffer to be registered.
+*   **name** (_string_) – 要添加的缓冲区的名字。所添加的缓冲区可以通过此名字以访问模块的属性的方式进行访问。
+*   **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 需要注册到模块上的缓冲区。
 
 
 
-Example:
+例子:
 
 ```py
 >>> self.register_buffer('running_mean', torch.zeros(num_features))
@@ -446,18 +450,18 @@ Example:
 register_forward_hook(hook)
 ```
 
-Registers a forward hook on the module.
+在模块上注册一个挂载在前向操作之后的钩子函数。（挂载在forward操作结束之后这个点）
 
-The hook will be called every time after [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") has computed an output. It should have the following signature:
+此钩子函数在每次模块的 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward")函数运行结束产生output之后就会被触发。此钩子函数需要遵从以下函数签名：
 
 ```py
 hook(module, input, output) -> None
 
 ```
 
-The hook should not modify the input or output.
+此钩子函数不能进行会修改 input 和 output 这两个参数的操作。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。 |
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
@@ -466,8 +470,10 @@ The hook should not modify the input or output.
 register_forward_pre_hook(hook)
 ```
 
-Registers a forward pre-hook on the module.
+在模块上注册一个挂载在前向操作之前的钩子函数。（挂载在forward操作开始之前这个点）
 
+
+此钩子函数在每次模块的 [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward")函数运行开始之前会被触发。此钩子函数需要遵从以下函数签名：
 The hook will be called every time before [`forward()`](#torch.nn.Module.forward "torch.nn.Module.forward") is invoked. It should have the following signature:
 
 ```py
@@ -475,9 +481,9 @@ hook(module, input) -> None
 
 ```
 
-The hook should not modify the input.
+此钩子函数不能进行会修改 input 这个参数的操作。
 
-| Returns: | a handle that can be used to remove the added hook by calling `handle.remove()` |
+| Returns: | 一个句柄（handle），这个handle的特点就是通过调用`handle.remove()`函数就可以将这个添加于模块之上的钩子移除掉。 |
 | --- | --- |
 | Return type: | `torch.utils.hooks.RemovableHandle` |
 | --- | --- |
@@ -486,14 +492,14 @@ The hook should not modify the input.
 register_parameter(name, param)
 ```
 
-Adds a parameter to the module.
+向模块添加一个参数（parameter）。
 
-The parameter can be accessed as an attribute using given name.
+所添加的参数（parameter）可以通过给定的名字(name参数)以访问模块的属性的方式进行访问。
 
-Parameters: 
+register_parameter()函数的参数： 
 
-*   **name** (_string_) – name of the parameter. The parameter can be accessed from this module using the given name
-*   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to be added to the module.
+*   **name** (_string_) – 所添加的参数的名字. 所添加的参数（parameter）可以通过此名字以访问模块的属性的方式进行访问
+*   **parameter** ([_Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要添加到模块之上的参数。
 
 
 
@@ -501,16 +507,17 @@ Parameters:
 state_dict(destination=None, prefix='', keep_vars=False)
 ```
 
-Returns a dictionary containing a whole state of the module.
+返回一个包含了模块当前所有状态(state)的字典(dictionary)。
 
-Both parameters and persistent buffers (e.g. running averages) are included. Keys are corresponding parameter and buffer names.
+所有的参数和持久缓冲区都被囊括在其中。字典的键值就是响应的参数和缓冲区的名字(name)。
 
-| Returns: | a dictionary containing a whole state of the module |
+
+| Returns: | 一个包含了模块当前所有状态的字典 |
 | --- | --- |
 | Return type: | [dict](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> module.state_dict().keys()
@@ -522,9 +529,9 @@ Example:
 to(*args, **kwargs)
 ```
 
-Moves and/or casts the parameters and buffers.
+移动 并且/或者（and/or）转换所有的参数和缓冲区。
 
-This can be called as
+这个函数可以这样调用：
 
 ```py
 to(device=None, dtype=None, non_blocking=False)
@@ -538,19 +545,19 @@ to(dtype, non_blocking=False)
 to(tensor, non_blocking=False)
 ```
 
-Its signature is similar to [`torch.Tensor.to()`](tensors.html#torch.Tensor.to "torch.Tensor.to"), but only accepts floating point desired `dtype` s. In addition, this method will only cast the floating point parameters and buffers to `dtype` (if given). The integral parameters and buffers will be moved `device`, if that is given, but with dtypes unchanged. When `non_blocking` is set, it tries to convert/move asynchronously with respect to the host if possible, e.g., moving CPU Tensors with pinned memory to CUDA devices.
+此函数的函数签名跟[`torch.Tensor.to()`](tensors.html#torch.Tensor.to "torch.Tensor.to")函数的函数签名很相似，只不过这个函数`dtype`参数只接受浮点数类型的dtype，如float， double， half（ floating point desired `dtype` s）。同时，这个方法只会将浮点数类型的参数和缓冲区（the floating point parameters and buffers）转化为`dtype`（如果输入参数中给定的话）的数据类型。而对于整数类型的参数和缓冲区（the integral parameters and buffers），即便输入参数中给定了`dtype`，也不会进行转换操作，而如果给定了 `device`参数，移动操作则会正常进行。当`non_blocking`参数被设置为True之后，此函数会尽可能地相对于 host 进行异步的 转换/移动 操作，比如，将存储在固定内存（pinned memory）上的CPU Tensors移动到CUDA设备上这一过程既是如此。
 
-See below for examples.
+例子在下面。
 
 Note
 
-This method modifies the module in-place.
+这个方法对模块的修改都是in-place操作。
 
-Parameters: 
+to()函数的参数: 
 
-*   **device** (`torch.device`) – the desired device of the parameters and buffers in this module
-*   **dtype** (`torch.dtype`) – the desired floating point type of the floating point parameters and buffers in this module
-*   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Tensor whose dtype and device are the desired dtype and device for all parameters and buffers in this module
+*   **device** (`torch.device`) – 想要将这个模块中的参数和缓冲区转移到的设备。
+*   **dtype** (`torch.dtype`) – 想要将这个模块中浮点数的参数和缓冲区转化为的浮点数数据类型。
+*   **tensor** ([_torch.Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 一个Tensor，如果被指定，其dtype和device信息，将分别起到上面两个参数的作用，也就是说，这个模块的浮点数的参数和缓冲区的数据类型将会被转化为这个Tensor的dtype类型，同时被转移到此Tensor所处的设备device上去。
 
 
 | Returns: | self |
@@ -558,7 +565,7 @@ Parameters:
 | Return type: | [Module](#torch.nn.Module "torch.nn.Module") |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 >>> linear = nn.Linear(2, 2)
@@ -593,9 +600,9 @@ tensor([[ 0.1914, -0.3420],
 train(mode=True)
 ```
 
-Sets the module in training mode.
+将模块转换成训练模式。
 
-This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout"), `BatchNorm`, etc.
+这个函数只对特定的模块类型有效，如 [`Dropout`](#torch.nn.Dropout "torch.nn.Dropout")和`BatchNorm`等等。如果想了解这些特定模块在训练/测试模式下各自的运作细节，可以看一下这些特殊模块的文档部分。
 
 | Returns: | self |
 | --- | --- |
@@ -606,9 +613,9 @@ This has any effect only on certain modules. See documentations of particular mo
 type(dst_type)
 ```
 
-Casts all parameters and buffers to `dst_type`.
+将所有的参数和缓冲区转化为 `dst_type`的数据类型。
 
-| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – the desired type |
+| Parameters: | **dst_type** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – 要转化的数据类型 |
 | --- | --- |
 | Returns: | self |
 | --- | --- |
@@ -619,7 +626,7 @@ Casts all parameters and buffers to `dst_type`.
 zero_grad()
 ```
 
-Sets gradients of all model parameters to zero.
+讲模块所有参数的梯度设置为0。
 
 ### Sequential
 
@@ -627,12 +634,12 @@ Sets gradients of all model parameters to zero.
 class torch.nn.Sequential(*args)
 ```
 
-A sequential container. Modules will be added to it in the order they are passed in the constructor. Alternatively, an ordered dict of modules can also be passed in.
+一种顺序容器。传入Sequential构造器中的模块会被按照他们传入的顺序依次添加到Sequential之上。相应的，一个由模块组成的顺序词典也可以被传入到Sequential的构造器中。
 
-To make it easier to understand, here is a small example:
+为了方便大家理解，举个简单的例子：
 
 ```py
-# Example of using Sequential
+# 构建Sequential的例子
 model = nn.Sequential(
           nn.Conv2d(1,20,5),
           nn.ReLU(),
@@ -640,7 +647,7 @@ model = nn.Sequential(
           nn.ReLU()
         )
 
-# Example of using Sequential with OrderedDict
+# 利用OrderedDict构建Sequential的例子
 model = nn.Sequential(OrderedDict([
           ('conv1', nn.Conv2d(1,20,5)),
           ('relu1', nn.ReLU()),
@@ -650,20 +657,20 @@ model = nn.Sequential(OrderedDict([
 
 ```
 
-### ModuleList
+### ModuleList (模块列表)
 
 ```py
 class torch.nn.ModuleList(modules=None)
 ```
 
-Holds submodules in a list.
+ModuleList的作用是将一堆模块（module）存储在一个列表之中。
 
-ModuleList can be indexed like a regular Python list, but modules it contains are properly registered, and will be visible by all Module methods.
+ModuleList 可以按一般的python列表的索引方式进行索引，但ModuleList中的模块都已被正确注册，并且对所有的Module method可见。
 
-| Parameters: | **modules** (_iterable__,_ _optional_) – an iterable of modules to add |
+| Parameters: | **modules** (_iterable__,_ _optional_) – 一个要添加到ModuleList中的由模块组成的可迭代结构(an iterable of modules)|
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -672,7 +679,7 @@ class MyModule(nn.Module):
         self.linears = nn.ModuleList([nn.Linear(10, 10) for i in range(10)])
 
     def forward(self, x):
-        # ModuleList can act as an iterable, or be indexed using ints
+        # ModuleList可以被当作一个迭代器，同时也可以使用index索引
         for i, l in enumerate(self.linears):
             x = self.linears[i // 2](x) + l(x)
         return x
@@ -683,44 +690,44 @@ class MyModule(nn.Module):
 append(module)
 ```
 
-Appends a given module to the end of the list.
+将一个模块添加到ModuleList的末尾，与python list的append()一致。
 
-| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to append |
+| Parameters: | **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要添加的模块 |
 | --- | --- |
 
 ```py
 extend(modules)
 ```
 
-Appends modules from a Python iterable to the end of the list.
+将一个由模块组成的可迭代结构添加到ModuleList的末尾，与python list的extend()一致。
 
-| Parameters: | **modules** (_iterable_) – iterable of modules to append |
+| Parameters: | **modules** (_iterable_) – 要添加到ModuleList末尾的由模块组成的可迭代结构 |
 | --- | --- |
 
 ```py
 insert(index, module)
 ```
 
-Insert a given module before a given index in the list.
+将给定的`module`插入到ModuleList的`index`位置。
 
-Parameters: 
+insert()函数的参数: 
 
-*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – index to insert.
-*   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – module to insert
+*   **index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要插入的位置
+*   **module** ([_nn.Module_](#torch.nn.Module "torch.nn.Module")) – 要插入的模块
 
 
-
-### ModuleDict
+### ModuleDict (模块词典)
 
 ```py
 class torch.nn.ModuleDict(modules=None)
 ```
 
-Holds submodules in a dictionary.
+ModuleDict的作用是将一堆模块（module）存储在一个词典之中。
 
-ModuleDict can be indexed like a regular Python dictionary, but modules it contains are properly registered, and will be visible by all Module methods.
 
-| Parameters: | **modules** (_iterable__,_ _optional_) – a mapping (dictionary) of (string: module) or an iterable of key/value pairs of type (string, module) |
+ModuleDict 可以按一般的python词典的索引方式进行索引，但ModuleDict中的模块都已被正确注册，并且对所有的Module method可见。
+
+| Parameters: | **modules** (_iterable__,_ _optional_) – 一个由(string: module)映射组成的映射集合（词典）或者 一个由(string, module)键/值对组成的可迭代结构 |
 | --- | --- |
 
 Example:
@@ -748,59 +755,57 @@ class MyModule(nn.Module):
 ```py
 clear()
 ```
-
-Remove all items from the ModuleDict.
+移除ModuleDict中所有的元素。
 
 ```py
 items()
 ```
 
-Return an iterable of the ModuleDict key/value pairs.
+返回一个由ModuleDict中的键/值对组成的可迭代结构。
 
 ```py
 keys()
 ```
 
-Return an iterable of the ModuleDict keys.
+返回一个由ModuleDict中的键组成的可迭代结构。
 
 ```py
 pop(key)
 ```
+将`key`这个键从ModuleDict中删除，并将其对应的模块返回。
 
-Remove key from the ModuleDict and return its module.
-
-| Parameters: | **key** (_string_) – key to pop from the ModuleDict |
+| Parameters: | **key** (_string_) – 要从ModuleDict中弹出的键 |
 | --- | --- |
 
 ```py
 update(modules)
 ```
 
-Update the ModuleDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
+通过传入的映射或者由键/值对组成的可迭代结构对当前的ModuleDict进行更新，如果传入对象与当前ModuleDict中存在键重复，当前ModuleDict中这些重复的键所对应的值将被覆盖。
 
-| Parameters: | **modules** (_iterable_) – a mapping (dictionary) of (string: `Module``) or an iterable of key/value pairs of type (string, `Module``) |
+| Parameters: | **modules** (_iterable_) – 一个由(string: `Module`)映射组成的映射集合（词典）或者 一个由(string: `Module`)键/值对组成的可迭代结构 |
 | --- | --- |
 
 ```py
 values()
 ```
 
-Return an iterable of the ModuleDict values.
+返回一个由ModuleDict中的值组成的可迭代结构。
 
-### ParameterList
+### ParameterList (参数列表)
 
 ```py
 class torch.nn.ParameterList(parameters=None)
 ```
+ParameterList的作用是将一堆参数（parameter）存储到一个列表中。
 
-Holds parameters in a list.
+ParameterList 可以按一般的python列表的索引方式进行索引，但ParameterList中的参数（parameter）都已被正确注册，并且对所有的Module method可见。
 
-ParameterList can be indexed like a regular Python list, but parameters it contains are properly registered, and will be visible by all Module methods.
 
-| Parameters: | **parameters** (_iterable__,_ _optional_) – an iterable of `Parameter`` to add |
+| Parameters: | **parameters** (_iterable__,_ _optional_) – 要添加到ParameterList之上的由parameter组成的可迭代结构 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -809,7 +814,7 @@ class MyModule(nn.Module):
         self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) for i in range(10)])
 
     def forward(self, x):
-        # ParameterList can act as an iterable, or be indexed using ints
+        # ParameterList可以被当作一个迭代器，同时也可以使用index索引
         for i, p in enumerate(self.params):
             x = self.params[i // 2].mm(x) + p.mm(x)
         return x
@@ -820,34 +825,34 @@ class MyModule(nn.Module):
 append(parameter)
 ```
 
-Appends a given parameter at the end of the list.
+将一个parameter添加到ParameterList的末尾。
 
-| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – parameter to append |
+| Parameters: | **parameter** ([_nn.Parameter_](#torch.nn.Parameter "torch.nn.Parameter")) – 要添加的参数 |
 | --- | --- |
 
 ```py
 extend(parameters)
 ```
 
-Appends parameters from a Python iterable to the end of the list.
+将一个由parameter组成的Python可迭代结构添加到ParameterList的末尾。
 
-| Parameters: | **parameters** (_iterable_) – iterable of parameters to append |
+| Parameters: | **parameters** (_iterable_) – 要添加到ParameterList的末尾的由parameter组成的Python可迭代结构 |
 | --- | --- |
 
-### ParameterDict
+### ParameterDict (参数词典)
 
 ```py
 class torch.nn.ParameterDict(parameters=None)
 ```
 
-Holds parameters in a dictionary.
+ParameterDict的作用是将一堆参数（Parameter）存储在一个词典之中。
 
-ParameterDict can be indexed like a regular Python dictionary, but parameters it contains are properly registered, and will be visible by all Module methods.
+ParameterDict 可以按一般的python词典的索引方式进行索引，但ParameterDictt中的参数都已被正确注册，并且对所有的Module method可见。
 
-| Parameters: | **parameters** (_iterable__,_ _optional_) – a mapping (dictionary) of (string : [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) or an iterable of key,value pairs of type (string, [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) |
+| Parameters: | **parameters** (_iterable__,_ _optional_) – 一个由(string:[`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))映射组成的映射集合（词典）或者 一个由(string, [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))键/值对组成的可迭代结构 |
 | --- | --- |
 
-Example:
+例子:
 
 ```py
 class MyModule(nn.Module):
@@ -867,46 +872,45 @@ class MyModule(nn.Module):
 ```py
 clear()
 ```
-
-Remove all items from the ParameterDict.
+移除ParameterDict中所有的元素。
 
 ```py
 items()
 ```
 
-Return an iterable of the ParameterDict key/value pairs.
+返回一个由ParameterDict中的键/值对组成的可迭代结构。
 
 ```py
 keys()
 ```
 
-Return an iterable of the ParameterDict keys.
+返回一个由 ParameterDict中的键组成的可迭代结构。
 
 ```py
 pop(key)
 ```
 
-Remove key from the ParameterDict and return its parameter.
+将key这个键从ParameterDict中删除，并将其对应的模块返回。
 
-| Parameters: | **key** (_string_) – key to pop from the ParameterDict |
+| Parameters: | **key** (_string_) – 要从ParameterDict中弹出的键 |
 | --- | --- |
 
 ```py
 update(parameters)
 ```
 
-Update the ParameterDict with the key/value pairs from a mapping or an iterable, overwriting existing keys.
+通过传入的映射或者由键/值对组成的可迭代结构对当前的ParameterDict进行更新，如果传入对象与当前ParameterDict中存在键重复，当前ParameterDict中这些重复的键所对应的值将被覆盖。
 
-| Parameters: | **parameters** (_iterable_) – a mapping (dictionary) of (string : [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) or an iterable of key/value pairs of type (string, [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter")) |
+| Parameters: | **parameters** (_iterable_) – modules (iterable) – 一个由(string: [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))映射组成的映射集合（词典）或者 一个由(string: [`Parameter`](#torch.nn.Parameter "torch.nn.Parameter"))键/值对组成的可迭代结构 |
 | --- | --- |
 
 ```py
 values()
 ```
 
-Return an iterable of the ParameterDict values.
+返回一个由ParameterDict中的值组成的可迭代结构。
 
-## Convolution layers
+## Convolution layers (卷积层)
 
 ### Conv1d
 
@@ -914,50 +918,51 @@ Return an iterable of the ParameterDict values.
 class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
-Applies a 1D convolution over an input signal composed of several input planes.
+利用指定大小的一维卷积核对输入的多通道一维输入信号进行一维卷积操作的卷积层。
 
-In the simplest case, the output value of the layer with input size ![](img/1dad4f3ff614c986028f7100e0205f6d.jpg) and output ![](img/a03de8b18f61a493174a56530fb03f1d.jpg) can be precisely described as:
+在最简单的情况下，对于输入大小为![](img/1dad4f3ff614c986028f7100e0205f6d.jpg)，输出大小为![](img/a03de8b18f61a493174a56530fb03f1d.jpg)的一维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/806f7530da55bf294a636b8c7ed38bcb.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) denotes a number of channels, ![](img/db4a9fef02111450bf98261889de550c.jpg) is a length of signal sequence.
+这里的![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个互相关（[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)） 操作符（大家可以自己查一下互相关和真卷积的区别，互相关因为实现起来很简单，所以一般的深度学习框架都是用互相关操作取代真卷积）, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) 代表通道的数量, ![](img/db4a9fef02111450bf98261889de550c.jpg) 代表信号序列的长度。
 
-*   `stride` controls the stride for the cross-correlation, a single number or a one-element tuple.
+*   `stride` 参数控制了互相关操作（伪卷积）的步长，参数的数据类型一般是单个数字或者一个只有一个元素的元组。
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points.
+*   `padding` 参数控制了要在一维卷积核的输入信号的各维度各边上要补齐0的层数。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size ![](img/19131f9f53448ae579b613bc7bc90158.jpg)
-
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
 
 Note
 
-When `groups == in_channels` and `out_channels == K * in_channels`, where `K` is a positive integer, this operation is also termed in literature as depthwise convolution.
-
-In other words, for an input of size ![](img/7db3e5e5d600c81e77756d5eee050505.jpg), a depthwise convolution with a depthwise multiplier `K`, can be constructed by arguments ![](img/eab8f2745761d762e48a59446243af90.jpg).
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+当`groups == in_channels` 并且 `out_channels == K * in_channels`（其中K是正整数）的时候，这个操作也被称为深度卷积。
+举个创建深度卷积层的例子，对于一个大小为 ![](img/7db3e5e5d600c81e77756d5eee050505.jpg) 的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/eab8f2745761d762e48a59446243af90.jpg)。
 
-Parameters: 
+Note
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Zero-padding added to both sides of the input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
+
+Conv1d的参数: 
+
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输出通道个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输入数据各维度各边上要补齐0的层数。 默认： 0
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
 
 
 
@@ -965,20 +970,18 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/7db3e5e5d600c81e77756d5eee050505.jpg)
+*   输入: ![](img/7db3e5e5d600c81e77756d5eee050505.jpg)
 
-*   Output: ![](img/3423094375906aa21d1b2e095e95c230.jpg) where
+*   输出: ![](img/3423094375906aa21d1b2e095e95c230.jpg) 其中
 
     ![](img/91d48a39a90c6b4ed37ac863c1a8ff7b.jpg)
 
-| Variables: | 
+| 内部Variables： | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv1d模块中的一个大小为(out_channels, in_channels, kernel_size)的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv1d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中 ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
 
-
-
-Examples:
+例子:
 
 ```py
 >>> m = nn.Conv1d(16, 33, 3, stride=2)
@@ -992,79 +995,79 @@ Examples:
 ```py
 class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
+利用指定大小的二维卷积核对输入的多通道二维输入信号进行二维卷积操作的卷积层。
 
-Applies a 2D convolution over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/a6c3a4e9779c159b39576bee3400a00b.jpg) and output ![](img/4b354af142fb0f01680d390ef552829f.jpg) can be precisely described as:
+在最简单的情况下，对于输入大小为![](img/a6c3a4e9779c159b39576bee3400a00b.jpg)，输出大小为![](img/4b354af142fb0f01680d390ef552829f.jpg)的二维维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/a4928651cb959fa7871eaebdb489b083.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid 2D [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) denotes a number of channels, ![](img/9b7d9beafd65e2cf6493bdca741827a5.jpg) is a height of input planes in pixels, and ![](img/90490a34512e9bd1843ed4da713d0813.jpg) is width in pixels.
+这里的![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个二维互相关（[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)） 操作符（大家可以自己查一下互相关和真卷积的区别，互相关因为实现起来很简单，所以一般的深度学习框架都是用互相关操作取代真卷积）, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is a batch size, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) 代表通道的数量, ![](img/9b7d9beafd65e2cf6493bdca741827a5.jpg) 是输入的二维数据的像素高度，![](img/90490a34512e9bd1843ed4da713d0813.jpg) 是输入的二维数据的像素宽度。
 
-*   `stride` controls the stride for the cross-correlation, a single number or a tuple.
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension.
+*   `stride` 参数控制了互相关操作（伪卷积）的步长，参数的数据类型一般是单个数字或者一个只有一个元素的元组。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `padding` 参数控制了要在二维卷积核的输入信号的各维度各边上要补齐0的层数。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size: ![](img/19131f9f53448ae579b613bc7bc90158.jpg).
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子， 
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/19131f9f53448ae579b613bc7bc90158.jpg)
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
 
-Note
+`kernel_size`, `stride`, `padding`, `dilation`这几个参数均支持一下输入形式：
 
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
-
-Note
-
-When `groups == in_channels` and `out_channels == K * in_channels`, where `K` is a positive integer, this operation is also termed in literature as depthwise convolution.
-
-In other words, for an input of size ![](img/0385ad868fed790d36381b9e8788c18b.jpg), a depthwise convolution with a depthwise multiplier `K`, can be constructed by arguments ![](img/8aee041e54a302b342d50912ce67f44b.jpg).
+> *   一个 `int` 数字 – 二维数据的高和宽这两个维度都会采用这一个数字。
+> *   一个由两个int数字组成的`tuple`– 这种情况下，二维数据的高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
 
-Parameters: 
+Note
+当`groups == in_channels` 并且 `out_channels == K * in_channels`（其中K是正整数）的时候，这个操作也被称为深度卷积。
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Zero-padding added to both sides of the input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
+换句话说，对于一个大小为![](img/0385ad868fed790d36381b9e8788c18b.jpg)的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/8aee041e54a302b342d50912ce67f44b.jpg)。
 
+Note
 
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
+
+Conv2d的参数: 
+
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输出通道个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) –卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输入数据各维度各边上要补齐0的层数。 默认： 0
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) –卷积核各元素之间的距离。 默认： 1
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/0385ad868fed790d36381b9e8788c18b.jpg)
+*   输入: ![](img/0385ad868fed790d36381b9e8788c18b.jpg)
 
-*   Output: ![](img/d3edfe8a9bbdd73ba5c4b566353777f0.jpg) where
+*   输出: ![](img/d3edfe8a9bbdd73ba5c4b566353777f0.jpg) 其中
 
     ![](img/a89a5326ab89279b92f4720f63b4eaae.jpg)
 
     ![](img/03f69d6e3dffc3254359e41f8b310667.jpg)
 
-| Variables: | 
+| 内部Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size[0], kernel_size[1]). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv2d模块中的一个大小为 (out_channels, in_channels, kernel_size[0], kernel_size[1])的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)， 其中![](img/c12e2153347b696ebb784e5675cc566e.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv2d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中![](img/c12e2153347b696ebb784e5675cc566e.jpg)。
 
 
 
-Examples:
+例子:
 
 ```py
 >>> # With square kernels and equal stride
@@ -1084,65 +1087,67 @@ Examples:
 class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
 ```
 
-Applies a 3D convolution over an input signal composed of several input planes.
+利用指定大小的三维卷积核对输入的多通道三维输入信号进行三维卷积操作的卷积层。
 
-In the simplest case, the output value of the layer with input size ![](img/ca863d6b44a0246998de77c7c423ec32.jpg) and output ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为![](img/ca863d6b44a0246998de77c7c423ec32.jpg)，输出大小为![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) 的三维卷积层，其卷积计算过程可以如下表述：
 
 ![](img/39831867c152a21de6e580bf01c0cb7f.jpg)
 
-where ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg) is the valid 3D [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) operator
+这里的 ![](img/d5d3d32b4a35f91edb54c3c3f87d582e.jpg)符号实际上是一个三维互相关 [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation) 操作符。
 
-*   `stride` controls the stride for the cross-correlation.
+*   `stride` 数控制了互相关操作（伪卷积）的步长。
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension.
+*   `padding` 参数控制了要在三维卷积核的输入信号的各维度各边上要补齐0的层数。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 参数控制了卷积核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子，
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters, of size ![](img/648a514da1dace3deacf3f078287e157.jpg).
+   &gt; *   当 groups=1, 此Conv3d层会使用一个卷积层进行对所有输入到输出的卷积操作。
+   
+   &gt; *   当 groups=2, 此时Conv3d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv3d层的输出。
+   
+   &gt; *   当 groups= in_channels, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是 ![](img/648a514da1dace3deacf3f078287e157.jpg).
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+`kernel_size`, `stride`, `padding`, `dilation`这几个参数均支持一下输入形式：
 
-> *   a single `int` – in which case the same value is used for the depth, height and width dimension
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
+> *   一个 `int` 数字 – 三维维数据的深度，高和宽这三个维度都会采用这一个数字。
+> *   一个由三个int数字组成的`tuple`– 这种情况下，三维数据的深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
 
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
-
-Note
-
-When `groups == in_channels` and `out_channels == K * in_channels`, where `K` is a positive integer, this operation is also termed in literature as depthwise convolution.
-
-> In other words, for an input of size ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg), a depthwise convolution with a depthwise multiplier `K`, can be constructed by arguments ![](img/8aee041e54a302b342d50912ce67f44b.jpg).
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
+
+Note
+
+当`groups == in_channels` 并且 `out_channels == K * in_channels`（其中K是正整数）的时候，这个操作也被称为深度卷积。
+
+换句话说，对于一个大小为  ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg) 的输入，要构建一个深度乘数为`K`的深度卷积层，可以通过以下参数来创建：![](img/8aee041e54a302b342d50912ce67f44b.jpg)。
+
+Note
+
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
 Parameters: 
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Zero-padding added to all three sides of the input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
-
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道的个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 卷积操作输出通道的个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输入数据各维度各边上要补齐0的层数。 默认： 0
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg)
+*   输入: ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg)
 
-*   Output: ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) where
+*   输出: ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) where
 
     ![](img/bbc2662490bb72269672fe81af1fe003.jpg)
 
@@ -1150,14 +1155,14 @@ Shape:
 
     ![](img/d040a26cd9a91c4d230afd4c15d0e1e6.jpg)
 
-| Variables: | 
+| 内部Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Conv3d模块中的一个大小为 (out_channels, in_channels, kernel_size[0], kernel_size[1], kernel_size[2]) 的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为(out_channels)，可训练学习。如果构造Conv1d时构造函数中的`bias` 被置为 `True`，那么这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) ，其中 ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)。
 
 
 
-Examples:
+例子:
 
 ```py
 >>> # With square kernels and equal stride
@@ -1175,64 +1180,66 @@ Examples:
 class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
-Applies a 1D transposed convolution operator over an input image composed of several input planes.
+利用指定大小的一维转置卷积核对输入的多通道一维输入信号进行转置卷积（当然此卷积也是互相关操作，cross-correlation）操作的模块。
 
-This module can be seen as the gradient of Conv1d with respect to its input. It is also known as a fractionally-strided convolution or a deconvolution (although it is not an actual deconvolution operation).
+该模块可以看作是Conv1d相对于其输入的梯度(the gradient of Conv1d with respect to its input， 直译)， 转置卷积又被称为小数步长卷积或是反卷积（尽管这不是一个真正意义上的反卷积）。
 
-*   `stride` controls the stride for the cross-correlation.
+*   `stride` 控制了转置卷积操作的步长
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `kernel_size - 1 - padding` number of points. See note below for details.
+*   `padding` 控制了要在输入的各维度的各边上补齐0的层数，与Conv1d不同的地方，此padding参数与实际补齐0的层数的关系为`层数 = kernel_size - 1 - padding`，详情请见下面的note。
 
-*   `output_padding` controls the additional size added to one side of the output shape. See note below for details.
+  *   `output_padding` 控制了转置卷积操作输出的各维度的长度增量，但注意这个参数不是说要往转置卷积的输出上pad 0，而是直接控制转置卷积的输出大小为根据此参数pad后的大小。更多的详情请见下面的note。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 控制了卷积核中各点之间的空间距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了dilation的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子，
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters (of size ![](img/648a514da1dace3deacf3f078287e157.jpg)).
-
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/648a514da1dace3deacf3f078287e157.jpg)。
 
 Note
 
-The `padding` argument effectively adds `kernel_size - 1 - padding` amount of zero padding to both sizes of the input. This is set so that when a [`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d") and a [`ConvTranspose1d`](#torch.nn.ConvTranspose1d "torch.nn.ConvTranspose1d") are initialized with same parameters, they are inverses of each other in regard to the input and output shapes. However, when `stride &gt; 1`, [`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d") maps multiple input shapes to the same output shape. `output_padding` is provided to resolve this ambiguity by effectively increasing the calculated output shape on one side. Note that `output_padding` is only used to find output shape, but does not actually add zero-padding to output.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+`padding` 参数控制了要在输入的各维度各边上补齐0的层数，与在Conv1d中不同的是，在转置卷积操作过程中，此padding参数与实际补齐0的层数的关系为`层数 = kernel_size - 1 - padding`， 这样设置的主要原因是当使用相同的参数构建[`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d") 和[`ConvTranspose1d`](#torch.nn.ConvTranspose1d "torch.nn.ConvTranspose1d")模块的时候，这种设置能够实现两个模块有正好相反的输入输出的大小，即Conv1d的输出大小是其对应的ConvTranspose1d模块的输入大小，而ConvTranspose1d的输出大小又恰好是其对应的Conv1d模块的输入大小。然而，当`stride > 1`的时候，[`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d") 的一个输出大小可能会对应多个输入大小，上一个note中就详细的介绍了这种情况，这样的情况下要保持前面提到两种模块的输入输出保持反向一致，那就要用到 `output_padding`参数了，这个参数可以增加转置卷积输出的某一维度的大小，以此来达到前面提到的同参数构建的[`Conv1d`](#torch.nn.Conv1d "torch.nn.Conv1d") 和[`ConvTranspose1d`](#torch.nn.ConvTranspose1d "torch.nn.ConvTranspose1d")模块的输入输出方向一致。 但注意这个参数不是说要往转置卷积的输出上pad 0，而是直接控制转置卷积的输出各维度的大小为根据此参数pad后的大小。
+
+Note
+
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
 Parameters: 
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – `kernel_size - 1 - padding` zero-padding will be added to both sides of the input. Default: 0
-*   **output_padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Additional size added to one side of the output shape. Default: 0
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
 
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道的个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 卷积操作输出通道的个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – `kernel_size - 1 - padding` 层 0 会被补齐到输入数据的各边上。 默认： 0
+*   **output_padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输出的各维度要增加的大小。默认：0 
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/7db3e5e5d600c81e77756d5eee050505.jpg)
+*   输入: ![](img/7db3e5e5d600c81e77756d5eee050505.jpg)
 
-*   Output: ![](img/3423094375906aa21d1b2e095e95c230.jpg) where
+*   输出: ![](img/3423094375906aa21d1b2e095e95c230.jpg) 其中，
 
     ![](img/c37a7e44707d3c08522f44ab4e4d6841.jpg)
 
 | Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (in_channels, out_channels, kernel_size[0], kernel_size[1]). The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels). If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  模块中的一个大小为 (in_channels, out_channels, kernel_size[0])的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中 ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为 (out_channels)， 如果构造函数中的 `bias` 被置为 `True`，那么这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) ，其中 ![](img/69aab1ce658aabc9a2d986ae8281e2ad.jpg)。
 
 
 
@@ -1242,61 +1249,63 @@ Shape:
 class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
-Applies a 2D transposed convolution operator over an input image composed of several input planes.
+利用指定大小的二维转置卷积核对输入的多通道二维输入信号进行转置卷积（当然此卷积也是互相关操作，cross-correlation）操作的模块。
 
-This module can be seen as the gradient of Conv2d with respect to its input. It is also known as a fractionally-strided convolution or a deconvolution (although it is not an actual deconvolution operation).
+该模块可以看作是Conv2d相对于其输入的梯度(the gradient of Conv2d with respect to its input， 直译)， 转置卷积又被称为小数步长卷积或是反卷积（尽管这不是一个真正意义上的反卷积）。
 
-*   `stride` controls the stride for the cross-correlation.
+*   `stride` 控制了转置卷积操作的步长 
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `kernel_size - 1 - padding` number of points. See note below for details.
+*   `padding` 控制了要在输入的各维度的各边上补齐0的层数，与Conv1d不同的地方，此padding参数与实际补齐0的层数的关系为`层数 = kernel_size - 1 - padding`，详情请见下面的note。
 
-*   `output_padding` controls the additional size added to one side of the output shape. See note below for details.
+  *   `output_padding` 控制了转置卷积操作输出的各维度的长度增量，但注意这个参数不是说要往转置卷积的输出上pad 0，而是直接控制转置卷积的输出大小为根据此参数pad后的大小。更多的详情请见下面的note。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 控制了卷积核中各点之间的空间距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了dilation的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子，
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters (of size ![](img/648a514da1dace3deacf3f078287e157.jpg)).
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/648a514da1dace3deacf3f078287e157.jpg)。
+    
+`kernel_size`, `stride`, `padding`, `output_padding` 这几个参数均支持一下输入形式：
 
-The parameters `kernel_size`, `stride`, `padding`, `output_padding` can either be:
-
-> *   a single `int` – in which case the same value is used for the height and width dimensions
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
-
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
+> *   一个 `int` 数字 – 二维维数据的高和宽这两个维度都会采用这一个数字。
+> *   一个由两个int数字组成的`tuple`– 这种情况下，二维数据的高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
 
 Note
 
-The `padding` argument effectively adds `kernel_size - 1 - padding` amount of zero padding to both sizes of the input. This is set so that when a [`Conv2d`](#torch.nn.Conv2d "torch.nn.Conv2d") and a [`ConvTranspose2d`](#torch.nn.ConvTranspose2d "torch.nn.ConvTranspose2d") are initialized with same parameters, they are inverses of each other in regard to the input and output shapes. However, when `stride &gt; 1`, [`Conv2d`](#torch.nn.Conv2d "torch.nn.Conv2d") maps multiple input shapes to the same output shape. `output_padding` is provided to resolve this ambiguity by effectively increasing the calculated output shape on one side. Note that `output_padding` is only used to find output shape, but does not actually add zero-padding to output.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
+
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+`padding` 参数控制了要在输入的各维度各边上补齐0的层数，与在Conv1d中不同的是，在转置卷积操作过程中，此padding参数与实际补齐0的层数的关系为`层数 = kernel_size - 1 - padding`， 这样设置的主要原因是当使用相同的参数构建[`Conv2d`](#torch.nn.Conv2d "torch.nn.Conv2d") 和[`ConvTranspose2d`](#torch.nn.ConvTranspose2d "torch.nn.ConvTranspose2d")模块的时候，这种设置能够实现两个模块有正好相反的输入输出的大小，即Conv2d的输出大小是其对应的ConvTranspose2d模块的输入大小，而ConvTranspose2d的输出大小又恰好是其对应的Conv2d模块的输入大小。然而，当`stride > 1`的时候，[`Conv2d`](#torch.nn.Conv2d "torch.nn.Conv2d") 的一个输出大小可能会对应多个输入大小，上一个note中就详细的介绍了这种情况，这样的情况下要保持前面提到两种模块的输入输出保持反向一致，那就要用到 `output_padding`参数了，这个参数可以增加转置卷积输出的某一维度的大小，以此来达到前面提到的同参数构建的[`Conv2d`](#torch.nn.Conv2d "torch.nn.Conv2d") 和[`ConvTranspose2d`](#torch.nn.ConvTranspose2d "torch.nn.ConvTranspose2d")模块的输入输出方向一致。 但注意这个参数不是说要往转置卷积的输出上pad 0，而是直接控制转置卷积的输出各维度的大小为根据此参数pad后的大小。
 
-Parameters: 
+Note
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Default: 0
-*   **output_padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Additional size added to one side of each dimension in the output shape. Default: 0
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
+Parameters:
+
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道的个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 卷积操作输出通道的个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – `kernel_size - 1 - padding` 层 0 会被补齐到输入数据的各边上。 默认： 0
+*   **output_padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输出的各维度要增加的大小。默认：0 
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/0385ad868fed790d36381b9e8788c18b.jpg)
-*   Output: ![](img/d3edfe8a9bbdd73ba5c4b566353777f0.jpg) where
+*   输入: ![](img/0385ad868fed790d36381b9e8788c18b.jpg)
+*   输出: ![](img/d3edfe8a9bbdd73ba5c4b566353777f0.jpg) 其中
 
 ![](img/a2616e3fb8e8e919b799c2e62921c374.jpg)
 
@@ -1304,12 +1313,12 @@ Shape:
 
 | Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (in_channels, out_channels, kernel_size[0], kernel_size[1]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels) If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/c12e2153347b696ebb784e5675cc566e.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  模块中的一个大小为 (in_channels, out_channels, kernel_size[0], kernel_size[1])的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中 ![](img/c12e2153347b696ebb784e5675cc566e.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为 (out_channels)， 如果构造函数中的 `bias` 被置为 `True`，那么这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) ，其中 ![](img/c12e2153347b696ebb784e5675cc566e.jpg)。
 
 
 
-Examples:
+例子:
 
 ```py
 >>> # With square kernels and equal stride
@@ -1337,61 +1346,62 @@ torch.Size([1, 16, 12, 12])
 class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1)
 ```
 
-Applies a 3D transposed convolution operator over an input image composed of several input planes. The transposed convolution operator multiplies each input value element-wise by a learnable kernel, and sums over the outputs from all input feature planes.
+利用指定大小的三维转置卷积核对输入的多通道三维输入信号进行转置卷积（当然此卷积也是互相关操作，cross-correlation）操作的模块。转置卷积的操作本质是将各通道输入与卷积核做乘法，然后返回各通道与此卷积核乘积结果之和（卷积的定义）。
 
-This module can be seen as the gradient of Conv3d with respect to its input. It is also known as a fractionally-strided convolution or a deconvolution (although it is not an actual deconvolution operation).
+该模块可以看作是Conv3d相对于其输入的梯度(the gradient of Conv3d with respect to its input， 直译)， 转置卷积又被称为小数步长卷积或是反卷积（尽管这不是一个真正意义上的反卷积）。
 
-*   `stride` controls the stride for the cross-correlation.
+*   `stride` 控制了转置卷积操作的步长 
 
-*   `padding` controls the amount of implicit zero-paddings on both sides for `kernel_size - 1 - padding` number of points. See note below for details.
+*   `padding` 控制了要在输入的各维度的各边上补齐0的层数，与Conv1d不同的地方，此padding参数与实际补齐0的层数的关系为`层数 = kernel_size - 1 - padding`，详情请见下面的note。
 
-*   `output_padding` controls the additional size added to one side of the output shape. See note below for details.
+  *   `output_padding` 控制了转置卷积操作输出的各维度的长度增量，但注意这个参数不是说要往转置卷积的输出上pad 0，而是直接控制转置卷积的输出大小为根据此参数pad后的大小。更多的详情请见下面的note。
 
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `dilation` 控制了卷积核中各点之间的空间距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了dilation的作用。
 
-*   `groups` controls the connections between inputs and outputs. `in_channels` and `out_channels` must both be divisible by `groups`. For example,
+*   `groups` 控制了输入输出之间的连接（connections）的数量。`in_channels` 和 `out_channels` 必须能被 `groups` 整除。举个栗子，
 
-    &gt; *   At groups=1, all inputs are convolved to all outputs.
-    &gt; *   At groups=2, the operation becomes equivalent to having two conv layers side by side, each seeing half the input channels, and producing half the output channels, and both subsequently concatenated.
-    &gt; *   At groups= `in_channels`, each input channel is convolved with its own set of filters (of size ![](img/648a514da1dace3deacf3f078287e157.jpg)).
+    &gt; *   当 groups=1, 此Conv1d层会使用一个卷积层进行所有输入到输出的卷积操作。
+    
+    &gt; *   当 groups=2, 此时Conv1d层会产生两个并列的卷积层。同时，输入通道被分为两半，两个卷积层分别处理一半的输入通道，同时各自产生一半的输出通道。最后这两个卷积层的输出会被concatenated一起，作为此Conv1d层的输出。
+    
+    &gt; *   当 groups= `in_channels`, 每个输入通道都会被单独的一组卷积层处理，这个组的大小是![](img/648a514da1dace3deacf3f078287e157.jpg)。
+    
+`kernel_size`, `stride`, `padding`, `output_padding` 这几个参数均支持一下输入形式：
 
-The parameters `kernel_size`, `stride`, `padding`, `output_padding` can either be:
-
-> *   a single `int` – in which case the same value is used for the depth, height and width dimensions
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
-
-Note
-
-Depending of the size of your kernel, several (of the last) columns of the input might be lost, because it is a valid [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation), and not a full [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation). It is up to the user to add proper padding.
+> *   一个 `int` 数字 – 三维维数据的深度，高和宽这两个维度都会采用这一个数字。
+> *   一个由三个int数字组成的`tuple`– 这种情况下，三维数据的深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
 
 Note
 
-The `padding` argument effectively adds `kernel_size - 1 - padding` amount of zero padding to both sizes of the input. This is set so that when a [`Conv3d`](#torch.nn.Conv3d "torch.nn.Conv3d") and a [`ConvTranspose3d`](#torch.nn.ConvTranspose3d "torch.nn.ConvTranspose3d") are initialized with same parameters, they are inverses of each other in regard to the input and output shapes. However, when `stride &gt; 1`, [`Conv3d`](#torch.nn.Conv3d "torch.nn.Conv3d") maps multiple input shapes to the same output shape. `output_padding` is provided to resolve this ambiguity by effectively increasing the calculated output shape on one side. Note that `output_padding` is only used to find output shape, but does not actually add zero-padding to output.
+取决于你卷积核的大小，有些时候输入数据中某些列（最后几列）可能不会参与计算（比如列数整除卷积核大小有余数，而又没有padding，那最后的余数列一般不会参与卷积计算），这主要是因为pytorch中的互相关操作[cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation)是保证计算正确的操作(valid operation)， 而不是满操作(full operation)。所以实际操作中，还是要亲尽量选择好合适的padding参数哦。
+
 
 Note
 
-In some circumstances when using the CUDA backend with CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting `torch.backends.cudnn.deterministic = True`. Please see the notes on [Reproducibility](notes/randomness.html) for background.
+`padding` 参数控制了要在输入的各维度各边上补齐0的层数，与在Conv3d中不同的是，在转置卷积操作过程中，此padding参数与实际补齐0的层数的关系为`层数 = kernel_size - 1 - padding`， 这样设置的主要原因是当使用相同的参数构建[`Conv3d`](#torch.nn.Conv3d "torch.nn.Conv3d") 和[`ConvTranspose3d`](#torch.nn.ConvTranspose3d "torch.nn.ConvTranspose3d")模块的时候，这种设置能够实现两个模块有正好相反的输入输出的大小，即Conv3d的输出大小是其对应的ConvTranspose3d模块的输入大小，而ConvTranspose3d的输出大小又恰好是其对应的Conv3d模块的输入大小。然而，当`stride > 1`的时候，[`Conv3d`](#torch.nn.Conv3d "torch.nn.Conv3d") 的一个输出大小可能会对应多个输入大小，上一个note中就详细的介绍了这种情况，这样的情况下要保持前面提到两种模块的输入输出保持反向一致，那就要用到 `output_padding`参数了，这个参数可以增加转置卷积输出的某一维度的大小，以此来达到前面提到的同参数构建的[`Conv3d`](#torch.nn.Conv3d "torch.nn.Conv3d") 和[`ConvTranspose3d`](#torch.nn.ConvTranspose3d "torch.nn.ConvTranspose3d")模块的输入输出方向一致。 但注意这个参数不是说要往转置卷积的输出上pad 0，而是直接控制转置卷积的输出各维度的大小为根据此参数pad后的大小。
 
-Parameters: 
+Note
 
-*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels in the input image
-*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of channels produced by the convolution
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the convolving kernel
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Stride of the convolution. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – `kernel_size - 1 - padding` zero-padding will be added to both sides of each dimension in the input. Default: 0
-*   **output_padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Additional size added to one side of each dimension in the output shape. Default: 0
-*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Number of blocked connections from input channels to output channels. Default: 1
-*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If `True`, adds a learnable bias to the output. Default: `True`
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – Spacing between kernel elements. Default: 1
+当程序的运行环境是使用了CuDNN的CUDA环境的时候，一些非确定性的算法（nondeterministic algorithm）可能会被采用以提高整个计算的性能。如果不想使用这些非确定性的算法，你可以通过设置`torch.backends.cudnn.deterministic = True`来让整个计算过程保持确定性（可能会损失一定的计算性能）。对于后端(background)，你可以看一下这一部分[Reproducibility](notes/randomness.html)了解其相关信息。
 
+Parameters:
 
+*   **in_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 输入通道的个数
+*   **out_channels** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 卷积操作输出通道的个数
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 卷积核大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积操作的步长。 默认： 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – `kernel_size - 1 - padding` 层 0 会被补齐到输入数据的各边上。 默认： 0
+*   **output_padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 输出的各维度要增加的大小。默认：0 
+*   **groups** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 输入通道与输出通道之间相互隔离的连接的个数。 默认：1
+*   **bias** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 如果被置为 `True`，向输出增加一个偏差量，此偏差是可学习参数。 默认：`True`
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 卷积核各元素之间的距离。 默认： 1
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg)
-*   Output: ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) where
+*   输入: ![](img/a8d71105bc4954eb54660bc5d37c23de.jpg)
+*   输出: ![](img/f05e8faaf90b4c16b23ca0165e8e09f4.jpg) 其中
 
 ![](img/35234de680c85870881b7f5d9e8de589.jpg)
 
@@ -1401,12 +1411,10 @@ Shape:
 
 | Variables: | 
 
-*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of the module of shape (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2]) The values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
-*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable bias of the module of shape (out_channels) If `bias` is `True`, then the values of these weights are sampled from ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg) where ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)
+*   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  模块中的一个大小为 (in_channels, out_channels, kernel_size[0], kernel_size[1], kernel_size[2])的权重张量，这些权重可训练学习(learnable)。这些权重的初始值的采样空间是![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中 ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)。
+*   **bias** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 模块的偏差项，大小为 (out_channels)， 如果构造函数中的 `bias` 被置为 `True`，那么这些权重的初始值的采样空间是 ![](img/3d305f1c240ff844b6cb2c1c6660e0af.jpg)，其中 ![](img/378f5c5b47c36239b817ad23a612a9f7.jpg)。
 
-
-
-Examples:
+例子:
 
 ```py
 >>> # With square kernels and equal stride
@@ -1424,48 +1432,50 @@ Examples:
 class torch.nn.Unfold(kernel_size, dilation=1, padding=0, stride=1)
 ```
 
-Extracts sliding local blocks from a batched input tensor.
+将一个batch的输入张量展开成由多个滑动局部块组成的形式。（im2col的扩展模块，起到基本类似im2col的作用）
 
-Consider an batched `input` tensor of shape ![](img/2468b226c29a7e754a9c20f0214fa85f.jpg), where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the batch dimension, ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg) is the channel dimension, and ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) represent arbitrary spatial dimensions. This operation flattens each sliding `kernel_size`-sized block within the spatial dimensions of `input` into a column (i.e., last dimension) of a 3-D `output` tensor of shape ![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg), where ![](img/a8846766f2e1b47021f1520993773ccb.jpg) is the total number of values with in each block (a block has ![](img/8c7a54ca7193bc3a6c5ace8c3b07d24c.jpg) spatial locations each containing a ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)-channeled vector), and ![](img/db4a9fef02111450bf98261889de550c.jpg) is the total number of such blocks:
+以一个大小为![](img/2468b226c29a7e754a9c20f0214fa85f.jpg)的批次化(batched)输入张量为例，其中![](img/9341d9048ac485106d2b2ee8de14876f.jpg)是batch的大小，![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)是通道数量，![](img/28ec51e742166ea3400be6e7343bbfa5.jpg)代表了任意空间维度。那Unfold这个操作在此张量上的操作就是，将这个张量展开成由多个`kernel_size`大小的滑动块组成的大小为![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg)的三维张量，其中![](img/a8846766f2e1b47021f1520993773ccb.jpg)是每个块中数的个数（每个块有![](img/8c7a54ca7193bc3a6c5ace8c3b07d24c.jpg)个空间位置，每个空间位置存储一个通道大小为![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)的向量），![](img/db4a9fef02111450bf98261889de550c.jpg)是块的个数：
+
 
 ![](img/1d2c6a9103e2b33f725602aebf90364e.jpg)
+（这张图有问题啊，编辑整理的时候注意修正一下）
 
-where ![](img/42a2dca8a9cb6104321cf29ae30fd56a.jpg) is formed by the spatial dimensions of `input` (![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) above), and ![](img/9566974d45a96737f7e0ecf302d877b8.jpg) is over all spatial dimensions.
+其中 ![](img/42a2dca8a9cb6104321cf29ae30fd56a.jpg) 是由上面例子中的`input`各空间维度组成的，![](img/9566974d45a96737f7e0ecf302d877b8.jpg)遍历了各个空间维度。
 
-Therefore, indexing `output` at the last dimension (column dimension) gives all values within a certain block.
+因此，索引Fold操作的`output`的最后一个维度等价于索引某一个block，而索引操作的返回值是这个索引到的block中的所有值。
 
-The `padding`, `stride` and `dilation` arguments specify how the sliding blocks are retrieved.
 
-*   `stride` controls the stride for the sliding blocks.
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension before reshaping.
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding`, `stride` 和 `dilation` 参数指明了滑动块的相关性质。
+
+*   `stride` 控制了滑动块的步长。
+*   `padding` 控制了在变形之前要向input的各维度各边上补齐的0的层数。 
+*   `dilation` 控制了卷积核中各点之间的空间距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了dilation的作用。
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the sliding blocks
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the stride of the sliding blocks in the input spatial dimensions. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – implicit zero padding to be added on both sides of input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a parameter that controls the stride of elements within the neighborhood. Default: 1
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 滑动块的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 滑动块在输入各维度上的步长。默认: 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 在输入各维度各边上补齐0的层数。
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 控制了各元素之间的距离（没有指明元素具体指的是谁的元素，猜测是输出的）。默认：1 
 
 
 
-*   If `kernel_size`, `dilation`, `padding` or `stride` is an int or a tuple of length 1, their values will be replicated across all spatial dimensions.
-*   For the case of two input spatial dimensions this operation is sometimes called `im2col`.
+*   如果 `kernel_size`, `dilation`, `padding` 或者 `stride`的值是一个int，或是一个长度为1的int元组，在相关操作的时候各个空间维度上都会使用这同一个值。 
+*   如果输出向量有两个空间维度，那么此Fold操作有时又被称为`im2col`。
 
 Note
-
-[`Fold`](#torch.nn.Fold "torch.nn.Fold") calculates each combined value in the resulting large tensor by summing all values from all containing blocks. [`Unfold`](#torch.nn.Unfold "torch.nn.Unfold") extracts the values in the local blocks by copying from the large tensor. So, if the blocks overlap, they are not inverses of each other.
+[`Fold`](#torch.nn.Fold "torch.nn.Fold")在执行类`col2im`的操作的时候，主要是是通过集成此im（输出张量）分裂出所有对应位置的col（输入的滑动块）来复原原im。而[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")则是通过从输入张量中不断拷贝数值到相应的block中来生成由滑动块组成的输出张量。所以，如果滑动块之间如果有数值重叠，那这些滑动块之间并不是互逆的。
 
 Warning
 
-Currently, only 4-D input tensors (batched image-like tensors) are supported.
+目前，只有四维张量（比如批次化的图像张量）支持这个操作。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/2468b226c29a7e754a9c20f0214fa85f.jpg)
-*   Output: ![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg) as described above
+*   输入: ![](img/2468b226c29a7e754a9c20f0214fa85f.jpg)
+*   输出: ![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg)
 
 Examples:
 
@@ -1497,51 +1507,53 @@ tensor(1.9073e-06)
 class torch.nn.Fold(output_size, kernel_size, dilation=1, padding=0, stride=1)
 ```
 
-Combines an array of sliding local blocks into a large containing tensor.
+将由滑动局部块组成的数组集合为一个大张量。(类col2im)
 
-Consider a batched `input` tensor containing sliding local blocks, e.g., patches of images, of shape ![](img/9e56ff5e3827b936da5cfa3a5258b12e.jpg), where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is batch dimension, ![](img/a8846766f2e1b47021f1520993773ccb.jpg) is the number of values with in a block (a block has ![](img/8c7a54ca7193bc3a6c5ace8c3b07d24c.jpg) spatial locations each containing a ![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)-channeled vector), and ![](img/db4a9fef02111450bf98261889de550c.jpg) is the total number of blocks. (This is exacly the same specification as the output shape of [`Unfold`](#torch.nn.Unfold "torch.nn.Unfold").) This operation combines these local blocks into the large `output` tensor of shape ![](img/c2176aae9e099eeee07cc00c4dc7b7e7.jpg) by summing the overlapping values. Similar to [`Unfold`](#torch.nn.Unfold "torch.nn.Unfold"), the arguments must satisfy
+考虑一个包含了很多个滑动局部块的输入张量，比如，一批图像分割块(patches of images)的集合，大小为![](img/9e56ff5e3827b936da5cfa3a5258b12e.jpg)，其中![](img/9341d9048ac485106d2b2ee8de14876f.jpg)是batch大小， ![](img/a8846766f2e1b47021f1520993773ccb.jpg) 是一个块中的数值个数（每个块有![](img/8c7a54ca7193bc3a6c5ace8c3b07d24c.jpg)个空间位置，每个空间位置存储一个通道大小为![](img/6c8feca3b2da3d6cf371417edff4be4f.jpg)的向量），![](img/db4a9fef02111450bf98261889de550c.jpg)是滑动块的个数。（这些大小参数严格遵循了[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")操作的输出向量的大小规定。）Fold操作通过求和重叠值的方式来将这些局部块集合为一个大小为![](img/c2176aae9e099eeee07cc00c4dc7b7e7.jpg)的`output`张量。与 [`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")类似，这些参数必须满足：
 
 ![](img/465bba7070e80a7e5964f46f7f5ed8bb.jpg)
 
-where ![](img/9566974d45a96737f7e0ecf302d877b8.jpg) is over all spatial dimensions.
+其中![](img/9566974d45a96737f7e0ecf302d877b8.jpg)遍历了各个空间维度。
 
-*   `output_size` describes the spatial shape of the large containing tensor of the sliding local blocks. It is useful to resolve the ambiguity when multiple input shapes map to same number of sliding blocks, e.g., with `stride &gt; 0`.
+*   `output_size` 描述了要生成的output的各空间维度的大小。有时，同样数量的滑动块，可能会产生多种`input`的形状，比如，当`stride > 0`的时候，这时候，设置`output_size`参数就会显得极为重要。
 
-The `padding`, `stride` and `dilation` arguments specify how the sliding blocks are retrieved.
+`padding`, `stride` 和 `dilation` 参数指明了滑动块的相关性质。
 
-*   `stride` controls the stride for the sliding blocks.
-*   `padding` controls the amount of implicit zero-paddings on both sides for `padding` number of points for each dimension before reshaping.
-*   `dilation` controls the spacing between the kernel points; also known as the à trous algorithm. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+*   `stride` 控制了滑动块的步长。
+*   `padding` 控制了在变形之前要向input的各维度各边上补齐的0的层数。 
+*   `dilation` 控制了卷积核中各点之间的空间距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了dilation的作用。
 
 Parameters: 
 
-*   **output_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the shape of the spatial dimensions of the output (i.e., `input.sizes()[2:]`)
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the sliding blocks
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the stride of the sliding blocks in the input spatial dimensions. Default: 1
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – implicit zero padding to be added on both sides of input. Default: 0
-*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – a parameter that controls the stride of elements within the neighborhood. Default: 1
+*   **output_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) –  输出向量的各空间维度的大小 (i.e., `input.sizes()[2:]`)
+
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 滑动块的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 滑动块在输入各维度上的步长。默认: 1
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 在输入各维度各边上补齐0的层数。
+*   **dilation** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – 控制了各元素之间的距离（没有指明元素具体指的是谁的元素，猜测是输出的）。默认：1 
 
 
 
-*   If `output_size`, `kernel_size`, `dilation`, `padding` or `stride` is an int or a tuple of length 1 then their values will be replicated across all spatial dimensions.
-*   For the case of two output spatial dimensions this operation is sometimes called `col2im`.
+
+*   如果`output_size`， `kernel_size`, `dilation`, `padding` 或者 `stride`是一个int或者长度为1的int元组，在相关操作的时候各个空间维度上都会使用这同一个值。 
+*   如果此输出向量的空间维度数为2，那么此Fold操作有时又被称为`col2im`。
 
 Note
-
-[`Fold`](#torch.nn.Fold "torch.nn.Fold") calculates each combined value in the resulting large tensor by summing all values from all containing blocks. [`Unfold`](#torch.nn.Unfold "torch.nn.Unfold") extracts the values in the local blocks by copying from the large tensor. So, if the blocks overlap, they are not inverses of each other.
+[`Fold`](#torch.nn.Fold "torch.nn.Fold")在执行类`col2im`的操作的时候，主要是是通过集成此im（输出张量）分裂出所有对应位置的col（输入的滑动块）来复原原im。而[`Unfold`](#torch.nn.Unfold "torch.nn.Unfold")则是通过从输入张量中不断拷贝数值到相应的block中来生成由滑动块组成的输出张量。所以，如果滑动块之间如果有数值重叠，那这些滑动块之间并不是互逆的。
 
 Warning
 
-Currently, only 4-D output tensors (batched image-like tensors) are supported.
+目前，只有四维张量（比如批次化的图像张量）支持这个操作。
+
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg)
-*   Output: ![](img/c2176aae9e099eeee07cc00c4dc7b7e7.jpg) as described above
+*   输入: ![](img/4e1cad10fa9480fa82adbe59a5ae81fa.jpg)
+*   输出: ![](img/c2176aae9e099eeee07cc00c4dc7b7e7.jpg) 
 
-Examples:
+举例:
 
 ```py
 >>> fold = nn.Fold(output_size=(4, 5), kernel_size=(2, 2))
@@ -1551,44 +1563,45 @@ Examples:
 
 ```
 
-## Pooling layers
+` 卷积层部分Fold 与 Unfold 是1.0新增的内容，猜测其主要目的是开放col2im和im2col这两个通过矩阵乘法实现卷积操作的前序接口，要好好理解这部分可能要了解一下现在主流框架通过大矩阵乘法来实现卷积操作这一通用做法了，这一篇文章就介绍的很好[Implementing convolution as a matrix multiplication](https://buptldy.github.io/2016/10/01/2016-10-01-im2col/)，这一段如果感觉我的直译晦涩难懂，那我深感抱歉并建议看一下英文原版，虽然我觉得英文原版介绍的也是晦涩难懂`
+
+## 池化层（Pooling layers）
 
 ### MaxPool1d
 
 ```py
 class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
+对输入的多通道信号执行一维最大池化操作。
 
-Applies a 1D max pooling over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) and output ![](img/d131773750846713475c600aa8cd917a.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) ，输出大小为![](img/d131773750846713475c600aa8cd917a.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/9e414c5b7df992e54f3227bb130be349.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
+`dilation` 参数控制了池化核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **dilation** – a parameter that controls the stride of elements in the window
-*   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") later
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
+*   **kernel_size** – 最大池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **dilation** – 滑动窗中各元素之间的距离
+*   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")中被用到。
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
+*   输入: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
 
-*   Output: ![](img/d131773750846713475c600aa8cd917a.jpg), where
+*   输出: ![](img/d131773750846713475c600aa8cd917a.jpg) 其中
 
     ![](img/ff16cce6b4741640e8adc0a271cd4592.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of size=3, stride=2
@@ -1604,43 +1617,42 @@ Examples:
 class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
-Applies a 2D max pooling over an input signal composed of several input planes.
+对输入的多通道信号执行二维最大池化操作。
 
-In the simplest case, the output value of the layer with input size ![](img/23f8772594b27bd387be708fe9c085e1.jpg), output ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) and `kernel_size` ![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/23f8772594b27bd387be708fe9c085e1.jpg) ，输出大小为![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg)，`kernel_size`为![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/caa8cbcbb8bbbbc6b0e47f9daa80ab12.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
+`dilation` 参数控制了池化核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+`kernel_size`, `stride`, `padding`, `dilation` 等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的宽和高这两个维度的大小
+> *   一个由两个`int`组成的`tuple` – 这种情况下，高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **dilation** – a parameter that controls the stride of elements in the window
-*   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") later
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   **kernel_size** – 最大池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **dilation** – 滑动窗中各元素之间的距离
+*   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d")中被用到。
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/991d42318f90dcb68b26938c542b8457.jpg)
 
     ![](img/1e35edf42ee6921adb435b5ca638d406.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1658,37 +1670,37 @@ Examples:
 class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)
 ```
 
-Applies a 3D max pooling over an input signal composed of several input planes. This is not a test
+对输入的多通道信号执行三维最大池化操作。
 
-In the simplest case, the output value of the layer with input size ![](img/f5a45f7b445db562b21cfcb525637aab.jpg), output ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) and `kernel_size` ![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/f5a45f7b445db562b21cfcb525637aab.jpg) ，输出大小为![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg)，`kernel_size`为 ![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg) 的池化操作，此池化过程可表述如下：
 
 ![](img/f0f7a770dcfb802e7fc0f8995cfad3d7.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points. `dilation` controls the spacing between the kernel points. It is harder to describe, but this [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) has a nice visualization of what `dilation` does.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
+`dilation` 参数控制了池化核中各元素之间的距离；这也被称为多孔算法(à trous algorithm)。这个概念有点难解释，这个链接[link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)用可视化的方法很好地解释了`dilation`的作用。
 
-The parameters `kernel_size`, `stride`, `padding`, `dilation` can either be:
+`kernel_size`, `stride`, `padding`, `dilation` 等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the depth, height and width dimension
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的深度，宽和高这三个维度的大小
+> *   一个由三个`int`组成的`tuple` – 这种情况下，深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
+
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on all three sides
-*   **dilation** – a parameter that controls the stride of elements in the window
-*   **return_indices** – if `True`, will return the max indices along with the outputs. Useful for [`torch.nn.MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") later
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   **kernel_size** – 最大池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **dilation** – 滑动窗中各元素之间的距离
+*   **return_indices** – 如果此参数被设置为`True`， 那么此池化层在返回输出信号的同时还会返回一连串滑动窗最大值的索引位置，即每个滑动窗的最大值位置信息。这些信息可以在后面的上采样[`torch.nn.MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d")中被用到。
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
 
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), where
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), 其中
 
     ![](img/0e49f319aa911192458f7b02321eff3a.jpg)
 
@@ -1696,7 +1708,7 @@ Shape:
 
     ![](img/eb1d0c30d1cf681f38e8391bd7d03dff.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1714,21 +1726,17 @@ Examples:
 class torch.nn.MaxUnpool1d(kernel_size, stride=None, padding=0)
 ```
 
-Computes a partial inverse of [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d").
-
-[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") is not fully invertible, since the non-maximal values are lost.
-
-[`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d") takes in as input the output of [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") including the indices of the maximal values and computes a partial inverse in which all non-maximal values are set to zero.
+[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")的逆过程，不过并不是完全的逆过程，因为在[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")的过程中，池化窗区域内的非最大值都已经丢失。 [`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")的输入是[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")的输出，其中也包括包括滑动窗最大值的索引（即return_indices所控制的输出），逆池化操作的过程就是将[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")过程中产生的最大值插回到原来的位置，并将非最大值区域置为0。
 
 Note
 
-[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs and Example below.
+[`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")操作可以将多个大小不同的输入映射到相同的输出大小。因此，池化操作的反过程，[`MaxUnpool1d`](#torch.nn.MaxUnpool1d "torch.nn.MaxUnpool1d")的上采样过程的输出大小就不唯一了。为了适应这一点，可以在设置控制上采样输出大小的（`output_size`）参数。 具体用法，请参阅下面的输入和示例
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的步长。默认`kernel_size`
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 输入信号的各维度各边要补齐0的层数
 
 
 
@@ -1736,23 +1744,23 @@ Parameters:
 Inputs:
 ```
 
-*   `input`: the input Tensor to invert
-*   `indices`: the indices given out by [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")
-*   `output_size` (optional): the targeted output size
+*   `input`: 要执行上采样操作的张量
+*   `indices`: [`MaxPool1d`](#torch.nn.MaxPool1d "torch.nn.MaxPool1d")池化过程中输出的池化窗最大值的位置索引
+*   `output_size` (选填): 指定的输出大小
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ccc1792005f1eb97a439118aeba930e9.jpg)
+*   输入: ![](img/ccc1792005f1eb97a439118aeba930e9.jpg)
 
-*   Output: ![](img/1b0403b4ee318895368afc8fa37b9407.jpg), where
+*   输出: ![](img/1b0403b4ee318895368afc8fa37b9407.jpg), 其中
 
     ![](img/9618fc866026e724d16c5481dd67dc4c.jpg)
 
-    or as given by `output_size` in the call operator
+    也可以使用`output_size`指定输出的大小
 
-Example:
+例子:
 
 ```py
 >>> pool = nn.MaxPool1d(2, stride=2, return_indices=True)
@@ -1779,47 +1787,41 @@ tensor([[[ 0.,  2.,  0.,  4.,  0.,  6.,  0., 8.]]])
 class torch.nn.MaxUnpool2d(kernel_size, stride=None, padding=0)
 ```
 
-Computes a partial inverse of [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d").
-
-[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") is not fully invertible, since the non-maximal values are lost.
-
-[`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d") takes in as input the output of [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") including the indices of the maximal values and computes a partial inverse in which all non-maximal values are set to zero.
+[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")的逆过程，不过并不是完全的逆过程，因为在[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")的过程中，池化窗区域内的非最大值都已经丢失。 [`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d")的输入是[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")的输出，其中也包括包括滑动窗最大值的索引（即return_indices所控制的输出），逆池化操作的过程就是将[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")过程中产生的最大值插回到原来的位置，并将非最大值区域置为0。
 
 Note
 
-[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs and Example below.
+[`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")操作可以将多个大小不同的输入映射到相同的输出大小。因此，池化操作的反过程，[`MaxUnpool2d`](#torch.nn.MaxUnpool2d "torch.nn.MaxUnpool2d")的上采样过程的输出大小就不唯一了。为了适应这一点，可以在设置控制上采样输出大小的（`output_size`）参数。 具体用法，请参阅下面的输入和示例
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
-
-
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的步长。默认`kernel_size`
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 输入信号的各维度各边要补齐0的层数
 
 ```py
 Inputs:
 ```
 
-*   `input`: the input Tensor to invert
-*   `indices`: the indices given out by [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")
-*   `output_size` (optional): the targeted output size
+*   `input`: 要执行上采样操作的张量
+*   `indices`: [`MaxPool2d`](#torch.nn.MaxPool2d "torch.nn.MaxPool2d")池化过程中输出的池化窗最大值的位置索引
+*   `output_size` (选填): 指定的输出大小
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/f6dd707e18ccbf75f607d05338443e87.jpg)
 
     ![](img/ac5d54ef9922f9e0dbe2dc916bf9d80b.jpg)
 
-    or as given by `output_size` in the call operator
+    也可以使用`output_size`指定输出的大小
 
-Example:
+例子:
 
 ```py
 >>> pool = nn.MaxPool2d(2, stride=2, return_indices=True)
@@ -1851,37 +1853,33 @@ tensor([[[[  0.,   0.,   0.,   0.,   0.],
 class torch.nn.MaxUnpool3d(kernel_size, stride=None, padding=0)
 ```
 
-Computes a partial inverse of [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d").
-
-[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") is not fully invertible, since the non-maximal values are lost. [`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d") takes in as input the output of [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") including the indices of the maximal values and computes a partial inverse in which all non-maximal values are set to zero.
+[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")的逆过程，不过并不是完全的逆过程，因为在[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")的过程中，池化窗区域内的非最大值都已经丢失。 [`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d")的输入是[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")的输出，其中也包括包括滑动窗最大值的索引（即return_indices所控制的输出），逆池化操作的过程就是将[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")过程中产生的最大值插回到原来的位置，并将非最大值区域置为0。
 
 Note
 
-[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d") can map several input sizes to the same output sizes. Hence, the inversion process can get ambiguous. To accommodate this, you can provide the needed output size as an additional argument `output_size` in the forward call. See the Inputs section below.
+[`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")操作可以将多个大小不同的输入映射到相同的输出大小。因此，池化操作的反过程，[`MaxUnpool3d`](#torch.nn.MaxUnpool3d "torch.nn.MaxUnpool3d")的上采样过程的输出大小就不唯一了。为了适应这一点，可以在设置控制上采样输出大小的（`output_size`）参数。 具体用法，请参阅下面的输入和示例
 
 Parameters: 
 
-*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Size of the max pooling window.
-*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Stride of the max pooling window. It is set to `kernel_size` by default.
-*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – Padding that was added to the input
-
-
+*   **kernel_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的大小
+*   **stride** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 最大池化窗的步长。默认`kernel_size`
+*   **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 输入信号的各维度各边要补齐0的层数
 
 ```py
 Inputs:
 ```
 
-*   `input`: the input Tensor to invert
-*   `indices`: the indices given out by [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")
-*   `output_size` (optional): the targeted output size
+*   `input`: 要执行上采样操作的张量
+*   `indices`: [`MaxPool3d`](#torch.nn.MaxPool3d "torch.nn.MaxPool3d")池化过程中输出的池化窗最大值的位置索引
+*   `output_size` (选填): 指定的输出大小
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
 
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), where
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), 其中
 
     ![](img/190cbccb4ab554a9b19bfc3df956f982.jpg)
 
@@ -1889,9 +1887,9 @@ Shape:
 
     ![](img/e666e9d78ffab5d03b4cf1adf1a6e331.jpg)
 
-    or as given by `output_size` in the call operator
+    也可以使用`output_size`指定输出的大小
 
-Example:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -1910,37 +1908,35 @@ torch.Size([20, 16, 51, 33, 15])
 class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
 
-Applies a 1D average pooling over an input signal composed of several input planes.
+对输入的多通道信号执行一维平均池化操作。
 
-In the simplest case, the output value of the layer with input size ![](img/5816e96aa78b7425cf792435bba8bc29.jpg), output ![](img/d131773750846713475c600aa8cd917a.jpg) and `kernel_size` ![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) can be precisely described as:
+最简单的情况下，对于输入大小为 ![](img/5816e96aa78b7425cf792435bba8bc29.jpg) ，输出大小为![](img/d131773750846713475c600aa8cd917a.jpg)，`kernel_size`为![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/5df0036df168f4a16d4437d91968f640.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
 
-The parameters `kernel_size`, `stride`, `padding` can each be an `int` or a one-element tuple.
+`kernel_size`, `stride`, `padding`, `dilation` 等参数均支持输入一个int或者由一个int组成的tuple。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
-
-
+*   **kernel_size** – 平均池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
+*   **count_include_pad** – 如果被设置为True, 那么在进行平均运算的时候也会将用于补齐的0加入运算。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
+*   输入: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
 
-*   Output: ![](img/d131773750846713475c600aa8cd917a.jpg), where
+*   输出: ![](img/d131773750846713475c600aa8cd917a.jpg), 其中
 
     ![](img/ad61a9298a545292682229fef2f1a910.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool with window of size=3, stride=2
@@ -1955,43 +1951,41 @@ tensor([[[ 2.,  4.,  6.]]])
 ```py
 class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
-
-Applies a 2D average pooling over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/23f8772594b27bd387be708fe9c085e1.jpg), output ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) and `kernel_size` ![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg) can be precisely described as:
+对输入的多通道信号执行二维平均池化操作。
+最简单的情况下，对于输入大小为  ![](img/23f8772594b27bd387be708fe9c085e1.jpg) ，输出大小为![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg)，`kernel_size`为![](img/6384e001ad4c0989683deb86f6ffbd2f.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/b7a0e1d0a42a3626724c14d89a10a44f.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on both sides for `padding` number of points.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
 
-The parameters `kernel_size`, `stride`, `padding` can either be:
+`kernel_size`, `stride`, `padding`等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的宽和高这两个维度的大小
+> *   一个由两个`int`组成的`tuple` – 这种情况下，高这一维度会采用元组中的第一个`int`数字，宽这一维度会采用第二个`int`数字。
+
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on both sides
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
-
+*   **kernel_size** – 平均池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
+*   **count_include_pad** – 如果被设置为True, 那么在进行平均运算的时候也会将用于补齐的0加入运算。
 
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/8b8b2b1a77c4f104a936efb1708366ef.jpg)
 
     ![](img/2792347200dabe493ae8baee428f9bf8.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -2008,37 +2002,33 @@ Examples:
 ```py
 class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)
 ```
-
-Applies a 3D average pooling over an input signal composed of several input planes.
-
-In the simplest case, the output value of the layer with input size ![](img/f5a45f7b445db562b21cfcb525637aab.jpg), output ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) and `kernel_size` ![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg) can be precisely described as:
+对输入的多通道信号执行三维平均池化操作。
+最简单的情况下，对于输入大小为![](img/f5a45f7b445db562b21cfcb525637aab.jpg)，输出大小为![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg)，`kernel_size`为![](img/f5dcdebf9a81b9d15227749ae7535eb7.jpg)的池化操作，此池化过程可表述如下：
 
 ![](img/79acedd31cd18baac8d97ab96a7092e0.jpg)
 
-If `padding` is non-zero, then the input is implicitly zero-padded on all three sides for `padding` number of points.
+`padding` 参数控制了要在输入信号的各维度各边上要补齐0的层数。
 
-The parameters `kernel_size`, `stride` can either be:
+`kernel_size`, `stride`, `padding`等参数均支持以下类型输入：
 
-> *   a single `int` – in which case the same value is used for the depth, height and width dimension
-> *   a `tuple` of three ints – in which case, the first `int` is used for the depth dimension, the second `int` for the height dimension and the third `int` for the width dimension
+> *   一个单独的 `int` – 此时这个`int`会同时控制池化滑动窗的深度，宽和高这两个维度的大小
+> *   一个由三个`int`组成的`tuple` – 这种情况下，深度这一维度会采用元组中的第一个`int`数字，高这一维度会采用元组中的第二个`int`数字，宽这一维度会采用第三个`int`数字。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **padding** – implicit zero padding to be added on all three sides
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-*   **count_include_pad** – when True, will include the zero-padding in the averaging calculation
-
-
+*   **kernel_size** – 平均池化操作的滑动窗大小
+*   **stride** – 滑动窗的步长，默认值是 `kernel_size`
+*   **padding** – 要在输入信号的各维度各边上要补齐0的层数
+*   **ceil_mode** – 如果此参数被设置为True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作
+*   **count_include_pad** – 如果被设置为True, 那么在进行平均运算的时候也会将用于补齐的0加入运算。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
 
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), where
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg), 其中
 
     ![](img/443035401ce7a1144122a862f34493cf.jpg)
 
@@ -2046,7 +2036,7 @@ Shape:
 
     ![](img/c799c115b670c02d039f828fe1afa443.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # pool of square window of size=3, stride=2
@@ -2063,23 +2053,21 @@ Examples:
 ```py
 class torch.nn.FractionalMaxPool2d(kernel_size, output_size=None, output_ratio=None, return_indices=False, _random_samples=None)
 ```
+对输入的多通道信号执行小数级二维最大池化操作。`小数级`指的是此操作的输出大小与输入大小成指定的小数倍数关系。
 
-Applies a 2D fractional max pooling over an input signal composed of several input planes.
+Ben Graham的这篇文章[Fractional MaxPooling](http://arxiv.org/abs/1412.6071)中详细地介绍了小数级二维最大池化的基本思想和技术细节。
 
-Fractional MaxPooling is described in detail in the paper [Fractional MaxPooling](http://arxiv.org/abs/1412.6071) by Ben Graham
-
-The max-pooling operation is applied in ![](img/52ec12db6613ee8a0f6f41143ab2e8a2.jpg) regions by a stochastic step size determined by the target output size. The number of output features is equal to the number of input planes.
+小数级二维最大池化的基本思想就是将最大池化操作应用于![](img/52ec12db6613ee8a0f6f41143ab2e8a2.jpg)个由随机步长大小采集的区域中，这些步长大小是由输出目标的大小决定的。小数级二维最大池化的输出特征的数量等于输入通道的数量。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window to take a max over. Can be a single number k (for a square kernel of k x k) or a tuple `(kh x kw)`
-*   **output_size** – the target output size of the image of the form `oH x oW`. Can be a tuple `(oH, oW)` or a single number oH for a square image `oH x oH`
-*   **output_ratio** – If one wants to have an output size as a ratio of the input size, this option can be given. This has to be a number or tuple in the range (0, 1)
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to `nn.MaxUnpool2d()`. Default: `False`
+*   **kernel_size** – 执行最大操作的窗口大小。支持的数据类型包括一个单独的数字k(生成一个大小为k x k的正方形kernal)，或者一个元组 `(kh x kw)`
+*   **output_size** – 池化输出目标大小，具体形式是 `oH x oW`。支持的数据类型包括一个单独的数字`oH`，或者一个元组 `(oH, oW)`，注意此处`oH x oW`与`kernal_size`中的`kh x ow`相呼应，两者成一定的小数级倍数关系
+*   **output_ratio** – 如果想让输出目标的大小是输入目标大小的ratio倍，可以通过设置此参数来实现。此参数可以是一个小数数字或者小数元组，数字范围是(0, 1)
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool2d()`可以被用到。此参数默认为`False`
 
 
-
-Examples
+例子
 
 ```py
 >>> # pool of square window of size=3, and target output size 13x12
@@ -2096,40 +2084,37 @@ Examples
 ```py
 class torch.nn.LPPool1d(norm_type, kernel_size, stride=None, ceil_mode=False)
 ```
+对输入的多通道信号执行一维幂平均池化操作。
 
-Applies a 1D power-average pooling over an input signal composed of several input planes.
-
-On each window, the function computed is:
+对于每个池化窗口，此池化操作的计算方式如下：
 
 ![](img/e4451f809255881ee286970ddf3fb377.jpg)
 
-*   At p = infinity, one gets Max Pooling
-*   At p = 1, one gets Sum Pooling (which is proportional to Average Pooling)
+*   当p为无穷大的时候时，等价于最大池化操作
+*   当`p=1`时，等价于求和池化操作（一定程度上等价于平均池化）
 
 Note
 
-If the sum to the power of `p` is zero, the gradient of this function is not defined. This implementation will set the gradient to zero in this case.
+如果某个特殊的输入导致这个输入关于幂指数`p`的求和是0，那上述池化函数在这一点是没有意义的。在实际实现过程中，此点的梯度被设置为0。
 
 Parameters: 
 
-*   **kernel_size** – a single int, the size of the window
-*   **stride** – a single int, the stride of the window. Default value is `kernel_size`
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   kernel_size: 池化窗口的大小
+*   stride：池化窗口移动的步长。默认值是`kernel_size`
+*   ceil_mode: 当此参数被设置为`True`时，在计算输出大小的时候将使用向下取整代替向上取整
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
+*   输入: ![](img/3ceb415a2a1558bab9998c277f780ec3.jpg)
 
-*   Output: ![](img/d131773750846713475c600aa8cd917a.jpg), where
+*   输出: ![](img/d131773750846713475c600aa8cd917a.jpg)，其中
 
     ![](img/5d246e9891509c48081bc89191e64418.jpg)
 
 ```py
-Examples::
+例子:
 ```
 
 ```py
@@ -2146,45 +2131,43 @@ Examples::
 class torch.nn.LPPool2d(norm_type, kernel_size, stride=None, ceil_mode=False)
 ```
 
-Applies a 2D power-average pooling over an input signal composed of several input planes.
+对输入的多通道信号执行二维幂平均池化操作。
 
-On each window, the function computed is:
+对于每个池化窗口，此池化操作的计算方式如下：
 
 ![](img/e4451f809255881ee286970ddf3fb377.jpg)
 
-*   At p = ![](img/b0c1b8fa38555e0b1ca3265b84bb3974.jpg), one gets Max Pooling
-*   At p = 1, one gets Sum Pooling (which is proportional to average pooling)
+*   当p等于![](img/b0c1b8fa38555e0b1ca3265b84bb3974.jpg)时候时，等价于最大池化操作
+*   当`p=1`时，等价于求和池化操作（一定程度上等价于平均池化）
 
-The parameters `kernel_size`, `stride` can either be:
+参数`kernel_size`, `stride`支持的数据类型：
 
-> *   a single `int` – in which case the same value is used for the height and width dimension
-> *   a `tuple` of two ints – in which case, the first `int` is used for the height dimension, and the second `int` for the width dimension
+*   `int`，池化窗口的宽和高相等
+*   `tuple`数组（两个数字的），第一个元素是池化窗口的高，第二个是宽
 
 Note
 
-If the sum to the power of `p` is zero, the gradient of this function is not defined. This implementation will set the gradient to zero in this case.
+如果某个特殊的输入导致这个输入关于幂指数`p`的求和是0，那上述池化函数在这一点是没有意义的。在实际实现过程中，此点的梯度被设置为0。
 
 Parameters: 
 
-*   **kernel_size** – the size of the window
-*   **stride** – the stride of the window. Default value is `kernel_size`
-*   **ceil_mode** – when True, will use `ceil` instead of `floor` to compute the output shape
-
-
+*   kernel_size: 池化窗口的大小
+*   stride：池化窗口移动的步长。默认值是`kernel_size`
+*   ceil_mode: 当此参数被设置为`True`时，在计算输出大小的时候将使用向下取整代替向上取整
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg), 其中
 
     ![](img/44bfdaa5e6b603085c2da3eddb558556.jpg)
 
     ![](img/d59b07475dea090e5f7110600d8f8bdc.jpg)
 
-Examples:
+例子:
 
 ```py
 >>> # power-2 pool of square window of size=3, stride=2
@@ -2202,18 +2185,16 @@ Examples:
 class torch.nn.AdaptiveMaxPool1d(output_size, return_indices=False)
 ```
 
-Applies a 1D adaptive max pooling over an input signal composed of several input planes.
+对输入的多通道信号进行1维的自适应最大池化操作。
 
-The output size is H, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
 Parameters: 
 
-*   **output_size** – the target output size H
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool1d. Default: `False`
+*   **output_size** – 指定的输出大小H
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool1d()`可以被用到。此参数默认为`False`
 
-
-
-Examples
+例子
 
 ```py
 >>> # target output size of 5
@@ -2229,18 +2210,16 @@ Examples
 class torch.nn.AdaptiveMaxPool2d(output_size, return_indices=False)
 ```
 
-Applies a 2D adaptive max pooling over an input signal composed of several input planes.
+对输入的多通道信号进行2维的自适应最大池化操作。
 
-The output is of size H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
 Parameters: 
 
-*   **output_size** – the target output size of the image of the form H x W. Can be a tuple (H, W) or a single H for a square image H x H. H and W can be either a `int`, or `None` which means the size will be the same as that of the input.
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool2d. Default: `False`
+*   **output_size** – 指定的输出大小H x W。此参数支持的数据类型可以是一个元组(H, W)，又或者是一个单独的`int` H（等价于H x H）。H 和 W这两个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool2d()`可以被用到。此参数默认为`False`
 
-
-
-Examples
+例子
 
 ```py
 >>> # target output size of 5x7
@@ -2263,19 +2242,16 @@ Examples
 ```py
 class torch.nn.AdaptiveMaxPool3d(output_size, return_indices=False)
 ```
+对输入的多通道信号进行3维的自适应最大池化操作。
 
-Applies a 3D adaptive max pooling over an input signal composed of several input planes.
-
-The output is of size D x H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小D x H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
 Parameters: 
 
-*   **output_size** – the target output size of the image of the form D x H x W. Can be a tuple (D, H, W) or a single D for a cube D x D x D. D, H and W can be either a `int`, or `None` which means the size will be the same as that of the input.
-*   **return_indices** – if `True`, will return the indices along with the outputs. Useful to pass to nn.MaxUnpool3d. Default: `False`
+*   **output_size** – 指定的输出大小D x H x W。此参数支持的数据类型可以是一个元组(D, H, W)，又或者是一个单独的`int` D（等价于D x D x D)。D, H 和 W这三个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+*   **return_indices** – 如果此参数设置为`True`, 那么在池化操作结束后，返回池化输出结果的同时也会返回每个池化区域中，最大值的位置信息。这些信息在`nn.MaxUnpool3d()`可以被用到。此参数默认为`False`
 
-
-
-Examples
+例子
 
 ```py
 >>> # target output size of 5x7x9
@@ -2299,14 +2275,15 @@ Examples
 class torch.nn.AdaptiveAvgPool1d(output_size)
 ```
 
-Applies a 1D adaptive average pooling over an input signal composed of several input planes.
+对输入的多通道信号进行1维的自适应平均池化操作。
 
-The output size is H, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
-| Parameters: | **output_size** – the target output size H |
-| --- | --- |
+Parameters: 
 
-Examples
+*   **output_size** – 指定的输出大小H
+
+例子
 
 ```py
 >>> # target output size of 5
@@ -2322,14 +2299,16 @@ Examples
 class torch.nn.AdaptiveAvgPool2d(output_size)
 ```
 
-Applies a 2D adaptive average pooling over an input signal composed of several input planes.
+对输入的多通道信号进行2维的自适应平均池化操作。
 
-The output is of size H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
-| Parameters: | **output_size** – the target output size of the image of the form H x W. Can be a tuple (H, W) or a single H for a square image H x H H and W can be either a `int`, or `None` which means the size will be the same as that of the input. |
-| --- | --- |
+Parameters: 
 
-Examples
+*   **output_size** – 指定的输出大小H x W。此参数支持的数据类型可以是一个元组(H, W)，又或者是一个单独的`int` H（等价于H x H）。H 和 W这两个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+
+例子
+
 
 ```py
 >>> # target output size of 5x7
@@ -2353,14 +2332,16 @@ Examples
 class torch.nn.AdaptiveAvgPool3d(output_size)
 ```
 
-Applies a 3D adaptive average pooling over an input signal composed of several input planes.
+对输入的多通道信号进行3维的自适应平均池化操作。
 
-The output is of size D x H x W, for any input size. The number of output features is equal to the number of input planes.
+此池化层可以通过指定输出大小D x H x W，将任意输入大小的输入强行的池化到指定的输出大小。不过输入和输出特征的通道数不会变化。
 
-| Parameters: | **output_size** – the target output size of the form D x H x W. Can be a tuple (D, H, W) or a single number D for a cube D x D x D D, H and W can be either a `int`, or `None` which means the size will be the same as that of the input. |
-| --- | --- |
+Parameters: 
 
-Examples
+*   **output_size** – 指定的输出大小D x H x W。此参数支持的数据类型可以是一个元组(D, H, W)，又或者是一个单独的`int` D（等价于D x D x D)。D, H 和 W这三个参数支持输入一个`int`又或者是`None`, `None`表示此输出维度的大小等价于输入数据此维度的大小
+
+例子
+
 
 ```py
 >>> # target output size of 5x7x9
@@ -2378,7 +2359,7 @@ Examples
 
 ```
 
-## Padding layers
+## 填充层（Padding layers）
 
 ### ReflectionPad1d
 
@@ -2386,21 +2367,21 @@ Examples
 class torch.nn.ReflectionPad1d(padding)
 ```
 
-Pads the input tensor using the reflection of the input boundary.
+以输入张量的各边界为轴，通过对输入张量数据的进行镜像复制的方式来对输入张量进行填充操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 2-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个两个元素的元组，那么按照 (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg))的大小设定来在各边上填充。 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
-*   Output: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) where ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
+*   输出: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) 其中 ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReflectionPad1d(2)
@@ -2428,24 +2409,24 @@ tensor([[[3., 2., 1., 0., 1., 2., 3., 2.],
 class torch.nn.ReflectionPad2d(padding)
 ```
 
-Pads the input tensor using the reflection of the input boundary.
+以输入张量的各边界为轴，通过对输入张量数据的进行镜像复制的方式来对输入张量进行填充操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上填充。  |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
 
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中
 
     ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReflectionPad2d(2)
@@ -2479,21 +2460,22 @@ tensor([[[[7., 6., 7., 8., 7.],
 class torch.nn.ReplicationPad1d(padding)
 ```
 
-Pads the input tensor using replication of the input boundary.
+通过复制输入张量边界元素的方式对输入张量进行填充操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 2-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg)) |
+
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个两个元素的元组，那么按照 (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg))的大小设定来在各边上填充。 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
-*   Output: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) where ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
+*   输出: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) 其中 ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReplicationPad1d(2)
@@ -2517,22 +2499,21 @@ tensor([[[0., 0., 0., 0., 1., 2., 3., 3.],
 ```py
 class torch.nn.ReplicationPad2d(padding)
 ```
+通过复制输入张量边界元素的方式对输入张量进行填充操作。
 
-Pads the input tensor using replication of the input boundary.
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
-
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中 ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReplicationPad2d(2)
@@ -2566,21 +2547,21 @@ tensor([[[[0., 0., 1., 2., 2.],
 class torch.nn.ReplicationPad3d(padding)
 ```
 
-Pads the input tensor using replication of the input boundary.
+通过复制输入张量边界元素的方式对输入张量进行填充操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 6-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg), ![](img/bffb266183e8fa640240e16a45076c34.jpg), ![](img/9138ac0ee6f6e96dfe795ead91ec0003.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个六个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg), ![](img/bffb266183e8fa640240e16a45076c34.jpg), ![](img/9138ac0ee6f6e96dfe795ead91ec0003.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) where ![](img/006114d9c80210ede5da92f2f3a44bb7.jpg) ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) 其中 ![](img/006114d9c80210ede5da92f2f3a44bb7.jpg) ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReplicationPad3d(3)
@@ -2598,21 +2579,21 @@ Examples:
 class torch.nn.ZeroPad2d(padding)
 ```
 
-Pads the input tensor boundaries with zero.
+通过在各边上填充0的方式对输入张量进行填充操作。
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中 ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ZeroPad2d(2)
@@ -2646,21 +2627,22 @@ tensor([[[[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 class torch.nn.ConstantPad1d(padding, value)
 ```
 
-Pads the input tensor boundaries with a constant value.
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+通过在各边上填充固定数字的方式对输入张量进行填充操作
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in both boundaries. If a 2-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg)) |
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
+
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个两个元素的元组，那么按照 (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
-*   Output: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) where ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/964aa6df63e83f4468aa090441f01972.jpg)
+*   输出: ![](img/ac2661719f40fc422e2b1590a1e7b4a4.jpg) 其中 ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ConstantPad1d(2, 3.5)
@@ -2695,21 +2677,21 @@ tensor([[[ 3.5000,  3.5000,  3.5000,  1.6616,  1.4523, -1.1255,  3.5000],
 class torch.nn.ConstantPad2d(padding, value)
 ```
 
-Pads the input tensor boundaries with a constant value.
+通过在各边上填充固定数字的方式对输入张量进行填充操作
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 4-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个四个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg))的大小设定来在各边上填充。|
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
-*   Output: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) where ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/ff71b16eb10237262566c6907acaaf1f.jpg)
+*   输出: ![](img/a0ef05f779873fc4dcbf020b1ea14754.jpg) 其中 ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ConstantPad2d(2, 3.5)
@@ -2748,21 +2730,21 @@ tensor([[[ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
 class torch.nn.ConstantPad3d(padding, value)
 ```
 
-Pads the input tensor boundaries with a constant value.
+通过在各边上填充固定数字的方式对输入张量进行填充操作
 
-For `N`-dimensional padding, use [`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad").
+对于`N`维的填充操作，调用[`torch.nn.functional.pad()`](#torch.nn.functional.pad "torch.nn.functional.pad")。
 
-| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – the size of the padding. If is `int`, uses the same padding in all boundaries. If a 6-`tuple`, uses (![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg), ![](img/bffb266183e8fa640240e16a45076c34.jpg), ![](img/9138ac0ee6f6e96dfe795ead91ec0003.jpg)) |
+| Parameters: | **padding** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 要填充的范围大小。如果输入数据是一个`int`, 那各个边界上都会填充同样大小的数据。如果是一个六个元素的元组，那么按照(![](img/08b2cac9ee37dde4cec3d372ebbfa0bd.jpg), ![](img/9f56071a00e2baa50d7fa9bde997852d.jpg), ![](img/65f6ce26141c225acd502a7bef164f66.jpg), ![](img/9a98061e27ba6ed06e846767b9c77c3a.jpg), ![](img/bffb266183e8fa640240e16a45076c34.jpg), ![](img/9138ac0ee6f6e96dfe795ead91ec0003.jpg))的大小设定来在各边上填充。 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
-*   Output: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) where ![](img/006114d9c80210ede5da92f2f3a44bb7.jpg) ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
+*   输入: ![](img/c187d190013d0785320e3412fe8cd669.jpg)
+*   输出: ![](img/41ca4c8d4c65c979d2d643c6f62ea280.jpg) 其中 ![](img/006114d9c80210ede5da92f2f3a44bb7.jpg) ![](img/75aa7c4a6c84e0ccb8aa91592cf6a077.jpg) ![](img/e2294a717e6d12035072d23c45273863.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ConstantPad3d(3, 3.5)
@@ -2774,7 +2756,7 @@ Examples:
 
 ```
 
-## Non-linear activations (weighted sum, nonlinearity)
+## 非线性激活(加权求和，非线性) ( Non-linear activations (weighted sum, nonlinearity) )
 
 ### ELU
 
@@ -2782,14 +2764,14 @@ Examples:
 class torch.nn.ELU(alpha=1.0, inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/1285687f031aec0751f4e0481f97b6b0.jpg)
 
 Parameters: 
 
-*   **alpha** – the ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) value for the ELU formulation. Default: 1.0
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **alpha** – ELU操作的![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg)值。 默认： 1.0
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -2797,12 +2779,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//ELU.png](img/5d789140032850b13d5c00493bf62412.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ELU()
@@ -2816,24 +2798,23 @@ Examples:
 ```py
 class torch.nn.Hardshrink(lambd=0.5)
 ```
-
-Applies the hard shrinkage function element-wise:
+将下面的元素级hard shrinkage函数应用到输入张量上：
 
 ![](img/f934a1a7fa1553c38403f2e010708ed9.jpg)
 
-| Parameters: | **lambd** – the ![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg) value for the Hardshrink formulation. Default: 0.5 |
+| Parameters: | **lambd** – Hardshrink运算中的 ![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg) 值。 默认: 0.5 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Hardshrink.png](img/45889773f687ed0d33a3ef9b66b0da32.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Hardshrink()
@@ -2848,34 +2829,33 @@ Examples:
 class torch.nn.Hardtanh(min_val=-1.0, max_val=1.0, inplace=False, min_value=None, max_value=None)
 ```
 
-Applies the HardTanh function element-wise
+将下面的元素级HardTanh函数应用到输入张量上。
 
-HardTanh is defined as:
+HardTanh函数定义如下:
 
 ![](img/988cd664634d88b1e654ea5e8fe27d9a.jpg)
 
-The range of the linear region ![](img/f30fa7744d61427a11bf0e75b1557a16.jpg) can be adjusted using `min_val` and `max_val`.
+线性区域![](img/f30fa7744d61427a11bf0e75b1557a16.jpg) 的大小可以通过设置`min_val` 参数 `max_val`来进行调整。
 
 ![https://pytorch.org/docs/stable/_images//Hardtanh.png](img/b22ab176e5aca7ca2b17e84fe525620e.jpg)
 
-Parameters: 
+参数: 
 
-*   **min_val** – minimum value of the linear region range. Default: -1
-*   **max_val** – maximum value of the linear region range. Default: 1
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **min_val** – 线性区域的下限. 默认: -1
+*   **max_val** – 线性区域的上限. 默认: 1
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
-
-Keyword arguments `min_value` and `max_value` have been deprecated in favor of `min_val` and `max_val`.
+之前版本的`min_value` 和 `max_value` 参数已经被废弃掉了，改为`min_val` 和 `max_val`参数。
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Hardtanh(-2, 2)
@@ -2890,18 +2870,18 @@ Examples:
 class torch.nn.LeakyReLU(negative_slope=0.01, inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/92ce1c3da3211f30ef5273403da71c7a.jpg)
 
-or
+或
 
 ![](img/377c237cda65f4c68e3138efcc2bfef4.jpg)
 
 Parameters: 
 
-*   **negative_slope** – Controls the angle of the negative slope. Default: 1e-2
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **negative_slope** – 控制负数范围函数的斜率。 默认: 1e-2
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -2909,12 +2889,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//LeakyReLU.png](img/7df3c1e498d7d00e9e32ce7716e15fc3.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.LeakyReLU(0.1)
@@ -2929,18 +2909,18 @@ Examples:
 class torch.nn.LogSigmoid
 ```
 
-Applies the element-wise function:
+将下面的元素级函数LogSigmoid应用到输入张量上：(此处漏了一张图，后期补一下)
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//LogSigmoid.png](img/f03b653b702dcd536fbb404c6461b399.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.LogSigmoid()
@@ -2955,28 +2935,28 @@ Examples:
 class torch.nn.PReLU(num_parameters=1, init=0.25)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/96fb709d31ba330ca192080e660d4cf1.jpg)
 
-or
+或
 
 ![](img/f460dc15bedfa96b8a320033b3f4fd6f.jpg)
 
-Here ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is a learnable parameter. When called without arguments, `nn.PReLU()` uses a single parameter ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) across all input channels. If called with `nn.PReLU(nChannels)`, a separate ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is used for each input channel.
+此处 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 是一个可学习的参数。 如果在调用`nn.PReLU()`函数的时候没有传入参数，那么会默认在所有的输入通道上应用同一个![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 参数。 如果以`nn.PReLU(nChannels)`这种方式调用， 每个输入通道都会有一个单独的![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 参数。
 
 Note
 
-weight decay should not be used when learning ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) for good performance.
+想要学一个好的![](img/070b1af5eca3a5c5d72884b536090f17.jpg)参数，最好不要用weight decay。
 
 Note
 
-Channel dim is the 2nd dim of input. When input has dims &lt; 2, then there is no channel dim and the number of channels = 1.
+通道维度是输入张量的第二个维度。当输入张量的维度数 &lt; 2的时候，那此输入张量就没有通道维度，而此时其通道数被认为是1。
 
 Parameters: 
 
-*   **num_parameters** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) to learn. Although it takes an int as input, there is only two values are legitimate: 1, or the number of channels at input. Default: 1
-*   **init** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the initial value of ![](img/070b1af5eca3a5c5d72884b536090f17.jpg). Default: 0.25
+*   **num_parameters** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要进行训练学习的 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 参数的数量。尽管此函数的输入是一个整形，但此函数要求输入的整形只能为两个值，1或者输入张量的通道数。默认：1 
+*   **init** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – ![](img/070b1af5eca3a5c5d72884b536090f17.jpg)的初始值，默认: 0.25
 
 
 
@@ -2984,15 +2964,15 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-| Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the learnable weights of shape (attr:`num_parameters`). The attr:`dtype` is default to |
+| Variables: | **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 大小为`num_parameters`的可学习参数。The attr:`dtype` is default to（这句话有点问题， to后面漏掉了） |
 | --- | --- |
 
 ![https://pytorch.org/docs/stable/_images//PReLU.png](img/59baba7257ac05b747455a25a3457baf.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.PReLU()
@@ -3007,21 +2987,22 @@ Examples:
 class torch.nn.ReLU(inplace=False)
 ```
 
-Applies the rectified linear unit function element-wise ![](img/f859c48107afb47986b3297459048c80.jpg)
+将元素级线性整流函数函数应用到输入张量上![](img/f859c48107afb47986b3297459048c80.jpg)
+Applies the rectified linear unit function element-wise 
 
 ![https://pytorch.org/docs/stable/_images//ReLU.png](img/6bfe295d2f51e4e33648ffb4273723a6.jpg)
 
-| Parameters: | **inplace** – can optionally do the operation in-place. Default: `False` |
+| Parameters: | **inplace** – 是否进行原位操作。 默认： `False` |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReLU()
@@ -3036,23 +3017,23 @@ Examples:
 class torch.nn.ReLU6(inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/38c45c0cb00fa6f9a372816012b26b01.jpg)
 
-| Parameters: | **inplace** – can optionally do the operation in-place. Default: `False` |
+| Parameters: | **inplace** – 是否进行原位操作。 默认： `False` |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//ReLU6.png](img/3a82f9216f0db7d59f6c0f1c169156b0.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.ReLU6()
@@ -3066,24 +3047,23 @@ Examples:
 ```py
 class torch.nn.RReLU(lower=0.125, upper=0.3333333333333333, inplace=False)
 ```
-
-Applies the randomized leaky rectified liner unit function, element-wise, as described in the paper:
+将元素级随机线性整流函数函数应用到输入张量上，详情此文章：
 
 [Empirical Evaluation of Rectified Activations in Convolutional Network](https://arxiv.org/abs/1505.00853).
 
-The function is defined as:
+此函数定义如下:
 
 ![](img/69aa6828f2f0bcd0ee1e173223ff4640.jpg)
 
-where ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) is randomly sampled from uniform distribution ![](img/7323b93ed925c9e5b0ce10c8a6c99daf.jpg).
+其中 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 是从此均匀分布中采样而来：![](img/7323b93ed925c9e5b0ce10c8a6c99daf.jpg).
 
-> See: [https://arxiv.org/pdf/1505.00853.pdf](https://arxiv.org/pdf/1505.00853.pdf)
+> 详见: [https://arxiv.org/pdf/1505.00853.pdf](https://arxiv.org/pdf/1505.00853.pdf)
 
 Parameters: 
 
-*   **lower** – lower bound of the uniform distribution. Default: ![](img/444fc0427eb64f0bd2c9c16edf680d4f.jpg)
-*   **upper** – upper bound of the uniform distribution. Default: ![](img/a90c89c913a1fe1e9462d60d8668936b.jpg)
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **lower** – 均匀分布下限， 默认: ![](img/444fc0427eb64f0bd2c9c16edf680d4f.jpg)
+*   **upper** – 均匀分布上限，默认: ![](img/a90c89c913a1fe1e9462d60d8668936b.jpg)
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -3091,10 +3071,10 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.RReLU(0.1, 0.3)
@@ -3109,27 +3089,28 @@ Examples:
 class torch.nn.SELU(inplace=False)
 ```
 
-Applied element-wise, as:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/c6753a504d14886a424af779f5906dc5.jpg)
 
-with ![](img/e97a0b3de4bafa3464e17a8d8f66fd9d.jpg) and ![](img/aa01199f9b814d719de1e728e4a44ac3.jpg).
+其中 ![](img/e97a0b3de4bafa3464e17a8d8f66fd9d.jpg) 而且 ![](img/aa01199f9b814d719de1e728e4a44ac3.jpg).
 
 ![https://pytorch.org/docs/stable/_images//SELU.png](img/10123138310ae40f4a78f55cefe37008.jpg)
 
 More details can be found in the paper [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515) .
 
-| Parameters: | **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – can optionally do the operation in-place. Default: `False` |
+| Parameters: | **inplace** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 是否进行原位操作。 默认： `False` |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
+
 
 ```py
 >>> m = nn.SELU()
@@ -3144,16 +3125,16 @@ Examples:
 class torch.nn.CELU(alpha=1.0, inplace=False)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/86d69b42683362b7781f1a5809c0d0d1.jpg)
 
-More details can be found in the paper [Continuously Differentiable Exponential Linear Units](https://arxiv.org/abs/1704.07483) .
+更多细节请见paper: [Continuously Differentiable Exponential Linear Units](https://arxiv.org/abs/1704.07483) .
 
 Parameters: 
 
-*   **alpha** – the ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) value for the CELU formulation. Default: 1.0
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **alpha** – CELU操作中的 ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) 值，默认: 1.0
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -3161,12 +3142,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//CELU.png](img/8d5fd8f893fb491c170f9a38af6edef9.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.CELU()
@@ -3181,7 +3162,7 @@ Examples:
 class torch.nn.Sigmoid
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上：
 
 ![](img/8bf3a718397550598124548beb8c6b23.jpg)
 
@@ -3189,12 +3170,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Sigmoid.png](img/961caeb46e669eb70392afd515f9bde7.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Sigmoid()
@@ -3209,18 +3190,18 @@ Examples:
 class torch.nn.Softplus(beta=1, threshold=20)
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/a0855ca512a1ba09192648efd45082ad.jpg)
 
-SoftPlus is a smooth approximation to the ReLU function and can be used to constrain the output of a machine to always be positive.
+SoftPlus是一个平滑的类ReLU函数，可以用于将输出结果规范到全正。
 
-For numerical stability the implementation reverts to the linear function for inputs above a certain value.
+为了数值稳定性，在实现此函数的过程中，当 `x` 超过某个特定值之后，我们会将此函数转化为一个线性函数。
 
 Parameters: 
 
-*   **beta** – the ![](img/50705df736e9a7919e768cf8c4e4f794.jpg) value for the Softplus formulation. Default: 1
-*   **threshold** – values above this revert to a linear function. Default: 20
+*   **beta** – Softplus操作的 ![](img/50705df736e9a7919e768cf8c4e4f794.jpg) 值，默认: 1
+*   **threshold** – 将函数转化为线性函数的阈值， 默认: 20
 
 
 
@@ -3228,12 +3209,12 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Softplus.png](img/af06304134e1f56d7abc15570fa5adb9.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Softplus()
@@ -3248,23 +3229,23 @@ Examples:
 class torch.nn.Softshrink(lambd=0.5)
 ```
 
-Applies the soft shrinkage function elementwise:
+将下面的元素级软收缩函数应用到输入张量上:
 
 ![](img/5baf58b3007cf434725f41bf2dfae2ce.jpg)
 
-| Parameters: | **lambd** – the ![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg) value for the Softshrink formulation. Default: 0.5 |
+| Parameters: | **lambd** – 软收缩运算的![](img/5e8df2ba7e47a784c714d176ed8bbb7a.jpg)值，默认: 0.5 |
 | --- | --- |
 
 ```py
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Softshrink.png](img/cec198ab680657d41c1d2ac2176e5664.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Softshrink()
@@ -3279,7 +3260,7 @@ Examples:
 class torch.nn.Softsign
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/39ba3e3786920ceb12bc26b08b00de1c.jpg)
 
@@ -3287,12 +3268,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Softsign.png](img/b92a09469ce9fc0abfbe8c9af4228391.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Softsign()
@@ -3307,7 +3288,7 @@ Examples:
 class torch.nn.Tanh
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/e3f58d9a8cbc89b247dd8de1c28bf7ce.jpg)
 
@@ -3315,12 +3296,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Tanh.png](img/5605304fc1fec06669e17cc872d47580.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Tanh()
@@ -3335,7 +3316,7 @@ Examples:
 class torch.nn.Tanhshrink
 ```
 
-Applies the element-wise function:
+将下面的元素级函数应用到输入张量上:
 
 ![](img/136fda10bacf7ae9068ca487ba861805.jpg)
 
@@ -3343,12 +3324,12 @@ Applies the element-wise function:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
 ![https://pytorch.org/docs/stable/_images//Tanhshrink.png](img/8aea39259742ccdb14701a8f3c351b56.jpg)
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Tanhshrink()
@@ -3363,17 +3344,17 @@ Examples:
 class torch.nn.Threshold(threshold, value, inplace=False)
 ```
 
-Thresholds each element of the input Tensor
+使用阈值过滤输入张量的每个元素
 
-Threshold is defined as:
+阈值被定义如下：
 
 ![](img/3b32031caba73686c02a117e8e307c6f.jpg)
 
 Parameters: 
 
-*   **threshold** – The value to threshold at
-*   **value** – The value to replace with
-*   **inplace** – can optionally do the operation in-place. Default: `False`
+*   **threshold** – 阈值大小 
+*   **value** – 小于阈值的元素的替换值
+*   **inplace** – 是否进行原位操作。 默认： `False`
 
 
 
@@ -3381,10 +3362,10 @@ Parameters:
 Shape:
 ```
 
-*   Input: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) where `*` means, any number of additional dimensions
-*   Output: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), same shape as the input
+*   输入: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg) 其中 `*` 代表支持任意大小的附加维度
+*   输出: ![](img/eb7a3f5bc15cc379e78f768e821eb094.jpg), 与输入向量保持一样的形状大小
 
-Examples:
+示例:
 
 ```py
 >>> m = nn.Threshold(0.1, 20)

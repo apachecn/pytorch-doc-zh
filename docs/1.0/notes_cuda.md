@@ -1,5 +1,7 @@
 # CUDA 语义
 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+
 [`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") 用于设置和运行 CUDA 操作。它会跟踪当前选定的GPU，并且默认情况下会在该设备上创建您分配的所有 CUDA tensors。可以使用 [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") 上下文管理器更改所选设备。
 
 但是，一旦分配了 tensor，就可以对其进行操作而不管所选择的设备如何，结果将始终与 tensor 放在同一设备上。

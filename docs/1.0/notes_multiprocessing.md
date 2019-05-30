@@ -1,50 +1,52 @@
 
 
-# Multiprocessing best practices
+# 多进程最佳实践
 
-[`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing") is a drop in replacement for Python’s [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") module. It supports the exact same operations, but extends it, so that all tensors sent through a [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)"), will have their data moved into shared memory and will only send a handle to another process.
+> 译者：[cvley](https://github.com/cvley)
 
-Note
+[`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing") 是 Python 的 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") 的直接替代模块。它支持完全相同的操作，但进行了扩展，这样所有的张量就可以通过一个 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") 进行传递，将数据移动到共享内存并只将句柄传递到另一个进程。
 
-When a [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") is sent to another process, the [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") data is shared. If [`torch.Tensor.grad`](../autograd.html#torch.Tensor.grad "torch.Tensor.grad") is not `None`, it is also shared. After a [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") without a [`torch.Tensor.grad`](../autograd.html#torch.Tensor.grad "torch.Tensor.grad") field is sent to the other process, it creates a standard process-specific `.grad` [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") that is not automatically shared across all processes, unlike how the [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor")’s data has been shared.
+注意
 
-This allows to implement various training methods, like Hogwild, A3C, or any others that require asynchronous operation.
+当一个 [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 传递到另一个进程时，[`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 的数据是共享的。如果 [`torch.Tensor.grad`](../autograd.html#torch.Tensor.grad "torch.Tensor.grad") 不是 `None`, 也会被共享。在一个没有 [`torch.Tensor.grad`](../autograd.html#torch.Tensor.grad "torch.Tensor.grad") 域的 [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 被送到其他进程时，一个标准的进程专用的 `.grad` [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 会被创建，而它在所有的进程中不会自动被共享，与 [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 数据的共享方式不同。
 
-## Sharing CUDA tensors
+这就允许实现各种训练方法，比如 Hogwild、A3C，或者其他那些需要异步操作的方法。
 
-Sharing CUDA tensors between processes is supported only in Python 3, using a `spawn` or `forkserver` start methods. [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") in Python 2 can only create subprocesses using `fork`, and it’s not supported by the CUDA runtime.
+## 共享 CUDA 张量
 
-Warning
+进程间共享 CUDA 张量仅支持 Python 3，使用的是 `spawn` 或者 `forkserver` 启动方法。Python 2 中的 [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)") 仅使用 `fork` 来创建子进程，而 CUDA 运行时不支持该方法。
 
-CUDA API requires that the allocation exported to other processes remains valid as long as it’s used by them. You should be careful and ensure that CUDA tensors you shared don’t go out of scope as long as it’s necessary. This shouldn’t be a problem for sharing model parameters, but passing other kinds of data should be done with care. Note that this restriction doesn’t apply to shared CPU memory.
+警告
 
-See also: [Use nn.DataParallel instead of multiprocessing](cuda.html#cuda-nn-dataparallel-instead)
+CUDA API 需要分配给其他进程的显存在它们还在使用的情况下一直有效。你需要仔细确保共享的 CUDA 张量若非必须，不会超出使用范围。这对于共享模型参数不会是一个问题，但传递其他类型的数据时需要谨慎。注意该限制并不适用于共享 CPU 内存。
 
-## Best practices and tips
+也可以参考：[使用 nn.DataParallel 替代 multiprocessing](cuda.html#cuda-nn-dataparallel-instead)
 
-### Avoiding and fighting deadlocks
+## 最佳实践和提示
 
-There are a lot of things that can go wrong when a new process is spawned, with the most common cause of deadlocks being background threads. If there’s any thread that holds a lock or imports a module, and `fork` is called, it’s very likely that the subprocess will be in a corrupted state and will deadlock or fail in a different way. Note that even if you don’t, Python built in libraries do - no need to look further than [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)"). [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") is actually a very complex class, that spawns multiple threads used to serialize, send and receive objects, and they can cause aforementioned problems too. If you find yourself in such situation try using a `multiprocessing.queues.SimpleQueue`, that doesn’t use any additional threads.
+### 避免和处理死锁
 
-We’re trying our best to make it easy for you and ensure these deadlocks don’t happen but some things are out of our control. If you have any issues you can’t cope with for a while, try reaching out on forums, and we’ll see if it’s an issue we can fix.
+当创建一个新进程时，很多情况会发生，最常见的就是后台线程间的死锁。如果任何一个线程有锁的状态或者引入了一个模块，然后调用了`fork`，子进程很有可能处于中断状态，并以另外的方式死锁或者失败。注意即使你没这么做，Python 内建的库也有可能这么做——无需舍近求远，[`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing "(in Python v3.7)")即是如此。[`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") 实际上是一个非常复杂的类，可以创建多个线程用于串行、发送和接收对象，它们也会出现前面提到的问题。如果你发现自己遇到了这种情况，尝试使用 `multiprocessing.queues.SimpleQueue`，它不会使用额外的线程。
 
-### Reuse buffers passed through a Queue
+我们在尽最大努力为你化繁为简，确保不会发生死锁的情况，但有时也会出现失控的情况。如果你遇到任何暂时无法解决的问题，可以在论坛上求助，我们将会研究是否可以修复。
 
-Remember that each time you put a [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") into a [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)"), it has to be moved into shared memory. If it’s already shared, it is a no-op, otherwise it will incur an additional memory copy that can slow down the whole process. Even if you have a pool of processes sending data to a single one, make it send the buffers back - this is nearly free and will let you avoid a copy when sending next batch.
+### 通过 Queue 传递重用缓存
 
-### Asynchronous multiprocess training (e.g. Hogwild)
+记住每次将一个 [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 放进一个 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") 时，它就会被移动到共享内存中。如果它已经被共享，那将不会有操作，否则将会触发一次额外的内存拷贝，而这将会拖慢整个进程。即使你有一个进程池把数据发送到一个进程，并把缓存送回来——这近乎于无操作，在发送下一个批次的数据时避免拷贝。
 
-Using [`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing"), it is possible to train a model asynchronously, with parameters either shared all the time, or being periodically synchronized. In the first case, we recommend sending over the whole model object, while in the latter, we advise to only send the [`state_dict()`](../nn.html#torch.nn.Module.state_dict "torch.nn.Module.state_dict").
+### 异步多进程训练（如Hogwild）
 
-We recommend using [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") for passing all kinds of PyTorch objects between processes. It is possible to e.g. inherit the tensors and storages already in shared memory, when using the `fork` start method, however it is very bug prone and should be used with care, and only by advanced users. Queues, even though they’re sometimes a less elegant solution, will work properly in all cases.
+使用 [`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing")，可以异步训练一个模型，参数要么一直共享，要么周期性同步。在第一个情况下，我们建议传递整个模型的对象，而对于后一种情况，我们将以仅传递 [`state_dict()`](../nn.html#torch.nn.Module.state_dict "torch.nn.Module.state_dict")。
 
-Warning
+我们建议使用 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)")在进程间传递 PyTorch 对象。当使用`fork`命令时，可以进行诸如继承共享内存中的张量和存储的操作，然而这个操作容易产生问题，应该小心使用，仅建议高级用户使用。Queue，尽管有时不是一个那么优雅的解决方案，但在所有的情况下都可以合理使用。
 
-You should be careful about having global statements, that are not guarded with an `if __name__ == '__main__'`. If a different start method than `fork` is used, they will be executed in all subprocesses.
+警告
+
+你应该注意那些不在`if __name__ == '__main__'`中的全局声明。如果使用了一个不是`fork`的系统调用，它们将会在所有子进程中执行。
 
 #### Hogwild
 
-A concrete Hogwild implementation can be found in the [examples repository](https://github.com/pytorch/examples/tree/master/mnist_hogwild), but to showcase the overall structure of the code, there’s also a minimal example below as well:
+在[示例仓库](https://github.com/pytorch/examples/tree/master/mnist_hogwild)中可以找到一个具体的Hogwild实现，但除了完整的代码结构之外，下面也有一个简化的例子：
 
 ```py
 import torch.multiprocessing as mp

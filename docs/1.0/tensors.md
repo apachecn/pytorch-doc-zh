@@ -2589,7 +2589,7 @@ all(dim, keepdim=False, out=None) → Tensor
 
 Parameters: 
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要减少的维度
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 要reduce的维度
 *   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – output tensor 是否保留 `dim` 
 *   **out** ([_Tensor_](#torch.Tensor "torch.Tensor")_,_ _可选的_) – output tensor
 

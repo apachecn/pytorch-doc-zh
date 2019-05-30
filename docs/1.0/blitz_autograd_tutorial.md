@@ -174,11 +174,6 @@ J\cdot v=\left(\begin{array}{ccc}
    \end{array}\right)
 $$
 
-> 若github无法显示公式，可以看下面两个截图：
-![](./img/math1.jpg)
-![](./img/math2.jpg)
-
-
 雅可比向量积的这一特性使得将外部梯度输入到具有非标量输出的模型中变得非常方便。
 
 现在我们来看一个雅可比向量积的例子:

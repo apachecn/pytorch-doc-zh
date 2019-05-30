@@ -1,5 +1,9 @@
 # torch.utils.model_zoo
 
+> 译者：[@之茗](https://github.com/mayuanucas)
+> 
+> 校对者：[@aleczhang](http://community.apachecn.org/?/people/aleczhang)
+
 ```py
 torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None)
 ```
@@ -8,16 +12,15 @@ torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None)
 
 `model_dir` 的默认值为 `$TORCH_HOME/models` 其中 `$TORCH_HOME` 默认值为 `~/.torch`. 可以使用 `$TORCH_MODEL_ZOO` 环境变量来覆盖默认目录.
 
-| Parameters: | 
+参数：
 
-*   **url** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")) – 需要下载对象的 URL
-*   **model_dir** ([_string_](https://docs.python.org/3/library/string.html#module-string "(in Python v3.6)")_,_ _optional_) – 保存对象的目录
-*   **map_location** (_optional_) – 一个函数或者一个字典,指定如何重新映射存储位置 (详情查阅 torch.load)
+*   `url (string)` – 需要下载对象的 URL
+*   `model_dir (string, 可选)` – 保存对象的目录
+*   `map_location (optional)` – 一个函数或者一个字典,指定如何重新映射存储位置 (详情查阅 torch.load)
 
- |
-| --- | --- |
 
-Example
+
+示例：
 
 ```py
 >>> state_dict = torch.utils.model_zoo.load_url('https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth')

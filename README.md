@@ -1,5 +1,20 @@
 # PyTorch 中文文档
 
+![](docs/img/logo.svg)
+
+> Special Sponsers
+
+<table>
+      <tbody>
+        <tr>
+          <td align="center" valign="middle">
+            <a href="https://coding.net/?utm_source=ApacheCN&utm_medium=banner&utm_campaign=march2019" target="_blank">
+              <img width="1080" src="http://data.apachecn.org/img/SpecialSponsors/CodingNet.png">
+            </a>
+          </td>
+      </tbody>
+</table>
+
 PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库) .
 
 > 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
@@ -9,6 +24,8 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 +   项目负责人及贡献者：请见各个版本的首页
 +   [ApacheCN 机器学习交流群 629470233](http://shang.qq.com/wpa/qunwpa?idkey=30e5f1123a79867570f665aa3a483ca404b1c3f77737bc01ec520ed5f078ddef)
 +   [ApacheCN 学习资源](http://www.apachecn.org/)
+
+
 
 ## 建议反馈
 

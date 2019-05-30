@@ -1,5 +1,5 @@
 +   [PyTorch 0.3 中文文档 & 教程](README.md)
-+   中文教程
++   [中文教程](tut.md)
     +   [初学者教程](beginner_tutorials.md)
         +   [PyTorch 深度学习: 60 分钟极速入门教程](deep_learning_60min_blitz.md)
             +   [PyTorch 是什么？](blitz_tensor_tutorial.md)
@@ -42,7 +42,7 @@
         +   [使用 numpy 和 scipy 创建扩展](numpy_extensions_tutorial.md)
         +   [使用 ONNX 将模型从 PyTorch 迁移到 Caffe2 和 Mobile](super_resolution_with_caffe2.md)
         +   [为 pytorch 自定义 C 扩展](c_extension.md)
-+   中文文档
++   [中文文档](doc.md)
     +   [介绍](notes.md)
         +   [自动求导机制](notes_autograd.md)
         +   [广播语义](notes_broadcasting.md)

@@ -1,5 +1,9 @@
 # CUDA 语义
 
+> 译者：[@Chris](https://github.com/Chriskuei)
+> 
+> 校对者：[@Twinkle](https://github.com/kemingzeng)
+
 [`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") 被用于设置和运行 CUDA 操作. 它会记录当前选择的 GPU, 并且分配的所有 CUDA 张量将默认在上面创建. 可以使用 [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") 上下文管理器更改所选设备.
 
 但是, 一旦张量被分配, 您可以直接对其进行操作, 而不需要考虑已选择的设备, 结果将始终放在与张量相关的设备上.

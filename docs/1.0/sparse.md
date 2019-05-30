@@ -2,13 +2,15 @@
 
 # torch.sparse
 
-Warning
+> 译者：[hijkzzz](https://github.com/hijkzzz)
 
-This API is currently experimental and may change in the near future.
+警告
 
-Torch supports sparse tensors in COO(rdinate) format, which can efficiently store and process tensors for which the majority of elements are zeros.
+这个API目前还处于试验阶段, 可能在不久的将来会发生变化. 
 
-A sparse tensor is represented as a pair of dense tensors: a tensor of values and a 2D tensor of indices. A sparse tensor can be constructed by providing these two tensors, as well as the size of the sparse tensor (which cannot be inferred from these tensors!) Suppose we want to define a sparse tensor with the entry 3 at location (0, 2), entry 4 at location (1, 0), and entry 5 at location (1, 2). We would then write:
+Torch支持COO(rdinate )格式的稀疏张量, 这可以有效地存储和处理大多数元素为零的张量. 
+
+稀疏张量表示为一对稠密张量:一个值张量和一个二维指标张量. 一个稀疏张量可以通过提供这两个张量, 以及稀疏张量的大小来构造(从这些张量是无法推导出来的!)假设我们要定义一个稀疏张量, 它的分量3在(0,2)处, 分量4在(1,0)处, 分量5在(1,2)处, 然后我们可以这样写
 
 ```py
 >>> i = torch.LongTensor([[0, 1, 1],
@@ -21,7 +23,7 @@ A sparse tensor is represented as a pair of dense tensors: a tensor of values an
 
 ```
 
-Note that the input to LongTensor is NOT a list of index tuples. If you want to write your indices this way, you should transpose before passing them to the sparse constructor:
+注意, LongTensor的输入不是索引元组的列表. 如果你想这样写你的指标, 你应该在把它们传递给稀疏构造函数之前进行转置:
 
 ```py
 >>> i = torch.LongTensor([[0, 2], [1, 0], [1, 2]])
@@ -33,7 +35,7 @@ Note that the input to LongTensor is NOT a list of index tuples. If you want to 
 
 ```
 
-You can also construct hybrid sparse tensors, where only the first n dimensions are sparse, and the rest of the dimensions are dense.
+也可以构造混合稀疏张量, 其中只有前n个维度是稀疏的, 其余维度是密集的. 
 
 ```py
 >>> i = torch.LongTensor([[2, 4]])
@@ -48,7 +50,7 @@ You can also construct hybrid sparse tensors, where only the first n dimensions 
 
 ```
 
-An empty sparse tensor can be constructed by specifying its size:
+可以通过指定其大小来构造空的稀疏张量：
 
 ```py
 >>> torch.sparse.FloatTensor(2, 3)
@@ -60,26 +62,26 @@ and values:
 ```
 
 ```py
-SparseTensor has the following invariants:
+SparseTensor 具有以下不变量:
 ```
 
 1.  sparse_dim + dense_dim = len(SparseTensor.shape)
 2.  SparseTensor._indices().shape = (sparse_dim, nnz)
 3.  SparseTensor._values().shape = (nnz, SparseTensor.shape[sparse_dim:])
 
-Since SparseTensor._indices() is always a 2D tensor, the smallest sparse_dim = 1. Therefore, representation of a SparseTensor of sparse_dim = 0 is simply a dense tensor.
+因为SparseTensor._indices()总是一个二维张量, 最小的sparse_dim = 1. 因此, sparse_dim = 0的稀疏张量的表示就是一个稠密张量. 
 
-Note
+注意
 
-Our sparse tensor format permits _uncoalesced_ sparse tensors, where there may be duplicate coordinates in the indices; in this case, the interpretation is that the value at that index is the sum of all duplicate value entries. Uncoalesced tensors permit us to implement certain operators more efficiently.
+我们的稀疏张量格式允许_uncoalesced(未合并)_ 的稀疏张量, 其中索引中可能有重复的坐标;在这种情况下, 解释是索引处的值是所有重复值项的和. _uncoalesced_ 张量允许我们更有效地实现某些运算符. 
 
-For the most part, you shouldn’t have to care whether or not a sparse tensor is coalesced or not, as most operations will work identically given a coalesced or uncoalesced sparse tensor. However, there are two cases in which you may need to care.
+在大多数情况下, 你不需要关心一个稀疏张量是否coalesced(合并), 因为大多数操作在给出一个coalesced或uncoalesced稀疏张量的情况下都是一样的. 然而, 有两种情况您可能需要注意. 
 
-First, if you repeatedly perform an operation that can produce duplicate entries (e.g., [`torch.sparse.FloatTensor.add()`](#torch.sparse.FloatTensor.add "torch.sparse.FloatTensor.add")), you should occasionally coalesce your sparse tensors to prevent them from growing too large.
+第一, 如果您重复执行可以产生重复项的操作 (例如, [`torch.sparse.FloatTensor.add()`](#torch.sparse.FloatTensor.add "torch.sparse.FloatTensor.add")), 你应该偶尔将稀疏张量coalesced一起, 以防止它们变得太大.
 
-Second, some operators will produce different values depending on whether or not they are coalesced or not (e.g., [`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values") and [`torch.sparse.FloatTensor._indices()`](#torch.sparse.FloatTensor._indices "torch.sparse.FloatTensor._indices"), as well as [`torch.Tensor.sparse_mask()`](tensors.html#torch.Tensor.sparse_mask "torch.Tensor.sparse_mask")). These operators are prefixed by an underscore to indicate that they reveal internal implementation details and should be used with care, since code that works with coalesced sparse tensors may not work with uncoalesced sparse tensors; generally speaking, it is safest to explicitly coalesce before working with these operators.
+第二, 一些运算符将根据它们是否coalesced产生不同的值 (例如, [`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values") and [`torch.sparse.FloatTensor._indices()`](#torch.sparse.FloatTensor._indices "torch.sparse.FloatTensor._indices"), 以及 [`torch.Tensor.sparse_mask()`](tensors.html#torch.Tensor.sparse_mask "torch.Tensor.sparse_mask")). 这些操作符以下划线作为前缀, 表示它们揭示了内部实现细节, 应该小心使用, 因为使用合并稀疏张量的代码可能无法使用未合并稀疏张量;一般来说, 在使用这些操作符之前显式地合并是最安全的. 
 
-For example, suppose that we wanted to implement an operator by operating directly on [`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values"). Multiplication by a scalar can be implemented in the obvious way, as multiplication distributes over addition; however, square root cannot be implemented directly, since `sqrt(a + b) != sqrt(a) + sqrt(b)` (which is what would be computed if you were given an uncoalesced tensor.)
+例如, 假设我们想通过直接操作[`torch.sparse.FloatTensor._values()`](#torch.sparse.FloatTensor._values "torch.sparse.FloatTensor._values").来实现一个操作符.标量乘法可以用很明显的方法实现, 因为乘法分布于加法之上;但是, 平方根不能直接实现, 因为`sqrt(a + b) != sqrt(a) + sqrt(b)`(如果给定一个uncoalesced的张量, 就会计算出这个结果). 
 
 ```py
 class torch.sparse.FloatTensor
@@ -205,21 +207,21 @@ _values()
 _nnz()
 ```
 
-## Functions
+## 函数
 
 ```py
 torch.sparse.addmm(mat, mat1, mat2, beta=1, alpha=1)
 ```
 
-This function does exact same thing as [`torch.addmm()`](torch.html#torch.addmm "torch.addmm") in the forward, except that it supports backward for sparse matrix `mat1`. `mat1` need to have `sparse_dim = 2`. Note that the gradients of `mat1` is a coalesced sparse tensor.
+这个函数和 [`torch.addmm()`](torch.html#torch.addmm "torch.addmm") 在`forward`中做同样的事情, 除了它支持稀疏矩阵`mat1` 的 `backward`. `mat1`应具有 `sparse_dim = 2`.  请注意, `mat1`的梯度是一个合并的稀疏张量.
 
-Parameters: 
+参数: 
 
-*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – a dense matrix to be added
-*   **mat1** (_SparseTensor_) – a sparse matrix to be multiplied
-*   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – a dense matrix be multiplied
-*   **beta** (_Number__,_ _optional_) – multiplier for `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
-*   **alpha** (_Number__,_ _optional_) – multiplier for ![](img/c4fda0ec33ee23096c7bac6105f7a619.jpg) (![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg))
+*   **mat** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 被相加的稠密矩阵
+*   **mat1** (_SparseTensor_) – 被相乘的稀疏矩阵
+*   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 被相乘的稠密矩阵
+*   **beta** (_Number__,_ _optional_) – 乘数 `mat` (![](img/50705df736e9a7919e768cf8c4e4f794.jpg))
+*   **alpha** (_Number__,_ _optional_) – 乘数 ![](img/c4fda0ec33ee23096c7bac6105f7a619.jpg) (![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg))
 
 
 
@@ -227,16 +229,15 @@ Parameters:
 torch.sparse.mm(mat1, mat2)
 ```
 
-Performs a matrix multiplication of the sparse matrix `mat1` and dense matrix `mat2`. Similar to [`torch.mm()`](torch.html#torch.mm "torch.mm"), If `mat1` is a ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` is a ![](img/ec84c2d649caa2a7d4dc59b6b23b0278.jpg) tensor, out will be a ![](img/42cdcd96fd628658ac0e3e7070ba08d5.jpg) dense tensor. `mat1` need to have `sparse_dim = 2`. This function also supports backward for both matrices. Note that the gradients of `mat1` is a coalesced sparse tensor.
+执行稀疏矩阵`mat1` 和 稠密矩阵 `mat2`的矩阵乘法. 类似于 [`torch.mm()`](torch.html#torch.mm "torch.mm"), 如果 `mat1` 是一个 ![](img/b2d82f601df5521e215e30962b942ad1.jpg) tensor, `mat2` 是一个 ![](img/ec84c2d649caa2a7d4dc59b6b23b0278.jpg) tensor, 输出将会是 ![](img/42cdcd96fd628658ac0e3e7070ba08d5.jpg) 稠密的 tensor. `mat1` 应具有 `sparse_dim = 2`. 此函数也支持两个矩阵的向后. 请注意, `mat1`的梯度是一个合并的稀疏张量
 
-Parameters: 
+参数: 
 
-*   **mat1** (_SparseTensor_) – the first sparse matrix to be multiplied
-*   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second dense matrix to be multiplied
+*   **mat1** (_SparseTensor_) – 第一个要相乘的稀疏矩阵
+*   **mat2** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 第二个要相乘的稠密矩阵
 
 
-
-Example:
+例子:
 
 ```py
 >>> a = torch.randn(2, 3).to_sparse().requires_grad_(True)
@@ -269,21 +270,21 @@ tensor(indices=tensor([[0, 0, 0, 1, 1, 1],
 torch.sparse.sum(input, dim=None, dtype=None)
 ```
 
-Returns the sum of each row of SparseTensor `input` in the given dimensions `dim`. If :attr::`dim` is a list of dimensions, reduce over all of them. When sum over all `sparse_dim`, this method returns a Tensor instead of SparseTensor.
+返回给定维度`dim`中每行SparseTensor `input`的总和. 如果 :attr::`dim` 是一个维度的`list`, reduce将在全部给定维度进行.如果包括全部的 `sparse_dim`, 此方法将返回 Tensor 代替 SparseTensor.
 
-All summed `dim` are squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")), resulting an output tensor having :attr::`dim` fewer dimensions than `input`.
+所有被求和的 `dim` 将被 squeezed (see [`torch.squeeze()`](torch.html#torch.squeeze "torch.squeeze")),导致速出 tensor 的 :attr::`dim` 小于 `input`.
 
-During backward, only gradients at `nnz` locations of `input` will propagate back. Note that the gradients of `input` is coalesced.
+backward 过程中, 仅仅 `input` 的 `nnz` 位置被反向传播.  请注意, `input`的梯度是合并的. 
 
-Parameters: 
+参数: 
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input SparseTensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – a dimension or a list of dimensions to reduce. Default: reduce over all dims.
-*   **dtype** (`torch.dtype`, optional) – the desired data type of returned Tensor. Default: dtype of `input`.
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – t输入 SparseTensor
+*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – 维度或者维度列表. Default: 所有维度.
+*   **dtype** (`torch.dtype`, optional) – 返回 Tensor 的数据类型. 默认值: dtype 和 `input` 一致.
 
 
 
-Example:
+例子:
 
 ```py
 >>> nnz = 3

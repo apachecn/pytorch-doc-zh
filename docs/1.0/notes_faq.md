@@ -1,14 +1,17 @@
 
 
-# Frequently Asked Questions
+# 常见问题解答  
 
-## My model reports “cuda runtime error(2): out of memory”
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)
 
-As the error message suggests, you have run out of memory on your GPU. Since we often deal with large amounts of data in PyTorch, small mistakes can rapidly cause your program to use up all of your GPU; fortunately, the fixes in these cases are often simple. Here are a few common things to check:
+## 我的模型报告“cuda runtime error(2): out of memory”  
 
-**Don’t accumulate history across your training loop.** By default, computations involving variables that require gradients will keep history. This means that you should avoid using such variables in computations which will live beyond your training loops, e.g., when tracking statistics. Instead, you should detach the variable or access its underlying data.
+正如错误消息所示，您的GPU显存已耗尽。由于经常在PyTorch中处理大量数据，因此小错误会迅速导致程序耗尽所有GPU资源; 幸运的是，这些情况下的修复通常很简单。这里有一些常见点需要检查：  
 
-Sometimes, it can be non-obvious when differentiable variables can occur. Consider the following training loop (abridged from [source](https://discuss.pytorch.org/t/high-memory-usage-while-training/162)):
+**不要在训练循环中积累历史记录。** 默认情况下，涉及需要梯度计算的变量将保留历史记录。这意味着您应该避免在计算中使用这些变量，因为这些变量将超出您的训练循环，例如，在跟踪统计数据时。相反，您应该分离变量或访问其基础数据。  
+
+有时，当可微分变量发生时，它可能是不明显的。考虑以下训练循环（从[源代码](https://discuss.pytorch.org/t/high-memory-usage-while-training/162)中删除）：  
+
 
 ```py
 total_loss = 0
@@ -20,15 +23,15 @@ for i in range(10000):
     optimizer.step()
     total_loss += loss
 
-```
+```    
 
-Here, `total_loss` is accumulating history across your training loop, since `loss` is a differentiable variable with autograd history. You can fix this by writing `total_loss += float(loss)` instead.
+在这里，total_loss在您的训练循环中累积历史记录，因为丢失是具有自动记录历史的可微分变量。 您可以通过编写total_loss + = float（loss）来解决此问题。  
 
-Other instances of this problem: [1](https://discuss.pytorch.org/t/resolved-gpu-out-of-memory-error-with-batch-size-1/3719).
+此问题的其他实例：[1](https://discuss.pytorch.org/t/resolved-gpu-out-of-memory-error-with-batch-size-1/3719)。  
 
-**Don’t hold onto tensors and variables you don’t need.** If you assign a Tensor or Variable to a local, Python will not deallocate until the local goes out of scope. You can free this reference by using `del x`. Similarly, if you assign a Tensor or Variable to a member variable of an object, it will not deallocate until the object goes out of scope. You will get the best memory usage if you don’t hold onto temporaries you don’t need.
+**不要抓住你不需要的张量或变量。** 如果将张量或变量分配给本地，则在本地超出范围之前，Python不会解除分配。您可以使用`del x`释放此引用。 同样，如果将张量或向量分配给对象的成员变量，则在对象超出范围之前不会释放。如果您没有保留不需要的临时工具，您将获得最佳的内存使用量。  
 
-The scopes of locals can be larger than you expect. For example:
+本地规模大小可能比您预期的要大。 例如：  
 
 ```py
 for i in range(5):
@@ -37,40 +40,41 @@ for i in range(5):
 output = h(result)
 return output
 
-```
+```  
 
-Here, `intermediate` remains live even while `h` is executing, because its scope extrudes past the end of the loop. To free it earlier, you should `del intermediate` when you are done with it.
+在这里，即使在执行h时，中间变量仍然存在，因为它的范围超出了循环的末尾。要提前释放它，你应该在完成它时使用del。  
 
-**Don’t run RNNs on sequences that are too large.** The amount of memory required to backpropagate through an RNN scales linearly with the length of the RNN; thus, you will run out of memory if you try to feed an RNN a sequence that is too long.
+**不要在太大的序列上运行RNN。** 通过RNN反向传播所需的存储量与RNN的长度成线性关系; 因此，如果您尝试向RNN提供过长的序列，则会耗尽内存。
 
-The technical term for this phenomenon is [backpropagation through time](https://en.wikipedia.org/wiki/Backpropagation_through_time), and there are plenty of references for how to implement truncated BPTT, including in the [word language model](https://github.com/pytorch/examples/tree/master/word_language_model) example; truncation is handled by the `repackage` function as described in [this forum post](https://discuss.pytorch.org/t/help-clarifying-repackage-hidden-in-word-language-model/226).
+这种现象的技术术语是随着时间的推移而反向传播，并且有很多关于如何实现截断BPTT的参考，包括在单词语言模型示例中; 截断由重新打包功能处理，如本论坛帖子中所述。
 
-**Don’t use linear layers that are too large.** A linear layer `nn.Linear(m, n)` uses ![](img/a7adefa6eac5b357ac1c2fcc0bc36a52.jpg) memory: that is to say, the memory requirements of the weights scales quadratically with the number of features. It is very easy to [blow through your memory](https://github.com/pytorch/pytorch/issues/958) this way (and remember that you will need at least twice the size of the weights, since you also need to store the gradients.)
+**不要使用太大的线性图层。** 线性层nn.Linear（m，n）使用O(nm)存储器：也就是说，权重的存储器需求与特征的数量成比例。 以这种方式很容易占用你的存储（并且记住，你将至少需要两倍存储权值的内存量，因为你还需要存储梯度。）
 
-## My GPU memory isn’t freed properly
 
-PyTorch uses a caching memory allocator to speed up memory allocations. As a result, the values shown in `nvidia-smi` usually don’t reflect the true memory usage. See [Memory management](cuda.html#cuda-memory-management) for more details about GPU memory management.
+## My GPU memory isn’t freed properly  
 
-If your GPU memory isn’t freed even after Python quits, it is very likely that some Python subprocesses are still alive. You may find them via `ps -elf | grep python` and manually kill them with `kill -9 [pid]`.
+PyTorch使用缓存内存分配器来加速内存分配。 因此，`nvidia-smi`中显示的值通常不会反映真实的内存使用情况。 有关GPU内存管理的更多详细信息，请参阅[内存管理](cuda.html#cuda-memory-management) 。
 
-## My data loader workers return identical random numbers
+如果在Python退出后你的GPU内存仍旧没有被释放，那么很可能是一些Python子进程仍处于活动状态。你可以通过`ps -elf |grep python`找到它们并用`kill -9 [pid]`手动结束这些进程。  
 
-You are likely using other libraries to generate random numbers in the dataset. For example, NumPy’s RNG is duplicated when worker subprocesses are started via `fork`. See [`torch.utils.data.DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader")’s documentation for how to properly set up random seeds in workers with its `worker_init_fn` option.
+## My data loader workers return identical random numbers  
 
-## My recurrent network doesn’t work with data parallelism
+您可能正在数据集中使用其他库来生成随机数。 例如，当通过`fork`启动工作程序子进程时，NumPy的RNG会重复。有关如何使用`worker_init_fn`选项在工作程序中正确设置随机种子的文档，请参阅torch.utils.data.DataLoader文档。  
 
-There is a subtlety in using the `pack sequence -&gt; recurrent network -&gt; unpack sequence` pattern in a [`Module`](../nn.html#torch.nn.Module "torch.nn.Module") with [`DataParallel`](../nn.html#torch.nn.DataParallel "torch.nn.DataParallel") or [`data_parallel()`](../nn.html#torch.nn.parallel.data_parallel "torch.nn.parallel.data_parallel"). Input to each the `forward()` on each device will only be part of the entire input. Because the unpack operation [`torch.nn.utils.rnn.pad_packed_sequence()`](../nn.html#torch.nn.utils.rnn.pad_packed_sequence "torch.nn.utils.rnn.pad_packed_sequence") by default only pads up to the longest input it sees, i.e., the longest on that particular device, size mismatches will happen when results are gathered together. Therefore, you can instead take advantage of the `total_length` argument of [`pad_packed_sequence()`](../nn.html#torch.nn.utils.rnn.pad_packed_sequence "torch.nn.utils.rnn.pad_packed_sequence") to make sure that the `forward()` calls return sequences of same length. For example, you can write:
+## My recurrent network doesn’t work with data parallelism  
+
+在具有`DataParallel`或`data_parallel()`的模块中使用`pack sequence -> recurrent network -> unpack sequence`模式时有一个非常微妙的地方。每个设备上的`forward()`的输入只会是整个输入的一部分。由于默认情况下，解包操作`torch.nn.utils.rnn.pad_packed_sequence()`仅填充到其所见的最长输入，即该特定设备上的最长输入，所以在将结果收集在一起时会发生尺寸的不匹配。因此，您可以利用`pad_packed_sequence()`的 `total_length`参数来确保`forward()`调用返回相同长度的序列。例如，你可以写：
+
 
 ```py
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 class MyModule(nn.Module):
-    # ... __init__, other methods, etc.
+    #  ... __init__, 以及其他访求
 
-    # padding_input is of shape [B x T x *] (batch_first mode) and contains
-    # the sequences sorted by lengths
-    # B is the batch size
-    # T is max sequence length
+    # padding_input 的形状是[B x T x *]（batch_first 模式），包含按长度排序的序列
+    # B 是批量大小
+    # T 是最大序列长度
     def forward(self, padded_input, input_lengths):
         total_length = padded_input.size(1)  # get the max sequence length
         packed_input = pack_padded_sequence(padded_input, input_lengths,
@@ -83,7 +87,6 @@ class MyModule(nn.Module):
 m = MyModule().cuda()
 dp_m = nn.DataParallel(m)
 
-```
+```  
 
-Additionally, extra care needs to be taken when batch dimension is dim `1` (i.e., `batch_first=False`) with data parallelism. In this case, the first argument of pack_padded_sequence `padding_input` will be of shape `[T x B x *]` and should be scattered along dim `1`, but the second argument `input_lengths` will be of shape `[B]` and should be scattered along dim `0`. Extra code to manipulate the tensor shapes will be needed.
-
+另外，在批量的维度为dim 1（即 batch_first = False ）时需要注意数据的并行性。在这种情况下，pack_padded_sequence 函数的的第一个参数 padding_input 维度将是 [T x B x *] ，并且应该沿dim 1 （第1轴）分散，但第二个参数 input_lengths 的维度为 [B]，应该沿dim 0 （第0轴）分散。需要额外的代码来操纵张量的维度。
