@@ -35,10 +35,12 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 * [飞龙](https://github.com/wizardforcel): 562826179
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [咸鱼](https://github.com/Watermelon233): 1034616238
+* [Twinkle](https://github.com/kemingzeng): 1097078987
 
 > 第2期 (2019-06-10)
 
 * [Smile](https://github.com/Smilexuhc): 240485545
+* [Ir1dXD](https://github.com/Ir1d): 1953959092
 * [Kai He](https://github.com/hekind): 254108879
 * [gongel](https://github.com/gongel): 1324522527
 * [cluster](https://github.com/infdahai): 859287553
