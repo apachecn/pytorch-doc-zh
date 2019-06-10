@@ -43,7 +43,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 * [gongel](https://github.com/gongel): 1324522527
 * [cluster](https://github.com/infdahai): 859287553
 
--- 负责人要求: (欢迎加入为 `Pytorch中文` 做贡献)
+-- 负责人要求: (欢迎一起为 `Pytorch中文` 做贡献)
 
 * 热爱开源，喜欢装逼
 * 长期使用 pytorch(至少1年)
