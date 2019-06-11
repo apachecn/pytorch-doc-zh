@@ -44,6 +44,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 * [Kai He](https://github.com/hekind): 254108879
 * [gongel](https://github.com/gongel): 1324522527
 * [cluster](https://github.com/infdahai): 859287553
+* [sunxia233](https://github.com/sunxia233): 871171307
 
 -- 负责人要求: (欢迎一起为 `Pytorch中文` 做贡献)
 
