@@ -103,32 +103,22 @@ class ReplayMemory(object):
 
 Q-Learning背后的主要思想是，如果我们有一个函数 `\(Q^*: State \times Action \rightarrow \mathbb{R}\)`, 则如果我们在特定的状态下采取行动，那么我们可以很容易地构建一个最大化回报的策略：
 
-```py
-\[\pi^*(s) = \arg\!\max_a \ Q^*(s, a)\]
-```
+$$\pi^*(s) = \arg\!\max_a \ Q^*(s, a)$$
 
 然而，我们并不了解世界的一切，因此我们无法访问 `\(Q^*\)`。但是，由于神经网络是通用的函数逼近器，我们可以简单地创建一个并训练它类似于 `\(Q^*\)`。
 
 对于我们的训练更新规则，我们将假设某些策略的每个 `\(Q\)` 函数都遵循Bellman方程：
-```py
-\[Q^{\pi}(s, a) = r + \gamma Q^{\pi}(s', \pi(s'))\]
-```
+$$Q^{\pi}(s, a) = r + \gamma Q^{\pi}(s', \pi(s'))$$
 
 等式两边的差异被称为时间差误差，即 `\(\delta\)`:
 
-```py
-\[\delta = Q(s, a) - (r + \gamma \max_a Q(s', a))\]
-```
+$$\delta = Q(s, a) - (r + \gamma \max_a Q(s', a))$$
 
 为了尽量减少这个错误，我们将使用 [Huber loss](https://en.wikipedia.org/wiki/Huber_loss)。Huber损失在误差很小的情况下表现为均方误差，但在误差较大的情况下表现为平均绝对误差——这使得当对 `\(Q\)` 的估计噪音很大时，对异常值的鲁棒性更强。我们通过从重放内存中取样的一批转换来计算 `\(B\)`：
 
-```py
-\[\mathcal{L} = \frac{1}{|B|}\sum_{(s, a, s', r) \ \in \ B} \mathcal{L}(\delta)\]
-```
+$$\mathcal{L} = \frac{1}{|B|}\sum_{(s, a, s', r) \ \in \ B} \mathcal{L}(\delta)$$
 
-```py
-\[\begin{split}\text{where} \quad \mathcal{L}(\delta) = \begin{cases} \frac{1}{2}{\delta^2} & \text{for } |\delta| \le 1, \\ |\delta| - \frac{1}{2} & \text{otherwise.} \end{cases}\end{split}\]
-```
+$$\begin{split}\text{where} \quad \mathcal{L}(\delta) = \begin{cases} \frac{1}{2}{\delta^2} & \text{for } |\delta| \le 1, \\ |\delta| - \frac{1}{2} & \text{otherwise.} \end{cases}\end{split}$$
 
 ### Q-网络
 

@@ -14,9 +14,7 @@
 
 如果要用"The cow jumped"这个句子来运行一个序列模型，那么就应该把它整理成如下的形式：
 
-```
-\[\begin{split}\begin{bmatrix} \overbrace{q_\text{The}}^\text{row vector} \\ q_\text{cow} \\ q_\text{jumped} \end{bmatrix}\end{split}\]
-```
+$$\begin{split}\begin{bmatrix} \overbrace{q_\text{The}}^\text{row vector} \\ q_\text{cow} \\ q_\text{jumped} \end{bmatrix}\end{split}$$
 
 除了有一个额外的大小为1的第二维度.
 
