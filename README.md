@@ -7,8 +7,8 @@
 <table>
   <tr align="center">
     <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank">Pytorch 1.0 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
-    <td><a title="Pytorch 最新 英文教程" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 最新 英文教程 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
-    <td><a title="Pytorch 最新 英文文档" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 最新 英文文档 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank">Pytorch 最新 英文教程 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/stable/index.html" target="_blank">Pytorch 最新 英文文档 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
   </tr>
   <tr align="center">
     <td><a title="Pytorch 0.4 中文版本" href="https://pytorch.apachecn.org/docs/0.4/" target="_blank">Pytorch 0.4 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
@@ -60,7 +60,6 @@
 * [cluster](https://github.com/infdahai): 859287553
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
-
 
 -- 负责人要求: (欢迎一起为 `Pytorch 中文版本` 做贡献)
 
