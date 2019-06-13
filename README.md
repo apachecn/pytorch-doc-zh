@@ -1,8 +1,22 @@
-# PyTorch 中文文档
+# <center>Pytorch 中文教程</center>
 
 ![](docs/img/logo.svg)
 
-PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库) .
+<center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库)</center>
+<br/>
+<table>
+  <tr align="center">
+    <td><a title="Pytorch 1.0 中文版本" href="http://localhost:4000/docs/1.0/" target="_blank">Pytorch 1.0 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 最新 英文教程" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 最新 英文教程 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 最新 英文文档" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 最新 英文文档 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+  </tr>
+  <tr align="center">
+    <td><a title="Pytorch 0.4 中文版本" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 0.4 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 0.3 中文版本" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 0.3 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 0.2 中文版本" href="http://www.acfun.cn/u/12540256.aspx#page=1" target="_blank">Pytorch 0.2 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+  </tr>
+</table>
+<br/>
 
 > 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
 
@@ -46,7 +60,7 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 * [cluster](https://github.com/infdahai): 859287553
 * [sunxia233](https://github.com/sunxia233): 871171307
 
--- 负责人要求: (欢迎一起为 `Pytorch中文` 做贡献)
+-- 负责人要求: (欢迎一起为 `Pytorch 中文版本` 做贡献)
 
 * 热爱开源，喜欢装逼
 * 长期使用 pytorch(至少1年)
