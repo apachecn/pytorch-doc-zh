@@ -125,8 +125,7 @@ CUDA Available:  True
 现在，我们可以定义一个通过打乱原始输入来生成对抗性示例的函数。 `fgsm_attack` 函数有3个输入, _image_ 是原始图像 (`\(x\)`)， _epsilon_ 是像素级干扰量 (`\(\epsilon\)`)，_data_grad_ 是关于输入图像(`\(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)\)`)的损失。然后该函数创建干扰图像如下
 
 ```python
-\[perturbed\_image = image + epsilon*sign(data\_grad) = x + \epsilon * sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))\]
-```
+\[perturbed\_image = image + epsilon*sign(data\_grad) = x + \epsilon * sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$
 
 最后，为了保持数据的原始范围，将扰动后的图像截取范围在`\([0,1]\)`。
 

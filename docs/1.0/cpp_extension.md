@@ -1,22 +1,22 @@
+# 自定义 C++ 与 CUDA 拓展
 
-
-# Custom C++ and CUDA Extensions
+> 译者：[P3n9W31](https://github.com/P3n9W31)
 
 **Author**: [Peter Goldsborough](https://www.goldsborough.me/)
 
-PyTorch provides a plethora of operations related to neural networks, arbitrary tensor algebra, data wrangling and other purposes. However, you may still find yourself in need of a more customized operation. For example, you might want to use a novel activation function you found in a paper, or implement an operation you developed as part of your research.
+PyTorch 提供了大量与神经网络，任意张量代数（arbitrary tensor algebra），数据处理（data wrangling）和其他目的相关的操作。然而，你可能发现你还是会需要一些更加自定义的操作。例如，你有时可能希望使用一个你在某篇论文中找到的一个新型的激活函数，或者是实现一个为了你的研究所开发的新操作。
 
-The easiest way of integrating such a custom operation in PyTorch is to write it in Python by extending `Function` and `Module` as outlined [here](https://pytorch.org/docs/master/notes/extending.html). This gives you the full power of automatic differentiation (spares you from writing derivative functions) as well as the usual expressiveness of Python. However, there may be times when your operation is better implemented in C++. For example, your code may need to be _really_ fast because it is called very frequently in your model or is very expensive even for few calls. Another plausible reason is that it depends on or interacts with other C or C++ libraries. To address such cases, PyTorch provides a very easy way of writing custom _C++ extensions_.
+在 PyTorch 中集成这种自定义操作的最简单方法是通过 Python 语言对`Function`和`Module`进行扩写，正如在 [这里](https://pytorch.org/docs/master/notes/extending.html)所描述的那样。这种方式能让你充分的发挥自动微分（automatic differentiation）（让你不用去编写一些衍生的函数）与 Python 语言的常规情况下的表现力（usual expressiveness）的能力。但是有时候，可能在 C++ 语言中能够更好地实现你的一些操作。例如，你的代码可能因为被非常频繁的使用而需要 _十分_ 快速，或者是即使调用的次数很少也会带来不小的性能负担。另一个原因是你的代码可能是建立在 C 或 C++ 语言之上的，或者你的代码需要与 C 或 C++ 语言进行交互与对接。为了解决上述的这些情况，PyTorch 提供了一种简单的用于编写自定义  _C++ 扩展_ 的方法。
 
-C++ extensions are a mechanism we have developed to allow users (you) to create PyTorch operators defined _out-of-source_, i.e. separate from the PyTorch backend. This approach is _different_ from the way native PyTorch operations are implemented. C++ extensions are intended to spare you much of the boilerplate associated with integrating an operation with PyTorch’s backend while providing you with a high degree of flexibility for your PyTorch-based projects. Nevertheless, once you have defined your operation as a C++ extension, turning it into a native PyTorch function is largely a matter of code organization, which you can tackle after the fact if you decide to contribute your operation upstream.
+C++ 拓展是我们开发的一种能够让用户（你）自行创建一些 _所含资源之外_ 的操作的机制，例如，与 PyTorch 的后端分离开来。这种方法与 PyTorch 原生操作的实现方式是 _不同的_ 。C++ 扩展旨在为你提供与 PyTorch 后端集成操作相关的大部分样板（boilerplate），同时为基于 PyTorch 的项目提供高度灵活性。然而，一旦你将你的操作定义为了 C++ 拓展，将其转换为原生 PyTorch 函数就主要是代码组织的问题了，如果你决定在上游提供操作，则可以解决这个问题。
 
-## Motivation and Example
+## 动机与例子
 
-The rest of this note will walk through a practical example of writing and using a C++ (and CUDA) extension. If you are being chased or someone will fire you if you don’t get that op done by the end of the day, you can skip this section and head straight to the implementation details in the next section.
+本篇文章的剩余部分将介绍一个编写和使用 C++（以及 CUDA）拓展的实例。如果你现在正在被一直催着或是在今天之前没有把该操作完成你就会被解雇的话，你可以跳过这一章节，直接去下一节的实施细节部分查看。
 
-Let’s say you’ve come up with a new kind of recurrent unit that you found to have superior properties compared to the state of the art. This recurrent unit is similar to an LSTM, but differs in that it lacks a _forget gate_ and uses an _Exponential Linear Unit_ (ELU) as its internal activation function. Because this unit never forgets, we’ll call it _LLTM_, or _Long-Long-Term-Memory_ unit.
+假设你已经找到了一种新型的循环（recurrent）的单元，它与现有技术相比具有优越的性能。该循环单元类似于 LSTM，但不同之处在于它缺少了 _遗忘门_ 并使用 _指数线性单元_ （ELU）作为其内部激活功能。因为这个单元永远都不会忘记，所以我们叫它 _LLTM_，或是 _长长期记忆_ （Long-Long-Term-Memory）单元。
 
-The two ways in which LLTMs differ from vanilla LSTMs are significant enough that we can’t configure PyTorch’s `LSTMCell` for our purposes, so we’ll have to create a custom cell. The first and easiest approach for this – and likely in all cases a good first step – is to implement our desired functionality in plain PyTorch with Python. For this, we need to subclass `torch.nn.Module` and implement the forward pass of the LLTM. This would look something like this:
+在 LLTMs 中的这两个与普通的 LSTMs 的不同点是十分重要的，以至于我们不能通过配置 PyTorch 中的 `LSTMCell` 来达到我们的目标。所以我们将只能创建一个自定义模块。第一个也是最简单的方法 - 可能在所有情况下都是良好的第一步——是使用 Python 在纯 PyTorch 中实现我们所需的功能。为此，我们需要继承 `torch.nn.Module` 并实现 LLTM 的正向传递。 这看起来就像这样：
 
 ```py
 class LLTM(torch.nn.Module):
@@ -59,7 +59,7 @@ class LLTM(torch.nn.Module):
 
 ```
 
-which we could then use as expected:
+我们可以按预期使用它：
 
 ```py
 import torch
@@ -74,19 +74,19 @@ new_h, new_C = rnn(X, (h, C))
 
 ```
 
-Naturally, if at all possible and plausible, you should use this approach to extend PyTorch. Since PyTorch has highly optimized implementations of its operations for CPU _and_ GPU, powered by libraries such as [NVIDIA cuDNN](https://developer.nvidia.com/cudnn), [Intel MKL](https://software.intel.com/en-us/mkl) or [NNPACK](https://github.com/Maratyszcza/NNPACK), PyTorch code like above will often be fast enough. However, we can also see why, under certain circumstances, there is room for further performance improvements. The most obvious reason is that PyTorch has no knowledge of the _algorithm_ you are implementing. It knows only of the individual operations you use to compose your algorithm. As such, PyTorch must execute your operations individually, one after the other. Since each individual call to the implementation (or _kernel_) of an operation, which may involve launch of a CUDA kernel, has a certain amount of overhead, this overhead may become significant across many function calls. Furthermore, the Python interpreter that is running our code can itself slow down our program.
+当然，如果可能的话，你应该使用这种方法来扩展 PyTorch。由于 PyTorch 对 CPU _与_ GPU 的操作实施了高度优化，由 [NVIDIA cuDNN](https://developer.nvidia.com/cudnn)，[Intel MKL](https://software.intel.com/en-us/mkl) 或是 [NNPACK ](https://github.com/Maratyszcza/NNPACK)等库提供了支持，像上面那样的 PyTorch 代码一般情况下都是足够快速的。但是，我们也可以看到为什么在某些情况下还有进一步改进性能的空间。最明显的原因是PyTorch不了解你正在实施的 _算法_ 。它只知道你用于编写算法的各个独立操作。因此，PyTorch 必须逐个执行你的操作。由于对操作的实现（或 _核_ ）的每次单独的调用都可能（可能涉及启动 CUDA 内核）具有一定量的开销，因此这种开销可能在许多函数的调用中变得显着。此外，运行我们的代码的 Python 解释器本身就可以减慢我们的程序。
 
-A definite method of speeding things up is therefore to rewrite parts in C++ (or CUDA) and _fuse_ particular groups of operations. Fusing means combining the implementations of many functions into a single functions, which profits from fewer kernel launches as well as other optimizations we can perform with increased visibility of the global flow of data.
+因此，一个明显可以加快速度的方法是用 C++（或 CUDA）完成部分代码的重写部分并_融合_特定的操作组。融合意味着将许多函数的实现组合到单个函数中，这些函数会从更少的内核启动中受益，此外，这些函数还会从我们通过提高全局数据流的可见性来执行的其他优化中获益。
 
-Let’s see how we can use C++ extensions to implement a _fused_ version of the LLTM. We’ll begin by writing it in plain C++, using the [ATen](https://github.com/zdevito/ATen) library that powers much of PyTorch’s backend, and see how easily it lets us translate our Python code. We’ll then speed things up even more by moving parts of the model to CUDA kernel to benefit from the massive parallelism GPUs provide.
+让我们来看看我们可以怎样使用 C++ 拓展来实现一个_融合_版本的 LLTM。我们首先使用纯 C++ 完成代码编写，使用驱动了大部分 PyTorch 后端的 [ATen](https://github.com/zdevito/ATen) 库，并看看它能让我们多简单就完成 Python 代码的转换。然后我们将通过将一部分的模型移动到 CUDA 内核以从 GPU 提供的大规模并行性中受益，来进一步加快速度。
 
-## Writing a C++ Extension
+## 编写一个 C++ 拓展
 
-C++ extensions come in two flavors: They can be built “ahead of time” with `setuptools`, or “just in time” via `torch.utils.cpp_extension.load()`. We’ll begin with the first approach and discuss the latter later.
+C++ 扩展有两种形式：它们可以使用`setuptools`来进行“提前”构建，或者通过`torch.utils.cpp_extension.load()`来实现“实时”构建。我们将从第一种方法开始，稍后再讨论后者。
 
-### Building with `setuptools`
+### 使用`setuptools`进行构建
 
-For the “ahead of time” flavor, we build our C++ extension by writing a `setup.py` script that uses setuptools to compile our C++ code. For the LLTM, it looks as simple as this:
+对于"提前"这种形式，我们通过编写一个`setup.py`脚本来构建我们的 C++ 扩展，该脚本使用 setuptools 来编译我们的 C++ 代码。 对于 LLTM 而言，它看起来就像下面这样简单：
 
 ```py
 from setuptools import setup
@@ -98,7 +98,7 @@ setup(name='lltm',
 
 ```
 
-In this code, `CppExtension` is a convenience wrapper around `setuptools.Extension` that passes the correct include paths and sets the language of the extension to C++. The equivalent vanilla `setuptools` code would simply be:
+在这段代码中，`CppExtension`是`setuptools.Extension`的一个便利的包装器（wrapper），它传递正确的包含路径并将扩展语言设置为 C++。 等效的普通`setuptools`代码像下面这样简单：
 
 ```py
 setuptools.Extension(
@@ -109,11 +109,11 @@ setuptools.Extension(
 
 ```
 
-`BuildExtension` performs a number of required configuration steps and checks and also manages mixed compilation in the case of mixed C++/CUDA extensions. And that’s all we really need to know about building C++ extensions for now! Let’s now take a look at the implementation of our C++ extension, which goes into `lltm.cpp`.
+`BuildExtension`执行许多必需的配置步骤和检查，并在混合 C++/CUDA 扩展的情况下管理混合编译。 这就是我们现在真正需要了解的关于构建 C++ 扩展的所有内容！现在让我们来看看我们的 C++ 扩展的实现，它扩展到了`lltm.cpp`中。
 
-### Writing the C++ Op
+### 编写 C++ 操作
 
-Let’s start implementing the LLTM in C++! One function we’ll need for the backward pass is the derivative of the sigmoid. This is a small enough piece of code to discuss the overall environment that is available to us when writing C++ extensions:
+让我们开始用 C++ 实现 LLTM！我们向后传递所需的一个函数是 sigmoid 的导数。这是一段足够小的代码，用于讨论编写 C++ 扩展时可用的整体环境：
 
 ```py
 #include <torch/torch.h>
@@ -127,17 +127,17 @@ at::Tensor d_sigmoid(at::Tensor z) {
 
 ```
 
-`&lt;torch/torch.h&gt;` is the one-stop header to include all the necessary PyTorch bits to write C++ extensions. It includes:
+`torch / torch.h`是一站式（one-stop）头文件，包含编写 C++ 扩展所需的所有 PyTorch 位。 这包括：
 
-*   The ATen library, which is our primary API for tensor computation,
-*   [pybind11](https://github.com/pybind/pybind11), which is how we create Python bindings for our C++ code,
-*   Headers that manage the details of interaction between ATen and pybind11.
+*   ATen 库，我们主要的张量计算接口
+*   [pybind11](https://github.com/pybind/pybind11)，我们为 C++ 代码创建 Python 绑定的方法
+*   管理 ATen 和 pybind11 之间交互细节的头文件。
 
-The implementation of `d_sigmoid()` shows how to use the ATen API. PyTorch’s tensor and variable interface is generated automatically from the ATen library, so we can more or less translate our Python implementation 1:1 into C++. Our primary datatype for all computations will be `at::Tensor`. Its full API can be inspected [here](https://pytorch.org/cppdocs/api/classat_1_1_tensor.html). Notice also that we can include `&lt;iostream&gt;` or _any other C or C++ header_ – we have the full power of C++11 at our disposal.
+`d_sigmoid（）`的实现显示了如何使用 ATen API。PyTorch 的张量和变量接口是从 ATen 库自动生成的，因此我们可以或多或少地将我们的 Python 语言实现1:1转换为 C++ 语言实现。 我们所有计算的主要数据类型都是`at::Tensor`。可以在[此处](https://pytorch.org/cppdocs/api/classat_1_1_tensor.html)查看其完整的 API。另请注意，我们可以引用`<iostream>`或任何其他 C 或 C++ 头文件——我们可以使用 C++ 11 的全部功能。
 
-#### Forward Pass
+#### 前向传播
 
-Next we can port our entire forward pass to C++:
+接下来，我们可以将整个前向传播部分移植为 C++ 代码：
 
 ```py
 #include <vector>
@@ -171,9 +171,9 @@ std::vector<at::Tensor> lltm_forward(
 
 ```
 
-#### Backward Pass
+#### 反向传播
 
-The C++ extension API currently does not provide a way of automatically generating a backwards function for us. As such, we have to also implement the backward pass of our LLTM, which computes the derivative of the loss with respect to each input of the forward pass. Ultimately, we will plop both the forward and backward function into a `torch.autograd.Function` to create a nice Python binding. The backward function is slightly more involved, so we’ll not dig deeper into the code (if you are interested, [Alex Graves’ thesis](https://www.cs.toronto.edu/~graves/phd.pdf) is a good read for more information on this):
+C++ 的扩展 API 目前不为我们提供自动生成反向函数的方法。因此，我们还必须实施 LLTM 的反向传播部分，LLTM 计算相对于正向传播的每个输入的损失的导数。最终，我们将向前和向后函数放入`torch.autograd.Function`以创建一个漂亮的 Python 绑定。 向后功能稍微复杂一些，所以我们不会深入研究代码（如果你感兴趣，[Alex Graves的论文](https://www.cs.toronto.edu/~graves/phd.pdf)是一个能让你了解跟多信息的好文章）：
 
 ```py
 // tanh'(z) = 1 - tanh^2(z)
@@ -227,11 +227,11 @@ std::vector<at::Tensor> lltm_backward(
 
 ```
 
-### Binding to Python
+### 与Python绑定
 
-Once you have your operation written in C++ and ATen, you can use pybind11 to bind your C++ functions or classes into Python in a very simple manner. Questions or issues you have about this part of PyTorch C++ extensions will largely be addressed by [pybind11 documentation](https://pybind11.readthedocs.io/en/master/).
+一旦你使用 C++ 和 ATen 编写了操作，就可以使用 pybind11 以非常简单的方式将 C++ 函数或类绑定到 Python 上。关于 PyTorch 的 C++ 扩展的这一部分的问题或疑问将主要通过[pybind11文档](https://pybind11.readthedocs.io/en/master/)来解决。
 
-For our extensions, the necessary binding code spans only four lines:
+对于我们的扩展，必要的绑定代码只是仅仅四行：
 
 ```py
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
@@ -241,11 +241,11 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
 
 ```
 
-One bit to note here is the macro `TORCH_EXTENSION_NAME`. The torch extension build will define it as the name you give your extension in the `setup.py` script. In this case, the value of `TORCH_EXTENSION_NAME` would be “lltm”. This is to avoid having to maintain the name of the extension in two places (the build script and your C++ code), as a mismatch between the two can lead to nasty and hard to track issues.
+有一点需要注意的是宏`TORCH_EXTENSION_NAME`。torch 的扩展部分将会把它定义为你在`setup.py`脚本中为扩展名命名的名称。在这种情况下，`TORCH_EXTENSION_NAME`的值将为“lltm”。这是为了避免必须在两个地方（构建脚本和 C++ 代码中）维护扩展名，因为两者之间的不匹配可能会导致令人讨厌且难以跟踪的问题。
 
-### Using Your Extension
+### 使用你的拓展
 
-We are now set to import our extension in PyTorch. At this point, your directory structure could look something like this:
+我们现在设置为 PyTorch 导入我们的扩展。 此时，你的目录结构可能如下所示：
 
 ```py
 pytorch/
@@ -255,7 +255,7 @@ pytorch/
 
 ```
 
-Now, run `python setup.py install` to build and install your extension. This should look something like this:
+现在，运行`python setup.py install`来构建和安装你的扩展。 运行结果应该是这样的：
 
 ```py
 running install
@@ -300,9 +300,9 @@ Finished processing dependencies for lltm==0.0.0
 
 ```
 
-A small note on compilers: Due to ABI versioning issues, the compiler you use to build your C++ extension must be _ABI-compatible_ with the compiler PyTorch was built with. In practice, this means that you must use GCC version 4.9 and above on Linux. For Ubuntu 16.04 and other more-recent Linux distributions, this should be the default compiler already. On MacOS, you must use clang (which does not have any ABI versioning issues). In the worst case, you can build PyTorch from source with your compiler and then build the extension with that same compiler.
+关于编译器的一个小注意事项：由于 ABI 版本问题，用于构建 C++ 扩展的编译器必须与 ABI 兼容，并且这里的编译器是必须是与构建 PyTorch 时采用的编译器一样的。实际上，这意味着你必须在 Linux 上使用 GCC 4.9 及更高版本。对于 Ubuntu 16.04 和其他更新的 Linux 发行版来说，这应该是默认的编译器。在MacOS上，你必须使用clang（没有任何与ABI版本相关的问题）。在最坏的情况下，你可以使用编译器从源代码构建 PyTorch，然后使用相同的编译器构建扩展。
 
-Once your extension is built, you can simply import it in Python, using the name you specified in your `setup.py` script. Just be sure to `import torch` first, as this will resolve some symbols that the dynamic linker must see:
+构建扩展后，你只需使用在`setup.py`脚本中指定的名称在Python中导入它。请务必首先运行 `import torch` ，因为这将解析动态链接器必须看到的一些符号：
 
 ```py
 In [1]: import torch
@@ -312,7 +312,7 @@ Out[3]: <function lltm.PyCapsule.forward>
 
 ```
 
-If we call `help()` on the function or module, we can see that its signature matches our C++ code:
+如果我们在函数或模块上调用`help()`，我们可以看到它的签名（signature）与我们的 C++ 代码匹配：
 
 ```py
 In[4] help(lltm.forward)
@@ -323,7 +323,7 @@ forward(...) method of builtins.PyCapsule instance
 
 ```
 
-Since we are now able to call our C++ functions from Python, we can wrap them with `torch.autograd.Function` and `torch.nn.Module` to make them first class citizens of PyTorch:
+既然我们现在能够从 Python 中调用我们的 C++ 函数，我们可以使用`torch.autograd.Function`和`torch.nn.Module`来包装（warp）它们，使它们成为 PyTorch 中的一等公民（first class citizens，关键的一部分）：
 
 ```py
 import math
@@ -369,9 +369,9 @@ class LLTM(torch.nn.Module):
 
 ```
 
-#### Performance Comparison
+#### 性能比较
 
-Now that we are able to use and call our C++ code from PyTorch, we can run a small benchmark to see how much performance we gained from rewriting our op in C++. We’ll run the LLTM forwards and backwards a few times and measure the duration:
+现在我们可以使用并调用来自 PyTorch 的 C++ 代码，我们可以运行一个小的基准测试来看看我们在 C++ 中重写的操作的性能。我们将运行 LLTM 中的前向转播与反向传播几次并测量运行的时间：
 
 ```py
 import torch
@@ -401,25 +401,26 @@ print('Forward: {:.3f} us | Backward {:.3f} us'.format(forward * 1e6/1e5, backwa
 
 ```
 
-If we run this code with the original LLTM we wrote in pure Python at the start of this post, we get the following numbers (on my machine):
+如果运行我们在本文开头用纯 Python 编写原始 LLTM 的代码，我们将得到以下数字（在我的机器上）：
 
 ```py
+
 Forward: 506.480 us | Backward 444.694 us
 
 ```
 
-and with our new C++ version:
+然后是运行全新的 C++ 版本的代码：
 
 ```py
 Forward: 349.335 us | Backward 443.523 us
 
 ```
 
-We can already see a significant speedup for the forward function (more than 30%). For the backward function a speedup is visible, albeit not major one. The backward pass I wrote above was not particularly optimized and could definitely be improved. Also, PyTorch’s automatic differentiation engine can automatically parallelize computation graphs, may use a more efficient flow of operations overall, and is also implemented in C++, so it’s expected to be fast. Nevertheless, this is a good start.
+我们已经可以看到前向传播函数的显着加速（超过30％）。对于反向传播函数而言，我们也是可以看到加速效果的，尽管加速的效果不是很明显。我在上面写的反向传播并没有经过特别优化，它绝对还可以进行改进。此外，PyTorch 的自动差分引擎可以自动并行化计算图，可以使用更高效的整体操作流，并且这也是用 C++ 实现，因此预计运行速度会很快。尽管如此，这是一个良好的开端。
 
-#### Performance on GPU Devices
+#### 在GPU设备上的性能
 
-A wonderful fact about PyTorch’s _ATen_ backend is that it abstracts the computing device you are running on. This means the same code we wrote for CPU can _also_ run on GPU, and individual operations will correspondingly dispatch to GPU-optimized implementations. For certain operations like matrix multiply (like `mm` or `admm`), this is a big win. Let’s take a look at how much performance we gain from running our C++ code with CUDA tensors. No changes to our implementation are required, we simply need to put our tensors in GPU memory from Python, with either adding `device=cuda_device` argument at creation time or using `.to(cuda_device)` after creation:
+关于 PyTorch 的 _ATen_ 后端的一个很好的事实是它抽象了你正在运行代码的计算设备。这意味着我们为CPU编写的代码也可以在GPU上运行，并且各个操作将相应地分派到以 GPU 优化过后的实现中去。对于某些操作，如矩阵乘法（如`mm`或`admm`），这是一个很大的胜利。让我们看一下使用 CUDA 张量运行 C++ 代码可以获得多少的性能提升。我们不需要对代码作出任何改变，我们只需要将我们的张量放在 Python 中的 GPU 内存中，在创建时添加`device = cuda_device`参数或在创建后使用`.to(cuda_device)`即可：
 
 ```py
 import torch
@@ -455,25 +456,25 @@ print('Forward: {:.3f} us | Backward {:.3f} us'.format(forward * 1e6/1e5, backwa
 
 ```
 
-Once more comparing our plain PyTorch code with our C++ version, now both running on CUDA devices, we again see performance gains. For Python/PyTorch:
+再一次将我们的普通 PyTorch 代码与我们的 C++ 版本进行比较，现在两者都运行在 CUDA 设备上，我们科技再次看到性能得到了提升。 对于 Python/PyTorch 来说：
 
 ```py
 Forward: 187.719 us | Backward 410.815 us
 
 ```
 
-And C++/ATen:
+然后是 C++ / ATen：
 
 ```py
 Forward: 149.802 us | Backward 393.458 us
 
 ```
 
-That’s a great overall speedup compared to non-CUDA code. However, we can pull even more performance out of our C++ code by writing custom CUDA kernels, which we’ll dive into soon. Before that, let’s dicuss another way of building your C++ extensions.
+与非 CUDA 代码相比，这是一个很好的整体加速。但是，通过编写自定义 CUDA 内核，我们可以从 C++ 代码中得到更多的性能提升，我们将很快在下面介绍这些内核。在此之前，让我们讨论构建 C++ 扩展的另一种方法。
 
-### JIT Compiling Extensions
+### JIT 编译扩展
 
-Previously, I mentioned there were two ways of building C++ extensions: using `setuptools` or just in time (JIT). Having covered the former, let’s elaborate on the latter. The JIT compilation mechanism provides you with a way of compiling and loading your extensions on the fly by calling a simple function in PyTorch’s API called `torch.utils.cpp_extension.load()`. For the LLTM, this would look as simple as this:
+在之前，我提到有两种构建 C++ 扩展的方法：使用`setuptools`或者是实时（JIT）。 在对前者进行了说明之后，让我们再详细说明一下后者。JIT 编译机制通过在 PyTorch 的 API 中调用一个名为`torch.utils.cpp_extension.load()`的简单函数，为你提供了一种编译和加载扩展的方法。对于 LLTM，这看起来就像下面这样简单：
 
 ```py
 from torch.utils.cpp_extension import load
@@ -482,14 +483,14 @@ lltm = load(name="lltm", sources=["lltm.cpp"])
 
 ```
 
-Here, we provide the function with the same information as for `setuptools`. In the background, this will do the following:
+在这里，我们为函数提供与`setuptools`相同的信息。 在后台，将执行以下操作：
 
-1.  Create a temporary directory `/tmp/torch_extensions/lltm`,
-2.  Emit a [Ninja](https://ninja-build.org/) build file into that temporary directory,
-3.  Compile your source files into a shared library,
-4.  Import this shared library as a Python module.
+1.  创建临时目录 `/tmp/torch_extensions/lltm`
+2.  将一个 [Ninja](https://ninja-build.org/) 构建文件发送到该临时目录，
+3.  将源文件编译为共享库
+4.  将此共享库导入为 Python 模块
 
-In fact, if you pass `verbose=True` to `cpp_extension.load()`, you will be informed about the process:
+实际上，如果你将`verbose = True`参数传递给`cpp_extension.load（）`，该过程在进行的过程中将会告知你：
 
 ```py
 Using /tmp/torch_extensions as PyTorch extensions root...
@@ -500,15 +501,15 @@ Loading extension module lltm...
 
 ```
 
-The resulting Python module will be exactly the same as produced by setuptools, but removes the requirement of having to maintain a separate `setup.py` build file. If your setup is more complicated and you do need the full power of `setuptools`, you _can_ write your own `setup.py` – but in many cases this JIT technique will do just fine. The first time you run through this line, it will take some time, as the extension is compiling in the background. Since we use the Ninja build system to build your sources, re-compilation is incremental and thus re-loading the extension when you run your Python module a second time is fast and has low overhead if you didn’t change the extension’s source files.
+生成的 Python 模块与 setuptools 生成的完全相同，但不需要维护单独的`setup.py`构建文件。如果你的设置更复杂并且你确实需要`setuptools`的全部功能，那么你可以编写自己的`setup.py`——但在很多情况下，这种JIT的方式就已经完全够用了。第一次运行此行代码时，将耗费一些时间，因为扩展正在后台进行编译。由于我们使用 Ninja 构建系统来构建源代码，因此重新编译的工作量是不断增加的，而当你第二次运行 Python 模块进行重新加载扩展时速度就会快得多了，而且如果你没有对扩展的源文件进行更改，需要的开销也将会很低。
 
-## Writing a Mixed C++/CUDA extension
+## 编写一个 C++/CUDA 混合的拓展
 
-To really take our implementation to the next level, we can hand-write parts of our forward and backward passes with custom CUDA kernels. For the LLTM, this has the prospect of being particularly effective, as there are a large number of pointwise operations in sequence, that can all be fused and parallelized in a single CUDA kernel. Let’s see how we could write such a CUDA kernel and integrate it with PyTorch using this extension mechanism.
+为了真正将我们的实现的性能提升到一个新的水平，我们可以自定义 CUDA 内核并全手工的完成前向和反向传播中部分代码的编写。对于 LLTM 来说，这具有特别有效的前景，因为序列中存在大量逐点运算，所有这些运算都可以在单个 CUDA 内核中融合和并行化。让我们看看如何使用这种扩展机制编写这样的 CUDA 内核并将其与 PyTorch 整合到一起。
 
-The general strategy for writing a CUDA extension is to first write a C++ file which defines the functions that will be called from Python, and binds those functions to Python with pybind11\. Furthermore, this file will also _declare_ functions that are defined in CUDA (`.cu`) files. The C++ functions will then do some checks and ultimately forward its calls to the CUDA functions. In the CUDA files, we write our actual CUDA kernels. The `cpp_extension` package will then take care of compiling the C++ sources with a C++ compiler like `gcc` and the CUDA sources with NVIDIA’s `nvcc` compiler. This ensures that each compiler takes care of files it knows best to compile. Ultimately, they will be linked into one shared library that is available to us from Python code.
+编写 CUDA 扩展的一般策略是首先编写一个 C++ 文件，该文件定义了将从 Python 中调用的函数，并使用 pybind11 将这些函数绑定到 Python 上。此外，该文件还将 _声明_ 在 CUDA（`.cu`）文件中将定义的函数。然后，C++ 函数将进行一些检查，并最终将其调用转发给 CUDA 函数。在 CUDA 文件中，我们编写了实际的 CUDA 内核。接着，`cpp_extension`包将负责使用 C++ 编译器（如`gcc`）和使用 NVIDIA 的`nvcc`编译器的CUDA源编译 C++ 源代码。以此来确保每个编译器处理它最好编译的文件。最终，它们将链接到一个可从 Python 代码中进行访问的共享库。
 
-We’ll start with the C++ file, which we’ll call `lltm_cuda.cpp`, for example:
+我们将从 C++ 文件开始，我们将其称为`lltm_cuda.cpp`，例如：
 
 ```py
 #include <torch/torch.h>
@@ -594,7 +595,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
 
 ```
 
-As you can see, it is largely boilerplate, checks and forwarding to functions that we’ll define in the CUDA file. We’ll name this file `lltm_cuda_kernel.cu` (note the `.cu` extension!). NVCC can reasonably compile C++11, thus we still have ATen and the C++ standard library available to us (but not `torch.h`). Note that `setuptools` cannot handle files with the same name but different extensions, so if you use the `setup.py` method instead of the JIT method, you must give your CUDA file a different name than your C++ file (for the JIT method, `lltm.cpp` and `lltm.cu` would work fine). Let’s take a small peek at what this file will look like:
+正如你所看到的，它主要是一个样板（boilerplate），检查和转发到我们将在 CUDA 文件中定义的函数。我们将这个文件命名为`lltm_cuda_kernel.cu`（注意`.cu`扩展名！）。NVCC 可以合理地编译 C++ 11，因此我们仍然可以使用 ATen 和 C++ 标准库（但`torch.h`不行）。 请注意，`setuptools`无法处理具有相同名称但扩展名不同的文件，因此如果使用`setup.py`方法而不是 JIT 方法，则必须为 CUDA 文件指定与 C++ 文件不同的名称（对于JIT） 方法，`lltm.cpp`和`lltm.cu`会正常工作）。 我们来看看这个文件的样子：
 
 ```py
 #include <ATen/ATen.h>
@@ -611,7 +612,7 @@ __device__ __forceinline__ scalar_t sigmoid(scalar_t z) {
 
 ```
 
-Here we see the headers I just described, as well as the fact that we are using CUDA-specific declarations like `__device__` and `__forceinline__` and functions like `exp`. Let’s continue with a few more helper functions that we’ll need:
+在这里，我们可以看到我刚刚描述的头文件，以及我们使用 CUDA 特定的声明，如`__device__`和`__forceinline__`以及像`exp`这样的函数。让我们继续使用我们将需要用到的一些辅助函数：
 
 ```py
 template <typename scalar_t>
@@ -640,7 +641,7 @@ __device__ __forceinline__ scalar_t d_elu(scalar_t z, scalar_t alpha = 1.0) {
 
 ```
 
-To now actually implement a function, we’ll again need two things: one function that performs operations we don’t wish to explicitly write by hand and calls into CUDA kernels, and then the actual CUDA kernel for the parts we want to speed up. For the forward pass, the first function should look like this:
+现在实际上实现了一个函数，我们还需要两件事：一个函数执行我们不希望手动显式写入的操作并调用 CUDA 内核，然后实际的 CUDA 内核用于我们想要加速的部分。对于前向转播来说，第一个函数应如下所示：
 
 ```py
 std::vector<at::Tensor> lltm_cuda_forward(
@@ -681,7 +682,7 @@ std::vector<at::Tensor> lltm_cuda_forward(
 
 ```
 
-The main point of interest here is the `AT_DISPATCH_FLOATING_TYPES` macro and the kernel launch (indicated by the `&lt;&lt;&lt;...&gt;&gt;&gt;`). While ATen abstracts away the device and datatype of the tensors we deal with, a tensor will, at runtime, still be backed by memory of a concrete type on a concrete device. As such, we need a way of determining at runtime what type a tensor is and then selectively call functions with the corresponding correct type signature. Done manually, this would (conceptually) look something like this:
+这里主要关注的是`AT_DISPATCH_FLOATING_TYPES`宏和内核启动（由`<<<...>>>`进行表示）。虽然 ATen 会对我们所处理的张量的设备和数据类型进行抽象化，但是在运行时，张量仍将由具体设备上的具体类型的内存支持。因此，我们需要一种在运行时确定张量是什么类型的方法，然后选择性地调用相应的具有正确类型签名（signature）函数。手动完成这些部分，这将（概念上）看起来像这样：
 
 ```py
 switch (tensor.type().scalarType()) {
@@ -694,13 +695,13 @@ switch (tensor.type().scalarType()) {
 
 ```
 
-The purpose of `AT_DISPATCH_FLOATING_TYPES` is to take care of this dispatch for us. It takes a type (`gates.type()` in our case), a name (for error messages) and a lambda function. Inside this lambda function, the type alias `scalar_t` is available and is defined as the type that the tensor actually is at runtime in that context. As such, if we have a template function (which our CUDA kernel will be), we can instantiate it with this `scalar_t` alias, and the correct function will be called. In this case, we also want to retrieve the data pointers of the tensors as pointers of that `scalar_t` type. If you wanted to dispatch over all types and not just floating point types (`Float` and `Double`), you can use `AT_DISPATCH_ALL_TYPES`.
+ `AT_DISPATCH_FLOATING_TYPES` 的目的是为我们处理此次调度。它需要一个类型（在我们的例子中是`gates.type()`），一个名称（用于错误消息）和一个 lambda 函数。在这个 lambda 函数中，类型别名`scalar_t`是可用的，并且被定义为张量在该上下文中实际处于运行时的类型。因此，如果我们有一个模板函数（我们的 CUDA 内核将作为模板函数），我们可以用这个`scalar_t`别名实例化它，然后正确的函数就会被调用。 在这种情况下，我们还希望检索张量的数据指针作为`scalar_t`类型的指针。 如果你想调度所有类型而不仅仅是浮点类型（`Float`和`Double`），你可以使用`AT_DISPATCH_ALL_TYPES`。
 
-Note that we perform some operations with plain ATen. These operations will still run on the GPU, but using ATen’s default implementations. This makes sense, because ATen will use highly optimized routines for things like matrix multiplies (e.g. `addmm`) or convolutions which would be much harder to implement and improve ourselves.
+请注意，我们使用普通 ATen 执行的一些操作。这些操作仍将在 GPU 上运行，但使用的是 ATen 的默认实现。这是有道理的，因为 ATen 将使用高度优化的例程来处理诸如矩阵乘法（例如`addmm`）或者是一些我们自己十分难以实现以及完成性能提升的操作，如卷积操作。
 
-As for the kernel launch itself, we are here specifying that each CUDA block will have 1024 threads, and that the entire GPU grid is split into as many blocks of `1 x 1024` threads as are required to fill our matrices with one thread per component. For example, if our state size was 2048 and our batch size 4, we’d launch a total of `4 x 2 = 8` blocks with each 1024 threads. If you’ve never heard of CUDA “blocks” or “grids” before, an [introductory read about CUDA](https://devblogs.nvidia.com/even-easier-introduction-cuda) may help.
+至于内核启动本身，我们在这里指定每个 CUDA 块将具有1024个线程，并且整个 GPU 网格被分成尽可能多的 `1 x 1024` 线程块，并以一组一个线程的方式填充我们的矩阵。例如，如果我们的状态（state）大小为2048且批量大小为4，那么我们将以每个块1024个线程完成启动，总共 `4 x 2 = 8` 个块。如果你之前从未听说过 CUDA “块”或“网格”，那么[关于 CUDA 的介绍性阅读](https://devblogs.nvidia.com/even-easier-introduction-cuda)可能会有所帮助。
 
-The actual CUDA kernel is fairly simple (if you’ve ever programmed GPUs before):
+实际的 CUDA 内核非常简单（如果你以前进行过 GPU 编程）：
 
 ```py
 template <typename scalar_t>
@@ -728,9 +729,9 @@ __global__ void lltm_cuda_forward_kernel(
 
 ```
 
-What’s primarily interesting here is that we are able to compute all of these pointwise operations entirely in parallel for each individual component in our gate matrices. If you imagine having to do this with a giant `for` loop over a million elements in serial, you can see why this would be much faster.
+这里最感兴趣的是，我们能够完全并行地为门矩阵中的每个单独组件计算所有的这些逐点运算。如果你能想象必须用一个巨大的`for`循环来连续超过一百万个元素的情况，你也可以理解为什么改进之后速度会更快了。
 
-The backwards pass follows much the same pattern and I won’t elaborate further on it:
+反向传播遵循相同的模式，在这里将不再详细说明：
 
 ```py
 template <typename scalar_t>
@@ -816,9 +817,9 @@ std::vector<at::Tensor> lltm_cuda_backward(
 
 ```
 
-### Integrating a C++/CUDA Operation with PyTorch
+### 将 C++/CUDA 操作与 PyTorch 集成
 
-Integration of our CUDA-enabled op with PyTorch is again very straightforward. If you want to write a `setup.py` script, it could look like this:
+我们支持 CUDA 的操作与 PyTorch 的集成同样十分简单。如果你想写一个`setup.py`脚本，它可能看起来像这样：
 
 ```py
 from setuptools import setup
@@ -838,7 +839,7 @@ setup(
 
 ```
 
-Instead of `CppExtension()`, we now use `CUDAExtension()`. We can just specify the `.cu` file along with the `.cpp` files – the library takes care of all the hassle this entails for you. The JIT mechanism is even simpler:
+我们现在使用`CUDAExtension()`而不是`CppExtension()`。我们可以只指定`.cu`文件和`.cpp`文件——库可以解决所有麻烦。JIT 机制则更简单：
 
 ```py
 from torch.utils.cpp_extension import load
@@ -847,25 +848,25 @@ lltm = load(name='lltm', sources=['lltm_cuda.cpp', 'lltm_cuda_kernel.cu'])
 
 ```
 
-#### Performance Comparison
+#### 性能比较
 
-Our hope was that parallelizing and fusing the pointwise operations of our code with CUDA would improve the performance of our LLTM. Let’s see if that holds true. We can run the code I listed earlier to run a benchmark. Our fastest version earlier was the CUDA-based C++ code:
+我们希望并行化与融合我们代码与 CUDA 的逐点操作将改善我们的 LLTM 的性能。让我们看看是否成立。我们可以运行在前面列出的代码来进行基准测试。我们之前的最快版本是基于 CUDA 的 C++ 代码：
 
 ```py
 Forward: 149.802 us | Backward 393.458 us
 
 ```
 
-And now with our custom CUDA kernel:
+现在使用我们的自定义 CUDA 内核：
 
 ```py
 Forward: 129.431 us | Backward 304.641 us
 
 ```
 
-More performance increases!
+性能得到了更多的提升！
 
-## Conclusion
+## 结论
 
-You should now be equipped with a good overview of PyTorch’s C++ extension mechanism as well as a motivation for using them. You can find the code examples displayed in this note [here](https://github.com/pytorch/extension-cpp). If you have questions, please use [the forums](https://discuss.pytorch.org). Also be sure to check our [FAQ](https://pytorch.org/cppdocs/notes/faq.html) in case you run into any issues.
+你现在应该对 PyTorch 的 C++ 扩展机制以及使用它们的动机有一个很好的大致上的了解了。你可以在[此处](https://github.com/pytorch/extension-cpp)中找到本文中显示的代码示例。如果你有任何疑问，请使用[论坛](https://discuss.pytorch.org)。如果你遇到任何问题，请务必查看我们的[FAQ](https://pytorch.org/cppdocs/notes/faq.html)。
 
