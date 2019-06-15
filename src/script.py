@@ -29,7 +29,7 @@ def format_index(filename):
     str4 = "powered by ApacheCN"
     with open(filename, 'r') as f:
         var_object = f.read()
-        var_object = var_object.replace(str1, str2)
+        # var_object = var_object.replace(str1, str2)
         var_object = var_object.replace(str3, str4)
         # print(var_object)
 
