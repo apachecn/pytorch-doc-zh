@@ -27,3 +27,6 @@ for version in $versions;do
     echo "python3 src/script.py ${version}"
     python3 src/script.py ${version}
 done
+
+# rm -rf /opt/apache-tomcat-9.0.17/webapps/test_book
+# cp -r _book /opt/apache-tomcat-9.0.17/webapps/test_book
