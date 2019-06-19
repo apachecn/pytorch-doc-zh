@@ -47,7 +47,7 @@
             "elements": [".gitbook-link"]
         },
         "edit-link": {
-            "base": "https://github.com/apachecn/pytorch-doc-zh/blob/master",
+            "base": "https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/0.4",
             "label": "编辑本页"
         },
         "sharing": {
