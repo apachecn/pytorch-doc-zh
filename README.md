@@ -6,14 +6,14 @@
 <br/>
 <table>
   <tr align="center">
-    <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank">Pytorch 1.0 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
-    <td><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank">Pytorch 最新 英文教程 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
-    <td><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/stable/index.html" target="_blank">Pytorch 最新 英文文档 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
+    <td><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
+    <td><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/stable/index.html" target="_blank"><font size="5">最新 英文文档</font></a></td>
   </tr>
   <tr align="center">
-    <td><a title="Pytorch 0.4 中文版本" href="https://pytorch.apachecn.org/docs/0.4/" target="_blank">Pytorch 0.4 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
-    <td><a title="Pytorch 0.3 中文版本" href="https://pytorch.apachecn.org/docs/0.3/" target="_blank">Pytorch 0.3 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
-    <td><a title="Pytorch 0.2 中文版本" href="https://pytorch.apachecn.org/docs/0.2/" target="_blank">Pytorch 0.2 中文版本 <br/> <img width="500" src="docs/img/logo.svg"></a></td>
+    <td><a title="Pytorch 0.4 中文版本" href="https://pytorch.apachecn.org/docs/0.4/" target="_blank"><font size="5">0.4 中文版本</font></a></td>
+    <td><a title="Pytorch 0.3 中文版本" href="https://pytorch.apachecn.org/docs/0.3/" target="_blank"><font size="5">0.3 中文版本</font></a></td>
+    <td><a title="Pytorch 0.2 中文版本" href="https://pytorch.apachecn.org/docs/0.2/" target="_blank"><font size="5">0.2 中文版本</font></a></td>
   </tr>
 </table>
 <br/>
