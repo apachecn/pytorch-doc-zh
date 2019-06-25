@@ -4,7 +4,6 @@
     "description" : "Pytorch 中文文档: 教程和文档",
     "language" : "zh-hans",
     "plugins": [
-        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
         "github",
         "github-buttons",
         "-sharing", 
@@ -22,7 +21,7 @@
         "popup",
         "hide-element",
         "page-toc-button",
-        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
+        "tbfed-pagefooter",
         "sitemap",
         "advanced-emoji",
         "expandable-chapters",
@@ -73,6 +72,11 @@
             "maxTocDepth": 4,
             "minTocSize": 4
         },
+        "tbfed-pagefooter": {
+            "copyright":"Copyright &copy ibooker.org.cn 2019",
+            "modify_label": "该文件修订时间： ",
+            "modify_format": "YYYY-MM-DD HH:mm:ss"
+        },
         "pagefooter-apachecn": {
             "copyright":"Copyright &copy ibooker.org.cn 2019",
             "modify_label": "该文件修订时间： ",
@@ -102,7 +106,7 @@
         "ga",
         "baidu",
         "sitemap",
-        "pagefooter-apachecn",
+        "tbfed-pagefooter",
         "advanced-emoji",
         "sectionx",
         "page-treeview",
