@@ -77,11 +77,6 @@
             "modify_label": "该文件修订时间： ",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
         },
-        "pagefooter-apachecn": {
-            "copyright":"Copyright &copy ibooker.org.cn 2019",
-            "modify_label": "该文件修订时间： ",
-            "modify_format": "YYYY-MM-DD HH:mm:ss"
-        },
         "sitemap": {
             "hostname": "http://pytorch.apachecn.org"
         }
@@ -101,8 +96,6 @@
         "expandable-chapters",
         "expandable-chapters-small",
         "back-to-top-button",
-        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
-        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
         "ga",
         "baidu",
         "sitemap",
@@ -111,7 +104,9 @@
         "sectionx",
         "page-treeview",
         "simple-page-toc",
-        "ancre-navigation"
+        "ancre-navigation",
+        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
+        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD"
     ],
     "my_pluginsConfig": {
         "github-buttons": {
@@ -172,10 +167,10 @@
           "baidu": {
               "token": "75439e2cbd22bdd813226000e9dcc12f"
           },
-          "pagefooter-apachecn": {
-              "copyright":"Copyright &copy ibooker.org.cn 2019",
-              "modify_label": "该文件修订时间： ",
-              "modify_format": "YYYY-MM-DD HH:mm:ss"
-          }
+        "pagefooter-apachecn": {
+            "copyright":"Copyright &copy ibooker.org.cn 2019",
+            "modify_label": "该文件修订时间： ",
+            "modify_format": "YYYY-MM-DD HH:mm:ss"
+        }
     }
 }
