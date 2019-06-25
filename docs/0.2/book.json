@@ -22,7 +22,7 @@
         "popup",
         "hide-element",
         "page-toc-button",
-        "tbfed-pagefooter",
+        "tbfed-pagefooter@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn",
         "ga",
         "baidu",
         "sitemap"

@@ -3,7 +3,6 @@ loginfo() { echo "[INFO] $@"; }
 logerror() { echo "[ERROR] $@" 1>&2; }
 
 gitbook install
-python3 src/script.py "home" "powered"
 gitbook build ./ _book
 # python3 src/script.py "home" "index"
 
@@ -21,9 +20,6 @@ for version in $versions;do
 
     echo "gitbook install docs/${version}"
     gitbook install docs/${version}
-
-    echo "python3 src/script.py ${version} powered"
-    python3 src/script.py ${version} "powered"
 
     echo "gitbook build docs/${version} _book/docs/${version}"
     gitbook build docs/${version} _book/docs/${version}
