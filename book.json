@@ -25,12 +25,11 @@
         "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
         "ga",
         "baidu",
-        "sitemap",
-        "advanced-emoji"
+        "sitemap"
     ],
     "pluginsConfig": {
         "github": {
-            "url": "https://github.com/apachecn/pytorch-doc-zh"
+            "url": "https://github.com/apachecn"
         },
         "github-buttons": {
             "repo": "apachecn/pytorch-doc-zh",
@@ -107,9 +106,11 @@
         "expandable-chapters",
         "expandable-chapters-small",
         "back-to-top-button",
+        "advanced-emoji",
         "sectionx",
         "page-treeview",
         "simple-page-toc",
+        "github-buttons",
         "ancre-navigation"
     ],
     "my_pluginsConfig": {
