@@ -5,6 +5,7 @@
     "language" : "zh-hans",
     "plugins": [
         "theme-apachecn@git+https://github.com/apachecn/theme-apachecn",
+        "-theme-default",
         "github",
         "github-buttons",
         "-sharing", 
