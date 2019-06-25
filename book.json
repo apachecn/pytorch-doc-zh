@@ -4,7 +4,6 @@
     "description" : "Pytorch 中文文档: 教程和文档",
     "language" : "zh-hans",
     "plugins": [
-        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
         "github",
         "github-buttons",
         "-sharing", 
@@ -22,23 +21,27 @@
         "popup",
         "hide-element",
         "page-toc-button",
-        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
-        "ga",
-        "baidu",
-        "sitemap"
+        "tbfed-pagefooter",
+        "sitemap",
+        "advanced-emoji",
+        "expandable-chapters",
+        "splitter",
+        "search-pro"
     ],
     "pluginsConfig": {
         "github": {
-            "url": "https://github.com/apachecn"
+            "url": "https://github.com/apachecn/pytorch-doc-zh"
         },
         "github-buttons": {
-            "repo": "apachecn/pytorch-doc-zh",
-            "types": [
-                "star",
-                "watch",
-                "fork"
-            ],
-            "size": "small"
+            "buttons": [
+              {
+                "user": "apachecn",
+                "repo": "pytorch-doc-zh", 
+                "type": "star",
+                "count": true,
+                "size": "small"
+              }
+            ]
         },
         "insert-logo": {
             "url": "http://data.apachecn.org/img/logo.jpg",
@@ -69,21 +72,10 @@
             "maxTocDepth": 4,
             "minTocSize": 4
         },
-        "pagefooter-apachecn": {
-            "copyright":"Copyright &copy ibooker.org.cn 2019",
-            "modify_label": "该文件修订时间： ",
-            "modify_format": "YYYY-MM-DD HH:mm:ss"
-        },
         "tbfed-pagefooter": {
             "copyright":"Copyright &copy ibooker.org.cn 2019",
             "modify_label": "该文件修订时间： ",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
-        },
-        "ga": {
-            "token": "UA-102475051-10"
-        },
-        "baidu": {
-            "token": "38525fdac4b5d4403900b943d4e7dd91"
         },
         "sitemap": {
             "hostname": "http://pytorch.apachecn.org"
@@ -95,9 +87,7 @@
         }
     },
     "my_plugins": [
-        "splitter",
         "donate",
-        "search-pro",
         "todo",
         "-lunr",
         "-search",
@@ -106,14 +96,37 @@
         "expandable-chapters",
         "expandable-chapters-small",
         "back-to-top-button",
+        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
+        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
+        "ga",
+        "baidu",
+        "sitemap",
+        "tbfed-pagefooter",
         "advanced-emoji",
         "sectionx",
         "page-treeview",
         "simple-page-toc",
-        "github-buttons",
         "ancre-navigation"
     ],
     "my_pluginsConfig": {
+        "github-buttons": {
+            "buttons": [
+              {
+                "user": "apachecn",
+                "repo": "pytorch-doc-zh", 
+                "type": "star",
+                "count": true,
+                "size": "small"
+              }, 
+              {
+                "user": "apachecn",
+                "width": "160", 
+                "type": "follow", 
+                "count": true,
+                "size": "small"
+              }
+            ]
+        },
         "ignores": ["node_modules"],
         "simple-page-toc": {
             "maxDepth": 3,
@@ -147,6 +160,17 @@
             "utcOffset": "8",
             "style": "normal",
             "noPowered": false
+          },
+          "ga": {
+              "token": "UA-102475051-10"
+          },
+          "baidu": {
+              "token": "75439e2cbd22bdd813226000e9dcc12f"
+          },
+          "pagefooter-apachecn": {
+              "copyright":"Copyright &copy ibooker.org.cn 2019",
+              "modify_label": "该文件修订时间： ",
+              "modify_format": "YYYY-MM-DD HH:mm:ss"
           }
     }
 }
