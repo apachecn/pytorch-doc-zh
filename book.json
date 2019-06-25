@@ -4,7 +4,6 @@
     "description" : "Pytorch 中文文档: 教程和文档",
     "language" : "zh-hans",
     "plugins": [
-        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
         "github",
         "github-buttons",
         "-sharing", 
@@ -97,6 +96,7 @@
         "expandable-chapters",
         "expandable-chapters-small",
         "back-to-top-button",
+        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
         "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
         "ga",
         "baidu",
@@ -171,6 +171,6 @@
               "copyright":"Copyright &copy ibooker.org.cn 2019",
               "modify_label": "该文件修订时间： ",
               "modify_format": "YYYY-MM-DD HH:mm:ss"
-          },
+          }
     }
 }
