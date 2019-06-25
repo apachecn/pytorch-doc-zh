@@ -4,7 +4,7 @@
     "description" : "Pytorch 中文文档: 教程和文档",
     "language" : "zh-hans",
     "plugins": [
-        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn",
+        "theme-apachecn@git+https://github.com/apachecn/theme-apachecn#HEAD",
         "github",
         "github-buttons",
         "-sharing", 
@@ -22,7 +22,7 @@
         "popup",
         "hide-element",
         "page-toc-button",
-        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn",
+        "pagefooter-apachecn@git+https://github.com/apachecn/gitbook-plugin-pagefooter-apachecn#HEAD",
         "ga",
         "baidu",
         "sitemap"
