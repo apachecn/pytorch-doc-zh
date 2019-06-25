@@ -22,22 +22,26 @@
         "hide-element",
         "page-toc-button",
         "tbfed-pagefooter",
-        "ga",
-        "baidu",
-        "sitemap"
+        "sitemap",
+        "advanced-emoji",
+        "expandable-chapters",
+        "splitter",
+        "search-pro"
     ],
     "pluginsConfig": {
         "github": {
-            "url": "https://github.com/apachecn"
+            "url": "https://github.com/apachecn/pytorch-doc-zh"
         },
         "github-buttons": {
-            "repo": "apachecn/pytorch-doc-zh",
-            "types": [
-                "star",
-                "watch",
-                "fork"
-            ],
-            "size": "small"
+            "buttons": [
+              {
+                "user": "apachecn",
+                "repo": "pytorch-doc-zh", 
+                "type": "star",
+                "count": true,
+                "size": "small"
+              }
+            ]
         },
         "insert-logo": {
             "url": "http://data.apachecn.org/img/logo.jpg",
@@ -73,12 +77,6 @@
             "modify_label": "该文件修订时间： ",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
         },
-        "ga": {
-            "token": "UA-102475051-10"
-        },
-        "baidu": {
-            "token": "75439e2cbd22bdd813226000e9dcc12f"
-        },
         "sitemap": {
             "hostname": "http://pytorch.apachecn.org"
         }
@@ -89,9 +87,7 @@
         }
     },
     "my_plugins": [
-        "splitter",
         "donate",
-        "search-pro",
         "todo",
         "-lunr",
         "-search",
@@ -100,15 +96,33 @@
         "expandable-chapters",
         "expandable-chapters-small",
         "back-to-top-button",
-        "advanced-emoji",
         "tbfed-pagefooter",
         "sectionx",
         "page-treeview",
         "simple-page-toc",
-        "github-buttons",
-        "ancre-navigation"
+        "ancre-navigation",
+        "ga",
+        "baidu"
     ],
     "my_pluginsConfig": {
+        "github-buttons": {
+            "buttons": [
+              {
+                "user": "apachecn",
+                "repo": "pytorch-doc-zh", 
+                "type": "star",
+                "count": true,
+                "size": "small"
+              }, 
+              {
+                "user": "apachecn",
+                "width": "160", 
+                "type": "follow", 
+                "count": true,
+                "size": "small"
+              }
+            ]
+        },
         "ignores": ["node_modules"],
         "simple-page-toc": {
             "maxDepth": 3,
@@ -142,6 +156,12 @@
             "utcOffset": "8",
             "style": "normal",
             "noPowered": false
+          },
+          "ga": {
+              "token": "UA-102475051-10"
+          },
+          "baidu": {
+              "token": "75439e2cbd22bdd813226000e9dcc12f"
           }
     }
 }
