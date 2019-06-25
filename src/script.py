@@ -108,10 +108,10 @@ if __name__ == "__main__":
       '\\n'+
       '\\n      gtag(\\'config\\', \\'UA-102475051-10\\');'+
       '\\n    </script>'+
+     '\\n</div>'+
       '\\n'+
-      '\\n    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />'+
-      '\\n</div>'+
-      '\\n<iframe src="https://www.bilibili.com/read/cv2710377" style="display:none"></iframe>' + 
+      '\\n<meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />'+
+      '\\n<iframe src="https://www.bilibili.com/read/cv2710377" style="display:none"></iframe>'+ 
       '\\n<img src="http://t.cn/AiCoDHwb" hidden="hidden" />'
 
       str += '\\n\\n'+
