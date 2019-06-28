@@ -29,27 +29,19 @@ For this section, we will see a full, complicated example of a Bi-LSTM Condition
 
 If you can do those three things, you should be able to understand the code below. Recall that the CRF computes a conditional probability. Let `\(y\)` be a tag sequence and `\(x\)` an input sequence of words. Then we compute
 
-```py
-\[P(y|x) = \frac{\exp{(\text{Score}(x, y)})}{\sum_{y'} \exp{(\text{Score}(x, y')})}\]
-```
+$$P(y|x) = \frac{\exp{(\text{Score}(x, y)})}{\sum_{y'} \exp{(\text{Score}(x, y')})}$$
 
 Where the score is determined by defining some log potentials `\(\log \psi_i(x,y)\)` such that
 
-```py
-\[\text{Score}(x,y) = \sum_i \log \psi_i(x,y)\]
-```
+$$\text{Score}(x,y) = \sum_i \log \psi_i(x,y)$$
 
 To make the partition function tractable, the potentials must look only at local features.
 
 In the Bi-LSTM CRF, we define two kinds of potentials: emission and transition. The emission potential for the word at index `\(i\)` comes from the hidden state of the Bi-LSTM at timestep `\(i\)`. The transition scores are stored in a `\(|T|x|T|\)` matrix `\(\textbf{P}\)`, where `\(T\)` is the tag set. In my implementation, `\(\textbf{P}_{j,k}\)` is the score of transitioning to tag `\(j\)` from tag `\(k\)`. So:
 
-```py
-\[\text{Score}(x,y) = \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)\]
-```
+$$\text{Score}(x,y) = \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)$$
 
-```py
-\[= \sum_i h_i[y_i] + \textbf{P}_{y_i, y_{i-1}}\]
-```
+$$= \sum_i h_i[y_i] + \textbf{P}_{y_i, y_{i-1}}$$
 
 where in this second expression, we think of the tags as being assigned unique non-negative indices.
 

@@ -597,7 +597,7 @@ class torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 一维卷积层 输入矩阵的维度为 ![(N, C_{in}, L)](img/tex-198b2086ddb5510d9fc69c433c3ee55d.gif), 输出矩阵维度为 ![(N, C_{out}, L_{out})](img/tex-bb2bc07c1c0ec52a2e964a60175aac05.gif). 其中N为输入数量, C为每个输入样本的通道数量, L为样本中一个通道下的数据的长度. 算法如下:
 
-![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
+![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{k=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
 ![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带 ![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 项为卷积项.
 
@@ -653,7 +653,7 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 二维卷积层 输入矩阵的维度为 ![(N, C_{in}, H, W)](img/tex-120cc675d6ab67bb046f090d7be120a6.gif) , 输出矩阵维度为 ![(N, C_{out}, H_{out}, W_{out})](img/tex-ba3afaecc84f511d8c24e8605d528d35.gif) . 其中N为输入数量, C为每个输入样本的通道数量, H, W 分别为样本中一个通道下的数据的形状. 算法如下:
 
-![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
+![%\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{ {k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}%](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
 ![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带`*`项为卷积项.
 
@@ -719,9 +719,9 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 三维卷基层 输入矩阵的维度为 ![(N, C_{in}, D, H, W)](img/tex-98729c804361218eea500df06cd60c8b.gif), 输出矩阵维度为:![(N, C_{out}, D_{out}, H_{out}, W_{out})](img/tex-5b2f3f7fabcd6ee5b9f89543b54d71e2.gif). 其中N为输入数量, C为每个输入样本的通道数量, D, H, W 分别为样本中一个通道下的数据的形状. 算法如下:
 
-![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{{k}=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
+![\begin{array}{ll} out(N_i, C_{out_j}) = bias(C_{out_j}) + \sum_{k=0}^{C_{in}-1} weight(C_{out_j}, k) \star input(N_i, k) \end{array}](img/tex-b482ae261c2a6c7f51be7da721fe7e54.gif)
 
-!\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带`*`项为卷积项.
+![\star](img/tex-4b4efc2fbe82a047fc08c83ea081f1d9.gif) 是互相关运算符, 上式带`*`项为卷积项.
 
 `stride` 计算相关系数的步长, 可以为 tuple .`padding` 处理边界时在每个维度首尾补0数量.`dilation` 采样间隔数量. 大于1时为非致密采样.`groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时
 
@@ -969,7 +969,7 @@ class torch.nn.MaxPool1d(kernel_size, stride=None, padding=0, dilation=1, return
 
 最简单的例子, 如果输入大小为 ![(N, C, L)](img/tex-543737499dba0095d9151b4fd440b509.gif), 输出大小为 ![(N, C, L_{out})](img/tex-5b25a4bc4c225a5e291c54a4166929b8.gif), 该层输出值可以用下式精确计算:
 
-![\begin{array}{ll} out(N_i, C_j, k) = \max_{{m}=0}^{{kernel\_size}-1} input(N_i, C_j, stride * k + m) \end{array}](img/tex-033027842cb7efcbf0cb915d541c69c5.gif)
+![\begin{array}{ll} out(N_i, C_j, k) = \max_{m=0}^{kernel\_size-1} input(N_i, C_j, stride * k + m) \end{array}](img/tex-033027842cb7efcbf0cb915d541c69c5.gif)
 
 如果 `padding` 不是0,那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点`dilation` 用于控制内核点之间的间隔, [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) 很好地可视化展示了 `dilation` 的功能
 
@@ -1009,7 +1009,7 @@ class torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return
 
 最简单的例子, 如果输入大小为 ![(N, C, H, W)](img/tex-38d00342060234da90e0c2c5493892cb.gif), 输出大小为 ![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif), 池化窗口大小 `kernel_size` 为 ![(kH, kW)](img/tex-11acc7e0901ba5158f843445d5bbdc92.gif) 该层输出值可以用下式精确计算:
 
-![\begin{array}{ll} out(N_i, C_j, h, w) = \max_{{m}=0}^{kH-1} \max_{{n}=0}^{kW-1} input(N_i, C_j, stride[0] * h + m, stride[1] * w + n) \end{array}](img/tex-573dc90f741480b5e40bf216db293982.gif)
+![\begin{array}{ll} out(N_i, C_j, h, w) = \max_{m=0}^{kH-1} \max_{n=0}^{kW-1} input(N_i, C_j, stride[0] * h + m, stride[1] * w + n) \end{array}](img/tex-573dc90f741480b5e40bf216db293982.gif)
 
 如果 `padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点`dilation` 用于控制内核点之间的间隔, [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) 很好地可视化展示了 `dilation` 的功能
 
@@ -1056,7 +1056,7 @@ class torch.nn.MaxPool3d(kernel_size, stride=None, padding=0, dilation=1, return
 
 最简单的例子, 如果输入大小为 ![(N, C, D, H, W)](img/tex-6d9465a2eb2377437689121f4915b6b4.gif),输出大小为 ![(N, C, D_{out}, H_{out}, W_{out})](img/tex-d14df6868b2b3f7ee945a69616a0b867.gif) 池化窗口大小 `kernel_size` 为 ![(kD, kH, kW)](img/tex-b53b272ea52997eb2ccf903b6d58b4bc.gif) 该层输出值可以用下式精确计算:
 
-![\begin{array}{ll} out(N_i, C_j, d, h, w) = \max_{{k}=0}^{kD-1} \max_{{m}=0}^{kH-1} \max_{{n}=0}^{kW-1} input(N_i, C_j, stride[0] * k + d, stride[1] * h + m, stride[2] * w + n) \end{array}](img/tex-42f8d78c4f022c0857c8561088078429.gif)
+![\begin{array}{ll} out(N_i, C_j, d, h, w) = \max_{k=0}^{kD-1} \max_{m=0}^{kH-1} \max_{n=0}^{kW-1} input(N_i, C_j, stride[0] * k + d, stride[1] * h + m, stride[2] * w + n) \end{array}](img/tex-42f8d78c4f022c0857c8561088078429.gif)
 
 如果 `padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点`dilation` 用于控制内核点之间的间隔, [link](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md) 很好地可视化展示了 `dilation` 的功能
 
@@ -1287,7 +1287,7 @@ class torch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 
 最简单的例子, 如果输入大小为 ![(N, C, L)](img/tex-543737499dba0095d9151b4fd440b509.gif), 输出大小为 ![(N, C, L_{out})](img/tex-5b25a4bc4c225a5e291c54a4166929b8.gif), 池化窗口大小 `kernel_size` 为 ![k](img/tex-8ce4b16b22b58894aa86c421e8759df3.gif) 该层输出值可以用下式精确计算:
 
-![\begin{array}{ll} out(N_i, C_j, l) = 1 / k * \sum_{{m}=0}^{k} input(N_i, C_j, stride * l + m) \end{array}](img/tex-5fb224489269649392e58309a75afb8b.gif)
+![\begin{array}{ll} out(N_i, C_j, l) = 1 / k * \sum_{m=0}^{k} input(N_i, C_j, stride * l + m) \end{array}](img/tex-5fb224489269649392e58309a75afb8b.gif)
 
 如果 `padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点
 
@@ -1331,7 +1331,7 @@ class torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 
 最简单的例子,如果输入大小为 ![(N, C, H, W)](img/tex-38d00342060234da90e0c2c5493892cb.gif),输出大小为 ![(N, C, H_{out}, W_{out})](img/tex-403ffd9231342159e36ba660b2bf3ff3.gif), 池化窗口大小 `kernel_size` 为 ![(kH, kW)](img/tex-11acc7e0901ba5158f843445d5bbdc92.gif) 该层输出值可以用下式精确计算:
 
-![\begin{array}{ll} out(N_i, C_j, h, w) = 1 / (kH * kW) * \sum_{{m}=0}^{kH-1} \sum_{{n}=0}^{kW-1} input(N_i, C_j, stride[0] * h + m, stride[1] * w + n) \end{array}](img/tex-83e390b13d2c73927b15f35344142d36.gif)
+![\begin{array}{ll} out(N_i, C_j, h, w) = 1 / (kH * kW) * \sum_{m=0}^{kH-1} \sum_{n=0}^{kW-1} input(N_i, C_j, stride[0] * h + m, stride[1] * w + n) \end{array}](img/tex-83e390b13d2c73927b15f35344142d36.gif)
 
 如果 `padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点
 
@@ -1377,7 +1377,7 @@ class torch.nn.AvgPool3d(kernel_size, stride=None, padding=0, ceil_mode=False, c
 
 最简单的例子, 如果输入大小为 ![(N, C, D, H, W)](img/tex-6d9465a2eb2377437689121f4915b6b4.gif),输出大小为 ![(N, C, D_{out}, H_{out}, W_{out})](img/tex-d14df6868b2b3f7ee945a69616a0b867.gif) 池化窗口大小 `kernel_size` 为 ![(kD, kH, kW)](img/tex-b53b272ea52997eb2ccf903b6d58b4bc.gif) 该层输出值可以用下式精确计算:
 
-![\begin{array}{ll} out(N_i, C_j, d, h, w) = 1 / (kD * kH * kW) * \sum_{{k}=0}^{kD-1} \sum_{{m}=0}^{kH-1} \sum_{{n}=0}^{kW-1} input(N_i, C_j, stride[0] * d + k, stride[1] * h + m, stride[2] * w + n) \end{array}](img/tex-fbe2c38eff7c51172e8dab64682e8248.gif)
+![\begin{array}{ll} out(N_i, C_j, d, h, w) = 1 / (kD * kH * kW) * \sum_{k=0}^{kD-1} \sum_{m=0}^{kH-1} \sum_{n=0}^{kW-1} input(N_i, C_j, stride[0] * d + k, stride[1] * h + m, stride[2] * w + n) \end{array}](img/tex-fbe2c38eff7c51172e8dab64682e8248.gif)
 
 如果 `padding` 不是0, 那么在输入数据的每条边上会隐式填补对应 `padding` 数量的0值点
 
