@@ -2,17 +2,21 @@
 
 # Extending TorchScript with Custom C++ Operators
 
-The PyTorch 1.0 release introduced a new programming model to PyTorch called [TorchScript](https://pytorch.org/docs/master/jit.html). TorchScript is a subset of the Python programming language which can be parsed, compiled and optimized by the TorchScript compiler. Further, compiled TorchScript models have the option of being serialized into an on-disk file format, which you can subsequently load and run from pure C++ (as well as Python) for inference.
 
-TorchScript supports a large subset of operations provided by the `torch` package, allowing you to express many kinds of complex models purely as a series of tensor operations from PyTorch’s “standard library”. Nevertheless, there may be times where you find yourself in need of extending TorchScript with a custom C++ or CUDA function. While we recommend that you only resort to this option if your idea cannot be expressed (efficiently enough) as a simple Python function, we do provide a very friendly and simple interface for defining custom C++ and CUDA kernels using [ATen](https://pytorch.org/cppdocs/#aten), PyTorch’s high performance C++ tensor library. Once bound into TorchScript, you can embed these custom kernels (or “ops”) into your TorchScript model and execute them both in Python and in their serialized form directly in C++.
 
-The following paragraphs give an example of writing a TorchScript custom op to call into [OpenCV](https://www.opencv.org), a computer vision library written in C++. We will discuss how to work with tensors in C++, how to efficiently convert them to third party tensor formats (in this case, OpenCV [``](#id1)Mat``s), how to register your operator with the TorchScript runtime and finally how to compile the operator and use it in Python and C++.
+＃使用自定义C ++运算符扩展TorchScript
 
-This tutorial assumes you have the _preview release_ of PyTorch 1.0 installed via `pip` or `conda`. See [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally) for instructions on grabbing the latest release of PyTorch 1.0\. Alternatively, you can compile PyTorch from source. The documentation in [this file](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md) will assist you with this.
+PyTorch1.0版本向PyTorch引入了一个名为[TorchScript]（https://pytorch.org/docs/master/jit.html）的新编程模型。TorchScript是Python编程语言的一个子集，可以通过TorchScript编译器进行解析，编译和优化。此外，已编译的TorchScript模型可以选择序列化为磁盘文件格式，您可以随后从纯C ++（以及Python）程序进行加载和运行以进行推理。
 
-## Implementing the Custom Operator in C++
+TorchScript支持由`torch`包提供的大量操作，允许您将多种复杂模型纯粹表示为PyTorch的“标准库”中的一系列张量运算。然而，有时您可能会发现需要使用自定义C ++或CUDA函数扩展TorchScript。虽然我们建议您使用此这个选项时只在您的想法无法（足够有效）表达为一个简单的Python函数时，我们确实提供了一个非常友好和简单的界面，使用[ATen]（https：/ /pytorch.org/cppdocs/#aten）定义自定义C ++和CUDA内核，PyTorch的高性能C ++张量库。一旦绑定到TorchScript，您可以将这些自定义内核(或“ops”)嵌入到您的TorchScript模型中，并以Python和c++的序列化形式直接执行它们。
 
-For this tutorial, we’ll be exposing the [warpPerspective](https://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective) function, which applies a perspective transformation to an image, from OpenCV to TorchScript as a custom operator. The first step is to write the implementation of our custom operator in C++. Let’s call the file for this implementation `op.cpp` and make it look like this:
+以下段落给出了一个编写TorchScript自定义操作的示例，以调用[OpenCV]（https://www.opencv.org），这是一个用C ++编写的计算机视觉库。我们将讨论如何在C ++中使用张量，如何有效地将它们转换为第三方张量格式（在这种情况下，OpenCV [``]（＃id1）Mat``s），如何在TorchScript运行时注册运算符，最后如何编译运算符并在Python和C ++中使用它。
+
+本教程假设您通过`pip`或`conda`安装了PyTorch 1.0的_preview release_。有关获取最新版PyTorch 1.0 \的说明，请参阅[https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally）。或者，您可以从源代码编译PyTorch。[此文件]（https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md）中的文档将为您提供帮助。
+
+##在C ++中实现自定义运算符
+
+对于本教程，我们将公开[warpPerspective]（https://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective）函数，该函数将透视变换应用于图像， OpenCV to TorchScript作为自定义运算符。第一步是用C ++编写自定义运算符的实现。让我们调用这个实现`op.cpp`的文件，并使它看起来像这样：
 
 ```py
 #include <opencv2/opencv.hpp>
@@ -37,17 +41,17 @@ torch::Tensor warp_perspective(torch::Tensor image, torch::Tensor warp) {
 
 ```
 
-The code for this operator is quite short. At the top of the file, we include the OpenCV header file, `opencv2/opencv.hpp`, alongside the `torch/script.h` header which exposes all the necessary goodies from PyTorch’s C++ API that we need to write custom TorchScript operators. Our function `warp_perspective` takes two arguments: an input `image` and the `warp` transformation matrix we wish to apply to the image. The type of these inputs is `torch::Tensor`, PyTorch’s tensor type in C++ (which is also the underlying type of all tensors in Python). The return type of our `warp_perspective` function will also be a `torch::Tensor`.
+该运算符的代码很短。在文件的顶部，我们包含OpenCV头文件`opencv2 / opencv.hpp`，以及`torch / script.h`头文件，它展示了我们需要编写自定义TorchScript运算符的PyTorch C ++ API所需的所有好东西.我们的函数`warp_perspective`有两个参数：输入`image`和我们希望应用于图像的`warp`变换矩阵。这些输入的类型是`torch :: Tensor`，PyTorch在C ++中的张量类型（它也是Python中所有张量的基础类型）。我们的`warp_perspective`函数的返回类型也将是`torch :: Tensor`。
 
-Tip
+提示
 
-See [this note](https://pytorch.org/cppdocs/notes/tensor_basics.html) for more information about ATen, the library that provides the `Tensor` class to PyTorch. Further, [this tutorial](https://pytorch.org/cppdocs/notes/tensor_creation.html) describes how to allocate and initialize new tensor objects in C++ (not required for this operator).
+有关ATen的更多信息，请参阅[本说明]（https://pytorch.org/cppdocs/notes/tensor_basics.html），ATen是为PyTorch提供`Tensor`类的库。此外，[本教程]（https://pytorch.org/cppdocs/notes/tensor_creation.html）描述了如何在C ++中分配和初始化新的张量对象（此运算符不需要）。
 
-Attention
+注意
 
-The TorchScript compiler understands a fixed number of types. Only these types can be used as arguments to your custom operator. Currently these types are: `torch::Tensor`, `torch::Scalar`, `double`, `int64_t` and `std::vector``s of these types. Note that __only__ ``double` and __not__ `float`, and __only__ `int64_t` and __not__ other integral types such as `int`, `short` or `long` are supported.
+TorchScript编译器了解固定数量的类型。只有这些类型可以用作自定义运算符的参数。目前这些类型是：`torch :: Tensor`，`torch :: Scalar`，`double`，`int64_t`和`std :: vector`这些类型。注意__only__``double`和__not__`float`和__only__`int64_t`和__not__支持其他整数类型，如`int`，`short`或`long`。
 
-Inside of our function, the first thing we need to do is convert our PyTorch tensors to OpenCV matrices, as OpenCV’s `warpPerspective` expects `cv::Mat` objects as inputs. Fortunately, there is a way to do this **without copying any** data. In the first few lines,
+在我们的函数内部，我们需要做的第一件事是将PyTorch张量转换为OpenCV矩阵，因为OpenCV的`warpPerspective`期望`cv :: Mat`对象作为输入。幸运的是，有一种方法可以做到这一点**而无需复制任何**数据。在前几行中，
 
 ```py
 cv::Mat image_mat(/*rows=*/image.size(0),
@@ -57,7 +61,7 @@ cv::Mat image_mat(/*rows=*/image.size(0),
 
 ```
 
-we are calling [this constructor](https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e) of the OpenCV `Mat` class to convert our tensor to a `Mat` object. We pass it the number of rows and columns of the original `image` tensor, the datatype (which we’ll fix as `float32` for this example), and finally a raw pointer to the underlying data – a `float*`. What is special about this constructor of the `Mat` class is that it does not copy the input data. Instead, it will simply reference this memory for all operations performed on the `Mat`. If an in-place operation is performed on the `image_mat`, this will be reflected in the original `image` tensor (and vice-versa). This allows us to call subsequent OpenCV routines with the library’s native matrix type, even though we’re actually storing the data in a PyTorch tensor. We repeat this procedure to convert the `warp` PyTorch tensor to the `warp_mat` OpenCV matrix:
+我们正在调用OpenCV`Mat`类的[这个构造函数]（https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e）将我们的张量转换为`Mat`对象。我们传递原始`image` tensor的行数和列数，数据类型（我们将在本例中将其定义为`float32`），最后是一个指向底层数据的原始指针 - 一个`float *`。`Mat`类的这个构造函数的特殊之处在于它不复制输入数据。相反，它将简单地为在“Mat”上执行的所有操作引用该内存。如果对`image_mat`执行in-place操作，则这将反映在原始`image`张量中（反之亦然）。这允许我们使用库的本机矩阵类型调用后续的OpenCV例程，即使我们实际上将数据存储在PyTorch张量中。我们重复此过程将`warp` PyTorch张量转换为`warp_mat` OpenCV矩阵：
 
 ```py
 cv::Mat warp_mat(/*rows=*/warp.size(0),
@@ -67,7 +71,7 @@ cv::Mat warp_mat(/*rows=*/warp.size(0),
 
 ```
 
-Next, we are ready to call the OpenCV function we were so eager to use in TorchScript: `warpPerspective`. For this, we pass the OpenCV function the `image_mat` and `warp_mat` matrices, as well as an empty output matrix called `output_mat`. We also specify the size `dsize` we want the output matrix (image) to be. It is hardcoded to `8 x 8` for this example:
+接下来，我们准备调用我们非常渴望在TorchScript中使用的OpenCV函数：`warpPerspective`。为此，我们传递OpenCV函数`image_mat`和`warp_mat`矩阵，以及一个名为`output_mat`的空输出矩阵。我们还指定了我们想要输出矩阵（图像）的大小`dsize`。对于这个例子，它被硬编码为“8 x 8”：
 
 ```py
 cv::Mat output_mat;
@@ -75,20 +79,21 @@ cv::warpPerspective(image_mat, output_mat, warp_mat, /*dsize=*/{8, 8});
 
 ```
 
-The final step in our custom operator implementation is to convert the `output_mat` back into a PyTorch tensor, so that we can further use it in PyTorch. This is strikingly similar to what we did earlier to convert in the other direction. In this case, PyTorch provides a `torch::from_blob` method. A _blob_ in this case is intended to mean some opaque, flat pointer to memory that we want to interpret as a PyTorch tensor. The call to `torch::from_blob` looks like this:
+我们的自定义运算符实现的最后一步是将`output_mat`转换回PyTorch张量，以便我们可以在PyTorch中进一步使用它。这与我们之前在另一个方向转换时所做的惊人相似。PyTorch提供了一个“torch::from_blob”方法。在本例中，_blob_意为指向内存的一些不透明的平面指针，我们想将其解释为PyTorch张量。对`torch :: from_blob`的调用如下所示：
+
 
 ```py
 torch::from_blob(output_mat.ptr<float>(), /*sizes=*/{8, 8})
 
 ```
 
-We use the `.ptr&lt;float&gt;()` method on the OpenCV `Mat` class to get a raw pointer to the underlying data (just like `.data&lt;float&gt;()` for the PyTorch tensor earlier). We also specify the output shape of the tensor, which we hardcoded as `8 x 8`. The output of `torch::from_blob` is then a `torch::Tensor`, pointing to the memory owned by the OpenCV matrix.
+我们在OpenCV`Mat`类上使用`.ptr＆lt; float＆gt;（）`方法来获取指向底层数据的原始指针（就像之前的PyTorch张量的`.data＆lt; float＆gt;（）`一样）。我们还指定了张量的输出形状，我们将其硬编码为“8 x 8”。然后``torch :: from_blob`的输出是`torch :: Tensor`，指向OpenCV矩阵拥有的内存。
 
-Before returning this tensor from our operator implementation, we must call `.clone()` on the tensor to perform a memory copy of the underlying data. The reason for this is that `torch::from_blob` returns a tensor that does not own its data. At that point, the data is still owned by the OpenCV matrix. However, this OpenCV matrix will go out of scope and be deallocated at the end of the function. If we returned the `output` tensor as-is, it would point to invalid memory by the time we use it outside the function. Calling `.clone()` returns a new tensor with a copy of the original data that the new tensor owns itself. It is thus safe to return to the outside world.
+在从运算符实现返回这个张量之前，我们必须在张量上调用`.clone（）`来执行底层数据的内存复制。原因是`torch :: from_blob`返回一个不拥有其数据的张量。此时，数据仍归OpenCV矩阵所有。但是，此OpenCV矩阵将超出范围并在函数末尾取消分配。如果我们按原样返回`output`张量，那么当我们在函数外部使用它时，它会指向无效的内存。调用`.clone（）`会返回一个新的张量，其中包含新张量所拥有的原始数据的副本。因此返回外部世界是安全的。
 
-## Registering the Custom Operator with TorchScript
+##使用TorchScript注册自定义运算符
 
-Now that have implemented our custom operator in C++, we need to _register_ it with the TorchScript runtime and compiler. This will allow the TorchScript compiler to resolve references to our custom operator in TorchScript code. Registration is very simple. For our case, we need to write:
+现在已经在C ++中实现了我们的自定义运算符，我们需要使用TorchScript运行时和编译器_register_它。这将允许TorchScript编译器在TorchScript代码中解析对自定义运算符的引用。注册非常简单。对于我们的情况，我们需要写：
 
 ```py
 static auto registry =
@@ -96,11 +101,11 @@ static auto registry =
 
 ```
 
-somewhere in the global scope of our `op.cpp` file. This creates a global variable `registry`, which will register our operator with TorchScript in its constructor (i.e. exactly once per program). We specify the name of the operator, and a pointer to its implementation (the function we wrote earlier). The name consists of two parts: a _namespace_ (`my_ops`) and a name for the particular operator we are registering (`warp_perspective`). The namespace and operator name are separated by two colons (`::`).
+在我们的`op.cpp`文件的全局范围内的某个地方。这将创建一个全局变量`registry`，它将在其构造函数中使用TorchScript注册我们的运算符（即每个程序只注册一次）。我们指定运算符的名称，以及指向其实现的指针（我们之前编写的函数）。该名称由两部分组成：_namespace_（`my_ops`）和我们正在注册的特定运算符的名称（`warp_perspective`）。命名空间和运算符名称由两个冒号（`::`）分隔。
 
-Tip
+注意
 
-If you want to register more than one operator, you can chain calls to `.op()` after the constructor:
+如果要注册多个运算符，可以在构造函数之后将调用链接到`.op（）`：
 
 ```py
 static auto registry =
@@ -110,15 +115,15 @@ static auto registry =
 
 ```
 
-Behind the scenes, `RegisterOperators` will perform a number of fairly complicated C++ template metaprogramming magic tricks to infer the argument and return value types of the function pointer we pass it (`&warp_perspective`). This information is used to form a _function schema_ for our operator. A function schema is a structured representation of an operator – a kind of “signature” or “prototype” – used by the TorchScript compiler to verify correctness in TorchScript programs.
+在后台，“registeroperator”将执行一些相当复杂的c++模板元编程技巧，来推断传递给它的函数指针的参数和返回值类型（`＆warp_perspective`）。此信息用于为我们的运算符形成_function schema_。函数模式是操作符(一种“签名”或“原型”)的结构化表示，TorchScript编译器使用它来验证TorchScript程序中的正确性。
 
-## Building the Custom Operator
+##构建自定义运算符
 
-Now that we have implemented our custom operator in C++ and written its registration code, it is time to build the operator into a (shared) library that we can load into Python for research and experimentation, or into C++ for inference in a no-Python environment. There exist multiple ways to build our operator, using either pure CMake, or Python alternatives like `setuptools`. For brevity, the paragraphs below only discuss the CMake approach. The appendix of this tutorial dives into the Python based alternatives.
+现在我们已经用c++实现了自定义操作符并编写了它的注册代码，现在是时候将该操作符构建成一个(共享)库了，我们可以将该库加载到Python中进行研究和实验，或者在非Python环境中加载到c++中进行推理。有多种方法可以构建我们的操作符，可以使用纯CMake，也可以使用Python替代方法，如“setuptools”。为了简洁起见，下面的段落只讨论CMake方法。本教程的附录将深入讨论基于Python的替代方案。
 
-### Building with CMake
+###使用CMake构建
 
-To build our custom operator into a shared library using the [CMake](https://cmake.org) build system, we need to write a short `CMakeLists.txt` file and place it with our previous `op.cpp` file. For this, let’s agree on a a directory structure that looks like this:
+要使用[CMake]（https://cmake.org）构建系统将我们的自定义运算符构建到共享库中，我们需要编写一个简短的`CMakeLists.txt`文件并将其放在我们之前的`op.cpp`文件中。为此，让我们商定一个如下所示的目录结构：
 
 ```py
 warp-perspective/
@@ -127,7 +132,7 @@ warp-perspective/
 
 ```
 
-Also, make sure to grab the latest version of the LibTorch distribution, which packages PyTorch’s C++ libraries and CMake build files, from [pytorch.org](https://pytorch.org/get-started/locally). Place the unzipped distribution somewhere accessible in your file system. The following paragraphs will refer to that location as `/path/to/libtorch`. The contents of our `CMakeLists.txt` file should then be the following:
+此外，请确保从[pytorch.org]（https://pytorch.org/get-started/locally）获取最新版本的LibTorch发行版，该发行版包含PyTorch的C ++库和CMake构建文件。将解压缩后的发行版放在文件系统中可访问的位置。以下段落将该位置称为`/ path / to / libtorch`。我们的`CMakeLists.txt`文件的内容应该是以下内容：
 
 ```py
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
@@ -147,13 +152,12 @@ target_link_libraries(warp_perspective opencv_core opencv_imgproc)
 
 ```
 
-Warning
+警告
 
-This setup makes some assumptions about the build environment, particularly what pertains to the installation of OpenCV. The above `CMakeLists.txt` file was tested inside a Docker container running Ubuntu Xenial with `libopencv-dev` installed via `apt`. If it does not work for you and you feel stuck, please use the `Dockerfile` in the [accompanying tutorial repository](https://github.com/pytorch/extension-script) to build an isolated, reproducible environment in which to play around with the code from this tutorial. If you run into further troubles, please file an issue in the tutorial repository or post a question in [our forum](https://discuss.pytorch.org/).
+这个设置对构建环境做了一些假设，特别是关于OpenCV安装的一些假设。上面的`CMakeLists.txt`文件在运行Ubuntu Xenial的Docker容器中进行了测试，并通过`apt`安装了`libopencv-dev`。如果它对您不起作用并且您感到卡住，请使用[随附教程存储库]（https://github.com/pytorch/extension-script）中的`Dockerfile`来构建一个隔离的，可重现的环境，在该环境中使用本教程中的代码。如果您遇到进一步的麻烦，请在教程存储库中提交问题或在[我们的论坛]（https://discuss.pytorch.org/）中发布问题。
 
-To now build our operator, we can run the following commands from our `warp_perspective` folder:
+要构建我们的运算符，我们可以从`warp_perspective`文件夹运行以下命令：
 
-```py
 $ mkdir build
 $ cd build
 $ cmake -DCMAKE_PREFIX_PATH=/path/to/libtorch ..
@@ -192,9 +196,9 @@ Scanning dependencies of target warp_perspective
 
 ```
 
-which will place a `libwarp_perspective.so` shared library file in the `build` folder. In the `cmake` command above, you should replace `/path/to/libtorch` with the path to your unzipped LibTorch distribution.
+这将在`build`文件夹中放置一个`libwarp_perspective.so`共享库文件。在上面的`cmake`命令中，您应该将`/ path / to / libtorch`替换为解压缩的LibTorch分发的路径。
 
-We will explore how to use and call our operator in detail further below, but to get an early sensation of success, we can try running the following code in Python:
+我们将在下面详细介绍如何使用和调用我们的运算符，但为了尽早获得成功感，我们可以尝试在Python中运行以下代码：
 
 ```py
 >>> import torch
@@ -203,22 +207,22 @@ We will explore how to use and call our operator in detail further below, but to
 
 ```
 
-Here, `/path/to/libwarp_perspective.so` should be a relative or absolute path to the `libwarp_perspective.so` shared library we just built. If all goes well, this should print something like
+这里，`/ path / to / libwarp_perspective.so`应该是我们刚刚构建的`libwarp_perspective.so`共享库的相对或绝对路径。如果一切顺利，这应该打印出类似的东西
 
 ```py
 <built-in method my_ops::warp_perspective of PyCapsule object at 0x7f618fc6fa50>
 
 ```
 
-which is the Python function we will later use to invoke our custom operator.
+这是我们稍后用来调用我们的自定义运算符的Python函数。
 
-## Using the TorchScript Custom Operator in Python
+##在Python中使用TorchScript自定义运算符
 
-Once our custom operator is built into a shared library we are ready to use this operator in our TorchScript models in Python. There are two parts to this: first loading the operator into Python, and second using the operator in TorchScript code.
+一旦我们的自定义运算符内置到共享库中，我们就可以在Python的TorchScript模型中使用此运算符。这有两个部分：首先将运算符加载到Python中，然后在TorchScript代码中使用运算符。
 
-You already saw how to import your operator into Python: `torch.ops.load_library()`. This function takes the path to a shared library containing custom operators, and loads it into the current process. Loading the shared library will also execute the constructor of the global `RegisterOperators` object we placed into our custom operator implementation file. This will register our custom operator with the TorchScript compiler and allow us to use that operator in TorchScript code.
+您已经了解了如何将您的运算符导入Python：`torch.ops.load_library（）`。此函数获取包含自定义运算符的共享库的路径，并将其加载到当前进程中。加载共享库还将执行我们放入自定义运算符实现文件的全局`RegisterOperators`对象的构造函数。这将使用TorchScript编译器注册我们的自定义运算符，并允许我们在TorchScript代码中使用该运算符。
 
-You can refer to your loaded operator as `torch.ops.&lt;namespace&gt;.&lt;function&gt;`, where `&lt;namespace&gt;` is the namespace part of your operator name, and `&lt;function&gt;` the function name of your operator. For the operator we wrote above, the namespace was `my_ops` and the function name `warp_perspective`, which means our operator is available as `torch.ops.my_ops.warp_perspective`. While this function can be used in scripted or traced TorchScript modules, we can also just use it in vanilla eager PyTorch and pass it regular PyTorch tensors:
+您可以将加载的运算符称为`torch.ops.＆lt; namespace＆gt;.＆lt; function＆gt;`，其中`＆lt; namespace＆gt;`是运算符名称的命名空间部分，`＆lt; function＆gt;`运算符的函数名。对于我们上面写的运算符，命名空间是`my_ops`和函数名`warp_perspective`，这意味着我们的运算符可以以`torch.ops.my_ops.warp_perspective`使用。虽然这个函数可以在脚本化或跟踪的TorchScript模块中使用，但我们也可以在普通的eager PyTorch中使用它，并将它传递给常规的PyTorch张量：
 
 ```py
 >>> import torch
@@ -233,16 +237,15 @@ tensor([[0.0000, 0.3218, 0.4611,  ..., 0.4636, 0.4636, 0.4636],
  [0.1862, 0.1862, 0.1692,  ..., 0.0000, 0.0000, 0.0000]])
 
 ```
+注意
 
-Note
+这背后发生的事情是，第一次在Python中访问`torch.ops.namespace.function`时，TorchScript编译器（在C ++中）将看到是否已注册函数`namespace :: function`，如果是返回此函数的Python句柄，我们随后可以使用它来调用Python中的C ++运算符实现。这是TorchScript自定义运算符和C ++扩展之间的一个值得注意的区别：C ++扩展使用pybind11手动绑定，而TorchScript自定义ops由PyTorch本身绑定。Pybind11为您提供了更多关于可以绑定到Python的类型和类的灵活性，因此建议用于迫切需要的代码，但TorchScript操作不支持它。
 
-What happens behind the scenes is that the first time you access `torch.ops.namespace.function` in Python, the TorchScript compiler (in C++ land) will see if a function `namespace::function` has been registered, and if so, return a Python handle to this function that we can subsequently use to call into our C++ operator implementation from Python. This is one noteworthy difference between TorchScript custom operators and C++ extensions: C++ extensions are bound manually using pybind11, while TorchScript custom ops are bound on the fly by PyTorch itself. Pybind11 gives you more flexibility with regards to what types and classes you can bind into Python and is thus recommended for purely eager code, but it is not supported for TorchScript ops.
+从这里开始，您可以在脚本或跟踪代码中使用自定义运算符，就像使用`torch`包中的其他函数一样。事实上，像“torch.matmul”这样的“标准库”函数与自定义运算符的注册路径基本相同，这使得自定义运算符在TorchScript中的使用方式和位置方面确实是非常方便。
 
-From here on, you can use your custom operator in scripted or traced code just as you would other functions from the `torch` package. In fact, “standard library” functions like `torch.matmul` go through largely the same registration path as custom operators, which makes custom operators really first-class citizens when it comes to how and where they can be used in TorchScript.
+###将自定义运算符与跟踪结合使用
 
-### Using the Custom Operator with Tracing
-
-Let’s start by embedding our operator in a traced function. Recall that for tracing, we start with some vanilla Pytorch code:
+让我们首先将运算符嵌入到跟踪函数中。回想一下，对于跟踪，我们从一些普通Pytorch代码开始：
 
 ```py
 def compute(x, y, z):
@@ -250,7 +253,7 @@ def compute(x, y, z):
 
 ```
 
-and then call `torch.jit.trace` on it. We further pass `torch.jit.trace` some example inputs, which it will forward to our implementation to record the sequence of operations that occur as the inputs flow through it. The result of this is effectively a “frozen” version of the eager PyTorch program, which the TorchScript compiler can further analyze, optimize and serialize:
+然后在上面调用`torch.jit.trace`。我们进一步传递`torch.jit.trace`一些示例输入，它将转发到我们的实现，以记录输入流经它时发生的操作序列。这样做的结果实际上是急需的PyTorch程序的“冻结”版本，TorchScript编译器可以进一步分析，优化和序列化：
 
 ```py
 >>> inputs = [torch.randn(4, 8), torch.randn(8, 5), torch.randn(4, 5)]
@@ -268,7 +271,7 @@ graph(%x : Float(4, 8)
 
 ```
 
-Now, the exciting revelation is that we can simply drop our custom operator into our PyTorch trace as if it were `torch.relu` or any other `torch` function:
+现在，令人兴奋的启示是我们可以简单地将我们的自定义运算符放入我们的PyTorch跟踪中，就像它是`torch.relu`或任何其他`torch`函数一样：
 
 ```py
 torch.ops.load_library("libwarp_perspective.so")
@@ -279,7 +282,7 @@ def compute(x, y, z):
 
 ```
 
-and then trace it as before:
+然后像之前一样追踪它：
 
 ```py
 >>> inputs = [torch.randn(4, 8), torch.randn(8, 5), torch.randn(8, 5)]
@@ -303,13 +306,13 @@ graph(%x.1 : Float(4, 8)
 
 ```
 
-Integrating TorchScript custom ops into traced PyTorch code is as easy as this!
+将TorchScript自定义操作集成到跟踪的PyTorch代码就是这样简单！
 
-### Using the Custom Operator with Script
+###将自定义运算符与脚本一起使用
 
-Besides tracing, another way to arrive at a TorchScript representation of a PyTorch program is to directly write your code _in_ TorchScript. TorchScript is largely a subset of the Python language, with some restrictions that make it easier for the TorchScript compiler to reason about programs. You turn your regular PyTorch code into TorchScript by annotating it with `@torch.jit.script` for free functions and `@torch.jit.script_method` for methods in a class (which must also derive from `torch.jit.ScriptModule`). See [here](https://pytorch.org/docs/master/jit.html) for more details on TorchScript annotations.
+除了跟踪之外，另一种获得PyTorch程序的TorchScript表示的方法是直接编写代码_in_ TorchScript。TorchScript在很大程度上是Python语言的一个子集，有一些限制使得TorchScript编译器更容易推断程序。您可以通过使用`@ torch.jit.script`为自由函数注释它来将常规PyTorch代码转换为TorchScript，并为类中的方法使用`@ torch.jit.script_method`（也必须来自`torch.jit.ScriptModule） ）。有关TorchScript注释的更多详细信息，请参见[此处]（https://pytorch.org/docs/master/jit.html）。
 
-One particular reason to use TorchScript instead of tracing is that tracing is unable to capture control flow in PyTorch code. As such, let us consider this function which does use control flow:
+使用TorchScript而不是跟踪的一个特殊原因是跟踪无法捕获PyTorch代码中的控制流。因此，让我们考虑一下这个使用控制流的功能：
 
 ```py
 def compute(x, y):
@@ -321,7 +324,7 @@ def compute(x, y):
 
 ```
 
-To convert this function from vanilla PyTorch to TorchScript, we annotate it with `@torch.jit.script`:
+要将此函数从普通的PyTorch转换为TorchScript，我们使用`@ torch.jit.script`进行注释：
 
 ```py
 @torch.jit.script
@@ -334,7 +337,7 @@ def compute(x, y):
 
 ```
 
-This will just-in-time compile the `compute` function into a graph representation, which we can inspect in the `compute.graph` property:
+这将及时将`compute`函数编译成图表示，我们可以在`compute.graph`属性中检查它：
 
 ```py
 >>> compute.graph
@@ -363,7 +366,7 @@ graph(%x : Dynamic
 
 ```
 
-And now, just like before, we can use our custom operator like any other function inside of our script code:
+现在，就像以前一样，我们可以使用我们的自定义运算符，就像使用我们脚本代码中的任何其他函数一样：
 
 ```py
 torch.ops.load_library("libwarp_perspective.so")
@@ -379,7 +382,7 @@ def compute(x, y):
 
 ```
 
-When the TorchScript compiler sees the reference to `torch.ops.my_ops.warp_perspective`, it will find the implementation we registered via the `RegisterOperators` object in C++, and compile it into its graph representation:
+当TorchScript编译器看到对`torch.ops.my_ops.warp_perspective`的引用时，它将找到我们通过C ++中的`RegisterOperators`对象注册的实现，并将其编译为其图表示：
 
 ```py
 >>> compute.graph
@@ -413,25 +416,25 @@ graph(%x.1 : Dynamic
 
 ```
 
-Notice in particular the reference to `my_ops::warp_perspective` at the end of the graph.
+特别注意图表末尾对`my_ops :: warp_perspective`的引用。
 
-Attention
+注意
 
-The TorchScript graph representation is still subject to change. Do not rely on it looking like this.
+TorchScript图表示仍有可能发生变化。不要依赖它现在看起来的样子。
 
-And that’s really it when it comes to using our custom operator in Python. In short, you import the library containing your operator(s) using `torch.ops.load_library`, and call your custom op like any other `torch` operator from your traced or scripted TorchScript code.
+这就是在Python中使用自定义运算符时的情况。简而言之，您使用`torch.ops.load_library`导入包含您的运算符的库，并从您的跟踪或脚本化的TorchScript代码中调用您的自定义操作，就像任何其他`torch`操作符一样。
 
-## Using the TorchScript Custom Operator in C++
+##在C ++中使用TorchScript自定义运算符
 
-One useful feature of TorchScript is the ability to serialize a model into an on-disk file. This file can be sent over the wire, stored in a file system or, more importantly, be dynamically deserialized and executed without needing to keep the original source code around. This is possible in Python, but also in C++. For this, PyTorch provides [a pure C++ API](https://pytorch.org/cppdocs/) for deserializing as well as executing TorchScript models. If you haven’t yet, please read [the tutorial on loading and running serialized TorchScript models in C++](https://pytorch.org/tutorials/advanced/cpp_export.html), on which the next few paragraphs will build.
+TorchScript的一个有用功能是能够将模型序列化为磁盘文件。该文件可以通过网络发送，存储在文件系统中，更重要的是，可以动态反序列化和执行，而无需保留原始源代码。这可以在Python中实现，也可以在C ++中实现。为此，PyTorch提供[纯C ++ API]（https://pytorch.org/cppdocs/）进行反序列化以及执行TorchScript模型。如果您还没有，请阅读[关于在C ++中加载和运行序列化TorchScript模型的教程]（https://pytorch.org/tutorials/advanced/cpp_export.html），下面几段将在此基础上构建。
 
-In short, custom operators can be executed just like regular `torch` operators even when deserialized from a file and run in C++. The only requirement for this is to link the custom operator shared library we built earlier with the C++ application in which we execute the model. In Python, this worked simply calling `torch.ops.load_library`. In C++, you need to link the shared library with your main application in whatever build system you are using. The following example will showcase this using CMake.
+简而言之，即使从文件反序列化并在C ++中运行，自定义运算符也可以像常规`torch`运算符一样执行。对此的唯一要求是将我们之前构建的自定义操作符共享库与我们执行模型的C ++应用程序链接起来。在Python中，这只是简单地调用`torch.ops.load_library`。在C ++中，您需要在您使用的任何构建系统中将共享库与主应用程序链接起来。以下示例将使用CMake展示此内容。
 
-Note
+注意
 
-Technically, you can also dynamically load the shared library into your C++ application at runtime in much the same way we did it in Python. On Linux, [you can do this with dlopen](https://tldp.org/HOWTO/Program-Library-HOWTO/dl-libraries.html). There exist equivalents on other platforms.
+从技术上讲，您还可以在运行时动态地将共享库加载到您的c++应用程序中，这与我们在Python中所做的非常相似。在Linux上，[您可以使用dlopen](https://tldp.org/HOWTO/Program-Library-HOWTO/dl-libraries.html)。在其他平台上也有类似的功能。
 
-Building on the C++ execution tutorial linked above, let’s start with a minimal C++ application in one file, `main.cpp` in a different folder from our custom operator, that loads and executes a serialized TorchScript model:
+在上面链接的C ++执行教程的基础上，我们从一个文件中的最小C ++应用程序开始，`main.cpp`在与自定义运算符不同的文件夹中，它加载并执行序列化的TorchScript模型：
 
 ```py
 #include <torch/script.h> // One-stop header.
@@ -444,10 +447,8 @@ int main(int argc, const char* argv[]) {
     std::cerr << "usage: example-app <path-to-exported-script-module>\n";
     return -1;
   }
-
-  // Deserialize the ScriptModule from a file using torch::jit::load().
+//使用torch::jit::load()从文件反序列化ScriptModule。
   std::shared_ptr<torch::jit::script::Module> module = torch::jit::load(argv[1]);
-
   std::vector<torch::jit::IValue> inputs;
   inputs.push_back(torch::randn({4, 8}));
   inputs.push_back(torch::randn({8, 5}));
@@ -459,7 +460,7 @@ int main(int argc, const char* argv[]) {
 
 ```
 
-Along with a small `CMakeLists.txt` file:
+连同一个小的`CMakeLists.txt`文件：
 
 ```py
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
@@ -473,7 +474,7 @@ target_compile_features(example_app PRIVATE cxx_range_for)
 
 ```
 
-At this point, we should be able to build the application:
+此时，我们应该能够构建应用程序：
 
 ```py
 $ mkdir build
@@ -514,7 +515,7 @@ Scanning dependencies of target example_app
 
 ```
 
-And run it without passing a model just yet:
+运行它而不需要传递模型:
 
 ```py
 $ ./example_app
@@ -522,7 +523,7 @@ usage: example_app <path-to-exported-script-module>
 
 ```
 
-Next, let’s serialize the script function we wrote earlier that uses our custom operator:
+接下来，让我们序列化我们之前编写的使用自定义运算符的脚本函数：
 
 ```py
 torch.ops.load_library("libwarp_perspective.so")
@@ -540,7 +541,7 @@ compute.save("example.pt")
 
 ```
 
-The last line will serialize the script function into a file called “example.pt”. If we then pass this serialized model to our C++ application, we can run it straight away:
+最后一行将脚本函数序列化为名为“example.pt”的文件。如果我们将这个序列化模型传递给我们的C ++应用程序，我们可以直接运行它：
 
 ```py
 $ ./example_app example.pt
@@ -551,7 +552,7 @@ Node: %16 : Dynamic = my_ops::warp_perspective(%0, %19)
 
 ```
 
-Or maybe not. Maybe not just yet. Of course! We haven’t linked the custom operator library with our application yet. Let’s do this right now, and to do it properly let’s update our file organization slightly, to look like this:
+哦!可能还没有。当然！我们尚未将自定义运算符库与我们的应用程序相关联。我们现在就这样做，为了正确地执行此操作，让我们稍微更新一下我们的文件组织，如下所示：
 
 ```py
 example_app/
@@ -563,7 +564,7 @@ example_app/
 
 ```
 
-This will allow us to add the `warp_perspective` library CMake target as a subdirectory of our application target. The top level `CMakeLists.txt` in the `example_app` folder should look like this:
+这将允许我们将`warp_perspective`库CMake目标添加为我们的应用程序目标的子目录。`example_app`文件夹中的最上层`CMakeLists.txt`应该如下所示：
 
 ```py
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
@@ -580,13 +581,13 @@ target_compile_features(example_app PRIVATE cxx_range_for)
 
 ```
 
-This basic CMake configuration looks much like before, except that we add the `warp_perspective` CMake build as a subdirectory. Once its CMake code runs, we link our `example_app` application with the `warp_perspective` shared library.
+这个基本的CMake配置看起来和以前很像，只是我们添加了' warp_perspective ' CMake build作为子目录。一旦它的CMake代码运行，我们将“example_app”应用程序与“warp_perspective”共享库链接起来。
 
-Attention
+注意
 
-There is one crucial detail embedded in the above example: The `-Wl,--no-as-needed` prefix to the `warp_perspective` link line. This is required because we will not actually be calling any function from the `warp_perspective` shared library in our application code. We only need the global `RegisterOperators` object’s constructor to run. Inconveniently, this confuses the linker and makes it think it can just skip linking against the library altogether. On Linux, the `-Wl,--no-as-needed` flag forces the link to happen (NB: this flag is specific to Linux!). There are other workarounds for this. The simplest is to define _some function_ in the operator library that you need to call from the main application. This could be as simple as a function `void init();` declared in some header, which is then defined as `void init() { }` in the operator library. Calling this `init()` function in the main application will give the linker the impression that this is a library worth linking against. Unfortunately, this is outside of our control, and we would rather let you know the reason and the simple workaround for this than handing you some opaque macro to plop in your code.
+上面的例子中嵌入了一个关键细节：`warp_perspective`链接行的`-Wl， - no-as-needed`前缀。这是必需的，因为我们实际上不会在应用程序代码中的`warp_perspective`共享库中调用任何函数。我们只需要运行全局`RegisterOperators`对象的构造函数。然而不方便的是，这会使链接器混乱并使其认为它可以完全跳过与库的链接。在Linux上，`-Wl， - no-as-needed`标志强制链接发生（注意：这个标志特定于Linux！）。关于其他的解决方法，最简单的方法是在运算符库中定义需要从主应用程序调用的_some function_。这可以像函数`void init（）;`一样简单，在一些头文件中声明，然后在运算符库中定义为`void init（）{}`。在主应用程序中调用这个`init（）`函数会给链接器一个印象，即这是一个值得链接的库。不幸的是，这超出了我们的控制范围，我们宁愿让您知道原因和简单的解决方案，而不是在代码中给您一些不透明的宏来折腾。
 
-Now, since we find the `Torch` package at the top level now, the `CMakeLists.txt` file in the `warp_perspective` subdirectory can be shortened a bit. It should look like this:
+现在，既然我们现在最上层找到`Torch`包，那么`warp_perspective`子目录中的`CMakeLists.txt`文件可以稍微缩短一点。它应该如下所示：
 
 ```py
 find_package(OpenCV REQUIRED)
@@ -597,7 +598,7 @@ target_link_libraries(warp_perspective PRIVATE opencv_core opencv_photo)
 
 ```
 
-Let’s re-build our example app, which will also link with the custom operator library. In the top level `example_app` directory:
+让我们重新构建我们的示例应用程序，它还将与自定义运算符库链接。在最上层的`example_app`目录中：
 
 ```py
 $ mkdir build
@@ -642,7 +643,7 @@ Scanning dependencies of target example_app
 
 ```
 
-If we now run the `example_app` binary and hand it our serialized model, we should arrive at a happy ending:
+如果我们现在运行`example_app`二进制文件并将其交给我们的序列化模型，我们将会得到一个圆满的结局：
 
 ```py
 $ ./example_app example.pt
@@ -658,29 +659,29 @@ $ ./example_app example.pt
 
 ```
 
-Success! You are now ready to inference away.
+成功！你现在可以准备推理了。
 
-## Conclusion
+##结论
 
-This tutorial walked you throw how to implement a custom TorchScript operator in C++, how to build it into a shared library, how to use it in Python to define TorchScript models and lastly how to load it into a C++ application for inference workloads. You are now ready to extend your TorchScript models with C++ operators that interface with third party C++ libraries, write custom high performance CUDA kernels, or implement any other use case that requires the lines between Python, TorchScript and C++ to blend smoothly.
+本教程向您介绍了如何在C ++中实现自定义TorchScript运算符，如何将其构建到共享库中，如何在Python中使用它来定义TorchScript模型，以及最后如何将其加载到C ++应用程序中以进行推理工作负载。现在，您已经准备好使用与第三方c++库接口的c++操作符扩展TorchScript模型，编写自定义高性能CUDA内核，或者实现任何其他用例，这些用例需要Python、TorchScript和c++之间的代码行灵活地混合。
 
-As always, if you run into any problems or have questions, you can use our [forum](https://discuss.pytorch.org/) or [GitHub issues](https://github.com/pytorch/pytorch/issues) to get in touch. Also, our [frequently asked questions (FAQ) page](https://pytorch.org/cppdocs/notes/faq.html) may have helpful information.
+与往常一样，如果您遇到任何问题或有疑问，可以使用我们的[论坛]（https://discuss.pytorch.org/）或[GitHub问题]（https://github.com/pytorch/pytorch/问题）取得联系。此外，我们的[常见问题解答（FAQ）页面]（https://pytorch.org/cppdocs/notes/faq.html）可能会提供有用的信息。
 
-## Appendix A: More Ways of Building Custom Operators
+##附录A：构建自定义运算符的更多方法
 
-The section “Building the Custom Operator” explained how to build a custom operator into a shared library using CMake. This appendix outlines two further approaches for compilation. Both of them use Python as the “driver” or “interface” to the compilation process. Also, both re-use the [existing infrastructure](https://pytorch.org/docs/stable/cpp_extension.html) PyTorch provides for [*C++ extensions*](https://pytorch.org/tutorials/advanced/cpp_extension.html), which are the vanilla (eager) PyTorch equivalent of TorchScript custom operators that rely on [pybind11](https://github.com/pybind/pybind11) for “explicit” binding of functions from C++ into Python.
+“构建自定义运算符”部分介绍了如何使用CMake将自定义运算符构建到共享库中。本附录概述了另外两种编译方法。它们都使用Python作为编译过程的“驱动程序”或“接口”。此外，两者都重用[现有基础设施]（https://pytorch.org/docs/stable/cpp_extension.html）PyTorch提供[* C ++扩展*]（https://pytorch.org/tutorials/advanced/ cpp_extension.html），它是相当于TorchScript自定义运算符的普通（急需）PyTorch，它依赖于[pybind11]（https://github.com/pybind/pybind11）将函数从C ++“绑定”到Python中。
 
-The first approach uses C++ extensions’ [convenient just-in-time (JIT) compilation interface](https://pytorch.org/docs/stable/cpp_extension.html#torch.utils.cpp_extension.load) to compile your code in the background of your PyTorch script the first time you run it. The second approach relies on the venerable `setuptools` package and involves writing a separate `setup.py` file. This allows more advanced configuration as well as integration with other `setuptools`-based projects. We will explore both approaches in detail below.
+第一种方法使用C ++扩展'[方便的即时（JIT）编译接口]（https://pytorch.org/docs/stable/cpp_extension.html#torch.utils.cpp_extension.load）在第一次运行PyTorch脚本时在后台编译代码。第二种方法依赖于古老的`setuptools`包，并涉及编写一个单独的`setup.py`文件。这允许更高级的配置以及与其他基于“setuptools”的项目的集成。我们将在下面详细探讨这两种方法。
 
-### Building with JIT compilation
+###使用JIT编译进行构建
 
-The JIT compilation feature provided by the PyTorch C++ extension toolkit allows embedding the compilation of your custom operator directly into your Python code, e.g. at the top of your training script.
+PyTorch C ++扩展工具包提供的JIT编译功能允许将自定义操作符的编译直接嵌入到Python代码中，例如在训练脚本的顶部。
 
-Note
+注意
 
-“JIT compilation” here has nothing to do with the JIT compilation taking place in the TorchScript compiler to optimize your program. It simply means that your custom operator C++ code will be compiled in a folder under your system’s `/tmp` directory the first time you import it, as if you had compiled it yourself beforehand.
+这里的“JIT编译”与在TorchScript编译器中进行JIT编译以优化程序没有任何关系。它只是意味着您的自定义操作符C ++代码将在您第一次导入时在系统的`/ tmp`目录下的文件夹中编译，就像您事先已经自己编译它一样。
 
-This JIT compilation feature comes in two flavors. In the first, you still keep your operator implementation in a separate file (`op.cpp`), and then use `torch.utils.cpp_extension.load()` to compile your extension. Usually, this function will return the Python module exposing your C++ extension. However, since we are not compiling our custom operator into its own Python module, we only want to compile a plain shared library . Fortunately, `torch.utils.cpp_extension.load()` has an argument `is_python_module` which we can set to `False` to indicate that we are only interested in building a shared library and not a Python module. `torch.utils.cpp_extension.load()` will then compile and also load the shared library into the current process, just like `torch.ops.load_library` did before:
+这个JIT编译功能有两种形式。在第一个中，您仍然将运算符实现保存在单独的文件（`op.cpp`）中，然后使用`torch.utils.cpp_extension.load（）`来编译您的扩展。通常，此函数将返回公开C ++扩展的Python模块。但是，由于我们没有将自定义运算符编译到自己的Python模块中，因此我们只想编译普通的共享库。幸运的是，`torch.utils.cpp_extension.load（）`有一个参数`is_python_module`，我们可以设置为`False`来表示我们只对构建共享库而不是Python模块感兴趣。然后`torch.utils.cpp_extension.load（）`将编译并将共享库加载到当前进程中，就像之前`torch.ops.load_library`一样：
 
 ```py
 import torch.utils.cpp_extension
@@ -697,14 +698,14 @@ print(torch.ops.my_ops.warp_perspective)
 
 ```
 
-This should approximately print:
+这应该大致打印：
 
 ```py
 <built-in method my_ops::warp_perspective of PyCapsule object at 0x7f3e0f840b10>
 
 ```
 
-The second flavor of JIT compilation allows you to pass the source code for your custom TorchScript operator as a string. For this, use `torch.utils.cpp_extension.load_inline`:
+JIT编译的第二种风格允许您将自定义TorchScript运算符的源代码作为字符串传递。为此，请使用`torch.utils.cpp_extension.load_inline`：
 
 ```py
 import torch
@@ -735,7 +736,6 @@ torch::Tensor warp_perspective(torch::Tensor image, torch::Tensor warp) {
 static auto registry =
  torch::jit::RegisterOperators("my_ops::warp_perspective", &warp_perspective);
 """
-
 torch.utils.cpp_extension.load_inline(
     name="warp_perspective",
     cpp_sources=op_source,
@@ -748,15 +748,15 @@ print(torch.ops.my_ops.warp_perspective)
 
 ```
 
-Naturally, it is best practice to only use `torch.utils.cpp_extension.load_inline` if your source code is reasonably short.
+当然，如果您的源代码相当短，最好只使用`torch.utils.cpp_extension.load_inline`。
 
-### Building with Setuptools
+###使用Setuptools构建
 
-The second approach to building our custom operator exclusively from Python is to use `setuptools`. This has the advantage that `setuptools` has a quite powerful and extensive interface for building Python modules written in C++. However, since `setuptools` is really intended for building Python modules and not plain shared libraries (which do not have the necessary entry points Python expects from a module), this route can be slightly quirky. That said, all you need is a `setup.py` file in place of the `CMakeLists.txt` which looks like this:
+从Python专门构建自定义运算符的第二种方法是使用`setuptools`。这样做的好处是`setuptools`具有非常强大和广泛的接口，用于构建用C ++编写的Python模块。但是，由于`setuptools`实际上是用于构建Python模块而不是普通的共享库（它没有Python期望从模块中获得的必要入口点），因此这条路线可能有点古怪。也就是说，您只需要一个`setup.py`文件来代替`CMakeLists.txt`，它看起来像这样：
 
-Notice that we enabled the `no_python_abi_suffix` option in the `BuildExtension` at the bottom. This instructs `setuptools` to omit any Python-3 specific ABI suffixes in the name of the produced shared library. Otherwise, on Python 3.7 for example, the library may be called `warp_perspective.cpython-37m-x86_64-linux-gnu.so` where `cpython-37m-x86_64-linux-gnu` is the ABI tag, but we really just want it to be called `warp_perspective.so`
+请注意，我们在底部的`BuildExtension`中启用了'no_python_abi_suffix`选项。这指示`setuptools`在生成的共享库的名称中省略任何Python-3特定的ABI后缀。否则，在Python 3.7上，库可能被称为`warp_perspective.cpython-37m-x86_64-linux-gnu.so`，其中`cpython-37m-x86_64-linux-gnu`是ABI标签，但我们真的只是想要它被称为`warp_perspective.so`
 
-If we now run `python setup.py build develop` in a terminal from within the folder in which `setup.py` is situated, we should see something like:
+如果我们现在在`setup.py`所在的文件夹中的终端中运行`python setup.py build develop`，我们应该看到类似的东西：
 
 ```py
 $ python setup.py build develop
@@ -789,5 +789,6 @@ Finished processing dependencies for warp-perspective==0.0.0
 
 ```
 
-This will produce a shared library called `warp_perspective.so`, which we can pass to `torch.ops.load_library` as we did earlier to make our operator visible to TorchScript:
+这将产生一个名为`warp_perspective.so`的共享库，我们可以像之前那样将它传递给`torch.ops.load_library`，以使我们的操作符对TorchScript可见：
+
 
