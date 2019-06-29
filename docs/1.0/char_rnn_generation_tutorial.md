@@ -1,14 +1,16 @@
 
 
-# 使用字符级别特征的RNN网络生成姓氏
+# 使用字符级别特征的RNN网络生成名字
 
 > 译者：[hhxx2015](https://github.com/hhxx2015)
+> 
+> 校对者：[hijkzzz](https://github.com/hijkzzz)
 
 
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 在上一个 [例子](char_rnn_classification_tutorial.html) 中我们使用RNN网络对名字所属的语言进行分类。
-这一次我们会反过来根据语言生成姓氏。
+这一次我们会反过来根据语言生成名字。
 
 ```py
 > python sample.py Russian RUS
@@ -33,8 +35,8 @@ Iun
 
 ```
 
-我们仍使用几层linear层简单实现的RNN。
-最大的区别在于，不是在读取一个姓氏的所有字母后预测类别，而是输入一个类别之后在每一时刻输出一个字母。
+我们仍使用只有几层线性层的小型RNN。
+最大的区别在于，这里不是在读取一个名字的所有字母后预测类别，而是输入一个类别之后在每一时刻输出一个字母。
 循环预测字符以形成语言通常也被称为“语言模型”。（也可以将字符换成单词或更高级的结构进行这一过程）
 
 
@@ -49,8 +51,8 @@ Iun
 
 事先学习并了解RNN的工作原理对理解这个例子十分有帮助:
 
-*   [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) shows a bunch of real life examples
-*   [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) is about LSTMs specifically but also informative about RNNs in general
+*   [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) 展示了很多实际的例子
+*   [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) 是关于LSTM的，但也提供有关RNN的说明
 
 ## 准备数据
 
@@ -58,7 +60,7 @@ Iun
 点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
 有关此过程的更多详细信息，请参阅上一个教程。
-简而言之，有一些纯文本文件`data/names/[Language].txt`，它们的每行都有一个姓氏。
+简而言之，有一些纯文本文件`data/names/[Language].txt`，它们的每行都有一个名字。
 我们按行将文本按行切分得到一个数组，将Unicode编码转化为ASCII编码，最终得到`{language: [names ...]}`格式存储的字典变量。
 
 ```py
@@ -117,14 +119,13 @@ O'Neal
 ```
 
 ## 构造神经网络
-这个神经网络比 [最后一个RNN教程](#Creating-the-Network)中的网络增加了额外参数类别张量，该参数与其他输入连接在一起。
+这个神经网络比 [上一个RNN教程](#Creating-the-Network)中的网络增加了额外的类别张量参数，该参数与其他输入连接在一起。
 
 类别可以像字母一样组成one-hot向量构成张量输入。
-我们将输出作为下一个字母是什么的可能性。
-采样过程中，当前输出可能性最高的字母作为下一时刻输入字母。
-在组合隐藏状态和输出之后我增加了第二个linear层`o2o`，使模型的性能更好。
 
-当然还有一个dropout层，参考这篇论文[随机将输入部分替换为0](https://arxiv.org/abs/1207.0580)给出的参数（dropout=0.1）来模糊处理输入防止过拟合。
+我们将输出作为下一个字母是什么的可能性。采样过程中，当前输出可能性最高的字母作为下一时刻输入字母。
+
+在组合隐藏状态和输出之后我增加了第二个linear层`o2o`，使模型的性能更好。当然还有一个dropout层，参考这篇论文[随机将输入部分替换为0](https://arxiv.org/abs/1207.0580)给出的参数（dropout=0.1）来模糊处理输入防止过拟合。
 
 我们将它添加到网络的末端，故意添加一些混乱使采样特征增加。
 
@@ -185,11 +186,11 @@ def randomTrainingPair():
 
 因此，对于每个训练集，我们将需要类别、一组输入字母和一组输出/目标字母。
 
-在每一个时间序列，我们使用当前字母预测下一个字母，所以训练用的字母对来自于成行的单词。例如 对于 `"ABCD&lt;EOS&gt;"`，我们将创建（“A”，“B”），（“B”，“C”），（“C”，“D”），（“D”，“EOS”））。
+在每一个时间序列，我们使用当前字母预测下一个字母，所以训练用的字母对来自于一个单词。例如 对于 `"ABCD<EOS>"`，我们将创建（“A”，“B”），（“B”，“C”），（“C”，“D”），（“D”，“EOS”））。
 
 ![](img/3fae03d85aed3a2237fd4b2f7fb7b480.jpg)
 
-类别张量是一个`&lt;1 x n_categories&gt;`尺寸的[one-hot 向量](https://en.wikipedia.org/wiki/One-hot)
+类别张量是一个`<1 x n_categories>`尺寸的[one-hot 向量](https://en.wikipedia.org/wiki/One-hot)
 
 训练时，我们在每一个时间序列都将其提供给神经网络。这是一种选择策略，也可选择将其作为初始隐藏状态的一部分，或者其他什么结构。
 
@@ -234,7 +235,7 @@ def randomTrainingExample():
 
 和只使用最后一个时刻输出的分类任务相比，这次我们每一个时间序列都会进行一次预测，所以每一个时间序列我们都会计算损失。
 
-autograd的神奇之处在于您可以在每一步中简单地总结这些损失，并在最后反向传播。
+autograd的神奇之处在于您可以在每一步中简单地累加这些损失，并在最后反向传播。
 
 ```py
 criterion = nn.NLLLoss()
@@ -358,7 +359,7 @@ plt.plot(all_losses)
     *   如果字母是EOS，在这里停止
     *   如果是一个普通的字母，添加到`output_name`变量并继续循环
     
-*   返回最终得到的姓氏单词
+*   返回最终得到的名字单词
 
 另一种策略是，不必给网络一个起始字母，而是在训练中提供一个“字符串开始”的标记，并让网络自己选择起始的字母。
 
