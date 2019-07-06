@@ -2,9 +2,11 @@
 
 # torch
 
-The torch package contains data structures for multi-dimensional tensors and mathematical operations over these are defined. Additionally, it provides many utilities for efficient serializing of Tensors and arbitrary types, and other useful utilities.
+> 译者：[cluster](https://github.com/infdahai)
 
-It has a CUDA counterpart, that enables you to run your tensor computations on an NVIDIA GPU with compute capability &gt;= 3.0.
+torch package 包含 多维张量和之前定义过数学运算的数据结构。此外，它提供了支持许多高效序列化的张量(或者任意类型) 的程序集，以及一些有用工具。
+
+它支持CUDA环境，使你可以在NVIDIA GPU进行张量运算(要求compute capability 版本3.0及以上)
 
 ## Tensors
 
@@ -12,7 +14,8 @@ It has a CUDA counterpart, that enables you to run your tensor computations on a
 torch.is_tensor(obj)
 ```
 
-Returns True if `obj` is a PyTorch tensor.
+如果`obj`是一个PyTorch张量，则返回True.
+
 
 | Parameters: | **obj** (_Object_) – Object to test |
 | --- | --- |
@@ -21,7 +24,9 @@ Returns True if `obj` is a PyTorch tensor.
 torch.is_storage(obj)
 ```
 
-Returns True if `obj` is a PyTorch storage object.
+如果`obj`是一个PyTorch 存储对象，则返回True.
+
+
 
 | Parameters: | **obj** (_Object_) – Object to test |
 | --- | --- |
@@ -30,20 +35,20 @@ Returns True if `obj` is a PyTorch storage object.
 torch.set_default_dtype(d)
 ```
 
-Sets the default floating point dtype to `d`. This type will be used as default floating point type for type inference in [`torch.tensor()`](#torch.tensor "torch.tensor").
+将`d`设置为默认浮点类型(dtype). 该类型将在 [`torch.tensor()`](#torch.tensor "torch.tensor") 中作为类型推断的默认浮点类型。初始默认浮点类型为`torch.float32`。
 
-The default floating point dtype is initially `torch.float32`.
 
-| Parameters: | **d** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")) – the floating point dtype to make the default |
+
+| Parameters: | **d** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")) – 默认浮点类型 |
 | --- | --- |
 
 Example:
 
 ```py
->>> torch.tensor([1.2, 3]).dtype           # initial default for floating point is torch.float32
+>>> torch.tensor([1.2, 3]).dtype           # 初始默认浮点类型为 torch.float32
 torch.float32
 >>> torch.set_default_dtype(torch.float64)
->>> torch.tensor([1.2, 3]).dtype           # a new floating point tensor
+>>> torch.tensor([1.2, 3]).dtype           # 一个新的浮点类型的张量
 torch.float64
 
 ```
@@ -52,18 +57,18 @@ torch.float64
 torch.get_default_dtype() → torch.dtype
 ```
 
-Get the current default floating point [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype").
+获取当前默认浮点类型 [`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype").
 
 Example:
 
 ```py
->>> torch.get_default_dtype()  # initial default for floating point is torch.float32
+>>> torch.get_default_dtype()  # 初始的默认浮点类型是 torch.float32
 torch.float32
 >>> torch.set_default_dtype(torch.float64)
->>> torch.get_default_dtype()  # default is now changed to torch.float64
+>>> torch.get_default_dtype()  # 默认浮点类型为 torch.float64
 torch.float64
->>> torch.set_default_tensor_type(torch.FloatTensor)  # setting tensor type also affects this
->>> torch.get_default_dtype()  # changed to torch.float32, the dtype for torch.FloatTensor
+>>> torch.set_default_tensor_type(torch.FloatTensor)  # 设置默认张量类型也会影响默认浮点类型
+>>> torch.get_default_dtype()  # 变化到 torch.float32( 此类型(dtype)来自于torch.FloatTensor )
 torch.float32
 
 ```
@@ -72,20 +77,19 @@ torch.float32
 torch.set_default_tensor_type(t)
 ```
 
-Sets the default `torch.Tensor` type to floating point tensor type [`t`](#torch.t "torch.t"). This type will also be used as default floating point type for type inference in [`torch.tensor()`](#torch.tensor "torch.tensor").
+设置默认的 `torch.Tensor` 类型到浮点张量类型 [`t`](#torch.t "torch.t"). 该类型将在 [`torch.tensor()`](#torch.tensor "torch.tensor") 中作为类型推断的默认浮点类型。
+初始默认浮点张量类型为 `torch.FloatTensor`.
 
-The default floating point tensor type is initially `torch.FloatTensor`.
-
-| Parameters: | **t** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – the floating point tensor type or its name |
+| Parameters: | **t** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)") _or_ _string_) – 浮点张量的类型或者它的名称 |
 | --- | --- |
 
 Example:
 
 ```py
->>> torch.tensor([1.2, 3]).dtype    # initial default for floating point is torch.float32
+>>> torch.tensor([1.2, 3]).dtype    # 初始默认浮点类型为 torch.float32
 torch.float32
 >>> torch.set_default_tensor_type(torch.DoubleTensor)
->>> torch.tensor([1.2, 3]).dtype    # a new floating point tensor
+>>> torch.tensor([1.2, 3]).dtype    # 一个新的浮点张量
 torch.float64
 
 ```
@@ -94,7 +98,7 @@ torch.float64
 torch.numel(input) → int
 ```
 
-Returns the total number of elements in the `input` tensor.
+返回 `input` 张量中元素总数.
 
 | Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
 | --- | --- |
@@ -115,15 +119,15 @@ Example:
 torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, profile=None)
 ```
 
-Set options for printing. Items shamelessly taken from NumPy
+设置打印选项. 从 NumPy 剽窃过来的（滑稽）
 
 Parameters: 
 
-*   **precision** – Number of digits of precision for floating point output (default = 4).
-*   **threshold** – Total number of array elements which trigger summarization rather than full `repr` (default = 1000).
+*   **precision** – 浮点输出的有效位数 (默认为 4).
+*   **threshold** – 输出时的阈值，当数组元素总和超过阈值，会被截断输出 (默认为 1000).
 *   **edgeitems** – Number of array items in summary at beginning and end of each dimension (default = 3).
-*   **linewidth** – The number of characters per line for the purpose of inserting line breaks (default = 80). Thresholded matrices will ignore this parameter.
-*   **profile** – Sane defaults for pretty printing. Can override with any of the above options. (any one of `default`, `short`, `full`)
+*   **linewidth** – 每一行输出的字符长度 (默认为80). 阈值矩阵将忽略该参数.
+*   **profile** – 打印输出的美观程度 默认值为Sane. 可以用后面括号中的选项覆盖( `default`, `short`, `full`).
 
 
 
@@ -131,11 +135,11 @@ Parameters:
 torch.set_flush_denormal(mode) → bool
 ```
 
-Disables denormal floating numbers on CPU.
+CPU不支持非规格化浮点数 .
 
-Returns `True` if your system supports flushing denormal numbers and it successfully configures flush denormal mode. [`set_flush_denormal()`](#torch.set_flush_denormal "torch.set_flush_denormal") is only supported on x86 architectures supporting SSE3.
+如果你的系统支持非规格化数字模式(flush denormal mode)并且可成功配置该模式则返回 `True` . [`set_flush_denormal()`](#torch.set_flush_denormal "torch.set_flush_denormal") 可以使用在支持SSE3的x86架构.
 
-| Parameters: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Controls whether to enable flush denormal mode or not |
+| Parameters: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 是否开启  flush denormal mode |
 | --- | --- |
 
 Example:
@@ -157,28 +161,28 @@ tensor(9.88131e-324 *
 
 Note
 
-Random sampling creation ops are listed under [Random sampling](#random-sampling) and include: [`torch.rand()`](#torch.rand "torch.rand") [`torch.rand_like()`](#torch.rand_like "torch.rand_like") [`torch.randn()`](#torch.randn "torch.randn") [`torch.randn_like()`](#torch.randn_like "torch.randn_like") [`torch.randint()`](#torch.randint "torch.randint") [`torch.randint_like()`](#torch.randint_like "torch.randint_like") [`torch.randperm()`](#torch.randperm "torch.randperm") You may also use [`torch.empty()`](#torch.empty "torch.empty") with the [In-place random sampling](#inplace-random-sampling) methods to create [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") s with values sampled from a broader range of distributions.
+随机采样创造随机数的方式在 [Random sampling](#random-sampling) 列举。其中包括 [`torch.rand()`](#torch.rand "torch.rand") [`torch.rand_like()`](#torch.rand_like "torch.rand_like") [`torch.randn()`](#torch.randn "torch.randn") [`torch.randn_like()`](#torch.randn_like "torch.randn_like") [`torch.randint()`](#torch.randint "torch.randint") [`torch.randint_like()`](#torch.randint_like "torch.randint_like") [`torch.randperm()`](#torch.randperm "torch.randperm") . 你可以使用 [`torch.empty()`](#torch.empty "torch.empty") ，并使用 [In-place random sampling](#inplace-random-sampling) 方法去从更宽泛的范围采样,生成 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") .
 
 ```py
 torch.tensor(data, dtype=None, device=None, requires_grad=False) → Tensor
 ```
 
-Constructs a tensor with `data`.
+用 `data` 构建张量.
 
 Warning
 
-[`torch.tensor()`](#torch.tensor "torch.tensor") always copies `data`. If you have a Tensor `data` and want to avoid a copy, use [`torch.Tensor.requires_grad_()`](tensors.html#torch.Tensor.requires_grad_ "torch.Tensor.requires_grad_") or [`torch.Tensor.detach()`](autograd.html#torch.Tensor.detach "torch.Tensor.detach"). If you have a NumPy `ndarray` and want to avoid a copy, use [`torch.from_numpy()`](#torch.from_numpy "torch.from_numpy").
+[`torch.tensor()`](#torch.tensor "torch.tensor") 会拷贝 `data`. 如果你有一个张量( `data` )，并且想要避免拷贝, 请使用 [`torch.Tensor.requires_grad_()`](tensors.html#torch.Tensor.requires_grad_ "torch.Tensor.requires_grad_") 或者 [`torch.Tensor.detach()`](autograd.html#torch.Tensor.detach "torch.Tensor.detach"). 如果你有一个NumPy数组(`ndarray`) 并且想要避免拷贝, 请使用 [`torch.from_numpy()`](#torch.from_numpy "torch.from_numpy").
 
 Warning
 
-When data is a tensor `x`, [`torch.tensor()`](#torch.tensor "torch.tensor") reads out ‘the data’ from whatever it is passed, and constructs a leaf variable. Therefore `torch.tensor(x)` is equivalent to `x.clone().detach()` and `torch.tensor(x, requires_grad=True)` is equivalent to `x.clone().detach().requires_grad_(True)`. The equivalents using `clone()` and `detach()` are recommended.
+当 data 为一个名为 `x` 的张量， [`torch.tensor()`](#torch.tensor "torch.tensor") 读取 ‘the data’ (无论传输了什么), 都会构建一个 leaf variable(计算图模型中事先创建的、而非运算得到的变量). 因此 `torch.tensor(x)` 等价于 `x.clone().detach()` ，同时 `torch.tensor(x, requires_grad=True)` 等价于 `x.clone().detach().requires_grad_(True)`. 我们推荐这种使用 `clone()` and `detach()` 的写法.
 
 Parameters: 
 
-*   **data** (_array_like_) – Initial data for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, infers data type from `data`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **data** (_array_like_) – 初始化张量的数据. 允许的类型有 list, tuple, NumPy `ndarray`, scalar(标量), 以及其他类型.
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回的张量所要求的数据类型. 默认: 如果此参数为 `None`,从 `data`中推断数据类型.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回的张量所要求的硬件. 默认: 如果此参数为 `None`,对当前张量类型使用当前硬件(参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 可以为 提供CPU张量类型的CPU和 支持CUDA张量类型的CUDA设备.
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 对返回的张量自动求导时是否需要记录操作. 默认: `False`.
 
 
 
