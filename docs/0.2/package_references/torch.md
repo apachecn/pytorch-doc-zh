@@ -8,7 +8,7 @@ __<font size=6>torch</font>__
 
 # 张量 Tensors
 
-**torch.is_tensor**[<font size=2>[source]</font>](http://pytorch.org/docs/_modules/torch.html#is_tensor)
+**torch.is_tensor**[<font size=2>[source]</font>](https://pytorch.org/docs/_modules/torch.html#is_tensor)
 ```python 
 torch.is_tensor(obj)
 ```
@@ -17,7 +17,7 @@ torch.is_tensor(obj)
 * 参数： obj (Object) – 判断对象
 
 ***
-** torch.is_storage** [[source]](http://pytorch.org/docs/_modules/torch.html#is_storage)
+** torch.is_storage** [[source]](https://pytorch.org/docs/_modules/torch.html#is_storage)
 ```python 
 torch.is_storage(obj)
 ```
@@ -27,7 +27,7 @@ torch.is_storage(obj)
 
 ***
 
-** torch.__set_default_tensor_type__**[[source]](http://pytorch.org/docs/_modules/torch.html#set_default_tensor_type)
+** torch.__set_default_tensor_type__**[[source]](https://pytorch.org/docs/_modules/torch.html#set_default_tensor_type)
 ```python 
 torch.set_default_tensor_type(t)
 ```
@@ -38,7 +38,7 @@ torch.numel(input)->int
 ```
 返回`input` 张量中的元素个数
 
-* 参数:  input ([*Tensor*](http://pytorch.org/docs/tensors.html#torch.Tensor)) – 输入张量
+* 参数:  input ([*Tensor*](https://pytorch.org/docs/tensors.html#torch.Tensor)) – 输入张量
 
 例子:
 ```python
@@ -51,7 +51,7 @@ torch.numel(input)->int
 ```
 ***
 
-** torch.set_printoptions**[[source]](http://pytorch.org/docs/_modules/torch/_tensor_str.html#set_printoptions)
+** torch.set_printoptions**[[source]](https://pytorch.org/docs/_modules/torch/_tensor_str.html#set_printoptions)
 ```python
 torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, profile=None)
 ```
@@ -77,11 +77,11 @@ torch.eye(n, m=None, out=None)
 
 - n ([int](https://docs.python.org/2/library/functions.html#int) ) – 行数
 - m ([int](https://docs.python.org/2/library/functions.html#int), *optional*) – 列数.如果为None,则默认为*n* 
-- out  ([*Tensor*](http://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) -  Output tensor
+- out  ([*Tensor*](https://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) -  Output tensor
 
 返回值:  对角线位置全1，其它位置全0的2维张量
 
-返回值类型: [Tensor](http://pytorch.org/docs/tensors.html#torch.Tensor)
+返回值类型: [Tensor](https://pytorch.org/docs/tensors.html#torch.Tensor)
 
 例子:
 ```python
@@ -230,7 +230,7 @@ torch.rand(*sizes, out=None) → Tensor
 参数:
 
 - sizes (int...) – 整数序列，定义了输出形状
-- out ([*Tensor*](http://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) - 结果张量
+- out ([*Tensor*](https://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) - 结果张量
   例子：
 ```python
 >>> torch.rand(4)
@@ -257,7 +257,7 @@ torch.randn(*sizes, out=None) → Tensor
 参数:
 
 - sizes (int...) – 整数序列，定义了输出形状
-- out ([*Tensor*](http://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) - 结果张量
+- out ([*Tensor*](https://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) - 结果张量
 
 例子：:
 ```python
@@ -379,7 +379,7 @@ torch.zeros(*sizes, out=None) → Tensor
 参数:
 
 - sizes (int...) – 整数序列，定义了输出形状
-- out ([Tensor](http://pytorch.org/docs/tensors.html#torch.Tensor), *optional*) – 结果张量
+- out ([Tensor](https://pytorch.org/docs/tensors.html#torch.Tensor), *optional*) – 结果张量
 
 例子：
 ```python
@@ -647,7 +647,7 @@ torch.squeeze(input, dim=None, out=None)
 ```
 
 
-### torch.stack[[source]](http://pytorch.org/docs/_modules/torch/functional.html#stack)
+### torch.stack[[source]](https://pytorch.org/docs/_modules/torch/functional.html#stack)
 ```python
 torch.stack(sequence, dim=0)
 ```
@@ -976,12 +976,12 @@ torch.normal(means, std=1.0, out=None)
 ***
 
 ## 序列化 Serialization
-### torch.saves[[source]](http://pytorch.org/docs/_modules/torch/serialization.html#save)
+### torch.saves[[source]](https://pytorch.org/docs/_modules/torch/serialization.html#save)
 ```python
 torch.save(obj, f, pickle_module=<module 'pickle' from '/home/jenkins/miniconda/lib/python3.5/pickle.py'>, pickle_protocol=2)
 ```
 保存一个对象到一个硬盘文件上
-参考: [Recommended approach for saving a model](http://pytorch.org/docs/notes/serialization.html#recommend-saving-models)
+参考: [Recommended approach for saving a model](https://pytorch.org/docs/notes/serialization.html#recommend-saving-models)
 参数：
 
 - obj – 保存对象
@@ -989,7 +989,7 @@ torch.save(obj, f, pickle_module=<module 'pickle' from '/home/jenkins/miniconda/
 - pickle_module – 用于pickling元数据和对象的模块
 - pickle_protocol – 指定pickle protocal 可以覆盖默认参数
 
-### torch.load[[source]](http://pytorch.org/docs/_modules/torch/serialization.html#load)
+### torch.load[[source]](https://pytorch.org/docs/_modules/torch/serialization.html#load)
 ```python
 torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/home/jenkins/miniconda/lib/python3.5/pickle.py'>)
 ```
@@ -1054,7 +1054,7 @@ torch.acos(input, out=None) → Tensor
 参数：
 
 - input (Tensor) – 输入张量
-- out ([Tensor](http://pytorch.org/docs/tensors.html#torch.Tensor), optional) – 结果张量
+- out ([Tensor](https://pytorch.org/docs/tensors.html#torch.Tensor), optional) – 结果张量
 
 例子：
 
@@ -1650,7 +1650,7 @@ torch.FloatTensor([-1, -0, -1, 1, 0, 1])
 >>> torch.fmod(torch.Tensor([1, 2, 3, 4, 5]), 1.5)
 torch.FloatTensor([1.0, 0.5, 0.0, 1.0, 0.5])
 ```
-参考: [`torch.remainder()`](http://pytorch.org/docs/torch.html#torch.remainder), 计算逐元素余数， 相当于python 中的 % 操作符。
+参考: [`torch.remainder()`](https://pytorch.org/docs/torch.html#torch.remainder), 计算逐元素余数， 相当于python 中的 % 操作符。
 
 ### torch.frac
 ```python

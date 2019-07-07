@@ -80,7 +80,7 @@ print(z)
 
 ```
 
-可以查阅 [文档](http://pytorch.org/docs/torch.html) 获取大量可用操作的完整列表, 扩展到了非数学操作.
+可以查阅 [文档](https://pytorch.org/docs/torch.html) 获取大量可用操作的完整列表, 扩展到了非数学操作.
 
 接下来一个很有帮助的操作就是连接.
 

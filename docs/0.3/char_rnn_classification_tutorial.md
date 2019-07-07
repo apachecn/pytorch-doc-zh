@@ -133,7 +133,7 @@ print(lineToTensor('Jones').size())
 
 在autograd之前, 在Torch中创建一个循环神经网络涉及到克隆几个步骤一个图层的参数. 图层保持隐藏状态和渐变, 现在完全由图形本身处理. 这意味着您可以以非常“纯粹”的方式实现RNN, 作为常规的前馈层.
 
-这个RNN模块 (大部分都是复制 [the PyTorch for Torch users tutorial](http://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 只有2个线性层可以在输入和隐藏状态下运行, 在输出之后有一个LogSoftmax层.
+这个RNN模块 (大部分都是复制 [the PyTorch for Torch users tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 只有2个线性层可以在输入和隐藏状态下运行, 在输出之后有一个LogSoftmax层.
 
 ![](img/592fae78143370fffc1d0c7957706384.jpg)
 
