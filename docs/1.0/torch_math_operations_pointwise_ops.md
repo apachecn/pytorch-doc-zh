@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.abs(input, out=None) → Tensor
 ```
 
@@ -19,13 +19,13 @@ torch.abs(input, out=None) → Tensor
 
 例：
 
-```
+```py
 >>> torch.abs(torch.tensor([-1, -2, 3]))
 tensor([ 1,  2,  3])
 
 ```
 
-```
+```py
 torch.acos(input, out=None) → Tensor
 ```
 
@@ -40,7 +40,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.3348, -0.5889,  0.2005, -0.1584])
@@ -49,11 +49,11 @@ tensor([ 1.2294,  2.2004,  1.3690,  1.7298])
 
 ```
 
-```
+```py
 torch.add()
 ```
 
-```
+```py
 torch.add(input, value, out=None)
 ```
 
@@ -74,7 +74,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.0202,  1.0985,  1.3506, -0.6056])
@@ -83,7 +83,7 @@ tensor([ 20.0202,  21.0985,  21.3506,  19.3944])
 
 ```
 
-```
+```py
 torch.add(input, value=1, other, out=None)
 ```
 
@@ -107,7 +107,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.9732, -0.3497,  0.6245,  0.4022])
@@ -125,7 +125,7 @@ tensor([[  2.7695,   3.3930,   4.3672,   4.1450],
 
 ```
 
-```
+```py
 torch.addcdiv(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 ```
 
@@ -147,7 +147,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> t = torch.randn(1, 3)
 >>> t1 = torch.randn(3, 1)
 >>> t2 = torch.randn(1, 3)
@@ -158,7 +158,7 @@ tensor([[-0.2312, -3.6496,  0.1312],
 
 ```
 
-```
+```py
 torch.addcmul(tensor, value=1, tensor1, tensor2, out=None) → Tensor
 ```
 
@@ -180,7 +180,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> t = torch.randn(1, 3)
 >>> t1 = torch.randn(3, 1)
 >>> t2 = torch.randn(1, 3)
@@ -191,7 +191,7 @@ tensor([[-0.8635, -0.6391,  1.6174],
 
 ```
 
-```
+```py
 torch.asin(input, out=None) → Tensor
 ```
 
@@ -206,7 +206,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.5962,  1.4985, -0.4396,  1.4525])
@@ -215,7 +215,7 @@ tensor([-0.6387,     nan, -0.4552,     nan])
 
 ```
 
-```
+```py
 torch.atan(input, out=None) → Tensor
 ```
 
@@ -230,7 +230,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.2341,  0.2539, -0.6256, -0.6448])
@@ -239,7 +239,7 @@ tensor([ 0.2299,  0.2487, -0.5591, -0.5727])
 
 ```
 
-```
+```py
 torch.atan2(input1, input2, out=None) → Tensor
 ```
 
@@ -255,7 +255,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.9041,  0.0196, -0.3108, -2.4423])
@@ -264,7 +264,7 @@ tensor([ 0.9833,  0.0811, -1.9743, -1.4151])
 
 ```
 
-```
+```py
 torch.ceil(input, out=None) → Tensor
 ```
 
@@ -279,7 +279,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.6341, -1.4208, -1.0900,  0.5826])
@@ -288,7 +288,7 @@ tensor([-0., -1., -1.,  1.])
 
 ```
 
-```
+```py
 torch.clamp(input, min, max, out=None) → Tensor
 ```
 
@@ -307,7 +307,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-1.7120,  0.1734, -0.0478, -0.0922])
@@ -316,7 +316,7 @@ tensor([-0.5000,  0.1734, -0.0478, -0.0922])
 
 ```
 
-```
+```py
 torch.clamp(input, *, min, out=None) → Tensor
 ```
 
@@ -332,7 +332,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.0299, -2.3184,  2.1593, -0.8883])
@@ -341,7 +341,7 @@ tensor([ 0.5000,  0.5000,  2.1593,  0.5000])
 
 ```
 
-```
+```py
 torch.clamp(input, *, max, out=None) → Tensor
 ```
 
@@ -357,7 +357,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.7753, -0.4702, -0.4599,  1.1899])
@@ -366,7 +366,7 @@ tensor([ 0.5000, -0.4702, -0.4599,  0.5000])
 
 ```
 
-```
+```py
 torch.cos(input, out=None) → Tensor
 ```
 
@@ -381,7 +381,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 1.4309,  1.2706, -0.8562,  0.9796])
@@ -390,7 +390,7 @@ tensor([ 0.1395,  0.2957,  0.6553,  0.5574])
 
 ```
 
-```
+```py
 torch.cosh(input, out=None) → Tensor
 ```
 
@@ -405,7 +405,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.1632,  1.1835, -0.6979, -0.7325])
@@ -414,11 +414,11 @@ tensor([ 1.0133,  1.7860,  1.2536,  1.2805])
 
 ```
 
-```
+```py
 torch.div()
 ```
 
-```
+```py
 torch.div(input, value, out=None) → Tensor
 ```
 
@@ -436,7 +436,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(5)
 >>> a
 tensor([ 0.3810,  1.2774, -0.2972, -0.3719,  0.4637])
@@ -445,7 +445,7 @@ tensor([ 0.7620,  2.5548, -0.5944, -0.7439,  0.9275])
 
 ```
 
-```
+```py
 torch.div(input, other, out=None) → Tensor
 ```
 
@@ -461,7 +461,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-0.3711, -1.9353, -0.4605, -0.2917],
@@ -479,7 +479,7 @@ tensor([[-0.4620, -6.6051,  0.5676,  1.2637],
 
 ```
 
-```
+```py
 torch.digamma(input, out=None) → Tensor
 ```
 
@@ -492,14 +492,14 @@ torch.digamma(input, out=None) → Tensor
 
 Example:
 
-```
+```py
 >>> a = torch.tensor([1, 0.5])
 >>> torch.digamma(a)
 tensor([-0.5772, -1.9635])
 
 ```
 
-```
+```py
 torch.erf(tensor, out=None) → Tensor
 ```
 
@@ -514,13 +514,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.erf(torch.tensor([0, -1., 10.]))
 tensor([ 0.0000, -0.8427,  1.0000])
 
 ```
 
-```
+```py
 torch.erfc(input, out=None) → Tensor
 ```
 
@@ -535,13 +535,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.erfc(torch.tensor([0, -1., 10.]))
 tensor([ 1.0000, 1.8427,  0.0000])
 
 ```
 
-```
+```py
 torch.erfinv(input, out=None) → Tensor
 ```
 
@@ -556,13 +556,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.erfinv(torch.tensor([0, 0.5, -1.]))
 tensor([ 0.0000,  0.4769,    -inf])
 
 ```
 
-```
+```py
 torch.exp(input, out=None) → Tensor
 ```
 
@@ -577,13 +577,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.exp(torch.tensor([0, math.log(2.)]))
 tensor([ 1.,  2.])
 
 ```
 
-```
+```py
 torch.expm1(input, out=None) → Tensor
 ```
 
@@ -598,13 +598,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.expm1(torch.tensor([0, math.log(2.)]))
 tensor([ 0.,  1.])
 
 ```
 
-```
+```py
 torch.floor(input, out=None) → Tensor
 ```
 
@@ -619,7 +619,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.8166,  1.5308, -0.2530, -0.2091])
@@ -628,7 +628,7 @@ tensor([-1.,  1., -1., -1.])
 
 ```
 
-```
+```py
 torch.fmod(input, divisor, out=None) → Tensor
 ```
 
@@ -646,7 +646,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.fmod(torch.tensor([-3., -2, -1, 1, 2, 3]), 2)
 tensor([-1., -0., -1.,  1.,  0.,  1.])
 >>> torch.fmod(torch.tensor([1., 2, 3, 4, 5]), 1.5)
@@ -654,7 +654,7 @@ tensor([ 1.0000,  0.5000,  0.0000,  1.0000,  0.5000])
 
 ```
 
-```
+```py
 torch.frac(input, out=None) → Tensor
 ```
 
@@ -664,13 +664,13 @@ torch.frac(input, out=None) → Tensor
 
 Example:
 
-```
+```py
 >>> torch.frac(torch.tensor([1, 2.5, -3.2]))
 tensor([ 0.0000,  0.5000, -0.2000])
 
 ```
 
-```
+```py
 torch.lerp(start, end, weight, out=None)
 ```
 
@@ -689,7 +689,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> start = torch.arange(1., 5.)
 >>> end = torch.empty(4).fill_(10)
 >>> start
@@ -701,7 +701,7 @@ tensor([ 5.5000,  6.0000,  6.5000,  7.0000])
 
 ```
 
-```
+```py
 torch.log(input, out=None) → Tensor
 ```
 
@@ -716,7 +716,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(5)
 >>> a
 tensor([-0.7168, -0.5471, -0.8933, -1.4428, -0.1190])
@@ -725,7 +725,7 @@ tensor([ nan,  nan,  nan,  nan,  nan])
 
 ```
 
-```
+```py
 torch.log10(input, out=None) → Tensor
 ```
 
@@ -740,7 +740,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.rand(5)
 >>> a
 tensor([ 0.5224,  0.9354,  0.7257,  0.1301,  0.2251])
@@ -750,7 +750,7 @@ tensor([-0.2820, -0.0290, -0.1392, -0.8857, -0.6476])
 
 ```
 
-```
+```py
 torch.log1p(input, out=None) → Tensor
 ```
 
@@ -769,7 +769,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(5)
 >>> a
 tensor([-1.0090, -0.9923,  1.0249, -0.5372,  0.2492])
@@ -778,7 +778,7 @@ tensor([    nan, -4.8653,  0.7055, -0.7705,  0.2225])
 
 ```
 
-```
+```py
 torch.log2(input, out=None) → Tensor
 ```
 
@@ -793,7 +793,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.rand(5)
 >>> a
 tensor([ 0.8419,  0.8003,  0.9971,  0.5287,  0.0490])
@@ -803,11 +803,11 @@ tensor([-0.2483, -0.3213, -0.0042, -0.9196, -4.3504])
 
 ```
 
-```
+```py
 torch.mul()
 ```
 
-```
+```py
 torch.mul(input, value, out=None)
 ```
 
@@ -825,7 +825,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3)
 >>> a
 tensor([ 0.2015, -0.4255,  2.6087])
@@ -834,7 +834,7 @@ tensor([  20.1494,  -42.5491,  260.8663])
 
 ```
 
-```
+```py
 torch.mul(input, other, out=None)
 ```
 
@@ -852,7 +852,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4, 1)
 >>> a
 tensor([[ 1.1207],
@@ -870,7 +870,7 @@ tensor([[ 0.5767,  0.1363, -0.5877,  2.5083],
 
 ```
 
-```
+```py
 torch.mvlgamma(input, p) → Tensor
 ```
 
@@ -889,7 +889,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.empty(2, 3).uniform_(1, 2)
 >>> a
 tensor([[1.6835, 1.8474, 1.1929],
@@ -900,7 +900,7 @@ tensor([[0.3928, 0.4007, 0.7586],
 
 ```
 
-```
+```py
 torch.neg(input, out=None) → Tensor
 ```
 
@@ -915,7 +915,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(5)
 >>> a
 tensor([ 0.0090, -0.2262, -0.0682, -0.2866,  0.3940])
@@ -924,11 +924,11 @@ tensor([-0.0090,  0.2262,  0.0682,  0.2866, -0.3940])
 
 ```
 
-```
+```py
 torch.pow()
 ```
 
-```
+```py
 torch.pow(input, exponent, out=None) → Tensor
 ```
 
@@ -954,7 +954,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.4331,  1.2475,  0.6834, -0.2791])
@@ -972,7 +972,7 @@ tensor([   1.,    4.,   27.,  256.])
 
 ```
 
-```
+```py
 torch.pow(base, input, out=None) → Tensor
 ```
 
@@ -990,7 +990,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> exp = torch.arange(1., 5.)
 >>> base = 2
 >>> torch.pow(base, exp)
@@ -998,7 +998,7 @@ tensor([  2.,   4.,   8.,  16.])
 
 ```
 
-```
+```py
 torch.reciprocal(input, out=None) → Tensor
 ```
 
@@ -1013,7 +1013,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.4595, -2.1219, -1.4314,  0.7298])
@@ -1022,7 +1022,7 @@ tensor([-2.1763, -0.4713, -0.6986,  1.3702])
 
 ```
 
-```
+```py
 torch.remainder(input, divisor, out=None) → Tensor
 ```
 
@@ -1040,7 +1040,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.remainder(torch.tensor([-3., -2, -1, 1, 2, 3]), 2)
 tensor([ 1.,  0.,  1.,  1.,  0.,  1.])
 >>> torch.remainder(torch.tensor([1., 2, 3, 4, 5]), 1.5)
@@ -1052,7 +1052,7 @@ tensor([ 1.0000,  0.5000,  0.0000,  1.0000,  0.5000])
 
 [`torch.fmod()`](#torch.fmod "torch.fmod") ，它计算与C库函数`fmod()`等效的除法的元素余数。
 
-```
+```py
 torch.round(input, out=None) → Tensor
 ```
 
@@ -1065,7 +1065,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.9920,  0.6077,  0.9734, -1.0362])
@@ -1074,7 +1074,7 @@ tensor([ 1.,  1.,  1., -1.])
 
 ```
 
-```
+```py
 torch.rsqrt(input, out=None) → Tensor
 ```
 
@@ -1089,7 +1089,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.0370,  0.2970,  1.5420, -0.9105])
@@ -1098,7 +1098,7 @@ tensor([    nan,  1.8351,  0.8053,     nan])
 
 ```
 
-```
+```py
 torch.sigmoid(input, out=None) → Tensor
 ```
 
@@ -1113,7 +1113,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.9213,  1.0887, -0.8858, -1.7683])
@@ -1122,7 +1122,7 @@ tensor([ 0.7153,  0.7481,  0.2920,  0.1458])
 
 ```
 
-```
+```py
 torch.sign(input, out=None) → Tensor
 ```
 
@@ -1135,7 +1135,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.tensor([0.7, -1.2, 0., 2.3])
 >>> a
 tensor([ 0.7000, -1.2000,  0.0000,  2.3000])
@@ -1144,7 +1144,7 @@ tensor([ 1., -1.,  0.,  1.])
 
 ```
 
-```
+```py
 torch.sin(input, out=None) → Tensor
 ```
 
@@ -1159,7 +1159,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-0.5461,  0.1347, -2.7266, -0.2746])
@@ -1168,7 +1168,7 @@ tensor([-0.5194,  0.1343, -0.4032, -0.2711])
 
 ```
 
-```
+```py
 torch.sinh(input, out=None) → Tensor
 ```
 
@@ -1183,7 +1183,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.5380, -0.8632, -0.1265,  0.9399])
@@ -1192,7 +1192,7 @@ tensor([ 0.5644, -0.9744, -0.1268,  1.0845])
 
 ```
 
-```
+```py
 torch.sqrt(input, out=None) → Tensor
 ```
 
@@ -1207,7 +1207,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-2.0755,  1.0226,  0.0831,  0.4806])
@@ -1216,7 +1216,7 @@ tensor([    nan,  1.0112,  0.2883,  0.6933])
 
 ```
 
-```
+```py
 torch.tan(input, out=None) → Tensor
 ```
 
@@ -1231,7 +1231,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([-1.2027, -1.7687,  0.4412, -1.3856])
@@ -1240,7 +1240,7 @@ tensor([-2.5930,  4.9859,  0.4722, -5.3366])
 
 ```
 
-```
+```py
 torch.tanh(input, out=None) → Tensor
 ```
 
@@ -1255,7 +1255,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.8986, -0.7279,  1.1745,  0.2611])
@@ -1264,7 +1264,7 @@ tensor([ 0.7156, -0.6218,  0.8257,  0.2553])
 
 ```
 
-```
+```py
 torch.trunc(input, out=None) → Tensor
 ```
 
@@ -1277,7 +1277,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 3.4742,  0.5466, -0.8008, -0.9079])

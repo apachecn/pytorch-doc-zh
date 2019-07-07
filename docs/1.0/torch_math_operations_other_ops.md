@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.bincount(self, weights=None, minlength=0) → Tensor
 ```
 
@@ -28,7 +28,7 @@ torch.bincount(self, weights=None, minlength=0) → Tensor
 
 例：
 
-```
+```py
 >>> input = torch.randint(0, 8, (5,), dtype=torch.int64)
 >>> weights = torch.linspace(0, 1, steps=5)
 >>> input, weights
@@ -43,7 +43,7 @@ tensor([0.0000, 0.0000, 0.0000, 1.0000, 1.0000, 0.0000, 0.5000])
 
 ```
 
-```
+```py
 torch.broadcast_tensors(*tensors) → List of Tensors
 ```
 
@@ -54,7 +54,7 @@ torch.broadcast_tensors(*tensors) → List of Tensors
 
 Example:
 
-```
+```py
 >>> x = torch.arange(3).view(1, 3)
 >>> y = torch.arange(2).view(2, 1)
 >>> a, b = torch.broadcast_tensors(x, y)
@@ -66,7 +66,7 @@ tensor([[0, 1, 2],
 
 ```
 
-```
+```py
 torch.cross(input, other, dim=-1, out=None) → Tensor
 ```
 
@@ -85,7 +85,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4, 3)
 >>> a
 tensor([[-0.3956,  1.1455,  1.6895],
@@ -111,7 +111,7 @@ tensor([[ 1.0844, -0.5281,  0.6120],
 
 ```
 
-```
+```py
 torch.diag(input, diagonal=0, out=None) → Tensor
 ```
 
@@ -140,7 +140,7 @@ Parameters:
 
 获取输入向量为对角线的方阵：
 
-```
+```py
 >>> a = torch.randn(3)
 >>> a
 tensor([ 0.5950,-0.0872, 2.3298])
@@ -158,7 +158,7 @@ tensor([[ 0.0000, 0.5950, 0.0000, 0.0000],
 
 获取给定矩阵的第k个对角线：
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a
 tensor([[-0.4264, 0.0255,-0.1064],
@@ -171,7 +171,7 @@ tensor([ 0.0255, 0.1374])
 
 ```
 
-```
+```py
 torch.diag_embed(input, offset=0, dim1=-2, dim2=-1) → Tensor
 ```
 
@@ -196,7 +196,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(2, 3)
 >>> torch.diag_embed(a)
 tensor([[[ 1.5410,  0.0000,  0.0000],
@@ -222,7 +222,7 @@ tensor([[[ 0.0000,  1.5410,  0.0000,  0.0000],
 
 ```
 
-```
+```py
 torch.diagflat(input, diagonal=0) → Tensor
 ```
 
@@ -242,7 +242,7 @@ Parameters:
 
 Examples:
 
-```
+```py
 >>> a = torch.randn(3)
 >>> a
 tensor([-0.2956, -0.9068,  0.1695])
@@ -268,7 +268,7 @@ tensor([[ 0.2094,  0.0000,  0.0000,  0.0000],
 
 ```
 
-```
+```py
 torch.diagonal(input, offset=0, dim1=0, dim2=1) → Tensor
 ```
 
@@ -295,7 +295,7 @@ Note
 
 Examples:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a
 tensor([[-1.0854,  1.1431, -0.1752],
@@ -318,7 +318,7 @@ tensor([[[-1.2631,  0.3755, -1.5977, -1.8172],
 
 ```
 
-```
+```py
 torch.einsum(equation, *operands) → Tensor
 ```
 
@@ -331,7 +331,7 @@ Parameters:
 
 Examples:
 
-```
+```py
 >>> x = torch.randn(5)
 >>> y = torch.randn(4)
 >>> torch.einsum('i,j->ij', x, y)  # outer product
@@ -377,7 +377,7 @@ torch.Size([2, 3, 5, 4])
 
 ```
 
-```
+```py
 torch.flatten(input, start_dim=0, end_dim=-1) → Tensor
 ```
 
@@ -391,7 +391,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> t = torch.tensor([[[1, 2],
  [3, 4]],
  [[5, 6],
@@ -404,7 +404,7 @@ tensor([[1, 2, 3, 4],
 
 ```
 
-```
+```py
 torch.flip(input, dims) → Tensor
 ```
 
@@ -417,7 +417,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.arange(8).view(2, 2, 2)
 >>> x
 tensor([[[ 0,  1],
@@ -434,7 +434,7 @@ tensor([[[ 6,  7],
 
 ```
 
-```
+```py
 torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 ```
 
@@ -456,25 +456,25 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.histc(torch.tensor([1., 2, 1]), bins=4, min=0, max=3)
 tensor([ 0.,  2.,  1.,  0.])
 
 ```
 
-```
+```py
 torch.meshgrid(*tensors, **kwargs)
 ```
 
 取 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 张量，每个张量可以是标量或1维向量，并创建 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) N维网格，其中：math：[`](#id2)i`通过扩展：math：[`](#id4)i` th输入定义由其他输入定义的维度来定义网格。
 
-> ```
+> ```py
 > Args:
 > ```
 > 
 > 张量（Tensor列表）：标量列表或1维张量。标量将被自动视为大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/e800eead21f1007b4005a268169586f7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/e800eead21f1007b4005a268169586f7.jpg) 的张量
 > 
-> ```
+> ```py
 > Returns:
 > ```
 > 
@@ -482,7 +482,7 @@ torch.meshgrid(*tensors, **kwargs)
 > 
 > Example:
 > 
-> ```
+> ```py
 > &gt;&gt;&gt; x = torch.tensor([1, 2, 3])
 > &gt;&gt;&gt; y = torch.tensor([4, 5, 6])
 > &gt;&gt;&gt; grid_x, grid_y = torch.meshgrid(x, y)
@@ -497,7 +497,7 @@ torch.meshgrid(*tensors, **kwargs)
 > 
 > ```
 
-```
+```py
 torch.renorm(input, p, dim, maxnorm, out=None) → Tensor
 ```
 
@@ -517,7 +517,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.ones(3, 3)
 >>> x[1].fill_(2)
 tensor([ 2.,  2.,  2.])
@@ -534,7 +534,7 @@ tensor([[ 1.0000,  1.0000,  1.0000],
 
 ```
 
-```
+```py
 torch.tensordot(a, b, dims=2)
 ```
 
@@ -556,7 +556,7 @@ Parameters:
 
 Examples:
 
-```
+```py
 >>> a = torch.arange(60.).reshape(3, 4, 5)
 >>> b = torch.arange(24.).reshape(4, 3, 2)
 >>> torch.tensordot(a, b, dims=([1, 0], [0, 1]))
@@ -575,7 +575,7 @@ tensor([[ 8.3504, -2.5436,  6.2922,  2.7556, -1.0732,  3.2741],
 
 ```
 
-```
+```py
 torch.trace(input) → Tensor
 ```
 
@@ -583,7 +583,7 @@ torch.trace(input) → Tensor
 
 Example:
 
-```
+```py
 >>> x = torch.arange(1., 10.).view(3, 3)
 >>> x
 tensor([[ 1.,  2.,  3.],
@@ -594,7 +594,7 @@ tensor(15.)
 
 ```
 
-```
+```py
 torch.tril(input, diagonal=0, out=None) → Tensor
 ```
 
@@ -612,7 +612,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a
 tensor([[-1.0813, -0.8619,  0.7105],
@@ -642,7 +642,7 @@ tensor([[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 
 ```
 
-```
+```py
 torch.triu(input, diagonal=0, out=None) → Tensor
 ```
 
@@ -660,7 +660,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a
 tensor([[ 0.2309,  0.5207,  2.0049],

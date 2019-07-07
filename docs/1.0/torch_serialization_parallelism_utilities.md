@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>, pickle_protocol=2)
 ```
 
@@ -27,7 +27,7 @@ torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release
 
 例
 
-```
+```py
 >>> # Save to file
 >>> x = torch.tensor([0, 1, 2, 3, 4])
 >>> torch.save(x, 'tensor.pt')
@@ -37,7 +37,7 @@ torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release
 
 ```
 
-```
+```py
 torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>)
 ```
 
@@ -65,7 +65,7 @@ Parameters:
 
 Example
 
-```
+```py
 >>> torch.load('tensors.pt')
 # Load all tensors onto the CPU
 >>> torch.load('tensors.pt', map_location=torch.device('cpu'))
@@ -84,13 +84,13 @@ Example
 
 ## 排比
 
-```
+```py
 torch.get_num_threads() → int
 ```
 
 获取用于并行化CPU操作的OpenMP线程数
 
-```
+```py
 torch.set_num_threads(int)
 ```
 
@@ -102,7 +102,7 @@ torch.set_num_threads(int)
 
 例子：
 
-```
+```py
 >>> x = torch.zeros(1, requires_grad=True)
 >>> with torch.no_grad():
 ...     y = x * 2
@@ -129,7 +129,7 @@ False
 
 ## 公用事业
 
-```
+```py
 torch.compiled_with_cxx11_abi()
 ```
 

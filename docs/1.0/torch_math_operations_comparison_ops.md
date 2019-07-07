@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.allclose(self, other, rtol=1e-05, atol=1e-08, equal_nan=False) → bool
 ```
 
@@ -24,7 +24,7 @@ torch.allclose(self, other, rtol=1e-05, atol=1e-08, equal_nan=False) → bool
 
 例：
 
-```
+```py
 >>> torch.allclose(torch.tensor([10000., 1e-07]), torch.tensor([10000.1, 1e-08]))
 False
 >>> torch.allclose(torch.tensor([10000., 1e-08]), torch.tensor([10000.1, 1e-09]))
@@ -36,7 +36,7 @@ True
 
 ```
 
-```
+```py
 torch.argsort(input, dim=None, descending=False)
 ```
 
@@ -52,7 +52,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 0.0785,  1.5267, -0.8521,  0.4065],
@@ -68,7 +68,7 @@ tensor([[2, 0, 3, 1],
 
 ```
 
-```
+```py
 torch.eq(input, other, out=None) → Tensor
 ```
 
@@ -88,14 +88,14 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.eq(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 1,  0],
  [ 0,  1]], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.equal(tensor1, tensor2) → bool
 ```
 
@@ -103,13 +103,13 @@ torch.equal(tensor1, tensor2) → bool
 
 Example:
 
-```
+```py
 >>> torch.equal(torch.tensor([1, 2]), torch.tensor([1, 2]))
 True
 
 ```
 
-```
+```py
 torch.ge(input, other, out=None) → Tensor
 ```
 
@@ -129,14 +129,14 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.ge(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 1,  1],
  [ 0,  1]], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.gt(input, other, out=None) → Tensor
 ```
 
@@ -156,14 +156,14 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.gt(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 0,  1],
  [ 0,  0]], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.isfinite(tensor)
 ```
 
@@ -176,13 +176,13 @@ torch.isfinite(tensor)
 
 Example:
 
-```
+```py
 >>> torch.isfinite(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
 tensor([ 1,  0,  1,  0,  0], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.isinf(tensor)
 ```
 
@@ -195,13 +195,13 @@ torch.isinf(tensor)
 
 Example:
 
-```
+```py
 >>> torch.isinf(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
 tensor([ 0,  1,  0,  1,  0], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.isnan(tensor)
 ```
 
@@ -214,13 +214,13 @@ torch.isnan(tensor)
 
 Example:
 
-```
+```py
 >>> torch.isnan(torch.tensor([1, float('nan'), 2]))
 tensor([ 0,  1,  0], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
@@ -242,7 +242,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.arange(1., 6.)
 >>> x
 tensor([ 1.,  2.,  3.,  4.,  5.])
@@ -258,7 +258,7 @@ tensor([[ 1.,  2.,  3.],
 
 ```
 
-```
+```py
 torch.le(input, other, out=None) → Tensor
 ```
 
@@ -278,14 +278,14 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.le(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 1,  0],
  [ 1,  1]], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.lt(input, other, out=None) → Tensor
 ```
 
@@ -305,18 +305,18 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.lt(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 0,  0],
  [ 1,  0]], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.max()
 ```
 
-```
+```py
 torch.max(input) → Tensor
 ```
 
@@ -327,7 +327,7 @@ torch.max(input) → Tensor
 
 Example:
 
-```
+```py
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 0.6763,  0.7445, -2.2369]])
@@ -336,7 +336,7 @@ tensor(0.7445)
 
 ```
 
-```
+```py
 torch.max(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
@@ -353,7 +353,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-1.2360, -0.2942, -0.1222,  0.8475],
@@ -365,7 +365,7 @@ tensor([[-1.2360, -0.2942, -0.1222,  0.8475],
 
 ```
 
-```
+```py
 torch.max(input, other, out=None) → Tensor
 ```
 
@@ -387,7 +387,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.2942, -0.7416,  0.2653, -0.1584])
@@ -399,11 +399,11 @@ tensor([ 0.8722, -0.7416,  0.2653, -0.1584])
 
 ```
 
-```
+```py
 torch.min()
 ```
 
-```
+```py
 torch.min(input) → Tensor
 ```
 
@@ -414,7 +414,7 @@ torch.min(input) → Tensor
 
 Example:
 
-```
+```py
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 0.6750,  1.0857,  1.7197]])
@@ -423,7 +423,7 @@ tensor(0.6750)
 
 ```
 
-```
+```py
 torch.min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
@@ -440,7 +440,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-0.6248,  1.1334, -1.1899, -0.2803],
@@ -452,7 +452,7 @@ tensor([[-0.6248,  1.1334, -1.1899, -0.2803],
 
 ```
 
-```
+```py
 torch.min(input, other, out=None) → Tensor
 ```
 
@@ -474,7 +474,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.8137, -1.1740, -0.6460,  0.6308])
@@ -486,7 +486,7 @@ tensor([-0.1369, -1.1740, -0.6460, -0.1929])
 
 ```
 
-```
+```py
 torch.ne(input, other, out=None) → Tensor
 ```
 
@@ -506,14 +506,14 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.ne(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 0,  1],
  [ 1,  0]], dtype=torch.uint8)
 
 ```
 
-```
+```py
 torch.sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 ```
 
@@ -534,7 +534,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.randn(3, 4)
 >>> sorted, indices = torch.sort(x)
 >>> sorted
@@ -558,7 +558,7 @@ tensor([[ 2,  0,  0,  1],
 
 ```
 
-```
+```py
 torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTensor)
 ```
 
@@ -583,7 +583,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.arange(1., 6.)
 >>> x
 tensor([ 1.,  2.,  3.,  4.,  5.])

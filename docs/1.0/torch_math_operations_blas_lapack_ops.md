@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```
 
@@ -29,7 +29,7 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 例：
 
-```
+```py
 >>> M = torch.randn(3, 5)
 >>> batch1 = torch.randn(10, 3, 4)
 >>> batch2 = torch.randn(10, 4, 5)
@@ -40,7 +40,7 @@ tensor([[  6.6311,   0.0503,   6.9768, -12.0362,  -2.1653],
 
 ```
 
-```
+```py
 torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 ```
 
@@ -65,7 +65,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> M = torch.randn(2, 3)
 >>> mat1 = torch.randn(2, 3)
 >>> mat2 = torch.randn(3, 3)
@@ -75,7 +75,7 @@ tensor([[-4.8716,  1.4671, -1.3746],
 
 ```
 
-```
+```py
 torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 ```
 
@@ -100,7 +100,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> M = torch.randn(2)
 >>> mat = torch.randn(2, 3)
 >>> vec = torch.randn(3)
@@ -109,7 +109,7 @@ tensor([-0.3768, -5.5565])
 
 ```
 
-```
+```py
 torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 ```
 
@@ -134,7 +134,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> vec1 = torch.arange(1., 4.)
 >>> vec2 = torch.arange(1., 3.)
 >>> M = torch.zeros(3, 2)
@@ -145,7 +145,7 @@ tensor([[ 1.,  2.],
 
 ```
 
-```
+```py
 torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```
 
@@ -170,7 +170,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> M = torch.randn(10, 3, 5)
 >>> batch1 = torch.randn(10, 3, 4)
 >>> batch2 = torch.randn(10, 4, 5)
@@ -179,7 +179,7 @@ torch.Size([10, 3, 5])
 
 ```
 
-```
+```py
 torch.bmm(batch1, batch2, out=None) → Tensor
 ```
 
@@ -203,7 +203,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> batch1 = torch.randn(10, 3, 4)
 >>> batch2 = torch.randn(10, 4, 5)
 >>> res = torch.bmm(batch1, batch2)
@@ -212,7 +212,7 @@ torch.Size([10, 3, 5])
 
 ```
 
-```
+```py
 torch.btrifact(A, info=None, pivot=True)
 ```
 
@@ -237,7 +237,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> A = torch.randn(2, 3, 3)
 >>> A_LU, pivots = torch.btrifact(A)
 >>> A_LU
@@ -255,7 +255,7 @@ tensor([[ 3,  3,  3],
 
 ```
 
-```
+```py
 torch.btrifact_with_info(A, pivot=True) -> (Tensor, IntTensor, IntTensor)
 ```
 
@@ -273,7 +273,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> A = torch.randn(2, 3, 3)
 >>> A_LU, pivots, info = A.btrifact_with_info()
 >>> if info.nonzero().size(0) == 0:
@@ -282,7 +282,7 @@ LU factorization succeeded for all samples!
 
 ```
 
-```
+```py
 torch.btrisolve(b, LU_data, LU_pivots) → Tensor
 ```
 
@@ -298,7 +298,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> A = torch.randn(2, 3, 3)
 >>> b = torch.randn(2, 3)
 >>> A_LU = torch.btrifact(A)
@@ -309,7 +309,7 @@ tensor(1.00000e-07 *
 
 ```
 
-```
+```py
 torch.btriunpack(LU_data, LU_pivots, unpack_data=True, unpack_pivots=True)
 ```
 
@@ -326,7 +326,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> A = torch.randn(2, 3, 3)
 >>> A_LU, pivots = A.btrifact()
 >>> P, A_L, A_U = torch.btriunpack(A_LU, pivots)
@@ -336,7 +336,7 @@ Example:
 
 ```
 
-```
+```py
 torch.chain_matmul(*matrices)
 ```
 
@@ -349,7 +349,7 @@ torch.chain_matmul(*matrices)
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 4)
 >>> b = torch.randn(4, 5)
 >>> c = torch.randn(5, 6)
@@ -361,7 +361,7 @@ tensor([[ -2.3375,  -3.9790,  -4.1119,  -6.6577,   9.5609, -11.5095,  -3.2614],
 
 ```
 
-```
+```py
 torch.cholesky(A, upper=False, out=None) → Tensor
 ```
 
@@ -385,7 +385,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a = torch.mm(a, a.t()) # make symmetric positive-definite
 >>> l = torch.cholesky(a)
@@ -410,7 +410,7 @@ tensor(2.3842e-07)
 
 ```
 
-```
+```py
 torch.dot(tensor1, tensor2) → Tensor
 ```
 
@@ -422,13 +422,13 @@ Note
 
 Example:
 
-```
+```py
 >>> torch.dot(torch.tensor([2, 3]), torch.tensor([2, 1]))
 tensor(7)
 
 ```
 
-```
+```py
 torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 ```
 
@@ -447,7 +447,7 @@ Parameters:
 | 返回类型： | （ [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ， [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） |
 | --- | --- |
 
-```
+```py
 torch.gels(B, A, out=None) → Tensor
 ```
 
@@ -482,7 +482,7 @@ Note
 
 Example:
 
-```
+```py
 >>> A = torch.tensor([[1., 1, 1],
  [2, 3, 4],
  [3, 5, 2],
@@ -503,7 +503,7 @@ tensor([[  2.0000,   1.0000],
 
 ```
 
-```
+```py
 torch.geqrf(input, out=None) -> (Tensor, Tensor)
 ```
 
@@ -522,7 +522,7 @@ Parameters:
 *   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入矩阵
 *   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 输出元组（Tensor，Tensor）
 
-```
+```py
 torch.ger(vec1, vec2, out=None) → Tensor
 ```
 
@@ -540,7 +540,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> v1 = torch.arange(1., 5.)
 >>> v2 = torch.arange(1., 4.)
 >>> torch.ger(v1, v2)
@@ -551,7 +551,7 @@ tensor([[  1.,   2.,   3.],
 
 ```
 
-```
+```py
 torch.gesv(B, A) -> (Tensor, Tensor)
 ```
 
@@ -577,7 +577,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> A = torch.tensor([[6.80, -2.11,  5.66,  5.97,  8.23],
  [-6.05, -3.30,  5.36, -4.44,  1.08],
  [-0.45,  2.58, -2.70,  0.27,  9.04],
@@ -601,7 +601,7 @@ tensor(1.00000e-06 *
 
 ```
 
-```
+```py
 torch.inverse(input, out=None) → Tensor
 ```
 
@@ -618,7 +618,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.rand(4, 4)
 >>> y = torch.inverse(x)
 >>> z = torch.mm(x, y)
@@ -638,7 +638,7 @@ tensor(1.9073e-06)
 
 ```
 
-```
+```py
 torch.det(A) → Tensor
 ```
 
@@ -653,14 +653,14 @@ Note
 
 Example:
 
-```
+```py
 >>> A = torch.randn(3, 3)
 >>> torch.det(A)
 tensor(3.7641)
 
 ```
 
-```
+```py
 torch.logdet(A) → Tensor
 ```
 
@@ -679,7 +679,7 @@ Note
 
 Example:
 
-```
+```py
 >>> A = torch.randn(3, 3)
 >>> torch.det(A)
 tensor(0.2611)
@@ -688,7 +688,7 @@ tensor(-1.3430)
 
 ```
 
-```
+```py
 torch.slogdet(A) -> (Tensor, Tensor)
 ```
 
@@ -708,7 +708,7 @@ Note
 
 Example:
 
-```
+```py
 >>> A = torch.randn(3, 3)
 >>> torch.det(A)
 tensor(-4.8215)
@@ -719,7 +719,7 @@ tensor(nan)
 
 ```
 
-```
+```py
 torch.matmul(tensor1, tensor2, out=None) → Tensor
 ```
 
@@ -745,7 +745,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> # vector x vector
 >>> tensor1 = torch.randn(3)
 >>> tensor2 = torch.randn(3)
@@ -774,7 +774,7 @@ torch.Size([10, 3, 5])
 
 ```
 
-```
+```py
 torch.matrix_power(input, n) → Tensor
 ```
 
@@ -789,7 +789,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(2, 2, 2)
 >>> a
 tensor([[[-1.9975, -1.9610],
@@ -806,7 +806,7 @@ tensor([[[  3.9392, -23.9916],
 
 ```
 
-```
+```py
 torch.matrix_rank(input, tol=None, bool symmetric=False) → Tensor
 ```
 
@@ -822,7 +822,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.eye(10)
 >>> torch.matrix_rank(a)
 tensor(10)
@@ -833,7 +833,7 @@ tensor(9)
 
 ```
 
-```
+```py
 torch.mm(mat1, mat2, out=None) → Tensor
 ```
 
@@ -853,7 +853,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> mat1 = torch.randn(2, 3)
 >>> mat2 = torch.randn(3, 3)
 >>> torch.mm(mat1, mat2)
@@ -862,7 +862,7 @@ tensor([[ 0.4851,  0.5037, -0.3633],
 
 ```
 
-```
+```py
 torch.mv(mat, vec, out=None) → Tensor
 ```
 
@@ -882,7 +882,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> mat = torch.randn(2, 3)
 >>> vec = torch.randn(3)
 >>> torch.mv(mat, vec)
@@ -890,7 +890,7 @@ tensor([ 1.0404, -0.6361])
 
 ```
 
-```
+```py
 torch.orgqr(a, tau) → Tensor
 ```
 
@@ -903,7 +903,7 @@ Parameters:
 *   **a** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`a`。
 *   **tau** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`tau`。
 
-```
+```py
 torch.ormqr(a, tau, mat, left=True, transpose=False) -> (Tensor, Tensor)
 ```
 
@@ -917,7 +917,7 @@ Parameters:
 *   **tau** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`tau`。
 *   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的矩阵。
 
-```
+```py
 torch.pinverse(input, rcond=1e-15) → Tensor
 ```
 
@@ -941,7 +941,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> input = torch.randn(3, 5)
 >>> input
 tensor([[ 0.5495,  0.0979, -1.4092, -0.1128,  0.4132],
@@ -956,7 +956,7 @@ tensor([[ 0.0600, -0.1933, -0.2090],
 
 ```
 
-```
+```py
 torch.potrf(a, upper=True, out=None)
 ```
 
@@ -968,7 +968,7 @@ Warning
 
 torch.potrf不赞成使用torch.cholesky，将在下一个版本中删除。请改用torch.cholesky并注意torch.cholesky中的`upper`参数默认为`False`。
 
-```
+```py
 torch.potri(u, upper=True, out=None) → Tensor
 ```
 
@@ -990,7 +990,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a = torch.mm(a, a.t()) # make symmetric positive definite
 >>> u = torch.cholesky(a)
@@ -1009,7 +1009,7 @@ tensor([[ 1.9314,  1.2251, -0.0889],
 
 ```
 
-```
+```py
 torch.potrs(b, u, upper=True, out=None) → Tensor
 ```
 
@@ -1038,7 +1038,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a = torch.mm(a, a.t()) # make symmetric positive definite
 >>> u = torch.cholesky(a)
@@ -1062,7 +1062,7 @@ tensor([[ -8.1626,  19.6097],
 
 ```
 
-```
+```py
 torch.pstrf(a, upper=True, out=None) -> (Tensor, Tensor)
 ```
 
@@ -1080,7 +1080,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.randn(3, 3)
 >>> a = torch.mm(a, a.t()) # make symmetric positive definite
 >>> a
@@ -1102,7 +1102,7 @@ tensor([[ 3.5405, -0.4577,  0.8342],
 
 ```
 
-```
+```py
 torch.qr(input, out=None) -> (Tensor, Tensor)
 ```
 
@@ -1129,7 +1129,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.tensor([[12., -51, 4], [6, 167, -68], [-4, 24, -41]])
 >>> q, r = torch.qr(a)
 >>> q
@@ -1151,7 +1151,7 @@ tensor([[ 1.,  0.,  0.],
 
 ```
 
-```
+```py
 torch.svd(input, some=True, compute_uv=True, out=None) -> (Tensor, Tensor, Tensor)
 ```
 
@@ -1195,7 +1195,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> a = torch.tensor([[8.79,  6.11, -9.15,  9.57, -3.49,  9.84],
  [9.93,  6.91, -7.93,  1.64,  4.02,  0.15],
  [9.83,  5.04,  4.86,  8.83,  9.80, -8.99],
@@ -1224,7 +1224,7 @@ tensor(1.00000e-06 *
 
 ```
 
-```
+```py
 torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor)
 ```
 
@@ -1260,7 +1260,7 @@ Parameters:
 
 例子：
 
-```
+```py
 >>> a = torch.tensor([[ 1.96,  0.00,  0.00,  0.00,  0.00],
  [-6.49,  3.80,  0.00,  0.00,  0.00],
  [-0.47, -6.39,  4.17,  0.00,  0.00],
@@ -1278,7 +1278,7 @@ tensor([[-0.2981, -0.6075,  0.4026, -0.3745,  0.4896],
 
 ```
 
-```
+```py
 torch.trtrs(b, A, upper=True, transpose=False, unitriangular=False) -> (Tensor, Tensor)
 ```
 
@@ -1297,7 +1297,7 @@ Parameters:
 | Returns: | 元组 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1044f4a1887b042eb41d12f782c0582f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1044f4a1887b042eb41d12f782c0582f.jpg) 其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/f8961918eb987d8916766b1d77790ecb.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/f8961918eb987d8916766b1d77790ecb.jpg) 是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 和 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg) 的克隆是[的解决方案] ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/79ccd3754eebf815ed3195b42f93bacb.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/79ccd3754eebf815ed3195b42f93bacb.jpg) （或等式系统的任何变体，取决于关键字参数。） |
 | --- | --- |
 
-```
+```py
 Shape:
 ```
 
@@ -1308,7 +1308,7 @@ Shape:
 
 Examples:
 
-```
+```py
 >>> A = torch.randn(2, 2).triu()
 >>> A
 tensor([[ 1.1527, -1.0753],

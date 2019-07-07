@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.manual_seed(seed)
 ```
 
@@ -13,19 +13,19 @@ torch.manual_seed(seed)
 | 参数： | **种子**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 所需种子。 |
 | --- | --- |
 
-```
+```py
 torch.initial_seed()
 ```
 
 返回用于生成随机数的初始种子，如Python `long`。
 
-```
+```py
 torch.get_rng_state()
 ```
 
 将随机数生成器状态返回为`torch.ByteTensor`。
 
-```
+```py
 torch.set_rng_state(new_state)
 ```
 
@@ -34,11 +34,11 @@ torch.set_rng_state(new_state)
 | Parameters: | **new_state** （ [_torch.ByteTensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.ByteTensor "torch.ByteTensor")） - 理想状态 |
 | --- | --- |
 
-```
+```py
 torch.default_generator = <torch._C.Generator object>
 ```
 
-```
+```py
 torch.bernoulli(input, *, generator=None, out=None) → Tensor
 ```
 
@@ -61,7 +61,7 @@ torch.bernoulli(input, *, generator=None, out=None) → Tensor
 
 例：
 
-```
+```py
 >>> a = torch.empty(3, 3).uniform_(0, 1)  # generate a uniform random matrix with range [0, 1]
 >>> a
 tensor([[ 0.1737,  0.0950,  0.3609],
@@ -85,7 +85,7 @@ tensor([[ 0.,  0.,  0.],
 
 ```
 
-```
+```py
 torch.multinomial(input, num_samples, replacement=False, out=None) → LongTensor
 ```
 
@@ -116,7 +116,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> weights = torch.tensor([0, 10, 3, 0], dtype=torch.float) # create a tensor of weights
 >>> torch.multinomial(weights, 4)
 tensor([ 1,  2,  0,  0])
@@ -125,11 +125,11 @@ tensor([ 2,  1,  1,  1])
 
 ```
 
-```
+```py
 torch.normal()
 ```
 
-```
+```py
 torch.normal(mean, std, out=None) → Tensor
 ```
 
@@ -153,14 +153,14 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.normal(mean=torch.arange(1., 11.), std=torch.arange(1, 0, -0.1))
 tensor([  1.0425,   3.5672,   2.7969,   4.2925,   4.7229,   6.2134,
  8.0505,   8.1408,   9.0563,  10.0566])
 
 ```
 
-```
+```py
 torch.normal(mean=0.0, std, out=None) → Tensor
 ```
 
@@ -174,13 +174,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.normal(mean=0.5, std=torch.arange(1., 6.))
 tensor([-1.2793, -1.0732, -2.0687,  5.1177, -1.2303])
 
 ```
 
-```
+```py
 torch.normal(mean, std=1.0, out=None) → Tensor
 ```
 
@@ -194,13 +194,13 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.normal(mean=torch.arange(1., 6.))
 tensor([ 1.1552,  2.6148,  2.6535,  5.8318,  4.2361])
 
 ```
 
-```
+```py
 torch.rand(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -219,7 +219,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.rand(4)
 tensor([ 0.5204,  0.2503,  0.3525,  0.5673])
 >>> torch.rand(2, 3)
@@ -228,7 +228,7 @@ tensor([[ 0.8237,  0.5781,  0.6879],
 
 ```
 
-```
+```py
 torch.rand_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
@@ -242,7 +242,7 @@ Parameters:
 *   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
 *   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-```
+```py
 torch.randint(low=0, high, size, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -263,7 +263,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.randint(3, 5, (3,))
 tensor([4, 3, 4])
 
@@ -277,7 +277,7 @@ tensor([[4, 5],
 
 ```
 
-```
+```py
 torch.randint_like(input, low=0, high, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -293,7 +293,7 @@ Parameters:
 *   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
 *   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-```
+```py
 torch.randn(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -314,7 +314,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.randn(4)
 tensor([-2.1436,  0.9966,  2.3426, -0.6366])
 >>> torch.randn(2, 3)
@@ -323,7 +323,7 @@ tensor([[ 1.5954,  2.8929, -1.0923],
 
 ```
 
-```
+```py
 torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
@@ -337,7 +337,7 @@ Parameters:
 *   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
 *   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-```
+```py
 torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None, requires_grad=False) → LongTensor
 ```
 
@@ -354,7 +354,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> torch.randperm(4)
 tensor([2, 1, 0, 3])
 

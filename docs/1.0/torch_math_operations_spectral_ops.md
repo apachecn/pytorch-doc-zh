@@ -4,7 +4,7 @@
 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-```
+```py
 torch.fft(input, signal_ndim, normalized=False) → Tensor
 ```
 
@@ -44,7 +44,7 @@ torch.fft(input, signal_ndim, normalized=False) → Tensor
 
 例：
 
-```
+```py
 >>> # unbatched 2D FFT
 >>> x = torch.randn(4, 3, 2)
 >>> torch.fft(x, 2)
@@ -88,7 +88,7 @@ torch.Size([3, 3, 5, 5, 2])
 
 ```
 
-```
+```py
 torch.ifft(input, signal_ndim, normalized=False) → Tensor
 ```
 
@@ -128,7 +128,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.randn(3, 3, 2)
 >>> x
 tensor([[[ 1.2766,  1.3680],
@@ -158,7 +158,7 @@ tensor([[[ 1.2766,  1.3680],
 
 ```
 
-```
+```py
 torch.rfft(input, signal_ndim, normalized=False, onesided=True) → Tensor
 ```
 
@@ -199,7 +199,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.randn(5, 5)
 >>> torch.rfft(x, 2).shape
 torch.Size([5, 3, 2])
@@ -208,7 +208,7 @@ torch.Size([5, 5, 2])
 
 ```
 
-```
+```py
 torch.irfft(input, signal_ndim, normalized=False, onesided=True, signal_sizes=None) → Tensor
 ```
 
@@ -254,7 +254,7 @@ Parameters:
 
 Example:
 
-```
+```py
 >>> x = torch.randn(4, 4)
 >>> torch.rfft(x, 2, onesided=True).shape
 torch.Size([4, 3, 2])
@@ -280,7 +280,7 @@ tensor([[-0.8992,  0.6117, -1.6091, -0.4155, -0.8346],
 
 ```
 
-```
+```py
 torch.stft(input, n_fft, hop_length=None, win_length=None, window=None, center=True, pad_mode='reflect', normalized=False, onesided=True)
 ```
 
@@ -323,7 +323,7 @@ Parameters:
 | --- | --- |
 | Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```
+```py
 torch.bartlett_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -352,7 +352,7 @@ Parameters:
 | --- | --- |
 | Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```
+```py
 torch.blackman_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -381,7 +381,7 @@ Parameters:
 | --- | --- |
 | Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```
+```py
 torch.hamming_window(window_length, periodic=True, alpha=0.54, beta=0.46, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
@@ -414,7 +414,7 @@ Parameters:
 | --- | --- |
 | Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```
+```py
 torch.hann_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
