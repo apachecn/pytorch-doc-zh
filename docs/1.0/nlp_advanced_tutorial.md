@@ -1,59 +1,59 @@
+# 高级：制定动态决策和Bi-LSTM CRF
 
+> 译者：[ApacheCN](https://github.com/apachecn)
 
-# Advanced: Making Dynamic Decisions and the Bi-LSTM CRF
+## 动态与静态深度学习工具包
 
-## Dynamic versus Static Deep Learning Toolkits
+Pytorch是一种_动态_神经网络套件。另一个动态套件的例子是 [Dynet](https://github.com/clab/dynet) （我之所以提到这一点，因为与Pytorch和Dynet一起使用是相似的。如果你在Dynet中看到一个例子，它可能会帮助你在Pytorch中实现它）。相反的是_静态_工具包，其中包括Theano，Keras，TensorFlow等。核心区别如下：
 
-Pytorch is a _dynamic_ neural network kit. Another example of a dynamic kit is [Dynet](https://github.com/clab/dynet) (I mention this because working with Pytorch and Dynet is similar. If you see an example in Dynet, it will probably help you implement it in Pytorch). The opposite is the _static_ tool kit, which includes Theano, Keras, TensorFlow, etc. The core difference is the following:
+*   在静态工具箱中，您可以定义一次计算图，对其进行编译，然后将实例流式传输给它。
+*   在动态工具箱中，为每个实例定义计算图_。它永远不会被编译并且是即时执行的_
 
-*   In a static toolkit, you define a computation graph once, compile it, and then stream instances to it.
-*   In a dynamic toolkit, you define a computation graph _for each instance_. It is never compiled and is executed on-the-fly
+没有很多经验，很难理解差异。一个例子是假设我们想要构建一个深层组成解析器。假设我们的模型大致涉及以下步骤：
 
-Without a lot of experience, it is difficult to appreciate the difference. One example is to suppose we want to build a deep constituent parser. Suppose our model involves roughly the following steps:
+*   我们自下而上建造树
+*   标记根节点（句子的单词）
+*   从那里，使用神经网络和单词的嵌入来找到形成组成部分的组合。每当你形成一个新的成分时，使用某种技术来嵌入成分。在这种情况下，我们的网络架构将完全取决于输入句子。在“绿猫划伤墙”一句中，在模型中的某个点上，我们想要结合跨度`\((i,j,r) = (1, 3, \text{NP})\)`（即，NP组成部分跨越单词1到单词3，在这种情况下是“绿猫” “）。
 
-*   We build the tree bottom up
-*   Tag the root nodes (the words of the sentence)
-*   From there, use a neural network and the embeddings of the words to find combinations that form constituents. Whenever you form a new constituent, use some sort of technique to get an embedding of the constituent. In this case, our network architecture will depend completely on the input sentence. In the sentence “The green cat scratched the wall”, at some point in the model, we will want to combine the span `\((i,j,r) = (1, 3, \text{NP})\)` (that is, an NP constituent spans word 1 to word 3, in this case “The green cat”).
+然而，另一句话可能是“某处，大肥猫划伤了墙”。在这句话中，我们希望在某个时刻形成组成`\((2, 4, NP)\)`。我们想要形成的成分将取决于实例。如果我们只编译计算图一次，就像在静态工具包中那样，编写这个逻辑将是非常困难或不可能的。但是，在动态工具包中，不仅有1个预定义的计算图。每个实例都可以有一个新的计算图，所以这个问题就消失了。
 
-However, another sentence might be “Somewhere, the big fat cat scratched the wall”. In this sentence, we will want to form the constituent `\((2, 4, NP)\)` at some point. The constituents we will want to form will depend on the instance. If we just compile the computation graph once, as in a static toolkit, it will be exceptionally difficult or impossible to program this logic. In a dynamic toolkit though, there isn’t just 1 pre-defined computation graph. There can be a new computation graph for each instance, so this problem goes away.
+动态工具包还具有易于调试和代码更接近宿主语言的优点（我的意思是Pytorch和Dynet看起来更像是比Keras或Theano更实际的Python代码）。
 
-Dynamic toolkits also have the advantage of being easier to debug and the code more closely resembling the host language (by that I mean that Pytorch and Dynet look more like actual Python code than Keras or Theano).
+## Bi-LSTM条件随机场讨论
 
-## Bi-LSTM Conditional Random Field Discussion
+对于本节，我们将看到用于命名实体识别的Bi-LSTM条件随机场的完整复杂示例。上面的LSTM标记符通常足以用于词性标注，但是像CRF这样的序列模型对于NER上的强大性能非常重要。假设熟悉CRF。虽然这个名字听起来很可怕，但所有模型都是CRF，但是LSTM提供了这些功能。这是一个高级模型，比本教程中的任何早期模型复杂得多。如果你想跳过它，那很好。要查看您是否准备好，请查看是否可以：
 
-For this section, we will see a full, complicated example of a Bi-LSTM Conditional Random Field for named-entity recognition. The LSTM tagger above is typically sufficient for part-of-speech tagging, but a sequence model like the CRF is really essential for strong performance on NER. Familiarity with CRF’s is assumed. Although this name sounds scary, all the model is is a CRF but where an LSTM provides the features. This is an advanced model though, far more complicated than any earlier model in this tutorial. If you want to skip it, that is fine. To see if you’re ready, see if you can:
+*   在步骤i中为标记k写出维特比变量的递归。
+*   修改上述重复以计算转发变量。
+*   再次修改上面的重复计算以计算日志空间中的转发变量（提示：log-sum-exp）
 
-*   Write the recurrence for the viterbi variable at step i for tag k.
-*   Modify the above recurrence to compute the forward variables instead.
-*   Modify again the above recurrence to compute the forward variables in log-space (hint: log-sum-exp)
+如果你可以做这三件事，你应该能够理解下面的代码。回想一下，CRF计算条件概率。设`\(y\)`为标签序列，`\(x\)`为字的输入序列。然后我们计算
 
-If you can do those three things, you should be able to understand the code below. Recall that the CRF computes a conditional probability. Let `\(y\)` be a tag sequence and `\(x\)` an input sequence of words. Then we compute
+$$ P（y | x）= \ frac {\ exp {（\ text {Score}（x，y）}）} {\ sum_ {y'} \ exp {（\ text {Score}（x，y' ）}）} $$
 
-$$P(y|x) = \frac{\exp{(\text{Score}(x, y)})}{\sum_{y'} \exp{(\text{Score}(x, y')})}$$
+通过定义一些对数电位`\(\log \psi_i(x,y)\)`来确定得分
 
-Where the score is determined by defining some log potentials `\(\log \psi_i(x,y)\)` such that
+$$ \ text {Score}（x，y）= \ sum_i \ log \ psi_i（x，y）$$
 
-$$\text{Score}(x,y) = \sum_i \log \psi_i(x,y)$$
+为了使分区功能易于处理，电位必须仅查看局部特征。
 
-To make the partition function tractable, the potentials must look only at local features.
+在Bi-LSTM CRF中，我们定义了两种潜力：发射和过渡。索引`\(i\)`处的单词的发射电位来自时间步长`\(i\)`处的Bi-LSTM的隐藏状态。转换分数存储在`\(|T|x|T|\)`矩阵`\(\textbf{P}\)`中，其中`\(T\)`是标记集。在我的实现中，`\(\textbf{P}_{j,k}\)`是从标签`\(k\)`转换到标签`\(j\)`的分数。所以：
 
-In the Bi-LSTM CRF, we define two kinds of potentials: emission and transition. The emission potential for the word at index `\(i\)` comes from the hidden state of the Bi-LSTM at timestep `\(i\)`. The transition scores are stored in a `\(|T|x|T|\)` matrix `\(\textbf{P}\)`, where `\(T\)` is the tag set. In my implementation, `\(\textbf{P}_{j,k}\)` is the score of transitioning to tag `\(j\)` from tag `\(k\)`. So:
+$$ \ text {Score}（x，y）= \ sum_i \ log \ psi_ \ text {EMIT}（y_i \ rightarrow x_i）+ \ log \ psi_ \ text {TRANS}（y_ {i-1} \ rightarrow y_i ）$$
 
-$$\text{Score}(x,y) = \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)$$
+$$ = \ sum_i h_i [y_i] + \ textbf {P} _{y_i，y_ {i-1}} $$
 
-$$= \sum_i h_i[y_i] + \textbf{P}_{y_i, y_{i-1}}$$
+在第二个表达式中，我们将标记视为分配了唯一的非负索引。
 
-where in this second expression, we think of the tags as being assigned unique non-negative indices.
+如果上面的讨论过于简短，你可以查看[这个](http://www.cs.columbia.edu/%7Emcollins/crf.pdf)从迈克尔柯林斯那里写的关于CRF的文章。
 
-If the above discussion was too brief, you can check out [this](http://www.cs.columbia.edu/%7Emcollins/crf.pdf) write up from Michael Collins on CRFs.
+## 实施说明
 
-## Implementation Notes
+下面的示例实现了日志空间中的前向算法来计算分区函数，以及用于解码的维特比算法。反向传播将自动为我们计算梯度。我们不需要手工做任何事情。
 
-The example below implements the forward algorithm in log space to compute the partition function, and the viterbi algorithm to decode. Backpropagation will compute the gradients automatically for us. We don’t have to do anything by hand.
+实施未优化。如果您了解发生了什么，您可能会很快发现在前向算法中迭代下一个标记可能是在一个大的操作中完成的。我想编码更具可读性。如果您想进行相关更改，可以将此标记器用于实际任务。
 
-The implementation is not optimized. If you understand what is going on, you’ll probably quickly see that iterating over the next tag in the forward algorithm could probably be done in one big operation. I wanted to code to be more readable. If you want to make the relevant change, you could probably use this tagger for real tasks.
-
-```py
+```
 # Author: Robert Guthrie
 
 import torch
@@ -65,9 +65,9 @@ torch.manual_seed(1)
 
 ```
 
-Helper functions to make the code more readable.
+帮助程序的功能是使代码更具可读性。
 
-```py
+```
 def argmax(vec):
     # return the argmax as a python int
     _, idx = torch.max(vec, 1)
@@ -86,9 +86,9 @@ def log_sum_exp(vec):
 
 ```
 
-Create model
+创建模型
 
-```py
+```
 class BiLSTM_CRF(nn.Module):
 
     def __init__(self, vocab_size, tag_to_ix, embedding_dim, hidden_dim):
@@ -231,9 +231,9 @@ class BiLSTM_CRF(nn.Module):
 
 ```
 
-Run training
+运行培训
 
-```py
+```
 START_TAG = "<START>"
 STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 5
@@ -294,18 +294,18 @@ with torch.no_grad():
 
 ```
 
-Out:
+日期：
 
-```py
+```
 (tensor(2.6907), [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1])
 (tensor(20.4906), [0, 1, 1, 1, 2, 2, 2, 0, 1, 2, 2])
 
 ```
 
-## Exercise: A new loss function for discriminative tagging
+## 练习：区分标记的新损失函数
 
-It wasn’t really necessary for us to create a computation graph when doing decoding, since we do not backpropagate from the viterbi path score. Since we have it anyway, try training the tagger where the loss function is the difference between the Viterbi path score and the score of the gold-standard path. It should be clear that this function is non-negative and 0 when the predicted tag sequence is the correct tag sequence. This is essentially _structured perceptron_.
+我们没有必要在进行解码时创建计算图，因为我们不会从维特比路径得分反向传播。因为无论如何我们都有它，尝试训练标记器，其中损失函数是维特比路径得分和金标准路径得分之间的差异。应该清楚的是，当预测的标签序列是正确的标签序列时，该功能是非负的和0。这基本上是_结构感知器_。
 
-This modification should be short, since Viterbi and score_sentence are already implemented. This is an example of the shape of the computation graph _depending on the training instance_. Although I haven’t tried implementing this in a static toolkit, I imagine that it is possible but much less straightforward.
+由于已经实现了Viterbi和score_sentence，因此这种修改应该很短。这是取决于训练实例的计算图形_的形状的示例。虽然我没有尝试在静态工具包中实现它，但我想它可能但不那么直截了当。_
 
-Pick up some real data and do a comparison!
+拿起一些真实数据并进行比较！

@@ -1,48 +1,47 @@
+# 再生性
 
+> 译者：[ApacheCN](https://github.com/apachecn)
 
-# Reproducibility
+PyTorch版本，单个提交或不同平台无法保证完全可重现的结果。此外，即使使用相同的种子，也不需要在CPU和GPU执行之间重现结果。
 
-Completely reproducible results are not guaranteed across PyTorch releases, individual commits or different platforms. Furthermore, results need not be reproducible between CPU and GPU executions, even when using identical seeds.
+但是，为了在一个特定平台和PyTorch版本上对您的特定问题进行计算确定，需要采取几个步骤。
 
-However, in order to make computations deterministic on your specific problem on one specific platform and PyTorch release, there are a couple of steps to take.
-
-There are two pseudorandom number generators involved in PyTorch, which you will need to seed manually to make runs reproducible. Furthermore, you should ensure that all other libraries your code relies on an which use random numbers also use a fixed seed.
+PyTorch中涉及两个伪随机数生成器，您需要手动播种以使运行可重现。此外，您应该确保您的代码依赖于使用随机数的所有其他库也使用固定种子。
 
 ## PyTorch
 
-You can use [`torch.manual_seed()`](../torch.html#torch.manual_seed "torch.manual_seed") to seed the RNG for all devices (both CPU and CUDA):
+您可以使用为所有设备（CPU和CUDA）播种RNG：
 
-```py
+```
 import torch
 torch.manual_seed(0)
 
 ```
 
-There are some PyTorch functions that use CUDA functions that can be a source of non-determinism. One class of such CUDA functions are atomic operations, in particular `atomicAdd`, where the order of parallel additions to the same value is undetermined and, for floating-point variables, a source of variance in the result. PyTorch functions that use `atomicAdd` in the forward include [`torch.Tensor.index_add_()`](../tensors.html#torch.Tensor.index_add_ "torch.Tensor.index_add_"), [`torch.Tensor.scatter_add_()`](../tensors.html#torch.Tensor.scatter_add_ "torch.Tensor.scatter_add_"), [`torch.bincount()`](../torch.html#torch.bincount "torch.bincount").
+有一些PyTorch函数使用CUDA函数，这些函数可能是非确定性的来源。一类这样的CUDA函数是原子操作，特别是`atomicAdd`，其中对于相同值的并行加法的顺序是未确定的，并且对于浮点变量，是结果中的变化源。在前向中使用`atomicAdd`的PyTorch函数包括，。
 
-A number of operations have backwards that use `atomicAdd`, in particular [`torch.nn.functional.embedding_bag()`](../nn.html#torch.nn.functional.embedding_bag "torch.nn.functional.embedding_bag"), [`torch.nn.functional.ctc_loss()`](../nn.html#torch.nn.functional.ctc_loss "torch.nn.functional.ctc_loss") and many forms of pooling, padding, and sampling. There currently is no simple way of avoiding non-determinism in these functions.
+许多操作具有向后使用`atomicAdd`，特别是许多形式的池，填充和采样。目前没有简单的方法来避免这些功能中的非确定性。
 
 ## CuDNN
 
-When running on the CuDNN backend, two further options must be set:
+在CuDNN后端运行时，必须设置另外两个选项：
 
-```py
+```
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 ```
 
-Warning
+警告
 
-Deterministic mode can have a performance impact, depending on your model.
+确定性模式可能会对性能产生影响，具体取决于您的型号。
 
-## Numpy
+## NumPy的
 
-If you or any of the libraries you are using rely on Numpy, you should seed the Numpy RNG as well. This can be done with:
+如果您或您使用的任何库依赖于Numpy，您也应该为Numpy RNG播种。这可以通过以下方式完成：
 
-```py
+```
 import numpy as np
 np.random.seed(0)
 
 ```
-
