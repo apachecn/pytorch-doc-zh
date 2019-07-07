@@ -1,65 +1,67 @@
-## Random sampling
 
-```py
+
+## 随机抽样
+
+> 译者：[ApacheCN](https://github.com/apachecn)
+
+```
 torch.manual_seed(seed)
 ```
 
-Sets the seed for generating random numbers. Returns a `torch._C.Generator` object.
+设置用于生成随机数的种子。返回`torch._C.Generator`对象。
 
-| Parameters: | **seed** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The desired seed. |
+| 参数： | **种子**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 所需种子。 |
 | --- | --- |
 
-```py
+```
 torch.initial_seed()
 ```
 
-Returns the initial seed for generating random numbers as a Python `long`.
+返回用于生成随机数的初始种子，如Python `long`。
 
-```py
+```
 torch.get_rng_state()
 ```
 
-Returns the random number generator state as a `torch.ByteTensor`.
+将随机数生成器状态返回为`torch.ByteTensor`。
 
-```py
+```
 torch.set_rng_state(new_state)
 ```
 
-Sets the random number generator state.
+设置随机数生成器状态。
 
-| Parameters: | **new_state** ([_torch.ByteTensor_](tensors.html#torch.ByteTensor "torch.ByteTensor")) – The desired state |
+| Parameters: | **new_state** （ [_torch.ByteTensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.ByteTensor "torch.ByteTensor")） - 理想状态 |
 | --- | --- |
 
-```py
+```
 torch.default_generator = <torch._C.Generator object>
 ```
 
-```py
+```
 torch.bernoulli(input, *, generator=None, out=None) → Tensor
 ```
 
-Draws binary random numbers (0 or 1) from a Bernoulli distribution.
+从伯努利分布中绘制二进制随机数（0或1）。
 
-The `input` tensor should be a tensor containing probabilities to be used for drawing the binary random number. Hence, all values in `input` have to be in the range: ![](img/1ac351f229015d1047c7d979a9233916.jpg).
+`input`张量应该是包含用于绘制二进制随机数的概率的张量。因此，`input`中的所有值必须在以下范围内： [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1ac351f229015d1047c7d979a9233916.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1ac351f229015d1047c7d979a9233916.jpg) 。
 
-The ![](img/511f5a204e4e69e0f1c374e9a5738214.jpg) element of the output tensor will draw a value ![](img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg) according to the ![](img/511f5a204e4e69e0f1c374e9a5738214.jpg) probability value given in `input`.
+输出张量的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/511f5a204e4e69e0f1c374e9a5738214.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/511f5a204e4e69e0f1c374e9a5738214.jpg) 元素将根据`input`中给出的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/511f5a204e4e69e0f1c374e9a5738214.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/511f5a204e4e69e0f1c374e9a5738214.jpg) 概率值绘制值 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg) 。
 
-![](img/b3f6cd5a237f587278432aa96dd0fd96.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b3f6cd5a237f587278432aa96dd0fd96.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b3f6cd5a237f587278432aa96dd0fd96.jpg)
 
-The returned `out` tensor only has values 0 or 1 and is of the same shape as `input`.
+返回的`out`张量仅具有值0或1，并且与`input`具有相同的形状。
 
-`out` can have integral `dtype`, but :attr`input` must have floating point `dtype`.
+`out`可以有整数`dtype`，但是：attr `input`必须有浮点`dtype`。
 
-Parameters: 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of probability values for the Bernoulli distribution
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 伯努利分布的概率值的输入张量
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
+例：
 
-
-Example:
-
-```py
+```
 >>> a = torch.empty(3, 3).uniform_(0, 1)  # generate a uniform random matrix with range [0, 1]
 >>> a
 tensor([[ 0.1737,  0.0950,  0.3609],
@@ -83,40 +85,38 @@ tensor([[ 0.,  0.,  0.],
 
 ```
 
-```py
+```
 torch.multinomial(input, num_samples, replacement=False, out=None) → LongTensor
 ```
 
-Returns a tensor where each row contains `num_samples` indices sampled from the multinomial probability distribution located in the corresponding row of tensor `input`.
+返回张量，其中每行包含从位于张量`input`的相应行中的多项概率分布中采样的`num_samples`索引。
 
-Note
+注意
 
-The rows of `input` do not need to sum to one (in which case we use the values as weights), but must be non-negative, finite and have a non-zero sum.
+`input`的行不需要求和为一（在这种情况下我们使用值作为权重），但必须是非负的，有限的并且具有非零和。
 
-Indices are ordered from left to right according to when each was sampled (first samples are placed in first column).
+根据每个样本的时间（第一个样本放在第一列中）从左到右排序指数。
 
-If `input` is a vector, `out` is a vector of size `num_samples`.
+如果`input`是矢量，`out`是大小为`num_samples`的矢量。
 
-If `input` is a matrix with `m` rows, `out` is an matrix of shape ![](img/c52c825df9f5a9934f74be6777337b15.jpg).
+如果`input`是具有`m`行的矩阵，则`out`是形状矩阵 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/c52c825df9f5a9934f74be6777337b15.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/c52c825df9f5a9934f74be6777337b15.jpg) 。
 
-If replacement is `True`, samples are drawn with replacement.
+如果更换为`True`，则更换样品。
 
-If not, they are drawn without replacement, which means that when a sample index is drawn for a row, it cannot be drawn again for that row.
+如果没有，则绘制它们而不替换它们，这意味着当为一行绘制样本索引时，不能再为该行绘制它。
 
-This implies the constraint that `num_samples` must be lower than `input` length (or number of columns of `input` if it is a matrix).
+这意味着`num_samples`必须低于`input`长度（或者`input`的列数，如果它是矩阵）的约束。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor containing probabilities
-*   **num_samples** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of samples to draw
-*   **replacement** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to draw with replacement or not
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 包含概率的输入张量
+*   **num_samples** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 要抽取的样本数量
+*   **替代**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否与替换有关
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> weights = torch.tensor([0, 10, 3, 0], dtype=torch.float) # create a tensor of weights
 >>> torch.multinomial(weights, 4)
 tensor([ 1,  2,  0,  0])
@@ -125,109 +125,101 @@ tensor([ 2,  1,  1,  1])
 
 ```
 
-```py
+```
 torch.normal()
 ```
 
-```py
+```
 torch.normal(mean, std, out=None) → Tensor
 ```
 
-Returns a tensor of random numbers drawn from separate normal distributions whose mean and standard deviation are given.
+返回从单独的正态分布中提取的随机数的张量，其中给出了均值和标准差。
 
-The [`mean`](#torch.mean "torch.mean") is a tensor with the mean of each output element’s normal distribution
+[`mean`](#torch.mean "torch.mean") 是一个张量，具有每个输出元素正态分布的均值
 
-The [`std`](#torch.std "torch.std") is a tensor with the standard deviation of each output element’s normal distribution
+[`std`](#torch.std "torch.std") 是一个张量，每个输出元素的正态分布的标准差
 
-The shapes of [`mean`](#torch.mean "torch.mean") and [`std`](#torch.std "torch.std") don’t need to match, but the total number of elements in each tensor need to be the same.
+[`mean`](#torch.mean "torch.mean") 和 [`std`](#torch.std "torch.std") 的形状不需要匹配，但每个张量中的元素总数需要相同。
 
 Note
 
-When the shapes do not match, the shape of [`mean`](#torch.mean "torch.mean") is used as the shape for the returned output tensor
+当形状不匹配时， [`mean`](#torch.mean "torch.mean") 的形状用作返回输出张量的形状
 
-Parameters: 
+Parameters:
 
-*   **mean** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element means
-*   **std** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element standard deviations
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **意味着**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 每个元素的张量意味着
+*   **std** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 每元素标准差的张量
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> torch.normal(mean=torch.arange(1., 11.), std=torch.arange(1, 0, -0.1))
 tensor([  1.0425,   3.5672,   2.7969,   4.2925,   4.7229,   6.2134,
  8.0505,   8.1408,   9.0563,  10.0566])
 
 ```
 
-```py
+```
 torch.normal(mean=0.0, std, out=None) → Tensor
 ```
 
-Similar to the function above, but the means are shared among all drawn elements.
+与上面的函数类似，但是所有绘制元素之间共享均值。
 
-Parameters: 
+Parameters:
 
-*   **mean** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the mean for all distributions
-*   **std** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element standard deviations
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **意味着**（ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 所有分布的均值
+*   **std** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 每元素标准差的张量
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> torch.normal(mean=0.5, std=torch.arange(1., 6.))
 tensor([-1.2793, -1.0732, -2.0687,  5.1177, -1.2303])
 
 ```
 
-```py
+```
 torch.normal(mean, std=1.0, out=None) → Tensor
 ```
 
-Similar to the function above, but the standard-deviations are shared among all drawn elements.
+与上述功能类似，但标准偏差在所有绘制元素之间共享。
 
-Parameters: 
+Parameters:
 
-*   **mean** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor of per-element means
-*   **std** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the standard deviation for all distributions
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **意味着**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 每个元素的张量意味着
+*   **std** （ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_，_ _可选_） - 所有分布的标准差
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> torch.normal(mean=torch.arange(1., 6.))
 tensor([ 1.1552,  2.6148,  2.6535,  5.8318,  4.2361])
 
 ```
 
-```py
+```
 torch.rand(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with random numbers from a uniform distribution on the interval ![](img/a686b817a52173e9e124e756a19344be.jpg)
+从区间 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a686b817a52173e9e124e756a19344be.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a686b817a52173e9e124e756a19344be.jpg) 上的均匀分布返回填充随机数的张量
 
-The shape of the tensor is defined by the variable argument `sizes`.
+张量的形状由变量参数`sizes`定义。
 
-Parameters: 
+Parameters:
 
-*   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **sizes** （ _int ..._ ） - 定义输出张量形状的整数序列。可以是可变数量的参数，也可以是列表或元组之类的集合。
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
-```py
+```
 >>> torch.rand(4)
 tensor([ 0.5204,  0.2503,  0.3525,  0.5673])
 >>> torch.rand(2, 3)
@@ -236,46 +228,42 @@ tensor([[ 0.8237,  0.5781,  0.6879],
 
 ```
 
-```py
+```
 torch.rand_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor with the same size as `input` that is filled with random numbers from a uniform distribution on the interval ![](img/a686b817a52173e9e124e756a19344be.jpg). `torch.rand_like(input)` is equivalent to `torch.rand(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
+返回与`input`大小相同的张量，该张量用间隔 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a686b817a52173e9e124e756a19344be.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a686b817a52173e9e124e756a19344be.jpg) 上的均匀分布填充随机数。 `torch.rand_like(input)`相当于`torch.rand(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned tensor. Default: if `None`, defaults to the layout of `input`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-
-
-```py
+```
 torch.randint(low=0, high, size, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with random integers generated uniformly between `low` (inclusive) and `high` (exclusive).
+返回填充了在`low`（包括）和`high`（不包括）之间统一生成的随机整数的张量。
 
-The shape of the tensor is defined by the variable argument `size`.
+张量的形状由变量参数`size`定义。
 
-Parameters: 
+Parameters:
 
-*   **low** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Lowest integer to be drawn from the distribution. Default: 0.
-*   **high** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – One above the highest integer to be drawn from the distribution.
-*   **size** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – a tuple defining the shape of the output tensor.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **低**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 从分布中得出的最小整数。默认值：0。
+*   **高**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 高于从分布中提取的最高整数。
+*   **大小**（ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") ） - 定义输出张量形状的元组。
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
-```py
+```
 >>> torch.randint(3, 5, (3,))
 tensor([4, 3, 4])
 
@@ -289,48 +277,44 @@ tensor([[4, 5],
 
 ```
 
-```py
+```
 torch.randint_like(input, low=0, high, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor with the same shape as Tensor `input` filled with random integers generated uniformly between `low` (inclusive) and `high` (exclusive).
+返回与Tensor `input`具有相同形状的张量，填充在`low`（包括）和`high`（不包括）之间均匀生成的随机整数。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
-*   **low** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Lowest integer to be drawn from the distribution. Default: 0.
-*   **high** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – One above the highest integer to be drawn from the distribution.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned tensor. Default: if `None`, defaults to the layout of `input`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
+*   **低**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 从分布中得出的最小整数。默认值：0。
+*   **高**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 高于从分布中提取的最高整数。
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-
-
-```py
+```
 torch.randn(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with random numbers from a normal distribution with mean `0` and variance `1` (also called the standard normal distribution).
+返回一个填充了正态分布中随机数的张量，其均值为`0`和方差`1`（也称为标准正态分布）。
 
-![](img/71f756d003530899b04dfd92986cea2f.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/71f756d003530899b04dfd92986cea2f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/71f756d003530899b04dfd92986cea2f.jpg)
 
 The shape of the tensor is defined by the variable argument `sizes`.
 
-Parameters: 
+Parameters:
 
-*   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **sizes** （ _int ..._ ） - 定义输出张量形状的整数序列。可以是可变数量的参数，也可以是列表或元组之类的集合。
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
-```py
+```
 >>> torch.randn(4)
 tensor([-2.1436,  0.9966,  2.3426, -0.6366])
 >>> torch.randn(2, 3)
@@ -339,56 +323,53 @@ tensor([[ 1.5954,  2.8929, -1.0923],
 
 ```
 
-```py
+```
 torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor with the same size as `input` that is filled with random numbers from a normal distribution with mean 0 and variance 1. `torch.randn_like(input)` is equivalent to `torch.randn(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
+返回与`input`具有相同大小的张量，该张量用正态分布中的随机数填充，均值为0且方差为1\. `torch.randn_like(input)`等效于`torch.randn(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned tensor. Default: if `None`, defaults to the layout of `input`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-
-
-```py
+```
 torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None, requires_grad=False) → LongTensor
 ```
 
-Returns a random permutation of integers from `0` to `n - 1`.
+返回从`0`到`n - 1`的整数的随机排列。
 
-Parameters: 
+Parameters:
 
-*   **n** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the upper bound (exclusive)
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: `torch.int64`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **n** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 上限（不包括）
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：`torch.int64`。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
-```py
+```
 >>> torch.randperm(4)
 tensor([2, 1, 0, 3])
 
 ```
 
-### In-place random sampling
+### 就地随机抽样
 
-There are a few more in-place random sampling functions defined on Tensors as well. Click through to refer to their documentation:
+Tensors还定义了一些更多的就地随机抽样函数。点击查看他们的文档：
 
-*   [`torch.Tensor.bernoulli_()`](tensors.html#torch.Tensor.bernoulli_ "torch.Tensor.bernoulli_") - in-place version of [`torch.bernoulli()`](#torch.bernoulli "torch.bernoulli")
-*   [`torch.Tensor.cauchy_()`](tensors.html#torch.Tensor.cauchy_ "torch.Tensor.cauchy_") - numbers drawn from the Cauchy distribution
-*   [`torch.Tensor.exponential_()`](tensors.html#torch.Tensor.exponential_ "torch.Tensor.exponential_") - numbers drawn from the exponential distribution
-*   [`torch.Tensor.geometric_()`](tensors.html#torch.Tensor.geometric_ "torch.Tensor.geometric_") - elements drawn from the geometric distribution
-*   [`torch.Tensor.log_normal_()`](tensors.html#torch.Tensor.log_normal_ "torch.Tensor.log_normal_") - samples from the log-normal distribution
-*   [`torch.Tensor.normal_()`](tensors.html#torch.Tensor.normal_ "torch.Tensor.normal_") - in-place version of [`torch.normal()`](#torch.normal "torch.normal")
-*   [`torch.Tensor.random_()`](tensors.html#torch.Tensor.random_ "torch.Tensor.random_") - numbers sampled from the discrete uniform distribution
-*   [`torch.Tensor.uniform_()`](tensors.html#torch.Tensor.uniform_ "torch.Tensor.uniform_") - numbers sampled from the continuous uniform distribution
+*   [`torch.Tensor.bernoulli_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.bernoulli_ "torch.Tensor.bernoulli_") - [`torch.bernoulli()`](#torch.bernoulli "torch.bernoulli") 的原位版本
+*   [`torch.Tensor.cauchy_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.cauchy_ "torch.Tensor.cauchy_") - 从Cauchy分布中提取的数字
+*   [`torch.Tensor.exponential_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.exponential_ "torch.Tensor.exponential_") - 从指数分布中提取的数字
+*   [`torch.Tensor.geometric_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.geometric_ "torch.Tensor.geometric_") - 从几何分布中提取的元素
+*   [`torch.Tensor.log_normal_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.log_normal_ "torch.Tensor.log_normal_") - 来自对数正态分布的样本
+*   [`torch.Tensor.normal_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.normal_ "torch.Tensor.normal_") - [`torch.normal()`](#torch.normal "torch.normal") 的原位版本
+*   [`torch.Tensor.random_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.random_ "torch.Tensor.random_") - 从离散均匀分布中采样的数字
+*   [`torch.Tensor.uniform_()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor.uniform_ "torch.Tensor.uniform_") - 从连续均匀分布中采样的数字
+

@@ -1,24 +1,26 @@
-### Reduction Ops
 
-```py
+
+### 减少行动
+
+> 译者：[ApacheCN](https://github.com/apachecn)
+
+```
 torch.argmax(input, dim=None, keepdim=False)
 ```
 
-Returns the indices of the maximum values of a tensor across a dimension.
+返回维度上张量的最大值的索引。
 
-This is the second value returned by [`torch.max()`](#torch.max "torch.max"). See its documentation for the exact semantics of this method.
+这是 [`torch.max()`](#torch.max "torch.max") 返回的第二个值。有关此方法的确切语义，请参阅其文档。
 
-Parameters: 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce. If `None`, the argmax of the flattened input is returned.
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not. Ignored if `dim=None`.
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 降低的维数。如果`None`，则返回展平输入的argmax。
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`。如果`dim=None`，则忽略。
 
+例：
 
-
-Example:
-
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 1.3398,  0.2663, -0.2686,  0.2450],
@@ -31,25 +33,23 @@ tensor([ 0,  2,  0,  1])
 
 ```
 
-```py
+```
 torch.argmin(input, dim=None, keepdim=False)
 ```
 
-Returns the indices of the minimum values of a tensor across a dimension.
+返回维度上张量的最小值的索引。
 
-This is the second value returned by [`torch.min()`](#torch.min "torch.min"). See its documentation for the exact semantics of this method.
+这是 [`torch.min()`](#torch.min "torch.min") 返回的第二个值。有关此方法的确切语义，请参阅其文档。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce. If `None`, the argmin of the flattened input is returned.
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not. Ignored if `dim=None`.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 降低的维数。如果`None`，则返回展平输入的argmin。
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`。如果`dim=None`，则忽略。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 0.1139,  0.2254, -0.1381,  0.3687],
@@ -62,27 +62,25 @@ tensor([ 2,  1,  3,  1])
 
 ```
 
-```py
+```
 torch.cumprod(input, dim, dtype=None) → Tensor
 ```
 
-Returns the cumulative product of elements of `input` in the dimension `dim`.
+返回维度`dim`中`input`元素的累积乘积。
 
-For example, if `input` is a vector of size N, the result will also be a vector of size N, with elements.
+例如，如果`input`是大小为N的向量，则结果也将是具有元素的大小为N的向量。
 
-![](img/9e9045e46c1b7fca7acb598cf474f16e.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9e9045e46c1b7fca7acb598cf474f16e.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9e9045e46c1b7fca7acb598cf474f16e.jpg)
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to do the operation over
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 执行操作的维度
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(10)
 >>> a
 tensor([ 0.6001,  0.2069, -0.1919,  0.9792,  0.6727,  1.0062,  0.4126,
@@ -98,27 +96,25 @@ tensor([ 0.6001,  0.1241, -0.0238, -0.0233, -0.0157, -0.0000, -0.0000,
 
 ```
 
-```py
+```
 torch.cumsum(input, dim, out=None, dtype=None) → Tensor
 ```
 
-Returns the cumulative sum of elements of `input` in the dimension `dim`.
+返回维度`dim`中`input`的元素的累积和。
 
 For example, if `input` is a vector of size N, the result will also be a vector of size N, with elements.
 
-![](img/70f741993caea1156636d61e6f21e463.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/70f741993caea1156636d61e6f21e463.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/70f741993caea1156636d61e6f21e463.jpg)
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to do the operation over
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 执行操作的维度
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(10)
 >>> a
 tensor([-0.8286, -0.4890,  0.5155,  0.8443,  0.1865, -0.1752, -2.0595,
@@ -129,25 +125,23 @@ tensor([-0.8286, -1.3175, -0.8020,  0.0423,  0.2289,  0.0537, -2.0058,
 
 ```
 
-```py
+```
 torch.dist(input, other, p=2) → Tensor
 ```
 
-Returns the p-norm of (`input` - `other`)
+返回（`input` - `other`）的p范数
 
-The shapes of `input` and `other` must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
+`input`和`other`的形状必须是[可播放的](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the Right-hand-side input tensor
-*   **p** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – the norm to be computed
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **其他**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 右侧输入张量
+*   **p** （ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 要计算的范数
 
 Example:
 
-```py
+```
 >>> x = torch.randn(4)
 >>> x
 tensor([-1.5393, -0.8675,  0.5916,  1.6321])
@@ -165,54 +159,52 @@ tensor(2.6537)
 
 ```
 
-```py
+```
 torch.logsumexp(input, dim, keepdim=False, out=None)
 ```
 
-Returns the log of summed exponentials of each row of the `input` tensor in the given dimension `dim`. The computation is numerically stabilized.
+返回给定维`dim`中`input`张量的每一行的求和指数的对数。计算在数值上是稳定的。
 
-For summation index ![](img/d8fdd0e28cfb03738fc5227885ee035a.jpg) given by `dim` and other indices ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg), the result is
+对于由`dim`和其他指数 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg) 给出的总和指数 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/d8fdd0e28cfb03738fc5227885ee035a.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/d8fdd0e28cfb03738fc5227885ee035a.jpg) ，结果是
 
-> ![](img/5acb5b22a7a5c1cfbfda7f648a00c656.jpg)
+> [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5acb5b22a7a5c1cfbfda7f648a00c656.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5acb5b22a7a5c1cfbfda7f648a00c656.jpg)
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
+如果`keepdim`为`True`，则输出张量与`input`的大小相同，但尺寸为`dim`的大小为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量比`input`少1个维度。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – the dimension or dimensions to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组python：整数_） - 要减少的维度或维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
-
-
-```py
+```
 Example::
 ```
 
-```py
+```
 >>> a = torch.randn(3, 3)
 >>> torch.logsumexp(a, 1)
 tensor([ 0.8442,  1.4322,  0.8711])
 
 ```
 
-```py
+```
 torch.mean()
 ```
 
-```py
+```
 torch.mean(input) → Tensor
 ```
 
-Returns the mean value of all elements in the `input` tensor.
+返回`input`张量中所有元素的平均值。
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
+| 参数： | **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量 |
 | --- | --- |
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 0.2294, -0.5481,  1.3288]])
@@ -221,26 +213,24 @@ tensor(0.3367)
 
 ```
 
-```py
+```
 torch.mean(input, dim, keepdim=False, out=None) → Tensor
 ```
 
-Returns the mean value of each row of the `input` tensor in the given dimension `dim`. If `dim` is a list of dimensions, reduce over all of them.
+返回给定维`dim`中`input`张量的每一行的平均值。如果`dim`是维度列表，请减少所有维度。
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s).
+如果`keepdim`为`True`，则输出张量与`input`的大小相同，但尺寸为1的尺寸`dim`除外。`dim`被挤压（见[） `torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量具有1（或`len(dim)`）更少的维度。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether the output tensor has `dim` retained or not
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the output tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 输出张量是否保留`dim`
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输出张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-0.3841,  0.6320,  0.4254, -0.7384],
@@ -257,22 +247,22 @@ tensor([[-0.0163],
 
 ```
 
-```py
+```
 torch.median()
 ```
 
-```py
+```
 torch.median(input) → Tensor
 ```
 
-Returns the median value of all elements in the `input` tensor.
+返回`input`张量中所有元素的中值。
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
+| Parameters: | **input** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
 | --- | --- |
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 1.5219, -1.5212,  0.2202]])
@@ -281,29 +271,27 @@ tensor(0.2202)
 
 ```
 
-```py
+```
 torch.median(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTensor)
 ```
 
-Returns the median value of each row of the `input` tensor in the given dimension `dim`. Also returns the index location of the median value as a `LongTensor`.
+返回给定维`dim`中`input`张量的每一行的中值。还将中值的索引位置返回为`LongTensor`。
 
-By default, `dim` is the last dimension of the `input` tensor.
+默认情况下，`dim`是`input`张量的最后一个维度。
 
-If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the outputs tensor having 1 fewer dimension than `input`.
+如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量比`input`少1个维度。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
-*   **values** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **indices** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output index tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **值**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _可选_） - 输出张量
+*   **指数**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _任选_） - 输出指数张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 5)
 >>> a
 tensor([[ 0.2505, -0.3982, -0.9948,  0.3518, -1.3131],
@@ -315,33 +303,31 @@ tensor([[ 0.2505, -0.3982, -0.9948,  0.3518, -1.3131],
 
 ```
 
-```py
+```
 torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, LongTensor)
 ```
 
-Returns the mode value of each row of the `input` tensor in the given dimension `dim`. Also returns the index location of the mode value as a `LongTensor`.
+返回给定维`dim`中`input`张量的每一行的模式值。还将模式值的索引位置作为`LongTensor`返回。
 
 By default, `dim` is the last dimension of the `input` tensor.
 
-If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensors having 1 fewer dimension than `input`.
+如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量的尺寸比`input`少1。
 
-Note
+注意
 
-This function is not defined for `torch.cuda.Tensor` yet.
+尚未为`torch.cuda.Tensor`定义此功能。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
-*   **values** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **indices** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output index tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **值**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _可选_） - 输出张量
+*   **指数**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _任选_） - 输出指数张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 5)
 >>> a
 tensor([[-1.2808, -1.0966, -1.5946, -0.1148,  0.3631],
@@ -353,35 +339,31 @@ tensor([[-1.2808, -1.0966, -1.5946, -0.1148,  0.3631],
 
 ```
 
-```py
+```
 torch.norm(input, p='fro', dim=None, keepdim=False, out=None)
 ```
 
-Returns the matrix norm or vector norm of a given tensor.
+返回给定张量的矩阵范数或向量范数。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **p** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _inf__,_ _-inf__,_ _'fro'__,_ _'nuc'__,_ _optional_) –
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
 
-    the order of norm. Default: `'fro'` The following norms can be calculated:
+*   **p** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _] inf_ _，_ _-inf_ _，_ _'来'__，_ _'nuc'__，_ _任选_） -
 
-    &#124; ord &#124; matrix norm &#124; vector norm &#124;
-    &#124; --- &#124; --- &#124; --- &#124;
-    &#124; None &#124; Frobenius norm &#124; 2-norm &#124;
-    &#124; ’fro’ &#124; Frobenius norm &#124; – &#124;
-    &#124; ‘nuc’ &#124; nuclear norm &#124; – &#124;
-    &#124; Other &#124; as vec norm when dim is None &#124; sum(abs(x)**ord)**(1./ord) &#124;
+    规范的顺序。默认值：`'fro'`可以计算以下规范：
 
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _2-tuple of python:ints__,_ _2-list of python:ints__,_ _optional_) – If it is an int, vector norm will be calculated, if it is 2-tuple of ints, matrix norm will be calculated. If the value is None, matrix norm will be calculated when the input tensor only has two dimensions, vector norm will be calculated when the input tensor only has one dimension. If the input tensor has more than two dimensions, the vector norm will be applied to last dimension.
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether the output tensors have `dim` retained or not. Ignored if `dim` = `None` and `out` = `None`. Default: `False`
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor. Ignored if `dim` = `None` and `out` = `None`.
+    | ord |矩阵规范|矢量规范| | --- | --- | --- | |没有| Frobenius规范| 2范数| | '来'| Frobenius规范| - | | 'nuc'|核规范| - | |其他|当昏暗是无|时，作为vec规范sum（abs（x） **ord）**（1./ord）|
 
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _2元组python：ints_ _，_ _2-list of python：ints_ _，_ _可选_） - 如果是int，将计算向量范数，如果是2元组的int，将计算矩阵范数。如果值为None，则当输入张量仅具有两个维度时将计算矩阵范数，当输入张量仅具有一个维度时将计算向量范数。如果输入张量具有两个以上的维度，则向量范数将应用于最后一个维度。
 
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 输出张量是否保留`dim`。如果`dim` = `None`和`out` = `None`，则忽略。默认值：`False`
+
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 输出张量。如果`dim` = `None`和`out` = `None`，则忽略。
 
 Example:
 
-```py
+```
 >>> import torch
 >>> a = torch.arange(9, dtype= torch.float) - 4
 >>> b = a.reshape((3, 3))
@@ -408,26 +390,24 @@ tensor([ 3.7417, 11.2250])
 
 ```
 
-```py
+```
 torch.prod()
 ```
 
-```py
+```
 torch.prod(input, dtype=None) → Tensor
 ```
 
-Returns the product of all elements in the `input` tensor.
+返回`input`张量中所有元素的乘积。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[-0.8020,  0.5428, -1.5854]])
@@ -436,26 +416,24 @@ tensor(0.6902)
 
 ```
 
-```py
+```
 torch.prod(input, dim, keepdim=False, dtype=None) → Tensor
 ```
 
-Returns the product of each row of the `input` tensor in the given dimension `dim`.
+返回给定维`dim`中`input`张量的每一行的乘积。
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
+If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 2)
 >>> a
 tensor([[ 0.5261, -0.3837],
@@ -467,28 +445,26 @@ tensor([-0.2018, -0.2962, -0.0821, -1.1831])
 
 ```
 
-```py
+```
 torch.std()
 ```
 
-```py
+```
 torch.std(input, unbiased=True) → Tensor
 ```
 
-Returns the standard-deviation of all elements in the `input` tensor.
+返回`input`张量中所有元素的标准偏差。
 
-If `unbiased` is `False`, then the standard-deviation will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
+如果`unbiased`为`False`，则将通过偏差估算器计算标准偏差。否则，将使用贝塞尔的修正。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[-0.8166, -1.3802, -0.3560]])
@@ -497,29 +473,27 @@ tensor(0.5130)
 
 ```
 
-```py
+```
 torch.std(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 ```
 
-Returns the standard-deviation of each row of the `input` tensor in the given dimension `dim`.
+返回给定维`dim`中`input`张量的每一行的标准偏差。
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
+If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
 If `unbiased` is `False`, then the standard-deviation will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 0.2035,  1.2959,  1.8101, -0.4644],
@@ -531,26 +505,24 @@ tensor([ 1.0311,  0.7477,  1.2204,  0.9087])
 
 ```
 
-```py
+```
 torch.sum()
 ```
 
-```py
+```
 torch.sum(input, dtype=None) → Tensor
 ```
 
-Returns the sum of all elements in the `input` tensor.
+返回`input`张量中所有元素的总和。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 0.1133, -0.9567,  0.2958]])
@@ -559,26 +531,24 @@ tensor(-0.5475)
 
 ```
 
-```py
+```
 torch.sum(input, dim, keepdim=False, dtype=None) → Tensor
 ```
 
-Returns the sum of each row of the `input` tensor in the given dimension `dim`. If `dim` is a list of dimensions, reduce over all of them.
+返回给定维`dim`中`input`张量的每一行的总和。如果`dim`是维度列表，请减少所有维度。
 
-If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s).
+If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s).
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ _tuple of python:ints_) – the dimension or dimensions to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. If specified, the input tensor is casted to `dtype` before the operation is performed. This is useful for preventing data type overflows. Default: None.
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组python：整数_） - 要减少的维度或维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 0.0569, -0.2475,  0.0737, -0.3429],
@@ -593,32 +563,29 @@ tensor([  435.,  1335.,  2235.,  3135.])
 
 ```
 
-```py
+```
 torch.unique(input, sorted=False, return_inverse=False, dim=None)
 ```
 
-Returns the unique scalar elements of the input tensor as a 1-D tensor.
+返回输入张量的唯一标量元素作为1-D张量。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **sorted** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Whether to sort the unique elements in ascending order before returning as output.
-*   **return_inverse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – Whether to also return the indices for where elements in the original input ended up in the returned unique list.
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to apply unique. If `None`, the unique of the flattened input is returned. default: `None`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **排序**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否在返回作为输出之前按升序对唯一元素进行排序。
+*   **return_inverse** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否还返回原始输入中元素在返回的唯一列表中结束的索引。
+*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 应用唯一的维度。如果是`None`，则返回展平输入的唯一值。默认值：`None`
 
+|返回：|包含张量的张量或元组
 
-| Returns: | A tensor or a tuple of tensors containing
+＆GT; * **输出**（ _Tensor_ ）：唯一标量元素的输出列表。 ＆GT; * **inverse_indices** （ _Tensor_ ）:(可选）如果`return_inverse`为True，将会有第二个返回的张量（与输入相同的形状），表示原始元素的索引输入映射到输出中;否则，此函数只返回单个张量。
 
-&gt; *   **output** (_Tensor_): the output list of unique scalar elements.
-&gt; *   **inverse_indices** (_Tensor_): (optional) if `return_inverse` is True, there will be a 2nd returned tensor (same shape as input) representing the indices for where elements in the original input map to in the output; otherwise, this function will only return a single tensor.
-
-
-| Return type: | ([Tensor](tensors.html#torch.Tensor "torch.Tensor"), [Tensor](tensors.html#torch.Tensor "torch.Tensor") (optional)) |
+| 返回类型： | （ [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ， [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") （可选）） |
 | --- | --- |
 
 Example:
 
-```py
+```
 >>> output = torch.unique(torch.tensor([1, 3, 2, 3], dtype=torch.long))
 >>> output
 tensor([ 2,  3,  1])
@@ -640,28 +607,26 @@ tensor([[ 0,  2],
 
 ```
 
-```py
+```
 torch.var()
 ```
 
-```py
+```
 torch.var(input, unbiased=True) → Tensor
 ```
 
-Returns the variance of all elements in the `input` tensor.
+返回`input`张量中所有元素的方差。
 
-If `unbiased` is `False`, then the variance will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
+如果`unbiased`是`False`，则通过偏差估计器计算方差。否则，将使用贝塞尔的修正。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[-0.3425, -1.2636, -0.4864]])
@@ -670,29 +635,27 @@ tensor(0.2455)
 
 ```
 
-```py
+```
 torch.var(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 ```
 
-Returns the variance of each row of the `input` tensor in the given dimension `dim`.
+返回给定维`dim`中`input`张量的每一行的方差。
 
-If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the outputs tensor having 1 fewer dimension than `input`.
+If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the outputs tensor having 1 fewer dimension than `input`.
 
 If `unbiased` is `False`, then the variance will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensor has `dim` retained or not
-*   **unbiased** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether to use the unbiased estimation or not
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-0.3567,  1.7385, -1.3042,  0.7423],
@@ -703,3 +666,4 @@ tensor([[-0.3567,  1.7385, -1.3042,  0.7423],
 tensor([ 1.7444,  1.1363,  0.7356,  0.5112])
 
 ```
+

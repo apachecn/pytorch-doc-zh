@@ -1,31 +1,33 @@
-## Serialization
 
-```py
+
+## 序列化
+
+> 译者：[ApacheCN](https://github.com/apachecn)
+
+```
 torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>, pickle_protocol=2)
 ```
 
-Saves an object to a disk file.
+将对象保存到磁盘文件。
 
-See also: [Recommended approach for saving a model](notes/serialization.html#recommend-saving-models)
+另请参阅：[保存模型的推荐方法](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/serialization.html#recommend-saving-models)
 
-Parameters: 
+参数：
 
-*   **obj** – saved object
-*   **f** – a file-like object (has to implement write and flush) or a string containing a file name
-*   **pickle_module** – module used for pickling metadata and objects
-*   **pickle_protocol** – can be specified to override the default protocol
+*   **obj** - 保存对象
+*   **f** - 类似文件的对象（必须实现写入和刷新）或包含文件名的字符串
+*   **pickle_module** - 用于腌制元数据和对象的模块
+*   **pickle_protocol** - 可以指定覆盖默认协议
 
+警告
 
+如果您使用的是Python 2，则torch.save不支持将StringIO.StringIO作为有效的类文件对象。这是因为write方法应该返回写入的字节数; StringIO.write（）不会这样做。
 
-Warning
+请使用像io.BytesIO这样的东西。
 
-If you are using Python 2, torch.save does NOT support StringIO.StringIO as a valid file-like object. This is because the write method should return the number of bytes written; StringIO.write() does not do this.
+例
 
-Please use something like io.BytesIO instead.
-
-Example
-
-```py
+```
 >>> # Save to file
 >>> x = torch.tensor([0, 1, 2, 3, 4])
 >>> torch.save(x, 'tensor.pt')
@@ -35,37 +37,35 @@ Example
 
 ```
 
-```py
+```
 torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release-env/lib/python3.7/pickle.py'>)
 ```
 
-Loads an object saved with [`torch.save()`](#torch.save "torch.save") from a file.
+从文件加载用 [`torch.save()`](#torch.save "torch.save") 保存的对象。
 
-[`torch.load()`](#torch.load "torch.load") uses Python’s unpickling facilities but treats storages, which underlie tensors, specially. They are first deserialized on the CPU and are then moved to the device they were saved from. If this fails (e.g. because the run time system doesn’t have certain devices), an exception is raised. However, storages can be dynamically remapped to an alternative set of devices using the `map_location` argument.
+[`torch.load()`](#torch.load "torch.load") 使用Python的unpickling设施，但特别是处理作为张量传感器的存储器。它们首先在CPU上反序列化，然后移动到它们保存的设备上。如果此操作失败（例如，因为运行时系统没有某些设备），则会引发异常。但是，可以使用`map_location`参数将存储重新映射到另一组设备。
 
-If `map_location` is a callable, it will be called once for each serialized storage with two arguments: storage and location. The storage argument will be the initial deserialization of the storage, residing on the CPU. Each serialized storage has a location tag associated with it which identifies the device it was saved from, and this tag is the second argument passed to map_location. The builtin location tags are `‘cpu’` for CPU tensors and `‘cuda:device_id’` (e.g. `‘cuda:2’`) for CUDA tensors. `map_location` should return either None or a storage. If `map_location` returns a storage, it will be used as the final deserialized object, already moved to the right device. Otherwise, ![](img/b69f1ef0735e18ff4ee132790112ce0d.jpg) will fall back to the default behavior, as if `map_location` wasn’t specified.
+如果`map_location`是可调用的，则每个序列化存储器将调用一次，其中包含两个参数：存储和位置。存储参数将是驻留在CPU上的存储的初始反序列化。每个序列化存储都有一个与之关联的位置标记，用于标识从中保存的设备，此标记是传递给map_location的第二个参数。内置位置标签是CPU张量的`‘cpu’`和CUDA张量的`‘cuda:device_id’`（例如`‘cuda:2’`）。 `map_location`应返回None或存储。如果`map_location`返回存储，它将用作最终反序列化对象，已移动到正确的设备。否则， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg) 将回退到默认行为，就像未指定`map_location`一样。
 
-If `map_location` is a string, it should be a device tag, where all tensors should be loaded.
+如果`map_location`是一个字符串，它应该是一个设备标签，应该加载所有张量。
 
-Otherwise, if `map_location` is a dict, it will be used to remap location tags appearing in the file (keys), to ones that specify where to put the storages (values).
+否则，如果`map_location`是一个dict，它将用于将文件（键）中出现的位置标记重新映射到指定存储位置（值）的位置标记。
 
-User extensions can register their own location tags and tagging and deserialization methods using `register_package`.
+用户扩展可以使用`register_package`注册自己的位置标记以及标记和反序列化方法。
 
-Parameters: 
+Parameters:
 
-*   **f** – a file-like object (has to implement read, readline, tell, and seek), or a string containing a file name
-*   **map_location** – a function, torch.device, string or a dict specifying how to remap storage locations
-*   **pickle_module** – module used for unpickling metadata and objects (has to match the pickle_module used to serialize file)
+*   **f** - 类文件对象（必须实现read，readline，tell和seek），或包含文件名的字符串
+*   **map_location** - 一个函数，torch.device，string或dict，指定如何重新映射存储位置
+*   **pickle_module** - 用于取消元数据和对象取消的模块（必须与用于序列化文件的pickle_module相匹配）
 
+注意
 
-
-Note
-
-When you call [`torch.load()`](#torch.load "torch.load") on a file which contains GPU tensors, those tensors will be loaded to GPU by default. You can call `torch.load(.., map_location=’cpu’)` and then `load_state_dict()` to avoid GPU RAM surge when loading a model checkpoint.
+当您在包含GPU张量的文件上调用 [`torch.load()`](#torch.load "torch.load") 时，默认情况下这些张量将被加载到GPU。在加载模型检查点时，可以调用`torch.load(.., map_location=’cpu’)`然后调用`load_state_dict()`以避免GPU RAM激增。
 
 Example
 
-```py
+```
 >>> torch.load('tensors.pt')
 # Load all tensors onto the CPU
 >>> torch.load('tensors.pt', map_location=torch.device('cpu'))
@@ -82,27 +82,27 @@ Example
 
 ```
 
-## Parallelism
+## 排比
 
-```py
+```
 torch.get_num_threads() → int
 ```
 
-Gets the number of OpenMP threads used for parallelizing CPU operations
+获取用于并行化CPU操作的OpenMP线程数
 
-```py
+```
 torch.set_num_threads(int)
 ```
 
-Sets the number of OpenMP threads used for parallelizing CPU operations
+设置用于并行化CPU操作的OpenMP线程数
 
-## Locally disabling gradient computation
+## 在本地禁用渐变计算
 
-The context managers `torch.no_grad()`, `torch.enable_grad()`, and `torch.set_grad_enabled()` are helpful for locally disabling and enabling gradient computation. See [Locally disabling gradient computation](autograd.html#locally-disable-grad) for more details on their usage.
+上下文管理器`torch.no_grad()`，`torch.enable_grad()`和`torch.set_grad_enabled()`有助于本地禁用和启用梯度计算。有关其用法的更多详细信息，请参见[本地禁用梯度计算](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/autograd.html#locally-disable-grad)。
 
-Examples:
+例子：
 
-```py
+```
 >>> x = torch.zeros(1, requires_grad=True)
 >>> with torch.no_grad():
 ...     y = x * 2
@@ -127,10 +127,11 @@ False
 
 ```
 
-## Utilities
+## 公用事业
 
-```py
+```
 torch.compiled_with_cxx11_abi()
 ```
 
-Returns whether PyTorch was built with _GLIBCXX_USE_CXX11_ABI=1
+返回是否使用_GLIBCXX_USE_CXX11_ABI = 1构建PyTorch
+

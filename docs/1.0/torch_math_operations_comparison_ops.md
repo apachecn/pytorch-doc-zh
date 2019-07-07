@@ -1,28 +1,30 @@
-### Comparison Ops
 
-```py
+
+### 比较行动
+
+> 译者：[ApacheCN](https://github.com/apachecn)
+
+```
 torch.allclose(self, other, rtol=1e-05, atol=1e-08, equal_nan=False) → bool
 ```
 
-This function checks if all `self` and `other` satisfy the condition:
+此函数检查所有`self`和`other`是否满足条件：
 
-![](img/5dd778c75ab74a08d08025aa32f15e20.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5dd778c75ab74a08d08025aa32f15e20.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5dd778c75ab74a08d08025aa32f15e20.jpg)
 
-elementwise, for all elements of `self` and `other`. The behaviour of this function is analogous to [numpy.allclose](https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html)
+元素，对于`self`和`other`的所有元素。此函数的行为类似于 [numpy.allclose](https://docs.scipy.org/doc/numpy/reference/generated/numpy.allclose.html)
 
-Parameters: 
+参数：
 
-*   **self** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – first tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – second tensor to compare
-*   **atol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – absolute tolerance. Default: 1e-08
-*   **rtol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – relative tolerance. Default: 1e-05
-*   **equal_nan** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – if `True`, then two `NaN` s will be compared as equal. Default: `False`
+*   **自**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 首先进行张量比较
+*   **其他**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二张量来比较
+*   **atol** （ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 绝对耐受。默认值：1e-08
+*   **rtol** （ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 相对耐受。默认值：1e-05
+*   **equal_nan** （ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 如果`True`，那么两个`NaN` s将是比较平等。默认值：`False`
 
+例：
 
-
-Example:
-
-```py
+```
 >>> torch.allclose(torch.tensor([10000., 1e-07]), torch.tensor([10000.1, 1e-08]))
 False
 >>> torch.allclose(torch.tensor([10000., 1e-08]), torch.tensor([10000.1, 1e-09]))
@@ -34,25 +36,23 @@ True
 
 ```
 
-```py
+```
 torch.argsort(input, dim=None, descending=False)
 ```
 
-Returns the indices that sort a tensor along a given dimension in ascending order by value.
+返回按值按升序对给定维度的张量进行排序的索引。
 
-This is the second value returned by [`torch.sort()`](#torch.sort "torch.sort"). See its documentation for the exact semantics of this method.
+这是 [`torch.sort()`](#torch.sort "torch.sort") 返回的第二个值。有关此方法的确切语义，请参阅其文档。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to sort along
-*   **descending** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls the sorting order (ascending or descending)
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 排序的维度
+*   **降序**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制排序顺序（升序或降序）
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[ 0.0785,  1.5267, -0.8521,  0.4065],
@@ -68,195 +68,181 @@ tensor([[2, 0, 3, 1],
 
 ```
 
-```py
+```
 torch.eq(input, other, out=None) → Tensor
 ```
 
-Computes element-wise equality
+计算元素明确的平等
 
-The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
+第二个参数可以是数字或张量，其形状为[可广播](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)的第一个参数。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor. Must be a `ByteTensor`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要比较的张量
+*   **其他**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _或_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") ） - 张量或值比较
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 输出张量。必须是`ByteTensor`
 
-
-| Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
+| 返回： | 在比较为真的每个位置包含1的`torch.ByteTensor` |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| 返回类型： | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.eq(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 1,  0],
  [ 0,  1]], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.equal(tensor1, tensor2) → bool
 ```
 
-`True` if two tensors have the same size and elements, `False` otherwise.
+`True`如果两个张量具有相同的尺寸和元素，则`False`。
 
 Example:
 
-```py
+```
 >>> torch.equal(torch.tensor([1, 2]), torch.tensor([1, 2]))
 True
 
 ```
 
-```py
+```
 torch.ge(input, other, out=None) → Tensor
 ```
 
-Computes ![](img/7cedf1d52401b16530bccf12f96edd5a.jpg) element-wise.
+按元素计算 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7cedf1d52401b16530bccf12f96edd5a.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7cedf1d52401b16530bccf12f96edd5a.jpg) 。
 
-The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
+The second argument can be a number or a tensor whose shape is [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要比较的张量
+*   **其他**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _或_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") ） - 张量或值比较
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量必须是`ByteTensor`
 
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.ge(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 1,  1],
  [ 0,  1]], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.gt(input, other, out=None) → Tensor
 ```
 
-Computes ![](img/9d325c4b6e2e06380eb65ceae1e84d76.jpg) element-wise.
+按元素计算 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9d325c4b6e2e06380eb65ceae1e84d76.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9d325c4b6e2e06380eb65ceae1e84d76.jpg) 。
 
-The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
+The second argument can be a number or a tensor whose shape is [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要比较的张量
+*   **其他**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _或_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") ） - 张量或值比较
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量必须是`ByteTensor`
 
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.gt(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 0,  1],
  [ 0,  0]], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.isfinite(tensor)
 ```
 
-Returns a new tensor with boolean elements representing if each element is `Finite` or not.
+返回一个新的张量，其布尔元素表示每个元素是否为`Finite`。
 
-| Parameters: | **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – A tensor to check |
+| 参数： | **张量**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 张量来检查 |
 | --- | --- |
-| Returns: | A `torch.ByteTensor` containing a 1 at each location of finite elements and 0 otherwise |
-| --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| 返回： | `torch.ByteTensor`在有限元的每个位置包含1，否则为0 |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.isfinite(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
 tensor([ 1,  0,  1,  0,  0], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.isinf(tensor)
 ```
 
-Returns a new tensor with boolean elements representing if each element is `+/-INF` or not.
+返回一个新的张量，其布尔元素表示每个元素是否为`+/-INF`。
 
-| Parameters: | **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – A tensor to check |
+| Parameters: | **tensor** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) – A tensor to check |
 | --- | --- |
-| Returns: | A `torch.ByteTensor` containing a 1 at each location of `+/-INF` elements and 0 otherwise |
-| --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Returns: | `torch.ByteTensor`在`+/-INF`元素的每个位置包含1，否则为0 |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.isinf(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
 tensor([ 0,  1,  0,  1,  0], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.isnan(tensor)
 ```
 
-Returns a new tensor with boolean elements representing if each element is `NaN` or not.
+返回一个新的张量，其布尔元素表示每个元素是否为`NaN`。
 
-| Parameters: | **tensor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – A tensor to check |
+| Parameters: | **tensor** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) – A tensor to check |
 | --- | --- |
-| Returns: | A `torch.ByteTensor` containing a 1 at each location of `NaN` elements. |
-| --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Returns: | `torch.ByteTensor`在`NaN`元素的每个位置包含1。 |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.isnan(torch.tensor([1, float('nan'), 2]))
 tensor([ 0,  1,  0], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.kthvalue(input, k, dim=None, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
-Returns the `k` th smallest element of the given `input` tensor along a given dimension.
+返回给定维度上给定`input`张量的`k`个最小元素。
 
-If `dim` is not given, the last dimension of the `input` is chosen.
+如果未给出`dim`，则选择`input`的最后一个尺寸。
 
-A tuple of `(values, indices)` is returned, where the `indices` is the indices of the kth-smallest element in the original `input` tensor in dimension `dim`.
+返回`(values, indices)`的元组，其中`indices`是维度`dim`中原始`input`张量中第k个最小元素的索引。
 
-If `keepdim` is `True`, both the `values` and `indices` tensors are the same size as `input`, except in the dimension `dim` where they are of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in both the `values` and `indices` tensors having 1 fewer dimension than the `input` tensor.
+如果`keepdim`为`True`，`values`和`indices`张量都与`input`的尺寸相同，但尺寸为`dim`的尺寸除外。否则，`dim`被挤压（见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致`values`和`indices`张量的尺寸比`input`张量小1。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – k for the k-th smallest element
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to find the kth value along
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (Tensor, LongTensor) can be optionally given to be used as output buffers
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **k** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - k为第k个最小元素
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 找到kth值的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - （Tensor，LongTensor）的输出元组可以任意给出用作输出缓冲区
 
 Example:
 
-```py
+```
 >>> x = torch.arange(1., 6.)
 >>> x
 tensor([ 1.,  2.,  3.,  4.,  5.])
@@ -272,80 +258,76 @@ tensor([[ 1.,  2.,  3.],
 
 ```
 
-```py
+```
 torch.le(input, other, out=None) → Tensor
 ```
 
-Computes ![](img/7cce834f96c0e53d76c3ec5ed63cf099.jpg) element-wise.
+按元素计算 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7cce834f96c0e53d76c3ec5ed63cf099.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7cce834f96c0e53d76c3ec5ed63cf099.jpg) 。
 
-The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
+The second argument can be a number or a tensor whose shape is [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要比较的张量
+*   **其他**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _或_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") ） - 张量或值比较
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量必须是`ByteTensor`
 
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.le(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 1,  0],
  [ 1,  1]], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.lt(input, other, out=None) → Tensor
 ```
 
-Computes ![](img/26b8f23e09743e63a71bcf53c650f1a8.jpg) element-wise.
+按元素计算 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/26b8f23e09743e63a71bcf53c650f1a8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/26b8f23e09743e63a71bcf53c650f1a8.jpg) 。
 
-The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
+The second argument can be a number or a tensor whose shape is [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要比较的张量
+*   **其他**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _或_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") ） - 张量或值比较
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量必须是`ByteTensor`
 
 | Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.lt(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 0,  0],
  [ 1,  0]], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.max()
 ```
 
-```py
+```
 torch.max(input) → Tensor
 ```
 
-Returns the maximum value of all elements in the `input` tensor.
+返回`input`张量中所有元素的最大值。
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
+| Parameters: | **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量 |
 | --- | --- |
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 0.6763,  0.7445, -2.2369]])
@@ -354,26 +336,24 @@ tensor(0.7445)
 
 ```
 
-```py
+```
 torch.max(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
-Returns the maximum value of each row of the `input` tensor in the given dimension `dim`. The second return value is the index location of each maximum value found (argmax).
+返回给定维`dim`中`input`张量的每一行的最大值。第二个返回值是找到的每个最大值的索引位置（argmax）。
 
-If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensors having 1 fewer dimension than `input`.
+如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量的尺寸比`input`少1。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the result tuple of two output tensors (max, max_indices)
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 两个输出张量的结果元组（max，max_indices）
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-1.2360, -0.2942, -0.1222,  0.8475],
@@ -385,31 +365,29 @@ tensor([[-1.2360, -0.2942, -0.1222,  0.8475],
 
 ```
 
-```py
+```
 torch.max(input, other, out=None) → Tensor
 ```
 
-Each element of the tensor `input` is compared with the corresponding element of the tensor `other` and an element-wise maximum is taken.
+张量`input`的每个元素与张量`other`的对应元素进行比较，并采用逐元素最大值。
 
-The shapes of `input` and `other` don’t need to match, but they must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
+`input`和`other`的形状不需要匹配，但它们必须是[可广播的](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)。
 
-![](img/adfdd713f1ca11c4b41b733a5f452f47.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/adfdd713f1ca11c4b41b733a5f452f47.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/adfdd713f1ca11c4b41b733a5f452f47.jpg)
 
-Note
+注意
 
-When the shapes do not match, the shape of the returned output tensor follows the [broadcasting rules](notes/broadcasting.html#broadcasting-semantics).
+当形状不匹配时，返回的输出张量的形状遵循[广播规则](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **其他**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二个输入张量
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.2942, -0.7416,  0.2653, -0.1584])
@@ -421,22 +399,22 @@ tensor([ 0.8722, -0.7416,  0.2653, -0.1584])
 
 ```
 
-```py
+```
 torch.min()
 ```
 
-```py
+```
 torch.min(input) → Tensor
 ```
 
-Returns the minimum value of all elements in the `input` tensor.
+返回`input`张量中所有元素的最小值。
 
-| Parameters: | **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
+| Parameters: | **input** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) – the input tensor |
 | --- | --- |
 
 Example:
 
-```py
+```
 >>> a = torch.randn(1, 3)
 >>> a
 tensor([[ 0.6750,  1.0857,  1.7197]])
@@ -445,26 +423,24 @@ tensor(0.6750)
 
 ```
 
-```py
+```
 torch.min(input, dim, keepdim=False, out=None) -> (Tensor, LongTensor)
 ```
 
-Returns the minimum value of each row of the `input` tensor in the given dimension `dim`. The second return value is the index location of each minimum value found (argmin).
+返回给定维`dim`中`input`张量的每一行的最小值。第二个返回值是找到的每个最小值的索引位置（argmin）。
 
-If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensors having 1 fewer dimension than `input`.
+If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensors having 1 fewer dimension than `input`.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the dimension to reduce
-*   **keepdim** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – whether the output tensors have `dim` retained or not
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the tuple of two output tensors (min, min_indices)
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - 两个输出张量的元组（min，min_indices）
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4, 4)
 >>> a
 tensor([[-0.6248,  1.1334, -1.1899, -0.2803],
@@ -476,31 +452,29 @@ tensor([[-0.6248,  1.1334, -1.1899, -0.2803],
 
 ```
 
-```py
+```
 torch.min(input, other, out=None) → Tensor
 ```
 
-Each element of the tensor `input` is compared with the corresponding element of the tensor `other` and an element-wise minimum is taken. The resulting tensor is returned.
+将张量`input`的每个元素与张量`other`的对应元素进行比较，并采用逐元素最小值。返回结果张量。
 
-The shapes of `input` and `other` don’t need to match, but they must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
+The shapes of `input` and `other` don’t need to match, but they must be [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics).
 
-![](img/173d7b4bb5cacbc18349fb16cd6130ab.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/173d7b4bb5cacbc18349fb16cd6130ab.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/173d7b4bb5cacbc18349fb16cd6130ab.jpg)
 
 Note
 
-When the shapes do not match, the shape of the returned output tensor follows the [broadcasting rules](notes/broadcasting.html#broadcasting-semantics).
+When the shapes do not match, the shape of the returned output tensor follows the [broadcasting rules](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics).
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the second input tensor
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **其他**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二个输入张量
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
-```py
+```
 >>> a = torch.randn(4)
 >>> a
 tensor([ 0.8137, -1.1740, -0.6460,  0.6308])
@@ -512,59 +486,55 @@ tensor([-0.1369, -1.1740, -0.6460, -0.1929])
 
 ```
 
-```py
+```
 torch.ne(input, other, out=None) → Tensor
 ```
 
-Computes ![](img/9b7e900c499f533c33aac63d7b487c24.jpg) element-wise.
+按元素计算 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9b7e900c499f533c33aac63d7b487c24.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9b7e900c499f533c33aac63d7b487c24.jpg) 。
 
-The second argument can be a number or a tensor whose shape is [broadcastable](notes/broadcasting.html#broadcasting-semantics) with the first argument.
+The second argument can be a number or a tensor whose shape is [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics) with the first argument.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the tensor to compare
-*   **other** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the tensor or value to compare
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor that must be a `ByteTensor`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要比较的张量
+*   **其他**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _或_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") ） - 张量或值比较
+*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量必须是`ByteTensor`
 
-
-| Returns: | A `torch.ByteTensor` containing a 1 at each location where comparison is true. |
+| Returns: | 在比较为真的每个位置包含1的`torch.ByteTensor`。 |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> torch.ne(torch.tensor([[1, 2], [3, 4]]), torch.tensor([[1, 1], [4, 4]]))
 tensor([[ 0,  1],
  [ 1,  0]], dtype=torch.uint8)
 
 ```
 
-```py
+```
 torch.sort(input, dim=None, descending=False, out=None) -> (Tensor, LongTensor)
 ```
 
-Sorts the elements of the `input` tensor along a given dimension in ascending order by value.
+按值按升序对给定维度的`input`张量元素进行排序。
 
 If `dim` is not given, the last dimension of the `input` is chosen.
 
-If `descending` is `True` then the elements are sorted in descending order by value.
+如果`descending`是`True`，则元素按值按降序排序。
 
-A tuple of (sorted_tensor, sorted_indices) is returned, where the sorted_indices are the indices of the elements in the original `input` tensor.
+返回元组（sorted_tensor，sorted_indices），其中sorted_indices是原始`input`张量中元素的索引。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to sort along
-*   **descending** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls the sorting order (ascending or descending)
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (`Tensor`, `LongTensor`) that can be optionally given to be used as output buffers
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 排序的维度
+*   **降序**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制排序顺序（升序或降序）
+*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - （`Tensor`，`LongTensor`）的输出元组可以选择将其用作输出缓冲区
 
 Example:
 
-```py
+```
 >>> x = torch.randn(3, 4)
 >>> sorted, indices = torch.sort(x)
 >>> sorted
@@ -588,34 +558,32 @@ tensor([[ 2,  0,  0,  1],
 
 ```
 
-```py
+```
 torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, LongTensor)
 ```
 
-Returns the `k` largest elements of the given `input` tensor along a given dimension.
+返回给定维度上给定`input`张量的`k`最大元素。
 
 If `dim` is not given, the last dimension of the `input` is chosen.
 
-If `largest` is `False` then the `k` smallest elements are returned.
+如果`largest`为`False`，则返回`k`最小元素。
 
-A tuple of `(values, indices)` is returned, where the `indices` are the indices of the elements in the original `input` tensor.
+返回`(values, indices)`元组，其中`indices`是原始`input`张量中元素的索引。
 
-The boolean option `sorted` if `True`, will make sure that the returned `k` elements are themselves sorted
+布尔选项`sorted`如果`True`，将确保返回的`k`元素本身已排序
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **k** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the k in “top-k”
-*   **dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the dimension to sort along
-*   **largest** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return largest or smallest elements
-*   **sorted** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return the elements in sorted order
-*   **out** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _optional_) – the output tuple of (Tensor, LongTensor) that can be optionally given to be used as output buffers
-
-
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **k** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - “top-k”中的k
+*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 排序的维度
+*   **最大**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否返回最大或最小元素
+*   **排序**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否按排序顺序返回元素
+*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - （Tensor，LongTensor）的输出元组，可以选择性给予用作输出缓冲区
 
 Example:
 
-```py
+```
 >>> x = torch.arange(1., 6.)
 >>> x
 tensor([ 1.,  2.,  3.,  4.,  5.])
@@ -623,3 +591,4 @@ tensor([ 1.,  2.,  3.,  4.,  5.])
 (tensor([ 5.,  4.,  3.]), tensor([ 4,  3,  2]))
 
 ```
+

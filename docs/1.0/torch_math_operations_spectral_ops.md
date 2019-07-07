@@ -1,48 +1,50 @@
-### Spectral Ops
 
-```py
+
+### 光谱行动
+
+> 译者：[ApacheCN](https://github.com/apachecn)
+
+```
 torch.fft(input, signal_ndim, normalized=False) → Tensor
 ```
 
-Complex-to-complex Discrete Fourier Transform
+复杂到复杂的离散傅立叶变换
 
-This method computes the complex-to-complex discrete Fourier transform. Ignoring the batch dimensions, it computes the following expression:
+该方法计算复数到复数的离散傅立叶变换。忽略批量维度，它计算以下表达式：
 
-![](img/5562db7e8cbd1caa591b84aef7d65178.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5562db7e8cbd1caa591b84aef7d65178.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5562db7e8cbd1caa591b84aef7d65178.jpg)
 
-where ![](img/9566974d45a96737f7e0ecf302d877b8.jpg) = `signal_ndim` is number of dimensions for the signal, and ![](img/4236d8cccece7d17f3a004865adbf94d.jpg) is the size of signal dimension ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg).
+其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg) = `signal_ndim`是信号的维数， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg) 是信号维数 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg) 的大小。
 
-This method supports 1D, 2D and 3D complex-to-complex transforms, indicated by `signal_ndim`. `input` must be a tensor with last dimension of size 2, representing the real and imaginary components of complex numbers, and should have at least `signal_ndim + 1` dimensions with optionally arbitrary number of leading batch dimensions. If `normalized` is set to `True`, this normalizes the result by dividing it with ![](img/eee43fa49e4959712077ced4d4c25da3.jpg) so that the operator is unitary.
+该方法支持1D，2D和3D复杂到复合变换，由`signal_ndim`表示。 `input`必须是最后一个尺寸为2的张量，表示复数的实部和虚部，并且至少应具有`signal_ndim + 1`尺寸和任意数量的前导批量尺寸。如果`normalized`设置为`True`，则通过将其除以 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/eee43fa49e4959712077ced4d4c25da3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/eee43fa49e4959712077ced4d4c25da3.jpg) 来将结果标准化，以便操作符是单一的。
 
-Returns the real and the imaginary parts together as one tensor of the same shape of `input`.
+将实部和虚部一起作为`input`的相同形状的一个张量返回。
 
-The inverse of this function is [`ifft()`](#torch.ifft "torch.ifft").
+该函数的反函数是 [`ifft()`](#torch.ifft "torch.ifft") 。
 
-Note
+注意
 
-For CUDA tensors, an LRU cache is used for cuFFT plans to speed up repeatedly running FFT methods on tensors of same geometry with same same configuration.
+对于CUDA张量，LRU高速缓存用于cuFFT计划，以加速在具有相同配置的相同几何的张量上重复运行FFT方法。
 
-Changing `torch.backends.cuda.cufft_plan_cache.max_size` (default is 4096 on CUDA 10 and newer, and 1023 on older CUDA versions) controls the capacity of this cache. Some cuFFT plans may allocate GPU memory. You can use `torch.backends.cuda.cufft_plan_cache.size` to query the number of plans currently in cache, and `torch.backends.cuda.cufft_plan_cache.clear()` to clear the cache.
+更改`torch.backends.cuda.cufft_plan_cache.max_size`（CUDA 10及更高版本上的默认值为4096，旧版本的CUDA上为1023）控制此缓存的容量。一些cuFFT计划可能会分配GPU内存。您可以使用`torch.backends.cuda.cufft_plan_cache.size`查询当前缓存中的计划数量，使用`torch.backends.cuda.cufft_plan_cache.clear()`清除缓存。
 
-Warning
+警告
 
-For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
+对于CPU张量，此方法目前仅适用于MKL。使用`torch.backends.mkl.is_available()`检查是否安装了MKL。
 
-Parameters: 
+参数：
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` `+ 1` dimensions
-*   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
-*   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 至少`signal_ndim` `+ 1`维度的输入张量
+*   **signal_ndim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 每个信号中的维数。 `signal_ndim`只能是1,2或3
+*   **归一化**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制是否返回归一化结果。默认值：`False`
 
-
-| Returns: | A tensor containing the complex-to-complex Fourier transform result |
+| 返回： | 包含复数到复数傅立叶变换结果的张量 |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| 返回类型： | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-Example:
+例：
 
-```py
+```
 >>> # unbatched 2D FFT
 >>> x = torch.randn(4, 3, 2)
 >>> torch.fft(x, 2)
@@ -86,23 +88,23 @@ torch.Size([3, 3, 5, 5, 2])
 
 ```
 
-```py
+```
 torch.ifft(input, signal_ndim, normalized=False) → Tensor
 ```
 
-Complex-to-complex Inverse Discrete Fourier Transform
+复数到复数的逆离散傅立叶变换
 
-This method computes the complex-to-complex inverse discrete Fourier transform. Ignoring the batch dimensions, it computes the following expression:
+该方法计算复数到复数的离散傅里叶逆变换。忽略批量维度，它计算以下表达式：
 
-![](img/014337971856a1c52bd1bc756aa262b6.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/014337971856a1c52bd1bc756aa262b6.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/014337971856a1c52bd1bc756aa262b6.jpg)
 
-where ![](img/9566974d45a96737f7e0ecf302d877b8.jpg) = `signal_ndim` is number of dimensions for the signal, and ![](img/4236d8cccece7d17f3a004865adbf94d.jpg) is the size of signal dimension ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg).
+where [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg) = `signal_ndim` is number of dimensions for the signal, and [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg) is the size of signal dimension [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg).
 
-The argument specifications are almost identical with [`fft()`](#torch.fft "torch.fft"). However, if `normalized` is set to `True`, this instead returns the results multiplied by ![](img/363cf16ec847125aff9d3c88189beea7.jpg), to become a unitary operator. Therefore, to invert a [`fft()`](#torch.fft "torch.fft"), the `normalized` argument should be set identically for [`fft()`](#torch.fft "torch.fft").
+参数规范与 [`fft()`](#torch.fft "torch.fft") 几乎相同。但是，如果`normalized`设置为`True`，则返回结果乘以 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/363cf16ec847125aff9d3c88189beea7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/363cf16ec847125aff9d3c88189beea7.jpg) ，成为单一运算符。因此，要反转 [`fft()`](#torch.fft "torch.fft") ，`normalized`参数应设置为 [`fft()`](#torch.fft "torch.fft") 相同。
 
 Returns the real and the imaginary parts together as one tensor of the same shape of `input`.
 
-The inverse of this function is [`fft()`](#torch.fft "torch.fft").
+该函数的反函数是 [`fft()`](#torch.fft "torch.fft") 。
 
 Note
 
@@ -114,21 +116,19 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` `+ 1` dimensions
-*   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
-*   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 至少`signal_ndim` `+ 1`维度的输入张量
+*   **signal_ndim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 每个信号中的维数。 `signal_ndim`只能是1,2或3
+*   **归一化**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制是否返回归一化结果。默认值：`False`
 
-
-| Returns: | A tensor containing the complex-to-complex inverse Fourier transform result |
+| Returns: | 包含复数到复数逆傅立叶变换结果的张量 |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> x = torch.randn(3, 3, 2)
 >>> x
 tensor([[[ 1.2766,  1.3680],
@@ -158,23 +158,23 @@ tensor([[[ 1.2766,  1.3680],
 
 ```
 
-```py
+```
 torch.rfft(input, signal_ndim, normalized=False, onesided=True) → Tensor
 ```
 
-Real-to-complex Discrete Fourier Transform
+实对复离散傅立叶变换
 
-This method computes the real-to-complex discrete Fourier transform. It is mathematically equivalent with [`fft()`](#torch.fft "torch.fft") with differences only in formats of the input and output.
+该方法计算实数到复数的离散傅立叶变换。它在数学上等同于 [`fft()`](#torch.fft "torch.fft") ，仅在输入和输出的格式上有所不同。
 
-This method supports 1D, 2D and 3D real-to-complex transforms, indicated by `signal_ndim`. `input` must be a tensor with at least `signal_ndim` dimensions with optionally arbitrary number of leading batch dimensions. If `normalized` is set to `True`, this normalizes the result by dividing it with ![](img/eee43fa49e4959712077ced4d4c25da3.jpg) so that the operator is unitary, where ![](img/4236d8cccece7d17f3a004865adbf94d.jpg) is the size of signal dimension ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg).
+该方法支持1D，2D和3D实对复变换，由`signal_ndim`表示。 `input`必须是具有至少`signal_ndim`尺寸的张量，可选择任意数量的前导批量。如果`normalized`设置为`True`，则通过将其除以 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/eee43fa49e4959712077ced4d4c25da3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/eee43fa49e4959712077ced4d4c25da3.jpg) 来将结果标准化，以便操作符是单一的，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg) 是信号的大小维 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg) 。
 
-The real-to-complex Fourier transform results follow conjugate symmetry:
+实对复傅里叶变换结果遵循共轭对称：
 
-![](img/f5ea82a4989c8b43517e53dc795d5516.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/f5ea82a4989c8b43517e53dc795d5516.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/f5ea82a4989c8b43517e53dc795d5516.jpg)
 
-where the index arithmetic is computed modulus the size of the corresponding dimension, ![](img/b57c343978b88489065e0d2443349ae0.jpg) is the conjugate operator, and ![](img/9566974d45a96737f7e0ecf302d877b8.jpg) = `signal_ndim`. `onesided` flag controls whether to avoid redundancy in the output results. If set to `True` (default), the output will not be full complex result of shape ![](img/d0cb8b79768b92645994f059e281aaca.jpg), where ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) is the shape of `input`, but instead the last dimension will be halfed as of size ![](img/baa9baa3b9c79a896640a3f7c20deb1c.jpg).
+计算指数算术的模数是相应维数的大小， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b57c343978b88489065e0d2443349ae0.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b57c343978b88489065e0d2443349ae0.jpg) 是共轭算子， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg) = `signal_ndim`。 `onesided`标志控制是否避免输出结果中的冗余。如果设置为`True`（默认），输出将不是形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/d0cb8b79768b92645994f059e281aaca.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/d0cb8b79768b92645994f059e281aaca.jpg) 的完整复杂结果，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 是`input`的形状，而是最后一个尺寸将是大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/baa9baa3b9c79a896640a3f7c20deb1c.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/baa9baa3b9c79a896640a3f7c20deb1c.jpg) 的一半。
 
-The inverse of this function is [`irfft()`](#torch.irfft "torch.irfft").
+该函数的反函数是 [`irfft()`](#torch.irfft "torch.irfft") 。
 
 Note
 
@@ -186,22 +186,20 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` dimensions
-*   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
-*   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
-*   **onesided** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return half of results to avoid redundancy. Default: `True`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 至少`signal_ndim`维度的输入张量
+*   **signal_ndim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 每个信号中的维数。 `signal_ndim`只能是1,2或3
+*   **归一化**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制是否返回归一化结果。默认值：`False`
+*   **单独**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否返回一半结果以避免冗余。默认值：`True`
 
-
-| Returns: | A tensor containing the real-to-complex Fourier transform result |
+| Returns: | 包含实数到复数傅立叶变换结果的张量 |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> x = torch.randn(5, 5)
 >>> torch.rfft(x, 2).shape
 torch.Size([5, 3, 2])
@@ -210,27 +208,27 @@ torch.Size([5, 5, 2])
 
 ```
 
-```py
+```
 torch.irfft(input, signal_ndim, normalized=False, onesided=True, signal_sizes=None) → Tensor
 ```
 
-Complex-to-real Inverse Discrete Fourier Transform
+复数到实数的逆离散傅立叶变换
 
-This method computes the complex-to-real inverse discrete Fourier transform. It is mathematically equivalent with [`ifft()`](#torch.ifft "torch.ifft") with differences only in formats of the input and output.
+该方法计算复数到实数的逆离散傅里叶变换。它在数学上等同于 [`ifft()`](#torch.ifft "torch.ifft") ，仅在输入和输出的格式上有所不同。
 
-The argument specifications are almost identical with [`ifft()`](#torch.ifft "torch.ifft"). Similar to [`ifft()`](#torch.ifft "torch.ifft"), if `normalized` is set to `True`, this normalizes the result by multiplying it with ![](img/eee43fa49e4959712077ced4d4c25da3.jpg) so that the operator is unitary, where ![](img/4236d8cccece7d17f3a004865adbf94d.jpg) is the size of signal dimension ![](img/31df9c730e19ca29b59dce64b99d98c1.jpg).
+参数规范与 [`ifft()`](#torch.ifft "torch.ifft") 几乎相同。类似于 [`ifft()`](#torch.ifft "torch.ifft") ，如果`normalized`设置为`True`，则通过将其与 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/eee43fa49e4959712077ced4d4c25da3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/eee43fa49e4959712077ced4d4c25da3.jpg) 相乘来使结果归一化，以便运算符是单一的，其中 [] ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/4236d8cccece7d17f3a004865adbf94d.jpg) 是信号维 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/31df9c730e19ca29b59dce64b99d98c1.jpg) 的大小。
 
-Due to the conjugate symmetry, `input` do not need to contain the full complex frequency values. Roughly half of the values will be sufficient, as is the case when `input` is given by [`rfft()`](#torch.rfft "torch.rfft") with `rfft(signal, onesided=True)`. In such case, set the `onesided` argument of this method to `True`. Moreover, the original signal shape information can sometimes be lost, optionally set `signal_sizes` to be the size of the original signal (without the batch dimensions if in batched mode) to recover it with correct shape.
+由于共轭对称性，`input`不需要包含完整的复频率值。大约一半的值就足够了， [`rfft()`](#torch.rfft "torch.rfft") `rfft(signal, onesided=True)`给出`input`的情况就足够了。在这种情况下，将此方法的`onesided`参数设置为`True`。此外，原始信号形状信息有时会丢失，可选地将`signal_sizes`设置为原始信号的大小（如果处于批处理模式，则没有批量维度）以正确的形状恢复它。
 
-Therefore, to invert an [`rfft()`](#torch.rfft "torch.rfft"), the `normalized` and `onesided` arguments should be set identically for [`irfft()`](#torch.irfft "torch.irfft"), and preferrably a `signal_sizes` is given to avoid size mismatch. See the example below for a case of size mismatch.
+因此，要反转 [`rfft()`](#torch.rfft "torch.rfft") ，`normalized`和`onesided`参数应设置为 [`irfft()`](#torch.irfft "torch.irfft") 相同，并且最好给出`signal_sizes`以避免大小不匹配。有关尺寸不匹配的情况，请参阅下面的示例。
 
-See [`rfft()`](#torch.rfft "torch.rfft") for details on conjugate symmetry.
+有关共轭对称性的详细信息，请参见 [`rfft()`](#torch.rfft "torch.rfft") 。
 
-The inverse of this function is [`rfft()`](#torch.rfft "torch.rfft").
+该函数的反函数是 [`rfft()`](#torch.rfft "torch.rfft") 。
 
 Warning
 
-Generally speaking, the input of this function should contain values following conjugate symmetry. Note that even if `onesided` is `True`, often symmetry on some part is still needed. When this requirement is not satisfied, the behavior of [`irfft()`](#torch.irfft "torch.irfft") is undefined. Since [`torch.autograd.gradcheck()`](autograd.html#torch.autograd.gradcheck "torch.autograd.gradcheck") estimates numerical Jacobian with point perturbations, [`irfft()`](#torch.irfft "torch.irfft") will almost certainly fail the check.
+一般而言，此函数的输入应包含共轭对称后的值。请注意，即使`onesided`为`True`，仍然需要对某些部分进行对称。当不满足此要求时， [`irfft()`](#torch.irfft "torch.irfft") 的行为未定义。由于 [`torch.autograd.gradcheck()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/autograd.html#torch.autograd.gradcheck "torch.autograd.gradcheck") 估计具有点扰动的数值雅可比行列式， [`irfft()`](#torch.irfft "torch.irfft") 几乎肯定会失败。
 
 Note
 
@@ -242,23 +240,21 @@ Warning
 
 For CPU tensors, this method is currently only available with MKL. Use `torch.backends.mkl.is_available()` to check if MKL is installed.
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor of at least `signal_ndim` `+ 1` dimensions
-*   **signal_ndim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the number of dimensions in each signal. `signal_ndim` can only be 1, 2 or 3
-*   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return normalized results. Default: `False`
-*   **onesided** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether `input` was halfed to avoid redundancy, e.g., by [`rfft()`](#torch.rfft "torch.rfft"). Default: `True`
-*   **signal_sizes** (list or `torch.Size`, optional) – the size of the original signal (without batch dimension). Default: `None`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 至少`signal_ndim` `+ 1`维度的输入张量
+*   **signal_ndim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 每个信号中的维数。 `signal_ndim`只能是1,2或3
+*   **归一化**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制是否返回归一化结果。默认值：`False`
+*   **单独**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制`input`是否为半数以避免冗余，例如， [`rfft()`](#torch.rfft "torch.rfft") 。默认值：`True`
+*   **signal_sizes** （列表或`torch.Size`，可选） - 原始信号的大小（无批量维度）。默认值：`None`
 
-
-| Returns: | A tensor containing the complex-to-real inverse Fourier transform result |
+| Returns: | 包含复数到实数逆傅立叶变换结果的张量 |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
 Example:
 
-```py
+```
 >>> x = torch.randn(4, 4)
 >>> torch.rfft(x, 2, onesided=True).shape
 torch.Size([4, 3, 2])
@@ -284,175 +280,166 @@ tensor([[-0.8992,  0.6117, -1.6091, -0.4155, -0.8346],
 
 ```
 
-```py
+```
 torch.stft(input, n_fft, hop_length=None, win_length=None, window=None, center=True, pad_mode='reflect', normalized=False, onesided=True)
 ```
 
-Short-time Fourier transform (STFT).
+短时傅立叶变换（STFT）。
 
-Ignoring the optional batch dimension, this method computes the following expression:
+忽略可选批处理维度，此方法计算以下表达式：
 
-![](img/b0732a4ca07b0a4bbb1c8e42755dd635.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b0732a4ca07b0a4bbb1c8e42755dd635.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b0732a4ca07b0a4bbb1c8e42755dd635.jpg)
 
-where ![](img/20ddd8181c2e0d0fb893637e8572d475.jpg) is the index of the sliding window, and ![](img/fbd51655b696eb58cdc3e2a85d8138d3.jpg) is the frequency that ![](img/309b97f749e9d19a615ef66fdc686f9f.jpg). When `onesided` is the default value `True`,
+其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) 是滑动窗口的索引， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/fbd51655b696eb58cdc3e2a85d8138d3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/fbd51655b696eb58cdc3e2a85d8138d3.jpg) 是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/309b97f749e9d19a615ef66fdc686f9f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/309b97f749e9d19a615ef66fdc686f9f.jpg) 的频率。当`onesided`是默认值`True`时，
 
-*   `input` must be either a 1-D time sequence or a 2-D batch of time sequences.
-*   If `hop_length` is `None` (default), it is treated as equal to `floor(n_fft / 4)`.
-*   If `win_length` is `None` (default), it is treated as equal to `n_fft`.
-*   `window` can be a 1-D tensor of size `win_length`, e.g., from [`torch.hann_window()`](#torch.hann_window "torch.hann_window"). If `window` is `None` (default), it is treated as if having ![](img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg) everywhere in the window. If ![](img/6331c460bba556da5e58d69a99aa834e.jpg), `window` will be padded on both sides to length `n_fft` before being applied.
-*   If `center` is `True` (default), `input` will be padded on both sides so that the ![](img/654b00d1036ba7f7d93e02f57fc00a75.jpg)-th frame is centered at time ![](img/fca268610b657c34819b28d98ed12232.jpg). Otherwise, the ![](img/654b00d1036ba7f7d93e02f57fc00a75.jpg)-th frame begins at time ![](img/fca268610b657c34819b28d98ed12232.jpg).
-*   `pad_mode` determines the padding method used on `input` when `center` is `True`. See [`torch.nn.functional.pad()`](nn.html#torch.nn.functional.pad "torch.nn.functional.pad") for all available options. Default is `"reflect"`.
-*   If `onesided` is `True` (default), only values for ![](img/fbd51655b696eb58cdc3e2a85d8138d3.jpg) in ![](img/960f7132c51380d407edbfffa1d01db2.jpg) are returned because the real-to-complex Fourier transform satisfies the conjugate symmetry, i.e., ![](img/5fce0cf9e58e0a0a71eb6931ade5e784.jpg).
-*   If `normalized` is `True` (default is `False`), the function returns the normalized STFT results, i.e., multiplied by ![](img/207c21435d21c4bdec529a2f3b922bff.jpg).
+*   `input`必须是1-D时间序列或2-D批时间序列。
+*   如果`hop_length`为`None`（默认值），则视为等于`floor(n_fft / 4)`。
+*   如果`win_length`为`None`（默认值），则视为等于`n_fft`。
+*   `window`可以是尺寸`win_length`的1-D张量，例如来自 [`torch.hann_window()`](#torch.hann_window "torch.hann_window") 。如果`window`是`None`（默认值），则视为在窗口中的任何地方都有 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg) 。如果 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6331c460bba556da5e58d69a99aa834e.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6331c460bba556da5e58d69a99aa834e.jpg) ，`window`将在施加之前在长度`n_fft`的两侧填充。
+*   如果`center`为`True`（默认值），则`input`将在两侧填充，以便 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/654b00d1036ba7f7d93e02f57fc00a75.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/654b00d1036ba7f7d93e02f57fc00a75.jpg) 帧在 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/fca268610b657c34819b28d98ed12232.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/fca268610b657c34819b28d98ed12232.jpg) 时间居中。否则， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/654b00d1036ba7f7d93e02f57fc00a75.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/654b00d1036ba7f7d93e02f57fc00a75.jpg) - 帧在时间 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/fca268610b657c34819b28d98ed12232.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/fca268610b657c34819b28d98ed12232.jpg) 开始。
+*   `pad_mode`确定`center`为`True`时`input`上使用的填充方法。有关所有可用选项，请参阅 [`torch.nn.functional.pad()`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/nn.html#torch.nn.functional.pad "torch.nn.functional.pad") 。默认为`"reflect"`。
+*   如果`onesided`是`True`（默认值），则仅返回 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/960f7132c51380d407edbfffa1d01db2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/960f7132c51380d407edbfffa1d01db2.jpg) 中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/fbd51655b696eb58cdc3e2a85d8138d3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/fbd51655b696eb58cdc3e2a85d8138d3.jpg) 的值，因为实数到复数的傅里叶变换满足共轭对称性，即， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5fce0cf9e58e0a0a71eb6931ade5e784.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5fce0cf9e58e0a0a71eb6931ade5e784.jpg) 。
+*   如果`normalized`是`True`（默认为`False`），则该函数返回标准化的STFT结果，即乘以 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/207c21435d21c4bdec529a2f3b922bff.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/207c21435d21c4bdec529a2f3b922bff.jpg) 。
 
-Returns the real and the imaginary parts together as one tensor of size ![](img/a272f1ebb738ea28a82ccb05e4284b0d.jpg), where ![](img/28ec51e742166ea3400be6e7343bbfa5.jpg) is the optional batch size of `input`, ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the number of frequencies where STFT is applied, ![](img/5a047a5ca04e45726dba21b8302977da.jpg) is the total number of frames used, and each pair in the last dimension represents a complex number as the real part and the imaginary part.
+将实部和虚部一起作为一个尺寸 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a272f1ebb738ea28a82ccb05e4284b0d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a272f1ebb738ea28a82ccb05e4284b0d.jpg) 返回，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 是`input`， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)的可选批量大小](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)是应用STFT的频率的数量， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5a047a5ca04e45726dba21b8302977da.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5a047a5ca04e45726dba21b8302977da.jpg) 是使用的帧的总数，并且最后维度中的每对表示作为实部和虚部的复数。
 
 Warning
 
-This function changed signature at version 0.4.1\. Calling with the previous signature may cause error or return incorrect result.
+此功能在0.4.1版本上更改了签名。使用先前的签名调用可能会导致错误或返回错误的结果。
 
-Parameters: 
+Parameters:
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the input tensor
-*   **n_fft** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – size of Fourier transform
-*   **hop_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the distance between neighboring sliding window frames. Default: `None` (treated as equal to `floor(n_fft / 4)`)
-*   **win_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – the size of window frame and STFT filter. Default: `None` (treated as equal to `n_fft`)
-*   **window** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the optional window function. Default: `None` (treated as window of all ![](img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg) s)
-*   **center** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – whether to pad `input` on both sides so that the ![](img/654b00d1036ba7f7d93e02f57fc00a75.jpg)-th frame is centered at time ![](img/fca268610b657c34819b28d98ed12232.jpg). Default: `True`
-*   **pad_mode** (_string__,_ _optional_) – controls the padding method used when `center` is `True`. Default: `"reflect"`
-*   **normalized** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return the normalized STFT results Default: `False`
-*   **onesided** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – controls whether to return half of results to avoid redundancy Default: `True`
+*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **n_fft** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 傅立叶变换的大小
+*   **hop_length** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 相邻滑动窗口帧之间的距离。默认值：`None`（视为等于`floor(n_fft / 4)`）
+*   **win_length** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 窗口框架和STFT过滤器的大小。默认值：`None`（视为等于`n_fft`）
+*   **窗口**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 可选窗函数。默认值：`None`（被视为所有 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg) s的窗口）
+*   **中心**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 是否在两侧垫`input`使 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/654b00d1036ba7f7d93e02f57fc00a75.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/654b00d1036ba7f7d93e02f57fc00a75.jpg) 第一帧以时间 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/fca268610b657c34819b28d98ed12232.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/fca268610b657c34819b28d98ed12232.jpg) 为中心。默认值：`True`
+*   **pad_mode** （ _string_ _，_ _可选_） - 控制`center`为`True`时使用的填充方法。默认值：`"reflect"`
+*   **归一化**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制是否返回归一化STFT结果默认值：`False`
+*   **单独**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否返回一半结果以避免冗余默认：`True`
 
-
-| Returns: | A tensor containing the STFT result with shape described above |
+| Returns: | 包含具有上述形状的STFT结果的张量 |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```py
+```
 torch.bartlett_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Bartlett window function.
+巴特利特的窗口功能。
 
-![](img/25485c0c544da57274d0f702ecfbec35.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/25485c0c544da57274d0f702ecfbec35.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/25485c0c544da57274d0f702ecfbec35.jpg)
 
-where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
+其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 是完整的窗口大小。
 
-The input `window_length` is a positive integer controlling the returned window size. `periodic` flag determines whether the returned window trims off the last duplicate value from the symmetric window and is ready to be used as a periodic window with functions like [`torch.stft()`](#torch.stft "torch.stft"). Therefore, if `periodic` is true, the ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) in above formula is in fact ![](img/8ec5251e790c02993c5bb875e109ed2c.jpg). Also, we always have `torch.bartlett_window(L, periodic=True)` equal to `torch.bartlett_window(L + 1, periodic=False)[:-1])`.
+输入`window_length`是控制返回窗口大小的正整数。 `periodic`标志确定返回的窗口是否从对称窗口中删除最后一个重复值，并准备用作具有 [`torch.stft()`](#torch.stft "torch.stft") 等功能的周期窗口。因此，如果`periodic`为真，则上式中的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 实际上是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg) 。此外，我们总是`torch.bartlett_window(L, periodic=True)`等于`torch.bartlett_window(L + 1, periodic=False)[:-1])`。
 
 Note
 
-If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
+如果`window_length` [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg) ，则返回的窗口包含单个值1。
 
-Parameters: 
+Parameters:
 
-*   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
-*   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). Only floating point types are supported.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned window tensor. Only `torch.strided` (dense layout) is supported.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **window_length** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 返回窗口的大小
+*   **周期性**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果为True，则返回一个窗口作为周期函数。如果为False，则返回对称窗口。
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。仅支持浮点类型。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回窗口张量的理想布局。仅支持`torch.strided`（密集布局）。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-
-| Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
+| Returns: | 含有窗口的1-D张量 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```py
+```
 torch.blackman_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Blackman window function.
+布莱克曼窗口功能。
 
-![](img/5677fb096f4cdf5ffeb86c4d3646067a.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5677fb096f4cdf5ffeb86c4d3646067a.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5677fb096f4cdf5ffeb86c4d3646067a.jpg)
 
-where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
+where [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
 
-The input `window_length` is a positive integer controlling the returned window size. `periodic` flag determines whether the returned window trims off the last duplicate value from the symmetric window and is ready to be used as a periodic window with functions like [`torch.stft()`](#torch.stft "torch.stft"). Therefore, if `periodic` is true, the ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) in above formula is in fact ![](img/8ec5251e790c02993c5bb875e109ed2c.jpg). Also, we always have `torch.blackman_window(L, periodic=True)` equal to `torch.blackman_window(L + 1, periodic=False)[:-1])`.
+输入`window_length`是控制返回窗口大小的正整数。 `periodic`标志确定返回的窗口是否从对称窗口中删除最后一个重复值，并准备用作具有 [`torch.stft()`](#torch.stft "torch.stft") 等功能的周期窗口。因此，如果`periodic`为真，则上式中的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 实际上是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg) 。此外，我们总是`torch.blackman_window(L, periodic=True)`等于`torch.blackman_window(L + 1, periodic=False)[:-1])`。
 
 Note
 
-If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
+If `window_length` [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
 
-Parameters: 
+Parameters:
 
-*   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
-*   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). Only floating point types are supported.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned window tensor. Only `torch.strided` (dense layout) is supported.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **window_length** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 返回窗口的大小
+*   **周期性**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果为True，则返回一个窗口作为周期函数。如果为False，则返回对称窗口。
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。仅支持浮点类型。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回窗口张量的理想布局。仅支持`torch.strided`（密集布局）。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-
-| Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
+| Returns: | A 1-D tensor of size [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```py
+```
 torch.hamming_window(window_length, periodic=True, alpha=0.54, beta=0.46, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Hamming window function.
+汉明窗功能。
 
-![](img/6ef50ea7103d4d74ef7919bfc2edf193.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6ef50ea7103d4d74ef7919bfc2edf193.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6ef50ea7103d4d74ef7919bfc2edf193.jpg)
 
-where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
+where [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
 
-The input `window_length` is a positive integer controlling the returned window size. `periodic` flag determines whether the returned window trims off the last duplicate value from the symmetric window and is ready to be used as a periodic window with functions like [`torch.stft()`](#torch.stft "torch.stft"). Therefore, if `periodic` is true, the ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) in above formula is in fact ![](img/8ec5251e790c02993c5bb875e109ed2c.jpg). Also, we always have `torch.hamming_window(L, periodic=True)` equal to `torch.hamming_window(L + 1, periodic=False)[:-1])`.
-
-Note
-
-If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
+输入`window_length`是控制返回窗口大小的正整数。 `periodic`标志确定返回的窗口是否从对称窗口中删除最后一个重复值，并准备用作具有 [`torch.stft()`](#torch.stft "torch.stft") 等功能的周期窗口。因此，如果`periodic`为真，则上式中的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 实际上是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg) 。此外，我们总是`torch.hamming_window(L, periodic=True)`等于`torch.hamming_window(L + 1, periodic=False)[:-1])`。
 
 Note
 
-This is a generalized version of [`torch.hann_window()`](#torch.hann_window "torch.hann_window").
+If `window_length` [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
 
-Parameters: 
+Note
 
-*   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
-*   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). Only floating point types are supported.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned window tensor. Only `torch.strided` (dense layout) is supported.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+这是 [`torch.hann_window()`](#torch.hann_window "torch.hann_window") 的通用版本。
 
+Parameters:
 
-| Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
+*   **window_length** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 返回窗口的大小
+*   **周期性**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果为True，则返回一个窗口作为周期函数。如果为False，则返回对称窗口。
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。仅支持浮点类型。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回窗口张量的理想布局。仅支持`torch.strided`（密集布局）。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+
+| Returns: | A 1-D tensor of size [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
 
-```py
+```
 torch.hann_window(window_length, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Hann window function.
+汉恩窗功能。
 
-![](img/3574793e8ae7241ce6a84e44a219b914.jpg)
+[![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/3574793e8ae7241ce6a84e44a219b914.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/3574793e8ae7241ce6a84e44a219b914.jpg)
 
-where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
+where [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) is the full window size.
 
-The input `window_length` is a positive integer controlling the returned window size. `periodic` flag determines whether the returned window trims off the last duplicate value from the symmetric window and is ready to be used as a periodic window with functions like [`torch.stft()`](#torch.stft "torch.stft"). Therefore, if `periodic` is true, the ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) in above formula is in fact ![](img/8ec5251e790c02993c5bb875e109ed2c.jpg). Also, we always have `torch.hann_window(L, periodic=True)` equal to `torch.hann_window(L + 1, periodic=False)[:-1])`.
+输入`window_length`是控制返回窗口大小的正整数。 `periodic`标志确定返回的窗口是否从对称窗口中删除最后一个重复值，并准备用作具有 [`torch.stft()`](#torch.stft "torch.stft") 等功能的周期窗口。因此，如果`periodic`为真，则上式中的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 实际上是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8ec5251e790c02993c5bb875e109ed2c.jpg) 。此外，我们总是`torch.hann_window(L, periodic=True)`等于`torch.hann_window(L + 1, periodic=False)[:-1])`。
 
 Note
 
-If `window_length` ![](img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
+If `window_length` [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b32b16dc37b80bf97e00ad0589be346b.jpg), the returned window contains a single value 1.
 
-Parameters: 
+Parameters:
 
-*   **window_length** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – the size of returned window
-*   **periodic** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If True, returns a window to be used as periodic function. If False, return a symmetric window.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). Only floating point types are supported.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned window tensor. Only `torch.strided` (dense layout) is supported.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **window_length** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 返回窗口的大小
+*   **周期性**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果为True，则返回一个窗口作为周期函数。如果为False，则返回对称窗口。
+*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。仅支持浮点类型。
+*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回窗口张量的理想布局。仅支持`torch.strided`（密集布局）。
+*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
-
-| Returns: | A 1-D tensor of size ![](img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
+| Returns: | A 1-D tensor of size [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/8d7e55488941e3a1a5ac791b70ccda5f.jpg) containing the window |
 | --- | --- |
-| Return type: | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
-| --- | --- |
+| Return type: | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
+
