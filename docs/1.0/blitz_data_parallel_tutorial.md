@@ -238,4 +238,4 @@ Outside： input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 `DataParallel`自动的划分数据，并将作业发送到多个GPU上的多个模型。在每个模型完成作业后，`DataParallel`收集并合并结果返回给你。
 
-更多信息，请参考：http://pytorch.org/tutorials/beginner/former_torchies/parallelism_tutorial.html
+更多信息，请参考：https://pytorch.org/tutorials/beginner/former_torchies/parallelism_tutorial.html

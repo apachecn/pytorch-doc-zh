@@ -35,7 +35,7 @@ class DataParallelModel(nn.Module):
 
 这个代码不做任何修改, 在 CPU 模式下也能运行.
 
-DataParallel 的文档为 [here](http://pytorch.org/docs/nn.html#torch.nn.DataParallel).
+DataParallel 的文档为 [here](https://pytorch.org/docs/nn.html#torch.nn.DataParallel).
 
 **在其上实现 DataParallel 的基元:**
 

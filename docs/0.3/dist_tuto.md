@@ -168,7 +168,7 @@ In addition to `dist.all_reduce(tensor, op, group)`, there are a total of 6 coll
 
 **Note:** You can find the example script of this section in [this GitHub repository](https://github.com/seba-1511/dist_tuto.pth/).
 
-Now that we understand how the distributed module works, let us write something useful with it. Our goal will be to replicate the functionality of [DistributedDataParallel](http://pytorch.org/docs/master/nn.html#torch.nn.parallel.DistributedDataParallel). Of course, this will be a didactic example and in a real-world situtation you should use the official, well-tested and well-optimized version linked above.
+Now that we understand how the distributed module works, let us write something useful with it. Our goal will be to replicate the functionality of [DistributedDataParallel](https://pytorch.org/docs/master/nn.html#torch.nn.parallel.DistributedDataParallel). Of course, this will be a didactic example and in a real-world situtation you should use the official, well-tested and well-optimized version linked above.
 
 Quite simply we want to implement a distributed version of stochastic gradient descent. Our script will let all processes compute the gradients of their model on their batch of data and then average their gradients. In order to ensure similar convergence results when changing the number of processes, we will first have to partition our dataset. (You could also use [tnt.dataset.SplitDataset](https://github.com/pytorch/tnt/blob/master/torchnet/dataset/splitdataset.py#L4), instead of the snippet below.)
 
@@ -274,7 +274,7 @@ def average_gradients(model):
 
 _Et voilà_! We successfully implemented distributed synchronous SGD and could train any model on a large computer cluster.
 
-**Note:** While the last sentence is _technically_ true, there are [a lot more tricks](http://seba-1511.github.io/dist_blog) required to implement a production-level implementation of synchronous SGD. Again, use what [has been tested and optimized](http://pytorch.org/docs/master/nn.html#torch.nn.parallel.DistributedDataParallel).
+**Note:** While the last sentence is _technically_ true, there are [a lot more tricks](http://seba-1511.github.io/dist_blog) required to implement a production-level implementation of synchronous SGD. Again, use what [has been tested and optimized](https://pytorch.org/docs/master/nn.html#torch.nn.parallel.DistributedDataParallel).
 
 ### Our Own Ring-Allreduce
 
@@ -309,7 +309,7 @@ def allreduce(send, recv):
 
 ```
 
-In the above script, the `allreduce(send, recv)` function has a slightly different signature than the ones in PyTorch. It takes a `recv` tensor and will store the sum of all `send` tensors in it. As an exercise left to the reader, there is still one difference between our version and the one in DeepSpeech: their implementation divide the gradient tensor into _chunks_, so as to optimially utilize the communication bandwidth. (Hint: [toch.chunk](http://pytorch.org/docs/master/torch.html#torch.chunk))
+In the above script, the `allreduce(send, recv)` function has a slightly different signature than the ones in PyTorch. It takes a `recv` tensor and will store the sum of all `send` tensors in it. As an exercise left to the reader, there is still one difference between our version and the one in DeepSpeech: their implementation divide the gradient tensor into _chunks_, so as to optimially utilize the communication bandwidth. (Hint: [toch.chunk](https://pytorch.org/docs/master/torch.html#torch.chunk))
 
 ## Advanced Topics
 
@@ -320,7 +320,7 @@ We are now ready to discover some of the more advanced functionalities of `torch
 
 ### Communication Backends
 
-One of the most elegant aspects of `torch.distributed` is its ability to abstract and build on top of different backends. As mentioned before, there are currently three backends implemented in PyTorch: TCP, MPI, and Gloo. They each have different specifications and tradeoffs, depending on the desired use-case. A comparative table of supported functions can be found [here](http://pytorch.org/docs/master/distributed.html#module-torch.distributed).
+One of the most elegant aspects of `torch.distributed` is its ability to abstract and build on top of different backends. As mentioned before, there are currently three backends implemented in PyTorch: TCP, MPI, and Gloo. They each have different specifications and tradeoffs, depending on the desired use-case. A comparative table of supported functions can be found [here](https://pytorch.org/docs/master/distributed.html#module-torch.distributed).
 
 **TCP Backend**
 
@@ -357,7 +357,7 @@ The reason for these changes is that MPI needs to create its own environment bef
 
 ### Initialization Methods
 
-To finish this tutorial, let’s talk about the very first function we called: `dist.init_process_group(backend, init_method)`. In particular, we will go over the different initialization methods which are responsible for the initial coordination step between each process. Those methods allow you to define how this coordination is done. Depending on your hardware setup, one of these methods should be naturally more suitable than the others. In addition to the following sections, you should also have a look at the [official documentation](http://pytorch.org/docs/master/distributed.html#initialization).
+To finish this tutorial, let’s talk about the very first function we called: `dist.init_process_group(backend, init_method)`. In particular, we will go over the different initialization methods which are responsible for the initial coordination step between each process. Those methods allow you to define how this coordination is done. Depending on your hardware setup, one of these methods should be naturally more suitable than the others. In addition to the following sections, you should also have a look at the [official documentation](https://pytorch.org/docs/master/distributed.html#initialization).
 
 Before diving into the initialization methods, let’s have a quick look at what happens behind `init_process_group` from the C/C++ perspective.
 
@@ -423,4 +423,4 @@ dist.init_process_group(init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b
 
 </center>
 
-I’d like to thank the PyTorch developers for doing such a good job on their implementation, documentation, and tests. When the code was unclear, I could always count on the [docs](http://pytorch.org/docs/master/distributed.html) or the [tests](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py) to find an answer. In particular, I’d like to thank Soumith Chintala, Adam Paszke, and Natalia Gimelshein for providing insightful comments and answering questions on early drafts.
+I’d like to thank the PyTorch developers for doing such a good job on their implementation, documentation, and tests. When the code was unclear, I could always count on the [docs](https://pytorch.org/docs/master/distributed.html) or the [tests](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py) to find an answer. In particular, I’d like to thank Soumith Chintala, Adam Paszke, and Natalia Gimelshein for providing insightful comments and answering questions on early drafts.

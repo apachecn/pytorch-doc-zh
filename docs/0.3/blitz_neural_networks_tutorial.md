@@ -132,7 +132,7 @@ out.backward(torch.randn(1, 10))
 
 损失函数采用 (output,target) 输入对, 并计算预测输出结果与实际目标的距离.
 
-在 `nn` 包下有几种不同的 [损失函数](http://pytorch.org/docs/nn.html#loss-functions) . 一个简单的损失函数是: `nn.MSELoss` 计算输出和目标之间的均方误差
+在 `nn` 包下有几种不同的 [损失函数](https://pytorch.org/docs/nn.html#loss-functions) . 一个简单的损失函数是: `nn.MSELoss` 计算输出和目标之间的均方误差
 
 例如:
 
@@ -190,7 +190,7 @@ print(net.conv1.bias.grad)
 
 **稍后阅读:**
 
-> 神经网络包包含各种模块和损失函数, 形成深度神经网络的构建模块. 完整的文件列表 [在这里](http://pytorch.org/docs/nn)
+> 神经网络包包含各种模块和损失函数, 形成深度神经网络的构建模块. 完整的文件列表 [在这里](https://pytorch.org/docs/nn)
 
 **接下来学习的唯一东西是:**
 

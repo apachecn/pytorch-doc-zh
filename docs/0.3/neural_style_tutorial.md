@@ -94,7 +94,7 @@ dtype = torch.cuda.FloatTensor if use_cuda else torch.FloatTensor
 
 注解：
 
-这里是教程需要的图像的下载链接: [picasso.jpg](http://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg) 和 [dancing.jpg](http://pytorch.org/tutorials/_static/img/neural-style/dancing.jpg). 下载这两张图像然后把它们加入到名为 `images` 的目录中.
+这里是教程需要的图像的下载链接: [picasso.jpg](https://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg) 和 [dancing.jpg](https://pytorch.org/tutorials/_static/img/neural-style/dancing.jpg). 下载这两张图像然后把它们加入到名为 `images` 的目录中.
 
 ```py
 # 想要的输出图像尺寸
