@@ -80,7 +80,7 @@ torch_model.train(False)
 
 在PyTorch中导出模型通过跟踪工作.要导出模型, 请调用该 `torch.onnx._export()` 函数. 这将执行模型, 记录运算符用于计算输出的轨迹.由于 `_export` 运行模型, 我们需要提供一个输入张量 `x`. 这个张量中的值并不重要; 只要尺寸合适, 它可以是图像或随机张量.
 
-要了解更多关于 PyTorch 导出界面的细节, 请查看 [torch.onnx文档](http://pytorch.org/docs/master/onnx.html).
+要了解更多关于 PyTorch 导出界面的细节, 请查看 [torch.onnx文档](https://pytorch.org/docs/master/onnx.html).
 
 ```py
 # Input to the model
