@@ -24,9 +24,11 @@
 + [ApacheCN 机器学习交流群 629470233](http://shang.qq.com/wpa/qunwpa?idkey=30e5f1123a79867570f665aa3a483ca404b1c3f77737bc01ec520ed5f078ddef)
 + [ApacheCN 学习资源](http://www.apachecn.org/)
 
-## 翻译进度
+## 贡献指南
 
-[**贡献指南**](CONTRIBUTING.md)
+项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/274)中领取任务。
+
+> 请您勇敢地去翻译和改进翻译。虽然我们追求卓越，但我们并不要求您做到十全十美，因此请不要担心因为翻译上犯错——在大部分情况下，我们的服务器已经记录所有的翻译，因此您不必担心会因为您的失误遭到无法挽回的破坏。（改编自维基百科）
 
 > 项目翻译 Pytorch 1.0
 
