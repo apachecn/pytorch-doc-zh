@@ -1,42 +1,42 @@
-
-
 # torch.optim
 
-[`torch.optim`](#module-torch.optim "torch.optim") is a package implementing various optimization algorithms. Most commonly used methods are already supported, and the interface is general enough, so that more sophisticated ones can be also easily integrated in the future.
+> 译者：[ApacheCN](https://github.com/apachecn)
 
-## How to use an optimizer
+是一个实现各种优化算法的包。已经支持最常用的方法，并且界面足够通用，因此将来可以轻松集成更复杂的方法。
 
-To use [`torch.optim`](#module-torch.optim "torch.optim") you have to construct an optimizer object, that will hold the current state and will update the parameters based on the computed gradients.
+## 如何使用优化器
 
-### Constructing it
+要使用，您必须构造一个优化器对象，该对象将保持当前状态并将根据计算的渐变更新参数。
 
-To construct an [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") you have to give it an iterable containing the parameters (all should be `Variable` s) to optimize. Then, you can specify optimizer-specific options such as the learning rate, weight decay, etc.
+### 构建它
 
-Note
+要构造一个你必须给它一个包含参数的迭代（所有应该是`Variable` s）来优化。然后，您可以指定特定于优化程序的选项，例如学习率，重量衰减等。
 
-If you need to move a model to GPU via `.cuda()`, please do so before constructing optimizers for it. Parameters of a model after `.cuda()` will be different objects with those before the call.
+注意
 
-In general, you should make sure that optimized parameters live in consistent locations when optimizers are constructed and used.
+如果您需要通过`.cuda()`将模型移动到GPU，请在为其构建优化器之前执行此操作。 `.cuda()`之后的模型参数与调用之前的参数不同。
 
-Example:
+通常，在构造和使用优化程序时，应确保优化参数位于一致的位置。
 
-```py
+例：
+
+```
 optimizer = optim.SGD(model.parameters(), lr = 0.01, momentum=0.9)
 optimizer = optim.Adam([var1, var2], lr = 0.0001)
 
 ```
 
-### Per-parameter options
+### 每个参数选项
 
-[`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") s also support specifying per-parameter options. To do this, instead of passing an iterable of `Variable` s, pass in an iterable of [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)") s. Each of them will define a separate parameter group, and should contain a `params` key, containing a list of parameters belonging to it. Other keys should match the keyword arguments accepted by the optimizers, and will be used as optimization options for this group.
+s还支持指定每个参数选项。要做到这一点，不要传递一个可迭代的`Variable`，而是传递一个可迭代的s。它们中的每一个都将定义一个单独的参数组，并且应包含`params`键，其中包含属于它的参数列表。其他键应与优化程序接受的关键字参数匹配，并将用作此组的优化选项。
 
 Note
 
-You can still pass options as keyword arguments. They will be used as defaults, in the groups that didn’t override them. This is useful when you only want to vary a single option, while keeping all others consistent between parameter groups.
+您仍然可以将选项作为关键字参数传递。它们将在未覆盖它们的组中用作默认值。当您只想改变单个选项，同时保持参数组之间的所有其他选项保持一致时，这非常有用。
 
-For example, this is very useful when one wants to specify per-layer learning rates:
+例如，当想要指定每层学习速率时，这非常有用：
 
-```py
+```
 optim.SGD([
                 {'params': model.base.parameters()},
                 {'params': model.classifier.parameters(), 'lr': 1e-3}
@@ -44,19 +44,19 @@ optim.SGD([
 
 ```
 
-This means that `model.base`’s parameters will use the default learning rate of `1e-2`, `model.classifier`’s parameters will use a learning rate of `1e-3`, and a momentum of `0.9` will be used for all parameters
+这意味着`model.base`的参数将使用`1e-2`的默认学习速率，`model.classifier`的参数将使用`1e-3`的学习速率，`0.9`的动量将用于所有参数
 
-### Taking an optimization step
+### 采取优化步骤
 
-All optimizers implement a [`step()`](#torch.optim.Optimizer.step "torch.optim.Optimizer.step") method, that updates the parameters. It can be used in two ways:
+所有优化器都实现了一个更新参数的方法。它可以以两种方式使用：
 
 #### `optimizer.step()`
 
-This is a simplified version supported by most optimizers. The function can be called once the gradients are computed using e.g. `backward()`.
+这是大多数优化器支持的简化版本。一旦使用例如计算梯度，就可以调用该函数。 `backward()`。
 
 Example:
 
-```py
+```
 for input, target in dataset:
     optimizer.zero_grad()
     output = model(input)
@@ -68,11 +68,11 @@ for input, target in dataset:
 
 #### `optimizer.step(closure)`
 
-Some optimization algorithms such as Conjugate Gradient and LBFGS need to reevaluate the function multiple times, so you have to pass in a closure that allows them to recompute your model. The closure should clear the gradients, compute the loss, and return it.
+一些优化算法，例如Conjugate Gradient和LBFGS需要多次重新评估函数，因此您必须传入一个允许它们重新计算模型的闭包。闭合应清除梯度，计算损失并返回。
 
 Example:
 
-```py
+```
 for input, target in dataset:
     def closure():
         optimizer.zero_grad()
@@ -84,124 +84,117 @@ for input, target in dataset:
 
 ```
 
-## Algorithms
+## 算法
 
-```py
+```
 class torch.optim.Optimizer(params, defaults)
 ```
 
-Base class for all optimizers.
+所有优化器的基类。
 
-Warning
+警告
 
-Parameters need to be specified as collections that have a deterministic ordering that is consistent between runs. Examples of objects that don’t satisfy those properties are sets and iterators over values of dictionaries.
+需要将参数指定为具有在运行之间一致的确定性排序的集合。不满足这些属性的对象的示例是字典值的集合和迭代器。
 
-Parameters: 
+参数：
 
-*   **params** (_iterable_) – an iterable of [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") s or [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)") s. Specifies what Tensors should be optimized.
-*   **defaults** – (dict): a dict containing default values of optimization options (used when a parameter group doesn’t specify them).
+*   **params** （ _iterable_ ） - s或s的可迭代。指定应优化的张量。
+*   **默认值** - （dict）：包含优化选项默认值的dict（当参数组未指定它们时使用）。
 
-
-
-```py
+```
 add_param_group(param_group)
 ```
 
-Add a param group to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") s `param_groups`.
+将参数组添加到s `param_groups`。
 
-This can be useful when fine tuning a pre-trained network as frozen layers can be made trainable and added to the [`Optimizer`](#torch.optim.Optimizer "torch.optim.Optimizer") as training progresses.
+当微调预先训练的网络时，这可以是有用的，因为冻结层可以被训练并且被添加到训练进展中。
 
-Parameters: 
+Parameters:
 
-*   **param_group** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – Specifies what Tensors should be optimized along with group
-*   **optimization options.** (_specific_) –
+*   **param_group** （） - 指定应该与组一起优化的张量
+*   **优化选项。** （_特异性_） -
 
-
-
-```py
+```
 load_state_dict(state_dict)
 ```
 
-Loads the optimizer state.
+加载优化器状态。
 
-| Parameters: | **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – optimizer state. Should be an object returned from a call to [`state_dict()`](#torch.optim.Optimizer.state_dict "torch.optim.Optimizer.state_dict"). |
+| 参数： | **state_dict** （） - 优化器状态。应该是从调用返回的对象。 |
 | --- | --- |
 
-```py
+```
 state_dict()
 ```
 
-Returns the state of the optimizer as a [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)").
+以...格式返回优化程序的状态。
 
-It contains two entries:
+它包含两个条目：
 
-*   ```py
+*   ```
     state - a dict holding current optimization state. Its content
     ```
 
-    differs between optimizer classes.
-*   param_groups - a dict containing all parameter groups
+    优化器类之间有所不同。
 
-```py
+*   param_groups - 包含所有参数组的dict
+
+```
 step(closure)
 ```
 
-Performs a single optimization step (parameter update).
+执行单个优化步骤（参数更新）。
 
-| Parameters: | **closure** (_callable_) – A closure that reevaluates the model and returns the loss. Optional for most optimizers. |
+| Parameters: | **闭包**（_可调用_） - 一个重新评估模型并返回损失的闭包。大多数优化器都是可选的。 |
 | --- | --- |
 
-```py
+```
 zero_grad()
 ```
 
-Clears the gradients of all optimized [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") s.
+清除所有优化s的渐变。
 
-```py
+```
 class torch.optim.Adadelta(params, lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)
 ```
 
-Implements Adadelta algorithm.
+实现Adadelta算法。
 
-It has been proposed in [ADADELTA: An Adaptive Learning Rate Method](https://arxiv.org/abs/1212.5701).
+已在 [ADADELTA中提出：自适应学习速率方法](https://arxiv.org/abs/1212.5701)。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **rho** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – coefficient used for computing a running average of squared gradients (default: 0.9)
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-6)
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – coefficient that scale delta before it is applied to the parameters (default: 1.0)
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **rho** （_，_ _可选_） - 用于计算平方梯度运行平均值的系数（默认值：0.9）
+*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-6）
+*   **lr** （_，_ _可选_） - 在应用于参数之前缩放增量的系数（默认值：1.0）
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
-Performs a single optimization step.
+执行单个优化步骤。
 
-| Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
+| Parameters: | **关闭**（_可调用_ _，_ _可选_） - 一个重新评估模型并返回损失的闭包。 |
 | --- | --- |
 
-```py
+```
 class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0, initial_accumulator_value=0)
 ```
 
-Implements Adagrad algorithm.
+实现Adagrad算法。
 
-It has been proposed in [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](http://jmlr.org/papers/v12/duchi11a.html).
+已经在[自适应子梯度方法中提出了在线学习和随机优化](http://jmlr.org/papers/v12/duchi11a.html)。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
-*   **lr_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate decay (default: 0)
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
+*   **lr_decay** （_，_ _可选_） - 学习率衰减（默认值：0）
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -210,26 +203,24 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
 ```
 
-Implements Adam algorithm.
+实现Adam算法。
 
-It has been proposed in [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980).
+已在 [Adam中提出：随机优化方法](https://arxiv.org/abs/1412.6980)。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-3)
-*   **betas** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – coefficients used for computing running averages of gradient and its square (default: (0.9, 0.999))
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-8)
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
-*   **amsgrad** (_boolean__,_ _optional_) – whether to use the AMSGrad variant of this algorithm from the paper [On the Convergence of Adam and Beyond](https://openreview.net/forum?id=ryQu7f-RZ) (default: False)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：1e-3）
+*   **beta** （_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变及其方形（默认值：（0.9,0.999））
+*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **amsgrad** （_布尔_ _，_ _可选_） - 是否使用该算法的AMSGrad变体[关于亚当及其后的收敛](https://openreview.net/forum?id=ryQu7f-RZ)（默认值：False）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -238,24 +229,22 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)
 ```
 
-Implements lazy version of Adam algorithm suitable for sparse tensors.
+实现适用于稀疏张量的懒惰版Adam算法。
 
-In this variant, only moments that show up in the gradient get updated, and only those portions of the gradient get applied to the parameters.
+在此变体中，只有渐变中显示的时刻才会更新，并且只有渐变的那些部分才会应用于参数。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-3)
-*   **betas** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – coefficients used for computing running averages of gradient and its square (default: (0.9, 0.999))
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-8)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：1e-3）
+*   **beta** （_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变及其方形（默认值：（0.9,0.999））
+*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -264,25 +253,23 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
 ```
 
-Implements Adamax algorithm (a variant of Adam based on infinity norm).
+实现Adamax算法（基于无穷大规范的Adam的变体）。
 
 It has been proposed in [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980).
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 2e-3)
-*   **betas** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – coefficients used for computing running averages of gradient and its square
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-8)
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：2e-3）
+*   **beta** （_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变和它的正方形
+*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -291,26 +278,24 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, weight_decay=0)
 ```
 
-Implements Averaged Stochastic Gradient Descent.
+实现平均随机梯度下降。
 
-It has been proposed in [Acceleration of stochastic approximation by averaging](http://dl.acm.org/citation.cfm?id=131098).
+已经在[中通过平均](http://dl.acm.org/citation.cfm?id=131098)来加速随机近似。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
-*   **lambd** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – decay term (default: 1e-4)
-*   **alpha** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – power for eta update (default: 0.75)
-*   **t0** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – point at which to start averaging (default: 1e6)
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
+*   **lambd** （_，_ _可选_） - 衰变期限（默认值：1e-4）
+*   **alpha** （_，_ _可选_） - eta更新的权力（默认值：0.75）
+*   **t0** （_，_ _可选_） - 开始平均的点（默认值：1e6）
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -319,67 +304,63 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad=1e-05, tolerance_change=1e-09, history_size=100, line_search_fn=None)
 ```
 
-Implements L-BFGS algorithm.
+实现L-BFGS算法。
 
 Warning
 
-This optimizer doesn’t support per-parameter options and parameter groups (there can be only one).
+此优化器不支持每个参数选项和参数组（只能有一个）。
 
 Warning
 
-Right now all parameters have to be on a single device. This will be improved in the future.
+现在所有参数都必须在一台设备上。这将在未来得到改善。
 
 Note
 
-This is a very memory intensive optimizer (it requires additional `param_bytes * (history_size + 1)` bytes). If it doesn’t fit in memory try reducing the history size, or use a different algorithm.
+这是一个内存密集型优化器（它需要额外的`param_bytes * (history_size + 1)`字节）。如果它不适合内存尝试减少历史记录大小，或使用不同的算法。
 
-Parameters: 
+Parameters:
 
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – learning rate (default: 1)
-*   **max_iter** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – maximal number of iterations per optimization step (default: 20)
-*   **max_eval** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – maximal number of function evaluations per optimization step (default: max_iter * 1.25).
-*   **tolerance_grad** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – termination tolerance on first order optimality (default: 1e-5).
-*   **tolerance_change** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – termination tolerance on function value/parameter changes (default: 1e-9).
-*   **history_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – update history size (default: 100).
+*   **lr** （） - 学习率（默认值：1）
+*   **max_iter** （） - 每个优化步骤的最大迭代次数（默认值：20）
+*   **max_eval** （） - 每个优化步骤的最大函数评估数（默认值：max_iter * 1.25）。
+*   **tolerance_grad** （） - 一阶最优性的终止容差（默认值：1e-5）。
+*   **tolerance_change** （） - 功能值/参数更改的终止容差（默认值：1e-9）。
+*   **history_size** （） - 更新历史记录大小（默认值：100）。
 
-
-
-```py
+```
 step(closure)
 ```
 
 Performs a single optimization step.
 
-| Parameters: | **closure** (_callable_) – A closure that reevaluates the model and returns the loss. |
+| Parameters: | **闭包**（_可调用_） - 一个重新评估模型并返回损失的闭包。 |
 | --- | --- |
 
-```py
+```
 class torch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)
 ```
 
-Implements RMSprop algorithm.
+实现RMSprop算法。
 
-Proposed by G. Hinton in his [course](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf).
+G. Hinton在他的[课程](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)中提出的建议。
 
-The centered version first appears in [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850v5.pdf).
+中心版本首先出现在[生成具有回归神经网络的序列](https://arxiv.org/pdf/1308.0850v5.pdf)中。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
-*   **momentum** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – momentum factor (default: 0)
-*   **alpha** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – smoothing constant (default: 0.99)
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – term added to the denominator to improve numerical stability (default: 1e-8)
-*   **centered** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, compute the centered RMSProp, the gradient is normalized by an estimation of its variance
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
+*   **动量**（_，_ _可选_） - 动量因子（默认值：0）
+*   **alpha** （_，_ _可选_） - 平滑常数（默认值：0.99）
+*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
+*   **居中**（_，_ _可选_） - 如果`True`计算居中的RMSProp，则通过估计其方差对梯度进行归一化
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -388,22 +369,20 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50))
 ```
 
-Implements the resilient backpropagation algorithm.
+实现弹性反向传播算法。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – learning rate (default: 1e-2)
-*   **etas** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – pair of (etaminus, etaplis), that are multiplicative increase and decrease factors (default: (0.5, 1.2))
-*   **step_sizes** (_Tuple__[_[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_]__,_ _optional_) – a pair of minimal and maximal allowed step sizes (default: (1e-6, 50))
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
+*   **etas** （ _Tuple_ _ [，_ _] __，_ _任选_） - 对（etaminus，etaplis） ，这是乘法增加和减少因子（默认值：（0.5,1.2））
+*   **step_sizes** （ _Tuple_ _ [，_ _] __，_ _任选_） - 一对最小和最大允许步长（默认值：（1e-6,50））
 
-
-
-```py
+```
 step(closure=None)
 ```
 
@@ -412,28 +391,26 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-```py
+```
 class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
 ```
 
-Implements stochastic gradient descent (optionally with momentum).
+实现随机梯度下降（可选择带动量）。
 
-Nesterov momentum is based on the formula from [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf).
+Nesterov动量是基于[关于初始化和动量在深度学习](http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf)中的重要性的公式。
 
-Parameters: 
+Parameters:
 
-*   **params** (_iterable_) – iterable of parameters to optimize or dicts defining parameter groups
-*   **lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – learning rate
-*   **momentum** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – momentum factor (default: 0)
-*   **weight_decay** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – weight decay (L2 penalty) (default: 0)
-*   **dampening** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – dampening for momentum (default: 0)
-*   **nesterov** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – enables Nesterov momentum (default: False)
+*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
+*   **lr** （） - 学习率
+*   **动量**（_，_ _可选_） - 动量因子（默认值：0）
+*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **阻尼**（_，_ _可选_） - 抑制动量（默认值：0）
+*   **nesterov** （_，_ _可选_） - 启用Nesterov动量（默认值：False）
 
+例
 
-
-Example
-
-```py
+```
 >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 >>> optimizer.zero_grad()
 >>> loss_fn(model(input), target).backward()
@@ -443,21 +420,17 @@ Example
 
 Note
 
-The implementation of SGD with Momentum/Nesterov subtly differs from Sutskever et. al. and implementations in some other frameworks.
+使用Momentum / Nesterov实施SGD与Sutskever等有所不同。人。和其他一些框架中的实现。
 
-Considering the specific case of Momentum, the update can be written as
+考虑到Momentum的具体情况，更新可以写成
 
-![](img/2f90cce3dc946e821ab9d2ae2dfe32c8.jpg)
+其中p，g，v分别表示参数，梯度，速度和动量。
 
-where p, g, v and ![](img/787a6ae8db26f884126803d73bf4d66c.jpg) denote the parameters, gradient, velocity, and momentum respectively.
+这与Sutskever等人形成鲜明对比。人。和其他采用表格更新的框架
 
-This is in contrast to Sutskever et. al. and other frameworks which employ an update of the form
+Nesterov版本经过类似修改。
 
-![](img/63bd0746ed6acdf5617d079c80bcfbce.jpg)
-
-The Nesterov version is analogously modified.
-
-```py
+```
 step(closure=None)
 ```
 
@@ -466,27 +439,25 @@ Performs a single optimization step.
 | Parameters: | **closure** (_callable__,_ _optional_) – A closure that reevaluates the model and returns the loss. |
 | --- | --- |
 
-## How to adjust Learning Rate
+## 如何调整学习率
 
-`torch.optim.lr_scheduler` provides several methods to adjust the learning rate based on the number of epochs. [`torch.optim.lr_scheduler.ReduceLROnPlateau`](#torch.optim.lr_scheduler.ReduceLROnPlateau "torch.optim.lr_scheduler.ReduceLROnPlateau") allows dynamic learning rate reducing based on some validation measurements.
+`torch.optim.lr_scheduler`提供了几种根据时期数调整学习率的方法。允许基于一些验证测量来降低动态学习速率。
 
-```py
+```
 class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)
 ```
 
-Sets the learning rate of each parameter group to the initial lr times a given function. When last_epoch=-1, sets initial lr as lr.
+将每个参数组的学习速率设置为给定函数的初始lr倍。当last_epoch = -1时，将初始lr设置为lr。
 
-Parameters: 
+Parameters:
 
-*   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **lr_lambda** (_function_ _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – A function which computes a multiplicative factor given an integer parameter epoch, or a list of such functions, one for each group in optimizer.param_groups.
-*   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
-
-
+*   **优化器**（） - 包装优化器。
+*   **lr_lambda** （_函数_ _或_） - 一个函数，它计算给定整数参数时期的乘法因子，或这些函数的列表，优化器中每个组一个.param_groups。
+*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
 
 Example
 
-```py
+```
 >>> # Assuming optimizer has two groups.
 >>> lambda1 = lambda epoch: epoch // 30
 >>> lambda2 = lambda epoch: 0.95 ** epoch
@@ -498,41 +469,39 @@ Example
 
 ```
 
-```py
+```
 load_state_dict(state_dict)
 ```
 
-Loads the schedulers state.
+加载调度程序状态。
 
-| Parameters: | **state_dict** ([_dict_](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)")) – scheduler state. Should be an object returned from a call to [`state_dict()`](#torch.optim.lr_scheduler.LambdaLR.state_dict "torch.optim.lr_scheduler.LambdaLR.state_dict"). |
+| Parameters: | **state_dict** （） - 调度程序状态。应该是从调用返回的对象。 |
 | --- | --- |
 
-```py
+```
 state_dict()
 ```
 
-Returns the state of the scheduler as a [`dict`](https://docs.python.org/3/library/stdtypes.html#dict "(in Python v3.7)").
+将调度程序的状态作为a返回。
 
-It contains an entry for every variable in self.__dict__ which is not the optimizer. The learning rate lambda functions will only be saved if they are callable objects and not if they are functions or lambdas.
+它包含自我中每个变量的条目。 **dict** 不是优化器。学习率lambda函数只有在它们是可调用对象时才会被保存，而不是它们是函数或lambdas。
 
-```py
+```
 class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoch=-1)
 ```
 
-Sets the learning rate of each parameter group to the initial lr decayed by gamma every step_size epochs. When last_epoch=-1, sets initial lr as lr.
+将每个参数组的学习速率设置为每个step_size epochs由gamma衰减的初始lr。当last_epoch = -1时，将初始lr设置为lr。
 
-Parameters: 
+Parameters:
 
-*   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **step_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Period of learning rate decay.
-*   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Multiplicative factor of learning rate decay. Default: 0.1.
-*   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
-
-
+*   **优化器**（） - 包装优化器。
+*   **step_size** （） - 学习率衰减的时期。
+*   **gamma** （） - 学习率衰减的乘法因子。默认值：0.1。
+*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
 
 Example
 
-```py
+```
 >>> # Assuming optimizer uses lr = 0.05 for all groups
 >>> # lr = 0.05     if epoch < 30
 >>> # lr = 0.005    if 30 <= epoch < 60
@@ -546,24 +515,22 @@ Example
 
 ```
 
-```py
+```
 class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, last_epoch=-1)
 ```
 
-Set the learning rate of each parameter group to the initial lr decayed by gamma once the number of epoch reaches one of the milestones. When last_epoch=-1, sets initial lr as lr.
+一旦纪元数达到其中一个里程碑，将每个参数组的学习速率设置为由伽玛衰减的初始lr。当last_epoch = -1时，将初始lr设置为lr。
 
-Parameters: 
+Parameters:
 
-*   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **milestones** ([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – List of epoch indices. Must be increasing.
-*   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Multiplicative factor of learning rate decay. Default: 0.1.
-*   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
-
-
+*   **优化器**（） - 包装优化器。
+*   **里程碑**（） - 时代指数列表。必须增加。
+*   **gamma** （） - 学习率衰减的乘法因子。默认值：0.1。
+*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
 
 Example
 
-```py
+```
 >>> # Assuming optimizer uses lr = 0.05 for all groups
 >>> # lr = 0.05     if epoch < 30
 >>> # lr = 0.005    if 30 <= epoch < 80
@@ -576,65 +543,57 @@ Example
 
 ```
 
-```py
+```
 class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1)
 ```
 
-Set the learning rate of each parameter group to the initial lr decayed by gamma every epoch. When last_epoch=-1, sets initial lr as lr.
+将每个参数组的学习率设置为每个时期由伽玛衰减的初始lr。当last_epoch = -1时，将初始lr设置为lr。
 
-Parameters: 
+Parameters:
 
-*   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **gamma** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Multiplicative factor of learning rate decay.
-*   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
+*   **优化器**（） - 包装优化器。
+*   **gamma** （） - 学习率衰减的乘法因子。
+*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
 
-
-
-```py
+```
 class torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0, last_epoch=-1)
 ```
 
-Set the learning rate of each parameter group using a cosine annealing schedule, where ![](img/2f9e362a8e230566b17e8fc7b4eb533b.jpg) is set to the initial lr and ![](img/e2d59d3a9a4c76df4ed231b491dda3d5.jpg) is the number of epochs since the last restart in SGDR:
+使用余弦退火计划设置每个参数组的学习速率，其中设置为初始lr，并且是自SGDR上次重启以来的纪元数：
 
-![](img/886672c91b10a5c2c26bb14fc638ba50.jpg)
+当last_epoch = -1时，将初始lr设置为lr。
 
-When last_epoch=-1, sets initial lr as lr.
+已在 [SGDR中提出：具有暖启动的随机梯度下降](https://arxiv.org/abs/1608.03983)。请注意，这仅实现SGDR的余弦退火部分，而不是重启。
 
-It has been proposed in [SGDR: Stochastic Gradient Descent with Warm Restarts](https://arxiv.org/abs/1608.03983). Note that this only implements the cosine annealing part of SGDR, and not the restarts.
+Parameters:
 
-Parameters: 
+*   **优化器**（） - 包装优化器。
+*   **T_max** （） - 最大迭代次数。
+*   **eta_min** （） - 最低学习率。默认值：0。
+*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
 
-*   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **T_max** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Maximum number of iterations.
-*   **eta_min** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Minimum learning rate. Default: 0.
-*   **last_epoch** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – The index of last epoch. Default: -1.
-
-
-
-```py
+```
 class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
 ```
 
-Reduce learning rate when a metric has stopped improving. Models often benefit from reducing the learning rate by a factor of 2-10 once learning stagnates. This scheduler reads a metrics quantity and if no improvement is seen for a ‘patience’ number of epochs, the learning rate is reduced.
+当指标停止改进时降低学习率。一旦学习停滞，模型通常会将学习率降低2-10倍。该调度程序读取度量数量，如果“耐心”数量的时期没有看到改善，则学习速率降低。
 
-Parameters: 
+Parameters:
 
-*   **optimizer** ([_Optimizer_](#torch.optim.Optimizer "torch.optim.Optimizer")) – Wrapped optimizer.
-*   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of `min`, `max`. In `min` mode, lr will be reduced when the quantity monitored has stopped decreasing; in `max` mode it will be reduced when the quantity monitored has stopped increasing. Default: ‘min’.
-*   **factor** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Factor by which the learning rate will be reduced. new_lr = lr * factor. Default: 0.1.
-*   **patience** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of epochs with no improvement after which learning rate will be reduced. For example, if `patience = 2`, then we will ignore the first 2 epochs with no improvement, and will only decrease the LR after the 3rd epoch if the loss still hasn’t improved then. Default: 10.
-*   **verbose** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – If `True`, prints a message to stdout for each update. Default: `False`.
-*   **threshold** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Threshold for measuring the new optimum, to only focus on significant changes. Default: 1e-4.
-*   **threshold_mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – One of `rel`, `abs`. In `rel` mode, dynamic_threshold = best * ( 1 + threshold ) in ‘max’ mode or best * ( 1 - threshold ) in `min` mode. In `abs` mode, dynamic_threshold = best + threshold in `max` mode or best - threshold in `min` mode. Default: ‘rel’.
-*   **cooldown** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – Number of epochs to wait before resuming normal operation after lr has been reduced. Default: 0.
-*   **min_lr** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")) – A scalar or a list of scalars. A lower bound on the learning rate of all param groups or each group respectively. Default: 0.
-*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Minimal decay applied to lr. If the difference between new and old lr is smaller than eps, the update is ignored. Default: 1e-8.
-
-
+*   **优化器**（） - 包装优化器。
+*   **模式**（） - `min`，`max`之一。在`min`模式下，当监控量停止下降时，lr将减少;在`max`模式下，当监控量停止增加时，它将减少。默认值：'min'。
+*   **factor** （） - 学习率降低的因素。 new_lr = lr * factor。默认值：0.1。
+*   **耐心**（） - 没有改善的时期数，之后学习率会降低。例如，如果`patience = 2`，那么我们将忽略没有改进的前2个时期，并且如果损失仍然没有改善那么将仅在第3个时期之后减少LR。默认值：10。
+*   **verbose** （） - 如果`True`，每次更新都会向stdout输出一条消息。默认值：`False`。
+*   **阈值**（） - 测量新最佳值的阈值，仅关注重大变化。默认值：1e-4。
+*   **threshold_mode** （） - `rel`，`abs`之一。在`rel`模式下，dynamic_threshold ='max'模式下的最佳*（1 +阈值）或`min`模式下的最佳*（1 - 阈值）。在`abs`模式下，dynamic_threshold = `max`模式下的最佳+阈值或`min`模式下的最佳阈值。默认值：'rel'。
+*   **冷却时间**（） - 在减少lr之后恢复正常操作之前要等待的时期数。默认值：0。
+*   **min_lr** （_或_） - 标量或标量列表。所有参数组或每组的学习率的下限。默认值：0。
+*   **eps** （） - 应用于lr的最小衰减。如果新旧lr之间的差异小于eps，则忽略更新。默认值：1e-8。
 
 Example
 
-```py
+```
 >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 >>> scheduler = ReduceLROnPlateau(optimizer, 'min')
 >>> for epoch in range(10):
@@ -644,4 +603,3 @@ Example
 >>>     scheduler.step(val_loss)
 
 ```
-

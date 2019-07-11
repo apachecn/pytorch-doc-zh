@@ -1,12 +1,14 @@
-# 使用字符级别特征的RNN网络进行姓氏分类
+# 使用字符级别特征的RNN网络进行名字分类
 
 > 译者：[hhxx2015](https://github.com/hhxx2015)
+> 
+> 校对者：[hijkzzz](https://github.com/hijkzzz)
 
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
 我们将构建和训练字符级RNN来对单词进行分类。 字符级RNN将单词作为一系列字符读取，在每一步输出预测和“隐藏状态”，将其先前的隐藏状态输入至下一时刻。 我们将最终时刻输出作为预测结果，即表示该词属于哪个类。
 
-具体来说，我们将在18种语言构成的几千个姓氏的数据集上训练模型，根据一个姓氏的拼写预测它是哪种语言的姓氏：
+具体来说，我们将在18种语言构成的几千个名字的数据集上训练模型，根据一个名字的拼写预测它是哪种语言的名字：
 
 ```py
 $ python predict.py Hinton
@@ -21,7 +23,7 @@ $ python predict.py Schmidhuber
 
 ```
 
-**阅读建议:**
+**推荐阅读:**
 
 我默认你已经安装好了PyTorch，熟悉Python语言，理解“张量”的概念：
 
@@ -32,18 +34,18 @@ $ python predict.py Schmidhuber
 
 事先学习并了解RNN的工作原理对理解这个例子十分有帮助:
 
-*   [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) shows a bunch of real life examples
-*   [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) is about LSTMs specifically but also informative about RNNs in general
+*   [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) 展示了一些现实生活中的例子
+*   [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) 是关于LSTM的，但也提供有关RNN的一般信息
 
 ## 准备数据
 
 点击这里[下载数据](https://download.pytorch.org/tutorial/data.zip) 并将其解压到当前文件夹。
 
-在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个姓氏，它们几乎都是罗马化的文本（但是我们仍需要将其从Unicode转换为ASCII编码）
+在"data/names"文件夹下是名称为"[language].txt"的18个文本文件。每个文件的每一行都有一个名字，它们几乎都是罗马化的文本（但是我们仍需要将其从Unicode转换为ASCII编码）
 
-我们最终会得到一个语言对应姓氏列表的字典，`{language: [names ...]}`
+我们最终会得到一个语言对应名字列表的字典，`{language: [names ...]}`
 
-通用变量“category”和“line”（例子中的语言和姓氏单词）用于以后的可扩展性。
+通用变量“category”和“line”（例子中的语言和名字单词）用于以后的可扩展性。
 
 ```python
 from __future__ import unicode_literals, print_function, division
@@ -98,7 +100,7 @@ Slusarski
 
 ```
 
-现在我们有了`category_lines`，一个字典变量存储每一种语言及其对应的每一行文本(姓氏)列表的映射关系。
+现在我们有了`category_lines`，一个字典变量存储每一种语言及其对应的每一行文本(名字)列表的映射关系。
 
 变量`all_categories`是全部语言种类的列表，
 
@@ -118,7 +120,7 @@ print(category_lines['Italian'][:5])
 
 ### 单词转化为张量
 
-现在我们已经加载了所有的姓氏，我们需要将它们转换为张量来使用它们。
+现在我们已经加载了所有的名字，我们需要将它们转换为张量来使用它们。
 
 我们使用大小为`<1 x n_letters>`的“one-hot 向量”表示一个字母。
 
@@ -172,7 +174,7 @@ torch.Size([5, 1, 57])
 
 layer的隐藏状态和梯度将交给计算图自己处理。
 
-这意味着你可以像实现正规的 feed-forward 层一样，以很常纯粹的方式实现RNN。
+这意味着你可以像实现的常规的 feed-forward 层一样，以很纯粹的方式实现RNN。
 
 这个RNN组件 (几乎是从这里复制的 [the PyTorch for Torch users tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)) 仅使用两层 linear 层对输入和隐藏层做处理, 
 
@@ -249,7 +251,7 @@ tensor([[-2.8857, -2.9005, -2.8386, -2.9397, -2.8594, -2.8785, -2.9361, -2.8270,
 
 ### 训练前的准备
 
-进行训练步骤之前我们需要构建一些帮助函数。
+进行训练步骤之前我们需要构建一些辅助函数。
 
 第一个是当我们知道输出结果对应每种类别的可能性时，解析神经网络的输出。
 
@@ -272,7 +274,7 @@ print(categoryFromOutput(output))
 
 ```
 
-我们还需要一种快速获取训练示例（得到一个姓氏及其所属的语言类别）的方法：
+我们还需要一种快速获取训练示例（得到一个名字及其所属的语言类别）的方法：
 
 
 ```py
@@ -552,7 +554,7 @@ predict('Satoshi')
 
 运行 `train.py` 来训练和保存网络
 
-将`predict.py`和一个姓氏的单词一起运行查看预测结果 :
+将`predict.py`和一个名字的单词一起运行查看预测结果 :
 
 ```py
 $ python predict.py Hazaki

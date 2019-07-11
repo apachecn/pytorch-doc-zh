@@ -121,7 +121,7 @@ print(z)
 tensor([5., 7., 9.])
 ```
 
-可以查阅 [文档](http://pytorch.org/docs/torch.html) 获取大量可用操作的完整列表,这些操作不仅局限于数学操作范围。
+可以查阅 [文档](https://pytorch.org/docs/torch.html) 获取大量可用操作的完整列表,这些操作不仅局限于数学操作范围。
 
 接下来一个很有帮助的操作就是连接。
 

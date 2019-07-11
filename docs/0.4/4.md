@@ -100,7 +100,7 @@ print(test)
 
 #### 增加一个`Module`。
 
-由于`nn`大量使用`autograd`。所以， 添加一个新的[Module](http://pytorch.org/docs/master/nn.html#torch.nn.Module)类需要实现一个`Function`类, 它会执行对应的操作并且计算梯度。我们只需要很少的代码就可以实现上面`Linear`模块的功能。现在，我们需要实现两个函数：
+由于`nn`大量使用`autograd`。所以， 添加一个新的[Module](https://pytorch.org/docs/master/nn.html#torch.nn.Module)类需要实现一个`Function`类, 它会执行对应的操作并且计算梯度。我们只需要很少的代码就可以实现上面`Linear`模块的功能。现在，我们需要实现两个函数：
 
 *   `__init__ (optional)` - 接收`kernel sizes`内核大小，特征数量等参数，并初始化`parameters`参数和`buffers`缓冲区。
 *   `forward()` - 实例化`Function`并使用它来执行操作。它与上面显示的`functional wrapper`非常相似。

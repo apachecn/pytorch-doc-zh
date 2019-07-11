@@ -267,7 +267,7 @@ visualize_model(model_ft)
 
 这里, 我们固定网络中除最后一层外的所有权重. 为了固定这些参数, 我们需要设置 `requires_grad == False` , 然后在 `backward()` 中就不会计算梯度.
 
-你可以在 [这里](http://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-from-backward) 阅读更多相关信息.
+你可以在 [这里](https://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-from-backward) 阅读更多相关信息.
 
 ```py
 model_conv = torchvision.models.resnet18(pretrained=True)
