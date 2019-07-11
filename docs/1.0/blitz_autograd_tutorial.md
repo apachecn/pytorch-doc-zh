@@ -126,7 +126,7 @@ tensor([[4.5000, 4.5000],
         [4.5000, 4.5000]])
 ```
 
-得到都是`4.5`的矩阵。调用`out`张量 $“o”$。
+得到都是`4.5`的矩阵。调用`out`张量 $$“o”$$。
 
 得到 
 
@@ -146,7 +146,7 @@ $$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$$
 
 $$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$$
 
-数学上，若有向量值函数 $\vec{y}=f(\vec{x})$，那么 $\vec{y}$ 相对于 $\vec{x}$ 的梯度是一个雅可比矩阵：
+数学上，若有向量值函数 $$\vec{y}=f(\vec{x})$$，那么 $$\vec{y}$$ 相对于 $$\vec{x}$$ 的梯度是一个雅可比矩阵：
 
 $$
 J=\left(\begin{array}{ccc}
@@ -156,7 +156,7 @@ J=\left(\begin{array}{ccc}
    \end{array}\right)
 $$
 
-通常来说，`torch.autograd` 是计算雅可比向量积的一个“引擎”。也就是说，给定任意向量 $v=\left(\begin{array}{cccc} v_{1} & v_{2} & \cdots & v_{m}\end{array}\right)^{T}$，计算乘积 $J\cdot v$。如果 $v$ 恰好是一个标量函数 $l=g\left(\vec{y}\right)$ 的导数，即 $v=\left(\begin{array}{ccc}\frac{\partial l}{\partial y_{1}} & \cdots & \frac{\partial l}{\partial y_{m}}\end{array}\right)^{T}$，那么根据链式法则，雅可比向量积应该是 $l$ 对 $\vec{x}$ 的导数：
+通常来说，`torch.autograd` 是计算雅可比向量积的一个“引擎”。也就是说，给定任意向量 $$v=\left(\begin{array}{cccc} v_{1} & v_{2} & \cdots & v_{m}\end{array}\right)^{T}$$，计算乘积 $$J\cdot v$$。如果 $$v$$ 恰好是一个标量函数 $$l=g\left(\vec{y}\right)$$ 的导数，即 $$v=\left(\begin{array}{ccc}\frac{\partial l}{\partial y_{1}} & \cdots & \frac{\partial l}{\partial y_{m}}\end{array}\right)^{T}$$，那么根据链式法则，雅可比向量积应该是 $$l$$ 对 $$\vec{x}$$ 的导数：
 
 $$
 J\cdot v=\left(\begin{array}{ccc}

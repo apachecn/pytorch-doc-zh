@@ -649,7 +649,7 @@ class EncoderRNN(nn.Module):
 
 [![scores](img/7818f6b40cbd799eddec20743b45fde5.jpg)](https://pytorch.org/tutorials/_images/scores.png)
 
-其中$h_t $=当前目标解码器状态和$\bar {h} _s $=所有编码器状态。
+其中$$h_t $$=当前目标解码器状态和$$\bar {h} _s $$=所有编码器状态。
 
 总体而言，Global attention机制可以通过下图进行总结。 请注意，我们将“Attention Layer”用一个名为`Attn`的`nn.Module`来单独实现。 该模块的输出是经过softmax标准化后权重张量的大小（*batch_size，1，max_length*）。
 

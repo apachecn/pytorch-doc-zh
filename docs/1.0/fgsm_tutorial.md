@@ -22,7 +22,7 @@
 
 ![fgsm_panda_image](img/d74012096c3134b776b5e9f70e8178f3.jpg)
 
-从图像中看，`\(\mathbf{x}\)` 是一个正确分类为“熊猫”(panda)的原始输入图像， `\(y\)` 是对`\(\mathbf{x}\)`的真实表征标签`ground truth label `, `\(\mathbf{\theta}\)` 表示模型参数， 而 `\(J(\mathbf{\theta}, \mathbf{x}, y)\)` 是用来训练网络的损失函数。 这种攻击将梯度后向传播到输入数据来计算 `\(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)\)`。然后将输入数据通过一小步(`\(\epsilon\)` 或 如图中的`\(0.007\)` ) 在(i.e. `\(sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))\)`) 方向上调整，使损失最大化。结果将得到受到干扰的图像， `\(x'\)`，尽管图片还是“熊猫”，但它一杯目标网络错误分类为“长臂猿”(gibbon)了
+从图像中看，$$\mathbf{x}$$ 是一个正确分类为“熊猫”(panda)的原始输入图像， $$y$$ 是对 $$\mathbf{x}$$ 的真实表征标签`ground truth label `, $$\mathbf{\theta}$$ 表示模型参数， 而 $$J(\mathbf{\theta}, \mathbf{x}, y)$$ 是用来训练网络的损失函数。 这种攻击将梯度后向传播到输入数据来计算 $$\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)$$。然后将输入数据通过一小步 $$\epsilon$$ 或 如图中的$$0.007$$ ) 在(i.e. $$sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$  方向上调整，使损失最大化。结果将得到受到干扰的图像， $$x'$$，尽管图片还是“熊猫”，但它一杯目标网络错误分类为“长臂猿”(gibbon)了
 
 希望看到现在的你，已经明确了解了本教程的动机，那么，让我们开始实现它吧。
 
@@ -46,7 +46,7 @@ import matplotlib.pyplot as plt
 
 本教程只有三个输入，定义如下:
 
-*   **epsilons** - 要用于运行的epsilon值的列表。在列表中保留0是很重要的，因为它代表了原始测试集上的模型性能。而且，直觉上我们认为，epsilon越大，扰动越明显，但在降低模型精度方面攻击越有效。因为这里的数据范围是 `\([0,1]\)`，所以取值不应该超过1。
+*   **epsilons** - 要用于运行的epsilon值的列表。在列表中保留0是很重要的，因为它代表了原始测试集上的模型性能。而且，直觉上我们认为，epsilon越大，扰动越明显，但在降低模型精度方面攻击越有效。因为这里的数据范围是 $$[0,1]$$，所以取值不应该超过1。
 *   **pretrained_model** - 表示使用 [pytorch/examples/mnist](https://github.com/pytorch/examples/tree/master/mnist)进行训练的预训练MNIST模型的路径。为了简单起见，在这里 [下载](https://drive.google.com/drive/folders/1fn83DF14tWmit0RTKWRhPq5uVXt73e0h?usp=sharing)预先训练的模型。
 *   **use_cuda** - 如果需要和可用，使用CUDA的布尔标志。注意，带有CUDA的GPU对于本教程来说并不重要，因为CPU不会占用太多时间。
 
@@ -122,12 +122,12 @@ CUDA Available:  True
 
 ### FGSM 攻击方式
 
-现在，我们可以定义一个通过打乱原始输入来生成对抗性示例的函数。 `fgsm_attack` 函数有3个输入, _image_ 是原始图像 (`\(x\)`)， _epsilon_ 是像素级干扰量 (`\(\epsilon\)`)，_data_grad_ 是关于输入图像(`\(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)\)`)的损失。然后该函数创建干扰图像如下
+现在，我们可以定义一个通过打乱原始输入来生成对抗性示例的函数。 `fgsm_attack` 函数有3个输入, _image_ 是原始图像 $$x$$ ， _epsilon_ 是像素级干扰量 $$\epsilon$$，_data_grad_ 是关于输入图像 $$\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)$$ 的损失。然后该函数创建干扰图像如下
 
-```python
-\[perturbed\_image = image + epsilon*sign(data\_grad) = x + \epsilon * sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$
 
-最后，为了保持数据的原始范围，将扰动后的图像截取范围在`\([0,1]\)`。
+$$perturbed\_image = image + epsilon*sign(data\_grad) = x + \epsilon * sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$
+
+最后，为了保持数据的原始范围，将扰动后的图像截取范围在 $$[0,1]$$。
 
 ```python
 # FGSM attack code
@@ -145,7 +145,7 @@ def fgsm_attack(image, epsilon, data_grad):
 
 ### 功能验证
 
-最后，本教程的核心结果来自测试`test`函数。对这个测试函数的每次调用都在MNIST测试集上执行一个完整的测试步骤，然后给出一个最终准确性报告。但是，注意这个函数也接受一个`epsilon`输入。这是因为测试`test`函数报告了一个模型的准确性，该模型正受到强度为`\(\epsilon\)`的对手的攻击。更具体地说，对于测试集中的每个样本，该函数计算和输入数据 (`\(data\_grad\)`)相关的损失梯度，用`fgsm_attack` (`\(perturbed\_data\)`)创建一个干扰图像，然后检查干扰的例子是否是对抗性的。除了检测模型的准确性外，函数还需要保存和返回一些成功性的示例以便日后查看。
+最后，本教程的核心结果来自测试`test`函数。对这个测试函数的每次调用都在MNIST测试集上执行一个完整的测试步骤，然后给出一个最终准确性报告。但是，注意这个函数也接受一个`epsilon`输入。这是因为测试`test`函数报告了一个模型的准确性，该模型正受到强度为$$\epsilon$$的对手的攻击。更具体地说，对于测试集中的每个样本，该函数计算和输入数据  $$data\_grad$$ 相关的损失梯度，用`fgsm_attack`  $$perturbed\_data$$ 创建一个干扰图像，然后检查干扰的例子是否是对抗性的。除了检测模型的准确性外，函数还需要保存和返回一些成功性的示例以便日后查看。
 
 ```python
 def test( model, device, test_loader, epsilon ):
@@ -214,7 +214,7 @@ def test( model, device, test_loader, epsilon ):
 
 ### 启动攻击
 
-实现的最后一部分是运行攻击操作。在这里，我们对输入中的每个`epsilon `值运行一个完整的测试步骤。对于每个`epsilon `，我们也保存最后的精度和一些将在接下来的部分中绘制的成功的对抗性例子。请注意，随着`epsilon `值的增加，打印出来的精度是如何降低的。另外，注意`\(\epsilon=0\)`用例表示原始未受攻击的测试准确性。
+实现的最后一部分是运行攻击操作。在这里，我们对输入中的每个`epsilon `值运行一个完整的测试步骤。对于每个`epsilon `，我们也保存最后的精度和一些将在接下来的部分中绘制的成功的对抗性例子。请注意，随着`epsilon `值的增加，打印出来的精度是如何降低的。另外，注意$$\epsilon=0$$用例表示原始未受攻击的测试准确性。
 
 ```python
 accuracies = []
@@ -245,7 +245,7 @@ Epsilon: 0.3    Test Accuracy = 869 / 10000 = 0.0869
 
 ### 准确性 vs Epsilon
 
-第一个结果是相对于`epsilon`的精确度。正如前面提到的，随着`epsilon`的增加，我们预期测试的准确性会降低。这是因为更大的`epsilon`意味着我们在使损失最大化的方向上迈出了更大的一步。注意，即使`epsilon`值是线性间隔的，曲线的趋势却不是线性的。比如说，精度在`\(\epsilon=0.05\)` 只比`\(\epsilon=0\)`小约4%，但是这个 `\(\epsilon=0.2\)`精度却比 `\(\epsilon=0.15\)`小了25%。 另外，需要注意的是，在 `\(\epsilon=0.25\)` 和 `\(\epsilon=0.3\)`之间做了10次分类的分类器，模型的精度会达到随机精度。
+第一个结果是相对于`epsilon`的精确度。正如前面提到的，随着`epsilon`的增加，我们预期测试的准确性会降低。这是因为更大的`epsilon`意味着我们在使损失最大化的方向上迈出了更大的一步。注意，即使`epsilon`值是线性间隔的，曲线的趋势却不是线性的。比如说，精度在$$\epsilon=0.05$$ 只比$$\epsilon=0$$小约4%，但是这个 $$\epsilon=0.2$$精度却比 $$\epsilon=0.15$$小了25%。 另外，需要注意的是，在 $$\epsilon=0.25$$ 和 $$\epsilon=0.3$$之间做了10次分类的分类器，模型的精度会达到随机精度。
 
 ```python
 plt.figure(figsize=(5,5))
@@ -263,7 +263,7 @@ plt.show()
 
 ### 对抗性用例样本
 
-并没有什么尽善尽美之事，在这里，随着`epsilon `的增加，测试精度降低，但扰动变得更容易察觉。实际上，攻击者必须考虑准确性下降和可感知性之间的权衡。在这里，我们展示了在每个值上成功的对抗性例子。图中的每一行都显示不同的`epsilon `值。第一行是`\(\epsilon=0\)`的例子，它表示原始的无扰动的纯净图像。每个图像的标题显示“原始分类->干扰分类（adversarial classification）”。请注意，在`\(\epsilon=0.15\)`和`\(\epsilon=0.3\)`处开始出现明显的扰动。然而，在所有情况下，尽管添加了躁动因素（干扰），人类仍然能够识别正确的类。
+并没有什么尽善尽美之事，在这里，随着`epsilon `的增加，测试精度降低，但扰动变得更容易察觉。实际上，攻击者必须考虑准确性下降和可感知性之间的权衡。在这里，我们展示了在每个值上成功的对抗性例子。图中的每一行都显示不同的`epsilon `值。第一行是$$\epsilon=0$$的例子，它表示原始的无扰动的纯净图像。每个图像的标题显示“原始分类->干扰分类（adversarial classification）”。请注意，在$$\epsilon=0.15$$和$$\epsilon=0.3$$处开始出现明显的扰动。然而，在所有情况下，尽管添加了躁动因素（干扰），人类仍然能够识别正确的类。
 
 ```python
 # Plot several examples of adversarial samples at each epsilon

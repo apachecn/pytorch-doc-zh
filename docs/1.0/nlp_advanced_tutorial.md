@@ -13,9 +13,9 @@ Without a lot of experience, it is difficult to appreciate the difference. One e
 
 *   We build the tree bottom up
 *   Tag the root nodes (the words of the sentence)
-*   From there, use a neural network and the embeddings of the words to find combinations that form constituents. Whenever you form a new constituent, use some sort of technique to get an embedding of the constituent. In this case, our network architecture will depend completely on the input sentence. In the sentence “The green cat scratched the wall”, at some point in the model, we will want to combine the span `\((i,j,r) = (1, 3, \text{NP})\)` (that is, an NP constituent spans word 1 to word 3, in this case “The green cat”).
+*   From there, use a neural network and the embeddings of the words to find combinations that form constituents. Whenever you form a new constituent, use some sort of technique to get an embedding of the constituent. In this case, our network architecture will depend completely on the input sentence. In the sentence “The green cat scratched the wall”, at some point in the model, we will want to combine the span $$(i,j,r) = (1, 3, \text{NP})$$ (that is, an NP constituent spans word 1 to word 3, in this case “The green cat”).
 
-However, another sentence might be “Somewhere, the big fat cat scratched the wall”. In this sentence, we will want to form the constituent `\((2, 4, NP)\)` at some point. The constituents we will want to form will depend on the instance. If we just compile the computation graph once, as in a static toolkit, it will be exceptionally difficult or impossible to program this logic. In a dynamic toolkit though, there isn’t just 1 pre-defined computation graph. There can be a new computation graph for each instance, so this problem goes away.
+However, another sentence might be “Somewhere, the big fat cat scratched the wall”. In this sentence, we will want to form the constituent $$(2, 4, NP)$$ at some point. The constituents we will want to form will depend on the instance. If we just compile the computation graph once, as in a static toolkit, it will be exceptionally difficult or impossible to program this logic. In a dynamic toolkit though, there isn’t just 1 pre-defined computation graph. There can be a new computation graph for each instance, so this problem goes away.
 
 Dynamic toolkits also have the advantage of being easier to debug and the code more closely resembling the host language (by that I mean that Pytorch and Dynet look more like actual Python code than Keras or Theano).
 
@@ -27,17 +27,17 @@ For this section, we will see a full, complicated example of a Bi-LSTM Condition
 *   Modify the above recurrence to compute the forward variables instead.
 *   Modify again the above recurrence to compute the forward variables in log-space (hint: log-sum-exp)
 
-If you can do those three things, you should be able to understand the code below. Recall that the CRF computes a conditional probability. Let `\(y\)` be a tag sequence and `\(x\)` an input sequence of words. Then we compute
+If you can do those three things, you should be able to understand the code below. Recall that the CRF computes a conditional probability. Let $$y$$ be a tag sequence and $$x$$ an input sequence of words. Then we compute
 
 $$P(y|x) = \frac{\exp{(\text{Score}(x, y)})}{\sum_{y'} \exp{(\text{Score}(x, y')})}$$
 
-Where the score is determined by defining some log potentials `\(\log \psi_i(x,y)\)` such that
+Where the score is determined by defining some log potentials $$\log \psi_i(x,y)$$ such that
 
 $$\text{Score}(x,y) = \sum_i \log \psi_i(x,y)$$
 
 To make the partition function tractable, the potentials must look only at local features.
 
-In the Bi-LSTM CRF, we define two kinds of potentials: emission and transition. The emission potential for the word at index `\(i\)` comes from the hidden state of the Bi-LSTM at timestep `\(i\)`. The transition scores are stored in a `\(|T|x|T|\)` matrix `\(\textbf{P}\)`, where `\(T\)` is the tag set. In my implementation, `\(\textbf{P}_{j,k}\)` is the score of transitioning to tag `\(j\)` from tag `\(k\)`. So:
+In the Bi-LSTM CRF, we define two kinds of potentials: emission and transition. The emission potential for the word at index $$i$$ comes from the hidden state of the Bi-LSTM at timestep $$i$$. The transition scores are stored in a $$|T|x|T|$$ matrix $$\textbf{P}$$, where $$T$$ is the tag set. In my implementation, $$\textbf{P}_{j,k}$$ is the score of transitioning to tag $$j$$ from tag $$k$$. So:
 
 $$\text{Score}(x,y) = \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)$$
 

@@ -500,7 +500,7 @@ $$I_{out} = 255 \times gain \times (\dfrac{I_{in}}{255})^\gamma$$
 参数： 
 
 *   **img**（_PIL图像_）– PIL要调整的PIL图像。
-*   **gamma**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 非负实数，公式中的$\gamma$。gamma大于1时令暗区更暗，gamma小于1时使得暗区更亮。
+*   **gamma**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 非负实数，公式中的 $$\gamma$$。gamma大于1时令暗区更暗，gamma小于1时使得暗区更亮。
 *   **gain**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 常数乘数。
 
 
@@ -697,7 +697,7 @@ torchvision.transforms.functional.resize(img, size, interpolation=2)
 参数： 
 
 *   **img**（_PIL图像_）– 要调整形状的图像。
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 输出图像的形状。如果size指定为序列(h, w)，输出矩形。如果size指定为int图片的短边将调整为这个数，长边按照相同的长宽比进行调整。即，如果高度&gt;宽度，则图片形状将调整为$(size\times\frac{高度}{宽度}, size)$
+*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 输出图像的形状。如果size指定为序列(h, w)，输出矩形。如果size指定为int图片的短边将调整为这个数，长边按照相同的长宽比进行调整。即，如果高度&gt;宽度，则图片形状将调整为 $$(size\times\frac{高度}{宽度}, size)$$
 *   **interpolation**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式，默认是`PIL.Image.BILINEAR`。
 
 
