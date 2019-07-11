@@ -152,7 +152,7 @@ def run(rank, size):
 - `dist.broadcast(tensor, src, group)`: Copies `tensor` from `src` to all other processes.
 - `dist.reduce(tensor, dst, op, group)`: Applies `op` to all `tensor` and stores the result in `dst`.
 - `dist.all_reduce(tensor, op, group)`: Same as reduce, but the result is stored in all processes.
-- `dist.scatter(tensor, src, scatter_list, group)`: Copies the `\(i^{\text{th}}\)` tensor `scatter_list[i]` to the `\(i^{\text{th}}\)` process.
+- `dist.scatter(tensor, src, scatter_list, group)`: Copies the $$i^{\text{th}}$$ tensor `scatter_list[i]` to the $$i^{\text{th}}$$ process.
 - `dist.gather(tensor, dst, gather_list, group)`: Copies `tensor` from all processes in `dst`.
 - `dist.all_gather(tensor_list, tensor, group)`: Copies `tensor` from all processes to `tensor_list`, on all processes.
 - `dist.barrier(group)`: block all processes in `group` until each one has entered this function.
@@ -320,9 +320,9 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
 
 从版本0.2.0开始，Gloo后端自动包含在PyTorch的预编译二进制文件中。 正如您已经注意到的那样，如果您将模型放在GPU上，我们的分布式SGD示例将不起作用。 让我们通过首先替换init_processes中的backend ='gloo'来修复它（rank，size，fn，backend ='tcp'）。 此时，脚本仍将在CPU上运行，但在幕后使用Gloo后端。 为了使用多个GPU，我们还要进行以下修改：
 
-1. `init_processes(rank, size, fn, backend='tcp')` `\(\rightarrow\)` `init_processes(rank, size, fn, backend='gloo')`
+1. `init_processes(rank, size, fn, backend='tcp')` $$\rightarrow$$ `init_processes(rank, size, fn, backend='gloo')`
 2. Use `device = torch.device("cuda:{}".format(rank))`
-3. `model = Net()` `\(\rightarrow\)` `model = Net().to(device)`
+3. `model = Net()` $$\rightarrow$$ `model = Net().to(device)`
 4. Use `data, target = data.to(device), target.to(device)`
 
 通过上述修改，我们的模型现在在两个GPU上进行培训，您可以通过运行nvidia-smi监控它们的使用情况。

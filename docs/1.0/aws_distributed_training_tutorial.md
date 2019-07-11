@@ -309,7 +309,7 @@ dist_url = "tcp://172.31.22.234:23456"
 
 在使用 PyTorch 进行分布式训练中有一个很重要的部分是正确设置进程组, 也就是初始化 `torch.distributed` 包的**第一**步。为了完成这一步我们将会使用 `torch.distributed.init_process_group` 函数，这个函数需要几个输入参数。首先，需要输入 _backend_ 参数，这个参数描述了需要什么后端(也就是 NCCL, Gloo, MPI 等)。 输入参数 _init_method_ 同时也是包含 rank0 地址和端口的 url 或是共享文件系统上的 non-existant 文件路径。注意，为了使用文件的 init_method, 所有机器必须有访问文件的权限，和使用 url 方法类似，所有机器必须要能够联网通信所以确保防火墙和网络设置正确。 _init_process_group_ 函数也接受 _rank_ 和 _world_size_ 参数，这些参数表明了进程运行时的编号并分别展示了集群内的进程数。_init_method_ 也可以是 “env://”。 在这种情况下，rank0 机器的地址和端口将会分别从以下环境变量中读出来：MASTER_ADDR, MASTER_PORT。 如果 _rank_ 和 _world_size_ 参数没有在 _init_process_group_ 函数中表示出来，他们都可以从以下环境变量中分别读出来：RANK, WORLD_SIZE。
 
-另一个重要步骤，尤其是当一个节点使用多路 gpu 的时候，就是设置进程的 _local_rank_。 例如，如果你有两个节点，每个节点有8个 GPU 并且你希望使用所有 GPU 来训练那么设置 `\(world\_size=16\)` 这样每个节点都会有一个本地编号为 0-7 的进程。 这个本地编号(local_rank) 是用来为进程配置设备 (也就是所使用的 GPU ) 并且之后用来创建分布式数据并行模型时配置设备。 在这样的假定环境下同样推荐使用 NCCL 后端因为 NCCL 更适合多路 gpu 节点。
+另一个重要步骤，尤其是当一个节点使用多路 gpu 的时候，就是设置进程的 _local_rank_。 例如，如果你有两个节点，每个节点有8个 GPU 并且你希望使用所有 GPU 来训练那么设置 $$world\_size=16$$ 这样每个节点都会有一个本地编号为 0-7 的进程。 这个本地编号(local_rank) 是用来为进程配置设备 (也就是所使用的 GPU ) 并且之后用来创建分布式数据并行模型时配置设备。 在这样的假定环境下同样推荐使用 NCCL 后端因为 NCCL 更适合多路 gpu 节点。
 
 ```py
 print("Initialize Process Group...")
@@ -409,7 +409,7 @@ for epoch in range(num_epochs):
 
 ## 运行代码
 
-和其他 PyTorch 教程不一样, 这个代码也许不能直接以 notebook 的形式执行。 为了运行它需要以 .py 形式下载这份文件(或者使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)来转换它)然后复制到各个节点上。 聪明的读者也许注意到了我们写死了(硬编码，hardcode) **node0-privateIP** 和 `\(world\_size=4\)` 但把 _rank_ 和 _local_rank_ 以 arg[1] 和 arg[2] 命令行参数的形式分别输入。 上传后对每个节点分别打开两个 ssh 终端。
+和其他 PyTorch 教程不一样, 这个代码也许不能直接以 notebook 的形式执行。 为了运行它需要以 .py 形式下载这份文件(或者使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)来转换它)然后复制到各个节点上。 聪明的读者也许注意到了我们写死了(硬编码，hardcode) **node0-privateIP** 和 $$world\_size=4$$ 但把 _rank_ 和 _local_rank_ 以 arg[1] 和 arg[2] 命令行参数的形式分别输入。 上传后对每个节点分别打开两个 ssh 终端。
 
 *   对 node0 的第一个终端，运行 `$ python main.py 0 0`
 *   对 node0 的第二个终端，运行 `$ python main.py 1 1`
