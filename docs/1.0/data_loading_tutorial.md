@@ -4,7 +4,7 @@
 
 **作者**：[Sasank Chilamkurthy](https://chsasank.github.io)
 
-在解决机器学习问题的时候，人们花了大量精力准备数据。pytorch提供了许多工具来让载入数据更简单并尽量让你的代码的可读性更高。在这篇教程中，我们将学习如何加载和预处理/增强一个有价值的数据集。
+在解决机器学习问题的时候，人们花了大量精力准备数据。pytorch提供了许多工具来让载入数据更简单并尽量让你的代码的可读性更高。在这篇教程中，我们将从一个容易处理的数据集中学习如何加载和预处理/增强数据。
 
 在运行这个教程前请先确保你已安装以下的包:
 
@@ -38,7 +38,7 @@ plt.ion()   # interactive mode
 
 注意
 
-从[这里](https://download.pytorch.org/tutorial/faces.zip)下载数据集并把它放置在 ‘data/faces/’路径下。这个数据集实际上是imagenet数据集标注为face的图片当中在 dlib 面部检测 ([dlib’s pose estimation](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)) 表现良好的图片。
+从[这里](https://download.pytorch.org/tutorial/faces.zip)下载数据集并把它放置在 ‘data/faces/’路径下。这个数据集实际上是对ImageNet中的人脸图像使用表现出色的DLIB姿势估计模型([dlib’s pose estimation](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)) 生成的。
 
 数据集是按如下规则打包成的csv文件:
 
@@ -49,7 +49,7 @@ image_name,part_0_x,part_0_y,part_1_x,part_1_y,part_2_x, ... ,part_67_x,part_67_
 
 ```
 
-将csv中的标注点数据读入（N，2）数组中，其中N是特征点的数量。
+快速读取csv并将标注点数据写入（N，2）数组中，其中N是特征点的数量。
 
 ```py
 landmarks_frame = pd.read_csv('data/faces/face_landmarks.csv')
@@ -77,7 +77,7 @@ First 4 Landmarks: [[32\. 65.]
 
 ```
 
-写一个简单的函数来展示一张图片和它对应的标注点作为例子。
+写一个简单的辅助函数来展示一张图片和它对应的标注点作为例子。
 
 ```py
 def show_landmarks(image, landmarks):
@@ -100,7 +100,7 @@ plt.show()
 `torch.utils.data.Dataset` 是一个代表数据集的抽象类。你自定的数据集类应该继承自 `Dataset` 类并重新实现以下方法:
 
 *   `__len__` 实现 `len(dataset)` 返还数据集的尺寸。
-*   `__getitem__` 用来获取一些索引数据，例如 `dataset[i]` 中的 $$i$$。
+*   `__getitem__` 用来获取一些索引数据，例如 使用`dataset[i]` 获得第i个样本。
 
 让我们来为我们的数据集创建一个类。我们将在 `__init__` 中读取csv的文件内容，在 `__getitem__`中读取图片。这么做是为了节省内存空间。只有在需要用到图片的时候才读取它而不是一开始就把图片全部存进内存里。
 
