@@ -38,7 +38,7 @@ plt.ion()   # interactive mode
 
 注意
 
-从[这里](https://download.pytorch.org/tutorial/faces.zip)下载数据集并把它放置在 ‘data/faces/’路径下。这个数据集实际上是imagenet数据集标注为face的图片当中在 dlib 面部检测 ([dlib’s pose estimation](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)) 表现良好的图片。
+从[这里](https://download.pytorch.org/tutorial/faces.zip)下载数据集并把它放置在 ‘data/faces/’路径下。这个数据集实际上是对ImageNet中的人脸图像使用表现出色的DLIB姿势估计模型([dlib’s pose estimation](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)) 生成的。
 
 数据集是按如下规则打包成的csv文件:
 
