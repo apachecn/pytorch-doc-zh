@@ -1,6 +1,8 @@
 # 用 numpy 和 scipy 创建扩展
 
 > 译者：[cangyunye](https://github.com/cangyunye)
+>
+> 校对者：[FontTian](https://github.com/fonttian)
 
 **作者**: [Adam Paszke](https://github.com/apaszke)
 
@@ -12,7 +14,7 @@
 
     这里需要调用**numpy**作为实现的一部分。
 
-2.  创建一个权重自主优化的伸进网络层。
+2.  创建一个权重自主优化的神经网络层。
 
     这里需要调用**Scipy**作为实现的一部分。
 
@@ -22,7 +24,7 @@ from torch.autograd import Function
 
 ```
 
-## 无参数示例
+## 无参数神经网络层示例
 
 这一层并没有特意做什么任何有用的事或者去进行数学上的修正。
 
@@ -52,7 +54,7 @@ def incorrect_fft(input):
 
 ```
 
-**Example usage of the created layer:**
+**创建无参数神经网络层的示例方法:**
 
 ```python
 input = torch.randn(8, 8, requires_grad=True)
@@ -63,7 +65,7 @@ print(input)
 
 ```
 
-Out:
+输出:
 
 ```python
 tensor([[2.2488e-03, 5.1309e+00, 6.4310e+00, 6.0649e+00, 8.1197e+00],
@@ -89,11 +91,11 @@ tensor([[-0.6461,  0.3270, -1.2190, -0.5480, -1.7273, -0.7326,  0.6294, -0.2311]
 
 ## 参数化示例
 
-在深度学习的文献中，这一层被意外的称作卷积`convolution `，尽管实际操作是交叉-关联性`cross-correlation`的。 (唯一的区别是过滤器`filter`是为了卷积而翻转，而不是为了交叉关联)。
+在深度学习的文献中，这一层被意外的称作卷积`convolution `，尽管实际操作是交叉-关联性`cross-correlation` (唯一的区别是过滤器`filter`是为了卷积而翻转，而不是为了交叉关联)。
 
-本层的可自优化权重的实现，依赖于交叉-关联`cross-correlation` 一个表示权重的滤核 (kernel)。
+本层的可自优化权重的实现，依赖于交叉-关联`cross-correlation` 一个表示权重的过滤器filter (kernel)。
 
-向后传播计算的和输入相关的梯度以及和过滤器相关的梯度。
+向后传播的函数`backward`计算的是输入数据的梯度以及过滤器的梯度。
 
 ```python
 from numpy import flip
@@ -119,7 +121,7 @@ class ScipyConv2dFunction(Function):
         grad_output = grad_output.numpy()
         grad_bias = np.sum(grad_output, keepdims=True)
         grad_input = convolve2d(grad_output, filter.numpy(), mode='full')
-        # the previous line can be expressed equivalently as:
+        # 上一行可以等效表示为:
         # grad_input = correlate2d(grad_output, flip(flip(filter.numpy(), axis=0), axis=1), mode='full')
         grad_filter = correlate2d(input.numpy(), grad_output, mode='valid')
         return torch.from_numpy(grad_input), torch.from_numpy(grad_filter).to(torch.float), torch.from_numpy(grad_bias).to(torch.float)
@@ -135,7 +137,7 @@ class ScipyConv2d(Module):
 
 ```
 
-**Example usage:**
+**示例:**
 
 ```python
 module = ScipyConv2d(3, 3)
@@ -148,7 +150,7 @@ print("Gradient for the input map: ", input.grad)
 
 ```
 
-Out:
+输出：
 
 ```python
 Filter and bias:  [Parameter containing:
@@ -201,7 +203,7 @@ print("Are the gradients correct: ", test)
 
 ```
 
-Out:
+输出：
 
 ```python
 Are the gradients correct:  True
