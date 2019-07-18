@@ -49,7 +49,7 @@ image_name,part_0_x,part_0_y,part_1_x,part_1_y,part_2_x, ... ,part_67_x,part_67_
 
 ```
 
-将csv中的标注点数据读入（N，2）数组中，其中N是特征点的数量。
+快速读取csv并将标注点数据写入（N，2）数组中，其中N是特征点的数量。
 
 ```py
 landmarks_frame = pd.read_csv('data/faces/face_landmarks.csv')
@@ -77,7 +77,7 @@ First 4 Landmarks: [[32\. 65.]
 
 ```
 
-写一个简单的函数来展示一张图片和它对应的标注点作为例子。
+写一个简单的辅助函数来展示一张图片和它对应的标注点作为例子。
 
 ```py
 def show_landmarks(image, landmarks):
