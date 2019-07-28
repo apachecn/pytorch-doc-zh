@@ -1,6 +1,8 @@
 # PyTorch 深度学习: 60 分钟极速入门
 
 > 译者：[bat67](https://github.com/bat67)
+>
+> 校对者：[FontTian](https://github.com/fonttian)
 
 **作者**：[Soumith Chintala](http://soumith.ch)
 
@@ -11,7 +13,7 @@
 
 本教程假设读者对`numpy`有基本的了解
 
-注
+注意:确保你安装了 torch 和 torchvision 包。
 
 确保你安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包。
 

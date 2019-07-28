@@ -2,7 +2,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
+> 校对者：[FontTian](https://github.com/fonttian)
 
 PyTorch中，所有神经网络的核心是`autograd`包。先简单介绍一下这个包，然后训练我们的第一个的神经网络。
 
@@ -20,9 +20,9 @@ PyTorch中，所有神经网络的核心是`autograd`包。先简单介绍一下
 
 还有一个类对于autograd的实现非常重要：`Function`。
 
-`Tensor`和`Function`互相连接生成了一个非循环图，它编码了完整的计算历史。每个张量都有一个`.grad_fn`属性，它引用了一个创建了这个`Tensor`的`Function`（除非这个张量是用户手动创建的，即这个张量的`grad_fn`是`None`）。
+`Tensor`和`Function`互相连接生成了一个无圈图(acyclic graph)，它编码了完整的计算历史。每个张量都有一个`.grad_fn`属性，该属性引用了创建`Tensor`自身的`Function`（除非这个张量是用户手动创建的，即这个张量的`grad_fn`是`None`）。
 
-如果需要计算导数，可以在`Tensor`上调用`.backward()`。如果`Tensor`是一个标量（即它包含一个元素的数据），则不需要为`backward()`指定任何参数，但是如果它有更多的元素，则需要指定一个`gradient`参数，它是形状匹配的张量。
+如果需要计算导数，可以在`Tensor`上调用`.backward()`。如果`Tensor`是一个标量（即它包含一个元素的数据），则不需要为`backward()`指定任何参数，但是如果它有更多的元素，则需要指定一个`gradient`参数，该参数是形状匹配的张量。
 
 
 ```python
@@ -107,7 +107,7 @@ True
 
 ## 梯度
 
-因为`out`是一个标量。所以让我们直接进行反向传播，`out.backward()`和`out.backward(torch.tensor(1.))`等价
+现在开始进行反向传播，因为`out`是一个标量，因此out.backward()`和`out.backward(torch.tensor(1.))`等价。
 
 ```python
 out.backward()
@@ -126,25 +126,11 @@ tensor([[4.5000, 4.5000],
         [4.5000, 4.5000]])
 ```
 
-得到都是`4.5`的矩阵。调用`out`张量 $$“o”$$。
+我们的得到的是一个数取值全部为`4.5`的矩阵。
 
-得到 
+让我们来调用`out`张量 $$“o”$$。
 
-$$o = \frac{1}{4}\sum_i z_i$$
-
-$$z_i = 3(x_i+2)^2$$
-
-和
-
-$$z_i\bigr\rvert_{x_i=1} = 27$$
-
-因此,
-
-$$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$$
-
-所以，
-
-$$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$$
+就可以得到 $$o = \frac{1}{4}\sum_i z_i$$，$$z_i = 3(x_i+2)^2$$和$$z_i\bigr\rvert_{x_i=1} = 27$$因此,$$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$$，因而$$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$$。
 
 数学上，若有向量值函数 $$\vec{y}=f(\vec{x})$$，那么 $$\vec{y}$$ 相对于 $$\vec{x}$$ 的梯度是一个雅可比矩阵：
 
@@ -156,10 +142,10 @@ J=\left(\begin{array}{ccc}
    \end{array}\right)
 $$
 
-通常来说，`torch.autograd` 是计算雅可比向量积的一个“引擎”。也就是说，给定任意向量 $$v=\left(\begin{array}{cccc} v_{1} & v_{2} & \cdots & v_{m}\end{array}\right)^{T}$$，计算乘积 $$J\cdot v$$。如果 $$v$$ 恰好是一个标量函数 $$l=g\left(\vec{y}\right)$$ 的导数，即 $$v=\left(\begin{array}{ccc}\frac{\partial l}{\partial y_{1}} & \cdots & \frac{\partial l}{\partial y_{m}}\end{array}\right)^{T}$$，那么根据链式法则，雅可比向量积应该是 $$l$$ 对 $$\vec{x}$$ 的导数：
+通常来说，`torch.autograd` 是计算雅可比向量积的一个“引擎”。也就是说，给定任意向量 $$v=\left(\begin{array}{cccc} v_{1} & v_{2} & \cdots & v_{m}\end{array}\right)^{T}$$，计算乘积 $$ v^{T}\cdot J$$。如果 $$v$$ 恰好是一个标量函数 $$l=g\left(\vec{y}\right)$$ 的导数，即 $$v=\left(\begin{array}{ccc}\frac{\partial l}{\partial y_{1}} & \cdots & \frac{\partial l}{\partial y_{m}}\end{array}\right)^{T}$$，那么根据链式法则，雅可比向量积应该是 $$l$$ 对 $$\vec{x}$$ 的导数：
 
 $$
-J\cdot v=\left(\begin{array}{ccc}
+J^{T}\cdot v=\left(\begin{array}{ccc}
    \frac{\partial y_{1}}{\partial x_{1}} & \cdots & \frac{\partial y_{m}}{\partial x_{1}}\\
    \vdots & \ddots & \vdots\\
    \frac{\partial y_{1}}{\partial x_{n}} & \cdots & \frac{\partial y_{m}}{\partial x_{n}}
@@ -173,6 +159,8 @@ J\cdot v=\left(\begin{array}{ccc}
    \frac{\partial l}{\partial x_{n}}
    \end{array}\right)
 $$
+
+（注意：行向量的$$ v^{T}\cdot J$$也可以被视作列向量的$$J^{T}\cdot v$$)
 
 雅可比向量积的这一特性使得将外部梯度输入到具有非标量输出的模型中变得非常方便。
 
@@ -209,8 +197,6 @@ print(x.grad)
 ```python
 tensor([4.0960e+02, 4.0960e+03, 4.0960e-01])
 ```
-
-为了防止跟踪历史记录（和使用内存），可以将代码块包装在`with torch.no_grad():`中。在评估模型时特别有用，因为模型可能具有`requires_grad = True`的可训练的参数，但是我们不需要在此过程中对他们进行梯度计算。
 
 也可以通过将代码块包装在 `with torch.no_grad():` 中，来阻止autograd跟踪设置了 `.requires_grad=True` 的张量的历史记录。
 

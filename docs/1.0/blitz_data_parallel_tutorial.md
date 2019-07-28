@@ -1,8 +1,10 @@
 # 可选：数据并行处理
 
 > 译者：[bat67](https://github.com/bat67)
-> 
-> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
+>
+> 校对者：[FontTian](https://github.com/fonttian)
+
+**作者**： [Sung Kim](https://github.com/hunkim)  [Jenny Kang](https://github.com/jennykang)
 
 在这个教程里，我们将学习如何使用数据并行（`DataParallel`）来使用多GPU。
 
@@ -236,6 +238,6 @@ Outside： input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 ## 总结
 
-`DataParallel`自动的划分数据，并将作业发送到多个GPU上的多个模型。在每个模型完成作业后，`DataParallel`收集并合并结果返回给你。
+`DataParallel`自动的划分数据，并将作业发送到多个GPU上的多个模型。`DataParallel`会在每个模型完成作业后，收集与合并结果然后返回给你。
 
 更多信息，请参考：https://pytorch.org/tutorials/beginner/former_torchies/parallelism_tutorial.html
