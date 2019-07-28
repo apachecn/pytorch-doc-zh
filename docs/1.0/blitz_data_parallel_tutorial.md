@@ -3,8 +3,8 @@
 > 译者：[bat67](https://github.com/bat67)
 >
 > 校对者：[FontTian](https://github.com/fonttian)
->
-> 作者： [Sung Kim](https://github.com/hunkim)  [Jenny Kang](https://github.com/jennykang)
+
+**作者**： [Sung Kim](https://github.com/hunkim)  [Jenny Kang](https://github.com/jennykang)
 
 在这个教程里，我们将学习如何使用数据并行（`DataParallel`）来使用多GPU。
 

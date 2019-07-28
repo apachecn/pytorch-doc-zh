@@ -3,8 +3,8 @@
 > 译者：[bat67](https://github.com/bat67)
 >
 > 校对者：[FontTian](https://github.com/fonttian)
->
-> 作者： [Soumith Chintala](http://soumith.ch/)
+
+**作者**： [Soumith Chintala](http://soumith.ch/)
 
 PyTorch是一个基于python的科学计算包，主要针对两类人群：
 
