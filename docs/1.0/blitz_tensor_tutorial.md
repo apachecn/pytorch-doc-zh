@@ -1,8 +1,10 @@
 # 什么是PyTorch？
 
 > 译者：[bat67](https://github.com/bat67)
-> 
-> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
+>
+> 校对者：[FontTian](https://github.com/fonttian)
+>
+> 作者： [Soumith Chintala](http://soumith.ch/)
 
 PyTorch是一个基于python的科学计算包，主要针对两类人群：
 
@@ -91,7 +93,7 @@ x = x.new_ones(5, 3, dtype=torch.double)      # new_* methods take in sizes
 print(x)
 
 x = torch.randn_like(x, dtype=torch.float)    # 重载 dtype!
-print(x)                                      # 结果有相同的size
+print(x)                                      # 结果size一致
 ```
 
 输出：
@@ -109,7 +111,7 @@ tensor([[ 1.6040, -0.6769,  0.0555],
         [-0.8092, -0.6741,  0.0406]])
 ```
 
-获取它的形状：
+获取张量的形状：
 
 ```python
 print(x.size())
@@ -250,14 +252,14 @@ tensor([0.0445])
 
 >后续阅读：
 >
->超过100中tensor的运算操作，包括转置，索引，切片，数学运算，
+>超过100种tensor的运算操作，包括转置，索引，切片，数学运算，
 线性代数，随机数等，具体访问[这里](https://pytorch.org/docs/stable/torch.html)
 
-## NumPy桥
+## 桥接 NumPy
 
 将一个Torch张量转换为一个NumPy数组是轻而易举的事情，反之亦然。
 
-Torch张量和NumPy数组将共享它们的底层内存位置，更改一个将更改另一个。
+Torch张量和NumPy数组将共享它们的底层内存位置，因此当一个改变时,另外也会改变。
 
 ### 将torch的Tensor转化为NumPy数组
 
@@ -324,14 +326,14 @@ print(b)
 tensor([2., 2., 2., 2., 2.], dtype=torch.float64)
 ```
 
-CPU上的所有张量(CharTensor除外)都支持转换为NumPy以及由NumPy转换回来。
+CPU上的所有张量(CharTensor除外)都支持与Numpy的相互转换。
 
 ## CUDA上的张量
 
 张量可以使用`.to`方法移动到任何设备（device）上：
 
 ```python
-# let us run this cell only if CUDA is available
+# 当GPU可用时,我们可以运行以下代码
 # 我们将使用`torch.device`来将tensor移入和移出GPU
 if torch.cuda.is_available():
     device = torch.device("cuda")          # a CUDA device object
