@@ -1,6 +1,8 @@
 # 迁移学习教程
 
 > 译者：[片刻](https://github.com/jiangzhonglian)
+>
+> 校对者：[cluster](https://github.com/infdahai)
 
 **作者**: [Sasank Chilamkurthy](https://chsasank.github.io)
 
@@ -8,14 +10,14 @@
 
 引用这些笔记：
 
-> 在实践中，很少有人从头开始训练整个卷积网络（随机初始化），因为拥有足够大小的数据集是相对罕见的。相反，通常在非常大的数据集（例如 ImageNet，其包含具有1000个类别的120万个图像）上预先训练 ConvNet，然后使用 ConvNet 作为感兴趣任务的初始化或固定特征提取器。
+> 在实践中，很少有人从头开始训练整个卷积网络（随机初始化），因为拥有足够大小的数据集是相对罕见的。相反，通常在非常大的数据集（例如 ImageNet，其包含具有1000个类别的120万个图像）上预先训练 ConvNet，然后使用 ConvNet 对感兴趣的任务进行初始化或用作固定特征提取器。
 
 如下是两个主要的迁移学习场景：
 
-*   **Finetuning the convnet**: 我们使用预训练网络初始化网络，而不是随机初始化，就像在imagenet 1000数据集上训练的网络一样。其余训练看起来像往常一样。
-*   **ConvNet as fixed feature extractor**: 在这里，我们将冻结除最终完全连接层之外的所有网络的权重。最后一个全连接层被替换为具有随机权重的新层，并且仅训练该层。
+- **Finetuning the convnet**: 我们使用预训练网络初始化网络，而不是随机初始化，就像在imagenet 1000数据集上训练的网络一样。其余训练看起来像往常一样。(此微调过程对应引用中所说的初始化)
+- **ConvNet as fixed feature extractor**: 在这里，我们将冻结除最终完全连接层之外的所有网络的权重。最后一个全连接层被替换为具有随机权重的新层，并且仅训练该层。(此步对应引用中的固定特征提取器)
 
-```py
+```python
 # License: BSD
 # Author: Sasank Chilamkurthy
 
@@ -41,7 +43,7 @@ plt.ion()   # interactive mode
 
 我们将使用 torchvision 和 torch.utils.data 包来加载数据。
 
-我们今天要解决的问题是训练一个模型来对 **蚂蚁** 和 **蜜蜂** 进行分类。我们有大约120个训练图像，每个图像用于 **蚂蚁** 和 **蜜蜂**。每个类有75个验证图像。通常，如果从头开始训练，这是一个非常小的数据集。由于我们正在使用迁移学习，我们应该能够合理地推广。
+我们今天要解决的问题是训练一个模型来对 **蚂蚁** 和 **蜜蜂** 进行分类。我们有大约120个训练图像，每个图像用于 **蚂蚁** 和 **蜜蜂**。每个类有75个验证图像。通常，如果从头开始训练，这是一个非常小的数据集。由于我们正在使用迁移学习，我们应该能够合理地泛化。
 
 该数据集是 imagenet 的一个非常小的子集。
 
@@ -49,7 +51,7 @@ plt.ion()   # interactive mode
 
 从 [此处](https://download.pytorch.org/tutorial/hymenoptera_data.zip) 下载数据并将其解压缩到当前目录。
 
-```py
+```python
 # Data augmentation and normalization for training
 # Just normalization for validation
 data_transforms = {
@@ -85,7 +87,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 让我们可视化一些训练图像，以便了解数据增强。
 
-```py
+```python
 def imshow(inp, title=None):
     """Imshow for Tensor."""
     inp = inp.numpy().transpose((1, 2, 0))
@@ -98,6 +100,7 @@ def imshow(inp, title=None):
         plt.title(title)
     plt.pause(0.001)  # pause a bit so that plots are updated
 
+
 # Get a batch of training data
 inputs, classes = next(iter(dataloaders['train']))
 
@@ -108,18 +111,18 @@ imshow(out, title=[class_names[x] for x in classes])
 
 ```
 
-![https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png](img/be538c850b645a41a7a77ff388954e14.jpg)
+![](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png)
 
 ## 训练模型
 
 现在, 让我们编写一个通用函数来训练模型. 这里, 我们将会举例说明:
 
-*   调度学习率
-*   保存最佳的学习模型
+- 调度学习率
+- 保存最佳的学习模型
 
 下面函数中, `scheduler` 参数是 `torch.optim.lr_scheduler` 中的 LR scheduler 对象.
 
-```py
+```python
 def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     since = time.time()
 
@@ -186,14 +189,13 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     # load best model weights
     model.load_state_dict(best_model_wts)
     return model
-
 ```
 
 ## 可视化模型预测
 
 用于显示少量图像预测的通用功能
 
-```py
+```python
 def visualize_model(model, num_images=6):
     was_training = model.training
     model.eval()
@@ -219,14 +221,13 @@ def visualize_model(model, num_images=6):
                     model.train(mode=was_training)
                     return
         model.train(mode=was_training)
-
 ```
 
 ## 微调卷积网络
 
 加载预训练模型并重置最终的全连接层。
 
-```py
+```python
 model_ft = models.resnet18(pretrained=True)
 num_ftrs = model_ft.fc.in_features
 model_ft.fc = nn.Linear(num_ftrs, 2)
@@ -247,7 +248,7 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 CPU上需要大约15-25分钟。但是在GPU上，它只需不到一分钟。
 
-```py
+```python
 model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
                        num_epochs=25)
 
@@ -255,143 +256,144 @@ model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
 
 Out:
 
-```py
+```python
 Epoch 0/24
 ----------
-train Loss: 0.7565 Acc: 0.6598
-val Loss: 0.2146 Acc: 0.9085
+train Loss: 0.6022 Acc: 0.6844
+val Loss: 0.1765 Acc: 0.9412
 
 Epoch 1/24
 ----------
-train Loss: 0.4915 Acc: 0.7951
-val Loss: 0.3471 Acc: 0.8889
+train Loss: 0.4156 Acc: 0.8238
+val Loss: 0.2380 Acc: 0.9216
 
 Epoch 2/24
 ----------
-train Loss: 0.7898 Acc: 0.7541
-val Loss: 0.4754 Acc: 0.8497
+train Loss: 0.5010 Acc: 0.7951
+val Loss: 0.2571 Acc: 0.8954
 
 Epoch 3/24
 ----------
-train Loss: 0.7151 Acc: 0.7295
-val Loss: 0.5705 Acc: 0.8235
+train Loss: 0.7152 Acc: 0.7705
+val Loss: 0.2060 Acc: 0.9346
 
 Epoch 4/24
 ----------
-train Loss: 0.8363 Acc: 0.7459
-val Loss: 0.2653 Acc: 0.9020
+train Loss: 0.5779 Acc: 0.8033
+val Loss: 0.4542 Acc: 0.8889
 
 Epoch 5/24
 ----------
-train Loss: 0.6235 Acc: 0.7992
-val Loss: 0.4678 Acc: 0.8366
+train Loss: 0.5653 Acc: 0.7951
+val Loss: 0.3167 Acc: 0.8824
 
 Epoch 6/24
 ----------
-train Loss: 1.0205 Acc: 0.7131
-val Loss: 0.5871 Acc: 0.8235
+train Loss: 0.4948 Acc: 0.8074
+val Loss: 0.3238 Acc: 0.8758
 
 Epoch 7/24
 ----------
-train Loss: 0.4644 Acc: 0.8238
-val Loss: 0.2850 Acc: 0.8824
+train Loss: 0.3712 Acc: 0.8361
+val Loss: 0.2284 Acc: 0.9020
 
 Epoch 8/24
 ----------
-train Loss: 0.3654 Acc: 0.8566
-val Loss: 0.2785 Acc: 0.9085
+train Loss: 0.2982 Acc: 0.8730
+val Loss: 0.3488 Acc: 0.8497
 
 Epoch 9/24
 ----------
-train Loss: 0.3400 Acc: 0.8648
-val Loss: 0.2869 Acc: 0.9085
+train Loss: 0.2491 Acc: 0.8934
+val Loss: 0.2405 Acc: 0.8889
 
 Epoch 10/24
 ----------
-train Loss: 0.2939 Acc: 0.8770
-val Loss: 0.2930 Acc: 0.8889
+train Loss: 0.3498 Acc: 0.8238
+val Loss: 0.2435 Acc: 0.8889
 
 Epoch 11/24
 ----------
-train Loss: 0.3057 Acc: 0.8811
-val Loss: 0.2768 Acc: 0.9216
+train Loss: 0.3042 Acc: 0.8648
+val Loss: 0.3021 Acc: 0.8627
 
 Epoch 12/24
 ----------
-train Loss: 0.3081 Acc: 0.8689
-val Loss: 0.3098 Acc: 0.8889
+train Loss: 0.2500 Acc: 0.8852
+val Loss: 0.2340 Acc: 0.8954
 
 Epoch 13/24
 ----------
-train Loss: 0.3764 Acc: 0.8607
-val Loss: 0.2620 Acc: 0.9150
+train Loss: 0.3246 Acc: 0.8730
+val Loss: 0.2236 Acc: 0.9020
 
 Epoch 14/24
 ----------
-train Loss: 0.3119 Acc: 0.8689
-val Loss: 0.2642 Acc: 0.9216
+train Loss: 0.2976 Acc: 0.8566
+val Loss: 0.2928 Acc: 0.8562
 
 Epoch 15/24
 ----------
-train Loss: 0.2269 Acc: 0.9180
-val Loss: 0.2648 Acc: 0.9281
+train Loss: 0.2733 Acc: 0.8934
+val Loss: 0.2370 Acc: 0.8954
 
 Epoch 16/24
 ----------
-train Loss: 0.3055 Acc: 0.8893
-val Loss: 0.2605 Acc: 0.9281
+train Loss: 0.3502 Acc: 0.8361
+val Loss: 0.2792 Acc: 0.8824
 
 Epoch 17/24
 ----------
-train Loss: 0.3213 Acc: 0.8730
-val Loss: 0.2535 Acc: 0.9216
+train Loss: 0.2215 Acc: 0.8975
+val Loss: 0.2790 Acc: 0.8497
 
 Epoch 18/24
 ----------
-train Loss: 0.3325 Acc: 0.8566
-val Loss: 0.2747 Acc: 0.9281
+train Loss: 0.3929 Acc: 0.8484
+val Loss: 0.2648 Acc: 0.8824
 
 Epoch 19/24
 ----------
-train Loss: 0.3007 Acc: 0.8648
-val Loss: 0.2759 Acc: 0.9150
+train Loss: 0.3227 Acc: 0.8607
+val Loss: 0.2643 Acc: 0.8693
 
 Epoch 20/24
 ----------
-train Loss: 0.3498 Acc: 0.8443
-val Loss: 0.2742 Acc: 0.9216
+train Loss: 0.3816 Acc: 0.8484
+val Loss: 0.2395 Acc: 0.9085
 
 Epoch 21/24
 ----------
-train Loss: 0.3433 Acc: 0.8443
-val Loss: 0.2605 Acc: 0.8954
+train Loss: 0.2904 Acc: 0.8975
+val Loss: 0.2399 Acc: 0.8889
 
 Epoch 22/24
 ----------
-train Loss: 0.2822 Acc: 0.8689
-val Loss: 0.2610 Acc: 0.9281
+train Loss: 0.3375 Acc: 0.8648
+val Loss: 0.2380 Acc: 0.9020
 
 Epoch 23/24
 ----------
-train Loss: 0.3025 Acc: 0.8648
-val Loss: 0.2766 Acc: 0.9150
+train Loss: 0.2107 Acc: 0.9139
+val Loss: 0.2251 Acc: 0.9085
 
 Epoch 24/24
 ----------
-train Loss: 0.3401 Acc: 0.8607
-val Loss: 0.2650 Acc: 0.9085
+train Loss: 0.3243 Acc: 0.8525
+val Loss: 0.2545 Acc: 0.8824
 
-Training complete in 1m 13s
-Best val Acc: 0.928105
+Training complete in 1m 7s
+Best val Acc: 0.941176
 
 ```
 
-```py
+```python
 visualize_model(model_ft)
 
+
 ```
 
-![https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png](img/ebec7787362bc53fe2289e5740da5756.jpg)
+![](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png)
 
 ## ConvNet 作为固定特征提取器
 
@@ -399,7 +401,7 @@ visualize_model(model_ft)
 
 您可以在 [此处](https://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-from-backward) 的文档中阅读更多相关信息。
 
-```py
+```python
 model_conv = torchvision.models.resnet18(pretrained=True)
 for param in model_conv.parameters():
     param.requires_grad = False
@@ -419,6 +421,7 @@ optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
 # Decay LR by a factor of 0.1 every 7 epochs
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
+
 ```
 
 ### 训练和评估
@@ -429,142 +432,144 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
                          exp_lr_scheduler, num_epochs=25)
 
+
 ```
 
 Out:
 
-```py
+```python
 Epoch 0/24
 ----------
-train Loss: 0.6321 Acc: 0.6270
-val Loss: 0.2507 Acc: 0.9085
+train Loss: 0.5666 Acc: 0.6967
+val Loss: 0.2794 Acc: 0.8824
 
 Epoch 1/24
 ----------
-train Loss: 0.6750 Acc: 0.7131
-val Loss: 0.1764 Acc: 0.9412
+train Loss: 0.5590 Acc: 0.7582
+val Loss: 0.1473 Acc: 0.9477
 
 Epoch 2/24
 ----------
-train Loss: 0.4614 Acc: 0.8033
-val Loss: 0.1683 Acc: 0.9477
+train Loss: 0.4187 Acc: 0.8156
+val Loss: 0.3534 Acc: 0.8693
 
 Epoch 3/24
 ----------
-train Loss: 0.5286 Acc: 0.7705
-val Loss: 0.1566 Acc: 0.9542
+train Loss: 0.5248 Acc: 0.7459
+val Loss: 0.1848 Acc: 0.9477
 
 Epoch 4/24
 ----------
-train Loss: 0.3432 Acc: 0.8566
-val Loss: 0.1878 Acc: 0.9281
+train Loss: 0.4315 Acc: 0.8115
+val Loss: 0.1640 Acc: 0.9477
 
 Epoch 5/24
 ----------
-train Loss: 0.4155 Acc: 0.8402
-val Loss: 0.1631 Acc: 0.9412
+train Loss: 0.3948 Acc: 0.8238
+val Loss: 0.1609 Acc: 0.9542
 
 Epoch 6/24
 ----------
-train Loss: 0.4328 Acc: 0.7951
-val Loss: 0.1659 Acc: 0.9542
+train Loss: 0.3359 Acc: 0.8648
+val Loss: 0.1734 Acc: 0.9608
 
 Epoch 7/24
 ----------
-train Loss: 0.3537 Acc: 0.8566
-val Loss: 0.1803 Acc: 0.9412
+train Loss: 0.3681 Acc: 0.8443
+val Loss: 0.1715 Acc: 0.9477
 
 Epoch 8/24
 ----------
-train Loss: 0.3448 Acc: 0.8279
-val Loss: 0.1681 Acc: 0.9412
+train Loss: 0.4034 Acc: 0.8361
+val Loss: 0.1602 Acc: 0.9477
 
 Epoch 9/24
 ----------
-train Loss: 0.3830 Acc: 0.8402
-val Loss: 0.1707 Acc: 0.9412
+train Loss: 0.2983 Acc: 0.8811
+val Loss: 0.1561 Acc: 0.9542
 
 Epoch 10/24
 ----------
-train Loss: 0.2958 Acc: 0.8689
-val Loss: 0.1632 Acc: 0.9542
+train Loss: 0.4516 Acc: 0.7992
+val Loss: 0.1660 Acc: 0.9477
 
 Epoch 11/24
 ----------
-train Loss: 0.2552 Acc: 0.8893
-val Loss: 0.1776 Acc: 0.9346
+train Loss: 0.3516 Acc: 0.8484
+val Loss: 0.1551 Acc: 0.9542
 
 Epoch 12/24
 ----------
-train Loss: 0.2846 Acc: 0.8689
-val Loss: 0.1792 Acc: 0.9346
+train Loss: 0.3592 Acc: 0.8238
+val Loss: 0.1525 Acc: 0.9477
 
 Epoch 13/24
 ----------
-train Loss: 0.3263 Acc: 0.8566
-val Loss: 0.1695 Acc: 0.9412
+train Loss: 0.2982 Acc: 0.8648
+val Loss: 0.1772 Acc: 0.9542
 
 Epoch 14/24
 ----------
-train Loss: 0.3925 Acc: 0.8361
-val Loss: 0.2126 Acc: 0.9216
+train Loss: 0.3352 Acc: 0.8484
+val Loss: 0.1583 Acc: 0.9542
 
 Epoch 15/24
 ----------
-train Loss: 0.3780 Acc: 0.8074
-val Loss: 0.1637 Acc: 0.9477
+train Loss: 0.2981 Acc: 0.8770
+val Loss: 0.2133 Acc: 0.9412
 
 Epoch 16/24
 ----------
-train Loss: 0.3619 Acc: 0.8525
-val Loss: 0.1704 Acc: 0.9412
+train Loss: 0.2778 Acc: 0.8811
+val Loss: 0.1934 Acc: 0.9542
 
 Epoch 17/24
 ----------
-train Loss: 0.2966 Acc: 0.8689
-val Loss: 0.1672 Acc: 0.9346
+train Loss: 0.3678 Acc: 0.8156
+val Loss: 0.1846 Acc: 0.9477
 
 Epoch 18/24
 ----------
-train Loss: 0.2811 Acc: 0.8934
-val Loss: 0.1799 Acc: 0.9412
+train Loss: 0.3520 Acc: 0.8197
+val Loss: 0.1577 Acc: 0.9542
 
 Epoch 19/24
 ----------
-train Loss: 0.2484 Acc: 0.8893
-val Loss: 0.1859 Acc: 0.9281
+train Loss: 0.3342 Acc: 0.8402
+val Loss: 0.1734 Acc: 0.9542
 
 Epoch 20/24
 ----------
-train Loss: 0.2696 Acc: 0.8975
-val Loss: 0.1903 Acc: 0.9412
+train Loss: 0.3649 Acc: 0.8361
+val Loss: 0.1554 Acc: 0.9412
 
 Epoch 21/24
 ----------
-train Loss: 0.3679 Acc: 0.8197
-val Loss: 0.1866 Acc: 0.9412
+train Loss: 0.2948 Acc: 0.8566
+val Loss: 0.1878 Acc: 0.9542
 
 Epoch 22/24
 ----------
-train Loss: 0.2854 Acc: 0.8852
-val Loss: 0.1814 Acc: 0.9346
+train Loss: 0.3047 Acc: 0.8811
+val Loss: 0.1760 Acc: 0.9477
 
 Epoch 23/24
 ----------
-train Loss: 0.3550 Acc: 0.8443
-val Loss: 0.1677 Acc: 0.9412
+train Loss: 0.3363 Acc: 0.8648
+val Loss: 0.1660 Acc: 0.9542
 
 Epoch 24/24
 ----------
-train Loss: 0.3928 Acc: 0.8033
-val Loss: 0.1571 Acc: 0.9477
+train Loss: 0.2745 Acc: 0.8770
+val Loss: 0.1853 Acc: 0.9542
 
 Training complete in 0m 34s
-Best val Acc: 0.954248
+Best val Acc: 0.960784
+
 
 ```
 
-```py
+```python
 visualize_model(model_conv)
 
 plt.ioff()
@@ -572,10 +577,10 @@ plt.show()
 
 ```
 
-![https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png](img/54625e60404f9c98f34cf32ca56bb118.jpg)
+![](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png)
 
-**脚本总运行时间:** (1分58.873秒)
+**脚本总运行时间:** (1分54.087秒)
 
-[`Download Python source code: transfer_learning_tutorial.py`](../_downloads/07d5af1ef41e43c07f848afaf5a1c3cc/transfer_learning_tutorial.py)[`Download Jupyter notebook: transfer_learning_tutorial.ipynb`](../_downloads/62840b1eece760d5e42593187847261f/transfer_learning_tutorial.ipynb)
+[`Download Python source code: transfer_learning_tutorial.py`](https://github.com/pytorch/tutorials/blob/master/beginner_source/transfer_learning_tutorial.py)[`Download Jupyter notebook: transfer_learning_tutorial.ipynb`](https://pytorch.org/tutorials/_downloads/62840b1eece760d5e42593187847261f/transfer_learning_tutorial.ipynb)
 
 [由Sphinx-Gallery生成的图库](https://sphinx-gallery.readthedocs.io)
