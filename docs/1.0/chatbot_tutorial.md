@@ -481,8 +481,7 @@ Trimmed from 64271 pairs to 53165, 0.8272 of total
 
 ## 为模型准备数据
 
-尽管我们已经投入了大量精力来准备和清洗我们的数据变成一个很好的词汇对象和一系列的句子对，但我们的模型最终希望以numerical torch 张量作为输入。 可以在
-[seq2seq translation tutorial](https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html) 中找到为模型准备处理数据的一种方法。 在该教程中，我们使用batch size 大小为1，这意味着我们所要做的就是将句子对中的单词转换为词汇表中的相应索引，并将其提供给模型。
+尽管我们已经投入了大量精力来准备和清洗我们的数据变成一个很好的词汇对象和一系列的句子对，但我们的模型最终希望以numerical torch 张量作为输入。 可以在 [seq2seq translation tutorial](https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html) 中找到为模型准备处理数据的一种方法。 在该教程中，我们使用batch size 大小为1，这意味着我们所要做的就是将句子对中的单词转换为词汇表中的相应索引，并将其提供给模型。
 
 但是，如果你想要加速训练或者想要利用GPU并行计算能力，则需要使用小批量 `mini-batches` 来训练。
 
