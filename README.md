@@ -50,6 +50,7 @@
 
 > 第2期 (2019-06-10)
 
+* [FontTian](https://github.com/FontTian)：2404846224
 * [Smile](https://github.com/Smilexuhc): 240485545
 * [Ir1dXD](https://github.com/Ir1d): 1953959092
 * [Kai He](https://github.com/hekind): 254108879
@@ -57,7 +58,6 @@
 * [cluster](https://github.com/infdahai): 859287553
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
-* [FontTian](https://github.com/FontTian)：2404846224
 
 -- 负责人要求: (欢迎一起为 `Pytorch 中文版本` 做贡献)
 
