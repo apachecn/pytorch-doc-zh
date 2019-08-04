@@ -6,9 +6,9 @@
 >
 > 校验: [片刻](https://github.com/jiangzhonglian)
 
-在本教程中，我们探索了一个好玩和有趣的循环序列到序列的模型用例。我们将用 [Cornell Movie-Dialogs Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html)处的电影剧本来训练一个简单的聊天机器人。
+在本教程中，我们探索了一个好玩和有趣的循环序列到序列的模型用例。我们将用 [Cornell Movie-Dialogs Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html) 处的电影剧本来训练一个简单的聊天机器人。
 
-在人工智能研究领域中对话模型模型是一个非常热门的话题。聊天机器人可以在各种设置中找到，包括客户服务应用和在线帮助。这些机器人通常由基于检索的模型提供支持，这些输出是某些形式问题预先定义的响应。在像公司IT服务台这样高度受限制的领域中，这些模型可能足够了，但是，对于更一般的用例它们不够健壮。教一台机器与多领域的人进行有意义的对话是一个远未解决的研究问题。最近，深度学习热潮已经允许强大的生成模型，如谷歌的神经对话模型 [Neural Conversational Model](https://arxiv.org/abs/1506.05869)，这标志着向多领域生成对话模型迈出了一大步。 在本教程中，我们将在PyTorch中实现这种模型。
+在人工智能研究领域中对话模型是一个非常热门的话题。聊天机器人可以在各种设置中找到，包括客户服务应用和在线帮助。这些机器人通常由基于检索的模型提供支持，这些输出是某些形式问题预先定义的响应。在像公司IT服务台这样高度受限制的领域中，这些模型可能足够了，但是，对于更一般的用例它们不够健壮。教一台机器与多领域的人进行有意义的对话是一个远未解决的研究问题。最近，深度学习热潮已经允许强大的生成模型，如谷歌的神经对话模型 [Neural Conversational Model](https://arxiv.org/abs/1506.05869)，这标志着向多领域生成对话模型迈出了一大步。 在本教程中，我们将在PyTorch中实现这种模型。
 
 ![bot](img/0b5c97b14a430a501451aadc5b8fcfad.jpg)
 
@@ -46,7 +46,7 @@ Bot: goodbye .
 
 **鸣谢**
 
-本教程借用以下来源的代码：
+本教程借鉴以下源码：
 
 1.  Yuan-Kuei Wu’s pytorch-chatbot implementation: [https://github.com/ywk991112/pytorch-chatbot](https://github.com/ywk991112/pytorch-chatbot)
 2.  Sean Robertson’s practical-pytorch seq2seq-translation example: [https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation](https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation)
@@ -141,7 +141,13 @@ b'L869 +++$+++ u0 +++$+++ m0 +++$+++ BIANCA +++$+++ Like my fear of wearing past
 ```py
 # 将文件的每一行拆分为字段字典
 # line = {
-#     'L183198': {'lineID': 'L183198', 'characterID': 'u5022', 'movieID': 'm333', 'character': 'FRANKIE', 'text': "Well we'd sure like to help you.\n"}
+#     'L183198': {
+#         'lineID': 'L183198', 
+#         'characterID': 'u5022', 
+#         'movieID': 'm333', 
+#         'character': 'FRANKIE', 
+#         'text': "Well we'd sure like to help you.\n"
+#     }, {...}
 # }
 def loadLines(fileName, fields):
     lines = {}
@@ -361,8 +367,7 @@ def unicodeToAscii(s):
 def readVocs(datafile, corpus_name):
     print("Reading lines...")
     # Read the file and split into lines
-    lines = open(datafile, encoding='utf-8').\
-        read().strip().split('\n')
+    lines = open(datafile, encoding='utf-8').read().strip().split('\n')
     # Split every line into pairs and normalize
     pairs = [[normalizeString(s) for s in l.split('\t')] for l in lines]
     voc = Voc(corpus_name)
@@ -427,7 +432,7 @@ pairs:
 
 另一种有利于让训练更快收敛的策略是去除词汇表中很少使用的单词。减少特征空间也会降低模型学习目标函数的难度。我们通过以下两个步骤完成这个操作:
 
-1. 使用`voc.trim` 函数去除 `MIN_COUNT`阈值以下单词 。
+1. 使用 `voc.trim` 函数去除 `MIN_COUNT` 阈值以下单词 。
 2. 如果句子中包含词频过小的单词，那么整个句子也被过滤掉。
 
 ```py
@@ -476,13 +481,13 @@ Trimmed from 64271 pairs to 53165, 0.8272 of total
 
 ## 为模型准备数据
 
-尽管我们已经投入了大量精力来准备和清洗我们的数据变成一个很好的词汇对象和一系列的句子对，但我们的模型最终希望以numerical torch 张量作为输入。 可以在[seq2seq translation tutorial](https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html)中找到为模型准备处理数据的一种方法。 在该教程中，我们使用batch size 大小为1，这意味着我们所要做的就是将句子对中的单词转换为词汇表中的相应索引，并将其提供给模型。
+尽管我们已经投入了大量精力来准备和清洗我们的数据变成一个很好的词汇对象和一系列的句子对，但我们的模型最终希望以numerical torch 张量作为输入。 可以在 [seq2seq translation tutorial](https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html) 中找到为模型准备处理数据的一种方法。 在该教程中，我们使用batch size 大小为1，这意味着我们所要做的就是将句子对中的单词转换为词汇表中的相应索引，并将其提供给模型。
 
 但是，如果你想要加速训练或者想要利用GPU并行计算能力，则需要使用小批量 `mini-batches` 来训练。
 
 使用小批量 `mini-batches` 也意味着我们必须注意批量处理中句子长度的变化。 为了容纳同一批次中不同大小的句子，我们将使我们的批量输入张量大小 *(max_length，batch_size)*，其中短于 *max_length* 的句子在 *EOS_token* 之后进行零填充（zero padded）。
 
-如果我们简单地通过将单词转换为索引 `indicesFromSentence` 和零填充 `zero-pad` 将我们的英文句子转换为张量，我们的张量将具有大小 *(batch_size，max_length)*，并且索引第一维将在所有时间步骤中返回完整序列。 但是，我们需要沿着时间对我们批量数据进行索引并且包括批量数据中所有序列。 因此，我们将输入批处理大小转换为 *(max_length，batch_size)*，以便跨第一维的索引返回批处理中所有句子的时间步长。 我们在 `zeroPadding` 函数中隐式处理这个转置。
+如果我们简单地通过将单词转换为索引 `indicesFromSentence` 和零填充 `zero-pad` 将我们的英文句子转换为张量，我们的张量将具有大小 `(batch_size，max_length)`，并且索引第一维将在所有时间步骤中返回完整序列。 但是，我们需要沿着时间对我们批量数据进行索引并且包括批量数据中所有序列。 因此，我们将输入批处理大小转换为 `(max_length，batch_size)`，以便跨第一维的索引返回批处理中所有句子的时间步长。 我们在 `zeroPadding` 函数中隐式处理这个转置。
 
 ![batches](img/b2f1969c698070d055c23fc81ab07b1b.jpg)
 
@@ -677,9 +682,9 @@ class EncoderRNN(nn.Module):
 
 [![scores](img/7818f6b40cbd799eddec20743b45fde5.jpg)](https://pytorch.org/tutorials/_images/scores.png)
 
-其中$$h_t $$=当前目标解码器状态和$$\bar {h} _s $$=所有编码器状态。
+其中 $$h_t$$ = 当前目标解码器状态，$$\bar{h}_s$$ = 所有编码器状态。
 
-总体而言，Global attention机制可以通过下图进行总结。 请注意，我们将“Attention Layer”用一个名为`Attn`的`nn.Module`来单独实现。 该模块的输出是经过softmax标准化后权重张量的大小（*batch_size，1，max_length*）。
+总体而言，Global attention机制可以通过下图进行总结。 请注意，我们将“Attention Layer”用一个名为 `Attn` 的 `nn.Module` 来单独实现。 该模块的输出是经过softmax标准化后权重张量的大小（*batch_size，1，max_length*）。
 
 [![global_attn](img/c8c749463168f40707b8cd12477a4e3e.jpg)](https://pytorch.org/tutorials/_images/global_attn.png)
 
@@ -730,13 +735,13 @@ class Attn(torch.nn.Module):
 
 **计算图:**
 
-> 1.获取当前输入的词嵌入
-> 2.通过单向GRU进行前向传播
-> 3.通过2输出的当前GRU计算注意力权重
-> 4.将注意力权重乘以编码器输出以获得新的“weighted sum”上下文向量
-> 5.使用Luong eq.5连接加权上下文向量和GRU输出
-> 6.使用Luong eq.6预测下一个单词（没有softmax）
-> 7.返回输出和最终隐藏状态
+> 1. 获取当前输入的词嵌入
+> 2. 通过单向GRU进行前向传播
+> 3. 通过2输出的当前GRU计算注意力权重
+> 4. 将注意力权重乘以编码器输出以获得新的“weighted sum”上下文向量
+> 5. 使用Luong eq.5连接加权上下文向量和GRU输出
+> 6. 使用Luong eq.6预测下一个单词（没有softmax）
+> 7. 返回输出和最终隐藏状态
 
 **输入:**
 
@@ -988,10 +993,10 @@ def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, deco
 > 3. 将解码器的第一个输入初始化为SOS_token。
 > 4. 将初始化张量追加到解码后的单词中。
 > 5. 一次迭代解码一个单词token：  
->     1.  通过解码器进行前向计算。
->     2.  获得最可能的单词token及其softmax分数。
->     3.  记录token和分数。
->     4.  准备当前token作为下一个解码器的输入。
+>     1. 通过解码器进行前向计算。
+>     2. 获得最可能的单词token及其softmax分数。
+>     3. 记录token和分数。
+>     4. 准备当前token作为下一个解码器的输入。
 > 6. 返回收集到的单词 tokens 和 分数。
 
 ```py
