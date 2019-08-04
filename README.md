@@ -57,6 +57,7 @@
 * [cluster](https://github.com/infdahai): 859287553
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
+* [FontTian](https://github.com/FontTian)：2404846224
 
 -- 负责人要求: (欢迎一起为 `Pytorch 中文版本` 做贡献)
 
