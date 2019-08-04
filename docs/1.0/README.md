@@ -14,10 +14,16 @@ PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tenso
 ## 建议反馈
 
 *   联系项目负责人
-    +   [飞龙](https://github.com/wizardforcel)：562826179
-    +   [片刻](https://github.com/jiangzhonglian)：529815144
-    +   [咸鱼](https://github.com/)：1034616238
-*   [贡献者名单列表](https://github.com/apachecn/pytorch-doc-zh/issues/274)
+    * [FontTian](https://github.com/FontTian)：2404846224
+    * [Smile](https://github.com/Smilexuhc): 240485545
+    * [Ir1dXD](https://github.com/Ir1d): 1953959092
+    * [Kai He](https://github.com/hekind): 254108879
+    * [gongel](https://github.com/gongel): 1324522527
+    * [cluster](https://github.com/infdahai): 859287553
+    * [sunxia233](https://github.com/sunxia233): 871171307
+    * [kunwuz](https://github.com/kunwuz): 514397511
+*   [翻译贡献者名单列表](https://github.com/apachecn/pytorch-doc-zh/issues/386)
+*   [校对贡献者名单列表](https://github.com/apachecn/pytorch-doc-zh/issues/274)
 *   在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.
 *   发邮件到 Email: `apachecn@163.com`.
 *   在我们的 [组织学习交流群](http://www.apachecn.org/organization/348.html) 中联系群主/管理员即可.
