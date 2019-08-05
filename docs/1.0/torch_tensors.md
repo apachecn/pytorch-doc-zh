@@ -4,6 +4,8 @@
 torch.is_tensor(obj)
 ```
 
+> 译者：[hijkzzz](https://github.com/hijkzzz)
+
 如果`obj`是一个PyTorch张量，则返回True.
 
 
