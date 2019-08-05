@@ -212,12 +212,12 @@ torch.sparse_coo_tensor(indices, values, size=None, dtype=None, device=None, req
 
 Parameters: 
 
-*   **indices** (_array_like_) – Initial data for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types. Will be cast to a `torch.LongTensor` internally. The indices are the coordinates of the non-zero values in the matrix, and thus should be two-dimensional where the first dimension is the number of tensor dimensions and the second dimension is the number of non-zero values.
-*   **values** (_array_like_) – Initial values for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types.
-*   **size** (list, tuple, or `torch.Size`, optional) – Size of the sparse tensor. If not provided the size will be inferred as the minimum size big enough to hold all non-zero elements.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if None, infers data type from `values`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if None, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **indices** (_array_like_) – 给张量初始化数据。可以是列表,元组,Numpy矩阵(`ndarry`类型),标量和其他类型。之后将在内部被映射成`torch.LongTensor`。 因此矩阵中的非零元素下标的坐标,需要是二维的，并且第一维是张量的维度，第二维是非零元素数量。
+*   **values** (_array_like_) – 初始化张量的值。可以是列表,元组,Numpy矩阵(`ndarry`类型),标量和其他类型。
+*   **size** (list, tuple, or `torch.Size`, optional) – 稀疏矩阵的形状。如果不提供size形状，将会被自动优化为可以装下所有非零元素的最小大小。
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 张量返回值的期望数据类型。如果没有，则默认为`values`。
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回的张量所要求的硬件. 默认: 如果此参数为 `None`,对当前张量类型使用当前硬件(参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 可以为 提供CPU张量类型的CPU和 支持CUDA张量类型的CUDA设备.torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 对返回的张量自动求导时是否需要记录操作. 默认: `False`.
 
 
 
@@ -225,47 +225,47 @@ Example:
 
 ```py
 >>> i = torch.tensor([[0, 1, 1],
- [2, 0, 2]])
+                      [2, 0, 2]])
 >>> v = torch.tensor([3, 4, 5], dtype=torch.float32)
 >>> torch.sparse_coo_tensor(i, v, [2, 4])
 tensor(indices=tensor([[0, 1, 1],
- [2, 0, 2]]),
- values=tensor([3., 4., 5.]),
- size=(2, 4), nnz=3, layout=torch.sparse_coo)
+                       [2, 0, 2]]),
+       values=tensor([3., 4., 5.]),
+       size=(2, 4), nnz=3, layout=torch.sparse_coo)
 
 >>> torch.sparse_coo_tensor(i, v)  # Shape inference
 tensor(indices=tensor([[0, 1, 1],
- [2, 0, 2]]),
- values=tensor([3., 4., 5.]),
- size=(2, 3), nnz=3, layout=torch.sparse_coo)
+                       [2, 0, 2]]),
+       values=tensor([3., 4., 5.]),
+       size=(2, 3), nnz=3, layout=torch.sparse_coo)
 
 >>> torch.sparse_coo_tensor(i, v, [2, 4],
- dtype=torch.float64,
- device=torch.device('cuda:0'))
+                            dtype=torch.float64,
+                            device=torch.device('cuda:0'))
 tensor(indices=tensor([[0, 1, 1],
- [2, 0, 2]]),
- values=tensor([3., 4., 5.]),
- device='cuda:0', size=(2, 4), nnz=3, dtype=torch.float64,
- layout=torch.sparse_coo)
+                       [2, 0, 2]]),
+       values=tensor([3., 4., 5.]),
+       device='cuda:0', size=(2, 4), nnz=3, dtype=torch.float64,
+       layout=torch.sparse_coo)
 
-# Create an empty sparse tensor with the following invariants:
+# 使用下列常量创建一个空稀疏张量:
 #   1\. sparse_dim + dense_dim = len(SparseTensor.shape)
 #   2\. SparseTensor._indices().shape = (sparse_dim, nnz)
 #   3\. SparseTensor._values().shape = (nnz, SparseTensor.shape[sparse_dim:])
 #
-# For instance, to create an empty sparse tensor with nnz = 0, dense_dim = 0 and
-# sparse_dim = 1 (hence indices is a 2D tensor of shape = (1, 0))
+# 比如，使用nnz = 0, dense_dim = 0和
+# sparse_dim = 1 (这里的下标是一个二维张量形状shape = (1, 0)) 来创建一个空稀疏矩阵
 >>> S = torch.sparse_coo_tensor(torch.empty([1, 0]), [], [1])
 tensor(indices=tensor([], size=(1, 0)),
- values=tensor([], size=(0,)),
- size=(1,), nnz=0, layout=torch.sparse_coo)
+       values=tensor([], size=(0,)),
+       size=(1,), nnz=0, layout=torch.sparse_coo)
 
-# and to create an empty sparse tensor with nnz = 0, dense_dim = 1 and
-# sparse_dim = 1
+# 然后使用nnz = 0, dense_dim = 1 和 sparse_dim = 1
+# 来创建一个空稀疏矩阵
 >>> S = torch.sparse_coo_tensor(torch.empty([1, 0]), torch.empty([0, 2]), [1, 2])
 tensor(indices=tensor([], size=(1, 0)),
- values=tensor([], size=(0, 2)),
- size=(1, 2), nnz=0, layout=torch.sparse_coo)
+       values=tensor([], size=(0, 2)),
+       size=(1, 2), nnz=0, layout=torch.sparse_coo)
 
 ```
 
