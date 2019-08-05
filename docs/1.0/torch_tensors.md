@@ -184,16 +184,17 @@ Example:
 ```py
 >>> torch.tensor([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])
 tensor([[ 0.1000,  1.2000],
- [ 2.2000,  3.1000],
- [ 4.9000,  5.2000]])
+       [ 2.2000,  3.1000],
+       [ 4.9000,  5.2000]])
 
 >>> torch.tensor([0, 1])  # 输入数据推断
 tensor([ 0,  1])
 
 >>> torch.tensor([[0.11111, 0.222222, 0.3333333]],
- dtype=torch.float64,
- device=torch.device('cuda:0'))  # 创建一个 torch.cuda.DoubleTensor
-tensor([[ 0.1111,  0.2222,  0.3333]], dtype=torch.float64, device='cuda:0')
+                 dtype=torch.float64,
+                 device=torch.device('cuda:0'))  # 创建一个 torch.cuda.DoubleTensor
+tensor([[ 0.1111,  0.2222,  0.3333]], dtype=torch.float64, 
+device='cuda:0')
 
 >>> torch.tensor(3.14159)  # 创建一个标量 (零维张量)
 tensor(3.1416)
@@ -207,7 +208,7 @@ tensor([])
 torch.sparse_coo_tensor(indices, values, size=None, dtype=None, device=None, requires_grad=False) → Tensor
 ```
 
-Constructs a sparse tensors in COO(rdinate) format with non-zero elements at the given `indices` with the given `values`. A sparse tensor can be `uncoalesced`, in that case, there are duplicate coordinates in the indices, and the value at that index is the sum of all duplicate value entries: [torch.sparse](https://pytorch.org/docs/stable/sparse.html).
+用非0元素值`values`和下标`indices`在COO(顺序标注)构建一个稀疏矩阵。一个稀疏向量可以是`未合并的`(`uncoalesced`), 在这种情况下,在索引中会存在有重复坐标 ,这个索引的值是所有重复值数量的和: [torch.sparse](https://pytorch.org/docs/stable/sparse.html).
 
 Parameters: 
 
