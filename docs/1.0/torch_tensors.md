@@ -118,7 +118,7 @@ Parameters:
 
 *   **precision** – 浮点输出的有效位数 (默认为 4).
 *   **threshold** – 输出时的阈值，当数组元素总和超过阈值，会被截断输出 (默认为 1000).
-*   **edgeitems** – Number of array items in summary at beginning and end of each dimension (default = 3).
+*   **edgeitems** – 每个维度所统计的数组条目数量(默认：3).
 *   **linewidth** – 每一行输出的字符长度 (默认为80). 阈值矩阵将忽略该参数.
 *   **profile** – 打印输出的美观程度 默认值为Sane. 可以用后面括号中的选项覆盖( `default`, `short`, `full`).
 
