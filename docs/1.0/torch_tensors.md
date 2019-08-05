@@ -38,6 +38,7 @@ Example:
 
 ```py
 >>> torch.tensor([1.2, 3]).dtype           # 初始默认浮点类型为 torch.float32
+floating point is torch.float32
 torch.float32
 >>> torch.set_default_dtype(torch.float64)
 >>> torch.tensor([1.2, 3]).dtype           # 一个新的浮点类型的张量
@@ -186,18 +187,18 @@ tensor([[ 0.1000,  1.2000],
  [ 2.2000,  3.1000],
  [ 4.9000,  5.2000]])
 
->>> torch.tensor([0, 1])  # Type inference on data
+>>> torch.tensor([0, 1])  # 输入数据推断
 tensor([ 0,  1])
 
 >>> torch.tensor([[0.11111, 0.222222, 0.3333333]],
  dtype=torch.float64,
- device=torch.device('cuda:0'))  # creates a torch.cuda.DoubleTensor
+ device=torch.device('cuda:0'))  # 创建一个 torch.cuda.DoubleTensor
 tensor([[ 0.1111,  0.2222,  0.3333]], dtype=torch.float64, device='cuda:0')
 
->>> torch.tensor(3.14159)  # Create a scalar (zero-dimensional tensor)
+>>> torch.tensor(3.14159)  # 创建一个标量 (零维张量)
 tensor(3.1416)
 
->>> torch.tensor([])  # Create an empty tensor (of size (0,))
+>>> torch.tensor([])  # 创建一个空张量 (形状是 (0,))
 tensor([])
 
 ```
