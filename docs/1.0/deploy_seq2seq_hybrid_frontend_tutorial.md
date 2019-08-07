@@ -1,6 +1,8 @@
 # 混合前端的seq2seq模型部署
 
 > 译者：[cangyunye](https://github.com/cangyunye)
+>
+> 校对者：[FontTian](https://github.com/fonttian)
 
 **作者:** [Matthew Inkawhich](https://github.com/MatthewInkawhich)
 

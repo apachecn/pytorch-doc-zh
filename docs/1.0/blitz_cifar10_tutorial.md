@@ -2,13 +2,11 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
+> 校对者：[FontTian](https://github.com/fonttian)
 
-目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。
+目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。所以你现在可能会想,
 
-现在可能会想，
-
-## 数据呢？
+## 数据应该怎么办呢？
 
 通常来说，当必须处理图像、文本、音频或视频数据时，可以使用python标准库将数据加载到numpy数组里。然后将这个数组转化成`torch.*Tensor`。
 
@@ -70,7 +68,7 @@ Files already downloaded and verified
 
 ```
 
-为了好玩，让我们展示一些训练数据的图片。
+乐趣所致，现在让我们可视化部分训练数据。
 
 ```python
 import matplotlib.pyplot as plt
@@ -86,7 +84,7 @@ def imshow(img):
     plt.show()
 
 
-# 随机得到一些训练图片
+# 随机获取训练图片
 dataiter = iter(trainloader)
 images, labels = dataiter.next()
 
@@ -149,7 +147,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
 ### 4.训练网络
 
-事情开始变得有趣了。我们只需要遍历我们的数据迭代器，并且输入“喂”给网络和优化函数。
+事情开始变得有趣了。我们只需要遍历我们的数据迭代器，并将输入“喂”给网络和优化函数。
 
 ```python
 for epoch in range(2):  # loop over the dataset multiple times

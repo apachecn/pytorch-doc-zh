@@ -1,12 +1,14 @@
 # PyTorch 介绍
 
 > 译者：[YAOKE7](https://github.com/YAOKE7)
+>
+> 校对者：[FontTian](https://github.com/fonttian)
 
 ## Torch张量库介绍
 
 深度学习的所有计算都是在张量上进行的,其中张量是一个可以被超过二维索引的矩阵的一般表示形式。稍后我们将详细讨论这意味着什么。首先，我们先来看一下我们可以用张量来干什么。
 
-```py
+```python
 # 作者: Robert Guthrie
 
 import torch
@@ -23,7 +25,7 @@ torch.manual_seed(1)
 
 张量可以在Python list形式下通过torch.Tensor()函数创建。
 
-```py
+```python
 # 利用给定数据创建一个torch.Tensor对象.这是一个一维向量
 V_data = [1., 2., 3.]
 V = torch.Tensor(V_data)
@@ -71,7 +73,7 @@ print(T[0])
 
 ```
 输出：
-```py
+```python
 tensor(1.)
 1.0
 tensor([1., 2., 3.])
@@ -125,7 +127,7 @@ tensor([5., 7., 9.])
 
 接下来一个很有帮助的操作就是连接。
 
-```py
+```python
 # 默认情况下, 它沿着第一个行进行连接 (连接行)
 x_1 = torch.randn(2, 5)
 y_1 = torch.randn(3, 5)
@@ -157,7 +159,7 @@ tensor([[ 0.5438, -0.4057,  1.1341, -0.1473,  0.6272,  1.0935,  0.0939,  1.2381]
 
 使用.view()去重构张量。这是一个高频方法，因为许多神经网络的神经元对输入格式有明确的要求。你通常需要先将数据重构再输入到神经元中。
 
-```py
+```python
 x = torch.randn(2, 3, 4)
 print(x)
 print(x.view(2, 12))  # 重构为2行12列
@@ -191,7 +193,7 @@ tensor([[ 0.4175, -0.2127, -0.8400, -0.4200, -0.6240, -0.9773,  0.8748,  0.9873,
 
 如果requires_grad=True，张量对象可以一直跟踪它是如何创建的。让我们在实际中来看。
 
-```py
+```python
 # 张量对象带有“requires_grad”标记
 x =torch.Tensor([1., 2., 3], requires_grad=True)
 
@@ -213,7 +215,7 @@ tensor([5., 7., 9.], grad_fn=<AddBackward0>)
 
 但是它如何帮助我们计算梯度?
 
-```py
+```python
 # 我们来将z中所有项作和运算
 s = z.sum()
 print(s)
@@ -238,7 +240,7 @@ $$s = \overbrace{x_0 + y_0}^\text{$z_0$} + \overbrace{x_1 + y_1}^\text{$z_1$} + 
 
 让我们用Pytorch计算梯度，发现我们是对的:(注意如果你运行这个模块很多次，它的梯度会上升，这是因为Pytorch累积梯度渐变为.grad属性，而且对于很多模型它是很方便的.)
 
-```py
+```python
 # 在任意变量上使用 .backward()将会运行反向,从它开始.
 s.backward()
 print(x.grad)
@@ -250,7 +252,7 @@ tensor([1., 1., 1.])
 ```
 作为一个成功的深度学习程序员了解下面的模块如何运行是至关重要的。
 
-```py
+```python
 x = torch.randn((2, 2))
 y = torch.randn((2, 2))
 #用户创建的张量在默认情况下“requires_grad=False”
@@ -302,7 +304,7 @@ with torch.no_grad():
     print((x ** 2).requires_grad)
 ```
 输出：
-```py
+```python
 True
 True
 False

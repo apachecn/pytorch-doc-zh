@@ -2,11 +2,11 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 最新版会在[译者仓库](https://github.com/bat67/Deep-Learning-with-PyTorch-A-60-Minute-Blitz-cn)首先同步。
+> 校对者：[FontTian](https://github.com/fonttian)
 
 可以使用`torch.nn`包来构建神经网络.
 
-我们以及介绍了`autograd`，`nn`包依赖于`autograd`包来定义模型并对它们求导。一个`nn.Module`包含各个层和一个`forward(input)`方法，该方法返回`output`。
+我们已经介绍了`autograd`，`nn`包则依赖于`autograd`包来定义模型并对它们求导。一个`nn.Module`包含各个层和一个`forward(input)`方法，该方法返回`output`。
 
 例如，下面这个神经网络可以对数字进行分类：
 
@@ -49,7 +49,7 @@ class Net(nn.Module):
     def forward(self, x):
         # 2x2 Max pooling
         x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
-        # If the size is a square you can only specify a single number
+        # 如果是方阵,则可以只使用一个数字进行定义
         x = F.max_pool2d(F.relu(self.conv2(x)), 2)
         x = x.view(-1, self.num_flat_features(x))
         x = F.relu(self.fc1(x))
@@ -58,7 +58,7 @@ class Net(nn.Module):
         return x
 
     def num_flat_features(self, x):
-        size = x.size()[1:]  # 除去批大小维度的其余维度
+        size = x.size()[1:]  # 除去批处理维度的其他所有维度
         num_features = 1
         for s in size:
             num_features *= s
@@ -98,7 +98,7 @@ print(params[0].size())  # conv1's .weight
 torch.Size([6, 1, 5, 5])
 ```
 
-让我们尝试一个随机的32x32的输入。注意，这个网络（LeNet）的期待输入是32x32。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
+让我们尝试一个随机的32x32的输入。注意:这个网络（LeNet）的期待输入是32x32。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
 
 
 ```python
@@ -159,16 +159,14 @@ out.backward(torch.randn(1, 10))
 
 一个损失函数接受一对(output, target)作为输入，计算一个值来估计网络的输出和目标值相差多少。
 
-译者注：output为网络的输出,target为实际值
-
 nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html)。`nn.MSELoss`是比较简单的一种，它计算输出和目标的均方误差（mean-squared error）。
 
 例如：
 
 ```python
 output = net(input)
-target = torch.randn(10)  # a dummy target, for example
-target = target.view(1, -1)  # make it the same shape as output
+target = torch.randn(10)  # 本例子中使用模拟数据
+target = target.view(1, -1)  # 使目标值与数据值形状一致
 criterion = nn.MSELoss()
 
 loss = criterion(output, target)
@@ -242,6 +240,7 @@ tensor([ 0.0084,  0.0019, -0.0179, -0.0212,  0.0067, -0.0096])
 > 神经网络包包含了各种模块和损失函数，这些模块和损失函数构成了深度神经网络的构建模块。完整的文档列表见[这里](https://pytorch.org/docs/stable/nn.html)。
 >
 > 现在唯一要学习的是：
+>
 > * 更新网络的权重
 
 ## 更新权重
