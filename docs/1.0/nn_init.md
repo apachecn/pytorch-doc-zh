@@ -10,11 +10,11 @@ torch.nn.init.calculate_gain(nonlinearity, param=None)
 
 | 非线性函数 | 增益 |
 | --- | --- |
-| Linear / Identity | ![](http://latex.codecogs.com/gif.latex?1) |
-| Conv{1,2,3}D | ![](http://latex.codecogs.com/gif.latex?1) |
-| Sigmoid | ![](http://latex.codecogs.com/gif.latex?1) |
-| Tanh | ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7B5%7D%7B3%7D) |
-| ReLU | ![](http://latex.codecogs.com/gif.latex?%5Csqrt%7B2%7D) |
+| Linear / Identity | 1 |
+| Conv{1,2,3}D | 1 |
+| Sigmoid | 1 |
+| Tanh | \frac{5}{3} |
+| ReLU | \sqrt{2} |
 | Leaky Relu | ![](http://latex.codecogs.com/gif.latex?%5Csqrt%7B%5Cfrac%7B2%7D%7B1%20%2B%20%5Ctext%7Bnegative%5C_slope%7D%5E2%7D%7D) |
 
  
