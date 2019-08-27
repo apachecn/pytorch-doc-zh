@@ -13,11 +13,7 @@ torch.nn.init.calculate_gain(nonlinearity, param=None)
 | Linear / Identity | 1 |
 | Conv{1,2,3}D | 1 |
 | Sigmoid | 1 |
-| Tanh | 
-```latex 
-\frac{5}{3}
-```
-|
+| Tanh | $ \frac{5}{3} $ |
 | ReLU | $$\sqrt{2}$$ |
 | Leaky Relu | $\sqrt{\frac{2}{1+negativeslope^2}}$ |
 
