@@ -50,6 +50,7 @@
 
 > 第2期 (2019-06-10)
 
+* [FontTian](https://github.com/FontTian): 2404846224
 * [Smile](https://github.com/Smilexuhc): 240485545
 * [Ir1dXD](https://github.com/Ir1d): 1953959092
 * [Kai He](https://github.com/hekind): 254108879

@@ -2,13 +2,13 @@
 
 > 译者：[mengfu188](https://github.com/mengfu188)
 > 
-> 校对者：[Zhiyu-Chen](https://github.com/Zhiyu-Chen)
+> 校对者：[FontTian](https://github.com/fonttian)
 
 **作者**: [Sean Robertson](https://github.com/spro/practical-pytorch)
 
-在这个项目中，我们将教一个把把法语翻译成英语的神经网络。
+在这个项目中，我们将编写一个把法语翻译成英语的神经网络。
 
-```py
+```python
 [KEY: > input, = target, < output]
 
 > il est en train de peindre un tableau .
@@ -31,7 +31,7 @@
 
 … 取得了不同程度的成功
 
-这是通过[seq2seq网络](https://arxiv.org/abs/1409.3215)来进行实现的，在这个网络中使用两个递归的神经网络（编码器网络和解码器网络）一起工作使得一段序列变成令一段序列。 编码器网络将输入序列变成一个向量，解码器网络将该向量展开为新的序列。
+这是通过[seq2seq网络](https://arxiv.org/abs/1409.3215)来进行实现的，在这个网络中使用两个递归的神经网络（编码器网络和解码器网络）一起工作使得一段序列变成另一段序列。 编码器网络将输入序列变成一个向量，解码器网络将该向量展开为新的序列。
 
 ![](img/b01274082109b1019682274a0d4ca4d8.jpg)
 
@@ -46,7 +46,7 @@
 *   [跟着例子学习PyTorch](../beginner/pytorch_with_examples.html) 更加广泛而深入的了解PyTorch
 *   [PyTorch for Former Torch Users](../beginner/former_torchies_tutorial.html) 如果你是Lua Torch用户
 
-这些内容有利于了解seq2seq网络和工作机制：
+这些内容有利于了解seq2seq网络及其工作机制：
 
 *   [用RNN编码器 - 解码器来学习用于统计机器翻译的短语表示](https://arxiv.org/abs/1406.1078)
 *   [用神经网络进行seq2seq学习](https://arxiv.org/abs/1409.3215)
@@ -62,9 +62,9 @@
 *   [通过共同学习对齐和翻译的神经机器翻译](https://arxiv.org/abs/1409.0473)
 *   [神经会话模型](https://arxiv.org/abs/1506.05869)
 
-**需要如下**
+**需要如下**：
 
-```py
+```python
 from __future__ import unicode_literals, print_function, division
 from io import open
 import unicodedata
@@ -102,9 +102,9 @@ I am cold.    J'ai froid.
 
 ![](img/7fa129004e942671707f8f2d4fb80a20.jpg)
 
-我们需要每个单词对应唯一的索引作为稍后的网络输入和目标.为了追踪这些索引我们使用一个帮助类 `Lang` 类中有 词 → 索引 (`word2index`) 和 索引 → 词(`index2word`) 的字典, 以及每个词``word2count`` 用来替换稀疏词汇.
+我们之后需要将每个单词对应唯一的索引作为神经网络的输入和目标.为了追踪这些索引我们使用一个帮助类 `Lang` 类中有 词 → 索引 (`word2index`) 和 索引 → 词(`index2word`) 的字典, 以及每个词``word2count`` 用来替换稀疏词汇。
 
-```py
+```python
 SOS_token = 0
 EOS_token = 1
 
@@ -133,7 +133,7 @@ class Lang:
 
 这些文件全部采用Unicode编码，为了简化起见，我们将Unicode字符转换成ASCII编码、所有内容小写、并修剪大部分标点符号。
 
-```py
+```python
 # 感谢您将Unicode字符转换成ASCII
 # https://stackoverflow.com/a/518232/2809427
 def unicodeToAscii(s):
@@ -152,9 +152,9 @@ def normalizeString(s):
 
 ```
 
-我们将按行分开并将每一行分成两列来读取文件。这些文件都是英语 -> 其他语言，所以如果我们想从其他语言翻译 -> 英语德华，添加`reverse`标志来翻转词语对。
+我们将按行分开并将每一行分成两列来读取文件。这些文件都是英语 -> 其他语言，所以如果我们想从其他语言翻译 -> 英语，添加`reverse`标志来翻转词语对。
 
-```py
+```python
 def readLangs(lang1, lang2, reverse=False):
     print("Reading lines...")
 
@@ -178,9 +178,7 @@ def readLangs(lang1, lang2, reverse=False):
 
 ```
 
-Since there are a _lot_ of example sentences and we want to train something quickly, we’ll trim the data set to only relatively short and simple sentences. Here the maximum length is 10 words (that includes ending punctuation) and we’re filtering to sentences that translate to the form “I am” or “He is” etc. (accounting for apostrophes replaced earlier).
-
-由于有很多例句，我们希望快速的训练一些东西，就将数据集裁剪为相对剪短的句子。这里最大的长度是10个单词（包括标点符号），我们过滤翻译成“I am”或“he is”等形式的句子。（考虑到先前齐欢乐撇号）。
+简短的句子。这些句子的最大长度是10个单词（包括标点符号），同时我们将那些翻译为“I am”或“he is”等形式的句子进行了修改（考虑到之前清除的标点符号——‘）。
 
 ```py
 MAX_LENGTH = 10
@@ -206,11 +204,11 @@ def filterPairs(pairs):
 
 完整的数据准备过程：
 
-*   读取文本文件，拆分成行，将行拆分成对
+*   按行读取文本文件，将行拆分成对
 *   规范文本，按长度和内容过滤
 *   从句子中成对列出单词列表
 
-```py
+```python
 def prepareData(lang1, lang2, reverse=False):
     input_lang, output_lang, pairs = readLangs(lang1, lang2, reverse)
     print("Read %s sentence pairs" % len(pairs))
@@ -232,7 +230,7 @@ print(random.choice(pairs))
 
 输出:
 
-```py
+```python
 Reading lines...
 Read 135842 sentence pairs
 Trimmed to 10599 sentence pairs
@@ -246,27 +244,25 @@ eng 2803
 
 ## Seq2Seq模型
 
-递归神经网络（RNN）是一种对序列进行操作并利用自己的输出作为后序步骤的输入的网络
+递归神经网络（RNN）是一种对序列进行操作并利用自己的输出作为后序输入的网络
 
-[序列到序列网络](https://arxiv.org/abs/1409.3215), 也叫做 seq2seq 网络, 又或者是 [编码器解码器网络](https://arxiv.org/pdf/1406.1078v3.pdf), 是一个由两个称为编码器解码器的RNN组成的模型。编码器读取输入序列并输出一个矢量，解码器读取该矢量并产生输出序列。
+[序列到序列网络](https://arxiv.org/abs/1409.3215)（[Sequence to Sequence network](https://arxiv.org/abs/1409.3215)）, 也叫做 seq2seq 网络, 又或者是 [编码器解码器网络](https://arxiv.org/pdf/1406.1078v3.pdf)（[Encoder Decoder network](https://arxiv.org/pdf/1406.1078v3.pdf)）, 是一个由两个称为编码器解码器的RNN组成的模型。编码器读取输入序列并输出一个矢量，解码器读取该矢量并产生输出序列。
 
 ![](img/b01274082109b1019682274a0d4ca4d8.jpg)
 
 与每个输入对应一个输出的单个RNN的序列预测不同，seq2seq模型将我们从序列长度和顺序中解放出来，这使得它更适合两种语言的转换。
 
-考虑这句话“Je ne suis pas le chat noir” → “I am not the black cat”.大多数在输入序列中的单词在输出序列中有直接的翻译，但是在顺序中略有不同，例如: “chat noir” 和 “black cat”.由于 “ne/pas”结构, 其中另一个单词在输入的句子中. 直接从输入词的序列中直接生成正确的翻译是很困难的.
+考虑这句话“Je ne suis pas le chat noir” → “I am not the black cat”.虽然大部分情况下输入输出序列可以对单词进行比较直接的翻译，但是很多时候单词的顺序却略有不同，例如: “chat noir” 和 “black cat”。由于 “ne/pas”结构, 输入的句子中还有另外一个单词.。因此直接从输入词的序列中直接生成正确的翻译是很困难的。
 
-使用seq2seq模型，编码器会创建一个向量，在理想的情况下，将输入序列的“含义”转为单个向量 - 某个N维句子空间中的一个点。
+使用seq2seq模型时，编码器会创建一个向量，在理想的情况下，将输入序列的实际语义编码为单个向量 - 序列的一些N维空间中的单个点。
 
 ### 编码器
 
-The encoder of a seq2seq network is a RNN that outputs some value for every word from the input sentence. For every input word the encoder outputs a vector and a hidden state, and uses the hidden state for the next input word.
-
-在seq2seq网络中，编码器是一个会为输入句子中的每个单词输出一些值的RNN网络。对每个输入的单词编码器会输出一个向量和一个隐藏状态，并将该状态作为下一个输入。
+seq2seq网络的编码器是RNN，它为输入序列中的每个单词输出一些值。 对于每个输入单词，编码器输出一个向量和一个隐状态，并将该隐状态用于下一个输入的单词。
 
 ![](img/9b7e299515676cf41cd2c0fd6ab1295d.jpg)
 
-```py
+```python
 class EncoderRNN(nn.Module):
     def __init__(self, input_size, hidden_size):
         super(EncoderRNN, self).__init__()
@@ -321,21 +317,21 @@ class DecoderRNN(nn.Module):
 
 ```
 
-我们鼓励你训练和观察这个模型的结果,但为了节省空间,我们将直接进正题引入注意力机制.
+我们鼓励你训练和观察这个模型的结果,但为了节省空间,我们将直入主题开始讲解注意力机制.
 
-#### 注意力解码器
+#### 带有注意力机制的解码器
 
 如果仅在编码器和解码器之间传递上下文向量,则该单个向量承担编码整个句子的负担.
 
-注意力允许解码器网络针对解码器自身输出的每一步”聚焦”编码器输出的不同部分. 首先我们计算一组注意力权重. 这些将被乘以编码器输出矢量获得加权的组合. 结果(在代码中为``attn_applied``) 应该包含关于输入序列的特定部分的信息, 从而帮助解码器选择正确的输出单词.
+注意力机制允许解码器网络针对解码器自身输出的每一步”聚焦”编码器输出的不同部分. 首先我们计算一组注意力权重. 这些将被乘以编码器输出矢量获得加权的组合. 结果(在代码中为``attn_applied``) 应该包含关于输入序列的特定部分的信息, 从而帮助解码器选择正确的输出单词.
 
 ![](img/3313f4800c7d01049e2a2ef2079e5905.jpg)
 
-注意权值的计算是用另一个前馈层`attn`进行的, 将解码器的输入和隐藏层状态作为输入. 由于训练数据中有各种大小的句子,为了实际创建和训练此层, 我们必须选择最大长度的句子(输入长度,用于编码器输出),以适用于此层. 最大长度的句子将使用所有注意力权重,而较短的句子只使用前几个.
+注意权值的计算是用另一个前馈层`attn`进行的, 将解码器的输入和隐藏层状态作为输入. 由于训练数据中的输入序列（语句）长短不一,为了实际创建和训练此层, 我们必须选择最大长度的句子(输入长度,用于编码器输出),以适用于此层. 最大长度的句子将使用所有注意力权重,而较短的句子只使用前几个.
 
 ![](img/32ec68a6e0d29efae32b0f50db877598.jpg)
 
-```py
+```python
 class AttnDecoderRNN(nn.Module):
     def __init__(self, hidden_size, output_size, dropout_p=0.1, max_length=MAX_LENGTH):
         super(AttnDecoderRNN, self).__init__()
@@ -376,15 +372,15 @@ class AttnDecoderRNN(nn.Module):
 
 注意
 
-还有其他形式的注意力通过使用相对位置方法来解决长度限制. 阅读关于 “local attention” 在 [基于注意力的神经机器翻译的有效途径](https://arxiv.org/abs/1508.04025).
+还有其他形式的注意力通过使用相对位置方法来解决长度限制. 阅读关于 “local attention” 在 [基于注意力机制的神经机器翻译的有效途径](https://arxiv.org/abs/1508.04025).
 
 ## 训练
 
 ### 准备训练数据
 
-为了训练,对于每一对我们将需要输入的张量(输入句子中的词的索引)和 目标张量(目标语句中的词的索引). 在创建这些向量时,我们会将EOS标记添加到两个序列中.
+为了训练,对于每一对我们都需要输入张量(输入句子中的词的索引)和 目标张量(目标语句中的词的索引). 在创建这些向量时,我们会将EOS标记添加到两个序列中。
 
-```py
+```python
 def indexesFromSentence(lang, sentence):
     return [lang.word2index[word] for word in sentence.split(' ')]
 
@@ -402,15 +398,15 @@ def tensorsFromPair(pair):
 
 ### 训练模型
 
-为了训练我们通过编码器运行输入句子,并跟踪每个输出和最新的隐藏状态.  然后解码器被赋予`<SOS>` 标志作为其第一个输入, 并将编码器的最后一个隐藏状态作为其第一个隐藏状态.
+为了训练我们通过编码器运行输入序列,并跟踪每个输出和最新的隐藏状态.  然后解码器被赋予`<SOS>` 标志作为其第一个输入, 并将编码器的最后一个隐藏状态作为其第一个隐藏状态.
 
-“Teacher forcing” 是将实际目标输出用作每个下一个输入的概念,而不是将解码器的 猜测用作下一个输入.使用教师强迫会使其更快地收敛,但是 [当训练好的网络被利用时,它可能表现出不稳定性.](http://minds.jacobs-university.de/sites/default/files/uploads/papers/ESNTutorialRev.pdf).
+“Teacher forcing” 是将实际目标输出用作每个下一个输入的概念,而不是将解码器的 猜测用作下一个输入.使用“Teacher forcing” 会使其更快地收敛,但是 [当训练好的网络被利用时,它可能表现出不稳定性.](http://minds.jacobs-university.de/sites/default/files/uploads/papers/ESNTutorialRev.pdf).
 
-你可以观察到教师的输出-用连贯的语法阅读，却远离正确的翻译-直观地说，它已经学会了表示输出语法，并且一旦老师告诉它前几个单词，它就可以“拾起”意义，但它一开始就没有学会如何从翻译中创造句子。
+您可以观察“Teacher forcing”网络的输出，这些网络使用连贯的语法阅读，但远离正确的翻译 - 直觉上它已经学会表示输出语法，并且一旦老师告诉它前几个单词就可以“提取”意义，但是 它没有正确地学习如何从翻译中创建句子。
 
-由于PyTorch的autograd给我们的自由,我们可以随意选择使用老师强制或不使用简单的if语句. 打开`teacher_forcing_ratio`来使用它.
+由于PyTorch的autograd给我们的自由,我们可以随意选择使用“Teacher forcing”或不使用简单的if语句. 调高`teacher_forcing_ratio`来更好地使用它.
 
-```py
+```python
 teacher_forcing_ratio = 0.5
 
 def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length=MAX_LENGTH):
@@ -438,7 +434,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
     use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
 
     if use_teacher_forcing:
-        # Teacher forcing: Feed the target as the next input
+        # Teacher forcing: 将目标作为下一个输入
         for di in range(target_length):
             decoder_output, decoder_hidden, decoder_attention = decoder(
                 decoder_input, decoder_hidden, encoder_outputs)
@@ -446,7 +442,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
             decoder_input = target_tensor[di]  # Teacher forcing
 
     else:
-        # Without teacher forcing: use its own predictions as the next input
+        # 不适用 teacher forcing: 使用自己的预测作为下一个输入
         for di in range(target_length):
             decoder_output, decoder_hidden, decoder_attention = decoder(
                 decoder_input, decoder_hidden, encoder_outputs)
@@ -468,7 +464,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
 
 这是一个帮助函数，用于在给定当前时间和进度%的情况下打印经过的时间和估计的剩余时间。
 
-```py
+```python
 import time
 import math
 
@@ -495,7 +491,7 @@ def timeSince(since, percent):
 
 之后我们多次调用`train`函数，偶尔打印进度 (样本的百分比，到目前为止的时间，狙击的时间) 和平均损失
 
-```py
+```python
 def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, learning_rate=0.01):
     start = time.time()
     plot_losses = []
@@ -537,7 +533,7 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
 
 使用matplotlib完成绘图，使用`plot_losses`保存训练时的数组。
 
-```py
+```python
 import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 import matplotlib.ticker as ticker
@@ -546,7 +542,7 @@ import numpy as np
 def showPlot(points):
     plt.figure()
     fig, ax = plt.subplots()
-    # this locator puts ticks at regular intervals
+    # 该定时器用于定时记录时间
     loc = ticker.MultipleLocator(base=0.2)
     ax.yaxis.set_major_locator(loc)
     plt.plot(points)
@@ -557,7 +553,7 @@ def showPlot(points):
 
 评估与训练大部分相同,但没有目标,因此我们只是将解码器的每一步预测反馈给它自身. 每当它预测到一个单词时,我们就会将它添加到输出字符串中,并且如果它预测到我们在那里停止的EOS指令. 我们还存储解码器的注意力输出以供稍后显示.
 
-```py
+```python
 def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
     with torch.no_grad():
         input_tensor = tensorFromSentence(input_lang, sentence)
@@ -597,7 +593,7 @@ def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
 
 我们可以从训练集中对随机句子进行评估，并打印出输入、目标和输出，从而做出一些主观的质量判断：
 
-```py
+```python
 def evaluateRandomly(encoder, decoder, n=10):
     for i in range(n):
         pair = random.choice(pairs)
@@ -620,7 +616,7 @@ def evaluateRandomly(encoder, decoder, n=10):
 
 如果你运行这个笔记本，你可以训练，中断内核，评估，并在以后继续训练。 注释编码器和解码器初始化的行并再次运行 `trainIters` .
 
-```py
+```python
 hidden_size = 256
 encoder1 = EncoderRNN(input_lang.n_words, hidden_size).to(device)
 attn_decoder1 = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
@@ -629,12 +625,11 @@ trainIters(encoder1, attn_decoder1, 75000, print_every=5000)
 
 ```
 
-*   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_001.png](img/5015200eb4481feb8a71a658b384ec39.jpg)
-*   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_002.png](img/89adff7333b116436cf785388029ba1a.jpg)
+*   ![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_001.png](img/5015200eb4481feb8a71a658b384ec39.jpg)![https://pytorch.org/tutorials/_images/sphx_glr_seq2seq_translation_tutorial_002.png](img/89adff7333b116436cf785388029ba1a.jpg)
 
 输出:
 
-```py
+```python
 1m 47s (- 25m 8s) (5000 6%) 2.8641
 3m 30s (- 22m 45s) (10000 13%) 2.2666
 5m 15s (- 21m 1s) (15000 20%) 1.9537
@@ -653,7 +648,7 @@ trainIters(encoder1, attn_decoder1, 75000, print_every=5000)
 
 ```
 
-```py
+```python
 evaluateRandomly(encoder1, attn_decoder1)
 
 ```
@@ -709,7 +704,7 @@ evaluateRandomly(encoder1, attn_decoder1)
 
 你可以简单地运行`plt.matshow(attentions)`来查看显示为矩阵的注意力输出，列为输入步骤，行位输出步骤。
 
-```py
+```python
 output_words, attentions = evaluate(
     encoder1, attn_decoder1, "je suis trop froid .")
 plt.matshow(attentions.numpy())
@@ -720,7 +715,7 @@ plt.matshow(attentions.numpy())
 
 为了获得更好的观看体验,我们将额外添加轴和标签:
 
-```py
+```python
 def showAttention(input_sentence, output_words, attentions):
     # Set up figure with colorbar
     fig = plt.figure()
@@ -779,7 +774,7 @@ output = he s a talented young player . <EOS>
 
 *   尝试使用不同的数据集
     *   另一种语言对
-    *   人 → 及其 (例如 IOT 命令)
+    *   人 → 机器 (例如 IOT 命令)
     *   聊天 → 响应
     *   问题 → 回答
 *   将嵌入替换为预先训练过的单词嵌入，例如word2vec或者GloVe

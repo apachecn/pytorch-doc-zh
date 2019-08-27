@@ -1,19 +1,19 @@
 # PyTorch 深度学习: 60 分钟极速入门
 
 > 译者：[bat67](https://github.com/bat67)
+>
+> 校对者：[FontTian](https://github.com/fonttian)
 
 **作者**：[Soumith Chintala](http://soumith.ch)
 
 此教程的目标：
 
-* 更高层次地理解Pythrch的Tensor库以及神经网络。
+* 更高层次地理解PyTorch的Tensor库以及神经网络。
 * 训练一个小的神经网络模型用于分类图像。
 
 本教程假设读者对`numpy`有基本的了解
 
-注
-
-确保你安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包。
+注意:确保你安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包。
 
 ![https://pytorch.org/tutorials/_images/tensor_illustration_flat.png](img/0c7a402331744a44f5e17575b1607904.jpg)
 
