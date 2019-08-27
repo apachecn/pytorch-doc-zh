@@ -15,7 +15,7 @@ torch.nn.init.calculate_gain(nonlinearity, param=None)
 | Sigmoid | 1 |
 | Tanh | 
 ```latex 
-$\frac{5}{3}$
+\frac{5}{3}
 ```
 |
 | ReLU | $$\sqrt{2}$$ |
