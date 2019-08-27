@@ -27,12 +27,12 @@ torch.nn.init.calculate_gain(nonlinearity, param=None)
 例子
 
 ```py
->>> gain = nn.init.calculate_gain('leaky_relu')
+>>> gain = nn.init.calculate_gain('leaky_relu', 0.2)  # leaky_relu with negative_slope=0.2
 
 ```
 
 ```py
-torch.nn.init.uniform_(tensor, a=0, b=1)
+torch.nn.init.uniform_(tensor, a=0.0, b=1)
 ```
 
 用均匀分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(a%2C%20b)) 初始化输入 `Tensor`。
@@ -54,7 +54,7 @@ torch.nn.init.uniform_(tensor, a=0, b=1)
 ```
 
 ```py
-torch.nn.init.normal_(tensor, mean=0, std=1)
+torch.nn.init.normal_(tensor, mean=0.0, std=1.0)
 ```
 
 用正态分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(%5Ctext%7Bmean%7D%2C%20%5Ctext%7Bstd%7D)) 初始化输入 `Tensor`。
