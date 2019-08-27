@@ -1,6 +1,7 @@
 ## Tensors
 
 > 译者：[dyywinner](https://github.com/dyywinner)
+       [cluster](https://github.com/infdahai)
 
 ```py
 torch.is_tensor(obj)
@@ -273,13 +274,13 @@ tensor(indices=tensor([], size=(1, 0)),
 torch.as_tensor(data, dtype=None, device=None) → Tensor
 ```
 
-Convert the data into a `torch.Tensor`. If the data is already a `Tensor` with the same `dtype` and `device`, no copy will be performed, otherwise a new `Tensor` will be returned with computational graph retained if data `Tensor` has `requires_grad=True`. Similarly, if the data is an `ndarray` of the corresponding `dtype` and the `device` is the cpu, no copy will be performed.
+转换 `data` 到 `torch.Tensor` 类型. 如果 `data` 已经是相同 `dtype` 和 `device` 的张量， 那就不会执行拷贝，否则将会返回一个新的张量(如果 data `Tensor` 中 `requires_grad=True`,则返回的张量计算图会被保留)相似地，如果 data `dtype` 为 `ndarry` 并且 `device` 为CPU，则拷贝不会发生。
 
-Parameters: 
+Parameters:
 
-*   **data** (_array_like_) – Initial data for the tensor. Can be a list, tuple, NumPy `ndarray`, scalar, and other types.
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, infers data type from `data`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
+*   **data** (_array_like_) – 提供张量初始化的数据结构。可能是ist, tuple, NumPy `ndarray`, scalar 或其他类型。
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 提供张量初始化的值。可能是ist, tuple, NumPy `ndarray`, scalar 或其他类型。
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需要的设备。默认：若为空，则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
 
 
 
@@ -308,9 +309,9 @@ array([1,  2,  3])
 torch.from_numpy(ndarray) → Tensor
 ```
 
-Creates a [`Tensor`](tensors.html#torch.Tensor "torch.Tensor") from a [`numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.15)").
+ 从一个 [`numpy.ndarray`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.15)") 创建一个 [`Tensor`](tensors.html#torch.Tensor "torch.Tensor").
 
-The returned tensor and `ndarray` share the same memory. Modifications to the tensor will be reflected in the `ndarray` and vice versa. The returned tensor is not resizable.
+返回的张量和 `ndarry` 共享相同的内存。 对张量的修饰将会反映在 `ndarry`，反之亦然。返回的张量 大小不可变。
 
 Example:
 
@@ -329,17 +330,17 @@ array([-1,  2,  3])
 torch.zeros(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with the scalar value `0`, with the shape defined by the variable argument `sizes`.
+返回一个用标量 `0` 填充的张量，其中可变长参数 `sizes` 定义了该张量形状(shape).
 
-Parameters: 
+Parameters:
 
-*   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
+*   **sizes** (_int..._) – 定义输出张量形状的整数序列. 可以是可变长的参数 或者是像 列表元组这样的集合。
+*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用全局默认值 (参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: `torch.strided`.
+*   # TODO
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 
 Example:
@@ -358,21 +359,19 @@ tensor([ 0.,  0.,  0.,  0.,  0.])
 torch.zeros_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with the scalar value `0`, with the same size as `input`. `torch.zeros_like(input)` is equivalent to `torch.zeros(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
+返回用标量`0`填充的张量，大小和`input`的`size`一样. `torch.zeros_like(input)` 等价于 `torch.zeros(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
 
 Warning
 
-As of 0.4, this function does not support an `out` keyword. As an alternative, the old `torch.zeros_like(input, out=output)` is equivalent to `torch.zeros(input.size(), out=output)`.
+截止到 0.4, 该函数不再支持`out`关键字. 同时，老版的 `torch.zeros_like(input, out=output)` 等价于 `torch.zeros(input.size(), out=output)`.
 
 Parameters: 
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned tensor. Default: if `None`, defaults to the layout of `input`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – `input`的`size`属性决定输出张量大小
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用`input`的`dtype`属性 .
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: 默认为`input`的`layout`属性.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则为`input`的`device`属性.
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 Example:
 
@@ -388,16 +387,16 @@ tensor([[ 0.,  0.,  0.],
 torch.ones(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with the scalar value `1`, with the shape defined by the variable argument `sizes`.
+返回一个用标量 `1` 填充的张量，其中可变长参数 `sizes` 定义了该张量形状(shape).
 
-Parameters: 
+Parameters:
 
-*   **sizes** (_int..._) – a sequence of integers defining the shape of the output tensor. Can be a variable number of arguments or a collection like a list or tuple.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **sizes** (_int..._) – 定义输出张量形状的整数序列. 可以是可变长的参数 或者是像 列表元组这样的集合。
+*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用全局默认值 (参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: `torch.strided`.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 
 
@@ -417,21 +416,19 @@ tensor([ 1.,  1.,  1.,  1.,  1.])
 torch.ones_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a tensor filled with the scalar value `1`, with the same size as `input`. `torch.ones_like(input)` is equivalent to `torch.ones(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`.
+返回用标量`1`填充的张量，大小和`input`的`size`一样. `torch.ones_like(input)` 等价于 `torch.ones(input.size(), dtype=input.dtype, layout=input.layout, device=input.device)`
 
 Warning
 
-As of 0.4, this function does not support an `out` keyword. As an alternative, the old `torch.ones_like(input, out=output)` is equivalent to `torch.ones(input.size(), out=output)`.
+截止到 0.4, 该函数不再支持`out`关键字. 同时，老版的 `torch.ones_like(input, out=output)` 等价于 `torch.ones(input.size(), out=output)`.
 
 Parameters: 
 
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the size of `input` will determine size of the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned Tensor. Default: if `None`, defaults to the dtype of `input`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned tensor. Default: if `None`, defaults to the layout of `input`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, defaults to the device of `input`.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – `input`的`size`属性决定输出张量大小
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用`input`的`dtype`属性 .
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: 默认为`input`的`layout`属性.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则为`input`的`device`属性.
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 Example:
 
@@ -447,22 +444,22 @@ tensor([[ 1.,  1.,  1.],
 torch.arange(start=0, end, step=1, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a 1-D tensor of size ![](img/93f0e014493a12cb3334b1c1f00517f4.jpg) with values from the interval `[start, end)` taken with common difference `step` beginning from `start`.
+返回一个一维张量，大小为![](img/93f0e014493a12cb3334b1c1f00517f4.jpg)，值为区间 `[start,end)`内，以`step`为步距,从`start`开始的数列.
 
-Note that non-integer `step` is subject to floating point rounding errors when comparing against `end`; to avoid inconsistency, we advise adding a small epsilon to `end` in such cases.
+注意: 非整型数 `step` 和 `end` 比较时存在浮点四舍五入误差;为避免不一致，建议在`end`后面加上一个小的epsilon.
 
 ![](img/9e6fd079c910af8a8a6486e341b02282.jpg)
 
 Parameters: 
 
-*   **start** (_Number_) – the starting value for the set of points. Default: `0`.
-*   **end** (_Number_) – the ending value for the set of points
-*   **step** (_Number_) – the gap between each pair of adjacent points. Default: `1`.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). If `dtype` is not given, infer the data type from the other input arguments. If any of `start`, `end`, or `stop` are floating-point, the `dtype` is inferred to be the default dtype, see [`get_default_dtype()`](#torch.get_default_dtype "torch.get_default_dtype"). Otherwise, the `dtype` is inferred to be `torch.int64`.
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
+*   **start** (_Number_) – 点集的起始值. 默认为`0`.
+*   **end** (_Number_) – 点集的终值.
+*   **step** (_Number_) – 每对相邻点之间的距离 . 默认为 `1`.
+*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出的张量
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用全局默认值. (参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). 若 `dtype` 未提供, 则从其他输入参数推断数据类型. 如果 `start`, `end`, `stop` 中存在浮点数, 则 `dtype` 会使用默认数据类型, 请查看 [`get_default_dtype()`](#torch.get_default_dtype "torch.get_default_dtype"). 否则,  `dtype` 会使用 `torch.int64`.
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: `torch.strided`.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 
 
@@ -482,25 +479,24 @@ tensor([ 1.0000,  1.5000,  2.0000])
 torch.range(start=0, end, step=1, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a 1-D tensor of size ![](img/8df7b0b7ce71be5149c4526856d43f13.jpg) with values from `start` to `end` with step `step`. Step is the gap between two values in the tensor.
+返回一个一维张量，大小为![](img/8df7b0b7ce71be5149c4526856d43f13.jpg)，值从`start`到`end`，以`step`为步距的数列.
 
 ![](img/df6d39cd8a83332eb174ec540be74326.jpg)
 
 Warning
 
-This function is deprecated in favor of [`torch.arange()`](#torch.arange "torch.arange").
+这个函数被弃用，改为 [`torch.arange()`](#torch.arange "torch.arange").
 
 Parameters: 
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the starting value for the set of points. Default: `0`.
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the ending value for the set of points
-*   **step** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the gap between each pair of adjacent points. Default: `1`.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
+*   **start** (_Number_) – 点集的起始值. 默认为`0`.
+*   **end** (_Number_) – 点集的终值.
+*   **step** (_Number_) – 每对相邻点之间的距离 . 默认为 `1`.
+*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出的张量
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用全局默认值. (参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). 若 `dtype` 未提供, 则从其他输入参数推断数据类型. 如果 `start`, `end`, `stop` 中存在浮点数, 则 `dtype` 会使用默认数据类型, 请查看 [`get_default_dtype()`](#torch.get_default_dtype "torch.get_default_dtype"). 否则,  `dtype` 会使用 `torch.int64`.
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: `torch.strided`.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 
 Example:
@@ -517,22 +513,20 @@ tensor([ 1.0000,  1.5000,  2.0000,  2.5000,  3.0000,  3.5000,  4.0000])
 torch.linspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a one-dimensional tensor of `steps` equally spaced points between `start` and `end`.
+返回共`steps`数量在`start` 和 `end`之间的等距点，从而组成的一维张量.
 
-The output tensor is 1-D of size `steps`.
+输出张量大小为`steps`，维度为一维.
 
 Parameters: 
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the starting value for the set of points
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the ending value for the set of points
-*   **steps** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of points to sample between `start` and `end`. Default: `100`.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – 点集的起始值. 
+*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) –点集的终值.
+*   **steps** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) –  `start` 和 `end`之间的样本点数目. 默认: `100`.
+*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用全局默认值. (参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: `torch.strided`.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 Example:
 
@@ -550,22 +544,20 @@ tensor([-10.,  -5.,   0.,   5.,  10.])
 torch.logspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a one-dimensional tensor of `steps` points logarithmically spaced between ![](img/f8472cb905d226233b6c5b6ca382cf74.jpg) and ![](img/5385eb329ab67a640482b03b99be6155.jpg).
+返回共有`steps`数量的一维张量，点集由![](img/f8472cb905d226233b6c5b6ca382cf74.jpg) 和 ![](img/5385eb329ab67a640482b03b99be6155.jpg)之间对数分布的点组成.
 
-The output tensor is 1-D of size `steps`.
+输出张量大小为`steps`，维度为一维.
 
 Parameters: 
 
-*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the starting value for the set of points
-*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – the ending value for the set of points
-*   **steps** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – number of points to sample between `start` and `end`. Default: `100`.
-*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – the output tensor
-*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – the desired data type of returned tensor. Default: if `None`, uses a global default (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
-*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – the desired layout of returned Tensor. Default: `torch.strided`.
-*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – the desired device of returned tensor. Default: if `None`, uses the current device for the default tensor type (see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` will be the CPU for CPU tensor types and the current CUDA device for CUDA tensor types.
-*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – If autograd should record operations on the returned tensor. Default: `False`.
-
-
+*   **start** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – 点集的起始值. 
+*   **end** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) –点集的终值.
+*   **steps** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) –  `start` 和 `end`之间的样本点数目. 默认: `100`.
+*   **out** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – 输出张量
+*   **dtype** ([`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype"), optional) – 返回张量的数据类型. 默认: 如果为 `None`, 使用全局默认值. (参考 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")).
+*   **layout** ([`torch.layout`](tensor_attributes.html#torch.torch.layout "torch.torch.layout"), optional) – 返回张量的层数. Default: `torch.strided`.
+*   **device** ([`torch.device`](tensor_attributes.html#torch.torch.device "torch.torch.device"), optional) – 返回张量所需的设备. 默认: 如果为 `None`, 则当前的设备提供给默认张量类型(see [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type")). `device` 将为支持CPU张量的CPU和支持CUDA张量类型的CUDA设备。
+*   **requires_grad** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – 自动梯度计算是否需要记录在返回张量上的操作。默认: `False`.
 
 Example:
 
@@ -581,7 +573,7 @@ tensor([  1.2589,   2.1135,   3.5481,   5.9566,  10.0000])
 torch.eye(n, m=None, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.
+返回二维张量，对角线上是1，其它地方是0.
 
 Parameters: 
 
