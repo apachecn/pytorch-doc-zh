@@ -2,7 +2,8 @@
 
 # 广播语义  
 
-> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)
+> 校验：[AlexJakin](https://github.com/AlexJakin)
 
 许许多多的PyTorch操作都支持[`NumPy Broadcasting Semantics`](https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html#module-numpy.doc.broadcasting "(in NumPy v1.15)")。  
 
@@ -44,8 +45,8 @@
 
 如果x,y两个张量是可以广播的，则通过计算得到的张量大小遵循以下原则：   
 
-* 如果x和y的维数不相等，则在较小维度张量的前面加上1，使它们的长度相等。  
-* 然后,生成新张量维度的大小是x和y在每个维度的最大值。  
+* 如果x和y的维数不相等，则在维度较小的张量的前面增加1个维度，使它们的长度相等。  
+* 然后,生成新张量维度的大小是x和y在每个维度上的最大值。  
    
 例如：   
 
