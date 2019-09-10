@@ -2,7 +2,8 @@
 
 # 广播语义  
 
-> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)
+> 校验：[AlexJakin](https://github.com/AlexJakin)
 
 许许多多的PyTorch操作都支持[`NumPy Broadcasting Semantics`](https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html#module-numpy.doc.broadcasting "(in NumPy v1.15)")。  
 
