@@ -56,7 +56,7 @@ with torch.cuda.device(1):
 
 您可以通过设置环境变量强制进行同步计算 `CUDA_LAUNCH_BLOCKING=1`。这在 GPU 上发生错误时非常方便。（使用异步执行时，直到实际执行操作后才会报告此类错误，因此堆栈跟踪不会显示请求的位置。）
 
-异步计算的结果是没有同步的时间测量是不精确的。要获得精确的测量结果，应该在测量之前调用[`torch.cuda.synchronize（）`](../cuda.html#torch.cuda.synchronize "torch.cuda.synchronize（）")，或者使用[`torch.cuda.Event`](../cuda.html#torch.cuda.Event "torch.cuda.Event")记录时间如下：
+异步计算的结果是没有同步的时间测量是不精确的。要获得精确的测量结果，应该在测量之前调用[`torch.cuda.synchronize（）`](../cuda.html#torch.cuda.synchronize "torch.cuda.synchronize()")，或者使用[`torch.cuda.Event`](../cuda.html#torch.cuda.Event "torch.cuda.Event")记录时间如下：
 
 ```py
 start_event = torch.cuda.Event(enable_timing=True)
