@@ -1,6 +1,7 @@
 # CUDA 语义
 
 > 译者：[片刻](https://github.com/jiangzhonglian)
+> 校验：[AlexJakin](https://github.com/AlexJakin)
 
 [`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") 用于设置和运行 CUDA 操作。它会跟踪当前选定的GPU，并且默认情况下会在该设备上创建您分配的所有 CUDA tensors。可以使用 [`torch.cuda.device`](../cuda.html#torch.cuda.device "torch.cuda.device") 上下文管理器更改所选设备。
 
@@ -54,6 +55,20 @@ with torch.cuda.device(1):
 通常，异步计算的效果对于调用者是不可见的，因为 (1) 每个设备按照它们排队的顺序执行操作，以及 (2) PyTorch 在 CPU 和 GPU 之间或两个 GPU 之间复制数据时自动执行必要的同步。因此，计算将如同每个操作同步执行一样进行。
 
 您可以通过设置环境变量强制进行同步计算 `CUDA_LAUNCH_BLOCKING=1`。这在 GPU 上发生错误时非常方便。（使用异步执行时，直到实际执行操作后才会报告此类错误，因此堆栈跟踪不会显示请求的位置。）
+
+异步计算的结果是没有同步的时间测量是不精确的。要获得精确的测量结果，应该在测量之前调用[`torch.cuda.synchronize()`](../cuda.html#torch.cuda.synchronize "torch.cuda.synchronize()")，或者使用[`torch.cuda.Event`](../cuda.html#torch.cuda.Event "torch.cuda.Event")记录时间如下：
+
+```py
+start_event = torch.cuda.Event(enable_timing=True)
+end_event = torch.cuda.Event(enable_timing=True)
+start_event.record()
+
+# 在这里执行一些操作
+
+end_event.record()
+torch.cuda.synchronize()  # Wait for the events to be recorded!
+elapsed_time_ms = start_event.elapsed_time(end_event)
+```
 
 作为一个例外，有几个函数，例如 [`to()`](../tensors.html#torch.Tensor.to "torch.Tensor.to") 和 [`copy_()`](../tensors.html#torch.Tensor.copy_ "torch.Tensor.copy_") 允许一个显式 `non_blocking` 参数，它允许调用者在不需要时绕过同步。另一个例外是 CUDA streams，如下所述。
 
