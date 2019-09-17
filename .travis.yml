@@ -13,6 +13,7 @@ cache:
   - docs/0.3/node_modules # 依赖缓存的目录
   - docs/0.4/node_modules # 依赖缓存的目录
   - docs/1.0/node_modules # 依赖缓存的目录
+  - docs/LatestChanges/node_modules # 依赖缓存的目录
 
 install:
  - npm install -g gitbook-cli # 安装编译工具
