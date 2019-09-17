@@ -1,4 +1,4 @@
-# <center>Pytorch 中文教程</center>
+# <center>PyTorch 中文教程</center>
 
 ![](docs/img/logo.svg)
 
@@ -21,12 +21,12 @@
 > 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
 
 + [在线阅读](http://pytorch.apachecn.org)
-+ [ApacheCN 机器学习交流群 629470233](http://shang.qq.com/wpa/qunwpa?idkey=30e5f1123a79867570f665aa3a483ca404b1c3f77737bc01ec520ed5f078ddef)
 + [ApacheCN 学习资源](http://www.apachecn.org/)
++ [PyTorch 中文翻译组 | ApacheCN 713436582](http://shang.qq.com/wpa/qunwpa?idkey=349eb1bbaeeff1cf20408899cbe75669132ef145ff5ee6599f78a77dd144c367)
 
 > 版本特性
 
-* [PyTorch V1.2 新特性](docs/LatestChanges/2019-08-08.md)
+* [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
 
 > PyTorch 官方入库
 
@@ -76,6 +76,7 @@
 
 > 第一期 (2018-11-27)
 
+* [那伊抹微笑](https://github.com/wangyangting): 1042658081
 * [飞龙](https://github.com/wizardforcel): 562826179
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [咸鱼](https://github.com/Watermelon233): 1034616238
@@ -94,7 +95,7 @@
 
 * 在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.
 * 发邮件到 Email: `apachecn@163.com`.
-* 在我们的 [QQ群-搜索: 交流方式](https://github.com/apachecn/home) 中联系群主/管理员即可.
+* 在我们的 [QQ群: 加入方式](https://docs.apachecn.org/join) 中联系群主/管理员即可.
 
 ## 赞助我们
 
