@@ -24,6 +24,16 @@
 + [ApacheCN 机器学习交流群 629470233](http://shang.qq.com/wpa/qunwpa?idkey=30e5f1123a79867570f665aa3a483ca404b1c3f77737bc01ec520ed5f078ddef)
 + [ApacheCN 学习资源](http://www.apachecn.org/)
 
+> 版本特性
+
+* [PyTorch V1.2 新特性](docs/LatestChanges/2019-08-08.md)
+
+> PyTorch 官方入库
+
+* 中文文档: <https://pytorch.org/resources>
+
+![](docs/img/resources.jpg)
+
 ## 贡献指南
 
 项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/274)中领取任务。
@@ -32,7 +42,12 @@
 
 ## 项目看板
 
-> 项目 Pytorch 1.0 看板
+> 项目 PyTorch 1.2 看板
+
+* 负责人: 记得更新和优化
+* 地址: https://github.com/apachecn/pytorch-doc-zh/projects/2
+
+> 项目 PyTorch 1.0 看板
 
 * 负责人: 记得更新和优化
 * 地址: https://github.com/apachecn/pytorch-doc-zh/projects/1
@@ -41,12 +56,12 @@
 
 格式: GitHub + QQ
 
-> 第一期 (2018-11-27)
+> 第3期 (2019-09-17)
 
 * [飞龙](https://github.com/wizardforcel): 562826179
 * [片刻](https://github.com/jiangzhonglian): 529815144
-* [咸鱼](https://github.com/Watermelon233): 1034616238
-* [Twinkle](https://github.com/kemingzeng): 1097078987
+* [Alex](https://github.com/AlexJakin): 1272296763
+* [Holly](https://github.com/kunwuz): 514397511
 
 > 第2期 (2019-06-10)
 
@@ -59,12 +74,19 @@
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
 
+> 第一期 (2018-11-27)
+
+* [飞龙](https://github.com/wizardforcel): 562826179
+* [片刻](https://github.com/jiangzhonglian): 529815144
+* [咸鱼](https://github.com/Watermelon233): 1034616238
+* [Twinkle](https://github.com/kemingzeng): 1097078987
+
 -- 负责人要求: (欢迎一起为 `Pytorch 中文版本` 做贡献)
 
 * 热爱开源，喜欢装逼
-* 长期使用 pytorch(至少1年)
+* 长期使用 PyTorch(至少1年)
 * 能够有时间及时优化页面bug和用户issues
-* 由于会不定期和 **Pytorch 官方** 进行issues or email 交流，所以更要积极主动
+* 由于会不定期和 **PyTorch 官方** 进行issues or email 交流，所以更要积极主动
 * 试用期: 2个月
 * 欢迎联系: [片刻](https://github.com/jiangzhonglian) 529815144
 
