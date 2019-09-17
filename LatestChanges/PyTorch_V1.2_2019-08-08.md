@@ -65,7 +65,7 @@ my_script_module.save("my_script_module.pt")
 * `nn.TransformerEncoder` 和 `nn.TransformerEncoderLayer`
 * `nn.TransformerDecoder` 和 `nn.TransformerDecoderLayer`
 
-![](img/transformer.png)
+![](../docs/img/LatestChanges/transformer.png)
 
 有关更多信息，请参阅[Transformer Layers](https://pytorch.org/docs/stable/nn.html#transformer-layers)文档。有关完整的PyTorch 1.2发行说明，请参见[此处](https://github.com/pytorch/pytorch/releases)。
 
@@ -75,7 +75,7 @@ PyTorch域库（如torchvision，torchtext和torchaudio）提供了对常用数�
 
 ## [TORCHAUDIO 0.3与KALDI兼容性，新变换](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#torchaudio-03-with-kaldi-compatibility-new-transforms)
 
-![](img/spectrograms.png)
+![](../docs/img/LatestChanges/spectrograms.png)
 
 Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关的信号处理功能（但不是一般的信号处理库）。它利用PyTorch的GPU支持为波形提供了许多工具和转换，使数据加载和标准化更容易，更易读。例如，它为使用sox的波形提供数据加载器，并为频谱图，重采样和mu-law编码和解码等转换提供数据加载器。
 
