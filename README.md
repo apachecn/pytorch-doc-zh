@@ -28,7 +28,7 @@
 
 * [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
 
-> PyTorch 官方入库
+> PyTorch 官方入口
 
 * 中文文档: <https://pytorch.org/resources>
 
