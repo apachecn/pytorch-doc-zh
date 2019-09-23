@@ -11,7 +11,7 @@ API转换序列到序列模型TorchScript的过程中走。我们将转换的模
 在深基础的学习项目的研究和开发阶段，有利的是，与 **渴望**
 ，势在必行接口一样PyTorch的互动。这给用户写熟悉，地道的Python，允许使用Python的数据结构，控制流操作，打印报表，和调试事业的能力。虽然渴望接口是用于研究和实验应用的有利工具，当谈到时间部署在生产环境中的模型，有
 **图** 基于模型的表示是非常有利的。一个延迟图表示允许优化，如乱序执行，并且目标高度优化的硬件架构的能力。此外，基于图的表示使得框架无关模型出口。
-PyTorch提供了一种用于逐步转换渴望模式代码到TorchScript，Python中的静态分析的和优化的子集火炬用来从Python运行时独立地表示深学习方案的机制。
+PyTorch提供了一种用于逐步转换渴望模式代码到TorchScript，Python中的静态分析的和优化的子集Torch 用来从Python运行时独立地表示深学习方案的机制。
 
 用于转换渴望模式PyTorch方案纳入TorchScript的API的torch.jit模块中被发现。该模块具有用于急切模式模型转换为TorchScript图表示两个核心模式：
 **追踪** 和 **脚本** 。的`torch.jit.trace
@@ -23,7 +23,7 @@ PyTorch提供了一种用于逐步转换渴望模式代码到TorchScript，Pytho
 要充分理解与支持的功能的所有细节，请参见[
 TorchScript语言参考[HTG1。为了提供最大的灵活性，也可以混合使用跟踪和脚本模式一起代表你的整个程序，并且这些技术可以逐步应用。](https://pytorch.org/docs/master/jit.html)
 
-![workflow](../_images/pytorch_workflow.png)
+![workflow](img/pytorch_workflow.png)
 
 ## 致谢
 
@@ -69,7 +69,7 @@ TorchScript语言参考[HTG1。为了提供最大的灵活性，也可以混合�
 如所提到的，我们使用的模型是[序列到序列](https://arxiv.org/abs/1409.3215)（seq2seq）模型。这种类型的模型中的情况下使用时，我们的输入是一个可变长度的序列，而我们的输出也不一定是输入的一一对一映射的可变长度的序列。甲seq2seq模型由该协同工作，二期复发神经网络（RNNs）组成：
 **编码** 和a **解码器** 。
 
-![model](../_images/seq2seq_ts.png)
+![model](img/seq2seq_ts.png)
 
 图像源：[ https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/
 ](https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/)
@@ -331,7 +331,7 @@ GreedySearchDecoder
 为了获得可能需要一些操作的想法，我们将在从聊天机器人教程`GreedySearchDecoder
 `执行和实施，我们在下面的电池使用之间的差异列表。请注意，行以红色突出显示从原来实行删除，线条突出显示为绿色线是新的。
 
-![diff](../_images/diff.png)
+![diff](img/diff.png)
 
 #### 变更：
 
@@ -342,7 +342,7 @@ GreedySearchDecoder
   * 执行类型的`向前 `方法参数
     * 默认情况下，在TorchScript函数的所有参数都假定为张量。如果我们需要通过不同类型的参数，我们可以使用函数类型注释如[ PEP 3107 ](https://www.python.org/dev/peps/pep-3107/)引入。此外，也可以使用声明MyPy风格类型注释不同类型的参数（见[ DOC ](https://pytorch.org/docs/master/jit.html#types)）。
   * 的`更改初始化decoder_input`
-    * 在最初的实现，我们初始化我们的`decoder_input`与`torch.LongTensor（[SOS_token]） `张量。脚本时，我们是不允许的字面这样初始化张量。相反，我们可以初始化我们有一个明确的火炬函数张量，如`torch.ones  [HTG11。在这种情况下，我们可以很容易地通过由存储在我们的SOS_token值乘以1复制标量`decoder_input`张量的常数`self._SOS_token`。`
+    * 在最初的实现，我们初始化我们的`decoder_input`与`torch.LongTensor（[SOS_token]） `张量。脚本时，我们是不允许的字面这样初始化张量。相反，我们可以初始化我们有一个明确的Torch 函数张量，如`torch.ones  [HTG11。在这种情况下，我们可以很容易地通过由存储在我们的SOS_token值乘以1复制标量`decoder_input`张量的常数`self._SOS_token`。`
 
     
     
@@ -788,9 +788,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 部署与TorchScript一个Seq2Seq模型
     * 什么是TorchScript？ 
@@ -826,44 +824,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -872,12 +839,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

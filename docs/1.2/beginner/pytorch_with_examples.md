@@ -678,52 +678,52 @@ TFLearn ](http://tflearn.org/)通过原始的计算图表，是构建神经网�
 
 ### 张量
 
-![../_images/sphx_glr_two_layer_net_numpy_thumb.png](../_images/sphx_glr_two_layer_net_numpy_thumb.png)
+![img/sphx_glr_two_layer_net_numpy_thumb.png](img/sphx_glr_two_layer_net_numpy_thumb.png)
 
 [ 热身：numpy的 ](examples_tensor/two_layer_net_numpy.html#sphx-glr-beginner-
 examples-tensor-two-layer-net-numpy-py)
 
-![../_images/sphx_glr_two_layer_net_tensor_thumb.png](../_images/sphx_glr_two_layer_net_tensor_thumb.png)
+![img/sphx_glr_two_layer_net_tensor_thumb.png](img/sphx_glr_two_layer_net_tensor_thumb.png)
 
 [ PyTorch：张量 ](examples_tensor/two_layer_net_tensor.html#sphx-glr-beginner-
 examples-tensor-two-layer-net-tensor-py)
 
 ###  Autograd 
 
-![../_images/sphx_glr_two_layer_net_autograd_thumb.png](../_images/sphx_glr_two_layer_net_autograd_thumb.png)
+![img/sphx_glr_two_layer_net_autograd_thumb.png](img/sphx_glr_two_layer_net_autograd_thumb.png)
 
 [ PyTorch：张量和autograd  ](examples_autograd/two_layer_net_autograd.html#sphx-
 glr-beginner-examples-autograd-two-layer-net-autograd-py)
 
-![../_images/sphx_glr_two_layer_net_custom_function_thumb.png](../_images/sphx_glr_two_layer_net_custom_function_thumb.png)
+![img/sphx_glr_two_layer_net_custom_function_thumb.png](img/sphx_glr_two_layer_net_custom_function_thumb.png)
 
 [ PyTorch：定义新autograd功能
 ](examples_autograd/two_layer_net_custom_function.html#sphx-glr-beginner-
 examples-autograd-two-layer-net-custom-function-py)
 
-![../_images/sphx_glr_tf_two_layer_net_thumb.png](../_images/sphx_glr_tf_two_layer_net_thumb.png)
+![img/sphx_glr_tf_two_layer_net_thumb.png](img/sphx_glr_tf_two_layer_net_thumb.png)
 
 [ TensorFlow：静态图形 ](examples_autograd/tf_two_layer_net.html#sphx-glr-beginner-
 examples-autograd-tf-two-layer-net-py)
 
 ###  NN 模块
 
-![../_images/sphx_glr_two_layer_net_nn_thumb.png](../_images/sphx_glr_two_layer_net_nn_thumb.png)
+![img/sphx_glr_two_layer_net_nn_thumb.png](img/sphx_glr_two_layer_net_nn_thumb.png)
 
 [ PyTorch：NN  ](examples_nn/two_layer_net_nn.html#sphx-glr-beginner-examples-
 nn-two-layer-net-nn-py)
 
-![../_images/sphx_glr_two_layer_net_optim_thumb.png](../_images/sphx_glr_two_layer_net_optim_thumb.png)
+![img/sphx_glr_two_layer_net_optim_thumb.png](img/sphx_glr_two_layer_net_optim_thumb.png)
 
 [ PyTorch：的Optim  ](examples_nn/two_layer_net_optim.html#sphx-glr-beginner-
 examples-nn-two-layer-net-optim-py)
 
-![../_images/sphx_glr_two_layer_net_module_thumb.png](../_images/sphx_glr_two_layer_net_module_thumb.png)
+![img/sphx_glr_two_layer_net_module_thumb.png](img/sphx_glr_two_layer_net_module_thumb.png)
 
 [ PyTorch：自定义ン模块 ](examples_nn/two_layer_net_module.html#sphx-glr-beginner-
 examples-nn-two-layer-net-module-py)
 
-![../_images/sphx_glr_dynamic_net_thumb.png](../_images/sphx_glr_dynamic_net_thumb.png)
+![img/sphx_glr_dynamic_net_thumb.png](img/sphx_glr_dynamic_net_thumb.png)
 
 [ PyTorch：控制流+重量共享 ](examples_nn/dynamic_net.html#sphx-glr-beginner-examples-
 nn-dynamic-net-py)
@@ -747,9 +747,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 与实施例学习PyTorch 
     * 张量
@@ -774,44 +772,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -820,12 +787,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

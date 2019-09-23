@@ -74,7 +74,7 @@ Parameters
 
     
 
-适用`FN`递归地对每个子模块以及自（如由`。儿童（） `返回）。典型用途包括初始化一个模型的参数（也见炬-NN-INIT ）。
+适用`FN`递归地对每个子模块以及自（如由`。儿童（） `返回）。典型用途包括初始化一个模型的参数（也见torch-NN-INIT ）。
 
 Parameters
 
@@ -7099,15 +7099,15 @@ _max_norm=None_ , _norm_type=2.0_ , _scale_grad_by_freq=False_ , _mode='mean'_
 
 恒定长度的袋和无`per_sample_weights`，这个类
 
->   * 与`模式= “总和” `等于 ``接着`炬嵌入 `。总和（暗= 0）
+>   * 与`模式= “总和” `等于 ``接着`torch嵌入 `。总和（暗= 0）
 
 >
 
->   * 接着`炬与`模式= “意指” `等于 `嵌入 `。平均（暗淡= 0） `
+>   * 接着`torch与`模式= “意指” `等于 `嵌入 `。平均（暗淡= 0） `
 
 >
 
->   * 与`模式= “最大” `等于 ``接着`炬嵌入 `。最大（暗= 0） 。
+>   * 与`模式= “最大” `等于 ``接着`torch嵌入 `。最大（暗= 0） 。
 
 >
 
@@ -9363,219 +9363,4 @@ Previous](storage.html "torch.Storage")
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * torch.nn 
-    * 参数
-    * 集装箱
-      * 模块
-      * 序贯
-      * ModuleList 
-      * ModuleDict 
-      * 参数列表
-      * ParameterDict 
-    * 卷积层
-      * Conv1d 
-      * Conv2d 
-      * Conv3d 
-      * ConvTranspose1d 
-      * ConvTranspose2d 
-      * ConvTranspose3d 
-      * 展开
-      * 折叠
-    * 池层
-      * MaxPool1d 
-      * MaxPool2d 
-      * MaxPool3d 
-      * MaxUnpool1d 
-      * MaxUnpool2d 
-      * MaxUnpool3d 
-      * AvgPool1d 
-      * AvgPool2d 
-      * AvgPool3d 
-      * FractionalMaxPool2d 
-      * LPPool1d 
-      * LPPool2d 
-      * AdaptiveMaxPool1d 
-      * AdaptiveMaxPool2d 
-      * AdaptiveMaxPool3d 
-      * AdaptiveAvgPool1d 
-      * AdaptiveAvgPool2d 
-      * AdaptiveAvgPool3d 
-    * 填充层
-      * ReflectionPad1d 
-      * ReflectionPad2d 
-      * ReplicationPad1d 
-      * ReplicationPad2d 
-      * ReplicationPad3d 
-      * ZeroPad2d 
-      * ConstantPad1d 
-      * ConstantPad2d 
-      * ConstantPad3d 
-    * 非线性激活（加权和，非线性）
-      * ELU 
-      * Hardshrink 
-      * Hardtanh 
-      * LeakyReLU 
-      * LogSigmoid 
-      * MultiheadAttention 
-      * PReLU 
-      * RELU 
-      * ReLU6 
-      * RReLU 
-      * 九色鹿
-      * CELU 
-      * 乙状结肠
-      * Softplus 
-      * Softshrink 
-      * Softsign 
-      * 双曲正切
-      * Tanhshrink 
-      * 阈值
-    * 非线性激活（其他）
-      * Softmin 
-      * 使用SoftMax 
-      * Softmax2d 
-      * LogSoftmax 
-      * AdaptiveLogSoftmaxWithLoss 
-    * 规范化层
-      * BatchNorm1d 
-      * BatchNorm2d 
-      * BatchNorm3d 
-      * GroupNorm 
-      * SyncBatchNorm 
-      * InstanceNorm1d 
-      * InstanceNorm2d 
-      * InstanceNorm3d 
-      * LayerNorm 
-      * LocalResponseNorm 
-    * 复发性层
-      * RNN 
-      * LSTM 
-      * GRU 
-      * RNNCell 
-      * LSTMCell 
-      * GRUCell 
-    * 变压器层
-      * 变压器
-      * TransformerEncoder 
-      * TransformerDecoder 
-      * TransformerEncoderLayer 
-      * TransformerDecoderLayer 
-    * 线性层
-      * 身份
-      * 线性
-      * 双线性
-    * 漏失层
-      * 降
-      * Dropout2d 
-      * Dropout3d 
-      * AlphaDropout 
-    * 稀疏层
-      * 嵌入
-      * EmbeddingBag 
-    * 距离函数
-      * 余弦相似性
-      * PairwiseDistance 
-    * 损失函数
-      * L1Loss 
-      * MSELoss 
-      * CrossEntropyLoss 
-      * CTCLoss 
-      * NLLLoss 
-      * PoissonNLLLoss 
-      * KLDivLoss 
-      * BCELoss 
-      * BCEWithLogitsLoss 
-      * MarginRankingLoss 
-      * HingeEmbeddingLoss 
-      * MultiLabelMarginLoss 
-      * SmoothL1Loss 
-      * SoftMarginLoss 
-      * MultiLabelSoftMarginLoss 
-      * CosineEmbeddingLoss 
-      * MultiMarginLoss 
-      * TripletMarginLoss 
-    * 视觉层
-      * PixelShuffle 
-      * 上采样
-      * UpsamplingNearest2d 
-      * UpsamplingBilinear2d 
-    * 数据并行层（多GPU，分布式）
-      * 数据并行
-      * DistributedDataParallel 
-    * 公用设施
-      * clip_grad_norm_ 
-      * clip_grad_value_ 
-      * parameters_to_vector 
-      * vector_to_parameters 
-      * weight_norm 
-      * remove_weight_norm 
-      * spectral_norm 
-      * remove_spectral_norm 
-      * PackedSequence 
-      * pack_padded_sequence 
-      * pad_packed_sequence 
-      * pad_sequence 
-      * pack_sequence 
-      * 拼合
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

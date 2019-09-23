@@ -162,12 +162,12 @@ _is_python_module=True_
 参见[测试](https://github.com/pytorch/pytorch/blob/master/test/test_cpp_extensions.py)使用此功能的好例子。
 
 源可省略典型的非直列C ++扩展的两个必需的部分：必要的头包括，以及所述（pybind11）绑定代码。更精确地，字符串传递给`cpp_sources
-`首先连接成单个`的.cpp`文件。该文件然后用`前缀的#include  & LT ;炬/ extension.h & GT ;`。
+`首先连接成单个`的.cpp`文件。该文件然后用`前缀的#include  & LT ;torch/ extension.h & GT ;`。
 
 此外，如果`功能 `提供参数，绑定将被自动指定为每个功能产生。 `功能
 `可以是函数名的列表，或者从功能名称来文档字符串的字典映射。如果给出一个列表，每个函数的名称作为它的文档字符串。
 
-cuda_sources 被连接到一个单独的`.CU`文件，并通过`炬/ types.h中预先考虑在`来源 `，`cuda.h`和`
+cuda_sources 被连接到一个单独的`.CU`文件，并通过`torch/ types.h中预先考虑在`来源 `，`cuda.h`和`
 cuda_runtime.h`包括。的`的.cpp`和`.CU`的文件被单独编译，但最终连接到单个库。注意，没有绑定在`
 cuda_sources`本身为函数生成的。绑定到一个CUDA内核，你必须创建一个C ++函数调用它，无论是申报或`cpp_sources
 `的一个定义这个C ++函数（且在HTG36包括它的名字] 功能 `）。
@@ -252,66 +252,4 @@ Previous](checkpoint.html "torch.utils.checkpoint")
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * torch.utils.cpp_extension 
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

@@ -32,7 +32,7 @@ torchtext 可以处理很多这样的预处理为你的三个教程立即这个�
 
 这是由[序列序网](https://arxiv.org/abs/1409.3215)的简单而有力的想法，其中两个递归神经网络共同努力，一个序列变换到另一个成为可能。编码器网络冷凝的输入序列到载体中，和一个解码器网络展开该载体导入一个新的序列。
 
-![](../_images/seq2seq.png)
+![](img/seq2seq.png)
 
 为了改善已在此模型中，我们将使用一个[注意机制](https://arxiv.org/abs/1409.0473)，它可以让解码器学会关注在输入序列的特定范围。
 
@@ -43,7 +43,7 @@ torchtext 可以处理很多这样的预处理为你的三个教程立即这个�
   * [ https://pytorch.org/ [HTG1对于安装说明](https://pytorch.org/)
   * [ 深，PyTorch学习：60分钟的闪电战 ](../beginner/deep_learning_60min_blitz.html)得到普遍开始PyTorch
   * 与实施例 对于宽和深概述[ 学习PyTorch](../beginner/pytorch_with_examples.html)
-  * [ PyTorch为前火炬用户 ](../beginner/former_torchies_tutorial.html)如果你是前者的Lua火炬用户
+  * [ PyTorch为前Torch 用户 ](../beginner/former_torchies_tutorial.html)如果你是前者的LuaTorch 用户
 
 这也将是有益的了解序列具有Sequence网络以及它们是如何工作：
 
@@ -105,7 +105,7 @@ Note
 
 类似于在字符级RNN教程使用的字符编码，我们将表示一种语言作为一热载体，或除了单一一个（这个词的索引处）的零向量巨每个单词。相比几十个可能在语言中存在的人物，有很多很多的话，那么编码向量大得多。不过，我们会欺骗了一下，修剪数据，每种语言只用几千字。
 
-![](../_images/word-encoding.png)
+![](img/word-encoding.png)
 
 我们需要一个唯一索引每字为以后网络的投入和目标使用。要跟踪的这一切，我们将使用名为`郎 `一个辅助类，其中有字→性指数（HTG4]  word2index
 ）和索引→分词（`index2word`）词典，以及每个字`的计数word2count`使用稍后取代罕见词语。
@@ -262,7 +262,7 @@ Note
 A
 [序列到序列网络](https://arxiv.org/abs/1409.3215)，或seq2seq网络，或[编码器解码器网络](https://arxiv.org/pdf/1406.1078v3.pdf)，是由两个RNNs的模型称为编码器和解码器。编码器读取的输入序列和输出的单个载体，和解码器读取矢量以产生一个输出序列。
 
-![](../_images/seq2seq.png)
+![](img/seq2seq.png)
 
 不同于序列预测与单个RNN，其中每个输入对应于输出时，seq2seq模型可以让我们从序列长度和顺序，这使得它非常适合在两种语言之间的翻译。
 
@@ -276,7 +276,7 @@ PAS”建设也有在输入句子多了一个字。这将是很难直接从输�
 
 一个seq2seq网络的编码器是RNN输出用于从所述输入语句的每一个字的一些值。对于每个输入字在编码器输出向量和一个隐藏的状态，并且使用隐藏状态用于下一个输入字。
 
-![](../_images/encoder-network.png)
+![](img/encoder-network.png)
 
     
     
@@ -310,7 +310,7 @@ PAS”建设也有在输入句子多了一个字。这将是很难直接从输�
 在解码的每一个步骤，所述解码器被给定的输入令牌和隐藏状态。初始输入令牌是启动的字符串`& LT ; SOS & GT ;
 `标记，并且所述第一隐藏状态是上下文向量（编码器的最后一个隐藏的状态）。
 
-![](../_images/decoder-network.png)
+![](img/decoder-network.png)
 
     
     
@@ -350,7 +350,7 @@ PAS”建设也有在输入句子多了一个字。这将是很难直接从输�
 计算所述关注的权重与另一种前馈层`经办人
 `完成后，使用该解码器的输入和隐藏状态作为输入。因为在训练数据各种规模的句子，实际创建和培养这一层，我们必须选择一个最高刑期的长度（输入长度​​，编码器输出），它可以应用到。最大长度的句子将用全部的注意力权重，而较短的句子只会使用前几个。
 
-![](../_images/attention-decoder-network.png)
+![](img/attention-decoder-network.png)
 
     
     
@@ -656,8 +656,8 @@ Note
     trainIters(encoder1, attn_decoder1, 75000, print_every=5000)
     
 
-  * ![../_images/sphx_glr_seq2seq_translation_tutorial_001.png](../_images/sphx_glr_seq2seq_translation_tutorial_001.png)
-  * ![../_images/sphx_glr_seq2seq_translation_tutorial_002.png](../_images/sphx_glr_seq2seq_translation_tutorial_002.png)
+  * ![img/sphx_glr_seq2seq_translation_tutorial_001.png](img/sphx_glr_seq2seq_translation_tutorial_001.png)
+  * ![img/sphx_glr_seq2seq_translation_tutorial_002.png](img/sphx_glr_seq2seq_translation_tutorial_002.png)
 
 Out:
 
@@ -742,7 +742,7 @@ Out:
     plt.matshow(attentions.numpy())
     
 
-![../_images/sphx_glr_seq2seq_translation_tutorial_003.png](../_images/sphx_glr_seq2seq_translation_tutorial_003.png)
+![img/sphx_glr_seq2seq_translation_tutorial_003.png](img/sphx_glr_seq2seq_translation_tutorial_003.png)
 
 为了更好的观看体验，我们会做的加入轴线和标签的额外工作：
 
@@ -784,10 +784,10 @@ Out:
     evaluateAndShowAttention("c est un jeune directeur plein de talent .")
     
 
-  * ![../_images/sphx_glr_seq2seq_translation_tutorial_004.png](../_images/sphx_glr_seq2seq_translation_tutorial_004.png)
-  * ![../_images/sphx_glr_seq2seq_translation_tutorial_005.png](../_images/sphx_glr_seq2seq_translation_tutorial_005.png)
-  * ![../_images/sphx_glr_seq2seq_translation_tutorial_006.png](../_images/sphx_glr_seq2seq_translation_tutorial_006.png)
-  * ![../_images/sphx_glr_seq2seq_translation_tutorial_007.png](../_images/sphx_glr_seq2seq_translation_tutorial_007.png)
+  * ![img/sphx_glr_seq2seq_translation_tutorial_004.png](img/sphx_glr_seq2seq_translation_tutorial_004.png)
+  * ![img/sphx_glr_seq2seq_translation_tutorial_005.png](img/sphx_glr_seq2seq_translation_tutorial_005.png)
+  * ![img/sphx_glr_seq2seq_translation_tutorial_006.png](img/sphx_glr_seq2seq_translation_tutorial_006.png)
+  * ![img/sphx_glr_seq2seq_translation_tutorial_007.png](img/sphx_glr_seq2seq_translation_tutorial_007.png)
 
 Out:
 
@@ -847,9 +847,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * NLP从无到有：用序列到序列网络和翻译注意
     * 加载数据文件
@@ -872,44 +870,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -918,12 +885,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

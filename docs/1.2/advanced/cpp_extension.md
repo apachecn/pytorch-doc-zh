@@ -148,7 +148,7 @@ CUDA扩展的情况下。而这一切，我们真正需要知道的关于建立C
     }
     
 
-`& LT ;炬/ extension.h & GT ;`是一站式头部以包括所有必要的PyTorch位写C ++的扩展。这包括：
+`& LT ;torch/ extension.h & GT ;`是一站式头部以包括所有必要的PyTorch位写C ++的扩展。这包括：
 
   * 该ATEN库，它是我们的张量计算主要的API，
   * [ pybind11 ](https://github.com/pybind/pybind11)，这是我们如何创造我们的C ++代码的Python绑定，
@@ -156,7 +156,7 @@ CUDA扩展的情况下。而这一切，我们真正需要知道的关于建立C
 
 `d_sigmoid的执行（） `示出了如何使用阿坦API。
 PyTorch的张量和可变接口从ATEN库自动生成的，所以我们可以1或多或少地把我们的Python实现：1到C ++。我们对所有的计算主要数据类型将是`
-火炬::张量 [HTG7。它的完整的API可以检查[此处[HTG9。还要注意的是，我们可以包括`& LT ;的iostream & GT ;`或
+Torch ::张量 [HTG7。它的完整的API可以检查[此处[HTG9。还要注意的是，我们可以包括`& LT ;的iostream & GT ;`或
 _任何其他C或C ++头_ - 我们的C ++
 11的全部力量在我们的处置。](https://pytorch.org/cppdocs/api/classat_1_1_tensor.html)`
 
@@ -271,7 +271,7 @@ pybind11文献](https://pybind11.readthedocs.io/en/master/)解决。
     }
     
 
-一位这里需要注意的是宏`TORCH_EXTENSION_NAME  [HTG3。火炬扩展构建将其定义为名字会在`setup.py
+一位这里需要注意的是宏`TORCH_EXTENSION_NAME  [HTG3。Torch 扩展构建将其定义为名字会在`setup.py
 `脚本您的分机。在这种情况下，`的值TORCH_EXTENSION_NAME`将是“lltm”。这是为了避免必须在两个地方维护扩展（构建脚本和C
 ++代码）的名称，因为这两个之间的不匹配会导致讨厌的，难以跟踪的问题。`
 
@@ -341,7 +341,7 @@ pybind11文献](https://pybind11.readthedocs.io/en/master/)解决。
 4.9版及以上的Linux操作系统。为Ubuntu
 16.04和其他更近期的Linux发行版，这应该是默认的编译器了。在MacOS上，您必须使用铛（其中没有任何ABI版本问题）。在最坏的情况下，你可以从你的编译器源代码编译PyTorch，然后建立与相同的编译器扩展。
 
-一旦你的扩展构建，你可以简单地将其导入在Python中，使用您在`setup.py`脚本中指定的名称。只是一定要`进口 火炬
+一旦你的扩展构建，你可以简单地将其导入在Python中，使用您在`setup.py`脚本中指定的名称。只是一定要`进口 Torch 
 `第一，因为这将解决一些符号动态链接程序必须看到：
 
     
@@ -859,7 +859,7 @@ addmm`）或回旋这将是更难实施，提高自己。
         torch::PackedTensorAccessor<scalar_t,2,torch::RestrictPtrTraits,size_t> candidate_cell)
     
 
-让我们分解这里使用的模板。前两个参数`scalar_t`和`2`是相同的规则访问器。的参数`炬:: RestrictPtrTraits
+让我们分解这里使用的模板。前两个参数`scalar_t`和`2`是相同的规则访问器。的参数`torch:: RestrictPtrTraits
 `表示`__restrict__必须使用 `关键字。最后，参数`为size_t`表示的尺寸和进展必须被存储在`为size_t
 `整数。这是因为默认情况下`的int64_t 使用`重要，可以使内核速度较慢。
 
@@ -1091,9 +1091,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 自定义C ++和CUDA扩展
     * 动机与实施例
@@ -1118,44 +1116,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -1164,12 +1131,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

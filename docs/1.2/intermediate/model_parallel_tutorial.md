@@ -181,7 +181,7 @@ torchvision.models.reset50（）
          'mp_vs_rn.png')
     
 
-![](../_images/mp_vs_rn.png)
+![](img/mp_vs_rn.png)
 
 结果表明，模型并行实现的执行时间是`4.02 / 3.75-1 = 7％
 `比现有的单GPU实现更长。因此，我们可以得出结论存在抄袭张量来回GPU的大约7％的开销。有客房的改进，因为我们知道两个GPU之一是在整个执行闲置。一个选择是每批进一步分成分割，使得当一个分割到达第二子网络，下面的分割可被馈送到第一子网络的一个管道。通过这种方式，两个连续的裂缝可以在两个GPU并行运行。
@@ -230,7 +230,7 @@ torchvision.models.reset50（）
 
 请注意，设备到设备的张量复制操作的源和目标设备上的电流流同步。如果创建多个数据流，你必须确保复制操作正确同步。编写源张量或读/完成复制操作可能会导致不确定的行为之前以书面目的地张量。上述实现仅在两个源和目的设备使用默认流，因此，没有必要执行额外同步。
 
-![](../_images/mp_vs_rn_vs_pp.png)
+![](img/mp_vs_rn_vs_pp.png)
 
 实验结果表明，流水线输入到模型平行ResNet50由大致`3.75 / 2.51-1 = 49％
 `加速训练过程。它仍然是相当远从100％理想的加速比。正如我们已经推出了新的参数`split_sizes
@@ -263,7 +263,7 @@ split_size`配置。让我们尝试使用几种不同的`split_size`值运行实
     plt.close(fig)
     
 
-![](../_images/split_size_tradeoff.png)
+![](img/split_size_tradeoff.png)
 
 结果表明，设置`split_size`至12达到最快的训练速度，这导致`3.75 / 2.43-1 = 54％
 `加速。还有机会进一步加速训练过程。例如，在`所有操作CUDA：0
@@ -303,9 +303,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 1.型号并行最佳实践
     * 基本用法
@@ -317,44 +315,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -363,12 +330,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

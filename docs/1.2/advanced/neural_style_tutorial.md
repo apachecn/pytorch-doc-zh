@@ -9,7 +9,7 @@
 本教程介绍了如何实现[神经类型算法](https://arxiv.org/abs/1508.06576)开发由Leon A.
 Gatys，亚历山大S.埃克和Matthias贝特格。神经风格，或神经传输，让您拍摄图像，并用新的艺术风格重现。该算法需要三个图像，输入图像，内容的图像，和一个样式图象，并且改变输入到类似于内容的图像的内容和样式图像的艺术风格。
 
-![content1](../_images/neuralstyle.png)
+![content1](img/neuralstyle.png)
 
 ## 基本原理
 
@@ -21,7 +21,7 @@ Gatys，亚历山大S.埃克和Matthias贝特格。神经风格，或神经传�
 
 下面是实现神经传送所需的包的列表。
 
-  * `炬 `，`torch.nn`，`numpy的 `（包赛前必读用于与神经网络PyTorch）
+  * `torch `，`torch.nn`，`numpy的 `（包赛前必读用于与神经网络PyTorch）
   * `torch.optim`（有效梯度下坡）
   * `PIL`，`PIL.Image`，`matplotlib.pyplot`（负载和显示图像）
   * `torchvision.transforms`（变换PIL图像转换成张量）
@@ -57,7 +57,7 @@ torch.cuda.is_available（） `，以检测是否有可用的GPU。接下来，�
 
 ## 加载图像
 
-现在，我们将导入的风格和内容的图像。原始PIL图像具有值0和255之间，但是，当转化入火炬张量，它们的值被转换为0和1之间的图像也需要被调整到具有相同的尺寸。要注意的重要细节是，从火炬库神经网络与张量值范围从0到1的培训。如果你尝试用0到255张图像喂网络，然后激活功能的地图将无法意义上的预期内容和风格。但是，从来自Caffe库预训练的网络被训练，用0至255张量的图像。
+现在，我们将导入的风格和内容的图像。原始PIL图像具有值0和255之间，但是，当转化入Torch 张量，它们的值被转换为0和1之间的图像也需要被调整到具有相同的尺寸。要注意的重要细节是，从Torch 库神经网络与张量值范围从0到1的培训。如果你尝试用0到255张图像喂网络，然后激活功能的地图将无法意义上的预期内容和风格。但是，从来自Caffe库预训练的网络被训练，用0至255张量的图像。
 
 Note
 
@@ -117,8 +117,8 @@ style/dancing.jpg)
     imshow(content_img, title='Content Image')
     
 
-  * ![../_images/sphx_glr_neural_style_tutorial_001.png](../_images/sphx_glr_neural_style_tutorial_001.png)
-  * ![../_images/sphx_glr_neural_style_tutorial_002.png](../_images/sphx_glr_neural_style_tutorial_002.png)
+  * ![img/sphx_glr_neural_style_tutorial_001.png](img/sphx_glr_neural_style_tutorial_001.png)
+  * ![img/sphx_glr_neural_style_tutorial_002.png](img/sphx_glr_neural_style_tutorial_002.png)
 
 ## 损失函数
 
@@ -126,7 +126,7 @@ style/dancing.jpg)
 
 内容损失是代表内容的距离为一个单独层的加权的版本的功能。该函数采用特征地图 \（F_ {XL} \）的层 \（L \）在一个网络处理输入 \（X
 \）并返回该内容加权距离 \（W_ {CL} .D_C ^ L（X，C）\）的图像之间 \（X \）和内容图像 \（C \）。所述内容图像的特征映射（
-\（F_ {CL} \））必须由功能，以计算其含量距离是已知的。我们用一个构造函数 \（F_ {CL} \）作为输入实现该功能作为炬模块。的距离 \（\ |
+\（F_ {CL} \））必须由功能，以计算其含量距离是已知的。我们用一个构造函数 \（F_ {CL} \）作为输入实现该功能作为torch模块。的距离 \（\ |
 F_ {XL} - F_ {CL} \ | ^ 2 \）是两组特征地图之间的均方误差，并且可以使用`[计算HTG19 ] nn.MSELoss `。
 
 我们将直接正在用于计算内容距离的卷积层（一个或多个）之后添加该内容损耗模块。此每个网络被供给的输入图像内容的损失将在所希望的层被计算并因为汽车研究所的，所有的梯度将被计算时间的方法。现在，为了使内容损耗层透明我们必须定义计算含量损失，然后返回层的输入`
@@ -320,7 +320,7 @@ A `顺序 `模块包含的子模块的有序列表。例如，`vgg19.features
     imshow(input_img, title='Input Image')
     
 
-![../_images/sphx_glr_neural_style_tutorial_003.png](../_images/sphx_glr_neural_style_tutorial_003.png)
+![img/sphx_glr_neural_style_tutorial_003.png](img/sphx_glr_neural_style_tutorial_003.png)
 
 ## 梯度下降
 
@@ -409,7 +409,7 @@ optim.LBFGS`和我们的形象传递给它的张量来优化。
     plt.show()
     
 
-![../_images/sphx_glr_neural_style_tutorial_004.png](../_images/sphx_glr_neural_style_tutorial_004.png)
+![img/sphx_glr_neural_style_tutorial_004.png](img/sphx_glr_neural_style_tutorial_004.png)
 
 日期：
 
@@ -466,9 +466,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 神经网络传输使用PyTorch 
     * 介绍
@@ -486,44 +484,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -532,12 +499,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

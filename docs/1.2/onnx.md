@@ -326,7 +326,7 @@ ONNXRuntime
             return [torch.squeeze(out, 0) for out in torch.split(x, [1,1,1], dim=0)]
     
 
-  * PyTorch和ONNX后端（Caffe2，ONNXRuntime等）经常与某些数字差异运营商的实现。根据模型结构，这些差异可能是微不足道的，但他们也可能会导致行为的主要分歧（特别是未经训练的模型。）我们允许Caffe2直接调用运营商的火炬实现，帮你抚平这些差异时的精度是非常重要的，并且还记录这些差异。
+  * PyTorch和ONNX后端（Caffe2，ONNXRuntime等）经常与某些数字差异运营商的实现。根据模型结构，这些差异可能是微不足道的，但他们也可能会导致行为的主要分歧（特别是未经训练的模型。）我们允许Caffe2直接调用运营商的Torch 实现，帮你抚平这些差异时的精度是非常重要的，并且还记录这些差异。
 
 ## 支持的运营商
 
@@ -629,11 +629,11 @@ ONNX操作员列表[HTG5。](https://github.com/onnx/onnx/blob/master/docs/Opera
 
 ### 阿坦运营
 
-如果运营商是ATEN运营商，这意味着你可以找到函数的`火炬/中国证监会申报/ autograd /生成/ VariableType.h
-`（在PyTorch生成的代码可安装DIR），应添加符号函数在`炬/ onnx / symbolic_opset & LT ;版本& GT ;。PY
+如果运营商是ATEN运营商，这意味着你可以找到函数的`Torch /中国证监会申报/ autograd /生成/ VariableType.h
+`（在PyTorch生成的代码可安装DIR），应添加符号函数在`torch/ onnx / symbolic_opset & LT ;版本& GT ;。PY
 `，并按照列为以下说明：
 
-  * 定义`炬/ onnx / symbolic_opset & LT符号函数;版本& GT ;。PY`，例如[炬/onnx/symbolic_opset9.py ](https://github.com/pytorch/pytorch/blob/master/torch/onnx/symbolic_opset9.py)。确保函数具有相同的名称`VariableType.h`定义的ATEN操作/功能。
+  * 定义`torch/ onnx / symbolic_opset & LT符号函数;版本& GT ;。PY`，例如[torch/onnx/symbolic_opset9.py ](https://github.com/pytorch/pytorch/blob/master/torch/onnx/symbolic_opset9.py)。确保函数具有相同的名称`VariableType.h`定义的ATEN操作/功能。
 
   * 第一个参数始终是出口ONNX图。参数名称必须完全匹配`VariableType.h`的名字，因为调度与关键字参数来完成。
 
@@ -714,7 +714,7 @@ ONNX操作员列表[HTG5。](https://github.com/onnx/onnx/blob/master/docs/Opera
         """
     
 
-所述ONNX曲线C ++定义在`炬/ CSRC / JIT / ir.h`。
+所述ONNX曲线C ++定义在`torch/ CSRC / JIT / ir.h`。
 
 下面是处理缺失符号函数为`ELU`操作者的例子。我们尝试导出模型，并看到错误消息如下：
 
@@ -927,7 +927,7 @@ OperatorExportTypes.ONNX_ATEN_FALLBACK：如果象征性的缺失，
 
 OperatorExportTypes.RAW：出口原料IR。
 
-  * **opset_version** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)") _，_ _默认为9 HTG9]） - 默认情况下，我们的模型导出到的opset所版本该onnx子模块。由于ONNX最新opset所下一个稳定版本之前可能演变，在默认情况下我们出口到一个稳定opset所版本。眼下，支持稳定opset所版本9. opset_version必须_onnx_master_opset或者其中的火炬/ onnx / symbolic_helper.py定义_onnx_stable_opsets_
+  * **opset_version** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)") _，_ _默认为9 HTG9]） - 默认情况下，我们的模型导出到的opset所版本该onnx子模块。由于ONNX最新opset所下一个稳定版本之前可能演变，在默认情况下我们出口到一个稳定opset所版本。眼下，支持稳定opset所版本9. opset_version必须_onnx_master_opset或者其中的Torch / onnx / symbolic_helper.py定义_onnx_stable_opsets_
 
   * **do_constant_folding** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _默认假_ ） - 如果为True，恒定折叠优化施加到出口过程中的模型。恒定折叠优化将取代一些具有所有常量输入，与预先计算的常数的节点OPS的。
 
@@ -1002,76 +1002,4 @@ Previous](tensorboard.html "torch.utils.tensorboard")
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * torch.onnx 
-    * [HTG0例：端至端AlexNet从PyTorch到ONNX 
-    * 跟踪VS脚本
-    * 局限性
-    * 支持的运营商
-    * 为运营商添加支持
-      * 阿坦运营
-      * 非宏正操作符
-      * 自定义操作符
-    * 常见问题
-    * 功能
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

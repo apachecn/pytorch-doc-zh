@@ -142,7 +142,7 @@ data = DataLoader(train_dataset, collate_fn=generate_batch)
 
 ## TORCHVISION 0.4支持视频[](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#torchvision-04-with-support-for-video)
 
-视频现在是torchvision的一流公民，支持数据加载，数据集，预训练模型和变换。火炬的0.4版本包括：
+视频现在是torchvision的一流公民，支持数据加载，数据集，预训练模型和变换。Torch 的0.4版本包括：
 
 * 用于读/写视频文件（包括音频）的高效IO原语，支持任意编码和格式。
 * 标准视频数据集，与`torch.utils.data.Dataset`和兼容`torch.utils.data.DataLoader`。

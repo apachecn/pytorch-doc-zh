@@ -10,7 +10,7 @@ nn.MultiheadAttention
 nn.Transformer`模块现在高度模块化使得单个组分（如[ nn.TransformerEncoder
 ](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformerencoder#torch.nn.TransformerEncoder)在本教程）可以容易地适应/组成。
 
-![../_images/transformer_architecture.jpg](../_images/transformer_architecture.jpg)
+![img/transformer_architecture.jpg](img/transformer_architecture.jpg)
 
 ## 定义模型
 
@@ -153,7 +153,7 @@ nn.TransformerEncoder`由[ nn.TransformerEncoderLayer
 `get_batch（） `函数生成用于变压器模型的输入和靶序列。它的源数据细分为长度`BPTT`的块。对于语言建模任务，该模型需要以下单词作为`
 目标 [HTG11。例如，用`BPTT`的2值，我们会得到以下两个变量为`i的 `= 0：`
 
-![../_images/transformer_input_target.png](../_images/transformer_input_target.png)
+![img/transformer_input_target.png](img/transformer_input_target.png)
 
 应当注意的是，块是沿着维度0与`S`在变压器模型尺寸相一致。将批料尺寸`N`是沿着维度1。
 
@@ -376,9 +376,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 序列到序列与nn.Transformer和TorchText建模
     * 定义模型
@@ -393,44 +391,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -439,12 +406,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

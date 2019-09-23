@@ -7,7 +7,7 @@ v3.7\)")模块周围的包装。它注册的自定义减速器，其使用共享
 `share_memory_（） `](tensors.html#torch.Tensor.share_memory_
 "torch.Tensor.share_memory_")），将有可能将其发送到其他过程，而不进行任何拷贝。
 
-API是与原模块100％兼容 - 这是足以改变`进口 多重处理 `至`进口 火炬.multiprocessing
+API是与原模块100％兼容 - 这是足以改变`进口 多重处理 `至`进口 Torch .multiprocessing
 `将所有经由其他机制通过队列发送或共享的张量，移动到共享存储器。
 
 由于原料药的相似性，我们不记录大部分这个包的内容，我们建议参考原来的内存模块的很好的文档。
@@ -215,72 +215,4 @@ Previous](jit.html "TorchScript")
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * 多处理包 - torch.multiprocessing 
-    * 策略管理
-    * 共享CUDA张量
-    * 共享策略
-      * 文件描述符 - `类file_descriptor`
-      * 文件系统 - `将file_system`
-    * 产卵子过程
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

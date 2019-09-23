@@ -183,9 +183,9 @@ Example
 
   * `$ TORCH_HOME /集线器 `时，如果环境变量`TORCH_HOME`被设置。
 
-  * `$ XDG_CACHE_HOME /炬/集线器 `时，如果环境变量`XDG_CACHE_HOME`被设置。
+  * `$ XDG_CACHE_HOME /torch/集线器 `时，如果环境变量`XDG_CACHE_HOME`被设置。
 
-  * `〜/ .cache /炬/集线器 `
+  * `〜/ .cache /torch/集线器 `
 
 `torch.hub.``set_dir`( _d_ )[[source]](_modules/torch/hub.html#set_dir)
 
@@ -194,7 +194,7 @@ Example
 （可选）设置hub_dir到本地目录保存下载的模型&放;权重。
 
 如果`set_dir`不叫，缺省路径为`$ TORCH_HOME /集线器 `其中环境变量`$ TORCH_HOME`默认为`$
-XDG_CACHE_HOME /炬 `。 `$ XDG_CACHE_HOME`遵循了Linux
+XDG_CACHE_HOME /torch `。 `$ XDG_CACHE_HOME`遵循了Linux
 filesytem布局的X设计集团说明书中，具有缺省值`〜/ .cache`如果环境变量未设置。
 
 Parameters
@@ -212,7 +212,7 @@ Parameters
 
 ### 已知的限制：
 
-火炬中心的工作原理是，如果它是安装包导入。还有就是通过导入Python中引入了一些副作用。例如，你可以看到新的项目在Python缓存`
+Torch 中心的工作原理是，如果它是安装包导入。还有就是通过导入Python中引入了一些副作用。例如，你可以看到新的项目在Python缓存`
 sys.modules中 `和`sys.path_importer_cache`这是正常的Python行为。
 
 已知的限制，即这里值得一提是用户 **不能** 负载在 **相同蟒过程**
@@ -224,74 +224,4 @@ sys.modules中 `和`sys.path_importer_cache`这是正常的Python行为。
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * torch.hub 
-    * 出版模式
-      * 如何实现一个入口点？ 
-      * 重要声明
-    * 从集线器加载模型
-      * 运行加载模型：
-      * 哪里是我下载的模型保存？ 
-      * 高速缓存逻辑
-      * 已知的限制：
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

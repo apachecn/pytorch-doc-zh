@@ -21,8 +21,7 @@ Tip
 
 Tip
 
-为PyTorch C ++生态系统文档可在[ https://pytorch.org/cppdocs
-](https://pytorch.org/cppdocs)。在那里，你可以找到高水平的描述以及API级文档。
+为PyTorch C ++生态系统文档可在[https://pytorch.org/cppdocs](https://pytorch.org/cppdocs)。在那里，你可以找到高水平的描述以及API级文档。
 
 ## 动机
 
@@ -69,7 +68,7 @@ Tip
     unzip libtorch-shared-with-deps-latest.zip
     
 
-接下来，让我们写所谓的`dcgan.cpp`一个微小的C ++文件，其中包括`火炬/ torch.h`现在来看只是打印出来三乘三个矩阵：
+接下来，让我们写所谓的`dcgan.cpp`一个微小的C ++文件，其中包括`Torch / torch.h`现在来看只是打印出来三乘三个矩阵：
 
     
     
@@ -101,7 +100,7 @@ Tip
 虽然CMake的是LibTorch推荐的构建系统，它不是一个硬性要求。您还可以使用Visual
 Studio项目文件，QMAKE，普通的Makefile或者你觉得舒服的任何其他构建环境。但是，我们不提供这个外的现成支持。
 
-记在上述文件的CMake线4：`find_package（火炬 REQUIRED）
+记在上述文件的CMake线4：`find_package（Torch  REQUIRED）
 `。这CMake的指示找到了LibTorch库的构建配置。为了让CMake的了解 _，其中_ 找到这些文件，必须设定`CMAKE_PREFIX_PATH
 `当调用`cmake的 `。我们这样做之前，让我们对我们的`dcgan`应用下面的目录结构达成一致意见：
 
@@ -177,14 +176,14 @@ libtorch`来获得相应的绝对路径。现在，我们准备建立我们的�
 ### 模块API基础
 
 与Python接口线的基础上，C ++前端神经网络是由所谓的 _模块_ 可重复使用的构建块。存在来自所有其他模块来源的基本模块类。在Python，这个类是`
-torch.nn.Module`和在C ++中它是`炬::ン::模块 `。除了一个`向前（）
+torch.nn.Module`和在C ++中它是`torch::ン::模块 `。除了一个`向前（）
 `实施模块封装，模块通常包含任何三种子对象的算法方法：参数，缓冲剂和子模块。
 
 参数和缓冲区存储在张量的形式状态。参数的记录梯度，而缓冲器不会。参数通常是你的神经网络训练的权重。缓冲剂的实例包括装置和用于批标准化变化。为了重复使用逻辑和状态的特定块时，PyTorch
 API允许模块被嵌套。嵌套模块被称为 _子模块_ 。
 
 参数，缓冲区和模块必须明确登记。一旦注册，如`参数）的方法（ `或`缓冲剂（） `可用于检索所有参数的容器，在整个（嵌套的）模块的层次结构。类似地，如`
-方法（......） `，其中例如`至（炬:: kCUDA） `移动的所有参数和缓冲器从CPU到CUDA存储器，工作对整个模块的层次结构。
+方法（......） `，其中例如`至（torch:: kCUDA） `移动的所有参数和缓冲器从CPU到CUDA存储器，工作对整个模块的层次结构。
 
 #### 定义模块和注册参数
 
@@ -223,7 +222,7 @@ API允许模块被嵌套。嵌套模块被称为 _子模块_ 。
     
 
 就像在Python中，我们定义了一个名为`网 `（为简单起见这里类，而不是`A `结构 `类 `），并从模块基类派生它。构造函数中，我们创建一个使用`
-火炬张量:: randn`就像我们使用`torch.randn
+Torch 张量:: randn`就像我们使用`torch.randn
 `在Python。一个有趣的差异是我们如何注册的参数。在Python，我们包裹张量与`torch.nn.Parameter`类，而在C
 ++我们通过传递张量的`register_parameter`方法来代替。这样做的原因是，Python API中可以检测到一个属性是类型`
 torch.nn.Parameter`的和自动注册这样张量。在C ++中，反射是非常有限的，因此提供了一种更传统的（和更小神奇）的方法。
@@ -261,7 +260,7 @@ torch.nn.Parameter`的和自动注册这样张量。在C ++中，反射是非常
     tensor([ 0.2038,  0.4638, -0.2023,  0.1230, -0.0516], requires_grad=True)]
     
 
-在C ++寄存器子模块，使用恰当地命名为`register_module（） `方法注册等`炬的模块::ン::线性 `：
+在C ++寄存器子模块，使用恰当地命名为`register_module（） `方法注册等`torch的模块::ン::线性 `：
 
     
     
@@ -280,13 +279,13 @@ torch.nn.Parameter`的和自动注册这样张量。在C ++中，反射是非常
 
 Tip
 
-你可以找到可用的内置模块一样的完整列表`火炬:: NN ::线性 `，`火炬:: NN ::差 `或`火炬:: NN :: Conv2d`中的`
-火炬的文档:: NN
+你可以找到可用的内置模块一样的完整列表`Torch :: NN ::线性 `，`Torch :: NN ::差 `或`Torch :: NN :: Conv2d`中的`
+Torch 的文档:: NN
 `命名空间[这里](https://pytorch.org/cppdocs/api/namespace_torch__nn.html)。
 
 关于上述代码的一个微妙之处就是为什么子模块是在构造函数的初始化列表中创建的，而参数是在构造函数体内部创建的。有一个很好的理由，我们将在对C ++前端的
 _所有权模式_ 下面进一步的部分在此碰。最终的结果，但是，我们可以递归访问我们的模块树的参数，就像在Python。主叫`参数（） `返回`的std
-::矢量& LT ;炬::张量& GT ;`，我们可以遍历：
+::矢量& LT ;torch::张量& GT ;`，我们可以遍历：
 
     
     
@@ -367,7 +366,7 @@ OrderedDict`就像在Python ：
 Note
 
 [的文档](https://pytorch.org/cppdocs/api/classtorch_1_1nn_1_1_module.html#exhale-
-class-classtorch-1-1nn-1-1-module)为`炬::ン::模块 `包含的，关于模块的层次结构进行操作的方法的完整列表。
+class-classtorch-1-1nn-1-1-module)为`torch::ン::模块 `包含的，关于模块的层次结构进行操作的方法的完整列表。
 
 #### 在正向模式下运行的网络
 
@@ -396,7 +395,7 @@ class-classtorch-1-1nn-1-1-module)为`炬::ン::模块 `包含的，关于模块
 在这一点上，我们知道如何定义在C ++模块，注册参数，注册子模块，通过像`参数）的方法（ `穿越模块的层次结构，并最终运行模块的`向前（）
 `方法。虽然还有更多的方法，类和主题的C ++
 API中吞噬，我会向您推荐[文档](https://pytorch.org/cppdocs/api/namespace_torch__nn.html)完整的菜单。我们也将触及一些概念，我们实现在短短一秒钟DCGAN模型和终端到终端的培训渠道。在这样做之前，让当
-_所有权模式_ C ++的前端提供了`火炬的子类，我简要地谈谈:: NN ::模块 [HTG15。`
+_所有权模式_ C ++的前端提供了`Torch 的子类，我简要地谈谈:: NN ::模块 [HTG15。`
 
 为了便于讨论，所有权模式是指模块存储并通过周围的方式 - 它决定谁或什么 _拥有_
 特定模块实例。在Python，对象总是动态分配（在堆上），并且具有引用语义。这是非常易于使用和易于理解。事实上，在Python中，你可以在很大程度上忘记对象居住在哪里以及如何他们得到引用，并专注于做事情。
@@ -438,7 +437,7 @@ C ++，作为一个较低级别的语言，提供了在此领域的更多选项�
     }
     
 
-在我们的经验中，研究人员从动态语言来非常喜欢引用语义过值语义，即使后者更是“原生”到C ++。同样重要的是要注意，`火炬:: NN
+在我们的经验中，研究人员从动态语言来非常喜欢引用语义过值语义，即使后者更是“原生”到C ++。同样重要的是要注意，`Torch :: NN
 ::模块的设计，以贴近了Python API的人体工程学设计，依赖于共享所有权 [HTG3。例如，利用`网 `我们先前的（这里缩短）的定义：`
 
     
@@ -453,11 +452,11 @@ C ++，作为一个较低级别的语言，提供了在此领域的更多选项�
 
 为了使用`线性
 `子模块，我们希望直接存储在我们班。但是，我们也希望在模块的基类来了解并有机会获得这个子模块。为此，它必须保存到该子模块的参考。在这一点上，我们已经到达了需要共享所有权。两者`
-炬::ン::模块 `类和混凝土`净 `类需要到子模块的引用。由于这个原因，基类存储模块为`的shared_ptr`S，因此，混凝土类必须太。
+torch::ン::模块 `类和混凝土`净 `类需要到子模块的引用。由于这个原因，基类存储模块为`的shared_ptr`S，因此，混凝土类必须太。
 
 可是等等！我没有看到的`在上面的代码中的shared_ptr`任何提及！这是为什么？那么，因为`的std :: shared_ptr的& LT ;
 MyModule的& GT ;`是很多类型的地狱。为了使我们的研究人员生产力，我们想出了一个精心设计的方案，以隐藏`提的shared_ptr`
-\- 一个好处通常保留值语义 - 同时保持引用语义。要理解这是如何工作的，我们可以看看在`火炬的简化定义:: NN ::线性
+\- 一个好处通常保留值语义 - 同时保持引用语义。要理解这是如何工作的，我们可以看看在`Torch 的简化定义:: NN ::线性
 `模块中的核心库（完整的定义是[在这里](https://github.com/pytorch/pytorch/blob/master/torch/csrc/api/include/torch/nn/modules/linear.h)）：
 
     
@@ -475,7 +474,7 @@ MyModule的& GT ;`是很多类型的地狱。为了使我们的研究人员生�
 
 简而言之：将模块不叫`线性 `，但`LinearImpl`。宏，`TORCH_MODULE`然后定义实际`线性
 `类。这个“而生成”类实际上是在一个包装一`的std :: shared_ptr的& LT ; LinearImpl & GT ;
-`。这是一个包装，而不是一个简单的typedef，这样，除其他事项外，还构造如预期，即你仍然可以写`火炬:: NN ::线性（3， 4 ） `而非`
+`。这是一个包装，而不是一个简单的typedef，这样，除其他事项外，还构造如预期，即你仍然可以写`Torch :: NN ::线性（3， 4 ） `而非`
 的std :: make_shared & LT ; LinearImpl & GT ;（3， 4） `。我们呼吁由宏模块 _持有者_
 创建的类。像（共享的）指针，则使用箭头操作者访问底层对象（如`模型 - & GT ;向前（......）
 `）。最终的结果是所有权模式，类似于Python的API的颇有渊源。引用语义成为默认，但没有`额外的输入的std :: shared_ptr的 `或`
@@ -528,8 +527,8 @@ MyModule的& GT ;`是很多类型的地狱。为了使我们的研究人员生�
 
 结论：哪个所有制模式 - 其语义 - 你应该使用？在C
 ++前端的API最好的支持模块保持所提供的所有权模式。这个机制的唯一缺点是模块声明以下样板的一个额外的行。这就是说，最简单的模型是静止在介绍C
-++模块中示出的值语义模型。对于小型，简单的脚本，你可以逃脱它。但你会发现早晚，由于技术原因，它并不总是支持。例如，串行化API（`炬::保存 `和`
-炬::负载 `）仅支持模块保持器（或纯`shared_ptr的 `）。这样，模块保持器API是定义与C
+++模块中示出的值语义模型。对于小型，简单的脚本，你可以逃脱它。但你会发现早晚，由于技术原因，它并不总是支持。例如，串行化API（`torch::保存 `和`
+torch::负载 `）仅支持模块保持器（或纯`shared_ptr的 `）。这样，模块保持器API是定义与C
 ++前端模块的推荐的方法，我们将在本教程此后使用该API。
 
 ### 限定DCGAN模块
@@ -597,8 +596,8 @@ Tip
 A `序贯 `模块简单地执行功能的组合物。该第一子模块的输出变成第二输入，第三的输出变为第四等的输入。
 
 特定模块选择，如`NN :: Conv2d`和`NN :: BatchNorm`，如下前面概括的结构。的`kNoiseSize
-`常数决定输入噪声向量的大小和设置为`100`。还要注意的是，我们使用`火炬:: NN ::功能 `模块为我们的激活功能，通过它`火炬::
-RELU`为内层和`炬::的tanh`作为最终活化。超参数进行，当然，通过研究生血统找到。
+`常数决定输入噪声向量的大小和设置为`100`。还要注意的是，我们使用`Torch :: NN ::功能 `模块为我们的激活功能，通过它`Torch ::
+RELU`为内层和`torch::的tanh`作为最终活化。超参数进行，当然，通过研究生血统找到。
 
 Note
 
@@ -709,7 +708,7 @@ Note
 Note
 
 当该功能我们通过`功能 `需要更多的参数比单个张量，我们可以将它们传递到`功能 `构造，这将它们转发到每个函数调用。对于上面的泄漏RELU，这意味着`
-炬:: leaky_relu（previous_output_tensor， 0.2） `是调用。
+torch:: leaky_relu（previous_output_tensor， 0.2） `是调用。
 
 ## 载入数据
 
@@ -720,7 +719,7 @@ Note
 
 虽然Python数据加载程序使用多处理中，C ++数据加载器是真正的多线程和不启动任何新的过程。
 
-数据加载是C ++前端的`数据 `API，包含在`炬::数据::`命名空间的一部分。这个API是由几个不同的部分组成：
+数据加载是C ++前端的`数据 `API，包含在`torch::数据::`命名空间的一部分。这个API是由几个不同的部分组成：
 
   * 数据加载器类，
   * 用于定义数据集的API，
@@ -728,7 +727,7 @@ Note
   * 用于限定 _取样_ ，它产生与数据集编索引的索引的API，
   * 现有数据集，转换器和采样库。
 
-在本教程中，我们可以使用自带的C ++前端的`MNIST`数据集。让我们来实例化一个`火炬::数据::数据集:: MNIST
+在本教程中，我们可以使用自带的C ++前端的`MNIST`数据集。让我们来实例化一个`Torch ::数据::数据集:: MNIST
 `对于这一点，并应用两个转变：一是标准化的图像，使它们在范围`-1-`至`+1`（从原始范围`至`[0 ``HTG21] 1
 ）。其次，我们应用`堆栈 `_整理_ ，这需要一批张量，并将它们堆叠成沿着第一维度单一张量：
 
@@ -742,7 +741,7 @@ Note
 需要注意的是MNIST数据集应位于`./mnist
 `相对于无论你执行从训练二进制文件目录。您可以使用[这个脚本](https://gist.github.com/goldsborough/6dd52a5e01ed73a642c1e772084bcd03)下载MNIST数据集。
 
-接下来，我们创建了一个数据加载器，并通过它这个数据集。为了使新的数据加载，我们使用`火炬::数据:: make_data_loader
+接下来，我们创建了一个数据加载器，并通过它这个数据集。为了使新的数据加载，我们使用`Torch ::数据:: make_data_loader
 `，它返回的一个`的std ::的unique_ptr`正确的类型（这取决于数据集，采样器和其他一些实施细节的类型的类型）：
 
     
@@ -775,9 +774,9 @@ kBatchSize`）。因此，让我们创建一个`DataLoaderOptions
     }
     
 
-由数据装入程序在这种情况下返回的类型是`炬::数据::实施例 `。这种类型是一个简单的结构与用于数据的`数据 `字段和一个标签`目标
+由数据装入程序在这种情况下返回的类型是`torch::数据::实施例 `。这种类型是一个简单的结构与用于数据的`数据 `字段和一个标签`目标
 `字段。因为我们应用了`堆栈 `核对之前，则数据加载器仅返回一个这样的例子。如果我们没有施加核对，数据加载器将产生`的std ::矢量& LT
-;炬::数据::实施例& LT ; [ - - ] GT ; & GT ;`代替，以在每批次例如一个元素。
+;torch::数据::实施例& LT ; [ - - ] GT ; & GT ;`代替，以在每批次例如一个元素。
 
 如果重建并运行这段代码，你会看到这样的事情：
 
@@ -870,7 +869,7 @@ Note
     }
     
 
-上面，我们首先评估真实图像，它应该指定一个高概率的鉴别。对于这一点，我们使用`炬::空（batch.data.size（0））。uniform_（0.8，
+上面，我们首先评估真实图像，它应该指定一个高概率的鉴别。对于这一点，我们使用`torch::空（batch.data.size（0））。uniform_（0.8，
 1.0） `作为目标概率。
 
 Note
@@ -913,8 +912,8 @@ fake_labels`全部为一张量。我们终于步发电机的优化也更新其�
 ## 移动到GPU
 
 虽然我们当前的脚本可以运行在CPU上就好了，大家都知道卷积都在GPU快了很多。让我们快速讨论如何我们的培训走上了GPU。我们需要为这个做两件事情：一个GPU设备规范传递给我们分配自己张量，并明确通过`
-以（） `法任何其他张量复制到所有GPU张量和模块在C ++前端有。实现这两个最简单的方法是在我们的训练脚本的顶层创建`火炬::设备
-`的实例，然后将该设备传递给张厂的功能，如`炬::零 `以及`至（） `方法。我们可以通过与CPU设备这样开始：
+以（） `法任何其他张量复制到所有GPU张量和模块在C ++前端有。实现这两个最简单的方法是在我们的训练脚本的顶层创建`Torch ::设备
+`的实例，然后将该设备传递给张厂的功能，如`torch::零 `以及`至（） `方法。我们可以通过与CPU设备这样开始：
 
     
     
@@ -994,8 +993,8 @@ Note
 最后的增强，我们应该对我们的训练脚本定期保存我们的模型参数，我们优化的状态，以及一些生成的图像样本的状态。如果我们的电脑是在训练过程中间崩溃，前两个将使我们能够恢复训练状态。对于长期的培训课程，这是绝对必要的。幸运的是，C
 ++前端提供了一个API来序列和反序列化两者模型和优化器状态，​​以及个别张量。
 
-核心API因为这是`火炬::保存（的东西，文件名）HTG2] `和`火炬::负载（的东西，文件名）HTG6] `其中`事情 `可以是`
-炬::ン::模块 `亚类或类似的`亚当的优化实例 `对象，我们在我们的培训讲稿。让我们来更新我们的训练循环检查点在一定的时间间隔模型和优化状态：
+核心API因为这是`Torch ::保存（的东西，文件名）HTG2] `和`Torch ::负载（的东西，文件名）HTG6] `其中`事情 `可以是`
+torch::ン::模块 `亚类或类似的`亚当的优化实例 `对象，我们在我们的培训讲稿。让我们来更新我们的训练循环检查点在一定的时间间隔模型和优化状态：
 
     
     
@@ -1111,7 +1110,7 @@ Note
 
 这应该是这个样子：
 
-![digits](../_images/digits.png)
+![digits](img/digits.png)
 
 数字！万岁！现在球在你的场内：您可以改进模型，使数字更好看？
 
@@ -1147,9 +1146,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 使用PyTorch C ++前端
     * 动机
@@ -1176,44 +1173,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -1222,12 +1188,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

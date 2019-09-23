@@ -4,7 +4,7 @@
 TorchScript是可解析的，编译和优化由TorchScript编译Python编程语言的子集。此外，编译TorchScript模型有被序列化到磁盘上的文件格式，它可以随后加载和从纯C
 ++（以及Python）的用于推理运行选项。](https://pytorch.org/docs/master/jit.html)
 
-TorchScript支持由`火炬提供
+TorchScript支持由`Torch 提供
 `包操作的相当大的一部分，让你表达多种复杂模型的纯粹从PyTorch的“标准库”等一系列张量操作。不过，也有可能是时候，你需要有一个自定义的C
 ++或CUDA功能扩展TorchScript的发现自己。虽然我们建议您只能求助于这个选项，如果你的想法不能被表达（足够有效），作为一个简单的Python函数，我们提供了一个非常友好和简单的界面使用定义自定义C
 ++和CUDA内核[ ATEN ](https://pytorch.org/cppdocs/#aten) ，PyTorch的高性能C
@@ -44,10 +44,10 @@ Mat``s），如何注册与TorchScript运行，最后如何您的运营商编译
     }
     
 
-这个操作符的代码很短。在该文件的顶部，我们包括OpenCV的头文件，`opencv2 / opencv.hpp`，沿着`炬/ script.h
+这个操作符的代码很短。在该文件的顶部，我们包括OpenCV的头文件，`opencv2 / opencv.hpp`，沿着`torch/ script.h
 `头部暴露从PyTorch的C ++ API所需的所有东西，我们需要编写自定义TorchScript运营商。我们的函数`warp_perspective
-`采用两个参数：输入`图像 `和`经线 `变换矩阵我们希望应用到图像。的类型的这些输入是`炬::张量 `，在C
-PyTorch的张量类型++（其也是基础类型在Python所有张量）。我们的`返回类型warp_perspective`功能也将是一个`火炬::张量
+`采用两个参数：输入`图像 `和`经线 `变换矩阵我们希望应用到图像。的类型的这些输入是`torch::张量 `，在C
+PyTorch的张量类型++（其也是基础类型在Python所有张量）。我们的`返回类型warp_perspective`功能也将是一个`Torch ::张量
 [HTG31。`
 
 小费
@@ -57,8 +57,8 @@ PyTorch的张量类型++（其也是基础类型在Python所有张量）。我�
 
 注意
 
-所述编译器TorchScript理解的类型的固定号码。只有这些类型可以作为参数传递给您的自定义操作。目前，这些类型是：HTG0] 火炬::张量 ，`
-火炬::标量 `，`双 `，`的int64_t`和`的std ::矢量 `这些类型的第需要注意的是 _只有_ `双 `和 _不是_ `
+所述编译器TorchScript理解的类型的固定号码。只有这些类型可以作为参数传递给您的自定义操作。目前，这些类型是：HTG0] Torch ::张量 ，`
+Torch ::标量 `，`双 `，`的int64_t`和`的std ::矢量 `这些类型的第需要注意的是 _只有_ `双 `和 _不是_ `
 浴液HTG30] `和 _只有_ `的int64_t`和 _不_ 其他整数类型如`INT`，`短 `或`长 `的支持。
 
 里面我们的功能，我们需要做的第一件事就是转变我们的PyTorch张量到OpenCV的矩阵，为的OpenCV的`warpPerspective`预计`
@@ -99,7 +99,7 @@ PyTorch张量转换为`warp_mat`OpenCV的矩阵：
 
 在我们的运营商定制实现的最后一步是转换的`output_mat
 [HTG3重新站到PyTorch张量，这样我们就可以进一步PyTorch使用它。这是惊人地相似，我们先前做在其他方向转换。在这种情况下，PyTorch提供了`
-炬:: from_blob`方法。在这种情况下，A _一滴_ 是指一些不透明的，平坦的内存指针，我们要解释成PyTorch张量。为`火炬::
+torch:: from_blob`方法。在这种情况下，A _一滴_ 是指一些不透明的，平坦的内存指针，我们要解释成PyTorch张量。为`Torch ::
 from_blob`调用看起来是这样的：`
 
     
@@ -108,10 +108,10 @@ from_blob`调用看起来是这样的：`
     
 
 我们使用`.ptr & LT ;浮子& GT ;（） `上OpenCV的`垫[方法HTG6] `类来获得原始指针到底层数据（就像`。数据& LT
-;浮子& GT ;（） `为PyTorch张量更早）。我们还指定张量的输出的形状，这我们硬编码为`8  × 8`。的`输出炬:: from_blob
-`于是为`炬::张量 `，指向由OpenCV的基质所拥有的存储器。
+;浮子& GT ;（） `为PyTorch张量更早）。我们还指定张量的输出的形状，这我们硬编码为`8  × 8`。的`输出torch:: from_blob
+`于是为`torch::张量 `，指向由OpenCV的基质所拥有的存储器。
 
-从我们的运营商实现返回，这个张量之前，我们必须调用`.clone（） `对张进行基础数据的内存拷贝。这样做的原因是，`火炬:: from_blob
+从我们的运营商实现返回，这个张量之前，我们必须调用`.clone（） `对张进行基础数据的内存拷贝。这样做的原因是，`Torch :: from_blob
 `返回没有自己的数据的张量。在这一点上，该数据仍然由OpenCV的矩阵拥有。然而，这OpenCV的矩阵将走出去的范围，并在函数结束时被释放。如果我们返回`
 输出 `张量-是，它会指向由我们使用它的功能之外的时间无效的内存。调用`.clone（）
 `返回与新张拥有自身的原始数据的副本，新的张量。因此安全回到外面的世界。
@@ -297,7 +297,7 @@ torch.ops.my_ops.warp_perspective
 ++扩展结合使用pybind11手动，而TorchScript定制OPS是在由PyTorch本身飞约束。
 Pybind11为您提供了更多的灵活性，以什么样的类型和类可以绑定到Python和因此建议对纯渴望代码的问候，但它不支持TorchScript欢声笑语。
 
-从这里开始，您可以使用脚本或代码追踪您的自定义操作，就像你从`火炬等功能 `包。事实上，“标准库”的功能，如`torch.matmul
+从这里开始，您可以使用脚本或代码追踪您的自定义操作，就像你从`Torch 等功能 `包。事实上，“标准库”的功能，如`torch.matmul
 `经历大致相同的注册路径作为运营商定制，这使得运营商定制真正一流的公民，当谈到如何和在那里他们可以TorchScript使用。
 
 ### 使用自定义操作与跟踪
@@ -329,7 +329,7 @@ Pybind11为您提供了更多的灵活性，以什么样的类型和类可以绑
     }
     
 
-现在，激动人心的启示是，我们可以简单的丢弃我们的运营商定制到我们PyTorch痕迹，好像它是`torch.relu`或任何其他`火炬 `函数：
+现在，激动人心的启示是，我们可以简单的丢弃我们的运营商定制到我们PyTorch痕迹，好像它是`torch.relu`或任何其他`Torch  `函数：
 
     
     
@@ -486,7 +486,7 @@ Attention
 所述TorchScript图表示仍然可能发生变化。不要依赖于它看起来像这样。
 
 这就是真正的它，当它涉及到使用Python中我们的运营商定制。总之，你导入使用`torch.ops.load_library
-`包含您的运营商（S）的图书馆，并呼吁像任何其他`火炬自定义运算 `从您的追溯或脚本代码TorchScript操作。
+`包含您的运营商（S）的图书馆，并呼吁像任何其他`Torch 自定义运算 `从您的追溯或脚本代码TorchScript操作。
 
 ## 在C使用自定义TorchScript算++
 
@@ -495,7 +495,7 @@ TorchScript的一个有用的功能是序列化模型到磁盘上的文件的能
 [HTG1用于反串行化以及执行TorchScript模型。如果你还没有，请阅读](https://pytorch.org/cppdocs/)[在C对加载和运行的系列化TorchScript模型教程++
 ](https://pytorch.org/tutorials/advanced/cpp_export.html)，在其未来数段将建成。
 
-总之，运营商定制可以像从文件反序列化，即使和用C ++运行规则`炬 `运营商来执行。这个唯一的要求就是我们前面在我们执行模型中的C
+总之，运营商定制可以像从文件反序列化，即使和用C ++运行规则`torch `运营商来执行。这个唯一的要求就是我们前面在我们执行模型中的C
 ++应用程序构建运营商定制共享库链接。在Python中，这个工作只是调用`torch.ops.load_library  [HTG7。在C
 ++中，你需要的共享库，在任何的构建系统使用的是主应用程序链接。下面的例子将展示这一点使用CMake的。`
 
@@ -671,7 +671,7 @@ RegisterOperators`对象的构造函数运行。麻烦的是，这混淆了连�
 `在操作库。调用此`的init（）
 `在主应用程序的功能将会给连接器的印象，这是值得链接到的库。不幸的是，这是我们无法控制的，我们宁可让你知道原因和简单的解决方法为这个比交给你一些不透明宏在代码噗通。
 
-现在，因为我们现在找到`火炬 `包在最顶层，在`的CMakeLists.txt`文件中的`warp_perspective
+现在，因为我们现在找到`Torch  `包在最顶层，在`的CMakeLists.txt`文件中的`warp_perspective
 `子目录可以缩短一个位。它应该是这样的：
 
     
@@ -950,9 +950,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 使用自定义C ++扩展算TorchScript 
     * 用C实现运营商定制++ 
@@ -973,44 +971,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -1019,12 +986,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

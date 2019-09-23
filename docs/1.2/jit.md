@@ -237,7 +237,7 @@ __compilation_unit=None_ , __cpp_module=None_
 
     
 
-在TorchScript核心数据结构是`ScriptModule`。它是火炬的`nn.Module
+在TorchScript核心数据结构是`ScriptModule`。它是Torch 的`nn.Module
 `类似物和表示整个模型作为子模块的一棵树。像正常模块，在`ScriptModule`可以有子模块，参数和方法每个单独模块。在`nn.Module
 `S的方法被实现为Python函数，但在`ScriptModule`S的方法被实现为TorchScript功能，一个statically-
 Python中的类型子集，它包含了所有PyTorch内置的张量操作。这种差异使您ScriptModules代码，而不需要一个Python解释器运行。
@@ -385,7 +385,7 @@ TorchScript本身是Python语言的一个子集，因此不会在Python工作的
 
     
 
-在一个单独的进程保存此模块中使用的离线版本。保存的模块序列化的所有方法，子模块，参数和该模块的属性。它可以使用`炬:: JIT ::负载（文件名） `或与
+在一个单独的进程保存此模块中使用的离线版本。保存的模块序列化的所有方法，子模块，参数和该模块的属性。它可以使用`torch:: JIT ::负载（文件名） `或与
 `负载Python API中被加载到C ++ API`。
 
 为了能够保存模块，它必须不使本机Python功能的任何电话。这意味着，所有的子模块必须的`torch.jit.ScriptModule`亚类。
@@ -568,7 +568,7 @@ TorchScript是Python一个静态类型子集，它可以直接（使用`@ torch.
 
 对于Python的一个子集的任何有效TorchScript功能也是一个有效的Python功能。这使得它能够去除`@ torch.jit.script
 `装饰，并使用标准的Python工具，如`PDB
-`调试功能。相反的是不正确的：有无效的TorchScript程序许多有效的Python程序。相反，TorchScript特别侧重于那些需要代表火炬神经网络模型的Python的特点。
+`调试功能。相反的是不正确的：有无效的TorchScript程序许多有效的Python程序。相反，TorchScript特别侧重于那些需要代表Torch 神经网络模型的Python的特点。
 
 `PYTORCH_JIT=1`
 
@@ -1230,8 +1230,8 @@ Example:
 
 ###  Python中值的使用
 
-为了使编写TorchScript更方便，我们允许脚本代码来引用的Python值在周边范围。例如，任何时候有至`炬
-`参考，TorchScript编译器实际上是它解决到`炬 `
+为了使编写TorchScript更方便，我们允许脚本代码来引用的Python值在周边范围。例如，任何时候有至`torch
+`参考，TorchScript编译器实际上是它解决到`torch `
 Python模块当函数声明。这些Python的值不TorchScript的第一类部分。相反，他们去糖在编译时成TorchScript支持原始类型。这依赖于动态类型值当编译时引用了Python的。本节介绍了TorchScript访问Python的值时使用的规则。
 
 #### 功能
@@ -2070,7 +2070,7 @@ example_weight}
 
 ### 内置函数
 
-TorchScript支持内建张量和神经网络函数PyTorch提供的一个子集。上张量大多数方法以及在`炬功能 `命名空间，在`
+TorchScript支持内建张量和神经网络函数PyTorch提供的一个子集。上张量大多数方法以及在`torch功能 `命名空间，在`
 torch.nn.functional`的所有功能，并从所有模块`torch.nn
 `在支持TorchScript，不包括在下面的表中。对于不支持的模块，建议使用 `torch.jit.trace（） `。
 
@@ -2092,104 +2092,4 @@ torch.nn.functional`的所有功能，并从所有模块`torch.nn
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * TorchScript 
-    * 创建TorchScript代码
-    * 混合跟踪和脚本
-    * TorchScript语言参考
-      * 类型
-        * 默认类型
-        * 可选类型细化
-        * 用户定义类型
-      * 表达式
-        * 字面
-          * 列表构造
-          * 元组建筑
-          * 字典建筑
-        * 变量
-        * 算术运算符
-        * 比较运算符
-        * 逻辑运算符
-        * 下标
-        * 函数调用
-        * 方法调用
-        * 三元表达式
-        * 粪中
-        * 访问模块参数
-      * 下列
-      * 分辨率可变
-      * Python中值的使用
-        * 功能
-        * 属性查找有关python模块
-        * Python的定义的常量
-        * 模块属性
-      * 调试
-        * [HTG0用于调试禁用JIT 
-        * 检查代码
-        * 解释图表
-        * 跟踪边缘情况
-        * 自动跟踪检查
-        * 示踪剂警告
-    * 常见问题
-      * 内建函数
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

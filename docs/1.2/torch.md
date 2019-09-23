@@ -1,6 +1,6 @@
-# 炬
+# torch
 
-火炬包中包含用于对这些多维张量和数学运算被定义的数据结构。此外，它提供了张量的高效串行化和任意类型，以及其他有用的工具的许多工具。
+Torch 包中包含用于对这些多维张量和数学运算被定义的数据结构。此外，它提供了张量的高效串行化和任意类型，以及其他有用的工具的许多工具。
 
 它具有CUDA对应，使您可以在一个NVIDIA GPU计算能力& GT运行计算张[] = 3.0。
 
@@ -203,8 +203,8 @@ Example:
 注意
 
 随机采样生成OPS被下列出随机采样 和包括： `torch.rand（） ``torch.rand_like（） ``torch.randn（）
-``torch.randn_like（） ``torch.randint（） ``炬。 randint_like（） ``
-torch.randperm（） `您也可以使用 `火炬。空（） `与 就地随机抽样 的方法来创建[ `torch.Tensor`
+``torch.randn_like（） ``torch.randint（） ``torch。 randint_like（） ``
+torch.randperm（） `您也可以使用 `Torch 。空（） `与 就地随机抽样 的方法来创建[ `torch.Tensor`
 ](tensors.html#torch.Tensor "torch.Tensor") s的值从更广阔的范围内分布的采样。
 
 `torch.``tensor`( _data_ , _dtype=None_ , _device=None_ ,
@@ -6411,7 +6411,7 @@ exp(−jwin_length2π⋅ωk​),
 
   * 如果`win_length`是`无 `（默认），它被视为等于`N_FFT`。
 
-  * `窗口 `可以是大小`win_length`，例如1-d张量，由 `炬。 hann_window（） `。如果`窗口 `是`无 `（默认），它被视为好像具有 1  1  1  无处不在的窗口。如果 win_length  & LT ;  N_FFT  \ {文本赢得\ _length} & LT ; \文本{N \ _fft}  win_length  & LT ;  N_FFT  ，`窗口 `将在两侧长度被填充`N_FFT`之前被施加。
+  * `窗口 `可以是大小`win_length`，例如1-d张量，由 `torch。 hann_window（） `。如果`窗口 `是`无 `（默认），它被视为好像具有 1  1  1  无处不在的窗口。如果 win_length  & LT ;  N_FFT  \ {文本赢得\ _length} & LT ; \文本{N \ _fft}  win_length  & LT ;  N_FFT  ，`窗口 `将在两侧长度被填充`N_FFT`之前被施加。
 
   * 如果`中心 `是`真 `（默认），`输入 `将在两个填充侧，使得所述 T  T  T  个帧在时间 [HTG40中心]  T  × hop_length  吨\倍\文本{一跳\ _length}  T  × hop_length  。否则， T  T  T  个帧开始于时间 T  × hop_length  吨\倍\文本{一跳\ _length}  T  × hop_length  。
 
@@ -9667,84 +9667,4 @@ Interest")
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * 炬
-    * 张量
-      * 创作行动
-      * 索引，切片，加入，变异行动
-    * 发电机
-    * 随机采样
-      * [HTG0在就地随机抽样
-      * 准随机采样
-    * 序列化
-    * 并行
-    * 局部禁用梯度计算
-    * 数学运算
-      * 点态行动
-      * 还原行动
-      * 比较行动
-      * 光谱行动
-      * 其他操作
-      * BLAS和LAPACK操作
-    * 公用设施
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。

@@ -27,7 +27,7 @@
         * [文本分类与TorchText ](beginner/text_sentiment_ngrams_tutorial.md)
         * [语言翻译与TorchText ](beginner/torchtext_translation_tutorial.md)
         * [序列到序列与nn.Transformer和TorchText建模](beginner/transformer_tutorial.md)
-    * 强化学习
+    * 
         * [强化学习（DQN）教程](intermediate/reinforcement_q_learning.md)
     * 在生产部署PyTorch模型
         * [1.部署PyTorch在Python经由REST API从Flask](intermediate/flask_rest_api_tutorial.md)

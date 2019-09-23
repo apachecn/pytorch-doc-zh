@@ -7,22 +7,22 @@ _生产_ \- 低延迟和严格的部署要求的土地。对于生产情景，C
 ++是经常选择的语言，即使只将其绑定到像Java，生锈或转到另一种语言。以下段落将概括PyTorch提供从现有的Python模型去能够 _加载_ 和 _从C
 ++执行_ 纯粹序列化表示，与Python中没有依赖关系的路径。
 
-## 第1步：转换您的PyTorch模型火炬脚本
+## 第1步：转换您的PyTorch模型Torch 脚本
 
 从Python来C
-++甲PyTorch模型的旅程是由[启用火炬脚本](https://pytorch.org/docs/master/jit.html)，可被理解的，编译的和由火炬脚本编译器序列化PyTorch模型的表示。如果你是从写在香草“渴望”
-API现有PyTorch模型开始了，你必须首先转换模型火炬脚本。在最常见的情况下，下面讨论的，这个只需要很少的努力。如果你已经有了一个火炬脚本模块，可以跳过本教程的下一节。
+++甲PyTorch模型的旅程是由[启用Torch 脚本](https://pytorch.org/docs/master/jit.html)，可被理解的，编译的和由Torch 脚本编译器序列化PyTorch模型的表示。如果你是从写在香草“渴望”
+API现有PyTorch模型开始了，你必须首先转换模型Torch 脚本。在最常见的情况下，下面讨论的，这个只需要很少的努力。如果你已经有了一个Torch 脚本模块，可以跳过本教程的下一节。
 
-存在一个PyTorch模型转换为火炬脚本的方法有两种。第一被称为 _追踪_
-，其中，所述模型的结构是通过评估一次使用实施例的输入，并记录这些输入通过模型的流动捕获的机制。本品适用于模型制作有限使用控制流。第二种方法是明确的注释添加到您的模型，通知火炬脚本编译器，它可以直接解析和编译你的模型代码，受火炬脚本语言所带来的限制。
+存在一个PyTorch模型转换为Torch 脚本的方法有两种。第一被称为 _追踪_
+，其中，所述模型的结构是通过评估一次使用实施例的输入，并记录这些输入通过模型的流动捕获的机制。本品适用于模型制作有限使用控制流。第二种方法是明确的注释添加到您的模型，通知Torch 脚本编译器，它可以直接解析和编译你的模型代码，受Torch 脚本语言所带来的限制。
 
 小费
 
-你可以找到这两种方法的完整文档，以及在其上使用，在官方[火炬脚本参考](https://pytorch.org/docs/master/jit.html)进一步的指导。
+你可以找到这两种方法的完整文档，以及在其上使用，在官方[Torch 脚本参考](https://pytorch.org/docs/master/jit.html)进一步的指导。
 
-### 通过跟踪转换为火炬脚本
+### 通过跟踪转换为Torch 脚本
 
-要通过跟踪一个PyTorch模型转换为火炬脚本，你必须用一个例子输入转达您的模型的实例到`torch.jit.trace`功能。这将产生一个`
+要通过跟踪一个PyTorch模型转换为Torch 脚本，你必须用一个例子输入转达您的模型的实例到`torch.jit.trace`功能。这将产生一个`
 torch.jit.ScriptModule`对象与你的模型评估的嵌入模块的`转发 `方法跟踪：
 
     
@@ -49,9 +49,9 @@ torch.jit.ScriptModule`对象与你的模型评估的嵌入模块的`转发 `方
     Out[2]: tensor([-0.2698, -0.0381,  0.4023, -0.3010, -0.0448], grad_fn=<SliceBackward>)
     
 
-### 通过注释转换为火炬脚本
+### 通过注释转换为Torch 脚本
 
-在某些情况下，例如，如果您的模型采用控制流的特定形式，你可能想直接写脚本火炬模型，并相应地标注模型。例如，假设您有以下香草Pytorch模型：
+在某些情况下，例如，如果您的模型采用控制流的特定形式，你可能想直接写脚本Torch 模型，并相应地标注模型。例如，假设您有以下香草Pytorch模型：
 
     
     
@@ -149,9 +149,9 @@ my_module.save（ “my_module_model.pt”）HTG10] `我们现在已经正式离
     }
     
 
-的`& LT ;炬/ script.h & GT ;
+的`& LT ;torch/ script.h & GT ;
 `报头包括从运行示例所必需的库LibTorch所有有关包括。我们的应用程序接受的文件路径的串行化PyTorch `ScriptModule
-`作为其唯一的命令行参数，然后进行使用`炬:: JIT反序列化模块::负载（） `函数，该函数此文件路径作为输入。作为回报，我们收到`火炬:: JIT
+`作为其唯一的命令行参数，然后进行使用`torch:: JIT反序列化模块::负载（） `函数，该函数此文件路径作为输入。作为回报，我们收到`Torch :: JIT
 ::脚本::模块 `对象。我们将研究如何在某一时刻执行。
 
 ### 根据LibTorch和构建应用
@@ -183,7 +183,7 @@ my_module.save（ “my_module_model.pt”）HTG10] `我们现在已经正式离
 
   * 在`的lib /`文件夹中包含您必须对链接的共享库，
   * 在`包括/`文件夹中包含头文件你的程序将需要包括，
-  * 的`份额/`文件夹中包含的必要CMake的配置来使简单`find_package（火炬） `上述命令。
+  * 的`份额/`文件夹中包含的必要CMake的配置来使简单`find_package（Torch ） `上述命令。
 
 Tip
 
@@ -274,14 +274,14 @@ Tip
     std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/5) << '\n';
     
 
-前两行设置输入到我们的模型。我们创造`炬:: JIT :: IValue`（一种类型的擦除值类型的矢量`脚本::模块
-`方法接受和返回），并添加一个输入。来创建输入张量，我们使用`炬::那些（） `时，等价于`的C ++ API在torch.ones
+前两行设置输入到我们的模型。我们创造`torch:: JIT :: IValue`（一种类型的擦除值类型的矢量`脚本::模块
+`方法接受和返回），并添加一个输入。来创建输入张量，我们使用`torch::那些（） `时，等价于`的C ++ API在torch.ones
 `。然后，我们运行`脚本::模块 `的`转发 `的方法，通过它我们创建了输入向量。作为回报，我们得到一个新的`IValue`，这是我们通过调用`
 toTensor（） `转换为张量。
 
 Tip
 
-要了解更多关于像`功能火炬::者 `和一般的PyTorch C ++ API，请参阅其文档在[ https://pytorch.org/cppdocs
+要了解更多关于像`功能Torch ::者 `和一般的PyTorch C ++ API，请参阅其文档在[ https://pytorch.org/cppdocs
 ](https://pytorch.org/cppdocs) 。该PyTorch C ++ API提供附近使用Python
 API功能奇偶校验，让您进一步的操作和处理张量就像在Python。
 
@@ -323,7 +323,7 @@ PyTorch模型，为编译`ScriptModule`在Python中，磁盘上的序列化的�
 ++实现的运营商定制++或CUDA，并执行该运营商定制您的`ScriptModule内 `装入在纯C
 ++的生产环境。好消息是：这是可能的，并得到广泛支持！现在，你可以探索[对于这个例子](https://github.com/pytorch/pytorch/tree/master/test/custom_operator)文件夹，我们会跟进的教程不久。在时间之中，下面的链接可能是一般有所帮助：
 
-  * 火炬脚本参考：[ https://pytorch.org/docs/master/jit.html ](https://pytorch.org/docs/master/jit.html)
+  * Torch 脚本参考：[ https://pytorch.org/docs/master/jit.html ](https://pytorch.org/docs/master/jit.html)
   * 所述PyTorch C ++ API文档：[ https://pytorch.org/cppdocs/ ](https://pytorch.org/cppdocs/)
   * 所述PyTorch Python的API文档：[ https://pytorch.org/docs/ ](https://pytorch.org/docs/)
 
@@ -351,14 +351,12 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 3.装载++一个TorchScript模型在C 
-    * 步骤1：转换您PyTorch模型火炬脚本
-      * 通过跟踪转换为火炬脚本
-      * 经由注释转换为火炬脚本
+    * 步骤1：转换您PyTorch模型Torch 脚本
+      * 通过跟踪转换为Torch 脚本
+      * 经由注释转换为Torch 脚本
     * [HTG0步骤2：序列化脚本模块到一个文件
     * 步骤3：加载脚本模块在C ++ 
       * 最小的C ++应用
@@ -371,44 +369,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -417,12 +384,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

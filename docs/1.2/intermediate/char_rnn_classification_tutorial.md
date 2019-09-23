@@ -29,7 +29,7 @@ NLP建模数据预处理，特别是不使用许多的的便利功能torchtext �
   * [ https://pytorch.org/ [HTG1对于安装说明](https://pytorch.org/)
   * [ 深，PyTorch学习：60分钟的闪电战 ](../beginner/deep_learning_60min_blitz.html)得到普遍开始PyTorch
   * 与实施例 对于宽和深概述[ 学习PyTorch](../beginner/pytorch_with_examples.html)
-  * [ PyTorch为前火炬用户 ](../beginner/former_torchies_tutorial.html)如果你是前者的Lua火炬用户
+  * [ PyTorch为前Torch 用户 ](../beginner/former_torchies_tutorial.html)如果你是前者的LuaTorch 用户
 
 这也将是有益的了解RNNs以及它们如何工作：
 
@@ -167,9 +167,9 @@ Out:
 
 ## 创建网络
 
-autograd之前，创造了一个火炬回归神经网络参与在几个时间步克隆层的参数。所述层保持隐藏状态和梯度其现在完全由图本身处理。这意味着你可以在一个非常“纯粹”的方式实现RNN，作为常规的前馈层。
+autograd之前，创造了一个Torch 回归神经网络参与在几个时间步克隆层的参数。所述层保持隐藏状态和梯度其现在完全由图本身处理。这意味着你可以在一个非常“纯粹”的方式实现RNN，作为常规的前馈层。
 
-此RNN模块（主要来自[的PyTorch火炬用户个别](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-
+此RNN模块（主要来自[的PyTorchTorch 用户个别](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-
 net)复制）是对输入和隐藏状态下操作，与输出后一个LogSoftmax层仅有2线性层。
 
 ![](https://i.imgur.com/Z2xbySO.png)
@@ -422,7 +422,7 @@ Out:
     plt.plot(all_losses)
     
 
-![../_images/sphx_glr_char_rnn_classification_tutorial_001.png](../_images/sphx_glr_char_rnn_classification_tutorial_001.png)
+![img/sphx_glr_char_rnn_classification_tutorial_001.png](img/sphx_glr_char_rnn_classification_tutorial_001.png)
 
 ## 评价结果
 
@@ -474,7 +474,7 @@ Out:
     plt.show()
     
 
-![../_images/sphx_glr_char_rnn_classification_tutorial_002.png](../_images/sphx_glr_char_rnn_classification_tutorial_002.png)
+![img/sphx_glr_char_rnn_classification_tutorial_002.png](img/sphx_glr_char_rnn_classification_tutorial_002.png)
 
 你可以挑选出亮点关闭，显示它猜测的语言错误的主轴，例如中国对韩国，西班牙和意大利。这似乎与希腊做的非常好，也很不好英语（也许是因为与其他语言的重叠）。
 
@@ -588,9 +588,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * NLP从头：判断名称与字符级RNN 
     * 准备数据
@@ -609,44 +607,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -655,12 +622,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

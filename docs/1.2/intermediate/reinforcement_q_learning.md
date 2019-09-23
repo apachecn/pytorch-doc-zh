@@ -10,7 +10,7 @@ OpenAI健身房](https://gym.openai.com/)培养出深层Q学习（DQN）代理�
 代理有两个动作之间做出选择 - 向左或向右移动的车 -
 这样附加了极点保持直立。你可以找到在[健身房网站](https://gym.openai.com/envs/CartPole-v0)各种算法和可视化的官方排行榜。
 
-![cartpole](../_images/cartpole1.gif)
+![cartpole](img/cartpole1.gif)
 
 cartpole
 
@@ -412,7 +412,7 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
 
 下面是示出了整体得到的数据流的示图。
 
-![../_images/reinforcement_learning_diagram.jpg](../_images/reinforcement_learning_diagram.jpg)
+![img/reinforcement_learning_diagram.jpg](img/reinforcement_learning_diagram.jpg)
 
 操作被选择随机地或者基于策略，获得从健身房环境下一步样品。我们记录回放存储器中的结果，也运行在每个迭代优化步骤。优化选取一个随机批量从重放内存做新政策的培训。
 “旧版” target_net也用于优化计算的预期的Q值;它不时地被更新，以保持它的电流。
@@ -447,9 +447,7 @@ Thank you
 
 ©版权所有2017年，PyTorch。
 
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
+
 
   * 强化学习（DQN）教程
     * 重放存储器
@@ -465,44 +463,13 @@ Docs](https://readthedocs.org).
   &noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
-## 文件
 
-对于PyTorch访问完整的开发文档
 
-[View Docs](https://pytorch.org/docs/stable/index.html)
 
-## 教程
 
-获取详细的教程，对于初学者和高级开发者
 
-[View Tutorials](https://pytorch.org/tutorials)
 
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
+ 
 [](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
 
 分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
@@ -511,12 +478,5 @@ Docs](https://readthedocs.org).
 
 [](https://pytorch.org/)
 
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
+
 

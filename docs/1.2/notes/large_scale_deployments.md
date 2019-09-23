@@ -23,11 +23,11 @@
 PyTorch自带`torch.autograd.profiler
 `能够测量按需采取个体经营者时间的。人们可以使用相同的机制做“永远在线”的三围运行PyTorch任何进程。这可能是收集有关在给定的过程或整组机器的运行PyTorch工作负荷的信息是有用的。
 
-对于任何运营商调用回调新可以用`添加火炬:: autograd ::探查:: pushCallback  [HTG3。钩将与`被称为火炬::
+对于任何运营商调用回调新可以用`添加Torch :: autograd ::探查:: pushCallback  [HTG3。钩将与`被称为Torch ::
 autograd ::探查:: RecordFunction`结构描述调用上下文（例如，名称）。如果启用，`RecordFunction ::输入（）
-`包含表示为`炬:: IValue`变体类型的函数的自变量。请注意，该输入记录是比较昂贵的，因此，必须明确启用。`
+`包含表示为`torch:: IValue`变体类型的函数的自变量。请注意，该输入记录是比较昂贵的，因此，必须明确启用。`
 
-调用回调增加了一些开销，所以通常它只是随机采样操作调用有用。这可以在每个回调基础上通过火炬:: autograd ::探查::
+调用回调增加了一些开销，所以通常它只是随机采样操作调用有用。这可以在每个回调基础上通过Torch :: autograd ::探查::
 setSamplingProbability 中指定的全局采样率启用。
 
 请注意，`pushCallback`和`setSamplingProbability
@@ -85,7 +85,7 @@ TorchScript模块可以保存为捆绑串行化参数和模块代码作为TorchS
 "torch.jit.save")）。这是很方便的与该模型一起捆绑的其他信息，例如，模型制作者或辅助的工件的描述。
 
 它可以通过使`_extra_files`参数为[ `torch.jit.save（） `](../jit.html#torch.jit.save
-"torch.jit.save")和[HTG10来实现] 火炬:: JIT ::负载
+"torch.jit.save")和[HTG10来实现] Torch :: JIT ::负载
 存储和保存过程中检索任意的二进制块。由于TorchScript文件定期ZIP档案，额外的信息被存储作为普通的文件归档的`额外/`目录内。
 
 还有一个全局钩子允许额外的文件附加到当前进程产生的任何TorchScript存档。这可能是与制片人的元数据，类似于数码相机产生的JPEG元数据标签模型有用。用法示例可能类似于：
@@ -118,71 +118,4 @@ orange.svg) Previous](faq.html "Frequently Asked Questions")
 
 * * *
 
-©版权所有2019年，火炬贡献者。
-
-Built with [Sphinx](http://sphinx-doc.org/) using a
-[theme](https://github.com/rtfd/sphinx_rtd_theme) provided by [Read the
-Docs](https://readthedocs.org).
-
-  * [HTG0对于大规模部署的特点
-    * 舰队宽操作者剖析
-    * API使用记录
-    * 将元数据附加到保存TorchScript模型
-    * 构建环境的考虑
-    * 普通的扩展点
-
-## 文件
-
-对于PyTorch访问完整的开发文档
-
-[View Docs](https://pytorch.org/docs/stable/index.html)
-
-## 教程
-
-获取详细的教程，对于初学者和高级开发者
-
-[View Tutorials](https://pytorch.org/tutorials)
-
-## 资源
-
-查找开发资源，并得到回答您的问题
-
-[View Resources](https://pytorch.org/resources)
-
-[](https://pytorch.org/)
-
-  * [ PyTorch ](https://pytorch.org/)
-  * [入门](https://pytorch.org/get-started)
-  * [特点](https://pytorch.org/features)
-  * [生态系统](https://pytorch.org/ecosystem)
-  * [博客](https://pytorch.org/blog/)
-  * [资源](https://pytorch.org/resources)
-
-  * [支持](https://pytorch.org/support)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [讨论](https://discuss.pytorch.org)
-  * [ Github的问题](https://github.com/pytorch/pytorch/issues)
-  * [松弛](https://pytorch.slack.com)
-  * [贡献](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md)
-
-  * 跟着我们
-  * 邮箱地址
-
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-  * 入门
-  * 特点
-  * 生态系统
-  * [博客](https://pytorch.org/blog/)
-  * [教程](https://pytorch.org/tutorials)
-  * [文档](https://pytorch.org/docs/stable/index.html)
-  * [资源](https://pytorch.org/resources)
-  * [ Github的](https://github.com/pytorch/pytorch)
-
+©版权所有2019年，Torch 贡献者。
