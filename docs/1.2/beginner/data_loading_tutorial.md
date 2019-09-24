@@ -6,7 +6,7 @@
 
 解决任何机器学习问题都需要花费大量精力来准备数据。PyTorch提供了许多工具来简化数据加载过程，并有望使代码更具可读性。在本教程中，我们将看到如何从非平凡的数据集中加载和预处理/增强数据。
 
-要能够运行本教程，请确保已安装以下软件包：
+要能够运行本教程中的代码，请确保已安装以下软件包：
 
   * `scikit-image `：用于图像io和变换
 
@@ -30,7 +30,7 @@
     plt.ion()   # interactive mode
     ```
 
-我们要处理的数据集是面部姿势数据集。这意味着对脸部的注释如下：
+我们要处理的数据集是面部姿势数据集。这意味着对脸部的标注如下：
 
 ![](../img/landmarked_face2.png)
 
@@ -38,7 +38,7 @@
 
 - 注意
 
-  从[此处](https://download.pytorch.org/tutorial/faces.zip)下载数据集，使图像位于名为“ data / faces /”的目录中。该数据集实际上是通过对来自标记为“人脸”的imagenet上的一些图像应用出色的[dlib姿态估计](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)而生成的。
+  从[此处](https://download.pytorch.org/tutorial/faces.zip)下载数据集，使图像位于名为`data/faces/`的目录中。该数据集实际上是通过对`imagenet`上的一些标记为“人脸”的图像应用良好的的[dlib姿态估计](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)生成的。
 
 数据集包含一个带注释的csv文件，如下所示：
 
@@ -100,10 +100,8 @@ print('First 4 Landmarks: {}'.format(landmarks[:4]))
 `中读取图像。由于所有图像不会立即存储在内存中，而是根据需要读取，因此可以提高内存效率。
 
 我们的数据集中的样品是一个字典`{'image': image, 'landmarks': landmarks}`。我们的数据集将采取一个可选的参数`变换
-`，以便可以对样本进行任何必需的处理。我们将在下一节看到`变换 `的用处。
+`，以便可以对样本进行任何必需的处理。我们将在下一节看到`变换 `的用处。  
 
-
-​    
     class FaceLandmarksDataset(Dataset):
         """Face Landmarks dataset."""
     
@@ -438,9 +436,7 @@ for i_batch, sample_batched in enumerate(dataloader):
 **下载 Jupyter notebook文件:**
 [data_loading_tutorial.ipynb](https://pytorch.org/tutorials/_downloads/21adbaecd47a412f8143afb1c48f05a6/data_loading_tutorial.ipynb)
 
-* * *
 
-©版权所有2017年，PyTorch。
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
 
