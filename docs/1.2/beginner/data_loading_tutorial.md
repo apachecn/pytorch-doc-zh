@@ -4,13 +4,13 @@
 >
 > 校验：[宁采晨](https://github.com/yangkae)
 
-解决任何机器学习问题都需要花费大量精力来准备数据。PyTorch提供了许多工具来简化数据加载过程，并有望使代码更具可读性。在本教程中，我们将看到如何从非平凡的数据集中加载和预处理/增强数据。
+解决任何机器学习问题都需要花费大量精力来准备数据。PyTorch提供了许多工具来简化数据加载过程，并有望使代码更具可读性。在本教程中，我们将学习如何从非平凡的数据集中加载和预处理/增强数据。
 
 要能够运行本教程中的代码，请确保已安装以下软件包：
 
   * `scikit-image `：用于图像io和变换
 
-  * `pandas `：为了更方便地解析csv
+  * `pandas `：为了更方便地处理csv文件
 
     ```python
     from __future__ import print_function, division
@@ -47,7 +47,7 @@
     1084239450_e76e00b7e7.jpg,70,236,71,257, ... ,128,312
 
 
-让我们快速阅读CSV并获取（N，2）数组中的注释，其中N是界标的数量。
+让我们快速阅读CSV并获取（N，2）数组中的注释，其中N是特征点的数量。
 
 ```python
 landmarks_frame = pd.read_csv('data/faces/face_landmarks.csv')
@@ -99,8 +99,8 @@ print('First 4 Landmarks: {}'.format(landmarks[:4]))
 让我们为面部轮廓数据集创建一个数据集类。我们将在`__init__`中读取csv文件，在`__getitem__
 `中读取图像。由于所有图像不会立即存储在内存中，而是根据需要读取，因此可以提高内存效率。
 
-我们的数据集中的样品是一个字典`{'image': image, 'landmarks': landmarks}`。我们的数据集将采取一个可选的参数`变换
-`，以便可以对样本进行任何必需的处理。我们将在下一节看到`变换 `的用处。  
+我们的数据集中的样品是一个字典`{'image': image, 'landmarks': landmarks}`。我们的数据集将采取一个可选的参数`transform
+`，以便可以对样本进行任何必需的处理。我们将在下一节看到`transform `的用处。  
 
     class FaceLandmarksDataset(Dataset):
         """Face Landmarks dataset."""
@@ -172,8 +172,7 @@ for i in range(len(face_dataset)):
     2 (250, 258, 3) (68, 2)
     3 (434, 290, 3) (68, 2)
 
-
-## 变换
+## 转换（Transforms）
 
 从上面可以看到的一个问题是样本的大小不同。大多数神经网络期望图像的大小固定。因此，我们将需要编写一些前置代码。让我们创建三个转换：：
 
@@ -274,9 +273,9 @@ class ToTensor(object):
 ```
 
 
-### 构造变换
+### 组合转换（Compose transforms）
 
-现在，我们将变换应用于样本。
+现在，我们将转换应用于样本。
 
 假设我们要将图像的较短边重新缩放为256，然后从中随机裁剪一个尺寸为224的正方形。即我们要组成 `Rescale`和`RandomCrop`变换。 `torchvision.transforms.Compose`是一个简单的可调用类，它使我们可以执行此操作。
 
@@ -340,7 +339,7 @@ class ToTensor(object):
 
   * 批量处理数据
   * 整理数据
-  * 使用`multiprocessing`工作并行加载数据。
+  * 使用`multiprocessing`并行加载数据。
 
 `torch.utils.data.DataLoader`是提供所有这些功能的迭代器。下面使用的参数应该清楚。一个重要参数是`collate_fn`。您可以使用指定要精确批处理样品的数量`collate_fn`。但是，默认排序规则在大多数情况下都可以正常工作。
 
@@ -395,7 +394,7 @@ for i_batch, sample_batched in enumerate(dataloader):
 
 ## 后记：torchvision
 
-在本教程中，我们已经看到了如何编写和使用的数据集，转换数据和的数据加载。`torchvision`软件包提供了一些常见的数据集和转换。您甚至不必编写自定义类。`torchvision`中可用的更通用的数据集之一是`ImageFolder`。假定图像的组织方式如下：
+在本教程中，我们已经看到了如何构造和使用数据集，转换数据和的数据加载。`torchvision`软件包提供了一些常见的数据集和转换。您甚至不必编写自定义类。`torchvision`中可用的更通用的数据集之一是`ImageFolder`。假定图像的组织方式如下：
 
     root/ants/xxx.png
     root/ants/xxy.jpeg
@@ -407,7 +406,7 @@ for i_batch, sample_batched in enumerate(dataloader):
     root/bees/nsdf3.png
     root/bees/asd932_.png
 
-其中“蚂蚁”，“蜜蜂”等是类标签。同样也可以使用`PIL.Image`的操作像 `RandomHorizontalFlip`和`Scale`来进行通用转换。您可以使用以下代码编写数据加载器：    
+其中“ants”，“bees”等是类标签。同样也可以使用`PIL.Image`中的操作像 `RandomHorizontalFlip`和`Scale`来进行通用转换。您可以使用以下代码创建一个数据加载器：    
 
     import torch
     from torchvision import transforms, datasets
