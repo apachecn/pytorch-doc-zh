@@ -4,7 +4,7 @@ PyTorch是一个开源深度学习平台，提供了从研究原型到具有GPU�
 
 解决机器学习问题的巨大努力在于数据准备。torchaudio利用PyTorch的GPU支持，并提供许多工具来简化数据加载并使其更具可读性。在本教程中，我们将看到如何从简单的数据集中加载和预处理数据。
 
-对于本教程，请确保 `matplotlib` 已安装该软件包以方便查看。
+对于本教程，请确保`matplotlib`已安装该软件包, 以方便查看。
 
     import torch
     import torchaudio
