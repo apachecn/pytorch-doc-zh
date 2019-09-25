@@ -214,49 +214,49 @@ Epoch：1 |时间为0分钟，11秒
 
 
 ​    
-    Loss: 0.0263(train)     |       Acc: 84.5%(train)
-    Loss: 0.0001(valid)     |       Acc: 89.0%(valid)
+​    Loss: 0.0263(train)     |       Acc: 84.5%(train)
+​    Loss: 0.0001(valid)     |       Acc: 89.0%(valid)
 
 
 Epoch：2 |时间0分钟，10秒
 
 
 ​    
-    Loss: 0.0119(train)     |       Acc: 93.6%(train)
-    Loss: 0.0000(valid)     |       Acc: 89.6%(valid)
+​    Loss: 0.0119(train)     |       Acc: 93.6%(train)
+​    Loss: 0.0000(valid)     |       Acc: 89.6%(valid)
 
 
 Epoch：3 |时间0分钟，9秒
 
 
 ​    
-    Loss: 0.0069(train)     |       Acc: 96.4%(train)
-    Loss: 0.0000(valid)     |       Acc: 90.5%(valid)
+​    Loss: 0.0069(train)     |       Acc: 96.4%(train)
+​    Loss: 0.0000(valid)     |       Acc: 90.5%(valid)
 
 
 Epoch：4 |时间为0分钟，11秒
 
 
 ​    
-    Loss: 0.0038(train)     |       Acc: 98.2%(train)
-    Loss: 0.0000(valid)     |       Acc: 90.4%(valid)
+​    Loss: 0.0038(train)     |       Acc: 98.2%(train)
+​    Loss: 0.0000(valid)     |       Acc: 90.4%(valid)
 
 
 Epoch：5 |时间为0分钟，11秒
 
 
 ​    
-    Loss: 0.0022(train)     |       Acc: 99.0%(train)
-    Loss: 0.0000(valid)     |       Acc: 91.0%(valid)
+​    Loss: 0.0022(train)     |       Acc: 99.0%(train)
+​    Loss: 0.0000(valid)     |       Acc: 91.0%(valid)
 
 
 ## 使用测试数据集评估模型
 
-
-​    
-    print('Checking the results of test dataset...')
-    test_loss, test_acc = test(test_dataset)
-    print(f'\tLoss: {test_loss:.4f}(test)\t|\tAcc: {test_acc * 100:.1f}%(test)')
+```
+print('Checking the results of test dataset...')
+test_loss, test_acc = test(test_dataset)
+print(f'\tLoss: {test_loss:.4f}(test)\t|\tAcc: {test_acc * 100:.1f}%(test)')
+```
 
 
 Out:
