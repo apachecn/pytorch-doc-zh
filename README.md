@@ -76,7 +76,7 @@
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
 
-> 第一期 (2018-11-27)
+> 第1期 (2018-11-27)
 
 * [那伊抹微笑](https://github.com/wangyangting): 1042658081
 * [飞龙](https://github.com/wizardforcel): 562826179
