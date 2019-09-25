@@ -1,45 +1,36 @@
-# 语言翻译与TorchText
+# 基于TorchText的语言翻译
 
-本教程介绍了如何使用`torchtext
-`到数据预处理的几种便利类含有英语和德语句子著名的数据集，并用它来训练序列对序列模型的注意，可德国句子翻译成英文。
 
-它是基于关闭的[本教程](https://github.com/bentrevett/pytorch-
-seq2seq/blob/master/3%20-%20Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.ipynb)从PyTorch社区成员[本Trevett
-](https://github.com/bentrevett)，被[赛斯魏德曼](https://github.com/SethHWeidman/)和Ben的许可创建。
+本教程介绍如何使用`torchtext
+`的几个类来预处理英德数据集，该数据集可以用来训练seq2seq模型，既而能自动把德语句子翻译成英语。
 
-在本教程的最后，你将能够：
+本文基于PyTorch社区成员[Ben Trevett](https://github.com/bentrevett)的[教程](https://github.com/bentrevett/pytorch-
+seq2seq/blob/master/3%20-%20Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.ipynb)，并得到了他本人的许可。
 
-  * 预处理句子成用于NLP建模通常使用的格式使用以下`torchtext`便利类：
-    
-    * [ TranslationDataset ](https://torchtext.readthedocs.io/en/latest/datasets.html#torchtext.datasets.TranslationDataset)
-    * [领域HTG1]](https://torchtext.readthedocs.io/en/latest/data.html#torchtext.data.Field)
-    * [ BucketIterator ](https://torchtext.readthedocs.io/en/latest/data.html#torchtext.data.BucketIterator)
+阅读完本教程，你将能够：
 
-## 领域HTG1]和 TranslationDataset 
+  * 使用以下`torchtext`的类将句子预处理为NLP建模的常用格式：：
+
+    * [TranslationDataset](https://torchtext.readthedocs.io/en/latest/datasets.html#torchtext.datasets.TranslationDataset)
+    * [Field](https://torchtext.readthedocs.io/en/latest/data.html#torchtext.data.Field)
+    * [BucketIterator](https://torchtext.readthedocs.io/en/latest/data.html#torchtext.data.BucketIterator)
+
+## Field和 TranslationDataset 
 
 `torchtext
-`具有创建数据集，可以轻松迭代完成创建语言翻译模型的目的工具。一个键类是[领域HTG5]，指定每个句子应该进行预处理的方法，另一种是在
-TranslationDataset  ; `torchtext
-`有几个这样的数据集;在本教程中，我们将使用](https://github.com/pytorch/text/blob/master/torchtext/data/field.py#L64)[
-Multi30k数据集](https://github.com/multi30k/dataset)，其中包含约30000句子（平均长度约13个字），英语和德语。
+`具有创建数据集的功能，可以轻松对其迭代以构建机器翻译模型。一个关键的类是Filed，它指定每个句子的预处理方法，另一个类是TranslationDataset  ; `torchtext
+`内置了几个翻译数据集；在本教程中，我们将使用 [Multi30k dataset](https://github.com/multi30k/dataset)数据集，其中包含约30000个英德句对（平均长度约13个字）。
 
-注：本教程中的标记化要求[ Spacy ](https://spacy.io)我们使用Spacy，因为它提供了英语以外的语言为符号化的大力支持。 `
-torchtext`提供`basic_english
-`标记生成器，并支持其他断词的英语（如[摩西](https://bitbucket.org/luismsgomes/mosestokenizer/src/default/)），但语言翻译
-- 需要多个语言 - Spacy是你最好的选择。
+注：本教程中的tokenization 需要使用[ Spacy ](https://spacy.io)。Spacy包可以帮助我们对英语以外的语言tokenization。`torchtext`提供了`basic_english
+`的tokenizer ，但是对于其他语言，使用Spacy对我们而言是最好的选择。
 
-为了运行该教程，第一安装`spacy`使用`点子 `或`康达 `。接下来，下载的英语和德语Spacy断词的原始数据：
+为了运行该教程，首先要使用pip或conda安装Spacy。接下来，下载英德原始数据：    
 
-    
-    
     python -m spacy download en
     python -m spacy download de
-    
 
-与Spacy安装，下面的代码将标记化每个句子中基于`TranslationDataset`上在`领域HTG6] `中定义的标记生成器
 
-    
-    
+安装Spacy后，以下代码将根据Field中定义的tokenizer 处理`TranslationDataset`中的每个句子。
     from torchtext.datasets import Multi30k
     from torchtext.data import Field, BucketIterator
     
@@ -57,37 +48,28 @@ torchtext`提供`basic_english
     
     train_data, valid_data, test_data = Multi30k.splits(exts = ('.de', '.en'),
                                                         fields = (SRC, TRG))
-    
 
-日期：
 
-    
-    
+输出：    
     downloading training.tar.gz
     downloading validation.tar.gz
     downloading mmt_task1_test2016.tar.gz
-    
 
-现在，我们已经定义`train_data`，我们可以看到的`torchtext`的`字段一个非常有用的功能 `：将`build_vocab
-`方法现在允许我们创建与每个语言相关联的词汇
+现在，我们已经定义好了`train_data`，`torchtext`的`Field`有一个非常有用的功能 `：我们可以使用build_vocab
+`方法创建每个语言的词汇表。
 
-    
-    
     SRC.build_vocab(train_data, min_freq = 2)
     TRG.build_vocab(train_data, min_freq = 2)
-    
 
-一旦这些代码行已经在运行，`SRC.vocab.stoi`将与词汇表中的作为键的标记和它们相应的索引作为字典的值; `SRC.vocab.itos
-`将是相同的字典，交换了键和值。我们不会广泛使用这一事实在本教程中，但是这可能会在你遇到其他NLP任务有用。
+一旦这些代码行被运行，`SRC.vocab.stoi`将成为一个tokens作为key，索引作为value的词典；对应的， `SRC.vocab.itos
+`是一个交换了key和value内容相同的字典。在本教程中我们不会广泛使用此功能，但是你可能在遇到其他NLP任务有用。
 
 ## `BucketIterator`
 
-我们将使用最后一个`torchtext`具体特征是`BucketIterator`，这是很容易使用，因为它需要一个`
-TranslationDataset
-`作为它的第一个参数。具体而言，作为文档说：定义批处理类似长度的实例一起的迭代器。最小化，同时产生新鲜混洗批次为每个新历元所需要的填充量。参见所用桶装程序池。
+我们使用最后一个`torchtext`的特性是`BucketIterator`， 它以TranslationDataset作为第一个参数，所以易于使用。如文档所说：定义一个迭代器，该迭代器将相似长度的数据放在一起。产生每个新bacth时，最大程度地减少所需的填充量。
 
-    
-    
+
+
     import torch
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -98,36 +80,29 @@ TranslationDataset
         (train_data, valid_data, test_data),
         batch_size = BATCH_SIZE,
         device = device)
-    
 
-这些迭代可以被称为就像`DataLoader``s ;  下面， 在 中的 ``培养 `和`评价 `的功能，它们被简单地称为带：
 
-    
-    
+可以像`DataLoader`一样调用这些迭代器。 在下面的训练和评估函数中，它们可以简单地通过以下方式调用：    
+
     for i, batch in enumerate(iterator):
-    
 
-每个`批次 `于是具有`SRC`和`TRG`属性：
 
-    
-    
+每个`batch `于是具有`SRC`和`TRG`属性：
+
     src = batch.src
     trg = batch.trg
-    
 
-## 定义我们的`nn.Module`和`优化 `
 
-这主要是从一个`torchtext`perspecive：内置的数据集和定义的迭代器，本教程的其余部分只是我们的模型定义为`nn.Module
-`，与`沿优化 `，然后训练它。
+## 定义我们的`nn.Module`和`Optimizer `
 
-我们的模型而言，如下描述HTG0]此处[HTG1（你可以找到一个显著更多评论版[此处](https://github.com/SethHWeidman/pytorch-
-seq2seq/blob/master/3%20-%20Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.ipynb)）的架构。
+解决了数据集的问题并为之定义好迭代器，我们剩下的任务就是定义模型和优化器完成训练过程。
 
-注意：这种模式仅仅是可用于语言翻译的示例模型;我们选择它，因为它是该任务的标准模型，而不是因为它是推荐的机型使用进行翻译。正如你可能知道，国家的最先进的机型，目前基于变形金刚;你可以看到PyTorch的能力，实现变压器层[此处](https://pytorch.org/docs/stable/nn.html#transformer-
-layers) ;，特别的“关注”在下面的模型中使用的是多头存在于变压器模型自注意不同。
+具体来说，我们的模型遵循[此处](<https://arxiv.org/abs/1409.0473>)描述的结构。
 
-    
-    
+注意：我们选择这种模型并不是因为它是目前最优的，而是因为它是机器翻译的标准模型。众所周知，目前机器翻译的最优模型是Transformers。
+
+
+  
     import random
     from typing import Tuple
     
@@ -135,8 +110,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
     import torch.optim as optim
     import torch.nn.functional as F
     from torch import Tensor
-    
-    
+
+
+​    
     class Encoder(nn.Module):
         def __init__(self,
                      input_dim: int,
@@ -170,8 +146,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
             hidden = torch.tanh(self.fc(torch.cat((hidden[-2,:,:], hidden[-1,:,:]), dim = 1)))
     
             return outputs, hidden
-    
-    
+
+
+​    
     class Attention(nn.Module):
         def __init__(self,
                      enc_hid_dim: int,
@@ -204,8 +181,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
             attention = torch.sum(energy, dim=2)
     
             return F.softmax(attention, dim=1)
-    
-    
+
+
+​    
     class Decoder(nn.Module):
         def __init__(self,
                      output_dim: int,
@@ -230,8 +208,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
             self.out = nn.Linear(self.attention.attn_in + emb_dim, output_dim)
     
             self.dropout = nn.Dropout(dropout)
-    
-    
+
+
+​    
         def _weighted_encoder_rep(self,
                                   decoder_hidden: Tensor,
                                   encoder_outputs: Tensor) -> Tensor:
@@ -247,8 +226,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
             weighted_encoder_rep = weighted_encoder_rep.permute(1, 0, 2)
     
             return weighted_encoder_rep
-    
-    
+
+
+​    
         def forward(self,
                     input: Tensor,
                     decoder_hidden: Tensor,
@@ -274,8 +254,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
                                          embedded), dim = 1))
     
             return output, decoder_hidden.squeeze(0)
-    
-    
+
+
+​    
     class Seq2Seq(nn.Module):
         def __init__(self,
                      encoder: nn.Module,
@@ -311,8 +292,9 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
                 output = (trg[t] if teacher_force else top1)
     
             return outputs
-    
-    
+
+
+​    
     INPUT_DIM = len(SRC.vocab)
     OUTPUT_DIM = len(TRG.vocab)
     # ENC_EMB_DIM = 256
@@ -338,52 +320,48 @@ layers) ;，特别的“关注”在下面的模型中使用的是多头存在�
     dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, DEC_DROPOUT, attn)
     
     model = Seq2Seq(enc, dec, device).to(device)
-    
-    
+
+
+​    
     def init_weights(m: nn.Module):
         for name, param in m.named_parameters():
             if 'weight' in name:
                 nn.init.normal_(param.data, mean=0, std=0.01)
             else:
                 nn.init.constant_(param.data, 0)
-    
-    
+
+
+​    
     model.apply(init_weights)
     
     optimizer = optim.Adam(model.parameters())
-    
-    
+
+
+​    
     def count_parameters(model: nn.Module):
         return sum(p.numel() for p in model.parameters() if p.requires_grad)
-    
-    
+
+
+​    
     print(f'The model has {count_parameters(model):,} trainable parameters')
-    
 
-Out:
 
-    
-    
+输出：
     The model has 1,856,685 trainable parameters
-    
 
-注：得分尤其是语言翻译模型的性能时，我们必须告诉`nn.CrossEntropyLoss`函数忽略其中目标是简单地填充索引。
 
-    
-    
+注：当计算模型分数尤其是翻译模型时，我们需要设置`nn.CrossEntropyLoss` 忽略padding。
+
     PAD_IDX = TRG.vocab.stoi['<pad>']
     
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_IDX)
-    
 
-最后，我们可以训练和评价这一模式：
 
-    
-    
+最后，我们可以训练和评价模型：    
+
     import math
     import time
-    
-    
+
     def train(model: nn.Module,
               iterator: BucketIterator,
               optimizer: optim.Optimizer,
@@ -417,8 +395,9 @@ Out:
             epoch_loss += loss.item()
     
         return epoch_loss / len(iterator)
-    
-    
+
+
+​    
     def evaluate(model: nn.Module,
                  iterator: BucketIterator,
                  criterion: nn.Module):
@@ -444,16 +423,18 @@ Out:
                 epoch_loss += loss.item()
     
         return epoch_loss / len(iterator)
-    
-    
+
+
+​    
     def epoch_time(start_time: int,
                    end_time: int):
         elapsed_time = end_time - start_time
         elapsed_mins = int(elapsed_time / 60)
         elapsed_secs = int(elapsed_time - (elapsed_mins * 60))
         return elapsed_mins, elapsed_secs
-    
-    
+
+
+​    
     N_EPOCHS = 10
     CLIP = 1
     
@@ -477,12 +458,9 @@ Out:
     test_loss = evaluate(model, test_iterator, criterion)
     
     print(f'| Test Loss: {test_loss:.3f} | Test PPL: {math.exp(test_loss):7.3f} |')
-    
 
-Out:
 
-    
-    
+输出：
     Epoch: 01 | Time: 0m 36s
             Train Loss: 5.686 | Train PPL: 294.579
              Val. Loss: 5.250 |  Val. PPL: 190.638
@@ -514,70 +492,12 @@ Out:
             Train Loss: 3.919 | Train PPL:  50.367
              Val. Loss: 4.448 |  Val. PPL:  85.441
     | Test Loss: 4.464 | Test PPL:  86.801 |
-    
+
 
 ## 接下来的步骤
 
-  * 看看本Trevett的教程的其余部分使用`torchtext`[这里](https://github.com/bentrevett/)
-  * 请继续使用其他`torchtext`功能与`一起调整为教程nn.Transformer`通过下一个单词预测语言建模！
+  * 看看Ben Trevett使用`torchtext`教程的[其余部分](https://github.com/bentrevett/)
+  * 请继续关注使用其他`torchtext`功能以及`nn.Transformer`语言建模预测下一个单词的教程！
 
 **脚本的总运行时间：** （6分钟27.732秒）
-
-[`Download Python source code:
-torchtext_translation_tutorial.py`](../_downloads/96d6dc961c7477af88e16ca6c9592240/torchtext_translation_tutorial.py)
-
-[`Download Jupyter notebook:
-torchtext_translation_tutorial.ipynb`](../_downloads/05baddac9b2f50d639a62ea5fa6e21e4/torchtext_translation_tutorial.ipynb)
-
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](transformer_tutorial.html "Sequence-to-Sequence Modeling with
-nn.Transformer and TorchText") [![](../_static/images/chevron-right-
-orange.svg) Previous](text_sentiment_ngrams_tutorial.html "Text Classification
-with TorchText")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * 语言翻译与TorchText 
-    * 领域HTG2]和 TranslationDataset 
-    * `BucketIterator`
-    * 定义我们的`nn.Module`和`优化 `
-    * [HTG0接下来的步骤
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
 

@@ -61,7 +61,6 @@
 
 > 第3期 (2019-09-17)
 
-* [飞龙](https://github.com/wizardforcel): 562826179
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [Alex](https://github.com/AlexJakin): 1272296763
 * [Holly](https://github.com/kunwuz): 514397511
