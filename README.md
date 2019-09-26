@@ -59,13 +59,13 @@
 
 格式: GitHub + QQ
 
-> 第3期 (2019-09-17)
+> 第4期 1.2 (2019-09-17)
 
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [Alex](https://github.com/AlexJakin): 1272296763
 * [Holly](https://github.com/kunwuz): 514397511
 
-> 第2期 (2019-06-10)
+> 第3期 1.0 (2019-06-10)
 
 * [FontTian](https://github.com/FontTian): 2404846224
 * [Smile](https://github.com/Smilexuhc): 240485545
@@ -76,7 +76,13 @@
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
 
-> 第1期 (2018-11-27)
+> 第2期 1.0 (2019-01-22)
+
+* [飞龙](https://github.com/wizardforcel): 562826179
+* [片刻](https://github.com/jiangzhonglian): 529815144
+* [咸鱼](https://github.com/Watermelon233): 1034616238
+
+> 第1期 0.3 (2018-04-04)
 
 * [那伊抹微笑](https://github.com/wangyangting): 1042658081
 * [飞龙](https://github.com/wizardforcel): 562826179
