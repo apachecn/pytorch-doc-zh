@@ -1,12 +1,11 @@
-# NLP From Scratch：版本生成的名称用字符级RNN
-
-**作者** ：[肖恩·罗伯逊](https://github.com/spro/practical-pytorch)
-
-这是我们的“NLP的划痕”的三个教程第二。在第一教程& LT ; /中间/ char_rnn_classification_tutorial & GT ;
-我们使用了RNN到名称分类到其原籍语言。这一次，我们将回过头来生成语言的名称。
-
-    
-    
+# NLP From Scratch：使用char-RNN生成姓氏
+>
+>作者: [Sean Robertson](https://github.com/spro/practical-pytorch)
+>
+>校验: 松鼠
+>
+这是我们关于“从零开始的NLP”的三个教程中的第二个。在第一个教程`</ intermediate / char_rnn_classification_tutorial>`中，我们使用了RNN将姓氏分类为它们的起源语言。这次，我们将从语言中生成姓氏。
+```shell
     > python sample.py Russian RUS
     Rovakov
     Uantov
@@ -26,38 +25,35 @@
     Chan
     Hang
     Iun
-    
+```    
 
-我们还在手工编写一个小RNN与几个线性层。最大的区别是一个名称的所有字母看完之后，而不是预测的一个类别，我们输入一次一个类别，并输出一个字母。反复预测字符，以形成语言（这也可以与词语或其它高阶构建完成的）通常被称为“语言模型”。
+我们之前还在手撸带有一些线性层的小型RNN网络。现在和之前最大的区别在于，我们不再是读取一个姓氏的所有字母来预测是什么类别，而是输入一个类别并同时输出一个字母。这种循环预测出来自语言的字符模型（这也可以用单词或其他高阶结构来完成）通常称为“语言模型”。
 
-**建议读：**
+**建议：**
 
-我假设你已经至少安装PyTorch，知道Python和理解张量：
+假设你已经至少安装PyTorch，知道Python和理解张量：
 
-  * [ https://pytorch.org/ [HTG1对于安装说明](https://pytorch.org/)
-  * [ 深，PyTorch学习：60分钟的闪电战 ](../beginner/deep_learning_60min_blitz.html)得到普遍开始PyTorch
-  * 与实施例 对于宽和深概述[ 学习PyTorch](../beginner/pytorch_with_examples.html)
-  * [ PyTorch为前Torch 用户 ](../beginner/former_torchies_tutorial.html)如果你是前者的LuaTorch 用户
+  * [pytorch](https://pytorch.org/)安装说明
+  * 观看[《PyTorch进行深度学习：60分钟速成》](../beginner/deep_learning_60min_blitz.html)来开始学习pytorch
+  * [通过实例深入学习PyTorch](../beginner/pytorch_with_examples.html)
+  * [pytorch为前torch用户的提供的指南](../beginner/former_torchies_tutorial.html)
 
-这也将是有益的了解RNNs以及它们如何工作：
+下面这些是了解RNNs以及它们如何工作的相关联接：
 
-  * [回归神经网络](https://karpathy.github.io/2015/05/21/rnn-effectiveness/)不合理有效性示出了一堆真实例子
-  * [理解LSTM网络](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)为约LSTMs具体地说而且翔实约RNNs一般
+  * [回归神经网络](https://karpathy.github.io/2015/05/21/rnn-effectiveness/)展示真实生活中的一系列例子
+  * [理解LSTM网络](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)虽然是关于LSTMs的但也对RNNs有很多详细的讲解
 
-我也建议前面的教程，[ NLP From Scratch：版本分类名称以字符级RNN
-](char_rnn_classification_tutorial.html)
+我也建议浏览下前面的教程，[NLP From Scratch：使用char-RNN对姓氏进行分类
+](../intermediate/char_rnn_classification_tutorial.md)
 
 ## 准备数据
 
-Note
+>* Note
+>从[此处](https://download.pytorch.org/tutorial/data.zip)下载数据，并将其解压到当前目录。
 
-从[此处](https://download.pytorch.org/tutorial/data.zip)下载数据，并将其解压到当前目录。
+有关此过程的更多详细信息，请参见上一教程。简而言之，有一堆纯文本文件`data/names/[Language].txt`，每行都有一个姓氏。我们将行拆分成一个数组，将`Unicode`转换为`ASCII`，最后得到一个dictionary`{language: [names ...]}`
 
-看到最后教程，这个过程的更多细节。总之，存在与每一行的名称一堆纯文本文件`数据/名称/ [语言]的.txt
-`。我们分割线成一个数组，Unicode转换为ASCII码，并用字典结束`{语言： [名称 ...]}  [ HTG11。`
-
-    
-    
+```python
     from __future__ import unicode_literals, print_function, division
     from io import open
     import glob
@@ -101,29 +97,23 @@ Note
     
     print('# categories:', n_categories, all_categories)
     print(unicodeToAscii("O'Néàl"))
-    
+```    
 
-日期：
-
-    
-    
+输出： 
+```shell    
     # categories: 18 ['French', 'Czech', 'Dutch', 'Polish', 'Scottish', 'Chinese', 'English', 'Italian', 'Portuguese', 'Japanese', 'German', 'Russian', 'Korean', 'Arabic', 'Greek', 'Vietnamese', 'Spanish', 'Irish']
     O'Neal
-    
+```    
 
 ## 创建网络
 
-该网络已经延伸最后一个教程的RNN 与类别张量，这是与其他人一起串接一个额外的参数。类别张量是一热载体，就像字母输入。
+该网络 使用类别张量的额外参数扩展了上一教程的RNN，该参数与其他张量串联在一起。类别张量是一个独热向量，就像字母输入一样。
 
-我们将解释输出作为下一个字母的概率。抽样时，最有可能的输出信作为下一个输入字母。
+我们将输出解释为下一个字母的概率。采样时，最有可能的输出字母用作下一个输入字母。
 
-我添加了一个第二线性层`O2O
-`（合成后隐藏和输出）给它更多的肌肉一起工作。还有一个漏失层，其[随机归零其输入](https://arxiv.org/abs/1207.0580)的部分具有给定的概率（这里0.1）和通常用于模糊输入，以防止过度拟合。这里，我们使用它向网络末端故意添加一些混乱，并增加抽样品种。
+我们添加了第二个线性层o2o（将隐藏和输出结合在一起之后），以使它具有更多的性能可以使用。还有一个drop层，它以给定的概率（此处为0.1）将输入的[一部分随机归零](https://arxiv.org/abs/1207.0580)，通常用于模糊输入以防止过拟合。在这里，我们在网络末端使用它来故意添加一些混乱并增加采样种类。
 
-![](https://i.imgur.com/jzVrf7f.png)
-
-    
-    
+```python
     import torch
     import torch.nn as nn
     
@@ -150,16 +140,15 @@ Note
     
         def initHidden(self):
             return torch.zeros(1, self.hidden_size)
-    
+```    
 
-## 培训
+## 训练
 
 ### 准备训练
 
-首先，辅助函数来获得随机对（类别，行）：
+先，helper函数获取随机对（类别，行）：
 
-    
-    
+```python
     import random
     
     # Random item from a list
@@ -171,22 +160,16 @@ Note
         category = randomChoice(all_categories)
         line = randomChoice(category_lines[category])
         return category, line
+```   
+
+对于每个时间步长（即对于训练单词中的每个字母），网络的输入将为`(category, current letter, hidden state)` ，输出将为`(next letter, next hidden state)`。因此，对于每个训练集，我们都需要类别，一组输入字母和一组输出/目标字母。
+
+由于我们正在预测每个时间步中当前字母的下一个字母，因此字母对是该行中连续的字母组,例如:`"ABCD<EOS>"`我们将创建（“ A”，“ B”），（“ B”，“ C” ），（“ C”，“ D”），（“ D”，“ EOS”）。
+
+
+类别张量是大小为`<1 x n_categories>`的独热张量。训练时，我们会随时随地将其馈送到网络中。这是一种设计方式，它可能已作为初始隐藏状态或某些其他策略的一部分包含在内。
     
-
-对于每个时间步长（即，用于在训练单词的每个字母）的网络的输入将是`（类别， 电流 信函 隐藏 的状态） `，输出将是`（下一个 信函 下一个 隐藏
-的状态） `。因此，对于每一个训练集，我们需要的类别，一组输入字母，和一组输出/目标字母。
-
-由于我们预测从当前字母的下一个字母每个时间步长，信对是从线连续字母组 - 例如为`“ABCD & LT ; EOS & GT ;”
-`我们将创建（“A”，“B”），（“ B”，‘C’），（‘C’，‘d’），（‘d’，‘EOS’）。
-
-![](https://i.imgur.com/JH58tXY.png)
-
-类别张量是[独热张量](https://en.wikipedia.org/wiki/One-hot)大小的`& LT ; 1  ×
-n_categories [ - - ] GT ;`。当我们训练它在每一个时间步喂到网络 -
-这是一个设计选择，它可能已被列入作为初始隐藏状态的部分或其他一些策略。
-
-    
-    
+```python    
     # One-hot vector for category
     def categoryTensor(category):
         li = all_categories.index(category)
@@ -207,13 +190,9 @@ n_categories [ - - ] GT ;`。当我们训练它在每一个时间步喂到网络
         letter_indexes = [all_letters.find(line[li]) for li in range(1, len(line))]
         letter_indexes.append(n_letters - 1) # EOS
         return torch.LongTensor(letter_indexes)
-    
-
-为了在训练期间的方便，我们会成为一个`randomTrainingExample
-`功能，其获取的随机（类别，线）对并将其转换为所需的（类别，输入，目标）张量。
-
-    
-    
+```    
+为了方便训练，我们将创建一个`randomTrainingExample`函数以获取随机（类别，行）对并将其转换为所需的（类别，输入，目标）张量。
+```python
     # Make category, input, and target tensors from a random category, line pair
     def randomTrainingExample():
         category, line = randomTrainingPair()
@@ -221,15 +200,14 @@ n_categories [ - - ] GT ;`。当我们训练它在每一个时间步喂到网络
         input_line_tensor = inputTensor(line)
         target_line_tensor = targetTensor(line)
         return category_tensor, input_line_tensor, target_line_tensor
-    
+```  
 
 ### 网络训练
 
-与此相反，以分类，其中仅使用最后的输出中，我们在每个步骤进行预测，所以我们在每一步计算损失。
+与仅使用最后一个输出的分类相反，我们在每个步骤进行预测，因此在每个步骤都计算损失。
 
-autograd的魔力让您只需在每一步总结这些损失，并在年底回呼。
-
-    
+autograd使您可以简单地将每一步的损失相加，然后在末尾调用。
+```python
     
     criterion = nn.NLLLoss()
     
@@ -254,11 +232,11 @@ autograd的魔力让您只需在每一步总结这些损失，并在年底回呼
             p.data.add_(-learning_rate, p.grad.data)
     
         return output, loss.item() / input_line_tensor.size(0)
-    
+```   
 
-为了使培训需要多长时间我增加了`timeSince（时间戳）HTG2] `函数返回一个人类可读的字符串轨迹：
+为了跟踪训练需要多长时间，我添加了一个`timeSince(timestamp)`返回人类可读字符串的函数：
 
-    
+```python
     
     import time
     import math
@@ -269,12 +247,11 @@ autograd的魔力让您只需在每一步总结这些损失，并在年底回呼
         m = math.floor(s / 60)
         s -= m * 60
         return '%dm %ds' % (m, s)
-    
+```   
 
-训练照常营业 - 称火车一堆时间和等待几分钟，打印出当前时间和损耗每`print_every`实例，并保持每一个平均损失[店面HTG4 ]
-plot_every  在`实例all_losses`供以后绘制。
+训练通常会需要来回调用很多次，然后等待几分钟，打印每个`print_every`的当前时间和损失值，并保存每个样本的平均损失`plot_every`到`all_losses`供以后绘图用。
 
-    
+```python   
     
     rnn = RNN(n_letters, 128, n_letters)
     
@@ -296,11 +273,11 @@ plot_every  在`实例all_losses`供以后绘制。
         if iter % plot_every == 0:
             all_losses.append(total_loss / plot_every)
             total_loss = 0
-    
+```   
 
 Out:
 
-    
+```shell   
     
     0m 17s (5000 5%) 3.5187
     0m 35s (10000 10%) 2.5492
@@ -322,42 +299,41 @@ Out:
     5m 23s (90000 90%) 2.9525
     5m 42s (95000 95%) 1.9797
     6m 0s (100000 100%) 2.3567
-    
+```    
 
 ### 绘制损失
 
-绘制从all_losses的历史损失显示网络学习：
+绘制all_losses中的历史损失值展示网络学习：
 
     
-    
+```python    
     import matplotlib.pyplot as plt
     import matplotlib.ticker as ticker
     
     plt.figure()
     plt.plot(all_losses)
-    
+```   
 
-![img/sphx_glr_char_rnn_generation_tutorial_001.png](img/sphx_glr_char_rnn_generation_tutorial_001.png)
+![img/sphx_glr_char_rnn_generation_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_char_rnn_generation_tutorial_001.png)
 
 ## 采样网络
 
-为了品尝我们给网络中的信，问下一个是什么，喂，在为下一个字母，并重复直到EOS令牌。
+我们给网络一个字母，问下一个字母是什么，并将其作为下一个字母输入，并重复直到EOS标记。
 
-  * 创建输入类别，首个字母，而空隐藏状态的张量
-  * 创建一个字符串`output_name中 `与首字母
-  * 最多输出长度，
-    * 饲料当前信网络
-    * 获得从最高输出下一个字母，下一个隐藏的状态
-    * 如果这封信是EOS，到此为止
-    * 如果一个普通的信，添加到`output_name中 `并继续
-  * 返回的最终名称
+  * 创建输入类别，首个字母，空的隐藏状态的张量
+  * 创建一个以首字母开头的字符串`output_name`
+  * 最大输出长度，
+    * 喂入当前字母到网络
+    * 从输出中获取最可能字母，和下一个隐藏层的状态
+    * 如果当前输出是EOS标记，就停止循环
+    * 如果是一个正常的字母，就添加到`output_name`中并继续
+  * 返回的最终姓氏
 
-Note
+>* Note
+>相比于给它起一个开始字母，另一种策略是在训练中包括一个“字符串开始”标记，并让网络选择自己的开始字母。
+>
 
-而不是给它的首个字母，另一种策略会一直到包括“字符串的开始”令牌培训，并有网络选择自己的首个字母。
-
-    
-    
+```python        
     max_length = 20
     
     # Sample from a category and starting letter
@@ -394,12 +370,10 @@ Note
     samples('Spanish', 'SPA')
     
     samples('Chinese', 'CHI')
-    
+```    
 
-Out:
-
-    
-    
+输出:
+```shell
     Rovallov
     Uanovakov
     Sanovakov
@@ -412,81 +386,17 @@ Out:
     Chan
     Hang
     Iun
-    
+```    
 
 ## 练习
 
-  * 尝试使用不同的数据集的类 - & GT ;线，例如：
-    * 虚构系列 - & GT ;字符名称
-    * 语音的部分 - & GT ;字
-    * 国家 - [ - ] GT ;市
-  * 使用“句子的开始”标记，这样抽样可以在没有选择的开始字母来完成
-  * 取得更好的成绩有更大的和/或更好的网络状
+  * 尝试使用不同的数据集的category -> line，例如：
+    * 虚构系列->角色名称
+    * 词性->单词
+    * 国家->城市
+  * 使用“句子开头”标记，以便无需选择开始字母即可进行采样
+  * 通过更大和/或结构更好的网络获得更好的结果
     * 尝试nn.LSTM和nn.GRU层
-    * 结合这些RNNs的多为高层网络
+    * 将多个这些RNN合并为更高级别的网络
 
 **脚本的总运行时间：** （6分钟0.536秒）
-
-[`Download Python source code:
-char_rnn_generation_tutorial.py`](../_downloads/8167177b6dd8ddf05bb9fe58744ac406/char_rnn_generation_tutorial.py)
-
-[`Download Jupyter notebook:
-char_rnn_generation_tutorial.ipynb`](../_downloads/a35c00bb5afae3962e1e7869c66872fa/char_rnn_generation_tutorial.ipynb)
-
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](seq2seq_translation_tutorial.html "NLP From Scratch: Translation
-with a Sequence to Sequence Network and Attention")
-[![](../_static/images/chevron-right-orange.svg)
-Previous](char_rnn_classification_tutorial.html "NLP From Scratch: Classifying
-Names with a Character-Level RNN")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * NLP从头：生成名称与字符级RNN 
-    * 准备数据
-    * 创建网络
-    * 培训
-      * 准备训练
-      * 训练网络
-      * 绘制的损失
-    * 采样网络
-    * 练习
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
-
