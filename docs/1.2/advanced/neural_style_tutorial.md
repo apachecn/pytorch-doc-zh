@@ -1,34 +1,30 @@
-# 神经网络传输使用PyTorch
+# 神经网络传输使用 PyTorch
 
-**作者** ：[亚历克西黄灯笼](https://alexis-jacq.github.io)
-
-**由** 编辑：[温斯顿鲱鱼](https://github.com/winston6)
+> **作者**: [Alexis Jacq](https://alexis-jacq.github.io)
+>
+> **编辑**: [Winston Herring](https://github.com/winston6)
 
 ## 简介
 
-本教程介绍了如何实现[神经类型算法](https://arxiv.org/abs/1508.06576)开发由Leon A.
-Gatys，亚历山大S.埃克和Matthias贝特格。神经风格，或神经传输，让您拍摄图像，并用新的艺术风格重现。该算法需要三个图像，输入图像，内容的图像，和一个样式图象，并且改变输入到类似于内容的图像的内容和样式图像的艺术风格。
+本教程介绍了如何实现 由Leon A. Gatys，Alexander S. Ecker和Matthias Bethge开发的[神经风格算法](https://arxiv.org/abs/1508.06576)。神经风格或神经传递，使您可以拍摄图像并以新的艺术风格对其进行再现。该算法获取三个图像，即输入图像，内容图像和样式图像，然后更改输入以使其类似于内容图像的内容和样式图像的艺术风格。
 
-![content1](img/neuralstyle.png)
+![https://pytorch.org/tutorials/_images/neuralstyle.png](https://pytorch.org/tutorials/_images/neuralstyle.png)
 
 ## 基本原理
 
-原理很简单：我们定义两个距离，一个是内容（ \（D_C \）HTG1]），一个用于样式（ \（D_S \）HTG3]）。  \（D_C
-\）的含量如何不同是两个图像之间的措施而 \（D_S
-\）措施的样式如何不同是两个图像之间。然后，我们把第三图像，输入，并将其转换以最大限度地减小其内容的距离与内容的图像，并与风格像它的风格距离。现在，我们可以导入必要的软件包，并开始神经传递。
+原理很简单：我们定义了两个距离，一个用于内容 $$(D_S)$$ 和一种样式 $$(D_S)$$。 $$(D_C)$$ 测量两个图像之间的内容有多不同，而 $$(D_S)$$ 测量两个图像之间样式的差异。然后，我们获取第三个图像输入，并将其转换为最小化与内容图像的内容距离和与样式图像的样式距离。现在我们可以导入必要的包并开始神经传递。
 
-## 导入包和选择设备
+## 导入软件包并选择设备
 
-下面是实现神经传送所需的包的列表。
+以下是实现神经传递所需的软件包列表。
 
-  * `torch `，`torch.nn`，`numpy的 `（包赛前必读用于与神经网络PyTorch）
-  * `torch.optim`（有效梯度下坡）
-  * `PIL`，`PIL.Image`，`matplotlib.pyplot`（负载和显示图像）
-  * `torchvision.transforms`（变换PIL图像转换成张量）
-  * `torchvision.models`（火车或载预训练的模型）
-  * `复制 `（深拷贝的模型;系统封装）
+* `torch`，`torch.nn`，`numpy`（与PyTorch神经网络包赛前必读）
+* `torch.optim` （有效的梯度下降）
+* `PIL`，`PIL.Image`，`matplotlib.pyplot`（负载和显示图像）
+* `torchvision.transforms` （将PIL图像转换为张量）
+* `torchvision.models` （训练或负载预训练模型）
+* `copy` （以深层复制模型；系统包）
 
-    
     
     from __future__ import print_function
     
@@ -46,28 +42,17 @@ Gatys，亚历山大S.埃克和Matthias贝特格。神经风格，或神经传�
     import copy
     
 
-接下来，我们需要选择在运行网络，设备和导入的内容和风格的图像。大图像运行的神经传递算法需要更长的时间，并在GPU上运行时，会快很多。我们可以使用`
-torch.cuda.is_available（） `，以检测是否有可用的GPU。接下来，我们设置了`torch.device
-`在整个教程中使用。另外，`。要（装置） `方法用于张量或模块移动到期望的设备。
+接下来，我们需要选择要在哪个设备上运行网络并导入内容和样式图像。 在大图像上运行神经传递算法需要更长的时间，并且在GPU上运行时会更快。 我们可以使用`torch.cuda.is_available()`来检测是否有GPU。 接下来，我们设置`torch.device`以在整个教程中使用。 `.to(device)`方法也用于将张量或模块移动到所需的设备。
 
-    
-    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
 
 ## 加载图像
 
-现在，我们将导入的风格和内容的图像。原始PIL图像具有值0和255之间，但是，当转化入Torch 张量，它们的值被转换为0和1之间的图像也需要被调整到具有相同的尺寸。要注意的重要细节是，从Torch 库神经网络与张量值范围从0到1的培训。如果你尝试用0到255张图像喂网络，然后激活功能的地图将无法意义上的预期内容和风格。但是，从来自Caffe库预训练的网络被训练，用0至255张量的图像。
+现在，我们将导入样式和内容图像。原始的PIL图像的值在0到255之间，但是当转换为Torch张量时，其值将转换为0到1之间。图像也需要调整大小以具有相同的尺寸。需要注意的一个重要细节是，使用从0到1的张量值对Torch库中的神经网络进行训练。如果尝试为网络提供0到255张量图像，则激活的特征图将无法感知预期的内容和风格。但是，来自Caffe库的预训练网络使用0到255张量图像进行训练。
 
-Note
-
-通过以下链接下载到运行教程所需的图像：[ picasso.jpg
-](https://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg)和[
-dancing.jpg [HTG3。下载这两个图像，并将它们与名称`图像
-`在当前工作目录添加到目录中。](https://pytorch.org/tutorials/_static/img/neural-
-style/dancing.jpg)
-
-    
+> Note
+> 通过以下链接下载到运行教程所需的图像：[picasso.jpg](https://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg)和[dancing.jpg](https://pytorch.org/tutorials/_static/img/neural-style/dancing.jpg)。下载这两个图像并将它们添加到images当前工作目录中具有名称的目录中。 
     
     # desired size of the output image
     imsize = 512 if torch.cuda.is_available() else 128  # use small size if no gpu
@@ -90,10 +75,7 @@ style/dancing.jpg)
     assert style_img.size() == content_img.size(), \
         "we need to import style and content images of the same size"
     
-
-现在，让我们创建一个由再转它的一个副本，以PIL格式，并使用`plt.imshow
-`显示复制显示图像的功能。我们会尽量显示内容和风格的图像，以确保他们正确导入。
-
+现在，让我们创建一个通过将图像的副本转换为PIL格式并使用来显示图像的功能`plt.imshow`。我们将尝试显示内容和样式图像，以确保正确导入它们。
     
     
     unloader = transforms.ToPILImage()  # reconvert into PIL image
@@ -117,22 +99,16 @@ style/dancing.jpg)
     imshow(content_img, title='Content Image')
     
 
-  * ![img/sphx_glr_neural_style_tutorial_001.png](img/sphx_glr_neural_style_tutorial_001.png)
-  * ![img/sphx_glr_neural_style_tutorial_002.png](img/sphx_glr_neural_style_tutorial_002.png)
+  * ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png)
+  * ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png)
 
 ## 损失函数
 
-### 丢失内容
+### 内容损失
 
-内容损失是代表内容的距离为一个单独层的加权的版本的功能。该函数采用特征地图 \（F_ {XL} \）的层 \（L \）在一个网络处理输入 \（X
-\）并返回该内容加权距离 \（W_ {CL} .D_C ^ L（X，C）\）的图像之间 \（X \）和内容图像 \（C \）。所述内容图像的特征映射（
-\（F_ {CL} \））必须由功能，以计算其含量距离是已知的。我们用一个构造函数 \（F_ {CL} \）作为输入实现该功能作为torch模块。的距离 \（\ |
-F_ {XL} - F_ {CL} \ | ^ 2 \）是两组特征地图之间的均方误差，并且可以使用`[计算HTG19 ] nn.MSELoss `。
+内容损失是代表单个图层内容距离的加权版本的函数。该功能获取特征图$$F_{XL}$$ 一层$$L$$在网络中处理输入$$X$$并返回加权内容距离$$w_{CL}.D_C^L(X,C)$$图像之间$$X$$和内容图片$$C$$。内容图像的特征图（$$F_{CL}$$函数必须知道）才能计算内容距离。我们将此函数作为带有构造函数的火炬模块来实现$$F_{CL}$$作为输入。距离$$\|F_{XL} - F_{CL}\|^2$$是两组要素图之间的均方误差，可以使用进行计算`nn.MSELoss`。
 
-我们将直接正在用于计算内容距离的卷积层（一个或多个）之后添加该内容损耗模块。此每个网络被供给的输入图像内容的损失将在所希望的层被计算并因为汽车研究所的，所有的梯度将被计算时间的方法。现在，为了使内容损耗层透明我们必须定义计算含量损失，然后返回层的输入`
-向前 `方法。所计算的损失被保存为模块的参数。
-
-    
+我们将直接在用于计算内容距离的卷积层之后添加此内容丢失模块。这样，每次向网络提供输入图像时，都会在所需层上计算内容损失，并且由于自动渐变，将计算所有梯度。现在，为了使内容丢失层透明，我们必须定义一种`forward`方法来计算内容丢失，然后返回该层的输入。计算出的损耗将保存为模块的参数。
     
     class ContentLoss(nn.Module):
     
@@ -149,25 +125,16 @@ F_ {XL} - F_ {CL} \ | ^ 2 \）是两组特征地图之间的均方误差，并�
             return input
     
 
-Note
-
-**重要细节** ：虽然这个模块被命名为`ContentLoss
-`，它是不是一个真正的PyTorch损失函数。如果你要定义你的内容的损失为PyTorch损失函数，你必须创建一个PyTorch
-autograd功能重新计算/在`后退 `方法手动实现梯度。
+> Note
+> **重要细节**：尽管此模块名为`ContentLoss`，但它不是真正的PyTorch损失函数。如果要将内容损失定义为PyTorch损失函数，则必须创建一个PyTorch autograd函数以在`backward`方法中手动重新计算/实现梯度。
 
 ### 风格损失
 
-风格损失模块类似地实现对内容的损失模块。它将作为其计算该层的风格损失的网络中的透明层。为了计算的样式的损失，我们需要计算克矩阵 \（G_ {XL}
-\）。甲克矩阵是通过它的转置矩阵的给定矩阵相乘的结果。在本申请中给出的矩阵是特征的重整的版本映射 \（F_ {XL} \）层 \（L \） 。  \（F_
-{XL} \）被整形以形成 \（\帽子{F} _ {XL} \），A  \（K \） X  \（N \）矩阵，其中 \（K \）是特征图中的层 \（L
-\）和数\ （N \）是任何量化特征地图 \（F_ {XL} ^ķ\）的长度。例如，的第一行\（\帽子{F} _ {XL} \）对应于第一量化特征地图
-\（F_ {XL} ^ 1 \）。
+风格损失模块类似地实现对内容的损失模块。它将作为其计算该层的风格损失的网络中的透明层。为了计算的样式的损失，我们需要计算克矩阵$$G_{XL}$$。甲克矩阵是通过它的转置矩阵的给定矩阵相乘的结果。在本申请中给出的矩阵是特征的重整的版本映射$$F_{XL}$$层$$L$$。$$F_{XL}$$重塑形成$$\hat{F}_{XL}$$，$$K$$ X $$N$$矩阵，其中 $$K$$ 是特征图中的层$$L$$和数$$N$$是任何量化特征地图$$F_{XL}^ķ$$的长度。例如，的第一行 $$\hat{F}_{XL}$$ 对应于第一量化特征地图 $$F_{XL}^1$$。
 
-最后，克矩阵必须由在矩阵元素的总数量除以每个元素进行归一化。这种归一化是为了抵消这一事实 \（\帽子{F} _ {XL} \）具有大 \（N
-\）维产量较大的革兰氏矩阵值的矩阵。这些较大的值将导致第一层（池层之前），以具有梯度下降期间产生更大的影响。风格特征往往是在网络的更深层所以这归一化步骤是至关重​​要的。
+最后，克矩阵必须由在矩阵元素的总数量除以每个元素进行归一化。这种归一化是为了抵消这一事实$$\hat{F}_{XL}$$具有大$$N$$维产量较大的革兰氏矩阵值的矩阵。这些较大的值将导致第一层（池层之前），以具有梯度下降期间产生更大的影响。风格特征往往是在网络的更深层所以这归一化步骤是至关重​​要的。
 
-    
-    
+
     def gram_matrix(input):
         a, b, c, d = input.size()  # a=batch size(=1)
         # b=number of feature maps
@@ -180,11 +147,8 @@ autograd功能重新计算/在`后退 `方法手动实现梯度。
         # we 'normalize' the values of the gram matrix
         # by dividing by the number of element in each feature maps.
         return G.div(a * b * c * d)
-    
 
-现在的风格损耗模块看起来几乎完全一样的内容损失模块。样式距离使用之间的均方误差还计算\（G_ {XL} \）和 \（G_ {SL} \）。
-
-    
+现在，样式丢失模块看起来几乎与内容丢失模块完全一样。样式距离也可以使用$$G_{XL}$$ 和 $$G_{SL}$$。
     
     class StyleLoss(nn.Module):
     
@@ -197,24 +161,16 @@ autograd功能重新计算/在`后退 `方法手动实现梯度。
             self.loss = F.mse_loss(G, self.target)
             return input
     
-
 ## 导入模型
 
-现在，我们需要进口预训练的神经网络。我们将使用19层VGG网络就像在纸中使用的一个。
+现在我们需要导入一个预训练的神经网络。我们将使用19层VGG网络，就像本文中使用的那样。
 
-PyTorch的实现VGG的是分成两个子`序贯 `模块的模块：`特征 `（含有卷积和集中层），和`分类 `（含有完全连接层）。我们将使用`功能
-`模块，因为我们需要的个体卷积层的输出来衡量内容和风格的损失。一些层具有比训练评估过程中不同的行为，所以我们必须用`.eval（） `设置网络为评估模式。
+PyTorch的VGG实现是一个模块，分为两个子 `Sequential`模块：（`features`包含卷积和池化层）和`classifier`（包含完全连接的层）。我们将使用该`features`模块，因为我们需要各个卷积层的输出来测量内容和样式损失。某些层在训练期间的行为与评估不同，因此我们必须使用将网络设置为评估模式`.eval()`。
 
-    
-    
     cnn = models.vgg19(pretrained=True).features.to(device).eval()
     
+另外，在图像上训练VGG网络，每个通道的均值通过 mean=[0.485，0.456，0.406]和 std=[0.229，0.224，0.225]归一化。在将其发送到网络之前，我们将使用它们对图像进行规范化。
 
-此外，VGG网络上的图像训练与由平均归一化每个信道= [0.485，0.456，0.406]和std =
-[0.229，0.224，0.225]。我们将使用它们发送到其网络之前正常化的形象。
-
-    
-    
     cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
     
@@ -232,15 +188,9 @@ PyTorch的实现VGG的是分成两个子`序贯 `模块的模块：`特征 `（�
         def forward(self, img):
             # normalize img
             return (img - self.mean) / self.std
-    
 
-A `顺序 `模块包含的子模块的有序列表。例如，`vgg19.features
-`包含在深度的正确的顺序排列的序列（Conv2d，RELU，MaxPool2d，Conv2d，RELU
-...）。我们需要他们检测的卷积层后立即加入我们的内容损失和风格损失层。要做到这一点，我们必须创建一个具有内容损失和风格损失模块正确地插入一个新的`顺序
-`模块。
+`Sequential`模块包含子模块的有序列表。 例如，`vgg19.features`包含以正确的深度顺序对齐的序列（Conv2d，ReLU，MaxPool2d，Conv2d，ReLU…）。 我们需要在检测到的卷积层之后立即添加内容丢失层和样式丢失层。 为此，我们必须创建一个新`Sequential`模块，该模块具有正确插入的内容丢失和样式丢失模块。   
 
-    
-    
     # desired depth layers to compute style/content losses :
     content_layers_default = ['conv_4']
     style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
@@ -306,10 +256,7 @@ A `顺序 `模块包含的子模块的有序列表。例如，`vgg19.features
     
         return model, style_losses, content_losses
     
-
-接下来，我们选择输入图像。您可以使用内容的图像或白噪声的副本。
-
-    
+接下来，我们选择输入图像。您可以使用内容图像或白噪声的副本。
     
     input_img = content_img.clone()
     # if you want to use white noise instead uncomment the below line:
@@ -320,29 +267,20 @@ A `顺序 `模块包含的子模块的有序列表。例如，`vgg19.features
     imshow(input_img, title='Input Image')
     
 
-![img/sphx_glr_neural_style_tutorial_003.png](img/sphx_glr_neural_style_tutorial_003.png)
+![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_003.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_003.png)
 
 ## 梯度下降
 
-正如莱昂Gatys，算法的作者，建议[此处](https://discuss.pytorch.org/t/pytorch-tutorial-for-
-neural-transfert-of-artistic-style/336/20?u=alexis-jacq)，我们将使用L-
-BFGS算法来运行我们的梯度下降。训练不同的网络，我们希望培养的输入图像，以尽量减少对内容/格式的损失。我们将创建一个PyTorch L-BFGS优化`
-optim.LBFGS`和我们的形象传递给它的张量来优化。
+正如该算法的作者Leon Gatys在[此处](https://discuss.pytorch.org/t/pytorch-tutorial-for-neural-transfert-of-artistic-style/336/20?u=alexis-jacq)建议的那样，我们将使用L-BFGS算法来运行我们的梯度下降。与训练网络不同，我们希望训练输入图像以最大程度地减少内容/样式损失。我们将创建一个PyTorch L-BFGS优化器`optim.LBFGS`，并将图像作为张量传递给它进行优化。
 
-    
-    
     def get_input_optimizer(input_img):
         # this line to show that input is a parameter that requires a gradient
         optimizer = optim.LBFGS([input_img.requires_grad_()])
         return optimizer
     
+最后，我们必须定义一个执行神经传递的函数。对于网络的每次迭代，它都会被提供更新的输入并计算新的损耗。我们将运行`backward`每个损失模块的方法来动态计算其梯度。优化器需要“关闭”功能，该功能可以重新评估模数并返回损耗。
 
-最后，我们必须定义执行的神经传递的功能。对于网络中的每个迭代中，它被馈送的更新的输入，并计算新的损失。我们将运行`后退
-`每个损耗模块的方法来dynamicaly计算其梯度。优化需要一个“关闭”功能，重新评估的模件，并返回损失。
-
-我们还有最后一个约束来解决。该网络可以尝试与超过该图像的0到1张量范围内的值，以优化的输入。我们可以通过校正所述输入值是网络运行每次之间0至1解决这个问题。
-
-    
+我们还有最后一个约束要解决。网络可能会尝试使用超出图像的0到1张量范围的值来优化输入。我们可以通过在每次网络运行时将输入值校正为0到1之间来解决此问题。
     
     def run_style_transfer(cnn, normalization_mean, normalization_std,
                            content_img, style_img, input_img, num_steps=300,
@@ -393,10 +331,7 @@ optim.LBFGS`和我们的形象传递给它的张量来优化。
     
         return input_img
     
-
-最后，我们可以运行的算法。
-
-    
+最后，我们可以运行算法。
     
     output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
                                 content_img, style_img, input_img)
@@ -409,12 +344,10 @@ optim.LBFGS`和我们的形象传递给它的张量来优化。
     plt.show()
     
 
-![img/sphx_glr_neural_style_tutorial_004.png](img/sphx_glr_neural_style_tutorial_004.png)
+![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_004.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_004.png)
 
-日期：
+Out:
 
-    
-    
     Building the style transfer model..
     Optimizing..
     run [50]:
@@ -443,61 +376,3 @@ neural_style_tutorial.py`](../_downloads/7d103bc16c40d35006cd24e65cf978d0/neural
 
 [`Download Jupyter notebook:
 neural_style_tutorial.ipynb`](../_downloads/f16c4cab7b50f6dea0beb900dee4bf0e/neural_style_tutorial.ipynb)
-
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](../beginner/fgsm_tutorial.html "Adversarial Example Generation")
-[![](../_static/images/chevron-right-orange.svg)
-Previous](../intermediate/spatial_transformer_tutorial.html "Spatial
-Transformer Networks Tutorial")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * 神经网络传输使用PyTorch 
-    * 介绍
-    * 基本原理
-    * 导入包和选择设备
-    * 加载图像
-    * 损失函数
-      * 内容丢失
-      * 风格损失
-    * 导入模型
-    * 梯度下降
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
-
