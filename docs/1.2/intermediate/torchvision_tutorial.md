@@ -1,9 +1,8 @@
-# torchvision 对象检测微调教程
+# TorchVision 对象检测微调教程
 
 > TIP
 > 为了充分利用本教程，我们建议使用此[Colab](https://colab.research.google.com/github/pytorch/vision/blob/temp-
 tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)版本。这将使您可以尝试以下信息。
-
 
 对于本教程，我们将在[Penn-Fudan数据库中对行人检测和分割](https://www.cis.upenn.edu/~jshi/ped_html/)的预训练[Mask R-CNN](https://arxiv.org/abs/1703.06870)模型进行微调。它包含170个图像，其中包含345个行人实例，我们将用它来说明如何在torchvision中使用新功能，以便在自定义数据集上训练实例细分模型。
 
