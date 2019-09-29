@@ -1,24 +1,21 @@
-# TorchVision对象检测教程细化和微调
+# torchvision 对象检测微调教程
 
-小费
+> TIP
+> 为了充分利用本教程，我们建议使用此[Colab](https://colab.research.google.com/github/pytorch/vision/blob/temp-
+tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)版本。这将使您可以尝试以下信息。
 
-为了得到最本教程中，我们建议使用此[
-Colab版本[HTG1。这将让你与下面提供的信息进行试验。](https://colab.research.google.com/github/pytorch/vision/blob/temp-
-tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)
 
-在本教程中，我们将微调预训练[面膜R-CNN ](https://arxiv.org/abs/1703.06870)中的[佩恩 -
-复旦数据库行人检测与分割](https://www.cis.upenn.edu/~jshi/ped_html/)模式。它包含170倍的图像与行人345分的情况下，我们将用它来说明如何才能培养上的自定义数据集的实例细分模型使用torchvision的新功能。
+对于本教程，我们将在[Penn-Fudan数据库中对行人检测和分割](https://www.cis.upenn.edu/~jshi/ped_html/)的预训练[Mask R-CNN](https://arxiv.org/abs/1703.06870)模型进行微调。它包含170个图像，其中包含345个行人实例，我们将用它来说明如何在torchvision中使用新功能，以便在自定义数据集上训练实例细分模型。
 
 ## 定义数据集
 
-培训对象检测，例如分割和人关键点检测的参考脚本允许容易地支持添加新的自定义数据集。数据集应该从标准`torch.utils.data.Dataset
-`类继承，实施`__len__`和`__getitem__`。
+用于训练对象检测，实例细分和人员关键点检测的参考脚本可轻松支持添加新的自定义数据集。数据集应继承自标准 `torch.utils.data.Dataset`类，并实现`__len__`和`__getitem__`。
 
-我们需要的唯一的特殊性在于，数据集`__getitem__`应该返回：
+我们唯一需要的特异性是数据集`__getitem__`应该返回：
 
   * 图像：尺寸`（H， W）的PIL图像 `
   * 目标：包含以下字段的一个字典
-    * `盒 （FloatTensor [N， 4]） `：的`N 的坐标`在包围盒`[X0， Y0， X 1， Y1]`格式中，范围从`0`至`W`和`0`至`H`
+    * `盒 （FloatTensor [N， 4]） `：的`N` 的坐标在包围盒`[X0， Y0， X 1， Y1]`格式中，范围从`0`至`W`和`0`至`H`
     * `标签 （Int64Tensor [N]） `：对于每个边界框的标签
     * `image_id  （Int64Tensor [1]） `：图像标识符。它应该是在数据集中的所有图像之间唯一的，评估过程中使用
     * `面积 （张量[N]） `：将边界框的面积。这是通过COCO度量评估过程中使用，以分离小，中，大箱之间的度量得分。
@@ -26,19 +23,26 @@ tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)
     * （可选地）`掩模 （UInt8Tensor [N， H， W]） `：本分割掩码的每个其中一个对象
     * （可选地）`关键点 （FloatTensor [N， K， 3]） `：对于每一个中的所述一个N个对象，它包含`K个关键点[X， Y， 能见度]`格式中，定义的对象。能见度= 0表示所述关键点是不可见的。请注意，数据增强，翻转关键点的概念是依赖于数据表示，你可能要适应`引用/检测/ transforms.py`为您的新关键点表示
 
-如果你的模型返回上面的方法，他们将使其成为训练和评估工作，并会使用评估脚本，从`pycocotools  [HTG3。`
 
-此外，如果要训练期间要使用的纵横比的分组（以使每个批次仅包含具有类似的纵横比的图像），则建议也实现`get_height_and_width
-`的方法，其中返回的高度和图像的宽度。如果不提供这种方法，我们通过`查询数据集的所有元素__getitem__
-`，它加载在存储器中的图像，并且比如果提供一个自定义的方法慢。
 
-### 编写自定义的数据集PennFudan
+* 图像：大小为`(H, W)`PIL的图像
+* 目标：包含以下字段的字典
+    * `boxes (FloatTensor[N, 4])`：`N`个边界框的坐标，格式为`[x0, y0, x1, y1]`，，范围从`0`至`W`和`0`至`H`
+    * `labels (Int64Tensor[N])`：每个边界框的标签
+    * `image_id (Int64Tensor[1])`：图像标识符。它在数据集中的所有图像之间应该是唯一的，并在评估过程中使用
+    * `area (Tensor[N])`：边界框的面积。在使用COCO指标进行评估时，可使用此值来区分小盒子，中盒子和大盒子之间的指标得分。
+    * `iscrowd (UInt8Tensor[N])`：评估期间将忽略iscrowd = True的实例。
+    * （可选）`masks (UInt8Tensor[N, H, W])`：每个对象的分割蒙版
+    * （可选）`keypoints (FloatTensor[N, K, 3])`：对于N个对象中的每个对象，它包含`[x, y, visibility]`格式的K个关键点，以定义对象。 visibility=0 表示关键点不可见。请注意，对于数据扩充，翻转关键点的概念取决于数据表示，并且您可能应该将`references/detection/transforms.py `修改为新的关键点表示形式。
 
-让我们写的PennFudan数据集的数据集。
-[下载并解压缩zip文件](https://www.cis.upenn.edu/~jshi/ped_html/PennFudanPed.zip)之后，我们有以下文件夹结构：
+如果您的模型返回上述方法，则它们将使其适用于训练和评估，并将使用pycocotools中的评估脚本。
 
-    
-    
+此外，如果要在训练过程中使用长宽比分组（以便每个批次仅包含长宽比相似的图像），则建议您还实现一种`get_height_and_width` 方法，该方法可返回图像的高度和宽度。如果未提供此方法，我们将通过查询数据集的所有元素`__getitem__`，这会将图像加载到内存中，并且比提供自定义方法要慢。
+
+### 为PennFudan编写自定义数据集
+
+让我们为PennFudan数据集编写一个数据集。之后[下载并解压缩zip文件](https://www.cis.upenn.edu/~jshi/ped_html/PennFudanPed.zip)，我们有以下文件夹结构：
+
     PennFudanPed/
       PedMasks/
         FudanPed00001_mask.png
@@ -53,15 +57,14 @@ tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)
         FudanPed00004.png
     
 
-这里是一对图像和分割掩码的一个实例
+这是一对图像和分割蒙版的一个示例
 
-![intermediate/../../_static/img/tv_tutorial/tv_image01.png](intermediate/../../_static/img/tv_tutorial/tv_image01.png)
-![intermediate/../../_static/img/tv_tutorial/tv_image02.png](intermediate/../../_static/img/tv_tutorial/tv_image02.png)
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image01.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image01.png)
 
-因此，每个图像具有对应的分割掩码，其中每个颜色对应于不同实例。让我们写一个`torch.utils.data.Dataset`类数据集。
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image02.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image02.png)
 
-    
-    
+因此，每个图像都有一个对应的分割蒙版，其中每个颜色对应一个不同的实例。让我们为此数据集编写一个`torch.utils.data.Dataset`类。
+     
     import os
     import numpy as np
     import torch
@@ -135,31 +138,26 @@ tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)
         def __len__(self):
             return len(self.imgs)
     
-    
+这就是数据集的全部内容。现在，让我们定义一个可以对该数据集执行预测的模型。
+
+##  定义模型
+在本教程中，我们将使用基于[Faster R-CNN的Mask R-CNN](https://arxiv.org/abs/1703.06870)。更快的R-CNN是可预测图像中潜在对象的边界框和类分数的模型。
 
 这是所有的数据集。现在让我们来定义可以在这个数据集进行预测的模型。
 
-## 自定义模型
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image03.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image03.png)
 
-在本文中，我们将使用[面膜R-CNN ](https://arxiv.org/abs/1703.06870)，它是基于[更快R-CNN
-](https://arxiv.org/abs/1506.01497)顶部。更快的R-CNN是预测二者边界框和类得分为图像中的潜在对象的模型。
+Mask R-CNN在Faster R-CNN中增加了一个分支，该分支还可以预测每个实例的分割掩码。
 
-![intermediate/../../_static/img/tv_tutorial/tv_image03.png](intermediate/../../_static/img/tv_tutorial/tv_image03.png)
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image04.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image04.png)
 
-面膜R-CNN增加了额外的分支为更快R-CNN，这也预示分割掩码为每个实例。
+在两种常见情况下，可能要修改Torchvision modelzoo中的可用模型之一。首先是当我们想从预先训练的模型开始，然后微调最后一层时。另一个是当我们要用另一个模型替换主干时（例如，为了更快的预测）。
 
-![intermediate/../../_static/img/tv_tutorial/tv_image04.png](intermediate/../../_static/img/tv_tutorial/tv_image04.png)
+在以下各节中，让我们看看如何做一个或另一个。
 
-有一个地方可能要修改torchvision
-modelzoo可用的车型之一两种常见的情况。第一种是当我们想从一个预先训练模型开始，只是微调的最后一层。另一种是当我们想用一个不同的替换机型的骨干（更快的预测，例如）。
+### 1-通过预训练模型进行微调
 
-让我们去看看我们会怎么做在下面的章节一种或另一种。
-
-### 1 - 从一个预训练的模型微调
-
-让我们假设你想从一个模型上COCO预先训练开始，并希望它微调您的特定类。下面是做这件事的一个可能的方式：
-
-    
+假设您要从在COCO上进行预训练的模型开始，并希望针对您的特定班级对其进行微调。这是一种可行的方法：
     
     import torchvision
     from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
@@ -174,12 +172,8 @@ modelzoo可用的车型之一两种常见的情况。第一种是当我们想从
     in_features = model.roi_heads.box_predictor.cls_score.in_features
     # replace the pre-trained head with a new one
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
-    
-    
 
-### 2 - 修改模型添加不同的骨干
-
-    
+### 2-修改模型以添加其他主干
     
     import torchvision
     from torchvision.models.detection import FasterRCNN
@@ -220,13 +214,11 @@ modelzoo可用的车型之一两种常见的情况。第一种是当我们想从
     
     
 
-### 对于实例分割模型PennFudan数据集
+### PennFudan数据集的实例细分模型
 
-在我们的例子中，我们要微调从预先训练的模式，因为我们的数据是非常小的，所以我们将在下面的方法1号。
+在我们的例子中，由于我们的数据集非常小，我们希望从预训练模型中进行微调，因此我们将遵循方法1。
 
-在这里，我们也想计算实例分割掩码，所以我们将使用面膜R-CNN：
-
-    
+在这里，我们还要计算实例分割掩码，因此我们将使用Mask R-CNN：
     
     import torchvision
     from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
@@ -252,18 +244,13 @@ modelzoo可用的车型之一两种常见的情况。第一种是当我们想从
     
         return model
     
-    
-
-就是这样，这将使`模型 `准备进行培训，并在您的自定义数据集进行评估。
+就是这样，这将`model`准备好在您的自定义数据集上进行培训和评估。
 
 ## 将所有内容放在一起
 
-在`引用/检测/`，我们有一些辅助功能，以简化培训和评估检测模型。在这里，我们将使用`引用/检测/ engine.py`，`引用/检测/
-utils.py`和`参考/检测/ transforms.py`。把它们复制到你的文件夹，并在这里使用它们。
+在中`references/detection/`，我们提供了许多帮助程序功能来简化训练和评估检测模型。在这里，我们将使用 `references/detection/engine.py`，`references/detection/utils.py`和`references/detection/transforms.py`。只需将它们复制到您的文件夹中，然后在此处使用它们即可。
 
-让我们来写数据增强/转换了一些辅助功能：
-
-    
+让我们写一些辅助函数来进行数据扩充/转换： 
     
     import transforms as T
     
@@ -274,11 +261,7 @@ utils.py`和`参考/检测/ transforms.py`。把它们复制到你的文件夹�
             transforms.append(T.RandomHorizontalFlip(0.5))
         return T.Compose(transforms)
     
-    
-
-现在，让我们写一个执行训练和验证的主要功能：
-
-    
+现在让我们编写执行训练和验证的主要功能：
     
     from engine import train_one_epoch, evaluate
     import utils
@@ -336,11 +319,7 @@ utils.py`和`参考/检测/ transforms.py`。把它们复制到你的文件夹�
     
         print("That's it!")
     
-    
-
-你应该得到作为第一时期的输出：
-
-    
+您应该获得第一个时期的输出：
     
     Epoch: [0]  [ 0/60]  eta: 0:01:18  lr: 0.000090  loss: 2.5213 (2.5213)  loss_classifier: 0.8025 (0.8025)  loss_box_reg: 0.2634 (0.2634)  loss_mask: 1.4265 (1.4265)  loss_objectness: 0.0190 (0.0190)  loss_rpn_box_reg: 0.0099 (0.0099)  time: 1.3121  data: 0.3024  max mem: 3485
     Epoch: [0]  [10/60]  eta: 0:00:20  lr: 0.000936  loss: 1.3007 (1.5313)  loss_classifier: 0.3979 (0.4719)  loss_box_reg: 0.2454 (0.2272)  loss_mask: 0.6089 (0.7953)  loss_objectness: 0.0197 (0.0228)  loss_rpn_box_reg: 0.0121 (0.0141)  time: 0.4198  data: 0.0298  max mem: 5081
@@ -388,11 +367,9 @@ utils.py`和`参考/检测/ transforms.py`。把它们复制到你的文件夹�
      Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.758
     
 
-所以培训一个时期后，我们得到的60.6椰油风格的地图，以及70.4面具地图。
+因此，经过一个时期的训练，我们获得了60.6的COCO风格mAP和70.4的口罩mAP。
 
-10个时代训练结束后，我得到了以下指标
-
-    
+经过10个时期的训练，我得到了以下指标
     
     IoU metric: bbox
      Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.799
@@ -422,77 +399,23 @@ utils.py`和`参考/检测/ transforms.py`。把它们复制到你的文件夹�
      Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.818
     
 
-但是什么预测样子的？让我们一个图像中的数据集和验证
+但是这些预测是什么样的？让我们在数据集中拍摄一张图像并验证
 
-![intermediate/../../_static/img/tv_tutorial/tv_image05.png](intermediate/../../_static/img/tv_tutorial/tv_image05.png)
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image05.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image05.png)
 
-训练的模型预测的9种人情况下，这种形象，让我们来看看他们夫妇：
+经过训练的模型可以在此图像中预测9个人的实例，让我们看看其中的几个：
 
-![intermediate/../../_static/img/tv_tutorial/tv_image06.png](intermediate/../../_static/img/tv_tutorial/tv_image06.png)
-![intermediate/../../_static/img/tv_tutorial/tv_image07.png](intermediate/../../_static/img/tv_tutorial/tv_image07.png)
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image06.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image06.png)
+
+![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image07.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image07.png)
 
 结果看起来不错！
 
-## 结束语
-
-在本教程中，你已经学会了如何创建例如分割模型自己训练的管道，在自定义的数据集。对于这一点，你写一个`torch.utils.data.Dataset
-`类，返回的图像和地面真值块和分割口罩。您还利用一个面具上COCO train2017 R-CNN模型预先训练，以这个新的数据集进行迁移学习。
-
-对于更完整的示例，其包括多机/多GPU训练，检查`引用/检测/ train.py`，它是存在于torchvision回购。
-
-你可以下载一个完整的源文件本教程[此处[HTG1。](https://pytorch.org/tutorials/_static/tv-training-
-code.py)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](../beginner/finetuning_torchvision_models_tutorial.html
-"Finetuning Torchvision Models") [![](../_static/images/chevron-right-
-orange.svg) Previous](../beginner/nn_tutorial.html "What is torch.nn really?")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
+## 总结
 
 
+在本教程中，您学习了如何在自定义数据集上为实例细分模型创建自己的训练管道。为此，您编写了一个`torch.utils.data.Dataset`类，该类返回图像，地面真相框和分割蒙版。您还利用了在COCO train2017上预先训练的Mask R-CNN模型，以便对该新数据集执行转移学习。
 
-  * TorchVision对象检测教程细化和微调
-    * 定义数据集
-      * 编写自定义数据集PennFudan 
-    * 自定义模型
-      * 1 - 从一个预训练的模型微调
-      * 2 - 修改模型添加不同的骨干
-      * [HTG0用于PennFudan数据集的实例分割模型
-    * 将所有内容放在一起
-    * 结束语
+对于更完整的示例（包括多机/多GPU培训），请检查`references/detection/train.py`在Torchvision存储库中存在的。
 
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
-
+您可以在[此处下载](https://pytorch.org/tutorials/_static/tv-training-code.py)本教程的完整源文件 。
