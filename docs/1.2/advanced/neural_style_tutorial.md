@@ -1,4 +1,4 @@
-# 神经网络传输使用 PyTorch
+# 使用PyTorch进行神经网络传递
 
 > **作者**: [Alexis Jacq](https://alexis-jacq.github.io)
 >
