@@ -1,10 +1,13 @@
-# <center>Pytorch 中文教程</center>
+# <center>PyTorch 中文教程</center>
 
 ![](docs/img/logo.svg)
 
 <center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库)</center>
 <br/>
 <table>
+  <tr align="center">
+    <td colspan="3"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">1.2 中文版本</font></a></td>
+  </tr>
   <tr align="center">
     <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
     <td><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
@@ -21,18 +24,33 @@
 > 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
 
 + [在线阅读](http://pytorch.apachecn.org)
-+ [ApacheCN 机器学习交流群 629470233](http://shang.qq.com/wpa/qunwpa?idkey=30e5f1123a79867570f665aa3a483ca404b1c3f77737bc01ec520ed5f078ddef)
 + [ApacheCN 学习资源](http://www.apachecn.org/)
++ [PyTorch 中文翻译组 | ApacheCN 713436582](http://shang.qq.com/wpa/qunwpa?idkey=349eb1bbaeeff1cf20408899cbe75669132ef145ff5ee6599f78a77dd144c367)
+
+> 版本特性
+
+* [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
+
+> PyTorch 官方入口
+
+* 中文文档: <https://pytorch.org/resources>
+
+![](docs/img/resources.jpg)
 
 ## 贡献指南
 
-项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/274)中领取任务。
+项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/422)中领取任务。
 
 > 请您勇敢地去翻译和改进翻译。虽然我们追求卓越，但我们并不要求您做到十全十美，因此请不要担心因为翻译上犯错——在大部分情况下，我们的服务器已经记录所有的翻译，因此您不必担心会因为您的失误遭到无法挽回的破坏。（改编自维基百科）
 
 ## 项目看板
 
-> 项目 Pytorch 1.0 看板
+> 项目 PyTorch 1.2 看板
+
+* 负责人: 记得更新和优化
+* 地址: https://github.com/apachecn/pytorch-doc-zh/projects/2
+
+> 项目 PyTorch 1.0 看板
 
 * 负责人: 记得更新和优化
 * 地址: https://github.com/apachecn/pytorch-doc-zh/projects/1
@@ -41,14 +59,13 @@
 
 格式: GitHub + QQ
 
-> 第一期 (2018-11-27)
+> 第4期 1.2 (2019-09-17)
 
-* [飞龙](https://github.com/wizardforcel): 562826179
 * [片刻](https://github.com/jiangzhonglian): 529815144
-* [咸鱼](https://github.com/Watermelon233): 1034616238
-* [Twinkle](https://github.com/kemingzeng): 1097078987
+* [Alex](https://github.com/AlexJakin): 1272296763
+* [Holly](https://github.com/kunwuz): 514397511
 
-> 第2期 (2019-06-10)
+> 第3期 1.0 (2019-06-10)
 
 * [FontTian](https://github.com/FontTian): 2404846224
 * [Smile](https://github.com/Smilexuhc): 240485545
@@ -59,12 +76,26 @@
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
 
+> 第2期 1.0 (2019-01-22)
+
+* [飞龙](https://github.com/wizardforcel): 562826179
+* [片刻](https://github.com/jiangzhonglian): 529815144
+* [咸鱼](https://github.com/Watermelon233): 1034616238
+
+> 第1期 0.3 (2018-04-04)
+
+* [那伊抹微笑](https://github.com/wangyangting): 1042658081
+* [飞龙](https://github.com/wizardforcel): 562826179
+* [片刻](https://github.com/jiangzhonglian): 529815144
+* [咸鱼](https://github.com/Watermelon233): 1034616238
+* [Twinkle](https://github.com/kemingzeng): 1097078987
+
 -- 负责人要求: (欢迎一起为 `Pytorch 中文版本` 做贡献)
 
 * 热爱开源，喜欢装逼
-* 长期使用 pytorch(至少1年)
+* 长期使用 PyTorch(至少1年)
 * 能够有时间及时优化页面bug和用户issues
-* 由于会不定期和 **Pytorch 官方** 进行issues or email 交流，所以更要积极主动
+* 由于会不定期和 **PyTorch 官方** 进行issues or email 交流，所以更要积极主动
 * 试用期: 2个月
 * 欢迎联系: [片刻](https://github.com/jiangzhonglian) 529815144
 
@@ -72,7 +103,7 @@
 
 * 在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.
 * 发邮件到 Email: `apachecn@163.com`.
-* 在我们的 [QQ群-搜索: 交流方式](https://github.com/apachecn/home) 中联系群主/管理员即可.
+* 在我们的 [QQ群: 加入方式](https://docs.apachecn.org/join) 中联系群主/管理员即可.
 
 ## 赞助我们
 
