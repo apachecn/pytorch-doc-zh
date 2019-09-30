@@ -1,44 +1,29 @@
-# 对抗性实施例代
+# 对抗性实例生成
 
-**作者：** [弥敦道Inkawhich ](https://github.com/inkawhich)
+> **作者**: [Nathan Inkawhich](https://github.com/inkawhich)
 
-如果你正在读这篇文章，希望你能明白一些机器学习模型的有效性如何。研究正不断ML车型更快，更准确，更高效。然而，设计和培训模式的一个经常被忽视的方面是安全性和稳健性，尤其是在谁愿意来愚弄模型对手的脸。
+如果您正在阅读本文，希望您能体会到某些机器学习模型的有效性。研究不断推动ML模型更快，更准确和更高效。但是，设计和训练模型的一个经常被忽略的方面是安全性和鲁棒性，尤其是在面对想要欺骗模型的对手的情况下。
 
-本教程将提高你的意识，以ML车型的安全漏洞，并会深入了解对抗机器学习的热门话题。你可能会惊讶地发现，加入不易察觉的扰动到图像 _可以_
-导致截然不同的模型性能。考虑到这是一个教程中，我们将探讨在图像分类通过例子的话题。具体来说，我们将使用的第一个也是最流行的攻击方式之一，快速倾斜的符号攻击（FGSM），愚弄的MNIST分类。
+本教程将提高您对ML模型的安全漏洞的认识，并深入了解对抗性机器学习的热门话题。您可能会惊讶地发现，对图像添加无法察觉的扰动会导致模型性能大不相同。鉴于这是一个教程，我们将通过图像分类器上的示例来探讨该主题。具体来说，我们将使用第一种也是最流行的攻击方法之一，即快速梯度符号攻击（FGSM）来欺骗MNIST分类器。
 
 ## 威胁模型
 
-对于背景下，有许多种类的敌对攻击，每一个不同的目标和攻击者的知识假设。然而，一般的总体目标是扰动的至少量添加到所述输入数据，以使所期望的错误分类。有几种类型的攻击者的知识的假设，其中两个是：
-**白盒** 和 **黑盒[HTG3。 A _白盒_ 攻击假定攻击者具有充分的知识，并获得了模型，包括体系结构，输入，输出，和权重。 A _黑箱_
-攻击假定攻击者只能访问输入和模型的输出，并且一无所知底层架构或权重。也有几种类型的目标，包括 **误分类** 和 **源/目标误分类** 。的 _误判_
-一个目标是指对手只希望输出的分类是错误的，但并不关心新的分类是什么。 A _源/目标误分类_
-表示对手想要改变图像是特定源类的最初使得其被归类为特定的目标类。**
+就上下文而言，有许多类别的对抗性攻击，每种攻击者都有不同的目标和对攻击者知识的假设。但是，总的来说，总体目标是向输入数据添加最少的扰动，以引起所需的错误分类。攻击者的知识有几种假设，其中两种是：`white-box`和`black-box`。一个`white-box`攻击假设攻击者有充分的知识和访问模型，包括建筑，输入，输出，和权重。一个`black-box`攻击假设攻击者只能访问输入和模型的输出，并且一无所知底层架构或权重。目标也有几种类型，包括**错误分类**和**源/目标错误分类**。一个错误分类的目标意味着对手只希望输出分类错误，而不关心新分类是什么。一个源/目标误分类装置对手想要改变图像是特定源类的最初使得其被归类为特定的目标类。
 
-在这种情况下，FGSM攻击是一种 _白盒_ 攻击与 _误判_ 的目标。在这样的背景信息，现在我们可以详细讨论了攻击。
+在这种情况下，FGSM攻击是`white-box`攻击，目的是进行错误分类。有了这些背景信息，我们现在就可以详细讨论攻击了。
 
-## 快速倾斜的符号攻击
+## 快速梯度符号攻击
 
-之一的第一和最流行的对抗攻击日期被称为 _快速梯度注册攻击（FGSM）_
-并且由Goodfellow等说明。人。在[解释和治理对抗性实施例](https://arxiv.org/abs/1412.6572)。这种攻击是非常强大的，可是直觉。它的目的是通过充分利用他们学习的方式来攻击神经网络，
-_梯度[HTG5。这个想法是简单的，而不是工作，通过调整基于所述backpropagated梯度的权重，以尽量减少损失，攻击
-_调整输入数据以最大化基于相同backpropagated梯度的丧失_
-。换句话说，该攻击使用的损失w.r.t输入数据的梯度，然后调整输入数据以最大化损失。_
+迄今为止，最早的也是最流行的对抗性攻击之一被称为“ 快速梯度符号攻击”（FGSM），由Goodfellow et. al. 在[解释和利用对抗例子中的运用](https://arxiv.org/abs/1412.6572)描述。攻击非常强大，而且直观。它旨在利用神经网络的学习方式，梯度来攻击神经网络。这个想法很简单，不是根据反向传播的梯度通过调整权重来使损失最小化，而是根据相同的反向传播的梯度来调整输入数据以使损失最大化。换句话说，攻击使用输入数据的损失梯度，然后调整输入数据以使损失最大化。
 
-在我们跳进代码，让我们来看看著名的[ FGSM ](https://arxiv.org/abs/1412.6572)熊猫例子，提取一些符号。
+在进入代码之前，让我们看一下著名的 [FGSM](https://arxiv.org/abs/1412.6572) panda示例并提取一些表示法。
 
-![fgsm_panda_image](img/fgsm_panda_image.png)
+![https://pytorch.org/tutorials/_images/fgsm_panda_image.png](https://pytorch.org/tutorials/_images/fgsm_panda_image.png)
 
-从该图中， \（\ mathbf {X} \）是正确归类为“熊猫”， \（Y \）原始输入图像是用于地面实况标签 \（\ mathbf {X} \），
-\（\ mathbf {\ THETA} \）表示的模型参数，并 \（j（\ mathbf {\ THETA} ，\ mathbf
-{X}，y）的\）是用于训练网络的损失。攻击backpropagates梯度回输入的数据来计算 \（\ nabla_ {X}Ĵ（\ mathbf {\
-THETA}，\ mathbf {X}，y）的\）。然后，它调整由小步骤中的输入数据（ \（\小量\）或 \（0.007 \）在画面）的方向（即，
-\（符号（\ nabla_ {X}Ĵ（\ mathbf {\ THETA}，\ mathbf {X}，y）的）\）），其将最大限度地损失。将得到的扰动图像，
-\（X'\），然后错误分类由目标网络为‘长臂猿’时，它仍然是明确了‘熊猫’ _。_
 
-现在希望本教程的动机很明显，所以让我们跳进实施。
+从图中 $$x$$ 是正确分类为 “panda” 的原始输入图像， $$y$$ 是地面真相标签 $$x$$，$$\mathbf{\theta}$$ 代表模型参数，并且 $$J(\mathbf{\theta}, \mathbf{x}, y)$$ 是用于训练网络的损失。攻击会将梯度反向传播回输入数据以进行计算 $$\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)$$。然后，通过一小步调整输入数据（$$\epsilon$$要么 0.007 在图片中）的方向（即 $$sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$），这将使损失最大化。产生的扰动图像，$$x'$$然后 ，在目标网络仍明显是 “panda” 的情况下，它会被目标网络误分类为“gibbon”。
 
-    
+希望本教程的动机已经明确，所以让我们进入实现过程。
     
     from __future__ import print_function
     import torch
@@ -48,20 +33,19 @@ THETA}，\ mathbf {X}，y）的\）。然后，它调整由小步骤中的输入
     from torchvision import datasets, transforms
     import numpy as np
     import matplotlib.pyplot as plt
-    
+
 
 ## 实现
 
-在本节中，我们将讨论的输入参数的教程，确定受到攻击的模型，然后编码攻击和运行一些测试。
+在本节中，我们将讨论本教程的输入参数，定义受到攻击的模型，然后编写攻击代码并运行一些测试。
 
 ### 输入
 
-只有三个输入本教程，并定义如下：
+本教程只有三个输入，定义如下：
 
-  * **epsilons** \- 小量值的列表以用于运行。它保持0在列表中，因为它代表了原始的测试集模型的性能是非常重要的。此外，直观我们希望越大ε，更明显的扰动，但是在分解模型精度方面更有效的攻击。由于数据范围这里是 \（[0,1] \），没有小量值不应超过1。
-  * **pretrained_model** \- 路径，将其用[训练预训练的模型MNIST pytorch /示例/ MNIST ](https://github.com/pytorch/examples/tree/master/mnist)。为简单起见，下载预训练的模型[此处[HTG5。](https://drive.google.com/drive/folders/1fn83DF14tWmit0RTKWRhPq5uVXt73e0h?usp=sharing)
-  * **use_cuda** \- 布尔标志到如果需要和可用使用CUDA。请注意，本教程为CPU不会花费太多的时间与CUDA GPU的并不重要。
-
+* **epsilons** - 用于运行的epsilon值列表。在列表中保留0很重要，因为它代表原始测试集上的模型性能。同样，从直觉上讲，我们期望ε越大，扰动越明显，但是从降低模型准确性的角度来看，攻击越有效。由于这里的数据范围是[0,1]，则epsilon值不得超过1。
+* **pretrained_model** - 使用 [pytorch/examples/mnist](https://github.com/pytorch/examples/tree/master/mnist) 训练的预训练MNIST模型的路径 。为简单起见，请在此处下载预训练的模型。
+* **use_cuda** - 布尔标志，如果需要和可用，则使用CUDA。请注意，具有CUDA的GPU在本教程中并不重要，因为CPU不会花费很多时间。
     
     
     epsilons = [0, .05, .1, .15, .2, .25, .3]
@@ -69,13 +53,10 @@ THETA}，\ mathbf {X}，y）的\）。然后，它调整由小步骤中的输入
     use_cuda=True
     
 
-### 模式下的攻击
+### 受到攻击的模型
 
-如所提到的，在攻击该模型是从[ pytorch /示例/ MNIST
-](https://github.com/pytorch/examples/tree/master/mnist)相同MNIST模型。你可以训练并保存自己的MNIST模型，或者你可以下载和使用所提供的模型。的
-_净_ 定义和测试的DataLoader这里已经从MNIST示例复制。本部分的目的是定义模型和的DataLoader，然后初始化模型并加载预训练的权重。
+如前所述，受到攻击的模型与 [pytorch/examples/mnist](https://github.com/pytorch/examples/tree/master/mnist) 中的MNIST模型相同 。您可以训练并保存自己的MNIST模型，也可以下载并使用提供的模型。该网的定义和测试的 DataLoader 这里已经从MNIST实例中复制。本部分的目的是定义模型和数据加载器，然后初始化模型并加载预训练的权重。
 
-    
     
     # LeNet Model definition
     class Net(nn.Module):
@@ -116,11 +97,8 @@ _净_ 定义和测试的DataLoader这里已经从MNIST示例复制。本部分�
     # Set the model in evaluation mode. In this case this is for the Dropout layers
     model.eval()
     
+Out:
 
-日期：
-
-    
-    
     Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to ../data/MNIST/raw/train-images-idx3-ubyte.gz
     Extracting ../data/MNIST/raw/train-images-idx3-ubyte.gz to ../data/MNIST/raw
     Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to ../data/MNIST/raw/train-labels-idx1-ubyte.gz
@@ -136,16 +114,11 @@ _净_ 定义和测试的DataLoader这里已经从MNIST示例复制。本部分�
 
 ### FGSM攻击
 
-现在，我们可以定义通过扰乱原来的输入产生对抗的例子功能。的`fgsm_attack`函数有三个输入， _图像_ 是原始干净图像（ \（X \）），
-_的ε-_ 为逐像素扰动量（ \（\小量\））和 _data_grad_ 是损失WRT的梯度来确定输入图像（ \（\ nabla_ { X}Ĵ（\
-mathbf {\ THETA}，\ mathbf {X}，y）的\））。然后，该函数产生扰动的图像作为
+现在，我们可以通过干扰原始输入来定义创建对抗示例的函数。该`fgsm_attack`函数需要三个输入，图像是原始的干净图像$$(x)$$，epsilon是像素方向的扰动量$$(\epsilon)$$，而 data_grad 是输入图片$$\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)$$。该函数然后创建扰动图像为
 
-\\[perturbed\\_image = image + epsilon*sign(data\\_grad) = x + \epsilon *
-sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))\\]
+$$perturbed\_image = image + epsilon*sign(data\_grad) = x + \epsilon * sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$
 
-最后，为了保持数据的原始范围，对于扰动的图像被夹到范围 \（[0,1] \）。
-
-    
+最后，为了保持数据的原始范围，将受干扰的图像裁剪到一定范围 [0,1]。   
     
     # FGSM attack code
     def fgsm_attack(image, epsilon, data_grad):
@@ -161,13 +134,7 @@ sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))\\]
 
 ### 测试功能
 
-最后，本教程的中央结果来源于`测试 `功能。该测试功能每次调用执行对MNIST测试集一个完整的测试步骤，并报告最终精度。然而，请注意，这个功能也需要一个
-_的ε-_ 输入。这是因为`测试 `函数将报告一个模型，它是受到攻击从对手与强度
-\（\小量\）的准确性。更具体地，在测试组中的每个样本，所述函数计算所述损失WRT输入数据（ \（数据\ _grad \））的梯度，产生具有`扰动的图像
-fgsm_attack`（ \（扰动\ _data
-\）），然后检查是否被扰动的例子是对抗性。除了测试模型的准确性，功能也节省并返回稍后显现一些成功的例子对抗性。
-
-    
+最后，本教程的主要结果来自该`test`函数。每次调用此测试功能都会在MNIST测试集中执行完整的测试步骤，并报告最终精度。但是，请注意，此功能还需要输入epsilon。这是因为该`test`功能报告了受到对手强大攻击的模型的准确性$$\epsilon$$。更具体地说，对于测试集中的每个样本，函数都会计算输入数据的损耗梯度$$(data_grad)$$，使用`fgsm_attack` $$(perturbed_data)$$，然后检查受干扰的示例是否具有对抗性。除了测试模型的准确性外，该函数还保存并返回一些成功的对抗示例，以供以后可视化。
     
     def test( model, device, test_loader, epsilon ):
     
@@ -234,12 +201,8 @@ fgsm_attack`（ \（扰动\ _data
 
 ### 运行攻击
 
-实施的最后一部分是实际运行攻击。在这里，我们运行在 _epsilons_ 输入的每个的ε-
-值全测试步骤。对于每一个小量，我们也节省了最终的准确度和未来的部分要绘制一些成功的例子对抗性。注意印刷精度如何降低作为的ε值增加。另外，请注意 \（\小量=
-0 \）的情况下表示原始测试精度，没有攻击。
+实现的最后一部分是实际运行攻击。在这里，我们为*epsilons*输入中的每个*epsilon*值运行一个完整的测试步骤。对于每个*epsilon*，我们还保存最终精度，并在接下来的部分中绘制一些成功的对抗示例。请注意，随着 $$\epsilon$$ 值的增加，打印的精度如何降低。另外，请注意 $$\epsilon=0$$ 外壳代表原始的测试准确性，没有任何攻击。
 
-    
-    
     accuracies = []
     examples = []
     
@@ -249,10 +212,7 @@ fgsm_attack`（ \（扰动\ _data
         accuracies.append(acc)
         examples.append(ex)
     
-
 Out:
-
-    
     
     Epsilon: 0      Test Accuracy = 9810 / 10000 = 0.981
     Epsilon: 0.05   Test Accuracy = 9426 / 10000 = 0.9426
@@ -265,14 +225,10 @@ Out:
 
 ## 结果
 
-### 精确度和小量
+### Accuracy vs Epsilon
 
-第一个结果是精度与小量的情节。正如先前提到的，因为小量增加，我们预计测试精度降低。这是因为更大的epsilons意味着我们采取的是将最大限度地损失方向以更大的一步。注意在曲线的趋势，即使的ε值线性间隔不是线性的。例如，在
-\（\小量= 0.05 \）的精度比下仅约4％\（\小量= 0 \），但精度在 \ （\小量= 0.2 \）大于低25％\（\小量= 0.15
-\）。另外，请注意该模型的准确度命中随机精度\之间 10级分类器（\小量= 0.25 \）和 \（\小量= 0.3 \）。
+第一个结果是 accuracy 与ε曲线的关系。如前所述，随着ε的增加，我们期望测试精度会降低。这是因为较大的ε意味着我们朝着将损失最大化的方向迈出了更大的一步。请注意，即使epsilon值是线性间隔的，曲线中的趋势也不是线性的。例如，在ϵ=0.05 仅比 ϵ=0 约低4％，但accuracy为 ϵ=0.2 比 ϵ=0.15 低25％。另外，请注意，对于介于 ϵ=0.25 和 ϵ=0.3。
 
-    
-    
     plt.figure(figsize=(5,5))
     plt.plot(epsilons, accuracies, "*-")
     plt.yticks(np.arange(0, 1.1, step=0.1))
@@ -283,17 +239,13 @@ Out:
     plt.show()
     
 
-![img/sphx_glr_fgsm_tutorial_001.png](img/sphx_glr_fgsm_tutorial_001.png)
+![https://pytorch.org/tutorials/_images/sphx_glr_fgsm_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_fgsm_tutorial_001.png)
 
-### 样品对抗性实施例
+### 对抗示例
 
-记住没有免费的午餐的想法？在这种情况下，作为小量增加了测试精度降低 **BUT**
-扰动变得更容易察觉。在现实中，有精度降解和攻击者必须考虑感之间的权衡。在这里，我们显示出对每一个小量值成功对抗的例子一些例子。情节的每行显示一个不同的小量值。第一行是
-\（\小量= 0 \），其表示不具有扰动原来的“干净”的图像实例。各图像的标题显示了“原始分类 - & GT ;对抗性分类。”通知，扰动开始成为在
-\（\小量= 0.15 \）明显，是相当明显在 \（\小量= 0.3 \）。然而，在所有的情况下，人类仍然能够识别正确的类，尽管添加了噪音的。
+还记得没有免费午餐的想法吗？在这种情况下，随着ε的增加，测试精度降低，**BUT**扰动变得更容易察觉。实际上，攻击者必须考虑准确性降低和可感知性之间的权衡。在这里，我们展示了每个epsilon值的成功对抗示例。绘图的每一行显示不同的ε值。第一行是ϵ=0代表原始“干净”图像且无干扰的示例。每个图像的标题显示“原始分类->对抗分类”。请注意，扰动在以下位置开始变得明显ϵ=0.15 并且在 ϵ=0.3。然而，在所有情况下，尽管增加了噪音，人类仍然能够识别正确的类别。
 
-    
-    
+
     # Plot several examples of adversarial samples at each epsilon
     cnt = 0
     plt.figure(figsize=(8,10))
@@ -312,14 +264,13 @@ Out:
     plt.show()
     
 
-![img/sphx_glr_fgsm_tutorial_002.png](img/sphx_glr_fgsm_tutorial_002.png)
+![https://pytorch.org/tutorials/_images/sphx_glr_fgsm_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_fgsm_tutorial_002.png)
 
 ## 下一步去哪里？
 
-希望这个教程提供一些见解对立的机器学习的话题。有许多潜在的方向从这里走。这次攻击是对抗攻击的研究一开始就和因为有一直为如何攻击和对手防守ML车型很多后续的想法。事实上，在2017年NIPS有一个对抗性的攻防竞争和许多在比赛中使用的方法在本文中描述：[对抗性攻击和防御比赛[HTG1。在防守上的工作还通向使机器学习模型的想法更多
-_健壮_ 在一般情况下，双方自然扰动和adversarially制作的投入。](https://arxiv.org/pdf/1804.00097.pdf)
+希望本教程对对抗性机器学习主题有所了解。从这里可以找到许多潜在的方向。这种攻击代表了对抗性攻击研究的最开始，并且由于随后有很多关于如何攻击和防御对手的ML模型的想法。实际上，在NIPS 2017上有一个对抗性的攻击和防御竞赛，并且本文描述了该竞赛中使用的许多方法：[对抗性的攻击和防御竞赛](https://arxiv.org/pdf/1804.00097.pdf)。国防方面的工作还引发了使机器学习模型总体上更加健壮的想法，以适应自然扰动和对抗性输入。
 
-去另一个方向是在不同的领域对抗攻击和防御。对抗性的研究不限于图像域，检查出[上的语音至文本模式这个](https://arxiv.org/pdf/1801.01944.pdf)攻击。但也许更多地了解对抗机器学习的最佳方式是让你的手脏。尝试实施从2017年NIPS竞争不同的攻击，看看它与FGSM的不同之处。然后，尝试从自己的攻击防御模型。
+另一个方向是不同领域的对抗性攻击和防御。对抗性研究不仅限于图像领域，请查看[这种](https://arxiv.org/pdf/1801.01944.pdf)对语音到文本模型的攻击。但是，也许更多地了解对抗性机器学习的最好方法是弄脏您的手。尝试实施与NIPS 2017竞赛不同的攻击，并查看其与FGSM的不同之处。然后，尝试保护模型免受自己的攻击。
 
 **脚本的总运行时间：** （2分钟57.229秒）
 
@@ -328,64 +279,3 @@ fgsm_tutorial.py`](../_downloads/c9aee5c8955d797c051f02c07927b0c0/fgsm_tutorial.
 
 [`Download Jupyter notebook:
 fgsm_tutorial.ipynb`](../_downloads/fba7866856a418520404ba3a11142335/fgsm_tutorial.ipynb)
-
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](dcgan_faces_tutorial.html "DCGAN Tutorial")
-[![](../_static/images/chevron-right-orange.svg)
-Previous](../advanced/neural_style_tutorial.html "Neural Transfer Using
-PyTorch")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * 对抗性实施例代
-    * 威胁模型
-    * 快速倾斜的符号攻击
-    * 实现
-      * 输入
-      * 型号受到攻击
-      * FGSM攻击
-      * 测试函数
-      * 运行攻击
-    * 结果
-      * 精度VS的Epsilon 
-      * [HTG0样品对抗性实施例
-    * 下一步去哪里？ 
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
-
