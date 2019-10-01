@@ -243,7 +243,7 @@ Mask R-CNN在Faster R-CNN中增加了一个分支，该分支还可以预测每�
     
         return model
     
-就是这样，这将`model`准备好在您的自定义数据集上进行培训和评估。
+就是这样，这将`model`准备好在您的自定义数据集上进行训练和评估。
 
 ## 将所有内容放在一起
 
@@ -415,6 +415,6 @@ Mask R-CNN在Faster R-CNN中增加了一个分支，该分支还可以预测每�
 
 在本教程中，您学习了如何在自定义数据集上为实例细分模型创建自己的训练管道。为此，您编写了一个`torch.utils.data.Dataset`类，该类返回图像，地面真相框和分割蒙版。您还利用了在COCO train2017上预先训练的Mask R-CNN模型，以便对该新数据集执行转移学习。
 
-对于更完整的示例（包括多机/多GPU培训），请检查`references/detection/train.py`在Torchvision存储库中存在的。
+对于更完整的示例（包括多机/多GPU训练），请检查`references/detection/train.py`在Torchvision存储库中存在的。
 
 您可以在[此处下载](https://pytorch.org/tutorials/_static/tv-training-code.py)本教程的完整源文件 。
