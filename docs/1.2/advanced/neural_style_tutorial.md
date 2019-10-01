@@ -20,9 +20,9 @@
 
 * `torch`，`torch.nn`，`numpy`（与PyTorch神经网络包赛前必读）
 * `torch.optim` （有效的梯度下降）
-* `PIL`，`PIL.Image`，`matplotlib.pyplot`（负载和显示图像）
+* `PIL`，`PIL.Image`，`matplotlib.pyplot`（加载和显示图像）
 * `torchvision.transforms` （将PIL图像转换为张量）
-* `torchvision.models` （训练或负载预训练模型）
+* `torchvision.models` （训练或加载预训练模型）
 * `copy` （以深层复制模型；系统包）
 
     

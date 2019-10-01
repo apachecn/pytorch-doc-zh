@@ -1,6 +1,6 @@
 # 微调 TorchVision 模型
 
-> **作者** [弥敦道Inkawhich ](https://github.com/inkawhich)
+> **作者** [Nathan Inkawhich](https://github.com/inkawhich)
 
 在本教程中，我们将更深入地研究如何微调和特征提取[Torchvision模型](https://pytorch.org/docs/stable/torchvision/models.html)，所有这些模型都已在1000类Imagenet数据集上进行了预训练。本教程将深入研究如何使用几种现代的CNN架构，并将建立一种直观的方法来微调任何PyTorch模型。由于每种模型的架构都不同，因此没有适用于所有场景的样板微调代码。相反，研究人员必须查看现有的体系结构，并对每个模型进行自定义调整。
 
@@ -13,21 +13,23 @@
 * 为优化算法定义我们要在训练期间更新哪些参数
 * 运行训练步骤
 
-    from __future__ import print_function
-    from __future__ import division
-    import torch
-    import torch.nn as nn
-    import torch.optim as optim
-    import numpy as np
-    import torchvision
-    from torchvision import datasets, models, transforms
-    import matplotlib.pyplot as plt
-    import time
-    import os
-    import copy
-    print("PyTorch Version: ",torch.__version__)
-    print("Torchvision Version: ",torchvision.__version__)
-    
+```
+from __future__ import print_function
+from __future__ import division
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+import torchvision
+from torchvision import datasets, models, transforms
+import matplotlib.pyplot as plt
+import time
+import os
+import copy
+print("PyTorch Version: ",torch.__version__)
+print("Torchvision Version: ",torchvision.__version__)
+```
+
 Out:
     
     PyTorch Version:  1.2.0
@@ -415,7 +417,7 @@ Out:
 
 ## 加载数据
 
-既然我们知道输入大小必须为多少，就可以初始化数据转换，图像数据集和数据加载器。请注意，模型已经过硬编码规范化值的预训练，【如下所述](https://pytorch.org/docs/master/torchvision/models.html)。
+既然我们知道输入大小必须为多少，就可以初始化数据转换，图像数据集和数据加载器。请注意，模型已经过硬编码规范化值的预训练，[如下所述](https://pytorch.org/docs/master/torchvision/models.html)。
     
     # Data augmentation and normalization for training
     # Just normalization for validation

@@ -147,7 +147,7 @@ data = DataLoader(train_dataset, collate_fn=generate_batch)
 * 用于读/写视频文件（包括音频）的高效IO原语，支持任意编码和格式。
 * 标准视频数据集，与`torch.utils.data.Dataset`和兼容`torch.utils.data.DataLoader`。
 * 基于Kinetics-400数据集构建的预训练模型，用于视频（包括训练脚本）的动作分类。
-* 用于培训您自己的视频模型的参考培训脚本。
+* 用于训练您自己的视频模型的参考训练脚本。
 
 我们希望在PyTorch中处理视频数据尽可能简单，而不会影响性能。因此，我们避免了需要事先重新编码视频的步骤，因为它会涉及：
 
