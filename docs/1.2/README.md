@@ -119,7 +119,7 @@
         * [torch.utils.tensorboard](tensorboard.html)
         * [torch.onnx](onnx.html)
         * [torch.__ config__](__config__.html)
-    * torchvision 参考文献
+    * torchvision Reference
         * [torchvision](torchvision/index.html)
     * torchaudio Reference
         * [torchaudio](https://pytorch.org/audio)
