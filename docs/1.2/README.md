@@ -90,7 +90,7 @@
     * 社区
         * [PyTorch贡献说明书](community/contribution_guide.html)
         * [PyTorch治理](community/governance.html)
-        * [PyTorch治|兴趣的人](community/persons_of_interest.html)
+        * [PyTorch治理 | 感兴趣的人](community/persons_of_interest.html)
     * 封装参考文献
         * [torch](torch.html)
         * [torch.Tensor](tensors.html)
@@ -119,7 +119,7 @@
         * [torch.utils.tensorboard](tensorboard.html)
         * [torch.onnx](onnx.html)
         * [torch.__ config__](__config__.html)
-    * torchvision 参考文献
+    * torchvision Reference
         * [torchvision](torchvision/index.html)
     * torchaudio Reference
         * [torchaudio](https://pytorch.org/audio)

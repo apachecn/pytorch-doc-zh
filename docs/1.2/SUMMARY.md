@@ -61,7 +61,7 @@
     * 社区
         * [PyTorch贡献说明书](community/contribution_guide.md)
         * [PyTorch治理](community/governance.md)
-        * [PyTorch治|兴趣的人](community/persons_of_interest.md)
+        * [PyTorch治理 | 感兴趣的人](community/persons_of_interest.md)
     * 封装参考文献
         * [torch](torch.md)
         * [torch.Tensor](tensors.md)
