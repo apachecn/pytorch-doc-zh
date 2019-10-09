@@ -1,801 +1,621 @@
-# 自动分化包 - torch.autograd
+# Automatic differentiation package - torch.autograd
 
-`torch.autograd`提供的类和函数执行的任意的标量值的函数的自动分化。它需要最少的改变现有的代码 - 你只需要声明`张量 `
-S代表其梯度应与`requires_grad =真 [HTG11计算]关键字。`
+> 译者：[gfjiangly](https://github.com/gfjiangly)
 
-`torch.autograd.``backward`( _tensors_ , _grad_tensors=None_ ,
-_retain_graph=None_ , _create_graph=False_ , _grad_variables=None_
-)[[source]](_modules/torch/autograd.html#backward)
+`torch.autograd` 提供类和函数，实现任意标量值函数的自动微分。 它要求对已有代码的最小改变---你仅需要用`requires_grad=True`关键字为需要计算梯度的声明`Tensor`。
 
-    
+```py
+torch.autograd.backward(tensors, grad_tensors=None, retain_graph=None, create_graph=False, grad_variables=None)
+```
 
-计算给出张量的梯度之w.r.t.图叶。
+计算被给张量关于图的叶节点的梯度和。
 
-该图是使用链式法则区分。如果有任何的`张量
-`是非标量（即，它们的数据具有一个以上的元素），并且需要的梯度，然后雅可比矢量乘积将被计算，在这种情况下，函数附加地需要指定`grad_tensors
-`。它应该是匹配长度的序列中，包含在雅可比矢量乘积的“载体”，通常是有区别的功能w.r.t.的梯度相应的张量（`无
-`为不需要梯度张量的所有张量的可接受的值）。
+图使用链式法则微分。如何任何`tensors`是非标量（例如他们的数据不止一个元素）并且要求梯度，函数要额外指出`grad_tensors`。它应是一个匹配长度的序列，包含可微函数关于相应张量的梯度（`None`是一个对所有张量可接受的值，不需要梯度张量）。
 
-此功能聚集在叶梯度 - 你可能需要调用它之前为零它们。
+此函数在叶节点累积梯度 - 你可能需要在调用前把它初始化为0.
 
-Parameters
+参数：
 
-    
+*   **tensors** (_Tensor序列_) – 计算导数的张量。
+*   **grad_tensors** (_[_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _或_ [_None_](https://docs.python.org/3/library/constants.html#None "(in Python v3.7)")序列_) – 关于相应张量每个元素的梯度。标量张量或不需要梯度的可用None指定。如果None对所有grad_tensors可接受，则此参数可选。
+*   **retain_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果False，用于计算梯度的图将被释放。请注意，在几乎所有情况下，不需要将此选项设置为真，而且通常可以更有效地解决问题。默认为create_graph值。
+*   **create_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果True，则构造导数图，以便计算更高阶导数，默认False。
 
-  * **张量** （ _的张量_ 序列） - 张量，其的衍生物将被计算出来。
 
-  * **grad_tensors** （ _的_ _（_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ [ _无序列_ ](https://docs.python.org/3/library/constants.html#None "\(in Python v3.7\)") _）_ ） - 在雅可比矢量乘积的“载体”，通常梯度WRT对应张量的每个元素。无值可以用于标量张量或那些不要求毕业生指定。如果没有值将所有grad_tensors是可以接受的，那么这种说法是可选的。
 
-  * **retain_graph** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`假 `，用于计算所述市图表将被释放。请注意，在几乎所有情况下将此选项设置为`真 `不需要，经常可以围绕以更有效的方式来工作。默认为`create_graph`的值。
+```py
+torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, create_graph=False, only_inputs=True, allow_unused=False)
+```
 
-  * **create_graph** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`真 `，所述衍生物的图形将被构建，从而允许计算高阶衍生产品。默认为`假 [HTG17。`
+计算和返回输出关于输入的梯度和。
 
-`torch.autograd.``grad`( _outputs_ , _inputs_ , _grad_outputs=None_ ,
-_retain_graph=None_ , _create_graph=False_ , _only_inputs=True_ ,
-_allow_unused=False_ )[[source]](_modules/torch/autograd.html#grad)
+`grad_outputs` 应是长度匹配输出的序列，包含关于输出每个元素的预计算梯度。如果一个输出不要求梯度，则梯度是`None`。
 
-    
+如果`only_inputs`是`True`，此函数将仅返回关于指定输入的梯度list。如果此参数是`False`，则关于其余全部叶子的梯度仍被计算，并且将累加到`.grad`属性中。
 
-计算并返回的输出梯度之和w.r.t.输入。
+参数: 
 
-`grad_outputs`应该是长度匹配`
-[HTG7含有在雅可比矢量乘积的“载体”，输出通常是预先计算的梯度的序列WRT每一个输出。如果输出不require_grad，则梯度可以是`无 `）。`
+*   **outputs** (_Tensor序列_) – 可微函数输出
+*   **inputs** (_Tensor序列_) – 关于将返回梯度的输入(不累加到`.grad`)。
+*   **grad_outputs** (_Tensor序列_) – 关于每个输入的梯度。标量张量或不需要梯度的可用None指定。如果None对所有grad_tensors可接受，则此参数可选。默认：`None`。
+*   **retain_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果`False`，用于计算梯度的图将被释放。请注意，在几乎所有情况下，不需要将此选项设置为真，而且通常可以更有效地解决问题。默认为`create_graph`值。
+*   **create_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果`True`，则构造导数图，以便计算更高阶导数，默认`False`。
+*   **allow_unused** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果`False`, 当计算输出出错时指明不使用的输入 (因此它们的梯度一直是0)。 默认`False`。
 
-如果`only_inputs`是`真 `，则该函数将只返回梯度w.r.t指定输入的列表。如果是`假
-`，然后梯度w.r.t.其余所有的叶子仍然会被计算，并且将累积到他们`.grad`属性。
 
-Parameters
+## 局部禁用梯度计算
 
-    
+```py
+class torch.autograd.no_grad
+```
 
-  * **输出** （ _的张量_ 序列） - 微分函数的输出。
+禁用梯度计算的上下文管理器。
 
-  * **输入** （ _张量的序列_ ） - 输入w.r.t.该梯度将被返回（并且不累积到`.grad`）。
+当你确认不会调用 `Tensor.backward()`，对于推断禁用梯度计算是有用的。它将减少计算的内存消耗，否则会有`requires_grad=True`。在这个模式中，每个计算结果将导致`requires_grad=False`, 即便输入有`requires_grad=True`。
 
-  * **grad_outputs** （ _张量_ 的序列） - 在雅可比矢量乘积的“载体”。通常梯度w.r.t.每个输出。无值可以用于标量张量或那些不要求毕业生指定。如果没有值将所有grad_tensors是可以接受的，那么这种说法是可选的。默认值：无。
+函数还可作为装饰器。
 
-  * **retain_graph** ([ _bool_](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _,_ _optional_ ) – If `False`, the graph used to compute the grad will be freed. Note that in nearly all cases setting this option to `True`is not needed and often can be worked around in a much more efficient way. Defaults to the value of `create_graph`.
+示例：
 
-  * **create_graph** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`真 `，所述衍生物的图形将被构建，从而允许计算高阶衍生产品。默认值：`假 [HTG17。`
 
-  * **allow_unused** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`假 `，指定计算输出时不使用的输入（和因此它们的毕业生总是零）是错误的。默认为`假 [HTG17。`
+```py
+>>> x = torch.tensor([1], requires_grad=True)
+>>> with torch.no_grad():
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> @torch.no_grad()
+... def doubler(x):
+...     return x * 2
+>>> z = doubler(x)
+>>> z.requires_grad
+False
 
-## 本地禁用梯度计算
+```
 
-_class_`torch.autograd.``no_grad`[[source]](_modules/torch/autograd/grad_mode.html#no_grad)
+```py
+class torch.autograd.enable_grad
+```
 
-    
+使能梯度计算的上下文管理器。
 
-上下文管理器禁用梯度计算。
+在一个[`no_grad`](#torch.autograd.no_grad "torch.autograd.no_grad")上下文中使能梯度计算。在[`no_grad`](#torch.autograd.no_grad "torch.autograd.no_grad")外部此上下文管理器无影响
 
-禁用梯度计算是推论有用，当你确信你不会叫`Tensor.backward（） [HTG3。这将减少用于计算，否则将具有 requires_grad
-=真内存消耗。`
+函数还可作为装饰器。
 
-在这种模式下，每一个计算结果将具有 requires_grad =假，即使当输入具有 requires_grad =真。
+示例：
 
-使用 `enable_grad`上下文管理器时，此模式没有影响。
 
-这个上下文管理器是线程本地;它不会在其他线程影响计算。
+```py
+>>> x = torch.tensor([1], requires_grad=True)
+>>> with torch.no_grad():
+...   with torch.enable_grad():
+...     y = x * 2
+>>> y.requires_grad
+True
+>>> y.backward()
+>>> x.grad
+>>> @torch.enable_grad()
+... def doubler(x):
+...     return x * 2
+>>> with torch.no_grad():
+...     z = doubler(x)
+>>> z.requires_grad
+True
 
-也可作为装饰。
+```
 
-例：
+```py
+class torch.autograd.set_grad_enabled(mode)
+```
 
-    
-    
-    >>> x = torch.tensor([1], requires_grad=True)
-    >>> with torch.no_grad():
-    ...   y = x * 2
-    >>> y.requires_grad
-    False
-    >>> @torch.no_grad()
-    ... def doubler(x):
-    ...     return x * 2
-    >>> z = doubler(x)
-    >>> z.requires_grad
-    False
-    
 
-_class_`torch.autograd.``enable_grad`[[source]](_modules/torch/autograd/grad_mode.html#enable_grad)
+设置梯度计算打开或关闭的上下文管理器。
 
-    
+`set_grad_enabled`将基于它的参数`mode`使用或禁用梯度。它也能作为一个上下文管理器或函数使用。
 
-上下文管理器，它使梯度计算。
+| 参数: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 标记是否使能梯度（True），或使能（False）。这能被用在有条件的使能梯度。
+| --- | --- |
 
-使梯度计算，如果它已被通过 `禁用no_grad`或 set_grad_enabled ``。
+示例：
 
-This context manager is thread local; it will not affect computation in other
-threads.
+```py
+>>> x = torch.tensor([1], requires_grad=True)
+>>> is_train = False
+>>> with torch.set_grad_enabled(is_train):
+...   y = x * 2
+>>> y.requires_grad
+False
+>>> torch.set_grad_enabled(True)
+>>> y = x * 2
+>>> y.requires_grad
+True
+>>> torch.set_grad_enabled(False)
+>>> y = x * 2
+>>> y.requires_grad
+False
 
-Also functions as a decorator.
+```
 
-Example:
+## 关于Tensors的原位操作
 
-    
-    
-    >>> x = torch.tensor([1], requires_grad=True)
-    >>> with torch.no_grad():
-    ...   with torch.enable_grad():
-    ...     y = x * 2
-    >>> y.requires_grad
-    True
-    >>> y.backward()
-    >>> x.grad
-    >>> @torch.enable_grad()
-    ... def doubler(x):
-    ...     return x * 2
-    >>> with torch.no_grad():
-    ...     z = doubler(x)
-    >>> z.requires_grad
-    True
-    
-
-_class_`torch.autograd.``set_grad_enabled`( _mode_
-)[[source]](_modules/torch/autograd/grad_mode.html#set_grad_enabled)
-
-    
-
-上下文管理器，其设定梯度计算为开或关。
-
-`set_grad_enabled`将启用或禁用根据它的自变量`模式 `梯度。它可以作为一个上下文经理或作为一个功能。
-
-当使用 `enable_grad`上下文管理器，`set_grad_enabled（假） `没有影响。
-
-This context manager is thread local; it will not affect computation in other
-threads.
-
-Parameters
-
-    
-
-**模式** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in
-Python v3.7\)")） - 标志是否启用研究所（`真 `），或禁用（`假 `）。这可以用来有条件地允许梯度。
-
-Example:
-
-    
-    
-    >>> x = torch.tensor([1], requires_grad=True)
-    >>> is_train = False
-    >>> with torch.set_grad_enabled(is_train):
-    ...   y = x * 2
-    >>> y.requires_grad
-    False
-    >>> torch.set_grad_enabled(True)
-    >>> y = x * 2
-    >>> y.requires_grad
-    True
-    >>> torch.set_grad_enabled(False)
-    >>> y = x * 2
-    >>> y.requires_grad
-    False
-    
-
-## 就地对运营张量
-
-在autograd支持就地操作是很难的事，我们不鼓励在大多数情况下，它们的使用。
-Autograd咄咄逼人的缓冲释放和再利用使得它非常有效，也有极少数场合就地操作任何显著量实际上更低的内存使用率。除非你在重内存压力工作，你可能永远需要使用它们。
+在autograd中支持原位操作是一件很难的事，并且我们在大多数情况下不鼓励使用它们。Autograd积极的缓冲区释放和重用使其非常高效，实际上原位操作会大幅降低内存使用量的情况非常少。你可能永远不会使用它们，除非正在很大的内存压力下操作。
 
 ### 就地正确性检查
 
-所有`张量 `S跟踪就地操作适用于他们，如果实现检测到张在的功能之一保存落后，但它被修改IN-
-事后到位，错误将引发一次向通行已启动。这确保了如果你使用就地功能，没有看到任何错误，你可以肯定的是，计算的梯度是正确的。
+全部的Tensor保持追踪应用到它们身上的原位操作，并且如果实现检测到在任何一个函数中，一个tensor为反向传播保存，但是随后被原位修改，一旦反向传播开始将抛出一个错误。此设计确保如果你正在使用原位操作函数并且没有看到任何错误，你可以确保计算的梯度是正确的。
 
-## 变量（不建议使用）
+### Variable (弃用)
 
 警告
 
-变量API已被弃用：变量不再需要用张量使用autograd。 Autograd自动支持与`requires_grad `设置为`真 `
-张量。请在下面找到发生了什么变化的快速指南：
+Variable API已经被弃用。对张量使用自动求导不再需要Variable。Autograd自动支持`requires_grad`参数设置成`True`的张量。以下是有关更改内容的快速指南：
 
-  * `变量（张量） `和`变量（张量， requires_grad）HTG8] `仍按预期方式工作，但他们回到张量而不是变量。
+*   `Variable(tensor)` 和`Variable(tensor, requires_grad)`仍然和预期一样工作，但它们返回Tensors代替Variables。
+*   `var.data` 和 `tensor.data`是一回事。
+*   方法如`var.backward(), var.detach(), var.register_hook()`现在在tensors上使用相同的名字起作用。
 
-  * `var.data`是同样的事情`tensor.data`。
+此外，现在可以使用诸如[`torch.randn()`](torch.html#torch.randn "torch.randn"), [`torch.zeros()`](torch.html#torch.zeros "torch.zeros"), [`torch.ones()`](torch.html#torch.ones "torch.ones")等工厂方法创建requires_grad=True的张量，如下所示：
 
-  * 的方法，如`var.backward（）， var.detach（）， var.register_hook（） `现在在与张量的工作同样的方法名称。
 
-此外，一个现在可以创建与`requires_grad =真 `使用工厂方法，如[ `torch.randn（） `
-[张量HTG9]，](torch.html#torch.randn "torch.randn")[ `torch.zeros（） `
-](torch.html#torch.zeros "torch.zeros")，[ `torch.ones（） `
-](torch.html#torch.ones "torch.ones")和其他类似如下：
+`autograd_tensor = torch.randn((2, 3, 4), requires_grad=True)`
 
-`autograd_tensor  =  torch.randn（（2， 3， 4）， requires_grad = TRUE） `
+## 张量自动求导函数
 
-## 张量autograd功能
+```py
+class torch.Tensor
+```
 
-_class_`torch.``Tensor`
+```py
+backward(gradient=None, retain_graph=None, create_graph=False)
+```
 
-    
+计算当前张量关于图叶节点的梯度。
 
-`backward`( _gradient=None_ , _retain_graph=None_ , _create_graph=False_
-)[[source]](_modules/torch/tensor.html#Tensor.backward)
+图使用链式反则微分。如果张量是非标量并且要求梯度，函数额外要求指梯度。它应是一个匹配类型和位置的张量，含有可微函数关于它本身的梯度。
 
-    
+此函数在叶节点累加梯度-你可能需要在调用前将它初始化为0。
 
-计算当前张量w.r.t.的梯度图叶。
+参数：
 
-该图是使用链式法则区分。如果张量是非标量（即，其数据具有一个以上的元素），并且需要的梯度，所述函数另外需要指定`梯度
-`。它应该是匹配的类型和位置的张量，包含有区别的功能w.r.t.的梯度`自 `。
+*   **gradient** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _或_ [_None_](https://docs.python.org/3/library/constants.html#None "(in Python v3.7)")) – 关于张量的梯度。如果它是一个张量，它将被自动转换成不要求梯度的张量，除非`create_graph`是`True`。标量张量或不需要梯度的可用`None`指定。如果None对所有grad_tensors可接受，则此参数可选。
+*   **retain_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果`False`，用于计算梯度的图将被释放。请注意，在几乎所有情况下，不需要将此选项设置为真，而且通常可以更有效地解决问题。默认为`create_graph`值。
+*   **create_graph** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果`True`，则构造导数图，以便计算更高阶导数，默认`False`。
 
-此功能聚集在叶梯度 - 你可能需要调用它之前为零它们。
+```py
+detach()
+```
 
-Parameters
+返回一个新的Tensor，从当前图中分离出来。
 
-    
-
-  * **梯度** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ [ _无_ ](https://docs.python.org/3/library/constants.html#None "\(in Python v3.7\)")） - 梯度w.r.t.张量。如果它是一个张量，它将被自动转换为不需要研究所除非`create_graph`为True张量。无值可以用于标量张量或那些不要求毕业生指定。如果没有值是可以接受的，然后这种说法是可选的。
-
-  * **retain_graph** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`假 `，用于计算梯度的图表将被释放。请注意，在几乎所有情况下的设置则不需要此选项设置为True，往往可以以更有效的方式围绕工作。默认为`create_graph`的值。
-
-  * **create_graph** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`真 `，所述衍生物的图形将被构建，从而允许计算高阶衍生产品。默认为`假 [HTG17。`
-
-`detach`()
-
-    
-
-返回一个新的张量，从当前图形分离。
-
-其结果将永远不需要梯度。
+结果不要求梯度。
 
 注意
 
-回到张量股与原来相同的存储。就地对它们中的修改可以看出，并可能引发正确性检查错误。重要提示：以前，就地尺寸/步幅/存储的变化（如 resize_  /
-resize_as_  /  SET_  /  transpose_
-）来返回的张量也更新原有的张量。现在，这些就地变化将不再更新原有的张量，而会触发一个错误。对于稀疏张量：就地索引/值的变化（如 zero_  /
-copy_  /  add_ ）发送到返回张量将不再更新原始张量，而会触发一个错误。
+返回的张量与原始张量使用相同的数据。关于它们中任一个原位修改将被看见，并且可能在正确性检查中触发错误。
 
-`detach_`()
 
-    
+```py
+detach_()
+```
 
-分离从创建它，使其成为一个叶子图表中的张量。意见不能就地分离。
+从创建它的图中分离张量，使其成为叶。不能就地分离视图。
 
-`grad`
+```py
+grad
+```
 
-    
+此属性默认`None`，并且调用[`backward()`](#torch.Tensor.backward "torch.Tensor.backward")计算自身梯度时第一时间成为一个Tensor。此属性将含计算的梯度，以后调用[`backward()`](#torch.Tensor.backward "torch.Tensor.backward")将累加提到到自身。
 
-该属性是`无 `缺省和成为张量在第一时间[ `呼叫向后（） `](tensors.html#torch.Tensor.backward
-"torch.Tensor.backward")计算梯度为`自 `。然后，属性将包含计算出的梯度，并[ `向后（） `
-](tensors.html#torch.Tensor.backward "torch.Tensor.backward")将积累（添加）梯度到它将来的呼叫。
+```py
+is_leaf
+```
 
-`is_leaf`
+按惯例，所有[`requires_grad`](#torch.Tensor.requires_grad "torch.Tensor.requires_grad")=False的张量将是叶节点张量
 
-    
+如果张量是由用户创建，[`requires_grad`](#torch.Tensor.requires_grad "torch.Tensor.requires_grad")的张量也是叶节点张量。这意味着它们不是一个操作的结果，并且`grad_fn`是`None`。
 
-有所有的张量[ `requires_grad`](tensors.html#torch.Tensor.requires_grad
-"torch.Tensor.requires_grad")是`假 `将叶按约定张量。
+仅叶节点张量在调用[`backward()`](#torch.Tensor.backward "torch.Tensor.backward")时填充它们的[`grad`](#torch.Tensor.grad "torch.Tensor.grad")。为得到从非叶节点张量填充的梯度，你可以使用[`retain_grad()`](#torch.Tensor.retain_grad "torch.Tensor.retain_grad").
 
-对于张量具有[ `requires_grad`](tensors.html#torch.Tensor.requires_grad
-"torch.Tensor.requires_grad")，它是`真 `，他们将叶张量如果他们被创建用户。这意味着它们不是一个操作的结果等`
-grad_fn`是无。
+示例：
 
-仅叶张量人员在[ `GRAD`](tensors.html#torch.Tensor.grad "torch.Tensor.grad")至[ `
-向后（在呼叫期间填充） `](tensors.html#torch.Tensor.backward
-"torch.Tensor.backward")。为了得到[ `毕业 `](tensors.html#torch.Tensor.grad
-"torch.Tensor.grad")填充的无叶张量，你可以使用[ `retain_grad（） `[
-HTG23。](tensors.html#torch.Tensor.retain_grad "torch.Tensor.retain_grad")
+```py
+>>> a = torch.rand(10, requires_grad=True)
+>>> a.is_leaf
+True
+>>> b = torch.rand(10, requires_grad=True).cuda()
+>>> b.is_leaf
+False
+# b 是由cpu Tensor投入cuda Tensor的操作创建的
+>>> c = torch.rand(10, requires_grad=True) + 2
+>>> c.is_leaf
+False
+# c 是由加操作创建的
+>>> d = torch.rand(10).cuda()
+>>> d.is_leaf
+True
+# d 不要求梯度，所以没有创建它的操作 (被自动求导引擎追踪)
+>>> e = torch.rand(10).cuda().requires_grad_()
+>>> e.is_leaf
+True
+# e 要求梯度并且没有创建它的操作
+>>> f = torch.rand(10, requires_grad=True, device="cuda")
+>>> f.is_leaf
+True
+# f 要求梯度并且没有创建它的操作
 
-Example:
+```
 
-    
-    
-    >>> a = torch.rand(10, requires_grad=True)
-    >>> a.is_leaf
-    True
-    >>> b = torch.rand(10, requires_grad=True).cuda()
-    >>> b.is_leaf
-    False
-    # b was created by the operation that cast a cpu Tensor into a cuda Tensor
-    >>> c = torch.rand(10, requires_grad=True) + 2
-    >>> c.is_leaf
-    False
-    # c was created by the addition operation
-    >>> d = torch.rand(10).cuda()
-    >>> d.is_leaf
-    True
-    # d does not require gradients and so has no operation creating it (that is tracked by the autograd engine)
-    >>> e = torch.rand(10).cuda().requires_grad_()
-    >>> e.is_leaf
-    True
-    # e requires gradients and has no operations creating it
-    >>> f = torch.rand(10, requires_grad=True, device="cuda")
-    >>> f.is_leaf
-    True
-    # f requires grad, has no operation creating it
-    
+```py
+register_hook(hook)
+```
 
-`register_hook`( _hook_
-)[[source]](_modules/torch/tensor.html#Tensor.register_hook)
+注册一个反向钩子
 
-    
+此钩子每次在对应张量梯度被计算时调用。此钩子应有下面鲜明特征：
 
-寄存器向后钩。
+```py
+hook(grad) -> Tensor or None
 
-钩将被称为每相对于该张量的梯度被计算的时间。钩子应该具有以下特征：
+```
 
-    
-    
-    hook(grad) -> Tensor or None
-    
+此钩子不应该修改它的参数，但它能可选地返回一个新的用于替代 `grad`的梯度。
 
-钩不应该修改它的参数，但它可以任选地返回一个新的梯度，这将代替[ `GRAD`](tensors.html#torch.Tensor.grad
-"torch.Tensor.grad")一起使用。
+此函数返回一个句柄，其句柄方法为`handle.remove()`，用于从模块中删除钩子。
 
-该函数返回与方法`handle.remove手柄（） `，其去除从所述模块的钩。
+示例：
 
-Example:
+```py
+>>> v = torch.tensor([0., 0., 0.], requires_grad=True)
+>>> h = v.register_hook(lambda grad: grad * 2)  # double the gradient
+>>> v.backward(torch.tensor([1., 2., 3.]))
+>>> v.grad
 
-    
-    
-    >>> v = torch.tensor([0., 0., 0.], requires_grad=True)
-    >>> h = v.register_hook(lambda grad: grad * 2)  # double the gradient
-    >>> v.backward(torch.tensor([1., 2., 3.]))
-    >>> v.grad
-    
-     2
-     4
-     6
-    [torch.FloatTensor of size (3,)]
-    
-    >>> h.remove()  # removes the hook
-    
+ 2
+ 4
+ 6
+[torch.FloatTensor of size (3,)]
 
-`requires_grad`
+>>> h.remove()  # removes the hook
 
-    
+```
 
-是`真 [HTG3如果梯度需要计算该张量，`假 [HTG7否则。``
+```py
+requires_grad
+```
 
-Note
+如果梯度需要为此张量计算则是`True`，否则为`False`
 
-该梯度需要计算的张量，这一事实并不意味着[ `毕业 `](tensors.html#torch.Tensor.grad
-"torch.Tensor.grad")属性将被填充，请参阅[ `is_leaf`
-](tensors.html#torch.Tensor.is_leaf "torch.Tensor.is_leaf")的更多细节。
+注意
 
-`retain_grad`()[[source]](_modules/torch/tensor.html#Tensor.retain_grad)
+事实是梯度需要为此张量计算不意味着`grad`属性将被填充，更多细节见[`is_leaf`](#torch.Tensor.is_leaf "torch.Tensor.is_leaf")。
 
-    
+```py
+retain_grad()
+```
 
-启用了非叶张量.grad属性。
+为非叶节点张量使能`.grad`属性
 
-## 函数
+## Function
 
-_class_`torch.autograd.``Function`[[source]](_modules/torch/autograd/function.html#Function)
+```py
+class torch.autograd.Function
+```
 
-    
+记录操作历史，定义可微操作公式。
 
-记录操作历史，并定义区分OPS公式。
+在Tensor上执行的每个操作都会创建一个新的函数对象，执行计算，记录它发生的。历史记录以函数的DAG形式保留，DAG的边表示数据的依赖性（`input &lt;- output`）。然后，当backward被调用，图按拓扑顺序被处理，通过调用每个[`Function`](#torch.autograd.Function "torch.autograd.Function")对象的backward()方法，并且传递梯度给下一个[`Function`](#torch.autograd.Function "torch.autograd.Function")。
 
-在`张量 `S创建一个新的函数对象，执行计算，执行的每一个操作，并记录它的发生。历史被保持在的功能的DAG的形式，与表示边缘数据依赖性（`输入 &
-LT ; -  输出 `）。然后，当向后被调用时，曲线图中的拓扑排序处理时，通过调用 `向后（） `的每个 `[方法HTG20 ]函数 `
-对象，并通过返回梯度到下一个 `函数 `秒。
+通常，用户与函数交互的唯一方式是通过创建子类和定义新操作。这是一种被推荐的扩展`torch.autograd`的方式。
 
-通常情况下，用户使用的功能交互的唯一方法是通过创建子类和定义新的操作。这是延长torch.autograd的推荐方式。
+每个函数对象只能使用一次（在正向传递中）。
 
-每个功能对象是指仅使用一次（在正向通）。
+示例：
 
-例子：
+```py
+>>> class Exp(Function):
+>>>
+>>>     @staticmethod
+>>>     def forward(ctx, i):
+>>>         result = i.exp()
+>>>         ctx.save_for_backward(result)
+>>>         return result
+>>>
+>>>     @staticmethod
+>>>     def backward(ctx, grad_output):
+>>>         result, = ctx.saved_tensors
+>>>         return grad_output * result
 
-    
-    
-    >>> class Exp(Function):
-    >>>
-    >>>     @staticmethod
-    >>>     def forward(ctx, i):
-    >>>         result = i.exp()
-    >>>         ctx.save_for_backward(result)
-    >>>         return result
-    >>>
-    >>>     @staticmethod
-    >>>     def backward(ctx, grad_output):
-    >>>         result, = ctx.saved_tensors
-    >>>         return grad_output * result
-    
+```
 
-_static_`backward`( _ctx_ , _*grad_outputs_
-)[[source]](_modules/torch/autograd/function.html#Function.backward)
+```py
+static backward(ctx, *grad_outputs)
+```
 
-    
+定义一个公式计算操作导数。
 
-定义用于区分该操作的公式。
+此函数被所有子类重载。
 
-此功能是通过所有子类覆盖。
+它必须接受一个上下文`ctx`作为第一个参数，随后是`forward()`返回的大量输出，并且它应返回尽可能多的张量，作为`forward()`函数输入。每个参数是关于被给输出的梯度，并且每个返回值是关于相应输入的梯度。
 
-它必须接受上下文`CTX`作为第一个参数，其次是因为许多输出做 `向前（） `返回，并且它应该返回尽可能多的张量，因为有输入 `向前（） `
-。每个参数是w.r.t给定输出的梯度，并且每个返回的值应该是梯度w.r.t.相应的输入。
+`ctx`上下文可用于恢复保存在前向传播过程的梯度。它有一个`ctx.needs_input_grad`属性，作为一个代表每个输入是否需要梯度的布尔元组。
 
-上下文可以用来检索直传期间保存张量。它也有一个属性`ctx.needs_input_grad`作为表示每个输入是否需要梯度的布尔值的元组。例如， `
-向后（） `将`ctx.needs_input_grad [0]  =  真 `如果第一输入为 `向前（） `需要梯度computated
-WRT输出。
+```py
+static forward(ctx, *args, **kwargs)
+```
 
-_static_`forward`( _ctx_ , _*args_ , _**kwargs_
-)[[source]](_modules/torch/autograd/function.html#Function.forward)
+执行操作。
 
-    
+此函数被所有子类重载。
 
-执行该操作。
+它必须接受一个上下文`ctx`作为第一个参数，随后是任意数量的参数（tensor或其它类型）。
 
-This function is to be overridden by all subclasses.
-
-它必须接受CTX作为第一个参数的上下文，后跟任意数量的参数（张量或其它类型的）。
-
-上下文可以用来存储可反向通期间则检索张量。
+此上下文可被用来存储张量，随后可在反向传播过程取出。
 
 ## 数值梯度检查
 
-`torch.autograd.``gradcheck`( _func_ , _inputs_ , _eps=1e-06_ , _atol=1e-05_ ,
-_rtol=0.001_ , _raise_exception=True_ , _check_sparse_nnz=False_ ,
-_nondet_tol=0.0_
-)[[source]](_modules/torch/autograd/gradcheck.html#gradcheck)
+```py
+torch.autograd.gradcheck(func, inputs, eps=1e-06, atol=1e-05, rtol=0.001, raise_exception=True)
+```
 
-    
+通过小的有限差分与关于浮点类型且`requires_grad=True`的输入张量来检查计算的梯度。
 
-检查梯度经由针对分析梯度小有限差分计算w.r.t.在`张量能与`浮点型的和输入 `requires_grad =真 `。
+在数组梯度和分析梯度之间检查使用[`allclose()`](torch.html#torch.allclose "torch.allclose")。
 
-数字分析梯度之间的检查使用[ `allclose（） `](torch.html#torch.allclose "torch.allclose")。
+注意
 
-Note
+默认值为双精度输入设计。如果输入欠精度此检查有可能失败，例如，`FloatTensor`。
 
-的默认值被设计用于`的双精度输入 `。如果`输入 `是精度要求不高，例如，`FloatTensor`该检查很可能会失败。
+警告
 
-Warning
+如果在输入中任何被检查的张量有重叠的内存，换句话说，指向相同内存地址的不同切片（例如，从torch.expand()），此检查将有可能失败，因为在这个索引通过点扰动计算的数值梯度将改变在全部其它索引处共享内存地址的值。
 
-如果在`任何选中的张量输入 `具有重叠的存储，即，指向相同的存储器地址（例如，不同的指数，从`torch.expand（）
-`），该检查可能会失败，因为在这些指数由点扰动计算的数值梯度将在共享同一存储器地址上的所有其他指数变化的值。
+参数
 
-Parameters
+*   **func** (_function_) – 一个Python函数，输入是张量，返回一个张量或张量元组
+*   **inputs** (_张量元组_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – func函数输入
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 有限差分的扰动
+*   **atol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 绝对容差
+*   **rtol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 相对容差
+*   **raise_exception** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 指示如果检查失败是否抛出一个异常。此异常给出关于失败的确切性质的更多信息。这在梯度检查调试时是有用的。
 
-    
 
-  * **FUNC** （ _函数_ ） - 一个Python函数，它接受张量的输入，并返回一个或张量的张量的元组
+| 返回: | 如果所有差都满足全部闭合条件，则为True |
+| --- | --- |
 
-  * **输入** （ _的张量_ _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")元组） - 函数的输入
 
-  * **EPS** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _，_ _可选_ ） - 摄动有限差
+```py
+torch.autograd.gradgradcheck(func, inputs, grad_outputs=None, eps=1e-06, atol=1e-05, rtol=0.001, gen_non_contig_grad_outputs=False, raise_exception=True)
+```
 
-  * **蒂** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _，_ _可选_ ） - 绝对公差
+通过小的有限差分与关于在输入中张量的分析梯度，检查已计算梯度的梯度，并且在requires_grad=True 情况下，grad_outputs是浮点类型。
 
-  * **RTOL** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _，_ _可选_ ） - 相对公差
+此函数检查通过计算到给定grad_outputs的梯度的反向传播是否正确。
 
-  * **raise_exception** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 指示是否如果检查失败引发异常。异常提供了有关故障的确切性质的更多信息。调试gradchecks时，这是有帮助的。
+在数值梯度和分析梯度之间使用[`allclose()`](torch.html#torch.allclose "torch.allclose")检查。
 
-  * **check_sparse_nnz** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果为True，gradcheck允许SparseTensor输入，并且对于任何SparseTensor在输入，gradcheck将执行仅NNZ位置检查。
+注意
 
-  * **nondet_tol** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _，_ _可选_ ） - 用于非确定性的耐受性。当通过分化运行相同的输入，结果必须或者完全匹配（默认值，0.0）或者是此公差范围内。
+默认值为双精度输入设计。如果输入欠精度此检查有可能失败，例如，`FloatTensor`。
 
-Returns
+警告
 
-    
+如果在输入中任何被检查的张量有重叠的内存，换句话说，指向相同内存地址的不同切片（例如，从`torch.expand()`），此检查将有可能失败，因为在这个索引通过点扰动计算的数值梯度将改变在全部其它索引处共享内存地址的值。
 
-真如果所有的差值满足allclose条件
+参数：
 
-`torch.autograd.``gradgradcheck`( _func_ , _inputs_ , _grad_outputs=None_ ,
-_eps=1e-06_ , _atol=1e-05_ , _rtol=0.001_ ,
-_gen_non_contig_grad_outputs=False_ , _raise_exception=True_ ,
-_nondet_tol=0.0_
-)[[source]](_modules/torch/autograd/gradcheck.html#gradgradcheck)
+*   **func** (_function_) – 一个Python函数，输入是张量，返回一个张量或张量元组
+*   **inputs** (_张量元组_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – func函数输入
+*   **grad_outputs** (_tuple of Tensor_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选_) – The gradients with respect to the function’s outputs.
+*   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 有限差分的扰动
+*   **atol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 绝对容差
+*   **rtol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 相对容差
+*   **gen_non_contig_grad_outputs** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 如果 grad_outputs 是 None 并且 gen_non_contig_grad_outputs 是 True，随机生成的梯度输出是不连续的
+*   **raise_exception** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) –  指示如果检查失败是否抛出一个异常。此异常给出关于失败的确切性质的更多信息。这在梯度检查调试时是有用的。
 
-    
+| 返回: | 如果所有差都满足全部闭合条件，则为True |
+| --- | --- |
 
-梯度的检查梯度经由针对分析梯度小有限差分计算w.r.t.在张量`输入 `和`grad_outputs`认为是浮点型的，并通过`
-requires_grad =真 [ HTG11。`
 
-此，通过计算给定的`grad_outputs`梯度backpropagating函数检查是正确的。
+## Profiler
 
-The check between numerical and analytical gradients uses
-[`allclose()`](torch.html#torch.allclose "torch.allclose").
+Autograd 包含一个事件探查器，让你洞察在你的模型中不同操作的代价-CPU和GPU中都有。现在有两种模式实现-CPU-仅使用[`profile`](#torch.autograd.profiler.profile "torch.autograd.profiler.profile")，和使用[`emit_nvtx`](#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx")的nvprof（注册CPU和GPU活动）
 
-Note
+```py
+class torch.autograd.profiler.profile(enabled=True, use_cuda=False)
+```
 
-的默认值被设计用于`输入 `和`的双精度grad_outputs`。如果它们的精度要求不高，例如该检查很可能会失败，`FloatTensor
-`。
+上下文管理器管理autograd事件探查器状态和保持一份汇总结果。
 
-Warning
+参数: 
 
-如果在`输入 `和任何检查张量`grad_outputs`具有重叠的存储，即，指向相同的存储器地址（例如，不同的指数，从`
-torch.expand（） `），该检查可能会失败，因为在这些指数由点扰动计算的数值梯度将在共享同一存储器地址上的所有其他指数变化的值。
+*   **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 设置成False 让此上下文管理一个 no-op. 默认：`True`。
+*   **use_cuda** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 使用cudaEvent API也可以启用CUDA事件的计时。 每个张量操作增加大约4us的开销。默认:  `False`
 
-Parameters
+示例：
 
-    
+```py
+>>> x = torch.randn((1, 1), requires_grad=True)
+>>> with torch.autograd.profiler.profile() as prof:
+...     y = x ** 2
+...     y.backward()
+>>> # 注意：为简洁起见，删除了一些列
+... print(prof)
+-------------------------------------  ---------------  ---------------
+Name                                          CPU time        CUDA time
+-------------------------------------  ---------------  ---------------
+PowConstant                                  142.036us          0.000us
+N5torch8autograd9GraphRootE                   63.524us          0.000us
+PowConstantBackward                          184.228us          0.000us
+MulConstant                                   50.288us          0.000us
+PowConstant                                   28.439us          0.000us
+Mul                                           20.154us          0.000us
+N5torch8autograd14AccumulateGradE             13.790us          0.000us
+N5torch8autograd5CloneE                        4.088us          0.000us
 
-  * **func** ( _function_ ) – a Python function that takes Tensor inputs and returns a Tensor or a tuple of Tensors
+```
 
-  * **inputs** ( _tuple of Tensor_ _or_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – inputs to the function
+```py
+export_chrome_trace(path)
+```
 
-  * **grad_outputs** （ _张量_ _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor") _，_ _可选的元组_ ） - 相对于所述功能的输出的梯度。
+将EventList导出为Chrome跟踪工具文件。
 
-  * **eps** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _,_ _optional_ ) – perturbation for finite differences
+检查点随后被加载和检查在`chrome://tracing URL`。
 
-  * **atol** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _,_ _optional_ ) – absolute tolerance
+| 参数: | **path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 将写入跟踪的路径。 |
+| --- | --- |
 
-  * **rtol** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _,_ _optional_ ) – relative tolerance
+```py
+key_averages()
+```
 
-  * **gen_non_contig_grad_outputs** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果`grad_outputs`是`无 `和`gen_non_contig_grad_outputs`是`真 `中，随机产生的梯度输出做成非连续
+平均键上的所有函数事件.
 
-  * **raise_exception** ([ _bool_](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _,_ _optional_ ) – indicating whether to raise an exception if the check fails. The exception gives more information about the exact nature of the failure. This is helpful when debugging gradchecks.
+| 返回: | 一个包含FunctionEventAvg对象的EventList。 |
+| --- | --- |
 
-  * **nondet_tol** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _，_ _可选_ ） - 用于非确定性的耐受性。当通过分化运行相同的输入，结果必须或者完全匹配（默认值，0.0）或者是此公差范围内。注意，非确定性的梯度少量会导致在二阶导数更大的误差。
+```py
+table(sort_by=None)
+```
 
-Returns
+将EventList打印为格式良好的表。
 
-    
+| 参数: | **sort_by** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")_,_ _optional_) – 用来排序事件的属性。默认以它们被注册时顺序打印。 合法的关键字包括：`cpu_time`, `cuda_time`, `cpu_time_total`, `cuda_time_total`, `count`。 |
+| --- | --- |
+| 返回: | 一个包含表格的字符串。 |
+| --- | --- |
 
-True if all differences satisfy allclose condition
+```py
+total_average()
+```
 
-## 探查
+平均化全部事件。
 
-Autograd包括一个分析器，它可让您检查不同运营商的成本模型中 - 无论是CPU和GPU上。有目前实施的两种模式 - 仅CPU使用 `个人资料 `
-[HTG5。并使用 `emit_nvtx`nvprof基于（寄存器CPU和GPU两者的活性）。
+| 返回: | 一个FunctionEventAvg事件。 |
+| --- | --- |
 
-_class_`torch.autograd.profiler.``profile`( _enabled=True_ , _use_cuda=False_
-, _record_shapes=False_
-)[[source]](_modules/torch/autograd/profiler.html#profile)
+```py
+class torch.autograd.profiler.emit_nvtx(enabled=True)
+```
 
-    
+让每个自动求导操作发出在一个NVTX范围内的上下文管理器。
 
-管理autograd探查状态并保持结果的摘要上下文管理。引擎盖下它只是记录在C
-++中执行的功能的事件和暴露这些事件到Python。你可以用任何代码到它，它只会报告的PyTorch功能运行。
+当在nvprof下运行程序是有用的：
 
-Parameters
+```py
+nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
-    
+```
 
-  * **启用** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 此设置为false使此背景下经理无操作。默认值：`真 [HTG13。`
+不幸地，没有办法强制nvprof将它收集的数据输出到磁盘，所以对于CUDA分析，必须使用此上下文管理器来声明nvprof跟踪并等待进程在检查之前退出。然后，可使用NVIDIA可视化Profiler(nvvp)来显示时间线，或[`torch.autograd.profiler.load_nvprof()`](#torch.autograd.profiler.load_nvprof "torch.autograd.profiler.load_nvprof")可加载结果以供检查，例如：在Python REPL中。
 
-  * **use_cuda** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 允许使用cudaEvent API以及CUDA事件的定时。添加约4us的开销每个张量操作。默认值：`假 `
+| 参数: | **enabled** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_) – 设置成False 让此上下文管理一个 no-op. 默认：`True`。 |
+| --- | --- |
 
-  * **record_shapes** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 如果形状将录制设定，关于输入尺寸信息将被收集。这允许人们看到哪些尺寸已经罩，并进一步按他们下使用利用prof.key_averages（group_by_input_shape =真）。请注意，形状记录可能会扭曲你的分析数据。它建议使用单独的运行具有和不具有形状记录来验证定时。最有可能的倾斜将是微不足道的最底层的事件（在嵌套函数调用的情况下）。但对于更高层次的功能，总的自我CPU时间可能会因为人为的形状收集的增加。
+示例：
 
-例
+```py
+>>> with torch.cuda.profiler.profile():
+...     model(x) # Warmup CUDA memory allocator and profiler
+...     with torch.autograd.profiler.emit_nvtx():
+...         model(x)
 
-    
-    
-    >>> x = torch.randn((1, 1), requires_grad=True)
-    >>> with torch.autograd.profiler.profile() as prof:
-    >>>     for _ in range(100):  # any normal python code, really!
-    >>>         y = x ** 2
-    >>          y.backward()
-    >>> # NOTE: some columns were removed for brevity
-    >>> print(prof.key_averages().table(sort_by="self_cpu_time_total"))
-    -----------------------------------  ---------------  ---------------  ---------------
-    Name                                 Self CPU total   CPU time avg     Number of Calls
-    -----------------------------------  ---------------  ---------------  ---------------
-    mul                                  32.048ms         32.048ms         200
-    pow                                  27.041ms         27.041ms         200
-    PowBackward0                         9.727ms          55.483ms         100
-    torch::autograd::AccumulateGrad      9.148ms          9.148ms          100
-    torch::autograd::GraphRoot           691.816us        691.816us        100
-    -----------------------------------  ---------------  ---------------  ---------------
-    
+```
 
-`export_chrome_trace`( _path_
-)[[source]](_modules/torch/autograd/profiler.html#profile.export_chrome_trace)
+**Forward-backward correlation**
 
-    
+在Nvidia Visual Profiler中查看使用emit_nvtx创建的配置文件时，将每个反向传递操作与相应的前向传递操作相关联可能很困难。 为了简化此任务，emit_nvtx将序列号信息附加到它生成的范围。
 
-出口的一个EVENTLIST以及Chrome的跟踪工具文件。
+在前向传递过程，每个函数范围都用`seq=&lt;N&gt;`进行修饰。 `seq`是一个运行计数器，每次创建一个新的反向Function对象时会递增，并对前向不可见。 因此，与每个前向函数范围相关联的`seq=&lt;N&gt;`注释告诉你，如果此前向函数创建了反向的Function对象，则反向对象将收到序列号N。在反向传递过程，顶层范围包装每个C++反向函数的`apply()`调用都用不可见的`stashed seq=&lt;M&gt;`进行修饰。 M是创建反向对象的序列号。 通过比较在反向不可见的序列号和在前向的序列号，你可以跟踪哪个前向操作创建了每个反向函数。
 
-检查点可以在以后加载并`铬下检查：//追踪 `URL。
+在反向传递期间执行的任何函数也用`seq=&lt;N&gt;`进行修饰。 在默认反向（使用`create_graph=False`）时，此信息无关紧要，事实上，对于所有此类函数，`N`可能只是0。 作为将这些Function对象与早期的向前传递相关联的方法，只有与反向Function对象的`apply()`方法关联的顶级范围才有用。
 
-Parameters
+**Double-backward**
 
-    
+另一方面，如果正在进行`create_graph=True`的反向传递（换句话说，如果你设置为double-backward），则在反向期间执行每个被给一个非零，有用的`seq=&lt;N&gt;`的函数。 这些函数本身可以稍后在double-backward期间创建Function对象来执行，就像在前向传递中原始函数所做的一样。 反向和double-backward的关系在概念上与前向和反向的关系相同：函数仍然发出当前序列号标记的范围，它们创建的Function对象仍然存储那些序列号，并且在最终的double-backward期间 向后，Function对象的`apply()`范围仍然用 `stashed seq`数字标记，可以与反向传递中的`seq`数字进行比较。
 
-**路径** （[ _STR_ ](https://docs.python.org/3/library/stdtypes.html#str "\(in
-Python v3.7\)")） - ，其中所述迹线将被写入路径。
+```py
+torch.autograd.profiler.load_nvprof(path)
+```
 
-`key_averages`( _group_by_input_shape=False_
-)[[source]](_modules/torch/autograd/profiler.html#profile.key_averages)
+打开一个nvprof跟踪文件并且解析autograd注释。
 
-    
-
-平均在他们的密钥对所有功能的事件。
-
-@参数group_by_input_shapes的关键将成为（事件名称，输入尺寸），而不仅仅是事件名称。这是有用的，看看哪些维度有助于运行最并可与维特定的优化或选择最佳候选量化帮助（又名拟合的车顶线条）
-
-Returns
-
-    
-
-含有FunctionEventAvg对象的EVENTLIST。
-
-_property_`self_cpu_time_total`
-
-    
-
-返回花费在所有的自我时代的所有事件的总和获得的CPU总时间。
-
-`table`( _sort_by=None_ , _row_limit=100_ , _header=None_
-)[[source]](_modules/torch/autograd/profiler.html#profile.table)
-
-    
-
-打印的EVENTLIST作为一个很好的格式化的表格。
-
-Parameters
-
-    
-
-**sort_by** （[ _STR_ ](https://docs.python.org/3/library/stdtypes.html#str
-"\(in Python v3.7\)") _，_ _可选_ ） - 属性用于条目进行排序。默认情况下，它们被印在为它们注册的顺序相同。有效键包括：`
-CPU_TIME`，`cuda_time`，`cpu_time_total`，`cuda_time_total`，`计数 `。
-
-Returns
-
-    
-
-将含有表字符串。
-
-`total_average`()[[source]](_modules/torch/autograd/profiler.html#profile.total_average)
-
-    
-
-平均值的所有事件。
-
-Returns
-
-    
-
-一个FunctionEventAvg对象。
-
-_class_`torch.autograd.profiler.``emit_nvtx`( _enabled=True_ ,
-_record_shapes=False_
-)[[source]](_modules/torch/autograd/profiler.html#emit_nvtx)
-
-    
-
-情境管理，使每一个autograd操作发出NVTX范围。
-
-下nvprof运行程序时是非常有用的：
-
-    
-    
-    nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
-    
-
-不幸的是，有没有办法强迫nvprof刷新它收集到磁盘上的数据，所以对于CUDA剖析一个具有使用此背景下经理注释nvprof跟踪和等待的过程中检查他们之前退出。然后，无论是NVIDIA的视觉分析器（nvvp）可以被用于可视化的时间线，或
-`torch.autograd.profiler.load_nvprof（） `可以加载对结果检查如在Python REPL。
-
-Parameters
-
-    
-
-  * **启用** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ _，_ _默认=真_ ） - 设置`启用=假 `将此情况管理器无操作。默认值：`真 [HTG21。`
-
-  * **record_shapes** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ _，_ _默认=假_ ） - 如果`record_shapes =真 `时，nvtx范围包裹每个autograd运算将追加关于由该运算所接收的张量参数的大小的信息，在下面的格式：`[[arg0.size（0）， arg0.size（1）， ...]， [arg1.size（0）， arg1.size（1）， ...]， ...]`非张量参数将被表示为`[]`。参数将在它们由后端运算收到的顺序列出。请注意，这个顺序可能不匹配，使这些参数传递的Python端的顺序。还要注意的是形状记录可能会增加nvtx范围内创建的开销。
-
-Example
-
-    
-    
-    >>> with torch.cuda.profiler.profile():
-    ...     model(x) # Warmup CUDA memory allocator and profiler
-    ...     with torch.autograd.profiler.emit_nvtx():
-    ...         model(x)
-    
-
-**前后的相关性**
-
-当观看使用 `中创建的简档emit_nvtx`在NVIDIA的视觉分析器，各后向通运算与相应的前向通运算关联可能是困难的。为了缓解此任务， `
-emit_nvtx`附加序列数信息向它生成的范围。
-
-在直传，每个功能范围装饰有`SEQ = & LT ; N & GT ;`。 `SEQ
-`是一个运行计数器，递增每一个新的后向功能对象被创建并藏匿用于向后时间。因此，`SEQ = & LT ; N & GT ;
-`与每个进功能范围相关联的注释告诉你，如果一个向后作用目的是通过此正向函数创建，后向对象将接收序号N.在向后通，顶层范围包裹每个C ++向后功能的`
-申请（） `呼叫装饰与`藏匿 SEQ = & LT ; M & GT ;`。 `M`是向后对象与所创建的序列号。通过向后`比较`藏匿
-序列​​ `数字序列 `正向号码，你可以跟踪哪些向前运创建的每个向后作用。
-
-向后传递期间执行的任何功能也装饰有`SEQ = & LT ; N & GT ;`。默认向后期间（与`create_graph =假
-`）这个信息是无关的，而事实上，`N`可以简单地是0对于所有此类职能。只有具有向后功能对象相关联的顶层范围`申请（）
-`方法是有用的，作为方式关联与较早直传这些功能对象。
-
-**双向后**
-
-如果，在另一方面，后向通用`create_graph =真 `正在进行（换句话说，如果要设置为双向后）期间落后，每个功能的执行给出非零的，有用的`SEQ
-= & LT ; N & GT ;
-`。这些功能可以自己创建要在以后执行的函数对象双重落后，就像直传原有功能一样。向后和双向后之间的关系是概念性一样向前和向后之间的关系：该功能仍然发射电流序列号标记的范围内，功能对象他们创建仍然藏匿那些序列号，和最终双期间落后，函数对象`
-申请（） `范围仍具有标记`藏匿 SEQ`的数字，其可以进行比较，以 SEQ 号码从反向通。
-
-`torch.autograd.profiler.``load_nvprof`( _path_
-)[[source]](_modules/torch/autograd/profiler.html#load_nvprof)
-
-    
-
-打开一个nvprof跟踪文件，并解析autograd注解。
-
-Parameters
-
-    
-
-**路径** （[ _STR_ ](https://docs.python.org/3/library/stdtypes.html#str "\(in
-Python v3.7\)")） - 路径nvprof跟踪
+| 参数: | **path** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – nvprof跟踪路径 |
+| --- | --- |
 
 ## 异常检测
 
-_class_`torch.autograd.``detect_anomaly`[[source]](_modules/torch/autograd/anomaly_mode.html#detect_anomaly)
+```py
+class torch.autograd.detect_anomaly
+```
 
-    
+上下文管理器，为自动求导引擎使能异常检测。
 
-上下文管理器启用的autograd发动机异常检测。
+这做了两件事：- 在启用检测的情况下运行前向传递将允许反向传递打印创建失败的反向函数的前向操作跟踪。 - 任何生成“nan”值的反向计算都会引发错误。
 
-这做了两两件事： - 运行直传启用检测将允许向通行打印创建失败后退功能正向操作的回溯。 - 产生任何向后计算“男”值将产生一个错误。
+示例
 
-Example
+```py
+>>> import torch
+>>> from torch import autograd
+>>> class MyFunc(autograd.Function):
+...     @staticmethod
+...     def forward(ctx, inp):
+...         return inp.clone()
+...     @staticmethod
+...     def backward(ctx, gO):
+...         # Error during the backward pass
+...         raise RuntimeError("Some error in backward")
+...         return gO.clone()
+>>> def run_fn(a):
+...     out = MyFunc.apply(a)
+...     return out.sum()
+>>> inp = torch.rand(10, 10, requires_grad=True)
+>>> out = run_fn(inp)
+>>> out.backward()
+ Traceback (most recent call last):
+ File "<stdin>", line 1, in <module>
+ File "/your/pytorch/install/torch/tensor.py", line 93, in backward
+ torch.autograd.backward(self, gradient, retain_graph, create_graph)
+ File "/your/pytorch/install/torch/autograd/__init__.py", line 90, in backward
+ allow_unreachable=True)  # allow_unreachable flag
+ File "/your/pytorch/install/torch/autograd/function.py", line 76, in apply
+ return self._forward_cls.backward(self, *args)
+ File "<stdin>", line 8, in backward
+ RuntimeError: Some error in backward
+>>> with autograd.detect_anomaly():
+...     inp = torch.rand(10, 10, requires_grad=True)
+...     out = run_fn(inp)
+...     out.backward()
+ Traceback of forward call that caused the error:
+ File "tmp.py", line 53, in <module>
+ out = run_fn(inp)
+ File "tmp.py", line 44, in run_fn
+ out = MyFunc.apply(a)
+ Traceback (most recent call last):
+ File "<stdin>", line 4, in <module>
+ File "/your/pytorch/install/torch/tensor.py", line 93, in backward
+ torch.autograd.backward(self, gradient, retain_graph, create_graph)
+ File "/your/pytorch/install/torch/autograd/__init__.py", line 90, in backward
+ allow_unreachable=True)  # allow_unreachable flag
+ File "/your/pytorch/install/torch/autograd/function.py", line 76, in apply
+ return self._forward_cls.backward(self, *args)
+ File "<stdin>", line 8, in backward
+ RuntimeError: Some error in backward
 
-    
-    
-    >>> import torch
-    >>> from torch import autograd
-    >>> class MyFunc(autograd.Function):
-    ...     @staticmethod
-    ...     def forward(ctx, inp):
-    ...         return inp.clone()
-    ...     @staticmethod
-    ...     def backward(ctx, gO):
-    ...         # Error during the backward pass
-    ...         raise RuntimeError("Some error in backward")
-    ...         return gO.clone()
-    >>> def run_fn(a):
-    ...     out = MyFunc.apply(a)
-    ...     return out.sum()
-    >>> inp = torch.rand(10, 10, requires_grad=True)
-    >>> out = run_fn(inp)
-    >>> out.backward()
-        Traceback (most recent call last):
-          File "<stdin>", line 1, in <module>
-          File "/your/pytorch/install/torch/tensor.py", line 93, in backward
-            torch.autograd.backward(self, gradient, retain_graph, create_graph)
-          File "/your/pytorch/install/torch/autograd/__init__.py", line 90, in backward
-            allow_unreachable=True)  # allow_unreachable flag
-          File "/your/pytorch/install/torch/autograd/function.py", line 76, in apply
-            return self._forward_cls.backward(self, *args)
-          File "<stdin>", line 8, in backward
-        RuntimeError: Some error in backward
-    >>> with autograd.detect_anomaly():
-    ...     inp = torch.rand(10, 10, requires_grad=True)
-    ...     out = run_fn(inp)
-    ...     out.backward()
-        Traceback of forward call that caused the error:
-          File "tmp.py", line 53, in <module>
-            out = run_fn(inp)
-          File "tmp.py", line 44, in run_fn
-            out = MyFunc.apply(a)
-        Traceback (most recent call last):
-          File "<stdin>", line 4, in <module>
-          File "/your/pytorch/install/torch/tensor.py", line 93, in backward
-            torch.autograd.backward(self, gradient, retain_graph, create_graph)
-          File "/your/pytorch/install/torch/autograd/__init__.py", line 90, in backward
-            allow_unreachable=True)  # allow_unreachable flag
-          File "/your/pytorch/install/torch/autograd/function.py", line 76, in apply
-            return self._forward_cls.backward(self, *args)
-          File "<stdin>", line 8, in backward
-        RuntimeError: Some error in backward
-    
+```
 
-_class_`torch.autograd.``set_detect_anomaly`( _mode_
-)[[source]](_modules/torch/autograd/anomaly_mode.html#set_detect_anomaly)
+```py
+class torch.autograd.set_detect_anomaly(mode)
+```
 
-    
+上下文管理器，为自动求导引擎设置异常检测开或关。
 
-上下文管理器设置或关闭的autograd发动机异常检测。
+`set_detect_anomaly`将基于它的参数`mode`使能或禁用自动求导异常检测。它也能作为一个上下文管理器或函数使用。
 
-`set_detect_anomaly 根据它的自变量`模式 ``将启用或禁用所述autograd异常检测。它可以作为一个上下文经理或作为一个功能。
+异常检测行为细节见上面`detect_anomaly`。
 
-参见`detect_anomaly`上述用于异常检测的行为的细节。
+| 参数: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 标记是否使能异常检测（`True`），或禁用（`False`）。 |
+| --- | --- |
 
-Parameters
-
-    
-
-**模式** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in
-Python v3.7\)")） - 标志是否启用异常检测（`真 `），或禁止（`假 `）。
-
-[Next ![](_static/images/chevron-right-orange.svg)](distributed.html
-"Distributed communication package - torch.distributed")
-[![](_static/images/chevron-right-orange.svg) Previous](optim.html
-"torch.optim")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。

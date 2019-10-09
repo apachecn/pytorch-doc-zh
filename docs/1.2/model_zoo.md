@@ -1,45 +1,29 @@
 # torch.utils.model_zoo
 
-移动到 torch.hub 。
+> 译者：[BXuan694](https://github.com/BXuan694)
 
-`torch.utils.model_zoo.``load_url`( _url_ , _model_dir=None_ ,
-_map_location=None_ , _progress=True_ )
+```py
+torch.utils.model_zoo.load_url(url, model_dir=None, map_location=None, progress=True)
+```
 
-    
+由给定URL加载Torch序列化对象。
 
-加载在给定的URLTorch 序列化对象。
+如果该对象已经存在于`model_dir`中，将被反序列化并返回。URL的文件名部分应该遵循约定`filename-<sha256>.ext`，其中`<sha256>`是文件内容的SHA256哈希的前八位或更多位数。（哈希用于确保唯一的名称并验证文件的内容）
 
-如果对象已存在于 model_dir ，它的反序列化和返回。的URL的文件名部分应遵循命名惯例`的文件名 - & LT。; SHA256 & GT ;
-EXT`其中`& LT ; SHA256 & GT ;
-`是该文件的内容的散列SHA256的前八个或多个数字。哈希用于确保唯一的名称，并验证该文件的内容。
+`model_dir`默认为`$TORCH_HOME/models`，其中`$TORCH_HOME`默认是`~/.torch`。如果不需要默认目录，可以通过环境变量`$TORCH_MODEL_ZOO`指定其它的目录。
 
-的 model_dir 默认值是`$ TORCH_HOME /检查点 `其中环境变量`$ TORCH_HOME`默认为`$
-XDG_CACHE_HOME /Torch  [HTG13。 `$ XDG_CACHE_HOME`遵循了Linux
-filesytem布局的X设计组规范，带有默认值HTG18] 〜/ .cache`如果没有设置。
+参数：
 
-Parameters
+*   **url**（_string_）– 要下载的对象的URL链接
+*   **model_dir**（_string_ _,_ _可选_）– 保存下载对象的目录
+*   **map_location**（_可选_）– 函数或字典，指定如何重新映射存储位置（见torch.load）
+*   **progress**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 是否向标准输出展示进度条
 
-    
 
-  * **URL** （ _串_ ） - 对象的URL下载
 
-  * **model_dir** （ _串_ _，_ _可选_ ） - 目录中保存对象
+示例
 
-  * **map_location** （ _可选_ ） - 一个功能或一个字典指定如何重新映射的存储位置（参见torch.load）
+```py
+>>> state_dict = torch.utils.model_zoo.load_url('https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth')
+```
 
-  * **进展** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ ） - 是否要显​​示进度条到stderr
-
-例
-
-    
-    
-    >>> state_dict = torch.hub.load_state_dict_from_url('https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth')
-    
-
-[Next ![](_static/images/chevron-right-orange.svg)](tensorboard.html
-"torch.utils.tensorboard") [![](_static/images/chevron-right-orange.svg)
-Previous](dlpack.html "torch.utils.dlpack")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。

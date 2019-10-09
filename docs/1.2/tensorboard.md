@@ -1,7 +1,6 @@
 # torch.utils.tensorboard
 
-在进一步讨论之前，可以在[
-https://www.tensorflow.org/tensorboard/被发现TensorBoard更多详情](https://www.tensorflow.org/tensorboard/)
+在进一步讨论之前，可以在[https://www.tensorflow.org/tensorboard/](https://www.tensorflow.org/tensorboard/)上找到有关TensorBoard的更多详细信息。
 
 一旦你安装TensorBoard，这些工具让您登录PyTorch模型和指标纳入了TensorBoard
 UI中的可视化的目录。标量，图像，柱状图，曲线图，和嵌入可视化都支持PyTorch模型和张量以及Caffe2网和斑点。
@@ -58,11 +57,8 @@ UI中的可视化的目录。标量，图像，柱状图，曲线图，和嵌入
 
 预期结果：
 
-[![_images/hier_tags.png](_images/hier_tags.png)](_images/hier_tags.png)
+![_images/hier_tags.png](https://pytorch.org/docs/stable/_images/hier_tags.png)
 
-  
-
-  
 
 _class_`torch.utils.tensorboard.writer.``SummaryWriter`( _log_dir=None_ ,
 _comment=''_ , _purge_step=None_ , _max_queue=10_ , _flush_secs=120_ ,
@@ -152,7 +148,7 @@ Examples:
 
 Expected result:
 
-[![_images/add_scalar.png](_images/add_scalar.png)](_images/add_scalar.png)
+![_images/add_scalar.png](https://pytorch.org/docs/stable/_images/add_scalar.png)
 
 `add_scalars`( _main_tag_ , _tag_scalar_dict_ , _global_step=None_ ,
 _walltime=None_
@@ -194,7 +190,7 @@ Examples:
 
 Expected result:
 
-[![_images/add_scalars.png](_images/add_scalars.png)](_images/add_scalars.png)
+![_images/add_scalars.png](https://pytorch.org/docs/stable/_images/add_scalars.png)
 
 `add_histogram`( _tag_ , _values_ , _global_step=None_ , _bins='tensorflow'_ ,
 _walltime=None_ , _max_bins=None_
@@ -233,7 +229,7 @@ Examples:
 
 Expected result:
 
-[![_images/add_histogram.png](_images/add_histogram.png)](_images/add_histogram.png)
+![_images/add_histogram.png](https://pytorch.org/docs/stable/_images/add_histogram.png)
 
 `add_image`( _tag_ , _img_tensor_ , _global_step=None_ , _walltime=None_ ,
 _dataformats='CHW'_
@@ -291,7 +287,7 @@ Examples:
 
 Expected result:
 
-[![_images/add_image.png](_images/add_image.png)](_images/add_image.png)
+![_images/add_image.png](https://pytorch.org/docs/stable/_images/add_image.png)
 
 `add_images`( _tag_ , _img_tensor_ , _global_step=None_ , _walltime=None_ ,
 _dataformats='NCHW'_
@@ -343,7 +339,7 @@ Examples:
 
 Expected result:
 
-[![_images/add_images.png](_images/add_images.png)](_images/add_images.png)
+![_images/add_images.png](https://pytorch.org/docs/stable/_images/add_images.png)
 
 `add_figure`( _tag_ , _figure_ , _global_step=None_ , _close=True_ ,
 _walltime=None_
@@ -563,8 +559,7 @@ Examples:
     writer.close()
     
 
-`add_custom_scalars`( _layout_
-)[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter.add_custom_scalars)
+`add_custom_scalars`( _layout_)[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter.add_custom_scalars)
 
     
 
@@ -668,13 +663,3 @@ Examples:
 刷新事件文件到磁盘。调用此方法，以确保所有未决事件已被写入磁盘。
 
 `close`()[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter.close)
-
-    
-
-[Next ![](_static/images/chevron-right-orange.svg)](onnx.html "torch.onnx")
-[![](_static/images/chevron-right-orange.svg) Previous](model_zoo.html
-"torch.utils.model_zoo")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。

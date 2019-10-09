@@ -1,847 +1,730 @@
-# DCGAN教程
+# DCGAN 教程
 
-**作者** ：[弥敦道Inkawhich ](https://github.com/inkawhich)
+> **作者**: [Nathan Inkawhich](https://github.com/inkawhich)
+>
+> 译者：[wangshuai9517](https://github.com/wangshuai9517)
+>
+> 校验: [片刻](https://github.com/jiangzhonglian)
 
-## 简介
+## 介绍
 
-本教程将为通过一个例子介绍了DCGANs。我们将培养出生成对抗网络（GAN）显示它真正的许多名人照片后产生新的名人。这里的大多数代码是从[
-pytorch的dcgan执行/例子](https://github.com/pytorch/examples)，而这个文件将给出实施的全面解释，并在此模型如何以及为什么工作的线索。不过不用担心，没有事先甘斯的知识是必需的，但它可能需要第一个定时器花费大约什么是引擎盖下实际发生的一段时间推理。此外，对于时间的缘故，将有助于有一个GPU，或两个。让我们从头开始。
+本教程将通过一个例子来介绍DCGAN。我们将使用很多真正的名人照片训练一个生成对抗网络（GAN）后，生成新的假名人照片。这里的大多数代码来自于[pytorch/examples](https://github.com/pytorch/examples)中对DCGAN的实现，并且本文档将对DCGAN的实现进行全面解释，并阐明该模型是怎样工作的以及为什么能工作。但是不要担心，我们并不需要你事先了解GAN，但是可能需要先花一些时间来弄明白实际发生了什么。此外，为了节省时间，安装一两个GPU也将有所帮助。让我们从头开始吧。
 
-## 生成对抗性网络
+## 生成对抗网络
 
-### 什么是GAN？
+### 什么是生成对抗网络(GAN)?
 
-甘斯是教DL模型捕捉训练数据的分布，所以我们可以产生来自同一分布的新数据的框架。甘斯分别由Ian古德费洛在2014年发明并在纸[剖成对抗性篮网](https://papers.nips.cc/paper/5423-generative-
-adversarial-nets.pdf)首先描述。它们是由两种不同的型号， _发生器_ 和
-_鉴别[HTG5。发电机的工作是产卵，看起来像训练图像“假”的图像。鉴别的工作是看图像和输出是否是真正的训练图像或从发电机假像。在培训过程中，发电机不断尝试通过生成好假货智取鉴别，而鉴别正在努力成为一个更好的侦探和准确区分真假的图像。这个游戏的平衡是当发电机发电，看起来好像他们直接从训练数据来完善假货，并鉴别留给始终在50％的置信猜测，发电机的输出是真实的还是假的。_
+GAN是用于教授DL模型以捕获训练数据分布的框架，因此我们可以从同一分布中生成新数据。GAN是Ian Goodfellow在2014年发明的，最早在[Generative Adversarial Nets](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)一书中进行了描述。它们由两个不同的模型组成：生成器和判别器。生成器的工作是生成看起来像训练图像的“假”图像。判别器的工作是查看图像并从生成器输出它是真实的训练图像还是伪图像。在训练过程中，生成器不断尝试通过生成越来越好的伪造品而使判别器的性能超过智者，而判别器正在努力成为更好的侦探并正确地对真实和伪造图像进行分类。博弈的平衡点是当生成器生成的伪造品看起来像直接来自训练数据时，而判别器则始终猜测生成器输出是真实还是伪造品的50％置信度。
 
-现在，让我们开始定义与鉴别某些符号在整个教程中使用。让 \（X \）是表示图像的数据。  \（d（x）的\）是鉴别器的网络，其输出的（标量）概率 \（X
-\）来自训练数据，而不是发电机。这里，由于我们在输入处理图像，以 \（d（x）的\）是CHW大小3x64x64的图像。直观地说，
-\（d（x）的\）应该是HIGH时 \（X \）来自训练数据和LOW时 \（X \）附带从发电机。
-\（d（x）的\）也可以被认为是作为一个传统的二元分类器。
+现在，让我们从判别器开始定义一些在整个教程中使用的符号。 $$x$$ 表示图像数据。$$D(x)$$ 表示判别网络，它的输出表示数据 $$x$$ 来自与训练数据，而不是生成器。在这里，由于我们正在处理图像，因此输入 $$D(x)$$是CHW大小为3x64x64图像。 直观地说，当 $$x$$ 来自训练数据时，$$D(x)$$的值应当是大的；而当 $$x$$ 来自生成器时，$$D(x)$$ 的值应为小的。 $$D(x)$$ 也可以被认为是传统的二元分类器。
 
-用于发电机的符号，让 \（Z \）是从标准正态分布取样的潜在空间矢量。  \（G（z）的\）表示潜矢量 \（Z
-\）映射到数据空间中的发电机的功能。的目标\（G \）是估计训练数据来自于分布（ \（P_ {数据} \）），所以它可以产生从该估计的假样本分布（
-\（P_G \））。
+对于生成器 $$z$$ 表示从标准正态分布中采样的空间矢量（本征向量）。 $$G(z)$$ 表示将本征向量 $$z$$ 映射到数据空间的生成器函数。 $$G$$ 的目标是估计训练数据来自的分布 $$p_{data}$$ ，这样就可以从估计的分布 $$p_g$$ 中生成假样本。
 
-因此， \（d（G（Z））\）的概率是（标量），该发电机 \（G
-\）的输出是一个真实图像。如[古德费洛的论文](https://papers.nips.cc/paper/5423-generative-
-adversarial-nets.pdf)中描述的， \（d \）和 \（G \）发挥极大极小的游戏中， \（d \）尝试最大化其正确分类的实数和赝品（
-\（的logD（X）\））和 \（G \）尝试的概率最小化[HTG16概率] \（d \）将预测其输出是假（
-\（日志（1-d（G（X）））\））。从本文中，甘损失函数是
+因此，$$D(G(z))$$ 表示生成器输出$$G$$是真实图片的概率。就像在 [Goodfellow’s paper](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)中描述的那样，$$D$$ 和 $$G$$ 在玩一个极大极小游戏。在这个游戏中 $$D$$ 试图最大化正确分类真假图片的概率 $$logD(x)$$ ，$$G$$ 试图最小化 $$D$$ 预测其输出为假图片的概率  $$log(1-D(G(x)))$$ 。文章中GAN的损失函数是
 
-\\[\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim
-p_{data}(x)}\big[logD(x)\big] + \mathbb{E}_{z\sim
-p_{z}(z)}\big[log(1-D(G(z)))\big]\\]
+$$\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim p_{data}(x)}\big[logD(x)\big] + \mathbb{E}_{z\sim p_{z}(z)}\big[log(1-D(G(z)))\big]$$
 
-从理论上讲，解决这一极小极大游戏是其中 \（P_G = P_ {数据}
-\），和鉴别器猜测随机如果输入是真实的还是假。然而，甘斯的收敛理论仍在积极研究和现实中的模型并不总是训练到这一点。
+理论上，这个极小极大游戏的目标是 $$p_g=p_{data}$$，如果输入是真实的或假的，则判别器会随机猜测。 然而，GAN的收敛理论仍在积极研究中，实际上，模型并不总是能达到此目的。
 
-### 什么是DCGAN？
+### 什么是DCGAN?
 
-甲DCGAN是上述GAN的直接延伸，除了它明确使用卷积和在鉴别器和发电机分别卷积转置层。它首先被拉德福德等说明。人。在文献[无监督表示学习凭借深厚的卷积剖成对抗性网络[HTG1。鉴别器由跨距](https://arxiv.org/pdf/1511.06434.pdf)[卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d)的层，[批次规范](https://pytorch.org/docs/stable/nn.html#torch.nn.BatchNorm2d)层，和[
-LeakyReLU
-](https://pytorch.org/docs/stable/nn.html#torch.nn.LeakyReLU)激活。输入是3x64x64输入图像和输出是一个标量概率输入是来自真正的数据分布。发电机是由[卷积转置](https://pytorch.org/docs/stable/nn.html#torch.nn.ConvTranspose2d)层，批量规范层，和[
-RELU ](https://pytorch.org/docs/stable/nn.html#relu)激活。输入是潜向量， \（Z
-\），即从一个标准正态分布绘制和输出是3x64x64
-RGB图像。的跨距CONV转置层允许潜矢量被变换成具有相同形状作为图像的体积。在论文中，作者还提供了有关如何设置优化，如何计算损失函数，以及如何初始化模型权重，所有这些都将在未来的章节来说明一些技巧。
+DCGAN是对上述的GAN的直接扩展，除了它分别在判别器和生成器中明确地使用卷积和卷积转置层。DCGAN是在Radford等的文章[Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf)中首次被提出的。判别器由[卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d)层、[批标准化](https://pytorch.org/docs/stable/nn.html#torch.nn.BatchNorm2d) 层以及[LeakyReLU](https://pytorch.org/docs/stable/nn.html#torch.nn.LeakyReLU) 激活层组成。输入是3x64x64的图像，输出是输入图像来自实际数据的概率。生成器由[转置卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.ConvTranspose2d)层，批标准化层以及[ReLU](https://pytorch.org/docs/stable/nn.html#relu) 激活层组成。 输入是一个本征向量（latent vector） $$z$$，它是从标准正态分布中采样得到的，输出是一个3x64x64 的RGB图像。 转置卷积层能够把本征向量转换成和图像具有相同大小。 在本文中，作者还提供了一些有关如何设置优化器，如何计算损失函数以及如何初始化模型权重的建议，所有这些都将在后面的章节中进行说明。
 
-    
-    
-    from __future__ import print_function
-    #%matplotlib inline
-    import argparse
-    import os
-    import random
-    import torch
-    import torch.nn as nn
-    import torch.nn.parallel
-    import torch.backends.cudnn as cudnn
-    import torch.optim as optim
-    import torch.utils.data
-    import torchvision.datasets as dset
-    import torchvision.transforms as transforms
-    import torchvision.utils as vutils
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import matplotlib.animation as animation
-    from IPython.display import HTML
-    
-    # Set random seed for reproducibility
-    manualSeed = 999
-    #manualSeed = random.randint(1, 10000) # use if you want new results
-    print("Random Seed: ", manualSeed)
-    random.seed(manualSeed)
-    torch.manual_seed(manualSeed)
-    
+```py
+from __future__ import print_function
+#%matplotlib inline
+import argparse
+import os
+import random
+import torch
+import torch.nn as nn
+import torch.nn.parallel
+import torch.backends.cudnn as cudnn
+import torch.optim as optim
+import torch.utils.data
+import torchvision.datasets as dset
+import torchvision.transforms as transforms
+import torchvision.utils as vutils
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from IPython.display import HTML
 
-日期：
+# 为了可重复性设置随机种子
+manualSeed = 999
+#manualSeed = random.randint(1, 10000) # 如果你想有一个不同的结果使用这行代码
+print("Random Seed: ", manualSeed)
+random.seed(manualSeed)
+torch.manual_seed(manualSeed)
 
-    
-    
-    Random Seed:  999
-    
+```
+
+输出:
+
+```py
+Random Seed:  999
+
+```
 
 ## 输入
 
-让我们来定义运行一些投入：
+为了能够运行，定义一些输入：
 
-  * **dataroot** \- 路径到数据集的文件夹的根目录。我们将讨论更多有关数据集在下一节
-  * **工人** \- 工作线程用于与的DataLoader加载数据的数
-  * **BATCH_SIZE** \- 在训练中使用的批量大小。所述DCGAN本文采用的128批量大小
-  * **IMAGE_SIZE** \- 用于训练的图像的空间大小。此实现默认为64×64。如果另一个尺寸是期望的，d和G的结构必须改变。参见[此处](https://github.com/pytorch/examples/issues/70)更多细节
-  * **NC** \- 在输入图像中的颜色通道的数量。对于彩色图像，这是3
-  * **新西兰** \- 长度潜矢量的
-  * **NGF** \- 涉及特征映射的通过发电机进行的深度
-  * **NDF** \- 设置特征映射的通过鉴别器传播的深度
-  * **num_epochs** \- 训练历元的数目来运行。更长的训练可能会带来更好的结果，但也将需要更长的时间
-  * **LR** \- 学习培训率。正如DCGAN论文中描述，此数应为0.0002
-  * **β1的** \- β1超参数为亚当优化。如在本文所描述的，这个数量应为0.5
-  * **ngpu** \- 可用的GPU的数目。如果是0，代码将在CPU模式下运行。如果这个数字大于0，将在这一数字的GPU运行
+*   **dataroot** - 数据集文件夹的路径。我们将在后面的章节中讨论更多关于数据集的内容 
+*   **workers** - 数据加载器DataLoader加载数据时能够使用的进程数
+*   **batch_size** - 训练时的批大小。在DCGAN文献中使用的批大小是128
+*   **image_size** - 训练时使用的图片大小。 这里设置默认值为 64x64\ 。如果想使用别的大小，生成器G和判别器D的结构也要改变。 想看更多详细内容请点击[这里](https://github.com/pytorch/examples/issues/70)
+*   **nc** - 输入图片的颜色通道个数。彩色图片是3
+*   **nz** - 本征向量的长度
+*   **ngf** - 生成器使用的特征图深度
+*   **ndf** - 设置判别器使用的特征图的深度
+*   **num_epochs** - 一共训练多少次。训练次数多很可能产生更好的结果但是需要训练更长的时间
+*   **lr** - 训练时的学习率，DCGAN文章中使用的是0.0002
+*   **beta1** - Adam优化算法的beta1超参数。文章用使用的是0.5 
+*   **ngpu** - 可利用的GPU数量，如果设置为0则运行在CPU模式。如果设置的大于0则再行在那些数量的GPU
 
-    
-    
-    # Root directory for dataset
-    dataroot = "data/celeba"
-    
-    # Number of workers for dataloader
-    workers = 2
-    
-    # Batch size during training
-    batch_size = 128
-    
-    # Spatial size of training images. All images will be resized to this
-    #   size using a transformer.
-    image_size = 64
-    
-    # Number of channels in the training images. For color images this is 3
-    nc = 3
-    
-    # Size of z latent vector (i.e. size of generator input)
-    nz = 100
-    
-    # Size of feature maps in generator
-    ngf = 64
-    
-    # Size of feature maps in discriminator
-    ndf = 64
-    
-    # Number of training epochs
-    num_epochs = 5
-    
-    # Learning rate for optimizers
-    lr = 0.0002
-    
-    # Beta1 hyperparam for Adam optimizers
-    beta1 = 0.5
-    
-    # Number of GPUs available. Use 0 for CPU mode.
-    ngpu = 1
-    
+```py
+# 数据集根目录
+dataroot = "data/celeba"
+
+# 数据加载器能够使用的进程数量
+workers = 2
+
+# 训练时的批大小
+batch_size = 128
+
+# 训练图片的大小，所有的图片给都将改变到该大小
+# 转换器使用的大小.
+image_size = 64
+
+# 训练图片的通道数，彩色图片是3
+nc = 3
+
+# 本征向量z的大小(生成器的输入大小)
+nz = 100
+
+# 生成器中特征图大小
+ngf = 64
+
+# 判别器中特征图大小
+ndf = 64
+
+# 训练次数
+num_epochs = 5
+
+# 优化器学习率
+lr = 0.0002
+
+# Adam优化器的Beta1超参
+beta1 = 0.5
+
+# 可利用的GPU数量，使用0将运行在CPU模式。
+ngpu = 1
+
+```
 
 ## 数据
 
-在本教程中，我们将使用[名人-
-A面向数据集](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)可在所链接的网站上下载，或者在[谷歌驱动器[HTG3。该数据集将作为下载名为
-_img_align_celeba.zip_ 文件。下载完成后，创建一个名为 _celeba_ 目录和zip文件解压到该目录中。那么，这款笔记本的
-_celeba刚刚创建_ 目录设置 _dataroot_
-输入。生成的目录结构应该是：](https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg)
+本教程中我将使用 [Celeb-A Faces 数据集](https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) 可以在链接中下载，或者在  [谷歌网盘](https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg)中下载。下载该数据集名为 img_align_celeba.zip 的文件。 下载完成后，创建一个名为celeba的目录，并将zip文件解压缩到该目录中。然后，将此笔记本的dataroot输入设置为刚创建的celeba目录。结果目录结构应为：
 
-    
-    
-    /path/to/celeba
-        -> img_align_celeba
-            -> 188242.jpg
-            -> 173822.jpg
-            -> 284702.jpg
-            -> 537394.jpg
-               ...
-    
+```py
+/path/to/celeba
+    -> img_align_celeba
+        -> 188242.jpg
+        -> 173822.jpg
+        -> 284702.jpg
+        -> 537394.jpg
+           ...
 
-这是因为我们将要使用的ImageFolder
-DataSet类，这需要有是在数据集的根文件夹中的子目录中的重要一步。现在，我们可以创建数据集，创建的DataLoader，设置设备上运行，并最终显现的一些训练数据。
+```
 
-    
-    
-    # We can use an image folder dataset the way we have it setup.
-    # Create the dataset
-    dataset = dset.ImageFolder(root=dataroot,
-                               transform=transforms.Compose([
-                                   transforms.Resize(image_size),
-                                   transforms.CenterCrop(image_size),
-                                   transforms.ToTensor(),
-                                   transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                               ]))
-    # Create the dataloader
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
-                                             shuffle=True, num_workers=workers)
-    
-    # Decide which device we want to run on
-    device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
-    
-    # Plot some training images
-    real_batch = next(iter(dataloader))
-    plt.figure(figsize=(8,8))
-    plt.axis("off")
-    plt.title("Training Images")
-    plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(),(1,2,0)))
-    
+这是重要的一步，因为我们将使用ImageFolder数据集类，该类要求数据集的根文件夹中有子目录。现在，我们可以创建数据集，创建数据加载器，将设备设置为可以运行，最后可视化一些训练数据。
 
-![img/sphx_glr_dcgan_faces_tutorial_001.png](img/sphx_glr_dcgan_faces_tutorial_001.png)
+```py
+# 我们能够使用我们创建的数据集图片文件夹了
+# 创建数据集
+dataset = dset.ImageFolder(root=dataroot,
+                           transform=transforms.Compose([
+                               transforms.Resize(image_size),
+                               transforms.CenterCrop(image_size),
+                               transforms.ToTensor(),
+                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                           ]))
+# 创建数据加载器
+dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
+                                         shuffle=True, num_workers=workers)
 
-## 实现
+# 决定我们在哪个设备上运行
+device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
-随着我们的输入参数设置和数据集的准备，我们现在可以进入实施。我们将与weigth初始化策略开始，再谈谈发电机，鉴别，丧失功能，并且训练循环的细节。
+# 展示一些训练图片
+real_batch = next(iter(dataloader))
+plt.figure(figsize=(8,8))
+plt.axis("off")
+plt.title("Training Images")
+plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(),(1,2,0)))
 
-### 重量初始化
+```
 
-从DCGAN论文中，作者指定所有模型权重应从均值= 0，标准偏差= 0.02的正态分布随机初始化。的`weights_init
-`函数接受一个初始化模型作为输入，并重新初始化所有卷积，卷积转置，并且批标准化层以满足这个标准。这个函数初始化后立即应用于模型。
+![https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_001.png](img/04fb3a8ed8e63cf7cffb5f29224decca.jpg)
 
-    
-    
-    # custom weights initialization called on netG and netD
-    def weights_init(m):
-        classname = m.__class__.__name__
-        if classname.find('Conv') != -1:
-            nn.init.normal_(m.weight.data, 0.0, 0.02)
-        elif classname.find('BatchNorm') != -1:
-            nn.init.normal_(m.weight.data, 1.0, 0.02)
-            nn.init.constant_(m.bias.data, 0)
-    
+## 实现（implementation）
 
-### 发电机
+设置好输入参数并准备好数据集后，我们现在可以进入实现了。我们将从Weigth初始化策略开始，然后详细讨论生成器，判别器，损失函数和训练循环。
 
-的发电机， \（G \），被设计来映射潜在空间向量（ \（Z \））至数据空间。由于我们的数据是图像，转换 \（Z
-\）到数据空间装置最终与相同大小的训练图像创建RGB图像（即3x64x64）。在实践中，这是通过一系列跨距二维卷积转置层，每个具有二维批次模层和RELU激活配对的实现。发电机的输出通过双曲正切函数馈送给它返回到
-\输入数据范围（[ - 1,1]
-\）。值得一卷积转置层之后注意到的批次范数函数的存在，因为这是DCGAN纸的重要贡献。这些层帮助梯度的培训过程中的流动。从DCGAN纸发电机的图像被如下所示。
+### 权重初始化
 
-![dcgan_generator](img/dcgan_generator.png)
+在DCGAN论文中，作者指定所有模型权重均应从 mean=0, stdev=0.02 的正态分布中随机初始化。该`weights_init`函数以已初始化的模型作为输入，并重新初始化所有卷积，卷积转置和批处理规范化层，以符合此条件。初始化后立即将此功能应用于模型。
 
-通知，我们如何在输入部分设置的输入（ _新西兰_ ， _NGF_ 和 _NC_ ）在代码影响发生器体系结构。 _新西兰_ 是z输入矢量的长度， _NGF_
-涉及通过发生器传播的特征地图的大小，和 _NC_ 是多少在输出图像中的通道（设置为3为RGB图像）。下面是发电机的代码。
+```py
+# 在netG和netD上调用的自定义权重初始化函数
+def weights_init(m):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        nn.init.normal_(m.weight.data, 0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        nn.init.normal_(m.weight.data, 1.0, 0.02)
+        nn.init.constant_(m.bias.data, 0)
 
-    
-    
-    # Generator Code
-    
-    class Generator(nn.Module):
-        def __init__(self, ngpu):
-            super(Generator, self).__init__()
-            self.ngpu = ngpu
-            self.main = nn.Sequential(
-                # input is Z, going into a convolution
-                nn.ConvTranspose2d( nz, ngf * 8, 4, 1, 0, bias=False),
-                nn.BatchNorm2d(ngf * 8),
-                nn.ReLU(True),
-                # state size. (ngf*8) x 4 x 4
-                nn.ConvTranspose2d(ngf * 8, ngf * 4, 4, 2, 1, bias=False),
-                nn.BatchNorm2d(ngf * 4),
-                nn.ReLU(True),
-                # state size. (ngf*4) x 8 x 8
-                nn.ConvTranspose2d( ngf * 4, ngf * 2, 4, 2, 1, bias=False),
-                nn.BatchNorm2d(ngf * 2),
-                nn.ReLU(True),
-                # state size. (ngf*2) x 16 x 16
-                nn.ConvTranspose2d( ngf * 2, ngf, 4, 2, 1, bias=False),
-                nn.BatchNorm2d(ngf),
-                nn.ReLU(True),
-                # state size. (ngf) x 32 x 32
-                nn.ConvTranspose2d( ngf, nc, 4, 2, 1, bias=False),
-                nn.Tanh()
-                # state size. (nc) x 64 x 64
-            )
-    
-        def forward(self, input):
-            return self.main(input)
-    
+```
 
-现在，我们可以实例发电机和应用`weights_init`功能。退房的打印模型来查看生成的对象是如何构成的。
+### 生成器
 
-    
-    
-    # Create the generator
-    netG = Generator(ngpu).to(device)
-    
-    # Handle multi-gpu if desired
-    if (device.type == 'cuda') and (ngpu > 1):
-        netG = nn.DataParallel(netG, list(range(ngpu)))
-    
-    # Apply the weights_init function to randomly initialize all weights
-    #  to mean=0, stdev=0.2.
-    netG.apply(weights_init)
-    
-    # Print the model
-    print(netG)
-    
+生成器 $$G$$ 用于将本征向量 $$z$$ 映射到数据空间。 由于我们的数据是图像，因此将 $$z$$ 转换为数据空间意味着最终创建一个与训练图像大小相同的RGB图像（即3x64x64）。 实际上，这是通过一系列跨步的二维卷积转置层实现的，每个转换层与二维批标准化层和relu激活层配对。 生成器的输出通过tanh层，使其输出数据范围和输入图片一样，在 $$[-1, 1]$$ 之间。 值得注意的是在转换层之后存在批标准化函数，因为这是DCGAN论文的关键贡献。 这些层有助于训练期间的梯度传播。 DCGAN论文中的生成器图片如下所示。
+
+![https://pytorch.org/tutorials/_images/dcgan_generator.png](https://pytorch.org/tutorials/_images/dcgan_generator.png)
+
+请注意，我们在变量定义部分 `(nz, ngf 和 nc)` 中设置的输入如何影响代码中的生成器体系结构。 `nz`是`z`输入向量的长度，`ngf`生成器要生成的特征图个数大小，`nc`是输出图像中的通道数（对于RGB图像，设置为3）。 下面是生成器的代码。
+
+```py
+# 生成器代码
+
+class Generator(nn.Module):
+    def __init__(self, ngpu):
+        super(Generator, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # 输入是 Z, 对Z进行卷积
+            nn.ConvTranspose2d( nz, ngf * 8, 4, 1, 0, bias=False),
+            nn.BatchNorm2d(ngf * 8),
+            nn.ReLU(True),
+            # 输入特征图大小. (ngf*8) x 4 x 4
+            nn.ConvTranspose2d(ngf * 8, ngf * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf * 4),
+            nn.ReLU(True),
+            # 输入特征图大小. (ngf*4) x 8 x 8
+            nn.ConvTranspose2d( ngf * 4, ngf * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf * 2),
+            nn.ReLU(True),
+            # 输入特征图大小. (ngf*2) x 16 x 16
+            nn.ConvTranspose2d( ngf * 2, ngf, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf),
+            nn.ReLU(True),
+            # 输入特征图大小. (ngf) x 32 x 32
+            nn.ConvTranspose2d( ngf, nc, 4, 2, 1, bias=False),
+            nn.Tanh()
+            # 输入特征图大小. (nc) x 64 x 64
+        )
+
+    def forward(self, input):
+        return self.main(input)
+
+```
+
+现在，我们可以实例化生成器并对其使用 `weights_init` 函数。打印出生成器模型，用以查看生成器的结构。
+
+```py
+# 创建生成器
+netG = Generator(ngpu).to(device)
+
+# 如果期望使用多个GPU，设置一下。
+if (device.type == 'cuda') and (ngpu > 1):
+    netG = nn.DataParallel(netG, list(range(ngpu)))
+
+# 使用权重初始化函数 weights_init 去随机初始化所有权重
+#  mean=0, stdev=0.2.
+netG.apply(weights_init)
+
+# 输出该模型
+print(netG)
+
+```
 
 Out:
 
-    
-    
-    Generator(
-      (main): Sequential(
-        (0): ConvTranspose2d(100, 512, kernel_size=(4, 4), stride=(1, 1), bias=False)
-        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (2): ReLU(inplace=True)
-        (3): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (5): ReLU(inplace=True)
-        (6): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (8): ReLU(inplace=True)
-        (9): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (10): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (11): ReLU(inplace=True)
-        (12): ConvTranspose2d(64, 3, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (13): Tanh()
-      )
-    )
-    
+```py
+Generator(
+  (main): Sequential(
+    (0): ConvTranspose2d(100, 512, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (11): ReLU(inplace)
+    (12): ConvTranspose2d(64, 3, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (13): Tanh()
+  )
+)
 
-### 鉴别器
+```
 
-如所提到的，鉴别器， \（d \），是二元分类网络拍摄图像作为输入，并输出一个标量概率输入图像是真实的（而不是伪造的）。在此， \（d
-\）取3x64x64输入图像，通过一系列Conv2d，BatchNorm2d，和LeakyReLU层进行处理，并通过乙状结肠激活函数输出最终概率。这种架构可以用更多层，如果必要对这个问题进行扩展，但意义利用跨入卷积，BatchNorm和LeakyReLUs的。该DCGAN本文提到它是用跨入卷积，而不是集中到下采样，因为它可以让网络了解自己的池功能一个很好的做法。还批次规范和漏泄RELU功能促进健康的梯度流是用于学习过程临界既
-\（G \）和 \（d \）。
+### 判别器
 
-鉴别码
+如上所述，判别器 $$D$$ 是一个二分类网络，它将图像作为输入并输出输入图像是真实的概率（而不是假的）。 这里，$$D$$ 采用3x64x64输入图像，通过一系列Conv2d，BatchNorm2d和LeakyReLU层处理它，并通过Sigmoid激活函数输出最终概率。 如果问题需要，可以使用更多层扩展此体系结构，但使用跨步卷积，BatchNorm和LeakyReLU具有重要意义。 DCGAN论文提到使用跨步卷积而不是使用pooling下采样是一种很好的做法，因为它可以让网络学习自己的pooling功能。批标准化和LeakyReLU函数也促进了健康的梯度流动，这对于 $$G$$ 和 $$D$$ 的学习过程至关重要。
 
-    
-    
-    class Discriminator(nn.Module):
-        def __init__(self, ngpu):
-            super(Discriminator, self).__init__()
-            self.ngpu = ngpu
-            self.main = nn.Sequential(
-                # input is (nc) x 64 x 64
-                nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
-                nn.LeakyReLU(0.2, inplace=True),
-                # state size. (ndf) x 32 x 32
-                nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
-                nn.BatchNorm2d(ndf * 2),
-                nn.LeakyReLU(0.2, inplace=True),
-                # state size. (ndf*2) x 16 x 16
-                nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
-                nn.BatchNorm2d(ndf * 4),
-                nn.LeakyReLU(0.2, inplace=True),
-                # state size. (ndf*4) x 8 x 8
-                nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
-                nn.BatchNorm2d(ndf * 8),
-                nn.LeakyReLU(0.2, inplace=True),
-                # state size. (ndf*8) x 4 x 4
-                nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
-                nn.Sigmoid()
-            )
-    
-        def forward(self, input):
-            return self.main(input)
-    
+判别器代码
 
-现在，与发电机，我们可以创建鉴别，应用`weights_init`功能，打印模型的结构。
+```py
+class Discriminator(nn.Module):
+    def __init__(self, ngpu):
+        super(Discriminator, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # 输入大小 (nc) x 64 x 64
+            nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (ndf) x 32 x 32
+            nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+            # 输入大小. (ndf*2) x 16 x 16
+            nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # 输入大小. (ndf*4) x 8 x 8
+            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 8),
+            nn.LeakyReLU(0.2, inplace=True),
+            # 输入大小. (ndf*8) x 4 x 4
+            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
+            nn.Sigmoid()
+        )
 
-    
-    
-    # Create the Discriminator
-    netD = Discriminator(ngpu).to(device)
-    
-    # Handle multi-gpu if desired
-    if (device.type == 'cuda') and (ngpu > 1):
-        netD = nn.DataParallel(netD, list(range(ngpu)))
-    
-    # Apply the weights_init function to randomly initialize all weights
-    #  to mean=0, stdev=0.2.
-    netD.apply(weights_init)
-    
-    # Print the model
-    print(netD)
-    
+    def forward(self, input):
+        return self.main(input)
+
+```
+
+现在，我们可以实例化判别器并对其应用`weights_init`函数。查看打印的模型以查看判别器对象的结构。
+
+```py
+# 创建判别器
+netD = Discriminator(ngpu).to(device)
+
+# 如果期望使用多GPU，设置一下
+if (device.type == 'cuda') and (ngpu > 1):
+    netD = nn.DataParallel(netD, list(range(ngpu)))
+
+# 使用权重初始化函数 weights_init 去随机初始化所有权重
+#  mean=0, stdev=0.2.
+netD.apply(weights_init)
+
+# 输出该模型
+print(netD)
+
+```
 
 Out:
 
-    
-    
-    Discriminator(
-      (main): Sequential(
-        (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (1): LeakyReLU(negative_slope=0.2, inplace=True)
-        (2): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (4): LeakyReLU(negative_slope=0.2, inplace=True)
-        (5): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (6): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (7): LeakyReLU(negative_slope=0.2, inplace=True)
-        (8): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
-        (9): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (10): LeakyReLU(negative_slope=0.2, inplace=True)
-        (11): Conv2d(512, 1, kernel_size=(4, 4), stride=(1, 1), bias=False)
-        (12): Sigmoid()
-      )
-    )
-    
+```py
+Discriminator(
+  (main): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace)
+    (2): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace)
+    (5): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (6): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace)
+    (8): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace)
+    (11): Conv2d(512, 1, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (12): Sigmoid()
+  )
+)
+
+```
 
 ### 损失函数和优化器
 
-随着 \（d \）HTG1]和 \（G
-\）HTG3]设置中，我们可以指定他们通过丧失功能和优化的学习方式。我们将使用二进制交叉熵损失，在PyTorch定义为（[ BCELoss
-](https://pytorch.org/docs/stable/nn.html#torch.nn.BCELoss)）功能：
+随着对判别器 $$D$$ 和生成器 $$G$$ 完成了设置， 我们能够详细的叙述它们怎么通过损失函数和优化器来进行学习的。我们将使用Binary Cross Entropy loss ([BCELoss](https://pytorch.org/docs/stable/nn.html#torch.nn.BCELoss)) 函数，其在pyTorch中的定义如下：
 
-\\[\ell(x, y) = L = \\{l_1,\dots,l_N\\}^\top, \quad l_n = - \left[ y_n \cdot
-\log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]\\]
+$$\ell(x, y) = L = \{l_1,\dots,l_N\}^\top, \quad l_n = - \left[ y_n \cdot \log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]$$
 
-注意这个功能如何提供在目标函数中两个日志组件的计算（即， \（日志（d（X））\）和 \（日志（1-d（G（z）的））\））。我们可以指定与 \（Y
-\）HTG5]输入要使用什么公元前方程式的一部分。这是在训练环路即将来临完成，而是要了解我们如何可以选择我们希望仅通过改变 \（Y
-\）[HTG7（即GT标签）来计算，其成分是很重要的。
+需要注意的是目标函数中两个log部分是怎么提供计算的(i.e. $$log(D(x))$$ 和 $$log(1-D(G(z)))$$ 。 即将介绍的训练循环中我们将详细的介绍BCE公式的怎么使用输入 $$y$$ 的。但重要的是要了解我们如何通过改变 $$y$$（即GT标签）来选择我们想要计算的部分损失。
 
-接下来，我们定义真实标签为1和计算的的损失时，假标签为0，这些标签将被用来\（d \）和 \（G
-\）这也是在原来的GAN纸使用的惯例。最后，我们建立了两个分离的优化器，一个用于 \（d \），一个用于 \（G
-\）。正如DCGAN纸指定，都是亚当优化与学习率0.0002和Beta1的=
-0.5。用于跟踪发生器的学习进展的，我们将产生潜在向量的固定批次被从高斯分布中抽取（即fixed_noise）。在训练循环中，我们将周期性地输入此fixed_noise到
-\（G \），并且在迭代，我们将看到的图像形成了噪音。
+下一步，我们定义真实图片标记为1，假图片标记为0。这个标记将在计算 $$D$$ 和 $$G$$ 的损失函数的时候使用，这是在原始的GAN文献中使用的惯例。最后我们设置两个单独的优化器，一个给判别器 $$D$$ 使用，一个给生成器 $$G$$ 使用。 就像DCGAN文章中说的那样，两个Adam优化算法都是用学习率为0.0002以及Beta1为0.5。为了保存追踪生成器学习的过程，我们将生成一个批固定不变的来自于高斯分布的本征向量(例如 fixed_noise)。在训练的循环中，我们将周期性的输入这个fixed_noise到生成器 $$G$$ 中， 在训练都完成后我们将看一下由fixed_noise生成的图片。 
 
-    
-    
-    # Initialize BCELoss function
-    criterion = nn.BCELoss()
-    
-    # Create batch of latent vectors that we will use to visualize
-    #  the progression of the generator
-    fixed_noise = torch.randn(64, nz, 1, 1, device=device)
-    
-    # Establish convention for real and fake labels during training
-    real_label = 1
-    fake_label = 0
-    
-    # Setup Adam optimizers for both G and D
-    optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-    optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
-    
+```py
+# 初始化 BCE损失函数
+criterion = nn.BCELoss()
 
-### 培训
+# 创建一个批次的本征向量用于可视化生成器训练的过程。
+fixed_noise = torch.randn(64, nz, 1, 1, device=device)
 
-最后，现在我们都定义的GAN框架的部分，我们可以训练它。要留意的是训练甘斯是有点一种艺术形式，是不正确的超参数设置，导致用了什么差错一点解释模式的崩溃。在这里，我们将密切从古德费洛的纸遵循算法1中，同时通过一些在[
-ganhacks
-](https://github.com/soumith/ganhacks)所示的最佳实践守法。即，我们将“构建体不同的小批次真假”的图像，并且还调整G公司的目标函数最大化
-\（的logD（G（Z））\）。培训分成两个主要部分。第1部分更新鉴别和第2部分更新生成。
+# 建立一个在训练中使用的真实和假的标记
+real_label = 1
+fake_label = 0
 
-**第1部分 - 培养的鉴别**
+# 为G和D都设置Adam优化器
+optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
+optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
-回想一下，训练鉴别的目标是最大化的正确分类给定的输入为实或伪造的可能性。在古德费洛方面，我们希望“通过提升其随机梯度更新鉴别”。实际上，我们希望最大化
-\（日志（d（X））+日志（1-d（G（Z）））\）。由于从ganhacks单独的小批量的建议，我们将分两步计算此。首先，我们将构造一个批次实际样品的从训练集，向前穿过
-\（d \），计算出损耗（ \（日志（d（X））\）），然后计算在后向通的梯度。其次，我们将构造一个批次与电流发生器假样本，直传这批通过 \（d
-\），计算出损耗（ \（日志（1-d（G（Z ）））\））和 _积累_
-与向后通的梯度。现在，无论从所有实时和全假批次积累的梯度，我们称之为鉴别的优化的步骤。
+```
 
-**第2部分 - 培养发电机**
+### 训练
 
-正如原文件中指出，我们希望通过最小化
-\训练发生器（日志（1-d（G（Z）））\）在努力产生更好假货。如所提到的，这是通过古德费洛显示出不能提供足够的梯度，在学习过程中尤其是早期。作为一个解决方法，我们会想最大限度
-\（日志（d（G（Z）））\）。在代码中我们通过实现此目的：从第1部分输出的发生器，提供鉴别分类，计算使用真实的标签为G的损失 _GT_
-，计算G公司的梯度在向后通，最后用优化器更新G公司的参数步。这似乎是违反直觉的使用真正的标签为GT标签的损失函数，但这允许我们使用
-\（日志（X）\）HTG7]的BCELoss（而非[HTG8的一部分] \（日志（1-X）\）HTG9]部分），这正是我们想要的东西。
+最后，既然已经定义了GAN框架的所有部分，我们就可以对其进行训练。 请注意，训练GAN在某种程度上是一种艺术形式，因为不正确的超参数设置会导致mode collapse，而对错误的解释很少。 在这里，我们将密切关注Goodfellow的论文中的算法1，同时遵守[ganhacks](https://github.com/soumith/ganhacks)中显示的一些最佳实践。 也就是说，我们将“为真实和假冒”图像构建不同的小批量，并调整G的目标函数以最大化$$logD(G(z))$$。 训练分为两个主要部分。 第1部分更新判别器Discriminator，第2部分更新生成器Generator。 
 
-最后，我们会做一些统计报告，并在每一个时代的结束，我们将通过发电机把我们fixed_noise一批视觉跟踪的G公司的培训进度。报告的训练统计数据：
+**Part 1 - 训练判别器**
 
-  * **Loss_D** \- 鉴别器损失计算为对于所有实数和所有假批次损失（总和 \（日志（d（X））+日志（d（G（Z）））\） ）。
-  * **Loss_G** \- 发电机损失计算为 \（日志（d（G（Z）））\）
-  * 鉴别器用于所有实际批次的平均输出（跨批） - **d（x）的** 。这应该开始接近1，则理论上收敛到0.5当G变得更好。想想这是为什么。
-  * **d（G（Z））** \- 平均鉴别器输出的所有假批次。第一个数字是d被更新之前，第二个数字是d被更新之后。这些数字应该开始接近0和收敛到0.5为G变得更好。想想这是为什么。
+回想一下，训练判别器的目的是最大化将给定输入正确分类为真实或假的概率。 就Goodfellow而言，我们希望“通过提升其随机梯度来更新判别器”。 实际上，我们想要最大化损失$$log(D(x))+ log(1-D(G(z)))$$。 由于ganhacks的单独小批量建议，我们将分两步计算。 首先，我们将从训练集中构造一批实际样本，向前通过 $$D$$，计算损失（$$log(D(x))$$），然后计算梯度 向后传递。 其次，我们将用当前的生成器构造一批假样本，通过$$D $$转发该批次，计算损失（$$log(1-D(G(z)))$$）和  _accumulate_ 带有向后传递。 现在，随着从全真实和全假批量累积的梯度，我们称之为Discriminator优化器的一步。 
 
-**注：** 此步骤可能需要一段时间，这取决于你运行了多少时代，如果你删除从数据集的一些数据。
+**Part 2 - 训练生成器**
 
-    
-    
-    # Training Loop
-    
-    # Lists to keep track of progress
-    img_list = []
-    G_losses = []
-    D_losses = []
-    iters = 0
-    
-    print("Starting Training Loop...")
-    # For each epoch
-    for epoch in range(num_epochs):
-        # For each batch in the dataloader
-        for i, data in enumerate(dataloader, 0):
-    
-            ############################
-            # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
-            ###########################
-            ## Train with all-real batch
-            netD.zero_grad()
-            # Format batch
-            real_cpu = data[0].to(device)
-            b_size = real_cpu.size(0)
-            label = torch.full((b_size,), real_label, device=device)
-            # Forward pass real batch through D
-            output = netD(real_cpu).view(-1)
-            # Calculate loss on all-real batch
-            errD_real = criterion(output, label)
-            # Calculate gradients for D in backward pass
-            errD_real.backward()
-            D_x = output.mean().item()
-    
-            ## Train with all-fake batch
-            # Generate batch of latent vectors
-            noise = torch.randn(b_size, nz, 1, 1, device=device)
-            # Generate fake image batch with G
-            fake = netG(noise)
-            label.fill_(fake_label)
-            # Classify all fake batch with D
-            output = netD(fake.detach()).view(-1)
-            # Calculate D's loss on the all-fake batch
-            errD_fake = criterion(output, label)
-            # Calculate the gradients for this batch
-            errD_fake.backward()
-            D_G_z1 = output.mean().item()
-            # Add the gradients from the all-real and all-fake batches
-            errD = errD_real + errD_fake
-            # Update D
-            optimizerD.step()
-    
-            ############################
-            # (2) Update G network: maximize log(D(G(z)))
-            ###########################
-            netG.zero_grad()
-            label.fill_(real_label)  # fake labels are real for generator cost
-            # Since we just updated D, perform another forward pass of all-fake batch through D
-            output = netD(fake).view(-1)
-            # Calculate G's loss based on this output
-            errG = criterion(output, label)
-            # Calculate gradients for G
-            errG.backward()
-            D_G_z2 = output.mean().item()
-            # Update G
-            optimizerG.step()
-    
-            # Output training stats
-            if i % 50 == 0:
-                print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f / %.4f'
-                      % (epoch, num_epochs, i, len(dataloader),
-                         errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
-    
-            # Save Losses for plotting later
-            G_losses.append(errG.item())
-            D_losses.append(errD.item())
-    
-            # Check how the generator is doing by saving G's output on fixed_noise
-            if (iters % 500 == 0) or ((epoch == num_epochs-1) and (i == len(dataloader)-1)):
-                with torch.no_grad():
-                    fake = netG(fixed_noise).detach().cpu()
-                img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
-    
-            iters += 1
-    
+正如原始论文所述，我们希望通过最小化 $$log(1-D(G(z)))$$ 来训练生成器Generator，以便产生更好的假样本。 如上所述，Goodfellow表明这不会提供足够的梯度，尤其是在学习过程的早期阶段。 作为修改，我们希望最大化 $$log(D(G(z)))$$。 在代码中，我们通过以下方式实现此目的：使用 Discriminator 对第1部分的 Generator 输出进行分类，使用真实标签作为 `GT`计算`G`的损失，在反向传递中计算`G`的梯度，最后使用优化器步骤更新`G`的参数。使用真实标签作为损失函数的`GT`标签似乎是违反直觉的，但这允许我们使用BCELoss的 $$log(x)$$ 部分（而不是 $$log(1-x)$$ 这部分）这正是我们想要的。
+
+最后，我们将进行一些统计报告，在每个循环结束时，我们将通过生成器推送我们的fixed_noise批次，以直观地跟踪G训练的进度。 报告的训练统计数据是：
+
+*   **Loss_D** - 判别器损失是所有真实样本批次和所有假样本批次的损失之和  $$log(D(x)) + log(D(G(z)))$$ .
+*   **Loss_G** - 生成器损失 $$log(D(G(z)))$$
+*   **D(x)** - 所有真实批次的判别器的平均输出（整批）。 这应该从接近1开始，然后当G变好时理论上收敛到0.5。 想想为什么会这样。
+*   **D(G(z))** - 所有假批次的平均判别器输出。 第一个数字是在D更新之前，第二个数字是在D更新之后。 当G变好时，这些数字应该从0开始并收敛到0.5。 想想为什么会这样。
+
+**Note:** 此步骤可能需要一段时间，具体取决于您运行的循环数以及是否从数据集中删除了一些数据。
+
+```py
+# 训练循环
+
+# 保存跟踪进度的列表
+img_list = []
+G_losses = []
+D_losses = []
+iters = 0
+
+print("Starting Training Loop...")
+# 每个epoh
+for epoch in range(num_epochs):
+    # 数据加载器中的每个批次
+    for i, data in enumerate(dataloader, 0):
+
+        ############################
+        # (1) 更新 D 网络: 最大化 log(D(x)) + log(1 - D(G(z)))
+        ###########################
+        ## 使用所有真实样本批次训练
+        netD.zero_grad()
+        # 格式化批
+        real_cpu = data[0].to(device)
+        b_size = real_cpu.size(0)
+        label = torch.full((b_size,), real_label, device=device)
+        # 通过D向前传递真实批次
+        output = netD(real_cpu).view(-1)
+        # 对所有真实样本批次计算损失
+        errD_real = criterion(output, label)
+        # 计算后向传递中D的梯度
+        errD_real.backward()
+        D_x = output.mean().item()
+
+        ## 使用所有假样本批次训练
+        # 生成本征向量批次
+        noise = torch.randn(b_size, nz, 1, 1, device=device)
+        # 使用生成器G生成假图片
+        fake = netG(noise)
+        label.fill_(fake_label)
+        # 使用判别器分类所有的假批次样本
+        output = netD(fake.detach()).view(-1)
+        # 计算判别器D的损失对所有的假样本批次
+        errD_fake = criterion(output, label)
+        # 对这个批次计算梯度
+        errD_fake.backward()
+        D_G_z1 = output.mean().item()
+        # 把所有真样本和假样本批次的梯度加起来
+        errD = errD_real + errD_fake
+        # 更新判别器D
+        optimizerD.step()
+
+        ############################
+        # (2) 更新 G 网络: 最大化 log(D(G(z)))
+        ###########################
+        netG.zero_grad()
+        label.fill_(real_label)  # 假样本的标签对于生成器成本是真的
+        # 因为我们之更新了D，通过D执行所有假样本批次的正向传递
+        output = netD(fake).view(-1)
+        # 基于这个输出计算G的损失
+        errG = criterion(output, label)
+        # 为生成器计算梯度
+        errG.backward()
+        D_G_z2 = output.mean().item()
+        # 更新生成器G
+        optimizerG.step()
+
+        # 输出训练状态
+        if i % 50 == 0:
+            print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f / %.4f'
+                  % (epoch, num_epochs, i, len(dataloader),
+                     errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
+
+        # 为以后画损失图，保存损失
+        G_losses.append(errG.item())
+        D_losses.append(errD.item())
+
+        # 检查生成器generator做了什么，通过保存的fixed_noise通过G的输出
+        if (iters % 500 == 0) or ((epoch == num_epochs-1) and (i == len(dataloader)-1)):
+            with torch.no_grad():
+                fake = netG(fixed_noise).detach().cpu()
+            img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
+
+        iters += 1
+
+```
 
 Out:
 
-    
-    
-    Starting Training Loop...
-    [0/5][0/1583]   Loss_D: 2.0937  Loss_G: 5.2059  D(x): 0.5704    D(G(z)): 0.6680 / 0.0090
-    [0/5][50/1583]  Loss_D: 0.3774  Loss_G: 13.1007 D(x): 0.9287    D(G(z)): 0.1399 / 0.0000
-    [0/5][100/1583] Loss_D: 0.3890  Loss_G: 7.3600  D(x): 0.9515    D(G(z)): 0.2013 / 0.0016
-    [0/5][150/1583] Loss_D: 0.8623  Loss_G: 4.8858  D(x): 0.6280    D(G(z)): 0.0546 / 0.0120
-    [0/5][200/1583] Loss_D: 0.2328  Loss_G: 4.0880  D(x): 0.8727    D(G(z)): 0.0468 / 0.0342
-    [0/5][250/1583] Loss_D: 0.5606  Loss_G: 6.3940  D(x): 0.8928    D(G(z)): 0.2846 / 0.0033
-    [0/5][300/1583] Loss_D: 0.9473  Loss_G: 2.2100  D(x): 0.5401    D(G(z)): 0.0405 / 0.2226
-    [0/5][350/1583] Loss_D: 0.5938  Loss_G: 2.3492  D(x): 0.6671    D(G(z)): 0.0787 / 0.1434
-    [0/5][400/1583] Loss_D: 0.6209  Loss_G: 4.6997  D(x): 0.6428    D(G(z)): 0.0168 / 0.0245
-    [0/5][450/1583] Loss_D: 0.2974  Loss_G: 4.0321  D(x): 0.8766    D(G(z)): 0.1159 / 0.0362
-    [0/5][500/1583] Loss_D: 0.6701  Loss_G: 4.4486  D(x): 0.6652    D(G(z)): 0.0455 / 0.0287
-    [0/5][550/1583] Loss_D: 0.4637  Loss_G: 5.2266  D(x): 0.8923    D(G(z)): 0.2620 / 0.0092
-    [0/5][600/1583] Loss_D: 0.5639  Loss_G: 4.7983  D(x): 0.9016    D(G(z)): 0.3207 / 0.0173
-    [0/5][650/1583] Loss_D: 0.7982  Loss_G: 5.0614  D(x): 0.5701    D(G(z)): 0.0204 / 0.0218
-    [0/5][700/1583] Loss_D: 0.4445  Loss_G: 4.9462  D(x): 0.7558    D(G(z)): 0.0659 / 0.0158
-    [0/5][750/1583] Loss_D: 0.5148  Loss_G: 3.5789  D(x): 0.7042    D(G(z)): 0.0432 / 0.0453
-    [0/5][800/1583] Loss_D: 0.4863  Loss_G: 4.6765  D(x): 0.7542    D(G(z)): 0.0759 / 0.0231
-    [0/5][850/1583] Loss_D: 0.3902  Loss_G: 5.8273  D(x): 0.9055    D(G(z)): 0.2264 / 0.0054
-    [0/5][900/1583] Loss_D: 0.2873  Loss_G: 4.9891  D(x): 0.9196    D(G(z)): 0.1646 / 0.0127
-    [0/5][950/1583] Loss_D: 0.3514  Loss_G: 5.7773  D(x): 0.8035    D(G(z)): 0.0290 / 0.0187
-    [0/5][1000/1583]        Loss_D: 0.2073  Loss_G: 4.6480  D(x): 0.8781    D(G(z)): 0.0526 / 0.0179
-    [0/5][1050/1583]        Loss_D: 0.3943  Loss_G: 3.9658  D(x): 0.8101    D(G(z)): 0.1151 / 0.0375
-    [0/5][1100/1583]        Loss_D: 0.4837  Loss_G: 7.8827  D(x): 0.9326    D(G(z)): 0.2947 / 0.0007
-    [0/5][1150/1583]        Loss_D: 0.8206  Loss_G: 5.7468  D(x): 0.7890    D(G(z)): 0.3709 / 0.0070
-    [0/5][1200/1583]        Loss_D: 0.3523  Loss_G: 5.2779  D(x): 0.9274    D(G(z)): 0.1794 / 0.0170
-    [0/5][1250/1583]        Loss_D: 0.4778  Loss_G: 3.7886  D(x): 0.8180    D(G(z)): 0.1853 / 0.0392
-    [0/5][1300/1583]        Loss_D: 0.6191  Loss_G: 4.5570  D(x): 0.6579    D(G(z)): 0.0228 / 0.0329
-    [0/5][1350/1583]        Loss_D: 0.9187  Loss_G: 2.3565  D(x): 0.5046    D(G(z)): 0.0160 / 0.1633
-    [0/5][1400/1583]        Loss_D: 1.3850  Loss_G: 1.4330  D(x): 0.3892    D(G(z)): 0.0022 / 0.3387
-    [0/5][1450/1583]        Loss_D: 1.1444  Loss_G: 1.4010  D(x): 0.4826    D(G(z)): 0.0790 / 0.3273
-    [0/5][1500/1583]        Loss_D: 0.6209  Loss_G: 2.3856  D(x): 0.6477    D(G(z)): 0.0598 / 0.1366
-    [0/5][1550/1583]        Loss_D: 0.3691  Loss_G: 4.1789  D(x): 0.8185    D(G(z)): 0.1073 / 0.0289
-    [1/5][0/1583]   Loss_D: 1.0041  Loss_G: 6.3416  D(x): 0.9488    D(G(z)): 0.5145 / 0.0038
-    [1/5][50/1583]  Loss_D: 0.3362  Loss_G: 5.1711  D(x): 0.9164    D(G(z)): 0.1905 / 0.0098
-    [1/5][100/1583] Loss_D: 0.4752  Loss_G: 4.7347  D(x): 0.9064    D(G(z)): 0.2696 / 0.0158
-    [1/5][150/1583] Loss_D: 0.3594  Loss_G: 4.2543  D(x): 0.8233    D(G(z)): 0.0889 / 0.0261
-    [1/5][200/1583] Loss_D: 0.3224  Loss_G: 4.1060  D(x): 0.9342    D(G(z)): 0.1887 / 0.0328
-    [1/5][250/1583] Loss_D: 0.3484  Loss_G: 4.1485  D(x): 0.9282    D(G(z)): 0.2083 / 0.0263
-    [1/5][300/1583] Loss_D: 0.6082  Loss_G: 4.0181  D(x): 0.8497    D(G(z)): 0.3036 / 0.0301
-    [1/5][350/1583] Loss_D: 0.3780  Loss_G: 3.8947  D(x): 0.8648    D(G(z)): 0.1663 / 0.0354
-    [1/5][400/1583] Loss_D: 0.5670  Loss_G: 4.1670  D(x): 0.8218    D(G(z)): 0.2409 / 0.0301
-    [1/5][450/1583] Loss_D: 0.5585  Loss_G: 3.1787  D(x): 0.7655    D(G(z)): 0.2057 / 0.0637
-    [1/5][500/1583] Loss_D: 0.7137  Loss_G: 4.9132  D(x): 0.8824    D(G(z)): 0.3703 / 0.0148
-    [1/5][550/1583] Loss_D: 0.4914  Loss_G: 5.2257  D(x): 0.9024    D(G(z)): 0.2840 / 0.0093
-    [1/5][600/1583] Loss_D: 0.5191  Loss_G: 4.3694  D(x): 0.8699    D(G(z)): 0.2514 / 0.0219
-    [1/5][650/1583] Loss_D: 0.5218  Loss_G: 3.0204  D(x): 0.8033    D(G(z)): 0.2015 / 0.0813
-    [1/5][700/1583] Loss_D: 0.4707  Loss_G: 3.7884  D(x): 0.7416    D(G(z)): 0.0953 / 0.0498
-    [1/5][750/1583] Loss_D: 0.4335  Loss_G: 3.2868  D(x): 0.7429    D(G(z)): 0.0884 / 0.0579
-    [1/5][800/1583] Loss_D: 0.3846  Loss_G: 4.6926  D(x): 0.9407    D(G(z)): 0.2499 / 0.0160
-    [1/5][850/1583] Loss_D: 0.5482  Loss_G: 3.6550  D(x): 0.7687    D(G(z)): 0.1835 / 0.0465
-    [1/5][900/1583] Loss_D: 0.3070  Loss_G: 3.3886  D(x): 0.8349    D(G(z)): 0.0808 / 0.0542
-    [1/5][950/1583] Loss_D: 0.5366  Loss_G: 4.5934  D(x): 0.9043    D(G(z)): 0.3098 / 0.0156
-    [1/5][1000/1583]        Loss_D: 0.7676  Loss_G: 6.3473  D(x): 0.9307    D(G(z)): 0.4354 / 0.0033
-    [1/5][1050/1583]        Loss_D: 0.2988  Loss_G: 2.8881  D(x): 0.8340    D(G(z)): 0.0837 / 0.0806
-    [1/5][1100/1583]        Loss_D: 0.2307  Loss_G: 4.0665  D(x): 0.8507    D(G(z)): 0.0497 / 0.0297
-    [1/5][1150/1583]        Loss_D: 0.4752  Loss_G: 3.3592  D(x): 0.7987    D(G(z)): 0.1827 / 0.0527
-    [1/5][1200/1583]        Loss_D: 0.4123  Loss_G: 2.8147  D(x): 0.8577    D(G(z)): 0.1978 / 0.0855
-    [1/5][1250/1583]        Loss_D: 0.6260  Loss_G: 4.0730  D(x): 0.8506    D(G(z)): 0.3111 / 0.0348
-    [1/5][1300/1583]        Loss_D: 1.1704  Loss_G: 0.9039  D(x): 0.3939    D(G(z)): 0.0124 / 0.4852
-    [1/5][1350/1583]        Loss_D: 0.7011  Loss_G: 2.8476  D(x): 0.5769    D(G(z)): 0.0256 / 0.1121
-    [1/5][1400/1583]        Loss_D: 0.4104  Loss_G: 3.1058  D(x): 0.8774    D(G(z)): 0.2140 / 0.0639
-    [1/5][1450/1583]        Loss_D: 0.6811  Loss_G: 4.2002  D(x): 0.8413    D(G(z)): 0.3494 / 0.0231
-    [1/5][1500/1583]        Loss_D: 1.1317  Loss_G: 4.9345  D(x): 0.9371    D(G(z)): 0.5929 / 0.0142
-    [1/5][1550/1583]        Loss_D: 0.4742  Loss_G: 3.6869  D(x): 0.8981    D(G(z)): 0.2814 / 0.0334
-    [2/5][0/1583]   Loss_D: 0.7098  Loss_G: 2.2753  D(x): 0.7126    D(G(z)): 0.2353 / 0.1409
-    [2/5][50/1583]  Loss_D: 0.8551  Loss_G: 4.0366  D(x): 0.9233    D(G(z)): 0.4786 / 0.0293
-    [2/5][100/1583] Loss_D: 1.3078  Loss_G: 5.5286  D(x): 0.9644    D(G(z)): 0.6616 / 0.0087
-    [2/5][150/1583] Loss_D: 0.5860  Loss_G: 3.0621  D(x): 0.8354    D(G(z)): 0.2879 / 0.0660
-    [2/5][200/1583] Loss_D: 0.7063  Loss_G: 4.4227  D(x): 0.9211    D(G(z)): 0.4102 / 0.0214
-    [2/5][250/1583] Loss_D: 0.7483  Loss_G: 4.3158  D(x): 0.9114    D(G(z)): 0.4218 / 0.0235
-    [2/5][300/1583] Loss_D: 0.3818  Loss_G: 2.6245  D(x): 0.8214    D(G(z)): 0.1382 / 0.0954
-    [2/5][350/1583] Loss_D: 1.0843  Loss_G: 5.0712  D(x): 0.9312    D(G(z)): 0.5778 / 0.0114
-    [2/5][400/1583] Loss_D: 0.4509  Loss_G: 2.8962  D(x): 0.8141    D(G(z)): 0.1853 / 0.0809
-    [2/5][450/1583] Loss_D: 1.6330  Loss_G: 0.9981  D(x): 0.2956    D(G(z)): 0.0459 / 0.4390
-    [2/5][500/1583] Loss_D: 0.6487  Loss_G: 2.1938  D(x): 0.7994    D(G(z)): 0.3067 / 0.1466
-    [2/5][550/1583] Loss_D: 0.9323  Loss_G: 0.9386  D(x): 0.5224    D(G(z)): 0.1030 / 0.4615
-    [2/5][600/1583] Loss_D: 0.5440  Loss_G: 2.1702  D(x): 0.7386    D(G(z)): 0.1785 / 0.1451
-    [2/5][650/1583] Loss_D: 1.0955  Loss_G: 4.1925  D(x): 0.8748    D(G(z)): 0.5495 / 0.0243
-    [2/5][700/1583] Loss_D: 0.9323  Loss_G: 1.9101  D(x): 0.5384    D(G(z)): 0.1423 / 0.2040
-    [2/5][750/1583] Loss_D: 0.5053  Loss_G: 3.0426  D(x): 0.8162    D(G(z)): 0.2322 / 0.0672
-    [2/5][800/1583] Loss_D: 0.6751  Loss_G: 3.3158  D(x): 0.9154    D(G(z)): 0.3967 / 0.0506
-    [2/5][850/1583] Loss_D: 0.6562  Loss_G: 3.2938  D(x): 0.8295    D(G(z)): 0.3324 / 0.0515
-    [2/5][900/1583] Loss_D: 0.7118  Loss_G: 1.2240  D(x): 0.6193    D(G(z)): 0.1380 / 0.3455
-    [2/5][950/1583] Loss_D: 0.8978  Loss_G: 1.6854  D(x): 0.5290    D(G(z)): 0.1213 / 0.2381
-    [2/5][1000/1583]        Loss_D: 1.7309  Loss_G: 0.4199  D(x): 0.2345    D(G(z)): 0.0295 / 0.6955
-    [2/5][1050/1583]        Loss_D: 1.0172  Loss_G: 2.5191  D(x): 0.7005    D(G(z)): 0.4067 / 0.1074
-    [2/5][1100/1583]        Loss_D: 0.7516  Loss_G: 4.3600  D(x): 0.9211    D(G(z)): 0.4427 / 0.0188
-    [2/5][1150/1583]        Loss_D: 1.1362  Loss_G: 4.1261  D(x): 0.9477    D(G(z)): 0.5982 / 0.0235
-    [2/5][1200/1583]        Loss_D: 0.4525  Loss_G: 2.9000  D(x): 0.7585    D(G(z)): 0.1208 / 0.0792
-    [2/5][1250/1583]        Loss_D: 0.6209  Loss_G: 2.6601  D(x): 0.6727    D(G(z)): 0.1333 / 0.0993
-    [2/5][1300/1583]        Loss_D: 0.6188  Loss_G: 1.8989  D(x): 0.6197    D(G(z)): 0.0591 / 0.1911
-    [2/5][1350/1583]        Loss_D: 0.5986  Loss_G: 2.2171  D(x): 0.7147    D(G(z)): 0.1789 / 0.1359
-    [2/5][1400/1583]        Loss_D: 0.6236  Loss_G: 1.5753  D(x): 0.6225    D(G(z)): 0.0892 / 0.2549
-    [2/5][1450/1583]        Loss_D: 1.4575  Loss_G: 4.5445  D(x): 0.9019    D(G(z)): 0.6660 / 0.0170
-    [2/5][1500/1583]        Loss_D: 0.4806  Loss_G: 2.0873  D(x): 0.7311    D(G(z)): 0.1014 / 0.1669
-    [2/5][1550/1583]        Loss_D: 0.6069  Loss_G: 2.4878  D(x): 0.7693    D(G(z)): 0.2556 / 0.1059
-    [3/5][0/1583]   Loss_D: 0.6953  Loss_G: 1.5334  D(x): 0.5927    D(G(z)): 0.0873 / 0.2576
-    [3/5][50/1583]  Loss_D: 0.5561  Loss_G: 1.6132  D(x): 0.7008    D(G(z)): 0.1354 / 0.2534
-    [3/5][100/1583] Loss_D: 0.4794  Loss_G: 2.3090  D(x): 0.7693    D(G(z)): 0.1588 / 0.1250
-    [3/5][150/1583] Loss_D: 1.4472  Loss_G: 4.4442  D(x): 0.9591    D(G(z)): 0.6936 / 0.0197
-    [3/5][200/1583] Loss_D: 0.8359  Loss_G: 3.2797  D(x): 0.8965    D(G(z)): 0.4565 / 0.0537
-    [3/5][250/1583] Loss_D: 2.0792  Loss_G: 4.2226  D(x): 0.9092    D(G(z)): 0.7681 / 0.0260
-    [3/5][300/1583] Loss_D: 0.6438  Loss_G: 3.1580  D(x): 0.9164    D(G(z)): 0.3874 / 0.0598
-    [3/5][350/1583] Loss_D: 1.7056  Loss_G: 0.8386  D(x): 0.2668    D(G(z)): 0.0734 / 0.5220
-    [3/5][400/1583] Loss_D: 0.6288  Loss_G: 2.1909  D(x): 0.7401    D(G(z)): 0.2322 / 0.1413
-    [3/5][450/1583] Loss_D: 0.5742  Loss_G: 1.9729  D(x): 0.7162    D(G(z)): 0.1722 / 0.1700
-    [3/5][500/1583] Loss_D: 0.6798  Loss_G: 3.1593  D(x): 0.8591    D(G(z)): 0.3698 / 0.0543
-    [3/5][550/1583] Loss_D: 0.7612  Loss_G: 1.2536  D(x): 0.5592    D(G(z)): 0.0940 / 0.3256
-    [3/5][600/1583] Loss_D: 1.0874  Loss_G: 0.9601  D(x): 0.4155    D(G(z)): 0.0562 / 0.4391
-    [3/5][650/1583] Loss_D: 0.7018  Loss_G: 2.5142  D(x): 0.8042    D(G(z)): 0.3334 / 0.1051
-    [3/5][700/1583] Loss_D: 0.5612  Loss_G: 2.1963  D(x): 0.7554    D(G(z)): 0.2125 / 0.1376
-    [3/5][750/1583] Loss_D: 0.7318  Loss_G: 1.6377  D(x): 0.6495    D(G(z)): 0.1979 / 0.2296
-    [3/5][800/1583] Loss_D: 0.5621  Loss_G: 1.8894  D(x): 0.6796    D(G(z)): 0.1187 / 0.1907
-    [3/5][850/1583] Loss_D: 0.6477  Loss_G: 2.5308  D(x): 0.7984    D(G(z)): 0.2913 / 0.1005
-    [3/5][900/1583] Loss_D: 0.7904  Loss_G: 1.6153  D(x): 0.5864    D(G(z)): 0.1544 / 0.2314
-    [3/5][950/1583] Loss_D: 0.5315  Loss_G: 2.1866  D(x): 0.7990    D(G(z)): 0.2288 / 0.1405
-    [3/5][1000/1583]        Loss_D: 0.8392  Loss_G: 3.7965  D(x): 0.8504    D(G(z)): 0.4431 / 0.0332
-    [3/5][1050/1583]        Loss_D: 0.8082  Loss_G: 3.7510  D(x): 0.8679    D(G(z)): 0.4384 / 0.0341
-    [3/5][1100/1583]        Loss_D: 0.5648  Loss_G: 1.9762  D(x): 0.7244    D(G(z)): 0.1718 / 0.1608
-    [3/5][1150/1583]        Loss_D: 0.6545  Loss_G: 3.1910  D(x): 0.8204    D(G(z)): 0.3298 / 0.0534
-    [3/5][1200/1583]        Loss_D: 0.6370  Loss_G: 2.0567  D(x): 0.7406    D(G(z)): 0.2551 / 0.1560
-    [3/5][1250/1583]        Loss_D: 0.6561  Loss_G: 1.8144  D(x): 0.6885    D(G(z)): 0.2035 / 0.1921
-    [3/5][1300/1583]        Loss_D: 0.6860  Loss_G: 1.8726  D(x): 0.5865    D(G(z)): 0.0620 / 0.1953
-    [3/5][1350/1583]        Loss_D: 0.5618  Loss_G: 1.8079  D(x): 0.7159    D(G(z)): 0.1685 / 0.1976
-    [3/5][1400/1583]        Loss_D: 0.6877  Loss_G: 2.5243  D(x): 0.7913    D(G(z)): 0.3214 / 0.1004
-    [3/5][1450/1583]        Loss_D: 0.6534  Loss_G: 2.6937  D(x): 0.7997    D(G(z)): 0.3071 / 0.0848
-    [3/5][1500/1583]        Loss_D: 0.5443  Loss_G: 2.1160  D(x): 0.7078    D(G(z)): 0.1242 / 0.1515
-    [3/5][1550/1583]        Loss_D: 1.5968  Loss_G: 4.8972  D(x): 0.9627    D(G(z)): 0.7338 / 0.0110
-    [4/5][0/1583]   Loss_D: 0.7820  Loss_G: 1.8219  D(x): 0.5272    D(G(z)): 0.0467 / 0.2010
-    [4/5][50/1583]  Loss_D: 0.6637  Loss_G: 1.9136  D(x): 0.6712    D(G(z)): 0.1865 / 0.1876
-    [4/5][100/1583] Loss_D: 1.0259  Loss_G: 1.2513  D(x): 0.4374    D(G(z)): 0.0684 / 0.3257
-    [4/5][150/1583] Loss_D: 0.5099  Loss_G: 2.4926  D(x): 0.7915    D(G(z)): 0.2024 / 0.1111
-    [4/5][200/1583] Loss_D: 0.7905  Loss_G: 3.8833  D(x): 0.9060    D(G(z)): 0.4502 / 0.0309
-    [4/5][250/1583] Loss_D: 0.8218  Loss_G: 1.3731  D(x): 0.5398    D(G(z)): 0.0961 / 0.3197
-    [4/5][300/1583] Loss_D: 0.7159  Loss_G: 2.9385  D(x): 0.7769    D(G(z)): 0.3270 / 0.0678
-    [4/5][350/1583] Loss_D: 0.5711  Loss_G: 3.2981  D(x): 0.8730    D(G(z)): 0.3232 / 0.0506
-    [4/5][400/1583] Loss_D: 0.9274  Loss_G: 1.3243  D(x): 0.4666    D(G(z)): 0.0547 / 0.3089
-    [4/5][450/1583] Loss_D: 1.9290  Loss_G: 5.5781  D(x): 0.9685    D(G(z)): 0.8031 / 0.0063
-    [4/5][500/1583] Loss_D: 0.7317  Loss_G: 2.9507  D(x): 0.7779    D(G(z)): 0.3349 / 0.0688
-    [4/5][550/1583] Loss_D: 0.3878  Loss_G: 3.0483  D(x): 0.8716    D(G(z)): 0.2052 / 0.0606
-    [4/5][600/1583] Loss_D: 0.5016  Loss_G: 2.1415  D(x): 0.7794    D(G(z)): 0.1992 / 0.1496
-    [4/5][650/1583] Loss_D: 0.8692  Loss_G: 4.0726  D(x): 0.9369    D(G(z)): 0.5011 / 0.0239
-    [4/5][700/1583] Loss_D: 1.0189  Loss_G: 0.5405  D(x): 0.4590    D(G(z)): 0.0792 / 0.6298
-    [4/5][750/1583] Loss_D: 0.6823  Loss_G: 1.8271  D(x): 0.5918    D(G(z)): 0.0876 / 0.2046
-    [4/5][800/1583] Loss_D: 0.8343  Loss_G: 3.9417  D(x): 0.8795    D(G(z)): 0.4572 / 0.0283
-    [4/5][850/1583] Loss_D: 0.5352  Loss_G: 2.8730  D(x): 0.8354    D(G(z)): 0.2612 / 0.0770
-    [4/5][900/1583] Loss_D: 0.5948  Loss_G: 1.9490  D(x): 0.6961    D(G(z)): 0.1582 / 0.1789
-    [4/5][950/1583] Loss_D: 0.6370  Loss_G: 3.2704  D(x): 0.8925    D(G(z)): 0.3600 / 0.0523
-    [4/5][1000/1583]        Loss_D: 0.7010  Loss_G: 1.9136  D(x): 0.6741    D(G(z)): 0.2126 / 0.1832
-    [4/5][1050/1583]        Loss_D: 0.7043  Loss_G: 1.5664  D(x): 0.6225    D(G(z)): 0.1439 / 0.2530
-    [4/5][1100/1583]        Loss_D: 0.4952  Loss_G: 2.1362  D(x): 0.7396    D(G(z)): 0.1442 / 0.1535
-    [4/5][1150/1583]        Loss_D: 1.1702  Loss_G: 0.9483  D(x): 0.3849    D(G(z)): 0.0445 / 0.4278
-    [4/5][1200/1583]        Loss_D: 0.6114  Loss_G: 1.6389  D(x): 0.6706    D(G(z)): 0.1427 / 0.2354
-    [4/5][1250/1583]        Loss_D: 0.6020  Loss_G: 1.9253  D(x): 0.7218    D(G(z)): 0.1923 / 0.1769
-    [4/5][1300/1583]        Loss_D: 0.6117  Loss_G: 3.6101  D(x): 0.8724    D(G(z)): 0.3392 / 0.0371
-    [4/5][1350/1583]        Loss_D: 0.8552  Loss_G: 4.2809  D(x): 0.9218    D(G(z)): 0.4932 / 0.0205
-    [4/5][1400/1583]        Loss_D: 0.6170  Loss_G: 4.0999  D(x): 0.9353    D(G(z)): 0.3772 / 0.0246
-    [4/5][1450/1583]        Loss_D: 0.5660  Loss_G: 2.2870  D(x): 0.6739    D(G(z)): 0.1064 / 0.1389
-    [4/5][1500/1583]        Loss_D: 0.7235  Loss_G: 3.5680  D(x): 0.8678    D(G(z)): 0.3896 / 0.0403
-    [4/5][1550/1583]        Loss_D: 0.8062  Loss_G: 3.8185  D(x): 0.9046    D(G(z)): 0.4511 / 0.0305
-    
+```py
+Starting Training Loop...
+[0/5][0/1583]   Loss_D: 1.7410  Loss_G: 4.7761  D(x): 0.5343    D(G(z)): 0.5771 / 0.0136
+[0/5][50/1583]  Loss_D: 1.7332  Loss_G: 25.4829 D(x): 0.9774    D(G(z)): 0.7441 / 0.0000
+[0/5][100/1583] Loss_D: 1.6841  Loss_G: 11.6585 D(x): 0.4728    D(G(z)): 0.0000 / 0.0000
+[0/5][150/1583] Loss_D: 1.2547  Loss_G: 8.7245  D(x): 0.9286    D(G(z)): 0.5209 / 0.0044
+[0/5][200/1583] Loss_D: 0.7563  Loss_G: 8.9600  D(x): 0.9525    D(G(z)): 0.4514 / 0.0003
+[0/5][250/1583] Loss_D: 1.0221  Loss_G: 2.5713  D(x): 0.5274    D(G(z)): 0.0474 / 0.1177
+[0/5][300/1583] Loss_D: 0.3387  Loss_G: 3.8185  D(x): 0.8431    D(G(z)): 0.1066 / 0.0461
+[0/5][350/1583] Loss_D: 0.5054  Loss_G: 3.6141  D(x): 0.7289    D(G(z)): 0.0758 / 0.0535
+[0/5][400/1583] Loss_D: 0.8758  Loss_G: 6.5680  D(x): 0.8097    D(G(z)): 0.4017 / 0.0031
+[0/5][450/1583] Loss_D: 0.2486  Loss_G: 3.5121  D(x): 0.9035    D(G(z)): 0.1054 / 0.0717
+[0/5][500/1583] Loss_D: 1.5792  Loss_G: 4.3590  D(x): 0.3457    D(G(z)): 0.0053 / 0.0379
+[0/5][550/1583] Loss_D: 0.8897  Loss_G: 3.9447  D(x): 0.5350    D(G(z)): 0.0349 / 0.0386
+[0/5][600/1583] Loss_D: 0.5292  Loss_G: 4.4346  D(x): 0.8914    D(G(z)): 0.2768 / 0.0233
+[0/5][650/1583] Loss_D: 0.3779  Loss_G: 4.7253  D(x): 0.7868    D(G(z)): 0.0627 / 0.0174
+[0/5][700/1583] Loss_D: 0.7512  Loss_G: 2.6246  D(x): 0.6112    D(G(z)): 0.0244 / 0.1493
+[0/5][750/1583] Loss_D: 0.4378  Loss_G: 5.0045  D(x): 0.8614    D(G(z)): 0.2028 / 0.0108
+[0/5][800/1583] Loss_D: 0.5795  Loss_G: 6.0537  D(x): 0.8693    D(G(z)): 0.2732 / 0.0066
+[0/5][850/1583] Loss_D: 0.8980  Loss_G: 6.5355  D(x): 0.8465    D(G(z)): 0.4226 / 0.0048
+[0/5][900/1583] Loss_D: 0.5776  Loss_G: 7.7162  D(x): 0.9756    D(G(z)): 0.3707 / 0.0009
+[0/5][950/1583] Loss_D: 0.5593  Loss_G: 5.6692  D(x): 0.9560    D(G(z)): 0.3494 / 0.0080
+[0/5][1000/1583]        Loss_D: 0.5036  Loss_G: 5.1312  D(x): 0.7775    D(G(z)): 0.0959 / 0.0178
+[0/5][1050/1583]        Loss_D: 0.5192  Loss_G: 4.5706  D(x): 0.8578    D(G(z)): 0.2605 / 0.0222
+[0/5][1100/1583]        Loss_D: 0.5645  Loss_G: 3.1618  D(x): 0.7133    D(G(z)): 0.1138 / 0.0768
+[0/5][1150/1583]        Loss_D: 0.2790  Loss_G: 4.5294  D(x): 0.8541    D(G(z)): 0.0909 / 0.0207
+[0/5][1200/1583]        Loss_D: 0.5334  Loss_G: 4.3445  D(x): 0.8567    D(G(z)): 0.2457 / 0.0245
+[0/5][1250/1583]        Loss_D: 0.7318  Loss_G: 2.2779  D(x): 0.6846    D(G(z)): 0.1485 / 0.1497
+[0/5][1300/1583]        Loss_D: 0.6939  Loss_G: 6.1172  D(x): 0.9123    D(G(z)): 0.3853 / 0.0041
+[0/5][1350/1583]        Loss_D: 0.4653  Loss_G: 3.7054  D(x): 0.8208    D(G(z)): 0.1774 / 0.0404
+[0/5][1400/1583]        Loss_D: 1.9711  Loss_G: 3.1569  D(x): 0.2704    D(G(z)): 0.0108 / 0.1390
+[0/5][1450/1583]        Loss_D: 0.4427  Loss_G: 5.8683  D(x): 0.9230    D(G(z)): 0.2600 / 0.0056
+[0/5][1500/1583]        Loss_D: 0.4432  Loss_G: 3.3681  D(x): 0.8001    D(G(z)): 0.1510 / 0.0633
+[0/5][1550/1583]        Loss_D: 0.4852  Loss_G: 3.2790  D(x): 0.7532    D(G(z)): 0.1100 / 0.0661
+[1/5][0/1583]   Loss_D: 0.3536  Loss_G: 4.5358  D(x): 0.8829    D(G(z)): 0.1714 / 0.0173
+[1/5][50/1583]  Loss_D: 0.4717  Loss_G: 4.7728  D(x): 0.8973    D(G(z)): 0.2750 / 0.0142
+[1/5][100/1583] Loss_D: 0.4702  Loss_G: 2.3528  D(x): 0.7847    D(G(z)): 0.1468 / 0.1385
+[1/5][150/1583] Loss_D: 0.4833  Loss_G: 2.9645  D(x): 0.7893    D(G(z)): 0.1607 / 0.0867
+[1/5][200/1583] Loss_D: 0.6035  Loss_G: 2.0728  D(x): 0.6646    D(G(z)): 0.0852 / 0.1806
+[1/5][250/1583] Loss_D: 0.3822  Loss_G: 3.1946  D(x): 0.7969    D(G(z)): 0.1024 / 0.0656
+[1/5][300/1583] Loss_D: 0.3892  Loss_G: 3.3337  D(x): 0.7848    D(G(z)): 0.0969 / 0.0525
+[1/5][350/1583] Loss_D: 1.7989  Loss_G: 7.5798  D(x): 0.9449    D(G(z)): 0.7273 / 0.0011
+[1/5][400/1583] Loss_D: 0.4765  Loss_G: 3.0655  D(x): 0.7479    D(G(z)): 0.1116 / 0.0687
+[1/5][450/1583] Loss_D: 0.3649  Loss_G: 3.1674  D(x): 0.8603    D(G(z)): 0.1619 / 0.0627
+[1/5][500/1583] Loss_D: 0.6922  Loss_G: 4.5841  D(x): 0.9235    D(G(z)): 0.4003 / 0.0175
+[1/5][550/1583] Loss_D: 0.6126  Loss_G: 4.6642  D(x): 0.8761    D(G(z)): 0.3199 / 0.0180
+[1/5][600/1583] Loss_D: 0.7032  Loss_G: 4.6221  D(x): 0.9463    D(G(z)): 0.4365 / 0.0154
+[1/5][650/1583] Loss_D: 0.4707  Loss_G: 3.3616  D(x): 0.7664    D(G(z)): 0.1280 / 0.0617
+[1/5][700/1583] Loss_D: 0.3393  Loss_G: 2.4236  D(x): 0.9120    D(G(z)): 0.1771 / 0.1280
+[1/5][750/1583] Loss_D: 0.6828  Loss_G: 4.4585  D(x): 0.8647    D(G(z)): 0.3546 / 0.0191
+[1/5][800/1583] Loss_D: 0.7958  Loss_G: 3.6708  D(x): 0.8386    D(G(z)): 0.3987 / 0.0403
+[1/5][850/1583] Loss_D: 0.4651  Loss_G: 2.7477  D(x): 0.7602    D(G(z)): 0.1334 / 0.0900
+[1/5][900/1583] Loss_D: 0.8799  Loss_G: 4.7930  D(x): 0.9050    D(G(z)): 0.4710 / 0.0201
+[1/5][950/1583] Loss_D: 0.3909  Loss_G: 2.7973  D(x): 0.7730    D(G(z)): 0.0902 / 0.0838
+[1/5][1000/1583]        Loss_D: 0.3822  Loss_G: 3.0223  D(x): 0.8699    D(G(z)): 0.1837 / 0.0709
+[1/5][1050/1583]        Loss_D: 0.4689  Loss_G: 2.2831  D(x): 0.7096    D(G(z)): 0.0536 / 0.1448
+[1/5][1100/1583]        Loss_D: 0.6676  Loss_G: 2.2773  D(x): 0.6669    D(G(z)): 0.1386 / 0.1443
+[1/5][1150/1583]        Loss_D: 0.5970  Loss_G: 4.1558  D(x): 0.9166    D(G(z)): 0.3554 / 0.0240
+[1/5][1200/1583]        Loss_D: 0.3622  Loss_G: 3.5782  D(x): 0.8590    D(G(z)): 0.1547 / 0.0481
+[1/5][1250/1583]        Loss_D: 0.5234  Loss_G: 2.5915  D(x): 0.7811    D(G(z)): 0.1990 / 0.1037
+[1/5][1300/1583]        Loss_D: 1.3243  Loss_G: 5.5428  D(x): 0.9882    D(G(z)): 0.6572 / 0.0088
+[1/5][1350/1583]        Loss_D: 0.4891  Loss_G: 1.9552  D(x): 0.7686    D(G(z)): 0.1540 / 0.1910
+[1/5][1400/1583]        Loss_D: 0.5639  Loss_G: 3.7796  D(x): 0.9137    D(G(z)): 0.3390 / 0.0343
+[1/5][1450/1583]        Loss_D: 1.7329  Loss_G: 5.0373  D(x): 0.9760    D(G(z)): 0.7332 / 0.0161
+[1/5][1500/1583]        Loss_D: 0.7999  Loss_G: 3.7268  D(x): 0.9029    D(G(z)): 0.4550 / 0.0384
+[1/5][1550/1583]        Loss_D: 0.4740  Loss_G: 2.3220  D(x): 0.7824    D(G(z)): 0.1625 / 0.1327
+[2/5][0/1583]   Loss_D: 0.8693  Loss_G: 3.8890  D(x): 0.9376    D(G(z)): 0.4822 / 0.0339
+[2/5][50/1583]  Loss_D: 0.3742  Loss_G: 2.5041  D(x): 0.8148    D(G(z)): 0.1310 / 0.1151
+[2/5][100/1583] Loss_D: 1.1134  Loss_G: 1.5167  D(x): 0.4248    D(G(z)): 0.0335 / 0.3023
+[2/5][150/1583] Loss_D: 0.5987  Loss_G: 3.2047  D(x): 0.8536    D(G(z)): 0.3121 / 0.0555
+[2/5][200/1583] Loss_D: 2.0846  Loss_G: 1.5473  D(x): 0.1919    D(G(z)): 0.0054 / 0.2899
+[2/5][250/1583] Loss_D: 0.5017  Loss_G: 3.0225  D(x): 0.8965    D(G(z)): 0.2986 / 0.0626
+[2/5][300/1583] Loss_D: 1.3296  Loss_G: 4.1927  D(x): 0.9444    D(G(z)): 0.6574 / 0.0270
+[2/5][350/1583] Loss_D: 0.4905  Loss_G: 2.7693  D(x): 0.8049    D(G(z)): 0.2090 / 0.0863
+[2/5][400/1583] Loss_D: 0.4668  Loss_G: 2.1790  D(x): 0.7160    D(G(z)): 0.0815 / 0.1529
+[2/5][450/1583] Loss_D: 0.4877  Loss_G: 2.4190  D(x): 0.6943    D(G(z)): 0.0693 / 0.1254
+[2/5][500/1583] Loss_D: 0.7856  Loss_G: 2.2362  D(x): 0.6148    D(G(z)): 0.1698 / 0.1489
+[2/5][550/1583] Loss_D: 0.6371  Loss_G: 1.3879  D(x): 0.6164    D(G(z)): 0.0852 / 0.3041
+[2/5][600/1583] Loss_D: 0.6409  Loss_G: 2.8623  D(x): 0.7658    D(G(z)): 0.2684 / 0.0790
+[2/5][650/1583] Loss_D: 0.6454  Loss_G: 1.5708  D(x): 0.6293    D(G(z)): 0.0944 / 0.2706
+[2/5][700/1583] Loss_D: 0.8472  Loss_G: 2.0847  D(x): 0.5071    D(G(z)): 0.0181 / 0.1937
+[2/5][750/1583] Loss_D: 1.2356  Loss_G: 0.3673  D(x): 0.3606    D(G(z)): 0.0328 / 0.7270
+[2/5][800/1583] Loss_D: 0.4852  Loss_G: 2.7325  D(x): 0.8670    D(G(z)): 0.2630 / 0.0877
+[2/5][850/1583] Loss_D: 0.6494  Loss_G: 4.5357  D(x): 0.8899    D(G(z)): 0.3756 / 0.0158
+[2/5][900/1583] Loss_D: 0.5184  Loss_G: 2.7194  D(x): 0.8377    D(G(z)): 0.2540 / 0.0871
+[2/5][950/1583] Loss_D: 0.9771  Loss_G: 4.6200  D(x): 0.9596    D(G(z)): 0.5432 / 0.0176
+[2/5][1000/1583]        Loss_D: 0.7509  Loss_G: 2.2864  D(x): 0.5861    D(G(z)): 0.1021 / 0.1539
+[2/5][1050/1583]        Loss_D: 0.4512  Loss_G: 3.2484  D(x): 0.8649    D(G(z)): 0.2313 / 0.0542
+[2/5][1100/1583]        Loss_D: 0.6856  Loss_G: 2.2425  D(x): 0.6405    D(G(z)): 0.1333 / 0.1508
+[2/5][1150/1583]        Loss_D: 0.5271  Loss_G: 3.0327  D(x): 0.8385    D(G(z)): 0.2552 / 0.0639
+[2/5][1200/1583]        Loss_D: 0.4058  Loss_G: 2.9557  D(x): 0.8769    D(G(z)): 0.2169 / 0.0694
+[2/5][1250/1583]        Loss_D: 0.5564  Loss_G: 2.9065  D(x): 0.8409    D(G(z)): 0.2835 / 0.0695
+[2/5][1300/1583]        Loss_D: 0.4703  Loss_G: 2.7865  D(x): 0.7825    D(G(z)): 0.1680 / 0.0850
+[2/5][1350/1583]        Loss_D: 0.5352  Loss_G: 3.1362  D(x): 0.8260    D(G(z)): 0.2582 / 0.0606
+[2/5][1400/1583]        Loss_D: 0.5281  Loss_G: 2.7742  D(x): 0.7970    D(G(z)): 0.2275 / 0.0835
+[2/5][1450/1583]        Loss_D: 0.6558  Loss_G: 1.8152  D(x): 0.6103    D(G(z)): 0.0795 / 0.2030
+[2/5][1500/1583]        Loss_D: 0.9446  Loss_G: 1.1492  D(x): 0.4593    D(G(z)): 0.0356 / 0.3947
+[2/5][1550/1583]        Loss_D: 0.9269  Loss_G: 0.7383  D(x): 0.5226    D(G(z)): 0.1333 / 0.5205
+[3/5][0/1583]   Loss_D: 0.4855  Loss_G: 2.1548  D(x): 0.7157    D(G(z)): 0.1059 / 0.1568
+[3/5][50/1583]  Loss_D: 0.7259  Loss_G: 1.1093  D(x): 0.5804    D(G(z)): 0.0797 / 0.3894
+[3/5][100/1583] Loss_D: 0.7367  Loss_G: 1.0389  D(x): 0.5515    D(G(z)): 0.0405 / 0.4190
+[3/5][150/1583] Loss_D: 0.5942  Loss_G: 3.4803  D(x): 0.9290    D(G(z)): 0.3709 / 0.0432
+[3/5][200/1583] Loss_D: 1.3464  Loss_G: 0.6549  D(x): 0.3261    D(G(z)): 0.0242 / 0.5949
+[3/5][250/1583] Loss_D: 0.5110  Loss_G: 2.2086  D(x): 0.7263    D(G(z)): 0.1327 / 0.1457
+[3/5][300/1583] Loss_D: 1.4272  Loss_G: 3.3018  D(x): 0.9230    D(G(z)): 0.6654 / 0.0635
+[3/5][350/1583] Loss_D: 0.6491  Loss_G: 3.0766  D(x): 0.8124    D(G(z)): 0.3127 / 0.0607
+[3/5][400/1583] Loss_D: 0.5583  Loss_G: 2.9363  D(x): 0.8233    D(G(z)): 0.2759 / 0.0666
+[3/5][450/1583] Loss_D: 0.9496  Loss_G: 0.6436  D(x): 0.4958    D(G(z)): 0.1367 / 0.5538
+[3/5][500/1583] Loss_D: 0.4463  Loss_G: 2.2234  D(x): 0.7776    D(G(z)): 0.1545 / 0.1371
+[3/5][550/1583] Loss_D: 0.5874  Loss_G: 3.6688  D(x): 0.8478    D(G(z)): 0.2930 / 0.0348
+[3/5][600/1583] Loss_D: 0.3724  Loss_G: 2.6326  D(x): 0.8673    D(G(z)): 0.1854 / 0.0891
+[3/5][650/1583] Loss_D: 0.7292  Loss_G: 4.4254  D(x): 0.9081    D(G(z)): 0.4234 / 0.0200
+[3/5][700/1583] Loss_D: 0.4728  Loss_G: 2.8665  D(x): 0.8189    D(G(z)): 0.2115 / 0.0774
+[3/5][750/1583] Loss_D: 0.5845  Loss_G: 3.3046  D(x): 0.8977    D(G(z)): 0.3490 / 0.0463
+[3/5][800/1583] Loss_D: 0.5597  Loss_G: 2.2564  D(x): 0.7088    D(G(z)): 0.1497 / 0.1300
+[3/5][850/1583] Loss_D: 0.6518  Loss_G: 2.5048  D(x): 0.7195    D(G(z)): 0.2183 / 0.1053
+[3/5][900/1583] Loss_D: 0.7340  Loss_G: 1.4263  D(x): 0.6285    D(G(z)): 0.1806 / 0.2818
+[3/5][950/1583] Loss_D: 1.4633  Loss_G: 4.9204  D(x): 0.9792    D(G(z)): 0.7093 / 0.0143
+[3/5][1000/1583]        Loss_D: 0.6643  Loss_G: 2.8332  D(x): 0.8548    D(G(z)): 0.3597 / 0.0751
+[3/5][1050/1583]        Loss_D: 0.7741  Loss_G: 2.9355  D(x): 0.7281    D(G(z)): 0.3064 / 0.0712
+[3/5][1100/1583]        Loss_D: 0.7279  Loss_G: 3.2299  D(x): 0.8867    D(G(z)): 0.4193 / 0.0544
+[3/5][1150/1583]        Loss_D: 0.6049  Loss_G: 1.9150  D(x): 0.6917    D(G(z)): 0.1645 / 0.1912
+[3/5][1200/1583]        Loss_D: 0.7431  Loss_G: 3.8188  D(x): 0.9334    D(G(z)): 0.4500 / 0.0306
+[3/5][1250/1583]        Loss_D: 0.5061  Loss_G: 1.9905  D(x): 0.7393    D(G(z)): 0.1531 / 0.1653
+[3/5][1300/1583]        Loss_D: 0.6979  Loss_G: 3.0183  D(x): 0.8182    D(G(z)): 0.3421 / 0.0616
+[3/5][1350/1583]        Loss_D: 0.9133  Loss_G: 4.0629  D(x): 0.9198    D(G(z)): 0.5131 / 0.0261
+[3/5][1400/1583]        Loss_D: 0.7075  Loss_G: 4.0061  D(x): 0.9188    D(G(z)): 0.4216 / 0.0266
+[3/5][1450/1583]        Loss_D: 0.7704  Loss_G: 2.3802  D(x): 0.7555    D(G(z)): 0.3348 / 0.1114
+[3/5][1500/1583]        Loss_D: 0.6055  Loss_G: 1.8402  D(x): 0.7011    D(G(z)): 0.1643 / 0.1995
+[3/5][1550/1583]        Loss_D: 0.7240  Loss_G: 3.2589  D(x): 0.8747    D(G(z)): 0.4069 / 0.0528
+[4/5][0/1583]   Loss_D: 0.8162  Loss_G: 2.8040  D(x): 0.8827    D(G(z)): 0.4435 / 0.0870
+[4/5][50/1583]  Loss_D: 0.5859  Loss_G: 2.2796  D(x): 0.6782    D(G(z)): 0.1312 / 0.1309
+[4/5][100/1583] Loss_D: 0.6655  Loss_G: 3.5365  D(x): 0.8178    D(G(z)): 0.3262 / 0.0394
+[4/5][150/1583] Loss_D: 1.8662  Loss_G: 5.4950  D(x): 0.9469    D(G(z)): 0.7590 / 0.0113
+[4/5][200/1583] Loss_D: 0.7060  Loss_G: 3.6253  D(x): 0.9215    D(G(z)): 0.4316 / 0.0364
+[4/5][250/1583] Loss_D: 0.5589  Loss_G: 2.1394  D(x): 0.7108    D(G(z)): 0.1513 / 0.1548
+[4/5][300/1583] Loss_D: 0.7278  Loss_G: 1.2391  D(x): 0.5757    D(G(z)): 0.0987 / 0.3454
+[4/5][350/1583] Loss_D: 0.7597  Loss_G: 2.8481  D(x): 0.7502    D(G(z)): 0.3094 / 0.0843
+[4/5][400/1583] Loss_D: 0.6167  Loss_G: 2.2143  D(x): 0.6641    D(G(z)): 0.1315 / 0.1405
+[4/5][450/1583] Loss_D: 0.6234  Loss_G: 1.7961  D(x): 0.7303    D(G(z)): 0.2208 / 0.2007
+[4/5][500/1583] Loss_D: 0.6098  Loss_G: 4.9416  D(x): 0.9442    D(G(z)): 0.3978 / 0.0104
+[4/5][550/1583] Loss_D: 0.6570  Loss_G: 3.6935  D(x): 0.9180    D(G(z)): 0.4015 / 0.0312
+[4/5][600/1583] Loss_D: 0.4195  Loss_G: 2.3446  D(x): 0.7798    D(G(z)): 0.1319 / 0.1211
+[4/5][650/1583] Loss_D: 0.5291  Loss_G: 2.5303  D(x): 0.7528    D(G(z)): 0.1875 / 0.1075
+[4/5][700/1583] Loss_D: 0.5187  Loss_G: 2.0350  D(x): 0.7174    D(G(z)): 0.1431 / 0.1547
+[4/5][750/1583] Loss_D: 0.8208  Loss_G: 1.0780  D(x): 0.5665    D(G(z)): 0.1128 / 0.3844
+[4/5][800/1583] Loss_D: 0.5223  Loss_G: 3.0140  D(x): 0.8708    D(G(z)): 0.2871 / 0.0612
+[4/5][850/1583] Loss_D: 2.9431  Loss_G: 1.0175  D(x): 0.0914    D(G(z)): 0.0162 / 0.4320
+[4/5][900/1583] Loss_D: 0.5456  Loss_G: 1.7923  D(x): 0.7489    D(G(z)): 0.1972 / 0.2038
+[4/5][950/1583] Loss_D: 0.4718  Loss_G: 2.3825  D(x): 0.7840    D(G(z)): 0.1772 / 0.1172
+[4/5][1000/1583]        Loss_D: 0.5174  Loss_G: 2.5070  D(x): 0.8367    D(G(z)): 0.2556 / 0.1074
+[4/5][1050/1583]        Loss_D: 0.8214  Loss_G: 0.8055  D(x): 0.5181    D(G(z)): 0.0694 / 0.4963
+[4/5][1100/1583]        Loss_D: 1.3243  Loss_G: 0.7562  D(x): 0.3284    D(G(z)): 0.0218 / 0.5165
+[4/5][1150/1583]        Loss_D: 0.9334  Loss_G: 5.1260  D(x): 0.8775    D(G(z)): 0.4817 / 0.0088
+[4/5][1200/1583]        Loss_D: 0.5141  Loss_G: 2.7230  D(x): 0.8067    D(G(z)): 0.2188 / 0.0872
+[4/5][1250/1583]        Loss_D: 0.6007  Loss_G: 1.9893  D(x): 0.6968    D(G(z)): 0.1667 / 0.1748
+[4/5][1300/1583]        Loss_D: 0.4025  Loss_G: 2.3066  D(x): 0.8101    D(G(z)): 0.1471 / 0.1412
+[4/5][1350/1583]        Loss_D: 0.5979  Loss_G: 3.2825  D(x): 0.8248    D(G(z)): 0.3003 / 0.0509
+[4/5][1400/1583]        Loss_D: 0.7430  Loss_G: 3.6521  D(x): 0.8888    D(G(z)): 0.4243 / 0.0339
+[4/5][1450/1583]        Loss_D: 1.0814  Loss_G: 5.4255  D(x): 0.9647    D(G(z)): 0.5842 / 0.0070
+[4/5][1500/1583]        Loss_D: 1.7211  Loss_G: 0.7875  D(x): 0.2588    D(G(z)): 0.0389 / 0.5159
+[4/5][1550/1583]        Loss_D: 0.5871  Loss_G: 2.1340  D(x): 0.7332    D(G(z)): 0.1982 / 0.1518
+
+```
 
 ## 结果
 
-最后，让我们看看我们是怎么做。在这里，我们将着眼于三个不同的结果。首先，我们将看到G公司的损失在训练中如何d和改变。其次，我们将可视化的fixed_noise批次每一个时代G公司的产量。第三，我们将着眼于一批真实数据的批量从G.假数据的旁边
+最后，让我们看看我们做的怎么样。 在这里，我们将看看三个不同的结果。 首先，我们将看到判别器D和生成器G的损失在训练期间是如何变化的。 其次，我们将在每个批次可视化生成器G的输出。 第三，我们将查看一批实际数据以及来自生成器G一批假数据。 
 
-**损耗与训练迭代**
+**损失与训练迭代次数关系图**
 
-下面是d &安培的曲线图; G公司的损失与训练迭代。
+下面将绘制生成器和判别器的损失和训练迭代次数关系图。
 
-    
-    
-    plt.figure(figsize=(10,5))
-    plt.title("Generator and Discriminator Loss During Training")
-    plt.plot(G_losses,label="G")
-    plt.plot(D_losses,label="D")
-    plt.xlabel("iterations")
-    plt.ylabel("Loss")
-    plt.legend()
-    plt.show()
-    
+```py
+plt.figure(figsize=(10,5))
+plt.title("Generator and Discriminator Loss During Training")
+plt.plot(G_losses,label="G")
+plt.plot(D_losses,label="D")
+plt.xlabel("iterations")
+plt.ylabel("Loss")
+plt.legend()
+plt.show()
 
-![img/sphx_glr_dcgan_faces_tutorial_002.png](img/sphx_glr_dcgan_faces_tutorial_002.png)
+```
 
-**G公司的进展的可视化**
+![https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_002.png)
 
-还记得我们的训练每一个时代后保存在发电机上fixed_noise批量输出。现在，我们可以想像G的训练进展与动画。按PLAY键开始播放动画。
+**生成器G的训练进度**
 
-    
-    
-    #%%capture
-    fig = plt.figure(figsize=(8,8))
-    plt.axis("off")
-    ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
-    ani = animation.ArtistAnimation(fig, ims, interval=1000, repeat_delay=1000, blit=True)
-    
-    HTML(ani.to_jshtml())
-    
+我们在每一个批次训练完成之后都保存了生成器的输出。 现在我们可以通过动画可视化生成器G的训练进度。点击播放按钮开始动画.
 
-![img/sphx_glr_dcgan_faces_tutorial_003.png](img/sphx_glr_dcgan_faces_tutorial_003.png)
+```py
+#%%capture
+fig = plt.figure(figsize=(8,8))
+plt.axis("off")
+ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
+ani = animation.ArtistAnimation(fig, ims, interval=1000, repeat_delay=1000, blit=True)
 
-**真实全景与假图片**
+HTML(ani.to_jshtml())
 
-最后，让我们来看看一些真实的图像和假图像并排。
+```
 
-    
-    
-    # Grab a batch of real images from the dataloader
-    real_batch = next(iter(dataloader))
-    
-    # Plot the real images
-    plt.figure(figsize=(15,15))
-    plt.subplot(1,2,1)
-    plt.axis("off")
-    plt.title("Real Images")
-    plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
-    
-    # Plot the fake images from the last epoch
-    plt.subplot(1,2,2)
-    plt.axis("off")
-    plt.title("Fake Images")
-    plt.imshow(np.transpose(img_list[-1],(1,2,0)))
-    plt.show()
-    
+![https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_003.png](https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_003.png)
 
-![img/sphx_glr_dcgan_faces_tutorial_004.png](img/sphx_glr_dcgan_faces_tutorial_004.png)
+**真实图像 vs. 假图像**
 
-## 下一步是什么
+最后，让我们一起看看一些真实的图像和假图像。
 
-我们已经达到了我们的旅程结束，但有几个地方，你可以从这里走。你可以：
+```py
+# 从数据加载器中获取一批真实图像
+real_batch = next(iter(dataloader))
 
-  * 火车较长时间才能看到效果有多好得
-  * 修改这个模型来采取不同的数据集，并有可能改变图像的大小和模型架构
-  * 看看其他一些很酷的GAN项目[此处](https://github.com/nashory/gans-awesome-applications)
-  * 创建生成[音乐甘斯](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)
+# 画出真实图像
+plt.figure(figsize=(15,15))
+plt.subplot(1,2,1)
+plt.axis("off")
+plt.title("Real Images")
+plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(),(1,2,0)))
 
-**脚本的总运行时间：** （28分钟13.763秒）
+# 画出来自最后一次训练的假图像
+plt.subplot(1,2,2)
+plt.axis("off")
+plt.title("Fake Images")
+plt.imshow(np.transpose(img_list[-1],(1,2,0)))
+plt.show()
 
-[`Download Python source code:
-dcgan_faces_tutorial.py`](../_downloads/dc0e6f475c6735eb8d233374f8f462eb/dcgan_faces_tutorial.py)
+```
 
-[`Download Jupyter notebook:
-dcgan_faces_tutorial.ipynb`](../_downloads/e9c8374ecc202120dc94db26bf08a00f/dcgan_faces_tutorial.ipynb)
+![https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_004.png](https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_004.png)
 
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
+## 下一步计划
 
-[Next ![](../_static/images/chevron-right-
-orange.svg)](audio_preprocessing_tutorial.html "torchaudio Tutorial")
-[![](../_static/images/chevron-right-orange.svg) Previous](fgsm_tutorial.html
-"Adversarial Example Generation")
+我们已经到了教程的最后，但是你可以根据此教程研究以下内容：
 
-* * *
+*   训练更长的时间看看能够达到多好的结果
+*   调整此模型以适合不同的数据集，如果可能你可以更改输入图片大小以及模型的架构
+*   看看[这里](https://github.com/nashory/gans-awesome-applications)其他一些很酷的GAN项目
+*   创建一个能够产生[音乐](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)的GAN模型
 
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * DCGAN教程
-    * 介绍
-    * 剖成对抗性网络
-      * 什么是甘？ 
-      * 什么是DCGAN？ 
-    * 输入
-    * 数据
-    * 实现
-      * 重量初始化
-      * 发生器
-      * 鉴别
-      * 损失函数和优化器
-      * 培训
-    * 结果
-    * 下一步是什么
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
-
+**脚本的总运行时间：**（ 27分钟53.743秒）
