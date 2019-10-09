@@ -1,63 +1,47 @@
-# 再现性
+# 再生性
 
-完全可重复的结果不能跨PyTorch版本中，提交个人或不同的平台保证。此外，结果不需要是CPU和GPU执行之间可重现的，使用相同的种子时也是如此。
+> 译者：[ApacheCN](https://github.com/apachecn)
 
-然而，为了使计算您在一个特定的平台和PyTorch释放特定问题的确定性，有几个要采取的步骤。
+PyTorch版本，单个提交或不同平台无法保证完全可重现的结果。此外，即使使用相同的种子，也不需要在CPU和GPU执行之间重现结果。
 
-有参与PyTorch 2个伪随机数生成器，您将需要手动种子，使运行重复性。此外，你应该确保所有其他库的代码依赖和使用随机数也使用固定的种子。
+但是，为了在一个特定平台和PyTorch版本上对您的特定问题进行计算确定，需要采取几个步骤。
+
+PyTorch中涉及两个伪随机数生成器，您需要手动播种以使运行可重现。此外，您应该确保您的代码依赖于使用随机数的所有其他库也使用固定种子。
 
 ## PyTorch
 
-可以使用[ `torch.manual_seed（） `](../torch.html#torch.manual_seed
-"torch.manual_seed")种子为所有设备（CPU和CUDA）的RNG：
+您可以使用为所有设备（CPU和CUDA）播种RNG：
 
-    
-    
-    import torch
-    torch.manual_seed(0)
-    
+```
+import torch
+torch.manual_seed(0)
 
-存在使用CUDA功能，可以是非确定性的源一些PyTorch功能。一类这样的CUDA功能是原子操作，特别是`atomicAdd
-`，其中并行加法的为相同的值的顺序是不确定的，并且对于浮点变量，方差的源在结果中。 PyTorch功能，在前进用`atomicAdd`包括[ `
-torch.Tensor.index_add_（） `](../tensors.html#torch.Tensor.index_add_
-"torch.Tensor.index_add_")，[ `torch.Tensor.scatter_add_（） `
-](../tensors.html#torch.Tensor.scatter_add_ "torch.Tensor.scatter_add_")，[ `
-torch.bincount（） `](../torch.html#torch.bincount "torch.bincount")。
+```
 
-多个操作的具有向后的是使用`atomicAdd`，特别是[ `torch.nn.functional.embedding_bag（） `
-](../nn.functional.html#torch.nn.functional.embedding_bag
-"torch.nn.functional.embedding_bag")，[ `torch.nn.functional.ctc_loss（） `
-](../nn.functional.html#torch.nn.functional.ctc_loss
-"torch.nn.functional.ctc_loss")和池，填充和采样的许多形式。当前有避免这些功能的非确定性的没有简单的方法。
+有一些PyTorch函数使用CUDA函数，这些函数可能是非确定性的来源。一类这样的CUDA函数是原子操作，特别是`atomicAdd`，其中对于相同值的并行加法的顺序是未确定的，并且对于浮点变量，是结果中的变化源。在前向中使用`atomicAdd`的PyTorch函数包括，。
+
+许多操作具有向后使用`atomicAdd`，特别是许多形式的池，填充和采样。目前没有简单的方法来避免这些功能中的非确定性。
 
 ## CuDNN
 
-当在CuDNN后台运行，另外两个选项必须设置：
+在CuDNN后端运行时，必须设置另外两个选项：
 
-    
-    
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    
+```
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+
+```
 
 警告
 
-确定性模式可以有一个性能的影响，这取决于你的模型。这意味着，由于模型的确定性性质，处理速度（即每秒处理批次项目）可以比当模型是非确定性较低。
+确定性模式可能会对性能产生影响，具体取决于您的型号。
 
-## numpy的
+## NumPy
 
-如果您或任何你正在使用的库的依赖numpy的，你应该播种numpy的RNG以及。这是可以做到的：
+如果您或您使用的任何库依赖于Numpy，您也应该为Numpy RNG播种。这可以通过以下方式完成：
 
-    
-    
-    import numpy as np
-    np.random.seed(0)
-    
+```
+import numpy as np
+np.random.seed(0)
 
-[Next ![](../_static/images/chevron-right-orange.svg)](serialization.html
-"Serialization semantics") [![](../_static/images/chevron-right-orange.svg)
-Previous](multiprocessing.html "Multiprocessing best practices")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。
+```
