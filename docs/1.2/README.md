@@ -32,7 +32,12 @@
 * [Introduction](README.md)
 * 中文教程
     * 入门
-        * [PyTorch 深度学习: 60 分钟极速入门](beginner/deep_learning_60min_blitz.html)
+        * [PyTorch 深度学习: 60 分钟极速入门](beginner/deep_learning_60min_blitz.md)
+            * [什么是PyTorch？](beginner/blitz/tensor_tutorial.md)
+            * [Autograd：自动求导](beginner/blitz/autograd_tutorial.md)
+            * [神经网络](beginner/blitz/neural_networks_tutorial.md)
+            * [训练分类器](beginner/blitz/cifar10_tutorial.md)
+            * [可选: 数据并行处理](beginner/blitz/data_parallel_tutorial.md)
         * [数据加载和处理教程](beginner/data_loading_tutorial.html)
         * [用例子学习 PyTorch](beginner/pytorch_with_examples.html)
         * [迁移学习教程](beginner/transfer_learning_tutorial.html)
