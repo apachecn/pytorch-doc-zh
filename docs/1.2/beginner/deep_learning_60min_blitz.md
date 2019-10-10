@@ -4,7 +4,9 @@
 >
 > 译者：[bat67](https://github.com/bat67)
 >
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验：[Foxerlee](https://github.com/FoxerLee)
+
+<iframe height=510 width=320 src="https://www.youtube.com/watch?time_continue=22&v=u7x8RXwLKcA" frameborder=0 allowfullscreen></iframe>
 
 此教程的目标：
 
