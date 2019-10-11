@@ -1,29 +1,24 @@
-# 部署具有TorchScript一个Seq2Seq模型
+# 利用 TorchScript 部署 Seq2Seq 模型
 
-**作者：** [马修Inkawhich [HTG3 1.2，本教程进行了更新与PyTorch
-1.2工作](https://github.com/MatthewInkawhich)
+> **作者：** [Matthew Inkawhich](https://github.com/MatthewInkawhich)
+> 
+> 译者：[Foxerlee](https://github.com/FoxerLee)
+>
+> 校验：[Foxerlee](https://github.com/FoxerLee)
 
-本教程将通过使用TorchScript
-API转换序列到序列模型TorchScript的过程中走。我们将转换的模型是从[聊天机器人教程](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html)的聊天机器人模型。您可以把这个教程作为“第2部分”的聊天机器人教程和部署自己的预训练模型，或者你可以用这个文件开始，用我们举办的预训练模式。在后一种情况下，你可以参考的有关数据预处理，模型理论和定义，以及模型训练细节原来的聊天机器人教程。
+本教程已经更新以适配 pyTorch 1.2 版本。
 
-## 什么是TorchScript？
+本教程将逐步介绍使用 TorchScript API 将 sequence-to-sequence 模型转换为TorchScript 的过程。我们将转换的模型是[聊天机器人教程](https://pytorch.apachecn.org/docs/1.0/chatbot_tutorial.html)的 Chatbot 模型。您可以将本教程视为聊天机器人教程的“第 2 部分”，并部署自己的预训练模型，也可以从本文档开始使用我们提供的预训练模型。如果您选择使用我们提供的预训练模型，您也可以参考原始的聊天机器人教程，以获取有关数据预处理，模型理论和定义，以及模型训练的详细信息。
 
-在深基础的学习项目的研究和开发阶段，有利的是，与 **渴望**
-，势在必行接口一样PyTorch的互动。这给用户写熟悉，地道的Python，允许使用Python的数据结构，控制流操作，打印报表，和调试事业的能力。虽然渴望接口是用于研究和实验应用的有利工具，当谈到时间部署在生产环境中的模型，有
-**图** 基于模型的表示是非常有利的。一个延迟图表示允许优化，如乱序执行，并且目标高度优化的硬件架构的能力。此外，基于图的表示使得框架无关模型出口。
-PyTorch提供了一种用于逐步转换渴望模式代码到TorchScript，Python中的静态分析的和优化的子集Torch 用来从Python运行时独立地表示深学习方案的机制。
+## 什么是 TorchScript？
 
-用于转换渴望模式PyTorch方案纳入TorchScript的API的torch.jit模块中被发现。该模块具有用于急切模式模型转换为TorchScript图表示两个核心模式：
-**追踪** 和 **脚本** 。的`torch.jit.trace
-`函数采用一个模块或功能和一组示例输入。然后，它贯穿功能或同时跟踪所遇到的计算步骤模块输入例子，并输出执行跟踪操作的基于图形的功能。 **跟踪**
-是非常适合直接的模块和功能不涉及数据依赖控制流程，如标准的卷积神经网络。然而，如果与数据相关如果语句和循环被追踪，仅沿着由例如输入采取的路线执行调用的操作将被记录的功能。换句话说，控制流程本身不捕获。转换模块和包含的数据相关的控制流的功能，提供了一种
-**脚本** 机制。的`torch.jit.script
-`功能/装饰需要一个模块或功能，并且不要求例如输入。脚本然后显式转换模块或功能码TorchScript，包括所有的控制流。使用脚本一个需要注意的是它只支持Python的一个子集，所以你可能需要重写代码，使其与TorchScript语法兼容。
+在基于深度学习的项目的研究和开发阶段，能够与**及时**、命令行的界面（例如PyTorch的界面）进行交互是非常有利的。这使用户能够使用熟悉、惯用的 Python 编写 Python 的数据结构，控制流操作，print 语句和调试方法。尽管及时的界面对于研究和实验应用程序是一种有益的工具，但是当需要在生产环境中部署模型时，**基于图形**的模型表现将会更加适用。延迟的图形表示意味着可以进行无序执行等优化，并具有针对高度优化的硬件体系结构的能力。此外，基于图的表示形式还可以导出框架无关的模型。 PyTorch 提供了将及时模式代码增量转换为 TorchScript 的机制。TorchScript 是 Python 的静态可分析和可优化的子集，Torch 使用它以不依赖于 Python 而运行深度学习程序。
 
-要充分理解与支持的功能的所有细节，请参见[
-TorchScript语言参考[HTG1。为了提供最大的灵活性，也可以混合使用跟踪和脚本模式一起代表你的整个程序，并且这些技术可以逐步应用。](https://pytorch.org/docs/master/jit.html)
+在 `torch.jit` 模块中可以找到将及时模式的 PyTorch 程序转换为 TorchScript 的 API。该模块中两种将及时模式模型转换为 TorchScript 图形表示形式的核心方式分别为：`tracing`--`追踪`和 `scripting`--`脚本`。`torch.jit.trace` 函数接受一个模块或函数以及一组示例的输入。然后通过输入的函数或模块运行输入示例，同时跟跟踪遇到的计算步骤，最后输出一个可以展示跟踪流程的基于图的函数。对于不涉及依赖数据的控制流的简单模块和功能（例如标准卷积神经网络），`tracing`--`追踪`非常有用。然而，如果一个有数据依赖的if语句和循环的函数被跟踪，则只记录示例输入沿执行路径调用的操作。换句话说，控制流本身并没有被捕获。为了转换包含依赖于数据的控制流的模块和功能，TorchScript 提供了 `scripting`--`脚本`机制。 `torch.jit.script` 函数/修饰器接受一个模块或函数，不需要示例输入。之后 `scripting`--`脚本` 显式化地将模型或函数转换为 TorchScript，包括所有控制流。使用脚本化的需要注意的一点是，它只支持 Python 的一个受限子集。因此您可能需要重写代码以使其与 TorchScript 语法兼容。
 
-![workflow](img/pytorch_workflow.png)
+有关所有支持的功能的详细信息，请参阅[TorchScript 语言参考](https://pytorch.apachecn.org/docs/1.2/jit.html)。 为了提供最大的灵活性，您还可以将 `tracing`--`追踪`和  `scripting`--`脚本`模式混合在一起使用而表现整个程序，这种方式可以通过增量的形式实现。
+
+![https://pytorch.org/tutorials/_images/pytorch_workflow.png](img/pytorch_workflow.png)
 
 ## 致谢
 
