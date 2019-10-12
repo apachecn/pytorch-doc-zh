@@ -16,229 +16,211 @@
 
 在 `torch.jit` 模块中可以找到将及时模式的 PyTorch 程序转换为 TorchScript 的 API。该模块中两种将及时模式模型转换为 TorchScript 图形表示形式的核心方式分别为：`tracing`--`追踪`和 `scripting`--`脚本`。`torch.jit.trace` 函数接受一个模块或函数以及一组示例的输入。然后通过输入的函数或模块运行输入示例，同时跟跟踪遇到的计算步骤，最后输出一个可以展示跟踪流程的基于图的函数。对于不涉及依赖数据的控制流的简单模块和功能（例如标准卷积神经网络），`tracing`--`追踪`非常有用。然而，如果一个有数据依赖的if语句和循环的函数被跟踪，则只记录示例输入沿执行路径调用的操作。换句话说，控制流本身并没有被捕获。为了转换包含依赖于数据的控制流的模块和功能，TorchScript 提供了 `scripting`--`脚本`机制。 `torch.jit.script` 函数/修饰器接受一个模块或函数，不需要示例输入。之后 `scripting`--`脚本` 显式化地将模型或函数转换为 TorchScript，包括所有控制流。使用脚本化的需要注意的一点是，它只支持 Python 的一个受限子集。因此您可能需要重写代码以使其与 TorchScript 语法兼容。
 
-有关所有支持的功能的详细信息，请参阅[TorchScript 语言参考](https://pytorch.apachecn.org/docs/1.2/jit.html)。 为了提供最大的灵活性，您还可以将 `tracing`--`追踪`和  `scripting`--`脚本`模式混合在一起使用而表现整个程序，这种方式可以通过增量的形式实现。
+有关所有支持的功能的详细信息，请参阅 [TorchScript 语言参考](https://pytorch.apachecn.org/docs/1.2/jit.html)。 为了提供最大的灵活性，您还可以将 `tracing`--`追踪`和  `scripting`--`脚本`模式混合在一起使用而表现整个程序，这种方式可以通过增量的形式实现。
 
-![https://pytorch.org/tutorials/_images/pytorch_workflow.png](img/pytorch_workflow.png)
+![https://pytorch.org/tutorials/_images/pytorch_workflow.png](../img/pytorch_workflow.png)
 
 ## 致谢
 
-本教程的灵感来自以下来源：
+本教程的灵感来自以下资源：
 
-  1. 袁阿贵吴pytorch - 聊天机器人实现：[ https://github.com/ywk991112/pytorch-chatbot ](https://github.com/ywk991112/pytorch-chatbot)
-  2. 肖恩·罗伯逊的实际-pytorch seq2seq翻译例如：[ https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation ](https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation)
-  3. FloydHub的康奈尔电影语料库预处理代码：[ https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus ](https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus)
+  1. Yuan-Kuei Wu’s pytorch-chatbot implementation: [https://github.com/ywk991112/pytorch-chatbot](https://github.com/ywk991112/pytorch-chatbot)
+  2. Sean Robertson’s practical-pytorch seq2seq-translation example: [https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation](https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation)
+  3. FloydHub’s Cornell Movie Corpus preprocessing code: [https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus](https://github.com/floydhub/textutil-preprocess-cornell-movie-corpus)
 
 ## 准备环境
 
-首先，我们将导入所需的模块，并设置一些常量。如果您在使用自己的模型规划，是确保MAX_LENGTH 常数设置正确`
-[HTG1。作为提醒，该恒定的训练和最大长度输出，该模型能够产生的过程中定义的最大允许句子长度。`
+首先，我们将导入所需的模块并设置一些常量。 如果您打算使用自己的模型，请确保正确设置了 `MAX_LENGTH` 常数。注意，此常数定义了训练期间允许的最大句子长度以及模型能够产生的最大长度输出。
 
-    
-    
-    from __future__ import absolute_import
-    from __future__ import division
-    from __future__ import print_function
-    from __future__ import unicode_literals
-    
-    import torch
-    import torch.nn as nn
-    import torch.nn.functional as F
-    import re
-    import os
-    import unicodedata
-    import numpy as np
-    
-    device = torch.device("cpu")
-    
-    
-    MAX_LENGTH = 10  # Maximum sentence length
-    
-    # Default word tokens
-    PAD_token = 0  # Used for padding short sentences
-    SOS_token = 1  # Start-of-sentence token
-    EOS_token = 2  # End-of-sentence token
-    
 
-## 模型概述
+```python 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
-如所提到的，我们使用的模型是[序列到序列](https://arxiv.org/abs/1409.3215)（seq2seq）模型。这种类型的模型中的情况下使用时，我们的输入是一个可变长度的序列，而我们的输出也不一定是输入的一一对一映射的可变长度的序列。甲seq2seq模型由该协同工作，二期复发神经网络（RNNs）组成：
-**编码** 和a **解码器** 。
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import re
+import os
+import unicodedata
+import numpy as np
 
-![model](img/seq2seq_ts.png)
+device = torch.device("cpu")
 
-图像源：[ https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/
+
+MAX_LENGTH = 10  # Maximum sentence length
+
+# Default word tokens
+PAD_token = 0  # Used for padding short sentences
+SOS_token = 1  # Start-of-sentence token
+EOS_token = 2  # End-of-sentence token
+```   
+
+## 模型概览
+
+如前所述，我们使用的是 [sequence-to-sequence](https://arxiv.org/abs/1409.3215) (seq2seq) 模型。 当我们的输入是一个可变长度序列，而我们的输出也是一个可变长度序列，并且不要求输入的一对一映射时，就可以使用这种类型的模型。seq2seq 模型由两个协同工作的递归神经网络 (RNN) 组成：编码器 **encoder** 和解码器 **decoder**。
+
+![model](../img/seq2seq_ts.png)
+
+图片来源：[https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/
 ](https://jeddy92.github.io/JEddy92.github.io/ts_seq2seq_intro/)
 
-### 编码器
+### 编码器(Encoder)
 
-通过输入句子一个令牌（例如字）编码器RNN迭代的时间，在每个时间步骤输出一个“输出”向量和“隐藏状态”载体。然后，将隐藏状态矢量被传递到下一个时间步长，而输出矢量被记录。该编码器将其转换看见在序列中的每个点为一组在高维空间中的点，其中解码器将使用以产生用于给定任务一个有意义的输出的情况下。
+编码器 RNN 在输入语句中每次迭代一个标记（例如单词），每个步骤输出一个“输出”向量和一个“隐藏状态”向量。之后，隐藏状态向量将传递到下一个单位步骤，同时记录输出向量。编码器将序列中每个点代表的文本转换为高维空间中的一组点，解码器将使用这些点为给定的任务生成有意义的输出。
 
-### 解码器
+### 解码器(Decoder)
 
-解码器RNN在令牌通过令牌方式产生响应句。它采用了编码器的上下文载体，以及内部隐藏的状态，以产生序列中的下一个单词。直到它输出 _EOS_token_
-，表示句末它将继续产生字。我们使用[注意机制](https://arxiv.org/abs/1409.0473)在我们的解码器，以帮助它“注意”到输入的某些部分产生输出的时候。对于我们的模型，我们实现[陈德良等人。
-](https://arxiv.org/abs/1508.04025)的‘全球关注’模块，并把它作为我们的解码模式的子模块。
+解码器 RNN 以逐个令牌的方式生成响应语句。它使用编码器的上下文向量和内部隐藏状态来生成序列中的下一个单词。它将持续生成单词，直到输出代表句子结尾的 *EOS_token*。 我们在解码器中使用注意机制  [attention mechanism](https://arxiv.org/abs/1409.0473) 来帮助它在生成输出时“注意”输入的某些部分。对于我们的模型，我们实现了 [Luong](https://arxiv.org/abs/1508.04025) 等人的“全球关注 Global attention”模块，并将其用作解码模型中的子模块。
 
 ## 数据处理
 
-虽然我们的模型概念上的令牌序列的处理，在现实中，他们对付像所有的机器学习模型做数字。在这种情况下，模型中的词汇，这是训练之前建立的每一个字，被映射到一个整数索引。我们使用`
-的Voc`对象包含的映射从字索引，以及在所述词汇字的总数。我们运行模型之前，我们将在稍后加载对象。
+尽管我们的模型从概念上讲处理标记序列，但实际上，它们像所有机器学习模型一样处理数字。在这种情况下，训练之前建立的模型词汇表中的每个单词都将映射到一个整数索引。我们使用 `Voc` 对象存储单词到索引的映射以及词汇表中单词的总数。稍后我们将在运行模型之前加载这个对象。
 
-此外，为了让我们能够运行的评估，我们必须为我们处理字符串输入的工具。的`normalizeString
-`函数的所有字符转换的字符串为小写，并删除所有非字母字符。的`indexesFromSentence`函数接受词的句子，并返回字索引的对应序列。
+另外，为了使我们能够进行评估，我们必须提供用于处理字符串输入的工具。`normalizeString` 函数将字符串中的所有字符转换为小写并删除所有非字母字符。`indexsFromSentence` 函数接受一个句子并返回包含的单词索引序列。
 
-    
-    
-    class Voc:
-        def __init__(self, name):
-            self.name = name
-            self.trimmed = False
-            self.word2index = {}
-            self.word2count = {}
-            self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
-            self.num_words = 3  # Count SOS, EOS, PAD
-    
-        def addSentence(self, sentence):
-            for word in sentence.split(' '):
-                self.addWord(word)
-    
-        def addWord(self, word):
-            if word not in self.word2index:
-                self.word2index[word] = self.num_words
-                self.word2count[word] = 1
-                self.index2word[self.num_words] = word
-                self.num_words += 1
-            else:
-                self.word2count[word] += 1
-    
-        # Remove words below a certain count threshold
-        def trim(self, min_count):
-            if self.trimmed:
-                return
-            self.trimmed = True
-            keep_words = []
-            for k, v in self.word2count.items():
-                if v >= min_count:
-                    keep_words.append(k)
-    
-            print('keep_words {} / {} = {:.4f}'.format(
-                len(keep_words), len(self.word2index), len(keep_words) / len(self.word2index)
-            ))
-            # Reinitialize dictionaries
-            self.word2index = {}
-            self.word2count = {}
-            self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
-            self.num_words = 3 # Count default tokens
-            for word in keep_words:
-                self.addWord(word)
-    
-    
-    # Lowercase and remove non-letter characters
-    def normalizeString(s):
-        s = s.lower()
-        s = re.sub(r"([.!?])", r" \1", s)
-        s = re.sub(r"[^a-zA-Z.!?]+", r" ", s)
-        return s
-    
-    
-    # Takes string sentence, returns sentence of word indexes
-    def indexesFromSentence(voc, sentence):
-        return [voc.word2index[word] for word in sentence.split(' ')] + [EOS_token]
-    
+```python
+class Voc:
+    def __init__(self, name):
+        self.name = name
+        self.trimmed = False
+        self.word2index = {}
+        self.word2count = {}
+        self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
+        self.num_words = 3  # Count SOS, EOS, PAD
+
+    def addSentence(self, sentence):
+        for word in sentence.split(' '):
+            self.addWord(word)
+
+    def addWord(self, word):
+        if word not in self.word2index:
+            self.word2index[word] = self.num_words
+            self.word2count[word] = 1
+            self.index2word[self.num_words] = word
+            self.num_words += 1
+        else:
+            self.word2count[word] += 1
+
+    # Remove words below a certain count threshold
+    def trim(self, min_count):
+        if self.trimmed:
+            return
+        self.trimmed = True
+        keep_words = []
+        for k, v in self.word2count.items():
+            if v >= min_count:
+                keep_words.append(k)
+
+        print('keep_words {} / {} = {:.4f}'.format(
+            len(keep_words), len(self.word2index), len(keep_words) / len(self.word2index)
+        ))
+        # Reinitialize dictionaries
+        self.word2index = {}
+        self.word2count = {}
+        self.index2word = {PAD_token: "PAD", SOS_token: "SOS", EOS_token: "EOS"}
+        self.num_words = 3 # Count default tokens
+        for word in keep_words:
+            self.addWord(word)
+
+
+# Lowercase and remove non-letter characters
+def normalizeString(s):
+    s = s.lower()
+    s = re.sub(r"([.!?])", r" \1", s)
+    s = re.sub(r"[^a-zA-Z.!?]+", r" ", s)
+    return s
+
+
+# Takes string sentence, returns sentence of word indexes
+def indexesFromSentence(voc, sentence):
+    return [voc.word2index[word] for word in sentence.split(' ')] + [EOS_token]
+```  
 
 ## 定义编码器
 
-我们以实现我们的编码器的RNN的`torch.nn.GRU
-`模块，我们一次仅进一批句子（字嵌入物的载体）和它在内部遍历句子一个令牌计算隐藏状态。我们初始化这个模块是双向的，这意味着我们有两个独立的灰鹤：一个按照时间顺序的序列进行迭代，并以相反的顺序另一种迭代。我们最终退掉这两丹顶鹤输出的总和。由于我们的模型是用配料的训练，我们的`
-EncoderRNN`模型`转发 `函数需要填充输入批次。批量可变长度的句子，我们允许最多 _MAX_LENGTH_
-在一个句子中的令牌，并在一批具有比 _减去所有句子MAX_LENGTH_ 令牌在我们的专用年底补齐 _PAD_token_ 令牌。要使用与PyTorch
-RNN模块填充批次，我们必须缠上`torch.nn.utils.rnn.pack_padded_sequence`和`torch.nn直传通话。
-utils.rnn.pad_packed_sequence`数据转换。请注意，`向前 `功能还需要一个`input_lengths
-`列表，其中包含的每个句子的在批处理的长度。此输入由`torch.nn.utils.rnn.pack_padded_sequence
-`功能时的填充使用。
+我们使用 `torch.nn.GRU` 模块实现了编码器的 RNN，该模块提供了一批句子 (嵌入单词的向量) 作为输入，并且它在内部一次遍历一个句子，计算出隐藏状态。我们将此模块初始化为双向的 RNN，这意味着我们有两个独立的 GRU：一个按时间顺序遍历序列，另一个以相反的顺序遍历。我们最终返回这两个 GRU 的输出之和。 由于我们的模型是使用批处理进行训练的，因此我们的 `EncoderRNN` 模型的前向 `forward` 函数需要添加一个可填充的批处理输入接口。要批处理可变长度的句子，我们在一个句子中最多允许使用 `MAX_LENGTH` 个标记，并且批处理中所有少于 `MAX_LENGTH` 标记的句子都将使用我们专用的 `PAD_token` 标记在尾部填充。为了使得批处理与 PyTorch RNN 模块可以一起使用，我们必须使用 `torch.nn.utils.rnn.pack_padded_sequence` 和 `torch.nn.utils.rnn.pad_packed_sequence` 数据转换函数对前向 `forward` 密令使用打包。请注意，前向功能还采用了 `input_lengths` 列表，其中包含批处理中每个句子的长度。 填充时，`torch.nn.utils.rnn.pack_padded_sequence` 函数将使用此输入。
 
-### TorchScript备注：
+### TorchScript 备注：
 
-由于编码器的`转发 `功能不包含任何数据有关的控制流程，我们将使用 **追踪**
-将其转换为脚本模式。当跟踪模块，我们可以把模块定义原样。我们运行评估之前，我们将初始化所有车型对这一文件的末尾。
+由于编码器的前向 `forward` 函数不包含任何与数据相关的控制流，因此我们将使用 `tracing` **跟踪**将其转换为 `script` 脚本模式。跟踪模块时，我们可以按原样保留模块的定义。 在进行评估之前，我们将在本文档末尾初始化所有模型。
 
-    
-    
-    class EncoderRNN(nn.Module):
-        def __init__(self, hidden_size, embedding, n_layers=1, dropout=0):
-            super(EncoderRNN, self).__init__()
-            self.n_layers = n_layers
-            self.hidden_size = hidden_size
-            self.embedding = embedding
-    
-            # Initialize GRU; the input_size and hidden_size params are both set to 'hidden_size'
-            #   because our input size is a word embedding with number of features == hidden_size
-            self.gru = nn.GRU(hidden_size, hidden_size, n_layers,
-                              dropout=(0 if n_layers == 1 else dropout), bidirectional=True)
-    
-        def forward(self, input_seq, input_lengths, hidden=None):
-            # type: (Tensor, Tensor, Optional[Tensor]) -> Tuple[Tensor, Tensor]
-            # Convert word indexes to embeddings
-            embedded = self.embedding(input_seq)
-            # Pack padded batch of sequences for RNN module
-            packed = torch.nn.utils.rnn.pack_padded_sequence(embedded, input_lengths)
-            # Forward pass through GRU
-            outputs, hidden = self.gru(packed, hidden)
-            # Unpack padding
-            outputs, _ = torch.nn.utils.rnn.pad_packed_sequence(outputs)
-            # Sum bidirectional GRU outputs
-            outputs = outputs[:, :, :self.hidden_size] + outputs[:, : ,self.hidden_size:]
-            # Return output and final hidden state
-            return outputs, hidden
-    
+```python
+class EncoderRNN(nn.Module):
+    def __init__(self, hidden_size, embedding, n_layers=1, dropout=0):
+        super(EncoderRNN, self).__init__()
+        self.n_layers = n_layers
+        self.hidden_size = hidden_size
+        self.embedding = embedding
 
-## 定义解码器的注意模块
+        # Initialize GRU; the input_size and hidden_size params are both set to 'hidden_size'
+        #   because our input size is a word embedding with number of features == hidden_size
+        self.gru = nn.GRU(hidden_size, hidden_size, n_layers,
+                          dropout=(0 if n_layers == 1 else dropout), bidirectional=True)
 
-接下来，我们将定义我们的注意力模块（`经办人
-`）。请注意，此模块将被用来作为我们的解码器模型的子模块。陈德良等人。综合考虑各种“得分函数”，其取当前解码器输出RNN和整个编码器的输出，并返回注意“能量”。这种关注能量张量的大小与编码器输出相同，并且两个最终相乘，产生一个加权的张量，其最大的值表示查询句子的最重要的部分在解码的特定时间步长。
+    def forward(self, input_seq, input_lengths, hidden=None):
+        # type: (Tensor, Tensor, Optional[Tensor]) -> Tuple[Tensor, Tensor]
+        # Convert word indexes to embeddings
+        embedded = self.embedding(input_seq)
+        # Pack padded batch of sequences for RNN module
+        packed = torch.nn.utils.rnn.pack_padded_sequence(embedded, input_lengths)
+        # Forward pass through GRU
+        outputs, hidden = self.gru(packed, hidden)
+        # Unpack padding
+        outputs, _ = torch.nn.utils.rnn.pad_packed_sequence(outputs)
+        # Sum bidirectional GRU outputs
+        outputs = outputs[:, :, :self.hidden_size] + outputs[:, : ,self.hidden_size:]
+        # Return output and final hidden state
+        return outputs, hidden
+```
 
-    
-    
-    # Luong attention layer
-    class Attn(nn.Module):
-        def __init__(self, method, hidden_size):
-            super(Attn, self).__init__()
-            self.method = method
-            if self.method not in ['dot', 'general', 'concat']:
-                raise ValueError(self.method, "is not an appropriate attention method.")
-            self.hidden_size = hidden_size
-            if self.method == 'general':
-                self.attn = nn.Linear(self.hidden_size, hidden_size)
-            elif self.method == 'concat':
-                self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-                self.v = nn.Parameter(torch.FloatTensor(hidden_size))
-    
-        def dot_score(self, hidden, encoder_output):
-            return torch.sum(hidden * encoder_output, dim=2)
-    
-        def general_score(self, hidden, encoder_output):
-            energy = self.attn(encoder_output)
-            return torch.sum(hidden * energy, dim=2)
-    
-        def concat_score(self, hidden, encoder_output):
-            energy = self.attn(torch.cat((hidden.expand(encoder_output.size(0), -1, -1), encoder_output), 2)).tanh()
-            return torch.sum(self.v * energy, dim=2)
-    
-        def forward(self, hidden, encoder_outputs):
-            # Calculate the attention weights (energies) based on the given method
-            if self.method == 'general':
-                attn_energies = self.general_score(hidden, encoder_outputs)
-            elif self.method == 'concat':
-                attn_energies = self.concat_score(hidden, encoder_outputs)
-            elif self.method == 'dot':
-                attn_energies = self.dot_score(hidden, encoder_outputs)
-    
-            # Transpose max_length and batch_size dimensions
-            attn_energies = attn_energies.t()
-    
-            # Return the softmax normalized probability scores (with added dimension)
-            return F.softmax(attn_energies, dim=1).unsqueeze(1)
-    
+## 定义解码器的注意力机制模块
+
+接下来，我们将定义注意力模块 (`Attn`)。请注意，此模块将在我们的解码器模型中用作子模块。在 Luong 的论文中，他考虑了各种“得分函数”，这些函数将当前的解码器 RNN 输出和整个编码器输出作为输入，并返回注意力“能量”。此注意力能量张量的大小与编码器输出的大小相同，并且最终将两者相乘，从而生成加权张量，该张量的最大值表示在特定解码时间段中查询语句最重要的部分。
+
+```python
+# Luong attention layer
+class Attn(torch.nn.Module):
+    def __init__(self, method, hidden_size):
+        super(Attn, self).__init__()
+        self.method = method
+        if self.method not in ['dot', 'general', 'concat']:
+            raise ValueError(self.method, "is not an appropriate attention method.")
+        self.hidden_size = hidden_size
+        if self.method == 'general':
+            self.attn = torch.nn.Linear(self.hidden_size, hidden_size)
+        elif self.method == 'concat':
+            self.attn = torch.nn.Linear(self.hidden_size * 2, hidden_size)
+            self.v = torch.nn.Parameter(torch.FloatTensor(hidden_size))
+
+    def dot_score(self, hidden, encoder_output):
+        return torch.sum(hidden * encoder_output, dim=2)
+
+    def general_score(self, hidden, encoder_output):
+        energy = self.attn(encoder_output)
+        return torch.sum(hidden * energy, dim=2)
+
+    def concat_score(self, hidden, encoder_output):
+        energy = self.attn(torch.cat((hidden.expand(encoder_output.size(0), -1, -1), encoder_output), 2)).tanh()
+        return torch.sum(self.v * energy, dim=2)
+
+    def forward(self, hidden, encoder_outputs):
+        # Calculate the attention weights (energies) based on the given method
+        if self.method == 'general':
+            attn_energies = self.general_score(hidden, encoder_outputs)
+        elif self.method == 'concat':
+            attn_energies = self.concat_score(hidden, encoder_outputs)
+        elif self.method == 'dot':
+            attn_energies = self.dot_score(hidden, encoder_outputs)
+
+        # Transpose max_length and batch_size dimensions
+        attn_energies = attn_energies.t()
+
+        # Return the softmax normalized probability scores (with added dimension)
+        return F.softmax(attn_energies, dim=1).unsqueeze(1)
+```
 
 ## 定义解码器
 
