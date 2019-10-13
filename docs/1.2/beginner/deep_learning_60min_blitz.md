@@ -2,18 +2,20 @@
 
 > **作者**：[Soumith Chintala](http://soumith.ch)
 >
-> 译者：[bat67](https://github.com/bat67)
+> 译者：[bat67](https://github.com/bat67)、[Foxerlee](https://github.com/FoxerLee)
 >
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验：[Foxerlee](https://github.com/FoxerLee)
 
 此教程的目标：
 
-* 更高层次地理解PyTorch的Tensor库以及神经网络。
-* 训练一个小的神经网络模型用于分类图像。
+* 在高层上理解 PyTorch 的 Tensor 库以及神经网络。
+* 训练一个可用于分类图像的简单神经网络。
 
-本教程假设读者对`numpy`有基本的了解
+*本教程假设你对 numpy 有基本的了解*
 
-注意:确保你安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包。
+**注意**
+
+- 确保你安装了 [torch](https://github.com/pytorch/pytorch) 和 [torchvision](https://github.com/pytorch/vision) 包。
 
 ![_images/tensor_illustration_flat.png](https://pytorch.org/tutorials/_images/tensor_illustration_flat.png)
 
