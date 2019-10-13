@@ -8,7 +8,7 @@
 
 本教程已经更新以适配 pyTorch 1.2 版本。
 
-本教程将逐步介绍使用 TorchScript API 将 sequence-to-sequence 模型转换为TorchScript 的过程。我们将转换的模型是[聊天机器人教程](https://pytorch.apachecn.org/docs/1.0/chatbot_tutorial.html)的 Chatbot 模型。您可以将本教程视为聊天机器人教程的“第 2 部分”，并部署自己的预训练模型，也可以从本文档开始使用我们提供的预训练模型。如果您选择使用我们提供的预训练模型，您也可以参考原始的聊天机器人教程，以获取有关数据预处理，模型理论和定义，以及模型训练的详细信息。
+本教程将逐步介绍使用 TorchScript API 将 sequence-to-sequence 模型转换为 TorchScript 的过程。我们将转换的模型是[聊天机器人教程](https://pytorch.apachecn.org/docs/1.0/chatbot_tutorial.html)的 Chatbot 模型。您可以将本教程视为聊天机器人教程的“第 2 部分”，并部署自己的预训练模型，也可以从本文档开始使用我们提供的预训练模型。如果您选择使用我们提供的预训练模型，您也可以参考原始的聊天机器人教程，以获取有关数据预处理，模型理论和定义，以及模型训练的详细信息。
 
 ## 什么是 TorchScript？
 
@@ -22,7 +22,7 @@
 
 ## 致谢
 
-本教程的灵感来自以下资源：
+本教程的灵感来自以下内容：
 
   1. Yuan-Kuei Wu’s pytorch-chatbot implementation: [https://github.com/ywk991112/pytorch-chatbot](https://github.com/ywk991112/pytorch-chatbot)
   2. Sean Robertson’s practical-pytorch seq2seq-translation example: [https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation](https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation)
