@@ -1,10 +1,10 @@
-# 新版本: PyTorch 1.2，torchtext 0.4，torchaudio 0.3 和 torchvision 0.4
+# 新版本: PyTorch 1.2 torchtext 0.4，torchaudio 0.3 和 torchvision 0.4
 
 > 发布: 2019年8月8日
 > 
 > 原文: [PyTorch](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/)
 > 
-> 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/2019-08-08.md)
+> 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
 
 
 自PyTorch 1.0发布以来，我们已经看到社区扩展到添加新工具，为PyTorch Hub中可用的越来越多的模型做出贡献，并不断增加研究和生产中的使用。
