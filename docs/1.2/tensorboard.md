@@ -5,15 +5,13 @@
 一旦你安装TensorBoard，这些工具让您登录PyTorch模型和指标纳入了TensorBoard
 UI中的可视化的目录。标量，图像，柱状图，曲线图，和嵌入可视化都支持PyTorch模型和张量以及Caffe2网和斑点。
 
-SummaryWriter类是记录TensorBoard使用和可视化数据的主入口。例如：
+SummaryWriter类是记录TensorBoard使用和可视化数据的主入口。例如：​ 
 
-
-​    import torch
-​    import torchvision
-​    from torch.utils.tensorboard import SummaryWriter
-​    from torchvision import datasets, transforms
-​    
-
+    import torch
+    import torchvision
+    from torch.utils.tensorboard import SummaryWriter
+    from torchvision import datasets, transforms
+    
     # Writer will output to ./runs/ directory by default
     writer = SummaryWriter()
     
@@ -33,19 +31,17 @@ SummaryWriter类是记录TensorBoard使用和可视化数据的主入口。例�
 
 然后可以用TensorBoard可视化，这应该是安装和运行的有：
 
-
-​    
-​    pip install tb-nightly  # Until 1.14 moves to the release channel
-​    tensorboard --logdir=runs
+```
+pip install tensorboard
+tensorboard --logdir=runs
+```
 
 
 一次实验可以记录很多信息。为了避免混乱的UI，并有更好的聚类的结果，我们可以通过分层命名来对图进行分组。例如，“Loss/train”和“Loss/test”将被分组在一起，而“Accuracy/train”和“Accuracy/test”将分别在TensorBoard接口分组。
 
-
-​    
-​    from torch.utils.tensorboard import SummaryWriter
-​    import numpy as np
-​    
+    from torch.utils.tensorboard import SummaryWriter
+    import numpy as np
+    
     writer = SummaryWriter()
     
     for n_iter in range(100):
@@ -59,13 +55,10 @@ SummaryWriter类是记录TensorBoard使用和可视化数据的主入口。例�
 
 ![_images/hier_tags.png](https://pytorch.org/docs/stable/_images/hier_tags.png)
 
-
 _class_`torch.utils.tensorboard.writer.``SummaryWriter`( _log_dir=None_ ,
 _comment=''_ , _purge_step=None_ , _max_queue=10_ , _flush_secs=120_ ,
 _filename_suffix=''_
 )[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter)
-
-​    
 
 将条目直接写入log_dir中的事件文件中，供TensorBoard使用。
 
@@ -75,8 +68,6 @@ SummaryWriter类提供了一个高级API，可以在给定的目录中创建事�
 `__init__`( _log_dir=None_ , _comment=''_ , _purge_step=None_ , _max_queue=10_
 , _flush_secs=120_ , _filename_suffix=''_
 )[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter.__init__)
-
-​    
 
 创建 SummaryWriter 将写出事件和摘要的事件文件。
 
@@ -93,10 +84,8 @@ Parameters
 
 例子：
 
-
-​    
-​    from torch.utils.tensorboard import SummaryWriter
-​    
+    from torch.utils.tensorboard import SummaryWriter
+    
     # create a summary writer with automatically generated folder name.
     writer = SummaryWriter()
     # folder location: runs/May04_22-14-54_s-MacBook-Pro.local/
@@ -249,7 +238,7 @@ img_tensor:默认值为(3,H,W) (3,H,W)。您可以使用 `torchvision.utils.make
 Examples:
 
 
-   
+
     from torch.utils.tensorboard import SummaryWriter
     import numpy as np
     img = np.zeros((3, 100, 100))
@@ -561,7 +550,7 @@ Examples:
 ​                 'USA':{ 'dow':['Margin',   ['dow/aaa', 'dow/bbb', 'dow/ccc']],
 ​                      'nasdaq':['Margin',   ['nasdaq/aaa', 'nasdaq/bbb', 'nasdaq/ccc']]}}
 ​    
-    writer.add_custom_scalars(layout)
+​    writer.add_custom_scalars(layout)
 
 `add_mesh`( _tag_ , _vertices_ , _colors=None_ , _faces=None_ ,
 _config_dict=None_ , _global_step=None_ , _walltime=None_
@@ -605,7 +594,7 @@ Examples:
 
 
 
-    
+​    
 
     from torch.utils.tensorboard import SummaryWriter
     vertices_tensor = torch.as_tensor([
