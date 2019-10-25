@@ -123,7 +123,7 @@
         * [torch.utils.model_zoo](model_zoo.html)
         * [torch.utils.tensorboard](tensorboard.html)
         * [torch.onnx](onnx.html)
-        * [torch.__ config__](__config__.html)
+        * [torch.\_\_ config\_\_](__config__.html)
     * torchvision Reference
         * [torchvision](torchvision/index.html)
     * torchaudio Reference
