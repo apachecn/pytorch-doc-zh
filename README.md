@@ -6,7 +6,7 @@
 <br/>
 <table>
   <tr align="center">
-    <td colspan="3"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">1.2 中文版本</font></a></td>
+    <td colspan="3"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">正在校验: 1.2 中文版本</font></a></td>
   </tr>
   <tr align="center">
     <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
@@ -30,6 +30,7 @@
 > 版本特性
 
 * [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
+* [PyTorch V1.3 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
 
 > PyTorch 官方入口
 
@@ -39,7 +40,7 @@
 
 ## 贡献指南
 
-项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/274)中领取任务。
+项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/422)中领取任务。
 
 > 请您勇敢地去翻译和改进翻译。虽然我们追求卓越，但我们并不要求您做到十全十美，因此请不要担心因为翻译上犯错——在大部分情况下，我们的服务器已经记录所有的翻译，因此您不必担心会因为您的失误遭到无法挽回的破坏。（改编自维基百科）
 
@@ -59,14 +60,13 @@
 
 格式: GitHub + QQ
 
-> 第3期 (2019-09-17)
+> 第4期 1.2 (2019-09-17)
 
-* [飞龙](https://github.com/wizardforcel): 562826179
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [Alex](https://github.com/AlexJakin): 1272296763
 * [Holly](https://github.com/kunwuz): 514397511
 
-> 第2期 (2019-06-10)
+> 第3期 1.0 (2019-06-10)
 
 * [FontTian](https://github.com/FontTian): 2404846224
 * [Smile](https://github.com/Smilexuhc): 240485545
@@ -77,7 +77,13 @@
 * [sunxia233](https://github.com/sunxia233): 871171307
 * [kunwuz](https://github.com/kunwuz): 514397511
 
-> 第一期 (2018-11-27)
+> 第2期 1.0 (2019-01-22)
+
+* [飞龙](https://github.com/wizardforcel): 562826179
+* [片刻](https://github.com/jiangzhonglian): 529815144
+* [咸鱼](https://github.com/Watermelon233): 1034616238
+
+> 第1期 0.3 (2018-04-04)
 
 * [那伊抹微笑](https://github.com/wangyangting): 1042658081
 * [飞龙](https://github.com/wizardforcel): 562826179

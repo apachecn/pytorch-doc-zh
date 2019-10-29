@@ -1,190 +1,156 @@
 # 扩展PyTorch
 
-在这份说明中，我们将介绍torch.nn 延长[ `的方式，[ `torch.autograd`
-](../autograd.html#module-torch.autograd
-"torch.autograd")，并编写利用我们的C库定制的C扩展。`](../nn.html#module-torch.nn "torch.nn")
+> 译者：[PEGASUS1993](https://github.com/PEGASUS1993)
 
-## 延伸[ `torch.autograd`](../autograd.html#module-torch.autograd
-"torch.autograd")
+本章中，将要介绍使用我们的C库如何扩展`torch.nn`，`torch.autograd`和编写自定义的`C`扩展工具。
 
-加法运算到[ `autograd`](../autograd.html#module-torch.autograd
-"torch.autograd")需要实现一个新的[ `函数 `](../autograd.html#torch.autograd.Function
-"torch.autograd.Function")亚类为每个操作。回想一下，[ `功能 `
-](../autograd.html#torch.autograd.Function "torch.autograd.Function") S是什么[ `
-autograd`](../autograd.html#module-torch.autograd
-"torch.autograd")用途计算结果和梯度和编码操作历史。每一个新的功能需要实现2种方法：
+## 扩展torch.autograd
 
-  * [ `向前（） `](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward") \- 执行操作的代码。只要你想，可以采取许多参数，其中一些是可选的，如果指定的默认值。各种Python对象都在这里接受。 `张量 `参数跟踪历史（即，与`requires_grad =真 `）将被转换为那些不前的跟踪历史打电话，和他们的使用将在图形注册。请注意，这个逻辑不会遍历列表/类型的字典/任何其他的数据结构，将只考虑`张量 `S是直接的参数调用。可以返回一个单一`张量 `输出，或[ `元组 `](https://docs.python.org/3/library/stdtypes.html#tuple "\(in Python v3.7\)") `张量的 `S，如果有多个输出。另外，请参考[ `功能的文档 `](../autograd.html#torch.autograd.Function "torch.autograd.Function")找到有用的方法的描述，只能从[ `前被调用（ ） `](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward")。
+添加操作`autograd`需要`Function`为每个操作实现一个新的子类。回想一下，`Function`使用`autograd`来计算结果和梯度，并对操作历史进行编码。每个新功能都需要您实现两种方法：
 
-  * [ `向后（） `](../autograd.html#torch.autograd.Function.backward "torch.autograd.Function.backward") \- 梯度公式。这将被给定为许多`张量 `参数作为有输出，与它们中的每代表梯度w.r.t.该输出。因为有输入则它应该返回尽可能多的`张量 `S，与它们中的每含有梯度w.r.t.其相应的输入。如果输入不要求梯度（HTG14]  needs_input_grad  是指示每个输入是否需要梯度计算布尔值的元组），或者被非`张量 `的对象，就可以返回`无 [HTG25。另外，如果您有可选参数为[ `向前（） `](../autograd.html#torch.autograd.Function.forward "torch.autograd.Function.forward")你可以返回更多的梯度比有投入，只要他们都[ `无 `](https://docs.python.org/3/library/constants.html#None "\(in Python v3.7\)")。`
+*   `forward()` - 执行操作的代码。如果您指定了默认值，则可以根据需求使用任意参数，其中一些参数可选。这里支持各种`Python`对象。`Variable`参数在调用之前会被转换`Tensor`，并且它们的使用情况将在`graph`中注册。请注意，此逻辑不会遍历`lists`/`dicts`/和其他任何数据的结构，并且只考虑被直接调用的`Variables`参数。如果有多个输出你可以返回单个`Tensor`或`Tensor`格式的元组。另外，请参阅`Function`文档查找只能被`forward()`调用的有用方法的说明。
 
-下面你可以找到的代码为`线性 `功能从[ `torch.nn`](../nn.html#module-torch.nn
-"torch.nn")，以补充意见：
+*   `backward()` - 计算梯度的公式. 它将被赋予与输出一样多的`Variable`参数, 其中的每一个表示对应梯度的输出. 它应该返回与输入一样多的`Variable`, 其中的每一个表示都包含其相应输入的梯度. 如果输入不需要计算梯度 (请参阅`needs_input_grad`属性),或者是非`Variable`对象,则可返回`None`类.此外,如果你在`forward()`方法中有可选的参数,则可以返回比输入更多的梯度,只要它们都是`None`类型即可.
 
-    
-    
-    # Inherit from Function
-    class LinearFunction(Function):
-    
-        # Note that both forward and backward are @staticmethods
-        @staticmethod
-        # bias is an optional argument
-        def forward(ctx, input, weight, bias=None):
-            ctx.save_for_backward(input, weight, bias)
-            output = input.mm(weight.t())
-            if bias is not None:
-                output += bias.unsqueeze(0).expand_as(output)
-            return output
-    
-        # This function has only a single output, so it gets only one gradient
-        @staticmethod
-        def backward(ctx, grad_output):
-            # This is a pattern that is very convenient - at the top of backward
-            # unpack saved_tensors and initialize all gradients w.r.t. inputs to
-            # None. Thanks to the fact that additional trailing Nones are
-            # ignored, the return statement is simple even when the function has
-            # optional inputs.
-            input, weight, bias = ctx.saved_tensors
-            grad_input = grad_weight = grad_bias = None
-    
-            # These needs_input_grad checks are optional and there only to
-            # improve efficiency. If you want to make your code simpler, you can
-            # skip them. Returning gradients for inputs that don't require it is
-            # not an error.
-            if ctx.needs_input_grad[0]:
-                grad_input = grad_output.mm(weight)
-            if ctx.needs_input_grad[1]:
-                grad_weight = grad_output.t().mm(input)
-            if bias is not None and ctx.needs_input_grad[2]:
-                grad_bias = grad_output.sum(0).squeeze(0)
-    
-            return grad_input, grad_weight, grad_bias
-    
+你可以从下面的代码看到`torch.nn`模块的`Linear`函数, 以及注解
 
-现在，为了更容易地使用这些定制的OPS，我们建议他们走样`应用 `方法：
+```py
+# Inherit from Function
+class Linear(Function):
 
-    
-    
-    linear = LinearFunction.apply
-    
+    # bias is an optional argument
+    def forward(self, input, weight, bias=None):
+        self.save_for_backward(input, weight, bias)
+        output = input.mm(weight.t())
+        if bias is not None:
+            output += bias.unsqueeze(0).expand_as(output)
+        return output
 
-在这里，我们给由非张量参数的参数化功能的附加示例：
+    # This function has only a single output, so it gets only one gradient
+    def backward(self, grad_output):
+        # This is a pattern that is very convenient - at the top of backward
+        # unpack saved_tensors and initialize all gradients w.r.t. inputs to
+        # None. Thanks to the fact that additional trailing Nones are
+        # ignored, the return statement is simple even when the function has
+        # optional inputs.
+        input, weight, bias = self.saved_tensors
+        grad_input = grad_weight = grad_bias = None
 
-    
-    
-    class MulConstant(Function):
-        @staticmethod
-        def forward(ctx, tensor, constant):
-            # ctx is a context object that can be used to stash information
-            # for backward computation
-            ctx.constant = constant
-            return tensor * constant
-    
-        @staticmethod
-        def backward(ctx, grad_output):
-            # We return as many input gradients as there were arguments.
-            # Gradients of non-Tensor arguments to forward must be None.
-            return grad_output * ctx.constant, None
-    
+        # These needs_input_grad checks are optional and there only to
+        # improve efficiency. If you want to make your code simpler, you can
+        # skip them. Returning gradients for inputs that don't require it is
+        # not an error.
+        if self.needs_input_grad[0]:
+            grad_input = grad_output.mm(weight)
+        if self.needs_input_grad[1]:
+            grad_weight = grad_output.t().mm(input)
+        if bias is not None and self.needs_input_grad[2]:
+            grad_bias = grad_output.sum(0).squeeze(0)
 
-注意
+        return grad_input, grad_weight, grad_bias
+```
 
-输入`向后 `，即`grad_output`，也可以是张量的跟踪历史。因此，如果`向后 `与可微操作，实现（例如，另一个定制`函数
-`的调用），高阶导数将工作。
+现在，为了更方便使用这些自定义操作，推荐使用`apply`方法：
 
-你可能想检查是否实际执行的落后方法计算你的函数的导数。它可以通过使用小的有限差与数值近似比较：
+```py
+linear = LinearFunction.apply
+```
 
-    
-    
-    from torch.autograd import gradcheck
-    
-    # gradcheck takes a tuple of tensors as input, check if your gradient
-    # evaluated with these tensors are close enough to numerical
-    # approximations and returns True if they all verify this condition.
-    input = (torch.randn(20,20,dtype=torch.double,requires_grad=True), torch.randn(30,20,dtype=torch.double,requires_grad=True))
-    test = gradcheck(linear, input, eps=1e-6, atol=1e-4)
-    print(test)
-    
+我们下面给出一个由非变量参数进行参数化的函数的例子:
 
-参见[ 数值梯度检查 ](../autograd.html#grad-check)用于在有限差分梯度比较的更多细节。
+```py
+class MulConstant(Function):
+    @staticmethod
+    def forward(ctx, tensor, constant):
+        # ctx is a context object that can be used to stash information
+        # for backward computation
+        ctx.constant = constant
+        return tensor * constant
 
-## 延伸[ `torch.nn`](../nn.html#module-torch.nn "torch.nn")
+    @staticmethod
+    def backward(ctx, grad_output):
+        # We return as many input gradients as there were arguments.
+        # Gradients of non-Tensor arguments to forward must be None.
+        return grad_output * ctx.constant, None
+```
 
-[ `NN`](../nn.html#module-torch.nn "torch.nn")出口两种接口 -
-模块及其功能的版本。您可以以两种方式扩展它，但我们建议您使用模块的各种层，持有任何参数或缓冲区，并推荐使用函数形式参数的操作较少样激活功能，池等
+* 注意
+向后输入，即grad_output，也可以是跟踪历史的张量。因此，如果使用可微运算来实现向后运算（例如，调用另一个自定义函数），则更高阶导数将起作用。
 
-添加的操作的功能版本已经完全覆盖在上面的部分。
+你可能想检测你刚刚实现的`backward`方法是否正确的计算了梯度。你可以使用小的有限差分法(`Finite Difference`)进行数值估计。
 
-### 添加[ `模块 `](../nn.html#torch.nn.Module "torch.nn.Module")
+```py
+from torch.autograd import gradcheck
 
-由于[ `NN`](../nn.html#module-torch.nn "torch.nn")大量利用[ `autograd`
-](../autograd.html#module-torch.autograd "torch.autograd")，添加一个新的[ `模块 `
-](../nn.html#torch.nn.Module "torch.nn.Module")需要实现一个[ `函数 `
-](../autograd.html#torch.autograd.Function
-"torch.autograd.Function")执行操作，并且可以计算出梯度。从现在开始，让我们假设我们要实现一个`线性
-`模块，我们必须在以上列表中实现的功能。有添加这需要非常少的代码。现在，有一些需要实现两个功能：
+# gradcheck takes a tuple of tensors as input, check if your gradient
+# evaluated with these tensors are close enough to numerical
+# approximations and returns True if they all verify this condition.
+input = (Variable(torch.randn(20,20).double(), requires_grad=True), Variable(torch.randn(30,20).double(), requires_grad=True),)
+test = gradcheck(Linear.apply, input, eps=1e-6, atol=1e-4)
+print(test)
+```
 
-  * `__init__`（ _可选_ ） - 发生在参数如内核尺寸，特征的数字等，并初始化参数和缓冲剂。
+有关有限差分梯度比较的更多详细信息，请参见[数值梯度检查](../autograd.html#grad-check)。
 
-  * [ `向前（） `](../nn.html#torch.nn.Module.forward "torch.nn.Module.forward") \- 实例化[ `函数 `](../autograd.html#torch.autograd.Function "torch.autograd.Function")，并使用它来执行操作。这是非常类似于上面所示的功能性包装。
+## 扩展 torch.nn
 
-这是一个`线性 `模块如何可以实现：
+`nn`模块包含两种接口 - `modules`和他们的功能版本。你可以用两种方法扩展它,但是我们建议，在扩展`layer`的时候使用`modules`， 因为`modules`保存着参数和`buffer`。如果使用无参数操作的话，那么建议使用激活函数，池化等函数。
 
-    
-    
-    class Linear(nn.Module):
-        def __init__(self, input_features, output_features, bias=True):
-            super(Linear, self).__init__()
-            self.input_features = input_features
-            self.output_features = output_features
-    
-            # nn.Parameter is a special kind of Tensor, that will get
-            # automatically registered as Module's parameter once it's assigned
-            # as an attribute. Parameters and buffers need to be registered, or
-            # they won't appear in .parameters() (doesn't apply to buffers), and
-            # won't be converted when e.g. .cuda() is called. You can use
-            # .register_buffer() to register buffers.
-            # nn.Parameters require gradients by default.
-            self.weight = nn.Parameter(torch.Tensor(output_features, input_features))
-            if bias:
-                self.bias = nn.Parameter(torch.Tensor(output_features))
-            else:
-                # You should always register all possible parameters, but the
-                # optional ones can be None if you want.
-                self.register_parameter('bias', None)
-    
-            # Not a very smart way to initialize weights
-            self.weight.data.uniform_(-0.1, 0.1)
-            if bias is not None:
-                self.bias.data.uniform_(-0.1, 0.1)
-    
-        def forward(self, input):
-            # See the autograd section for explanation of what happens here.
-            return LinearFunction.apply(input, self.weight, self.bias)
-    
-        def extra_repr(self):
-            # (Optional)Set the extra information about this module. You can test
-            # it by printing an object of this class.
-            return 'in_features={}, out_features={}, bias={}'.format(
-                self.in_features, self.out_features, self.bias is not None
-            )
-    
+在上面的章节中,添加操作的功能版本已经介绍过了。
 
-## 编写自定义C ++扩展
+#### 增加一个`Module`。
 
-看到这个[
-PyTorch教程[HTG1用于详细说明和实施例。](https://pytorch.org/tutorials/advanced/cpp_extension.html)
+由于`nn`大量使用`autograd`。所以， 添加一个新的[Module](https://pytorch.org/docs/master/nn.html#torch.nn.Module)类需要实现一个`Function`类, 它会执行对应的操作并且计算梯度。我们只需要很少的代码就可以实现上面`Linear`模块的功能。现在，我们需要实现两个函数：
 
-单证可在[ torch.utils.cpp_extension  ](../cpp_extension.html)。
+*   `__init__ (optional)` - 接收`kernel sizes`内核大小，特征数量等参数，并初始化`parameters`参数和`buffers`缓冲区。
+*   `forward()` - 实例化`Function`并使用它来执行操作。它与上面显示的`functional wrapper`非常相似。
 
-## 编写自定义的C扩展
+下面是实现`Linear`模块的方式：
 
-实施例可在[本GitHub的库](https://github.com/pytorch/extension-ffi)。
+```py
+class Linear(nn.Module):
+    def __init__(self, input_features, output_features, bias=True):
+        super(Linear, self).__init__()
+        self.input_features = input_features
+        self.output_features = output_features
 
-[Next ![](../_static/images/chevron-right-orange.svg)](faq.html "Frequently
-Asked Questions") [![](../_static/images/chevron-right-orange.svg)
-Previous](cuda.html "CUDA semantics")
+        # nn.Parameter is a special kind of Variable, that will get
+        # automatically registered as Module's parameter once it's assigned
+        # as an attribute. Parameters and buffers need to be registered, or
+        # they won't appear in .parameters() (doesn't apply to buffers), and
+        # won't be converted when e.g. .cuda() is called. You can use
+        # .register_buffer() to register buffers.
+        # nn.Parameters require gradients by default.
+        self.weight = nn.Parameter(torch.Tensor(output_features, input_features))
+        if bias:
+            self.bias = nn.Parameter(torch.Tensor(output_features))
+        else:
+            # You should always register all possible parameters, but the
+            # optional ones can be None if you want.
+            self.register_parameter('bias', None)
 
-* * *
+        # Not a very smart way to initialize weights
+        self.weight.data.uniform_(-0.1, 0.1)
+        if bias is not None:
+            self.bias.data.uniform_(-0.1, 0.1)
 
-©版权所有2019年，Torch 贡献者。
+    def forward(self, input):
+        # See the autograd section for explanation of what happens here.
+        return LinearFunction.apply(input, self.weight, self.bias)
+
+    def extra_repr(self):
+        # (Optional)Set the extra information about this module. You can test
+        # it by printing an object of this class.
+        return 'in_features={}, out_features={}, bias={}'.format(
+            self.in_features, self.out_features, self.bias is not None
+        )
+```
+
+### 编写自定义的C++扩展  
+
+有关详细说明和示例，请参阅此[PyTorch教程](https://pytorch.org/tutorials/advanced/cpp_extension.html)。
+文档可在[torch.utils.cpp_extension](../cpp_extension.html)获得。
+
+### 编写自定义的C扩展
+
+可用示例可以在[这个Github](https://github.com/pytorch/extension-ffi)仓库里面查看参考。

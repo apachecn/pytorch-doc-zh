@@ -1,3191 +1,2674 @@
 # 概率分布 - torch.distributions
 
-的`分布 `包中包含参数化概率分布和采样函数。这使得随机计算图形和优化随机梯度估计的建设。这个软件包通常遵循[
-TensorFlow分布](https://arxiv.org/abs/1711.10604)包裹的设计。
+> 译者：[hijkzzz](https://github.com/hijkzzz)
 
-这是不可能直接通过随机样本backpropagate。不过，也有用于创建可通过被backpropagated替代的功能主要有两种方法。这些是得分函数估计器/似然比估计器/加固和pathwise衍生物估计。加固这通常被视为在强化学习政策梯度法的基础上，与pathwise衍生估计是在变的自动编码重新参数伎俩常见。虽然得分函数仅需要的值样本
-F  （ × ） F（X） F  （ × ） 时，pathwise衍生物需要衍生物 F  ' （ × ） F'（x）的 F  ' （ × ）
-。接下来的章节中增强学习的榜样讨论这两个。欲了解更多详情，请参阅[梯度估计使用随机计算图形[HTG97。](https://arxiv.org/abs/1506.05254)
+`distributions` 包含可参数化的概率分布和采样函数. 这允许构造用于优化的随机计算图和随机梯度估计器.  这个包一般遵循 [TensorFlow Distributions](https://arxiv.org/abs/1711.10604) 包的设计.
+
+通常, 不可能直接通过随机样本反向传播.  但是, 有两种主要方法可创建可以反向传播的代理函数.  即得分函数估计器/似然比估计器/REINFORCE和pathwise derivative估计器.  REINFORCE通常被视为强化学习中策略梯度方法的基础, 并且pathwise derivative估计器常见于变分自动编码器中的重新参数化技巧. 得分函数仅需要样本的值 ![](img/cb804637f7fdaaf91569cfe4f047b418.jpg), pathwise derivative 需要导数 ![](img/385dbaaac9dd8aad33acc31ac64d2f27.jpg). 接下来的部分将在一个强化学习示例中讨论这两个问题.  有关详细信息, 请参阅 [Gradient Estimation Using Stochastic Computation Graphs](https://arxiv.org/abs/1506.05254) .
 
 ## 得分函数
 
-当概率密度函数是可微分的相对于它的参数，我们只需要`样品（） `和`log_prob（） `实施加固：
+当概率密度函数相对于其参数可微分时, 我们只需要`sample()`和`log_prob()`来实现REINFORCE:
 
-Δθ=αr∂log⁡p(a∣πθ(s))∂θ\Delta\theta = \alpha r \frac{\partial\log
-p(a|\pi^\theta(s))}{\partial\theta}Δθ=αr∂θ∂logp(a∣πθ(s))​
+![](img/b50e881c13615b1d9aa00ad0c9cdfa99.jpg)
 
-其中 θ \ THETA  θ 为参数， α \阿尔法 α 是学习速率， R  R  R  是奖励和 p  （ 一 |  π θ （ S  ） ） P（A
-| \ PI ^ \ THETA（S）） P  （ 一 |  π θ （ S  ） ） 是服用概率操作 一个 一 一 在状态 S  S  S  给定的策略
-π θ \ PI ^ \ THETA  π θ 。
+![](img/51b8359f970d2bfe2ad4cdc3ac1aed3c.jpg) 是参数, ![](img/82005cc2e0087e2a52c7e43df4a19a00.jpg) 是学习速率, ![](img/f9f040e861365a0560b2552b4e4e17da.jpg) 是奖励 并且 ![](img/2e84bb32ea0808870a16b888aeaf8d0d.jpg) 是在状态 ![](img/0492c0bfd615cb5e61c847ece512ff51.jpg) 以及给定策略 ![](img/5f3ddae3395c04f9346a3ac1d327ae2a.jpg)执行动作 ![](img/070b1af5eca3a5c5d72884b536090f17.jpg) 的概率.
 
-在实践中，我们将采样来自一个网络的输出的动作，在一个环境中应用该动作，然后用`log_prob
-`构造的等效损失函数。注意，我们使用一个负的，因为优化使用梯度下降，而上面的规则假定梯度上升。有了明确的政策，实施加固将如下代码：
+在实践中, 我们将从网络输出中采样一个动作, 将这个动作应用于一个环境中, 然后使用`log_prob`构造一个等效的损失函数. 请注意, 我们使用负数是因为优化器使用梯度下降, 而上面的规则假设梯度上升. 有了确定的策略, REINFORCE的实现代码如下:
 
-    
-    
-    probs = policy_network(state)
-    # Note that this is equivalent to what used to be called multinomial
-    m = Categorical(probs)
-    action = m.sample()
-    next_state, reward = env.step(action)
-    loss = -m.log_prob(action) * reward
-    loss.backward()
-    
+```py
+probs = policy_network(state)
+# Note that this is equivalent to what used to be called multinomial
+m = Categorical(probs)
+action = m.sample()
+next_state, reward = env.step(action)
+loss = -m.log_prob(action) * reward
+loss.backward()
 
-## Pathwise衍生物
+```
 
-实现这些随机/策略梯度的另一种方法是使用从`R样品的重新参数化特技（）
-`的方法，其中所述参数化的随机变量可以通过的一个参数确定的函数构造一个无参数的随机变量。因此，重新参数化样本变为微的。用于实现pathwise衍生物将如下所示的代码：
+## Pathwise derivative
 
-    
-    
-    params = policy_network(state)
-    m = Normal(*params)
-    # Any distribution with .has_rsample == True could work based on the application
-    action = m.rsample()
-    next_state, reward = env.step(action)  # Assuming that reward is differentiable
-    loss = -reward
-    loss.backward()
-    
+实现这些随机/策略梯度的另一种方法是使用来自`rsample()`方法的重新参数化技巧, 其中参数化随机变量可以通过无参数随机变量的参数确定性函数构造.  因此, 重新参数化的样本变得可微分.  实现Pathwise derivative的代码如下:
 
-## 发行
+```py
+params = policy_network(state)
+m = Normal(*params)
+# Any distribution with .has_rsample == True could work based on the application
+action = m.rsample()
+next_state, reward = env.step(action)  # Assuming that reward is differentiable
+loss = -reward
+loss.backward()
 
-_class_`torch.distributions.distribution.``Distribution`(
-_batch_shape=torch.Size([])_ , _event_shape=torch.Size([])_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution)
+```
 
-    
+## 分布
 
-碱：[ `对象 `](https://docs.python.org/3/library/functions.html#object "\(in
-Python v3.7\)")
+```py
+class torch.distributions.distribution.Distribution(batch_shape=torch.Size([]), event_shape=torch.Size([]), validate_args=None)
+```
 
-分布是概率分布的抽象基类。
+基类: [`object`](https://docs.python.org/3/library/functions.html#object "(in Python v3.7)")
 
-_property_`arg_constraints`
+Distribution是概率分布的抽象基类.
 
-    
+```py
+arg_constraints
+```
 
-返回从参数名字典来 `应该由这种分配的每个参数满足约束 `对象。参数数量不属于张量不必出现在这个字典。
+从参数名称返回字典到 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 对象（应该满足这个分布的每个参数）.不是张量的arg不需要出现在这个字典中.
 
-_property_`batch_shape`
+```py
+batch_shape
+```
 
-    
+返回批量参数的形状.
 
-返回在其参数是成批的形状。
+```py
+cdf(value)
+```
 
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.cdf)
+返回`value`处的累积密度/质量函数估计.
 
-    
+| 参数: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – |
 
-返回在值评价的累积密度/质量函数。
 
-Parameters
+```py
+entropy()
+```
 
-    
+返回分布的熵, 批量的形状为 batch_shape.
 
-**值** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） -
+| 返回值: | Tensor 形状为 batch_shape. |
 
-`entropy`()[[source]](_modules/torch/distributions/distribution.html#Distribution.entropy)
 
-    
+```py
+enumerate_support(expand=True)
+```
 
-返回分布的熵，批处理过batch_shape。
+返回包含离散分布支持的所有值的张量. 结果将在维度0上枚举, 所以结果的形状将是 `(cardinality,) + batch_shape + event_shape` (对于单变量分布 `event_shape = ()`).
 
-Returns
+注意, 这在lock-step中枚举了所有批处理张量`[[0, 0], [1, 1], …]`. 当 `expand=False`, 枚举沿着维度 0进行, 但是剩下的批处理维度是单维度, `[[0], [1], ..`.
 
-    
+遍历整个笛卡尔积的使用 `itertools.product(m.enumerate_support())`.
 
-形状batch_shape的张量。
+| 参数: | **expand** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 是否扩展对批处理dim的支持以匹配分布的 `batch_shape`. |
 
-`enumerate_support`( _expand=True_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.enumerate_support)
+| 返回值: | 张量在维上0迭代. |
 
-    
 
-包含由离散分布支持的所有值返回张量。其结果将枚举尺寸0，所以结果的形状将是（基数）+ batch_shape + event_shape （其中
-event_shape =（）[HTG3用于单变量分布）。
+```py
+event_shape
+```
 
-请注意，此枚举在所有分批张量在锁步 [0,0]，[1,1]，...] [HTG1。与扩大=假，枚举沿着昏暗0发生，但与剩余批次尺寸是单尺寸，
-[[0]，[1]，.. 。
+返回单个样本的形状 (非批量).
 
-来遍历充分笛卡尔乘积使用 itertools.product（m.enumerate_support（））。
+```py
+expand(batch_shape, _instance=None)
+```
 
-Parameters
+返回一个新的分布实例(或填充派生类提供的现有实例), 其批处理维度扩展为 `batch_shape`.  这个方法调用 [`expand`](tensors.html#torch.Tensor.expand "torch.Tensor.expand") 在分布的参数上. 因此, 这不会为扩展的分布实例分配新的内存.  此外, 第一次创建实例时, 这不会在中重复任何参数检查或参数广播在 `__init__.py`.
 
-    
+参数: 
 
-**展开** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in
-Python v3.7\)")） - 是否在批量变暗以匹配分配的 batch_shape 扩展支持。
+*   **batch_shape** (_torch.Size_) – 所需的扩展尺寸.
+*   **_instance** – 由需要重写`.expand`的子类提供的新实例.
 
-Returns
 
-    
+| 返回值: | 批处理维度扩展为`batch_size`的新分布实例. |
 
-张量循环访问尺寸0。
 
-_property_`event_shape`
+```py
+icdf(value)
+```
 
-    
+ 返回按`value`计算的反向累积密度/质量函数.
 
-返回单个样品（无配料）的形状。
+| 参数: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – |
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.expand)
 
-    
+```py
+log_prob(value)
+```
 
-返回一个新的分配实例（或填充由派生类提供的现有实例）具有扩展为 batch_shape 批次的尺寸。此方法调用[ `展开 `
-](tensors.html#torch.Tensor.expand
-"torch.Tensor.expand")上分布的参数。因此，这不适用于扩大分销实例分配新的内存。此外，此不赘述任何ARGS检查或 __init__.py
-参数广播中，首先创建一个实例时。
+返回按`value`计算的概率密度/质量函数的对数.
 
-Parameters
+| 参数: | **value** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – |
 
-    
 
-  * **batch_shape** （ _torch.Size_ ） - 所需的扩展的大小。
+```py
+mean
+```
 
-  * **_instance** \- 由需要重写 .expand 子提供了新的实例。
+返回分布的平均值.
 
-Returns
+```py
+perplexity()
+```
 
-    
+返回分布的困惑度, 批量的关于 batch_shape.
 
-有一批新的尺寸分布例如扩大到的batch_size [HTG1。
+| 返回值: | 形状为 batch_shape 的张量. |
 
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.icdf)
 
-    
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-返回在值评估了逆累积密度/质量函数。
+如果分布的参数是批量的, 则生成sample_shape形状的重新参数化样本或sample_shape形状的批量重新参数化样本.
 
-Parameters
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-    
+如果分布的参数是批量的, 则生成sample_shape形状的样本或sample_shape形状的批量样本.
 
-**value** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –
+```py
+sample_n(n)
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.log_prob)
+如果分布参数是分批的, 则生成n个样本或n批样本.
 
-    
+```py
+stddev
+```
 
-返回在值评估的概率密度/质量函数的对数。
+返回分布的标准差.
 
-Parameters
+```py
+support
+```
 
-    
+返回[`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 对象表示该分布的支持.
 
-**value** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –
+```py
+variance
+```
 
-_property_`mean`
+返回分布的方差.
 
-    
+## ExponentialFamily
 
-返回分布的均值。
+```py
+class torch.distributions.exp_family.ExponentialFamily(batch_shape=torch.Size([]), event_shape=torch.Size([]), validate_args=None)
+```
 
-`perplexity`()[[source]](_modules/torch/distributions/distribution.html#Distribution.perplexity)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+指数族是指数族概率分布的抽象基类, 其概率质量/密度函数的形式定义如下
 
-返回分布的困惑，分批在batch_shape。
+![](img/0c8313886f5c82dfae90e21b65152815.jpg)
 
-Returns
-
-    
-
-Tensor of shape batch_shape.
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.rsample)
-
-    
-
-生成sample_shape形重新参数化样本或sample_shape形批量重新参数化的样本，如果分布参数是成批的。
-
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.sample)
-
-    
-
-生成样本的sample_shape形样品或sample_shape形批次如果分布参数是成批的。
-
-`sample_n`( _n_
-)[[source]](_modules/torch/distributions/distribution.html#Distribution.sample_n)
-
-    
-
-生成n个样本或样品的n个批次如果分布参数是成批的。
-
-_property_`stddev`
-
-    
-
-返回分布的标准偏差。
-
-_property_`support`
-
-    
-
-返回表示此发行版的支持 `约束 `对象。
-
-_property_`variance`
-
-    
-
-返回分布的方差。
-
-##  ExponentialFamily 
-
-_class_`torch.distributions.exp_family.``ExponentialFamily`(
-_batch_shape=torch.Size([])_ , _event_shape=torch.Size([])_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/exp_family.html#ExponentialFamily)
-
-    
-
-碱： `torch.distributions.distribution.Distribution`
-
-ExponentialFamily为属于一个指数族，其概率质量的概率分布的抽象基类/密度函数具有下面定义的形式
-
-pF(x;θ)=exp⁡(⟨t(x),θ⟩−F(θ)+k(x))p_{F}(x; \theta) = \exp(\langle t(x),
-\theta\rangle - F(\theta) + k(x))pF​(x;θ)=exp(⟨t(x),θ⟩−F(θ)+k(x))
-
-其中 θ \ THETA  θ 表示自然的参数， T  （ × ） T（X） T  （ × ） 表示充分统计量， F  （ θ ）  F（\ THETA）
-F  （ θ ） 是日志归一化本功能离子对于给定的家庭和 K  （ × ） K（x）的 K  （ × ） 是载波度量。
+![](img/51b8359f970d2bfe2ad4cdc3ac1aed3c.jpg) 表示自然参数, ![](img/e705d3772de12f4df3b0cd75af5110a1.jpg) 表示充分统计量, ![](img/f876c4d8353c747436006e70fb6c4f5d.jpg) 是给定族的对数归一化函数  ![](img/d3b6af2f20ffbc8480c6ee97c42958b2.jpg) 是carrier measure.
 
 注意
 
-这个类是分布之间的媒介类和属于一个指数家庭主要是检查
-.entropy（）和分析KL散方法的正确性分布。我们使用这个类来计算熵和使用AD框架KL信息量和布雷格曼分歧（礼貌：弗兰克·尼尔森和理查德·诺克，熵和指数家庭交叉熵）。
+该类是`Distribution`类与指数族分布之间的中介, 主要用于检验`.entropy()`和解析KL散度方法的正确性. 我们使用这个类来计算熵和KL散度使用AD框架和Bregman散度 (出自: Frank Nielsen and Richard Nock, Entropies and Cross-entropies of Exponential Families).
 
-`entropy`()[[source]](_modules/torch/distributions/exp_family.html#ExponentialFamily.entropy)
+```py
+entropy()
+```
 
-    
+利用对数归一化器的Bregman散度计算熵的方法.
 
-方法来计算使用日志归一化的布雷格曼发散熵。
+## Bernoulli
 
-## 伯努利
+```py
+class torch.distributions.bernoulli.Bernoulli(probs=None, logits=None, validate_args=None)
+```
 
-_class_`torch.distributions.bernoulli.``Bernoulli`( _probs=None_ ,
-_logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli)
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-    
+创建参数化的伯努利分布, 根据 [`probs`](#torch.distributions.bernoulli.Bernoulli.probs "torch.distributions.bernoulli.Bernoulli.probs") 或者 [`logits`](#torch.distributions.bernoulli.Bernoulli.logits "torch.distributions.bernoulli.Bernoulli.logits") (但不是同时都有).
 
-碱： `torch.distributions.exp_family.ExponentialFamily`
+样本是二值的 (0 或者 1). 取值 `1` 伴随概率 `p` , 或者 `0` 伴随概率 `1 - p`.
 
-创建一个伯努利分布由 `probs参数 `或 `logits`（但不是两者） 。
+例子:
 
-样品是二进制（0或1）。他们采取值 1 的概率 P 和 0 的概率 1 - P 。
+```py
+>>> m = Bernoulli(torch.tensor([0.3]))
+>>> m.sample()  # 30% chance 1; 70% chance 0
+tensor([ 0.])
 
-例：
+```
 
-    
-    
-    >>> m = Bernoulli(torch.tensor([0.3]))
-    >>> m.sample()  # 30% chance 1; 70% chance 0
-    tensor([ 0.])
-    
+参数: 
 
-Parameters
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probabilty of sampling `1`
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling `1`
 
-    
 
-  * **probs** （ _号码_ _，_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 抽样的概率 1 
 
-  * **logits** （ _号码_ _，_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 采样的对数比值 1 
+```py
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
+```
 
-`arg_constraints`_= {'logits': Real(), 'probs': Interval(lower_bound=0.0,
-upper_bound=1.0)}_
+```py
+entropy()
+```
 
-    
+```py
+enumerate_support(expand=True)
+```
 
-`entropy`()[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.entropy)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_enumerate_support = True
+```
 
-`enumerate_support`( _expand=True_
-)[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.enumerate_support)
+```py
+log_prob(value)
+```
 
-    
+```py
+logits
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.expand)
+```py
+mean
+```
 
-    
+```py
+param_shape
+```
 
-`has_enumerate_support`_= True_
+```py
+probs
+```
 
-    
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.log_prob)
+```py
+support = Boolean()
+```
 
-    
+```py
+variance
+```
 
-`logits`[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.logits)
+## Beta
 
-    
+```py
+class torch.distributions.beta.Beta(concentration1, concentration0, validate_args=None)
+```
 
-_property_`mean`
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-    
+Beta 分布, 参数为 [`concentration1`](#torch.distributions.beta.Beta.concentration1 "torch.distributions.beta.Beta.concentration1") 和 [`concentration0`](#torch.distributions.beta.Beta.concentration0 "torch.distributions.beta.Beta.concentration0").
 
-_property_`param_shape`
+例子:
 
-    
+```py
+>>> m = Beta(torch.tensor([0.5]), torch.tensor([0.5]))
+>>> m.sample()  # Beta distributed with concentration concentration1 and concentration0
+tensor([ 0.1046])
 
-`probs`[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.probs)
+```
 
-    
+参数: 
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/bernoulli.html#Bernoulli.sample)
+*   **concentration1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的第一个浓度参数（通常称为alpha）
+*   **concentration0** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的第二个浓度参数(通常称为beta)
 
-    
 
-`support`_= Boolean()_
 
-    
+```py
+arg_constraints = {'concentration0': GreaterThan(lower_bound=0.0), 'concentration1': GreaterThan(lower_bound=0.0)}
+```
 
-_property_`variance`
+```py
+concentration0
+```
 
-    
+```py
+concentration1
+```
 
-## 贝塔
+```py
+entropy()
+```
 
-_class_`torch.distributions.beta.``Beta`( _concentration1_ , _concentration0_
-, _validate_args=None_
-)[[source]](_modules/torch/distributions/beta.html#Beta)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_rsample = True
+```
 
-Bases: `torch.distributions.exp_family.ExponentialFamily`
+```py
+log_prob(value)
+```
 
-β分布由 `参数concentration1`和 `concentration0`。
+```py
+mean
+```
 
-Example:
+```py
+rsample(sample_shape=())
+```
 
-    
-    
-    >>> m = Beta(torch.tensor([0.5]), torch.tensor([0.5]))
-    >>> m.sample()  # Beta distributed with concentration concentration1 and concentration0
-    tensor([ 0.1046])
-    
+```py
+support = Interval(lower_bound=0.0, upper_bound=1.0)
+```
 
-Parameters
+```py
+variance
+```
 
-    
+## Binomial
 
-  * **concentration1** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 的分布的第一浓度参数（常称为α）
+```py
+class torch.distributions.binomial.Binomial(total_count=1, probs=None, logits=None, validate_args=None)
+```
 
-  * **concentration0** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分配的第二浓度参数（通常被称为测试版）
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-`arg_constraints`_= {'concentration0': GreaterThan(lower_bound=0.0),
-'concentration1': GreaterThan(lower_bound=0.0)}_
+创建一个Binomial 分布, 参数为 `total_count` 和 [`probs`](#torch.distributions.binomial.Binomial.probs "torch.distributions.binomial.Binomial.probs") 或者 [`logits`](#torch.distributions.binomial.Binomial.logits "torch.distributions.binomial.Binomial.logits") (但不是同时都有使用). `total_count` 必须和 [`probs`] 之间可广播(#torch.distributions.binomial.Binomial.probs "torch.distributions.binomial.Binomial.probs")/[`logits`](#torch.distributions.binomial.Binomial.logits "torch.distributions.binomial.Binomial.logits").
 
-    
+例子:
 
-_property_`concentration0`
+```py
+>>> m = Binomial(100, torch.tensor([0 , .2, .8, 1]))
+>>> x = m.sample()
+tensor([   0.,   22.,   71.,  100.])
 
-    
+>>> m = Binomial(torch.tensor([[5.], [10.]]), torch.tensor([0.5, 0.8]))
+>>> x = m.sample()
+tensor([[ 4.,  5.],
+ [ 7.,  6.]])
 
-_property_`concentration1`
+```
 
-    
+参数: 
 
-`entropy`()[[source]](_modules/torch/distributions/beta.html#Beta.entropy)
+*   **total_count** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 伯努利试验次数
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件 log-odds
 
-    
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/beta.html#Beta.expand)
 
-    
+```py
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0), 'total_count': IntegerGreaterThan(lower_bound=0)}
+```
 
-`has_rsample`_= True_
+```py
+enumerate_support(expand=True)
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/beta.html#Beta.log_prob)
+```py
+has_enumerate_support = True
+```
 
-    
+```py
+log_prob(value)
+```
 
-_property_`mean`
+```py
+logits
+```
 
-    
+```py
+mean
+```
 
-`rsample`( _sample_shape=()_
-)[[source]](_modules/torch/distributions/beta.html#Beta.rsample)
+```py
+param_shape
+```
 
-    
+```py
+probs
+```
 
-`support`_= Interval(lower_bound=0.0, upper_bound=1.0)_
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+support
+```
 
-_property_`variance`
+```py
+variance
+```
 
-    
+## Categorical
 
-## 二项式
+```py
+class torch.distributions.categorical.Categorical(probs=None, logits=None, validate_args=None)
+```
 
-_class_`torch.distributions.binomial.``Binomial`( _total_count=1_ ,
-_probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/binomial.html#Binomial)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+创建一个 categorical 分布, 参数为 [`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs") 或者 [`logits`](#torch.distributions.categorical.Categorical.logits "torch.distributions.categorical.Categorical.logits") (但不是同时都有).
 
-Bases: `torch.distributions.distribution.Distribution`
+注意
 
-创建一个二项分布由`TOTAL_COUNT`和参数为 `probs`或 `logits`（但不是两者）。 `TOTAL_COUNT
-`必须broadcastable与 `probs`/`logits`。
+它等价于从 [`torch.multinomial()`](torch.html#torch.multinomial "torch.multinomial") 的采样.
 
-Example:
+样本是整数来自![](img/7c6904e60a8ff7044a079e10eaee1f57.jpg) `K` 是 `probs.size(-1)`.
 
-    
-    
-    >>> m = Binomial(100, torch.tensor([0 , .2, .8, 1]))
-    >>> x = m.sample()
-    tensor([   0.,   22.,   71.,  100.])
-    
-    >>> m = Binomial(torch.tensor([[5.], [10.]]), torch.tensor([0.5, 0.8]))
-    >>> x = m.sample()
-    tensor([[ 4.,  5.],
-            [ 7.,  6.]])
-    
+如果 [`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs") 是 1D 的, 长度为`K`, 每个元素是在该索引处对类进行抽样的相对概率.
 
-Parameters
+如果 [`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs") 是 2D 的, 它被视为一组相对概率向量.
 
-    
+注意
 
-  * **TOTAL_COUNT** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 数目的伯努利试验的
+[`probs`](#torch.distributions.categorical.Categorical.probs "torch.distributions.categorical.Categorical.probs")  必须是非负的、有限的并且具有非零和, 并且它将被归一化为和为1.
 
-  * **probs** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 事件概率
+请参阅: [`torch.multinomial()`](torch.html#torch.multinomial "torch.multinomial")
 
-  * **logits** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 事件日志赔率
+例子:
 
-`arg_constraints`_= {'logits': Real(), 'probs': Interval(lower_bound=0.0,
-upper_bound=1.0), 'total_count': IntegerGreaterThan(lower_bound=0)}_
+```py
+>>> m = Categorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
+>>> m.sample()  # equal probability of 0, 1, 2, 3
+tensor(3)
 
-    
+```
 
-`enumerate_support`( _expand=True_
-)[[source]](_modules/torch/distributions/binomial.html#Binomial.enumerate_support)
+参数: 
 
-    
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/binomial.html#Binomial.expand)
 
-    
+```py
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
+```
 
-`has_enumerate_support`_= True_
+```py
+entropy()
+```
 
-    
+```py
+enumerate_support(expand=True)
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/binomial.html#Binomial.log_prob)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_enumerate_support = True
+```
 
-`logits`[[source]](_modules/torch/distributions/binomial.html#Binomial.logits)
+```py
+log_prob(value)
+```
 
-    
+```py
+logits
+```
 
-_property_`mean`
+```py
+mean
+```
 
-    
+```py
+param_shape
+```
 
-_property_`param_shape`
+```py
+probs
+```
 
-    
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-`probs`[[source]](_modules/torch/distributions/binomial.html#Binomial.probs)
+```py
+support
+```
 
-    
+```py
+variance
+```
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/binomial.html#Binomial.sample)
+## Cauchy
 
-    
+```py
+class torch.distributions.cauchy.Cauchy(loc, scale, validate_args=None)
+```
 
-_property_`support`
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+样本来自柯西(洛伦兹)分布. 均值为0的独立正态分布随机变量之比服从柯西分布. 
 
-_property_`variance`
+例子:
 
-    
+```py
+>>> m = Cauchy(torch.tensor([0.0]), torch.tensor([1.0]))
+>>> m.sample()  # sample from a Cauchy distribution with loc=0 and scale=1
+tensor([ 2.3214])
 
-## 范畴
+```
 
-_class_`torch.distributions.categorical.``Categorical`( _probs=None_ ,
-_logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/categorical.html#Categorical)
+参数: 
 
-    
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的模态或中值.
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – half width at half maximum.
 
-Bases: `torch.distributions.distribution.Distribution`
 
-创建由任一 `probs`或 `logits`（但不是两者参数化的分类分配）。
 
-Note
+```py
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-它相当于分布[ `torch.multinomial（） `](torch.html#torch.multinomial
-"torch.multinomial")样本。
+```py
+cdf(value)
+```
 
-样品是整数，从 { 0  ， ...  ， K  \-  1  }  \ {0，\ ldots，K- 1 \\}  { 0  ， ...  ， K  \-
-1  }  其中 K 是`probs.size（-1） `。
+```py
+entropy()
+```
 
-如果 `probs`是1D与长度 -  K ，每一个元素是该索引处采样的类的相对概率。
+```py
+expand(batch_shape, _instance=None)
+```
 
-如果 `probs`是2D，它被处理为批量相对概率向量。
+```py
+has_rsample = True
+```
 
-Note
+```py
+icdf(value)
+```
 
-`probs`必须是非负的，有限的，并且有一个非零和，并且将被归一化总和为1。
+```py
+log_prob(value)
+```
 
-参见：[ `torch.multinomial（） `](torch.html#torch.multinomial
-"torch.multinomial")
+```py
+mean
+```
 
-Example:
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
-    
-    >>> m = Categorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
-    >>> m.sample()  # equal probability of 0, 1, 2, 3
-    tensor(3)
-    
+```py
+support = Real()
+```
 
-Parameters
+```py
+variance
+```
 
-    
+## Chi2
 
-  * **probs** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 事件概率
+```py
+class torch.distributions.chi2.Chi2(df, validate_args=None)
+```
 
-  * **logits** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 事件日志赔率
+基类: [`torch.distributions.gamma.Gamma`](#torch.distributions.gamma.Gamma "torch.distributions.gamma.Gamma")
 
-`arg_constraints`_= {'logits': Real(), 'probs': Simplex()}_
+ 创建由形状参数[`df`](#torch.distributions.chi2.Chi2.df "torch.distributions.chi2.Chi2.df")参数化的Chi2分布.  这完全等同于 `Gamma(alpha=0.5*df, beta=0.5)`
 
-    
+例子:
 
-`entropy`()[[source]](_modules/torch/distributions/categorical.html#Categorical.entropy)
+```py
+>>> m = Chi2(torch.tensor([1.0]))
+>>> m.sample()  # Chi2 distributed with shape df=1
+tensor([ 0.1046])
 
-    
+```
 
-`enumerate_support`( _expand=True_
-)[[source]](_modules/torch/distributions/categorical.html#Categorical.enumerate_support)
+| 参数: | **df** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的形状参数 |
 
-    
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/categorical.html#Categorical.expand)
+```py
+arg_constraints = {'df': GreaterThan(lower_bound=0.0)}
+```
 
-    
+```py
+df
+```
 
-`has_enumerate_support`_= True_
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+## Dirichlet
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/categorical.html#Categorical.log_prob)
+```py
+class torch.distributions.dirichlet.Dirichlet(concentration, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-`logits`[[source]](_modules/torch/distributions/categorical.html#Categorical.logits)
+创建一个 Dirichlet 分布, 参数为`concentration`.
 
-    
+例子:
 
-_property_`mean`
+```py
+>>> m = Dirichlet(torch.tensor([0.5, 0.5]))
+>>> m.sample()  # Dirichlet distributed with concentrarion concentration
+tensor([ 0.1046,  0.8954])
 
-    
+```
 
-_property_`param_shape`
+| 参数: | **concentration** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的浓度参数（通常称为alpha） |
 
-    
 
-`probs`[[source]](_modules/torch/distributions/categorical.html#Categorical.probs)
+```py
+arg_constraints = {'concentration': GreaterThan(lower_bound=0.0)}
+```
 
-    
+```py
+entropy()
+```
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/categorical.html#Categorical.sample)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_rsample = True
+```
 
-_property_`support`
+```py
+log_prob(value)
+```
 
-    
+```py
+mean
+```
 
-_property_`variance`
+```py
+rsample(sample_shape=())
+```
 
-    
+```py
+support = Simplex()
+```
 
-## 柯西
+```py
+variance
+```
 
-_class_`torch.distributions.cauchy.``Cauchy`( _loc_ , _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/cauchy.html#Cauchy)
+## Exponential
 
-    
+```py
+class torch.distributions.exponential.Exponential(rate, validate_args=None)
+```
 
-Bases: `torch.distributions.distribution.Distribution`
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-从柯西（洛仑兹）分布的样品。独立正态分布的随机变量的装置的比的分布0 如下柯西分布。
+创建由`rate`参数化的指数分布.
 
-Example:
+例子:
 
-    
-    
-    >>> m = Cauchy(torch.tensor([0.0]), torch.tensor([1.0]))
-    >>> m.sample()  # sample from a Cauchy distribution with loc=0 and scale=1
-    tensor([ 2.3214])
-    
+```py
+>>> m = Exponential(torch.tensor([1.0]))
+>>> m.sample()  # Exponential distributed with rate=1
+tensor([ 0.1046])
 
-Parameters
+```
 
-    
+| 参数: | **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 / 分布的scale  |
 
-  * **LOC** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 模式或分布的中值。
 
-  * **规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 半峰半宽。
+```py
+arg_constraints = {'rate': GreaterThan(lower_bound=0.0)}
+```
 
-`arg_constraints`_= {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}_
+```py
+cdf(value)
+```
 
-    
+```py
+entropy()
+```
 
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/cauchy.html#Cauchy.cdf)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_rsample = True
+```
 
-`entropy`()[[source]](_modules/torch/distributions/cauchy.html#Cauchy.entropy)
+```py
+icdf(value)
+```
 
-    
+```py
+log_prob(value)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/cauchy.html#Cauchy.expand)
+```py
+mean
+```
 
-    
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-`has_rsample`_= True_
+```py
+stddev
+```
 
-    
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/cauchy.html#Cauchy.icdf)
+```py
+variance
+```
 
-    
+## FisherSnedecor
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/cauchy.html#Cauchy.log_prob)
+```py
+class torch.distributions.fishersnedecor.FisherSnedecor(df1, df2, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-_property_`mean`
+创建由`df1`和`df2`参数化的Fisher-Snedecor分布
 
-    
+例子:
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/cauchy.html#Cauchy.rsample)
+```py
+>>> m = FisherSnedecor(torch.tensor([1.0]), torch.tensor([2.0]))
+>>> m.sample()  # Fisher-Snedecor-distributed with df1=1 and df2=2
+tensor([ 0.2453])
 
-    
+```
 
-`support`_= Real()_
+参数: 
 
-    
+*   **df1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  自由度参数1
+*   **df2** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 自由度参数2
 
-_property_`variance`
 
-    
 
-## χ2 
+```py
+arg_constraints = {'df1': GreaterThan(lower_bound=0.0), 'df2': GreaterThan(lower_bound=0.0)}
+```
 
-_class_`torch.distributions.chi2.``Chi2`( _df_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/chi2.html#Chi2)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_rsample = True
+```
 
-碱： `torch.distributions.gamma.Gamma`
+```py
+log_prob(value)
+```
 
-创建由形状参数 `DF`参数化的χ2分布。这是完全等同于`伽玛（阿尔法= 0.5 * df，则 的β= 0.5） `
+```py
+mean
+```
 
-Example:
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
-    
-    >>> m = Chi2(torch.tensor([1.0]))
-    >>> m.sample()  # Chi2 distributed with shape df=1
-    tensor([ 0.1046])
-    
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-Parameters
+```py
+variance
+```
 
-    
+## Gamma
 
-**DF** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in
-Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） -
-分布的形状参数
+```py
+class torch.distributions.gamma.Gamma(concentration, rate, validate_args=None)
+```
 
-`arg_constraints`_= {'df': GreaterThan(lower_bound=0.0)}_
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-    
+创建由`concentration`和`rate`参数化的伽马分布. .
 
-_property_`df`
+例子:
 
-    
+```py
+>>> m = Gamma(torch.tensor([1.0]), torch.tensor([1.0]))
+>>> m.sample()  # Gamma distributed with concentration=1 and rate=1
+tensor([ 0.1046])
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/chi2.html#Chi2.expand)
+```
 
-    
+参数: 
 
-## 狄利克雷
+*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的形状参数（通常称为alpha）
+*   **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 /  分布scale (通常称为beta )
 
-_class_`torch.distributions.dirichlet.``Dirichlet`( _concentration_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/dirichlet.html#Dirichlet)
 
-    
 
-Bases: `torch.distributions.exp_family.ExponentialFamily`
+```py
+arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'rate': GreaterThan(lower_bound=0.0)}
+```
 
-创建由浓度`浓度 `参数化的狄利克雷分布。
+```py
+entropy()
+```
 
-Example:
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
-    
-    >>> m = Dirichlet(torch.tensor([0.5, 0.5]))
-    >>> m.sample()  # Dirichlet distributed with concentrarion concentration
-    tensor([ 0.1046,  0.8954])
-    
+```py
+has_rsample = True
+```
 
-Parameters
+```py
+log_prob(value)
+```
 
-    
+```py
+mean
+```
 
-**浓度** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的浓度参数（通常称为α）
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-`arg_constraints`_= {'concentration': GreaterThan(lower_bound=0.0)}_
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-    
+```py
+variance
+```
 
-`entropy`()[[source]](_modules/torch/distributions/dirichlet.html#Dirichlet.entropy)
+## Geometric
 
-    
+```py
+class torch.distributions.geometric.Geometric(probs=None, logits=None, validate_args=None)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/dirichlet.html#Dirichlet.expand)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+创建由`probs`参数化的几何分布, 其中`probs`是伯努利试验成功的概率. 它表示概率在 ![](img/10396db36bab7b7242cfe94f04374444.jpg) 次伯努利试验中,  前 ![](img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) 试验失败, 然后成功.
 
-`has_rsample`_= True_
+样本是非负整数 [0, ![](img/06485c2c6e992cf346fdfe033a86a10d.jpg)).
 
-    
+例子:
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/dirichlet.html#Dirichlet.log_prob)
+```py
+>>> m = Geometric(torch.tensor([0.3]))
+>>> m.sample()  # underlying Bernoulli has 30% chance 1; 70% chance 0
+tensor([ 2.])
 
-    
+```
 
-_property_`mean`
+参数: 
 
-    
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  抽样`1`的概率 . 必须是在范围 (0, 1]
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 抽样 `1`的log-odds.
 
-`rsample`( _sample_shape=()_
-)[[source]](_modules/torch/distributions/dirichlet.html#Dirichlet.rsample)
 
-    
 
-`support`_= Simplex()_
+```py
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
+```
 
-    
+```py
+entropy()
+```
 
-_property_`variance`
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+log_prob(value)
+```
 
-## 指数
+```py
+logits
+```
 
-_class_`torch.distributions.exponential.``Exponential`( _rate_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/exponential.html#Exponential)
+```py
+mean
+```
 
-    
+```py
+probs
+```
 
-Bases: `torch.distributions.exp_family.ExponentialFamily`
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-创建由`速率 `参数化的指数分布。
+```py
+support = IntegerGreaterThan(lower_bound=0)
+```
 
-Example:
+```py
+variance
+```
 
-    
-    
-    >>> m = Exponential(torch.tensor([1.0]))
-    >>> m.sample()  # Exponential distributed with rate=1
-    tensor([ 0.1046])
-    
+## Gumbel
 
-Parameters
+```py
+class torch.distributions.gumbel.Gumbel(loc, scale, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-**速率** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in
-Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 率= 1
-/刻度分配
+来自Gumbel分布的样本.
 
-`arg_constraints`_= {'rate': GreaterThan(lower_bound=0.0)}_
+Examples:
 
-    
+```py
+>>> m = Gumbel(torch.tensor([1.0]), torch.tensor([2.0]))
+>>> m.sample()  # sample from Gumbel distribution with loc=1, scale=2
+tensor([ 1.0124])
 
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/exponential.html#Exponential.cdf)
+```
 
-    
+参数: 
 
-`entropy`()[[source]](_modules/torch/distributions/exponential.html#Exponential.entropy)
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的位置参数
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的scale 参数
 
-    
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/exponential.html#Exponential.expand)
 
-    
+```py
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-`has_rsample`_= True_
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/exponential.html#Exponential.icdf)
+```py
+mean
+```
 
-    
+```py
+stddev
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/exponential.html#Exponential.log_prob)
+```py
+support = Real()
+```
 
-    
+```py
+variance
+```
 
-_property_`mean`
+## HalfCauchy
 
-    
+```py
+class torch.distributions.half_cauchy.HalfCauchy(scale, validate_args=None)
+```
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/exponential.html#Exponential.rsample)
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-    
+创建`scale`参数化的半正态分布:
 
-_property_`stddev`
+```py
+X ~ Cauchy(0, scale)
+Y = |X| ~ HalfCauchy(scale)
 
-    
+```
 
-`support`_= GreaterThan(lower_bound=0.0)_
+例子:
 
-    
+```py
+>>> m = HalfCauchy(torch.tensor([1.0]))
+>>> m.sample()  # half-cauchy distributed with scale=1
+tensor([ 2.3214])
 
-_property_`variance`
+```
 
-    
+| 参数: | **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 完全柯西分布的scale |
 
-##  FisherSnedecor 
 
-_class_`torch.distributions.fishersnedecor.``FisherSnedecor`( _df1_ , _df2_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/fishersnedecor.html#FisherSnedecor)
+```py
+arg_constraints = {'scale': GreaterThan(lower_bound=0.0)}
+```
 
-    
+```py
+cdf(value)
+```
 
-Bases: `torch.distributions.distribution.Distribution`
+```py
+entropy()
+```
 
-创建由`DF1`和`DF2`参数化的费雪分布。
+```py
+expand(batch_shape, _instance=None)
+```
 
-Example:
+```py
+has_rsample = True
+```
 
-    
-    
-    >>> m = FisherSnedecor(torch.tensor([1.0]), torch.tensor([2.0]))
-    >>> m.sample()  # Fisher-Snedecor-distributed with df1=1 and df2=2
-    tensor([ 0.2453])
-    
+```py
+icdf(prob)
+```
 
-Parameters
+```py
+log_prob(value)
+```
 
-    
+```py
+mean
+```
 
-  * **DF1** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 自由度参数1的
+```py
+scale
+```
 
-  * **DF2** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 自由度参数2的
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-`arg_constraints`_= {'df1': GreaterThan(lower_bound=0.0), 'df2':
-GreaterThan(lower_bound=0.0)}_
+```py
+variance
+```
 
-    
+## HalfNormal
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/fishersnedecor.html#FisherSnedecor.expand)
+```py
+class torch.distributions.half_normal.HalfNormal(scale, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-`has_rsample`_= True_
+创建按`scale`参数化的半正态分布:
 
-    
+```py
+X ~ Normal(0, scale)
+Y = |X| ~ HalfNormal(scale)
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/fishersnedecor.html#FisherSnedecor.log_prob)
+```
 
-    
+例子:
 
-_property_`mean`
+```py
+>>> m = HalfNormal(torch.tensor([1.0]))
+>>> m.sample()  # half-normal distributed with scale=1
+tensor([ 0.1046])
 
-    
+```
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/fishersnedecor.html#FisherSnedecor.rsample)
+| 参数: | **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 完全正态分布的scale |
 
-    
 
-`support`_= GreaterThan(lower_bound=0.0)_
+```py
+arg_constraints = {'scale': GreaterThan(lower_bound=0.0)}
+```
 
-    
+```py
+cdf(value)
+```
 
-_property_`variance`
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-## 伽玛
+```py
+has_rsample = True
+```
 
-_class_`torch.distributions.gamma.``Gamma`( _concentration_ , _rate_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/gamma.html#Gamma)
+```py
+icdf(prob)
+```
 
-    
+```py
+log_prob(value)
+```
 
-Bases: `torch.distributions.exp_family.ExponentialFamily`
+```py
+mean
+```
 
-创建由形状`浓度参数 `和`速率 `一个Gamma分布。
+```py
+scale
+```
 
-Example:
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-    
-    
-    >>> m = Gamma(torch.tensor([1.0]), torch.tensor([1.0]))
-    >>> m.sample()  # Gamma distributed with concentration=1 and rate=1
-    tensor([ 0.1046])
-    
+```py
+variance
+```
 
-Parameters
+## Independent
 
-    
+```py
+class torch.distributions.independent.Independent(base_distribution, reinterpreted_batch_ndims, validate_args=None)
+```
 
-  * **浓度** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的形状参数（通常称为α）
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-  * **速率** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 率= 1 /刻度分布（通常被称为测试版）
+重新解释一些分布的批量 dims 作为 event dims.
 
-`arg_constraints`_= {'concentration': GreaterThan(lower_bound=0.0), 'rate':
-GreaterThan(lower_bound=0.0)}_
+ 这主要用于改变[`log_prob()`](#torch.distributions.independent.Independent.log_prob "torch.distributions.independent.Independent.log_prob")结果的形状.例如, 要创建与多元正态分布形状相同的对角正态分布(因此它们是可互换的), 您可以这样做:
 
-    
+```py
+>>> loc = torch.zeros(3)
+>>> scale = torch.ones(3)
+>>> mvn = MultivariateNormal(loc, scale_tril=torch.diag(scale))
+>>> [mvn.batch_shape, mvn.event_shape]
+[torch.Size(()), torch.Size((3,))]
+>>> normal = Normal(loc, scale)
+>>> [normal.batch_shape, normal.event_shape]
+[torch.Size((3,)), torch.Size(())]
+>>> diagn = Independent(normal, 1)
+>>> [diagn.batch_shape, diagn.event_shape]
+[torch.Size(()), torch.Size((3,))]
 
-`entropy`()[[source]](_modules/torch/distributions/gamma.html#Gamma.entropy)
+```
 
-    
+参数: 
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/gamma.html#Gamma.expand)
+*   **base_distribution** ([_torch.distributions.distribution.Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – 基础分布
+*   **reinterpreted_batch_ndims** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) –要重解释的批量dims的数量
 
-    
 
-`has_rsample`_= True_
+```py
+arg_constraints = {}
+```
 
-    
+```py
+entropy()
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/gamma.html#Gamma.log_prob)
+```py
+enumerate_support(expand=True)
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-_property_`mean`
+```py
+has_enumerate_support
+```
 
-    
+```py
+has_rsample
+```
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/gamma.html#Gamma.rsample)
+```py
+log_prob(value)
+```
 
-    
+```py
+mean
+```
 
-`support`_= GreaterThan(lower_bound=0.0)_
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-_property_`variance`
+```py
+support
+```
 
-    
+```py
+variance
+```
 
-## 几何
+## Laplace
 
-_class_`torch.distributions.geometric.``Geometric`( _probs=None_ ,
-_logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/geometric.html#Geometric)
+```py
+class torch.distributions.laplace.Laplace(loc, scale, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-Bases: `torch.distributions.distribution.Distribution`
+创建参数化的拉普拉斯分布, 参数是 `loc` 和 :attr:’scale’.
 
-创建一个几何分布由参数 `probs`，其中 `probs`是的概率伯努利试验的成功。它代表在 K  \+  1  的概率 K + 1  K
-\+  1  伯努利试验，第一个 K  K  ķ  试验看到一个成功之前失败。
+例子:
 
-样品是一个非负整数[0， INF  ⁡ \ INF  在 F  ） 。
+```py
+>>> m = Laplace(torch.tensor([0.0]), torch.tensor([1.0]))
+>>> m.sample()  # Laplace distributed with loc=0, scale=1
+tensor([ 0.1046])
 
-Example:
+```
 
-    
-    
-    >>> m = Geometric(torch.tensor([0.3]))
-    >>> m.sample()  # underlying Bernoulli has 30% chance 1; 70% chance 0
-    tensor([ 2.])
-    
+参数: 
 
-Parameters
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布均值
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布scale
 
-    
 
-  * **probs** （ _号码_ _，_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 取样 1 的概率。必须在范围（0，1]
+```py
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-  * **logits** （ _号码_ _，_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 采样的对数比值 1  。
+```py
+cdf(value)
+```
 
-`arg_constraints`_= {'logits': Real(), 'probs': Interval(lower_bound=0.0,
-upper_bound=1.0)}_
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`entropy`()[[source]](_modules/torch/distributions/geometric.html#Geometric.entropy)
+```py
+has_rsample = True
+```
 
-    
+```py
+icdf(value)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/geometric.html#Geometric.expand)
+```py
+log_prob(value)
+```
 
-    
+```py
+mean
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/geometric.html#Geometric.log_prob)
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+stddev
+```
 
-`logits`[[source]](_modules/torch/distributions/geometric.html#Geometric.logits)
+```py
+support = Real()
+```
 
-    
+```py
+variance
+```
 
-_property_`mean`
+## LogNormal
 
-    
+```py
+class torch.distributions.log_normal.LogNormal(loc, scale, validate_args=None)
+```
 
-`probs`[[source]](_modules/torch/distributions/geometric.html#Geometric.probs)
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-    
+ 创建参数化的对数正态分布, 参数为 [`loc`](#torch.distributions.log_normal.LogNormal.loc "torch.distributions.log_normal.LogNormal.loc") 和 [`scale`](#torch.distributions.log_normal.LogNormal.scale "torch.distributions.log_normal.LogNormal.scale"):
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/geometric.html#Geometric.sample)
+```py
+X ~ Normal(loc, scale)
+Y = exp(X) ~ LogNormal(loc, scale)
 
-    
+```
 
-`support`_= IntegerGreaterThan(lower_bound=0)_
+例子:
 
-    
+```py
+>>> m = LogNormal(torch.tensor([0.0]), torch.tensor([1.0]))
+>>> m.sample()  # log-normal distributed with mean=0 and stddev=1
+tensor([ 0.1046])
 
-_property_`variance`
+```
 
-    
+参数: 
 
-## 冈贝尔
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布对数平均值
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布对数的标准差
 
-_class_`torch.distributions.gumbel.``Gumbel`( _loc_ , _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/gumbel.html#Gumbel)
 
-    
+```py
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-碱： `torch.distributions.transformed_distribution.TransformedDistribution`
+```py
+entropy()
+```
 
-从Gumbel分布样本。
+```py
+expand(batch_shape, _instance=None)
+```
 
-例子：
+```py
+has_rsample = True
+```
 
-    
-    
-    >>> m = Gumbel(torch.tensor([1.0]), torch.tensor([2.0]))
-    >>> m.sample()  # sample from Gumbel distribution with loc=1, scale=2
-    tensor([ 1.0124])
-    
+```py
+loc
+```
 
-Parameters
+```py
+mean
+```
 
-    
+```py
+scale
+```
 
-  * **LOC** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的位置参数
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-  * **规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的尺度参数
+```py
+variance
+```
 
-`arg_constraints`_= {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}_
+## LowRankMultivariateNormal
 
-    
+```py
+class torch.distributions.lowrank_multivariate_normal.LowRankMultivariateNormal(loc, cov_factor, cov_diag, validate_args=None)
+```
 
-`entropy`()[[source]](_modules/torch/distributions/gumbel.html#Gumbel.entropy)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+使用由`cov_factor`和`cov_diag`参数化的低秩形式的协方差矩阵创建多元正态分布:
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/gumbel.html#Gumbel.expand)
+```py
+covariance_matrix = cov_factor @ cov_factor.T + cov_diag
 
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/gumbel.html#Gumbel.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-_property_`stddev`
-
-    
-
-`support`_= Real()_
-
-    
-
-_property_`variance`
-
-    
-
-##  HalfCauchy 
-
-_class_`torch.distributions.half_cauchy.``HalfCauchy`( _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/half_cauchy.html#HalfCauchy)
-
-    
-
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
-
-创建由规模其中参数化的半正态分布：
-
-    
-    
-    X ~ Cauchy(0, scale)
-    Y = |X| ~ HalfCauchy(scale)
-    
-
-Example:
-
-    
-    
-    >>> m = HalfCauchy(torch.tensor([1.0]))
-    >>> m.sample()  # half-cauchy distributed with scale=1
-    tensor([ 2.3214])
-    
-
-Parameters
-
-    
-
-**规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in
-Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） -
-全柯西分布的尺度
-
-`arg_constraints`_= {'scale': GreaterThan(lower_bound=0.0)}_
-
-    
-
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/half_cauchy.html#HalfCauchy.cdf)
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/half_cauchy.html#HalfCauchy.entropy)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/half_cauchy.html#HalfCauchy.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-`icdf`( _prob_
-)[[source]](_modules/torch/distributions/half_cauchy.html#HalfCauchy.icdf)
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/half_cauchy.html#HalfCauchy.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-_property_`scale`
-
-    
-
-`support`_= GreaterThan(lower_bound=0.0)_
-
-    
-
-_property_`variance`
-
-    
-
-##  HalfNormal 
-
-_class_`torch.distributions.half_normal.``HalfNormal`( _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/half_normal.html#HalfNormal)
-
-    
-
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
-
-Creates a half-normal distribution parameterized by scale where:
-
-    
-    
-    X ~ Normal(0, scale)
-    Y = |X| ~ HalfNormal(scale)
-    
-
-Example:
-
-    
-    
-    >>> m = HalfNormal(torch.tensor([1.0]))
-    >>> m.sample()  # half-normal distributed with scale=1
-    tensor([ 0.1046])
-    
-
-Parameters
-
-    
-
-**规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in
-Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） -
-全正态分布的规模
-
-`arg_constraints`_= {'scale': GreaterThan(lower_bound=0.0)}_
-
-    
-
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/half_normal.html#HalfNormal.cdf)
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/half_normal.html#HalfNormal.entropy)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/half_normal.html#HalfNormal.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-`icdf`( _prob_
-)[[source]](_modules/torch/distributions/half_normal.html#HalfNormal.icdf)
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/half_normal.html#HalfNormal.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-_property_`scale`
-
-    
-
-`support`_= GreaterThan(lower_bound=0.0)_
-
-    
-
-_property_`variance`
-
-    
-
-## 独立
-
-_class_`torch.distributions.independent.``Independent`( _base_distribution_ ,
-_reinterpreted_batch_ndims_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/independent.html#Independent)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-重新诠释一些分布作为事件DIMS的一批DIMS的。
-
-这是用于改变 `log_prob（） `结果的形状主要是有用的。例如，要创建一个具有相同形状的对角线正态分布为多元正态分布（这样它们可以互换），您可以：
-
-    
-    
-    >>> loc = torch.zeros(3)
-    >>> scale = torch.ones(3)
-    >>> mvn = MultivariateNormal(loc, scale_tril=torch.diag(scale))
-    >>> [mvn.batch_shape, mvn.event_shape]
-    [torch.Size(()), torch.Size((3,))]
-    >>> normal = Normal(loc, scale)
-    >>> [normal.batch_shape, normal.event_shape]
-    [torch.Size((3,)), torch.Size(())]
-    >>> diagn = Independent(normal, 1)
-    >>> [diagn.batch_shape, diagn.event_shape]
-    [torch.Size(()), torch.Size((3,))]
-    
-
-Parameters
-
-    
-
-  * **base_distribution** （ _torch.distributions.distribution.Distribution_ ） - 碱分布
-
-  * **reinterpreted_batch_ndims** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")） - 批次的数量变暗以重新解释作为事件变暗
-
-`arg_constraints`_= {}_
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/independent.html#Independent.entropy)
-
-    
-
-`enumerate_support`( _expand=True_
-)[[source]](_modules/torch/distributions/independent.html#Independent.enumerate_support)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/independent.html#Independent.expand)
-
-    
-
-_property_`has_enumerate_support`
-
-    
-
-_property_`has_rsample`
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/independent.html#Independent.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/independent.html#Independent.rsample)
-
-    
-
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/independent.html#Independent.sample)
-
-    
-
-_property_`support`
-
-    
-
-_property_`variance`
-
-    
-
-## 拉普拉斯
-
-_class_`torch.distributions.laplace.``Laplace`( _loc_ , _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/laplace.html#Laplace)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-创建由`LOC`和参数化的拉普拉斯分布：ATTR：”缩放”。
-
-Example:
-
-    
-    
-    >>> m = Laplace(torch.tensor([0.0]), torch.tensor([1.0]))
-    >>> m.sample()  # Laplace distributed with loc=0, scale=1
-    tensor([ 0.1046])
-    
-
-Parameters
-
-    
-
-  * **LOC** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的平均
-
-  * **规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的尺度
-
-`arg_constraints`_= {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}_
-
-    
-
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/laplace.html#Laplace.cdf)
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/laplace.html#Laplace.entropy)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/laplace.html#Laplace.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/laplace.html#Laplace.icdf)
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/laplace.html#Laplace.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/laplace.html#Laplace.rsample)
-
-    
-
-_property_`stddev`
-
-    
-
-`support`_= Real()_
-
-    
-
-_property_`variance`
-
-    
-
-## 对数正态分布
-
-_class_`torch.distributions.log_normal.``LogNormal`( _loc_ , _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/log_normal.html#LogNormal)
-
-    
-
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
-
-创建一个日志正态分布由参数 `LOC`和 `规模 `其中：
-
-    
-    
-    X ~ Normal(loc, scale)
-    Y = exp(X) ~ LogNormal(loc, scale)
-    
-
-Example:
-
-    
-    
-    >>> m = LogNormal(torch.tensor([0.0]), torch.tensor([1.0]))
-    >>> m.sample()  # log-normal distributed with mean=0 and stddev=1
-    tensor([ 0.1046])
-    
-
-Parameters
-
-    
-
-  * **LOC** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 平均log分布的
-
-  * **规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 日志中的分布的标准偏差
-
-`arg_constraints`_= {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}_
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/log_normal.html#LogNormal.entropy)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/log_normal.html#LogNormal.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-_property_`loc`
-
-    
-
-_property_`mean`
-
-    
-
-_property_`scale`
-
-    
-
-`support`_= GreaterThan(lower_bound=0.0)_
-
-    
-
-_property_`variance`
-
-    
-
-##  LowRankMultivariateNormal 
-
-_class_`torch.distributions.lowrank_multivariate_normal.``LowRankMultivariateNormal`(
-_loc_ , _cov_factor_ , _cov_diag_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-创建具有由`cov_factor`和参数化的低秩形式协方差矩阵多元正态分布`cov_diag`：
-
-    
-    
-    covariance_matrix = cov_factor @ cov_factor.T + cov_diag
-    
-
-例
-
-    
-    
-    >>> m = LowRankMultivariateNormal(torch.zeros(2), torch.tensor([1, 0]), torch.tensor([1, 1]))
-    >>> m.sample()  # normally distributed with mean=`[0,0]`, cov_factor=`[1,0]`, cov_diag=`[1,1]`
-    tensor([-0.2102, -0.5429])
-    
-
-Parameters
-
-    
-
-  * **LOC** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 与形状分布的平均值 batch_shape + event_shape 
-
-  * **cov_factor** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 具有形状 batch_shape + event_shape +（秩）协方差矩阵的低秩形式因子部分
-
-  * **cov_diag** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 具有形状协方差矩阵的低秩的形式对角部分 batch_shape + event_shape 
-
-Note
-
-用于行列式和协方差矩阵的逆的计算，避免当 cov_factor.shape [1] & LT ; & LT ; cov_factor.shape [0]
-由于[
-Woodbury的矩阵身份](https://en.wikipedia.org/wiki/Woodbury_matrix_identity)和[矩阵行列式引理](https://en.wikipedia.org/wiki/Matrix_determinant_lemma)。由于这些公式，我们只需要计算小尺寸“电容”矩阵的行列式和逆：
-
-    
-    
-    capacitance = I + cov_factor.T @ inv(cov_diag) @ cov_factor
-    
-
-`arg_constraints`_= {'cov_diag': GreaterThan(lower_bound=0.0), 'cov_factor':
-Real(), 'loc': Real()}_
-
-    
-
-`covariance_matrix`[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.covariance_matrix)
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.entropy)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-`precision_matrix`[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.precision_matrix)
-
-    
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.rsample)
-
-    
-
-`scale_tril`[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.scale_tril)
-
-    
-
-`support`_= Real()_
-
-    
-
-`variance`[[source]](_modules/torch/distributions/lowrank_multivariate_normal.html#LowRankMultivariateNormal.variance)
-
-    
-
-## 多项式
-
-_class_`torch.distributions.multinomial.``Multinomial`( _total_count=1_ ,
-_probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/multinomial.html#Multinomial)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-创建一个多项分布由`TOTAL_COUNT`和参数为 `probs`或 `logits`（但不是两者）。 probs 索引超过类别 `
-最内尺寸。所有其他尺寸价格指数比批次。`
-
-注意，`TOTAL_COUNT`不必如果只 `log_prob（） `被称为指定（见下面例子）
-
-Note
-
-`probs`必须是非负的，有限的，并且有一个非零和，并且将被归一化总和为1。
-
-  * `样品（） `需要一个单一的共享 TOTAL_COUNT 所有参数和样品。
-
-  * `log_prob（） `允许为每个参数和样品不同 TOTAL_COUNT 。
-
-Example:
-
-    
-    
-    >>> m = Multinomial(100, torch.tensor([ 1., 1., 1., 1.]))
-    >>> x = m.sample()  # equal probability of 0, 1, 2, 3
-    tensor([ 21.,  24.,  30.,  25.])
-    
-    >>> Multinomial(probs=torch.tensor([1., 1., 1., 1.])).log_prob(x)
-    tensor([-4.1338])
-    
-
-Parameters
-
-    
-
-  * **TOTAL_COUNT** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")） - 的实验中
-
-  * **probs** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
-
-  * **logits** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 事件数概率
-
-`arg_constraints`_= {'logits': Real(), 'probs': Simplex()}_
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/multinomial.html#Multinomial.expand)
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/multinomial.html#Multinomial.log_prob)
-
-    
-
-_property_`logits`
-
-    
-
-_property_`mean`
-
-    
-
-_property_`param_shape`
-
-    
-
-_property_`probs`
-
-    
-
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/multinomial.html#Multinomial.sample)
-
-    
-
-_property_`support`
-
-    
-
-_property_`variance`
-
-    
-
-##  MultivariateNormal 
-
-_class_`torch.distributions.multivariate_normal.``MultivariateNormal`( _loc_ ,
-_covariance_matrix=None_ , _precision_matrix=None_ , _scale_tril=None_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-创建一个多变量正态分布（也称为高斯分布）由一个平均向量和协方差矩阵参数分布。
-
-多元正态分布可以在正定协方差矩阵 Σ \ mathbf {方面来参数化\西格玛}  Σ 或正定精度矩阵 Σ \-  1  \ mathbf {\西格玛} ^
-{ - 1}  Σ \-  1  或下三角矩阵 [HTG8 5]  L  \ mathbf {L}  L  具有正值对角项，使得 Σ =  L  L  ⊤
-\ mathbf {\西格玛} = \ mathbf {L} \ mathbf {L} ^ \顶 Σ  =  L  L  ⊤
-。这个三角矩阵可以通过例如获得协方差的Cholesky分解。
+```
 
 Example
 
-    
-    
-    >>> m = MultivariateNormal(torch.zeros(2), torch.eye(2))
-    >>> m.sample()  # normally distributed with mean=`[0,0]`and covariance_matrix=`I`
-    tensor([-0.2102, -0.5429])
-    
+```py
+>>> m = LowRankMultivariateNormal(torch.zeros(2), torch.tensor([1, 0]), torch.tensor([1, 1]))
+>>> m.sample()  # normally distributed with mean=`[0,0]`, cov_factor=`[1,0]`, cov_diag=`[1,1]`
+tensor([-0.2102, -0.5429])
 
-Parameters
+```
 
-    
+参数: 
 
-  * **LOC** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的平均
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的均值, 形状为 `batch_shape + event_shape`
+*   **cov_factor** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 协方差矩阵低秩形式的因子部分, 形状为 `batch_shape + event_shape + (rank,)`
+*   **cov_diag** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 协方差矩阵的低秩形式的对角部分, 形状为 `batch_shape + event_shape`
 
-  * **covariance_matrix** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 正定协方差矩阵
 
-  * **precision_matrix** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 正定矩阵精度
 
-  * **scale_tril** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 协方差的下三角因子，具有正值的对角
+注意
 
-Note
+避免了协方差矩阵的行列式和逆的计算, 当 `cov_factor.shape[1] << cov_factor.shape[0]` 由于 [Woodbury matrix identity](https://en.wikipedia.org/wiki/Woodbury_matrix_identity) 和 [matrix determinant lemma](https://en.wikipedia.org/wiki/Matrix_determinant_lemma).  由于这些公式, 我们只需要计算小尺寸“capacitance”矩阵的行列式和逆:
 
-只有 `covariance_matrix`或 `precision_matrix`或 `酮 scale_tril`可以被指定。
+```py
+capacitance = I + cov_factor.T @ inv(cov_diag) @ cov_factor
 
-使用 `scale_tril`将更有效率：所有计算内部是基于 `scale_tril`。如果 `covariance_matrix`
-或 `precision_matrix`被传递，相反，它只是用来计算相应的使用Cholesky分解下三角矩阵。
+```
 
-`arg_constraints`_= {'covariance_matrix': PositiveDefinite(), 'loc':
-RealVector(), 'precision_matrix': PositiveDefinite(), 'scale_tril':
-LowerCholesky()}_
+```py
+arg_constraints = {'cov_diag': GreaterThan(lower_bound=0.0), 'cov_factor': Real(), 'loc': Real()}
+```
 
-    
+```py
+covariance_matrix
+```
 
-`covariance_matrix`[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.covariance_matrix)
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`entropy`()[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.entropy)
+```py
+has_rsample = True
+```
 
-    
+```py
+log_prob(value)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.expand)
+```py
+mean
+```
 
-    
+```py
+precision_matrix
+```
 
-`has_rsample`_= True_
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+scale_tril
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.log_prob)
+```py
+support = Real()
+```
 
-    
+```py
+variance
+```
 
-_property_`mean`
+## Multinomial
 
-    
+```py
+class torch.distributions.multinomial.Multinomial(total_count=1, probs=None, logits=None, validate_args=None)
+```
 
-`precision_matrix`[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.precision_matrix)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+创建由`total_count`和`probs`或`logits`（但不是两者）参数化的多项式分布.  `probs`的最内层维度是对类别的索引.  所有其他维度索引批次. 
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.rsample)
+注意 `total_count` 不需要指定, 当只有 [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") 被调用
 
-    
+注意
 
-`scale_tril`[[source]](_modules/torch/distributions/multivariate_normal.html#MultivariateNormal.scale_tril)
+[`probs`](#torch.distributions.multinomial.Multinomial.probs "torch.distributions.multinomial.Multinomial.probs") 必须是非负的、有限的并且具有非零和, 并且它将被归一化为和为1.
 
-    
+*   [`sample()`](#torch.distributions.multinomial.Multinomial.sample "torch.distributions.multinomial.Multinomial.sample") 所有参数和样本都需要一个共享的`total_count`.
+*   [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob")  允许每个参数和样本使用不同的`total_count`.
 
-`support`_= Real()_
+例子:
 
-    
+```py
+>>> m = Multinomial(100, torch.tensor([ 1., 1., 1., 1.]))
+>>> x = m.sample()  # equal probability of 0, 1, 2, 3
+tensor([ 21.,  24.,  30.,  25.])
 
-_property_`variance`
+>>> Multinomial(probs=torch.tensor([1., 1., 1., 1.])).log_prob(x)
+tensor([-4.1338])
 
-    
+```
 
-##  NegativeBinomial 
+参数: 
 
-_class_`torch.distributions.negative_binomial.``NegativeBinomial`(
-_total_count_ , _probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/negative_binomial.html#NegativeBinomial)
+*   **total_count** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 试验次数
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件对数概率
 
-    
 
-Bases: `torch.distributions.distribution.Distribution`
 
-创建一个负二项分布，即`TOTAL_COUNT`得以实现故障之前需要独立同伯努利试验数目的分布。每个伯努利试验的成功的概率是 `probs`。
+```py
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
+```
 
-Parameters
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+log_prob(value)
+```
 
-  * **TOTAL_COUNT** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 负伯努利的非负数试验停止，虽然分布仍然是成立的实值计
+```py
+logits
+```
 
-  * **probs** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 在半开区间[0成功的事件概率，1）
+```py
+mean
+```
 
-  * **logits** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 事件日志把握成功的概率
+```py
+param_shape
+```
 
-`arg_constraints`_= {'logits': Real(), 'probs':
-HalfOpenInterval(lower_bound=0.0, upper_bound=1.0), 'total_count':
-GreaterThanEq(lower_bound=0)}_
+```py
+probs
+```
 
-    
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/negative_binomial.html#NegativeBinomial.expand)
+```py
+support
+```
 
-    
+```py
+variance
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/negative_binomial.html#NegativeBinomial.log_prob)
+## MultivariateNormal
 
-    
+```py
+class torch.distributions.multivariate_normal.MultivariateNormal(loc, covariance_matrix=None, precision_matrix=None, scale_tril=None, validate_args=None)
+```
 
-`logits`[[source]](_modules/torch/distributions/negative_binomial.html#NegativeBinomial.logits)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+创建由均值向量和协方差矩阵参数化的多元正态(也称为高斯)分布.
 
-_property_`mean`
+多元正态分布可以用正定协方差矩阵![](img/ea86c11eaef9af2b4d699b88c2474ffd.jpg)来参数化或者一个正定的精度矩阵 ![](img/1949bfcc1decf198a2ff50b6e25f4cf6.jpg)  或者是一个正对角项的下三角矩阵 ![](img/f4996f1b5056dd364eab16f975b808ff.jpg), 例如 ![](img/6749b6afc75abfc8e0652ac8e5c0b8d8.jpg). 这个三角矩阵可以通过协方差的Cholesky分解得到.
 
-    
+例子
 
-_property_`param_shape`
+```py
+>>> m = MultivariateNormal(torch.zeros(2), torch.eye(2))
+>>> m.sample()  # normally distributed with mean=`[0,0]` and covariance_matrix=`I`
+tensor([-0.2102, -0.5429])
 
-    
+```
 
-`probs`[[source]](_modules/torch/distributions/negative_binomial.html#NegativeBinomial.probs)
+参数: 
 
-    
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的均值
+*   **covariance_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 正定协方差矩阵
+*   **precision_matrix** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 正定精度矩阵
+*   **scale_tril** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 具有正值对角线的下三角协方差因子
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/negative_binomial.html#NegativeBinomial.sample)
 
-    
 
-`support`_= IntegerGreaterThan(lower_bound=0)_
+注意
 
-    
+仅仅一个 [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") 或者 [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") 或者 [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril") 可被指定.
 
-_property_`variance`
+使用 [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril")  会更有效率: 内部的所有计算都基于 [`scale_tril`](#torch.distributions.multivariate_normal.MultivariateNormal.scale_tril "torch.distributions.multivariate_normal.MultivariateNormal.scale_tril"). 如果 [`covariance_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix "torch.distributions.multivariate_normal.MultivariateNormal.covariance_matrix") 或者 [`precision_matrix`](#torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix "torch.distributions.multivariate_normal.MultivariateNormal.precision_matrix") 已经被传入, 它仅用于使用Cholesky分解计算相应的下三角矩阵.
 
-    
+```py
+arg_constraints = {'covariance_matrix': PositiveDefinite(), 'loc': RealVector(), 'precision_matrix': PositiveDefinite(), 'scale_tril': LowerCholesky()}
+```
 
-## 正常
+```py
+covariance_matrix
+```
 
-_class_`torch.distributions.normal.``Normal`( _loc_ , _scale_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/normal.html#Normal)
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-Bases: `torch.distributions.exp_family.ExponentialFamily`
+```py
+has_rsample = True
+```
 
-创建普通的（也称为高斯分布）由`LOC`和`规模 `参数化分布。
+```py
+log_prob(value)
+```
 
-Example:
+```py
+mean
+```
 
-    
-    
-    >>> m = Normal(torch.tensor([0.0]), torch.tensor([1.0]))
-    >>> m.sample()  # normally distributed with loc=0 and scale=1
-    tensor([ 0.1046])
-    
+```py
+precision_matrix
+```
 
-Parameters
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+scale_tril
+```
 
-  * **LOC** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 的分布的平均值（通常称为作为亩）
+```py
+support = Real()
+```
 
-  * **规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 的分布的标准偏差（通常称为西格马）
+```py
+variance
+```
 
-`arg_constraints`_= {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}_
+## NegativeBinomial
 
-    
+```py
+class torch.distributions.negative_binomial.NegativeBinomial(total_count, probs=None, logits=None, validate_args=None)
+```
 
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/normal.html#Normal.cdf)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+创建一个负二项分布, 即在达到`total_count`失败之前所需的独立相同伯努利试验的数量的分布. 每次伯努利试验成功的概率都是`probs`. 
 
-`entropy`()[[source]](_modules/torch/distributions/normal.html#Normal.entropy)
+参数: 
 
-    
+*   **total_count** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  非负数伯努利试验停止的次数, 虽然分布仍然对实数有效
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率, 区间为 [0, 1)
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件对数几率 - 成功概率的几率
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/normal.html#Normal.expand)
 
-    
 
-`has_rsample`_= True_
+```py
+arg_constraints = {'logits': Real(), 'probs': HalfOpenInterval(lower_bound=0.0, upper_bound=1.0), 'total_count': GreaterThanEq(lower_bound=0)}
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/normal.html#Normal.icdf)
+```py
+log_prob(value)
+```
 
-    
+```py
+logits
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/normal.html#Normal.log_prob)
+```py
+mean
+```
 
-    
+```py
+param_shape
+```
 
-_property_`mean`
+```py
+probs
+```
 
-    
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/normal.html#Normal.rsample)
+```py
+support = IntegerGreaterThan(lower_bound=0)
+```
 
-    
+```py
+variance
+```
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/normal.html#Normal.sample)
+## Normal
 
-    
+```py
+class torch.distributions.normal.Normal(loc, scale, validate_args=None)
+```
 
-_property_`stddev`
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-    
+创建由`loc`和`scale`参数化的正态（也称为高斯）分布
 
-`support`_= Real()_
+例子:
 
-    
+```py
+>>> m = Normal(torch.tensor([0.0]), torch.tensor([1.0]))
+>>> m.sample()  # normally distributed with loc=0 and scale=1
+tensor([ 0.1046])
 
-_property_`variance`
+```
 
-    
+参数: 
 
-##  OneHotCategorical 
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 均值 (也被称为 mu)
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 标准差(也被称为) sigma)
 
-_class_`torch.distributions.one_hot_categorical.``OneHotCategorical`(
-_probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/one_hot_categorical.html#OneHotCategorical)
 
-    
 
-Bases: `torch.distributions.distribution.Distribution`
+```py
+arg_constraints = {'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-创建由 `参数化的独热分类分布probs`或 `logits`。
+```py
+cdf(value)
+```
 
-样品独热编码大小的矢量`probs.size（-1） `。
+```py
+entropy()
+```
 
-Note
+```py
+expand(batch_shape, _instance=None)
+```
 
-`probs`必须是非负的，有限的，并且有一个非零和，并且将被归一化总和为1。
+```py
+has_rsample = True
+```
 
-参见：`torch.distributions.Categorical（） [HTG3用于probs的 `规范 `和 `logits`。`
+```py
+icdf(value)
+```
 
-Example:
+```py
+log_prob(value)
+```
 
-    
-    
-    >>> m = OneHotCategorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
-    >>> m.sample()  # equal probability of 0, 1, 2, 3
-    tensor([ 0.,  0.,  0.,  1.])
-    
+```py
+mean
+```
 
-Parameters
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-  * **probs** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
+```py
+stddev
+```
 
-  * **logits** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
+```py
+support = Real()
+```
 
-`arg_constraints`_= {'logits': Real(), 'probs': Simplex()}_
+```py
+variance
+```
 
-    
+## OneHotCategorical
 
-`entropy`()[[source]](_modules/torch/distributions/one_hot_categorical.html#OneHotCategorical.entropy)
+```py
+class torch.distributions.one_hot_categorical.OneHotCategorical(probs=None, logits=None, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-`enumerate_support`( _expand=True_
-)[[source]](_modules/torch/distributions/one_hot_categorical.html#OneHotCategorical.enumerate_support)
+创建一个由`probs`或l`ogits`参数化的One Hot Categorical 分布
 
-    
+样本是大小为 `probs.size(-1)`热编码向量.
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/one_hot_categorical.html#OneHotCategorical.expand)
+注意
 
-    
+`probs`必须是非负的, 有限的并且具有非零和, 并且它将被归一化为总和为1. 
 
-`has_enumerate_support`_= True_
+请参见: `torch.distributions.Categorical()` 对于指定 [`probs`](#torch.distributions.one_hot_categorical.OneHotCategorical.probs "torch.distributions.one_hot_categorical.OneHotCategorical.probs") 和 [`logits`](#torch.distributions.one_hot_categorical.OneHotCategorical.logits "torch.distributions.one_hot_categorical.OneHotCategorical.logits").
 
-    
+例子:
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/one_hot_categorical.html#OneHotCategorical.log_prob)
+```py
+>>> m = OneHotCategorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
+>>> m.sample()  # equal probability of 0, 1, 2, 3
+tensor([ 0.,  0.,  0.,  1.])
 
-    
+```
 
-_property_`logits`
+参数: 
 
-    
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event log probabilities
 
-_property_`mean`
 
-    
 
-_property_`param_shape`
+```py
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
+```
 
-    
+```py
+entropy()
+```
 
-_property_`probs`
+```py
+enumerate_support(expand=True)
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/one_hot_categorical.html#OneHotCategorical.sample)
+```py
+has_enumerate_support = True
+```
 
-    
+```py
+log_prob(value)
+```
 
-`support`_= Simplex()_
+```py
+logits
+```
 
-    
+```py
+mean
+```
 
-_property_`variance`
+```py
+param_shape
+```
 
-    
+```py
+probs
+```
 
-## 帕累托
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-_class_`torch.distributions.pareto.``Pareto`( _scale_ , _alpha_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/pareto.html#Pareto)
+```py
+support = Simplex()
+```
 
-    
+```py
+variance
+```
 
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
+## Pareto
 
-从帕累托1型分布的样品。
+```py
+class torch.distributions.pareto.Pareto(scale, alpha, validate_args=None)
+```
 
-Example:
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-    
-    
-    >>> m = Pareto(torch.tensor([1.0]), torch.tensor([1.0]))
-    >>> m.sample()  # sample from a Pareto distribution with scale=1 and alpha=1
-    tensor([ 1.5623])
-    
+来自Pareto Type 1分布的样本.
 
-Parameters
+例子:
 
-    
+```py
+>>> m = Pareto(torch.tensor([1.0]), torch.tensor([1.0]))
+>>> m.sample()  # sample from a Pareto distribution with scale=1 and alpha=1
+tensor([ 1.5623])
 
-  * **scale** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _or_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale parameter of the distribution
+```
 
-  * **阿尔法** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布的形状参数
+参数: 
 
-`arg_constraints`_= {'alpha': GreaterThan(lower_bound=0.0), 'scale':
-GreaterThan(lower_bound=0.0)}_
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的Scale
+*   **alpha** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的Shape
 
-    
 
-`entropy`()[[source]](_modules/torch/distributions/pareto.html#Pareto.entropy)
 
-    
+```py
+arg_constraints = {'alpha': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/pareto.html#Pareto.expand)
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-_property_`mean`
+```py
+mean
+```
 
-    
+```py
+support
+```
 
-_property_`support`
+```py
+variance
+```
 
-    
+## Poisson
 
-_property_`variance`
+```py
+class torch.distributions.poisson.Poisson(rate, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-## 泊松
+创建按`rate`参数化的泊松分布
 
-_class_`torch.distributions.poisson.``Poisson`( _rate_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/poisson.html#Poisson)
+样本是非负整数, pmf是
 
-    
+![](img/32c47de57300c954795486fea3201bdc.jpg)
 
-Bases: `torch.distributions.exp_family.ExponentialFamily`
+例子:
 
-创建由`速率 `，速率参数参数化的泊松分布。
+```py
+>>> m = Poisson(torch.tensor([4]))
+>>> m.sample()
+tensor([ 3.])
 
-样品为非负整数，由给定PMF
+```
 
-rateke−ratek!\mathrm{rate}^k \frac{e^{-\mathrm{rate}}}{k!} ratekk!e−rate​
+| 参数: | **rate** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate 参数 |
 
-Example:
 
-    
-    
-    >>> m = Poisson(torch.tensor([4]))
-    >>> m.sample()
-    tensor([ 3.])
-    
+```py
+arg_constraints = {'rate': GreaterThan(lower_bound=0.0)}
+```
 
-Parameters
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+log_prob(value)
+```
 
-**速率** （ _号码_ _，_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 速率参数
+```py
+mean
+```
 
-`arg_constraints`_= {'rate': GreaterThan(lower_bound=0.0)}_
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-    
+```py
+support = IntegerGreaterThan(lower_bound=0)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/poisson.html#Poisson.expand)
+```py
+variance
+```
 
-    
+## RelaxedBernoulli
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/poisson.html#Poisson.log_prob)
+```py
+class torch.distributions.relaxed_bernoulli.RelaxedBernoulli(temperature, probs=None, logits=None, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-_property_`mean`
+创建一个RelaxedBernoulli分布, 通过[`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature")参数化, 以及`probs`或`logits`（但不是两者）.  这是伯努利分布的松弛版本, 因此值在（0,1）中, 并且具有可重参数化的样本. 
 
-    
+例子:
 
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/poisson.html#Poisson.sample)
+```py
+>>> m = RelaxedBernoulli(torch.tensor([2.2]),
+ torch.tensor([0.1, 0.2, 0.3, 0.99]))
+>>> m.sample()
+tensor([ 0.2951,  0.3442,  0.8918,  0.9021])
 
-    
+```
 
-`support`_= IntegerGreaterThan(lower_bound=0)_
+参数: 
 
-    
+*   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 松弛 temperature
+*   **probs** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –采样 `1` 的概率
+*   **logits** (_Number__,_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 采样 `1` 的对数概率
 
-_property_`variance`
 
-    
 
-##  RelaxedBernoulli 
+```py
+arg_constraints = {'logits': Real(), 'probs': Interval(lower_bound=0.0, upper_bound=1.0)}
+```
 
-_class_`torch.distributions.relaxed_bernoulli.``RelaxedBernoulli`(
-_temperature_ , _probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/relaxed_bernoulli.html#RelaxedBernoulli)
+```py
+expand(batch_shape, _instance=None)
+```
 
-    
+```py
+has_rsample = True
+```
 
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
+```py
+logits
+```
 
-创建RelaxedBernoulli分布，由 `温度 `参数化的，并且或者 `probs`或 `logits`
-（但不是两者）。这是伯努利分布的松弛版本，所以这些值是（0，1），并且具有reparametrizable样品。
+```py
+probs
+```
 
-Example:
+```py
+support = Interval(lower_bound=0.0, upper_bound=1.0)
+```
 
-    
-    
-    >>> m = RelaxedBernoulli(torch.tensor([2.2]),
-                             torch.tensor([0.1, 0.2, 0.3, 0.99]))
-    >>> m.sample()
-    tensor([ 0.2951,  0.3442,  0.8918,  0.9021])
-    
+```py
+temperature
+```
 
-Parameters
+## RelaxedOneHotCategorical
 
-    
+```py
+class torch.distributions.relaxed_categorical.RelaxedOneHotCategorical(temperature, probs=None, logits=None, validate_args=None)
+```
 
-  * **温度** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 松弛温度
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-  * **probs** ( _Number_ _,_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probability of sampling 1
+创建一个由温度参数化的`RelaxedOneHotCategorical`分布, 以及`probs`或`logits`.  这是`OneHotCategorical`分布的松弛版本, 因此它的样本是单一的, 并且可以重参数化. 
 
-  * **logits** ( _Number_ _,_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling 1
+例子:
 
-`arg_constraints`_= {'logits': Real(), 'probs': Interval(lower_bound=0.0,
-upper_bound=1.0)}_
+```py
+>>> m = RelaxedOneHotCategorical(torch.tensor([2.2]),
+ torch.tensor([0.1, 0.2, 0.3, 0.4]))
+>>> m.sample()
+tensor([ 0.1294,  0.2324,  0.3859,  0.2523])
 
-    
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/relaxed_bernoulli.html#RelaxedBernoulli.expand)
+参数: 
 
-    
+*   **temperature** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 松弛 temperature
+*   **probs** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 事件概率
+*   **logits** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –对数事件概率.
 
-`has_rsample`_= True_
 
-    
 
-_property_`logits`
+```py
+arg_constraints = {'logits': Real(), 'probs': Simplex()}
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-_property_`probs`
+```py
+has_rsample = True
+```
 
-    
+```py
+logits
+```
 
-`support`_= Interval(lower_bound=0.0, upper_bound=1.0)_
+```py
+probs
+```
 
-    
+```py
+support = Simplex()
+```
 
-_property_`temperature`
+```py
+temperature
+```
 
-    
+## StudentT
 
-##  LogitRelaxedBernoulli 
+```py
+class torch.distributions.studentT.StudentT(df, loc=0.0, scale=1.0, validate_args=None)
+```
 
-_class_`torch.distributions.relaxed_bernoulli.``LogitRelaxedBernoulli`(
-_temperature_ , _probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/relaxed_bernoulli.html#LogitRelaxedBernoulli)
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+根据自由度`df`, 平均`loc`和`scale`创建学生t分布. 
 
-Bases: `torch.distributions.distribution.Distribution`
+例子:
 
-创建LogitRelaxedBernoulli分布由参数 `probs`或 `logits`（但不是两者）
-，这是一个RelaxedBernoulli分布的分对数。
+```py
+>>> m = StudentT(torch.tensor([2.0]))
+>>> m.sample()  # Student's t-distributed with degrees of freedom=2
+tensor([ 0.1046])
 
-样品是在（0，1）的值的logits。见[1]的更多细节。
+```
 
-Parameters
+参数: 
 
-    
+*   **df** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 自由度
+*   **loc** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 均值
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的scale
 
-  * **temperature** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
 
-  * **probs** ( _Number_ _,_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the probability of sampling 1
 
-  * **logits** ( _Number_ _,_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – the log-odds of sampling 1
+```py
+arg_constraints = {'df': GreaterThan(lower_bound=0.0), 'loc': Real(), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-[1]的具体分布：离散随机变量的连续松弛（麦迪逊等人，2017）
+```py
+entropy()
+```
 
-[2]范畴重新参数化与冈贝尔-使用SoftMax（Jang等，2017）
+```py
+expand(batch_shape, _instance=None)
+```
 
-`arg_constraints`_= {'logits': Real(), 'probs': Interval(lower_bound=0.0,
-upper_bound=1.0)}_
+```py
+has_rsample = True
+```
 
-    
+```py
+log_prob(value)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/relaxed_bernoulli.html#LogitRelaxedBernoulli.expand)
+```py
+mean
+```
 
-    
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/relaxed_bernoulli.html#LogitRelaxedBernoulli.log_prob)
+```py
+support = Real()
+```
 
-    
+```py
+variance
+```
 
-`logits`[[source]](_modules/torch/distributions/relaxed_bernoulli.html#LogitRelaxedBernoulli.logits)
+## TransformedDistribution
 
-    
+```py
+class torch.distributions.transformed_distribution.TransformedDistribution(base_distribution, transforms, validate_args=None)
+```
 
-_property_`param_shape`
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-    
+Distribution类的扩展, 它将一系列变换应用于基本分布. 假设f是所应用变换的组成:
 
-`probs`[[source]](_modules/torch/distributions/relaxed_bernoulli.html#LogitRelaxedBernoulli.probs)
+```py
+X ~ BaseDistribution
+Y = f(X) ~ TransformedDistribution(BaseDistribution, f)
+log p(Y) = log p(X) + log |det (dX/dY)|
 
-    
+```
 
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/relaxed_bernoulli.html#LogitRelaxedBernoulli.rsample)
+注意 `.event_shape` of a [`TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution") 是其基本分布及其变换的最大形状, 因为变换可以引入事件之间的相关性.
 
-    
+一个使用例子 [`TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution"):
 
-`support`_= Real()_
+```py
+# Building a Logistic Distribution
+# X ~ Uniform(0, 1)
+# f = a + b * logit(X)
+# Y ~ f(X) ~ Logistic(a, b)
+base_distribution = Uniform(0, 1)
+transforms = [SigmoidTransform().inv, AffineTransform(loc=a, scale=b)]
+logistic = TransformedDistribution(base_distribution, transforms)
 
-    
+```
 
-##  RelaxedOneHotCategorical 
+有关更多示例, 请查看有关实现 [`Gumbel`](#torch.distributions.gumbel.Gumbel "torch.distributions.gumbel.Gumbel"), [`HalfCauchy`](#torch.distributions.half_cauchy.HalfCauchy "torch.distributions.half_cauchy.HalfCauchy"), [`HalfNormal`](#torch.distributions.half_normal.HalfNormal "torch.distributions.half_normal.HalfNormal"), [`LogNormal`](#torch.distributions.log_normal.LogNormal "torch.distributions.log_normal.LogNormal"), [`Pareto`](#torch.distributions.pareto.Pareto "torch.distributions.pareto.Pareto"), [`Weibull`](#torch.distributions.weibull.Weibull "torch.distributions.weibull.Weibull"), [`RelaxedBernoulli`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli "torch.distributions.relaxed_bernoulli.RelaxedBernoulli") 和 [`RelaxedOneHotCategorical`](#torch.distributions.relaxed_categorical.RelaxedOneHotCategorical "torch.distributions.relaxed_categorical.RelaxedOneHotCategorical")
 
-_class_`torch.distributions.relaxed_categorical.``RelaxedOneHotCategorical`(
-_temperature_ , _probs=None_ , _logits=None_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/relaxed_categorical.html#RelaxedOneHotCategorical)
+```py
+arg_constraints = {}
+```
 
-    
+```py
+cdf(value)
+```
 
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
+通过逆变换和计算基分布的分数来计算累积分布函数.
 
-创建RelaxedOneHotCategorical分布通过参数化 `温度 `，并且或者 `probs`或 `logits`。这是`
-OneHotCategorical`分布宽松的版，所以它的样品都在单一，且reparametrizable。
+```py
+expand(batch_shape, _instance=None)
+```
 
-Example:
+```py
+has_rsample
+```
 
-    
-    
-    >>> m = RelaxedOneHotCategorical(torch.tensor([2.2]),
-                                     torch.tensor([0.1, 0.2, 0.3, 0.4]))
-    >>> m.sample()
-    tensor([ 0.1294,  0.2324,  0.3859,  0.2523])
-    
+```py
+icdf(value)
+```
 
-Parameters
+使用transform(s)计算逆累积分布函数, 并计算基分布的分数.
 
-    
+```py
+log_prob(value)
+```
 
-  * **temperature** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – relaxation temperature
+通过反转变换并使用基本分布的分数和日志abs det jacobian计算分数来对样本进行评分
 
-  * **probs** ([ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – event probabilities
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-  * **logits** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 每个事件的对数概率。
+如果分布参数是批处理的, 则生成sample_shape形状的重新参数化样本或sample_shape形状的重新参数化样本批次.  首先从基本分布中采样, 并对列表中的每个变换应用`transform()`
 
-`arg_constraints`_= {'logits': Real(), 'probs': Simplex()}_
+```py
+sample(sample_shape=torch.Size([]))
+```
 
-    
+如果分布参数是批处理的, 则生成sample_shape形样本或sample_shape形样本批处理.  首先从基本分布中采样, 并对列表中的每个变换应用`transform()`. 
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/relaxed_categorical.html#RelaxedOneHotCategorical.expand)
+```py
+support
+```
 
-    
+## Uniform
 
-`has_rsample`_= True_
+```py
+class torch.distributions.uniform.Uniform(low, high, validate_args=None)
+```
 
-    
+基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-_property_`logits`
 
-    
+从半开区间`[low, high)`生成均匀分布的随机样本
 
-_property_`probs`
+例子:
 
-    
+```py
+>>> m = Uniform(torch.tensor([0.0]), torch.tensor([5.0]))
+>>> m.sample()  # uniformly distributed in the range [0.0, 5.0)
+tensor([ 2.3418])
 
-`support`_= Simplex()_
+```
 
-    
+参数: 
 
-_property_`temperature`
+*   **low** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  下限（含）.
+*   **high** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 上限(排除).
 
-    
 
-## 学生
+```py
+arg_constraints = {'high': Dependent(), 'low': Dependent()}
+```
 
-_class_`torch.distributions.studentT.``StudentT`( _df_ , _loc=0.0_ ,
-_scale=1.0_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/studentT.html#StudentT)
+```py
+cdf(value)
+```
 
-    
+```py
+entropy()
+```
 
-Bases: `torch.distributions.distribution.Distribution`
+```py
+expand(batch_shape, _instance=None)
+```
 
-创建一个学生T分布的自由度参数`DF`，意思是`LOC`和规模`量表 `。
+```py
+has_rsample = True
+```
 
-Example:
+```py
+icdf(value)
+```
 
-    
-    
-    >>> m = StudentT(torch.tensor([2.0]))
-    >>> m.sample()  # Student's t-distributed with degrees of freedom=2
-    tensor([ 0.1046])
-    
+```py
+log_prob(value)
+```
 
-Parameters
+```py
+mean
+```
 
-    
+```py
+rsample(sample_shape=torch.Size([]))
+```
 
-  * **DF** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 自由度
+```py
+stddev
+```
 
-  * **loc** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _or_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – mean of the distribution
+```py
+support
+```
 
-  * **scale** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _or_[ _Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – scale of the distribution
+```py
+variance
+```
 
-`arg_constraints`_= {'df': GreaterThan(lower_bound=0.0), 'loc': Real(),
-'scale': GreaterThan(lower_bound=0.0)}_
+## Weibull
 
-    
+```py
+class torch.distributions.weibull.Weibull(scale, concentration, validate_args=None)
+```
 
-`entropy`()[[source]](_modules/torch/distributions/studentT.html#StudentT.entropy)
+基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/studentT.html#StudentT.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/studentT.html#StudentT.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/studentT.html#StudentT.rsample)
-
-    
-
-`support`_= Real()_
-
-    
-
-_property_`variance`
-
-    
-
-##  TransformedDistribution 
-
-_class_`torch.distributions.transformed_distribution.``TransformedDistribution`(
-_base_distribution_ , _transforms_ , _validate_args=None_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-分发类，它适用变换的序列的碱分布的扩展。令f是施加变换的组合物：
-
-    
-    
-    X ~ BaseDistribution
-    Y = f(X) ~ TransformedDistribution(BaseDistribution, f)
-    log p(Y) = log p(X) + log |det (dX/dY)|
-    
-
-请注意，`.event_shape`的 `TransformedDistribution`
-是其碱分布及其变换的最大形状，因为变换可以介绍事件之间的相关性。
-
-为 `的使用的示例TransformedDistribution`将是：
-
-    
-    
-    # Building a Logistic Distribution
-    # X ~ Uniform(0, 1)
-    # f = a + b * logit(X)
-    # Y ~ f(X) ~ Logistic(a, b)
-    base_distribution = Uniform(0, 1)
-    transforms = [SigmoidTransform().inv, AffineTransform(loc=a, scale=b)]
-    logistic = TransformedDistribution(base_distribution, transforms)
-    
-
-对于更多的例子，请看的 `冈贝尔 `所述实施方式中， `HalfCauchy``HalfNormal`， `对数正态分布 `， `
-帕累托 `， `威布尔 `， `RelaxedBernoulli`和 `RelaxedOneHotCategorical`
-
-`arg_constraints`_= {}_
-
-    
-
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution.cdf)
-
-    
-
-通过反转变换（S）和计算基础分布的分数计算的累积分布函数。
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution.expand)
-
-    
-
-_property_`has_rsample`
-
-    
-
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution.icdf)
-
-    
-
-计算使用变换（S）的倒数累积分布函数以及计算基分布的分数。
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution.log_prob)
-
-    
-
-分数通过反转变换（S）和使用所述碱分布的得分得分和日志腹肌DET雅可比样品。
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution.rsample)
-
-    
-
-生成sample_shape形重新参数化样本或sample_shape形批量重新参数化的样本，如果分布参数是成批的。从基地分配样品的第一和适用变换（）为列表中的每个变换。
-
-`sample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/transformed_distribution.html#TransformedDistribution.sample)
-
-    
-
-生成样本的sample_shape形样品或sample_shape形批次如果分布参数是成批的。从基地分配样品的第一和适用变换（）为列表中的每个变换。
-
-_property_`support`
-
-    
-
-## 统一
-
-_class_`torch.distributions.uniform.``Uniform`( _low_ , _high_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/uniform.html#Uniform)
-
-    
-
-Bases: `torch.distributions.distribution.Distribution`
-
-生成均匀地从半开区间`分布的随机样品[低， 高） `。
-
-Example:
-
-    
-    
-    >>> m = Uniform(torch.tensor([0.0]), torch.tensor([5.0]))
-    >>> m.sample()  # uniformly distributed in the range [0.0, 5.0)
-    tensor([ 2.3418])
-    
-
-Parameters
-
-    
-
-  * **低** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 较低范围（含）。
-
-  * **高** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 上限范围（不包括）。
-
-`arg_constraints`_= {'high': Dependent(), 'low': Dependent()}_
-
-    
-
-`cdf`( _value_
-)[[source]](_modules/torch/distributions/uniform.html#Uniform.cdf)
-
-    
-
-`entropy`()[[source]](_modules/torch/distributions/uniform.html#Uniform.entropy)
-
-    
-
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/uniform.html#Uniform.expand)
-
-    
-
-`has_rsample`_= True_
-
-    
-
-`icdf`( _value_
-)[[source]](_modules/torch/distributions/uniform.html#Uniform.icdf)
-
-    
-
-`log_prob`( _value_
-)[[source]](_modules/torch/distributions/uniform.html#Uniform.log_prob)
-
-    
-
-_property_`mean`
-
-    
-
-`rsample`( _sample_shape=torch.Size([])_
-)[[source]](_modules/torch/distributions/uniform.html#Uniform.rsample)
-
-    
-
-_property_`stddev`
-
-    
-
-_property_`support`
-
-    
-
-_property_`variance`
-
-    
-
-## 威布尔
-
-_class_`torch.distributions.weibull.``Weibull`( _scale_ , _concentration_ ,
-_validate_args=None_
-)[[source]](_modules/torch/distributions/weibull.html#Weibull)
-
-    
-
-Bases: `torch.distributions.transformed_distribution.TransformedDistribution`
-
-从两参数Weibull分布样本。
+来自双参数Weibull分布的样本.
 
 Example
 
-    
-    
-    >>> m = Weibull(torch.tensor([1.0]), torch.tensor([1.0]))
-    >>> m.sample()  # sample from a Weibull distribution with scale=1, concentration=1
-    tensor([ 0.4784])
-    
+```py
+>>> m = Weibull(torch.tensor([1.0]), torch.tensor([1.0]))
+>>> m.sample()  # sample from a Weibull distribution with scale=1, concentration=1
+tensor([ 0.4784])
 
-Parameters
+```
 
-    
+参数: 
 
-  * **规模** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分布（拉姆达）的尺度参数。
+*   **scale** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Scale (lambda).
+*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – Concentration (k/shape).
 
-  * **浓度** （[ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 分配的浓度参数（k /形状）。
 
-`arg_constraints`_= {'concentration': GreaterThan(lower_bound=0.0), 'scale':
-GreaterThan(lower_bound=0.0)}_
 
-    
+```py
+arg_constraints = {'concentration': GreaterThan(lower_bound=0.0), 'scale': GreaterThan(lower_bound=0.0)}
+```
 
-`entropy`()[[source]](_modules/torch/distributions/weibull.html#Weibull.entropy)
+```py
+entropy()
+```
 
-    
+```py
+expand(batch_shape, _instance=None)
+```
 
-`expand`( _batch_shape_ , __instance=None_
-)[[source]](_modules/torch/distributions/weibull.html#Weibull.expand)
+```py
+mean
+```
 
-    
+```py
+support = GreaterThan(lower_bound=0.0)
+```
 
-_property_`mean`
+```py
+variance
+```
 
-    
+## `KL Divergence`
 
-`support`_= GreaterThan(lower_bound=0.0)_
+```py
+torch.distributions.kl.kl_divergence(p, q)
+```
 
-    
+计算Kullback-Leibler散度 ![](img/739a8e4cd0597805c3e4daf35c0fc7c6.jpg) 对于两个分布.
 
-_property_`variance`
+![](img/ff8dcec3abe559720f8b0b464d2471b2.jpg)
 
-    
+参数: 
 
-##  KL散度
+*   **p** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – `Distribution` 对象.
+*   **q** ([_Distribution_](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")) – `Distribution` 对象.
 
-`torch.distributions.kl.``kl_divergence`( _p_ , _q_
-)[[source]](_modules/torch/distributions/kl.html#kl_divergence)
 
-    
+| 返回值: | 批量的 KL 散度, 形状为 `batch_shape`. |
 
-计算相对熵 K  L  （ P  ∥ q  ） KL（p \ | q）的 K  L  （ p  ∥ q  ） [HTG47两个分布之间。
+| 返回类型： | [Tensor](tensors.html#torch.Tensor "torch.Tensor") |
 
-KL(p∥q)=∫p(x)log⁡p(x)q(x) dxKL(p \| q) = \int p(x) \log\frac {p(x)} {q(x)}
-\,dxKL(p∥q)=∫p(x)logq(x)p(x)​dx
+| 异常: | [`NotImplementedError`](https://docs.python.org/3/library/exceptions.html#NotImplementedError "(in Python v3.7)") – 如果分布类型尚未通过注册 [`register_kl()`](#torch.distributions.kl.register_kl "torch.distributions.kl.register_kl"). |
 
-Parameters
 
-    
+```py
+torch.distributions.kl.register_kl(type_p, type_q)
+```
 
-  * **P** （ _发行_ ） - A `发行 `对象。
+装饰器注册[`kl_divergence()`](#torch.distributions.kl.kl_divergence "torch.distributions.kl.kl_divergence")的成对函数
 
-  * **Q** （ _发行_ ） - A `发行 `对象。
+```py
+@register_kl(Normal, Normal)
+def kl_normal_normal(p, q):
+    # insert implementation here
 
-Returns
+```
 
-    
+Lookup返回由子类排序的最具体(type,type)匹配.  如果匹配不明确, 则会引发`RuntimeWarning`.  例如, 解决模棱两可的情况
 
-一批形状 batch_shape 的KL分歧的。
+```py
+@register_kl(BaseP, DerivedQ)
+def kl_version1(p, q): ...
+@register_kl(DerivedP, BaseQ)
+def kl_version2(p, q): ...
 
-Return type
+```
 
-    
+你应该注册第三个最具体的实现, 例如:
 
-[张量](tensors.html#torch.Tensor "torch.Tensor")
+```py
+register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
 
-Raises
+```
 
-    
+参数: 
 
-[ **NotImplementedError**
-](https://docs.python.org/3/library/exceptions.html#NotImplementedError "\(in
-Python v3.7\)") \- 如果分布类型还没有被通过 `注册 register_kl（） `。
+*   **type_p** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – 子类 `Distribution`.
+*   **type_q** ([_type_](https://docs.python.org/3/library/functions.html#type "(in Python v3.7)")) – 子类 `Distribution`.
 
-`torch.distributions.kl.``register_kl`( _type_p_ , _type_q_
-)[[source]](_modules/torch/distributions/kl.html#register_kl)
 
-    
 
-装饰器注册到成对函数`kl_divergence（） `。用法：
+## `Transforms`
 
-    
-    
-    @register_kl(Normal, Normal)
-    def kl_normal_normal(p, q):
-        # insert implementation here
-    
+```py
+class torch.distributions.transforms.Transform(cache_size=0)
+```
 
-查找返回由子类下令最具体的（类型，类型）相匹配。如果匹配是不明确的，一个 RuntimeWarning 升高。例如为了解决模棱两可的情况：
+有可计算的log det jacobians进行可逆变换的抽象类.  它们主要用于 `torch.distributions.TransformedDistribution`.
 
-    
-    
-    @register_kl(BaseP, DerivedQ)
-    def kl_version1(p, q): ...
-    @register_kl(DerivedP, BaseQ)
-    def kl_version2(p, q): ...
-    
+缓存对于其反转昂贵或数值不稳定的变换很有用.  请注意, 必须注意记忆值, 因为可以颠倒自动记录图.  例如, 以下操作有或没有缓存:
 
-要注册第三最特定的实现，例如：
+```py
+y = t(x)
+t.log_abs_det_jacobian(x, y).backward()  # x will receive gradients.
 
-    
-    
-    register_kl(DerivedP, DerivedQ)(kl_version1)  # Break the tie.
-    
+```
 
-Parameters
+但是, 由于依赖性反转, 缓存时会出现以下错误:
 
-    
+```py
+y = t(x)
+z = t.inv(y)
+grad(z.sum(), [y])  # error because z is x
 
-  * **type_p** （[ _输入_ ](https://docs.python.org/3/library/functions.html#type "\(in Python v3.7\)")） - 的`发行 `的子类。
+```
 
-  * **type_q** （[ _输入_ ](https://docs.python.org/3/library/functions.html#type "\(in Python v3.7\)")） - 的`发行 `的子类。
+ 派生类应该实现`_call()`或`_inverse()`中的一个或两个.  设置`bijective=True`的派生类也应该实现`log_abs_det_jacobian()`
 
-## 变换
+| 参数: | **cache_size** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 缓存大小.  如果为零, 则不进行缓存.  如果是, 则缓存最新的单个值.  仅支持0和1 |
 
-_class_`torch.distributions.transforms.``Transform`( _cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#Transform)
+| Variables: | 
 
-    
+*   **domain** ([`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) –  表示该变换有效输入的约束.
+*   **codomain** ([`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) – 表示此转换的有效输出的约束, 这些输出是逆变换的输入.
+*   **bijective** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  这个变换是否是双射的. 变换 `t` 是双射的 如果 `t.inv(t(x)) == x` 并且 `t(t.inv(y)) == y` 对于每一个 `x` 和 `y`. 不是双射的变形应该至少保持较弱的伪逆属性 `t(t.inv(t(x)) == t(x)` and `t.inv(t(t.inv(y))) == t.inv(y)`.
+*   **sign** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 对于双射单变量变换, 它应该是+1或-1, 这取决于变换是单调递增还是递减.
+*   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 变换event_shape中相关的维数.  这对于逐点变换应该是0, 对于在矢量上共同作用的变换是1, 对于在矩阵上共同作用的变换是2, 等等.
 
-抽象类与可计算日志DET雅可比可翻转变换。它们主要在`torch.distributions.TransformedDistribution`使用。
 
-缓存是tranforms其逆要么是昂贵或数值不稳定有用。请注意，你必须要好好memoized值占用，因为autograd图可被逆转。例如，虽然有或无缓存了以下工作：
+```py
+inv
+```
 
-    
-    
-    y = t(x)
-    t.log_abs_det_jacobian(x, y).backward()  # x will receive gradients.
-    
+返回逆[`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform"). 满足 `t.inv.inv is t`.
 
-然而，由于依赖逆转缓存时，以下将错误：
+```py
+sign
+```
 
-    
-    
-    y = t(x)
-    z = t.inv(y)
-    grad(z.sum(), [y])  # error because z is x
-    
+如果适用, 返回雅可比行列式的符号.  一般来说, 这只适用于双射变换.
 
-派生类应该实现的一个或两个的`_call（） `或`_inverse（） `。该设定派生类双射=真还应当执行 `
-log_abs_det_jacobian（） `。
+```py
+log_abs_det_jacobian(x, y)
+```
 
-Parameters
+计算 log det jacobian `log |dy/dx|` 给定输入和输出.
 
-    
+```py
+class torch.distributions.transforms.ComposeTransform(parts)
+```
 
-**CACHE_SIZE** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int
-"\(in Python v3.7\)")） - 高速缓存的大小。如果是零，没有缓存完成。如果为一，最新的单值缓存。只有0和1的支持。
+在一个链中组合多个转换. 正在组合的转换负责缓存.
 
-Variables
+| 参数: | **parts** (list of [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform")) – 列表 transforms. |
 
-    
 
-  * **〜Transform.domain** （ `约束 `） - 表示有效输入此变换的约束。
+```py
+class torch.distributions.transforms.ExpTransform(cache_size=0)
+```
 
-  * **〜Transform.codomain** （ `约束 `） - 表示有效输出给此变换哪些约束被输入到逆变换。
+转换通过映射 ![](img/ec8d939394f24908d017d86153e312ea.jpg).
 
-  * **〜Transform.bijective** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 是否此变换是双射。变换`T`是双射当且仅当`T.INV（T（X）） ==  × `和`T（T.INV（Y）） ==  Y`为每一个`×`在陪域的域和`Y`。未双射变换应至少保持较弱伪逆特性`T（T.INV（T（X）） ==  T（X） `和`T.INV（吨（T.INV（Y））） ==  T.INV（Y） `。
+```py
+class torch.distributions.transforms.PowerTransform(exponent, cache_size=0)
+```
 
-  * **〜Transform.sign** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)") _或_ [ _张量_ ](tensors.html#torch.Tensor "torch.Tensor")） - 对于双射变换单变量，这应该是+1或-1取决于是否变换是单调递增或递减。
+转换通过映射 ![](img/2062af7179e0c19c3599816de6768cee.jpg).
 
-  * **〜Transform.event_dim** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")） - 这是在变换`event_shape`相关一起维数。这应该是0为逐点变换，1为共同作用于载体，2变换的变换，关于矩阵联合行动，等等。
+```py
+class torch.distributions.transforms.SigmoidTransform(cache_size=0)
+```
 
-_property_`inv`
+转换通过映射 ![](img/749abef3418941161a1c6ff80d9eae76.jpg) and ![](img/6feb73eb74f2267e5caa87d9693362cb.jpg).
 
-    
+```py
+class torch.distributions.transforms.AbsTransform(cache_size=0)
+```
 
-返回逆 `变换 `的此变换。这应该满足`t.inv.inv  是 T`。
+转换通过映射 ![](img/dca0dc2e17c81b7ec261e70549de5507.jpg).
 
-_property_`sign`
+```py
+class torch.distributions.transforms.AffineTransform(loc, scale, event_dim=0, cache_size=0)
+```
 
-    
+通过逐点仿射映射![](img/e1df459e7ff26d682fc956b62868f7c4.jpg)进行转换 .
 
-返回雅可比的行列式的符号，如果适用。一般而言，这不仅使为双射变换感。
+参数: 
 
-`log_abs_det_jacobian`( _x_ , _y_
-)[[source]](_modules/torch/distributions/transforms.html#Transform.log_abs_det_jacobian)
+*   **loc** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Location.
+*   **scale** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor") _or_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")) – Scale.
+*   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 可选的 `event_shape` 大小. T对于单变量随机变量, 该值应为零, 对于矢量分布, 1应为零, 对于矩阵的分布, 应为2.
 
-    
 
-计算日志DET雅可比登录| DY / DX | 给定的输入和输出。
 
-_class_`torch.distributions.transforms.``ComposeTransform`( _parts_
-)[[source]](_modules/torch/distributions/transforms.html#ComposeTransform)
+```py
+class torch.distributions.transforms.SoftmaxTransform(cache_size=0)
+```
 
-    
+从无约束空间到单纯形的转换, 通过 ![](img/ec8d939394f24908d017d86153e312ea.jpg) 然后归一化.
 
-构成在一个链中的多个变换。所组成的变换是负责缓存。
+这不是双射的, 不能用于HMC.  然而, 这主要是协调的（除了最终的归一化）, 因此适合于坐标方式的优化算法. 
 
-Parameters
+```py
+class torch.distributions.transforms.StickBreakingTransform(cache_size=0)
+```
 
-    
+将无约束空间通过 stick-breaking 过程转化为一个额外维度的单纯形. 
 
-**份** （变换的 `列表 `） - 变换的列表组成。
+这种变换是`Dirichlet`分布的破棒构造中的迭代sigmoid变换:第一个逻辑通过sigmoid变换成第一个概率和所有其他概率, 然后这个过程重复出现. 
 
-_class_`torch.distributions.transforms.``ExpTransform`( _cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#ExpTransform)
+这是双射的, 适合在HMC中使用; 然而, 它将坐标混合在一起, 不太适合优化.
 
-    
+```py
+class torch.distributions.transforms.LowerCholeskyTransform(cache_size=0)
+```
 
-通过变换映射 Y  =  EXP  ⁡ （ × ） Y = \ EXP（X） Y  =  EXP  （ × ） 。
+将无约束矩阵转换为具有非负对角项的下三角矩阵.
 
-_class_`torch.distributions.transforms.``PowerTransform`( _exponent_ ,
-_cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#PowerTransform)
+这对于根据Cholesky分解来参数化正定矩阵是有用的.
 
-    
+## `Constraints`
 
-通过映射 Y  =  × 指数变换 Y = X ^ {\文本{指数}}  Y  =  × 指数 。
+The following constraints are implemented:
 
-_class_`torch.distributions.transforms.``SigmoidTransform`( _cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#SigmoidTransform)
+*   `constraints.boolean`
+*   `constraints.dependent`
+*   `constraints.greater_than(lower_bound)`
+*   `constraints.integer_interval(lower_bound, upper_bound)`
+*   `constraints.interval(lower_bound, upper_bound)`
+*   `constraints.lower_cholesky`
+*   `constraints.lower_triangular`
+*   `constraints.nonnegative_integer`
+*   `constraints.positive`
+*   `constraints.positive_definite`
+*   `constraints.positive_integer`
+*   `constraints.real`
+*   `constraints.real_vector`
+*   `constraints.simplex`
+*   `constraints.unit_interval`
 
-    
+```py
+class torch.distributions.constraints.Constraint
+```
 
-通过变换映射 Y  =  1  1  \+  实验值 ⁡ （ \-  × ） Y = \压裂{1} {1 + \ EXP（-x）}  Y  =  1  \+
-EXP  （ \-  × ） 1  [ H T G102]  和 × =  分对数 （ Y  ） ×= \文本{分对数}（Y） × =  分对数 （ Y
-） 。
+constraints 的抽象基类.
 
-_class_`torch.distributions.transforms.``AbsTransform`( _cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#AbsTransform)
+constraint对象表示变量有效的区域, 例如,  其中可以优化变量
 
-    
+```py
+check(value)
+```
 
-通过变换映射 Y  =  |  × |  Y = | X |  Y  =  |  × |  。
+返回一个字节张量 `sample_shape + batch_shape` 指示值中的每个事件是否满足此约束.
 
-_class_`torch.distributions.transforms.``AffineTransform`( _loc_ , _scale_ ,
-_event_dim=0_ , _cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#AffineTransform)
+```py
+torch.distributions.constraints.dependent_property
+```
 
-    
+alias of `torch.distributions.constraints._DependentProperty`
 
-通过逐点仿射映射 变换Y  =  LOC  \+  规模 × × Y = \文本{LOC} + \文本{规模} \乘以x  Y  =  LOC  \+
-规模 × × 。
+```py
+torch.distributions.constraints.integer_interval
+```
 
-Parameters
+alias of `torch.distributions.constraints._IntegerInterval`
 
-    
+```py
+torch.distributions.constraints.greater_than
+```
 
-  * **LOC** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ [ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)")） - 位置的参数。
+alias of `torch.distributions.constraints._GreaterThan`
 
-  * **规模** （[ _张量_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ [ _浮动_ ](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)")） - 缩放参数。
+```py
+torch.distributions.constraints.greater_than_eq
+```
 
-  * **event_dim** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")） - 的 event_shape 可选大小。这应该是零为单变量随机变量，1用于在矢量分布，2超过矩阵等分布
+alias of `torch.distributions.constraints._GreaterThanEq`
 
-_class_`torch.distributions.transforms.``SoftmaxTransform`( _cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#SoftmaxTransform)
+```py
+torch.distributions.constraints.less_than
+```
 
-    
+alias of `torch.distributions.constraints._LessThan`
 
-通过从不受约束的空间变换至单面 Y  =  EXP  ⁡ （ × ） Y = \ EXP（X） Y  =  EXP  （ × ） 然后正火。
+```py
+torch.distributions.constraints.interval
+```
 
-这不是双射的，不能用于HMC。然而，这种作用主要是坐标明智（除了最后标准化），并且因此适合于坐标明智的优化算法。
+alias of `torch.distributions.constraints._Interval`
 
-_class_`torch.distributions.transforms.``StickBreakingTransform`(
-_cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#StickBreakingTransform)
+```py
+torch.distributions.constraints.half_open_interval
+```
 
-    
+alias of `torch.distributions.constraints._HalfOpenInterval`
 
-通过棒折断处理从不受约束的空间转换到一个额外维的单纯。
+## `Constraint Registry`
 
-此变换产生作为迭代乙状结肠在狄利克雷分布的棒破结构变换：第一分对数是通过乙状结肠变换到第一概率和其他一切的概率，然后处理递归。
+PyTorch 提供两个全局 [`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry") 对象 , 链接 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 对象到 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 对象. 这些对象既有输入约束, 也有返回变换, 但是它们对双射性有不同的保证.
 
-这是双射和适合于HMC使用;但是它混合在一起的坐标，是优化不太合适。
+1.  `biject_to(constraint)`  查找一个双射的 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 从 `constraints.real` 到给定的 `constraint`.  返回的转换保证具有 `.bijective = True` 并且应该实现了 `.log_abs_det_jacobian()`.
+2.  `transform_to(constraint)` 查找一个不一定是双射的 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 从 `constraints.real` 到给定的 `constraint`. 返回的转换不保证实现 `.log_abs_det_jacobian()`.
 
-_class_`torch.distributions.transforms.``LowerCholeskyTransform`(
-_cache_size=0_
-)[[source]](_modules/torch/distributions/transforms.html#LowerCholeskyTransform)
+`transform_to()`注册表对于对概率分布的约束参数执行无约束优化非常有用, 这些参数由每个分布的`.arg_constraints`指示.  这些变换通常会过度参数化空间以避免旋转; 因此, 它们更适合像Adam那样的坐标优化算法
 
-    
+```py
+loc = torch.zeros(100, requires_grad=True)
+unconstrained = torch.zeros(100, requires_grad=True)
+scale = transform_to(Normal.arg_constraints['scale'])(unconstrained)
+loss = -Normal(loc, scale).log_prob(data).sum()
 
-从约束矩阵以下三角矩阵非负对角线项变换。
+```
 
-这是在他们的Cholesky分解方面参数化正定矩阵有用。
+`biject_to()` 注册表对于Hamiltonian Monte Carlo非常有用, 其中来自具有约束. `.support`的概率分布的样本在无约束空间中传播, 并且算法通常是旋转不变的
 
-_class_`torch.distributions.transforms.``CatTransform`( _tseq_ , _dim=0_ ,
-_lengths=None_
-)[[source]](_modules/torch/distributions/transforms.html#CatTransform)
+```py
+dist = Exponential(rate)
+unconstrained = torch.zeros(100, requires_grad=True)
+sample = biject_to(dist.support)(unconstrained)
+potential_energy = -dist.log_prob(sample).sum()
 
-    
+```
 
-变换应用于变换的序列函子 TSEQ 逐个分量的每个子矩阵在暗淡，长度的长度[暗淡] ，与[HTG6兼容的方式] `torch.cat（） `。
+注意
 
-Example::
+一个 `transform_to` 和 `biject_to` 不同的例子是 `constraints.simplex`: `transform_to(constraints.simplex)` 返回一个 [`SoftmaxTransform`](#torch.distributions.transforms.SoftmaxTransform "torch.distributions.transforms.SoftmaxTransform") 简单地对其输入进行指数化和归一化;  这是一种廉价且主要是坐标的操作, 适用于像SVI这样的算法. 相反, `biject_to(constraints.simplex)` 返回一个 [`StickBreakingTransform`](#torch.distributions.transforms.StickBreakingTransform "torch.distributions.transforms.StickBreakingTransform") 将其输入生成一个较小维度的空间; 这是一种更昂贵的数值更少的数值稳定的变换, 但对于像HM​​C这样的算法是必需的. 
 
-    
+`biject_to` 和 `transform_to` 对象可以通过用户定义的约束进行扩展, 并使用`.register()`方法进行转换, 作为单例约束的函数
 
-X0 = torch.cat（[torch.range（1，10），torch.range（1，10）]，暗淡= 0）X =
-torch.cat（[X0，X0]，暗淡= 0）T0 = CatTransform（
-[ExpTransform（），identity_transform]，暗淡= 0，长度= [10,10]）T =
-CatTransform（[T0，T0]，暗淡= 0，长度= [20,20]）Y = T（X）
+```py
+transform_to.register(my_constraint, my_transform)
 
-_class_`torch.distributions.transforms.``StackTransform`( _tseq_ , _dim=0_
-)[[source]](_modules/torch/distributions/transforms.html#StackTransform)
+```
 
-    
+或作为参数化约束的装饰器:
 
-变换应用于变换的序列函子 TSEQ 逐个分量的每个子矩阵在暗淡的方式与[ `torch.stack（兼容） `
-](torch.html#torch.stack "torch.stack")。
+```py
+@transform_to.register(MyConstraintClass)
+def my_factory(constraint):
+    assert isinstance(constraint, MyConstraintClass)
+    return MyTransform(constraint.param1, constraint.param2)
 
-Example::
+```
 
-    
+ 您可以通过创建新的[`ConstraintRegistry`](#torch.distributions.constraint_registry.ConstraintRegistry "torch.distributions.constraint_registry.ConstraintRegistry")创建自己的注册表.
 
-X = torch.stack（[torch.range（1，10），torch.range（1，10）]，暗淡= 1）T =
-StackTransform（[ExpTransform（），identity_transform]，暗淡= 1）Y = T（ X）
+```py
+class torch.distributions.constraint_registry.ConstraintRegistry
+```
 
-## 约束
+注册表, 将约束链接到转换.
 
-下面的约束来实现：
+```py
+register(constraint, factory=None)
+```
 
-  * `constraints.boolean`
+在此注册表注册一个 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 子类. 用法:
 
-  * `constraints.cat`
+```py
+@my_registry.register(MyConstraintClass)
+def construct_transform(constraint):
+    assert isinstance(constraint, MyConstraint)
+    return MyTransform(constraint.arg_constraints)
 
-  * `constraints.dependent`
+```
 
-  * `constraints.greater_than（LOWER_BOUND） `
+参数: 
 
-  * `constraints.integer_interval（LOWER_BOUND， UPPER_BOUND） `
+*   **constraint** (subclass of [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) –  [`Constraint`]的子类(#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint"), 或者派生类的对象.
+*   **factory** (_callable_) – 可调用对象, 输入 constraint 对象返回 [`Transform`](#torch.distributions.transforms.Transform "torch.distributions.transforms.Transform") 对象.
 
-  * `constraints.interval（LOWER_BOUND， UPPER_BOUND） `
 
-  * `constraints.lower_cholesky`
 
-  * `constraints.lower_triangular`
-
-  * `constraints.nonnegative_integer`
-
-  * `constraints.positive`
-
-  * `constraints.positive_definite`
-
-  * `constraints.positive_integer`
-
-  * `constraints.real`
-
-  * `constraints.real_vector`
-
-  * `constraints.simplex`
-
-  * `constraints.stack`
-
-  * `constraints.unit_interval`
-
-_class_`torch.distributions.constraints.``Constraint`[[source]](_modules/torch/distributions/constraints.html#Constraint)
-
-    
-
-抽象基类的约束。
-
-约束对象表示在其上可变是有效的，例如一个区域在其内的变量可以被优化。
-
-`check`( _value_
-)[[source]](_modules/torch/distributions/constraints.html#Constraint.check)
-
-    
-
-返回的字节张量sample_shape + batch_shape 指示是否在值满足每一个事件此约束。
-
-`torch.distributions.constraints.``dependent_property`
-
-    
-
-的别名`torch.distributions.constraints._DependentProperty`
-
-`torch.distributions.constraints.``integer_interval`
-
-    
-
-的`别名torch.distributions.constraints._IntegerInterval`
-
-`torch.distributions.constraints.``greater_than`
-
-    
-
-的别名`torch.distributions.constraints._GreaterThan`
-
-`torch.distributions.constraints.``greater_than_eq`
-
-    
-
-的别名`torch.distributions.constraints._GreaterThanEq`
-
-`torch.distributions.constraints.``less_than`
-
-    
-
-的别名`torch.distributions.constraints._LessThan`
-
-`torch.distributions.constraints.``interval`
-
-    
-
-的`别名torch.distributions.constraints._Interval`
-
-`torch.distributions.constraints.``half_open_interval`
-
-    
-
-的`别名torch.distributions.constraints._HalfOpenInterval`
-
-`torch.distributions.constraints.``cat`
-
-    
-
-的别名`torch.distributions.constraints._Cat`
-
-`torch.distributions.constraints.``stack`
-
-    
-
-的别名`torch.distributions.constraints._Stack`
-
-## 约束注册表
-
-PyTorch提供了两个全球 `ConstraintRegistry`对象链接 `约束 `对象 `变换 `
-对象。这些对象都输入约束和返回变换，但它们对双射不同的担保。
-
-  1. `biject_to（约束） `查找一个双射 `变换 `从`constraints.real`为给定的`约束 `。返回变换保证具有`.bijective  =  真 `，并执行`.log_abs_det_jacobian（） `。
-
-  2. `transform_to（约束） `查找未一定双射 `变换 `从`约束。真正的 `为给定的`约束 `。返回的变换不能保证实现`.log_abs_det_jacobian（） `。
-
-的`transform_to（） `注册表是上的概率分布的约束条件下参数，这是由每个分布的`.arg_constraints指示执行无约束优化有用
-`字典。这些变换通常，为了避免旋转overparameterize的空间;因此，它们更适合于坐标明智优化算法像亚当：
-
-    
-    
-    loc = torch.zeros(100, requires_grad=True)
-    unconstrained = torch.zeros(100, requires_grad=True)
-    scale = transform_to(Normal.arg_constraints['scale'])(unconstrained)
-    loss = -Normal(loc, scale).log_prob(data).sum()
-    
-
-的`biject_to（） `注册表是哈密顿蒙特卡洛，有用的，其中从具有约束`。支持 `在一个传播的概率分布的样本不受约束的空间，和算法通常是旋转不变：
-
-    
-    
-    dist = Exponential(rate)
-    unconstrained = torch.zeros(100, requires_grad=True)
-    sample = biject_to(dist.support)(unconstrained)
-    potential_energy = -dist.log_prob(sample).sum()
-    
-
-Note
-
-一个例子，其中`transform_to`和`biject_to`不同的是`constraints.simplex`：`
-transform_to（constraints.simplex） `返回 `SoftmaxTransform`
-，简单地exponentiates和归一化其输入;这是一个价格便宜，主要是协调明智的操作适合于像SVI算法。相比之下，`
-biject_to（constraints.simplex） `返回 `StickBreakingTransform`
-为bijects其输入降低到一个-fewer维空间;这样更昂贵更少数值稳定变换，但需要用于像HMC算法。
-
-的`biject_to`和`transform_to`目的可以通过用户定义的约束扩展和变换使用他们`.register（ ）
-`方法既可以作为单上的约束的函数：
-
-    
-    
-    transform_to.register(my_constraint, my_transform)
-    
-
-或作为参数约束的装饰：
-
-    
-    
-    @transform_to.register(MyConstraintClass)
-    def my_factory(constraint):
-        assert isinstance(constraint, MyConstraintClass)
-        return MyTransform(constraint.param1, constraint.param2)
-    
-
-您可以通过创建一个新的 `ConstraintRegistry`对象创建自己的注册表。
-
-_class_`torch.distributions.constraint_registry.``ConstraintRegistry`[[source]](_modules/torch/distributions/constraint_registry.html#ConstraintRegistry)
-
-    
-
-注册表来约束链接转换。
-
-`register`( _constraint_ , _factory=None_
-)[[source]](_modules/torch/distributions/constraint_registry.html#ConstraintRegistry.register)
-
-    
-
-注册在此注册表一个 `约束 `子类。用法：
-
-    
-    
-    @my_registry.register(MyConstraintClass)
-    def construct_transform(constraint):
-        assert isinstance(constraint, MyConstraint)
-        return MyTransform(constraint.arg_constraints)
-    
-
-Parameters
-
-    
-
-  * **约束** （ `约束 `的子类） - 的 `甲亚类约束 `，或所需的类的单一对象。
-
-  * **工厂** （ _可调用_ ） - ，其输入约束对象，并返回可调用一个 `变换 `对象。
-
-[Next ![](_static/images/chevron-right-orange.svg)](hub.html "torch.hub")
-[![](_static/images/chevron-right-orange.svg) Previous](distributed.html
-"Distributed communication package - torch.distributed")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。

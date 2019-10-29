@@ -1,51 +1,36 @@
+
 # torch.utils.bottleneck
+> 译者:  [belonHan](https://github.com/belonHan)
 
-torch.utils.bottleneck
-是可以用作用于在程序调试的瓶颈中的初始步骤的工具。它总结了Python的探查和PyTorch的autograd探查脚本的运行。
+`torch.utils.bottleneck`是 调试瓶颈`bottleneck`时首先用到的工具.它总结了python分析工具与PyTorch自动梯度分析工具在脚本运行中情况.
 
-它运行在命令行上
+在命令行运行如下命令
 
-    
-    
-    python -m torch.utils.bottleneck /path/to/source/script.py [args]
-    
+```py
+python -m torch.utils.bottleneck /path/to/source/script.py [args]
 
-其中，[参数]是任意数量的参数script.py ，或运行`蟒 -m  torch.utils.bottleneck  -h
-[HTG11为更多的使用的指令。`
+```
+
+其中 `[args]` 是`script.py`脚本的参数(任意个数).运行`python -m torch.utils.bottleneck -h`命令获取更多帮助说明.
 
 警告
 
-因为你的脚本将被异形，请确保它在退出的时间有限。
+请确保脚本在分析时能够在有限时间内退出.
 
-Warning
+警告
 
-由于CUDA内核的异步特性，对CUDA代码运行时，CPROFILE输出和CPU模式autograd廓线仪可能无法显示正确的时序：报告的CPU时间报告的时间用于启动的内核数量，但不包括时间除非操作做了同步内核花在GPU执行。那些同步出现行动是在常规CPU模式廓线仪非常昂贵。在这些情况下的定时不正确，则CUDA模式autograd分析器可以是有帮助的。
+当运行CUDA代码时，由于CUDA内核的异步特性, cProfile的输出 和cpu模式的autograd分析工具可能无法显示正确的计时: 报告的CPU时间 是用于启动内核的时间,不包括在GPU上执行的时间。 在常规cpu模式分析器下，同步操作是非常昂贵的。在这种无法准确计时的情况下，可以使用cuda模式的autograd分析工具。
 
 注意
 
-要决定哪些（仅CPU模式或CUDA模式）autograd探查器输出看，应先检查，如果你的脚本是CPU绑定（“CPU总时间比CUDA总时间要大得多”）。如果是CPU密集型的，看着CPU模式autograd分析器可以帮助的结果。如果在另一方面你的脚本花费大量的时间在GPU上执行的，则是有意义的开始寻找负责CUDA运营商在CUDA模式autograd探查器的输出。
+选择查看哪个分析工具的输出结果(CPU模式还是CUDA模式) ,首先应确定脚本是不是CPU密集型`CPU-bound`(“CPU总时间远大于CUDA总时间”)。如果是cpu密集型，选择查看cpu模式的结果。相反，如果大部分时间都运行在GPU上，再查看CUDA分析结果中相应的CUDA操作。
 
-当然，现实情况要复杂得多，你的脚本可能不是取决于你正在评估模型的一部分这两个极端中的一个。如果探查器输出不帮忙，你可以尝试寻找[ `
-torch.autograd.profiler.emit_nvtx的结果（） `
-](autograd.html#torch.autograd.profiler.emit_nvtx
-"torch.autograd.profiler.emit_nvtx")与`nvprof
-`。但是，请考虑到该NVTX开销是非常高的，往往给人一种严重扭曲的时间表。
+当然，实际情况取决于您的模型，可能会更复杂，不属于上面两种极端情况。除了分析结果之外,可以尝试使用`nvprof`命令查看[`torch.autograd.profiler.emit_nvtx()`](autograd.html#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx")的结果.然而需要注意NVTX的开销是非常高的,时间线经常会有严重的偏差。
 
-Warning
 
-如果您正在配置CUDA代码，第一个分析器，`瓶颈
-`运行（CPROFILE）将在其报告时间在CUDA启动时间（CUDA缓冲区分配费用）。如果您的系统瓶颈导致代码比CUDA启动时间慢得多这不应该的问题。
+警告
 
-对于（在多GPU情况下等）的廓线的更复杂的应用，请参见[ https://docs.python.org/3/library/profile.html
-](https://docs.python.org/3/library/profile.html)或[ `
-torch.autograd.profiler.profile（） `
-](autograd.html#torch.autograd.profiler.profile
-"torch.autograd.profiler.profile")获得更多信息。
+如果您在分析CUDA代码, `bottleneck`运行的第一个分析工具 (cProfile),它的时间中会包含CUDA的启动(CUDA缓存分配)时间。当然，如果CUDA启动时间远小于代码的中瓶颈,这就被可以忽略。
 
-[Next ![](_static/images/chevron-right-orange.svg)](checkpoint.html
-"torch.utils.checkpoint") [![](_static/images/chevron-right-orange.svg)
-Previous](random.html "torch.random")
+更多更复杂关于分析工具的使用方法(比如多GPU),请点击[https://docs.python.org/3/library/profile.html](https://docs.python.org/3/library/profile.html) 或者 [`torch.autograd.profiler.profile()`](autograd.html#torch.autograd.profiler.profile "torch.autograd.profiler.profile").
 
-* * *
-
-©版权所有2019年，Torch 贡献者。

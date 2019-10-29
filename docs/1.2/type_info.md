@@ -1,149 +1,45 @@
-# 键入信息
 
-的数值性质的[ `torch.dtype`](tensor_attributes.html#torch.torch.dtype
-"torch.torch.dtype")可通过访问任一 `torch.finfo`或 `torch.iinfo`。
 
-## torch.finfo
+# 数据类型信息 
 
-_class_`torch.``finfo`
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
 
-    
+可以通过[`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 或 [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")访问[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性。  
 
-A`torch.finfo`是表示一个浮点[ `torch.dtype 的数值性质[对象HTG10]
-`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")（即`
-torch.float32`，`torch.float64`和`torch.float16`）。这类似于[ numpy.finfo
-](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html)。
+## torch.finfo  
 
-A`torch.finfo`提供以下属性：
+```py
+class torch.finfo
+``` 
 
-名称
+ [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 是一个用来表示浮点[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性的对象（即`torch.float32`，`torch.float64`和`torch.float16`）。 这类似于 [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html)。  
 
-|
+[`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 提供以下属性:  
 
-类型
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| bits | 整型　int |数据类型占用的位数 |
+| eps | 浮点型float | 可表示的最小数字，使得1.0 + eps！= 1.0|
+| max | 浮点型float | 可表示的最大数字|
+| tiny | 浮点型float |可表示的最小正数 |  
 
-|
+注意  
 
-描述  
-  
----|---|---  
-  
-位
+在使用pytorch默认dtype创建类（由`torch.get_default_dtype（）`返回）的情况下，构造的 [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 函数可以不带参数被调用。  
 
-|
+##  torch.iinfo  
 
-INT
+```py
+class torch.iinfo
+```  
 
-|
+ [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")是一个用来表示整数[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 的数字属性的对象，（即`torch.uint8`，`torch.int8`，`torch.int16`，`torch.int32`和`torch.int64`）。 这与[numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html)类似。  
 
-由类型所占用的位数。  
-  
-EPS
+[`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") 提供以下属性：   
 
-|
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| bits | 整型| 数据类型占用的位数 |
+| max | 整型 | 可表示的最大数字 |
+ 
 
-浮动
-
-|
-
-可表示的最小数量，使得`1.0  +  EPS  ！=  1.0`。  
-  
-最大
-
-|
-
-float
-
-|
-
-最大可表示数。  
-  
-分
-
-|
-
-float
-
-|
-
-可表示的最小数目（典型`-max`）。  
-  
-小
-
-|
-
-float
-
-|
-
-最小的正表示数。  
-  
-注意
-
-的构造 `torch.finfo`可以被称为无参数，在这种情况下，对于缺省pytorch D类创建的类（由[ [作为返回HTG7]
-torch.get_default_dtype（） ](torch.html#torch.get_default_dtype
-"torch.get_default_dtype")）。
-
-## torch.iinfo
-
-_class_`torch.``iinfo`
-
-    
-
-A`torch.iinfo`是表示一个整数[ `torch.dtype  [HTG10的数值属性的对象]
-`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")（即`
-torch.uint8`，`torch.int8`，`torch.int16`，`torch.int32`和`torch.int64
-`）。这类似于[ numpy.iinfo
-](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html)。
-
-A`torch.iinfo`提供以下属性：
-
-Name
-
-|
-
-Type
-
-|
-
-Description  
-  
----|---|---  
-  
-bits
-
-|
-
-int
-
-|
-
-The number of bits occupied by the type.  
-  
-max
-
-|
-
-int
-
-|
-
-The largest representable number.  
-  
-min
-
-|
-
-int
-
-|
-
-最小可表示数。  
-  
-[Next ![](_static/images/chevron-right-orange.svg)](sparse.html
-"torch.sparse") [![](_static/images/chevron-right-orange.svg)
-Previous](tensor_attributes.html "Tensor Attributes")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。

@@ -1,78 +1,67 @@
-# Autograd力学
 
-这说明将呈现autograd是如何工作的，并记录操作的概述。这不是绝对必要了解这一切，但我们建议熟悉它，因为它会帮助你编写更高效，更清洁的程序，可以帮助您进行调试。
 
-## 从不含子图向后
+# 自动求导机制  
 
-每张量有一个标志：`requires_grad`，其允许从梯度计算子图的细粒排斥和可以提高工作效率。
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)  
+> 校验：[AlexJakin](https://github.com/AlexJakin)
 
-### `requires_grad`
+本说明将概述autograd（自动求导）如何工作并记录每一步操作。了解这些并不是绝对必要的，但我们建议您熟悉它，因为它将帮助你编写更高效，更清晰的程序，并可以帮助您进行调试。  
 
-如果有一个单一的输入操作，需要梯度，它的输出也需要梯度。相反，只有当所有的输入不需要梯度，输出也不会需要它。向后计算是从来没有在子图，所有的张量并不需要梯度进行。
+## 反向排除子图
 
-    
-    
-    >>> x = torch.randn(5, 5)  # requires_grad=False by default
-    >>> y = torch.randn(5, 5)  # requires_grad=False by default
-    >>> z = torch.randn((5, 5), requires_grad=True)
-    >>> a = x + y
-    >>> a.requires_grad
-    False
-    >>> b = a + z
-    >>> b.requires_grad
-    True
-    
+每个张量都有一个标志：`requires_grad`，允许从梯度计算中细致地排除子图，并可以提高效率。    
 
-当你想冻结模型的一部分，这是非常有用的，或者你事先知道你不打算使用渐变w.r.t.一些参数。例如，如果你想微调预训练CNN，这足以切换`
-requires_grad
-`标志的冷冻基地，没有中间缓冲区将被保存，直到计算得到最后一个层，其中，所述仿射变换将使用需要梯度权重，并且所述网络的输出也将需要它们。
+### `requires_grad`   
 
-    
-    
-    model = torchvision.models.resnet18(pretrained=True)
-    for param in model.parameters():
-        param.requires_grad = False
-    # Replace the last fully-connected layer
-    # Parameters of newly constructed modules have requires_grad=True by default
-    model.fc = nn.Linear(512, 100)
-    
-    # Optimize only the classifier
-    optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
-    
+只要有单个输入进行梯度计算操作，则其输出也需要梯度计算。相反，只有当所有输入都不需要计算梯度时，输出才不需要梯度计算。如果其中所有的张量都不需要进行梯度计算，后向计算不会在子图中执行。   
 
-## autograd如何编码的历史
 
-Autograd是反向自动分化系统。从概念上讲，autograd记录的图形记录所有创建该数据的操作为您执行操作，给你一个向无环图，叶子是输入张量和根输出张量。通过跟踪从根此图的叶子，可以自动计算使用链式法则的梯度。
+```py
+>>> x = torch.randn(5, 5)  # requires_grad=False by default
+>>> y = torch.randn(5, 5)  # requires_grad=False by default
+>>> z = torch.randn((5, 5), requires_grad=True)
+>>> a = x + y
+>>> a.requires_grad
+False
+>>> b = a + z
+>>> b.requires_grad
+True
 
-在内部，autograd表示该图表为`函数 `对象（真表达式）的曲线图，其可以是`申请（） `
-ED来计算评价的曲线图的结果。当计算向前传，同时autograd执行所请求的计算和积聚的曲线图表示计算梯度（的`.grad_fn`属性函数中的每个[
-`torch.Tensor`](../tensors.html#torch.Tensor
-"torch.Tensor")是一个入口点到该图）。当向前传球完成后，我们评估该图在向后传递给计算梯度。
+```  
 
-要注意的重要一点是，图形是从头开始，在每次迭代重建，而这正是允许使用任意Python控制流语句，可以在每次迭代改变图形的整体形状和大小。你不必编码所有可能的路径在启动之前的训练
-- 你运行的是你区分什么。
+当你想要冻结部分模型或者事先知道不会使用某些参数的梯度时，这个`requires_grad`标志非常有用。例如，如果要微调预训练的CNN，只需在冻结的基础中切换`requires_grad`标志就够了，并且直到计算到达最后一层，才会保存中间缓冲区，，其中仿射变换将使用所需要梯度的权重 ，网络的输出也需要它们。  
 
-## 就地与autograd操作
 
-在autograd支持就地操作是很难的事，我们不鼓励在大多数情况下，它们的使用。
-Autograd咄咄逼人的缓冲释放和再利用使得它非常有效，也有极少数场合就地操作任何显著量实际上更低的内存使用率。除非你在重内存压力工作，你可能永远需要使用它们。
+```py
+model = torchvision.models.resnet18(pretrained=True)
+for param in model.parameters():
+    param.requires_grad = False
+# Replace the last fully-connected layer
+# Parameters of newly constructed modules have requires_grad=True by default
+model.fc = nn.Linear(512, 100)
 
-有限制就地操作的应用主要有两个原因：
+# Optimize only the classifier
+optimizer = optim.SGD(model.fc.parameters(), lr=1e-2, momentum=0.9)
 
-  1. 就地操作可能会覆盖计算梯度所需的值。
+```  
 
-  2. 每个就地操作实际上需要执行重写计算图。外的地方版本简单分配新对象，并保持引用旧图，而就地操作，需要更改的所有投入的创作者到`功能 `表示此操作。这可以是棘手的，尤其是如果有引用相同的存储（例如，通过索引或调换创建）许多张量，和就地如果改性输入的存储是通过引用的函数实际上将产生一个错误的任何其他`张量 `。
+## 自动求导是如何记录编码历史的   
 
-## 就地正确性检查
+自动求导是反向自动分化系统。从概念上讲，自动求导会记录一个图形，记录在执行操作时创建数据的所有操作，为您提供有向无环图，其叶子是输入张量，根节点是输出张量。通过从根到叶跟踪此图，您可以使用链法则自动计算梯度。   
 
-每张量保持一个版本计数器，即每递增它标志着在任何操作脏的时间。当一个函数保存任何张量为落后的，其包含的张量的一个版本计数器被保存为好。一旦你进入`
-self.saved_tensors
-`检查，如果它比保存的值将引发一个错误更大。这确保了如果你使用就地功能，没有看到任何错误，你可以肯定的是，计算的梯度是正确的。
+在内部，autograd将此图表示为`Function`对象（实际表达式）的图形，可以用来计算评估图形的结果。 当计算前向传播时，自动求导同时执行所请求的计算并建立表示计算梯度的函数的图形（每个`torch.Tensor`的`.grad_fn`属性是该图的入口点）。当前向传播完成时，我们在后向传播中评估该图以计算梯度。
 
-[Next ![](../_static/images/chevron-right-orange.svg)](broadcasting.html
-"Broadcasting semantics") [![](../_static/images/chevron-right-orange.svg)
-Previous](../index.html "PyTorch documentation")
+需要注意的一点是，在每次迭代时都会从头开始重新创建计算图，这正是允许使用任意Python控制流语句的原因，它可以在每次迭代时更改图形的整体形状和大小。 在开始训练之前，不必编码所有可能的路径 - 您运行的是您所区分的部分。  
 
-* * *
+## 使用autograd进行`in-place`操作  
 
-©版权所有2019年，Torch 贡献者。
+在autograd中支持`in-place`操作是一件很难的事情，大多数情况下，我们不鼓励使用它们。Autograd积极的缓冲区释放和重用使其非常高效，实际上在`in-place`操作会大幅降低内存使用量的情况也非常少。除非在巨大的内存压力下运行，否则你可能永远不需要使用它们。  
+
+限制`in-place`操作适用性的主要原因有两个：  
+
+1. 这个操作可能会覆盖梯度计算所需的值。  
+2. 实际上，每个`in-place`操作需要重写计算图。`out-of-place`版本只是分配新对象并保留对旧图的引用，而`in-place`操作则需要将所有输入的creator更改为表示此操作的`Function`。这就比较麻烦，特别是如果有许多变量引用同一存储（例如通过索引或转置创建的），并且如果被修改输入的存储被任何其他张量引用，这样的话，`in-place`函数会抛出错误。 
+
+## In-place正确性检查  
+
+每一个张量都有一个版本计算器，每次在任何操作中标记都会递增。 当`Function`保存任何用于后向传播的张量时，也会保存包含张量的版本计数器。一旦访问`self.saved_tensors`后，它将被检查，如果它大于保存的值，则会引发错误。这可以确保如果您使用`in-place`函数而没有看到任何错误，则可以确保计算出的梯度是正确的。

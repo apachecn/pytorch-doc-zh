@@ -1,105 +1,69 @@
 # torch.utils.checkpoint
+> 译者:  [belonHan](https://github.com/belonHan)
 
 注意
 
-检查点是通过在向后重新运行对每个检查点段向前通段实现。这可能会导致持续的状态就像是先进的RNG状态，他们会比没有检查点。默认情况下，检查点包括逻辑来玩弄的RNG状态，使得检查点的通过利用RNG的（通过差例如）如相对于非检查点通行证具有确定性输出。逻辑藏匿和恢复RNG状态可以承担因设置检查点操作的运行时性能适中命中。如果确定的输出相比，非检查点通行证不是必需的，供应`
-preserve_rng_state =假 `至`检查点 `或`checkpoint_sequential
-`省略积攒和每个检查点期间恢复所述RNG状态。
+checkpointing的实现方法是在向后传播期间重新运行已被checkpint的前向传播段。 所以会导致像RNG这类(模型)的持久化的状态比实际更超前。默认情况下，checkpoint包含了使用RNG状态的逻辑(例如通过dropout)，与non-checkpointed传递相比,checkpointed具有更确定的输出。RNG状态的存储逻辑可能会导致一定的性能损失。如果不需要确定的输出，设置全局标志(global flag) `torch.utils.checkpoint.preserve_rng_state=False` 忽略RNG状态在checkpoint时的存取。
 
-在积攒逻辑保存并恢复为当前设备的RNG状态和所有CUDA张量参数到`run_fn`该设备。然而，该逻辑还没有办法预测如果用户将在`run_fn
-`本身内张量移动到新设备。因此，如果移动张量，以一个新的装置（“新”的意思不属于集合[当前设备+的张量参数的装置]的）内`run_fn
-`，确定性的输出进行比较，以非检查点通行证从不保证。
 
-`torch.utils.checkpoint.``checkpoint`( _function_ , _*args_ , _**kwargs_
-)[[source]](_modules/torch/utils/checkpoint.html#checkpoint)
+```py
+torch.utils.checkpoint.checkpoint(function, *args)
+```
 
-    
+checkpoint模型或模型的一部分
 
-检查点模型的模型或部分
+checkpoint通过计算换内存空间来工作。与向后传播中存储整个计算图的所有中间激活不同的是，checkpoint不会保存中间激活部分，而是在反向传递中重新计算它们。它被应用于模型的任何部分。
 
-检查点的工作原理是交易计算内存。而不是存储整个计算图的所有中间激活用于向后计算，检查点部分不 **不**
-保存中间激活，而是重新计算它们向后通。它可以在模型的任何部分被应用。
+具体来说，在正向传播中，`function`将以`torch.no_grad()`方式运行 ，即不存储中间激活,但保存输入元组和 `function`的参数。在向后传播中，保存的输入变量以及 `function`会被取回，并且`function`在正向传播中被重新计算.现在跟踪中间激活，然后使用这些激活值来计算梯度。
 
-具体而言，在直传，`函数 `将在`torch.no_grad运行（） `的方式，即不存储中间激活。相反，直传保存的输入元组和`函数
-`参数。在向后传送时，保存的输入和`函数 `时retreived，并且直传被计算在`函数 `再次，现在跟踪中间激活，然后梯度使用这些激活值来计算。
+Warning
+警告
+
+Checkpointing 在 [`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad")中不起作用, 仅作用于 [`torch.autograd.backward()`](autograd.html#torch.autograd.backward "torch.autograd.backward").
 
 警告
 
-检查点不工作[ `torch.autograd.grad（） `](autograd.html#torch.autograd.grad
-"torch.autograd.grad")，但只有[ `torch.autograd.backward（ ） `
-](autograd.html#torch.autograd.backward "torch.autograd.backward")。
+如果function在向后执行和前向执行不同，例如,由于某个全局变量，checkpoint版本将会不同，并且无法被检测到。
 
-Warning
+参数:
 
-如果`函数 `在落后的调用做任何事情比一个向前时不同，例如，由于一些全局变量，设立检查点版本将不会是等价的，不幸的是它不能检测。
+*   **function** - 描述在模型的正向传递或模型的一部分中运行的内容。它也应该知道如何处理作为元组传递的输入。例如，在LSTM中，如果用户通过 ，应正确使用第一个输入作为第二个输入(activation, hidden)functionactivationhidden
+*   **args** – 包含输入的元组function
 
-Parameters
+| Returns: | 输出 |
+| --- | --- |
 
-    
+```py
+torch.utils.checkpoint.checkpoint_sequential(functions, segments, *inputs)
+```
 
-  * **函数** \- 介绍如何在模型的模型或部分直传运行。还应该知道如何处理的元组传递的输入。例如，在LSTM，如果用户通过`（活化， 隐藏） `，`函数 `应该正确地使用第一输入为`活化 `和第二输入为`隐藏 `
+用于checkpoint sequential模型的辅助函数
 
-  * **preserve_rng_state** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _，_ _可选_ _，_ _默认=真_ ） - 省略积攒和每个检查点期间恢复所述RNG状态。
+Sequential模型按顺序执行模块/函数。因此，我们可以将这样的模型划分为不同的段(segment)，并对每个段进行checkpoint。除最后一段外的所有段都将以`torch.no_grad()`方式运行，即，不存储中间活动。将保存每个checkpoint段的输入，以便在向后传递中重新运行该段。
 
-  * **ARGS** \- 包含元组输入到`函数 `
+checkpointing工作方式: [`checkpoint()`](#torch.utils.checkpoint.checkpoint "torch.utils.checkpoint.checkpoint").
 
-Returns
+警告
 
-    
+Checkpointing无法作用于[`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad"), 只作用于[`torch.autograd.backward()`](autograd.html#torch.autograd.backward "torch.autograd.backward").
 
-运行的输出`函数 `在`* ARGS`
+参数:
 
-`torch.utils.checkpoint.``checkpoint_sequential`( _functions_ , _segments_ ,
-_*inputs_ , _**kwargs_
-)[[source]](_modules/torch/utils/checkpoint.html#checkpoint_sequential)
+*   **functions** – 按顺序执行的模型， 一个 [`torch.nn.Sequential`](nn.html#torch.nn.Sequential "torch.nn.Sequential")对象,或者一个由modules或functions组成的list。
+*   **segments** – 段的数量
+*   **inputs** – 输入,Tensor组成的元组
 
-    
 
-对于检查点顺序模型辅助函数。
 
-顺序执行模型的模块/功能，以便（顺序地）的列表。因此，我们可以划分在各个分段这样的模型和检查点每个段。除了最后的所有段将在`torch.no_grad（）
-`方式运行，即不存储中间激活。每个检查点段的输入端将被保存用于重新运行段在向后通。
+| Returns: | 按顺序返回每个`*inputs`的结果
+| --- | --- |
 
-参见 `如何检查点检查点工作（） `[HTG5。
 
-Warning
+例子
 
-Checkpointing doesn’t work with
-[`torch.autograd.grad()`](autograd.html#torch.autograd.grad
-"torch.autograd.grad"), but only with
-[`torch.autograd.backward()`](autograd.html#torch.autograd.backward
-"torch.autograd.backward").
+```py
+>>> model = nn.Sequential(...)
+>>> input_var = checkpoint_sequential(model, chunks, input_var)
 
-Parameters
+```
 
-    
-
-  * **功能** \- A [ `torch.nn.Sequential`](nn.html#torch.nn.Sequential "torch.nn.Sequential")或模块或功能（包括模型）的列表按顺序运行。
-
-  * **段** \- 组块数量在模型中创建
-
-  * **输入** \- 这被输入到`张量的元组的功能 `
-
-  * **preserve_rng_state** ([ _bool_](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)") _,_ _optional_ _,_ _default=True_ ) – Omit stashing and restoring the RNG state during each checkpoint.
-
-Returns
-
-    
-
-运行`函数的输出 `上依次`*输入 `
-
-例
-
-    
-    
-    >>> model = nn.Sequential(...)
-    >>> input_var = checkpoint_sequential(model, chunks, input_var)
-    
-
-[Next ![](_static/images/chevron-right-orange.svg)](cpp_extension.html
-"torch.utils.cpp_extension") [![](_static/images/chevron-right-orange.svg)
-Previous](bottleneck.html "torch.utils.bottleneck")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。

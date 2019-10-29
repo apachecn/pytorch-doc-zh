@@ -1,46 +1,41 @@
-# 序列化语义
+# 序列化的相关语义
 
-## 最佳实践
+> 译者：[yuange250](https://github.com/yuange250)
 
-### 用于保存模型的推荐方法
+## 最佳方案
 
-有序列化和恢复模型的两种主要方法。
+### 保存模型的推荐方法
 
-第一个（推荐）保存并只加载模型参数：
+Pytorch主要有两种方法可用于序列化和保存一个模型。
 
-    
-    
-    torch.save(the_model.state_dict(), PATH)
-    
+第一种只存取模型的参数（更为推荐）：
+保存参数：
 
-再后来：
+```py
+torch.save(the_model.state_dict(), PATH)
 
-    
-    
-    the_model = TheModelClass(*args, **kwargs)
-    the_model.load_state_dict(torch.load(PATH))
-    
+```
 
-第二保存和加载整个模型：
+读取参数：
 
-    
-    
-    torch.save(the_model, PATH)
-    
+```py
+the_model = TheModelClass(*args, **kwargs)
+the_model.load_state_dict(torch.load(PATH))
 
-Then later:
+```
 
-    
-    
-    the_model = torch.load(PATH)
-    
+第二种方法则将整个模型都保存下来：
 
-然而，在这种情况下，序列化的数据绑定到特定的类和使用的准确的目录结构，所以在其他项目中使用时，它可以通过各种方式突破，或在一些严重的refactors。
+```py
+torch.save(the_model, PATH)
 
-[Next ![](../_static/images/chevron-right-orange.svg)](windows.html "Windows
-FAQ") [![](../_static/images/chevron-right-orange.svg)
-Previous](randomness.html "Reproducibility")
+```
 
-* * *
+读取的时候也是读取整个模型：
 
-©版权所有2019年，Torch 贡献者。
+```py
+the_model = torch.load(PATH)
+
+```
+
+在第二种方法中, 由于特定的序列化的数据与其特定的类别(class)相绑定，并且在序列化的时候使用了固定的目录结构，所以在很多情况下，如在其他的一些项目中使用，或者代码进行了较大的重构的时候，很容易出现问题。

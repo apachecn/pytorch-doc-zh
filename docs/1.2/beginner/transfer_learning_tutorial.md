@@ -2,18 +2,18 @@
 
 **作者** ：[ Sasank Chilamkurthy ](https://chsasank.github.io)
 
-在本教程中，您将学习如何使用迁移学习训练网络。你可以阅读更多关于[
-cs231n票据转让学习](https://cs231n.github.io/transfer-learning/)
+在本教程中，您将学习如何使用迁移学习训练网络。你可以在[
+cs231n笔记](https://cs231n.github.io/transfer-learning/)中阅读更多关于迁移学习的内容。
 
-引用这些笔记，
+引用笔记，
 
 >
-[HTG0在实践中，很少有人训练的整个卷积网络从头开始（与随机初始化），因为它是比较少见到有足够大的数据集。相反，它是常见的pretrain上的非常大的数据集（例如ImageNet，其中包含与1000个类别1200000个图像）一个ConvNet，然后使用ConvNet无论是作为初始化或对于感兴趣的任务的固定特征提取。
+在实践中，很少有人从头开始训练整个卷积网络（随机初始化），因为足够大的数据集是相对少见的。相反，通常在非常大的数据集（例如 ImageNet，其包含具有1000个类别的120万张图片）上预先训练一个卷积神经网络，然后使用这个卷积神经网络对目标任务进行初始化或用作固定特征提取器。
 
-这两大转移学习情境如下所示：
+如下是两个主要的迁移学习场景：
 
-  * **微调的convnet** ：除了随机initializaion，我们初始化一个预训练的网络的网络，就像是在imagenet 1000集训练之一。培训的其余神色如常。
-  * **ConvNet为固定特征提取** ：在这里，我们将冻结的权重的所有不同的是最终的完全连接层的网络。这最后的完全连接层被替换为一个新的随机的权重也只有这层进行训练。
+  * **微调卷积神经网络** 我们使用预训练网络来初始化网络，而不是随机初始化，比如一个已经在imagenet 1000数据集上训练好的网络一样。其余训练和往常一样。
+  * **将卷积神经网络作为固定特征提取器** ：在这里，我们将冻结除最终全连接层之外的整个网络的权重。最后一个全连接层被替换为具有随机权重的新层，并且仅训练该层。
 
     
     
@@ -37,18 +37,17 @@ cs231n票据转让学习](https://cs231n.github.io/transfer-learning/)
     plt.ion()   # interactive mode
     
 
-## 负载数据
+## 加载数据
 
-我们将使用torchvision和torch.utils.data包加载数据。
+我们将使用 torchvision 和 torch.utils.data 包来加载数据。
 
-我们今天要解决的问题是训练的模型进行分类 **蚂蚁** 和
-**蜜蜂HTG3。我们每次约120训练图像蚂蚁和蜜蜂。有75个每一类验证图像。通常情况下，这是一个非常小的数据集在一概而论，如果从头开始培训。由于我们使用的迁移学习，我们应该能够概括得相当好。**
+今天，我们要解决的问题是训练一个模型来对**蚂蚁**和**蜜蜂**进行分类。我们**蚂蚁**和**蜜蜂**分别准备了大约120个训练图像，并且每类还有75个验证图像。通常，如果从头开始训练，这是一个非常小的数据集。由于我们正在使用迁移学习，我们应该能够合理地进行泛化。
 
 该数据集是imagenet的一个很小的子集。
 
-Note
+注意
 
-从[此处](https://download.pytorch.org/tutorial/hymenoptera_data.zip)下载数据，并将其解压到当前目录。
+>从[此处](https://download.pytorch.org/tutorial/hymenoptera_data.zip)下载数据，并将其解压到当前目录。
 
     
     
@@ -82,9 +81,9 @@ Note
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
 
-### 可视化的几个图像
+### 可视化一些图像
 
-让我们想象一些训练图像，以便了解数据扩充。
+让我们通过可视化一些训练图像，来理解什么是数据增强。
 
     
     
@@ -110,16 +109,16 @@ Note
     imshow(out, title=[class_names[x] for x in classes])
     
 
-![img/sphx_glr_transfer_learning_tutorial_001.png](img/sphx_glr_transfer_learning_tutorial_001.png)
+![img/sphx_glr_transfer_learning_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png)
 
-## 培养模式
+## 训练模型
 
-现在，让我们写一个通用函数来训练模型。在这里，我们将说明：
+现在, 让我们编写一个通用函数来训练一个模型。这里, 我们将会举例说明:
 
-  * 安排学习率
-  * 保存最好的模式
+  * 调整学习率
+  * 保存最好的模型
 
-在下文中，参数`调度 `是从`torch.optim.lr_scheduler`的LR调度对象。
+下面函数中, `scheduler` 参数是 `torch.optim.lr_scheduler` 中的学习率调整（LR scheduler）对象.
 
     
     
@@ -192,9 +191,9 @@ Note
         return model
     
 
-### 可视化模型预测
+### 模型预测的可视化
 
-泛型函数来显示一些图像预测
+用于显示少量预测图像的通用函数
 
     
     
@@ -225,9 +224,9 @@ Note
             model.train(mode=was_training)
     
 
-## 微调修道院
+## 微调卷积神经网络
 
-加载一个预训练的模型和复位最终完全连接层。
+加载预训练模型并重置最后的全连接层。
 
     
     
@@ -248,17 +247,16 @@ Note
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
     
 
-### 火车和评价
+### 训练与评价
 
-它应该承担CPU周围15-25分钟。在GPU的是，它需要不到一分钟。
-
+在CPU上训练需要大约15-25分钟。但是在GPU上，它只需不到一分钟。
     
     
     model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
                            num_epochs=25)
     
 
-日期：
+输出：
 
     
     
@@ -395,14 +393,14 @@ Note
     visualize_model(model_ft)
     
 
-![img/sphx_glr_transfer_learning_tutorial_002.png](img/sphx_glr_transfer_learning_tutorial_002.png)
+![img/sphx_glr_transfer_learning_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png)
 
-## ConvNet为固定特征提取
+## 将卷积神经网络为固定特征提取器
 
-在这里，我们需要冻结所有网络，除了最后一层。我们需要设置`requires_grad  ==  假 `冻结参数，使梯度不`计算向后（） `。
+在这里，我们需要冻结除最后一层之外的所有网络。我们需要设置`requires_grad  ==  False `来冻结参数，以便在`backward()`中不会计算梯度。
 
-您可以将文档[此处](https://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-
-from-backward)在阅读更多关于这一点。
+您可以在[此处](https://pytorch.org/docs/notes/autograd.html#excluding-subgraphs-
+from-backward)的文档中阅读更多相关信息。
 
     
     
@@ -426,10 +424,9 @@ from-backward)在阅读更多关于这一点。
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
     
 
-### 火车和评价
+### 训练与评价
 
-在CPU这将需要大约一半的时间比以前的情况。这是预期的梯度不需要计算对于大多数网络。然而，前确实需要进行计算。
-
+在CPU上，与前一个场景相比，大概只花费一半的时间。这在预料之中，因为不需要为绝大多数网络计算梯度。当然，我们还是需要计算前向传播。
     
     
     model_conv = train_model(model_conv, criterion, optimizer_conv,
@@ -576,69 +573,11 @@ Out:
     plt.show()
     
 
-![img/sphx_glr_transfer_learning_tutorial_003.png](img/sphx_glr_transfer_learning_tutorial_003.png)
+![img/sphx_glr_transfer_learning_tutorial_003.png](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png)
 
 **脚本的总运行时间：** （1分钟53.655秒）
 
-[`Download Python source code:
-transfer_learning_tutorial.py`](../_downloads/07d5af1ef41e43c07f848afaf5a1c3cc/transfer_learning_tutorial.py)
-
-[`Download Jupyter notebook:
-transfer_learning_tutorial.ipynb`](../_downloads/62840b1eece760d5e42593187847261f/transfer_learning_tutorial.ipynb)
-
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](deploy_seq2seq_hybrid_frontend_tutorial.html "Deploying a Seq2Seq
-Model with TorchScript") [![](../_static/images/chevron-right-orange.svg)
-Previous](examples_nn/dynamic_net.html "PyTorch: Control Flow + Weight
-Sharing")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * 迁移学习教程
-    * 负载数据
-      * 可视化几个图像
-    * 训练模型
-      * 可视化模型预测
-    * 微调的convnet 
-      * 火车和评价
-    * ConvNet为固定特征提取
-      * 火车和评价
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
+[由Sphinx-Gallery生成的图库](https://sphinx-gallery.readthedocs.io)
 
 
 
