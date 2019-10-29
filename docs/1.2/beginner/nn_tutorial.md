@@ -1,6 +1,8 @@
-# torch.nn 到底是什么？
+# *torch.nn* 到底是什么？
 
 > 译者：[lhc741](https://github.com/lhc741)
+>
+> 校对：[DrDavidS](https://github.com/DrDavidS)
 
 **作者**：Jeremy Howard，[fast.ai](https://www.fast.ai/)。感谢Rachel Thomas和Francisco Ingham的帮助和支持。
 
@@ -13,7 +15,7 @@ Pytorch提供了[torch.nn](https://pytorch.org/docs/stable/nn.html)、[torch.opt
 
 **在这个教程中，我们假设你已经安装好了PyTorch，并且已经熟悉了基本的tensor运算。**(如果你熟悉Numpy的数组运算，你将会发现这里用到的PyTorch tensor运算和numpy几乎是一样的)
 
-# MNIST数据安装
+## MNIST数据安装
 
 我们将要使用经典的[MNIST](http://deeplearning.net/data/mnist/)数据集，这个数据集由手写数字（0到9）的黑白图片组成。
 
@@ -58,7 +60,7 @@ pyplot.imshow(x_train[0].reshape((28, 28)), cmap="gray")
 print(x_train.shape)
 ```
 
-![image](https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7c783def0bbe536f41ed172041b7e89e.jpg)
+![image](https://pytorch.org/tutorials/_images/sphx_glr_nn_tutorial_001.png)
 
 输出：
 
@@ -95,7 +97,7 @@ torch.Size([50000, 784])
 tensor(0) tensor(9)
 ```
 
-# 神经网络从零开始（不使用torch.nn）
+## 神经网络从零开始（不使用torch.nn）
 
 我们先来建立一个只使用PyTorch张量运算的模型。
 我们假设你已经熟悉神经网络的基础。（如果你还不熟悉，可以访问[course.fast.ai](https://course.fast.ai/)进行学习）。
@@ -147,8 +149,8 @@ print(preds[0], preds.shape)
 输出：
 
 ```py
-tensor([-2.4513, -2.5024, -2.0599, -3.1052, -3.2918, -2.2665, -1.9007, -2.2588,
-        -2.0149, -2.0287], grad_fn=<SelectBackward>) torch.Size([64, 10])
+tensor([-2.5125, -2.3091, -2.0139, -1.8648, -2.7132, -2.5598, -2.3423, -1.8809,
+        -2.5860, -2.7542], grad_fn=<SelectBackward>) torch.Size([64, 10])
 ```
 
 可以从上面的结果不难看出，张量`preds`不仅包括了张量值，还包括了梯度函数。这个梯度函数我们可以在后面的反向传播阶段用到。
@@ -172,7 +174,7 @@ print(loss_func(preds, yb))
 输出：
 
 ```py
-tensor(2.3620, grad_fn=<NegBackward>)
+tensor(2.3860, grad_fn=<NegBackward>)
 ```
 
 我们再来实现一个用来计算模型准确率的函数。对于每次预测，我们规定如果预测结果中概率最大的数字和图片实际对应的数字是相同的，那么这次预测就是正确的。
@@ -192,7 +194,7 @@ print(accuracy(preds, yb))
 输出：
 
 ```py
-tensor(0.0938)
+tensor(0.1094)
 ```
 
 现在我们可以运行一个完整的训练步骤了，每次迭代，我们会进行以下几个操作：
@@ -202,14 +204,14 @@ tensor(0.0938)
 - 计算当前预测的损失值
 - 使用`loss.backward()`更新模型中的梯度，在这个例子中，更新的是`weights`和`bias`
 
-现在，我们来利用计算出的梯度对权值和偏置项进行更新，因为我们不希望这一步的操作被用于下一次迭代的梯度计算，所以我们在`torch.no_grad()`这个上下文管理器中完成。想要了解更多PyTorch Autograd记录操作现，可以点击[这里](https://pytorch.org/docs/stable/notes/autograd.html)。
+现在，我们来利用计算出的梯度对权值和偏置项进行更新，因为我们不希望这一步的操作被用于下一次迭代的梯度计算，所以我们在`torch.no_grad()`这个上下文管理器中完成。想要了解更多关于PyTorch Autograd是如何记录操作的，可以点击[这里](https://pytorch.org/docs/stable/notes/autograd.html)。
 
 接下来，我们将梯度设置为0，来为下一次循环做准备。否则我们的梯度将会记录所有已经执行过的运算（如，`loss.backward()`会将梯度变化值直接与变量已有值进行累加，而不是替换变量原有的值）。
 
 
 > 小贴士
 >
-> 您可以使用标准python调试器对PyTorch代码进行单步调试，从而在每一步检查不同的变量值。取消下面的`set_trace()`来尝试该功能。
+> 您可以使用标准python调试器对PyTorch代码进行单步调试，从而在每一步检查不同的变量值。取消下面的`set_trace()`注释，来尝试该功能。
 
 ```py
 from IPython.core.debugger import set_trace
@@ -246,10 +248,10 @@ print(loss_func(model(xb), yb), accuracy(model(xb), yb))
 输出：
 
 ```py
-tensor(0.0822, grad_fn=<NegBackward>) tensor(1.)
+tensor(0.0831, grad_fn=<NegBackward>) tensor(1.)
 ```
 
-# torch.nn.functional的使用
+## torch.nn.functional的使用
 
 现在，我们要对前面的代码进行重构，使代码在完成相同功能的同时，用PyTorch的`nn`来使代码变得更加简洁和灵活。
 从现在开始，接下来的每一步我们都会使代码变得更短，更好理解或更灵活。
@@ -280,7 +282,7 @@ print(loss_func(model(xb), yb), accuracy(model(xb), yb))
 tensor(0.0822, grad_fn=<NllLossBackward>) tensor(1.)
 ```
 
-# 使用nn.Module进行重构
+## 使用nn.Module进行重构
 接下来，我们将会用到`nn.Model`和`nn.Parameter`来完成一个更加清晰简洁的训练循环。我们继承`nn.Module`(它是一个能够跟踪状态的类)。在这个例子中，我们想要新建一个类，实现存储权重，偏置和前向传播步骤中所有用到方法。`nn.Module`包含了许多属性和方法（比如`.parameters()`和`.zero_grad()`），我们会在后面用到。
 
 > 注意
@@ -315,7 +317,7 @@ print(loss_func(model(xb), yb))
 输出：
 
 ```py
-tensor(2.2082, grad_fn=<NllLossBackward>)
+tensor(2.2001, grad_fn=<NllLossBackward>)
 ```
 
 之前在每个训练循环中，我们通过变量名对每个变量的值进行更新，并手动的将每个变量的梯度置为0，像这样：
@@ -370,7 +372,7 @@ print(loss_func(model(xb), yb))
 tensor(0.0812, grad_fn=<NllLossBackward>)
 ```
 
-# 使用nn.Linear进行重构
+## 使用nn.Linear进行重构
 我们继续对代码进行重构。我们将用PyTorch中的[nn.Linear](https://pytorch.org/docs/stable/nn.html#linear-layers)代替手动定义和初始化`self.weights`和`self.bias`以及计算`xb @ self.weights + self.bias`, 因为`nn.Linear`可以完成这些操作。
 PyTorch中预设了很多类型的神经网络层，使用它们可以极大的简化我们的代码，通常还会带来速度上的提升。
 
@@ -408,10 +410,10 @@ print(loss_func(model(xb), yb))
 输出：
 
 ```py
-tensor(0.0820, grad_fn=<NllLossBackward>)
+tensor(0.0817, grad_fn=<NllLossBackward>)
 ```
 
-# 使用optim进行重构
+## 使用optim进行重构
 PyTorch还有一个包含很多优化算法的包————`torch.optim`。我们可以使用优化器中的`step`方法执行前向传播过程中的步骤来替换手动更新每个参数。
 
 这个方法将允许我们替换之前手动编写的优化步骤：
@@ -464,15 +466,15 @@ print(loss_func(model(xb), yb))
 输出：
 
 ```py
-tensor(2.3785, grad_fn=<NllLossBackward>)
-tensor(0.0802, grad_fn=<NllLossBackward>)
+tensor(2.2795, grad_fn=<NllLossBackward>)
+tensor(0.0813, grad_fn=<NllLossBackward>)
 ```
 
-# 使用Dataset进行重构
+## 使用Dataset进行重构
 Pytorch包含一个Dataset抽象类。Dataset可以是任何东西，但它始终包含一个`__len__`函数（通过Python中的标准函数`len`调用）和一个用来索引到内容中的`__getitem__`函数。
 [这篇教程](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html)以创建`Dataset`的自定义子类`FacialLandmarkDataset`为例进行介绍。
 
-PyTorch中的[TensorDataset](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html)是一个封装了张量的Dataset。通过定义长度和索引的方式，是我们可以对张量的第一维进行迭代，索引和切片。这将使我们在训练中，获取同一行中的自变量和因变量更加容易。
+PyTorch中的[TensorDataset](https://pytorch.org/docs/stable/_modules/torch/utils/data/dataset.html#TensorDataset)是一个封装了张量的Dataset。通过定义长度和索引的方式，是我们可以对张量的第一维进行迭代，索引和切片。这将使我们在训练中，获取同一行中的自变量和因变量更加容易。
 
 ```py
 from torch.utils.data import TensorDataset
@@ -516,10 +518,10 @@ print(loss_func(model(xb), yb))
 输出：
 
 ```py
-tensor(0.0817, grad_fn=<NllLossBackward>)
+tensor(0.0825, grad_fn=<NllLossBackward>)
 ```
 
-# 使用DataLoader进行重构
+## 使用DataLoader进行重构
 PyTorch的`DataLoader`负责批量数据管理，你可以使用任意的`Dataset`创建一个`DataLoader`。`DataLoader`使得对批量数据的迭代更容易。`DataLoader`自动的为我们提供每一小批量的数据来代替切片的方式`train_ds[i*bs : i*bs+bs]`。
 
 ```py
@@ -562,12 +564,12 @@ print(loss_func(model(xb), yb))
 输出：
 
 ```py
-tensor(0.0817, grad_fn=<NllLossBackward>)
+tensor(0.0823, grad_fn=<NllLossBackward>)
 ```
 
 多亏PyTorch中的`nn.Module`，`nn.Parameter`，`Dataset`和`DataLoader`，我们的训练代码变得非常简洁易懂。下面我们来试着增加一些用于提高模型效率所必需的的基本特征。
 
-# 增加验证集
+## 增加验证集
  在第一部分，我们仅仅是试着为我们的训练集构建一个合理的训练步骤，但实际上，我们**始终**应该有一个[验证集](https://www.fast.ai/2017/11/13/validation-sets/)来确认模型是否过拟合。
  
  打乱训练数据的顺序通常是避免不同批数据中存在相关性和过拟合的[重要步骤](https://www.quora.com/Does-the-order-of-training-data-matter-when-training-neural-networks)。另一方面，无论是否打乱顺序计算出的验证集损失值都是一样的。鉴于打乱顺序还会消耗额外的时间，所以打乱验证集数据是没有任何意义的。
@@ -609,11 +611,11 @@ for epoch in range(epochs):
 输出：
 
 ```py
-0 tensor(0.2999)
-1 tensor(0.2742)
+0 tensor(0.3039)
+1 tensor(0.2842)
 ```
 
-# 编写fit()和get_data()函数
+## 编写fit()和get_data()函数
 现在我们来重构一下我们自己的函数。
 我们在计算训练集和验证集上的损失值时执行了差不多的过程两次，因此我们将这部分代码提炼成一个函数`loss_batch`，用来计算每个批的损失值。
 
@@ -674,13 +676,13 @@ def get_data(train_ds, valid_ds, bs):
 输出：
 
 ```py
-    0 0.2961075816631317
-    1 0.28558296990394594
+0 0.3368099178314209
+1 0.28037907302379605
 ```
 
 现在你能用这三行代码训练各种各样的模型。我们来看一下能否用它们来训练一个卷积神经网络（CNN）吧！
 
-# 应用到卷积神经网络
+## 应用到卷积神经网络
 
 我们现在将要创建一个包含三个卷积层的神经网络。因为前面章节中没有一个函数涉及到模型的具体形式，所以我们不需要对它们进行任何修改就可以训练一个卷积神经网络。
 
@@ -718,11 +720,11 @@ fit(epochs, model, loss_func, opt, train_dl, valid_dl)
 输出：
 
 ```py
-0 0.3829730714321136
-1 0.2258522843360901
+0 0.3590330636262894
+1 0.24007404916286468
 ```
 
-# nn.Sequential
+## nn.Sequential
 `torch.nn`中还有另一个类可以方便的用来简化我们的代码：[Sequential](https://pytorch.org/docs/stable/nn.html#torch.nn.Sequential)。一个`Sequential`对象可以序列化运行它包含的模块。这是一个更简单的搭建神经网络的方式。
 
 想要充分利用这一优势，我们要能够使用给定的函数轻松的定义一个**自定义层**。比如说，PyTorch中没有`view`层，我们需要为我们的网络定义一个。
@@ -765,14 +767,14 @@ fit(epochs, model, loss_func, opt, train_dl, valid_dl)
 输出：
 
 ```py
-0 0.32739396529197695
-1 0.25574398956298827
+0 0.340390869307518
+1 0.2571977460026741
 ```
 
-# 对DataLoader进行封装
+## 封装 DataLoader
 我们的卷积神经网络已经非常简洁了，但是它只能运行在MNIST数据集上，原因如下：
-- 它假定输入是长度为28*28的向量
-- 它假定卷积神经网络最终输出是大小为4*4的网格（因为这是平均值池化操作时我们使用的核大小）
+- 它假定输入是长度为28\*28的向量
+- 它假定卷积神经网络最终输出是大小为4\*4的网格（因为这是平均值池化操作时我们使用的核大小）
 
 让我们摆脱这两种假定，这样我们的模型就可以运行在任意的2d单通道图像上。
 首先，我们可以删除最初的Lambda层，并将数据预处理放在一个生成器中。
@@ -827,11 +829,11 @@ fit(epochs, model, loss_func, opt, train_dl, valid_dl)
 输出：
 
 ```py
-0 0.32888883714675904
-1 0.31000419993400574
+0 0.44035838775634767
+1 0.2957034994959831
 ```
 
-# 使用你的GPU
+## 使用你的GPU
 如果你有幸拥有支持CUDA的GPU（你可以租一个，大部分云服务提供商的价格使0.5$/每小时），那你可以用GPU来加速你的代码。
 首先检查一下的GPU是否可以被PyTorch调用：
 
@@ -871,7 +873,7 @@ model.to(dev)
 opt = optim.SGD(model.parameters(), lr=lr, momentum=0.9)
 ```
 
-你现在应该能发现模型运算变快了。
+你现在应该能发现运算变快了。
 
 ```py
 fit(epochs, model, loss_func, opt, train_dl, valid_dl)
@@ -880,11 +882,11 @@ fit(epochs, model, loss_func, opt, train_dl, valid_dl)
 输出：
 
 ```py
-0 0.21190375366210937
-1 0.18018000435829162
+0 0.2397482816696167
+1 0.2180072937965393
 ```
 
-# 总结
+## 总结
 现在我们有一个用PyTorch构建的通用数据管道和训练循环可以用来训练很多类型的模型。
 想要知道训练一个模型有多么简单，可以参照`mnist_sample`这个例子。
 
@@ -898,4 +900,4 @@ fit(epochs, model, loss_func, opt, train_dl, valid_dl)
     - `functional`：一个包含了梯度函数、损失函数等以及一些无状态的层，如卷积层和线性层的模块（通常使用`F`作为导入的别名）。
 - `torch.optim`：包含了优化器，比如在反向阶段更新`Parameter`中权重的`SGD`。
 - `Dataset`：一个抽象接口，包含了`__len__`和`__getitem__`，还包含了PyTorch提供的类，如`TensorDataset`。
-- `DataLoader`：接受任意的`Dataset`并生成一个迭代器可以批量返回数据。
+- `DataLoader`：接受任意的`Dataset`并生成一个可以批量返回数据的迭代器（iterator ）。
