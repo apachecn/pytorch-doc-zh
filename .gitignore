@@ -118,4 +118,10 @@ Thumbs.db
 .idea/
 
 # custom
-docs/README.md
+# docs/README.md
+docs/0.2/book.json
+docs/0.3/book.json
+docs/0.4/book.json
+docs/1.0/book.json
+docs/1.2/book.json
+docs/LatestChanges/book.json
