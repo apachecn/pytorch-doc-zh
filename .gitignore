@@ -106,10 +106,13 @@ _book
 
 # node.js
 # node_modules
+node_modules/gitbook-plugin-tbfed-pagefooter
 docs/0.2/book.json
 docs/0.2/node_modules
 docs/0.3/book.json
 docs/0.3/node_modules
+docs/0.4/book.json
+docs/0.4/node_modules
 docs/1.0/book.json
 docs/1.0/node_modules
 docs/1.2/book.json
