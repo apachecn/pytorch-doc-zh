@@ -100,6 +100,13 @@
 * 试用期: 2个月
 * 欢迎联系: [片刻](https://github.com/jiangzhonglian) 529815144
 
+## 项目负责人
+
+* v1.2: <https://github.com/apachecn/pytorch-doc-zh/issues/422>
+* v1.0: <https://github.com/apachecn/pytorch-doc-zh/issues/274>
+* v0.3: <https://github.com/apachecn/pytorch-doc-zh/issues/459>
+* v0.2: <https://github.com/apachecn/pytorch-doc-zh/issues/459>
+
 ## 建议反馈
 
 * 在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.

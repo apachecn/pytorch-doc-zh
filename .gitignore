@@ -105,7 +105,7 @@ ENV/
 _book
 
 # node.js
-node_modules
+# node_modules
 
 # windows
 Thumbs.db
@@ -119,3 +119,4 @@ Thumbs.db
 
 # custom
 docs/README.md
+node_modules
