@@ -106,10 +106,15 @@ _book
 
 # node.js
 # node_modules
+docs/0.2/book.json
 docs/0.2/node_modules
+docs/0.3/book.json
 docs/0.3/node_modules
+docs/1.0/book.json
 docs/1.0/node_modules
+docs/1.2/book.json
 docs/1.2/node_modules
+docs/LatestChanges/book.json
 docs/LatestChanges/node_modules
 
 # windows
