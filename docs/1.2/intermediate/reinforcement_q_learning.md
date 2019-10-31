@@ -1,8 +1,8 @@
 # 强化学习（DQN）教程
 
-**作者** ：[亚当Paszke ](https://github.com/apaszke)
-
-**翻译** ：[wutong Zhang](https://github.com/wutongzhang)
+> **作者**: [Adam Paszke](https://github.com/apaszke)
+> 
+> **翻译**: [wutong Zhang](https://github.com/wutongzhang)
 
 
 本教程介绍了如何使用PyTorch训练一个Deep Q-learning（DQN）智能点（Agent）来完成[OpenAI Gym](https://gym.openai.com/)中的CartPole-V0任务。
