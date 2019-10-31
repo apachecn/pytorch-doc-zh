@@ -2,38 +2,35 @@
 
 **作者** ：[亚当Paszke ](https://github.com/apaszke)
 
-本教程介绍了如何使用PyTorch从[
-OpenAI健身房](https://gym.openai.com/)培养出深层Q学习（DQN）代理的CartPole-V0任务。
+**翻译** ：[wutong Zhang](https://github.com/wutongzhang)
+
+
+本教程介绍了如何使用PyTorch训练一个Deep Q-learning（DQN）智能点（Agent）来完成[OpenAI Gym](https://gym.openai.com/)中的CartPole-V0任务。
 
 **任务**
 
-代理有两个动作之间做出选择 - 向左或向右移动的车 -
-这样附加了极点保持直立。你可以找到在[健身房网站](https://gym.openai.com/envs/CartPole-v0)各种算法和可视化的官方排行榜。
+智能点需要决定两种动作：向左或向右来使其上的杆保持直立。
+你可以在[OpenAI Gym](https://gym.openai.com/envs/CartPole-v0)找到一个有各种算法和可视化的官方排行榜。
 
-![cartpole](img/cartpole1.gif)
+![cartpole](https://pytorch.org/tutorials/_images/cartpole1.gif)
 
-cartpole
+当智能点观察环境的当前状态并选择动作时，环境将转换为新状态，并返回指示动作结果的奖励。在这项任务中，每增加一个时间步，奖励+1，如果杆子掉得太远或大车移动距离中心超过2.4个单位，环境就会终止。这意味着更好的执行场景将持续更长的时间，积累更大的回报。
 
-为展开剂观察环境的当前状态并选择一个动作，环境 _跃迁_
-到一个新的状态，并且还返回一个奖励，指示行动的后果。在此任务中，奖励是+1，每增量时间步长，如果极倒下太远或车从中心移动多于2.4单位处环境终止。这意味着性能更好的方案将用于持续时间较长的运行，积累了较大的回报。
+Cartpole任务的设计为智能点输入代表环境状态（位置、速度等）的4个实际值。然而，神经网络完全可以通过观察场景来解决这个任务，所以我们将使用以车为中心的一块屏幕作为输入。因此，我们的结果无法直接与官方排行榜上的结果相比——我们的任务更艰巨。不幸的是，这会减慢训练速度，因为我们必须渲染所有帧。
 
-所述CartPole任务被设计成使得输入到该代理是代表环境状态（位置，速度等）4的实数值。然而，神经网络可以完全通过看现场解决的任务，所以我们将使用集中在车作为输入屏幕的补丁。正因为如此，我们的结果没有直接可比性从官方排行榜中的
-- 我们的任务是要困难得多。不幸的是这并减慢培训，因为我们必须使所有的帧。
+严格地说，我们将以当前帧和前一个帧之间的差异来呈现状态。这将允许代理从一张图像中考虑杆子的速度。
 
-严格地说，我们将目前的状态为当前屏幕补丁和前之间的差异。这将允许代理采取极的速度考虑从一个图像。
+**包**
 
-**封装**
-
-首先，让我们导入所需的软件包。首先，我们需要[健身房](https://gym.openai.com/docs)对环境（安装使用
-PIP安装健身房）。我们也将使用从PyTorch如下：
+首先你需要导入必须的包。我们需要 [gym](https://gym.openai.com/docs) 作为环境 (使用 pip install gym 安装). 我们也需要 PyTorch 的如下功能:
 
   * 神经网络（`torch.nn`）
   * 优化（`torch.optim`）
   * 自动微分（`torch.autograd`）
-  * 对于视觉任务工具（`torchvision`\- [一个单独的包](https://github.com/pytorch/vision)）。
-
-    
-    
+  * 对于视觉任务工具（`torchvision`\- [一个单独的包](https://github.com/pytorch/vision)）
+  
+  
+  ```
     import gym
     import math
     import random
@@ -62,19 +59,19 @@ PIP安装健身房）。我们也将使用从PyTorch如下：
     
     # if gpu is to be used
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+  ```
+
+## 回放内存
+
+我们将使用经验回放内存来训练DQN。它存储智能点观察到的转换，允许我们稍后重用此数据。通过从中随机抽样，组成批对象的转换将被取消相关性。结果表明，这大大稳定和改进了DQN训练过程。
+
+因此，我们需要两个类别：
+
+  * `Transition `\- 一个命名的元组，表示我们环境中的单个转换。它基本上将（状态、动作）对映射到它们的（下一个状态、奖励）结果，状态是屏幕差分图像，如后面所述。
+  * `ReplayMemory`\-  一个有界大小的循环缓冲区，用于保存最近观察到的转换。它还实现了一个`.sample（） `方法，用于选择一批随机转换进行训练。
+
     
-
-## 重放存储器
-
-我们将使用经验重播记忆训练我们DQN。它存储的转换，代理观察，让我们在以后重新使用此数据。通过从随机抽样，即建立一个批次的转换是去相关。它已被证明，这极大地稳定和提高了DQN训练过程。
-
-对于这一点，我们将需要两个类：
-
-  * `过渡 `\- 表示在我们的环境中的单个过渡命名元组。它本质上（状态，行动）对映射到它们（next_state，奖励）结果，在状态如后述的屏幕差分图像。
-  * `ReplayMemory`\- 保持最近观察到的转变界大小的循环缓冲区。它也实现了一个`。样品（） `方法用于选择随机批次转换的进行训练。
-
-    
-    
+```
     Transition = namedtuple('Transition',
                             ('state', 'action', 'next_state', 'reward'))
     
@@ -97,16 +94,16 @@ PIP安装健身房）。我们也将使用从PyTorch如下：
             return random.sample(self.memory, batch_size)
     
         def __len__(self):
-            return len(self.memory)
-    
+            return len(self.memory)  
+```
 
-现在，让我们来定义模型。首先，让我们快速回顾一下一个DQN是什么。
+现在我们来定义自己的模型。但首先来快速了解一下DQN。
 
 ## DQN算法
 
-我们的环境是确定性的，所以这里提出的所有公式确定性也制定了简单起见。在强化学习文学，他们也将在包含在环境中随机转换的预期。
+我们的环境是确定的，所以这里提出的所有方程也都是确定性的，为了简单起见。在强化学习文献中，它们还包含对环境中随机转换的期望。
 
-我们的目标是培训试图最大化打折，累积奖励策略 \（R_ {T_0} = \ sum_ {T = T_0} ^ {\ infty} \伽马^ {吨 -
+我们的目标是制定一项策略，试图最大化折扣、累积奖励 \（R_ {T_0} = \ sum_ {T = T_0} ^ {\ infty} \伽马^ {吨 -
 T_0} r_t \） ，其中 \（R_ {T_0} \）也被称为 _返回_ 。折扣， \（\伽玛\），应为（0 \）和 \（1 \）确保的总和收敛之间
 \常数。这使得从不确定的遥远的未来回报我们的代理比在不久的将来，那些它可以相当自信更重要。
 
@@ -139,11 +136,9 @@ T_0} r_t \） ，其中 \（R_ {T_0} \）也被称为 _返回_ 。折扣， \（
 
 ### Q-网络
 
-我们的模型将是一个卷积神经网络需要在当前和以前的屏幕补丁之间的差异。它具有两个输出端，表示 \（Q（S，\ mathrm {左}）\）和 \（Q（S，\
-mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网络试图预测 _预期收益_ 的同时考虑到当前输入的每个动作。
+我们的模型将是一个卷积神经网络需要在当前和以前的屏幕补丁之间的差异。它具有两个输出端，表示\(Q(S，\ mathrm {左})\)和 \(Q(S，\mathrm {右})\)(其中 \(S \)是输入到网络)。实际上，网络试图预测 _预期收益_ 的同时考虑到当前输入的每个动作。
 
-    
-    
+```    
     class DQN(nn.Module):
     
         def __init__(self, h, w, outputs):
@@ -155,8 +150,7 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
             self.conv3 = nn.Conv2d(32, 32, kernel_size=5, stride=2)
             self.bn3 = nn.BatchNorm2d(32)
     
-            # Number of Linear input connections depends on output of conv2d layers
-            # and therefore the input image size, so compute it.
+            # 线性输入连接的数量取决于conv2d层的输出，因此需要计算输入图像的大小。
             def conv2d_size_out(size, kernel_size = 5, stride = 2):
                 return (size - (kernel_size - 1) - 1) // stride  + 1
             convw = conv2d_size_out(conv2d_size_out(conv2d_size_out(w)))
@@ -164,22 +158,18 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
             linear_input_size = convw * convh * 32
             self.head = nn.Linear(linear_input_size, outputs)
     
-        # Called with either one element to determine next action, or a batch
-        # during optimization. Returns tensor([[left0exp,right0exp]...]).
+        # 使用一个元素调用以确定下一个操作，或在优化期间调用批处理。返回张量
         def forward(self, x):
             x = F.relu(self.bn1(self.conv1(x)))
             x = F.relu(self.bn2(self.conv2(x)))
             x = F.relu(self.bn3(self.conv3(x)))
             return self.head(x.view(x.size(0), -1))
-    
+```
 
-### 输入的提取
+### 获取输入
+下面的代码是用于从环境中提取和处理渲染图像的实用程序。它使用了`torchvision`包，这样就可以很容易地组合图像转换。运行单元后，它将显示它提取的示例帧。
 
-下面的代码是用于提取和处理从环境中渲染的图像的工具。它使用`torchvision
-`包，这使得它易于撰写图像变换。一旦运行了电池它会显示它提取的例子补丁。
-
-    
-    
+```
     resize = T.Compose([T.ToPILImage(),
                         T.Resize(40, interpolation=Image.CUBIC),
                         T.ToTensor()])
@@ -191,11 +181,9 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
         return int(env.state[0] * scale + screen_width / 2.0)  # MIDDLE OF CART
     
     def get_screen():
-        # Returned screen requested by gym is 400x600x3, but is sometimes larger
-        # such as 800x1200x3. Transpose it into torch order (CHW).
+        # 返回 gym 需要的400x600x3 图片, 但有时会更大，如800x1200x3. 将其转换为torch (CHW).
         screen = env.render(mode='rgb_array').transpose((2, 0, 1))
-        # Cart is in the lower half, so strip off the top and bottom of the screen
-        _, screen_height, screen_width = screen.shape
+        # 车子在下半部分，因此请剥去屏幕的顶部和底部。
         screen = screen[:, int(screen_height*0.4):int(screen_height * 0.8)]
         view_width = int(screen_width * 0.6)
         cart_location = get_cart_location(screen_width)
@@ -206,13 +194,12 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
         else:
             slice_range = slice(cart_location - view_width // 2,
                                 cart_location + view_width // 2)
-        # Strip off the edges, so that we have a square image centered on a cart
+        # 去掉边缘，这样我们就可以得到一个以车为中心的正方形图像。
         screen = screen[:, :, slice_range]
-        # Convert to float, rescale, convert to torch tensor
-        # (this doesn't require a copy)
+        # 转化为 float, 重新裁剪, 转化为 torch 张量(这并不需要拷贝)
         screen = np.ascontiguousarray(screen, dtype=np.float32) / 255
         screen = torch.from_numpy(screen)
-        # Resize, and add a batch dimension (BCHW)
+        # 重新裁剪,加入批维度 (BCHW)
         return resize(screen).unsqueeze(0).to(device)
     
     
@@ -222,18 +209,18 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
                interpolation='none')
     plt.title('Example extracted screen')
     plt.show()
-    
+```    
 
-## 培训
+## 训练
 
-### 超参数和效用
+### 超参数和配置
 
-这种细胞实例我们的模型及其优化，并定义了一些实用程序：
+此单元实例化模型及其优化器，并定义一些实用程序：
 
-  * `select_action`\- 将相应地选择一个动作的ε贪婪政策。简单地说，我们有时会用我们的模型选择的动作，有时我们只品尝一个均匀。选择一个随机行动的概率将开始在`EPS_START`和将成倍朝`EPS_END`衰减。 `EPS_DECAY`控制衰减速率。
-  * `plot_durations`\- 密谋发作的持续时间，平均在过去的100个集（官方评价中使用的指标）沿帮手。该地块将是一个包含主要的训练循环单元的下方，并且每一集后，将更新。
+  * `select_action`\- 将根据迭代次数贪婪策略选择一个行动。简单地说，我们有时会使用我们的模型来选择动作，有时我们只会对其中一个进行统一的采样。选择随机动作的概率将从 `EPS_START` 开始并以指数形式向 `EPS_END`衰减。 `EPS_DECAY` 控制衰减速率。
+  * `plot_durations`\- 一个帮助绘制迭代次数持续时间，以及过去100迭代次数的平均值（官方评估中使用的度量）。迭代次数将在包含主训练循环的单元下方，并在每迭代之后更新。
 
-    
+```    
     
     BATCH_SIZE = 128
     GAMMA = 0.999
@@ -242,9 +229,8 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
     EPS_DECAY = 200
     TARGET_UPDATE = 10
     
-    # Get screen size so that we can initialize layers correctly based on shape
-    # returned from AI gym. Typical dimensions at this point are close to 3x40x90
-    # which is the result of a clamped and down-scaled render buffer in get_screen()
+    # 获取屏幕大小，以便我们可以根据从ai-gym返回的形状正确初始化层。
+    # 这一点上的典型尺寸接近3x40x90，这是在get_screen（）中抑制和缩小的渲染缓冲区的结果。
     init_screen = get_screen()
     _, _, screen_height, screen_width = init_screen.shape
     
@@ -301,6 +287,7 @@ mathrm {右}）\）（其中 \（S \）是输入到网络）。实际上，网�
             display.clear_output(wait=True)
             display.display(plt.gcf())
     
+```
 
 ### 训练循环
 
