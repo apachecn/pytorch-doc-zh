@@ -117,6 +117,3 @@ Thumbs.db
 # IDEA
 .idea/
 
-# custom
-docs/README.md
-node_modules

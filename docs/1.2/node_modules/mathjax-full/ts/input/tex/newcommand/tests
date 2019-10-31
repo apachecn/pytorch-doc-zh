@@ -1,0 +1,176 @@
+\newcommand{\sum}{2 + 3}
+\sum
+
+\renewcommand{\sum}[1]{2 #1 3}
+\sum{*}
+
+\renewcommand{\sum}[1][+]{2 #1 3}
+\sum
+\sum[*]
+
+\renewcommand{\sum}[2][+]{2 #1 3 #2 4}
+\sum{+}
+\sum[*]{+}
+
+
+\newenvironment{myHeartEnv}
+  {\color{purple}{\heartsuit}\kern-2.5pt\color{green}{\heartsuit}}
+  {\text{ forever}}
+
+\begin{myHeartEnv}
+\end{myHeartEnv}
+
+\begin{myHeartEnv}
+  2+3
+\end{myHeartEnv}
+
+
+\newenvironment{proof}
+{\textbf{Proof:}}
+{\begin{align} \blacksquare \end{align}}
+\begin{proof}a=b\end{proof}
+
+\newenvironment{proof}
+{\begin{align}\textbf{Proof:}}
+{\end{align}}
+\begin{proof}a=b\end{proof}
+
+\newenvironment{proof}
+{\begin{align}\textbf{Proof:}&}
+{ \begin{split} 5 \end{split}&& \blacksquare\end{align}}
+\begin{proof}a&=b\end{proof}
+
+
+\newenvironment{argument}[1][a]{\textbf{Argument #1:}}{aa}
+\begin{argument}[c]b\end{argument}
+
+\renewenvironment{argument}[2][a]{\textbf{Argument #1(#2):}}{aa}
+\begin{argument}[c]{3}b\end{argument}
+
+\def\bar{h}
+\let\fooi\bar
+\def\fooii{\bar}
+\fooi +\fooii
+\def\bar{g}
+\fooi +\fooii
+
+\def\foo{a + b}
+\foo
+\def\foo#1{a #1 b}
+\foo{-}
+\def\foo#1#2{#2 #1 b}
+\foo{-}{x}
+
+\let\b\lvert
+\let\lvert\langle
+\vert
+\b
+\lvert
+\left\b q \right\lvert
+
+
+\let\be={
+
+  \be a}
+
+\let\be={
+
+  \be a}
+
+\let\car^
+
+a\car b
+
+\let\lb=\{
+\lb \frac{1}{2} \}
+\left\lb \frac{1}{2} \right\}
+
+\let\lb(
+\lb \frac{1}{2})
+\left\lb \frac{1}{2} \right)
+
+
+\let\al\alpha
+\al\alpha
+\let\al\aleph
+\al\alpha
+
+\let\al\alpha
+\al\alpha
+\let\alpha\beta
+\al\alpha
+
+
+----------- TODO  ------------------
+
+\def\bar[#1]#2{#1 + #2}
+\bar[a]{b}
+\let\foo\bar
+\foo[c]{d}
+
+\newcommand{\bar}[2][1]{#1 + #2}
+\bar[a]{b}
+\let\foo\bar
+\foo[c]{d}
+
+
+// Recognise if it is a newly created command (or created with let).
+
+\let\kk\alpha
+\kk
+\let\rr\beta
+\rr
+\let\rr\kk
+\let\kk\beta
+\kk\rr
+
+// The following do not work as expected in MJ2.
+
+\let\ll\sin
+\ll(x)
+\let\rr\ll
+\let\ll\cos
+\rr(x)
+\ll(x)
+
+\let\save\sin
+\let\sin\cos
+\let\cos\tan
+\let\tan\save
+\sin(x)\cos(x)\tan(x)
+
+
+// Delimiters:
+\let\lp(
+\let\rp)
+\let\mp\rp
+\left\lp \frac{a}{b}\middle\mp c \right\rp
+
+\let\lp\langle
+\let\rp\rangle
+\let\mp\rp
+\left\lp \frac{a}{b}\middle\mp c \right\rp
+
+
+\let\a a
+\let\b b
+\a \b
+\let\c\a
+\let\a c
+\c \a
+\let\d=\c
+\let\c \b
+\d \c
+
+
+// Macros of macros:
+\let\sqrt\choose a\sqrt b
+
+// Why does that not work?
+\newenvironment{proof}{\textbf{Proof:}}{}
+\begin{proof}a=b\end{proof}
+\renewenvironment{proof}{\begin{align}\textbf{Proof:}&}{ \begin{split} 5 \end{split}&& \blacksquare\end{align}}\begin{proof}a&=b\end{proof}
+\newenvironment{proof}{\textbf{Nix:}}{}
+\begin{proof}a=b\end{proof}
+\renewenvironment{proof}{\begin{equation}\textbf{Proof:}}{ 5 \blacksquare\end{equation}}\begin{proof}a=b\end{proof}
+

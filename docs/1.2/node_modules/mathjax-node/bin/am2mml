@@ -1,0 +1,72 @@
+#! /usr/bin/env node
+
+/*************************************************************************
+ *
+ *  am2mml
+ *
+ *  Uses MathJax to convert an AsciiMath string to a MathML string.
+ *
+ * ----------------------------------------------------------------------
+ *
+ *  Copyright (c) 2014 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+var mjAPI = require("../lib/mj-single.js");
+
+var argv = require("yargs")
+  .demand(1).strict()
+  .usage("Usage: am2mml [options] 'math' > file.mml",{
+    speech: {
+      boolean: true,
+      describe: "include speech text"
+    },
+    speechrules: {
+      default: "mathspeak",
+      describe: "ruleset to use for speech text (chromevox or mathspeak)"
+    },
+    speechstyle: {
+      default: "default",
+      describe: "style to use for speech text (default, brief, sbrief)"
+    },
+    semantics: {
+      boolean: true,
+      describe: "add AsciiMath code in <semantics> tag"
+    },
+    extensions: {
+      default: "",
+      describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
+    }
+  })
+  .argv;
+
+mjAPI.config({
+  MathJax: {
+    menuSettings: {
+      semantics: argv.semantics
+    }
+  },
+  extensions: argv.extensions
+});
+mjAPI.start();
+
+mjAPI.typeset({
+  math: argv._[0],
+  format: "AsciiMath", mml:true,
+  speakText: argv.speech,
+  speakRuleset: argv.speechrules.replace(/^chromevox$/i,"default"),
+  speakStyle: argv.speechstyle
+}, function (data) {
+  if (!data.errors) {console.log(data.mml)}
+});

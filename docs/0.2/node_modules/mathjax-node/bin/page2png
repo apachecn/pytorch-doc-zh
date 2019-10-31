@@ -1,0 +1,165 @@
+#! /usr/bin/env node
+
+/************************************************************************
+ *
+ *  page2png
+ *
+ *  Reads an HTML5 file from stdin that contains math
+ *  and writes a new HTML5 document to stdout that
+ *  contains PNG versions of the math instead.
+ *
+ * ----------------------------------------------------------------------
+ *
+ *  Copyright (c) 2014 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+var mjAPI = require("../lib/mj-page.js");
+var fs = require('fs');
+var jsdom = require('jsdom').jsdom;
+
+var argv = require("yargs")
+  .strict()
+  .usage("Usage: page2png [options] < input.html > output.html",{
+    preview: {
+      boolean: true,
+      describe: "make PNG into a Mathjax preview"
+    },
+    speech: {
+      boolean: true,
+      describe: "include speech text"
+    },
+    speechrules: {
+      default: "mathspeak",
+      describe: "ruleset to use for speech text (chromevox or mathspeak)"
+    },
+    speechstyle: {
+      default: "default",
+      describe: "style to use for speech text (default, brief, sbrief)"
+    },
+    linebreaks: {
+      boolean: true,
+      describe: "perform automatic line-breaking"
+    },
+    nodollars: {
+      boolean: true,
+      describe: "don't use single-dollar delimiters"
+    },
+    format: {
+      default: "AsciiMath,TeX,MathML",
+      describe: "input format(s) to look for"
+    },
+    eqno: {
+      default: "none",
+      describe: "equation number style (none, AMS, or all)"
+    },
+    img: {
+      default: "",
+      describe: "make external svg images with this name prefix"
+    },
+    dpi: {
+      default: 0,
+      describe: "dpi for image (0 = calculate automatically)"
+    },
+    font: {
+      default: "TeX",
+      describe: "web font to use"
+    },
+    ex: {
+      default: 6,
+      describe: "ex-size in pixels"
+    },
+    width: {
+      default: 100,
+      describe: "width of container in ex"
+    },
+    extensions: {
+      default: "",
+      describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
+    }
+  })
+  .argv;
+
+argv.format = argv.format.split(/ *, */);
+if (argv.font === "STIX") argv.font = "STIX-Web";
+mjAPI.config({MathJax: {SVG: {font: argv.font}}, extensions: argv.extensions});
+mjAPI.start();
+
+if (argv.dpi === 0) {argv.dpi = argv.ex * 16} // pixels properly sized
+
+//
+//  Process an HTML file:
+//
+function processHTML(html,callback) {
+  var document = jsdom(html,{features:{FetchExternalResources: false}});
+  var xmlns = getXMLNS(document);
+  mjAPI.typeset({
+    html: document.body.innerHTML,
+    renderer: "PNG", dpi: argv.dpi,
+    inputs: argv.format,
+    equationNumbers: argv.eqno,
+    singleDollars: !argv.nodollars,
+    useGlobalCache: false,
+    addPreview: argv.preview,
+    speakText: argv.speech,
+    speakRuleset: argv.speechrules.replace(/^chromevox$/i,"default"),
+    speakStyle: argv.speechstyle,
+    ex: argv.ex, width: argv.width,
+    linebreaks: argv.linebreaks,
+    xmlns:xmlns
+  }, function (result) {
+    document.body.innerHTML = result.html;
+    document.head.appendChild(document.body.firstChild);
+    if (argv.img !== "") {
+      var img = document.getElementsByClassName("MathJax_PNG_IMG");
+      for (var i = 0, m = img.length; i < m; i++) {
+        var N = (i+1).toString(); while (N.length < 4) {N = "0"+N}
+        var file = argv.img+N+".png";
+        fs.writeFileSync(file,new Buffer(img[i].src.replace(/^.*?,/,""),"base64"));
+        img[i].src = file;
+      }
+    }
+    var HTML = "<!DOCTYPE html>\n"+document.documentElement.outerHTML.replace(/^(\n|\s)*/,"");
+    callback(HTML);
+  });
+}
+
+//
+//  Look up the MathML namespace from the <html> attributes
+//
+function getXMLNS(document) {
+  var html = document.head.parentNode;
+  for (var i = 0, m = html.attributes.length; i < m; i++) {
+    var attr = html.attributes[i];
+    if (attr.name.substr(0,6) === "xmlns:" &&
+        attr.value === "http://www.w3.org/1998/Math/MathML")
+             {return attr.name.substr(6)}
+  }
+  return "mml";
+}
+
+//
+//  Read the input file and collect the file contents
+//  When done, process the HTML.
+//
+var html = [];
+process.stdin.on("readable",function (block) {
+  var chunk = process.stdin.read();
+  if (chunk) html.push(chunk.toString('utf8'));
+});
+process.stdin.on("end",function () {
+  processHTML(html.join(""), function(html) {
+    process.stdout.write(html);
+  });
+});

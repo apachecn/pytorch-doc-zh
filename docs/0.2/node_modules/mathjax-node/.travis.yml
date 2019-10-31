@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - '4'
+  - '5'
+  - stable
+sudo: false
+script:
+  - npm install
+  - npm test
+deploy:
+  provider: npm
+  email: manager@mathjax.org
+  api_key:
+    secure: Fd/yFRRrLDjleB7QnV/Juncg7dJP193IYOWZaJJFohSfPC3TylhJjUb2bD2fcBUbzM9bLPvhz+XJbWS2YXRGzCWABtyjpZTjO9oEkYBmEuNdVnD9b1j+BCWEEyXfBGF0/WBePRtn8XWQLTPbEJXP9Z2HKOUJJlq4cjTLZ7MHZLw=
+  on:
+    tags: true

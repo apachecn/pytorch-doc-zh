@@ -1,0 +1,5 @@
+{
+    "component": "input/tex/extensions/amscd",
+    "targets": ["input/tex/ams_cd"]
+}
+

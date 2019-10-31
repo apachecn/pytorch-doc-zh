@@ -1,0 +1,159 @@
+#! /usr/bin/env node
+
+/*************************************************************************
+ *
+ *  mml2svg-html5
+ *
+ *  Reads an HTML5 file from stdin that contains MathML
+ *  and writes a new HTML5 document to stdout that
+ *  contains SVG versions of the math instead.
+ *
+ * ----------------------------------------------------------------------
+ *
+ *  Copyright (c) 2014 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+var mjAPI = require("../lib/mj-single.js");
+var fs = require('fs');
+var jsdom = require('jsdom').jsdom;
+
+var argv = require("yargs")
+  .strict()
+  .usage("Usage: mml2svg-html5 [options] < input.html > output.html",{
+    localcache: {
+      boolean: true,
+      description: "don't use the global font cache"
+    },
+    linebreaks: {
+      boolean: true,
+      describe: "perform automatic line-breaking"
+    },
+    speech: {
+      boolean: true,
+      describe: "include speech text"
+    },
+    speechrules: {
+      default: "mathspeak",
+      describe: "ruleset to use for speech text (chromevox or mathspeak)"
+    },
+    speechstyle: {
+      default: "default",
+      describe: "style to use for speech text (default, brief, sbrief)"
+    },
+    font: {
+      default: "TeX",
+      describe: "web font to use"
+    },
+    ex: {
+      default: 6,
+      describe: "ex-size in pixels"
+    },
+    width: {
+      default: 100,
+      describe: "width of container in ex"
+    },
+    extensions: {
+      default: "",
+      describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
+    }
+  })
+  .argv;
+
+if (argv.font === "STIX") argv.font = "STIX-Web";
+mjAPI.config({MathJax: {SVG: {font: argv.font}}, extensions: argv.extensions});
+mjAPI.start();
+
+//
+//  Process an HTML file:
+//    Find all math elements,
+//    Loop through them, and make typeset calls for each math tag,
+//      If the MathML processes correctly,
+//        replace the math tag by the svg result.
+//      If this is the last one,
+//        do the callback with the complete page.
+//
+function processHTML(html,callback) {
+  var document = jsdom(html,null,{features:{FetchExternalResources: false}});
+  var xmlns = getXMLNS(document);
+  var sheet = document.head.appendChild(document.createElement("style"));
+  sheet.innerHTML = ".MathJax_SVG_display {text-align:center; margin:1em 0}";
+  var math = document.getElementsByTagName("math");
+  var mathns = document.getElementsByTagName(xmlns+":math");
+  math = [].slice.call(math,0).concat([].slice.call(mathns,0)); // combine the two lists
+  var state = {};
+  for (var i = 0, m = math.length; i < m; i++) {
+    var data = {
+      math:math[i].outerHTML,
+      format:"MathML",
+      svg:true, useGlobalCache: !argv.localcache,
+      speakText: argv.speech,
+      speakRuleset: argv.speechrules.replace(/^chromevox$/i,"default"),
+      speakStyle: argv.speechstyle,
+      ex: argv.ex, width: argv.width,
+      linebreaks: argv.linebreaks,
+      state:state, xmlns:xmlns
+    };
+    mjAPI.typeset(data,(function (node,last) {return function (result) {
+      if (result.svg) {
+        var div = document.createElement("div");
+        div.innerHTML = result.svg;
+        if (node.getAttribute("display") === "block" || 
+            node.getAttribute("mode") === "display") {
+          node.parentNode.replaceChild(div,node);
+          div.className = "MathJax_SVG_display";
+        } else {
+          node.parentNode.replaceChild(div.firstChild,node);
+        }
+      }
+      if (last) {
+        if (!argv.localcache) {
+          var svg = document.createElement("svg"); svg.style.display = "none";
+	  svg.appendChild(document.importNode(data.state.defs,true));
+          document.body.insertBefore(svg,document.body.firstChild);
+        }
+        callback(document.documentElement.outerHTML);
+      }
+    }})(math[i],i == m-1));
+  }
+}
+
+//
+//  Look up the MathML namespace from the <html> attributes
+//
+function getXMLNS(document) {
+  var html = document.head.parentNode;
+  for (var i = 0, m = html.attributes.length; i < m; i++) {
+    var attr = html.attributes[i];
+    if (attr.nodeName.substr(0,6) === "xmlns:" &&
+        attr.nodeValue === "http://www.w3.org/1998/Math/MathML")
+             {return attr.nodeName.substr(6)}
+  }
+  return "mml";
+}
+
+//
+//  Read the input file and collect the file contents
+//  When done, process the HTML.
+//
+var html = [];
+process.stdin.on("readable",function (block) {
+  var chunk = process.stdin.read();
+  if (chunk) html.push(chunk.toString('utf8'));
+});
+process.stdin.on("end",function () {
+  processHTML(html.join(""), function(html) {
+    process.stdout.write(html);
+  });
+});

@@ -1,0 +1,122 @@
+
+* Testing
+  Currently I've implemented a trivial test runner using tape.
+  This should change in the future:
+
+** Unit tests 
+   Probably with Mocha
+
+** Platform testing 
+   Karma
+
+* Refactoring of TeX Input
+
+** Maps
+
+*** General structure discussion:
+   
+    It is awkward to have generic interface definition! Therefore we needed to
+    replace SymbolMap with a non-generic base interface. Base interface should
+    only have the contains method that will always return a boolean. Abstract
+    base class then is generic with lookup method (or apply for parsing).
+
+
+*** Abstract Base class symbol map
+
+*** TODO Do we have to have a trivial subclass that handles digits, numbers and characters?
+
+**** Regexp class
+
+*** concrete classes:
+
+**** character map: char + attributes
+
+***** Objects: special, remap, mathchar0mi, mathchar0mo, mathchar7, delimiter
+
+**** macro map: function + arguments
+
+**** environment map: function + arguments
+
+*** Each class gets a specific method to execute it
+
+
+** Map handler with
+
+*** lookup function
+
+*** change of map (for different configurations)
+
+** Handling environments: 
+**** If we only through an unknown environment for begin and have unknown end handled differently?
+
+* Previous notes
+** Checkout problems with tests.
+** The texparser needs to extend abstract input jax
+** Need to fill MathItem.
+** Build it on MmlNodes
+
+
+
+*** From map handler parse function. This is probably obsolete!
+  // I think here we should return the JSON value that can be handled by the
+  // parser. Meaning we should give the symbol_map a function that actually
+  // performs the parsing. E.g., a singular method for RegExp and Character. An
+  // execution method for custom functions on Macro.
+  // 
+  // This can then be actually put into the interface. We can then avoid casting!
+  //
+  // Also: How are we to know "outside" what the actual value is?
+
+<<<<<<< HEAD
+* Notes for future refactoring:
+
+** Why does TextNode not inherit AbstractMmlNode. This hiearchy with empty nodes seems to be odd.
+
+** msubsup.ts -> no TEXCLASS
+
+** Tests that currently do not work:
+   
+*** Choose, Over With Delims, Above With Delims (Need the mathchoice extension!)
+
+*** Label: Uses AMS Math stuff.
+    
+*** Named Function: AutoOP, FnOP?
+
+*** Limit: mml.SPACE_ATTR ? 
+
+*** Modulo: uses mathchoice
+
+*** Checkout Dots
+
+*** Delimiters-left-right seems to have one mrow too many in the expected value
+
+*** Dots The mo elements seem to be getting the wrong texclass.
+
+** AMS methods already done:
+   EndEntry, EndTable, fixInitialMO
+
+**** For Davide: How does With with nested dictionary work.
+=======
+* Review 1 notes
+
+** TEXCLASSNAMES: 
+   Part of the old attribute handling mechanism. The "real" attributes were not
+   being kept separate from the internal attributes, and so you could not tell
+   which were to be copied into MathML output. This specified a list of ones
+   that should not be (even though they had default values in some objects).
+
+*** They should eventually be removed and used from the operator lookup table.
+
+** MML.chars:
+   The children of token nodes are text nodes. That is what this implements (the
+   equivalent of the HTML #text node). In version v, this is the TextNode node
+   (in core/MmlTree/MmlNode.ts as I recall). The MML.entity type is gone in v3
+   and folded into the TextNode. I originally thought the entity class would
+   keep the original entity name (e.g., pi from &pi;, but the turned out to be a
+   bad idea, and not really possible since the entities were already translated
+   to characters by the browser before MathJax even sees them). So the class
+   ended up being superfluous.
+
+*** This is effectively the new textnode class.
+>>>>>>> initial_parser
+

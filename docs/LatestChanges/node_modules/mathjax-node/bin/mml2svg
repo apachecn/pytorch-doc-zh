@@ -1,0 +1,81 @@
+#! /usr/bin/env node
+
+/*************************************************************************
+ *
+ *  mml2svg
+ *
+ *  Uses MathJax to convert a MathML string to an SVG file.
+ *
+ * ----------------------------------------------------------------------
+ *
+ *  Copyright (c) 2014 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+var mjAPI = require("../lib/mj-single.js");
+
+var argv = require("yargs")
+  .demand(1).strict()
+  .usage("Usage: mml2svg [options] 'math' > file.svg",{
+    linebreaks: {
+      boolean: true,
+      describe: "perform automatic line-breaking"
+    },
+    speech: {
+      boolean: true,
+      describe: "include speech text"
+    },
+    speechrules: {
+      default: "mathspeak",
+      describe: "ruleset to use for speech text (chromevox or mathspeak)"
+    },
+    speechstyle: {
+      default: "default",
+      describe: "style to use for speech text (default, brief, sbrief)"
+    },
+    font: {
+      default: "TeX",
+      describe: "web font to use"
+    },
+    ex: {
+      default: 6,
+      describe: "ex-size in pixels"
+    },
+    width: {
+      default: 100,
+      describe: "width of container in ex"
+    },
+    extensions: {
+      default: "",
+      describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
+    }
+  })
+  .argv;
+
+if (argv.font === "STIX") argv.font = "STIX-Web";
+mjAPI.config({MathJax: {SVG: {font: argv.font}}, extensions: argv.extensions});
+mjAPI.start();
+
+mjAPI.typeset({
+  math: argv._[0],
+  format: "MathML",
+  svg:true,
+  speakText: argv.speech,
+  speakRuleset: argv.speechrules.replace(/^chromevox$/i,"default"),
+  speakStyle: argv.speechstyle,
+  ex: argv.ex, width: argv.width,
+  linebreaks: argv.linebreaks
+}, function (data) {
+  if (!data.errors) {console.log(data.svg)}
+});
