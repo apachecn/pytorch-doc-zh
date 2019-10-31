@@ -1,4 +1,4 @@
-# 4.（高级）PyTorch 1.0分布式训练与Amazon AWS
+# （高级）PyTorch 1.0分布式训练与Amazon AWS
 
 **作者** ：[弥敦道Inkawhich ](https://github.com/inkawhich)
 
@@ -512,7 +512,7 @@ Thank you
 
 
 
-  * [HTG0 4.（高级）PyTorch 1.0分布式训练与Amazon AWS 
+  * [HTG0 （高级）PyTorch 1.0分布式训练与Amazon AWS 
     * 亚马逊AWS设定
       * 创建节点
       * 配置安集团

@@ -250,7 +250,7 @@ Thank you
 
 
 
-  * [HTG0 2.入门分布式数据并行
+  * [HTG0 入门分布式数据并行
     * 数据并行 和`DistributedDataParallel`之间`比较`
     * 基本用例
     * 歪斜的处理速度
