@@ -1,6 +1,0 @@
-.DS_Store
-node_modules
-batik/*
-!batik/README.md
-mathjax/*
-!mathjax/README.md
