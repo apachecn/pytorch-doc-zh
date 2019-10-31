@@ -1,4 +1,4 @@
-# NLP从零开始：基于注意力机制的 seq2seq 神经网络翻译
+# NLP From Scratch: 基于注意力机制的 seq2seq 神经网络翻译
 
 >翻译：[DrDavidS](https://github.com/DrDavidS)
 >
