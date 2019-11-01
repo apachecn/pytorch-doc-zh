@@ -53,6 +53,7 @@ with gzip.open((PATH / FILENAME).as_posix(), "rb") as f:
 我们以其中一个为例展示一下，首先需要将这个一行的数据重新变形为一个2d的数据。
 
 ```py
+%matplotlib inline
 from matplotlib import pyplot
 import numpy as np
 
