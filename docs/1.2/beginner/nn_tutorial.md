@@ -36,7 +36,7 @@ FILENAME = "mnist.pkl.gz"
 
 if not (PATH / FILENAME).exists():
         content = requests.get(URL + FILENAME).content
-        (PATH / FILENAME).open("wb").write(content)`
+        (PATH / FILENAME).open("wb").write(content)
 ```
 
 该数据集采用numpy数组格式，并已使用pickle存储，pickle是一个用来把数据序列化为python特定格式的库。
