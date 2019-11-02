@@ -10,7 +10,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ## 定义模型
 
-在本教程中，我们训练 `nn.TransformerEncoder` 用于构建语言模型。语言模型的目标是对给定字/词序列打分，判断该字/词序列出现在文本中的概率。字符序列首先会被传进 embedding 层转化为向量，然后被传入位置编码层 （详见下段）。`nn.TransformerEncoder` 由多个编码层[nn.TransformerEncoderLayer](https://pytorch.org/docs/master/nn.html?highlight=transformerencoderlayer#torch.nn.TransformerEncoderLayer)组成。对输入序列的每一维需要施加一个自注意力权重影响。`nn.TransformerEncoder` 的自注意力权重只影响序列中靠前的数据，不修改之后位置的数据。在本任务中，`nn.TransformerEncoder` 的输出将会被送至最终的线性层，该层为一个 log-Softmax 层。
+在本教程中，我们训练 `nn.TransformerEncoder` 用于构建语言模型。语言模型的目标是对给定字/词序列打分，判断该字/词序列出现在文本中的概率。字符序列首先会被传进 embedding 层转化为向量，然后被传入位置编码层 （详见下段）。 `nn.TransformerEncoder` 由多个编码层[nn.TransformerEncoderLayer](https://pytorch.org/docs/master/nn.html?highlight=transformerencoderlayer#torch.nn.TransformerEncoderLayer)组成。对输入序列的每一维需要施加一个自注意力权重影响。`nn.TransformerEncoder` 的自注意力权重只影响序列中靠前的数据，不修改之后位置的数据。在本任务中，`nn.TransformerEncoder` 的输出将会被送至最终的线性层，该层为一个 log-Softmax 层。
 
     
     
@@ -140,7 +140,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ![img/transformer_input_target.png](img/transformer_input_target.png)
 
-应当注意的是，张量的第0维是不同的块，块的大小与 Transformer 中的编码层大小一致。 张量的第1维大小为 `batch` 大小。
+张量的第0维是不同的块，块的大小与 Transformer 中的编码层大小一致。张量的第1维大小为 `batch` 大小。
 
     
     
@@ -169,7 +169,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ## 运行模型
 
-模型使用交叉墒([ CrossEntropyLoss ](https://pytorch.org/docs/master/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss))作为损失函数，随机梯度下降([ SGD ](https://pytorch.org/docs/master/optim.html?highlight=sgd#torch.optim.SGD))方法作为优化器。初始学习速率设置为5.0。
+模型使用交叉墒([ CrossEntropyLoss ](https://pytorch.org/docs/master/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss))作为损失函数，使用随机梯度下降([ SGD ](https://pytorch.org/docs/master/optim.html?highlight=sgd#torch.optim.SGD))方法更新参数。初始学习率设置为5.0。
 [ StepLR ](https://pytorch.org/docs/master/optim.html?highlight=steplr#torch.optim.lr_scheduler.StepLR) 用于调节学习速率。在训练过程中，使用[nn.utils.clip_grad_norm_ ](https://pytorch.org/docs/master/nn.html?highlight=nn%20utils%20clip_grad_norm#torch.nn.utils.clip_grad_norm_)函数限制梯度大小以防梯度爆炸。
 
     
@@ -220,7 +220,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
                 total_loss += len(data) * criterion(output_flat, targets).item()
         return total_loss / (len(data_source) - 1)
     
-在每个 epoch 结束时，若验证集的损失函数为最低则会调节一次学习率。
+在每个 epoch 结束时，若验证集的损失函数为最低则会更新一次学习率。
 
     
     
