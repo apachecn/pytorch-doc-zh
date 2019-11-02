@@ -84,9 +84,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ## 加载和整合数据
 
-训练过程中使用的数据机是从 `torchtext` 中得到的wikitext的-2数据集。的翻译对象基于列车数据集构建并用于令牌numericalize成张量。从序列数据开始，`batchify（）
-`函数排列数据集到列中，修剪掉剩余的任何令牌中的数据已经被划分成大小为`的batch_size的批次后
-`。例如，具有字母的序列（26总长度）和4:1的批量大小，我们将划分成字母长度为6的4个序列：
+训练过程中使用的数据机是从 `torchtext` 中得到的wikitext的-2数据集。词典对象基于训练数据集进行构建。`batchify（）` 函数把数据集中的数据排到多个列中，在划分成多个大小为 `batch_size` 的集合后，剩下的少于 `batch_size` 个数据会被丢弃。例如，对于字母序列（长度为26, `batch_size` 为4），将按照以下方法划分：
 
 \\[\begin{split}\begin{bmatrix} \text{A} & \text{B} & \text{C} & \ldots &
 \text{X} & \text{Y} & \text{Z} \end{bmatrix} \Rightarrow \begin{bmatrix}
@@ -97,7 +95,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 & \begin{bmatrix}\text{S} \\\ \text{T} \\\ \text{U} \\\ \text{V} \\\ \text{W}
 \\\ \text{X}\end{bmatrix} \end{bmatrix}\end{split}\\]
 
-这些列由模型，这意味着`G`和`F`不能被学习，依赖性但允许视为独立更有效的批处理。
+对于我们的模型来说，只学习同一列中的数据的关系，不同的列各自独立。即我们的模型无法学习到 `G` 和 `F` 之间的联系，这样可以增加模型的并行度，增加学习效率。
 
     
     
@@ -128,7 +126,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
     test_data = batchify(test_txt, eval_batch_size)
     
 
-日期：
+输出：
 
     
     
@@ -136,14 +134,13 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
     extracting
     
 
-### 函数来产生输入和目标序列
+### 生成训练数据(输入和目标输出)的函数
 
-`get_batch（） `函数生成用于变压器模型的输入和靶序列。它的源数据细分为长度`BPTT`的块。对于语言建模任务，该模型需要以下单词作为`
-目标 [HTG11。例如，用`BPTT`的2值，我们会得到以下两个变量为`i的 `= 0：`
+`get_batch()` 函数生成用于 `transformer` 模型的输入和目标序列。它把源数据细分为长度为 `bptt` 的块。对于语言模型，需要当前词的下一个词作为目标词。例如当 `bptt` 为2， `i` =0 时，该函数会产生以下数据：
 
 ![img/transformer_input_target.png](img/transformer_input_target.png)
 
-应当注意的是，块是沿着维度0与`S`在变压器模型尺寸相一致。将批料尺寸`N`是沿着维度1。
+应当注意的是，张量的第0维是不同的块，块的大小与 Transformer 中的编码层大小一致。 张量的第1维大小为 `batch` 大小。
 
     
     
@@ -155,9 +152,9 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
         return data, target
     
 
-## 发起一个实例
+## 初始化模型
 
-该模型建立与下面的超参数。的词汇尺寸等于词汇对象的长度。
+模型的超参数如下，词典大小为 `vocab` 数组的长度。
 
     
     
@@ -172,14 +169,8 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ## 运行模型
 
-[ CrossEntropyLoss
-](https://pytorch.org/docs/master/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss)被施加到跟踪损耗和[
-SGD
-](https://pytorch.org/docs/master/optim.html?highlight=sgd#torch.optim.SGD)实现随机梯度下降法作为优化器。初始学习速率设置为5.0。
-[ StepLR
-](https://pytorch.org/docs/master/optim.html?highlight=steplr#torch.optim.lr_scheduler.StepLR)被施加到调节通过历元学习速率。在培训过程中，我们使用[
-nn.utils.clip_grad_norm_
-](https://pytorch.org/docs/master/nn.html?highlight=nn%20utils%20clip_grad_norm#torch.nn.utils.clip_grad_norm_)功能扩展所有梯度在一起，以防止爆炸。
+模型使用交叉墒([ CrossEntropyLoss ](https://pytorch.org/docs/master/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss))作为损失函数，随机梯度下降([ SGD ](https://pytorch.org/docs/master/optim.html?highlight=sgd#torch.optim.SGD))方法作为优化器。初始学习速率设置为5.0。
+[ StepLR ](https://pytorch.org/docs/master/optim.html?highlight=steplr#torch.optim.lr_scheduler.StepLR) 用于调节学习速率。在训练过程中，使用[nn.utils.clip_grad_norm_ ](https://pytorch.org/docs/master/nn.html?highlight=nn%20utils%20clip_grad_norm#torch.nn.utils.clip_grad_norm_)函数限制梯度大小以防梯度爆炸。
 
     
     
@@ -229,8 +220,7 @@ nn.utils.clip_grad_norm_
                 total_loss += len(data) * criterion(output_flat, targets).item()
         return total_loss / (len(data_source) - 1)
     
-
-遍历时期。保存模型如果验证损失是到目前为止我们见过的最好的。每次调整后时代的学习率。
+在每个 epoch 结束时，若验证集的损失函数为最低则会调节一次学习率。
 
     
     
@@ -255,7 +245,7 @@ nn.utils.clip_grad_norm_
         scheduler.step()
     
 
-Out:
+输出:
 
     
     
@@ -312,9 +302,9 @@ Out:
     -----------------------------------------------------------------------------------------
     
 
-## 评估与所述测试数据集的模型
+## 使用测试集评价模型
 
-应用的最佳模式，以检查与测试数据集的结果。
+使用测试集来测试模型。
 
     
     
@@ -325,7 +315,7 @@ Out:
     print('=' * 89)
     
 
-Out:
+输出:
 
     
     
@@ -336,18 +326,14 @@ Out:
 
 **脚本的总运行时间：** （5分钟38.763秒）
 
-[`Download Python source code:
-transformer_tutorial.py`](../_downloads/f53285338820248a7c04a947c5110f7b/transformer_tutorial.py)
+[`Download Python source code:transformer_tutorial.py`](../_downloads/f53285338820248a7c04a947c5110f7b/transformer_tutorial.py)
 
-[`Download Jupyter notebook:
-transformer_tutorial.ipynb`](../_downloads/dca13261bbb4e9809d1a3aa521d22dd7/transformer_tutorial.ipynb)
+[`Download Jupyter notebook:transformer_tutorial.ipynb`](../_downloads/dca13261bbb4e9809d1a3aa521d22dd7/transformer_tutorial.ipynb)
 
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
 
-[Next ![](../_static/images/chevron-right-
-orange.svg)](../intermediate/reinforcement_q_learning.html "Reinforcement
-Learning \(DQN\) Tutorial") [![](../_static/images/chevron-right-orange.svg)
-Previous](torchtext_translation_tutorial.html "Language Translation with
+[Next ![](../_static/images/chevron-right-orange.svg)](../intermediate/reinforcement_q_learning.html "ReinforcementLearning \(DQN\) Tutorial") [![](../_static/images/chevron-right-orange.svg)
+
+[Previous](torchtext_translation_tutorial.html "Language Translation with
 TorchText")
 
 * * *
@@ -374,9 +360,7 @@ Thank you
     * 运行模型
     * 评估与所述测试数据集的模型
 
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
+![](https://www.facebook.com/tr?id=243028289693773&ev=PageView&noscript=1)
 ![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
 
 
