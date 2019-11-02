@@ -1,25 +1,16 @@
 # 序列对序列建模nn.Transformer和TorchText
 
-这是关于如何训练一个使用[ nn.Transformer
-](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformer#torch.nn.Transformer)模块的序列到序列模型的教程。
+ 本教程将会使用[ nn.Transformer ](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformer#torch.nn.Transformer)模块训练一个序列到序列模型。
 
-PyTorch 1.2版本包括基于纸张标准变压器模块[注意是所有你需要[HTG1。变压器模型已经证明，同时更可并行是在质量为众多序列到序列问题优越。的`
-nn.Transformer`模块完全依赖于注意机制（如最近](https://arxiv.org/pdf/1706.03762.pdf)[
-nn.MultiheadAttention
-](https://pytorch.org/docs/master/nn.html?highlight=multiheadattention#torch.nn.MultiheadAttention)实现的另一模块）来绘制的输入和输出之间的全局相关性。的`
-nn.Transformer`模块现在高度模块化使得单个组分（如[ nn.TransformerEncoder
-](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformerencoder#torch.nn.TransformerEncoder)在本教程）可以容易地适应/组成。
+PyTorch 1.2 版本依据论文 [ Attention is All You Need ](https://arxiv.org/pdf/1706.03762.pdf)发布了标准的 transformer 模型。Transformer 模型已被证明在解决序列到序列问题时效果优异。
+
+nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pytorch.org/docs/master/nn.html?highlight=multiheadattention#torch.nn.MultiheadAttention))来取得输入与输出之间的全局相关性。nn.Transformer 模块现已高度模块化，可以直接用于构建其他模型(如[ nn.TransformerEncoder](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformerencoder#torch.nn.TransformerEncoder))。
 
 ![img/transformer_architecture.jpg](img/transformer_architecture.jpg)
 
 ## 定义模型
 
-在本教程中，我们训练`nn.TransformerEncoder
-`在语言建模任务模式。语言建模任务是分配的概率为给定字（或词的序列）的可能性遵循的字序列。标记序列被传递到埋层第一，接着是位置编码层以考虑字的次序（详见下段）。的`
-nn.TransformerEncoder`由[ nn.TransformerEncoderLayer
-](https://pytorch.org/docs/master/nn.html?highlight=transformerencoderlayer#torch.nn.TransformerEncoderLayer)多层。随着输入序列，需要多注意口罩，因为`
-自注意力层nn.TransformerEncoder`只允许参加序列中的较早位置。对于语言建模任务，对未来位置的任何标记应该屏蔽。有实际的话，的`
-输出nn.TransformerEncoder`模型被发送到最终直线层，之后是对数使用SoftMax功能。
+在本教程中，我们训练 `nn.TransformerEncoder` 用于构建语言模型。语言模型的目标是对给定字/词序列打分，判断该字/词序列出现在文本中的概率。字符序列首先会被传进 embedding 层转化为向量，然后被传入位置编码层 （详见下段）。`nn.TransformerEncoder` 由多个编码层[nn.TransformerEncoderLayer](https://pytorch.org/docs/master/nn.html?highlight=transformerencoderlayer#torch.nn.TransformerEncoderLayer)组成。对输入序列的每一维需要施加一个自注意力权重影响。`nn.TransformerEncoder` 的自注意力权重只影响序列中靠前的数据，不修改之后位置的数据。在本任务中，`nn.TransformerEncoder` 的输出将会被送至最终的线性层，该层为一个 log-Softmax 层。
 
     
     
@@ -68,9 +59,7 @@ nn.TransformerEncoder`由[ nn.TransformerEncoderLayer
             return F.log_softmax(output, dim=-1)
     
 
-`PositionalEncoding
-`模块注入大约序列中的令牌的相对或绝对位置的一些信息。的位置编码具有相同的尺寸，使得两个可以概括的嵌入物。在这里，我们使用不同的频率的`正弦 `和`余弦
-`功能。
+`PositionalEncoding` 模块将字/词在序列中的绝对位置或相对位置信息编码。 位置编码与嵌入层具有相同的维度，这样位置信息向量和嵌入向量可以直接相加。 这里，我们使用 `sin` 和 `cos` 函数在不同位置的值来作为位置编码的值。具体计算公式见下方代码。
 
     
     
@@ -93,10 +82,9 @@ nn.TransformerEncoder`由[ nn.TransformerEncoderLayer
             return self.dropout(x)
     
 
-## 负载和批数据
+## 加载和整合数据
 
-训练过程中使用wikitext的-2数据集从`torchtext
-`。的翻译对象基于列车数据集构建并用于令牌numericalize成张量。从序列数据开始，`batchify（）
+训练过程中使用的数据机是从 `torchtext` 中得到的wikitext的-2数据集。的翻译对象基于列车数据集构建并用于令牌numericalize成张量。从序列数据开始，`batchify（）
 `函数排列数据集到列中，修剪掉剩余的任何令牌中的数据已经被划分成大小为`的batch_size的批次后
 `。例如，具有字母的序列（26总长度）和4:1的批量大小，我们将划分成字母长度为6的4个序列：
 
