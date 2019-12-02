@@ -1,8 +1,8 @@
 # 分布式数据并行(DDP)入门
 
-**作者** ：[Shen Li](https://mrshenli.github.io/)
-
-译者：[Hamish]( https://sherlockbear.github.io/ )
+>**作者**：[Shen Li](https://mrshenli.github.io/)
+>
+>**译者**：[Hamish]( https://sherlockbear.github.io/ )
 
 [DistributedDataParallel](https://pytorch.org/docs/stable/_modules/torch/nn/parallel/distributed.html)(DDP)在模块级别实现数据并行性。它使用[torch.distributed](https://pytorch.org/tutorials/intermediate/dist_tuto.html)包中的通信集合体来同步梯度，参数和缓冲区。并行性在流程内和跨流程均可用。在一个过程中，DDP将输入模块复制到device_ids中指定的设备，相应地沿批处理维度分散输入，并将输出收集到output_device，这与[DataParallel](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)相似。在整个过程中，DDP在正向传递中插入必要的参数同步，在反向传递中插入梯度同步。用户可以将进程映射到可用资源，只要进程不共享GPU设备即可。推荐的方法（通常是最快的方法）是为每个模块副本创建一个过程，即在一个过程中不进行任何模块复制。本教程中的代码在8-GPU服务器上运行，但可以轻松地推广到其他环境。
 
