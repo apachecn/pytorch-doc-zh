@@ -1,8 +1,8 @@
 # 模型并行化最佳实践
 
 > **作者**: [Shen Li](https://mrshenli.github.io)
-> 
-> 译者: [Hamish](https://sherlockbear.github.io)
+>
+> **译者**: [Hamish](https://sherlockbear.github.io)
 
 模型并行化在分布式训练技术中被广泛使用。先前的文章已经解释了如何使用[DataParallel](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)在多个GPU上训练神经网络。此功能将相同的模型复制到所有GPU，其中每个GPU负责消化输入数据的不同部分。尽管它可以极大地加快训练过程，但不适用于某些模型太大而无法被单个GPU容纳的用例。这篇文章展示了如何通过使用模型化来解决该问题，与`DataParallel`相比，模型并行化将单个模型拆分到不同的GPU上，而不是在每个GPU上复制整个模型（具体来说，模型`m`包含10层：使用`DataParallel`时，每个GPU都具有这10层中每个层的副本，而当在两个GPU上使用模型并行化时，每个GPU可以承载5层。
 
@@ -31,10 +31,6 @@ class ToyModel(nn.Module):
 
 <!---这里不应该是四个to(device)调用么--->
 请注意，除去五个`to(device)`调用将线性层和张量放置在适当的设备上之外，上面的`ToyModel`看起来非常类似于在单个GPU上实现它的方式。那是模型中唯一需要更改的地方。`backward()`和`torch.optim`将自动处理梯度，就像模型在一个GPU上一样。你只需确保调用损失函数时标签与输出在同一设备上。
-
-需要注意的是，关于上述`ToyModel`看起来非常相似，一个是如何实现它在单GPU，除了五个`到（设备）HTG6]
-`其中放置线性层和张量上适当的设备的呼叫。这是需要改变的模型的唯一地方。的`向后（） `和`torch.optim
-`将自动仿佛模型是一个GPU采取梯度的照顾。你只需要确保标签的生产日期相同的设备的输出上调用损失函数时。
 
 ```python
 model = ToyModel()
