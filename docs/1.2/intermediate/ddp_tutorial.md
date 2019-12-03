@@ -18,6 +18,7 @@
 
 要创建DDP模块，请首先正确设置进程组。更多细节可以在[使用PyTorch编写分布式应用程序](https://pytorch.org/tutorials/intermediate/dist_tuto.html)中找到。
 
+
 ```python
 import os
 import tempfile
