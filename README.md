@@ -6,7 +6,7 @@
 <br/>
 <table>
   <tr align="center">
-    <td colspan="3"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">1.2 中文版本</font></a></td>
+    <td colspan="3"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">正在校验: 1.2 中文版本</font></a></td>
   </tr>
   <tr align="center">
     <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
@@ -30,6 +30,7 @@
 > 版本特性
 
 * [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
+* [PyTorch V1.3 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
 
 > PyTorch 官方入口
 

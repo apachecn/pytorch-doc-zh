@@ -1,414 +1,283 @@
 # torch.nn.init
 
-`torch.nn.init.``calculate_gain`( _nonlinearity_ , _param=None_
-)[[source]](_modules/torch/nn/init.html#calculate_gain)
+> 译者：[GeneZC](https://github.com/GeneZC)
 
-    
+```py
+torch.nn.init.calculate_gain(nonlinearity, param=None)
+```
 
-返回推荐增益值对于给定的非线性函数。该值如下：
+返回给定非线性函数的推荐的增益值。对应关系如下表：
 
-非线性
+| 非线性函数 | 增益 |
+| --- | --- |
+| Linear / Identity | ![](http://latex.codecogs.com/gif.latex?1) |
+| Conv{1,2,3}D | ![](http://latex.codecogs.com/gif.latex?1) |
+| Sigmoid | ![](http://latex.codecogs.com/gif.latex?1) |
+| Tanh | ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7B5%7D%7B3%7D) |
+| ReLU | ![](http://latex.codecogs.com/gif.latex?%5Csqrt%7B2%7D) |
+| Leaky Relu | ![](http://latex.codecogs.com/gif.latex?%5Csqrt%7B%5Cfrac%7B2%7D%7B1%20%2B%20%5Ctext%7Bnegative%5C_slope%7D%5E2%7D%7D) |
 
-|
+ 
+参数：
 
-获得  
-  
----|---  
-  
-线性/身份
+*   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)
+*   **param** – 对应非线性函数的可选参数
 
-|
-
-1  1  1  
-  
-CONV {1,2,3} d
-
-|
-
-111  
-  
-乙状结肠
-
-|
-
-111  
-  
-正切
-
-|
-
-5  3  \压裂{5} { 3}  3  5  
-  
-RELU
-
-|
-
-2  \ SQRT {2}  2  
-  
-漏RELU
-
-|
-
-2  1  \+  negative_slope  2  \ SQRT {\压裂{2} {1个+ \文本{负\ _slope } ^ 2}}  1  \+
-negative_slope  2  2  [HTG10 2]  
-  
-Parameters
-
-    
-
-  * **非线性** \- 非线性函数（ nn.functional 名称）
-
-  * **PARAM** \- 为对非线性函数可选参数
 
 例子
 
-    
-    
-    >>> gain = nn.init.calculate_gain('leaky_relu', 0.2)  # leaky_relu with negative_slope=0.2
-    
+```py
+>>> gain = nn.init.calculate_gain('leaky_relu')
 
-`torch.nn.init.``uniform_`( _tensor_ , _a=0.0_ , _b=1.0_
-)[[source]](_modules/torch/nn/init.html#uniform_)
+```
 
-    
+```py
+torch.nn.init.uniform_(tensor, a=0, b=1)
+```
 
-填充输入张量与值从均匀分布 绘制U  （ 一 ， b  ） \ mathcal {U】（A，b） U  （ 一 ， b  ） 。
+用均匀分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(a%2C%20b)) 初始化输入 `Tensor`。
 
-Parameters
+ 
+参数： 
 
-    
+*   **tensor** – n 维 `torch.Tensor`
+*   **a** – 均匀分布的下界
+*   **b** – 均匀分布的上界
 
-  * **张量** \- n维 torch.Tensor 
 
-  * **一** \- 下界的均匀分布的
+例子
 
-  * **B** \- 上界的均匀分布的
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.uniform_(w)
 
-Examples
+```
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.uniform_(w)
-    
+```py
+torch.nn.init.normal_(tensor, mean=0, std=1)
+```
 
-`torch.nn.init.``normal_`( _tensor_ , _mean=0.0_ , _std=1.0_
-)[[source]](_modules/torch/nn/init.html#normal_)
+用正态分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(%5Ctext%7Bmean%7D%2C%20%5Ctext%7Bstd%7D)) 初始化输入 `Tensor`。
 
-    
+ 
+参数： 
 
-填充与值的输入张量从正常的分布中抽取〔HTG0]  N  （ 意味着 ， STD  2  ） \ mathcal {N}（\文本{意味着}，\文本{STD}
-^ 2） N  （ 意味着 ， STD  2  ） 。
+*   **tensor** – n 维 `torch.Tensor`
+*   **mean** – 正态分布的均值
+*   **std** – 正态分布的标准差
 
-Parameters
 
-    
+例子
 
-  * **tensor** – an n-dimensional torch.Tensor
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.normal_(w)
 
-  * **意味着** \- 正常分布的平均值
+```
 
-  * **STD** \- 正态分布的标准偏差
+```py
+torch.nn.init.constant_(tensor, val)
+```
 
-Examples
+用常数 ![](http://latex.codecogs.com/gif.latex?%5Ctext%7Bval%7D) 初始化输入 `Tensor`。
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.normal_(w)
-    
+ 
+参数： 
 
-`torch.nn.init.``constant_`( _tensor_ , _val_
-)[[source]](_modules/torch/nn/init.html#constant_)
+*   **tensor** – n 维 `torch.Tensor`
+*   **val** – 用以填入张量的常数
 
-    
 
-填充输入张量与值 VAL  \文本{VAL}  VAL  。
+例子
 
-Parameters
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.constant_(w, 0.3)
 
-    
+```
 
-  * **tensor** – an n-dimensional torch.Tensor
+```py
+torch.nn.init.eye_(tensor)
+```
 
-  * **VAL** \- 的值来填充与张力
+用单位矩阵初始化 2 维输入 `Tensor`。 保持输入张量输入 `Linear` 时的独一性，并且越多越好.
 
-Examples
+ 
+参数：  
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.constant_(w, 0.3)
-    
+*   **tensor** – 2 维 `torch.Tensor` 
 
-`torch.nn.init.``ones_`( _tensor_
-)[[source]](_modules/torch/nn/init.html#ones_)
 
-    
+例子
 
-填充与标量值 1 输入张量。
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.eye_(w)
 
-Parameters
+```
 
-    
+```py
+torch.nn.init.dirac_(tensor)
+```
 
-**tensor** – an n-dimensional torch.Tensor
+用狄拉克δ函数初始化 {3, 4, 5} 维输入 `Tensor`。 保持输入张量输入 `Convolutional` 时的独一性，并且越多通道越好。
 
-Examples
+ 
+参数：  
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.ones_(w)
-    
+*   **tensor** – {3, 4, 5} 维 `torch.Tensor` 
 
-`torch.nn.init.``zeros_`( _tensor_
-)[[source]](_modules/torch/nn/init.html#zeros_)
+例子
 
-    
+```py
+>>> w = torch.empty(3, 16, 5, 5)
+>>> nn.init.dirac_(w)
 
-填充与标量值 0 输入张量。
+```
 
-Parameters
+```py
+torch.nn.init.xavier_uniform_(tensor, gain=1)
+```
 
-    
+用论文 “Understanding the difficulty of training deep feedforward neural networks” - Glorot, X. & Bengio, Y. (2010) 中提及的均匀分布初始化输入 `Tensor`。初始化后的张量中的值采样自 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(-a%2C%20a)) 且
 
-**tensor** – an n-dimensional torch.Tensor
+![](http://latex.codecogs.com/gif.latex?%0D%0Aa%20%3D%20%5Ctext%7Bgain%7D%20%5Ctimes%20%5Csqrt%7B%5Cfrac%7B6%7D%7B%5Ctext%7Bfan%5C_in%7D%20%2B%20%5Ctext%7Bfan%5C_out%7D%7D%7D%0D%0A%0D%0A)
 
-Examples
+也被称作 Glorot 初始化。
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.zeros_(w)
-    
+ 
+参数： 
 
-`torch.nn.init.``eye_`( _tensor_
-)[[source]](_modules/torch/nn/init.html#eye_)
+*   **tensor** – n 维 `torch.Tensor`
+*   **gain** – 可选缩放因子
 
-    
 
-填充与单位矩阵的2维输入张量。保留的输入在线性层，其中一样多的输入被保留尽可能的身份。
+例子
 
-Parameters
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.xavier_uniform_(w, gain=nn.init.calculate_gain('relu'))
 
-    
+```
 
-**张量** \- 2维 torch.Tensor
+```py
+torch.nn.init.xavier_normal_(tensor, gain=1)
+```
 
-Examples
+用论文 “Understanding the difficulty of training deep feedforward neural networks” - Glorot, X. & Bengio, Y. (2010) 中提及的正态分布初始化输入 `Tensor`。初始化后的张量中的值采样自 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%20%5Ctext%7Bstd%7D)) 且
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.eye_(w)
-    
+![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bstd%7D%20%3D%20%5Ctext%7Bgain%7D%20%5Ctimes%20%5Csqrt%7B%5Cfrac%7B2%7D%7B%5Ctext%7Bfan%5C_in%7D%20%2B%20%5Ctext%7Bfan%5C_out%7D%7D%7D%0D%0A%0D%0A)
 
-`torch.nn.init.``dirac_`( _tensor_
-)[[source]](_modules/torch/nn/init.html#dirac_)
+也被称作 Glorot initialization。
 
-    
+ 
+参数： 
 
-填充{3，4，5}维输入张量与狄拉克δ函数。保留的输入在卷积层，其中尽可能多的输入通道被保留尽可能的身份。
+*   **tensor** – n 维 `torch.Tensor`
+*   **gain** – 可选缩放因子
 
-Parameters
 
-    
+例子
 
-**张量** \- 一个{3,4，5}维 torch.Tensor
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.xavier_normal_(w)
 
-Examples
+```
 
-    
-    
-    >>> w = torch.empty(3, 16, 5, 5)
-    >>> nn.init.dirac_(w)
-    
+```py
+torch.nn.init.kaiming_uniform_(tensor, a=0, mode='fan_in', nonlinearity='leaky_relu')
+```
 
-`torch.nn.init.``xavier_uniform_`( _tensor_ , _gain=1.0_
-)[[source]](_modules/torch/nn/init.html#xavier_uniform_)
+用论文 “Delving deep into rectifiers: Surpassing human-level performance on ImageNet classification” - He, K. et al. (2015) 中提及的均匀分布初始化输入 `Tensor`。初始化后的张量中的值采样自 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BU%7D(-%5Ctext%7Bbound%7D%2C%20%5Ctext%7Bbound%7D)) 且
 
-    
+![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bbound%7D%20%3D%20%5Csqrt%7B%5Cfrac%7B6%7D%7B(1%20%2B%20a%5E2)%20%5Ctimes%20%5Ctext%7Bfan%5C_in%7D%7D%7D%0D%0A%0D%0A)
 
-填充输入张量与根据在理解训练深前馈神经网络的难度所描述的方法的值 - Glorot，X. &安培; Bengio，Y
-。（2010），使用的均匀分布。将得到的张量将已经从采样值 U  （ \-  一个 ， 一 ） \ mathcal【U}（ - A，A） U  （ \-
-一 ， 一 ） 其中
+也被称作 He initialization。
 
-a=gain×6fan_in+fan_outa = \text{gain} \times \sqrt{\frac{6}{\text{fan\\_in} +
-\text{fan\\_out}}} a=gain×fan_in+fan_out6​​
+ 
+参数： 
 
-又称Glorot初始化。
+*   **tensor** – n 维 `torch.Tensor`
+*   **a** – 该层后面一层的整流函数中负的斜率 (默认为 0，此时为 Relu)
+*   **mode** – ‘fan_in’ (default) 或者 ‘fan_out’。使用fan_in保持weights的方差在前向传播中不变；使用fan_out保持weights的方差在反向传播中不变。
+*   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)，推荐只使用 ‘relu’ 或 ‘leaky_relu’ (default)。
 
-Parameters
 
-    
+例子
 
-  * **tensor** – an n-dimensional torch.Tensor
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.kaiming_uniform_(w, mode='fan_in', nonlinearity='relu')
 
-  * **获得** \- 任选的比例因子
+```
 
-Examples
+```py
+torch.nn.init.kaiming_normal_(tensor, a=0, mode='fan_in', nonlinearity='leaky_relu')
+```
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.xavier_uniform_(w, gain=nn.init.calculate_gain('relu'))
-    
+用论文 “Delving deep into rectifiers: Surpassing human-level performance on ImageNet classification” - He, K. et al. (2015) 中提及的正态分布初始化输入 `Tensor`。初始化后的张量中的值采样 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%20%5Ctext%7Bstd%7D)) 且
 
-`torch.nn.init.``xavier_normal_`( _tensor_ , _gain=1.0_
-)[[source]](_modules/torch/nn/init.html#xavier_normal_)
+![](http://latex.codecogs.com/gif.latex?%0D%0A%5Ctext%7Bstd%7D%20%3D%20%5Csqrt%7B%5Cfrac%7B2%7D%7B(1%20%2B%20a%5E2)%20%5Ctimes%20%5Ctext%7Bfan%5C_in%7D%7D%7D%0D%0A%0D%0A)
 
-    
+也被称作 He initialization。
 
-填充输入张量与根据在理解训练深前馈神经网络的难度所描述的方法的值 - Glorot，X. &安培; Bengio，Y
-。（2010），使用正态分布。将得到的张量将已经从采样值 N  （ 0  STD  2  ） \ mathcal {N}（0，\文本{性病} ^ 2） N
-（ 0  ， STD  2  ） 其中
+ 
+参数： 
 
-std=gain×2fan_in+fan_out\text{std} = \text{gain} \times
-\sqrt{\frac{2}{\text{fan\\_in} + \text{fan\\_out}}} std=gain×fan_in+fan_out2​​
+*   **tensor** – n 维 `torch.Tensor`
+*   **a** – 该层后面一层的整流函数中负的斜率 (默认为 0，此时为 Relu)
+*   **mode** – ‘fan_in’ (default) 或者 ‘fan_out’。使用fan_in保持weights的方差在前向传播中不变；使用fan_out保持weights的方差在反向传播中不变。
+*   **nonlinearity** – 非线性函数 (`nn.functional` 中的名字)，推荐只使用 ‘relu’ 或 ‘leaky_relu’ (default)。
 
-Also known as Glorot initialization.
 
-Parameters
+例子
 
-    
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.kaiming_normal_(w, mode='fan_out', nonlinearity='relu')
 
-  * **tensor** – an n-dimensional torch.Tensor
+```
 
-  * **gain** – an optional scaling factor
+```py
+torch.nn.init.orthogonal_(tensor, gain=1)
+```
 
-Examples
+用论文 “Exact solutions to the nonlinear dynamics of learning in deep linear neural networks” - Saxe, A. et al. (2013) 中描述的（半）正定矩阵初始化输入 `Tensor`。输入张量必须至少有 2 维，如果输入张量的维度大于 2， 则对后续维度进行放平操作。
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.xavier_normal_(w)
-    
+ 
+参数： 
 
-`torch.nn.init.``kaiming_uniform_`( _tensor_ , _a=0_ , _mode='fan_in'_ ,
-_nonlinearity='leaky_relu'_
-)[[source]](_modules/torch/nn/init.html#kaiming_uniform_)
+*   **tensor** – n 维 `torch.Tensor`，且 ![](http://latex.codecogs.com/gif.latex?n%20%5Cgeq%202)
+*   **gain** – 可选缩放因子
 
-    
 
-填充输入张量与根据在深钻研整流器所描述的方法的值：对ImageNet分类超越人类水平的性能 - 赫，K。等人。
-（2015），使用的均匀分布。将得到的张量将已经从采样值 U  （ \-  结合 ， 结合 ） \ mathcal【U}（ -
-\文本{结合}，\文本{结合}）  U  （ \-  结合 ， 结合 ） 其中
+例子
 
-bound=6(1+a2)×fan_in\text{bound} = \sqrt{\frac{6}{(1 + a^2) \times
-\text{fan\\_in}}} bound=(1+a2)×fan_in6​​
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.orthogonal_(w)
 
-也被称为他的初始化。
+```
 
-Parameters
+```py
+torch.nn.init.sparse_(tensor, sparsity, std=0.01)
+```
 
-    
+用论文 “Deep learning via Hessian-free optimization” - Martens, J. (2010). 提及的稀疏矩阵初始化 2 维输入 `Tensor`，且使用正态分布 ![](http://latex.codecogs.com/gif.latex?%5Cmathcal%7BN%7D(0%2C%200.01)) 初始化非零元素。
 
-  * **tensor** – an n-dimensional torch.Tensor
+ 
+参数： 
 
-  * **一** \- （默认为0 RELU）该层之后使用的整流器的负斜率
+*   **tensor** – n 维 `torch.Tensor`
+*   **sparsity** – 每一行置零元素的比例
+*   **std** – 初始化非零元素时使用正态分布的标准差
 
-  * **模式** \- 为`'fan_in' `（默认）或`'fan_out' `。选择`“fan_in”`保留在直传的权重的方差的大小。选择`'fan_out' `保留在向后传量值。
 
-  * **非线性** \- 非线性函数（ nn.functional 名称），建议只使用与`'RELU' `或`'leaky_relu' `（默认）。
+例子
 
-Examples
+```py
+>>> w = torch.empty(3, 5)
+>>> nn.init.sparse_(w, sparsity=0.1)
 
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.kaiming_uniform_(w, mode='fan_in', nonlinearity='relu')
-    
-
-`torch.nn.init.``kaiming_normal_`( _tensor_ , _a=0_ , _mode='fan_in'_ ,
-_nonlinearity='leaky_relu'_
-)[[source]](_modules/torch/nn/init.html#kaiming_normal_)
-
-    
-
-填充输入张量与根据在深钻研整流器所描述的方法的值：对ImageNet分类超越人类水平的性能 - 赫，K。等人。
-（2015），使用正态分布。将得到的张量将已经从采样值 N  （ 0  STD  2  ） \ mathcal {N}（0，\文本{性病} ^ 2） N
-（ 0  ， STD  2  ） 其中
-
-std=2(1+a2)×fan_in\text{std} = \sqrt{\frac{2}{(1 + a^2) \times
-\text{fan\\_in}}} std=(1+a2)×fan_in2​​
-
-Also known as He initialization.
-
-Parameters
-
-    
-
-  * **tensor** – an n-dimensional torch.Tensor
-
-  * **a** – the negative slope of the rectifier used after this layer (0 for ReLU by default)
-
-  * **mode** – either `'fan_in'`(default) or `'fan_out'`. Choosing `'fan_in'`preserves the magnitude of the variance of the weights in the forward pass. Choosing `'fan_out'`preserves the magnitudes in the backwards pass.
-
-  * **nonlinearity** – the non-linear function (nn.functional name), recommended to use only with `'relu'`or `'leaky_relu'`(default).
-
-Examples
-
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.kaiming_normal_(w, mode='fan_out', nonlinearity='relu')
-    
-
-`torch.nn.init.``orthogonal_`( _tensor_ , _gain=1_
-)[[source]](_modules/torch/nn/init.html#orthogonal_)
-
-    
-
-填充输入张量具有（半）正交矩阵，如在的精确解说明在深的线性神经网络学习的非线性动力学 - 萨克斯，A。等。
-（2013年）。输入张量必须至少有2个维度，以及用于具有多于2个维度张量后尺寸变平。
-
-Parameters
-
-    
-
-  * **张量** \- n维 torch.Tensor ，其中 n的 ≥ 2  n的\ GEQ 2  n的 ≥ 2 
-
-  * **获得** \- 任选的比例因子
-
-Examples
-
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.orthogonal_(w)
-    
-
-`torch.nn.init.``sparse_`( _tensor_ , _sparsity_ , _std=0.01_
-)[[source]](_modules/torch/nn/init.html#sparse_)
-
-    
-
-填充2D输入张量作为稀疏矩阵，其中的非零元素将从正态分布 被吸入N  （ 0  ， 0.01  ） \ mathcal {N} （0，0.01） N  （
-0  ， 0  。 0  1  ） ，经由自由Hessian矩阵的优化在深学习描述 - 马丁，J。（2010）。
-
-Parameters
-
-    
-
-  * **tensor** – an n-dimensional torch.Tensor
-
-  * **稀疏** \- 元素中的每一列的级分被设置为零
-
-  * **STD** \- 所使用的正态分布的标准偏差，以产生非零值
-
-Examples
-
-    
-    
-    >>> w = torch.empty(3, 5)
-    >>> nn.init.sparse_(w, sparsity=0.1)
-    
-
-[Next ![](_static/images/chevron-right-orange.svg)](optim.html "torch.optim")
-[![](_static/images/chevron-right-orange.svg) Previous](nn.functional.html
-"torch.nn.functional")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。
+```

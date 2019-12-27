@@ -1,151 +1,142 @@
-# PyTorch治理|者的兴趣
+# PyTorch治理感兴趣的人
 
-## 一般维护者
+## [一般维护者](https://pytorch.org/docs/stable/community/persons_of_interest.html#general-maintainers)
 
-  * 亚当Paszke（[ apaszke ](https://github.com/apaszke)）
+* Adam Paszke ([apaszke](https://github.com/apaszke))
+* Soumith Chintala ([soumith](https://github.com/soumith))
+* Edward Yang ([ezyang](https://github.com/ezyang))
+* Greg Chanan ([gchanan](https://github.com/gchanan))
+* Dmytro Dzhulgakov ([dzhulgakov](https://github.com/dzhulgakov))
+* (sunsetting) Sam Gross ([colesbury](https://github.com/colesbury))
 
-  * Soumith Chintala（[ soumith ](https://github.com/soumith)）
 
-  * 杨德昌（[ ezyang ](https://github.com/ezyang)）
+## [模块级维护者](https://pytorch.org/docs/stable/community/persons_of_interest.html#module-level-maintainers)
 
-  * 格雷格察南（[ gchanan ](https://github.com/gchanan)）
 
-  * 德米特罗Dzhulgakov（[ dzhulgakov ](https://github.com/dzhulgakov)）
+### [JIT](https://pytorch.org/docs/stable/community/persons_of_interest.html#jit)
 
-  * （弃用）萨姆总值（[ colesbury ](https://github.com/colesbury)）
+* Zach Devito ([zdevito](https://github.com/zdevito))
+* Michael Suo ([suo](https://github.com/suo))
 
-## 模块级维护者
 
-### JIT
+### [Distributed](https://pytorch.org/docs/stable/community/persons_of_interest.html#distributed)
 
-  * 扎克迪维托（[ zdevito ](https://github.com/zdevito)）
+* Pieter Noordhuis ([pietern](https://github.com/pietern))
+* Shen Li ([mrshenli](https://github.com/mrshenli))
+* (sunsetting) Teng Li ([teng-li](https://github.com/teng-li))
 
-  * 迈克尔琐（[琐](https://github.com/suo)）
 
-### 分布式
+### [Autograd Engine](https://pytorch.org/docs/stable/community/persons_of_interest.html#autograd-engine)
 
-  * 彼得Noordhuis（[ pietern ](https://github.com/pietern)）
+* Alban Desmaison ([alband](https://github.com/alband))
+* Adam Paszke ([apaszke](https://github.com/apaszke))
 
-  * 沉黎（[ mrshenli ](https://github.com/mrshenli)）
 
-  * （弃用）腾力（[腾丽](https://github.com/teng-li)）
+### Multiprocessing and DataLoaders[](https://pytorch.org/docs/stable/community/persons_of_interest.html#multiprocessing-and-dataloaders)
 
-### Autograd引擎
+* Simon Wang ([SsnL](https://github.com/SsnL))
+* Adam Paszke ([apaszke](https://github.com/apaszke))
+* (proposed) Vitaly Fedyunin ([VitalyFedyunin](https://github.com/proposed))
 
-  * 阿尔Desmaison（[ alband ](https://github.com/alband)）
 
-  * Adam Paszke ([apaszke](https://github.com/apaszke))
+### [CUDA](https://pytorch.org/docs/stable/community/persons_of_interest.html#cuda)
 
-### 多处理和DataLoaders
+* Edward Yang ([ezyang](https://github.com/ezyang))
+* Natalia Gimelshein ([ngimel](https://github.com/ngimel))
 
-  * 西蒙·王（[ SsnL ](https://github.com/SsnL)）
 
-  * Adam Paszke ([apaszke](https://github.com/apaszke))
+### [C++](https://pytorch.org/docs/stable/community/persons_of_interest.html#c)
 
-  * （提出）维塔利彼得Fedyunin（[ VitalyFedyunin ](https://github.com/proposed)）
+* Will Feng ([yf225](https://github.com/yf225))
+* (sunsetting) Peter Goldsborough ([goldsborough](https://github.com/goldsborough))
 
-### CUDA
 
-  * Edward Yang ([ezyang](https://github.com/ezyang))
+### [Build + CI](https://pytorch.org/docs/stable/community/persons_of_interest.html#build-ci)
 
-  * 纳塔利娅Gimelshein（[ ngimel ](https://github.com/ngimel)）
+* Will Feng ([yf225](https://github.com/yf225))
+* Edward Yang ([ezyang](https://github.com/ezyang))
+* Jesse Hellemn ([pjh5](https://github.com/pjh5))
+* Soumith Chintala ([soumith](https://github.com/soumith))
+* (sunsetting) Orion Reblitz-Richardson ([orionr](https://github.com/orionr))
 
-### C ++
 
-  * 请问冯（[ yf225 ](https://github.com/yf225)）
+### [Distributions & RNG](https://pytorch.org/docs/stable/community/persons_of_interest.html#distributions-rng)
 
-  * （弃用）彼得戈尔兹伯勒（[戈尔兹伯勒](https://github.com/goldsborough)）
+* Fritz Obermeyer ([fritzo](https://github.com/fritzo))
+* Neeraj Pradhan ([neerajprad](https://github.com/neerajprad))
+* Alican Bozkurt ([alicanb](https://github.com/alicanb))
+* Vishwak Srinivasan ([vishwakftw](https://github.com/vishwakftw))
 
-### 建+ CI
 
-  * Will Feng ([yf225](https://github.com/yf225))
+### [C10](https://pytorch.org/docs/stable/community/persons_of_interest.html#c10)
 
-  * Edward Yang ([ezyang](https://github.com/ezyang))
+* Sebastian Messmer ([smessmer](https://github.com/smessmer))
+* Edward Yang ([ezyang](https://github.com/ezyang))
 
-  * 杰西Hellemn（[ pjh5 ](https://github.com/pjh5)）
 
-  * Soumith Chintala ([soumith](https://github.com/soumith))
+### [ONNX  PyTorch](https://pytorch.org/docs/stable/community/persons_of_interest.html#onnx-pytorch)
 
-  * （弃用）猎户Reblitz-理查德森（[ orionr ](https://github.com/orionr)）
+* Lu Fang ([houseroad](https://github.com/houseroad))
+* Lara Haidar ([lara-hdr](https://github.com/houseroad))
+* Spandan Tiwari ([spandantiwari](https://github.com/houseroad))
+* Bowen Bao ([BowenBao](https://github.com/houseroad))
 
-### 分布&安培; RNG
 
-  * 弗里茨欧博迈亚（[ fritzo ](https://github.com/fritzo)）
+### [torch.nn](https://pytorch.org/docs/stable/community/persons_of_interest.html#torch-nn)
 
-  * Neeraj普拉丹（[ neerajprad ](https://github.com/neerajprad)）
+* Thomas Viehmann ([t-vi](https://github.com/t-vi))
+* Adam Paszke ([apaszke](https://github.com/apaszke))
+* Greg Chanan ([gchanan](https://github.com/gchanan))
+* Soumith Chintala ([soumith](https://github.com/soumith))
+* Sam Gross ([colesbury](https://github.com/colesbury))
 
-  * 爱丽丝Bozkurt（[ alicanb ](https://github.com/alicanb)）
 
-  * Vishwak斯里尼瓦桑（[ vishwakftw ](https://github.com/vishwakftw)）
+### [CPU Performance / SIMD](https://pytorch.org/docs/stable/community/persons_of_interest.html#cpu-performance-simd)
 
-### C10
+* Christian Puhrsch ([cpuhrsch](https://github.com/cpuhrsch))
+* Sam Gross ([colesbury](https://github.com/colesbury))
+* Richard Zou ([zou3519](https://github.com/zou3519))
 
-  * 塞巴斯蒂安梅斯默（[ smessmer ](https://github.com/smessmer)）
 
-  * Edward Yang ([ezyang](https://github.com/ezyang))
+### [AMD/ROCm/HIP](https://pytorch.org/docs/stable/community/persons_of_interest.html#amd-rocm-hip)
 
-### ONNX & LT ; - & GT ; PyTorch
+* Junjie Bai ([bddppq](https://github.com/bddppq))
+* Johannes M. Dieterich ([iotamudelta](https://github.com/iotamudelta))
 
-  * 路罚嗯（[ houseroad ](https://github.com/houseroad)）
 
-  * 拉拉海德尔（[拉拉-HDR ](https://github.com/houseroad)）
+### [Windows](https://pytorch.org/docs/stable/community/persons_of_interest.html#windows)
 
-  * Spandan蒂瓦里（[ spandantiwari ](https://github.com/houseroad)）
+* Peter Johnson ([peterjc123](https://github.com/peterjc123))
 
-  * 鲍恩宝（[ BowenBao ](https://github.com/houseroad)）
 
-### torch.nn
+### [MKLDNN](https://pytorch.org/docs/stable/community/persons_of_interest.html#mkldnn)
 
-  * 托马斯Viehmann（[叔VI ](https://github.com/t-vi)）
+* Yinghai Lu ([yinghai](https://github.com/yinghai))
 
-  * Adam Paszke ([apaszke](https://github.com/apaszke))
 
-  * Greg Chanan ([gchanan](https://github.com/gchanan))
+### [XLA](https://pytorch.org/docs/stable/community/persons_of_interest.html#xla)
 
-  * Soumith Chintala ([soumith](https://github.com/soumith))
+* Ailing Zhang ([ailzhang](https://github.com/ailzhang))
+* Gregory Chanan ([gchanan](https://github.com/gchanan))
+* Davide Libenzi ([dlibenzi](https://github.com/dlibenzi))
+* Alex Suhan ([asuhan](https://github.com/asuhan))
 
-  * 萨姆总值（[ colesbury ](https://github.com/colesbury)）
 
-### CPU性能/ SIMD
+### [PPC](https://pytorch.org/docs/stable/community/persons_of_interest.html#ppc)
 
-  * 基督教Puhrsch（[ cpuhrsch ](https://github.com/cpuhrsch)）
+* Alfredo Mendoza ([avmgithub](https://github.com/avmgithub))
 
-  * Sam Gross ([colesbury](https://github.com/colesbury))
 
-  * 理查德邹（[ zou3519 ](https://github.com/zou3519)）
+### [torchvision](https://pytorch.org/docs/stable/community/persons_of_interest.html#torchvision)
 
-### AMD /的ROCm / HIP
+* Francisco Massa ([fmassa](https://github.com/fmassa))
 
-  * 俊杰BAI（[ bddppq ](https://github.com/bddppq)）
 
-  * 约翰M. Dieterich的（[ iotamudelta ](https://github.com/iotamudelta)）
+### [torchtext](https://pytorch.org/docs/stable/community/persons_of_interest.html#torchtext)
 
-### Windows的
+* Guanheng George Zhang ([zhangguanheng66](https://github.com/zhangguanheng66))
 
-  * 彼得·约翰逊（[ peterjc123 ](https://github.com/peterjc123)）
 
-### MKLDNN
+### [torchaudio](https://pytorch.org/docs/stable/community/persons_of_interest.html#torchaudio)
 
-  * 瀛海路（[瀛海](https://github.com/yinghai)）
-
-### XLA
-
-  * 张爱玲（[ ailzhang ](https://github.com/ailzhang)）
-
-  * 格雷戈里察南（[ gchanan ](https://github.com/gchanan)）
-
-  * 的Davide Libenzi（[ dlibenzi ](https://github.com/dlibenzi)）
-
-  * 亚历Suhan（[ asuhan ](https://github.com/asuhan)）
-
-### PPC
-
-  * 阿尔弗雷门多萨（[ avmgithub ](https://github.com/avmgithub)）
-
-[Next ![](../_static/images/chevron-right-orange.svg)](../torch.html "torch")
-[![](../_static/images/chevron-right-orange.svg) Previous](governance.html
-"PyTorch Governance")
-
-* * *
-
-©版权所有2019年，Torch 贡献者。
+* Vincent Quenneville-Belair ([vincentqb](https://github.com/vincentqb))

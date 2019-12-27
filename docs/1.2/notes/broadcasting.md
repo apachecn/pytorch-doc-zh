@@ -1,124 +1,111 @@
-# 广播语义
+# 广播语义  
 
-许多PyTorch运营支持[ `NumPy的 广播 语义 `
-[HTG9。](https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html#module-
-numpy.doc.broadcasting "\(in NumPy v1.17\)")
+> 译者：[冯宝宝](https://github.com/PEGASUS1993)
+>
+> 校验：[AlexJakin](https://github.com/AlexJakin)
 
-简言之，如果一个PyTorch操作支持广播，那么它的张量参数可以自动扩展为等于尺寸的（不使数据的副本）。
+许许多多的PyTorch操作都支持[`NumPy Broadcasting Semantics`](https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html#module-numpy.doc.broadcasting "(in NumPy v1.15)")。  
 
-## 通用语义
+简而言之，如果PyTorch操作支持广播，那么它的Tensor参数可以自动扩展为相同的类型大小（不需要复制数据）。  
 
-二张量“broadcastable”如果以下规则成立：
+## 一般语义  
 
-  * 每个张量至少有一个尺寸。
+如果遵守以下规则，则两个张量是“可广播的”：  
 
-  * 当迭代的尺寸大小，在开始尾部尺寸，该尺寸大小必须是相等的，它们中的一个是1，或它们中的一个不存在。
+* 每个张量至少有一个维度；
+* 遍历张量维度大小时，从末尾随开始遍历，两个张量的维度满足以下条件之一：大小必须相等、它们其中一个为1、他们其中一个不存在。  
 
-例如：
+例如：  
 
-    
-    
-    >>> x=torch.empty(5,7,3)
-    >>> y=torch.empty(5,7,3)
-    # same shapes are always broadcastable (i.e. the above rules always hold)
-    
-    >>> x=torch.empty((0,))
-    >>> y=torch.empty(2,2)
-    # x and y are not broadcastable, because x does not have at least 1 dimension
-    
-    # can line up trailing dimensions
-    >>> x=torch.empty(5,3,4,1)
-    >>> y=torch.empty(  3,1,1)
-    # x and y are broadcastable.
-    # 1st trailing dimension: both have size 1
-    # 2nd trailing dimension: y has size 1
-    # 3rd trailing dimension: x size == y size
-    # 4th trailing dimension: y dimension doesn't exist
-    
-    # but:
-    >>> x=torch.empty(5,2,4,1)
-    >>> y=torch.empty(  3,1,1)
-    # x and y are not broadcastable, because in the 3rd trailing dimension 2 != 3
-    
+```py
+>>> x=torch.empty(5,7,3)
+>>> y=torch.empty(5,7,3)
+# 相同形状的张量可以被广播(上述规则总是成立的)
 
-如果两个张量`× `，`Y`的“broadcastable”，所得到的张量大小的计算方法如下：
+>>> x=torch.empty((0,))
+>>> y=torch.empty(2,2)
+# x和y不能被广播,因为x没有维度
 
-  * 如果`× `和`Y`不等于，在前面加上1用更少的尺寸张量的尺寸，使维数它们相等的长度。
+# can line up trailing dimensions
+>>> x=torch.empty(5,3,4,1)
+>>> y=torch.empty(  3,1,1)
+# x和y能够广播.
+# 1st trailing dimension: both have size 1
+# 2nd trailing dimension: y has size 1
+# 3rd trailing dimension: x size == y size
+# 4th trailing dimension: y dimension doesn't exist
 
-  * 然后，对于每个维度大小，所得到的尺寸大小是`× `和尺寸`Y`沿着该维度的最大值。
+# 但是:
+>>> x=torch.empty(5,2,4,1)
+>>> y=torch.empty(  3,1,1)
+# x和y不能被广播  （   ）  
 
-For Example:
+```  
 
-    
-    
-    # can line up trailing dimensions to make reading easier
-    >>> x=torch.empty(5,1,4,1)
-    >>> y=torch.empty(  3,1,1)
-    >>> (x+y).size()
-    torch.Size([5, 3, 4, 1])
-    
-    # but not necessary:
-    >>> x=torch.empty(1)
-    >>> y=torch.empty(3,1,7)
-    >>> (x+y).size()
-    torch.Size([3, 1, 7])
-    
-    >>> x=torch.empty(5,2,4,1)
-    >>> y=torch.empty(3,1,1)
-    >>> (x+y).size()
-    RuntimeError: The size of tensor a (2) must match the size of tensor b (3) at non-singleton dimension 1
-    
+如果x,y两个张量是可以广播的，则通过计算得到的张量大小遵循以下原则：   
 
-## 就地语义
+* 如果x和y的维数不相等，则在维度较小的张量的前面增加1个维度，使它们的长度相等。  
+* 然后,生成新张量维度的大小是x和y在每个维度上的最大值。  
+   
+例如：   
 
-一个复杂的是，就地操作不允许就地张量改变形状作为广播的结果。
+```py
+# can line up trailing dimensions to make reading easier
+>>> x=torch.empty(5,1,4,1)
+>>> y=torch.empty(  3,1,1)
+>>> (x+y).size()
+torch.Size([5, 3, 4, 1])
 
-For Example:
+# but not necessary:
+>>> x=torch.empty(1)
+>>> y=torch.empty(3,1,7)
+>>> (x+y).size()
+torch.Size([3, 1, 7])
 
-    
-    
-    >>> x=torch.empty(5,3,4,1)
-    >>> y=torch.empty(3,1,1)
-    >>> (x.add_(y)).size()
-    torch.Size([5, 3, 4, 1])
-    
-    # but:
-    >>> x=torch.empty(1,3,1)
-    >>> y=torch.empty(3,1,7)
-    >>> (x.add_(y)).size()
-    RuntimeError: The expanded size of the tensor (1) must match the existing size (7) at non-singleton dimension 2.
-    
+>>> x=torch.empty(5,2,4,1)
+>>> y=torch.empty(3,1,1)
+>>> (x+y).size()
+RuntimeError: The size of tensor a (2) must match the size of tensor b (3) at non-singleton dimension 1
 
-## 向后兼容
+```  
 
-PyTorch的现有版本允许某些逐点函数来执行对具有不同形状的张量，只要在每个张量元素的数量是相等的。逐点操作将随后通过查看每个张量作为1维的来进行。
-PyTorch现在支持广播和“一维”逐点行为被废弃了，会产生在张量不broadcastable，但有相同数量的元素的情况下，一个Python警告。
+## In - place 语义   
 
-需要注意的是引入广播可能会导致以下情况：张量不具有相同的形状，向后兼容的更改，但broadcastable，并且具有相同数目的元素。例如：
+一个复杂因素是in-place操作不允许in-place张量像广播那样改变形状。  
 
-    
-    
-    >>> torch.add(torch.ones(4,1), torch.randn(4))
-    
+例如：  
 
-将先前产生具有尺寸的张量：torch.Size（[4,1]），但现在产生具有尺寸的张量：torch.Size（[4,4]）。为了帮助识别代码的情况下向后通过广播介绍不兼容性可能存在，你可以通过设置
-torch.utils.backcompat.broadcast_warning.enabled 至真，这将产生一个python在这种情况下警告。
+```py
+>>> x=torch.empty(5,3,4,1)
+>>> y=torch.empty(3,1,1)
+>>> (x.add_(y)).size()
+torch.Size([5, 3, 4, 1])
 
-For Example:
+# but:
+>>> x=torch.empty(1,3,1)
+>>> y=torch.empty(3,1,7)
+>>> (x.add_(y)).size()
+RuntimeError: The expanded size of the tensor (1) must match the existing size (7) at non-singleton dimension 2.
 
-    
-    
-    >>> torch.utils.backcompat.broadcast_warning.enabled=True
-    >>> torch.add(torch.ones(4,1), torch.ones(4))
-    __main__:1: UserWarning: self and other do not have the same shape, but are broadcastable, and have the same number of elements.
-    Changing behavior in a backwards incompatible manner to broadcasting rather than viewing as 1-dimensional.
-    
+```  
 
-[Next ![](../_static/images/chevron-right-
-orange.svg)](cpu_threading_torchscript_inference.html "CPU threading and
-TorchScript inference") [![](../_static/images/chevron-right-orange.svg)
-Previous](autograd.html "Autograd mechanics")
+## 向后兼容性  
 
-* * *
+PyTorch的早期版本允许某些逐点函数在具有不同形状的张量上执行，只要每个张量中的元素数量相等即可。 然后通过将每个张量视为1维来执行逐点运算。PyTorch现在支持广播，并且“1维”逐点行为被认为已弃用，并且在张量不可广播但具有相同数量的元素的情况下将生成Python警告。  
 
-©版权所有2019年，Torch 贡献者。
+注意，在两个张量不具有相同形状但是可广播并且具有相同数量元素的情况下，广播的引入可能导致向后不兼容。例如：    
+
+```py
+>>> torch.add(torch.ones(4,1), torch.randn(4))
+
+```  
+
+以前可能会产生一个torch.Size（[4,1]）的Tensor，但现在会产生一个torch.Size（[4,4]）这样的Tensor。 为了帮助识别代码中可能存在广播引起的向后不兼容性的情况，您可以设置`torch.utils.backcompat.broadcast_warning.enabled` 为 `True`，在这种情况下会产生python警告。  
+
+```py
+>>> torch.utils.backcompat.broadcast_warning.enabled=True
+>>> torch.add(torch.ones(4,1), torch.ones(4))
+__main__:1: UserWarning: self and other do not have the same shape, but are broadcastable, and have the same number of elements.
+Changing behavior in a backwards incompatible manner to broadcasting rather than viewing as 1-dimensional.
+
+```

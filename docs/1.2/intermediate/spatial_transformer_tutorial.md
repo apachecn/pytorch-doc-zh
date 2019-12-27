@@ -1,18 +1,16 @@
 # 空间变压器网络教程
 
-**作者** ：[ Ghassen HAMROUNI ](https://github.com/GHamrouni)
+> **作者**: [Ghassen HAMROUNI](https://github.com/GHamrouni)
 
-![img/FSeq.png](img/FSeq.png)
+![https://pytorch.org/tutorials/_images/FSeq.png](https://pytorch.org/tutorials/_images/FSeq.png)
 
-在本教程中，您将学习如何使用称为空间变压器网络视觉注意机制来增强你的网络。你可以阅读更多有关在[
-DeepMind纸空间变压器网](https://arxiv.org/abs/1506.02025)
 
-空间变压器网络是微注意泛化到任何空间变换。空间变换器网络（STN的简称）允许一个神经网络学习如何以提高模型的几何不变性的输入图像上执行空间变换。例如，它可以裁剪的兴趣，规模区域和纠正图像的方向。它可以是一个有用的机制，因为细胞神经网络的不不变的旋转和缩放，更全面的仿射变换。
+在本教程中，您将学习如何使用称为空间变换器网络的视觉注意力机制来扩充网络。 您可以在[DeepMind论文](https://arxiv.org/abs/1506.02025)中阅读有关空间变换器网络的更多信息。
 
-其中一件关于STN的最好的事情就是简单地把它用很少的修改插入到任何现有CNN的能力。
+空间变换器网络是对任何空间变换的可区别关注的概括。空间变换器网络（简称STN）允许神经网络学习如何对输入图像执行空间变换，以增强模型的几何不变性。例如，它可以裁剪感兴趣的区域，缩放并校正图像的方向。这可能是一个有用的机制，因为CNN不会对旋转和缩放以及更一般的仿射变换保持不变。
 
-    
-    
+关于STN的最好的事情之一就是能够将其简单地插入到任何现有的CNN中，而无需进行任何修改。
+
     # License: BSD
     # Author: Ghassen Hamrouni
     
@@ -31,10 +29,8 @@ DeepMind纸空间变压器网](https://arxiv.org/abs/1506.02025)
 
 ## 加载数据
 
-在这篇文章中，我们尝试用经典MNIST数据集。使用具有空间变换网络增加一个标准的卷积网络。
+在本文中，我们将尝试使用经典的MNIST数据集。使用标准卷积网络和空间变换器网络。
 
-    
-    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Training dataset
@@ -51,10 +47,7 @@ DeepMind纸空间变压器网](https://arxiv.org/abs/1506.02025)
             transforms.Normalize((0.1307,), (0.3081,))
         ])), batch_size=64, shuffle=True, num_workers=4)
     
-
-日期：
-
-    
+Out:
     
     Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to ./MNIST/raw/train-images-idx3-ubyte.gz
     Extracting ./MNIST/raw/train-images-idx3-ubyte.gz to ./MNIST/raw
@@ -70,20 +63,18 @@ DeepMind纸空间变压器网](https://arxiv.org/abs/1506.02025)
 
 ## 描绘空间变换器网络
 
-空间变压器网络可以归结为三个主要组成部分：
+空间变压器网络可归结为三个主要组成部分：
 
-  * 本地化网络是一个普通的CNN其倒退的转换参数。转型是永远不会从这个数据集显式地了解到，而非网络自动学习的空间变换，增强全球精度。
-  * 网格生成器生成对应于来自所述输出图像的每个像素在输入图像中的坐标的网格。
-  * 采样器，使用变换的参数，并将其应用于输入图像。
+* 定位网络是常规的CNN，可以对转换参数进行回归。永远不会从该数据集中显式学习变换，而是网络会自动学习增强全局精度的空间变换。
+* 网格生成器在输入图像中生成与来自输出图像的每个像素相对应的坐标网格。
+* 采样器使用转换的参数，并将其应用于输入图像。
 
-![img/stn-arch.png](img/stn-arch.png)
+![https://pytorch.org/tutorials/_images/stn-arch.png](https://pytorch.org/tutorials/_images/stn-arch.png)
 
-Note
+> Note
+> 我们需要包含affine_grid和grid_sample模块的最新版本的PyTorch。
 
-我们需要最新版本PyTorch的包含affine_grid和grid_sample模块。
 
-    
-    
     class Net(nn.Module):
         def __init__(self):
             super(Net, self).__init__()
@@ -143,11 +134,9 @@ Note
     model = Net().to(device)
     
 
-## 培养模式
+## 训练模式
 
-现在，让我们使用SGD算法训练模型。该网络学习在监督方式的分类任务。在同一时间模型在一个终端到高端时尚自动学习STN。
-
-    
+现在，让我们使用SGD算法训练模型。网络正在以监督方式学习分类任务。同时，该模型以端到端的方式自动学习STN。
     
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     
@@ -194,11 +183,8 @@ Note
 
 ## 可视化STN结果
 
-现在，我们要来视察我们了解到视觉注意机制的结果。
-
-我们以可视化，同时训练转变定义一个小助手功能。
-
-    
+现在，我们将检查学习到的视觉注意力机制的结果。 
+我们定义了一个小的辅助函数，以便在训练时可视化转换。
     
     def convert_image_np(inp):
         """Convert a Tensor to numpy image."""
@@ -245,13 +231,10 @@ Note
     
     plt.ioff()
     plt.show()
-    
 
-![img/sphx_glr_spatial_transformer_tutorial_001.png](img/sphx_glr_spatial_transformer_tutorial_001.png)
+![https://pytorch.org/tutorials/_images/sphx_glr_spatial_transformer_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_spatial_transformer_tutorial_001.png)
 
 Out:
-
-    
     
     Train Epoch: 1 [0/60000 (0%)]   Loss: 2.290877
     Train Epoch: 1 [32000/60000 (53%)]      Loss: 0.910913
@@ -361,56 +344,3 @@ spatial_transformer_tutorial.py`](../_downloads/8aa31a122008b8db8bbe28365db9ea47
 
 [`Download Jupyter notebook:
 spatial_transformer_tutorial.ipynb`](../_downloads/b0786fd6ca28ee4ff3f2aa27080cdf18/spatial_transformer_tutorial.ipynb)
-
-[通过斯芬克斯-廊产生廊](https://sphinx-gallery.readthedocs.io)
-
-[Next ![](../_static/images/chevron-right-
-orange.svg)](../advanced/neural_style_tutorial.html "Neural Transfer Using
-PyTorch") [![](../_static/images/chevron-right-orange.svg)
-Previous](../beginner/finetuning_torchvision_models_tutorial.html "Finetuning
-Torchvision Models")
-
-* * *
-
-Was this helpful?
-
-Yes
-
-No
-
-Thank you
-
-* * *
-
-©版权所有2017年，PyTorch。
-
-
-
-  * 空间变压器网络教程
-    * 加载数据
-    * 各取空间变换器网络
-    * 训练模型
-    * 形象化STN结果
-
-![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
-
-  &noscript=1)
-![](https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&guid=ON&script=0)
-
-
-
-
-
-
-
- 
-[](https://www.facebook.com/pytorch) [](https://twitter.com/pytorch)
-
-分析流量和优化经验，我们为这个站点的Cookie。通过点击或导航，您同意我们的cookies的使用。因为这个网站目前维护者，Facebook的Cookie政策的适用。了解更多信息，包括有关可用的控制：[饼干政策[HTG1。](https://www.facebook.com/policies/cookies/)
-
-![](../_static/images/pytorch-x.svg)
-
-[](https://pytorch.org/)
-
-
-

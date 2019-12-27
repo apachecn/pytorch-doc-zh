@@ -261,7 +261,7 @@ Thank you
 
 
 
-  * [HTG0 4.（可选）从导出到PyTorch一个ONNX模型并使用ONNX运行时运行它
+  * [HTG0 （可选）将模型从PyTorch导出到ONNX并使用ONNX Runtime运行	
     * 运行使用ONNX运行时的图像上的模型
 
 ![](https://www.facebook.com/tr?id=243028289693773&ev=PageView
