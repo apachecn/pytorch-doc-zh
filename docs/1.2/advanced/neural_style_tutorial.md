@@ -99,8 +99,8 @@
     imshow(content_img, title='Content Image')
     
 
-  * ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png)
-  * ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png)
+   ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png)
+   ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png)
 
 ## 损失函数
 
