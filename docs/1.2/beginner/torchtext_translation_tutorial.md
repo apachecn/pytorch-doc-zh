@@ -1,5 +1,8 @@
 # 基于TorchText的语言翻译
 
+> 译者：[PengboLiu](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.2/beginner/text_sentiment_ngrams_tutorial.md)
+> 
+> 校验：[PengboLiu](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.2/beginner/text_sentiment_ngrams_tutorial.md)
 
 本教程介绍如何使用`torchtext
 `的几个类来预处理英德数据集，该数据集可以用来训练seq2seq模型，既而能自动把德语句子翻译成英语。
