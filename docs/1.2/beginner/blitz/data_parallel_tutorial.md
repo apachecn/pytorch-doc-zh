@@ -4,7 +4,7 @@
 >
 > 译者: [bat67](https://github.com/bat67)
 >
-> 校对者: [FontTian](https://github.com/fonttian)  [片刻](https://github.com/jiangzhonglian)
+> 校验者: [FontTian](https://github.com/fonttian)  [片刻](https://github.com/jiangzhonglian)
 
 在这个教程里，我们将学习如何使用数据并行（`DataParallel`）来使用多GPU。
 

@@ -1,6 +1,6 @@
 # 保存和加载模型
 
-> 校对：[片刻](https://github.com/jiangzhonglian)
+> 校验：[片刻](https://github.com/jiangzhonglian)
 >
 > **作者**: [Matthew Inkawhich](https://github.com/MatthewInkawhich)
 

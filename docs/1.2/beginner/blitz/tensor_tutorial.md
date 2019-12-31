@@ -2,7 +2,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 >
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/fonttian)
 
 **作者**： [Soumith Chintala](http://soumith.ch/)
 

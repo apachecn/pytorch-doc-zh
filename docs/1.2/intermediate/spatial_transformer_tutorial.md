@@ -1,6 +1,10 @@
-# 空间变压器网络教程
+# 空间转换器网络教程
 
-> **作者**: [Ghassen HAMROUNI](https://github.com/GHamrouni)
+> **作者**：[Ghassen HAMROUNI](https://github.com/GHamrouni)
+> 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 ![https://pytorch.org/tutorials/_images/FSeq.png](https://pytorch.org/tutorials/_images/FSeq.png)
 
@@ -63,7 +67,7 @@ Out:
 
 ## 描绘空间变换器网络
 
-空间变压器网络可归结为三个主要组成部分：
+空间转换器网络可归结为三个主要组成部分：
 
 * 定位网络是常规的CNN，可以对转换参数进行回归。永远不会从该数据集中显式学习变换，而是网络会自动学习增强全局精度的空间变换。
 * 网格生成器在输入图像中生成与来自输出图像的每个像素相对应的坐标网格。

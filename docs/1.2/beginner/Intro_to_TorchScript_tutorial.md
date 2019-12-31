@@ -1,7 +1,7 @@
 # 介绍TorchScript
 >
 > **作者:** James Reed (jamesreed@fb.com), Michael Suo(suo@fb.com), rev2
-> **校对:** 松鼠
+> **校验:** 松鼠
 
 
 本教程是TorchScript的简介，TorchScript是PyTorch模型（子类nn.Module）的中间表示，可以在高性能环境（例如C ++）中运行。

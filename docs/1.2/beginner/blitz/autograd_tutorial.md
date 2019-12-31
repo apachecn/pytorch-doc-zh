@@ -2,7 +2,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/fonttian)
 
 PyTorch中，所有神经网络的核心是 `autograd` 包。先简单介绍一下这个包，然后训练我们的第一个的神经网络。
 
