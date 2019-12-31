@@ -2,7 +2,7 @@
 
 > **作者**：[Sean Robertson](https://github.com/spro)
 > 
-> 翻译：[DrDavidS](https://github.com/DrDavidS)、[mengfu188](https://github.com/mengfu188)
+> 译者：[DrDavidS](https://github.com/DrDavidS)、[mengfu188](https://github.com/mengfu188)
 >
 > 校验：[DrDavidS](https://github.com/DrDavidS)
 

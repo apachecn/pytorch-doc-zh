@@ -2,7 +2,7 @@
 
 > 译者：[shuziP](https://github.com/shuziP)
 > 
-> 校对：[shuziP](https://github.com/shuziP)
+> 校验：[shuziP](https://github.com/shuziP)
 
 在进一步讨论之前，可以在[https://www.tensorflow.org/tensorboard/](https://www.tensorflow.org/tensorboard/)上找到有关TensorBoard的更多详细信息。
 

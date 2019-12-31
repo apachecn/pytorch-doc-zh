@@ -2,7 +2,7 @@
 
 > 译者：[shuziP](https://github.com/shuziP)
 > 
-> 校对：[shuziP](https://github.com/shuziP)
+> 校验：[shuziP](https://github.com/shuziP)
 
 PyTorch数据加载程序的核心是 `torch.utils.data.DataLoader` 类。它表示在数据集上可迭代的Python，并支持
 

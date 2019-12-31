@@ -2,6 +2,8 @@
 
 > 作者：[Sean Robertson](https://github.com/spro/practical-pytorch)
 >
+> 译者：[松鼠](https://github.com/HelWireless)
+>
 > 校验：[松鼠](https://github.com/HelWireless)
 
 这是我们关于“从零开始的NLP”的三个教程中的第二个。在第一个教程`</ intermediate / char_rnn_classification_tutorial>`中，我们使用了RNN将姓氏分类为它们的起源语言。这次，我们将从语言中生成姓氏。
