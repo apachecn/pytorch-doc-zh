@@ -1,5 +1,9 @@
 # 文本分类与TorchText
 
+> 译者：[PengboLiu](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.2/beginner/text_sentiment_ngrams_tutorial.md)
+> 
+> 校验：[PengboLiu](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.2/beginner/text_sentiment_ngrams_tutorial.md)
+
 本教程将说明如何在*torchtext*中使用文本分类数据集，其中包括：
 
     - AG_NEWS,

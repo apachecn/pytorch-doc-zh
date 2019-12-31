@@ -1,8 +1,10 @@
 # 保存和加载模型
 
-> 校验：[片刻](https://github.com/jiangzhonglian)
+> **作者**：[Matthew Inkawhich](https://github.com/MatthewInkawhich)
 >
-> **作者**: [Matthew Inkawhich](https://github.com/MatthewInkawhich)
+> 译者：[片刻](https://github.com/jiangzhonglian)
+>
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 本文档为有关保存和加载PyTorch模型的各种用例提供​​了解决方案。随意阅读整个文档，或者只是跳到所需用例所需的代码。
 

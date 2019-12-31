@@ -1,9 +1,8 @@
 # NLP From Scratch：使用char-RNN对姓氏进行分类
+
+> 作者：[Sean Robertson](https://github.com/spro/practical-pytorch)
 >
->作者: [Sean Robertson](https://github.com/spro/practical-pytorch)
->
->校验: 松鼠
->
+> 校验：[松鼠](https://github.com/HelWireless)
 
 我们将构建和训练基本的char-RNN来对单词进行分类。本教程以及以下两个教程展示了如何“从头开始”为NLP建模进行预处理数据，尤其是不使用Torchtext的许多便利功能，因此您可以了解NLP建模的预处理是如何从低层次进行的。
 
