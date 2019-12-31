@@ -1,5 +1,9 @@
 # torch.utils.data
 
+> 译者：[shuziP](https://github.com/shuziP)
+> 
+> 校对：[shuziP](https://github.com/shuziP)
+
 PyTorch数据加载程序的核心是 `torch.utils.data.DataLoader` 类。它表示在数据集上可迭代的Python，并支持
 
   * 映射样式和迭代样式的数据集（[map-style and iterable-style datasets](https://pytorch.org/docs/stable/data.html#dataset-types)）
