@@ -4,6 +4,7 @@ logerror() { echo "[ERROR] $@" 1>&2; }
 
 if [ -n "$1" ]; then
     GH_TOKEN=$1
+    echo ">>> $GH_TOKEN"
 else
     exit "GH_TOKEN 为空"
 fi
