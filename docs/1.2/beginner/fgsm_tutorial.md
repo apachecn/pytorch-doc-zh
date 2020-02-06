@@ -1,6 +1,10 @@
 # 对抗性实例生成
 
 > **作者**: [Nathan Inkawhich](https://github.com/inkawhich)
+> 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 如果您正在阅读本文，希望您能体会到某些机器学习模型的有效性。研究不断推动ML模型更快，更准确和更高效。但是，设计和训练模型的一个经常被忽略的方面是安全性和鲁棒性，尤其是在面对想要欺骗模型的对手的情况下。
 

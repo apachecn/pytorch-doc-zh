@@ -2,7 +2,7 @@
 
 > 译者：[lhc741](https://github.com/lhc741)
 >
-> 校对：[DrDavidS](https://github.com/DrDavidS)
+> 校验：[DrDavidS](https://github.com/DrDavidS)
 
 **作者**：Jeremy Howard，[fast.ai](https://www.fast.ai/)。感谢Rachel Thomas和Francisco Ingham的帮助和支持。
 

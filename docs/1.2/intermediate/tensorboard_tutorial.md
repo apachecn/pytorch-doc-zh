@@ -1,5 +1,9 @@
 # 使用 TensorBoard 可视化模型，数据和训练
 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
+
 在[60分钟闪电战](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html)中，我们向您展示了如何加载数据，如何通过定义为的子类的`nn.Module`模型提供数据，如何在训练数据上训练该模型以及如何在测试数据上对其进行测试。为了了解发生了什么，我们在模型训练期间打印一些统计数据，以了解训练是否在进行。但是，我们可以做得更好：PyTorch与TensorBoard集成在一起，TensorBoard是一种工具，用于可视化神经网络训练运行的结果。本教程使用[Fashion-MNIST数据集](https://github.com/zalandoresearch/fashion-mnist)说明了其某些功能，该 数据集 可以使用torchvision.datasets读取到PyTorch中。
 
 在本教程中，我们将学习如何：

@@ -1,6 +1,10 @@
 # 微调 TorchVision 模型
 
-> **作者** [Nathan Inkawhich](https://github.com/inkawhich)
+> **作者**：[Nathan Inkawhich](https://github.com/inkawhich)
+> 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 在本教程中，我们将更深入地研究如何微调和特征提取[Torchvision模型](https://pytorch.org/docs/stable/torchvision/models.html)，所有这些模型都已在1000类Imagenet数据集上进行了预训练。本教程将深入研究如何使用几种现代的CNN架构，并将建立一种直观的方法来微调任何PyTorch模型。由于每种模型的架构都不同，因此没有适用于所有场景的样板微调代码。相反，研究人员必须查看现有的体系结构，并对每个模型进行自定义调整。
 

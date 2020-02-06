@@ -1,6 +1,6 @@
 # DCGAN 教程
 
-> **作者**: [Nathan Inkawhich](https://github.com/inkawhich)
+> **作者**：[Nathan Inkawhich](https://github.com/inkawhich)
 >
 > 译者：[wangshuai9517](https://github.com/wangshuai9517)
 >

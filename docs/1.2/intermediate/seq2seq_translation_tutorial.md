@@ -1,10 +1,10 @@
 # NLP From Scratch: 基于注意力机制的 seq2seq 神经网络翻译
 
->翻译：[DrDavidS](https://github.com/DrDavidS)
+> **作者**：[Sean Robertson](https://github.com/spro)
+> 
+> 译者：[DrDavidS](https://github.com/DrDavidS)、[mengfu188](https://github.com/mengfu188)
 >
->翻译：[mengfu188](https://github.com/mengfu188)
-
-**作者** ：[Sean Robertson](https://github.com/spro)
+> 校验：[DrDavidS](https://github.com/DrDavidS)
 
 这是第三篇也是最后一篇“从零开始NLP”教程，我们会在其中编写自己的类与函数来处理数据，从而完成我们的NLP建模任务。我们希望在你完成本篇教程后，你可以紧接着在其后的三篇教程中继续学习 torchtext 是如何帮你完成大量的此类预处理的。
 

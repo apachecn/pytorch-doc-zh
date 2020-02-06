@@ -1,8 +1,10 @@
 # 模型并行化最佳实践
 
-> **作者**: [Shen Li](https://mrshenli.github.io)
+> **作者**：[Shen Li](https://mrshenli.github.io)
 >
-> **译者**: [Hamish](https://sherlockbear.github.io)
+> **译者**：[Hamish](https://sherlockbear.github.io)
+>
+> **校验**：[Hamish](https://sherlockbear.github.io)
 
 模型并行化在分布式训练技术中被广泛使用。先前的文章已经解释了如何使用[DataParallel](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)在多个GPU上训练神经网络。此功能将相同的模型复制到所有GPU，其中每个GPU负责消化输入数据的不同部分。尽管它可以极大地加快训练过程，但不适用于某些模型太大而无法被单个GPU容纳的用例。这篇文章展示了如何通过使用模型化来解决该问题，与`DataParallel`相比，模型并行化将单个模型拆分到不同的GPU上，而不是在每个GPU上复制整个模型（具体来说，模型`m`包含10层：使用`DataParallel`时，每个GPU都具有这10层中每个层的副本，而当在两个GPU上使用模型并行化时，每个GPU可以承载5层。
 

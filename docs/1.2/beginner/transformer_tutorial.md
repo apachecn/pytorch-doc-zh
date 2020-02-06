@@ -1,6 +1,10 @@
 # 序列对序列建模nn.Transformer和TorchText
 
- 本教程将会使用[ nn.Transformer ](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformer#torch.nn.Transformer)模块训练一个序列到序列模型。
+> 译者：[dabney777](https://github.com/dabney777)
+> 
+> 校验：[dabney777](https://github.com/dabney777)
+
+本教程将会使用[ nn.Transformer ](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformer#torch.nn.Transformer)模块训练一个序列到序列模型。
 
 PyTorch 1.2 版本依据论文 [ Attention is All You Need ](https://arxiv.org/pdf/1706.03762.pdf)发布了标准的 transformer 模型。Transformer 模型已被证明在解决序列到序列问题时效果优异。
 

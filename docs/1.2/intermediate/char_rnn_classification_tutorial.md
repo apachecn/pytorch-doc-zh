@@ -1,9 +1,10 @@
 # NLP From Scratch：使用char-RNN对姓氏进行分类
+
+> 作者：[Sean Robertson](https://github.com/spro/practical-pytorch)
 >
->作者: [Sean Robertson](https://github.com/spro/practical-pytorch)
+> 译者：[松鼠](https://github.com/HelWireless)
 >
->校验: 松鼠
->
+> 校验：[松鼠](https://github.com/HelWireless)、[Aidol](https://github.com/Aidol)
 
 我们将构建和训练基本的char-RNN来对单词进行分类。本教程以及以下两个教程展示了如何“从头开始”为NLP建模进行预处理数据，尤其是不使用Torchtext的许多便利功能，因此您可以了解NLP建模的预处理是如何从低层次进行的。
 
@@ -41,7 +42,7 @@ char-RNN将单词作为一系列字符读取,在每个步骤输出预测和“�
 ## 准备数据
 
 >* Note
->从[此处](https://download.pytorch.org/tutorial/>data.zip)下载数据，并将其解压到当前目录。
+>从[此处](https://download.pytorch.org/tutorial/data.zip)下载数据，并将其解压到当前目录。
 
 包含了在`data/names `目录被命名为`[Language] .txt`
 的18个文本文件。每个文件都包含了一堆姓氏，每行一个名字，大多都已经罗马字母化了（但我们仍然需要从Unicode转换到到ASCII）。
@@ -66,8 +67,10 @@ char-RNN将单词作为一系列字符读取,在每个步骤输出预测和“�
     n_letters = len(all_letters)
     
     # Turn a Unicode string to plain ASCII, thanks to https://stackoverflow.com/a/518232/2809427
+    # 作用就是把Unicode转换为ASCII
     def unicodeToAscii(s):
         return ''.join(
+        # NFD表示字符应该分解为多个组合字符表示
             c for c in unicodedata.normalize('NFD', s)
             if unicodedata.category(c) != 'Mn'
             and c in all_letters
@@ -86,7 +89,7 @@ char-RNN将单词作为一系列字符读取,在每个步骤输出预测和“�
     
     for filename in findFiles('data/names/*.txt'):
         category = os.path.splitext(os.path.basename(filename))[0]
-        a\ll_categories.append(category)
+        all_categories.append(category)
         lines = readLines(filename)
         category_lines[category] = lines
     
@@ -117,7 +120,7 @@ char-RNN将单词作为一系列字符读取,在每个步骤输出预测和“�
 
 为了表示单个字母，我们使用大小为`<1 x n letters>`的“独热向量” 。一个独热向量就是在字母索引处填充1，其他都填充为0，例，`"b" = <0 1 0 0 0 ...>`
 
-为了表达一个单词，我们将一堆字母合并成2D矩阵，其中举证的大小为`<line_length x 1 x n_letters>`
+为了表达一个单词，我们将一堆字母合并成2D矩阵，其中矩阵的大小为`<line_length x 1 x n_letters>`
 
 额外的1维是因为PyTorch假设所有东西都是成批的-我们在这里只使用1的批处理大小。
 
@@ -161,6 +164,9 @@ torch.Size([5, 1, 57])
 在进行自动求导之前，在Torch中创建一个递归神经网络需要在多个时间状态上克隆图的参数。图保留了隐藏状态和梯度，这些状态和梯度现在完全由图本身处理。这意味着您可以以非常“单纯”的方式将RNN作为常规的前馈网络来实现。
 
 这个RNN模块（大部分是从[PyTorch for Torch用户教程](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)中复制的）只有2个线性层，它们在输入和隐藏状态下运行，输出之后是LogSoftmax层。
+
+![RNN.jpg](https://camo.githubusercontent.com/f8a843661e448e1a75f8319a2eea860ebf09794f/68747470733a2f2f692e696d6775722e636f6d2f5a32786279534f2e706e67)
+
 ```python
     import torch.nn as nn
     
@@ -195,7 +201,7 @@ torch.Size([5, 1, 57])
     output, next_hidden = rnn(input, hidden)
 ```
 
-为了提高效率，我们不想为每个步骤都创建一个新的Tensor，因此我们将使用和`lineToTensor`代替`letterToTensorslice`。这可以通过预先计算一批张量来进一步优化。
+为了提高效率，我们不想为每个步骤都创建一个新的Tensor，因此我们将使用`lineToTensor`加切片的方式来代替`letterToTensor`。这可以通过预先计算一批张量来进一步优化。
 ```python
     input = lineToTensor('Albert')
     hidden = torch.zeros(1, n_hidden)
@@ -304,6 +310,7 @@ category =  Spanish 	 // 	 line =  Losa
     
         # Add parameters' gradients to their values, multiplied by learning rate
         for p in rnn.parameters():
+        # 下面一行代码的作用效果为 p.data = p.data -learning_rate*p.grad.data，更新权重
             p.data.add_(-learning_rate, p.grad.data)
     
         return output, loss.item()

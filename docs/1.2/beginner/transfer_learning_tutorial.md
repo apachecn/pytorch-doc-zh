@@ -1,6 +1,10 @@
 # 迁移学习教程
 
-**作者** ：[ Sasank Chilamkurthy ](https://chsasank.github.io)
+> **作者**：[Sasank Chilamkurthy](https://chsasank.github.io)
+> 
+> 译者：[DrDavidS](https://github.com/DrDavidS)
+> 
+> 校验：[DrDavidS](https://github.com/DrDavidS)
 
 在本教程中，您将学习如何使用迁移学习训练网络。你可以在[
 cs231n笔记](https://cs231n.github.io/transfer-learning/)中阅读更多关于迁移学习的内容。

@@ -2,7 +2,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/fonttian)
 
 目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。所以你现在可能会想,
 

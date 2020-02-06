@@ -1,4 +1,4 @@
-# PyTorch治理感兴趣的人
+# PyTorch 维护者
 
 ## [一般维护者](https://pytorch.org/docs/stable/community/persons_of_interest.html#general-maintainers)
 

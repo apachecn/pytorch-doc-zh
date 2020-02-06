@@ -1,5 +1,9 @@
 # TorchVision 对象检测微调教程
 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
+
 > TIP
 > 为了充分利用本教程，我们建议使用此[Colab](https://colab.research.google.com/github/pytorch/vision/blob/temp-
 tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)版本。这将使您可以尝试以下信息。

@@ -1,8 +1,12 @@
 # 使用PyTorch进行神经网络传递
 
-> **作者**: [Alexis Jacq](https://alexis-jacq.github.io)
+> **作者**：[Alexis Jacq](https://alexis-jacq.github.io)
 >
-> **编辑**: [Winston Herring](https://github.com/winston6)
+> **编辑**：[Winston Herring](https://github.com/winston6)
+> 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 ## 简介
 
