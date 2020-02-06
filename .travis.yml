@@ -15,7 +15,7 @@ install:
  - gitbook fetch 3.2.3 # 安装 Gitbook 子版本
 
 script:
-  - sh run_website.sh
+  - sh run_website.sh ${GH_TOKEN}
 
 after_script:
   - cd _book

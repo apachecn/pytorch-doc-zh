@@ -19,7 +19,14 @@ def format_file(filename, str1, str2):
 
 
 if __name__ == "__main__":
-    version, u_type = sys.argv[1], sys.argv[2]
+    if len(sys.argv) == 2:
+        version, u_type = sys.argv[1], sys.argv[2]
+    elif len(sys.argv) == 3:
+        version, u_type, GH_TOKEN = sys.argv[1], sys.argv[2], sys.argv[3]
+    else:
+        print("Usage: 参数个数为%s - 错误，应该改为2or3", len(sys.argv))
+        sys.exit(-1)
+
     tag = True
     if u_type == "index":
         tag = False
@@ -124,6 +131,7 @@ if __name__ == "__main__":
       '\\n        const gitalk = new Gitalk({'+
       '\\n        clientID: \\'2e62dee5b9896e2eede6\\','+
       '\\n        clientSecret: \\'ca6819a54656af0d87960af15315320f8a628a53\\','+
+      '\\n        accessToken: \\'%s\\','+
       '\\n        repo: \\'pytorch-doc-zh\\','+
       '\\n        owner: \\'apachecn\\','+
       '\\n        admin: [\\'jiangzhonglian\\', \\'wizardforcel\\'],'+
@@ -135,7 +143,7 @@ if __name__ == "__main__":
       '\\n</div>'
 
       str += '\\n\\n<footer class="page-footer">' + _copy + '<span class="footer-modification">' + _label + '\\n{{file.mtime | date("' + _format + '")}}\\n</span></footer>'
-        """
+        """ % GH_TOKEN
 
     # 状态为 True 就进行替换
     if tag: format_file(filename, str1, str2)

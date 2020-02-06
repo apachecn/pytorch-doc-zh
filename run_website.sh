@@ -2,11 +2,17 @@
 loginfo() { echo "[INFO] $@"; }
 logerror() { echo "[ERROR] $@" 1>&2; }
 
+if [ -n "$1" ]; then
+    GH_TOKEN=$1
+else
+    exit "GH_TOKEN 为空"
+fi
+
 python3 src/script.py "home" "book"
 rm -rf node_modules/gitbook-plugin-tbfed-pagefooter
 gitbook install
 python3 src/script.py "home" "powered"
-python3 src/script.py "home" "gitalk"
+python3 src/script.py "home" "gitalk" $GH_TOKEN
 gitbook build ./ _book
 # python3 src/script.py "home" "index"
 
@@ -33,7 +39,7 @@ for version in $versions;do
     python3 src/script.py ${version} "powered"
 
     echo "python3 src/script.py ${version} gitalk"
-    python3 src/script.py ${version} "gitalk"
+    python3 src/script.py ${version} "gitalk" $GH_TOKEN
 
     echo "gitbook build docs/${version} _book/docs/${version}"
     gitbook build docs/${version} _book/docs/${version}
