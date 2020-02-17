@@ -19,7 +19,12 @@ def format_file(filename, str1, str2):
 
 
 if __name__ == "__main__":
-    version, u_type = sys.argv[1], sys.argv[2]
+    if len(sys.argv) == 3:
+        version, u_type = sys.argv[1], sys.argv[2]
+    else:
+        print("Usage: 参数个数为%s - 错误，应该改为3" % len(sys.argv))
+        sys.exit(-1)
+
     tag = True
     if u_type == "index":
         tag = False
@@ -117,7 +122,7 @@ if __name__ == "__main__":
       str += '\\n\\n'+
       '\\n<div>'+
       '\\n    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">'+
-      '\\n    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>'+
+      '\\n    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>'+
       '\\n    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>'+
       '\\n    <div id="gitalk-container"></div>'+
       '\\n    <script type="text/javascript">'+
