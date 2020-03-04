@@ -76,7 +76,7 @@ torch.cuda.get_device_capability(device)
 
 获取一个设备的cuda容量。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ 可选的) – 需要返回容量的设备。如果这个参数传入的是负数，那么这个方法不会起任何作用。如果[`device`](#torch.cuda.device "torch.cuda.device")是`None`（默认值），会通过 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")传入当前设备。 |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ 可选的) – 需要返回容量的设备。如果这个参数传入的是负数，那么这个方法不会起任何作用。如果[`device`](#torch.cuda.device "torch.cuda.device")是`None`(默认值），会通过 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")传入当前设备。 |
 | --- | --- |
 | 返回: | 设备的最大和最小的cuda容量。 |
 | --- | --- |
@@ -89,7 +89,7 @@ torch.cuda.get_device_name(device)
 
 获取设备名称。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 需要返回名称的设备。如果参数是负数，那么将不起作用。如果[`device`](#torch.cuda.device "torch.cuda.device")是`None`（默认值），会通过 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")传入当前设备。 |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 需要返回名称的设备。如果参数是负数，那么将不起作用。如果[`device`](#torch.cuda.device "torch.cuda.device")是`None`(默认值），会通过 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")传入当前设备。 |
 | --- | --- |
 
 ```py
@@ -110,9 +110,9 @@ torch.cuda.is_available()
 torch.cuda.max_memory_allocated(device=None)
 ```
 
-返回给定设备的张量的最大GPU显存使用量（以字节为单位）。
+返回给定设备的张量的最大GPU显存使用量(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
 注意
@@ -123,9 +123,9 @@ torch.cuda.max_memory_allocated(device=None)
 torch.cuda.max_memory_cached(device=None)
 ```
 
-返回给定设备的缓存分配器管理的最大GPU显存（以字节为单位）。
+返回给定设备的缓存分配器管理的最大GPU显存(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
 | --- | --- |
 
 注意
@@ -136,9 +136,9 @@ torch.cuda.max_memory_cached(device=None)
 torch.cuda.memory_allocated(device=None)
 ```
 
-返回给定设备的当前GPU显存使用量（以字节为单位）。
+返回给定设备的当前GPU显存使用量(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
 注意
@@ -149,9 +149,9 @@ torch.cuda.memory_allocated(device=None)
 torch.cuda.memory_cached(device=None)
 ```
 
-返回由缓存分配器管理的当前GPU显存（以字节为单位）。
+返回由缓存分配器管理的当前GPU显存(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
 | --- | --- |
 
 注意
@@ -358,7 +358,7 @@ CUDA流是属于特定设备的线性执行序列，独立于其他流。 查看
 
 参数:
 
-*   **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 要在其上分配流的设备。 如果 [`device`](#torch.cuda.device "torch.cuda.device") 为`None`（默认值）或负整数，则将使用当前设备。
+*   **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 要在其上分配流的设备。 如果 [`device`](#torch.cuda.device "torch.cuda.device") 为`None`(默认值）或负整数，则将使用当前设备。
 *   **priority** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 流的优先级。数字越小，优先级越高。
 
 ```py
@@ -429,7 +429,7 @@ class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, 
 
 参数:
 
-*   **enable_timing** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 表示事件是否应该测量时间（默认值：`False`）
+*   **enable_timing** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 表示事件是否应该测量时间(默认值：`False`）
 *   **blocking** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果是`True`， [`wait()`](#torch.cuda.Event.wait "torch.cuda.Event.wait") 将会阻塞 (默认值: `False`)
 *   **interprocess** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 如果是 `True`，事件将会在进程中共享 (默认值: `False`)
 
@@ -488,9 +488,9 @@ torch.cuda.empty_cache()
 torch.cuda.memory_allocated(device=None)
 ```
 
-返回给定设备的当前GPU显存使用量（以字节为单位）。
+返回给定设备的当前GPU显存使用量(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选定的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选定的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
 注意
@@ -501,9 +501,9 @@ torch.cuda.memory_allocated(device=None)
 torch.cuda.max_memory_allocated(device=None)
 ```
 
-返回给定设备的张量的最大GPU显存使用量（以字节为单位）。
+返回给定设备的张量的最大GPU显存使用量(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) –  选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。  |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) –  选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。  |
 | --- | --- |
 
 注意
@@ -514,9 +514,9 @@ torch.cuda.max_memory_allocated(device=None)
 torch.cuda.memory_cached(device=None)
 ```
 
-返回由缓存分配器管理的当前GPU显存（以字节为单位）。
+返回由缓存分配器管理的当前GPU显存(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。 |
 | --- | --- |
 
 注意
@@ -527,9 +527,9 @@ torch.cuda.memory_cached(device=None)
 torch.cuda.max_memory_cached(device=None)
 ```
 
-返回给定设备的缓存分配器管理的最大GPU显存（以字节为单位）。
+返回给定设备的缓存分配器管理的最大GPU显存(以字节为单位）。
 
-| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`（默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
+| 参数: | **device** ([_torch.device_](tensor_attributes.html#torch.torch.device "torch.torch.device") _或者_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 选择的设备。如果 [`device`](#torch.cuda.device "torch.cuda.device") 是`None`(默认的），将返回 [`current_device()`](#torch.cuda.current_device "torch.cuda.current_device")返回的当前设备的数据。|
 | --- | --- |
 
 注意

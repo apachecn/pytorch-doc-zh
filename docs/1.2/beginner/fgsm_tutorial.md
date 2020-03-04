@@ -8,7 +8,7 @@
 
 如果您正在阅读本文，希望您能体会到某些机器学习模型的有效性。研究不断推动ML模型更快，更准确和更高效。但是，设计和训练模型的一个经常被忽略的方面是安全性和鲁棒性，尤其是在面对想要欺骗模型的对手的情况下。
 
-本教程将提高您对ML模型的安全漏洞的认识，并深入了解对抗性机器学习的热门话题。您可能会惊讶地发现，对图像添加无法察觉的扰动会导致模型性能大不相同。鉴于这是一个教程，我们将通过图像分类器上的示例来探讨该主题。具体来说，我们将使用第一种也是最流行的攻击方法之一，即快速梯度符号攻击（FGSM）来欺骗MNIST分类器。
+本教程将提高您对ML模型的安全漏洞的认识，并深入了解对抗性机器学习的热门话题。您可能会惊讶地发现，对图像添加无法察觉的扰动会导致模型性能大不相同。鉴于这是一个教程，我们将通过图像分类器上的示例来探讨该主题。具体来说，我们将使用第一种也是最流行的攻击方法之一，即快速梯度符号攻击(FGSM）来欺骗MNIST分类器。
 
 ## 威胁模型
 
@@ -18,14 +18,14 @@
 
 ## 快速梯度符号攻击
 
-迄今为止，最早的也是最流行的对抗性攻击之一被称为“ 快速梯度符号攻击”（FGSM），由Goodfellow et. al. 在[解释和利用对抗例子中的运用](https://arxiv.org/abs/1412.6572)描述。攻击非常强大，而且直观。它旨在利用神经网络的学习方式，梯度来攻击神经网络。这个想法很简单，不是根据反向传播的梯度通过调整权重来使损失最小化，而是根据相同的反向传播的梯度来调整输入数据以使损失最大化。换句话说，攻击使用输入数据的损失梯度，然后调整输入数据以使损失最大化。
+迄今为止，最早的也是最流行的对抗性攻击之一被称为“ 快速梯度符号攻击”(FGSM），由Goodfellow et. al. 在[解释和利用对抗例子中的运用](https://arxiv.org/abs/1412.6572)描述。攻击非常强大，而且直观。它旨在利用神经网络的学习方式，梯度来攻击神经网络。这个想法很简单，不是根据反向传播的梯度通过调整权重来使损失最小化，而是根据相同的反向传播的梯度来调整输入数据以使损失最大化。换句话说，攻击使用输入数据的损失梯度，然后调整输入数据以使损失最大化。
 
 在进入代码之前，让我们看一下著名的 [FGSM](https://arxiv.org/abs/1412.6572) panda示例并提取一些表示法。
 
 ![https://pytorch.org/tutorials/_images/fgsm_panda_image.png](https://pytorch.org/tutorials/_images/fgsm_panda_image.png)
 
 
-从图中 $$x$$ 是正确分类为 “panda” 的原始输入图像， $$y$$ 是地面真相标签 $$x$$，$$\mathbf{\theta}$$ 代表模型参数，并且 $$J(\mathbf{\theta}, \mathbf{x}, y)$$ 是用于训练网络的损失。攻击会将梯度反向传播回输入数据以进行计算 $$\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)$$。然后，通过一小步调整输入数据（$$\epsilon$$要么 0.007 在图片中）的方向（即 $$sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$），这将使损失最大化。产生的扰动图像，$$x'$$然后 ，在目标网络仍明显是 “panda” 的情况下，它会被目标网络误分类为“gibbon”。
+从图中 $$x$$ 是正确分类为 “panda” 的原始输入图像， $$y$$ 是地面真相标签 $$x$$，$$\mathbf{\theta}$$ 代表模型参数，并且 $$J(\mathbf{\theta}, \mathbf{x}, y)$$ 是用于训练网络的损失。攻击会将梯度反向传播回输入数据以进行计算 $$\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y)$$。然后，通过一小步调整输入数据($$\epsilon$$要么 0.007 在图片中）的方向(即 $$sign(\nabla_{x} J(\mathbf{\theta}, \mathbf{x}, y))$$），这将使损失最大化。产生的扰动图像，$$x'$$然后 ，在目标网络仍明显是 “panda” 的情况下，它会被目标网络误分类为“gibbon”。
 
 希望本教程的动机已经明确，所以让我们进入实现过程。
     
@@ -188,12 +188,12 @@ $$perturbed\_image = image + epsilon*sign(data\_grad) = x + \epsilon * sign(\nab
                 # Special case for saving 0 epsilon examples
                 if (epsilon == 0) and (len(adv_examples) < 5):
                     adv_ex = perturbed_data.squeeze().detach().cpu().numpy()
-                    adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex) )
+                    adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex))
             else:
                 # Save some adv examples for visualization later
                 if len(adv_examples) < 5:
                     adv_ex = perturbed_data.squeeze().detach().cpu().numpy()
-                    adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex) )
+                    adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex))
     
         # Calculate final accuracy for this epsilon
         final_acc = correct/float(len(test_loader))
@@ -276,7 +276,7 @@ Out:
 
 另一个方向是不同领域的对抗性攻击和防御。对抗性研究不仅限于图像领域，请查看[这种](https://arxiv.org/pdf/1801.01944.pdf)对语音到文本模型的攻击。但是，也许更多地了解对抗性机器学习的最好方法是弄脏您的手。尝试实施与NIPS 2017竞赛不同的攻击，并查看其与FGSM的不同之处。然后，尝试保护模型免受自己的攻击。
 
-**脚本的总运行时间：** （2分钟57.229秒）
+**脚本的总运行时间：** (2分钟57.229秒）
 
 [`Download Python source code:
 fgsm_tutorial.py`](../_downloads/c9aee5c8955d797c051f02c07927b0c0/fgsm_tutorial.py)

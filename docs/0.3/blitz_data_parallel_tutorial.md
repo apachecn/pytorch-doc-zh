@@ -54,7 +54,7 @@ data_size = 100
 
 ## 伪数据集
 
-只需要实现 getitem 就可以轻松的生成一个（随机）伪数据集, 如下代码所示:
+只需要实现 getitem 就可以轻松的生成一个(随机）伪数据集, 如下代码所示:
 
 ```py
 class RandomDataset(Dataset):

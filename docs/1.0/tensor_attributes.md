@@ -1,4 +1,4 @@
-# Tensor（张量）的属性
+# Tensor(张量）的属性
 
 > 译者：[阿远](https://github.com/yuange250)
 
@@ -91,7 +91,7 @@ device(type='cuda', index=1)
 
 Note
 
-接受device参数的函数同时也可以接受一个正确格式的字符串或者正确代表设备编号的数字（数字这个是历史遗留问题）作为参数，以下的操作是等价的：
+接受device参数的函数同时也可以接受一个正确格式的字符串或者正确代表设备编号的数字(数字这个是历史遗留问题）作为参数，以下的操作是等价的：
 
 ```py
 >>> torch.randn((2,3), device=torch.device('cuda:1'))

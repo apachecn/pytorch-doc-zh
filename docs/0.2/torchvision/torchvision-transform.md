@@ -76,7 +76,7 @@ print(padded_img.size)
 
 ## 对Tensor进行变换
 ### class torchvision.transforms.Normalize(mean, std)
-给定均值：`(R,G,B)` 方差：`（R，G，B）`，将会把`Tensor`正则化。即：`Normalized_image=(image-mean)/std`。
+给定均值：`(R,G,B)` 方差：`(R，G，B）`，将会把`Tensor`正则化。即：`Normalized_image=(image-mean)/std`。
 
 ## Conversion Transforms
 

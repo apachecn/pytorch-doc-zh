@@ -158,7 +158,7 @@ for i in range(len(face_dataset)):
 
 *   `Rescale`: 修改图片尺寸
 *   `RandomCrop`: 随机裁切图片, 这是数据增强的方法
-*   `ToTensor`: 将numpy格式的图片转为torch格式的图片（我们需要交换坐标轴）
+*   `ToTensor`: 将numpy格式的图片转为torch格式的图片(我们需要交换坐标轴）
 
 我们不将它们写成简单的函数, 而是写成可以调用的类, 这样transform的参数不需要每次都传递 如果需要的话, 我们只需实现 `__call__` 方法和``__init__`` 方法.之后我们可以像下面这 样使用transform:
 

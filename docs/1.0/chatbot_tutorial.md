@@ -287,7 +287,7 @@ b'Gosh, if only we could find Kat a boyfriend...\tLet me see what I can do.\n'
 
 ### 加载和清洗数据
 
-我们下一个任务是创建词汇表并将查询/响应句子对（对话）加载到内存。
+我们下一个任务是创建词汇表并将查询/响应句子对(对话）加载到内存。
 
 注意我们正在处理**词序**，这些词序没有映射到离散数值空间。因此，我们必须通过数据集中的单词来创建一个索引。
 
@@ -485,7 +485,7 @@ Trimmed from 64271 pairs to 53165, 0.8272 of total
 
 但是，如果你想要加速训练或者想要利用GPU并行计算能力，则需要使用小批量 `mini-batches` 来训练。
 
-使用小批量 `mini-batches` 也意味着我们必须注意批量处理中句子长度的变化。 为了容纳同一批次中不同大小的句子，我们将使我们的批量输入张量大小 *(max_length，batch_size)*，其中短于 *max_length* 的句子在 *EOS_token* 之后进行零填充（zero padded）。
+使用小批量 `mini-batches` 也意味着我们必须注意批量处理中句子长度的变化。 为了容纳同一批次中不同大小的句子，我们将使我们的批量输入张量大小 *(max_length，batch_size)*，其中短于 *max_length* 的句子在 *EOS_token* 之后进行零填充(zero padded）。
 
 如果我们简单地通过将单词转换为索引 `indicesFromSentence` 和零填充 `zero-pad` 将我们的英文句子转换为张量，我们的张量将具有大小 `(batch_size，max_length)`，并且索引第一维将在所有时间步骤中返回完整序列。 但是，我们需要沿着时间对我们批量数据进行索引并且包括批量数据中所有序列。 因此，我们将输入批处理大小转换为 `(max_length，batch_size)`，以便跨第一维的索引返回批处理中所有句子的时间步长。 我们在 `zeroPadding` 函数中隐式处理这个转置。
 
@@ -517,7 +517,7 @@ def binaryMatrix(l, value=PAD_token):
                 m[i].append(1)
     return m
 
-# 返回填充前（加入结束index EOS_token做标记）的长度 和 填充后的输入序列张量
+# 返回填充前(加入结束index EOS_token做标记）的长度 和 填充后的输入序列张量
 def inputVar(l, voc):
     indexes_batch = [indexesFromSentence(voc, sentence) for sentence in l]
     lengths = torch.tensor([len(indexes) for indexes in indexes_batch])
@@ -525,7 +525,7 @@ def inputVar(l, voc):
     padVar = torch.LongTensor(padList)
     return padVar, lengths
 
-# 返回填充前（加入结束index EOS_token做标记）最长的一个长度 和 填充后的输入序列张量, 和 填充后的标记 mask
+# 返回填充前(加入结束index EOS_token做标记）最长的一个长度 和 填充后的输入序列张量, 和 填充后的标记 mask
 def outputVar(l, voc):
     indexes_batch = [indexesFromSentence(voc, sentence) for sentence in l]
     max_target_len = max([len(indexes) for indexes in indexes_batch])
@@ -595,9 +595,9 @@ max_target_len: 7
 
 ### Seq2Seq模型
 
-我们聊天机器人的大脑是序列到序列（seq2seq）模型。 seq2seq模型的目标是将可变长度序列作为输入，并使用固定大小的模型将可变长度序列作为输出返回。
+我们聊天机器人的大脑是序列到序列(seq2seq）模型。 seq2seq模型的目标是将可变长度序列作为输入，并使用固定大小的模型将可变长度序列作为输出返回。
 
-[Sutskever et al.](https://arxiv.org/abs/1409.3215) 发现通过一起使用两个独立的RNN，我们可以完成这项任务。 第一个RNN充当**编码器**，其将可变长度输入序列编码为固定长度上下文向量。 理论上，该上下文向量（RNN的最终隐藏层）将包含关于输入到机器人的查询语句的语义信息。 第二个RNN是一个**解码器**，它接收输入文字和上下文矢量，并返回序列中下一句文字的概率和在下一次迭代中使用的隐藏状态。
+[Sutskever et al.](https://arxiv.org/abs/1409.3215) 发现通过一起使用两个独立的RNN，我们可以完成这项任务。 第一个RNN充当**编码器**，其将可变长度输入序列编码为固定长度上下文向量。 理论上，该上下文向量(RNN的最终隐藏层）将包含关于输入到机器人的查询语句的语义信息。 第二个RNN是一个**解码器**，它接收输入文字和上下文矢量，并返回序列中下一句文字的概率和在下一次迭代中使用的隐藏状态。
 
 ![model](img/32a87cf8d0353ceb0037776f833b92a7.jpg)
 
@@ -605,7 +605,7 @@ max_target_len: 7
 
 ### 编码器
 
-编码器RNN每次迭代中输入一个语句输出一个token（例如，一个单词），同时在这时间内输出“输出”向量和“隐藏状态”向量。 然后将隐藏状态向量传递到下一步，并记录输出向量。 编码器将其在序列中的每一点处看到的上下文转换为高维空间中的一系列点，解码器将使用这些点为给定任务生成有意义的输出。
+编码器RNN每次迭代中输入一个语句输出一个token(例如，一个单词），同时在这时间内输出“输出”向量和“隐藏状态”向量。 然后将隐藏状态向量传递到下一步，并记录输出向量。 编码器将其在序列中的每一点处看到的上下文转换为高维空间中的一系列点，解码器将使用这些点为给定任务生成有意义的输出。
 
 我们的编码器的核心是由  [Cho et al.](https://arxiv.org/pdf/1406.1078v3.pdf) 等人发明的多层门循环单元。 在2014年，我们将使用GRU的双向变体，这意味着基本上有两个独立的RNN：一个以正常的顺序输入输入序列，另一个以相反的顺序输入输入序列。 每个网络的输出在每个时间步骤求和。 使用双向GRU将为我们提供编码过去和未来上下文的优势。
 
@@ -630,14 +630,14 @@ max_target_len: 7
 
 **输入:**
 
- *   `input_seq`：一批输入句子; shape =（*max_length，batch_size*）
+ *   `input_seq`：一批输入句子; shape =(*max_length，batch_size*）
  *   `input_lengths`：一批次中每个句子对应的句子长度列表;shape=(*batch_size*)
  *   `hidden`:隐藏状态; shape =(*n_layers x num_directions，batch_size，hidden_size*)
 
 **输出:**
 
- - `outputs`：GRU最后一个隐藏层的输出特征（双向输出之和）; shape =（*max_length，batch_size，hidden_size*）
- - `hidden`：从GRU更新隐藏状态; shape =（*n_layers x num_directions，batch_size，hidden_size*）
+ - `outputs`：GRU最后一个隐藏层的输出特征(双向输出之和）; shape =(*max_length，batch_size，hidden_size*）
+ - `hidden`：从GRU更新隐藏状态; shape =(*n_layers x num_directions，batch_size，hidden_size*）
 
 ```py
 class EncoderRNN(nn.Module):
@@ -678,13 +678,13 @@ class EncoderRNN(nn.Module):
 
 ![attn2](img/603ac943f18d1acfa71487283e63f35f.jpg)
 
-[Luong et al.](https://arxiv.org/abs/1508.04025) 通过创造“Global attention”，改善了[Bahdanau et al.](https://arxiv.org/abs/1409.0473) 的基础工作。 关键的区别在于，对于“Global attention”，我们考虑所有编码器的隐藏状态，而不是Bahdanau等人的“Local attention”，它只考虑当前步中编码器的隐藏状态。 另一个区别在于，通过“Global attention”，我们仅使用当前步的解码器的隐藏状态来计算注意力权重（或者能量）。 Bahdanau等人的注意力计算需要知道前一步中解码器的状态。 此外，Luong等人提供各种方法来计算编码器输出和解码器输出之间的注意权重（能量），称之为“score functions”：
+[Luong et al.](https://arxiv.org/abs/1508.04025) 通过创造“Global attention”，改善了[Bahdanau et al.](https://arxiv.org/abs/1409.0473) 的基础工作。 关键的区别在于，对于“Global attention”，我们考虑所有编码器的隐藏状态，而不是Bahdanau等人的“Local attention”，它只考虑当前步中编码器的隐藏状态。 另一个区别在于，通过“Global attention”，我们仅使用当前步的解码器的隐藏状态来计算注意力权重(或者能量）。 Bahdanau等人的注意力计算需要知道前一步中解码器的状态。 此外，Luong等人提供各种方法来计算编码器输出和解码器输出之间的注意权重(能量），称之为“score functions”：
 
 [![scores](img/7818f6b40cbd799eddec20743b45fde5.jpg)](https://pytorch.org/tutorials/_images/scores.png)
 
 其中 $$h_t$$ = 当前目标解码器状态，$$\bar{h}_s$$ = 所有编码器状态。
 
-总体而言，Global attention机制可以通过下图进行总结。 请注意，我们将“Attention Layer”用一个名为 `Attn` 的 `nn.Module` 来单独实现。 该模块的输出是经过softmax标准化后权重张量的大小（*batch_size，1，max_length*）。
+总体而言，Global attention机制可以通过下图进行总结。 请注意，我们将“Attention Layer”用一个名为 `Attn` 的 `nn.Module` 来单独实现。 该模块的输出是经过softmax标准化后权重张量的大小(*batch_size，1，max_length*）。
 
 [![global_attn](img/c8c749463168f40707b8cd12477a4e3e.jpg)](https://pytorch.org/tutorials/_images/global_attn.png)
 
@@ -731,7 +731,7 @@ class Attn(torch.nn.Module):
 
 ```
 
-现在我们已经定义了注意力子模块，我们可以实现真实的解码器模型。 对于解码器，我们将每次手动进行一批次的输入。 这意味着我们的词嵌入张量和GRU输出都将具有相同大小（*1，batch_size，hidden_size*）。
+现在我们已经定义了注意力子模块，我们可以实现真实的解码器模型。 对于解码器，我们将每次手动进行一批次的输入。 这意味着我们的词嵌入张量和GRU输出都将具有相同大小(*1，batch_size，hidden_size*）。
 
 **计算图:**
 
@@ -740,19 +740,19 @@ class Attn(torch.nn.Module):
 > 3. 通过2输出的当前GRU计算注意力权重
 > 4. 将注意力权重乘以编码器输出以获得新的“weighted sum”上下文向量
 > 5. 使用Luong eq.5连接加权上下文向量和GRU输出
-> 6. 使用Luong eq.6预测下一个单词（没有softmax）
+> 6. 使用Luong eq.6预测下一个单词(没有softmax）
 > 7. 返回输出和最终隐藏状态
 
 **输入:**
 
- *  `input_step`：每一步输入序列批次（一个单词）; shape =（*1，batch_size*）
- *  `last_hidden`：GRU的最终隐藏层; shape =（*n_layers x num_directions，batch_size，hidden_size*）
- *  `encoder_outputs`：编码器模型的输出; shape =（*max_length，batch_size，hidden_size*）
+ *  `input_step`：每一步输入序列批次(一个单词）; shape =(*1，batch_size*）
+ *  `last_hidden`：GRU的最终隐藏层; shape =(*n_layers x num_directions，batch_size，hidden_size*）
+ *  `encoder_outputs`：编码器模型的输出; shape =(*max_length，batch_size，hidden_size*）
 
 **输出:**
 
-*   `output`: 一个softmax标准化后的张量， 代表了每个单词在解码序列中是下一个输出单词的概率; shape =（*batch_size，voc.num_words*）
-*   `hidden`: GRU的最终隐藏状态; shape =（*n_layers x num_directions，batch_size，hidden_size*）
+*   `output`: 一个softmax标准化后的张量， 代表了每个单词在解码序列中是下一个输出单词的概率; shape =(*batch_size，voc.num_words*）
+*   `hidden`: GRU的最终隐藏状态; shape =(*n_layers x num_directions，batch_size，hidden_size*）
 
 ```py
 class LuongAttnDecoderRNN(nn.Module):
@@ -818,11 +818,11 @@ def maskNLLLoss(inp, target, mask):
 ### 单次训练迭代
 
 
- `train` 函数包含单次训练迭代的算法（单批输入）。
+ `train` 函数包含单次训练迭代的算法(单批输入）。
 
 我们将使用一些巧妙的技巧来帮助融合：
 * 第一个技巧是使用 **teacher forcing**。 这意味着在一些概率是由`teacher_forcing_ratio`设置，我们使用当前目标单词作为解码器的下一个输入，而不是使用解码器的当前推测。 该技巧充当解码器的 training wheels，有助于更有效的训练。 然而，**teacher forcing** 可能导致推导中的模型不稳定，因为解码器可能没有足够的机会在训练期间真正地制作自己的输出序列。 因此，我们必须注意我们如何设置`teacher_forcing_ratio`，同时不要被快速的收敛所迷惑。
-* 我们实现的第二个技巧是**梯度裁剪(gradient clipping)**。 这是一种用于对抗“爆炸梯度（exploding gradient）”问题的常用技术。 本质上，通过将梯度剪切或阈值化到最大值，我们可以防止在损失函数中梯度以指数方式增长并发生溢出（NaN）或者越过梯度陡峭的悬崖。
+* 我们实现的第二个技巧是**梯度裁剪(gradient clipping)**。 这是一种用于对抗“爆炸梯度(exploding gradient）”问题的常用技术。 本质上，通过将梯度剪切或阈值化到最大值，我们可以防止在损失函数中梯度以指数方式增长并发生溢出(NaN）或者越过梯度陡峭的悬崖。
 
 [![grad_clip](img/35f76328fb2b83228804b30cf4978e40.jpg)](https://pytorch.org/tutorials/_images/grad_clip.png)
 
@@ -843,7 +843,7 @@ def maskNLLLoss(inp, target, mask):
 
 注意:
 
-PyTorch的RNN模块（`RNN`，`LSTM`，`GRU`）可以像任何其他非重复层一样使用，只需将整个输入序列（或一批序列）传递给它们。 我们在`编码器`中使用`GRU`层就是这样的。 实际情况是，在计算中有一个迭代过程循环计算隐藏状态的每一步。 或者，你每次只运行一个模块。 在这种情况下，我们在训练过程中手动循环遍历序列就像我们必须为`解码器`模型做的那样。 只要你正确的维护这些模型的模块，就可以非常简单的实现顺序模型。
+PyTorch的RNN模块(`RNN`，`LSTM`，`GRU`）可以像任何其他非重复层一样使用，只需将整个输入序列(或一批序列）传递给它们。 我们在`编码器`中使用`GRU`层就是这样的。 实际情况是，在计算中有一个迭代过程循环计算隐藏状态的每一步。 或者，你每次只运行一个模块。 在这种情况下，我们在训练过程中手动循环遍历序列就像我们必须为`解码器`模型做的那样。 只要你正确的维护这些模型的模块，就可以非常简单的实现顺序模型。
 
 ```py
 def train(input_variable, lengths, target_variable, mask, max_target_len, encoder, decoder, embedding,
@@ -924,7 +924,7 @@ def train(input_variable, lengths, target_variable, mask, max_target_len, encode
 
 现在终于将完整的训练步骤与数据结合在一起了。 给定传递的模型，优化器，数据等，`trainIters`函数负责运行`n_iterations`的训练。这个功能不言自明，因为我们通过`train`函数的完成了繁重工作。
 
-需要注意的一点是，当我们保存模型时，我们会保存一个包含编码器和解码器`state_dicts`（参数）、优化器的state_dicts、损失、迭代等的压缩包。以这种方式保存模型将为我们checkpoint,提供最大的灵活性。 加载checkpoint后，我们将能够使用模型参数进行推理，或者我们可以在我们中断的地方继续训练。
+需要注意的一点是，当我们保存模型时，我们会保存一个包含编码器和解码器`state_dicts`(参数）、优化器的state_dicts、损失、迭代等的压缩包。以这种方式保存模型将为我们checkpoint,提供最大的灵活性。 加载checkpoint后，我们将能够使用模型参数进行推理，或者我们可以在我们中断的地方继续训练。
 
 ```py
 def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer, embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename):
@@ -984,7 +984,7 @@ def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, deco
 
 贪婪解码是我们在不使用 teacher forcing时在训练期间使用的解码方法。 换句话说，对于每一步，我们只需从具有最高softmax值的`decoder_output`中选择单词。 该解码方法在单步长级别上是最佳的。
 
-为了便于贪婪解码操作，我们定义了一个`GreedySearchDecoder`类。 当运行时，类的实例化对象输入序列（`input_seq`）的大小是（*input_seq length，1*），标量输入（`input_length`）长度的张量和`max_length`来约束响应句子长度。 使用以下计算图来评估输入句子：
+为了便于贪婪解码操作，我们定义了一个`GreedySearchDecoder`类。 当运行时，类的实例化对象输入序列(`input_seq`）的大小是(*input_seq length，1*），标量输入(`input_length`）长度的张量和`max_length`来约束响应句子长度。 使用以下计算图来评估输入句子：
 
 **计算图:**
 
@@ -1034,7 +1034,7 @@ class GreedySearchDecoder(nn.Module):
 
 ### 评估我们的文本
 
-现在我们已经定义了解码方法，我们可以编写用于评估字符串输入句子的函数。 `evaluate`函数管理输入句子的低层级处理过程。我们首先使用batch_size == 1将句子格式化为输入批量的单词索引。我们通过将句子的单词转换为相应的索引，并通过转换维度来为我们的模型准备张量。我们还创建了一个 `lengths` 张量，其中包含输入句子的长度。在这种情况下，`lengths` 是标量因为我们一次只评估一个句子（batch_size == 1）。接下来，我们使用我们的`GreedySearchDecoder`实例化后的对象（`searcher`）获得解码响应句子的张量。最后，我们将响应的索引转换为单词并返回已解码单词的列表。
+现在我们已经定义了解码方法，我们可以编写用于评估字符串输入句子的函数。 `evaluate`函数管理输入句子的低层级处理过程。我们首先使用batch_size == 1将句子格式化为输入批量的单词索引。我们通过将句子的单词转换为相应的索引，并通过转换维度来为我们的模型准备张量。我们还创建了一个 `lengths` 张量，其中包含输入句子的长度。在这种情况下，`lengths` 是标量因为我们一次只评估一个句子(batch_size == 1）。接下来，我们使用我们的`GreedySearchDecoder`实例化后的对象(`searcher`）获得解码响应句子的张量。最后，我们将响应的索引转换为单词并返回已解码单词的列表。
 
 `evaluateInput`充当聊天机器人的用户接口。调用时，将生成一个输入文本字段，我们可以在其中输入查询语句。在输入我们的输入句子并按Enter后，我们的文本以与训练数据相同的方式标准化，并最终被输入到评估函数以获得解码的输出句子。我们循环这个过程，这样我们可以继续与我们的机器人聊天直到我们输入“q”或“quit”。
 

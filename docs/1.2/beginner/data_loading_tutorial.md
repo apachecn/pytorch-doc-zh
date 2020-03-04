@@ -47,7 +47,7 @@
     1084239450_e76e00b7e7.jpg,70,236,71,257, ... ,128,312
 
 
-让我们快速阅读CSV并获取（N，2）数组中的注释，其中N是特征点的数量。
+让我们快速阅读CSV并获取(N，2）数组中的注释，其中N是特征点的数量。
 
 ```python
 landmarks_frame = pd.read_csv('data/faces/face_landmarks.csv')
@@ -172,13 +172,13 @@ for i in range(len(face_dataset)):
     2 (250, 258, 3) (68, 2)
     3 (434, 290, 3) (68, 2)
 
-## 转换（Transforms）
+## 转换(Transforms）
 
 从上面可以看到的一个问题是样本的大小不同。大多数神经网络期望图像的大小固定。因此，我们将需要编写一些前置代码。让我们创建三个转换：：
 
   * `Rescale `：图像缩放
   * `RandomCrop`：从图像中随机裁剪。这是数据扩充。
-  * `ToTensor`：将`numpy`格式的图片转换为`torch`格式的图片（我们需要换轴）。
+  * `ToTensor`：将`numpy`格式的图片转换为`torch`格式的图片(我们需要换轴）。
 
 我们将它们编写为可调用的类，而不是简单的函数，这样就不必每次调用转换时都传递其参数。为此，我们只需要实现`__call__`方法，如果需要的话，可以实现`__init__`方法。然后我们可以使用这样的转换：
 
@@ -273,7 +273,7 @@ class ToTensor(object):
 ```
 
 
-### 组合转换（Compose transforms）
+### 组合转换(Compose transforms）
 
 现在，我们将转换应用于样本。
 
@@ -427,7 +427,7 @@ for i_batch, sample_batched in enumerate(dataloader):
 
 对于训练代码示例，请参见[迁移学习教程](transfer_learning_tutorial.md) 
 
-**脚本的总运行时间：** （0分钟59.213秒）
+**脚本的总运行时间：** (0分钟59.213秒）
 
 **下载python文件:**
 [data_loading_tutorial.py](https://github.com/pytorch/tutorials/blob/master/beginner_source/data_loading_tutorial.py)

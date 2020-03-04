@@ -14,7 +14,7 @@
 
 当智能点观察环境的当前状态并选择动作时，环境将转换为新状态，并返回指示动作结果的奖励。在这项任务中，每增加一个时间步，奖励+1，如果杆子掉得太远或大车移动距离中心超过2.4个单位，环境就会终止。这意味着更好的执行场景将持续更长的时间，积累更大的回报。
 
-Cartpole任务的设计为智能点输入代表环境状态（位置、速度等）的4个实际值。然而，神经网络完全可以通过观察场景来解决这个任务，所以我们将使用以车为中心的一块屏幕作为输入。因此，我们的结果无法直接与官方排行榜上的结果相比——我们的任务更艰巨。不幸的是，这会减慢训练速度，因为我们必须渲染所有帧。
+Cartpole任务的设计为智能点输入代表环境状态(位置、速度等）的4个实际值。然而，神经网络完全可以通过观察场景来解决这个任务，所以我们将使用以车为中心的一块屏幕作为输入。因此，我们的结果无法直接与官方排行榜上的结果相比——我们的任务更艰巨。不幸的是，这会减慢训练速度，因为我们必须渲染所有帧。
 
 严格地说，我们将以当前帧和前一个帧之间的差异来呈现状态。这将允许代理从一张图像中考虑杆子的速度。
 
@@ -64,8 +64,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 因此，我们需要两个类别：
 
-*   `Transition` - 一个命名的元组，表示我们环境中的单个转换。它基本上将（状态、动作）对映射到它们的（下一个状态、奖励）结果，状态是屏幕差分图像，如后面所述。
-*   `ReplayMemory` - 一个有界大小的循环缓冲区，用于保存最近观察到的转换。它还实现了一个`.sample（）`方法，用于选择一批随机转换进行训练。
+*   `Transition` - 一个命名的元组，表示我们环境中的单个转换。它基本上将(状态、动作）对映射到它们的(下一个状态、奖励）结果，状态是屏幕差分图像，如后面所述。
+*   `ReplayMemory` - 一个有界大小的循环缓冲区，用于保存最近观察到的转换。它还实现了一个`.sample(）`方法，用于选择一批随机转换进行训练。
 
 ```py
 Transition = namedtuple('Transition',
@@ -122,7 +122,7 @@ $$\begin{split}\text{where} \quad \mathcal{L}(\delta) = \begin{cases} \frac{1}{2
 
 ### Q-网络
 
-我们的模型是一个卷积神经网络，它可以处理当前和以前的帧之间的差异。它有两个输出，分别表示$$Q(s, \mathrm{left})$$ 和 $$Q(s, \mathrm{right})$$（其中 $$s$$是网络的输入）。实际上，网络正试图预测在给定电流输入的情况下采取每项行动的预期回报。
+我们的模型是一个卷积神经网络，它可以处理当前和以前的帧之间的差异。它有两个输出，分别表示$$Q(s, \mathrm{left})$$ 和 $$Q(s, \mathrm{right})$$(其中 $$s$$是网络的输入）。实际上，网络正试图预测在给定电流输入的情况下采取每项行动的预期回报。
 
 ```py
 class DQN(nn.Module):
@@ -206,7 +206,7 @@ plt.show()
 此单元实例化模型及其优化器，并定义一些实用程序：
 
 *   `select_action` - 将根据迭代次数贪婪策略选择一个行动。简单地说，我们有时会使用我们的模型来选择动作，有时我们只会对其中一个进行统一的采样。选择随机动作的概率将从 `EPS_START` 开始并以指数形式向 `EPS_END`衰减。 `EPS_DECAY` 控制衰减速率。
-*   `plot_durations` - 一个帮助绘制迭代次数持续时间，以及过去100迭代次数的平均值（官方评估中使用的度量）。迭代次数将在包含主训练循环的单元下方，并在每迭代之后更新。
+*   `plot_durations` - 一个帮助绘制迭代次数持续时间，以及过去100迭代次数的平均值(官方评估中使用的度量）。迭代次数将在包含主训练循环的单元下方，并在每迭代之后更新。
 
 ```py
 BATCH_SIZE = 128
@@ -216,7 +216,7 @@ EPS_END = 0.05
 EPS_DECAY = 200
 TARGET_UPDATE = 10
 
-#获取屏幕大小，以便我们可以根据从ai-gym返回的形状正确初始化层。这一点上的典型尺寸接近3x40x90，这是在get_screen（）中抑制和缩小的渲染缓冲区的结果。
+#获取屏幕大小，以便我们可以根据从ai-gym返回的形状正确初始化层。这一点上的典型尺寸接近3x40x90，这是在get_screen(）中抑制和缩小的渲染缓冲区的结果。
 init_screen = get_screen()
 _, _, screen_height, screen_width = init_screen.shape
 
@@ -238,7 +238,7 @@ def select_action(state):
     steps_done += 1
     if sample > eps_threshold:
         with torch.no_grad():
-            # t.max（1）将为每行的列返回最大值。max result的第二列是找到max元素的索引，因此我们选择预期回报较大的操作。
+            # t.max(1）将为每行的列返回最大值。max result的第二列是找到max元素的索引，因此我们选择预期回报较大的操作。
             return policy_net(state).max(1)[1].view(1, 1)
     else:
         return torch.tensor([[random.randrange(2)]], device=device, dtype=torch.long)
@@ -277,10 +277,10 @@ def optimize_model():
     if len(memory) < BATCH_SIZE:
         return
     transitions = memory.sample(BATCH_SIZE)
-    # 转置批样本（有关详细说明，请参阅https://stackoverflow.com/a/19343/3343043）。这会将转换的批处理数组转换为批处理数组的转换。
+    # 转置批样本(有关详细说明，请参阅https://stackoverflow.com/a/19343/3343043）。这会将转换的批处理数组转换为批处理数组的转换。
     batch = Transition(*zip(*transitions))
 
-    # 计算非最终状态的掩码并连接批处理元素（最终状态将是模拟结束后的状态）
+    # 计算非最终状态的掩码并连接批处理元素(最终状态将是模拟结束后的状态）
     non_final_mask = torch.tensor(tuple(map(lambda s: s is not None,
                                           batch.next_state)), device=device, dtype=torch.uint8)
     non_final_next_states = torch.cat([s for s in batch.next_state
@@ -310,7 +310,7 @@ def optimize_model():
 
 ```
 
-接下来，你可以找到主训练循环。开始时，我们重置环境并初始化`state`张量。然后，我们对一个操作进行采样，执行它，观察下一个屏幕和奖励（总是1），并对我们的模型进行一次优化。当插曲结束（我们的模型失败）时，我们重新启动循环。
+接下来，你可以找到主训练循环。开始时，我们重置环境并初始化`state`张量。然后，我们对一个操作进行采样，执行它，观察下一个屏幕和奖励(总是1），并对我们的模型进行一次优化。当插曲结束(我们的模型失败）时，我们重新启动循环。
 
 `num_episodes`设置得很小。你可以下载并运行更多的epsiodes，比如300+来进行有意义的持续时间改进。
 

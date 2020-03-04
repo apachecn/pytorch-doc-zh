@@ -951,7 +951,7 @@ map_(tensor, callable)
 masked_scatter_(mask, source)
 ```
 
-复制 `source` 的元素到本 tensor 被`mask`中值为 1 的元素标记的位置中. `mask` 的形状和本 tensor 的形状必须是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics) ). `source` 中元素的个数最少为 `mask` 中值为1的元素的个数.
+复制 `source` 的元素到本 tensor 被`mask`中值为 1 的元素标记的位置中. `mask` 的形状和本 tensor 的形状必须是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics)). `source` 中元素的个数最少为 `mask` 中值为1的元素的个数.
 
 参数：
 
@@ -1642,7 +1642,7 @@ sub(value, other) → Tensor
 
 从 tensor 中抽取一个标量或张量. 如果 `value` 和 `other` 都是给定的, 则在使用之前 `other`的每一个元素都会被 `value` 缩放.
 
-如果 `other` 是一个tensor, `other` 的形状必须于基础 tensor 的形状是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics) ).
+如果 `other` 是一个tensor, `other` 的形状必须于基础 tensor 的形状是可广播的 ( [broadcastable](notes/broadcasting.html#broadcasting-semantics)).
 
 ```py
 sub_(x) → Tensor

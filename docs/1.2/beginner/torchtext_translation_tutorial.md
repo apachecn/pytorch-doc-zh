@@ -22,7 +22,7 @@ seq2seq/blob/master/3%20-%20Neural%20Machine%20Translation%20by%20Jointly%20Lear
 
 `torchtext
 `具有创建数据集的功能，可以轻松对其迭代以构建机器翻译模型。一个关键的类是Filed，它指定每个句子的预处理方法，另一个类是TranslationDataset  ; `torchtext
-`内置了几个翻译数据集；在本教程中，我们将使用 [Multi30k dataset](https://github.com/multi30k/dataset)数据集，其中包含约30000个英德句对（平均长度约13个字）。
+`内置了几个翻译数据集；在本教程中，我们将使用 [Multi30k dataset](https://github.com/multi30k/dataset)数据集，其中包含约30000个英德句对(平均长度约13个字）。
 
 注：本教程中的tokenization 需要使用[ Spacy ](https://spacy.io)。Spacy包可以帮助我们对英语以外的语言tokenization。`torchtext`提供了`basic_english
 `的tokenizer ，但是对于其他语言，使用Spacy对我们而言是最好的选择。
@@ -490,5 +490,5 @@ print(f'| Test Loss: {test_loss:.3f} | Test PPL: {math.exp(test_loss):7.3f} |')
   * 看看Ben Trevett使用`torchtext`教程的[其余部分](https://github.com/bentrevett/)
   * 请继续关注使用其他`torchtext`功能以及`nn.Transformer`语言建模预测下一个单词的教程！
 
-**脚本的总运行时间：** （6分钟27.732秒）
+**脚本的总运行时间：** (6分钟27.732秒）
 

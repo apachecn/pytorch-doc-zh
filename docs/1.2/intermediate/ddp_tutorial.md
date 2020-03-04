@@ -6,7 +6,7 @@
 >
 > **校验**：[Hamish](https://sherlockbear.github.io)
 
-[DistributedDataParallel](https://pytorch.org/docs/stable/_modules/torch/nn/parallel/distributed.html)(DDP)在模块级别实现数据并行性。它使用[torch.distributed](https://pytorch.org/tutorials/intermediate/dist_tuto.html)包中的通信集合体来同步梯度，参数和缓冲区。并行性在流程内和跨流程均可用。在一个过程中，DDP将输入模块复制到device_ids中指定的设备，相应地沿批处理维度分散输入，并将输出收集到output_device，这与[DataParallel](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)相似。在整个过程中，DDP在正向传递中插入必要的参数同步，在反向传递中插入梯度同步。用户可以将进程映射到可用资源，只要进程不共享GPU设备即可。推荐的方法（通常是最快的方法）是为每个模块副本创建一个过程，即在一个过程中不进行任何模块复制。本教程中的代码在8-GPU服务器上运行，但可以轻松地推广到其他环境。
+[DistributedDataParallel](https://pytorch.org/docs/stable/_modules/torch/nn/parallel/distributed.html)(DDP)在模块级别实现数据并行性。它使用[torch.distributed](https://pytorch.org/tutorials/intermediate/dist_tuto.html)包中的通信集合体来同步梯度，参数和缓冲区。并行性在流程内和跨流程均可用。在一个过程中，DDP将输入模块复制到device_ids中指定的设备，相应地沿批处理维度分散输入，并将输出收集到output_device，这与[DataParallel](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)相似。在整个过程中，DDP在正向传递中插入必要的参数同步，在反向传递中插入梯度同步。用户可以将进程映射到可用资源，只要进程不共享GPU设备即可。推荐的方法(通常是最快的方法）是为每个模块副本创建一个过程，即在一个过程中不进行任何模块复制。本教程中的代码在8-GPU服务器上运行，但可以轻松地推广到其他环境。
 
 ## `DataParallel`和`DistributedDataParallel`之间的比较
 
@@ -14,7 +14,7 @@
 
 - 首先，回想一下[之前的教程](https://pytorch.org/tutorials/intermediate/model_parallel_tutorial.html)，如果模型太大，无法被单个GPU容纳，则必须使用**模型并行化**将其拆分至多个GPU。`DistributedDataParallel`可以与**模型并行化**一起工作；`DataParallel`此时不工作。
 - `DataParallel`是单进程、多线程的，并且只在一台机器上工作；而`DistributedDataParallel`是多进程的，可用于单机和多机训练。因此，即使对于单机训练，数据足够小，可以放在一台机器上，`DistributedDataParallel`也会比`DataParallel`更快。`DistributedDataParallel`还可以预先复制模型，而不是在每次迭代时复制模型，从而可以避免全局解释器锁定。
-- 如果您的数据太大，无法在一台机器上容纳，**并且**您的模型也太大，无法在单个GPU上容纳，则可以将模型并行化（跨多个GPU拆分单个模型）与`DistributedDataParallel`结合起来。在这种机制下，每个`DistributedDataParallel`进程都可以使用模型并行化，同时所有进程都可以使用数据并行。
+- 如果您的数据太大，无法在一台机器上容纳，**并且**您的模型也太大，无法在单个GPU上容纳，则可以将模型并行化(跨多个GPU拆分单个模型）与`DistributedDataParallel`结合起来。在这种机制下，每个`DistributedDataParallel`进程都可以使用模型并行化，同时所有进程都可以使用数据并行。
 
 ## 基本用例
 

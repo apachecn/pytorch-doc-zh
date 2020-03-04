@@ -10,9 +10,9 @@
 class torch.nn.Parameter
 ```
 
-Variable 的一种, 常被用于 module parameter（模块参数）.
+Variable 的一种, 常被用于 module parameter(模块参数）.
 
-Parameters 是 `Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable") 的子类, 当它和 [`Module` 一起使用的时候会有一些特殊的属性 - 当它们被赋值给 Module 属性时, 它会自动的被加到 Module 的参数列表中, 并且会出现在 `parameters()` iterator 迭代器方法中. 将 Varibale 赋值给 Module 属性则不会有这样的影响. 这样做的原因是: 我们有时候会需要缓存一些临时的 state（状态）, 例如: 模型 RNN 中的最后一个隐藏状态. 如果没有 `Parameter` 这个类的话, 那么这些临时表也会注册为模型变量.
+Parameters 是 `Variable`](autograd.html#torch.autograd.Variable "torch.autograd.Variable") 的子类, 当它和 [`Module` 一起使用的时候会有一些特殊的属性 - 当它们被赋值给 Module 属性时, 它会自动的被加到 Module 的参数列表中, 并且会出现在 `parameters()` iterator 迭代器方法中. 将 Varibale 赋值给 Module 属性则不会有这样的影响. 这样做的原因是: 我们有时候会需要缓存一些临时的 state(状态）, 例如: 模型 RNN 中的最后一个隐藏状态. 如果没有 `Parameter` 这个类的话, 那么这些临时表也会注册为模型变量.
 
 Variable 与 Parameter 的另一个不同之处在于, Parameter 不能被 volatile (即: 无法设置 volatile=True) 而且默认 requires_grad=True. Variable 默认 requires_grad=False.
 
@@ -59,7 +59,7 @@ class Model(nn.Module):
 add_module(name, module)
 ```
 
-添加一个 child module（子模块）到当前的 module（模块）中.
+添加一个 child module(子模块）到当前的 module(模块）中.
 
 被添加的 module 还可以通过指定的 name 属性来获取它.
 
@@ -114,7 +114,7 @@ Sequential (
 children()
 ```
 
-返回一个最近子模块的 iterator（迭代器）.
+返回一个最近子模块的 iterator(迭代器）.
 
 Yields: `Module` – 一个子模块
 
@@ -200,7 +200,7 @@ load_state_dict(state_dict, strict=True)
 
 参数：
 
-*   `state_dict (dict)` – 一个包含 parameters 和 persistent buffers（持久化缓存的）字典.
+*   `state_dict (dict)` – 一个包含 parameters 和 persistent buffers(持久化缓存的）字典.
 *   `strict (bool)` – 严格的强制 `state_dict` 属性中的 key 与该模块的函数 `state_dict()` 返回的 keys 相匹配.
 
 
@@ -209,7 +209,7 @@ load_state_dict(state_dict, strict=True)
 modules()
 ```
 
-返回一个覆盖神经网络中所有模块的 iterator（迭代器）.
+返回一个覆盖神经网络中所有模块的 iterator(迭代器）.
 
 Yields: `Module` – 网络中的一个模块
 
@@ -234,9 +234,9 @@ Yields: `Module` – 网络中的一个模块
 named_children()
 ```
 
-返回一个 iterator（迭代器）, 而不是最接近的子模块, 产生模块的 name 以及模块本身.
+返回一个 iterator(迭代器）, 而不是最接近的子模块, 产生模块的 name 以及模块本身.
 
-Yields: `(string, Module)` – 包含名称和子模块的 Tuple（元组）
+Yields: `(string, Module)` – 包含名称和子模块的 Tuple(元组）
 
 示例：
 
@@ -251,9 +251,9 @@ Yields: `(string, Module)` – 包含名称和子模块的 Tuple（元组）
 named_modules(memo=None, prefix='')
 ```
 
-返回一个神经网络中所有模块的 iterator（迭代器）, 产生模块的 name 以及模块本身.
+返回一个神经网络中所有模块的 iterator(迭代器）, 产生模块的 name 以及模块本身.
 
-Yields: `(string, Module)` – 名字和模块的 Tuple（元组）
+Yields: `(string, Module)` – 名字和模块的 Tuple(元组）
 
 注解：
 
@@ -278,7 +278,7 @@ named_parameters(memo=None, prefix='')
 
 返回模块参数的迭代器, 产生参数的名称以及参数本身
 
-Yields: `(string, Parameter)` – Tuple 包含名称很参数的 Tuple（元组）
+Yields: `(string, Parameter)` – Tuple 包含名称很参数的 Tuple(元组）
 
 示例：
 
@@ -313,7 +313,7 @@ Yields: `Parameter` – 模型参数
 register_backward_hook(hook)
 ```
 
-在模块上注册一个 backward hook（反向钩子）.
+在模块上注册一个 backward hook(反向钩子）.
 
 每次计算关于模块输入的梯度时, 都会调用该钩子. 钩子应该有以下结构:
 
@@ -356,7 +356,7 @@ Buffers 可以使用指定的 name 作为属性访问.
 register_forward_hook(hook)
 ```
 
-在模块上注册一个 forward hook（前向钩子）.
+在模块上注册一个 forward hook(前向钩子）.
 
 每一次 `forward()` 函数计算出一个输出后, 该钩子将会被调用. 它应该具有以下结构
 
@@ -413,12 +413,12 @@ state_dict(destination=None, prefix='', keep_vars=False)
 
 包括参数和持久化的缓冲区 (例如. 运行中的平均值). Keys 是与之对应的参数和缓冲区的 name.
 
-当 keep_vars 为 `True` 时, 它为每一个参数（而不是一个张量）返回一个 Variable.
+当 keep_vars 为 `True` 时, 它为每一个参数(而不是一个张量）返回一个 Variable.
 
 参数：
 
 *   `destination (dict, 可选)` – 如果不是 None, 该返回的字典应该被存储到 destination 中. Default: None
-*   `prefix (string, 可选)` – 向结果字典中的每个参数和缓冲区的 key（名称）添加一个前缀. Default: ‘’
+*   `prefix (string, 可选)` – 向结果字典中的每个参数和缓冲区的 key(名称）添加一个前缀. Default: ‘’
 *   `keep_vars (bool, 可选)` – 如果为 `True`, 为每一个参数返回一个 Variable. 如果为 `False`, 为每一个参数返回一个 Tensor. Default: `False`
 
 
@@ -562,7 +562,7 @@ class MyModule(nn.Module):
         self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) for i in range(10)])
 
     def forward(self, x):
-        # ModuleList 可以充当 iterable（迭代器）, 或者可以使用整数进行索引
+        # ModuleList 可以充当 iterable(迭代器）, 或者可以使用整数进行索引
         for i, p in enumerate(self.params):
             x = self.params[i // 2].mm(x) + p.mm(x)
         return x
@@ -609,7 +609,7 @@ dilation 为1时, 使用 (a,b);(b,c)… 进行池化, dilation 为1时, 使用 (
 
 注解：
 
-数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
+数据的最后一列可能会因为 kernal 大小设定不当而被丢弃(大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
 参数：
 
@@ -670,7 +670,7 @@ class torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 注解：
 
-数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
+数据的最后一列可能会因为 kernal 大小设定不当而被丢弃(大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
 参数：
 
@@ -736,7 +736,7 @@ class torch.nn.Conv3d(in_channels, out_channels, kernel_size, stride=1, padding=
 
 注解：
 
-数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
+数据的最后一列可能会因为 kernal 大小设定不当而被丢弃(大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
 参数：
 
@@ -783,7 +783,7 @@ class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1,
 
 一维反卷积层 反卷积层可以理解为输入的数据和卷积核的位置反转的卷积操作. 反卷积有时候也会被翻译成解卷积.
 
-`stride` 计算相关系数的步长.`padding` 处理边界时在每个维度首尾补0数量.`output_padding` 输出时候在首尾补0的数量. （卷积时, 形状不同的输入数据
+`stride` 计算相关系数的步长.`padding` 处理边界时在每个维度首尾补0数量.`output_padding` 输出时候在首尾补0的数量. (卷积时, 形状不同的输入数据
 
 对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多 个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）. | `dilation` 采样间隔数量. 大于1时为非致密采样. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
@@ -791,7 +791,7 @@ class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1,
 
 注解：
 
-数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
+数据的最后一列可能会因为 kernal 大小设定不当而被丢弃(大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
 参数：
 
@@ -800,7 +800,7 @@ class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1,
 *   `kernel_size (-)` – 卷积核的形状.
 *   `stride (-)` – 卷积每次移动的步长, 默认为1.
 *   `padding (-)` – 处理边界时填充0的数量, 默认为0(不填充).
-*   `output_padding (-)` – 输出时候在首尾补值的数量, 默认为0\. （卷积时, 形状不同的输入数据
+*   `output_padding (-)` – 输出时候在首尾补值的数量, 默认为0\. (卷积时, 形状不同的输入数据
 *   `同一个输入对相同的核函数可以产生多 (_对相同的核函数可以产生形状相同的结果；反卷积时_,)` –
 *   而输出结果只能有一个, 因此必须对输出形状进行约束） (_个形状不同的输出_,) –
 *   `groups (-)` – 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
@@ -829,7 +829,7 @@ class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1,
 
 二维反卷积层 反卷积层可以理解为输入的数据和卷积核的位置反转的卷积操作. 反卷积有时候也会被翻译成解卷积.
 
-`stride` 计算相关系数的步长.`padding` 处理边界时在每个维度首尾补0数量.`output_padding` 输出时候在每一个维度首尾补0的数量. （卷积时, 形状不同的输入数据
+`stride` 计算相关系数的步长.`padding` 处理边界时在每个维度首尾补0数量.`output_padding` 输出时候在每一个维度首尾补0的数量. (卷积时, 形状不同的输入数据
 
 对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多 个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束）. | `dilation` 采样间隔数量. 大于1时为非致密采样. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
@@ -842,7 +842,7 @@ class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1,
 
 注解：
 
-数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
+数据的最后一列可能会因为 kernal 大小设定不当而被丢弃(大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
 参数：
 
@@ -851,7 +851,7 @@ class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1,
 *   `kernel_size (-)` – 卷积核的形状.
 *   `stride (-)` – 卷积每次移动的步长, 默认为1.
 *   `padding (-)` – 处理边界时填充0的数量, 默认为0(不填充).
-*   `output_padding (-)` – 输出时候在首尾补值的数量, 默认为0\. （卷积时, 形状不同的输入数据
+*   `output_padding (-)` – 输出时候在首尾补值的数量, 默认为0\. (卷积时, 形状不同的输入数据
 *   `同一个输入对相同的核函数可以产生多 (_对相同的核函数可以产生形状相同的结果；反卷积时_,)` –
 *   而输出结果只能有一个, 因此必须对输出形状进行约束） (_个形状不同的输出_,) –
 *   `groups (-)` – 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
@@ -902,7 +902,7 @@ class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1,
 
 三维反卷积层 反卷积层可以理解为输入的数据和卷积核的位置反转的卷积操作. 反卷积有时候也会被翻译成解卷积.
 
-`stride` 计算相关系数的步长.`padding` 处理边界时在每个维度首尾补0数量.`output_padding` 输出时候在每一个维度首尾补0的数量. （卷积时, 形状不同的输入数据
+`stride` 计算相关系数的步长.`padding` 处理边界时在每个维度首尾补0数量.`output_padding` 输出时候在每一个维度首尾补0的数量. (卷积时, 形状不同的输入数据
 
 对相同的核函数可以产生形状相同的结果；反卷积时, 同一个输入对相同的核函数可以产生多 个形状不同的输出, 而输出结果只能有一个, 因此必须对输出形状进行约束） | `dilation` 采样间隔数量. 大于1时为非致密采样. | `groups` 控制输入和输出之间的连接, group=1, 输出是所有输入的卷积； group=2, 此时 相当于有并排的两个卷基层, 每个卷积层只在对应的输入通道和输出通道之间计算, 并且输出时会将所有 输出通道简单的首尾相接作为结果输出.
 
@@ -915,7 +915,7 @@ class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1,
 
 注解：
 
-数据的最后一列可能会因为 kernal 大小设定不当而被丢弃（大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
+数据的最后一列可能会因为 kernal 大小设定不当而被丢弃(大部分发生在 kernal 大小不能被输入 整除的时候, 适当的 padding 可以避免这个问题）.
 
 参数：
 
@@ -924,7 +924,7 @@ class torch.nn.ConvTranspose3d(in_channels, out_channels, kernel_size, stride=1,
 *   `kernel_size (-)` – 卷积核的形状.
 *   `stride (-)` – 卷积每次移动的步长, 默认为1.
 *   `padding (-)` – 处理边界时填充0的数量, 默认为0(不填充).
-*   `output_padding (-)` – 输出时候在首尾补值的数量, 默认为0\. （卷积时, 形状不同的输入数据
+*   `output_padding (-)` – 输出时候在首尾补值的数量, 默认为0\. (卷积时, 形状不同的输入数据
 *   `同一个输入对相同的核函数可以产生多 (_对相同的核函数可以产生形状相同的结果；反卷积时_,)` –
 *   而输出结果只能有一个, 因此必须对输出形状进行约束） (_个形状不同的输出_,) –
 *   `groups (-)` – 输入与输出通道的分组数量. 当不为1时, 默认为1(全连接).
@@ -2356,7 +2356,7 @@ class torch.nn.LogSoftmax(dim=None)
 
 对每个输入的 n 维 Tensor 使用 Log(Softmax(x)). LogSoftmax 公式可简化为
 
-![f_i(x) = log(exp(x_i) / sum_j exp(x_j) )](img/tex-e74abbc6578adf65f8ae7c421cafc170.gif)
+![f_i(x) = log(exp(x_i) / sum_j exp(x_j))](img/tex-e74abbc6578adf65f8ae7c421cafc170.gif)
 
 形状：
 
@@ -3063,7 +3063,7 @@ Dropout 在训练期间, 按照伯努利概率分布, 以概率 p 随机地将�
 
 置为 0, 在每次调用时, 被置为 0 的元素是随机的.
 
-Dropout 已被证明是正则化的一个行之有效的技术, 并且在防止神经元之间互适应问题上 也卓有成效.（神经元互适应问题详见论文 [Improving neural networks by preventing co-adaptation of feature detectors](https://arxiv.org/abs/1207.0580) ）
+Dropout 已被证明是正则化的一个行之有效的技术, 并且在防止神经元之间互适应问题上 也卓有成效.(神经元互适应问题详见论文 [Improving neural networks by preventing co-adaptation of feature detectors](https://arxiv.org/abs/1207.0580))
 
 并且, Dropout 的输出均与 _1/(1-p)_ 的比例系数进行了相乘, 保证了求值时函数是归一化的.
 
@@ -3095,14 +3095,14 @@ Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道�
 
 > 通常输入数据来自 Conv2d 模块.
 > 
-> 在论文 [Efficient Object Localization Using Convolutional Networks](http://arxiv.org/abs/1411.4280) 中有如下 描述: 如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见）, 那么独立同分布 的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
+> 在论文 [Efficient Object Localization Using Convolutional Networks](http://arxiv.org/abs/1411.4280) 中有如下 描述: 如果特征映射中的邻接像素是强相关的(在早期的卷积层中很常见）, 那么独立同分布 的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
 > 
 > 在这样的情况下, 应该使用函数函数 nn.Dropout2d , 它能够提升特征映射之间的独立性.
 > 
-> Args: p (float,optional): 元素被置0的概率 inplace（bool, 可选）: 如果被设为’True’, 置0操作将直接作用在输入元素上 Shape:
+> Args: p (float,optional): 元素被置0的概率 inplace(bool, 可选）: 如果被设为’True’, 置0操作将直接作用在输入元素上 Shape:
 > 
 > *   输入：math:(N, C, H, W)
-> *   输出：math:(N, C, H, W) （与输入相同）
+> *   输出：math:(N, C, H, W) (与输入相同）
 > 
 > Examples:
 > 
@@ -3127,14 +3127,14 @@ Dropout3d 将输入张量的所有通道随机地置为 0.被置为 0 的通道�
 
 > 通常输入数据来自 Conv3d 模块.
 > 
-> 在论文 [Efficient Object Localization Using Convolutional Networks](http://arxiv.org/abs/1411.4280) 中有如下 描述: 如果特征映射中的邻接像素是强相关的（在早期的卷积层中很常见）, 那么独立同分布 的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
+> 在论文 [Efficient Object Localization Using Convolutional Networks](http://arxiv.org/abs/1411.4280) 中有如下 描述: 如果特征映射中的邻接像素是强相关的(在早期的卷积层中很常见）, 那么独立同分布 的 dropout 将不会正则化激活函数, 相反其会导致有效的学习率的下降.
 > 
 > 在这样的情况下, 应该使用函数函数 nn.Dropout3d , 它能够促进特征映射之间的独立性.
 > 
-> Args: p (float,optional): 元素被置0的概率 inplace（bool, 可选）: 如果被设为 True , 置0操作将直接作用在输入元素上 Shape:
+> Args: p (float,optional): 元素被置0的概率 inplace(bool, 可选）: 如果被设为 True , 置0操作将直接作用在输入元素上 Shape:
 > 
 > *   输入：math:(N, C, H, W)
-> *   输出：math:(N, C, H, W) （与输入相同）
+> *   输出：math:(N, C, H, W) (与输入相同）
 > 
 > Examples:
 > 
@@ -3165,7 +3165,7 @@ class torch.nn.AlphaDropout(p=0.5)
 > 
 > 更多信息请参考论文: Self-Normalizing Neural Networks
 > 
-> Args: p（float）: 元素被掩盖的概率, 默认值: 0.5 Shape:
+> Args: p(float）: 元素被掩盖的概率, 默认值: 0.5 Shape:
 > 
 > *   输入：any.输入数据可以是任何大小
 > *   输出：Same.输出数据大小与输入相同
@@ -3404,8 +3404,8 @@ class torch.nn.L1Loss(size_average=True, reduce=True)
 
 参数：
 
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
-*   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch(小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
+*   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
 
 
@@ -3446,8 +3446,8 @@ class torch.nn.MSELoss(size_average=True, reduce=True)
 
 参数：
 
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch（小批量）上求和. 只有当 reduce 的值为 `True` 才会生效. 默认值: `True`
-*   `reduce (bool, 可选)` – 默认情况下, loss 会根据 size_average 的值在每 个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对每 个 batch 元素都返回一个 loss 并忽略 size_average字段. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch(小批量）上求和. 只有当 reduce 的值为 `True` 才会生效. 默认值: `True`
+*   `reduce (bool, 可选)` – 默认情况下, loss 会根据 size_average 的值在每 个 mini-batch(小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对每 个 batch 元素都返回一个 loss 并忽略 size_average字段. 默认值: `True`
 
 
 
@@ -3498,14 +3498,14 @@ loss(x, class) = weight[class] * (-x[class] + log(\sum_j exp(x[j])))
 
 ```
 
-loss 在每个 mini-batch（小批量）上取平均值.
+loss 在每个 mini-batch(小批量）上取平均值.
 
 参数：
 
 *   `weight (Tensor, 可选)` – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略.
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch(小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略.
 *   `ignore_index (int, 可选)` – 设置一个目标值, 该目标值会被忽略, 从而不会影响到 输入的梯度. 当 size_average 字段为 `True` 时, loss 将会在没有被忽略的元素上 取平均.
-*   `reduce (bool, 可选)` – 默认情况下, loss 会根据 size_average 的值在每 个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对 每个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: `True`
+*   `reduce (bool, 可选)` – 默认情况下, loss 会根据 size_average 的值在每 个 mini-batch(小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对 每个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: `True`
 
 
 
@@ -3564,9 +3564,9 @@ loss(x, class) = class != ignoreIndex ? -weight[class] * x[class] : 0
 参数：
 
 *   `weight (Tensor, 可选)` – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch(小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
 *   `ignore_index (int, 可选)` – 设置一个目标值, 该目标值会被忽略, 从而不会影响到 输入的梯度. 当 size_average 为 `True` 时, loss 将会在没有被忽略的元素上 取平均值.
-*   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
+*   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
 
 
@@ -3608,7 +3608,7 @@ class torch.nn.PoissonNLLLoss(log_input=True, full=False, size_average=True, eps
 
 *   `log_input (bool, 可选)` – 如果设置为 `True` , loss 将会按照公 式 `exp(input) - target * input` 来计算, 如果设置为 `False` , loss 将会按照 `input - target * log(input+eps)` 计算.
 *   `full (bool, 可选)` – 是否计算全部的 loss, i. e. 加上 Stirling 近似项 `target * log(target) - target + 0.5 * log(2 * pi * target)`.
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值.
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch(小批量） 上累加, 而不会取平均值.
 *   `eps (float, 可选)` – 当 log_input==``False`` 时, 取一个很小的值用来避免计算 log(0). 默认值: 1e-8
 
 
@@ -3635,8 +3635,8 @@ class torch.nn.NLLLoss2d(weight=None, size_average=True, ignore_index=-100, redu
 参数：
 
 *   `weight (Tensor, 可选)` – 自定义的每个类别的权重. 必须是一个长度为 `C` 的 Tensor
-*   `size_average` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch（小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
-*   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
+*   `size_average` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False`, loss 将会在每个 mini-batch(小批量） 上累加, 而不会取平均值. 当 reduce 的值为 `False` 时该字段会被忽略. 默认值: `True`
+*   `reduce (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量）上求平均值或者 求和. 当 reduce 是 `False` 时, 损失函数会对每个 batch 元素都返回一个 loss 并忽 略 size_average 字段. 默认值: `True`
 
 
 
@@ -3678,12 +3678,12 @@ KL 散度可用于衡量不同的连续分布之间的距离, 在连续的输出
 
 ![loss(x, target) = 1/n \sum(target_i * (log(target_i) - x_i))](img/tex-9263028fed946a64b024a39508fa4339.gif)
 
-默认情况下, loss 会在每个 mini-batch（小批量）上和 **维度** 上取平均值. 如果字段 `size_average` 设置为 `False`, 则 loss 不会取平均值.
+默认情况下, loss 会在每个 mini-batch(小批量）上和 **维度** 上取平均值. 如果字段 `size_average` 设置为 `False`, 则 loss 不会取平均值.
 
 参数：
 
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量）上 和 **维度** 上取平均值. 如果设置为 `False`, 则 loss 会累加, 而不是取平均值.
-*   `reduce (bool, 可选)` – 默认情况下, loss 会根据 size_average 在每 个 mini-batch（小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对每 个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量）上 和 **维度** 上取平均值. 如果设置为 `False`, 则 loss 会累加, 而不是取平均值.
+*   `reduce (bool, 可选)` – 默认情况下, loss 会根据 size_average 在每 个 mini-batch(小批量）上求平均值或者求和. 当 reduce 是 `False` 时, 损失函数会对每 个 batch 元素都返回一个 loss 并忽略 size_average 字段. 默认值: `True`
 
 
 
@@ -3712,7 +3712,7 @@ class torch.nn.BCELoss(weight=None, size_average=True)
 参数：
 
 *   `weight (Tensor, 可选)` – 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度为 “nbatch” 的 的 Tensor
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch(小批量）上累加, 而不是取平均值. 默认值: `True`
 
 
 
@@ -3754,7 +3754,7 @@ class torch.nn.BCEWithLogitsLoss(weight=None, size_average=True)
 参数：
 
 *   `weight (Tensor, 可选)` – 自定义的每个 batch 元素的 loss 的权重. 必须是一个长度 为 “nbatch” 的 Tensor
-*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch（小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch（小批量）上累加, 而不是取平均值. 默认值: `True`
+*   `size_average (bool, 可选)` – 默认情况下, loss 会在每个 mini-batch(小批量） 上取平均值. 如果字段 size_average 被设置为 `False` , loss 会在每 个 mini-batch(小批量）上累加, 而不是取平均值. 默认值: `True`
 
 
 
@@ -3891,8 +3891,8 @@ class torch.nn.MultiLabelSoftMarginLoss(weight=None, size_average=True)
 创建一个标准, 基于输入 `x` 和目标 `y`的 max-entropy(最大熵), 优化多标签 one-versus-all 损失. 输入 `x` 为一个2维 mini-batch `Tensor`, 目标 `y` 为2进制2维 `Tensor`. 对每个 mini-batch 中的样本, 对应的 loss 为:
 
 ```py
-loss(x, y) = - sum_i (y[i] * log( 1 / (1 + exp(-x[i])) )
-                  + ( (1-y[i]) * log(exp(-x[i]) / (1 + exp(-x[i])) ) )
+loss(x, y) = - sum_i (y[i] * log( 1 / (1 + exp(-x[i])))
+                  + ( (1-y[i]) * log(exp(-x[i]) / (1 + exp(-x[i]))) )
 
 ```
 
@@ -4026,7 +4026,7 @@ class torch.nn.Upsample(size=None, scale_factor=None, mode='nearest')
 
 对3D, 4D, 5D的输入张量进行最近邻、线性、双线性和三线性采样, 可用于该上采样方法.
 
-可以提供 `scale_factor` 或目标输出的 `size` 来计算输出的大小. （不能同时都给, 因为这样做是含糊不清的. ）
+可以提供 `scale_factor` 或目标输出的 `size` 来计算输出的大小. (不能同时都给, 因为这样做是含糊不清的. )
 
 参数：
 
@@ -4184,13 +4184,13 @@ class torch.nn.DataParallel(module, device_ids=None, output_device=None, dim=0)
 
 此容器通过在批次维度中分块, 将输入分割到指定设备上, 从而并行化给定模块的应用程 序.在正向传递中, 模块被复制到每个设备上, 每个副本处理一部分输入.在向后传递期间, 来自每个副本的梯度变化被汇总到原始模块中.
 
-batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍, 以 便每个块大小相同（以便每个 GPU 处理相同数量的样本）.
+batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍, 以 便每个块大小相同(以便每个 GPU 处理相同数量的样本）.
 
 引用 :[使用 nn.DataParallel 替代 multiprocessing](notes/cuda.html#cuda-nn-dataparallel-instead)
 
-允许将任意位置和关键字输入传入 DataParallel EXCEPT Tensors. 所有的变量将被分 散在指定的维度（默认为0）.原始类型将被广播, 但所有其他类型将是一个浅层副本, 如 果写入模型的正向传递, 可能会被损坏.
+允许将任意位置和关键字输入传入 DataParallel EXCEPT Tensors. 所有的变量将被分 散在指定的维度(默认为0）.原始类型将被广播, 但所有其他类型将是一个浅层副本, 如 果写入模型的正向传递, 可能会被损坏.
 
-Args : module: 并行的模型 device_ids: CUDA devices（CUDA 驱动） (default: all devices) output_device: 输出设备位置 (default: device_ids[0]) 示例 ::
+Args : module: 并行的模型 device_ids: CUDA devices(CUDA 驱动） (default: all devices) output_device: 输出设备位置 (default: device_ids[0]) 示例 ::
 
 ```py
 >>> net = torch.nn.DataParallel(model, device_ids=[0, 1, 2])
@@ -4208,7 +4208,7 @@ class torch.nn.parallel.DistributedDataParallel(module, device_ids=None, output_
 
 此容器通过在批次维度中分块, 将输入分割到指定设备上, 从而并行化给定模块的应用程序. 该模块被复制到每台机器和每个设备上, 每个这样的副本处理一部分输入.在向后传递期间, 来自每个节点的梯度被平均.
 
-batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍, 以便每个块大小 相同（以便每个 GPU 处理相同数量的样本）.
+batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍, 以便每个块大小 相同(以便每个 GPU 处理相同数量的样本）.
 
 引用 :Basics](distributed.html#distributed-basics) 和 [使用 nn.DataParallel 替代 multiprocessing](notes/cuda.html#cuda-nn-dataparallel-instead). 对输入的约束和 [`torch.nn.DataParallel` 中一样.
 
@@ -4220,7 +4220,7 @@ batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍
 
 警告：
 
-构造器, 转发方法和输出（或者这个模块的输出功能）的区分是分布式同步点.考虑到不同的 进程可能会执行不同的代码.
+构造器, 转发方法和输出(或者这个模块的输出功能）的区分是分布式同步点.考虑到不同的 进程可能会执行不同的代码.
 
 警告：
 
@@ -4232,11 +4232,11 @@ batch size 应该大于 GPUs 的数量.同时也应该是 GPU 数量的整数倍
 
 警告：
 
-这个模块不能用于 : func: `torch.autograd.grad` （即只有在参数的 `.grad` 属性中 累积梯度才能使用）.
+这个模块不能用于 : func: `torch.autograd.grad` (即只有在参数的 `.grad` 属性中 累积梯度才能使用）.
 
 注解：
 
-参数永远不会在进程之间广播.模块在梯度上执行全部优化步骤, 并假定它们将以相同的方式在 所有进程中进行优化.缓冲区（e.g. BatchNorm stats）在等级0的过程中从模块广播到系统 中的每个迭代中的所有其他副本.
+参数永远不会在进程之间广播.模块在梯度上执行全部优化步骤, 并假定它们将以相同的方式在 所有进程中进行优化.缓冲区(e.g. BatchNorm stats）在等级0的过程中从模块广播到系统 中的每个迭代中的所有其他副本.
 
 Args : module: 需要并行的模型 device_ids: CUDA devices (default: all devices) output_device: device location of output (default: device_ids[0]) 示例 ::
 

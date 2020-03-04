@@ -11,7 +11,7 @@
 关于保存和加载模型，有三个核心功能需要熟悉：
 
 1. [torch.save](https://pytorch.org/docs/stable/torch.html?highlight=save#torch.save)：将序列化的对象保存到磁盘。此函数使用Python的 [pickle](https://docs.python.org/3/library/pickle.html)实用程序进行序列化。使用此功能可以保存各种对象的模型，张量和字典。
-2. [torch.load](https://pytorch.org/docs/stable/torch.html?highlight=torch%20load#torch.load)：使用[pickle](https://docs.python.org/3/library/pickle.html)的解腌功能将腌制的目标文件反序列化到内存中。此功能还有助于设备将数据加载到其中（请参阅 [跨设备保存和加载模型](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-model-across-devices)）。
+2. [torch.load](https://pytorch.org/docs/stable/torch.html?highlight=torch%20load#torch.load)：使用[pickle](https://docs.python.org/3/library/pickle.html)的解腌功能将腌制的目标文件反序列化到内存中。此功能还有助于设备将数据加载到其中(请参阅 [跨设备保存和加载模型](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-model-across-devices)）。
 3. [torch.nn.Module.load_state_dict](https://pytorch.org/docs/stable/nn.html?highlight=load_state_dict#torch.nn.Module.load_state_dict)：使用反序列化的*state_dict*加载模型的参数字典 。有关*state_dict的*更多信息，请参阅[什么是state_dict？](https://pytorch.org/tutorials/beginner/saving_loading_models.html#what-is-a-state-dict)。
 
 **内容：**
@@ -26,7 +26,7 @@
 
 ## 什么是`state_dict`？
 
-在PyTorch中，模型的可学习参数（即权重和偏差） `torch.nn.Module` 包含在模型的参数中 （通过访问`model.parameters()`）。甲state_dict是一个简单的Python字典对象，每个层映射到其参数张量。请注意，只有具有可学习参数的层（卷积层，线性层等）和已注册的缓冲区（batchnorm的running_mean）才在模型的state_dict中具有条目。优化器对象（`torch.optim`）还具有state_dict，其中包含有关优化器状态以及所用超参数的信息。
+在PyTorch中，模型的可学习参数(即权重和偏差） `torch.nn.Module` 包含在模型的参数中 (通过访问`model.parameters()`）。甲state_dict是一个简单的Python字典对象，每个层映射到其参数张量。请注意，只有具有可学习参数的层(卷积层，线性层等）和已注册的缓冲区(batchnorm的running_mean）才在模型的state_dict中具有条目。优化器对象(`torch.optim`）还具有state_dict，其中包含有关优化器状态以及所用超参数的信息。
 
 由于 *state_dict* 对象是Python词典，因此可以轻松地保存，更新，更改和还原它们，从而为PyTorch模型和优化器增加了很多模块化。
 
@@ -98,7 +98,7 @@ param_groups     [{'lr': 0.001, 'momentum': 0.9, 'dampening': 0, 'weight_decay':
 
 ## 推理模型的保存和加载
 
-### 保存/加载`state_dict`（推荐）
+### 保存/加载`state_dict`(推荐）
 
 **Save:**
 
@@ -225,7 +225,7 @@ modelA.train()
 modelB.train()
 ```
     
-保存由多个模型组成的模型时`torch.nn.Modules`，例如GAN，序列到序列模型或模型集成，您将采用与保存常规检查点相同的方法。换句话说，保存每个模型的*state_dict*和相应的优化器的字典。如前所述，您可以保存任何其他可以帮助您恢复培训的项目，只需将它们添加到字典中即可。
+保存由多个模型组成的模型时`torch.nn.Modules`，例如GAN，序列到序列模型或模型集成，您将采用与保存常规检查点相同的方法。换句话说，保存每个模型的*state_dict*和相应的优化器的字典。如前所述，您可以保存任何其他可以帮助您恢复训练的项目，只需将它们添加到字典中即可。
 
 常见的PyTorch约定是使用`.tar`文件扩展名保存这些检查点。
 
@@ -294,7 +294,7 @@ model.to(device)
 ``` 
 
 
-在经过训练并保存在GPU上的GPU上加载模型时，只需使用`model.to（torch.device('cuda')`将初始化后的模型转换为CUDA优化模型即可。 另外，请确保在所有模型输入上使用`.to（torch.device（'cuda'))`函数，以为模型准备数据。 请注意，调用`my_tensor.to(device)`会在GPU上返回my_tensor的新副本。 它不会覆盖`my_tensor`。因此，请记住手动覆盖张量：`my_tensor = my_tensor.to(torch.device('cuda'))`。
+在经过训练并保存在GPU上的GPU上加载模型时，只需使用`model.to(torch.device('cuda')`将初始化后的模型转换为CUDA优化模型即可。 另外，请确保在所有模型输入上使用`.to(torch.device('cuda'))`函数，以为模型准备数据。 请注意，调用`my_tensor.to(device)`会在GPU上返回my_tensor的新副本。 它不会覆盖`my_tensor`。因此，请记住手动覆盖张量：`my_tensor = my_tensor.to(torch.device('cuda'))`。
 
 
 ### 保存CPU，加载在GPU
@@ -333,4 +333,4 @@ torch.save(model.module.state_dict(), PATH)
     
 `torch.nn.DataParallel`是支持并行GPU利用率的模型包装器。要以`DataParallel`一般方式保存模型，请保存 `model.module.state_dict()`。这样，您便可以灵活地将所需的模型加载到所需的任何设备。
 
-**脚本的总运行时间：** （0分钟0.000秒）
+**脚本的总运行时间：** (0分钟0.000秒）

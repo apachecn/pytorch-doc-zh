@@ -45,9 +45,9 @@ char-RNN将单词作为一系列字符读取,在每个步骤输出预测和“�
 >从[此处](https://download.pytorch.org/tutorial/data.zip)下载数据，并将其解压到当前目录。
 
 包含了在`data/names `目录被命名为`[Language] .txt`
-的18个文本文件。每个文件都包含了一堆姓氏，每行一个名字，大多都已经罗马字母化了（但我们仍然需要从Unicode转换到到ASCII）。
+的18个文本文件。每个文件都包含了一堆姓氏，每行一个名字，大多都已经罗马字母化了(但我们仍然需要从Unicode转换到到ASCII）。
 
-我们将得到一个字典，列出每种语言的名称列表 。通用变量`category`和`line`（在本例中为语言和名称）用于以后的扩展。`{language: [names ...]}`
+我们将得到一个字典，列出每种语言的名称列表 。通用变量`category`和`line`(在本例中为语言和名称）用于以后的扩展。`{language: [names ...]}`
 
     
 ```python
@@ -103,7 +103,7 @@ char-RNN将单词作为一系列字符读取,在每个步骤输出预测和“�
     Slusarski
 ```    
 
-现在，我们有了`category_lines`字典，将每个类别（语言）映射到行（姓氏）列表。我们还保持`all_categories`（只是一种语言列表）和`n_categories`为可追加状态，供后续的调用。
+现在，我们有了`category_lines`字典，将每个类别(语言）映射到行(姓氏）列表。我们还保持`all_categories`(只是一种语言列表）和`n_categories`为可追加状态，供后续的调用。
 ```python
  print(category_lines['Italian'][:5])
 ```
@@ -163,7 +163,7 @@ torch.Size([5, 1, 57])
 
 在进行自动求导之前，在Torch中创建一个递归神经网络需要在多个时间状态上克隆图的参数。图保留了隐藏状态和梯度，这些状态和梯度现在完全由图本身处理。这意味着您可以以非常“单纯”的方式将RNN作为常规的前馈网络来实现。
 
-这个RNN模块（大部分是从[PyTorch for Torch用户教程](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)中复制的）只有2个线性层，它们在输入和隐藏状态下运行，输出之后是LogSoftmax层。
+这个RNN模块(大部分是从[PyTorch for Torch用户教程](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net)中复制的）只有2个线性层，它们在输入和隐藏状态下运行，输出之后是LogSoftmax层。
 
 ![RNN.jpg](https://camo.githubusercontent.com/f8a843661e448e1a75f8319a2eea860ebf09794f/68747470733a2f2f692e696d6775722e636f6d2f5a32786279534f2e706e67)
 
@@ -193,7 +193,7 @@ torch.Size([5, 1, 57])
     n_hidden = 128
     rnn = RNN(n_letters, n_hidden, n_categories)
 ```    
-运行网络的步骤是，首先我们需要输入（在本例中为当前字母的张量）和先前的隐藏状态（首先将其初始化为零）。我们将返回输出（每种语言的概率）和下一个隐藏状态（我们将其保留用于下一步）。
+运行网络的步骤是，首先我们需要输入(在本例中为当前字母的张量）和先前的隐藏状态(首先将其初始化为零）。我们将返回输出(每种语言的概率）和下一个隐藏状态(我们将其保留用于下一步）。
 ```python 
     input = letterToTensor('A')
     hidden =torch.zeros(1, n_hidden)
@@ -217,7 +217,7 @@ torch.Size([5, 1, 57])
              -2.8750, -2.8862]], grad_fn=<LogSoftmaxBackward>)
 ```    
 
-正如你看到的输出为`<1  × n_categories>`的张量，其中每一个值都是该类别的可能性（数值越大可能性越高）。
+正如你看到的输出为`<1  × n_categories>`的张量，其中每一个值都是该类别的可能性(数值越大可能性越高）。
 
 ## 训练
 
@@ -238,7 +238,7 @@ torch.Size([5, 1, 57])
     ('Czech', 1)
 ```
 
-我们也将需要一个快速的方法来获得一个训练例子（姓氏和其所属语言）:
+我们也将需要一个快速的方法来获得一个训练例子(姓氏和其所属语言）:
 ```python
     
     import random
@@ -400,7 +400,7 @@ category =  Spanish 	 // 	 line =  Losa
 
 ## 评价结果
 
-为了了解网络在不同类别上的表现如何，我们将创建一个混淆矩阵，包含姓氏属于的实际语言（行）和网络猜测的是哪种语言（列）。要计算混淆矩阵，将使用`evaluate()`通过网络来评测一些样本。
+为了了解网络在不同类别上的表现如何，我们将创建一个混淆矩阵，包含姓氏属于的实际语言(行）和网络猜测的是哪种语言(列）。要计算混淆矩阵，将使用`evaluate()`通过网络来评测一些样本。
 
 ```python    
     # Keep track of correct guesses in a confusion matrix
@@ -448,7 +448,7 @@ category =  Spanish 	 // 	 line =  Losa
 ```
 ![img/sphx_glr_char_rnn_classification_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_char_rnn_classification_tutorial_002.png)
 
-您可以从主轴上挑出一些亮点，以显示错误猜测的语言，例如，中文（朝鲜语）和西班牙语（意大利语）。它似乎与希腊语搭预测得很好，而英语预测的很差（可能是因为与其他语言重叠）。
+您可以从主轴上挑出一些亮点，以显示错误猜测的语言，例如，中文(朝鲜语）和西班牙语(意大利语）。它似乎与希腊语搭预测得很好，而英语预测的很差(可能是因为与其他语言重叠）。
 
 ### 运行用户输入
 
@@ -493,11 +493,11 @@ Out:
 
 实际[PyTorch存储库](https://github.com/spro/practical-pytorch/tree/master/char-rnn-classification)中的脚本的最终版本将上述代码分成几个文件：
 
-  * `data.py`（加载文件）
-  * `model.py`（定义RNN）
-  * `train.py`（训练）
-  * `predict.py`（`predict()`与命令行参数一起运行）
-  * `server.py`（通过`bottle.py`将预测用作JSON API）
+  * `data.py`(加载文件）
+  * `model.py`(定义RNN）
+  * `train.py`(训练）
+  * `predict.py`(`predict()`与命令行参数一起运行）
+  * `server.py`(通过`bottle.py`将预测用作JSON API）
 
 运行`train.py`训练并保存网络。
 
@@ -525,4 +525,4 @@ Out:
     - 尝试nn.LSTM和nn.GRU图层
     - 将多个这些RNN合并为更高级别的网络
 
-**脚本的总运行时间：** （2分钟42.458秒）
+**脚本的总运行时间：** (2分钟42.458秒）

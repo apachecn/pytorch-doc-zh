@@ -1,4 +1,4 @@
-# 强化学习（DQN）教程
+# 强化学习(DQN）教程
 
 > **作者**：[Adam Paszke](https://github.com/apaszke)
 > 
@@ -7,7 +7,7 @@
 > 校验：[wutong Zhang](https://github.com/wutongzhang)
 
 
-本教程介绍了如何使用PyTorch训练一个Deep Q-learning（DQN）智能点（Agent）来完成[OpenAI Gym](https://gym.openai.com/)中的CartPole-V0任务。
+本教程介绍了如何使用PyTorch训练一个Deep Q-learning(DQN）智能点(Agent）来完成[OpenAI Gym](https://gym.openai.com/)中的CartPole-V0任务。
 
 **任务**
 
@@ -18,7 +18,7 @@
 
 当智能点观察环境的当前状态并选择动作时，环境将转换为新状态，并返回指示动作结果的奖励。在这项任务中，每增加一个时间步，奖励+1，如果杆子掉得太远或大车移动距离中心超过2.4个单位，环境就会终止。这意味着更好的执行场景将持续更长的时间，积累更大的回报。
 
-Cartpole任务的设计为智能点输入代表环境状态（位置、速度等）的4个实际值。然而，神经网络完全可以通过观察场景来解决这个任务，所以我们将使用以车为中心的一块屏幕作为输入。因此，我们的结果无法直接与官方排行榜上的结果相比——我们的任务更艰巨。不幸的是，这会减慢训练速度，因为我们必须渲染所有帧。
+Cartpole任务的设计为智能点输入代表环境状态(位置、速度等）的4个实际值。然而，神经网络完全可以通过观察场景来解决这个任务，所以我们将使用以车为中心的一块屏幕作为输入。因此，我们的结果无法直接与官方排行榜上的结果相比——我们的任务更艰巨。不幸的是，这会减慢训练速度，因为我们必须渲染所有帧。
 
 严格地说，我们将以当前帧和前一个帧之间的差异来呈现状态。这将允许代理从一张图像中考虑杆子的速度。
 
@@ -26,10 +26,10 @@ Cartpole任务的设计为智能点输入代表环境状态（位置、速度等
 
 首先你需要导入必须的包。我们需要 [gym](https://gym.openai.com/docs) 作为环境 (使用 pip install gym 安装). 我们也需要 PyTorch 的如下功能:
 
-  * 神经网络（`torch.nn`）
-  * 优化（`torch.optim`）
-  * 自动微分（`torch.autograd`）
-  * 对于视觉任务工具（`torchvision`\- [一个单独的包](https://github.com/pytorch/vision)）
+  * 神经网络(`torch.nn`）
+  * 优化(`torch.optim`）
+  * 自动微分(`torch.autograd`）
+  * 对于视觉任务工具(`torchvision`\- [一个单独的包](https://github.com/pytorch/vision)）
   
 ```python3
 import gym
@@ -68,7 +68,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 因此，我们需要两个类别：
 
-  * `Transition `\- 一个命名的元组，表示我们环境中的单个转换。它基本上将（状态、动作）对映射到它们的（下一个状态、奖励）结果，状态是屏幕差分图像，如后面所述。
+  * `Transition `\- 一个命名的元组，表示我们环境中的单个转换。它基本上将(状态、动作）对映射到它们的(下一个状态、奖励）结果，状态是屏幕差分图像，如后面所述。
   * `ReplayMemory`\-  一个有界大小的循环缓冲区，用于保存最近观察到的转换。它还实现了一个`.sample()`方法，用于选择一批随机转换进行训练。
 
     
@@ -210,7 +210,7 @@ plt.show()
 此单元实例化模型及其优化器，并定义一些实用程序：
 
   * `select_action`\- 将根据迭代次数贪婪策略选择一个行动。简单地说，我们有时会使用我们的模型来选择动作，有时我们只会对其中一个进行统一的采样。选择随机动作的概率将从 `EPS_START` 开始并以指数形式向 `EPS_END`衰减。 `EPS_DECAY` 控制衰减速率。
-  * `plot_durations`\- 一个帮助绘制迭代次数持续时间，以及过去100迭代次数的平均值（官方评估中使用的度量）。迭代次数将在包含主训练循环的单元下方，并在每迭代之后更新。
+  * `plot_durations`\- 一个帮助绘制迭代次数持续时间，以及过去100迭代次数的平均值(官方评估中使用的度量）。迭代次数将在包含主训练循环的单元下方，并在每迭代之后更新。
 
 ```python3    
     
@@ -222,7 +222,7 @@ EPS_DECAY = 200
 TARGET_UPDATE = 10
 
 # 获取屏幕大小，以便我们可以根据从ai-gym返回的形状正确初始化层。
-# 这一点上的典型尺寸接近3x40x90，这是在get_screen（）中抑制和缩小的渲染缓冲区的结果。
+# 这一点上的典型尺寸接近3x40x90，这是在get_screen(）中抑制和缩小的渲染缓冲区的结果。
 init_screen = get_screen()
 _, _, screen_height, screen_width = init_screen.shape
 
@@ -292,10 +292,10 @@ def optimize_model():
     if len(memory) < BATCH_SIZE:
         return
     transitions = memory.sample(BATCH_SIZE)
-    # 转置批样本（有关详细说明，请参阅https://stackoverflow.com/a/19343/3343043）。这会将转换的批处理数组转换为批处理数组的转换。
+    # 转置批样本(有关详细说明，请参阅https://stackoverflow.com/a/19343/3343043）。这会将转换的批处理数组转换为批处理数组的转换。
     batch = Transition(*zip(*transitions))
 
-    # 计算非最终状态的掩码并连接批处理元素（最终状态将是模拟结束后的状态）
+    # 计算非最终状态的掩码并连接批处理元素(最终状态将是模拟结束后的状态）
     non_final_mask = torch.tensor(tuple(map(lambda s: s is not None,
                                           batch.next_state)), device=device, dtype=torch.uint8)
     non_final_next_states = torch.cat([s for s in batch.next_state
@@ -324,7 +324,7 @@ def optimize_model():
     optimizer.step()
 ```
 
-接下来，你可以找到主训练循环。开始时，我们重置环境并初始化`state`张量。然后，我们对一个操作进行采样，执行它，观察下一个屏幕和奖励（总是1），并对我们的模型进行一次优化。当 episode 结束（我们的模型失败）时，我们重新启动循环。
+接下来，你可以找到主训练循环。开始时，我们重置环境并初始化`state`张量。然后，我们对一个操作进行采样，执行它，观察下一个屏幕和奖励(总是1），并对我们的模型进行一次优化。当 episode 结束(我们的模型失败）时，我们重新启动循环。
 
 `num_episodes`设置得很小。你可以下载并运行更多的`epsiodes`，比如300+来进行有意义的持续时间改进。
 
@@ -382,5 +382,5 @@ plt.show()
 “旧的”target_net也用于优化计算预期的Q值；它偶尔会更新以保持其最新。
 
 
-**脚本的总运行时间：** （0分钟0.000秒）
+**脚本的总运行时间：** (0分钟0.000秒）
 

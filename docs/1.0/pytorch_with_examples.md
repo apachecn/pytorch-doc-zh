@@ -20,7 +20,7 @@ PyTorch主要是提供了两个核心的功能特性：
 - [用例子学习 PyTorch](#用例子学习-pytorch)
   - [目录](#目录)
   - [张量](#张量)
-    - [热身：NumPy](#热身numpy)
+    - [Warm-up：NumPy](#warm-up-numpy)
     - [PyTorch：张量](#pytorch张量)
   - [自动求导](#自动求导)
     - [PyTorch：张量和自动求导](#pytorch张量和自动求导)
@@ -38,7 +38,7 @@ PyTorch主要是提供了两个核心的功能特性：
 
 ## [张量](#tensors)
 
-### [热身：NumPy](#warm-up-numpy)
+### [Warm-up：NumPy](#warm-up-numpy)
 
 在介绍PyTorch之前，我们将首先使用NumPy实现网络。
 
@@ -67,7 +67,7 @@ for t in range(500):
     h_relu = np.maximum(h, 0)
     y_pred = h_relu.dot(w2)
 
-    # 计算并显示loss（损失）
+    # 计算并显示loss(损失）
     loss = np.square(y_pred - y).sum()
     print(t, loss)
 
@@ -88,7 +88,7 @@ for t in range(500):
 
 NumPy是一个很棒的框架，但是它不支持GPU以加速运算。现代深度神经网络，GPU常常提供[50倍以上的加速]((https://github.com/jcjohnson/cnn-benchmarks))，所以NumPy不能满足当代深度学习的需求。 
 
-我们先介绍PyTorch最基础的概念：**张量（Tensor）**。逻辑上，PyTorch的tensor和NumPy array是一样的：tensor是一个n维数组，PyTorch提供了很多函数操作这些tensor。任何希望使用NumPy执行的计算也可以使用PyTorch的tensor来完成；可以认为它们是科学计算的通用工具。
+我们先介绍PyTorch最基础的概念：**张量(Tensor）**。逻辑上，PyTorch的tensor和NumPy array是一样的：tensor是一个n维数组，PyTorch提供了很多函数操作这些tensor。任何希望使用NumPy执行的计算也可以使用PyTorch的tensor来完成；可以认为它们是科学计算的通用工具。
 
 和NumPy不同的是，PyTorch可以利用GPU加速。要在GPU上运行PyTorch张量，在构造张量使用`device`参数把tensor建立在GPU上。
 
@@ -120,7 +120,7 @@ for t in range(500):
     h_relu = h.clamp(min=0)
     y_pred = h_relu.mm(w2)
 
-    # 计算并输出loss；loss是存储在PyTorch的tensor中的标量，维度是()（零维标量）；
+    # 计算并输出loss；loss是存储在PyTorch的tensor中的标量，维度是()(零维标量）；
     # 我们使用loss.item()得到tensor中的纯python数值。
     loss = (y_pred - y).pow(2).sum()
     print(t, loss.item())
@@ -285,7 +285,7 @@ PyTorch自动求导看起来非常像TensorFlow：这两个框架中，我们都
 
 静态图的好处在于你可以预先对图进行优化。例如，一个框架可能要融合一些图的运算来提升效率，或者产生一个策略来将图分布到多个GPU或机器上。如果重复使用相同的图，那么在重复运行同一个图时，，前期潜在的代价高昂的预先优化的消耗就会被分摊开。
 
-静态图和动态图的一个区别是控制流。对于一些模型，我们希望对每个数据点执行不同的计算。例如，一个递归神经网络可能对于每个数据点执行不同的时间步数，这个展开（unrolling）可以作为一个循环来实现。对于一个静态图，循环结构要作为图的一部分。因此，TensorFlow提供了运算符（例如`tf.scan`）来把循环嵌入到图当中。对于动态图来说，情况更加简单：既然我们为每个例子即时创建图，我们可以使用普通的命令式控制流来为每个输入执行不同的计算。 
+静态图和动态图的一个区别是控制流。对于一些模型，我们希望对每个数据点执行不同的计算。例如，一个递归神经网络可能对于每个数据点执行不同的时间步数，这个展开(unrolling）可以作为一个循环来实现。对于一个静态图，循环结构要作为图的一部分。因此，TensorFlow提供了运算符(例如`tf.scan`）来把循环嵌入到图当中。对于动态图来说，情况更加简单：既然我们为每个例子即时创建图，我们可以使用普通的命令式控制流来为每个输入执行不同的计算。 
 
 为了与上面的PyTorch自动梯度实例做对比，我们使用TensorFlow来拟合一个简单的2层网络：
 
@@ -294,7 +294,7 @@ PyTorch自动求导看起来非常像TensorFlow：这两个框架中，我们都
 import tensorflow as tf
 import numpy as np
 
-# 首先我们建立计算图（computational graph）
+# 首先我们建立计算图(computational graph）
 
 # N是批大小；D是输入维度；
 # H是隐藏层维度；D_out是输出维度。
@@ -317,7 +317,7 @@ h = tf.matmul(x, w1)
 h_relu = tf.maximum(h, tf.zeros(1))
 y_pred = tf.matmul(h_relu, w2)
 
-# 使用TensorFlow的张量运算损失（loss）
+# 使用TensorFlow的张量运算损失(loss）
 loss = tf.reduce_sum((y - y_pred) ** 2.0)
 
 # 计算loss对于w1和w2的导数
@@ -330,7 +330,7 @@ learning_rate = 1e-6
 new_w1 = w1.assign(w1 - learning_rate * grad_w1)
 new_w2 = w2.assign(w2 - learning_rate * grad_w2)
 
-# 现在我们搭建好了计算图，所以我们开始一个TensorFlow的会话（session）来实际执行计算图。
+# 现在我们搭建好了计算图，所以我们开始一个TensorFlow的会话(session）来实际执行计算图。
 with tf.Session() as sess:
 
     # 运行一次计算图来初始化Variable w1和w2
@@ -361,7 +361,7 @@ with tf.Session() as sess:
 
 TensorFlow里，有类似[Keras](https://github.com/fchollet/keras)，[TensorFlow-Slim](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)和[TFLearn](http://tflearn.org/)这种封装了底层计算图的高度抽象的接口，这使得构建网络十分方便。 
 
-在PyTorch中，包`nn`完成了同样的功能。`nn`包中定义一组大致等价于层的**模块**。一个模块接受输入的tesnor，计算输出的tensor，而且还保存了一些内部状态比如需要学习的tensor的参数等。`nn`包中也定义了一组损失函数（loss functions），用来训练神经网络。 
+在PyTorch中，包`nn`完成了同样的功能。`nn`包中定义一组大致等价于层的**模块**。一个模块接受输入的tesnor，计算输出的tensor，而且还保存了一些内部状态比如需要学习的tensor的参数等。`nn`包中也定义了一组损失函数(loss functions），用来训练神经网络。 
 
 这个例子中，我们用`nn`包实现两层的网络：
 
@@ -414,7 +414,7 @@ for t in range(500):
     # 反向传播之前清零梯度
     model.zero_grad()
 
-    # 反向传播：计算模型的损失对所有可学习参数的导数（梯度）。
+    # 反向传播：计算模型的损失对所有可学习参数的导数(梯度）。
     # 在内部，每个模块的参数存储在requires_grad=True的张量中，
     # 因此这个调用将计算模型中所有可学习参数的梯度。
     loss.backward()
@@ -451,7 +451,7 @@ model = torch.nn.Sequential(
         )
 loss_fn = torch.nn.MSELoss(reduction='sum')
 
-# 使用optim包定义优化器（Optimizer）。Optimizer将会为我们更新模型的权重。
+# 使用optim包定义优化器(Optimizer）。Optimizer将会为我们更新模型的权重。
 # 这里我们使用Adam优化方法；optim包还包含了许多别的优化算法。
 # Adam构造函数的第一个参数告诉优化器应该更新哪些张量。
 learning_rate = 1e-4
@@ -498,7 +498,7 @@ class TwoLayerNet(torch.nn.Module):
     def forward(self, x):
         """
         在前向传播的函数中，我们接收一个输入的张量，也必须返回一个输出张量。
-        我们可以使用构造函数中定义的模块以及张量上的任意的（可微分的）操作。
+        我们可以使用构造函数中定义的模块以及张量上的任意的(可微分的）操作。
         """
         h_relu = self.linear1(x).clamp(min=0)
         y_pred = self.linear2(h_relu)
@@ -586,7 +586,7 @@ y = torch.randn(N, D_out)
 # 实例化上面定义的类来构造我们的模型
 model = DynamicNet(D_in, H, D_out)
 
-# 构造我们的损失函数（loss function）和优化器（Optimizer）。
+# 构造我们的损失函数(loss function）和优化器(Optimizer）。
 # 用平凡的随机梯度下降训练这个奇怪的模型是困难的，所以我们使用了momentum方法。
 criterion = torch.nn.MSELoss(reduction='sum')
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-4, momentum=0.9)

@@ -23,7 +23,7 @@ PyTorch的核心是提供两个主要功能：
 
 ## 张量
 
-### 热身：Numpy
+### Warm-up：Numpy
 
 在介绍PyTorch之前，我们将首先使用numpy实现网络。
 
@@ -52,7 +52,7 @@ for t in range(500):
     h_relu = np.maximum(h, 0)
     y_pred = h_relu.dot(w2)
 
-    # 计算并显示loss（损失）
+    # 计算并显示loss(损失）
     loss = np.square(y_pred - y).sum()
     print(t, loss)
 
@@ -74,7 +74,7 @@ for t in range(500):
 
 Numpy是一个伟大的框架，但它不能利用GPU来加速其数值计算。对于现代的深层神经网络，GPU通常提供的[50倍以上](https://github.com/jcjohnson/cnn-benchmarks)的加速，仅凭numpy不足以实现现代深度学习。
 
-在这里，我们介绍最基本的PyTorch概念：张量（**Tensor**）。PyTorch张量在概念上与numpy数组相同：张量是n维数组，而PyTorch提供了很多函数操作这些tensor。张量可以跟踪计算图和渐变，它们也可用作科学计算的通用工具。
+在这里，我们介绍最基本的PyTorch概念：张量(**Tensor**）。PyTorch张量在概念上与numpy数组相同：张量是n维数组，而PyTorch提供了很多函数操作这些tensor。张量可以跟踪计算图和渐变，它们也可用作科学计算的通用工具。
 
 与numpy不同，PyTorch张量可以利用GPU加速其数字计算。要在GPU上运行PyTorch Tensor，只需将其转换为新的数据类型。
 
@@ -315,7 +315,7 @@ h = tf.matmul(x, w1)
 h_relu = tf.maximum(h, tf.zeros(1))
 y_pred = tf.matmul(h_relu, w2)
 
-# 使用TensorFlow的张量运算损失（loss）
+# 使用TensorFlow的张量运算损失(loss）
 loss = tf.reduce_sum((y - y_pred) ** 2.0)
 
 # 计算loss对于w1和w2的梯度
@@ -328,7 +328,7 @@ learning_rate = 1e-6
 new_w1 = w1.assign(w1 - learning_rate * grad_w1)
 new_w2 = w2.assign(w2 - learning_rate * grad_w2)
 
-# 现在我们搭建好了计算图，所以我们开始一个TensorFlow的会话（session）来实际执行计算图
+# 现在我们搭建好了计算图，所以我们开始一个TensorFlow的会话(session）来实际执行计算图
 with tf.Session() as sess:
     # 运行一次计算图来初始化变量w1和w2
     sess.run(tf.global_variables_initializer())
@@ -418,7 +418,7 @@ for t in range(500):
 
 ###  PyTorch：optim
 
-到现在为止，我们已经通过手动更改持有可学习参数的张量来更新模型的权重（使用`torch.no_grad()` 或`.data`避免在autograd中跟踪历史记录）。对于像随机梯度下降这样的简单优化算法来说，这并不是一个沉重的负担，但是在实践中，我们经常使用更复杂的优化器（例如AdaGrad，RMSProp，Adam等）来训练神经网络。
+到现在为止，我们已经通过手动更改持有可学习参数的张量来更新模型的权重(使用`torch.no_grad()` 或`.data`避免在autograd中跟踪历史记录）。对于像随机梯度下降这样的简单优化算法来说，这并不是一个沉重的负担，但是在实践中，我们经常使用更复杂的优化器(例如AdaGrad，RMSProp，Adam等）来训练神经网络。
 
 PyTorch中的软件包`optim`抽象了优化算法的思想，并提供了常用优化算法的实现。
 
@@ -444,7 +444,7 @@ model = torch.nn.Sequential(
 )
 loss_fn = torch.nn.MSELoss(reduction='sum')
 
-# 使用optim包定义优化器（Optimizer）。Optimizer将会为我们更新模型的权重
+# 使用optim包定义优化器(Optimizer）。Optimizer将会为我们更新模型的权重
 # 这里我们使用Adam优化方法；optim包还包含了许多别的优化算法
 # Adam构造函数的第一个参数告诉优化器应该更新哪些张量
 learning_rate = 1e-4
@@ -459,7 +459,7 @@ for t in range(500):
         print(t, loss.item())
 
     # 在反向传播之前，使用optimizer将它要更新的所有张量的梯度清零(这些张量是模型可学习的权重)。
-    # 这是因为默认情况下，每当调用.backward（）时，渐变都会累积在缓冲区中（即不会被覆盖）
+    # 这是因为默认情况下，每当调用.backward(）时，渐变都会累积在缓冲区中(即不会被覆盖）
     # 有关更多详细信息，请查看torch.autograd.backward的文档。
     optimizer.zero_grad()
 
@@ -493,7 +493,7 @@ class TwoLayerNet(torch.nn.Module):
     def forward(self, x):
         """
         在前向传播的函数中，我们接收一个输入的张量，也必须返回一个输出张量。
-        我们可以使用构造函数中定义的模块以及张量上的任意的（可微分的）操作。
+        我们可以使用构造函数中定义的模块以及张量上的任意的(可微分的）操作。
         """
         h_relu = self.linear1(x).clamp(min=0)
         y_pred = self.linear2(h_relu)
@@ -581,7 +581,7 @@ for t in range(500):
     # 实例化上面定义的类来构造我们的模型
     model = DynamicNet(D_in, H, D_out)
     
-    # 构造我们的损失函数（loss function）和优化器（Optimizer）
+    # 构造我们的损失函数(loss function）和优化器(Optimizer）
     # 用平凡的随机梯度下降训练这个奇怪的模型是困难的，所以我们使用了momentum方法
     criterion = torch.nn.MSELoss(reduction='sum')
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-4, momentum=0.9)
@@ -606,7 +606,7 @@ for t in range(500):
 
 ### 张量
 
-[热身：Numpy](https://pytorch.org/tutorials/beginner/examples_tensor/two_layer_net_numpy.html#sphx-glr-beginner-examples-tensor-two-layer-net-numpy-py)
+[Warm-up：Numpy](https://pytorch.org/tutorials/beginner/examples_tensor/two_layer_net_numpy.html#sphx-glr-beginner-examples-tensor-two-layer-net-numpy-py)
 
 [PyTorch：张量](https://pytorch.org/tutorials/beginner/examples_tensor/two_layer_net_tensor.html#sphx-glr-beginner-examples-tensor-two-layer-net-tensor-py)
 

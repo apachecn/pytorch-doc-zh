@@ -58,7 +58,7 @@ Distribution是概率分布的抽象基类.
 arg_constraints
 ```
 
-从参数名称返回字典到 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 对象（应该满足这个分布的每个参数）.不是张量的arg不需要出现在这个字典中.
+从参数名称返回字典到 [`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint") 对象(应该满足这个分布的每个参数）.不是张量的arg不需要出现在这个字典中.
 
 ```py
 batch_shape
@@ -314,7 +314,7 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **concentration1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的第一个浓度参数（通常称为alpha）
+*   **concentration1** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的第一个浓度参数(通常称为alpha）
 *   **concentration0** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的第二个浓度参数(通常称为beta)
 
 
@@ -659,7 +659,7 @@ tensor([ 0.1046,  0.8954])
 
 ```
 
-| 参数: | **concentration** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的浓度参数（通常称为alpha） |
+| 参数: | **concentration** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  分布的浓度参数(通常称为alpha） |
 
 
 ```py
@@ -847,7 +847,7 @@ tensor([ 0.1046])
 
 参数: 
 
-*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的形状参数（通常称为alpha）
+*   **concentration** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 分布的形状参数(通常称为alpha）
 *   **rate** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – rate = 1 /  分布scale (通常称为beta )
 
 
@@ -1472,7 +1472,7 @@ class torch.distributions.multinomial.Multinomial(total_count=1, probs=None, log
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-创建由`total_count`和`probs`或`logits`（但不是两者）参数化的多项式分布.  `probs`的最内层维度是对类别的索引.  所有其他维度索引批次. 
+创建由`total_count`和`probs`或`logits`(但不是两者）参数化的多项式分布.  `probs`的最内层维度是对类别的索引.  所有其他维度索引批次. 
 
 注意 `total_count` 不需要指定, 当只有 [`log_prob()`](#torch.distributions.multinomial.Multinomial.log_prob "torch.distributions.multinomial.Multinomial.log_prob") 被调用
 
@@ -1693,7 +1693,7 @@ class torch.distributions.normal.Normal(loc, scale, validate_args=None)
 
 基类: [`torch.distributions.exp_family.ExponentialFamily`](#torch.distributions.exp_family.ExponentialFamily "torch.distributions.exp_family.ExponentialFamily")
 
-创建由`loc`和`scale`参数化的正态（也称为高斯）分布
+创建由`loc`和`scale`参数化的正态(也称为高斯）分布
 
 例子:
 
@@ -1961,7 +1961,7 @@ class torch.distributions.relaxed_bernoulli.RelaxedBernoulli(temperature, probs=
 
 基类: [`torch.distributions.transformed_distribution.TransformedDistribution`](#torch.distributions.transformed_distribution.TransformedDistribution "torch.distributions.transformed_distribution.TransformedDistribution")
 
-创建一个RelaxedBernoulli分布, 通过[`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature")参数化, 以及`probs`或`logits`（但不是两者）.  这是伯努利分布的松弛版本, 因此值在（0,1）中, 并且具有可重参数化的样本. 
+创建一个RelaxedBernoulli分布, 通过[`temperature`](#torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature "torch.distributions.relaxed_bernoulli.RelaxedBernoulli.temperature")参数化, 以及`probs`或`logits`(但不是两者）.  这是伯努利分布的松弛版本, 因此值在(0,1）中, 并且具有可重参数化的样本. 
 
 例子:
 
@@ -2230,7 +2230,7 @@ tensor([ 2.3418])
 
 参数: 
 
-*   **low** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  下限（含）.
+*   **low** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) –  下限(含）.
 *   **high** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 上限(排除).
 
 
@@ -2425,7 +2425,7 @@ grad(z.sum(), [y])  # error because z is x
 
 *   **domain** ([`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) –  表示该变换有效输入的约束.
 *   **codomain** ([`Constraint`](#torch.distributions.constraints.Constraint "torch.distributions.constraints.Constraint")) – 表示此转换的有效输出的约束, 这些输出是逆变换的输入.
-*   **bijective** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  这个变换是否是双射的. 变换 `t` 是双射的 如果 `t.inv(t(x)) == x` 并且 `t(t.inv(y)) == y` 对于每一个 `x` 和 `y`. 不是双射的变形应该至少保持较弱的伪逆属性 `t(t.inv(t(x)) == t(x)` and `t.inv(t(t.inv(y))) == t.inv(y)`.
+*   **bijective** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) –  这个变换是否是双射的. 变换 `t` 是双射的 如果 `t.inv(t(x)) == x` 并且 `t(t.inv(y)) == y` 对于每一个 `x` 和 `y`. 不是双射的变换应该至少保持较弱的伪逆属性 `t(t.inv(t(x)) == t(x)` and `t.inv(t(t.inv(y))) == t.inv(y)`.
 *   **sign** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 对于双射单变量变换, 它应该是+1或-1, 这取决于变换是单调递增还是递减.
 *   **event_dim** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")) – 变换event_shape中相关的维数.  这对于逐点变换应该是0, 对于在矢量上共同作用的变换是1, 对于在矩阵上共同作用的变换是2, 等等.
 
@@ -2501,7 +2501,7 @@ class torch.distributions.transforms.SoftmaxTransform(cache_size=0)
 
 从无约束空间到单纯形的转换, 通过 ![](img/ec8d939394f24908d017d86153e312ea.jpg) 然后归一化.
 
-这不是双射的, 不能用于HMC.  然而, 这主要是协调的（除了最终的归一化）, 因此适合于坐标方式的优化算法. 
+这不是双射的, 不能用于HMC.  然而, 这主要是协调的(除了最终的归一化）, 因此适合于坐标方式的优化算法. 
 
 ```py
 class torch.distributions.transforms.StickBreakingTransform(cache_size=0)

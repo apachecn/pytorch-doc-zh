@@ -161,7 +161,7 @@ ImportError: DLL load failed: The operating system cannot run %1.
 
 这实际上是Anaconda的上游问题。使用conda-forge通道初始化环境时,将出现此问题。您可以通过此命令修复intel-openmp库。  
 
-## 使用（多处理）  
+## 使用(并行处理）  
 
 ### 无if语句保护的多进程处理错误  
 
@@ -222,9 +222,9 @@ Couldn’t open shared file mapping: <torch_14808_1591070686>, error code: <1455
 THCudaCheck FAIL file=torch\csrc\generic\StorageSharing.cpp line=252 error=63 : OS call failed or operation not supported on this OS
 ```
 
-Windows不支持它们。在CUDA张量上进行多处理这样的事情无法成功，有两种选择:  
+Windows不支持它们。在CUDA张量上进行并行处理这样的事情无法成功，有两种选择:  
 
-1\.不要使用多处理。将Data Loader的num_worker设置为零。  
+1\.不要使用并行处理。将Data Loader的num_worker设置为零。  
 
 2\.采用共享CPU张量方法。确保您的自定义`DataSet`返回CPU张量。
 

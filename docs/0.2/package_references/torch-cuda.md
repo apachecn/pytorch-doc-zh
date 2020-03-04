@@ -82,7 +82,7 @@ torch.cuda.comm.broadcast(tensor, devices)
 
 **参数：**
 - **tensor** (*Tensor*) – 将要广播的张量
-- **devices** (*Iterable*) – 一个可以广播的设备的迭代。注意，它的形式应该像（src，dst1，dst2，...），其第一个元素是广播来源的设备。
+- **devices** (*Iterable*) – 一个可以广播的设备的迭代。注意，它的形式应该像(src，dst1，dst2，...），其第一个元素是广播来源的设备。
 
 **返回：** 一个包含张量副本的元组，放置在与设备的索引相对应的设备上。
 
@@ -95,7 +95,7 @@ torch.cuda.comm.reduce_add(inputs, destination=None)
 
 **参数：**
 - **inputs** (*Iterable[Tensor]*) – 要相加张量的迭代
-- **destination** (*int*, optional) – 将放置输出的设备（默认值：当前设备）。
+- **destination** (*int*, optional) – 将放置输出的设备(默认值：当前设备）。
 
 **返回：** 一个包含放置在`destination`设备上的所有输入的元素总和的张量。
 
@@ -122,7 +122,7 @@ torch.cuda.comm.gather(tensors, dim=0, destination=None)
 **参数：**
 - **tensors** (*Iterable[Tensor]*) – 要收集的张量的迭代。
 - **dim** (*int*) – 沿着此维度张量将被连接。
-- **destination** (*int*, optional) – 输出设备（-1表示CPU，默认值：当前设备）。
+- **destination** (*int*, optional) – 输出设备(-1表示CPU，默认值：当前设备）。
 
 **返回：** 一个张量位于`destination`设备上，这是沿着`dim`连接`tensors`的结果。
 
@@ -172,9 +172,9 @@ class torch.cuda.Event(enable_timing=False, blocking=False, interprocess=False, 
 CUDA事件的包装。
 
 **参数：**
-- **enable_timing** (*bool*) – 指示事件是否应该测量时间（默认值：False）
-- **blocking** (*bool*) – 如果为true，`wait()`将被阻塞（默认值：False）
-- **interprocess** (*bool*) – 如果为true，则可以在进程之间共享事件（默认值：False）
+- **enable_timing** (*bool*) – 指示事件是否应该测量时间(默认值：False）
+- **blocking** (*bool*) – 如果为true，`wait()`将被阻塞(默认值：False）
+- **interprocess** (*bool*) – 如果为true，则可以在进程之间共享事件(默认值：False）
 
   > elapsed_time(end_event)
 

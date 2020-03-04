@@ -34,7 +34,7 @@ CUDA API 需要分配给其他进程的显存在它们还在使用的情况下�
 
 记住每次将一个 [`Tensor`](../tensors.html#torch.Tensor "torch.Tensor") 放进一个 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.7)") 时，它就会被移动到共享内存中。如果它已经被共享，那将不会有操作，否则将会触发一次额外的内存拷贝，而这将会拖慢整个进程。即使你有一个进程池把数据发送到一个进程，并把缓存送回来——这近乎于无操作，在发送下一个批次的数据时避免拷贝。
 
-### 异步多进程训练（如Hogwild）
+### 异步多进程训练(如Hogwild）
 
 使用 [`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing")，可以异步训练一个模型，参数要么一直共享，要么周期性同步。在第一个情况下，我们建议传递整个模型的对象，而对于后一种情况，我们将以仅传递 [`state_dict()`](../nn.html#torch.nn.Module.state_dict "torch.nn.Module.state_dict")。
 

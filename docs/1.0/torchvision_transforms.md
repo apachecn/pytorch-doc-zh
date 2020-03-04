@@ -4,7 +4,7 @@
 
 > 译者：[BXuan694](https://github.com/BXuan694)
 
-transforms包含了一些常用的图像变换，这些变换能够用[`Compose`](#torchvision.transforms.Compose "torchvision.transforms.Compose")串联组合起来。另外，torchvision提供了[`torchvision.transforms.functional`](#module-torchvision.transforms.functional "torchvision.transforms.functional")模块。functional可以提供了一些更加精细的变换，用于搭建复杂的变换流水线（例如分割任务）。
+transforms包含了一些常用的图像变换，这些变换能够用[`Compose`](#torchvision.transforms.Compose "torchvision.transforms.Compose")串联组合起来。另外，torchvision提供了[`torchvision.transforms.functional`](#module-torchvision.transforms.functional "torchvision.transforms.functional")模块。functional可以提供了一些更加精细的变换，用于搭建复杂的变换流水线(例如分割任务）。
 
 ```py
 class torchvision.transforms.Compose(transforms)
@@ -14,7 +14,7 @@ class torchvision.transforms.Compose(transforms)
 
 参数：
 
-*   **transforms**（list或`Transform`对象）- 一系列需要进行组合的变换。
+*   **transforms**(list或`Transform`对象）- 一系列需要进行组合的变换。
 
 示例：
 
@@ -36,7 +36,7 @@ class torchvision.transforms.CenterCrop(size)
  
 参数：
 
-*  **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 需要裁剪出的形状。如果size是int，将会裁剪成正方形；如果是形如(h, w)的序列，将会裁剪成矩形。 
+*  **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 需要裁剪出的形状。如果size是int，将会裁剪成正方形；如果是形如(h, w)的序列，将会裁剪成矩形。 
 
 ```py
 class torchvision.transforms.ColorJitter(brightness=0, contrast=0, saturation=0, hue=0)
@@ -47,10 +47,10 @@ class torchvision.transforms.ColorJitter(brightness=0, contrast=0, saturation=0,
  
 参数： 
 
-*   **brightness**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 亮度的扰动幅度。brightness_factor从[max(0, 1 - brightness), 1 + brightness]中随机采样产生。应当是非负数。
-*   **contrast**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 对比度扰动幅度。contrast_factor从[max(0, 1 - contrast), 1 + contrast]中随机采样产生。应当是非负数。
-*   **saturation**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 饱和度扰动幅度。saturation_factor从[max(0, 1 - saturation), 1 + saturation]中随机采样产生。应当是非负数。
-*   **hue**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 色相扰动幅度。hue_factor从[-hue, hue]中随机采样产生，其值应当满足0<= hue <= 0.5或-0.5 <= min <= max <= 0.5
+*   **brightness**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 亮度的扰动幅度。brightness_factor从[max(0, 1 - brightness), 1 + brightness]中随机采样产生。应当是非负数。
+*   **contrast**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 对比度扰动幅度。contrast_factor从[max(0, 1 - contrast), 1 + contrast]中随机采样产生。应当是非负数。
+*   **saturation**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 饱和度扰动幅度。saturation_factor从[max(0, 1 - saturation), 1 + saturation]中随机采样产生。应当是非负数。
+*   **hue**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_或_ _float类型元组(min, max)_）– 色相扰动幅度。hue_factor从[-hue, hue]中随机采样产生，其值应当满足0<= hue <= 0.5或-0.5 <= min <= max <= 0.5
 
 
 ```py
@@ -65,7 +65,7 @@ class torchvision.transforms.FiveCrop(size)
 
 参数：
 
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 需要裁剪出的形状。如果size是int，将会裁剪成正方形；如果是序列，如(h, w)，将会裁剪成矩形。 
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 需要裁剪出的形状。如果size是int，将会裁剪成正方形；如果是序列，如(h, w)，将会裁剪成矩形。 
 
 示例：
 
@@ -90,7 +90,7 @@ class torchvision.transforms.Grayscale(num_output_channels=1)
 
 参数：
 
-*   **num_output_channels**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")，1或3）– 希望得到的图片通道数。
+*   **num_output_channels**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")，1或3）– 希望得到的图片通道数。
 
 返回：
 *   输入图片的灰阶版本。 - 如果num_output_channels == 1：返回单通道图像；- 如果num_output_channels == 3：返回3通道图像，其中r == g == b。
@@ -107,14 +107,14 @@ class torchvision.transforms.Pad(padding, fill=0, padding_mode='constant')
  
 参数： 
 
-*   **padding**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 在每条边上展开的宽度。如果传入的是单个int，就在所有边展开。如果传入长为2的元组，则指定左右和上下的展开宽度。如果传入长为4的元组，则依次指定为左、上、右、下的展开宽度。
-*   **fill**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是‘constant’时指定有效。
-*  **padding_mode**（[_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是‘constant’，‘edge’，‘reflect’或‘symmetric’之一。默认为‘constant’。
+*   **padding**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 在每条边上展开的宽度。如果传入的是单个int，就在所有边展开。如果传入长为2的元组，则指定左右和上下的展开宽度。如果传入长为4的元组，则依次指定为左、上、右、下的展开宽度。
+*   **fill**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是‘constant’时指定有效。
+*  **padding_mode**([_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是‘constant’，‘edge’，‘reflect’或‘symmetric’之一。默认为‘constant’。
    * constant：用常数扩展，这个值由fill参数指定。
    * edge：用图像边缘上的指填充。
-   * reflect：以边缘为对称轴进行轴对称填充（边缘值不重复）。
+   * reflect：以边缘为对称轴进行轴对称填充(边缘值不重复）。
    &gt; 例如，在[1, 2, 3, 4]的两边填充2个元素会得到[3, 2, 1, 2, 3, 4, 3, 2]。
-   * symmetric：用图像边缘的反转进行填充（图像的边缘值需要重复）。
+   * symmetric：用图像边缘的反转进行填充(图像的边缘值需要重复）。
    &gt; 例如，在[1, 2, 3, 4]的两边填充2个元素会得到[2, 1, 1, 2, 3, 4, 4, 3]。
 
 
@@ -128,12 +128,12 @@ class torchvision.transforms.RandomAffine(degrees, translate=None, scale=None, s
  
 参数： 
 
-*   **degrees**（_序列_ _或_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 旋转角度的筛选范围。如果是序列（min, max），从中随机均匀采样；如果是数字，则从（-degrees, +degrees）中采样。如果不需要旋转，那么设置为0。
-*   **translate**（[_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _可选_）– 元组，元素值是水平和垂直平移变换的最大绝对值。例如translate=(a, b)时，水平位移值从 -img_width * a &lt; dx &lt; img_width * a中随机采样得到，垂直位移值从-img_height * b &lt; dy &lt; img_height * b中随机采样得到。默认不做平移变换。
-*   **scale**（[_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _可选_）– 尺度放缩因子的内区间，如[a, b]，放缩因子scale的随机采样区间为：a &lt;= scale &lt;= b。默认不进行尺度放缩变换。
-*   **shear**（_序列_ _或_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 扭曲角度的筛选范围。如果是序列（min, max），从中随机均匀采样；如果是数字，则从（-degrees, +degrees）中采样。默认不会进行扭曲操作。
-*   **resample**（_{PIL.Image.NEAREST_ _,_ _PIL.Image.BILINEAR_ _,_ _PIL.Image.BICUBIC}_ _,_ _可选_）– 可选的重采样滤波器，见[filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果没有该选项，或者图片模式是“1”或“P”，设置为PIL.Image.NEAREST。
-*   **fillcolor**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 在输出图片的变换外区域可选地填充颜色。（Pillow&gt;=5.0.0）。
+*   **degrees**(_序列_ _或_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 旋转角度的筛选范围。如果是序列(min, max），从中随机均匀采样；如果是数字，则从(-degrees, +degrees）中采样。如果不需要旋转，那么设置为0。
+*   **translate**([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _可选_）– 元组，元素值是水平和垂直平移变换的最大绝对值。例如translate=(a, b)时，水平位移值从 -img_width * a &lt; dx &lt; img_width * a中随机采样得到，垂直位移值从-img_height * b &lt; dy &lt; img_height * b中随机采样得到。默认不做平移变换。
+*   **scale**([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")_,_ _可选_）– 尺度放缩因子的内区间，如[a, b]，放缩因子scale的随机采样区间为：a &lt;= scale &lt;= b。默认不进行尺度放缩变换。
+*   **shear**(_序列_ _或_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 扭曲角度的筛选范围。如果是序列(min, max），从中随机均匀采样；如果是数字，则从(-degrees, +degrees）中采样。默认不会进行扭曲操作。
+*   **resample**(_{PIL.Image.NEAREST_ _,_ _PIL.Image.BILINEAR_ _,_ _PIL.Image.BICUBIC}_ _,_ _可选_）– 可选的重采样滤波器，见[filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果没有该选项，或者图片模式是“1”或“P”，设置为PIL.Image.NEAREST。
+*   **fillcolor**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 在输出图片的变换外区域可选地填充颜色。(Pillow&gt;=5.0.0）。
 
 
 ```py
@@ -144,8 +144,8 @@ class torchvision.transforms.RandomApply(transforms, p=0.5)
  
 参数： 
 
-*   **transforms**（[_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 变换的集合。
-*   **p**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 概率。
+*   **transforms**([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") _or_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 变换的集合。
+*   **p**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 概率。
 
 ```py
 class torchvision.transforms.RandomChoice(transforms)
@@ -162,16 +162,16 @@ class torchvision.transforms.RandomCrop(size, padding=0, pad_if_needed=False)
  
 参数： 
 
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 想要裁剪出的图片的形状。如果size是int，按照正方形（size, size）裁剪； 如果size是序列（h, w），裁剪为矩形。
-*   **padding**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ _序列_ _,_ _可选_）– 在图像的边缘进行填充，默认0，即不做填充。如果指定长为4的序列，则分别指定左、上、右、下的填充宽度。
-*   **pad_if_needed**（_boolean_）– 如果设置为True，若图片小于目标形状，将进行填充以避免报异常。
-*   **fill**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是‘constant’时指定有效。
-*  **padding_mode**（[_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是‘constant’，‘edge’，‘reflect’或‘symmetric’之一。默认为‘constant’。
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 想要裁剪出的图片的形状。如果size是int，按照正方形(size, size）裁剪； 如果size是序列(h, w），裁剪为矩形。
+*   **padding**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ _序列_ _,_ _可选_）– 在图像的边缘进行填充，默认0，即不做填充。如果指定长为4的序列，则分别指定左、上、右、下的填充宽度。
+*   **pad_if_needed**(_boolean_）– 如果设置为True，若图片小于目标形状，将进行填充以避免报异常。
+*   **fill**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是‘constant’时指定有效。
+*  **padding_mode**([_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是‘constant’，‘edge’，‘reflect’或‘symmetric’之一。默认为‘constant’。
    * constant：用常数扩展，这个值由fill参数指定。
    * edge：用图像边缘上的指填充。
-   * reflect：以边缘为对称轴进行轴对称填充（边缘值不重复）。
+   * reflect：以边缘为对称轴进行轴对称填充(边缘值不重复）。
    &gt; 例如，在[1, 2, 3, 4]的两边填充2个元素会得到[3, 2, 1, 2, 3, 4, 3, 2]。
-   * symmetric：用图像边缘的反转进行填充（图像的边缘值需要重复）。
+   * symmetric：用图像边缘的反转进行填充(图像的边缘值需要重复）。
    &gt; 例如，在[1, 2, 3, 4]的两边填充2个元素会得到[2, 1, 1, 2, 3, 4, 4, 3]。
 
 
@@ -179,15 +179,15 @@ class torchvision.transforms.RandomCrop(size, padding=0, pad_if_needed=False)
 class torchvision.transforms.RandomGrayscale(p=0.1)
 ```
 
-以概率p（默认0.1）将图片随机转化为灰阶图片。
+以概率p(默认0.1）将图片随机转化为灰阶图片。
 
 参数：
 
-*   **p**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）–图像转化为灰阶的概率。
+*   **p**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）–图像转化为灰阶的概率。
 
 返回：
 
-*   以概率p转换为灰阶，以概率（1-p）不做变换。如果输入图像为1通道，则灰阶版本也是1通道。如果输入图像为3通道，则灰阶版本是3通道，r == g == b。
+*   以概率p转换为灰阶，以概率(1-p）不做变换。如果输入图像为1通道，则灰阶版本也是1通道。如果输入图像为3通道，则灰阶版本是3通道，r == g == b。
 
 返回类型：
 
@@ -202,7 +202,7 @@ class torchvision.transforms.RandomHorizontalFlip(p=0.5)
 
 参数：
 
-*   **p**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 翻折图片的概率。默认0.5。
+*   **p**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 翻折图片的概率。默认0.5。
 
 ```py
 class torchvision.transforms.RandomOrder(transforms)
@@ -216,7 +216,7 @@ class torchvision.transforms.RandomResizedCrop(size, scale=(0.08, 1.0), ratio=(0
 
 以随机的形状和长宽比裁剪图片。
 
-以随机的形状（默认从原始图片的0.08到1.0) 和随机长宽比（默认从3/4到4/3）裁剪图片。然后调整到指定形状。这一变换通常用于训练Inception网络。
+以随机的形状(默认从原始图片的0.08到1.0) 和随机长宽比(默认从3/4到4/3）裁剪图片。然后调整到指定形状。这一变换通常用于训练Inception网络。
 
  
 参数： 
@@ -237,10 +237,10 @@ class torchvision.transforms.RandomRotation(degrees, resample=False, expand=Fals
  
 参数： 
 
-*   **degrees**（_序列_ _或_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 旋转角度的随机选取范围。如果degrees是序列（min, max），则从中随机选取；如果是数字，则选择范围是（-degrees, +degrees）。
-*   **resample**（_{PIL.Image.NEAREST_ _,_ _PIL.Image.BILINEAR_ _,_ _PIL.Image.BICUBIC}_ _,_ _可选_) – 可选的重采样滤波器，见[filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果该选项忽略，或图片模式是“1”或者“P”则设置为PIL.Image.NEAREST。
-*   **expand**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 可选的扩展标志。如果设置为True, 将输出扩展到足够大从而能容纳全图。如果设置为False或不设置，输出图片将和输入同样大。注意expand标志要求 flag assumes rotation around the center and no translation。
-*   **center**（_2-tuple_ _,_ _可选_）– 可选的旋转中心坐标。以左上角为原点计算。默认是图像中心。
+*   **degrees**(_序列_ _或_ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _or_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 旋转角度的随机选取范围。如果degrees是序列(min, max），则从中随机选取；如果是数字，则选择范围是(-degrees, +degrees）。
+*   **resample**(_{PIL.Image.NEAREST_ _,_ _PIL.Image.BILINEAR_ _,_ _PIL.Image.BICUBIC}_ _,_ _可选_) – 可选的重采样滤波器，见[filters](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果该选项忽略，或图片模式是“1”或者“P”则设置为PIL.Image.NEAREST。
+*   **expand**([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 可选的扩展标志。如果设置为True, 将输出扩展到足够大从而能容纳全图。如果设置为False或不设置，输出图片将和输入同样大。注意expand标志要求 flag assumes rotation around the center and no translation。
+*   **center**(_2-tuple_ _,_ _可选_）– 可选的旋转中心坐标。以左上角为原点计算。默认是图像中心。
 
 
 
@@ -269,8 +269,8 @@ class torchvision.transforms.Resize(size, interpolation=2)
  
 参数： 
 
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 期望输出形状。如果size形如（h, w），输出就以该形状。 如果size是int更短的边将调整为int，即如果高&gt;宽，那么图片将调整为（size * 高 / 宽，size）。
-*   **interpolation**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式。默认采用`PIL.Image.BILINEAR`。
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 期望输出形状。如果size形如(h, w），输出就以该形状。 如果size是int更短的边将调整为int，即如果高&gt;宽，那么图片将调整为(size * 高 / 宽，size）。
+*   **interpolation**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式。默认采用`PIL.Image.BILINEAR`。
 
 
 
@@ -284,7 +284,7 @@ class torchvision.transforms.Scale(*args, **kwargs)
 class torchvision.transforms.TenCrop(size, vertical_flip=False)
 ```
 
-将PIL图片以四角和中心裁剪，同时加入翻折版本。（默认以水平的方式翻折）
+将PIL图片以四角和中心裁剪，同时加入翻折版本。(默认以水平的方式翻折）
 
 注意：
 
@@ -293,8 +293,8 @@ class torchvision.transforms.TenCrop(size, vertical_flip=False)
  
 参数： 
 
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 期望裁剪输出的形状。需要裁剪出的形状。如果size是int，将会裁剪成正方形；如果是序列，如(h, w)，将会裁剪成矩形。
-*   **vertical_flip**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")）– 是否用垂直翻折。
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 期望裁剪输出的形状。需要裁剪出的形状。如果size是int，将会裁剪成正方形；如果是序列，如(h, w)，将会裁剪成矩形。
+*   **vertical_flip**([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")）– 是否用垂直翻折。
 
 示例：
 
@@ -329,7 +329,7 @@ torch.*Tensor会被transformation_matrix拉平，和变换矩阵做点积后调�
  
 参数：
 
-*   **transformation_matrix**（[_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")）– [D x D]的张量，D = C x H x W。
+*   **transformation_matrix**([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")）– [D x D]的张量，D = C x H x W。
 
 ```py
 class torchvision.transforms.Normalize(mean, std)
@@ -340,8 +340,8 @@ class torchvision.transforms.Normalize(mean, std)
 
 参数： 
 
-*   **mean**（_序列_）– 序列，包含各通道的平均值。
-*   **std**（_序列_）– 序列，包含各通道的标准差。
+*   **mean**(_序列_）– 序列，包含各通道的平均值。
+*   **std**(_序列_）– 序列，包含各通道的标准差。
 
 ```py
 __call__(tensor)
@@ -371,7 +371,7 @@ class torchvision.transforms.ToPILImage(mode=None)
 
 参数 ：
 
-*   **mode** ([PIL.Image mode](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes)) – 输入数据的颜色空间或者像素深度（可选）。 如果`mode`设置为`None`（默认），按照下面的规则进行处理：
+*   **mode** ([PIL.Image mode](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes)) – 输入数据的颜色空间或者像素深度(可选）。 如果`mode`设置为`None`(默认），按照下面的规则进行处理：
 1. 如果输入3通道，`mode`会设置为`RGB`。
 2. 如果输入4通道，`mode`会设置为`RGBA`。
 3. 如果输入1通道，`mode`由数据类型决定(即`int`，`float`，`short`)。
@@ -398,7 +398,7 @@ class torchvision.transforms.ToTensor
 
 将`PIL Image`或`numpy.ndarray`转化成张量。
 
-把PIL图像或[0, 255]范围内的numpy.ndarray（形状(H x W x C)）转化成torch.FloatTensor，张量形状(C x H x W)，范围在[0.0, 1.0]中。输入应是是PIL图像且是模式（L, LA, P, I, F, RGB, YCbCr, RGBA, CMYK, 1）中的一种，或输入是numpy.ndarray且类型为np.uint8。
+把PIL图像或[0, 255]范围内的numpy.ndarray(形状(H x W x C)）转化成torch.FloatTensor，张量形状(C x H x W)，范围在[0.0, 1.0]中。输入应是是PIL图像且是模式(L, LA, P, I, F, RGB, YCbCr, RGBA, CMYK, 1）中的一种，或输入是numpy.ndarray且类型为np.uint8。
 
 ```py
 __call__(pic)
@@ -453,8 +453,8 @@ torchvision.transforms.functional.adjust_brightness(img, brightness_factor)
  
 参数： 
 
-*   **img**（_PIL图像_）– 要调整的PIL图像。
-*   **brightness_factor**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 亮度的调整值，可以是任意非负整数。0表示黑色图像，1表示原始图像，2表示增加到2倍亮度。
+*   **img**(_PIL图像_）– 要调整的PIL图像。
+*   **brightness_factor**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 亮度的调整值，可以是任意非负整数。0表示黑色图像，1表示原始图像，2表示增加到2倍亮度。
 
 返回：
 
@@ -472,8 +472,8 @@ torchvision.transforms.functional.adjust_contrast(img, contrast_factor)
  
 参数： 
 
-*   **img**（_PIL图像_）– 要调整的PIL图像。
-*   **contrast_factor**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 对比度的调整幅度，可以是任意非负数。0表示灰阶图片，1表示原始图片，2表示对比度增加到2倍。
+*   **img**(_PIL图像_）– 要调整的PIL图像。
+*   **contrast_factor**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 对比度的调整幅度，可以是任意非负数。0表示灰阶图片，1表示原始图片，2表示对比度增加到2倍。
 
 
 返回：
@@ -499,9 +499,9 @@ $$I_{out} = 255 \times gain \times (\dfrac{I_{in}}{255})^\gamma$$
  
 参数： 
 
-*   **img**（_PIL图像_）– PIL要调整的PIL图像。
-*   **gamma**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 非负实数，公式中的 $$\gamma$$。gamma大于1时令暗区更暗，gamma小于1时使得暗区更亮。
-*   **gain**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 常数乘数。
+*   **img**(_PIL图像_）– PIL要调整的PIL图像。
+*   **gamma**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 非负实数，公式中的 $$\gamma$$。gamma大于1时令暗区更暗，gamma小于1时使得暗区更亮。
+*   **gain**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 常数乘数。
 
 
 ```py
@@ -510,7 +510,7 @@ torchvision.transforms.functional.adjust_hue(img, hue_factor)
 
 调整图像色相。
 
-调整时，先把图像转换到HSV空间，然后沿着色相轴（H轴）循环移动。最后切换回图像原始模式。
+调整时，先把图像转换到HSV空间，然后沿着色相轴(H轴）循环移动。最后切换回图像原始模式。
 
 `hue_factor`是H通道的偏移量，必须在`[-0.5, 0.5]`的范围内。
 
@@ -519,8 +519,8 @@ torchvision.transforms.functional.adjust_hue(img, hue_factor)
  
 参数： 
 
-*   **img**（_PIL图像_）– 要调整的PIL图像。
-*   **hue_factor**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– H通道的偏移量应该在[-0.5, 0.5]的范围内。0.5和-0.5分别表示在HSV空间的H轴上沿正、负方向进行移动，0表示不偏移。因此，-0.5和0.5都能表示补色，0表示原图。
+*   **img**(_PIL图像_）– 要调整的PIL图像。
+*   **hue_factor**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– H通道的偏移量应该在[-0.5, 0.5]的范围内。0.5和-0.5分别表示在HSV空间的H轴上沿正、负方向进行移动，0表示不偏移。因此，-0.5和0.5都能表示补色，0表示原图。
 
 
 返回：
@@ -540,8 +540,8 @@ torchvision.transforms.functional.adjust_saturation(img, saturation_factor)
  
 参数： 
 
-*   **img**（_PIL图像_）– 要调整的PIL图像。
-*   **saturation_factor**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 饱和度调整值。0表示纯黑白图像，1表示原始图像，2表示增加到原来的2倍。
+*   **img**(_PIL图像_）– 要调整的PIL图像。
+*   **saturation_factor**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 饱和度调整值。0表示纯黑白图像，1表示原始图像，2表示增加到原来的2倍。
 
 返回：
 
@@ -558,13 +558,13 @@ torchvision.transforms.functional.affine(img, angle, translate, scale, shear, re
 
 参数： 
 
-*   **img**（_PIL图像_）– 要旋转的PIL图像。
-*   **angle**（_{python:float_ _或_ _int}_）– 旋转角度，应在时钟方向的-180到180度之间。
-*   **translate**（[_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") _或_ _整形数元组_）– 水平和垂直变换（旋转之后）
-*   **scale**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 尺度变换。
-*   **shear**（[_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 扭曲角度，应在时钟方向的-180到180度之间。
-*   **resample**（_`PIL.Image.NEAREST`_ _或_ _`PIL.Image.BILINEAR`_ _或_ _`PIL.Image.BICUBIC`_ _,_ _可选_）– 可选的重采样滤波器，见[滤波器](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果不设置该选项，或者图像模式是“1”或“P”，设置为`PIL.Image.NEAREST`。
-*   **fillcolor**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 可选在输出图片的变换外区域可选地填充颜色。（Pillow&gt;=5.0.0）
+*   **img**(_PIL图像_）– 要旋转的PIL图像。
+*   **angle**(_{python:float_ _或_ _int}_）– 旋转角度，应在时钟方向的-180到180度之间。
+*   **translate**([_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)") _或_ _整形数元组_）– 水平和垂直变换(旋转之后）
+*   **scale**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 尺度变换。
+*   **shear**([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")）– 扭曲角度，应在时钟方向的-180到180度之间。
+*   **resample**(_`PIL.Image.NEAREST`_ _或_ _`PIL.Image.BILINEAR`_ _或_ _`PIL.Image.BICUBIC`_ _,_ _可选_）– 可选的重采样滤波器，见[滤波器](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果不设置该选项，或者图像模式是“1”或“P”，设置为`PIL.Image.NEAREST`。
+*   **fillcolor**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 可选在输出图片的变换外区域可选地填充颜色。(Pillow&gt;=5.0.0）
 
 
 ```py
@@ -576,7 +576,7 @@ torchvision.transforms.functional.crop(img, i, j, h, w)
  
 参数： 
 
-*   **img**（_PIL图像_）– 要裁剪的图像。
+*   **img**(_PIL图像_）– 要裁剪的图像。
 *   **i** – 最上侧像素的坐标。
 *   **j** – 最左侧像素的坐标。
 *   **h** – 要裁剪出的高度。
@@ -604,7 +604,7 @@ torchvision.transforms.functional.five_crop(img, size)
  
 参数：
 
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 希望得到的裁剪输出。如果size是序列(h, w)，输出矩形；如果是int ，输出形状为(size, size)的正方形。
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 希望得到的裁剪输出。如果size是序列(h, w)，输出矩形；如果是int ，输出形状为(size, size)的正方形。
 
 返回：
 
@@ -623,7 +623,7 @@ torchvision.transforms.functional.hflip(img)
  
 参数：
 
-*   **img**（_PIL图像_）– 要翻折的图像。
+*   **img**(_PIL图像_）– 要翻折的图像。
 
 返回：
 
@@ -644,9 +644,9 @@ torchvision.transforms.functional.normalize(tensor, mean, std)
  
 参数： 
 
-*   **tensor**（[_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")）– 需要标准化的图像Tensor，形状应是(C, H, W)。
-*   **mean**（_序列_）– 各通道的均值。
-*   **std**（_序列_）– 各通道的标准差。
+*   **tensor**([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor")）– 需要标准化的图像Tensor，形状应是(C, H, W)。
+*   **mean**(_序列_）– 各通道的均值。
+*   **std**(_序列_）– 各通道的标准差。
 
 返回：
 
@@ -665,16 +665,16 @@ torchvision.transforms.functional.pad(img, padding, fill=0, padding_mode='consta
  
 参数： 
 
-*   **img**（_PIL图像_）– 要填充的图像。
-*   **padding**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 各边的填充可宽度。如果指定为int，表示所有边都按照此宽度填充。如果指定为长为2的元组，表示左右和上下边的填充宽度。如果指定为长为4的元组，分别表示左、上、右、下的填充宽度。
+*   **img**(_PIL图像_）– 要填充的图像。
+*   **padding**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 各边的填充可宽度。如果指定为int，表示所有边都按照此宽度填充。如果指定为长为2的元组，表示左右和上下边的填充宽度。如果指定为长为4的元组，分别表示左、上、右、下的填充宽度。
 *   **fill** – 要填充的像素值，默认是0。如果指定为长为3的元组，表示RGB三通道的填充值。这个选项仅在padding_mode是constant时有用。
 *  **padding_mode** – 填充类型，应当为：constant，edge，reflect或symmetric。默认是constant。
    * constant：用常数填充，该常数值由fill指定。 
    * edge：用边上的值填充。
-   * reflect： 以边为对称轴进行填充。（不重复边上的值）
+   * reflect： 以边为对称轴进行填充。(不重复边上的值）
 
       * 在reflect模式中，在两边分别用2个元素填充[1, 2, 3, 4]将会得到[3, 2, 1, 2, 3, 4, 3, 2]。
-   * symmetric：以边为对称轴进行填充。（重复边上的值）
+   * symmetric：以边为对称轴进行填充。(重复边上的值）
 
        * 在symmetric模式中，在两边分别用2个元素填充[1, 2, 3, 4]将会得到[2, 1, 1, 2, 3, 4, 4, 3]。
 
@@ -696,9 +696,9 @@ torchvision.transforms.functional.resize(img, size, interpolation=2)
  
 参数： 
 
-*   **img**（_PIL图像_）– 要调整形状的图像。
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 输出图像的形状。如果size指定为序列(h, w)，输出矩形。如果size指定为int图片的短边将调整为这个数，长边按照相同的长宽比进行调整。即，如果高度&gt;宽度，则图片形状将调整为 $$(size\times\frac{高度}{宽度}, size)$$
-*   **interpolation**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式，默认是`PIL.Image.BILINEAR`。
+*   **img**(_PIL图像_）– 要调整形状的图像。
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 输出图像的形状。如果size指定为序列(h, w)，输出矩形。如果size指定为int图片的短边将调整为这个数，长边按照相同的长宽比进行调整。即，如果高度&gt;宽度，则图片形状将调整为 $$(size\times\frac{高度}{宽度}, size)$$
+*   **interpolation**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式，默认是`PIL.Image.BILINEAR`。
 
 
 返回：
@@ -719,13 +719,13 @@ torchvision.transforms.functional.resized_crop(img, i, j, h, w, size, interpolat
  
 参数： 
 
-*   **img**（_PIL图像_）– 要裁剪的图像。
+*   **img**(_PIL图像_）– 要裁剪的图像。
 *   **i** – 最上侧的像素坐标。
 *   **j** – 最左侧的像素坐标。
 *   **h** – 裁剪出的图像高度。
 *   **w** – 裁剪出的图像宽度。
-*   **size**（_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 要输出的图像形状，同`scale`。
-*   **interpolation**（[_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式，默认是 `PIL.Image.BILINEAR`。
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 要输出的图像形状，同`scale`。
+*   **interpolation**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式，默认是 `PIL.Image.BILINEAR`。
 
 
 返回：
@@ -744,17 +744,17 @@ torchvision.transforms.functional.rotate(img, angle, resample=False, expand=Fals
  
 参数： 
 
-*   **img**（_PIL图像_）– 要旋转的PIL图像。
-*   **angle**（_[float](https://docs.python.org/3/library/functions.html#float)_ _或_ _[int](https://docs.python.org/3/library/functions.html#int)}_）– 顺时针旋转角度。
-*   **resample**（_`PIL.Image.NEAREST`_ _或_ _`PIL.Image.BILINEAR`_ _或_ _`PIL.Image.BICUBIC`_ _,_ _可选_） – 可选的重采样滤波器，见[滤波器](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果该选项不设置，或者图像模式是“1”或“P”，将被设置为PIL.Image.NEAREST。
-*   **expand**（[_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 可选的扩展选项。如果设置为True，使输出足够大，从而包含了所有像素。如果设置为False或不设置，则输出应和输入形状相同。注意expand选项假定旋转中心是center且不做平移。
-*   **center**（_2-tuple_ _,_ _可选_）– 可选的旋转中心。原点在左上角。默认以图片中心为旋转中心。
+*   **img**(_PIL图像_）– 要旋转的PIL图像。
+*   **angle**(_[float](https://docs.python.org/3/library/functions.html#float)_ _或_ _[int](https://docs.python.org/3/library/functions.html#int)}_）– 顺时针旋转角度。
+*   **resample**(_`PIL.Image.NEAREST`_ _或_ _`PIL.Image.BILINEAR`_ _或_ _`PIL.Image.BICUBIC`_ _,_ _可选_） – 可选的重采样滤波器，见[滤波器](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#filters)。如果该选项不设置，或者图像模式是“1”或“P”，将被设置为PIL.Image.NEAREST。
+*   **expand**([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 可选的扩展选项。如果设置为True，使输出足够大，从而包含了所有像素。如果设置为False或不设置，则输出应和输入形状相同。注意expand选项假定旋转中心是center且不做平移。
+*   **center**(_2-tuple_ _,_ _可选_）– 可选的旋转中心。原点在左上角。默认以图片中心为旋转中心。
 
 ```py
 torchvision.transforms.functional.ten_crop(img, size, vertical_flip=False)
 ```
 
-将图片在四角和中心处裁剪，同时返回它们翻折后的图片。（默认水平翻折）
+将图片在四角和中心处裁剪，同时返回它们翻折后的图片。(默认水平翻折）
 
 注意：
 
@@ -762,12 +762,12 @@ torchvision.transforms.functional.ten_crop(img, size, vertical_flip=False)
 
 参数：
 
-*   **size**（_序列_ _或_ _[int](https://docs.python.org/3/library/functions.html#int)_）- 裁剪后输出的形状。如果size是int，输出(size, size)的正方形；如果size是序列，输出矩形。
-*   **vertical_flip**（_[bool](https://docs.python.org/3/library/functions.html#bool)_）- 使用垂直翻折。
+*   **size**(_序列_ _或_ _[int](https://docs.python.org/3/library/functions.html#int)_）- 裁剪后输出的形状。如果size是int，输出(size, size)的正方形；如果size是序列，输出矩形。
+*   **vertical_flip**(_[bool](https://docs.python.org/3/library/functions.html#bool)_）- 使用垂直翻折。
 
 返回：
 
-* **元组（tl, tr, bl, br, center, tl_flip, tr_flip, bl_flip, br_flip, center_flip）** - 对应的左上、右上、左下、右下、中心裁剪图片和水平翻折后的图片。
+* **元组(tl, tr, bl, br, center, tl_flip, tr_flip, bl_flip, br_flip, center_flip）** - 对应的左上、右上、左下、右下、中心裁剪图片和水平翻折后的图片。
 
 返回类型：
 
@@ -781,7 +781,7 @@ torchvision.transforms.functional.to_grayscale(img, num_output_channels=1)
 
 参数：
 
-*   **img**（_PIL图像_）– 要转化成灰阶图像的图片。
+*   **img**(_PIL图像_）– 要转化成灰阶图像的图片。
 
 返回：
 
@@ -801,8 +801,8 @@ torchvision.transforms.functional.to_pil_image(pic, mode=None)
  
 参数： 
 
-*   **pic**（[_Tensor_](../tensors.html#torch.Tensor "torch.Tensor") _或_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.15)")）– 要转化成PIL的图片。
-*   **mode**（[PIL.Image mode](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes)）– 输入数据的色彩空间和像素深度。（可选）
+*   **pic**([_Tensor_](../tensors.html#torch.Tensor "torch.Tensor") _或_ [_numpy.ndarray_](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray "(in NumPy v1.15)")）– 要转化成PIL的图片。
+*   **mode**([PIL.Image mode](http://pillow.readthedocs.io/en/latest/handbook/concepts.html#modes)）– 输入数据的色彩空间和像素深度。(可选）
 
  
 返回：
@@ -840,7 +840,7 @@ torchvision.transforms.functional.vflip(img)
 
 参数：
 
-*   **img**（_PIL图像_）– 要翻折的图像。
+*   **img**(_PIL图像_）– 要翻折的图像。
 
 返回：
 

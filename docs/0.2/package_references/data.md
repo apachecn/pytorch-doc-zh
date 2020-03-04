@@ -17,7 +17,7 @@ class torch.utils.data.TensorDataset(data_tensor, target_tensor)
 **参数：**
 
 - **data_tensor** (*Tensor*) －　包含样本数据
-- **target_tensor** (*Tensor*) －　包含样本目标（标签）
+- **target_tensor** (*Tensor*) －　包含样本目标(标签）
 
 ```python
 class torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, num_workers=0, collate_fn=<function default_collate>, pin_memory=False, drop_last=False)
@@ -70,7 +70,7 @@ class torch.utils.data.sampler.SubsetRandomSampler(indices)
 ```python
 class torch.utils.data.sampler.WeightedRandomSampler(weights, num_samples, replacement=True)
 ```
-样本元素来自于[0,..,len(weights)-1]，给定概率（weights）。
+样本元素来自于[0,..,len(weights)-1]，给定概率(weights）。
 
 **参数：**
 - **weights** (*list*) – 权重列表。没必要加起来为1

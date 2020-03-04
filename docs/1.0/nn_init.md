@@ -243,7 +243,7 @@ torch.nn.init.kaiming_normal_(tensor, a=0, mode='fan_in', nonlinearity='leaky_re
 torch.nn.init.orthogonal_(tensor, gain=1)
 ```
 
-用论文 “Exact solutions to the nonlinear dynamics of learning in deep linear neural networks” - Saxe, A. et al. (2013) 中描述的（半）正定矩阵初始化输入 `Tensor`。输入张量必须至少有 2 维，如果输入张量的维度大于 2， 则对后续维度进行放平操作。
+用论文 “Exact solutions to the nonlinear dynamics of learning in deep linear neural networks” - Saxe, A. et al. (2013) 中描述的(半）正定矩阵初始化输入 `Tensor`。输入张量必须至少有 2 维，如果输入张量的维度大于 2， 则对后续维度进行放平操作。
 
  
 参数： 

@@ -49,7 +49,7 @@ image_name,part_0_x,part_0_y,part_1_x,part_1_y,part_2_x, ... ,part_67_x,part_67_
 
 ```
 
-快速读取csv并将标注点数据写入（N，2）数组中，其中N是特征点的数量。
+快速读取csv并将标注点数据写入(N，2）数组中，其中N是特征点的数量。
 
 ```py
 landmarks_frame = pd.read_csv('data/faces/face_landmarks.csv')
@@ -348,8 +348,8 @@ for i in range(len(transformed_dataset)):
 
 但是，对所有数据集简单的使用 `for` 循环牺牲了许多功能，尤其是:
 
-*   批处理数据（Batching the data）
-*   打乱数据（Shuffling the data）
+*   批处理数据(Batching the data）
+*   打乱数据(Shuffling the data）
 *   使用多线程 `multiprocessing` 并行加载数据。
 
 `torch.utils.data.DataLoader` 这个迭代器提供了以上所有功能。 下面使用的参数必须是清楚的。 一个值得关注的参数是 `collate_fn`. 你可以通过 `collate_fn` 来决定如何对数据进行批处理。 但是绝大多数情况下默认值就能运行良好。

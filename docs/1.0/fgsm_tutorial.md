@@ -59,7 +59,7 @@ use_cuda=True
 
 ### 受攻模型
 
-如前所述，受攻模型与[pytorch/examples/mnist](https://github.com/pytorch/examples/tree/master/mnist)中的MNIST模型相同。您可以培训并保存自己的MNIST模型，也可以下载并使用提供的模型。这里的Net定义和测试dataloader是从MNIST示例中复制的。本节的目的是定义模型和加载数据，然后初始化模型并加载预先训练的权重。
+如前所述，受攻模型与[pytorch/examples/mnist](https://github.com/pytorch/examples/tree/master/mnist)中的MNIST模型相同。您可以训练并保存自己的MNIST模型，也可以下载并使用提供的模型。这里的Net定义和测试dataloader是从MNIST示例中复制的。本节的目的是定义模型和加载数据，然后初始化模型并加载预先训练的权重。
 
 ```python
 # LeNet Model definition
@@ -196,12 +196,12 @@ def test( model, device, test_loader, epsilon ):
             # Special case for saving 0 epsilon examples
             if (epsilon == 0) and (len(adv_examples) < 5):
                 adv_ex = perturbed_data.squeeze().detach().cpu().numpy()
-                adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex) )
+                adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex))
         else:
             # Save some adv examples for visualization later
             if len(adv_examples) < 5:
                 adv_ex = perturbed_data.squeeze().detach().cpu().numpy()
-                adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex) )
+                adv_examples.append( (init_pred.item(), final_pred.item(), adv_ex))
 
     # Calculate final accuracy for this epsilon
     final_acc = correct/float(len(test_loader))
@@ -263,7 +263,7 @@ plt.show()
 
 ### 对抗性用例样本
 
-并没有什么尽善尽美之事，在这里，随着`epsilon `的增加，测试精度降低，但扰动变得更容易察觉。实际上，攻击者必须考虑准确性下降和可感知性之间的权衡。在这里，我们展示了在每个值上成功的对抗性例子。图中的每一行都显示不同的`epsilon `值。第一行是$$\epsilon=0$$的例子，它表示原始的无扰动的纯净图像。每个图像的标题显示“原始分类->干扰分类（adversarial classification）”。请注意，在$$\epsilon=0.15$$和$$\epsilon=0.3$$处开始出现明显的扰动。然而，在所有情况下，尽管添加了躁动因素（干扰），人类仍然能够识别正确的类。
+并没有什么尽善尽美之事，在这里，随着`epsilon `的增加，测试精度降低，但扰动变得更容易察觉。实际上，攻击者必须考虑准确性下降和可感知性之间的权衡。在这里，我们展示了在每个值上成功的对抗性例子。图中的每一行都显示不同的`epsilon `值。第一行是$$\epsilon=0$$的例子，它表示原始的无扰动的纯净图像。每个图像的标题显示“原始分类->干扰分类(adversarial classification）”。请注意，在$$\epsilon=0.15$$和$$\epsilon=0.3$$处开始出现明显的扰动。然而，在所有情况下，尽管添加了躁动因素(干扰），人类仍然能够识别正确的类。
 
 ```python
 # Plot several examples of adversarial samples at each epsilon
@@ -289,6 +289,6 @@ plt.show()
 
 ## 接下来的方向
 
-希望本教程对您来说，能够提供一些关于对抗性机器学习主题的见解。从这里开始有很多可能的方向。这种攻击代表了对抗性攻击研究的开始，并且自从有了许多关于如何攻击和保护ML模型不受对手攻击的后续想法以来。事实上，在NIPS 2017年有一场对抗性的攻防竞赛，本文描述了很多比赛中使用的方法:对抗性的攻防及竞赛（[Adversarial Attacks and Defences Competition](https://arxiv.org/pdf/1804.00097.pdf)）。在防御方面的工作也引入了使机器学习模型在一般情况下更健壮`*robust* `的想法，这是一种自然扰动和反向精心设计的输入。
+希望本教程对您来说，能够提供一些关于对抗性机器学习主题的见解。从这里开始有很多可能的方向。这种攻击代表了对抗性攻击研究的开始，并且自从有了许多关于如何攻击和保护ML模型不受对手攻击的后续想法以来。事实上，在NIPS 2017年有一场对抗性的攻防竞赛，本文描述了很多比赛中使用的方法:对抗性的攻防及竞赛([Adversarial Attacks and Defences Competition](https://arxiv.org/pdf/1804.00097.pdf)）。在防御方面的工作也引入了使机器学习模型在一般情况下更健壮`*robust* `的想法，这是一种自然扰动和反向精心设计的输入。
 
 另一个研究方向是不同领域的对抗性攻击和防御。对抗性研究并不局限于图像领域，就比如[这种](https://arxiv.org/pdf/1801.01944.pdf)语音到文本模型`speech-to-text models`的攻击。当然，了解更多关于对抗性机器学习的最好方法是多动手。首先，尝试实现一个不同于NIPS 2017比赛的攻击，看看它与FGSM有什么不同，然后，尝试设计保护模型，使其免于自己的攻击。

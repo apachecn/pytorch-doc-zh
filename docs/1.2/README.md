@@ -62,17 +62,17 @@
         * [语言翻译与TorchText ](beginner/torchtext_translation_tutorial.html)
         * [序列到序列与nn.Transformer和TorchText建模](beginner/transformer_tutorial.html)
     * 强化学习
-        * [强化学习（DQN）教程](intermediate/reinforcement_q_learning.html)
+        * [强化学习(DQN）教程](intermediate/reinforcement_q_learning.html)
     * 在生产部署PyTorch模型
         * [部署PyTorch在Python经由REST API从Flask](intermediate/flask_rest_api_tutorial.html)
         * [介绍TorchScript](beginner/Intro_to_TorchScript_tutorial.html)
         * [在C ++中加载TorchScript模型 ](advanced/cpp_export.html)
-        * [（可选）将模型从PyTorch导出到ONNX并使用ONNX Runtime运行	](advanced/super_resolution_with_onnxruntime.html)
+        * [(可选）将模型从PyTorch导出到ONNX并使用ONNX Runtime运行	](advanced/super_resolution_with_onnxruntime.html)
     * 并行和分布式训练
         * [模型并行化最佳实践](intermediate/model_parallel_tutorial.html)
         * [入门分布式数据并行](intermediate/ddp_tutorial.html)
         * [PyTorch编写分布式应用](intermediate/dist_tuto.html)
-        * [（高级）PyTorch 1.0分布式训练与Amazon AWS](beginner/aws_distributed_training_tutorial.html) 
+        * [(高级）PyTorch 1.0分布式训练与Amazon AWS](beginner/aws_distributed_training_tutorial.html) 
     * 扩展PyTorch
         * [使用自定义 C++ 扩展算TorchScript ](advanced/torch_script_custom_ops.html)
         * [用 numpy 和 scipy 创建扩展](advanced/numpy_extensions_tutorial.html)
@@ -88,7 +88,7 @@
         * [扩展PyTorch](notes/extending.html)
         * [常见问题](notes/faq.html)
         * [对于大规模部署的特点](notes/large_scale_deployments.html)
-        * [多处理最佳实践](notes/multiprocessing.html)
+        * [并行处理最佳实践](notes/multiprocessing.html)
         * [重复性](notes/randomness.html)
         * [序列化语义](notes/serialization.html)
         * [Windows 常见问题](notes/windows.html)

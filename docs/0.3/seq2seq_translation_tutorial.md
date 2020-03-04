@@ -51,7 +51,7 @@
 *   [神经网络机器翻译联合学习对齐和翻译](https://arxiv.org/abs/1409.0473)
 *   [神经会话模型](http://arxiv.org/abs/1506.05869)
 
-你还可以找到以前的教程关于Character-Level RNN名称分类 [用字符级RNN分类名称](char_rnn_classification_tutorial.html) 和生成名称 [基与字符级RNN（Char-RNN）的人名生成](char_rnn_generation_tutorial.html) 这些概念与编码器和解码器模型非常相似.
+你还可以找到以前的教程关于Character-Level RNN名称分类 [用字符级RNN分类名称](char_rnn_classification_tutorial.html) 和生成名称 [基与字符级RNN(Char-RNN）的人名生成](char_rnn_generation_tutorial.html) 这些概念与编码器和解码器模型非常相似.
 
 更多内容请阅读介绍这些主题的论文:
 
@@ -614,7 +614,7 @@ def evaluateRandomly(encoder, decoder, n=10):
 
 ## 训练和评估
 
-有了所有这些辅助功能(它看起来像是额外的工作,但它使运行多个实验更容易), 我们就立马可以初始化网络并开始培训.
+有了所有这些辅助功能(它看起来像是额外的工作,但它使运行多个实验更容易), 我们就立马可以初始化网络并开始训练.
 
 请记住输入句子被严重过滤, 对于这个小数据集,我们可以使用包含256个隐藏节点 和单个GRU层的相对较小的网络.在MacBook CPU上约40分钟后,我们会得到一些合理的结果.
 

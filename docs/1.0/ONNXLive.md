@@ -5,13 +5,13 @@
 本教程将向您展示如何使用ONNX将已从PyTorch导出的神经模型传输模型转换为Apple CoreML格式。这将允许您在Apple设备上轻松运行深度学习模型，在这种情况下，可以从摄像机直播演示。  
 
 ## 什么是ONNX  
-ONNX（开放式神经网络交换）是一种表示深度学习模型的开放格式。借助ONNX，AI开发人员可以更轻松地在最先进的工具之间移动模型，并选择最适合它们的组合。ONNX由合作伙伴社区开发和支持。 您可以访问 [onnx.ai](https://onnx.ai/)，了解有关ONNX的更多信息以及支持的工具。  
+ONNX(开放式神经网络交换）是一种表示深度学习模型的开放格式。借助ONNX，AI开发人员可以更轻松地在最先进的工具之间移动模型，并选择最适合它们的组合。ONNX由合作伙伴社区开发和支持。 您可以访问 [onnx.ai](https://onnx.ai/)，了解有关ONNX的更多信息以及支持的工具。  
 
 ## 教程预览  
 
 本教程将带你走过如下主要4步：  
 
-1.  [下载（或训练）Pytorch风格装换模型](#download-or-train-pytorch-style-transfer-models)
+1.  [下载(或训练）Pytorch风格装换模型](#download-or-train-pytorch-style-transfer-models)
 2.  [将PyTorch模型转换至ONNX模型](#convert-the-pytorch-models-to-onnx-models)
 3.  [将ONNX模型转换至CoreML模型](#convert-the-onnx-models-to-coreml-models)
 4.  [在支持风格转换iOS App中运行CoreML模型](#run-the-coreml-models-in-a-style-transfer-ios-app)  
@@ -35,7 +35,7 @@ pip install torchvision onnx-coreml
 
 如果要在iPhone上运行iOS样式传输应用程序，还需要安装XCode。您也可以在Linux中转换模型，但要运行iOS应用程序本身，您将需要一台Mac。
   
-## 下载（或训练）Pytorch风格装换模型  
+## 下载(或训练）Pytorch风格装换模型  
 
 在本教程中，我们将使用与pytorch一起发布的样式传输模型，地址为https://github.com/pytorch/examples/tree/master/fast_neural_style。如果您想使用其他PyTorch或ONNX模型，请随意跳过此步骤。  
 
@@ -85,7 +85,7 @@ python ./neural_style/neural_style.py eval --content-image dummy.jpg --output-im
 
 现在我们有了ONNX模型，我们可以将它们转换为CoreML模型，以便在Apple设备上运行它们。为此，我们使用之前安装的onnx-coreml转换器。转换器附带一个convert-onnx-to-coreml脚本，上面的安装步骤添加到我们的路径中。遗憾的是，这对我们不起作用，因为我们需要将网络的输入和输出标记为图像，并且虽然这是转换器支持的，但只有在从python调用转换器时才支持它。  
 
-通过查看样式传输模型（例如在像Netron这样的应用程序中打开.onnx文件），我们看到输入名为'0'，输出名为'186'。这些只是PyTorch分配的数字ID。我们需要将它们标记为图像。  
+通过查看样式传输模型(例如在像Netron这样的应用程序中打开.onnx文件），我们看到输入名为'0'，输出名为'186'。这些只是PyTorch分配的数字ID。我们需要将它们标记为图像。  
 
 所以让我们创建一个python小文件并将其命名为onnx_to_coreml.py。这可以通过使用touch命令创建，并使用您喜欢的编辑器进行编辑，以添加以下代码行。  
 
@@ -119,7 +119,7 @@ python onnx_to_coreml.py ./saved_models/mosaic.onnx ./saved_models/mosaic.mlmode
 
 ## 在支持风格转换iOS App中运行CoreML模型    
 
-此存储库（即您当前正在阅读README.md的存储库）包含一个iOS应用程序，可以在手机摄像头的实时摄像头流上运行CoreML样式传输模型。  
+此存储库(即您当前正在阅读README.md的存储库）包含一个iOS应用程序，可以在手机摄像头的实时摄像头流上运行CoreML样式传输模型。  
 
 ```py
 git clone https://github.com/onnx/tutorials

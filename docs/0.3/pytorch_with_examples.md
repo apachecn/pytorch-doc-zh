@@ -475,7 +475,7 @@ for t in range(500):
     loss = loss_fn(y_pred, y)
     print(t, loss.data[0])
 
-    # 在向后传递之前,使用优化器对象为其要更新的变量（这是模型的可学习权重）的所有梯度归零.
+    # 在向后传递之前,使用优化器对象为其要更新的变量(这是模型的可学习权重）的所有梯度归零.
     # 这是因为默认情况下,只要调用.backward(),梯度就会在缓冲区中累积(即不会被覆盖).
     # 查看torch.autograd.backward的文档以获取更多详细信息.
     optimizer.zero_grad()

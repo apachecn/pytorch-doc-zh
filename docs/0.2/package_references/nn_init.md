@@ -18,7 +18,7 @@ torch.nn.init.calculate_gain(nonlinearity,param=None)
 
 **参数：**
 
-- **nonlinearity** - 非线性函数（`nn.functional`名称）
+- **nonlinearity** - 非线性函数(`nn.functional`名称）
 - **param** - 非线性函数的可选参数
 
 **例子：**
@@ -162,8 +162,8 @@ torch.nn.init.kaiming_uniform(tensor, a=0, mode='fan_in')
 **参数：**
 
 - **tensor** – n维的torch.Tensor或autograd.Variable
-- **a** -这层之后使用的rectifier的斜率系数（ReLU的默认值为0）
-- **mode** -可以为“fan_in”（默认）或“fan_out”。“fan_in”保留前向传播时权值方差的量级，“fan_out”保留反向传播时的量级。
+- **a** -这层之后使用的rectifier的斜率系数(ReLU的默认值为0）
+- **mode** -可以为“fan_in”(默认）或“fan_out”。“fan_in”保留前向传播时权值方差的量级，“fan_out”保留反向传播时的量级。
 
 **例子：**
 
@@ -181,8 +181,8 @@ torch.nn.init.kaiming_normal(tensor, a=0, mode='fan_in')
 **参数：**
 
 - **tensor** – n维的torch.Tensor或 autograd.Variable
-- **a** -这层之后使用的rectifier的斜率系数（ReLU的默认值为0）
-- **mode** -可以为“fan_in”（默认）或“fan_out”。“fan_in”保留前向传播时权值方差的量级，“fan_out”保留反向传播时的量级。
+- **a** -这层之后使用的rectifier的斜率系数(ReLU的默认值为0）
+- **mode** -可以为“fan_in”(默认）或“fan_out”。“fan_in”保留前向传播时权值方差的量级，“fan_out”保留反向传播时的量级。
 
 **例子：**
 
@@ -195,7 +195,7 @@ torch.nn.init.kaiming_normal(tensor, a=0, mode='fan_in')
 torch.nn.init.orthogonal(tensor, gain=1)
 ```
 
-用（半）正交矩阵填充输入的张量或变量。输入张量必须至少是2维的，对于更高维度的张量，超出的维度会被展平，视作行等于第一个维度，列等于稀疏矩阵乘积的2维表示。其中非零元素生成自均值为0，标准差为std的正态分布。
+用(半）正交矩阵填充输入的张量或变量。输入张量必须至少是2维的，对于更高维度的张量，超出的维度会被展平，视作行等于第一个维度，列等于稀疏矩阵乘积的2维表示。其中非零元素生成自均值为0，标准差为std的正态分布。
 
 参考：Saxe, A等人(2013)的“Exact solutions to the nonlinear dynamics of learning in deep linear neural networks”
 

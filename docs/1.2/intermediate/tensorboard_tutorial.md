@@ -8,7 +8,7 @@
 
 在本教程中，我们将学习如何：
 
-* 读入数据并进行适当的转换（与先前的教程几乎相同）。
+* 读入数据并进行适当的转换(与先前的教程几乎相同）。
 * 设置TensorBoard。
 * 写入TensorBoard。
 * 使用TensorBoard检查模型架构。
@@ -297,7 +297,7 @@ print('Finished Training')
 ![https://pytorch.org/tutorials/_static/img/tensorboard_images.png](https://pytorch.org/tutorials/_static/img/tensorboard_images.png)
 
 
-在之前的教程中，我们研究了模型训练后的每班准确性；在这里，我们将使用TensorBoard绘制每个类的精确调用曲线（[此处](https://www.scikit-yb.org/en/latest/api/classifier/prcurve.html)有很好的解释 ）。
+在之前的教程中，我们研究了模型训练后的每班准确性；在这里，我们将使用TensorBoard绘制每个类的精确调用曲线([此处](https://www.scikit-yb.org/en/latest/api/classifier/prcurve.html)有很好的解释 )。
 
 ## 6. 使用TensorBoard评估经过训练的模型
 

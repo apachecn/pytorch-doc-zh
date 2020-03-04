@@ -15,13 +15,13 @@ torch.save(obj, f, pickle_module=<module 'pickle' from '/scratch/rzou/pt/release
 参数：
 
 *   **obj** - 保存对象
-*   **f** - 类似文件的对象（必须实现写入和刷新）或包含文件名的字符串
+*   **f** - 类似文件的对象(必须实现写入和刷新）或包含文件名的字符串
 *   **pickle_module** - 用于腌制元数据和对象的模块
 *   **pickle_protocol** - 可以指定覆盖默认协议
 
 警告
 
-如果您使用的是Python 2，则torch.save不支持将StringIO.StringIO作为有效的类文件对象。这是因为write方法应该返回写入的字节数; StringIO.write（）不会这样做。
+如果您使用的是Python 2，则torch.save不支持将StringIO.StringIO作为有效的类文件对象。这是因为write方法应该返回写入的字节数; StringIO.write(）不会这样做。
 
 请使用像io.BytesIO这样的东西。
 
@@ -43,21 +43,21 @@ torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/scratch/r
 
 从文件加载用 [`torch.save()`](#torch.save "torch.save") 保存的对象。
 
-[`torch.load()`](#torch.load "torch.load") 使用Python的unpickling设施，但特别是处理作为张量传感器的存储器。它们首先在CPU上反序列化，然后移动到它们保存的设备上。如果此操作失败（例如，因为运行时系统没有某些设备），则会引发异常。但是，可以使用`map_location`参数将存储重新映射到另一组设备。
+[`torch.load()`](#torch.load "torch.load") 使用Python的unpickling设施，但特别是处理作为张量传感器的存储器。它们首先在CPU上反序列化，然后移动到它们保存的设备上。如果此操作失败(例如，因为运行时系统没有某些设备），则会引发异常。但是，可以使用`map_location`参数将存储重新映射到另一组设备。
 
-如果`map_location`是可调用的，则每个序列化存储器将调用一次，其中包含两个参数：存储和位置。存储参数将是驻留在CPU上的存储的初始反序列化。每个序列化存储都有一个与之关联的位置标记，用于标识从中保存的设备，此标记是传递给map_location的第二个参数。内置位置标签是CPU张量的`‘cpu’`和CUDA张量的`‘cuda:device_id’`（例如`‘cuda:2’`）。 `map_location`应返回None或存储。如果`map_location`返回存储，它将用作最终反序列化对象，已移动到正确的设备。否则， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg) 将回退到默认行为，就像未指定`map_location`一样。
+如果`map_location`是可调用的，则每个序列化存储器将调用一次，其中包含两个参数：存储和位置。存储参数将是驻留在CPU上的存储的初始反序列化。每个序列化存储都有一个与之关联的位置标记，用于标识从中保存的设备，此标记是传递给map_location的第二个参数。内置位置标签是CPU张量的`‘cpu’`和CUDA张量的`‘cuda:device_id’`(例如`‘cuda:2’`）。 `map_location`应返回None或存储。如果`map_location`返回存储，它将用作最终反序列化对象，已移动到正确的设备。否则， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg) 将回退到默认行为，就像未指定`map_location`一样。
 
 如果`map_location`是一个字符串，它应该是一个设备标签，应该加载所有张量。
 
-否则，如果`map_location`是一个dict，它将用于将文件（键）中出现的位置标记重新映射到指定存储位置（值）的位置标记。
+否则，如果`map_location`是一个dict，它将用于将文件(键）中出现的位置标记重新映射到指定存储位置(值）的位置标记。
 
 用户扩展可以使用`register_package`注册自己的位置标记以及标记和反序列化方法。
 
 Parameters:
 
-*   **f** - 类文件对象（必须实现read，readline，tell和seek），或包含文件名的字符串
+*   **f** - 类文件对象(必须实现read，readline，tell和seek），或包含文件名的字符串
 *   **map_location** - 一个函数，torch.device，string或dict，指定如何重新映射存储位置
-*   **pickle_module** - 用于取消元数据和对象取消的模块（必须与用于序列化文件的pickle_module相匹配）
+*   **pickle_module** - 用于取消元数据和对象取消的模块(必须与用于序列化文件的pickle_module相匹配）
 
 注意
 
