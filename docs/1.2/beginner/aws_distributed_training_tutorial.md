@@ -1,4 +1,4 @@
-# （高级）PyTorch 1.0分布式训练与Amazon AWS
+# (高级）PyTorch 1.0分布式训练与Amazon AWS
 
 **作者** ：[弥敦道Inkawhich ](https://github.com/inkawhich)
 
@@ -15,7 +15,7 @@
 
 在亚马逊AWS，有七个步骤来创建一个实例。要开始，登录并选择 **启动实例[HTG1。**
 
-[HTG0步骤1：选择一个亚马逊机器映像（AMI） - 在这里，我们将选择`深 学习 AMI  （Ubuntu的） 版 14.0
+[HTG0步骤1：选择一个亚马逊机器映像(AMI） - 在这里，我们将选择`深 学习 AMI  (Ubuntu的） 版 14.0
 `。如上所述，这种情况下附带了许多安装了最流行的深学习框架，并进行了预配置CUDA，cuDNN和NCCL。正是由于这个教程一个很好的起点。
 
 **步骤2：选择一个实例类型** \- 称为`现在，选择GPU计算单元p2.8xlarge
@@ -23,20 +23,20 @@
 
 **步骤3：配置实例详细说明** \- 改变这里的唯一设置在增加的实例的 _Number来2.所有其它配置可以在默认留。_
 
-**第四步：添加存储** \- 请注意，默认情况下，这些节点不来了大量的存储空间（只有75
+**第四步：添加存储** \- 请注意，默认情况下，这些节点不来了大量的存储空间(只有75
 GB）。对于本教程，因为我们只使用STL-10数据集，这是充足的存储空间。但是，如果你想在一个更大的数据集，如ImageNet训练，你将不得不增加更多的存储只是为了适应数据集，并要保存任何训练的模型。
 
 [HTG0步骤5：添加标签 - 什么可以在这里完成，只是继续前进。
 
 [HTG0步骤6：配置安全组 - 这是在配置过程中的关键步骤。默认情况下，同一安全组中的两个节点将不能够在分布式训练环境进行通信。在这里，我们要创建一个
-**新** 为两个节点安全组是在，但我们无法完成配置在这一步。现在，只记得你的新的安全组的名称（例如，推出的向导-12），然后转移到步骤7。
+**新** 为两个节点安全组是在，但我们无法完成配置在这一步。现在，只记得你的新的安全组的名称(例如，推出的向导-12），然后转移到步骤7。
 
 [HTG0步骤7：回顾实例启动 - 在这里，查看实例，然后启动它。默认情况下，会自动启动初始化两个实例。您可以监视从仪表板的初始化进度。
 
 ### 配置安全组
 
 回想一下，我们无法创建实例时正确配置安全组。一旦你启动实例，选择 _网络 &放;安全& GT
-;安全组_在EC2仪表板选项卡。这将显示您可以访问安全组的列表。选择在步骤6中创建的新的安全组（即启动的向导-12），这将打开的选项卡被称为
+;安全组_在EC2仪表板选项卡。这将显示您可以访问安全组的列表。选择在步骤6中创建的新的安全组(即启动的向导-12），这将打开的选项卡被称为
 _说明，入站，出站，和标签_ 。首先，选择 _入境_ 选项卡和 _编辑_ 从“源”推出的向导-12安全组中添加规则允许“所有流量”。然后选择 _出境_
 选项卡，然后做同样的事情。现在，我们已经有效地使推出的向导-12安全组中的节点之间的所有类型的所有入站和出站流量。
 
@@ -48,7 +48,7 @@ _私人IP地址[HTG3。对于文档的其余部分，我们将把这些作为 **
 
 ## 环境设置
 
-下一关键步骤是在每个节点的设置。不幸的是，我们不能同时设置两个节点，所以这个过程必须在每个节点上分别进行。然而，这是一个时间的设置，所以一旦你正确配置的节点，您将不必重新配置为未来分布式培训项目。
+下一关键步骤是在每个节点的设置。不幸的是，我们不能同时设置两个节点，所以这个过程必须在每个节点上分别进行。然而，这是一个时间的设置，所以一旦你正确配置的节点，您将不必重新配置为未来分布式训练项目。
 
 第一步骤中，一旦登录到节点，是与蟒3.6和numpy的创建一个新的康达环境。一旦创建启动环境。
 
@@ -77,7 +77,7 @@ _私人IP地址[HTG3。对于文档的其余部分，我们将把这些作为 **
 
 最后， **非常重要[HTG1步骤是为NCCL插座设置网络接口的名称。这被设定为环境变量`NCCL_SOCKET_IFNAME
 `。为了得到正确的名称，该节点上运行`使用ifconfig`命令，查看对应的接口名称节点的 _privateIP
-[HTG11（例如ens3）。然后设置环境变量_**
+[HTG11(例如ens3）。然后设置环境变量_**
 
     
     
@@ -104,8 +104,8 @@ torchvision.datasets.STL10
 ](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel)，torch.distributed
 [，torch.utils.data.distributed
 ](https://pytorch.org/docs/stable/distributed.html)
-[和](https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler)[Torch 。多处理](https://pytorch.org/docs/stable/multiprocessing.html)。同样重要的是，设置多启动方法为
-_菌种_ 或 _forkserver_ （仅在Python 3支持），作为默认的是 _叉_ 这可能引起死锁时使用多个工作进行dataloading处理。
+[和](https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler)[Torch 。并行处理](https://pytorch.org/docs/stable/multiprocessing.html)。同样重要的是，设置多启动方法为
+_菌种_ 或 _forkserver_ (仅在Python 3支持），作为默认的是 _叉_ 这可能引起死锁时使用多个工作进行dataloading处理。
 
     
     
@@ -131,8 +131,8 @@ _菌种_ 或 _forkserver_ （仅在Python 3支持），作为默认的是 _叉_ 
 
 ### 辅助函数
 
-我们还必须定义一些辅助函数和类将会使培训更容易。在`AverageMeter`类曲目培训统计资料，例如精度和迭代次数。在`精度
-`函数计算并返回模型的前k精度，所以我们可以跟踪学习进度。两者都提供了方便训练但是没有分配具体的培训。
+我们还必须定义一些辅助函数和类将会使训练更容易。在`AverageMeter`类曲目训练统计资料，例如精度和迭代次数。在`精度
+`函数计算并返回模型的前k精度，所以我们可以跟踪学习进度。两者都提供了方便训练但是没有分配具体的训练。
 
     
     
@@ -176,7 +176,7 @@ _菌种_ 或 _forkserver_ （仅在Python 3支持），作为默认的是 _叉_ 
 一个历元输入模型。在此功能仅分布训练神器的数据和标签张量[ non_blocking
 ](https://pytorch.org/docs/stable/notes/cuda.html#use-pinned-memory-
 buffers)属性设置为`前直传真
-[HTG11。这使得数据传输含义异步GPU拷贝可以与计算重叠。该功能还输出沿途培训统计，所以我们可以跟踪整个时代的进步。`
+[HTG11。这使得数据传输含义异步GPU拷贝可以与计算重叠。该功能还输出沿途训练统计，所以我们可以跟踪整个时代的进步。`
 
 其它功能在这里定义为`adjust_learning_rate
 `，其衰减在一个固定的时间表初始学习速率。这又是一个样板教练功能是训练精确的模型非常有用。
@@ -298,14 +298,14 @@ non_blocking =真 `训练数据和标签它们传递给模型前。
 
 ### 输入
 
-随着辅助函数的方式进行，现在我们已经到了有趣的部分。这里我们将定义运行的输入。一些输入是标准模型的培训投入，如批量大小和训练时期的数量，有些是专门针对我们的分布式训练任务。所需的输入是：
+随着辅助函数的方式进行，现在我们已经到了有趣的部分。这里我们将定义运行的输入。一些输入是标准模型的训练投入，如批量大小和训练时期的数量，有些是专门针对我们的分布式训练任务。所需的输入是：
 
   * **的batch_size** \- 批量大小为 _分布式训练组中的每个_ 过程。在分布式模型总批量大小的batch_size是* world_size
   * **工人** \- 中的每个进程与所述dataloaders使用的工作进程数
   * **num_epochs** \- 历元用于训练的总次数
   * **starting_lr** \- 开始进行训练学习速率
   * **world_size** \- 过程在分布式训练环境数
-  * **dist_backend** \- 后端用于分布式训练的通信（即NCCL，GLOO，MPI，等）。在本教程中，由于我们使用几个多GPU节点，NCCL建议。
+  * **dist_backend** \- 后端用于分布式训练的通信(即NCCL，GLOO，MPI，等）。在本教程中，由于我们使用几个多GPU节点，NCCL建议。
   * **dist_url** \- URL来指定处理组的初始化方法。这可以包含rank0处理的IP地址和端口或者是一个共享的文件系统上的不存在的文件。这里，因为我们没有一个共享文件系统，这将包括在NODE0使用 **NODE0-privateIP** 和端口。
 
     
@@ -338,7 +338,7 @@ non_blocking =真 `训练数据和标签它们传递给模型前。
 
 一个在PyTorch分布式训练的最重要的部分是正确设置进程组，这是在初始化`torch.distributed`包 **第一**
 步骤。要做到这一点，我们将使用`torch.distributed.init_process_group`功能，需要几个输入。首先， _后端_
-输入指定后端使用（即NCCL，GLOO，MPI，等）。一个 _init_method_
+输入指定后端使用(即NCCL，GLOO，MPI，等）。一个 _init_method_
 输入其是含有rank0机器的地址和端口或共享文件系统上的一个不存在的文件的路径的URL。注意，使用文件init_method，所有机器必须能够访问该文件，同样的网址的方法，所有机器必须能够在网络上进行通信，从而确保配置任何防火墙和网络设置，以适应。的
 _init_process_group_ 功能也需要 _秩_ 和 _world_size_ 用于指定运行时该方法的秩和的过程中集体的数量，分别参数。的
 _init_method_ 输入也可以是“ENV：//”。
@@ -347,8 +347,8 @@ RANK，WORLD_SIZE：如果 _位次_ 和 _world_size_ 未在 _init_process_group_
 功能指定的参数，它们都可以从以下两个环境变量分别也被读取。
 
 另一个重要的步骤，特别是当每一个节点具有多个GPU是设置 _local_rank_ 该方法的。例如，如果有两个节点，每个节点8个GPU和希望与他们的训练然后
-\（世界\ _size = 16
-\），并且每个节点将与本地秩0-的处理7。此local_rank用于设置该装置（即要使用的GPU）的过程和随后用于创建分布式数据并行模型时设置该装置。此外，还建议使用NCCL后端在这个假设的环境NCCL是优选的多GPU节点。
+\(世界\ _size = 16
+\），并且每个节点将与本地秩0-的处理7。此local_rank用于设置该装置(即要使用的GPU）的过程和随后用于创建分布式数据并行模型时设置该装置。此外，还建议使用NCCL后端在这个假设的环境NCCL是优选的多GPU节点。
 
     
     
@@ -370,13 +370,13 @@ RANK，WORLD_SIZE：如果 _位次_ 和 _world_size_ 未在 _init_process_group_
 
 ### 初始化模型
 
-下一个主要步骤是初始化进行培训的模式。在这里，我们将使用`torchvision.models
+下一个主要步骤是初始化进行训练的模式。在这里，我们将使用`torchvision.models
 `一个resnet18模式，但可以使用任何模型。首先，我们初始化模式，并把它放在GPU内存。接下来，我们使模型`
 DistributedDataParallel`，其处理数据的分布和模型，是分布式训练的关键。在`DistributedDataParallel
 `模块还可以处理世界各地的梯度的平均，所以我们没有在训练步骤明确平均梯度。
 
 要注意，这是一个阻塞功能，这意味着程序执行将在此函数等到 _world_size_
-工艺已经加入了处理组是重要的。另外，还要注意我们传递的设备ID列表，其中包含了本地等级（即GPU），我们正在使用的参数。最后，我们确定损失的功能和优化训练与模型。
+工艺已经加入了处理组是重要的。另外，还要注意我们传递的设备ID列表，其中包含了本地等级(即GPU），我们正在使用的参数。最后，我们确定损失的功能和优化训练与模型。
 
     
     
@@ -427,7 +427,7 @@ DistributedSampler`对于训练集，其被设计为与`DistributedDataParallel�
 ### 训练循环
 
 最后一步是界定训练循环。我们已经完成了大部分的工作，为建立分布式训练所以这不是分布式训练具体。唯一的细节是设置在`DistributedSampler
-`，作为取样洗牌的数据要每个进程确定性地基于历元的当前历元计数。更新采样后，循环运行完整的训练时期，然后运行一个完整的验证步骤打印对表现最好的模型当前模型的性能至今。对于num_epochs训练结束后，退出循环和教程结束。请注意，因为这是我们没有保存模型的工作，但不妨一跟踪性能最佳的模型，然后将其保存在训练结束（见[此处](https://github.com/pytorch/examples/blob/master/imagenet/main.py#L184)）。
+`，作为取样洗牌的数据要每个进程确定性地基于历元的当前历元计数。更新采样后，循环运行完整的训练时期，然后运行一个完整的验证步骤打印对表现最好的模型当前模型的性能至今。对于num_epochs训练结束后，退出循环和教程结束。请注意，因为这是我们没有保存模型的工作，但不妨一跟踪性能最佳的模型，然后将其保存在训练结束(见[此处](https://github.com/pytorch/examples/blob/master/imagenet/main.py#L184)）。
 
     
     
@@ -459,8 +459,8 @@ DistributedSampler`对于训练集，其被设计为与`DistributedDataParallel�
 
 ## 运行代码
 
-与其他大多数PyTorch教程，这些代码可能无法直接从这款笔记本的运行。要运行，下载此文件的版本的.py（或使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)将其转换）并上传一份给两个节点。细心的读者会注意到，我们硬编码了
-**NODE0-privateIP** 和 \（世界\ _size = 4 \）HTG5]，但输入 _位次_ 和 _local_rank_ 输入作为ARG
+与其他大多数PyTorch教程，这些代码可能无法直接从这款笔记本的运行。要运行，下载此文件的版本的.py(或使用[这个](https://gist.github.com/chsasank/7218ca16f8d022e02a9c0deb94a310fe)将其转换）并上传一份给两个节点。细心的读者会注意到，我们硬编码了
+**NODE0-privateIP** 和 \(世界\ _size = 4 \）HTG5]，但输入 _位次_ 和 _local_rank_ 输入作为ARG
 [1]和Arg [2]的命令行参数，分别。上传后，打开两个SSH终端到每个节点。
 
   * 论NODE0第一终端，运行`$  蟒 main.py  0  0`
@@ -480,7 +480,7 @@ NVIDIA-SMI`每个节点上，你会看到每个节点上的两个过程，一个
   * 检查出的[ torch.multiprocessing.spawn实用程序[HTG1用于开球多个分布式方法的另一个简单的方法。 ](https://pytorch.org/docs/master/multiprocessing.html#spawning-subprocesses)[ PyTorch ImageNet实施例](https://github.com/pytorch/examples/tree/master/imagenet)已将其实现，并且可以显示如何使用它。
   * 如果可能的话，设置一个NFS所以你只需要数据集中的一个副本
 
-**脚本的总运行时间：** （0分钟0.000秒）
+**脚本的总运行时间：** (0分钟0.000秒）
 
 [`Download Python source code:
 aws_distributed_training_tutorial.py`](../_downloads/f8e87d04570b9a376652ece1006edccb/aws_distributed_training_tutorial.py)
@@ -512,7 +512,7 @@ Thank you
 
 
 
-  * [HTG0 （高级）PyTorch 1.0分布式训练与Amazon AWS 
+  * [HTG0 (高级）PyTorch 1.0分布式训练与Amazon AWS 
     * 亚马逊AWS设定
       * 创建节点
       * 配置安集团
@@ -527,7 +527,7 @@ Thank you
       * 初始化处理组
       * 初始化模型
       * 初始化Dataloaders 
-      * 培训环
+      * 训练环
     * 运行代码
 
 ![](https://www.facebook.com/tr?id=243028289693773&ev=PageView

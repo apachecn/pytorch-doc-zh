@@ -6,7 +6,7 @@
 >
 > **校验**：[松鼠](https://github.com/HelWireless)
 
-本教程是TorchScript的简介，TorchScript是PyTorch模型（子类nn.Module）的中间表示，可以在高性能环境（例如C ++）中运行。
+本教程是TorchScript的简介，TorchScript是PyTorch模型(子类nn.Module）的中间表示，可以在高性能环境(例如C ++）中运行。
 
 在本教程中，我们将介绍：
 
@@ -15,7 +15,7 @@
     * 定义`forward`功能
     * 构成模块组成模块的层次结构
 
-2. 将PyTorch模块转换为TorchScript（我们的高性能部署运行时）的特定方法
+2. 将PyTorch模块转换为TorchScript(我们的高性能部署运行时）的特定方法
     * 跟踪现有模块
     * 使用脚本来直接编译的模块
     * 如何组合这两种方法
@@ -206,9 +206,9 @@ Out:
 
 我们来看看之前的例子。和以前一样，我们实例化了它，但是这次，我们使用`torch.jit.trace`方法调用了Module，并传入，然后传入了网络可能的示例输入。
 
-这到底是做什么的？它已调用`Module`，记录了`Module`运行时发生的操作，并创建了`torch.jit.ScriptModule`（TracedModule的实例）
+这到底是做什么的？它已调用`Module`，记录了`Module`运行时发生的操作，并创建了`torch.jit.ScriptModule`(TracedModule的实例）
 
-TorchScript将其定义记录在中间表示（或IR）中，在深度学习中通常称为图形。我们可以检查具有以下`.graph`属性的图形：
+TorchScript将其定义记录在中间表示(或IR）中，在深度学习中通常称为图形。我们可以检查具有以下`.graph`属性的图形：
     
 ```python    
     print(traced_cell.graph)
@@ -376,7 +376,7 @@ Out:
 
 ### 混合脚本和跟踪
 
-在某些情况下，我们只需要追踪的的结果而不需要全部脚本（例如，模块具有许多条件分支，这些分支我们并不希望展现在TorchScript中）。在这种情况下，脚本可以与用以下方法跟踪：`torch.jit.script`。他将只会追踪方法内的脚本，不会展示方法外的脚本情况。
+在某些情况下，我们只需要追踪的的结果而不需要全部脚本(例如，模块具有许多条件分支，这些分支我们并不希望展现在TorchScript中）。在这种情况下，脚本可以与用以下方法跟踪：`torch.jit.script`。他将只会追踪方法内的脚本，不会展示方法外的脚本情况。
 
 第一种情况的一个示例：
 ```python 
@@ -510,7 +510,7 @@ Out:
 
 我们已经完成了教程！有关更多涉及的演示，请查看NeurIPS演示，以使用TorchScript转换[机器翻译模型](https://colab.research.google.com/drive/1HiICg6jRkBnr5hvK2-VnMi88Vi9pUzEJ)
 
-**脚本的总运行时间：** （0分钟0.252秒）
+**脚本的总运行时间：** (0分钟0.252秒）
 
 
 

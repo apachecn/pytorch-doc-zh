@@ -180,7 +180,7 @@ torch.nn.functional.adaptive_max_pool1d(input, output_size, return_indices=False
 有关详细信息和输出形状，请参阅`AdaptiveMaxPool1d`。
 
 **参数：**
-- **output_size** – 目标输出大小（单个整数）
+- **output_size** – 目标输出大小(单个整数）
 - **return_indices** – 是否返回池化的指数
 
 ```python
@@ -191,7 +191,7 @@ torch.nn.functional.adaptive_max_pool2d(input, output_size, return_indices=False
 有关详细信息和输出形状，请参阅`AdaptiveMaxPool2d`。
 
 **参数：**
-- **output_size** – 目标输出大小（单整数或双整数元组）
+- **output_size** – 目标输出大小(单整数或双整数元组）
 - **return_indices** – 是否返回池化的指数
 
 ```python
@@ -202,7 +202,7 @@ torch.nn.functional.adaptive_avg_pool1d(input, output_size)
 有关详细信息和输出形状，请参阅`AdaptiveAvgPool1d`。
 
 **参数：**
-- **output_size** – 目标输出大小（单整数或双整数元组）
+- **output_size** – 目标输出大小(单整数或双整数元组）
 
 
 ```python
@@ -213,7 +213,7 @@ torch.nn.functional.adaptive_avg_pool2d(input, output_size)
 有关详细信息和输出形状，请参阅`AdaptiveAvgPool2d`。
 
 **参数：**
-- **output_size** – 目标输出大小（单整数或双整数元组）
+- **output_size** – 目标输出大小(单整数或双整数元组）
 
 
 ## 非线性激活函数
@@ -310,13 +310,13 @@ torch.nn.functional.linear(input, weight, bias=None)
 torch.nn.functional.dropout(input, p=0.5, training=False, inplace=False)
 ```
 
-## 距离函数（Distance functions）
+## 距离函数(Distance functions）
 
 ```python
 torch.nn.functional.pairwise_distance(x1, x2, p=2, eps=1e-06)
 ```
 
-计算向量v1、v2之间的距离（成次或者成对，意思是可以计算多个，可以参看后面的参数）
+计算向量v1、v2之间的距离(成次或者成对，意思是可以计算多个，可以参看后面的参数）
 $$
 \left \| x \right \|_{p}:=\left ( \sum_{i=1}^{N}\left | x_{i}^{p} \right | \right )^{1/p}
 $$
@@ -340,7 +340,7 @@ $$
 >>> output.backward()
 ```
 
-## 损失函数（Loss functions）
+## 损失函数(Loss functions）
 
 ```python
 torch.nn.functional.nll_loss(input, target, weight=None, size_average=True)

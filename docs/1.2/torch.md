@@ -357,7 +357,7 @@ torch.range(start, end, step=1, out=None) → Tensor
 torch.zeros(*sizes, out=None) → Tensor
 ```
 
-返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 `sizes` 定义.
+返回填充了标量值为 `0` 的 Tensor, 其形状由可变参数 `sizes` 定义.
 
 参数：
 
@@ -720,7 +720,7 @@ torch.stack(sequence, dim=0, out=None)
 参数：
 
 *   `sequence (_Sequence_)` – 待连接的张量序列.
-*   `dim (int)` – 插入的维度.必须介于 0 与待连接的张量序列数（包含）之间.
+*   `dim (int)` – 插入的维度.必须介于 0 与待连接的张量序列数(包含）之间.
 
 
 

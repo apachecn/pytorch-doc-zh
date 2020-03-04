@@ -14,9 +14,9 @@ torch.argmax(input, dim=None, keepdim=False)
 
 参数：
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 降低的维数。如果`None`，则返回展平输入的argmax。
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`。如果`dim=None`，则忽略。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 降低的维数。如果`None`，则返回展平输入的argmax。
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`。如果`dim=None`，则忽略。
 
 例：
 
@@ -43,9 +43,9 @@ torch.argmin(input, dim=None, keepdim=False)
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 降低的维数。如果`None`，则返回展平输入的argmin。
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`。如果`dim=None`，则忽略。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 降低的维数。如果`None`，则返回展平输入的argmin。
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`。如果`dim=None`，则忽略。
 
 Example:
 
@@ -74,9 +74,9 @@ torch.cumprod(input, dim, dtype=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 执行操作的维度
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 执行操作的维度
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
@@ -108,9 +108,9 @@ For example, if `input` is a vector of size N, the result will also be a vector 
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 执行操作的维度
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 执行操作的维度
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
@@ -129,15 +129,15 @@ tensor([-0.8286, -1.3175, -0.8020,  0.0423,  0.2289,  0.0537, -2.0058,
 torch.dist(input, other, p=2) → Tensor
 ```
 
-返回（`input` - `other`）的p范数
+返回(`input` - `other`）的p范数
 
 `input`和`other`的形状必须是[可播放的](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **其他**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 右侧输入张量
-*   **p** （ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 要计算的范数
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **其他** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 右侧输入张量
+*   **p**  ([_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 要计算的范数
 
 Example:
 
@@ -169,14 +169,14 @@ torch.logsumexp(input, dim, keepdim=False, out=None)
 
 > [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5acb5b22a7a5c1cfbfda7f648a00c656.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5acb5b22a7a5c1cfbfda7f648a00c656.jpg)
 
-如果`keepdim`为`True`，则输出张量与`input`的大小相同，但尺寸为`dim`的大小为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量比`input`少1个维度。
+如果`keepdim`为`True`，则输出张量与`input`的大小相同，但尺寸为`dim`的大小为1.否则，`dim`被挤压(参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze"))，导致输出张量比`input`少1个维度。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组python：整数_） - 要减少的维度或维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组python：整数_） - 要减少的维度或维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 ```py
 Example::
@@ -199,7 +199,7 @@ torch.mean(input) → Tensor
 
 返回`input`张量中所有元素的平均值。
 
-| 参数： | **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量 |
+| 参数： | **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量 |
 | --- | --- |
 
 Example:
@@ -219,14 +219,14 @@ torch.mean(input, dim, keepdim=False, out=None) → Tensor
 
 返回给定维`dim`中`input`张量的每一行的平均值。如果`dim`是维度列表，请减少所有维度。
 
-如果`keepdim`为`True`，则输出张量与`input`的大小相同，但尺寸为1的尺寸`dim`除外。`dim`被挤压（见[） `torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量具有1（或`len(dim)`）更少的维度。
+如果`keepdim`为`True`，则输出张量与`input`的大小相同，但尺寸为1的尺寸`dim`除外。`dim`被挤压(见[） `torch.squeeze()`](#torch.squeeze "torch.squeeze"))，导致输出张量具有1(或`len(dim)`）更少的维度。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 输出张量是否保留`dim`
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 输出张量是否保留`dim`
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输出张量
 
 Example:
 
@@ -279,15 +279,15 @@ torch.median(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor
 
 默认情况下，`dim`是`input`张量的最后一个维度。
 
-如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量比`input`少1个维度。
+如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压(参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze"))，导致输出张量比`input`少1个维度。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **值**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _可选_） - 输出张量
-*   **指数**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _任选_） - 输出指数张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **值** ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _可选_） - 输出张量
+*   **指数** ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _任选_） - 输出指数张量
 
 Example:
 
@@ -311,7 +311,7 @@ torch.mode(input, dim=-1, keepdim=False, values=None, indices=None) -> (Tensor, 
 
 By default, `dim` is the last dimension of the `input` tensor.
 
-如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压（参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze") ），导致输出张量的尺寸比`input`少1。
+如果`keepdim`为`True`，则输出张量与`input`的尺寸相同，但尺寸为`dim`的尺寸为1.否则，`dim`被挤压(参见 [`torch.squeeze()`](#torch.squeeze "torch.squeeze"))，导致输出张量的尺寸比`input`少1。
 
 注意
 
@@ -319,11 +319,11 @@ By default, `dim` is the last dimension of the `input` tensor.
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **值**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _可选_） - 输出张量
-*   **指数**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _任选_） - 输出指数张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **值** ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _可选_） - 输出张量
+*   **指数** ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ _任选_） - 输出指数张量
 
 Example:
 
@@ -347,19 +347,19 @@ torch.norm(input, p='fro', dim=None, keepdim=False, out=None)
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
 
-*   **p** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _] inf_ _，_ _-inf_ _，_ _'来'__，_ _'nuc'__，_ _任选_） -
+*   **p**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _] inf_ _，_ _-inf_ _，_ _'来'__，_ _'nuc'__，_ _任选_） -
 
     规范的顺序。默认值：`'fro'`可以计算以下规范：
 
-    | ord |矩阵规范|矢量规范| | --- | --- | --- | |没有| Frobenius规范| 2范数| | '来'| Frobenius规范| - | | 'nuc'|核规范| - | |其他|当昏暗是无|时，作为vec规范sum（abs（x） **ord）**（1./ord）|
+    | ord |矩阵规范|矢量规范| | --- | --- | --- | |没有| Frobenius规范| 2范数| | '来'| Frobenius规范| - | | 'nuc'|核规范| - | |其他|当昏暗是无|时，作为vec规范sum(abs(x） **ord）**(1./ord）|
 
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _2元组python：ints_ _，_ _2-list of python：ints_ _，_ _可选_） - 如果是int，将计算向量范数，如果是2元组的int，将计算矩阵范数。如果值为None，则当输入张量仅具有两个维度时将计算矩阵范数，当输入张量仅具有一个维度时将计算向量范数。如果输入张量具有两个以上的维度，则向量范数将应用于最后一个维度。
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _2元组python：ints_ _，_ _2-list of python：ints_ _，_ _可选_） - 如果是int，将计算向量范数，如果是2元组的int，将计算矩阵范数。如果值为None，则当输入张量仅具有两个维度时将计算矩阵范数，当输入张量仅具有一个维度时将计算向量范数。如果输入张量具有两个以上的维度，则向量范数将应用于最后一个维度。
 
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 输出张量是否保留`dim`。如果`dim` = `None`和`out` = `None`，则忽略。默认值：`False`
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 输出张量是否保留`dim`。如果`dim` = `None`和`out` = `None`，则忽略。默认值：`False`
 
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 输出张量。如果`dim` = `None`和`out` = `None`，则忽略。
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 输出张量。如果`dim` = `None`和`out` = `None`，则忽略。
 
 Example:
 
@@ -402,8 +402,8 @@ torch.prod(input, dtype=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
@@ -426,10 +426,10 @@ If `keepdim` is `True`, the output tensor is of the same size as `input` except 
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
@@ -459,8 +459,8 @@ torch.std(input, unbiased=True) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **无偏** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
 
 Example:
 
@@ -485,11 +485,11 @@ If `unbiased` is `False`, then the standard-deviation will be calculated via the
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **无偏** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -517,8 +517,8 @@ torch.sum(input, dtype=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
@@ -541,10 +541,10 @@ If `keepdim` is `True`, the output tensor is of the same size as `input` except 
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组python：整数_） - 要减少的维度或维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组python：整数_） - 要减少的维度或维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。如果指定，则在执行操作之前将输入张量转换为`dtype`。这对于防止数据类型溢出很有用。默认值：无。
 
 Example:
 
@@ -571,16 +571,16 @@ torch.unique(input, sorted=False, return_inverse=False, dim=None)
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **排序**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否在返回作为输出之前按升序对唯一元素进行排序。
-*   **return_inverse** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否还返回原始输入中元素在返回的唯一列表中结束的索引。
-*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 应用唯一的维度。如果是`None`，则返回展平输入的唯一值。默认值：`None`
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **排序** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否在返回作为输出之前按升序对唯一元素进行排序。
+*   **return_inverse**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否还返回原始输入中元素在返回的唯一列表中结束的索引。
+*   **dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 应用唯一的维度。如果是`None`，则返回展平输入的唯一值。默认值：`None`
 
 |返回：|包含张量的张量或元组
 
-＆GT; * **输出**（ _Tensor_ ）：唯一标量元素的输出列表。 ＆GT; * **inverse_indices** （ _Tensor_ ）:(可选）如果`return_inverse`为True，将会有第二个返回的张量（与输入相同的形状），表示原始元素的索引输入映射到输出中;否则，此函数只返回单个张量。
+＆GT; * **输出** (_Tensor_ )：唯一标量元素的输出列表。 ＆GT; * **inverse_indices**  (_Tensor_ ):(可选）如果`return_inverse`为True，将会有第二个返回的张量(与输入相同的形状），表示原始元素的索引输入映射到输出中;否则，此函数只返回单个张量。
 
-| 返回类型： | （ [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ， [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") （可选）） |
+| 返回类型： |  ([Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ， [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") (可选）） |
 | --- | --- |
 
 Example:
@@ -621,8 +621,8 @@ torch.var(input, unbiased=True) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **无偏** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
 
 Example:
 
@@ -647,11 +647,11 @@ If `unbiased` is `False`, then the variance will be calculated via the biased es
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **昏暗**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
-*   **keepdim** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
-*   **无偏**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **昏暗** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 减少的维度
+*   **keepdim**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 输出张量是否保留`dim`
+*   **无偏** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 是否使用无偏估计
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 

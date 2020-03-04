@@ -1,4 +1,4 @@
-# 序列模型和 LSTM 网络（长短记忆网络）
+# 序列模型和 LSTM 网络(长短记忆网络）
 
 > 译者：[@JingTao](https://github.com/jingwangfei)、[@friedhelm739](https://github.com/friedhelm739)
 

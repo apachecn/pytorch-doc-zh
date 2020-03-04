@@ -12,7 +12,7 @@ torch.autograd.backward(tensors, grad_tensors=None, retain_graph=None, create_gr
 
 计算被给张量关于图的叶节点的梯度和。
 
-图使用链式法则微分。如何任何`tensors`是非标量（例如他们的数据不止一个元素）并且要求梯度，函数要额外指出`grad_tensors`。它应是一个匹配长度的序列，包含可微函数关于相应张量的梯度（`None`是一个对所有张量可接受的值，不需要梯度张量）。
+图使用链式法则微分。如何任何`tensors`是非标量(例如他们的数据不止一个元素）并且要求梯度，函数要额外指出`grad_tensors`。它应是一个匹配长度的序列，包含可微函数关于相应张量的梯度(`None`是一个对所有张量可接受的值，不需要梯度张量）。
 
 此函数在叶节点累积梯度 - 你可能需要在调用前把它初始化为0.
 
@@ -116,7 +116,7 @@ class torch.autograd.set_grad_enabled(mode)
 
 `set_grad_enabled`将基于它的参数`mode`使用或禁用梯度。它也能作为一个上下文管理器或函数使用。
 
-| 参数: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 标记是否使能梯度（True），或使能（False）。这能被用在有条件的使能梯度。
+| 参数: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 标记是否使能梯度(True），或使能(False）。这能被用在有条件的使能梯度。
 | --- | --- |
 
 示例：
@@ -306,11 +306,11 @@ class torch.autograd.Function
 
 记录操作历史，定义可微操作公式。
 
-在Tensor上执行的每个操作都会创建一个新的函数对象，执行计算，记录它发生的。历史记录以函数的DAG形式保留，DAG的边表示数据的依赖性（`input &lt;- output`）。然后，当backward被调用，图按拓扑顺序被处理，通过调用每个[`Function`](#torch.autograd.Function "torch.autograd.Function")对象的backward()方法，并且传递梯度给下一个[`Function`](#torch.autograd.Function "torch.autograd.Function")。
+在Tensor上执行的每个操作都会创建一个新的函数对象，执行计算，记录它发生的。历史记录以函数的DAG形式保留，DAG的边表示数据的依赖性(`input &lt;- output`）。然后，当backward被调用，图按拓扑顺序被处理，通过调用每个[`Function`](#torch.autograd.Function "torch.autograd.Function")对象的backward()方法，并且传递梯度给下一个[`Function`](#torch.autograd.Function "torch.autograd.Function")。
 
 通常，用户与函数交互的唯一方式是通过创建子类和定义新操作。这是一种被推荐的扩展`torch.autograd`的方式。
 
-每个函数对象只能使用一次（在正向传递中）。
+每个函数对象只能使用一次(在正向传递中）。
 
 示例：
 
@@ -350,7 +350,7 @@ static forward(ctx, *args, **kwargs)
 
 此函数被所有子类重载。
 
-它必须接受一个上下文`ctx`作为第一个参数，随后是任意数量的参数（tensor或其它类型）。
+它必须接受一个上下文`ctx`作为第一个参数，随后是任意数量的参数(tensor或其它类型）。
 
 此上下文可被用来存储张量，随后可在反向传播过程取出。
 
@@ -370,7 +370,7 @@ torch.autograd.gradcheck(func, inputs, eps=1e-06, atol=1e-05, rtol=0.001, raise_
 
 警告
 
-如果在输入中任何被检查的张量有重叠的内存，换句话说，指向相同内存地址的不同切片（例如，从torch.expand()），此检查将有可能失败，因为在这个索引通过点扰动计算的数值梯度将改变在全部其它索引处共享内存地址的值。
+如果在输入中任何被检查的张量有重叠的内存，换句话说，指向相同内存地址的不同切片(例如，从torch.expand()），此检查将有可能失败，因为在这个索引通过点扰动计算的数值梯度将改变在全部其它索引处共享内存地址的值。
 
 参数
 
@@ -402,7 +402,7 @@ torch.autograd.gradgradcheck(func, inputs, grad_outputs=None, eps=1e-06, atol=1e
 
 警告
 
-如果在输入中任何被检查的张量有重叠的内存，换句话说，指向相同内存地址的不同切片（例如，从`torch.expand()`），此检查将有可能失败，因为在这个索引通过点扰动计算的数值梯度将改变在全部其它索引处共享内存地址的值。
+如果在输入中任何被检查的张量有重叠的内存，换句话说，指向相同内存地址的不同切片(例如，从`torch.expand()`），此检查将有可能失败，因为在这个索引通过点扰动计算的数值梯度将改变在全部其它索引处共享内存地址的值。
 
 参数：
 
@@ -421,7 +421,7 @@ torch.autograd.gradgradcheck(func, inputs, grad_outputs=None, eps=1e-06, atol=1e
 
 ## Profiler
 
-Autograd 包含一个事件探查器，让你洞察在你的模型中不同操作的代价-CPU和GPU中都有。现在有两种模式实现-CPU-仅使用[`profile`](#torch.autograd.profiler.profile "torch.autograd.profiler.profile")，和使用[`emit_nvtx`](#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx")的nvprof（注册CPU和GPU活动）
+Autograd 包含一个事件探查器，让你洞察在你的模型中不同操作的代价-CPU和GPU中都有。现在有两种模式实现-CPU-仅使用[`profile`](#torch.autograd.profiler.profile "torch.autograd.profiler.profile")，和使用[`emit_nvtx`](#torch.autograd.profiler.emit_nvtx "torch.autograd.profiler.emit_nvtx")的nvprof(注册CPU和GPU活动）
 
 ```py
 class torch.autograd.profiler.profile(enabled=True, use_cuda=False)
@@ -531,11 +531,11 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
 在前向传递过程，每个函数范围都用`seq=&lt;N&gt;`进行修饰。 `seq`是一个运行计数器，每次创建一个新的反向Function对象时会递增，并对前向不可见。 因此，与每个前向函数范围相关联的`seq=&lt;N&gt;`注释告诉你，如果此前向函数创建了反向的Function对象，则反向对象将收到序列号N。在反向传递过程，顶层范围包装每个C++反向函数的`apply()`调用都用不可见的`stashed seq=&lt;M&gt;`进行修饰。 M是创建反向对象的序列号。 通过比较在反向不可见的序列号和在前向的序列号，你可以跟踪哪个前向操作创建了每个反向函数。
 
-在反向传递期间执行的任何函数也用`seq=&lt;N&gt;`进行修饰。 在默认反向（使用`create_graph=False`）时，此信息无关紧要，事实上，对于所有此类函数，`N`可能只是0。 作为将这些Function对象与早期的向前传递相关联的方法，只有与反向Function对象的`apply()`方法关联的顶级范围才有用。
+在反向传递期间执行的任何函数也用`seq=&lt;N&gt;`进行修饰。 在默认反向(使用`create_graph=False`）时，此信息无关紧要，事实上，对于所有此类函数，`N`可能只是0。 作为将这些Function对象与早期的向前传递相关联的方法，只有与反向Function对象的`apply()`方法关联的顶级范围才有用。
 
 **Double-backward**
 
-另一方面，如果正在进行`create_graph=True`的反向传递（换句话说，如果你设置为double-backward），则在反向期间执行每个被给一个非零，有用的`seq=&lt;N&gt;`的函数。 这些函数本身可以稍后在double-backward期间创建Function对象来执行，就像在前向传递中原始函数所做的一样。 反向和double-backward的关系在概念上与前向和反向的关系相同：函数仍然发出当前序列号标记的范围，它们创建的Function对象仍然存储那些序列号，并且在最终的double-backward期间 向后，Function对象的`apply()`范围仍然用 `stashed seq`数字标记，可以与反向传递中的`seq`数字进行比较。
+另一方面，如果正在进行`create_graph=True`的反向传递(换句话说，如果你设置为double-backward），则在反向期间执行每个被给一个非零，有用的`seq=&lt;N&gt;`的函数。 这些函数本身可以稍后在double-backward期间创建Function对象来执行，就像在前向传递中原始函数所做的一样。 反向和double-backward的关系在概念上与前向和反向的关系相同：函数仍然发出当前序列号标记的范围，它们创建的Function对象仍然存储那些序列号，并且在最终的double-backward期间 向后，Function对象的`apply()`范围仍然用 `stashed seq`数字标记，可以与反向传递中的`seq`数字进行比较。
 
 ```py
 torch.autograd.profiler.load_nvprof(path)
@@ -618,6 +618,6 @@ class torch.autograd.set_detect_anomaly(mode)
 
 异常检测行为细节见上面`detect_anomaly`。
 
-| 参数: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 标记是否使能异常检测（`True`），或禁用（`False`）。 |
+| 参数: | **mode** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – 标记是否使能异常检测(`True`），或禁用(`False`）。 |
 | --- | --- |
 

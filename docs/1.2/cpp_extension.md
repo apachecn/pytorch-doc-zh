@@ -7,7 +7,7 @@ _**kwargs_ )[[source]](_modules/torch/utils/cpp_extension.html#CppExtension)
 
 创建`setuptools.Extension`为C ++。
 
-一个创建`setuptools.Extension`与最低限度（但通常​​足以）参数建立一个C ++扩展的便捷方法。
+一个创建`setuptools.Extension`与最低限度(但通常​​足以）参数建立一个C ++扩展的便捷方法。
 
 所有参数被转发到`setuptools.Extension`构造。
 
@@ -37,7 +37,7 @@ _**kwargs_ )[[source]](_modules/torch/utils/cpp_extension.html#CUDAExtension)
 
 创建`setuptools.Extension  [HTG3用于CUDA / C ++。`
 
-一个创建`setuptools.Extension`与最低限度（但通常​​足以）参数建立一个CUDA / C
+一个创建`setuptools.Extension`与最低限度(但通常​​足以）参数建立一个CUDA / C
 ++扩展的便捷方法。这包括CUDA包括路径，库路径和运行时库。
 
 All arguments are forwarded to the `setuptools.Extension`constructor.
@@ -69,10 +69,10 @@ Example
 
 自定义`setuptools的 `构建扩展。
 
-此`setuptools.build_ext`亚类需要经过所需要的最小编译器标志的护理（例如，`-std = C ++ 11`）以及作为混合的C
-++ / CUDA汇编（和一般为CUDA文件的支持）。
+此`setuptools.build_ext`亚类需要经过所需要的最小编译器标志的护理(例如，`-std = C ++ 11`）以及作为混合的C
+++ / CUDA汇编(和一般为CUDA文件的支持）。
 
-当使用 `BuildExtension`，它被允许提供一个字典`extra_compile_args`（而不是通常的列表）从语言映射（`
+当使用 `BuildExtension`，它被允许提供一个字典`extra_compile_args`(而不是通常的列表）从语言映射(`
 CXX`或`CUDA`）来的额外的编译标志来提供给编译器的列表。这使得可以为混合编译期间提供不同的标记到C ++和CUDA编译器。
 
 `torch.utils.cpp_extension.``load`( _name_ , _sources_ , _extra_cflags=None_ ,
@@ -83,7 +83,7 @@ _is_python_module=True_
 
     
 
-加载PyTorch C ++扩展刚刚在时间（JIT）。
+加载PyTorch C ++扩展刚刚在时间(JIT）。
 
 要加载的扩展，一个忍者构建文件被发射时，其被用来编译该给定源集成到一个动态库。该库随后被加载到当前的Python程序作为一个模块，并从该函数返回，以备使用。
 
@@ -93,11 +93,11 @@ _is_python_module=True_
 GT ; / torch_extensions`和所有的扩展会被编译成这个目录的子文件夹。其次，如果被提供的`BUILD_DIRECTORY
 `参数给此函数，它会覆盖整个路径，即，库将被直接编译到该文件夹​​。
 
-编译源代码，默认的系统编译器（`C ++`）被使用，其可以通过设置`CXX`环境变量被重写。传递额外的参数来编译过程，`
+编译源代码，默认的系统编译器(`C ++`）被使用，其可以通过设置`CXX`环境变量被重写。传递额外的参数来编译过程，`
 EXTRA_CFLAGS`或``可以提供EXTRA_LDFLAGS。例如，为了与编译优化您的扩展，通过`EXTRA_CFLAGS = [ ' -
 O3']`。您也可以使用`EXTRA_CFLAGS`进一步通过包括目录。
 
-提供CUDA支持混合编译。简单地传递CUDA源文件（`.CU`或`.cuh`）与其他来源的沿。这些文件将被检测并与NVCC，而不是C
+提供CUDA支持混合编译。简单地传递CUDA源文件(`.CU`或`.cuh`）与其他来源的沿。这些文件将被检测并与NVCC，而不是C
 ++编译器编译。这包括使CUDA lib64目录作为一个库的目录，和链接`cudart`。可以传递附加标志通过`至NVCC
 extra_cuda_cflags`，就像`EXTRA_CFLAGS`为C
 ++。为寻找CUDA安装目录各种试探被使用，通常做工精细。如果不是，设置`CUDA_HOME`环境变量是最安全的选择。
@@ -122,16 +122,16 @@ Parameters
 
   * **冗长** \- 若`真 `，接通的负载的步骤详细日志记录。
 
-  * **with_cuda** \- 确定CUDA头和库是否被添加到该生成。如果设置为`无 `（默认），该值被自动确定基于的`.CU`或`[HTG11存在] .cuh `在`来源 `。其设置为 TRUE`给力CUDA头文件和库包括在内。
+  * **with_cuda** \- 确定CUDA头和库是否被添加到该生成。如果设置为`无 `(默认），该值被自动确定基于的`.CU`或`[HTG11存在] .cuh `在`来源 `。其设置为 TRUE`给力CUDA头文件和库包括在内。
 
-  * **is_python_module** \- 若`真 `（默认），出口所产生的共享库的Python模块。如果`假 `，将其加载到处理作为一个纯动态库。
+  * **is_python_module** \- 若`真 `(默认），出口所产生的共享库的Python模块。如果`假 `，将其加载到处理作为一个纯动态库。
 
 Returns
 
     
 
 如果`is_python_module`是`真 `，返回加载PyTorch扩展作为一个Python模块。如果`is_python_module
-`是`假 `返回任何（共享库加载到过程作为副作用）。
+`是`假 `返回任何(共享库加载到过程作为副作用）。
 
 Example
 
@@ -154,14 +154,14 @@ _is_python_module=True_
 
     
 
-装载来自串源的PyTorch C ++扩展刚刚在时间（JIT）。
+装载来自串源的PyTorch C ++扩展刚刚在时间(JIT）。
 
-此函数的行为完全一样 `负载（） `，但需要它的来源字符串而不是文件名。这些字符串存储到文件中生成目录，之后， `load_inline的行为（） `
-是相同的 `负载（） `。
+此函数的行为完全一样 `负载(） `，但需要它的来源字符串而不是文件名。这些字符串存储到文件中生成目录，之后， `load_inline的行为(） `
+是相同的 `负载(） `。
 
 参见[测试](https://github.com/pytorch/pytorch/blob/master/test/test_cpp_extensions.py)使用此功能的好例子。
 
-源可省略典型的非直列C ++扩展的两个必需的部分：必要的头包括，以及所述（pybind11）绑定代码。更精确地，字符串传递给`cpp_sources
+源可省略典型的非直列C ++扩展的两个必需的部分：必要的头包括，以及所述(pybind11）绑定代码。更精确地，字符串传递给`cpp_sources
 `首先连接成单个`的.cpp`文件。该文件然后用`前缀的#include  & LT ;torch/ extension.h & GT ;`。
 
 此外，如果`功能 `提供参数，绑定将被自动指定为每个功能产生。 `功能
@@ -170,9 +170,9 @@ _is_python_module=True_
 cuda_sources 被连接到一个单独的`.CU`文件，并通过`torch/ types.h中预先考虑在`来源 `，`cuda.h`和`
 cuda_runtime.h`包括。的`的.cpp`和`.CU`的文件被单独编译，但最终连接到单个库。注意，没有绑定在`
 cuda_sources`本身为函数生成的。绑定到一个CUDA内核，你必须创建一个C ++函数调用它，无论是申报或`cpp_sources
-`的一个定义这个C ++函数（且在HTG36包括它的名字] 功能 `）。
+`的一个定义这个C ++函数(且在HTG36包括它的名字] 功能 `）。
 
-参见 `负载（） `为以下省略的参数的描述。
+参见 `负载(） `为以下省略的参数的描述。
 
 Parameters
 
@@ -182,9 +182,9 @@ Parameters
 
   * **cuda_sources** \- 一个字符串或字符串的列表，包含CUDA源代码。
 
-  * **功能** \- 要为其生成功能绑定函数名称的列表。如果字典中给出，它应该映射函数名的文档字符串（否则只是函数名）。
+  * **功能** \- 要为其生成功能绑定函数名称的列表。如果字典中给出，它应该映射函数名的文档字符串(否则只是函数名）。
 
-  * **with_cuda** \- 确定CUDA头和库是否被添加到该生成。如果设置为`无 `（默认），该值被自动确定基于是否`cuda_sources提供 `。其设置为 TRUE`给力CUDA头文件和库包括在内。
+  * **with_cuda** \- 确定CUDA头和库是否被添加到该生成。如果设置为`无 `(默认），该值被自动确定基于是否`cuda_sources提供 `。其设置为 TRUE`给力CUDA头文件和库包括在内。
 
 Example
 
@@ -231,14 +231,14 @@ Parameters
 
     
 
-**编译** （[ _STR_ ](https://docs.python.org/3/library/stdtypes.html#str "\(in
-Python v3.7\)")） - 编译器可执行文件的名称来检查（例如，`克++`）。必须在shell进程可执行文件。
+**编译** ([ _STR_ ](https://docs.python.org/3/library/stdtypes.html#str "\(in
+Python v3.7\)")） - 编译器可执行文件的名称来检查(例如，`克++`）。必须在shell进程可执行文件。
 
 Returns
 
     
 
-FALSE如果编译器（可能）ABI-不符合PyTorch，否则真。
+FALSE如果编译器(可能）ABI-不符合PyTorch，否则真。
 
 `torch.utils.cpp_extension.``verify_ninja_availability`()[[source]](_modules/torch/utils/cpp_extension.html#verify_ninja_availability)
 

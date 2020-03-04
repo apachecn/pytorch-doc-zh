@@ -10,7 +10,7 @@ PyTorch采用的治理结构与一小维护者驾驶朝向PyTorch的设计理念
 
   1. **比企业赞助和独立软件开发商** 多大关系更多的代码贡献的高度重视。
 
-  2. **项目影响** 通过捐款获得了（无论是永久居民，论坛答案，代码审查或其他方式）
+  2. **项目影响** 通过捐款获得了(无论是永久居民，论坛答案，代码审查或其他方式）
 
 ## 关键人及其功能
 
@@ -26,17 +26,17 @@ PyTorch采用的治理结构与一小维护者驾驶朝向PyTorch的设计理念
 
 PyTorch维护者：
 
-  * 亚当Paszke（[ apaszke ](https://github.com/apaszke)）
+  * 亚当Paszke([ apaszke ](https://github.com/apaszke)）
 
-  * Soumith Chintala（[ soumith ](https://github.com/soumith)）
+  * Soumith Chintala([ soumith ](https://github.com/soumith)）
 
-  * 杨德昌（[ ezyang ](https://github.com/ezyang)）
+  * 杨德昌([ ezyang ](https://github.com/ezyang)）
 
-  * 格雷格察南（[ gchanan ](https://github.com/gchanan)）
+  * 格雷格察南([ gchanan ](https://github.com/gchanan)）
 
-  * 德米特罗Dzhulgakov（[ dzhulgakov ](https://github.com/dzhulgakov)）
+  * 德米特罗Dzhulgakov([ dzhulgakov ](https://github.com/dzhulgakov)）
 
-  * （弃用）萨姆总值（[ colesbury ](https://github.com/colesbury)）
+  * (弃用）萨姆总值([ colesbury ](https://github.com/colesbury)）
 
 ### 核心开发
 
@@ -82,7 +82,7 @@ PyTorch治理发现的核心开发者名单|兴趣的人](/docs/stable/community
 
 ## 常见问题
 
-**问：我想如果自己（或部分拥有）项目的一部分，如域API（即Torch 宣）？**
+**问：我想如果自己(或部分拥有）项目的一部分，如域API(即Torch 宣）？**
 这是绝对有可能的。第一步是启动有助于现有项目区域和促进其健康和成功。除此之外，你可以通过GitHub的问题，新的功能或修改，以改善项目区的建议。
 
 **问：如果我公司希望使用PyTorch内部进行开发，可我被授予或购买一个董事会席位，以推动项目的方向是？**

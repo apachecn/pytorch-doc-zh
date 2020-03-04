@@ -11,7 +11,7 @@
 
 ## 新手入门
 
-### Tensors（张量）
+### Tensors(张量）
 
 Tensors 与 NumPy 的 ndarrays 非常相似, 除此之外还可以在 GPU 上使用张量来加速计算.
 
@@ -46,7 +46,7 @@ print(x.size())
 
 注解：
 
-`torch.Size` 实际上是一个 tuple（元组）, 所以它支持所有 tuple（元组）的操作.
+`torch.Size` 实际上是一个 tuple(元组）, 所以它支持所有 tuple(元组）的操作.
 
 ### 操作
 
@@ -76,7 +76,7 @@ print(result)
 
 ```
 
-加法: in-place（就地操作）
+加法: in-place(就地操作）
 
 ```py
 # adds x to y

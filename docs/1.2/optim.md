@@ -10,7 +10,7 @@
 
 ### 构建它
 
-要构造一个你必须给它一个包含参数的迭代（所有应该是`Variable` s）来优化。然后，您可以指定特定于优化程序的选项，例如学习率，重量衰减等。
+要构造一个你必须给它一个包含参数的迭代(所有应该是`Variable` s）来优化。然后，您可以指定特定于优化程序的选项，例如学习率，重量衰减等。
 
 注意
 
@@ -98,8 +98,8 @@ class torch.optim.Optimizer(params, defaults)
 
 参数：
 
-*   **params** （ _iterable_ ） - s或s的可迭代。指定应优化的张量。
-*   **默认值** - （dict）：包含优化选项默认值的dict（当参数组未指定它们时使用）。
+*   **params**  (_iterable_ ) - s或s的可迭代。指定应优化的张量。
+*   **默认值** - (dict）：包含优化选项默认值的dict(当参数组未指定它们时使用）。
 
 ```
 add_param_group(param_group)
@@ -111,8 +111,8 @@ add_param_group(param_group)
 
 Parameters:
 
-*   **param_group** （） - 指定应该与组一起优化的张量
-*   **优化选项。** （_特异性_） -
+*   **param_group** (） - 指定应该与组一起优化的张量
+*   **优化选项。** (_特异性_） -
 
 ```
 load_state_dict(state_dict)
@@ -120,7 +120,7 @@ load_state_dict(state_dict)
 
 加载优化器状态。
 
-| 参数： | **state_dict** （） - 优化器状态。应该是从调用返回的对象。 |
+| 参数： | **state_dict** (） - 优化器状态。应该是从调用返回的对象。 |
 | --- | --- |
 
 ```
@@ -143,9 +143,9 @@ state_dict()
 step(closure)
 ```
 
-执行单个优化步骤（参数更新）。
+执行单个优化步骤(参数更新）。
 
-| Parameters: | **闭包**（_可调用_） - 一个重新评估模型并返回损失的闭包。大多数优化器都是可选的。 |
+| Parameters: | **闭包**(_可调用_） - 一个重新评估模型并返回损失的闭包。大多数优化器都是可选的。 |
 | --- | --- |
 
 ```
@@ -164,11 +164,11 @@ class torch.optim.Adadelta(params, lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **rho** （_，_ _可选_） - 用于计算平方梯度运行平均值的系数（默认值：0.9）
-*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-6）
-*   **lr** （_，_ _可选_） - 在应用于参数之前缩放增量的系数（默认值：1.0）
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **rho** (_，_ _可选_） - 用于计算平方梯度运行平均值的系数(默认值：0.9）
+*   **eps** (_，_ _可选_） - 术语加入分母以提高数值稳定性(默认值：1e-6）
+*   **lr** (_，_ _可选_） - 在应用于参数之前缩放增量的系数(默认值：1.0）
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
 
 ```
 step(closure=None)
@@ -176,7 +176,7 @@ step(closure=None)
 
 执行单个优化步骤。
 
-| Parameters: | **关闭**（_可调用_ _，_ _可选_） - 一个重新评估模型并返回损失的闭包。 |
+| Parameters: | **关闭**(_可调用_ _，_ _可选_） - 一个重新评估模型并返回损失的闭包。 |
 | --- | --- |
 
 ```
@@ -189,10 +189,10 @@ class torch.optim.Adagrad(params, lr=0.01, lr_decay=0, weight_decay=0, initial_a
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
-*   **lr_decay** （_，_ _可选_） - 学习率衰减（默认值：0）
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：1e-2）
+*   **lr_decay** (_，_ _可选_） - 学习率衰减(默认值：0）
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
 
 ```
 step(closure=None)
@@ -213,12 +213,12 @@ class torch.optim.Adam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_d
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：1e-3）
-*   **beta** （_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变及其方形（默认值：（0.9,0.999））
-*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
-*   **amsgrad** （_布尔_ _，_ _可选_） - 是否使用该算法的AMSGrad变体[关于亚当及其后的收敛](https://openreview.net/forum?id=ryQu7f-RZ)（默认值：False）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：1e-3）
+*   **beta** (_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变及其方形(默认值：(0.9,0.999））
+*   **eps** (_，_ _可选_） - 术语加入分母以提高数值稳定性(默认值：1e-8）
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
+*   **amsgrad** (_布尔_ _，_ _可选_） - 是否使用该算法的AMSGrad变体[关于亚当及其后的收敛](https://openreview.net/forum?id=ryQu7f-RZ)(默认值：False）
 
 ```
 step(closure=None)
@@ -239,10 +239,10 @@ class torch.optim.SparseAdam(params, lr=0.001, betas=(0.9, 0.999), eps=1e-08)
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：1e-3）
-*   **beta** （_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变及其方形（默认值：（0.9,0.999））
-*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：1e-3）
+*   **beta** (_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变及其方形(默认值：(0.9,0.999））
+*   **eps** (_，_ _可选_） - 术语加入分母以提高数值稳定性(默认值：1e-8）
 
 ```
 step(closure=None)
@@ -257,17 +257,17 @@ Performs a single optimization step.
 class torch.optim.Adamax(params, lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
 ```
 
-实现Adamax算法（基于无穷大规范的Adam的变体）。
+实现Adamax算法(基于无穷大规范的Adam的变体）。
 
 It has been proposed in [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980).
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：2e-3）
-*   **beta** （_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变和它的正方形
-*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：2e-3）
+*   **beta** (_元组_ _ [，_ _] __，_ _任选_） - 用于计算运行平均值的系数渐变和它的正方形
+*   **eps** (_，_ _可选_） - 术语加入分母以提高数值稳定性(默认值：1e-8）
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
 
 ```
 step(closure=None)
@@ -288,12 +288,12 @@ class torch.optim.ASGD(params, lr=0.01, lambd=0.0001, alpha=0.75, t0=1000000.0, 
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
-*   **lambd** （_，_ _可选_） - 衰变期限（默认值：1e-4）
-*   **alpha** （_，_ _可选_） - eta更新的权力（默认值：0.75）
-*   **t0** （_，_ _可选_） - 开始平均的点（默认值：1e6）
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：1e-2）
+*   **lambd** (_，_ _可选_） - 衰变期限(默认值：1e-4）
+*   **alpha** (_，_ _可选_） - eta更新的权力(默认值：0.75）
+*   **t0** (_，_ _可选_） - 开始平均的点(默认值：1e6）
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
 
 ```
 step(closure=None)
@@ -312,7 +312,7 @@ class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad
 
 Warning
 
-此优化器不支持每个参数选项和参数组（只能有一个）。
+此优化器不支持每个参数选项和参数组(只能有一个）。
 
 Warning
 
@@ -320,16 +320,16 @@ Warning
 
 Note
 
-这是一个内存密集型优化器（它需要额外的`param_bytes * (history_size + 1)`字节）。如果它不适合内存尝试减少历史记录大小，或使用不同的算法。
+这是一个内存密集型优化器(它需要额外的`param_bytes * (history_size + 1)`字节）。如果它不适合内存尝试减少历史记录大小，或使用不同的算法。
 
 Parameters:
 
-*   **lr** （） - 学习率（默认值：1）
-*   **max_iter** （） - 每个优化步骤的最大迭代次数（默认值：20）
-*   **max_eval** （） - 每个优化步骤的最大函数评估数（默认值：max_iter * 1.25）。
-*   **tolerance_grad** （） - 一阶最优性的终止容差（默认值：1e-5）。
-*   **tolerance_change** （） - 功能值/参数更改的终止容差（默认值：1e-9）。
-*   **history_size** （） - 更新历史记录大小（默认值：100）。
+*   **lr** (） - 学习率(默认值：1）
+*   **max_iter** (） - 每个优化步骤的最大迭代次数(默认值：20）
+*   **max_eval** (） - 每个优化步骤的最大函数评估数(默认值：max_iter * 1.25）。
+*   **tolerance_grad** (） - 一阶最优性的终止容差(默认值：1e-5）。
+*   **tolerance_change** (） - 功能值/参数更改的终止容差(默认值：1e-9）。
+*   **history_size** (） - 更新历史记录大小(默认值：100）。
 
 ```
 step(closure)
@@ -337,7 +337,7 @@ step(closure)
 
 Performs a single optimization step.
 
-| Parameters: | **闭包**（_可调用_） - 一个重新评估模型并返回损失的闭包。 |
+| Parameters: | **闭包**(_可调用_） - 一个重新评估模型并返回损失的闭包。 |
 | --- | --- |
 
 ```
@@ -352,13 +352,13 @@ G. Hinton在他的[课程](http://www.cs.toronto.edu/~tijmen/csc321/slides/lectu
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
-*   **动量**（_，_ _可选_） - 动量因子（默认值：0）
-*   **alpha** （_，_ _可选_） - 平滑常数（默认值：0.99）
-*   **eps** （_，_ _可选_） - 术语加入分母以提高数值稳定性（默认值：1e-8）
-*   **居中**（_，_ _可选_） - 如果`True`计算居中的RMSProp，则通过估计其方差对梯度进行归一化
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：1e-2）
+*   **动量**(_，_ _可选_） - 动量因子(默认值：0）
+*   **alpha** (_，_ _可选_） - 平滑常数(默认值：0.99）
+*   **eps** (_，_ _可选_） - 术语加入分母以提高数值稳定性(默认值：1e-8）
+*   **居中**(_，_ _可选_） - 如果`True`计算居中的RMSProp，则通过估计其方差对梯度进行归一化
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
 
 ```
 step(closure=None)
@@ -377,10 +377,10 @@ class torch.optim.Rprop(params, lr=0.01, etas=(0.5, 1.2), step_sizes=(1e-06, 50)
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （_，_ _可选_） - 学习率（默认值：1e-2）
-*   **etas** （ _Tuple_ _ [，_ _] __，_ _任选_） - 对（etaminus，etaplis） ，这是乘法增加和减少因子（默认值：（0.5,1.2））
-*   **step_sizes** （ _Tuple_ _ [，_ _] __，_ _任选_） - 一对最小和最大允许步长（默认值：（1e-6,50））
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (_，_ _可选_） - 学习率(默认值：1e-2）
+*   **etas**  (_Tuple_ _ [，_ _] __，_ _任选_） - 对(etaminus，etaplis） ，这是乘法增加和减少因子(默认值：(0.5,1.2））
+*   **step_sizes**  (_Tuple_ _ [，_ _] __，_ _任选_） - 一对最小和最大允许步长(默认值：(1e-6,50））
 
 ```
 step(closure=None)
@@ -395,18 +395,18 @@ Performs a single optimization step.
 class torch.optim.SGD(params, lr=<required parameter>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
 ```
 
-实现随机梯度下降（可选择带动量）。
+实现随机梯度下降(可选择带动量）。
 
 Nesterov动量是基于[关于初始化和动量在深度学习](http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf)中的重要性的公式。
 
 Parameters:
 
-*   **params** （ _iterable_ ） - 可迭代参数以优化或决定参数组
-*   **lr** （） - 学习率
-*   **动量**（_，_ _可选_） - 动量因子（默认值：0）
-*   **weight_decay** （_，_ _可选_） - 体重衰减（L2惩罚）（默认值：0）
-*   **阻尼**（_，_ _可选_） - 抑制动量（默认值：0）
-*   **nesterov** （_，_ _可选_） - 启用Nesterov动量（默认值：False）
+*   **params**  (_iterable_ ) - 可迭代参数以优化或决定参数组
+*   **lr** (） - 学习率
+*   **动量**(_，_ _可选_） - 动量因子(默认值：0）
+*   **weight_decay** (_，_ _可选_） - 体重衰减(L2惩罚）(默认值：0）
+*   **阻尼**(_，_ _可选_） - 抑制动量(默认值：0）
+*   **nesterov** (_，_ _可选_） - 启用Nesterov动量(默认值：False）
 
 例
 
@@ -451,9 +451,9 @@ class torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda, last_epoch=-1)
 
 Parameters:
 
-*   **优化器**（） - 包装优化器。
-*   **lr_lambda** （_函数_ _或_） - 一个函数，它计算给定整数参数时期的乘法因子，或这些函数的列表，优化器中每个组一个.param_groups。
-*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
+*   **优化器**(） - 包装优化器。
+*   **lr_lambda** (_函数_ _或_） - 一个函数，它计算给定整数参数时期的乘法因子，或这些函数的列表，优化器中每个组一个.param_groups。
+*   **last_epoch** (） - 最后一个纪元的索引。默认值：-1。
 
 Example
 
@@ -475,7 +475,7 @@ load_state_dict(state_dict)
 
 加载调度程序状态。
 
-| Parameters: | **state_dict** （） - 调度程序状态。应该是从调用返回的对象。 |
+| Parameters: | **state_dict** (） - 调度程序状态。应该是从调用返回的对象。 |
 | --- | --- |
 
 ```
@@ -494,10 +494,10 @@ class torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1, last_epoc
 
 Parameters:
 
-*   **优化器**（） - 包装优化器。
-*   **step_size** （） - 学习率衰减的时期。
-*   **gamma** （） - 学习率衰减的乘法因子。默认值：0.1。
-*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
+*   **优化器**(） - 包装优化器。
+*   **step_size** (） - 学习率衰减的时期。
+*   **gamma** (） - 学习率衰减的乘法因子。默认值：0.1。
+*   **last_epoch** (） - 最后一个纪元的索引。默认值：-1。
 
 Example
 
@@ -523,10 +523,10 @@ class torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones, gamma=0.1, las
 
 Parameters:
 
-*   **优化器**（） - 包装优化器。
-*   **里程碑**（） - 时代指数列表。必须增加。
-*   **gamma** （） - 学习率衰减的乘法因子。默认值：0.1。
-*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
+*   **优化器**(） - 包装优化器。
+*   **里程碑**(） - 时代指数列表。必须增加。
+*   **gamma** (） - 学习率衰减的乘法因子。默认值：0.1。
+*   **last_epoch** (） - 最后一个纪元的索引。默认值：-1。
 
 Example
 
@@ -551,9 +551,9 @@ class torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma, last_epoch=-1)
 
 Parameters:
 
-*   **优化器**（） - 包装优化器。
-*   **gamma** （） - 学习率衰减的乘法因子。
-*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
+*   **优化器**(） - 包装优化器。
+*   **gamma** (） - 学习率衰减的乘法因子。
+*   **last_epoch** (） - 最后一个纪元的索引。默认值：-1。
 
 ```
 class torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0, last_epoch=-1)
@@ -567,10 +567,10 @@ class torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0, la
 
 Parameters:
 
-*   **优化器**（） - 包装优化器。
-*   **T_max** （） - 最大迭代次数。
-*   **eta_min** （） - 最低学习率。默认值：0。
-*   **last_epoch** （） - 最后一个纪元的索引。默认值：-1。
+*   **优化器**(） - 包装优化器。
+*   **T_max** (） - 最大迭代次数。
+*   **eta_min** (） - 最低学习率。默认值：0。
+*   **last_epoch** (） - 最后一个纪元的索引。默认值：-1。
 
 ```
 class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
@@ -580,16 +580,16 @@ class torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0
 
 Parameters:
 
-*   **优化器**（） - 包装优化器。
-*   **模式**（） - `min`，`max`之一。在`min`模式下，当监控量停止下降时，lr将减少;在`max`模式下，当监控量停止增加时，它将减少。默认值：'min'。
-*   **factor** （） - 学习率降低的因素。 new_lr = lr * factor。默认值：0.1。
-*   **耐心**（） - 没有改善的时期数，之后学习率会降低。例如，如果`patience = 2`，那么我们将忽略没有改进的前2个时期，并且如果损失仍然没有改善那么将仅在第3个时期之后减少LR。默认值：10。
-*   **verbose** （） - 如果`True`，每次更新都会向stdout输出一条消息。默认值：`False`。
-*   **阈值**（） - 测量新最佳值的阈值，仅关注重大变化。默认值：1e-4。
-*   **threshold_mode** （） - `rel`，`abs`之一。在`rel`模式下，dynamic_threshold ='max'模式下的最佳*（1 +阈值）或`min`模式下的最佳*（1 - 阈值）。在`abs`模式下，dynamic_threshold = `max`模式下的最佳+阈值或`min`模式下的最佳阈值。默认值：'rel'。
-*   **冷却时间**（） - 在减少lr之后恢复正常操作之前要等待的时期数。默认值：0。
-*   **min_lr** （_或_） - 标量或标量列表。所有参数组或每组的学习率的下限。默认值：0。
-*   **eps** （） - 应用于lr的最小衰减。如果新旧lr之间的差异小于eps，则忽略更新。默认值：1e-8。
+*   **优化器**(） - 包装优化器。
+*   **模式**(） - `min`，`max`之一。在`min`模式下，当监控量停止下降时，lr将减少;在`max`模式下，当监控量停止增加时，它将减少。默认值：'min'。
+*   **factor** (） - 学习率降低的因素。 new_lr = lr * factor。默认值：0.1。
+*   **耐心**(） - 没有改善的时期数，之后学习率会降低。例如，如果`patience = 2`，那么我们将忽略没有改进的前2个时期，并且如果损失仍然没有改善那么将仅在第3个时期之后减少LR。默认值：10。
+*   **verbose** (） - 如果`True`，每次更新都会向stdout输出一条消息。默认值：`False`。
+*   **阈值**(） - 测量新最佳值的阈值，仅关注重大变化。默认值：1e-4。
+*   **threshold_mode** (） - `rel`，`abs`之一。在`rel`模式下，dynamic_threshold ='max'模式下的最佳*(1 +阈值）或`min`模式下的最佳*(1 - 阈值）。在`abs`模式下，dynamic_threshold = `max`模式下的最佳+阈值或`min`模式下的最佳阈值。默认值：'rel'。
+*   **冷却时间**(） - 在减少lr之后恢复正常操作之前要等待的时期数。默认值：0。
+*   **min_lr** (_或_） - 标量或标量列表。所有参数组或每组的学习率的下限。默认值：0。
+*   **eps** (） - 应用于lr的最小衰减。如果新旧lr之间的差异小于eps，则忽略更新。默认值：1e-8。
 
 Example
 

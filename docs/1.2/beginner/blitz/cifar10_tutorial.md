@@ -14,7 +14,7 @@
 * 对于音频，有scipy和librosa等包可以使用
 * 对于文本，不管是原生python的或者是基于Cython的文本，可以使用NLTK和SpaCy
 
-特别对于视觉方面，我们创建了一个包，名字叫`torchvision`，其中包含了针对Imagenet、CIFAR10、MNIST等常用数据集的数据加载器（data loaders），还有对图片数据变形的操作，即`torchvision.datasets`和`torch.utils.data.DataLoader`。
+特别对于视觉方面，我们创建了一个包，名字叫`torchvision`，其中包含了针对Imagenet、CIFAR10、MNIST等常用数据集的数据加载器(data loaders），还有对图片数据变形的操作，即`torchvision.datasets`和`torch.utils.data.DataLoader`。
 
 这提供了极大的便利，可以避免编写样板代码。
 
@@ -104,7 +104,7 @@ horse horse horse   car
 
 ### 2.定义卷积神经网络
 
-将之前神经网络章节定义的神经网络拿过来，并将其修改成输入为3通道图像（替代原来定义的单通道图像）。
+将之前神经网络章节定义的神经网络拿过来，并将其修改成输入为3通道图像(替代原来定义的单通道图像）。
 
 ```python
 import torch.nn as nn
@@ -136,7 +136,7 @@ net = Net()
 
 ### 3.定义损失函数和优化器
 
-我们使用分类的交叉熵损失和随机梯度下降（使用momentum）。
+我们使用分类的交叉熵损失和随机梯度下降(使用momentum）。
 
 ```python
 import torch.optim as optim
@@ -196,7 +196,7 @@ Finished Training
 
 我们已经在训练集上训练了2遍网络。但是我们需要检查网络是否学到了一些东西。
 
-我们将通过预测神经网络输出的标签来检查这个问题，并和正确样本进行（ground-truth）对比。如果预测是正确的，我们将样本添加到正确预测的列表中。
+我们将通过预测神经网络输出的标签来检查这个问题，并和正确样本进行(ground-truth）对比。如果预测是正确的，我们将样本添加到正确预测的列表中。
 
 ok，第一步。让我们显示测试集中的图像来熟悉一下。
 
@@ -260,7 +260,7 @@ print('Accuracy of the network on the 10000 test images: %d %%' % (
 Accuracy of the network on the 10000 test images: 55 %
 ```
 
-这比随机选取（即从10个类中随机选择一个类，正确率是10%）要好很多。看来网络确实学到了一些东西。
+这比随机选取(即从10个类中随机选择一个类，正确率是10%）要好很多。看来网络确实学到了一些东西。
 
 那么哪些是表现好的类呢？哪些是表现的差的类呢？
 
@@ -340,7 +340,7 @@ inputs, labels = inputs.to(device), labels.to(device)
 
 为什么我们感受不到与CPU相比的巨大加速？因为我们的网络实在是太小了。
 
-尝试一下：加宽你的网络（注意第一个`nn.Conv2d`的第二个参数和第二个`nn.Conv2d`的第一个参数要相同），看看能获得多少加速。
+尝试一下：加宽你的网络(注意第一个`nn.Conv2d`的第二个参数和第二个`nn.Conv2d`的第一个参数要相同），看看能获得多少加速。
 
 已实现的目标：
 

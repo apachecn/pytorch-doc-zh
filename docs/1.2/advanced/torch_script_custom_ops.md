@@ -2,17 +2,17 @@
 
 该PyTorch 1.0版本中引入的一种新的编程模型PyTorch称为[ TorchScript [HTG1。
 TorchScript是可解析的，编译和优化由TorchScript编译Python编程语言的子集。此外，编译TorchScript模型有被序列化到磁盘上的文件格式，它可以随后加载和从纯C
-++（以及Python）的用于推理运行选项。](https://pytorch.org/docs/master/jit.html)
+++(以及Python）的用于推理运行选项。](https://pytorch.org/docs/master/jit.html)
 
 TorchScript支持由`Torch 提供
 `包操作的相当大的一部分，让你表达多种复杂模型的纯粹从PyTorch的“标准库”等一系列张量操作。不过，也有可能是时候，你需要有一个自定义的C
-++或CUDA功能扩展TorchScript的发现自己。虽然我们建议您只能求助于这个选项，如果你的想法不能被表达（足够有效），作为一个简单的Python函数，我们提供了一个非常友好和简单的界面使用定义自定义C
+++或CUDA功能扩展TorchScript的发现自己。虽然我们建议您只能求助于这个选项，如果你的想法不能被表达(足够有效），作为一个简单的Python函数，我们提供了一个非常友好和简单的界面使用定义自定义C
 ++和CUDA内核[ ATEN ](https://pytorch.org/cppdocs/#aten) ，PyTorch的高性能C
-++库张。一旦绑定到TorchScript，您可以嵌入这些自定义内核（或“OPS”）到您的TorchScript模型，无论是在Python和直接的序列化的形式在C
+++库张。一旦绑定到TorchScript，您可以嵌入这些自定义内核(或“OPS”）到您的TorchScript模型，无论是在Python和直接的序列化的形式在C
 ++中执行。
 
 下面的段落给出写TorchScript定制运算来调入[的OpenCV ](https://www.opencv.org)，计算机视觉库用C
-++编写的一个例子。我们将讨论如何在C ++中，张量工作，如何有效地将它们转换为第三方张量格式（在这种情况下，OpenCV的 ``
+++编写的一个例子。我们将讨论如何在C ++中，张量工作，如何有效地将它们转换为第三方张量格式(在这种情况下，OpenCV的 ``
 Mat``s），如何注册与TorchScript运行，最后如何您的运营商编译操作和Python和C ++使用它。
 
 ## 实施自定义操作员在C ++
@@ -47,17 +47,17 @@ Mat``s），如何注册与TorchScript运行，最后如何您的运营商编译
 这个操作符的代码很短。在该文件的顶部，我们包括OpenCV的头文件，`opencv2 / opencv.hpp`，沿着`torch/ script.h
 `头部暴露从PyTorch的C ++ API所需的所有东西，我们需要编写自定义TorchScript运营商。我们的函数`warp_perspective
 `采用两个参数：输入`图像 `和`经线 `变换矩阵我们希望应用到图像。的类型的这些输入是`torch::张量 `，在C
-PyTorch的张量类型++（其也是基础类型在Python所有张量）。我们的`返回类型warp_perspective`功能也将是一个`Torch ::张量
+PyTorch的张量类型++(其也是基础类型在Python所有张量）。我们的`返回类型warp_perspective`功能也将是一个`Torch ::张量
 [HTG31。`
 
 小费
 
 参见[本说明](https://pytorch.org/cppdocs/notes/tensor_basics.html)约ATEN，它提供了`张量
-`类PyTorch库的更多信息。此外，[本教程](https://pytorch.org/cppdocs/notes/tensor_creation.html)描述了如何分配和用C初始化新张量对象++（不需要这个操作符）。
+`类PyTorch库的更多信息。此外，[本教程](https://pytorch.org/cppdocs/notes/tensor_creation.html)描述了如何分配和用C初始化新张量对象++(不需要这个操作符）。
 
 注意
 
-所述编译器TorchScript理解的类型的固定号码。只有这些类型可以作为参数传递给您的自定义操作。目前，这些类型是：HTG0] Torch ::张量 ，`
+所述编译器TorchScript理解的类型的固定号码。只有这些类型可以作为参数传递给您的自定义操作。目前，这些类型是：Torch ::张量 ，`
 Torch ::标量 `，`双 `，`的int64_t`和`的std ::矢量 `这些类型的第需要注意的是 _只有_ `双 `和 _不是_ `
 浴液HTG30] `和 _只有_ `的int64_t`和 _不_ 其他整数类型如`INT`，`短 `或`长 `的支持。
 
@@ -73,10 +73,10 @@ CV ::垫 `对象作为输入。幸运的是，有一种方法来做到这一点 
     
 
 我们呼吁[此构造](https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e)
-OpenCV的`垫 `类的给我们的张量转换为`垫 `对象。我们通过它最初的`图像 `张量，数据类型（我们定为`FLOAT32
+OpenCV的`垫 `类的给我们的张量转换为`垫 `对象。我们通过它最初的`图像 `张量，数据类型(我们定为`FLOAT32
 `为行数和列数本实施例中），最后一个原始指针到底层数据 - A `浮动*`。有什么特别之处这个构造函数`垫
 `类的是，它不会复制的输入数据。相反，它会简单地引用该内存上的`垫 `执行的所有操作。如果在`image_mat`进行就地操作，这将反映原始`图像
-`张量（反之亦然在）。这使我们可以调用随后OpenCV的程序与库的本地矩阵型，即使我们实际上是存储在PyTorch张量的数据。我们重复这个过程将`经 `
+`张量(反之亦然在）。这使我们可以调用随后OpenCV的程序与库的本地矩阵型，即使我们实际上是存储在PyTorch张量的数据。我们重复这个过程将`经 `
 PyTorch张量转换为`warp_mat`OpenCV的矩阵：
 
     
@@ -89,7 +89,7 @@ PyTorch张量转换为`warp_mat`OpenCV的矩阵：
 
 接下来，我们准备调用，我们是如此渴望在TorchScript使用OpenCV的函数：`warpPerspective
 [HTG3。为此，我们通过OpenCV的函数中的`image_mat`和`warp_mat`矩阵，以及被称为空输出矩阵`output_mat
-`。我们还指定大小`DSIZE`我们要输出矩阵（图像）是。它是硬编码为`8  × 8`在这个例子中：`
+`。我们还指定大小`DSIZE`我们要输出矩阵(图像）是。它是硬编码为`8  × 8`在这个例子中：`
 
     
     
@@ -107,13 +107,13 @@ from_blob`调用看起来是这样的：`
     torch::from_blob(output_mat.ptr<float>(), /*sizes=*/{8, 8})
     
 
-我们使用`.ptr & LT ;浮子& GT ;（） `上OpenCV的`垫[方法HTG6] `类来获得原始指针到底层数据（就像`。数据& LT
-;浮子& GT ;（） `为PyTorch张量更早）。我们还指定张量的输出的形状，这我们硬编码为`8  × 8`。的`输出torch:: from_blob
+我们使用`.ptr & LT ;浮子& GT ;(） `上OpenCV的`垫[方法HTG6] `类来获得原始指针到底层数据(就像`。数据& LT
+;浮子& GT ;(） `为PyTorch张量更早）。我们还指定张量的输出的形状，这我们硬编码为`8  × 8`。的`输出torch:: from_blob
 `于是为`torch::张量 `，指向由OpenCV的基质所拥有的存储器。
 
-从我们的运营商实现返回，这个张量之前，我们必须调用`.clone（） `对张进行基础数据的内存拷贝。这样做的原因是，`Torch :: from_blob
+从我们的运营商实现返回，这个张量之前，我们必须调用`.clone(） `对张进行基础数据的内存拷贝。这样做的原因是，`Torch :: from_blob
 `返回没有自己的数据的张量。在这一点上，该数据仍然由OpenCV的矩阵拥有。然而，这OpenCV的矩阵将走出去的范围，并在函数结束时被释放。如果我们返回`
-输出 `张量-是，它会指向由我们使用它的功能之外的时间无效的内存。调用`.clone（）
+输出 `张量-是，它会指向由我们使用它的功能之外的时间无效的内存。调用`.clone(）
 `返回与新张拥有自身的原始数据的副本，新的张量。因此安全回到外面的世界。
 
 ## 注册运营商定制与TorchScript
@@ -128,13 +128,13 @@ from_blob`调用看起来是这样的：`
     
 
 在某处我们的`op.cpp`文件的全局范围。这将创建一个全局变量`注册表
-`，这将在其构造函数注册我们的TorchScript操作（即只出现一次，每个程序）。我们指定的经营者的名称和一个指向它的实现（我们前面写的函数）。名称由两个部分组成：一个
-_命名空间_ （`my_ops`），用于我们正在注册的特定运营商和一个名称（`warp_perspective
-`）。命名空间和运营商名称是由两个冒号（`::`）分离。
+`，这将在其构造函数注册我们的TorchScript操作(即只出现一次，每个程序）。我们指定的经营者的名称和一个指向它的实现(我们前面写的函数）。名称由两个部分组成：一个
+_命名空间_ (`my_ops`），用于我们正在注册的特定运营商和一个名称(`warp_perspective
+`）。命名空间和运营商名称是由两个冒号(`::`）分离。
 
 Tip
 
-如果你想注册多个运营商，您可以链接调用`.OP（） `构造函数后：
+如果你想注册多个运营商，您可以链接调用`.OP(） `构造函数后：
 
     
     
@@ -144,14 +144,14 @@ Tip
       .op("my_ops::and_another_op", &and_another_op);
     
 
-在幕后，`RegisterOperators`将执行一些相当复杂的C ++模板元编程魔术推断函数指针的参数和返回值类型，我们把它传递（`&安培;
+在幕后，`RegisterOperators`将执行一些相当复杂的C ++模板元编程魔术推断函数指针的参数和返回值类型，我们把它传递(`&安培;
 warp_perspective`）。该信息被用于形成 _功能架构_ 为我们的运营商。函数模式是运营商的结构化表示 - 一种“签名”或“原型”的 -
 使用的TorchScript编译器来验证TorchScript程序的正确性。
 
 ## 构建自定义操作
 
 现在，我们已经实现了我们的运营商定制的C
-++及书面登记代码，它是时间来建立操作成（共享）库，我们可以在任何的Python的研究和实验加载到Python或成C
+++及书面登记代码，它是时间来建立操作成(共享）库，我们可以在任何的Python的研究和实验加载到Python或成C
 ++的推理环境。存在多种方式来打造我们的运营商，使用纯CMake的，或Python的替代品如`setuptools的
 [HTG3。为了简便起见，下面仅段落讨论CMake的方法。本教程的附录潜入基于Python的替代品。`
 
@@ -264,7 +264,7 @@ libtorch`与路径解压缩后的LibTorch分布。
 一旦我们的运营商定制内置共享库，我们准备在我们在Python
 TorchScript车型使用此运算符。有两个部分，以这样的：第一加载操作到Python和第二使用TorchScript代码操作。
 
-你已经看到了如何导入您的运营商引入Python：`torch.ops.load_library（）
+你已经看到了如何导入您的运营商引入Python：`torch.ops.load_library(）
 [HTG3。此功能将路径包含运营商定制的共享库，并将其加载到当前进程。加载共享库也将执行全局`RegisterOperators
 `对象，就放到我们的运营商定制实现文件的构造函数。这将注册我们的运营商定制与TorchScript编译器，并允许我们使用该运营商在TorchScript代码。`
 
@@ -290,7 +290,7 @@ torch.ops.my_ops.warp_perspective
 
 注意
 
-会发生什么幕后是你第一次访问`torch.ops.namespace.function`在Python中，TorchScript编译器（在C
+会发生什么幕后是你第一次访问`torch.ops.namespace.function`在Python中，TorchScript编译器(在C
 ++的土地）可以看到，如果一个函数`命名空间::函数
 `已经被注册，如果是这样，则返回一个Python句柄这个功能，我们可以随后使用调入从Python中我们的C
 ++运算符实现。这是TorchScript运营商定制和C ++扩展之间的一个显着的差异：C
@@ -371,7 +371,7 @@ Pybind11为您提供了更多的灵活性，以什么样的类型和类可以绑
 除了跟踪，另一种方式在PyTorch程序的TorchScript表示到达是直接写你的 TorchScript代码[HTG0。
 TorchScript主要是Python语言的一个子集，有一些限制，使得它更容易为TorchScript编译器推理程序。您可以通过使用`//
 @标注它torch.jit.script`免费功能和`@ torch.jit.script_method
-[关闭你的常规PyTorch代码到TorchScript HTG9一种用于在类方法（其也必须从`torch.jit.ScriptModule派生
+[关闭你的常规PyTorch代码到TorchScript HTG9一种用于在类方法(其也必须从`torch.jit.ScriptModule派生
 `）。参见[此处](https://pytorch.org/docs/master/jit.html)关于TorchScript注释的更多细节。`
 
 而不是使用跟踪TorchScript一个特别的原因是追踪无法捕捉PyTorch代码控制流。因此，让我们考虑这个功能，不使用控制流：
@@ -486,7 +486,7 @@ Attention
 所述TorchScript图表示仍然可能发生变化。不要依赖于它看起来像这样。
 
 这就是真正的它，当它涉及到使用Python中我们的运营商定制。总之，你导入使用`torch.ops.load_library
-`包含您的运营商（S）的图书馆，并呼吁像任何其他`Torch 自定义运算 `从您的追溯或脚本代码TorchScript操作。
+`包含您的运营商(S）的图书馆，并呼吁像任何其他`Torch 自定义运算 `从您的追溯或脚本代码TorchScript操作。
 
 ## 在C使用自定义TorchScript算++
 
@@ -666,9 +666,9 @@ Attention
 有嵌入在上面的例子中一个关键的细节：`-Wl， - 无按需 `前缀到`warp_perspective
 `链接线。这是必需的，因为我们实际上不会调用在我们的应用程序代码中的`warp_perspective`共享库的任何功能。我们只需要在全球`
 RegisterOperators`对象的构造函数运行。麻烦的是，这混淆了连接器，并使其认为它可以只是完全跳过链接到的库。在Linux上，`轮候册，
-- 无按需 `标记强制发生的链接（注：这个标志是具体到Linux！）。还有其他的变通办法此。最简单的就是定义 _一些函数_
-在您需要从主应用程序调用操作库。这可能是作为简单的函数`作废 的init（）[]`在一些头，然后将其定义为`空隙声明 初始化（） { }
-`在操作库。调用此`的init（）
+- 无按需 `标记强制发生的链接(注：这个标志是具体到Linux！）。还有其他的变通办法此。最简单的就是定义 _一些函数_
+在您需要从主应用程序调用操作库。这可能是作为简单的函数`作废 的init(）[]`在一些头，然后将其定义为`空隙声明 初始化(） { }
+`在操作库。调用此`的init(）
 `在主应用程序的功能将会给连接器的印象，这是值得链接到的库。不幸的是，这是我们无法控制的，我们宁可让你知道原因和简单的解决方法为这个比交给你一些不透明宏在代码噗通。
 
 现在，因为我们现在找到`Torch  `包在最顶层，在`的CMakeLists.txt`文件中的`warp_perspective
@@ -755,17 +755,17 @@ RegisterOperators`对象的构造函数运行。麻烦的是，这混淆了连�
 ++之间的界限顺利融入任何其他使用情况。
 
 与往常一样，如果您遇到任何问题或有任何疑问，您可以使用我们的[论坛](https://discuss.pytorch.org/)或[
-GitHub的问题](https://github.com/pytorch/pytorch/issues)取得联系。此外，我们的[常见问题（FAQ）页](https://pytorch.org/cppdocs/notes/faq.html)可能有帮助的信息。
+GitHub的问题](https://github.com/pytorch/pytorch/issues)取得联系。此外，我们的[常见问题(FAQ）页](https://pytorch.org/cppdocs/notes/faq.html)可能有帮助的信息。
 
 ## 附录A：建筑运营商定制的更多方法
 
 “建设运营商定制”一节中介绍如何构建一个运营商定制成使用CMake的共享库。本附录概述了编译另外两个方法。他们都使用Python作为“驾驶员”或“接口”的编译过程。此外，两个重复使用[现有的基础设施](https://pytorch.org/docs/stable/cpp_extension.html)
 PyTorch提供[ * C ++扩展*
-](https://pytorch.org/tutorials/advanced/cpp_extension.html)，它们是香草（渴望）PyTorch等效TorchScript运营商定制的依赖于[
+](https://pytorch.org/tutorials/advanced/cpp_extension.html)，它们是香草(渴望）PyTorch等效TorchScript运营商定制的依赖于[
 pybind11 ](https://github.com/pybind/pybind11)为选自C的函数“明确的”结合++成Python。
 
 第一种方法使用C
-++的扩展[方便刚刚在实时（JIT）编译接口](https://pytorch.org/docs/stable/cpp_extension.html#torch.utils.cpp_extension.load)编译代码在你PyTorch脚本的后台运行它的第一次。第二种方法依赖于古老`
+++的扩展[方便刚刚在实时(JIT）编译接口](https://pytorch.org/docs/stable/cpp_extension.html#torch.utils.cpp_extension.load)编译代码在你PyTorch脚本的后台运行它的第一次。第二种方法依赖于古老`
 setuptools的 `包和涉及编写单独的`setup.py`文件。这允许更高级的配置以及整合与其他`setuptools的
 `为基础的项目。我们将探讨在下面详细两种方法。
 
@@ -778,11 +778,11 @@ Note
 “JIT编译”这里没有什么做的JIT编译发生在TorchScript编译器优化你的程序。它只是意味着你的运营商定制的C ++代码将一个文件夹在你的系统的 /
 tmp目录目录下的第一次导入它，就好像你自己事先编编就。
 
-这JIT编译功能有两种形式。在第一个，你还是留着你的运营商实现在一个单独的文件（`op.cpp`），然后用`
-torch.utils.cpp_extension.load（）`编译你的扩展。通常情况下，这个函数将返回Python模块暴露你的C
+这JIT编译功能有两种形式。在第一个，你还是留着你的运营商实现在一个单独的文件(`op.cpp`），然后用`
+torch.utils.cpp_extension.load(）`编译你的扩展。通常情况下，这个函数将返回Python模块暴露你的C
 ++的扩展。然而，由于我们没有编制我们的运营商定制到自己的Python模块，我们只是编译一个普通的共享库。幸运的是，`
-torch.utils.cpp_extension.load（） `有一个参数`is_python_module`，我们可以设置为`假
-`表明，我们只建立一个共享库，而不是一个Python模块感兴趣。 `torch.utils.cpp_extension.load（）
+torch.utils.cpp_extension.load(） `有一个参数`is_python_module`，我们可以设置为`假
+`表明，我们只建立一个共享库，而不是一个Python模块感兴趣。 `torch.utils.cpp_extension.load(）
 `将然后编译和共享库也加载到当前进程，就象`torch.ops.load_library`以前那样：
 
     
@@ -860,7 +860,7 @@ torch.utils.cpp_extension.load_inline`：
 
 专门从Python的建设我们的运营商定制的第二种方法是使用`setuptools的 [HTG3。这具有`setuptools的 `具有用于建筑用C
 ++编写Python模块一个相当强大的和广泛的接口的优点。然而，由于`setuptools的
-`真的打算用于建筑Python模块和非纯共享库（不具有必要的入口点Python从一个模块期望），这条路线可以稍微古怪。这就是说，你需要的是到位的，看起来像这样的`
+`真的打算用于建筑Python模块和非纯共享库(不具有必要的入口点Python从一个模块期望），这条路线可以稍微古怪。这就是说，你需要的是到位的，看起来像这样的`
 的CMakeLists.txt`A `setup.py`文件：`
 
     

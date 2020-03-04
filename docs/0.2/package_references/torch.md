@@ -60,9 +60,9 @@ torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth
 参数: 
 
 - precision – 浮点数输出的精度位数 (默认为8 )
-- threshold – 阈值，触发汇总显示而不是完全显示(repr)的数组元素的总数 （默认为1000）
-- edgeitems – 汇总显示中，每维（轴）两端显示的项数（默认值为3）
-- linewidth –  用于插入行间隔的每行字符数（默认为80）。Thresholded matricies will ignore this parameter.
+- threshold – 阈值，触发汇总显示而不是完全显示(repr)的数组元素的总数 (默认为1000）
+- edgeitems – 汇总显示中，每维(轴）两端显示的项数(默认值为3）
+- linewidth –  用于插入行间隔的每行字符数(默认为80）。Thresholded matricies will ignore this parameter.
 - profile –  pretty打印的完全默认值。 可以覆盖上述所有选项 (默认为short, full)
 
 ## 创建操作 Creation Ops
@@ -75,7 +75,7 @@ torch.eye(n, m=None, out=None)
 
 参数: 
 
-- n ([int](https://docs.python.org/2/library/functions.html#int) ) – 行数
+- n ([int](https://docs.python.org/2/library/functions.html#int)) – 行数
 - m ([int](https://docs.python.org/2/library/functions.html#int), *optional*) – 列数.如果为None,则默认为*n* 
 - out  ([*Tensor*](https://pytorch.org/docs/tensors.html#torch.Tensor), *optinal*) -  Output tensor
 
@@ -604,7 +604,7 @@ torch.nonzero(input, out=None) → LongTensor
 ```python
 torch.split(tensor, split_size, dim=0)
 ```
-将输入张量分割成相等形状的chunks（如果可分）。 如果沿指定维的张量形状大小不能被`split_size` 整分， 则最后一个分块会小于其它分块。
+将输入张量分割成相等形状的chunks(如果可分）。 如果沿指定维的张量形状大小不能被`split_size` 整分， 则最后一个分块会小于其它分块。
 
 参数:
 
@@ -665,7 +665,7 @@ torch.stack(sequence, dim=0)
 torch.t(input, out=None) → Tensor
 ```
 
-输入一个矩阵（2维张量），并转置0, 1维。 
+输入一个矩阵(2维张量），并转置0, 1维。 
 可以被视为函数`transpose(input, 0, 1)`的简写函数。
 
 参数: 
@@ -776,7 +776,7 @@ torch.manual_seed(seed)
 ```python
 torch.initial_seed()
 ```
-返回生成随机数的原始种子值（python long）。
+返回生成随机数的原始种子值(python long）。
 
 ### torch.get_rng_state
 ```python
@@ -3479,7 +3479,7 @@ torch.topk(input, k, dim=None, largest=True, sorted=True, out=None) -> (Tensor, 
 ```python 
 torch.cross(input, other, dim=-1, out=None) → Tensor
 ```
-返回沿着维度`dim`上，两个张量`input`和`other`的向量积（叉积）。
+返回沿着维度`dim`上，两个张量`input`和`other`的向量积(叉积）。
 `input`和`other` 必须有相同的形状，且指定的`dim`维上size必须为`3`。
 
 如果不指定`dim`，则默认为第一个尺度为`3`的维。 
@@ -4410,8 +4410,8 @@ torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor
 参数：
 
 - input (Tensor) – 输入对称矩阵
-- eigenvectors (boolean, optional) – 布尔值（可选），控制是否计算特征向量
-- upper (boolean, optional) – 布尔值（可选），控制是否考虑上三角或下三角区域
+- eigenvectors (boolean, optional) – 布尔值(可选），控制是否计算特征向量
+- upper (boolean, optional) – 布尔值(可选），控制是否考虑上三角或下三角区域
 - out (tuple, optional) – 输出元组(Tensor, Tensor)
 
 例子：

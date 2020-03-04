@@ -113,7 +113,7 @@ Example:
 torch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, profile=None)
 ```
 
-设置打印选项. 从 NumPy 剽窃过来的（滑稽）
+设置打印选项. 从 NumPy 剽窃过来的(滑稽）
 
 Parameters: 
 

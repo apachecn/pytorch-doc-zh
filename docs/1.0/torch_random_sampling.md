@@ -10,7 +10,7 @@ torch.manual_seed(seed)
 
 设置用于生成随机数的种子。返回`torch._C.Generator`对象。
 
-| 参数： | **种子**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 所需种子。 |
+| 参数： | **种子** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 所需种子。 |
 | --- | --- |
 
 ```py
@@ -31,7 +31,7 @@ torch.set_rng_state(new_state)
 
 设置随机数生成器状态。
 
-| Parameters: | **new_state** （ [_torch.ByteTensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.ByteTensor "torch.ByteTensor")） - 理想状态 |
+| Parameters: | **new_state**  ([_torch.ByteTensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.ByteTensor "torch.ByteTensor")） - 理想状态 |
 | --- | --- |
 
 ```py
@@ -42,7 +42,7 @@ torch.default_generator = <torch._C.Generator object>
 torch.bernoulli(input, *, generator=None, out=None) → Tensor
 ```
 
-从伯努利分布中绘制二进制随机数（0或1）。
+从伯努利分布中绘制二进制随机数(0或1）。
 
 `input`张量应该是包含用于绘制二进制随机数的概率的张量。因此，`input`中的所有值必须在以下范围内： [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1ac351f229015d1047c7d979a9233916.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1ac351f229015d1047c7d979a9233916.jpg) 。
 
@@ -56,8 +56,8 @@ torch.bernoulli(input, *, generator=None, out=None) → Tensor
 
 参数：
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 伯努利分布的概率值的输入张量
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 伯努利分布的概率值的输入张量
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 例：
 
@@ -93,9 +93,9 @@ torch.multinomial(input, num_samples, replacement=False, out=None) → LongTenso
 
 注意
 
-`input`的行不需要求和为一（在这种情况下我们使用值作为权重），但必须是非负的，有限的并且具有非零和。
+`input`的行不需要求和为一(在这种情况下我们使用值作为权重），但必须是非负的，有限的并且具有非零和。
 
-根据每个样本的时间（第一个样本放在第一列中）从左到右排序指数。
+根据每个样本的时间(第一个样本放在第一列中）从左到右排序指数。
 
 如果`input`是矢量，`out`是大小为`num_samples`的矢量。
 
@@ -105,14 +105,14 @@ torch.multinomial(input, num_samples, replacement=False, out=None) → LongTenso
 
 如果没有，则绘制它们而不替换它们，这意味着当为一行绘制样本索引时，不能再为该行绘制它。
 
-这意味着`num_samples`必须低于`input`长度（或者`input`的列数，如果它是矩阵）的约束。
+这意味着`num_samples`必须低于`input`长度(或者`input`的列数，如果它是矩阵）的约束。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 包含概率的输入张量
-*   **num_samples** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 要抽取的样本数量
-*   **替代**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否与替换有关
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 包含概率的输入张量
+*   **num_samples**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 要抽取的样本数量
+*   **替代** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否与替换有关
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -147,9 +147,9 @@ Note
 
 Parameters:
 
-*   **意味着**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 每个元素的张量意味着
-*   **std** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 每元素标准差的张量
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **意味着** ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 每个元素的张量意味着
+*   **std**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 每元素标准差的张量
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -168,9 +168,9 @@ torch.normal(mean=0.0, std, out=None) → Tensor
 
 Parameters:
 
-*   **意味着**（ [_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 所有分布的均值
-*   **std** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 每元素标准差的张量
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **意味着** ([_漂浮_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)") _，_ _任选_） - 所有分布的均值
+*   **std**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 每元素标准差的张量
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -188,9 +188,9 @@ torch.normal(mean, std=1.0, out=None) → Tensor
 
 Parameters:
 
-*   **意味着**（ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 每个元素的张量意味着
-*   **std** （ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_，_ _可选_） - 所有分布的标准差
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **意味着** ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 每个元素的张量意味着
+*   **std**  ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_，_ _可选_） - 所有分布的标准差
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -210,12 +210,12 @@ torch.rand(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requ
 
 Parameters:
 
-*   **sizes** （ _int ..._ ） - 定义输出张量形状的整数序列。可以是可变数量的参数，也可以是列表或元组之类的集合。
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **sizes**  (_int ..._ ) - 定义输出张量形状的整数序列。可以是可变数量的参数，也可以是列表或元组之类的集合。
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
@@ -236,30 +236,30 @@ torch.rand_like(input, dtype=None, layout=None, device=None, requires_grad=False
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 ```py
 torch.randint(low=0, high, size, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-返回填充了在`low`（包括）和`high`（不包括）之间统一生成的随机整数的张量。
+返回填充了在`low`(包括）和`high`(不包括）之间统一生成的随机整数的张量。
 
 张量的形状由变量参数`size`定义。
 
 Parameters:
 
-*   **低**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 从分布中得出的最小整数。默认值：0。
-*   **高**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 高于从分布中提取的最高整数。
-*   **大小**（ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") ） - 定义输出张量形状的元组。
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **低** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 从分布中得出的最小整数。默认值：0。
+*   **高** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 高于从分布中提取的最高整数。
+*   **大小** ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) - 定义输出张量形状的元组。
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
@@ -281,23 +281,23 @@ tensor([[4, 5],
 torch.randint_like(input, low=0, high, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-返回与Tensor `input`具有相同形状的张量，填充在`low`（包括）和`high`（不包括）之间均匀生成的随机整数。
+返回与Tensor `input`具有相同形状的张量，填充在`low`(包括）和`high`(不包括）之间均匀生成的随机整数。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
-*   **低**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 从分布中得出的最小整数。默认值：0。
-*   **高**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 高于从分布中提取的最高整数。
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
+*   **低** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 从分布中得出的最小整数。默认值：0。
+*   **高** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 高于从分布中提取的最高整数。
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 ```py
 torch.randn(*sizes, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor
 ```
 
-返回一个填充了正态分布中随机数的张量，其均值为`0`和方差`1`（也称为标准正态分布）。
+返回一个填充了正态分布中随机数的张量，其均值为`0`和方差`1`(也称为标准正态分布）。
 
 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/71f756d003530899b04dfd92986cea2f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/71f756d003530899b04dfd92986cea2f.jpg)
 
@@ -305,12 +305,12 @@ The shape of the tensor is defined by the variable argument `sizes`.
 
 Parameters:
 
-*   **sizes** （ _int ..._ ） - 定义输出张量形状的整数序列。可以是可变数量的参数，也可以是列表或元组之类的集合。
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **sizes**  (_int ..._ ) - 定义输出张量形状的整数序列。可以是可变数量的参数，也可以是列表或元组之类的集合。
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：if `None`，使用全局默认值(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 
@@ -331,11 +331,11 @@ torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=Fals
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - `input`的大小将决定输出张量的大小
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回的Tensor的理想数据类型。默认值：if `None`，默认为`input`的dtype。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回张量的理想布局。默认值：if `None`，默认为`input`的布局。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，默认为`input`的设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 ```py
 torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None, requires_grad=False) → LongTensor
@@ -345,12 +345,12 @@ torch.randperm(n, out=None, dtype=torch.int64, layout=torch.strided, device=None
 
 Parameters:
 
-*   **n** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 上限（不包括）
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
-*   **dtype** （ [`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：`torch.int64`。
-*   **布局**（ [`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
-*   **设备**（ [`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型（参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type") ）。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
-*   **requires_grad** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
+*   **n**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 上限(不包括）
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **dtype**  ([`torch.dtype`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") ，可选） - 返回张量的所需数据类型。默认值：`torch.int64`。
+*   **布局** ([`torch.layout`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.layout "torch.torch.layout") ，可选） - 返回Tensor的理想布局。默认值：`torch.strided`。
+*   **设备** ([`torch.device`](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensor_attributes.html#torch.torch.device "torch.torch.device") ，可选） - 返回张量的所需设备。默认值：如果`None`，则使用当前设备作为默认张量类型(参见 [`torch.set_default_tensor_type()`](#torch.set_default_tensor_type "torch.set_default_tensor_type"))。 `device`将是CPU张量类型的CPU和CUDA张量类型的当前CUDA设备。
+*   **requires_grad**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 如果autograd应该记录对返回张量的操作。默认值：`False`。
 
 Example:
 

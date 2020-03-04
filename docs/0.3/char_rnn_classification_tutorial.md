@@ -37,9 +37,9 @@ $ python predict.py Schmidhuber
 
 ## 准备数据
 
-在 `data/names` 目录中包含18个名为as的文本文件 “[Language].txt” . 每个文件都包含一堆名称,每个名称一行大多是罗马化（但我们仍然需要从Unicode转换为ASCII）.
+在 `data/names` 目录中包含18个名为as的文本文件 “[Language].txt” . 每个文件都包含一堆名称,每个名称一行大多是罗马化(但我们仍然需要从Unicode转换为ASCII）.
 
-我们最终会得到每种语言的名称列表字典 `{language: [names ...]}` 通用变量“类别”和“行” （在我们的例子中用于语言和名称）用于以后的扩展性.
+我们最终会得到每种语言的名称列表字典 `{language: [names ...]}` 通用变量“类别”和“行” (在我们的例子中用于语言和名称）用于以后的扩展性.
 
 ```py
 from __future__ import unicode_literals, print_function, division

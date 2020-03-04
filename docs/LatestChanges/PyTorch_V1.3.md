@@ -10,7 +10,7 @@ PyTorch继续获得动力，这是因为其专注于满足研究人员的需求�
 
 我们现在通过PyTorch 1.3的发布进一步推进该平台的发展，该版本包括对功能的实验性支持，例如无缝模型到移动设备的部署，模型量化以在推理时获得更好的性能，以及前端改进(例如命名张量）并创建更清晰的代码，而不需要内联注释。我们还将启动许多其他工具和库，以支持模型的可解释性，并将多模式研究投入生产。
 
-此外，我们还与Google和Salesforce合作，为Cloud Tensor处理单元增加了广泛的支持，为培训大型深度神经网络提供了显着加速的选择。[阿里云](https://data.aliyun.com/bigdata/pai-pytorch?spm=5176.12825654.a9ylfrljh.d112.7b652c4ayuOO4M&scm=20140722.1068.1.1098&aly_as=-PvJ5e4c)还加入了Amazon Web Services，Microsoft Azure和Google Cloud，为PyTorch用户提供了受支持的云平台。您现在可以在[pytorch.org 上开始使用](https://pytorch.org/get-started/locally/)。
+此外，我们还与Google和Salesforce合作，为Cloud Tensor处理单元增加了广泛的支持，为训练大型深度神经网络提供了显着加速的选择。[阿里云](https://data.aliyun.com/bigdata/pai-pytorch?spm=5176.12825654.a9ylfrljh.d112.7b652c4ayuOO4M&scm=20140722.1068.1.1098&aly_as=-PvJ5e4c)还加入了Amazon Web Services，Microsoft Azure和Google Cloud，为PyTorch用户提供了受支持的云平台。您现在可以在[pytorch.org 上开始使用](https://pytorch.org/get-started/locally/)。
 
 # PyTorch 1.3
 
@@ -112,7 +112,7 @@ Detectron2 在[这里](https://github.com/facebookresearch/detectron2)可用，
 诸如Amazon Web Services，Microsoft Azure和Google Cloud之类的云提供商为希望在PyTorch上开发ML并在生产中进行部署的任何人提供了广泛的支持。我们很高兴分享Google Cloud TPU支持的全面可用性以及与阿里云的新推出的集成。我们还将扩展对硬件生态系统的支持。
 
 * Google Cloud TPU支持现已广泛可用。为了加速当今部署的最大规模的机器学习(ML）应用并实现明天的ML应用的快速发展，Google创建了称为Tensor Processing Units([TPU](https://cloud.google.com/tpu/)）的定制硅芯片。将这些TPU 组装到称为[Cloud TPU Pods的](https://cloud.google.com/blog/products/ai-machine-learning/cloud-tpu-pods-break-ai-training-records)多机架ML超级计算机中后，它们可以在几分钟或几小时内完成ML工作负载，而以前在其他系统上要花费几天或几周。来自Facebook，Google和Salesforce的工程师共同努力，在PyTorch中启用并试用了Cloud TPU支持，包括对Cloud TPU Pods的实验性支持。Colab还提供了对Cloud TPU的PyTorch支持。在[此处](https://github.com/pytorch/xla)了解有关如何开始使用PyTorch on Cloud TPU的更多[信息](https://github.com/pytorch/xla)。
-* 阿里巴巴在阿里云中添加了对PyTorch的支持。最初的集成涉及PyTorch 1.x的一键式解决方案，Data Science Workshop笔记本服务，使用Gloo / NCCL进行的分布式培训以及与阿里巴巴IaaS(例如OSS，ODPS和NAS）的无缝集成。我们期待与阿里巴巴提供的工具链一起，大幅降低采用该系统所需的开销，并帮助阿里云的全球客户群利用PyTorch开发新的AI应用程序。
+* 阿里巴巴在阿里云中添加了对PyTorch的支持。最初的集成涉及PyTorch 1.x的一键式解决方案，Data Science Workshop笔记本服务，使用Gloo / NCCL进行的分布式训练以及与阿里巴巴IaaS(例如OSS，ODPS和NAS）的无缝集成。我们期待与阿里巴巴提供的工具链一起，大幅降低采用该系统所需的开销，并帮助阿里云的全球客户群利用PyTorch开发新的AI应用程序。
 * ML硬件生态系统得以扩展。除了主要的GPU和CPU合作伙伴之外，PyTorch生态系统还支​​持专用的ML加速器。[英特尔](https://www.intel.ai/nnpi-glow-pytorch/)和[Habana](https://medium.com/@HabanaLabs/unlocking-ai-scaling-through-software-and-hardware-interface-standardization-77561cb7598b)的更新展示了PyTorch如何连接到Glow优化编译器，从而使开发人员能够利用这些针对特定市场的解决方案。
 
 # PyTorch社区的成长
@@ -120,15 +120,15 @@ Detectron2 在[这里](https://github.com/facebookresearch/detectron2)可用，
 作为一个开源的，社区驱动的项目，PyTorch受益于为生态系统带来新功能的众多贡献者。以下是一些最近的示例：
 
 * Mila SpeechBrain旨在提供基于PyTorch的开源，多合一语音工具包。目标是开发一个单一的，灵活的，用户友好的工具包，该工具包可用于轻松开发语音识别(端到端和HMM-DNN），说话者识别，语音分离，多语言功能的最新系统-麦克风信号处理(例如，波束成形），自我监督学习以及许多其他功能。[了解更多](https://speechbrain.github.io/)
-* SpaCy是一个新的包装库，具有对多个模型的一致且易于使用的界面，以便提取功能以支持NLP管道。通过spaCy的标准培训API提供支持。该库还计算对齐方式，以便可以将变压器功能部件与实际单词相关，而不仅仅是单词。[了解更多](https://explosion.ai/blog/spacy-pytorch-transformers)
+* SpaCy是一个新的包装库，具有对多个模型的一致且易于使用的界面，以便提取功能以支持NLP管道。通过spaCy的标准训练API提供支持。该库还计算对齐方式，以便可以将变压器功能部件与实际单词相关，而不仅仅是单词。[了解更多](https://explosion.ai/blog/spacy-pytorch-transformers)
 * HuggingFace PyTorch-Transformers(以前称为pytorch-pretrained-bert是一个用于自然语言处理(NLP）的最新的预训练模型库。该库当前包含PyTorch实现，预训练模型权重，用法脚本和转换实用程序车型如BERT，GPT-2，罗伯塔和DistilBERT，它也在增长迅速，拥有超过13,000 GitHub的星级和广泛的用户。[了解更多](https://github.com/huggingface/transformers)
-* PyTorch Lightning是PyTorch的类似Keras的ML库。它将核心的培训和验证逻辑留给您，并自动完成其余的工作。可重复性是许多研究领域(包括基于ML技术的领域）的关键要求。随着提交给arXiv和会议的研究论文数量激增至数以万计，缩放可重复性变得困难。[了解更多](https://github.com/williamFalcon/pytorch-lightning)。
+* PyTorch Lightning是PyTorch的类似Keras的ML库。它将核心的训练和验证逻辑留给您，并自动完成其余的工作。可重复性是许多研究领域(包括基于ML技术的领域）的关键要求。随着提交给arXiv和会议的研究论文数量激增至数以万计，缩放可重复性变得困难。[了解更多](https://github.com/williamFalcon/pytorch-lightning)。
 
 我们最近举行了首次在线全球PyTorch夏季黑客马拉松，邀请了世界各地的研究人员和开发人员与PyTorch建立创新的新项目。近1500名开发人员参加了该项目，提交了从牲畜疾病检测到以AI为动力的财务助手等项目。获奖项目是：
 
 * Torchmeta，它提供了PyTorch的扩展，以简化PyTorch中元学习算法的开发。它具有受TorchVision启发的统一界面，可解决少数镜头分类和回归问题，从而可以轻松地对多个数据集进行基准测试，以提高再现性。
 * Open-Unmix，使用PyTorch进行端到端音乐混合的系统。混合将单个乐器或人声轨与任何立体声录音分开。
-* Endless AI产生的Tees，这家商店采用AI产生的T恤设计，可在全球范围内购买和交付。该系统使用最先进的生成模型(StyleGAN），该模型由PyTorch构建，然后接受现代艺术培训。
+* Endless AI产生的Tees，这家商店采用AI产生的T恤设计，可在全球范围内购买和交付。该系统使用最先进的生成模型(StyleGAN），该模型由PyTorch构建，然后接受现代艺术训练。
 
 访问[pytorch.org](https://pytorch.org/)了解更多信息，并开始使用PyTorch 1.3以及最新的库和生态系统项目。我们期待社区通过PyTorch构建的贡献，令人兴奋的研究进展以及实际应用。
 

@@ -10,7 +10,7 @@ torch.bincount(self, weights=None, minlength=0) → Tensor
 
 计算非负的int数组中每个值的频率。
 
-除非`input`为空，否则箱数（大小为1）比`input`中的最大值大1，在这种情况下，结果是大小为0.如果指定`minlength`，则箱数为至少`minlength`并且如果`input`为空，则结果是填充零的大小`minlength`的张量。如果`n`是位置`i`的值，`out[n] += weights[i]`如果指定了`weights`，则`out[n] += 1`。
+除非`input`为空，否则箱数(大小为1）比`input`中的最大值大1，在这种情况下，结果是大小为0.如果指定`minlength`，则箱数为至少`minlength`并且如果`input`为空，则结果是填充零的大小`minlength`的张量。如果`n`是位置`i`的值，`out[n] += weights[i]`如果指定了`weights`，则`out[n] += 1`。
 
 注意
 
@@ -18,13 +18,13 @@ torch.bincount(self, weights=None, minlength=0) → Tensor
 
 参数：
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 1-d int张量
-*   **权重**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 可选，输入张量中每个值的权重。应与输入张量大小相同。
-*   **minlength** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 可选的最小二进制数。应该是非负面的。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 1-d int张量
+*   **权重** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 可选，输入张量中每个值的权重。应与输入张量大小相同。
+*   **minlength**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 可选的最小二进制数。应该是非负面的。
 
 | 返回： | 如果`input`非空，则为形状张量`Size([max(input) + 1])`，否则为`Size(0)` |
 | --- | --- |
-| 返回类型： | 输出（ [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） |
+| 返回类型： | 输出 ([Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) |
 
 例：
 
@@ -78,10 +78,10 @@ torch.cross(input, other, dim=-1, out=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **其他**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二个输入张量
-*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 采取交叉积的维度。
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **其他** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二个输入张量
+*   **dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 采取交叉积的维度。
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -115,8 +115,8 @@ tensor([[ 1.0844, -0.5281,  0.6120],
 torch.diag(input, diagonal=0, out=None) → Tensor
 ```
 
-*   如果`input`是矢量（1-D张量），则返回2-D平方张量，其中`input`的元素作为对角线。
-*   如果`input`是矩阵（2-D张量），则返回具有`input`的对角元素的1-D张量。
+*   如果`input`是矢量(1-D张量），则返回2-D平方张量，其中`input`的元素作为对角线。
+*   如果`input`是矩阵(2-D张量），则返回具有`input`的对角元素的1-D张量。
 
 参数 [`diagonal`](#torch.diagonal "torch.diagonal") 控制要考虑的对角线：
 
@@ -126,9 +126,9 @@ torch.diag(input, diagonal=0, out=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **对角线**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 要考虑的对角线
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **对角线** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 要考虑的对角线
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 也可以看看
 
@@ -175,7 +175,7 @@ tensor([ 0.0255, 0.1374])
 torch.diag_embed(input, offset=0, dim1=-2, dim2=-1) → Tensor
 ```
 
-创建一个张量，其某些2D平面的对角线（由`dim1`和`dim2`指定）由`input`填充。为了便于创建批量对角矩阵，默认选择由返回张量的最后两个维度形成的2D平面。
+创建一个张量，其某些2D平面的对角线(由`dim1`和`dim2`指定）由`input`填充。为了便于创建批量对角矩阵，默认选择由返回张量的最后两个维度形成的2D平面。
 
 参数`offset`控制要考虑的对角线：
 
@@ -189,10 +189,10 @@ torch.diag_embed(input, offset=0, dim1=-2, dim2=-1) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量。必须至少是一维的。
-*   **偏移**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 对角线考虑。默认值：0（主对角线）。
-*   **dim1** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第一维度。默认值：-2。
-*   **dim2** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第二维度。默认值：-1。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量。必须至少是一维的。
+*   **偏移** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 对角线考虑。默认值：0(主对角线）。
+*   **dim1**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第一维度。默认值：-2。
+*   **dim2**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第二维度。默认值：-1。
 
 Example:
 
@@ -226,7 +226,7 @@ tensor([[[ 0.0000,  1.5410,  0.0000,  0.0000],
 torch.diagflat(input, diagonal=0) → Tensor
 ```
 
-*   如果`input`是矢量（1-D张量），则返回2-D平方张量，其中`input`的元素作为对角线。
+*   如果`input`是矢量(1-D张量），则返回2-D平方张量，其中`input`的元素作为对角线。
 *   如果`input`是一个具有多个维度的张量，则返回一个二维张量，其对角线元素等于一个展平的`input`。
 
 The argument `offset` controls which diagonal to consider:
@@ -237,8 +237,8 @@ The argument `offset` controls which diagonal to consider:
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **偏移**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 对角线考虑。默认值：0（主对角线）。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **偏移** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 对角线考虑。默认值：0(主对角线）。
 
 Examples:
 
@@ -284,10 +284,10 @@ The argument `offset` controls which diagonal to consider:
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量。必须至少是二维的。
-*   **偏移**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 对角线考虑。默认值：0（主对角线）。
-*   **dim1** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第一维度。默认值：0。
-*   **dim2** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第二维度。默认值：1。
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量。必须至少是二维的。
+*   **偏移** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 对角线考虑。默认值：0(主对角线）。
+*   **dim1**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第一维度。默认值：0。
+*   **dim2**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _任选_） - 相对于其采取对角线的第二维度。默认值：1。
 
 Note
 
@@ -322,12 +322,12 @@ tensor([[[-1.2631,  0.3755, -1.5977, -1.8172],
 torch.einsum(equation, *operands) → Tensor
 ```
 
-该函数提供了一种使用爱因斯坦求和约定来计算多线性表达式（即乘积和）的方法。
+该函数提供了一种使用爱因斯坦求和约定来计算多线性表达式(即乘积和）的方法。
 
 Parameters:
 
-*   **等式**（ _string_ ） - 该等式根据与操作数和结果的每个维度相关联的小写字母（索引）给出。左侧列出了操作数尺寸，以逗号分隔。每个张量维度应该有一个索引字母。右侧跟在`-&gt;`之后，并给出输出的索引。如果省略`-&gt;`和右侧，则它隐式地定义为在左侧恰好出现一次的所有索引的按字母顺序排序的列表。在操作数输入之后，将输出中未显示的索引求和。如果索引对同一操作数多次出现，则采用对角线。省略号`…`表示固定数量的维度。如果推断出右侧，则省略号维度位于输出的开头。
-*   **操作数**（_张量列表_） - 计算爱因斯坦和的操作数。请注意，操作数作为列表传递，而不是作为单个参数传递。
+*   **等式** (_string_ ) - 该等式根据与操作数和结果的每个维度相关联的小写字母(索引）给出。左侧列出了操作数尺寸，以逗号分隔。每个张量维度应该有一个索引字母。右侧跟在`-&gt;`之后，并给出输出的索引。如果省略`-&gt;`和右侧，则它隐式地定义为在左侧恰好出现一次的所有索引的按字母顺序排序的列表。在操作数输入之后，将输出中未显示的索引求和。如果索引对同一操作数多次出现，则采用对角线。省略号`…`表示固定数量的维度。如果推断出右侧，则省略号维度位于输出的开头。
+*   **操作数**(_张量列表_） - 计算爱因斯坦和的操作数。请注意，操作数作为列表传递，而不是作为单个参数传递。
 
 Examples:
 
@@ -385,9 +385,9 @@ torch.flatten(input, start_dim=0, end_dim=-1) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **start_dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 第一个暗淡变平
-*   **end_dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 最后的暗淡变平
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **start_dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 第一个暗淡变平
+*   **end_dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 最后的暗淡变平
 
 Example:
 
@@ -412,8 +412,8 @@ torch.flip(input, dims) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **暗淡**（_一个列表_ _或_ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") - 轴要翻转
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **暗淡**(_一个列表_ _或_ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") - 轴要翻转
 
 Example:
 
@@ -444,11 +444,11 @@ torch.histc(input, bins=100, min=0, max=0, out=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **箱**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 直方图箱数
-*   **min** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 范围的下限（含）
-*   **max** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 范围的上限（含）
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **箱** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 直方图箱数
+*   **min**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 范围的下限(含）
+*   **max**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 范围的上限(含）
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 | Returns: | 直方图表示为张量 |
 | --- | --- |
@@ -472,13 +472,13 @@ torch.meshgrid(*tensors, **kwargs)
 > Args:
 > ```
 > 
-> 张量（Tensor列表）：标量列表或1维张量。标量将被自动视为大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/e800eead21f1007b4005a268169586f7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/e800eead21f1007b4005a268169586f7.jpg) 的张量
+> 张量(Tensor列表）：标量列表或1维张量。标量将被自动视为大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/e800eead21f1007b4005a268169586f7.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/e800eead21f1007b4005a268169586f7.jpg) 的张量
 > 
 > ```py
 > Returns:
 > ```
 > 
-> seq（张量序列）：如果输入的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) 张量大小为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5871a78f7096a5c43c0b08b090b8c4f1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5871a78f7096a5c43c0b08b090b8c4f1.jpg) ，那么输出也会有 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) 张量，其中所有张量均为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/771af95b2d780e68358b78d5124091fa.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/771af95b2d780e68358b78d5124091fa.jpg) 。
+> seq(张量序列）：如果输入的 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) 张量大小为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5871a78f7096a5c43c0b08b090b8c4f1.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5871a78f7096a5c43c0b08b090b8c4f1.jpg) ，那么输出也会有 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a1c2f8d5b1226e67bdb44b12a6ddf18b.jpg) 张量，其中所有张量均为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/771af95b2d780e68358b78d5124091fa.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/771af95b2d780e68358b78d5124091fa.jpg) 。
 > 
 > Example:
 > 
@@ -509,11 +509,11 @@ Note
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **p** （ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")） - 规范计算的动力
-*   **dim** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 切片以获得子张量的维数
-*   **maxnorm** （ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")） - 保持每个子张量的最大范数
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **p**  ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")） - 规范计算的动力
+*   **dim**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 切片以获得子张量的维数
+*   **maxnorm**  ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")） - 保持每个子张量的最大范数
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -544,9 +544,9 @@ torch.tensordot(a, b, dims=2)
 
 Parameters:
 
-*   **a** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 左张量收缩
-*   **b** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 右张量收缩
-*   **暗淡**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组的两个python列表：整数_） - 要收缩的维数或`a`和`b`的明确维度列表
+*   **a**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 左张量收缩
+*   **b**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 右张量收缩
+*   **暗淡** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_或_ _元组的两个python列表：整数_） - 要收缩的维数或`a`和`b`的明确维度列表
 
 当用整数参数`dims` = [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9566974d45a96737f7e0ecf302d877b8.jpg) 调用时，`a`和`b`的维数是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) 和 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/493731e423d5db62086d0b8705dda0c8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/493731e423d5db62086d0b8705dda0c8.jpg) ，它分别计算
 
@@ -598,7 +598,7 @@ tensor(15.)
 torch.tril(input, diagonal=0, out=None) → Tensor
 ```
 
-返回矩阵的下三角部分（2-D张量）`input`，结果张量`out`的其他元素设置为0。
+返回矩阵的下三角部分(2-D张量）`input`，结果张量`out`的其他元素设置为0。
 
 矩阵的下三角形部分被定义为对角线上和下方的元素。
 
@@ -606,9 +606,9 @@ torch.tril(input, diagonal=0, out=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **对角线**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 要考虑的对角线
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **对角线** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 要考虑的对角线
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -646,7 +646,7 @@ tensor([[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 torch.triu(input, diagonal=0, out=None) → Tensor
 ```
 
-返回矩阵的上三角部分（2-D张量）`input`，结果张量`out`的其他元素设置为0。
+返回矩阵的上三角部分(2-D张量）`input`，结果张量`out`的其他元素设置为0。
 
 矩阵的上三角形部分被定义为对角线上方和上方的元素。
 
@@ -654,9 +654,9 @@ torch.triu(input, diagonal=0, out=None) → Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **对角线**（ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 要考虑的对角线
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **对角线** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_，_ _可选_） - 要考虑的对角线
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 

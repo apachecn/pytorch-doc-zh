@@ -12,7 +12,7 @@ cs231n笔记](https://cs231n.github.io/transfer-learning/)中阅读更多关于�
 引用笔记，
 
 >
-在实践中，很少有人从头开始训练整个卷积网络（随机初始化），因为足够大的数据集是相对少见的。相反，通常在非常大的数据集（例如 ImageNet，其包含具有1000个类别的120万张图片）上预先训练一个卷积神经网络，然后使用这个卷积神经网络对目标任务进行初始化或用作固定特征提取器。
+在实践中，很少有人从头开始训练整个卷积网络(随机初始化），因为足够大的数据集是相对少见的。相反，通常在非常大的数据集(例如 ImageNet，其包含具有1000个类别的120万张图片）上预先训练一个卷积神经网络，然后使用这个卷积神经网络对目标任务进行初始化或用作固定特征提取器。
 
 如下是两个主要的迁移学习场景：
 
@@ -122,7 +122,7 @@ cs231n笔记](https://cs231n.github.io/transfer-learning/)中阅读更多关于�
   * 调整学习率
   * 保存最好的模型
 
-下面函数中, `scheduler` 参数是 `torch.optim.lr_scheduler` 中的学习率调整（LR scheduler）对象.
+下面函数中, `scheduler` 参数是 `torch.optim.lr_scheduler` 中的学习率调整(LR scheduler）对象.
 
     
     
@@ -579,7 +579,7 @@ Out:
 
 ![img/sphx_glr_transfer_learning_tutorial_003.png](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png)
 
-**脚本的总运行时间：** （1分钟53.655秒）
+**脚本的总运行时间：** (1分钟53.655秒）
 
 [由Sphinx-Gallery生成的图库](https://sphinx-gallery.readthedocs.io)
 

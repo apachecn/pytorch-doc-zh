@@ -199,7 +199,7 @@ torch.nn.functional.unfold(input, kernel_size, dilation=1, padding=0, stride=1)
 
 警告
 
-目前, 仅支持四维（4D）的输入张量(批量的类似图像的张量).
+目前, 仅支持四维(4D）的输入张量(批量的类似图像的张量).
 
 细节请参阅 [`torch.nn.Unfold`](#torch.nn.Unfold "torch.nn.Unfold")
 
@@ -213,7 +213,7 @@ torch.nn.functional.fold(input, output_size, kernel_size, dilation=1, padding=0,
 
 警告
 
-目前, 仅支持四维（4D）的输入张量(批量的类似图像的张量).
+目前, 仅支持四维(4D）的输入张量(批量的类似图像的张量).
 
 细节请参阅 [`torch.nn.Fold`](#torch.nn.Fold "torch.nn.Fold") 
 
@@ -1038,7 +1038,7 @@ torch.nn.functional.cosine_similarity(x1, x2, dim=1, eps=1e-8) → Tensor
 torch.nn.functional.pdist(input, p=2) → Tensor
 ```
 
-计算输入中每对行向量之间的p范数距离.  这与`torch.norm(input[:, None] - input, dim=2, p=p)`的上三角形部分（不包括对角线）相同.  如果行是连续的, 则此函数将更快
+计算输入中每对行向量之间的p范数距离.  这与`torch.norm(input[:, None] - input, dim=2, p=p)`的上三角形部分(不包括对角线）相同.  如果行是连续的, 则此函数将更快
 
 如果输入具有形状 ![](http://latex.codecogs.com/gif.latex?N%20%5Ctimes%20M) 则输出将具有形状 ![](http://latex.codecogs.com/gif.latex?%5Cfrac%7B1%7D%7B2%7D%20N%20(N%20-%201)).
 
@@ -1181,7 +1181,7 @@ torch.nn.functional.ctc_loss(log_probs, targets, input_lengths, target_lengths, 
 参数:
 
 *   **log_probs** – ![](http://latex.codecogs.com/gif.latex?(T%2C%20N%2C%20C)) 其中 `C = 字母表中包括空格在内的字符数`, `T = 输入长度`, and `N = 批次数量`. 输出的对数概率(e.g. 获得于[`torch.nn.functional.log_softmax()`](#torch.nn.functional.log_softmax "torch.nn.functional.log_softmax")).
-*   **targets** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20S)) or `(sum(target_lengths))`. 目标（不能为空）. 在第二种形式中，假定目标是串联的。
+*   **targets** – ![](http://latex.codecogs.com/gif.latex?(N%2C%20S)) or `(sum(target_lengths))`. 目标(不能为空）. 在第二种形式中，假定目标是串联的。
 *   **input_lengths** – ![](http://latex.codecogs.com/gif.latex?(N)). 输入的长度 (必须 ![](http://latex.codecogs.com/gif.latex?%5Cleq%20T))
 *   **target_lengths** – ![](http://latex.codecogs.com/gif.latex?(N)). 目标的长度
 *   **blank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选的_) – 空白的标签. 默认 ![](http://latex.codecogs.com/gif.latex?0).
@@ -1554,8 +1554,8 @@ torch.nn.functional.grid_sample(input, grid, mode='bilinear', padding_mode='zero
 当使用CUDA后端时, 此操作可能会导致不确定的向后行为, 并且不容易关闭. 请参阅关于[Reproducibility](notes/randomness.html)的注释. 
 
 参数:
-*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 形状为 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D))的输入 (四维情形) 或形状为![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20D_%5Ctext%7Bin%7D%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) 的输入（五维情形）
-*   **grid** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 形状为![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)) 的流场(四维情形) 或者 ![](http://latex.codecogs.com/gif.latex?(N%2C%20D_%5Ctext%7Bout%7D%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%203)) （五维情形）
+*   **input** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 形状为 ![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D))的输入 (四维情形) 或形状为![](http://latex.codecogs.com/gif.latex?(N%2C%20C%2C%20D_%5Ctext%7Bin%7D%2C%20H_%5Ctext%7Bin%7D%2C%20W_%5Ctext%7Bin%7D)) 的输入(五维情形）
+*   **grid** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – 形状为![](http://latex.codecogs.com/gif.latex?(N%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%202)) 的流场(四维情形) 或者 ![](http://latex.codecogs.com/gif.latex?(N%2C%20D_%5Ctext%7Bout%7D%2C%20H_%5Ctext%7Bout%7D%2C%20W_%5Ctext%7Bout%7D%2C%203)) (五维情形）
 *   **mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 插值模式计算输出值'双线性' | '最接近'. 默认值:  ‘bilinear’
 *   **padding_mode** ([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) – 外部网格值' zeros ' | ' border ' | ' reflection '的填充模式. 默认值:  ‘zeros’
 

@@ -7,7 +7,7 @@
 顾名思义，PyTorch的主要接口是Python编程语言。尽管Python是许多需要动态性和易于迭代的场景的合适且首选的语言，但是在同样许多情况下，Python的这些属性恰恰是不利的。后者通常适用的一种环境是生产 -低延迟和严格部署要求的土地。对于生产场景，即使只将C ++绑定到Java，Rust或Go之类的另一种语言中，它通常也是首选语言。以下段落将概述PyTorch提供的从现有Python模型到可以加载和执行的序列化表示形式的路径 完全来自C ++，不依赖Python。
 
 ## 步骤1：将PyTorch模型转换为Torch脚本
-PyTorch模型从Python到C ++的旅程由[Torch Script](https://pytorch.org/docs/master/jit.html)启用，[Torch Script](https://pytorch.org/docs/master/jit.html)是PyTorch模型的表示形式，可以由Torch Script编译器理解，编译和序列化。如果您是从使用vanilla “eager” API编写的现有PyTorch模型开始的，则必须首先将模型转换为Torch脚本。在最常见的情况下（如下所述），这只需要很少的努力。如果您已经有了Torch脚本模块，则可以跳到本教程的下一部分。
+PyTorch模型从Python到C ++的旅程由[Torch Script](https://pytorch.org/docs/master/jit.html)启用，[Torch Script](https://pytorch.org/docs/master/jit.html)是PyTorch模型的表示形式，可以由Torch Script编译器理解，编译和序列化。如果您是从使用vanilla “eager” API编写的现有PyTorch模型开始的，则必须首先将模型转换为Torch脚本。在最常见的情况下(如下所述），这只需要很少的努力。如果您已经有了Torch脚本模块，则可以跳到本教程的下一部分。
 
 有两种将PyTorch模型转换为Torch脚本的方法。第一种称为跟踪，一种机制，通过使用示例输入对模型的结构进行一次评估，并记录这些输入在模型中的流动，从而捕获模型的结构。这适用于有限使用控制流的模型。第二种方法是在模型中添加显式批注，以告知Torch Script编译器可以根据Torch Script语言施加的约束直接解析和编译模型代码。
 
@@ -98,7 +98,7 @@ traced_script_module.save("traced_resnet_model.pt")
 
 ## 步骤3：在C++中加载脚本模块
 
-要在C ++中加载序列化的PyTorch模型，您的应用程序必须依赖于 `PyTorch C++ API`（也称为LibTorch）。LibTorch发行版包含共享库，头文件和CMake构建配置文件的集合。虽然CMake不是依赖LibTorch的要求，但它是推荐的方法，并且将来会得到很好的支持。对于本教程，我们将使用CMake和LibTorch构建一个最小的C ++应用程序，该应用程序简单地加载并执行序列化的PyTorch模型。
+要在C ++中加载序列化的PyTorch模型，您的应用程序必须依赖于 `PyTorch C++ API`(也称为LibTorch）。LibTorch发行版包含共享库，头文件和CMake构建配置文件的集合。虽然CMake不是依赖LibTorch的要求，但它是推荐的方法，并且将来会得到很好的支持。对于本教程，我们将使用CMake和LibTorch构建一个最小的C ++应用程序，该应用程序简单地加载并执行序列化的PyTorch模型。
 
 ### 最小的C ++应用程序
 
@@ -243,7 +243,7 @@ std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/5) << '\n';
 ```
 
 
-前两行设置了我们模型的输入。我们创建一个向量 `torch::jit::IValue`（类型擦除的值类型`script::Module`方法接受并返回），并添加单个输入。要创建输入张量，我们使用 `torch::ones()`，等效`torch.ones`于C++ API。然后，我们运行`script::Module`的`forward`方法，并将创建的输入向量传递给它。作为回报，我们得到一个新的`IValue`，通过调用将其转换为张量`toTensor()`。
+前两行设置了我们模型的输入。我们创建一个向量 `torch::jit::IValue`(类型擦除的值类型`script::Module`方法接受并返回），并添加单个输入。要创建输入张量，我们使用 `torch::ones()`，等效`torch.ones`于C++ API。然后，我们运行`script::Module`的`forward`方法，并将创建的输入向量传递给它。作为回报，我们得到一个新的`IValue`，通过调用将其转换为张量`toTensor()`。
 
 > 小贴士
 要大致了解诸如`torch::ones` PyTorch C ++ API之类的功能，请参阅 <https://pytorch.org/cppdocs> 上的文档。PyTorch C ++ API提供了与Python API几乎相同的功能奇偶校验，使您可以像在Python中一样进一步操纵和处理张量。
@@ -272,7 +272,7 @@ tensor([-0.2698, -0.0381,  0.4023, -0.3010, -0.0448], grad_fn=<SliceBackward>)
 要将模型移至GPU内存，可以编写`model.to(at::kCUDA)`;。通过调用来确保模型的输入也位于CUDA内存中`tensor.to(at::kCUDA)`，这将在CUDA内存中返回新的张量。
 
 ## 步骤5：获取帮助并探索API
-希望本教程使您对PyTorch模型从Python到C++的路径有一个大致的了解。使用本教程中描述的概念，您应该能够从原始的“eager”的PyTorch模型，`ScriptModule`用Python 编译，在磁盘上序列化的文件，以及（关闭循环）到`script::Module` C++ 的可执行文件。
+希望本教程使您对PyTorch模型从Python到C++的路径有一个大致的了解。使用本教程中描述的概念，您应该能够从原始的“eager”的PyTorch模型，`ScriptModule`用Python 编译，在磁盘上序列化的文件，以及(关闭循环）到`script::Module` C++ 的可执行文件。
 
 当然，有许多我们没有介绍的概念。例如，您可能会发现自己想要扩展`ScriptModule`使用C++或CUDA中实现的自定义运算符，并希望`ScriptModule`在纯C++生产环境中加载的内部执行此自定义运算符 。好消息是：这是可能的，并且得到了很好的支持！现在，您可以浏览[此文件夹](https://github.com/pytorch/pytorch/tree/master/test/custom_operator)中的示例，我们将很快提供一个教程。目前，以下链接通常可能会有所帮助：
 

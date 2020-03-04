@@ -12,7 +12,7 @@
 class torch.finfo
 ``` 
 
- [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 是一个用来表示浮点[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性的对象（即`torch.float32`，`torch.float64`和`torch.float16`）。 这类似于 [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html)。  
+ [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 是一个用来表示浮点[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype")的数字属性的对象(即`torch.float32`，`torch.float64`和`torch.float16`）。 这类似于 [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html)。  
 
 [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 提供以下属性:  
 
@@ -25,7 +25,7 @@ class torch.finfo
 
 注意  
 
-在使用pytorch默认dtype创建类（由`torch.get_default_dtype（）`返回）的情况下，构造的 [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 函数可以不带参数被调用。  
+在使用pytorch默认dtype创建类(由`torch.get_default_dtype(）`返回）的情况下，构造的 [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 函数可以不带参数被调用。  
 
 ##  torch.iinfo  
 
@@ -33,7 +33,7 @@ class torch.finfo
 class torch.iinfo
 ```  
 
- [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")是一个用来表示整数[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 的数字属性的对象，（即`torch.uint8`，`torch.int8`，`torch.int16`，`torch.int32`和`torch.int64`）。 这与[numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html)类似。  
+ [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo")是一个用来表示整数[`torch.dtype`](tensor_attributes.html#torch.torch.dtype "torch.torch.dtype") 的数字属性的对象，(即`torch.uint8`，`torch.int8`，`torch.int16`，`torch.int32`和`torch.int64`）。 这与[numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html)类似。  
 
 [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") 提供以下属性：   
 

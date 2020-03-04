@@ -14,7 +14,7 @@ Torch定义了七种CPU tensor类型和八种GPU tensor类型：
 | 32-bit integer (signed) | `torch.IntTensor` | `torch.cuda.IntTensor` |
 | 64-bit integer (signed) | `torch.LongTensor` | `torch.cuda.LongTensor` |
 
-`torch.Tensor`是默认的tensor类型（`torch.FlaotTensor`）的简称。
+`torch.Tensor`是默认的tensor类型(`torch.FlaotTensor`）的简称。
 
 一个张量tensor可以从Python的`list`或序列构建：
 ```python

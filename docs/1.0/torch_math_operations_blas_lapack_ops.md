@@ -8,7 +8,7 @@
 torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```
 
-执行存储在`batch1`和`batch2`中的矩阵的批量矩阵 - 矩阵乘积，减少加法步骤（所有矩阵乘法沿第一维积累）。 `mat`被添加到最终结果中。
+执行存储在`batch1`和`batch2`中的矩阵的批量矩阵 - 矩阵乘积，减少加法步骤(所有矩阵乘法沿第一维积累）。 `mat`被添加到最终结果中。
 
 `batch1`和`batch2`必须是3-D张量，每个张量包含相同数量的矩阵。
 
@@ -20,12 +20,12 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 参数：
 
-*   **beta** （_编号_ _，_ _任选_） - `mat`（ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg) ）的乘数
-*   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的基质
-*   **alpha** （_数_ _，_ _任选_） - `batch1 @ batch2`（ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg) ）的乘数
-*   **batch1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一批要乘的矩阵
-*   **batch2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二批矩阵被乘以
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **beta** (_编号_ _，_ _任选_） - `mat` ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg))的乘数
+*   **mat**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的基质
+*   **alpha** (_数_ _，_ _任选_） - `batch1 @ batch2` ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg))的乘数
+*   **batch1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一批要乘的矩阵
+*   **batch2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二批矩阵被乘以
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 例：
 
@@ -56,12 +56,12 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 
 Parameters:
 
-*   **beta** （_编号_ _，_ _任选_） - `mat`（ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg) ）的乘数
-*   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的基质
-*   **alpha** （_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/c4fda0ec33ee23096c7bac6105f7a619.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/c4fda0ec33ee23096c7bac6105f7a619.jpg) （ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg) ）的乘数
-*   **mat1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一个被乘法的矩阵
-*   **mat2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的第二个矩阵
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **beta** (_编号_ _，_ _任选_） - `mat` ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg))的乘数
+*   **mat**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的基质
+*   **alpha** (_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/c4fda0ec33ee23096c7bac6105f7a619.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/c4fda0ec33ee23096c7bac6105f7a619.jpg)  ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg))的乘数
+*   **mat1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一个被乘法的矩阵
+*   **mat2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的第二个矩阵
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -91,12 +91,12 @@ torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 
 Parameters:
 
-*   **beta** （_，_ _任选_） - [`tensor`](#torch.tensor "torch.tensor") （ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg) ）的乘数
-*   **张量**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的载体
-*   **alpha** （_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a901c2282b0dbdcf23379ddd5a3c274b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a901c2282b0dbdcf23379ddd5a3c274b.jpg) （ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg) ）的乘数
-*   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 矩阵成倍增加
-*   **vec** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 载体倍增
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **beta** (_，_ _任选_） - [`tensor`](#torch.tensor "torch.tensor")  ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg))的乘数
+*   **张量** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的载体
+*   **alpha** (_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a901c2282b0dbdcf23379ddd5a3c274b.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a901c2282b0dbdcf23379ddd5a3c274b.jpg)  ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg))的乘数
+*   **mat**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 矩阵成倍增加
+*   **vec**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 载体倍增
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -125,12 +125,12 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 
 Parameters:
 
-*   **beta** （_编号_ _，_ _任选_） - `mat`（ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg) ）的乘数
-*   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的基质
-*   **alpha** （_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/3f2eb83c372296996af0ac869a078ebd.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/3f2eb83c372296996af0ac869a078ebd.jpg) （ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg) ）的乘数
-*   **vec1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 外部产品的第一个载体
-*   **vec2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 外产品的第二个载体
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **beta** (_编号_ _，_ _任选_） - `mat` ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg))的乘数
+*   **mat**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要添加的基质
+*   **alpha** (_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/3f2eb83c372296996af0ac869a078ebd.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/3f2eb83c372296996af0ac869a078ebd.jpg)  ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg))的乘数
+*   **vec1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 外部产品的第一个载体
+*   **vec2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 外产品的第二个载体
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -161,12 +161,12 @@ For inputs of type `FloatTensor` or `DoubleTensor`, arguments `beta` and `alpha`
 
 Parameters:
 
-*   **beta** （_编号_ _，_ _任选_） - `mat`（ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg) ）的乘数
-*   **垫**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要加的张量
-*   **alpha** （_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/c9ac2542d6edbedec1234ae90d5bf79f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/c9ac2542d6edbedec1234ae90d5bf79f.jpg) （ [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg) ）的乘数
-*   **batch1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一批要乘的矩阵
-*   **batch2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二批矩阵被乘以
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **beta** (_编号_ _，_ _任选_） - `mat` ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/50705df736e9a7919e768cf8c4e4f794.jpg))的乘数
+*   **垫** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要加的张量
+*   **alpha** (_编号_ _，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/c9ac2542d6edbedec1234ae90d5bf79f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/c9ac2542d6edbedec1234ae90d5bf79f.jpg)  ([![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/82005cc2e0087e2a52c7e43df4a19a00.jpg))的乘数
+*   **batch1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一批要乘的矩阵
+*   **batch2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二批矩阵被乘以
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -197,9 +197,9 @@ torch.bmm(batch1, batch2, out=None) → Tensor
 
 Parameters:
 
-*   **batch1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一批要乘的矩阵
-*   **batch2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二批矩阵被乘以
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **batch1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一批要乘的矩阵
+*   **batch2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第二批矩阵被乘以
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -228,9 +228,9 @@ torch.btrifact(A, info=None, pivot=True)
 
 Parameters:
 
-*   **A** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 因子的张量
-*   **info** （ _IntTensor_ _，_ _可选_） - （弃用）`IntTensor`存储指示分解是否成功的值
-*   **pivot** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否完成旋转
+*   **A**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 因子的张量
+*   **info**  (_IntTensor_ _，_ _可选_） - (弃用）`IntTensor`存储指示分解是否成功的值
+*   **pivot**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否完成旋转
 
 | 返回： | 包含分解和枢轴的元组。 |
 | --- | --- |
@@ -265,8 +265,8 @@ torch.btrifact_with_info(A, pivot=True) -> (Tensor, IntTensor, IntTensor)
 
 Parameters:
 
-*   **A** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 因子的张量
-*   **pivot** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否完成旋转
+*   **A**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 因子的张量
+*   **pivot**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 控制是否完成旋转
 
 | Returns: | 包含因式分解，枢轴和`IntTensor`的元组，其中非零值表示每个小批量样本的分解是否成功。 |
 | --- | --- |
@@ -292,9 +292,9 @@ torch.btrisolve(b, LU_data, LU_pivots) → Tensor
 
 Parameters:
 
-*   **b** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - RHS张量
-*   **LU_data** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 来自 [`btrifact()`](#torch.btrifact "torch.btrifact") 的A的旋转LU分解。
-*   **LU_pivots** （ _IntTensor_ ） - LU分解的关键点
+*   **b**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - RHS张量
+*   **LU_data**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 来自 [`btrifact()`](#torch.btrifact "torch.btrifact") 的A的旋转LU分解。
+*   **LU_pivots**  (_IntTensor_ ) - LU分解的关键点
 
 Example:
 
@@ -313,16 +313,16 @@ tensor(1.00000e-07 *
 torch.btriunpack(LU_data, LU_pivots, unpack_data=True, unpack_pivots=True)
 ```
 
-从张量的分段LU分解（btrifact）解包数据和枢轴。
+从张量的分段LU分解(btrifact）解包数据和枢轴。
 
 返回张量的元组作为`(the pivots, the L tensor, the U tensor)`。
 
 Parameters:
 
-*   **LU_data** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 打包的LU分解数据
-*   **LU_pivots** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 打包的LU分解枢轴
-*   **unpack_data** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 指示数据是否应解包的标志
-*   **unpack_pivots** （ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 指示枢轴是否应解包的标志
+*   **LU_data**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 打包的LU分解数据
+*   **LU_pivots**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 打包的LU分解枢轴
+*   **unpack_data**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 指示数据是否应解包的标志
+*   **unpack_pivots**  ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - 指示枢轴是否应解包的标志
 
 Example:
 
@@ -340,9 +340,9 @@ Example:
 torch.chain_matmul(*matrices)
 ```
 
-返回 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 2-D张量的矩阵乘积。使用矩阵链序算法有效地计算该乘积，该算法选择在算术运算方面产生最低成本的顺序（ [[CLRS]](https://mitpress.mit.edu/books/introduction-algorithms-third-edition) ）。请注意，由于这是计算产品的函数， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 需要大于或等于2;如果等于2，则返回一个平凡的矩阵 - 矩阵乘积。如果 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 为1，那么这是一个无操作 - 原始矩阵按原样返回。
+返回 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 2-D张量的矩阵乘积。使用矩阵链序算法有效地计算该乘积，该算法选择在算术运算方面产生最低成本的顺序 ([[CLRS]](https://mitpress.mit.edu/books/introduction-algorithms-third-edition))。请注意，由于这是计算产品的函数， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 需要大于或等于2;如果等于2，则返回一个平凡的矩阵 - 矩阵乘积。如果 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/9341d9048ac485106d2b2ee8de14876f.jpg) 为1，那么这是一个无操作 - 原始矩阵按原样返回。
 
-| 参数： | **矩阵**（_张量..._ ） - 2个或更多个2-D张量的序列，其产物将被确定。 |
+| 参数： | **矩阵**(_张量..._ ) - 2个或更多个2-D张量的序列，其产物将被确定。 |
 | --- | --- |
 | 返回： | 如果 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5c5e7583f110d90e938149340dd42e92.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5c5e7583f110d90e938149340dd42e92.jpg) 张量具有 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/fd285b0b789ab6ce131b7a0208da2fe0.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/fd285b0b789ab6ce131b7a0208da2fe0.jpg) 的维度，则产物的尺寸为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/61c4b45c29064296a380ab945a449672.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/61c4b45c29064296a380ab945a449672.jpg) 。 |
 | 返回类型： | [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") |
@@ -379,9 +379,9 @@ torch.cholesky(A, upper=False, out=None) → Tensor
 
 Parameters:
 
-*   **a** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 输入张量大小（ [*](#id6) ，n，n）其中`*`为零或更多批由对称正定矩阵组成的维数。
-*   **上**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 表示是否返回上下三角矩阵的标志。默认值：`False`
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 输出矩阵
+*   **a**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 输入张量大小 ([*](#id6) ，n，n）其中`*`为零或更多批由对称正定矩阵组成的维数。
+*   **上** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 表示是否返回上下三角矩阵的标志。默认值：`False`
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 输出矩阵
 
 Example:
 
@@ -414,7 +414,7 @@ tensor(2.3842e-07)
 torch.dot(tensor1, tensor2) → Tensor
 ```
 
-计算两个张量的点积（内积）。
+计算两个张量的点积(内积）。
 
 Note
 
@@ -436,15 +436,15 @@ torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 
 Parameters:
 
-*   **a** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg) 的方阵，其特征值和特征向量将被计算
-*   **特征向量**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - `True`计算特征值和特征向量;否则，只计算特征值
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - 输出张量
+*   **a**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg) 的方阵，其特征值和特征向量将被计算
+*   **特征向量** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")） - `True`计算特征值和特征向量;否则，只计算特征值
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - 输出张量
 
 |返回：|包含元组的元组
 
-＆GT; * **e** （_张量_）：形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6bb1e4cc787b2a2a3e362c6385033b7d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6bb1e4cc787b2a2a3e362c6385033b7d.jpg) 。每行是`a`的特征值，其中第一个元素是实部，第二个元素是虚部。特征值不一定是有序的。 ＆GT; * **v** （ _Tensor_ ）：如果`eigenvectors=False`，它是一个空张量。否则，该张量形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg) 可用于计算相应特征值`e`的归一化（单位长度）特征向量，如下所述。如果对应的e [j]是实数，则列v [：，j]是对应于特征值e [j]的特征向量。如果相应的e [j]和e [j + 1]特征值形成复共轭对，那么真实的特征向量可以被计算为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/ec9513691a2c7521c03807425da807ed.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/ec9513691a2c7521c03807425da807ed.jpg) ， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a532b8aa12f3a5051c8105bf8e226b64.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a532b8aa12f3a5051c8105bf8e226b64.jpg) 。
+＆GT; * **e** (_tensor_）：形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6bb1e4cc787b2a2a3e362c6385033b7d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6bb1e4cc787b2a2a3e362c6385033b7d.jpg) 。每行是`a`的特征值，其中第一个元素是实部，第二个元素是虚部。特征值不一定是有序的。 ＆GT; * **v**  (_Tensor_ )：如果`eigenvectors=False`，它是一个空张量。否则，该张量形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg) 可用于计算相应特征值`e`的归一化(单位长度）特征向量，如下所述。如果对应的e [j]是实数，则列v [：，j]是对应于特征值e [j]的特征向量。如果相应的e [j]和e [j + 1]特征值形成复共轭对，那么真实的特征向量可以被计算为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/ec9513691a2c7521c03807425da807ed.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/ec9513691a2c7521c03807425da807ed.jpg) ， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a532b8aa12f3a5051c8105bf8e226b64.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a532b8aa12f3a5051c8105bf8e226b64.jpg) 。
 
-| 返回类型： | （ [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ， [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） |
+| 返回类型： |  ([Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ， [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) |
 | --- | --- |
 
 ```py
@@ -465,13 +465,13 @@ torch.gels(B, A, out=None) → Tensor
 
 Parameters:
 
-*   **B** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 基质 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/813135a6280e2672503128d3d2080d4a.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/813135a6280e2672503128d3d2080d4a.jpg)
-*   （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/493731e423d5db62086d0b8705dda0c8.jpg) ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) ](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/493731e423d5db62086d0b8705dda0c8.jpg) [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) 
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 可选目的地张量
+*   **B**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 基质 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/813135a6280e2672503128d3d2080d4a.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/813135a6280e2672503128d3d2080d4a.jpg)
+*    ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/493731e423d5db62086d0b8705dda0c8.jpg) ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) ](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/493731e423d5db62086d0b8705dda0c8.jpg) [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) 
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 可选目的地张量
 
 |返回：|包含以下内容的元组：
 
-＆GT; * **X** （_张量_）：最小二乘解＆gt; * **qr** （ _Tensor_ ）：QR分解的细节
+＆GT; * **X** (_tensor_）：最小二乘解＆gt; * **qr**  (_Tensor_ )：QR分解的细节
 
 | Return type: | ([Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor"), [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) |
 | --- | --- |
@@ -519,8 +519,8 @@ torch.geqrf(input, out=None) -> (Tensor, Tensor)
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入矩阵
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 输出元组（Tensor，Tensor）
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入矩阵
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 输出元组(Tensor，Tensor）
 
 ```py
 torch.ger(vec1, vec2, out=None) → Tensor
@@ -534,9 +534,9 @@ This function does not [broadcast](/apachecn/pytorch-doc-zh/blob/master/docs/1.0
 
 Parameters:
 
-*   **vec1** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 1-D输入向量
-*   **vec2** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 1-D输入向量
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 可选输出矩阵
+*   **vec1**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 1-D输入向量
+*   **vec2**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 1-D输入向量
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 可选输出矩阵
 
 Example:
 
@@ -571,9 +571,9 @@ Note
 
 Parameters:
 
-*   **B** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg) 的输入矩阵，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零或批量维度更多。
-*   **A** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 输入方形矩阵 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg) ，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零或更多批量维度。
-*   **出**（_（_ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _]）__，_ _可选_） - 可选输出元组。
+*   **B**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg) 的输入矩阵，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零或批量维度更多。
+*   **A**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 输入方形矩阵 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg) ，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零或更多批量维度。
+*   **出**(_(_ [_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _，_ [_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") _]）__，_ _可选_） - 可选输出元组。
 
 Example:
 
@@ -613,8 +613,8 @@ Note
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量大小（ [*](#id8) ，n，n）其中`*`为零或更多批尺寸
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 可选输出张量
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量大小 ([*](#id8) ，n，n）其中`*`为零或更多批尺寸
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _可选_） - 可选输出张量
 
 Example:
 
@@ -648,7 +648,7 @@ Note
 
 当`A`不可逆时，向后通过 [`det()`](#torch.det "torch.det") 在内部使用SVD结果。在这种情况下，当`A`没有明显的奇异值时，通过 [`det()`](#torch.det "torch.det") 的双向后将是不稳定的。有关详细信息，请参阅 [`svd()`](#torch.svd "torch.svd") 。
 
-| Parameters: | **A** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2D平方张量 |
+| Parameters: | **A**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2D平方张量 |
 | --- | --- |
 
 Example:
@@ -727,11 +727,11 @@ torch.matmul(tensor1, tensor2, out=None) → Tensor
 
 行为取决于张量的维度如下：
 
-*   如果两个张量都是1维的，则返回点积（标量）。
+*   如果两个张量都是1维的，则返回点积(标量）。
 *   如果两个参数都是二维的，则返回矩阵 - 矩阵乘积。
 *   如果第一个参数是1维且第二个参数是2维，则为了矩阵乘法的目的，在其维度之前加1。在矩阵乘法之后，移除前置维度。
 *   如果第一个参数是2维且第二个参数是1维，则返回矩阵向量乘积。
-*   如果两个参数都是至少一维的并且至少一个参数是N维的（其中N&gt; 2），则返回批量矩阵乘法。如果第一个参数是1维的，则为了批量矩阵的目的，将1加在其维度之前，然后将其删除。如果第二个参数是1维的，则为了批处理矩阵的多个目的，将1附加到其维度，并在之后删除。非矩阵（即批量）维度是[广播](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)（因此必须是可广播的）。例如，如果`tensor1`是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a4697ce48760baf0633769e49f46b335.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a4697ce48760baf0633769e49f46b335.jpg) 张量而`tensor2`是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/ad9fbe324dcc50cc2232a9c1a2675daf.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/ad9fbe324dcc50cc2232a9c1a2675daf.jpg) 张量，`out`将是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6082fde6b0f498f9ed21c0ac7a9709d3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6082fde6b0f498f9ed21c0ac7a9709d3.jpg) 张量。
+*   如果两个参数都是至少一维的并且至少一个参数是N维的(其中N&gt; 2），则返回批量矩阵乘法。如果第一个参数是1维的，则为了批量矩阵的目的，将1加在其维度之前，然后将其删除。如果第二个参数是1维的，则为了批处理矩阵的多个目的，将1附加到其维度，并在之后删除。非矩阵(即批量）维度是[广播](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics)(因此必须是可广播的）。例如，如果`tensor1`是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/a4697ce48760baf0633769e49f46b335.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/a4697ce48760baf0633769e49f46b335.jpg) 张量而`tensor2`是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/ad9fbe324dcc50cc2232a9c1a2675daf.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/ad9fbe324dcc50cc2232a9c1a2675daf.jpg) 张量，`out`将是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6082fde6b0f498f9ed21c0ac7a9709d3.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6082fde6b0f498f9ed21c0ac7a9709d3.jpg) 张量。
 
 Note
 
@@ -739,9 +739,9 @@ Note
 
 Parameters:
 
-*   **tensor1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一个要乘的张量
-*   **tensor2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要增加的第二个张量
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **tensor1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一个要乘的张量
+*   **tensor2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要增加的第二个张量
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -780,12 +780,12 @@ torch.matrix_power(input, n) → Tensor
 
 返回为矩形矩阵提升到幂`n`的矩阵。对于一批矩阵，每个单独的矩阵被提升到功率`n`。
 
-如果`n`为负，则矩阵的反转（如果可逆）将升至功率`n`。对于一批矩阵，批量反转（如果可逆）则上升到功率`n`。如果`n`为0，则返回单位矩阵。
+如果`n`为负，则矩阵的反转(如果可逆）将升至功率`n`。对于一批矩阵，批量反转(如果可逆）则上升到功率`n`。如果`n`为0，则返回单位矩阵。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
-*   **n** （ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 将矩阵提升到
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入张量
+*   **n**  ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")） - 将矩阵提升到
 
 Example:
 
@@ -812,13 +812,13 @@ torch.matrix_rank(input, tol=None, bool symmetric=False) → Tensor
 
 返回二维张量的数值等级。默认情况下，使用SVD完成计算矩阵秩的方法。如果`symmetric`是`True`，则假设`input`是对称的，并且通过获得特征值来完成秩的计算。
 
-`tol`是一个阈值，低于该阈值时，奇异值（或`symmetric`为`True`时的特征值）被认为是0.如果未指定`tol`，则`tol`设置为`S.max() * max(S.size()) * eps`，其中`S` ]是奇异值（或`symmetric`为`True`时的特征值），`eps`是`input`数据类型的epsilon值。
+`tol`是一个阈值，低于该阈值时，奇异值(或`symmetric`为`True`时的特征值）被认为是0.如果未指定`tol`，则`tol`设置为`S.max() * max(S.size()) * eps`，其中`S` ]是奇异值(或`symmetric`为`True`时的特征值），`eps`是`input`数据类型的epsilon值。
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量
-*   **tol** （ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_，_ _任选_） - 耐受值。默认值：`None`
-*   **对称**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 表示`input`是否对称。默认值：`False`
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量
+*   **tol**  ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_，_ _任选_） - 耐受值。默认值：`None`
+*   **对称** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 表示`input`是否对称。默认值：`False`
 
 Example:
 
@@ -847,9 +847,9 @@ This function does not [broadcast](/apachecn/pytorch-doc-zh/blob/master/docs/1.0
 
 Parameters:
 
-*   **mat1** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一个被乘法的矩阵
-*   **mat2** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的第二个矩阵
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **mat1**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 第一个被乘法的矩阵
+*   **mat2**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的第二个矩阵
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -876,9 +876,9 @@ This function does not [broadcast](/apachecn/pytorch-doc-zh/blob/master/docs/1.0
 
 Parameters:
 
-*   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 矩阵成倍增加
-*   **vec** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 载体倍增
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
+*   **mat**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 矩阵成倍增加
+*   **vec**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 载体倍增
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - 输出张量
 
 Example:
 
@@ -900,8 +900,8 @@ torch.orgqr(a, tau) → Tensor
 
 Parameters:
 
-*   **a** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`a`。
-*   **tau** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`tau`。
+*   **a**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`a`。
+*   **tau**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`tau`。
 
 ```py
 torch.ormqr(a, tau, mat, left=True, transpose=False) -> (Tensor, Tensor)
@@ -913,15 +913,15 @@ torch.ormqr(a, tau, mat, left=True, transpose=False) -> (Tensor, Tensor)
 
 Parameters:
 
-*   **a** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`a`。
-*   **tau** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`tau`。
-*   **mat** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的矩阵。
+*   **a**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`a`。
+*   **tau**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 来自 [`torch.geqrf()`](#torch.geqrf "torch.geqrf") 的`tau`。
+*   **mat**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 要倍增的矩阵。
 
 ```py
 torch.pinverse(input, rcond=1e-15) → Tensor
 ```
 
-计算2D张量的伪逆（也称为Moore-Penrose逆）。有关详细信息，请查看 [Moore-Penrose逆](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse)
+计算2D张量的伪逆(也称为Moore-Penrose逆）。有关详细信息，请查看 [Moore-Penrose逆](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse)
 
 Note
 
@@ -933,8 +933,8 @@ Note
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 维度 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/ee12b6c487a34051534acf84ddb3f98f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/ee12b6c487a34051534acf84ddb3f98f.jpg) 的输入2D张量
-*   **rcond** （ [_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")） - 一个浮点值，用于确定小奇异值的截止值。默认值：1e-15
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 维度 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/ee12b6c487a34051534acf84ddb3f98f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/ee12b6c487a34051534acf84ddb3f98f.jpg) 的输入2D张量
+*   **rcond**  ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")） - 一个浮点值，用于确定小奇异值的截止值。默认值：1e-15
 
 | Returns: | 维度 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/3380c6697127aa874110f3e6faef8bdf.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/3380c6697127aa874110f3e6faef8bdf.jpg) 的`input`的伪逆 |
 | --- | --- |
@@ -984,9 +984,9 @@ torch.potri(u, upper=True, out=None) → Tensor
 
 Parameters:
 
-*   **u** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量，上下三角Cholesky因子
-*   **上**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否返回上限（默认）或下三角矩阵
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - `inv`的输出张量
+*   **u**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量，上下三角Cholesky因子
+*   **上** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否返回上限(默认）或下三角矩阵
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - `inv`的输出张量
 
 Example:
 
@@ -1031,10 +1031,10 @@ Note
 
 Parameters:
 
-*   **b** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg) 的输入矩阵，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零或批量维度更多
-*   **u** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 大小为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg) 的输入矩阵，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零更多批量尺寸由上部或下部三角形Cholesky因子组成
-*   **上**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否返回上限（默认）或下三角矩阵
-*   **out** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - `c`的输出张量
+*   **b**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 大小 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/d9795910f977049c4df2084f47c592ed.jpg) 的输入矩阵，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零或批量维度更多
+*   **u**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 大小为 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/494aaae2a24df44c813ce87b9f21d745.jpg) 的输入矩阵，其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/28ec51e742166ea3400be6e7343bbfa5.jpg) 为零更多批量尺寸由上部或下部三角形Cholesky因子组成
+*   **上** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否返回上限(默认）或下三角矩阵
+*   **out**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")_，_ _任选_） - `c`的输出张量
 
 Example:
 
@@ -1074,9 +1074,9 @@ torch.pstrf(a, upper=True, out=None) -> (Tensor, Tensor)
 
 Parameters:
 
-*   **a** （ [_张量_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor") ） - 输入二维张量
-*   **上**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否返回上限（默认）或下三角矩阵
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - `u`和`piv`张量的元组
+*   **a**  ([_tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) - 输入二维张量
+*   **上** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否返回上限(默认）或下三角矩阵
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - `u`和`piv`张量的元组
 
 Example:
 
@@ -1108,7 +1108,7 @@ torch.qr(input, out=None) -> (Tensor, Tensor)
 
 计算矩阵`input`的QR分解，并返回矩阵`Q`和`R`，使 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/5dcc06c3a05a06beb80d3f1ef2e078f2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/5dcc06c3a05a06beb80d3f1ef2e078f2.jpg) ， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1d680db5f32fd278f8d48e5407691154.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1d680db5f32fd278f8d48e5407691154.jpg) 为正交矩阵和 [] ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/502cdd9c79852b33d2a6d18ba5ec3102.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/502cdd9c79852b33d2a6d18ba5ec3102.jpg) 是一个上三角矩阵。
 
-这将返回瘦（减少）QR分解。
+这将返回瘦(减少）QR分解。
 
 Note
 
@@ -1124,8 +1124,8 @@ Note
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - `Q`和`R`张量的元组
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - `Q`和`R`张量的元组
 
 Example:
 
@@ -1163,13 +1163,13 @@ torch.svd(input, some=True, compute_uv=True, out=None) -> (Tensor, Tensor, Tenso
 
 `V`具有 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg) 的形状。
 
-如果`some`为`True`（默认值），则返回的`U`和`V`矩阵将仅包含 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/3c84c3f757bca109ec4ed7fc0cada53f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/3c84c3f757bca109ec4ed7fc0cada53f.jpg) 正交列。
+如果`some`为`True`(默认值），则返回的`U`和`V`矩阵将仅包含 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/3c84c3f757bca109ec4ed7fc0cada53f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/3c84c3f757bca109ec4ed7fc0cada53f.jpg) 正交列。
 
 如果`compute_uv`是`False`，则返回的`U`和`V`矩阵将分别为形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/7819768bc0adceb9951cf2ce9a0525f2.jpg) 和 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg) 的零矩阵。这里将忽略`some`。
 
 Note
 
-在CPU上实现SVD使用LAPACK例程`?gesdd`（分而治之算法）而不是`?gesvd`来提高速度。类似地，GPU上的SVD也使用MAGMA例程`gesdd`。
+在CPU上实现SVD使用LAPACK例程`?gesdd`(分而治之算法）而不是`?gesvd`来提高速度。类似地，GPU上的SVD也使用MAGMA例程`gesdd`。
 
 Note
 
@@ -1189,9 +1189,9 @@ Note
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量
-*   **一些**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制返回`U`和`V`的形状
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - 张量的输出元组
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入2-D张量
+*   **一些** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - 控制返回`U`和`V`的形状
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _任选_） - 张量的输出元组
 
 Example:
 
@@ -1232,7 +1232,7 @@ torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor
 
 `input`和 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/21ec2ab32d1af3e766487093bb20cf22.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/21ec2ab32d1af3e766487093bb20cf22.jpg) 是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg) 基质， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/be8982d125e27260b5c793cf0d39d70a.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/be8982d125e27260b5c793cf0d39d70a.jpg) 是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/20ddd8181c2e0d0fb893637e8572d475.jpg) 维向量。
 
-该函数计算`input`的所有特征值（和向量），使得 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/db9e47c935013aa5b30057ba51ac84b9.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/db9e47c935013aa5b30057ba51ac84b9.jpg) 。
+该函数计算`input`的所有特征值(和向量），使得 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/db9e47c935013aa5b30057ba51ac84b9.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/db9e47c935013aa5b30057ba51ac84b9.jpg) 。
 
 布尔参数`eigenvectors`仅定义特征向量或特征值的计算。
 
@@ -1246,14 +1246,14 @@ torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor
 
 Parameters:
 
-*   **输入**（ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入对称矩阵
-*   **特征向量**（_布尔_ _，_ _可选_） - 控制是否必须计算特征向量
-*   **上**（_布尔_ _，_ _可选_） - 控制是否考虑上三角或下三角区域
-*   **out** （ [_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 输出元组（Tensor，Tensor）
+*   **输入** ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入对称矩阵
+*   **特征向量**(_布尔_ _，_ _可选_） - 控制是否必须计算特征向量
+*   **上**(_布尔_ _，_ _可选_） - 控制是否考虑上三角或下三角区域
+*   **out**  ([_元组_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)") _，_ _可选_） - 输出元组(Tensor，Tensor）
 
 | Returns: | A tuple containing
 
-＆GT; * **e** （_张量_）：形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/2f4b02bcd5b11d436474c4c4cdb91683.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/2f4b02bcd5b11d436474c4c4cdb91683.jpg) 。每个元素是`input`的特征值，特征值按升序排列。 ＆GT; * **V** （_张量_）：形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg) 。如果`eigenvectors=False`，它是一个充满零的张量。否则，该张量包含`input`的标准正交特征向量。
+＆GT; * **e** (_tensor_）：形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/2f4b02bcd5b11d436474c4c4cdb91683.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/2f4b02bcd5b11d436474c4c4cdb91683.jpg) 。每个元素是`input`的特征值，特征值按升序排列。 ＆GT; * **V** (_tensor_）：形状 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/be5a855e888d33755dcdfa9d94e598d4.jpg) 。如果`eigenvectors=False`，它是一个充满零的张量。否则，该张量包含`input`的标准正交特征向量。
 
 | Return type: | ([Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor"), [Tensor](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")) |
 | --- | --- |
@@ -1288,13 +1288,13 @@ torch.trtrs(b, A, upper=True, transpose=False, unitriangular=False) -> (Tensor, 
 
 Parameters:
 
-*   **A** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入三角系数矩阵
-*   **b** （ [_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 多个右侧。 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6872867a863714d15d9a0d64c20734ce.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6872867a863714d15d9a0d64c20734ce.jpg) 的每一列是方程组的右侧。
-*   **上**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否解决上三角方程组（默认）或者下三角方程组。默认值：True。
-*   **转座**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 是否应转置在被送到解算器之前。默认值：False。
-*   **三角**（ [_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 是单位三角形。如果为True，则假定 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 的对角元素为1，并且未参考 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 。默认值：False。
+*   **A**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 输入三角系数矩阵
+*   **b**  ([_Tensor_](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/tensors.html#torch.Tensor "torch.Tensor")） - 多个右侧。 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/6872867a863714d15d9a0d64c20734ce.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/6872867a863714d15d9a0d64c20734ce.jpg) 的每一列是方程组的右侧。
+*   **上** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _可选_） - 是否解决上三角方程组(默认）或者下三角方程组。默认值：True。
+*   **转座** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 是否应转置在被送到解算器之前。默认值：False。
+*   **三角** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_，_ _任选_） - [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 是单位三角形。如果为True，则假定 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 的对角元素为1，并且未参考 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 。默认值：False。
 
-| Returns: | 元组 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1044f4a1887b042eb41d12f782c0582f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1044f4a1887b042eb41d12f782c0582f.jpg) 其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/f8961918eb987d8916766b1d77790ecb.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/f8961918eb987d8916766b1d77790ecb.jpg) 是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 和 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg) 的克隆是[的解决方案] ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/79ccd3754eebf815ed3195b42f93bacb.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/79ccd3754eebf815ed3195b42f93bacb.jpg) （或等式系统的任何变体，取决于关键字参数。） |
+| Returns: | 元组 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1044f4a1887b042eb41d12f782c0582f.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1044f4a1887b042eb41d12f782c0582f.jpg) 其中 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/f8961918eb987d8916766b1d77790ecb.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/f8961918eb987d8916766b1d77790ecb.jpg) 是 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/efdb05f076173b39fdd26ef663e7b0d8.jpg) 和 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/1284cf6bcb6c2ffc47e2dd24cd1c51b8.jpg) 的克隆是[的解决方案] ![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/79ccd3754eebf815ed3195b42f93bacb.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/79ccd3754eebf815ed3195b42f93bacb.jpg) (或等式系统的任何变体，取决于关键字参数。） |
 | --- | --- |
 
 ```py

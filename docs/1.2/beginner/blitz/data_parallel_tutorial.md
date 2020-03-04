@@ -6,7 +6,7 @@
 >
 > 校验者: [FontTian](https://github.com/fonttian)  [片刻](https://github.com/jiangzhonglian)
 
-在这个教程里，我们将学习如何使用数据并行（`DataParallel`）来使用多GPU。
+在这个教程里，我们将学习如何使用数据并行(`DataParallel`）来使用多GPU。
 
 PyTorch非常容易的就可以使用GPU，可以用如下方式把一个模型放到GPU上: 
 
@@ -48,7 +48,7 @@ batch_size = 30
 data_size = 100
 ```
 
-设备（Device）: 
+设备(Device）: 
 
 ```python
 device = torch.device("cuda: 0" if torch.cuda.is_available() else "cpu")
@@ -56,7 +56,7 @@ device = torch.device("cuda: 0" if torch.cuda.is_available() else "cpu")
 
 ## 虚拟数据集
 
-要制作一个虚拟（随机）数据集，只需实现`__getitem__`。
+要制作一个虚拟(随机）数据集，只需实现`__getitem__`。
 
 ```python
 class RandomDataset(Dataset):
@@ -77,7 +77,7 @@ rand_loader = DataLoader(dataset=RandomDataset(input_size, data_size),
 
 ## 简单模型
 
-作为演示，我们的模型只接受一个输入，执行一个线性操作，然后得到结果。然而，你能在任何模型（CNN，RNN，Capsule Net等）上使用`DataParallel`。
+作为演示，我们的模型只接受一个输入，执行一个线性操作，然后得到结果。然而，你能在任何模型(CNN，RNN，Capsule Net等）上使用`DataParallel`。
 
 我们在模型内部放置了一条打印语句来检测输入和输出向量的大小。请注意批等级为0时打印的内容。
 

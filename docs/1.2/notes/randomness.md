@@ -10,7 +10,7 @@ PyTorch中涉及两个伪随机数生成器，您需要手动播种以使运行�
 
 ## PyTorch
 
-您可以使用为所有设备（CPU和CUDA）播种RNG：
+您可以使用为所有设备(CPU和CUDA）播种RNG：
 
 ```
 import torch

@@ -4,17 +4,17 @@
 
 **Author**: [Peter Goldsborough](https://www.goldsborough.me/)
 
-PyTorch 提供了大量与神经网络，任意张量代数（arbitrary tensor algebra），数据处理（data wrangling）和其他目的相关的操作。然而，你可能发现你还是会需要一些更加自定义的操作。例如，你有时可能希望使用一个你在某篇论文中找到的一个新型的激活函数，或者是实现一个为了你的研究所开发的新操作。
+PyTorch 提供了大量与神经网络，任意张量代数(arbitrary tensor algebra），数据处理(data wrangling）和其他目的相关的操作。然而，你可能发现你还是会需要一些更加自定义的操作。例如，你有时可能希望使用一个你在某篇论文中找到的一个新型的激活函数，或者是实现一个为了你的研究所开发的新操作。
 
-在 PyTorch 中集成这种自定义操作的最简单方法是通过 Python 语言对`Function`和`Module`进行扩写，正如在 [这里](https://pytorch.org/docs/master/notes/extending.html)所描述的那样。这种方式能让你充分的发挥自动微分（automatic differentiation）（让你不用去编写一些衍生的函数）与 Python 语言的常规情况下的表现力（usual expressiveness）的能力。但是有时候，可能在 C++ 语言中能够更好地实现你的一些操作。例如，你的代码可能因为被非常频繁的使用而需要 _十分_ 快速，或者是即使调用的次数很少也会带来不小的性能负担。另一个原因是你的代码可能是建立在 C 或 C++ 语言之上的，或者你的代码需要与 C 或 C++ 语言进行交互与对接。为了解决上述的这些情况，PyTorch 提供了一种简单的用于编写自定义  _C++ 扩展_ 的方法。
+在 PyTorch 中集成这种自定义操作的最简单方法是通过 Python 语言对`Function`和`Module`进行扩写，正如在 [这里](https://pytorch.org/docs/master/notes/extending.html)所描述的那样。这种方式能让你充分的发挥自动微分(automatic differentiation）(让你不用去编写一些衍生的函数）与 Python 语言的常规情况下的表现力(usual expressiveness）的能力。但是有时候，可能在 C++ 语言中能够更好地实现你的一些操作。例如，你的代码可能因为被非常频繁的使用而需要 _十分_ 快速，或者是即使调用的次数很少也会带来不小的性能负担。另一个原因是你的代码可能是建立在 C 或 C++ 语言之上的，或者你的代码需要与 C 或 C++ 语言进行交互与对接。为了解决上述的这些情况，PyTorch 提供了一种简单的用于编写自定义  _C++ 扩展_ 的方法。
 
-C++ 拓展是我们开发的一种能够让用户（你）自行创建一些 _所含资源之外_ 的操作的机制，例如，与 PyTorch 的后端分离开来。这种方法与 PyTorch 原生操作的实现方式是 _不同的_ 。C++ 扩展旨在为你提供与 PyTorch 后端集成操作相关的大部分样板（boilerplate），同时为基于 PyTorch 的项目提供高度灵活性。然而，一旦你将你的操作定义为了 C++ 拓展，将其转换为原生 PyTorch 函数就主要是代码组织的问题了，如果你决定在上游提供操作，则可以解决这个问题。
+C++ 拓展是我们开发的一种能够让用户(你）自行创建一些 _所含资源之外_ 的操作的机制，例如，与 PyTorch 的后端分离开来。这种方法与 PyTorch 原生操作的实现方式是 _不同的_ 。C++ 扩展旨在为你提供与 PyTorch 后端集成操作相关的大部分样板(boilerplate），同时为基于 PyTorch 的项目提供高度灵活性。然而，一旦你将你的操作定义为了 C++ 拓展，将其转换为原生 PyTorch 函数就主要是代码组织的问题了，如果你决定在上游提供操作，则可以解决这个问题。
 
 ## 动机与例子
 
-本篇文章的剩余部分将介绍一个编写和使用 C++（以及 CUDA）拓展的实例。如果你现在正在被一直催着或是在今天之前没有把该操作完成你就会被解雇的话，你可以跳过这一章节，直接去下一节的实施细节部分查看。
+本篇文章的剩余部分将介绍一个编写和使用 C++(以及 CUDA）拓展的实例。如果你现在正在被一直催着或是在今天之前没有把该操作完成你就会被解雇的话，你可以跳过这一章节，直接去下一节的实施细节部分查看。
 
-假设你已经找到了一种新型的循环（recurrent）的单元，它与现有技术相比具有优越的性能。该循环单元类似于 LSTM，但不同之处在于它缺少了 _遗忘门_ 并使用 _指数线性单元_ （ELU）作为其内部激活功能。因为这个单元永远都不会忘记，所以我们叫它 _LLTM_，或是 _长长期记忆_ （Long-Long-Term-Memory）单元。
+假设你已经找到了一种新型的循环(recurrent）的单元，它与现有技术相比具有优越的性能。该循环单元类似于 LSTM，但不同之处在于它缺少了 _遗忘门_ 并使用 _指数线性单元_ (ELU）作为其内部激活功能。因为这个单元永远都不会忘记，所以我们叫它 _LLTM_，或是 _长长期记忆_ (Long-Long-Term-Memory）单元。
 
 在 LLTMs 中的这两个与普通的 LSTMs 的不同点是十分重要的，以至于我们不能通过配置 PyTorch 中的 `LSTMCell` 来达到我们的目标。所以我们将只能创建一个自定义模块。第一个也是最简单的方法 - 可能在所有情况下都是良好的第一步——是使用 Python 在纯 PyTorch 中实现我们所需的功能。为此，我们需要继承 `torch.nn.Module` 并实现 LLTM 的正向传递。 这看起来就像这样：
 
@@ -74,9 +74,9 @@ new_h, new_C = rnn(X, (h, C))
 
 ```
 
-当然，如果可能的话，你应该使用这种方法来扩展 PyTorch。由于 PyTorch 对 CPU _与_ GPU 的操作实施了高度优化，由 [NVIDIA cuDNN](https://developer.nvidia.com/cudnn)，[Intel MKL](https://software.intel.com/en-us/mkl) 或是 [NNPACK ](https://github.com/Maratyszcza/NNPACK)等库提供了支持，像上面那样的 PyTorch 代码一般情况下都是足够快速的。但是，我们也可以看到为什么在某些情况下还有进一步改进性能的空间。最明显的原因是PyTorch不了解你正在实施的 _算法_ 。它只知道你用于编写算法的各个独立操作。因此，PyTorch 必须逐个执行你的操作。由于对操作的实现（或 _核_ ）的每次单独的调用都可能（可能涉及启动 CUDA 内核）具有一定量的开销，因此这种开销可能在许多函数的调用中变得显着。此外，运行我们的代码的 Python 解释器本身就可以减慢我们的程序。
+当然，如果可能的话，你应该使用这种方法来扩展 PyTorch。由于 PyTorch 对 CPU _与_ GPU 的操作实施了高度优化，由 [NVIDIA cuDNN](https://developer.nvidia.com/cudnn)，[Intel MKL](https://software.intel.com/en-us/mkl) 或是 [NNPACK ](https://github.com/Maratyszcza/NNPACK)等库提供了支持，像上面那样的 PyTorch 代码一般情况下都是足够快速的。但是，我们也可以看到为什么在某些情况下还有进一步改进性能的空间。最明显的原因是PyTorch不了解你正在实施的 _算法_ 。它只知道你用于编写算法的各个独立操作。因此，PyTorch 必须逐个执行你的操作。由于对操作的实现(或 _核_ )的每次单独的调用都可能(可能涉及启动 CUDA 内核）具有一定量的开销，因此这种开销可能在许多函数的调用中变得显着。此外，运行我们的代码的 Python 解释器本身就可以减慢我们的程序。
 
-因此，一个明显可以加快速度的方法是用 C++（或 CUDA）完成部分代码的重写部分并_融合_特定的操作组。融合意味着将许多函数的实现组合到单个函数中，这些函数会从更少的内核启动中受益，此外，这些函数还会从我们通过提高全局数据流的可见性来执行的其他优化中获益。
+因此，一个明显可以加快速度的方法是用 C++(或 CUDA）完成部分代码的重写部分并_融合_特定的操作组。融合意味着将许多函数的实现组合到单个函数中，这些函数会从更少的内核启动中受益，此外，这些函数还会从我们通过提高全局数据流的可见性来执行的其他优化中获益。
 
 让我们来看看我们可以怎样使用 C++ 拓展来实现一个_融合_版本的 LLTM。我们首先使用纯 C++ 完成代码编写，使用驱动了大部分 PyTorch 后端的 [ATen](https://github.com/zdevito/ATen) 库，并看看它能让我们多简单就完成 Python 代码的转换。然后我们将通过将一部分的模型移动到 CUDA 内核以从 GPU 提供的大规模并行性中受益，来进一步加快速度。
 
@@ -98,7 +98,7 @@ setup(name='lltm',
 
 ```
 
-在这段代码中，`CppExtension`是`setuptools.Extension`的一个便利的包装器（wrapper），它传递正确的包含路径并将扩展语言设置为 C++。 等效的普通`setuptools`代码像下面这样简单：
+在这段代码中，`CppExtension`是`setuptools.Extension`的一个便利的包装器(wrapper），它传递正确的包含路径并将扩展语言设置为 C++。 等效的普通`setuptools`代码像下面这样简单：
 
 ```py
 setuptools.Extension(
@@ -127,13 +127,13 @@ at::Tensor d_sigmoid(at::Tensor z) {
 
 ```
 
-`torch / torch.h`是一站式（one-stop）头文件，包含编写 C++ 扩展所需的所有 PyTorch 位。 这包括：
+`torch / torch.h`是一站式(one-stop）头文件，包含编写 C++ 扩展所需的所有 PyTorch 位。 这包括：
 
 *   ATen 库，我们主要的张量计算接口
 *   [pybind11](https://github.com/pybind/pybind11)，我们为 C++ 代码创建 Python 绑定的方法
 *   管理 ATen 和 pybind11 之间交互细节的头文件。
 
-`d_sigmoid（）`的实现显示了如何使用 ATen API。PyTorch 的张量和变量接口是从 ATen 库自动生成的，因此我们可以或多或少地将我们的 Python 语言实现1:1转换为 C++ 语言实现。 我们所有计算的主要数据类型都是`at::Tensor`。可以在[此处](https://pytorch.org/cppdocs/api/classat_1_1_tensor.html)查看其完整的 API。另请注意，我们可以引用`<iostream>`或任何其他 C 或 C++ 头文件——我们可以使用 C++ 11 的全部功能。
+`d_sigmoid(）`的实现显示了如何使用 ATen API。PyTorch 的张量和变量接口是从 ATen 库自动生成的，因此我们可以或多或少地将我们的 Python 语言实现1:1转换为 C++ 语言实现。 我们所有计算的主要数据类型都是`at::Tensor`。可以在[此处](https://pytorch.org/cppdocs/api/classat_1_1_tensor.html)查看其完整的 API。另请注意，我们可以引用`<iostream>`或任何其他 C 或 C++ 头文件——我们可以使用 C++ 11 的全部功能。
 
 #### 前向传播
 
@@ -173,7 +173,7 @@ std::vector<at::Tensor> lltm_forward(
 
 #### 反向传播
 
-C++ 的扩展 API 目前不为我们提供自动生成反向函数的方法。因此，我们还必须实施 LLTM 的反向传播部分，LLTM 计算相对于正向传播的每个输入的损失的导数。最终，我们将向前和向后函数放入`torch.autograd.Function`以创建一个漂亮的 Python 绑定。 向后功能稍微复杂一些，所以我们不会深入研究代码（如果你感兴趣，[Alex Graves的论文](https://www.cs.toronto.edu/~graves/phd.pdf)是一个能让你了解跟多信息的好文章）：
+C++ 的扩展 API 目前不为我们提供自动生成反向函数的方法。因此，我们还必须实施 LLTM 的反向传播部分，LLTM 计算相对于正向传播的每个输入的损失的导数。最终，我们将向前和向后函数放入`torch.autograd.Function`以创建一个漂亮的 Python 绑定。 向后功能稍微复杂一些，所以我们不会深入研究代码(如果你感兴趣，[Alex Graves的论文](https://www.cs.toronto.edu/~graves/phd.pdf)是一个能让你了解跟多信息的好文章）：
 
 ```py
 // tanh'(z) = 1 - tanh^2(z)
@@ -241,7 +241,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
 
 ```
 
-有一点需要注意的是宏`TORCH_EXTENSION_NAME`。torch 的扩展部分将会把它定义为你在`setup.py`脚本中为扩展名命名的名称。在这种情况下，`TORCH_EXTENSION_NAME`的值将为“lltm”。这是为了避免必须在两个地方（构建脚本和 C++ 代码中）维护扩展名，因为两者之间的不匹配可能会导致令人讨厌且难以跟踪的问题。
+有一点需要注意的是宏`TORCH_EXTENSION_NAME`。torch 的扩展部分将会把它定义为你在`setup.py`脚本中为扩展名命名的名称。在这种情况下，`TORCH_EXTENSION_NAME`的值将为“lltm”。这是为了避免必须在两个地方(构建脚本和 C++ 代码中）维护扩展名，因为两者之间的不匹配可能会导致令人讨厌且难以跟踪的问题。
 
 ### 使用你的拓展
 
@@ -300,7 +300,7 @@ Finished processing dependencies for lltm==0.0.0
 
 ```
 
-关于编译器的一个小注意事项：由于 ABI 版本问题，用于构建 C++ 扩展的编译器必须与 ABI 兼容，并且这里的编译器是必须是与构建 PyTorch 时采用的编译器一样的。实际上，这意味着你必须在 Linux 上使用 GCC 4.9 及更高版本。对于 Ubuntu 16.04 和其他更新的 Linux 发行版来说，这应该是默认的编译器。在MacOS上，你必须使用clang（没有任何与ABI版本相关的问题）。在最坏的情况下，你可以使用编译器从源代码构建 PyTorch，然后使用相同的编译器构建扩展。
+关于编译器的一个小注意事项：由于 ABI 版本问题，用于构建 C++ 扩展的编译器必须与 ABI 兼容，并且这里的编译器是必须是与构建 PyTorch 时采用的编译器一样的。实际上，这意味着你必须在 Linux 上使用 GCC 4.9 及更高版本。对于 Ubuntu 16.04 和其他更新的 Linux 发行版来说，这应该是默认的编译器。在MacOS上，你必须使用clang(没有任何与ABI版本相关的问题）。在最坏的情况下，你可以使用编译器从源代码构建 PyTorch，然后使用相同的编译器构建扩展。
 
 构建扩展后，你只需使用在`setup.py`脚本中指定的名称在Python中导入它。请务必首先运行 `import torch` ，因为这将解析动态链接器必须看到的一些符号：
 
@@ -312,7 +312,7 @@ Out[3]: <function lltm.PyCapsule.forward>
 
 ```
 
-如果我们在函数或模块上调用`help()`，我们可以看到它的签名（signature）与我们的 C++ 代码匹配：
+如果我们在函数或模块上调用`help()`，我们可以看到它的签名(signature）与我们的 C++ 代码匹配：
 
 ```py
 In[4] help(lltm.forward)
@@ -323,7 +323,7 @@ forward(...) method of builtins.PyCapsule instance
 
 ```
 
-既然我们现在能够从 Python 中调用我们的 C++ 函数，我们可以使用`torch.autograd.Function`和`torch.nn.Module`来包装（warp）它们，使它们成为 PyTorch 中的一等公民（first class citizens，关键的一部分）：
+既然我们现在能够从 Python 中调用我们的 C++ 函数，我们可以使用`torch.autograd.Function`和`torch.nn.Module`来包装(warp）它们，使它们成为 PyTorch 中的一等公民(first class citizens，关键的一部分）：
 
 ```py
 import math
@@ -401,7 +401,7 @@ print('Forward: {:.3f} us | Backward {:.3f} us'.format(forward * 1e6/1e5, backwa
 
 ```
 
-如果运行我们在本文开头用纯 Python 编写原始 LLTM 的代码，我们将得到以下数字（在我的机器上）：
+如果运行我们在本文开头用纯 Python 编写原始 LLTM 的代码，我们将得到以下数字(在我的机器上）：
 
 ```py
 
@@ -416,11 +416,11 @@ Forward: 349.335 us | Backward 443.523 us
 
 ```
 
-我们已经可以看到前向传播函数的显着加速（超过30％）。对于反向传播函数而言，我们也是可以看到加速效果的，尽管加速的效果不是很明显。我在上面写的反向传播并没有经过特别优化，它绝对还可以进行改进。此外，PyTorch 的自动差分引擎可以自动并行化计算图，可以使用更高效的整体操作流，并且这也是用 C++ 实现，因此预计运行速度会很快。尽管如此，这是一个良好的开端。
+我们已经可以看到前向传播函数的显着加速(超过30％）。对于反向传播函数而言，我们也是可以看到加速效果的，尽管加速的效果不是很明显。我在上面写的反向传播并没有经过特别优化，它绝对还可以进行改进。此外，PyTorch 的自动差分引擎可以自动并行化计算图，可以使用更高效的整体操作流，并且这也是用 C++ 实现，因此预计运行速度会很快。尽管如此，这是一个良好的开端。
 
 #### 在GPU设备上的性能
 
-关于 PyTorch 的 _ATen_ 后端的一个很好的事实是它抽象了你正在运行代码的计算设备。这意味着我们为CPU编写的代码也可以在GPU上运行，并且各个操作将相应地分派到以 GPU 优化过后的实现中去。对于某些操作，如矩阵乘法（如`mm`或`admm`），这是一个很大的胜利。让我们看一下使用 CUDA 张量运行 C++ 代码可以获得多少的性能提升。我们不需要对代码作出任何改变，我们只需要将我们的张量放在 Python 中的 GPU 内存中，在创建时添加`device = cuda_device`参数或在创建后使用`.to(cuda_device)`即可：
+关于 PyTorch 的 _ATen_ 后端的一个很好的事实是它抽象了你正在运行代码的计算设备。这意味着我们为CPU编写的代码也可以在GPU上运行，并且各个操作将相应地分派到以 GPU 优化过后的实现中去。对于某些操作，如矩阵乘法(如`mm`或`admm`），这是一个很大的胜利。让我们看一下使用 CUDA 张量运行 C++ 代码可以获得多少的性能提升。我们不需要对代码作出任何改变，我们只需要将我们的张量放在 Python 中的 GPU 内存中，在创建时添加`device = cuda_device`参数或在创建后使用`.to(cuda_device)`即可：
 
 ```py
 import torch
@@ -474,7 +474,7 @@ Forward: 149.802 us | Backward 393.458 us
 
 ### JIT 编译扩展
 
-在之前，我提到有两种构建 C++ 扩展的方法：使用`setuptools`或者是实时（JIT）。 在对前者进行了说明之后，让我们再详细说明一下后者。JIT 编译机制通过在 PyTorch 的 API 中调用一个名为`torch.utils.cpp_extension.load()`的简单函数，为你提供了一种编译和加载扩展的方法。对于 LLTM，这看起来就像下面这样简单：
+在之前，我提到有两种构建 C++ 扩展的方法：使用`setuptools`或者是实时(JIT）。 在对前者进行了说明之后，让我们再详细说明一下后者。JIT 编译机制通过在 PyTorch 的 API 中调用一个名为`torch.utils.cpp_extension.load()`的简单函数，为你提供了一种编译和加载扩展的方法。对于 LLTM，这看起来就像下面这样简单：
 
 ```py
 from torch.utils.cpp_extension import load
@@ -490,7 +490,7 @@ lltm = load(name="lltm", sources=["lltm.cpp"])
 3.  将源文件编译为共享库
 4.  将此共享库导入为 Python 模块
 
-实际上，如果你将`verbose = True`参数传递给`cpp_extension.load（）`，该过程在进行的过程中将会告知你：
+实际上，如果你将`verbose = True`参数传递给`cpp_extension.load(）`，该过程在进行的过程中将会告知你：
 
 ```py
 Using /tmp/torch_extensions as PyTorch extensions root...
@@ -507,7 +507,7 @@ Loading extension module lltm...
 
 为了真正将我们的实现的性能提升到一个新的水平，我们可以自定义 CUDA 内核并全手工的完成前向和反向传播中部分代码的编写。对于 LLTM 来说，这具有特别有效的前景，因为序列中存在大量逐点运算，所有这些运算都可以在单个 CUDA 内核中融合和并行化。让我们看看如何使用这种扩展机制编写这样的 CUDA 内核并将其与 PyTorch 整合到一起。
 
-编写 CUDA 扩展的一般策略是首先编写一个 C++ 文件，该文件定义了将从 Python 中调用的函数，并使用 pybind11 将这些函数绑定到 Python 上。此外，该文件还将 _声明_ 在 CUDA（`.cu`）文件中将定义的函数。然后，C++ 函数将进行一些检查，并最终将其调用转发给 CUDA 函数。在 CUDA 文件中，我们编写了实际的 CUDA 内核。接着，`cpp_extension`包将负责使用 C++ 编译器（如`gcc`）和使用 NVIDIA 的`nvcc`编译器的CUDA源编译 C++ 源代码。以此来确保每个编译器处理它最好编译的文件。最终，它们将链接到一个可从 Python 代码中进行访问的共享库。
+编写 CUDA 扩展的一般策略是首先编写一个 C++ 文件，该文件定义了将从 Python 中调用的函数，并使用 pybind11 将这些函数绑定到 Python 上。此外，该文件还将 _声明_ 在 CUDA(`.cu`）文件中将定义的函数。然后，C++ 函数将进行一些检查，并最终将其调用转发给 CUDA 函数。在 CUDA 文件中，我们编写了实际的 CUDA 内核。接着，`cpp_extension`包将负责使用 C++ 编译器(如`gcc`）和使用 NVIDIA 的`nvcc`编译器的CUDA源编译 C++ 源代码。以此来确保每个编译器处理它最好编译的文件。最终，它们将链接到一个可从 Python 代码中进行访问的共享库。
 
 我们将从 C++ 文件开始，我们将其称为`lltm_cuda.cpp`，例如：
 
@@ -595,7 +595,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
 
 ```
 
-正如你所看到的，它主要是一个样板（boilerplate），检查和转发到我们将在 CUDA 文件中定义的函数。我们将这个文件命名为`lltm_cuda_kernel.cu`（注意`.cu`扩展名！）。NVCC 可以合理地编译 C++ 11，因此我们仍然可以使用 ATen 和 C++ 标准库（但`torch.h`不行）。 请注意，`setuptools`无法处理具有相同名称但扩展名不同的文件，因此如果使用`setup.py`方法而不是 JIT 方法，则必须为 CUDA 文件指定与 C++ 文件不同的名称（对于JIT） 方法，`lltm.cpp`和`lltm.cu`会正常工作）。 我们来看看这个文件的样子：
+正如你所看到的，它主要是一个样板(boilerplate），检查和转发到我们将在 CUDA 文件中定义的函数。我们将这个文件命名为`lltm_cuda_kernel.cu`(注意`.cu`扩展名！）。NVCC 可以合理地编译 C++ 11，因此我们仍然可以使用 ATen 和 C++ 标准库(但`torch.h`不行）。 请注意，`setuptools`无法处理具有相同名称但扩展名不同的文件，因此如果使用`setup.py`方法而不是 JIT 方法，则必须为 CUDA 文件指定与 C++ 文件不同的名称(对于JIT） 方法，`lltm.cpp`和`lltm.cu`会正常工作）。 我们来看看这个文件的样子：
 
 ```py
 #include <ATen/ATen.h>
@@ -682,7 +682,7 @@ std::vector<at::Tensor> lltm_cuda_forward(
 
 ```
 
-这里主要关注的是`AT_DISPATCH_FLOATING_TYPES`宏和内核启动（由`<<<...>>>`进行表示）。虽然 ATen 会对我们所处理的张量的设备和数据类型进行抽象化，但是在运行时，张量仍将由具体设备上的具体类型的内存支持。因此，我们需要一种在运行时确定张量是什么类型的方法，然后选择性地调用相应的具有正确类型签名（signature）函数。手动完成这些部分，这将（概念上）看起来像这样：
+这里主要关注的是`AT_DISPATCH_FLOATING_TYPES`宏和内核启动(由`<<<...>>>`进行表示）。虽然 ATen 会对我们所处理的张量的设备和数据类型进行抽象化，但是在运行时，张量仍将由具体设备上的具体类型的内存支持。因此，我们需要一种在运行时确定张量是什么类型的方法，然后选择性地调用相应的具有正确类型签名(signature）函数。手动完成这些部分，这将(概念上）看起来像这样：
 
 ```py
 switch (tensor.type().scalarType()) {
@@ -695,13 +695,13 @@ switch (tensor.type().scalarType()) {
 
 ```
 
- `AT_DISPATCH_FLOATING_TYPES` 的目的是为我们处理此次调度。它需要一个类型（在我们的例子中是`gates.type()`），一个名称（用于错误消息）和一个 lambda 函数。在这个 lambda 函数中，类型别名`scalar_t`是可用的，并且被定义为张量在该上下文中实际处于运行时的类型。因此，如果我们有一个模板函数（我们的 CUDA 内核将作为模板函数），我们可以用这个`scalar_t`别名实例化它，然后正确的函数就会被调用。 在这种情况下，我们还希望检索张量的数据指针作为`scalar_t`类型的指针。 如果你想调度所有类型而不仅仅是浮点类型（`Float`和`Double`），你可以使用`AT_DISPATCH_ALL_TYPES`。
+ `AT_DISPATCH_FLOATING_TYPES` 的目的是为我们处理此次调度。它需要一个类型(在我们的例子中是`gates.type()`），一个名称(用于错误消息）和一个 lambda 函数。在这个 lambda 函数中，类型别名`scalar_t`是可用的，并且被定义为张量在该上下文中实际处于运行时的类型。因此，如果我们有一个模板函数(我们的 CUDA 内核将作为模板函数），我们可以用这个`scalar_t`别名实例化它，然后正确的函数就会被调用。 在这种情况下，我们还希望检索张量的数据指针作为`scalar_t`类型的指针。 如果你想调度所有类型而不仅仅是浮点类型(`Float`和`Double`），你可以使用`AT_DISPATCH_ALL_TYPES`。
 
-请注意，我们使用普通 ATen 执行的一些操作。这些操作仍将在 GPU 上运行，但使用的是 ATen 的默认实现。这是有道理的，因为 ATen 将使用高度优化的例程来处理诸如矩阵乘法（例如`addmm`）或者是一些我们自己十分难以实现以及完成性能提升的操作，如卷积操作。
+请注意，我们使用普通 ATen 执行的一些操作。这些操作仍将在 GPU 上运行，但使用的是 ATen 的默认实现。这是有道理的，因为 ATen 将使用高度优化的例程来处理诸如矩阵乘法(例如`addmm`）或者是一些我们自己十分难以实现以及完成性能提升的操作，如卷积操作。
 
-至于内核启动本身，我们在这里指定每个 CUDA 块将具有1024个线程，并且整个 GPU 网格被分成尽可能多的 `1 x 1024` 线程块，并以一组一个线程的方式填充我们的矩阵。例如，如果我们的状态（state）大小为2048且批量大小为4，那么我们将以每个块1024个线程完成启动，总共 `4 x 2 = 8` 个块。如果你之前从未听说过 CUDA “块”或“网格”，那么[关于 CUDA 的介绍性阅读](https://devblogs.nvidia.com/even-easier-introduction-cuda)可能会有所帮助。
+至于内核启动本身，我们在这里指定每个 CUDA 块将具有1024个线程，并且整个 GPU 网格被分成尽可能多的 `1 x 1024` 线程块，并以一组一个线程的方式填充我们的矩阵。例如，如果我们的状态(state）大小为2048且批量大小为4，那么我们将以每个块1024个线程完成启动，总共 `4 x 2 = 8` 个块。如果你之前从未听说过 CUDA “块”或“网格”，那么[关于 CUDA 的介绍性阅读](https://devblogs.nvidia.com/even-easier-introduction-cuda)可能会有所帮助。
 
-实际的 CUDA 内核非常简单（如果你以前进行过 GPU 编程）：
+实际的 CUDA 内核非常简单(如果你以前进行过 GPU 编程）：
 
 ```py
 template <typename scalar_t>
