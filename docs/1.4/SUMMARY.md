@@ -15,9 +15,9 @@
 *  音频
     * [torchaudio 教程](http://pytorch.apachecn.org/docs/1.4/15.html)
 *  文本
-    * [从零开始的 NLP：使用字符级 RNN 对名称进行分类](http://pytorch.apachecn.org/docs/1.4/17.html)
-    * [从零开始的 NLP：使用字符级 RNN 生成名称](http://pytorch.apachecn.org/docs/1.4/18.html)
-    * [从零开始的 NLP：从序列到序列网络的翻译和注意](http://pytorch.apachecn.org/docs/1.4/19.html)
+    * [NLP From Scratch: 使用char-RNN对姓氏进行分类](http://pytorch.apachecn.org/docs/1.4/17.html)
+    * [NLP From Scratch: 生成名称与字符级RNN](http://pytorch.apachecn.org/docs/1.4/18.html)
+    * [NLP From Scratch: 基于注意力机制的 seq2seq 神经网络翻译](http://pytorch.apachecn.org/docs/1.4/19.html)
     * [使用 TorchText 进行文本分类](http://pytorch.apachecn.org/docs/1.4/20.html)
     * [使用 TorchText 进行语言翻译](http://pytorch.apachecn.org/docs/1.4/21.html)
     * [使用 nn.Transformer 和 TorchText 进行序列到序列建模](http://pytorch.apachecn.org/docs/1.4/22.html)
