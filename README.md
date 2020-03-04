@@ -64,7 +64,7 @@
 
 格式: GitHub + QQ
 
-> 第4期 1.2 (2019-09-17)
+> 第4期 1.2/1.4 (2019-09-17)
 
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [Alex](https://github.com/AlexJakin): 1272296763
