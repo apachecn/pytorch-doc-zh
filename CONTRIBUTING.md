@@ -12,17 +12,11 @@
 +   [0.4 中文文档](https://pytorch.apachecn.org/docs/0.4/)
 +   [0.3 和 1.0 之间的 DIFF 文件](diff/0.3-1.0)
 
-负责人：
-
-+   [飞龙](https://github.com/wizardforcel)：562826179
-+   [片刻](https://github.com/jiangzhonglian)：529815144
-+   [咸鱼](https://github.com/)：1034616238
-
 ## 流程
 
 ### 一、认领
 
-首先查看[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/422)，确认没有人认领了你想认领的章节。
+首先查看[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/487)，确认没有人认领了你想认领的章节。
 
 然后回复 ISSUE，注明“章节 + QQ 号”(一定要留 QQ）。
 
@@ -43,7 +37,7 @@ Note: 可以合理利用翻译引擎(例如[谷歌](https://translate.google.cn�
 **提交的时候不要改动文件名称，即使它跟章节标题不一样也不要改，因为文件名和原文的链接是对应的！！！**
 
 +   `fork` Github 项目
-+   将译文放在`docs/1.2`文件夹下
++   将译文放在`docs/1.4`文件夹下
 +   `push`
 +   `pull request`
 
