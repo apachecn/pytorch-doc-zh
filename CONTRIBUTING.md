@@ -11,6 +11,9 @@
 +   [0.3 中文教程 & 文档](https://pytorch.apachecn.org/docs/0.3/)
 +   [0.4 中文文档](https://pytorch.apachecn.org/docs/0.4/)
 +   [0.3 和 1.0 之间的 DIFF 文件](diff/0.3-1.0)
++   [公式问题如何解决](https://github.com/apachecn/pytorch-doc-zh/issues/360)
++   [模版文章](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/chatbot_tutorial.md)
++   [知乎中文专栏](https://zhuanlan.zhihu.com/c_1141766027527385088)
 
 ## 流程
 
@@ -19,6 +22,8 @@
 首先查看[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/487)，确认没有人认领了你想认领的章节。
 
 然后回复 ISSUE，注明“章节 + QQ 号”(一定要留 QQ）。
+
+需要取消认领的人也在此留言，两个月未完成默认放弃任务。
 
 ### 二、校对
 
@@ -31,6 +36,8 @@
 Note: 可以合理利用翻译引擎(例如[谷歌](https://translate.google.cn），但一定要把它变得可读！
 
 如果觉得现有翻译不好，重新翻译也是可以的。
+
+图片存放在`docs/<version>/img`目录下，记得文章也改为相对路径。
 
 ### 三、提交
 
