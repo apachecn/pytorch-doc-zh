@@ -36,6 +36,11 @@
 * [PyTorch 1.4 教程&文档](README.md)
 *  入门
     * [使用 PyTorch 进行深度学习：60 分钟的闪电战](4.md)
+        * [什么是PyTorch？](blitz/tensor_tutorial.md)
+        * [Autograd：自动求导](blitz/autograd_tutorial.md)
+        * [神经网络](blitz/neural_networks_tutorial.md)
+        * [训练分类器](blitz/cifar10_tutorial.md)
+        * [可选：数据并行](blitz/data_parallel_tutorial.md)
     * [编写自定义数据集，数据加载器和转换](5.md)
     * [使用 TensorBoard 可视化模型，数据和训练](6.md)
 *  图片
