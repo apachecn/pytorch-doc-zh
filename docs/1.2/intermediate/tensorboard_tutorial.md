@@ -1,10 +1,14 @@
 # 使用 TensorBoard 可视化模型，数据和训练
 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
+
 在[60分钟闪电战](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html)中，我们向您展示了如何加载数据，如何通过定义为的子类的`nn.Module`模型提供数据，如何在训练数据上训练该模型以及如何在测试数据上对其进行测试。为了了解发生了什么，我们在模型训练期间打印一些统计数据，以了解训练是否在进行。但是，我们可以做得更好：PyTorch与TensorBoard集成在一起，TensorBoard是一种工具，用于可视化神经网络训练运行的结果。本教程使用[Fashion-MNIST数据集](https://github.com/zalandoresearch/fashion-mnist)说明了其某些功能，该 数据集 可以使用torchvision.datasets读取到PyTorch中。
 
 在本教程中，我们将学习如何：
 
-* 读入数据并进行适当的转换（与先前的教程几乎相同）。
+* 读入数据并进行适当的转换(与先前的教程几乎相同）。
 * 设置TensorBoard。
 * 写入TensorBoard。
 * 使用TensorBoard检查模型架构。
@@ -293,7 +297,7 @@ print('Finished Training')
 ![https://pytorch.org/tutorials/_static/img/tensorboard_images.png](https://pytorch.org/tutorials/_static/img/tensorboard_images.png)
 
 
-在之前的教程中，我们研究了模型训练后的每班准确性；在这里，我们将使用TensorBoard绘制每个类的精确调用曲线（[此处](https://www.scikit-yb.org/en/latest/api/classifier/prcurve.html)有很好的解释 ）。
+在之前的教程中，我们研究了模型训练后的每班准确性；在这里，我们将使用TensorBoard绘制每个类的精确调用曲线([此处](https://www.scikit-yb.org/en/latest/api/classifier/prcurve.html)有很好的解释 )。
 
 ## 6. 使用TensorBoard评估经过训练的模型
 

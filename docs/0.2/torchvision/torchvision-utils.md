@@ -1,7 +1,7 @@
 # torchvision.utils
 
 ## torchvision.utils.make_grid(tensor, nrow=8, padding=2, normalize=False, range=None, scale_each=False)
-猜测，用来做 `雪碧图的`（`sprite image`）。
+猜测，用来做 `雪碧图的`(`sprite image`）。
 
 给定 `4D mini-batch Tensor`， 形状为 `(B x C x H x W)`,或者一个`a list of image`，做成一个`size`为`(B / nrow, nrow)`的雪碧图。
 

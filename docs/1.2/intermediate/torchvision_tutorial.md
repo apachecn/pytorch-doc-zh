@@ -1,5 +1,9 @@
 # TorchVision 对象检测微调教程
 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
+
 > TIP
 > 为了充分利用本教程，我们建议使用此[Colab](https://colab.research.google.com/github/pytorch/vision/blob/temp-
 tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)版本。这将使您可以尝试以下信息。
@@ -12,15 +16,15 @@ tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)版本。�
 
 我们唯一需要的特异性是数据集`__getitem__`应该返回：
 
-  * 图像：尺寸`（H， W）的PIL图像 `
+  * 图像：尺寸`(H， W）的PIL图像 `
   * 目标：包含以下字段的一个字典
-    * `盒 （FloatTensor [N， 4]） `：的`N` 的坐标在包围盒`[X0， Y0， X 1， Y1]`格式中，范围从`0`至`W`和`0`至`H`
-    * `标签 （Int64Tensor [N]） `：对于每个边界框的标签
-    * `image_id  （Int64Tensor [1]） `：图像标识符。它应该是在数据集中的所有图像之间唯一的，评估过程中使用
-    * `面积 （张量[N]） `：将边界框的面积。这是通过COCO度量评估过程中使用，以分离小，中，大箱之间的度量得分。
-    * `iscrowd  （UInt8Tensor [N]） `：用iscrowd =真实例将被评估期间忽略。
-    * （可选地）`掩模 （UInt8Tensor [N， H， W]） `：本分割掩码的每个其中一个对象
-    * （可选地）`关键点 （FloatTensor [N， K， 3]） `：对于每一个中的所述一个N个对象，它包含`K个关键点[X， Y， 能见度]`格式中，定义的对象。能见度= 0表示所述关键点是不可见的。请注意，数据增强，翻转关键点的概念是依赖于数据表示，你可能要适应`引用/检测/ transforms.py`为您的新关键点表示
+    * `盒 (FloatTensor [N， 4]） `：的`N` 的坐标在包围盒`[X0， Y0， X 1， Y1]`格式中，范围从`0`至`W`和`0`至`H`
+    * `标签 (Int64Tensor [N]） `：对于每个边界框的标签
+    * `image_id  (Int64Tensor [1]） `：图像标识符。它应该是在数据集中的所有图像之间唯一的，评估过程中使用
+    * `面积 (张量[N]） `：将边界框的面积。这是通过COCO度量评估过程中使用，以分离小，中，大箱之间的度量得分。
+    * `iscrowd  (UInt8Tensor [N]） `：用iscrowd =真实例将被评估期间忽略。
+    * (可选地）`掩模 (UInt8Tensor [N， H， W]） `：本分割掩码的每个其中一个对象
+    * (可选地）`关键点 (FloatTensor [N， K， 3]） `：对于每一个中的所述一个N个对象，它包含`K个关键点[X， Y， 能见度]`格式中，定义的对象。能见度= 0表示所述关键点是不可见的。请注意，数据增强，翻转关键点的概念是依赖于数据表示，你可能要适应`引用/检测/ transforms.py`为您的新关键点表示
 
 
 
@@ -31,12 +35,12 @@ tutorial/tutorials/torchvision_finetuning_instance_segmentation.ipynb)版本。�
     * `image_id (Int64Tensor[1])`：图像标识符。它在数据集中的所有图像之间应该是唯一的，并在评估过程中使用
     * `area (Tensor[N])`：边界框的面积。在使用COCO指标进行评估时，可使用此值来区分小盒子，中盒子和大盒子之间的指标得分。
     * `iscrowd (UInt8Tensor[N])`：评估期间将忽略iscrowd = True的实例。
-    * （可选）`masks (UInt8Tensor[N, H, W])`：每个对象的分割蒙版
-    * （可选）`keypoints (FloatTensor[N, K, 3])`：对于N个对象中的每个对象，它包含`[x, y, visibility]`格式的K个关键点，以定义对象。 visibility=0 表示关键点不可见。请注意，对于数据扩充，翻转关键点的概念取决于数据表示，并且您可能应该将`references/detection/transforms.py `修改为新的关键点表示形式。
+    * (可选）`masks (UInt8Tensor[N, H, W])`：每个对象的分割蒙版
+    * (可选）`keypoints (FloatTensor[N, K, 3])`：对于N个对象中的每个对象，它包含`[x, y, visibility]`格式的K个关键点，以定义对象。 visibility=0 表示关键点不可见。请注意，对于数据扩充，翻转关键点的概念取决于数据表示，并且您可能应该将`references/detection/transforms.py `修改为新的关键点表示形式。
 
 如果您的模型返回上述方法，则它们将使其适用于训练和评估，并将使用pycocotools中的评估脚本。
 
-此外，如果要在训练过程中使用长宽比分组（以便每个批次仅包含长宽比相似的图像），则建议您还实现一种`get_height_and_width` 方法，该方法可返回图像的高度和宽度。如果未提供此方法，我们将通过查询数据集的所有元素`__getitem__`，这会将图像加载到内存中，并且比提供自定义方法要慢。
+此外，如果要在训练过程中使用长宽比分组(以便每个批次仅包含长宽比相似的图像），则建议您还实现一种`get_height_and_width` 方法，该方法可返回图像的高度和宽度。如果未提供此方法，我们将通过查询数据集的所有元素`__getitem__`，这会将图像加载到内存中，并且比提供自定义方法要慢。
 
 ### 为PennFudan编写自定义数据集
 
@@ -150,7 +154,7 @@ Mask R-CNN在Faster R-CNN中增加了一个分支，该分支还可以预测每�
 
 ![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image04.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image04.png)
 
-在两种常见情况下，可能要修改Torchvision modelzoo中的可用模型之一。首先是当我们想从预先训练的模型开始，然后微调最后一层时。另一个是当我们要用另一个模型替换主干时（例如，为了更快的预测）。
+在两种常见情况下，可能要修改Torchvision modelzoo中的可用模型之一。首先是当我们想从预先训练的模型开始，然后微调最后一层时。另一个是当我们要用另一个模型替换主干时(例如，为了更快的预测）。
 
 在以下各节中，让我们看看如何做一个或另一个。
 
@@ -415,6 +419,6 @@ Mask R-CNN在Faster R-CNN中增加了一个分支，该分支还可以预测每�
 
 在本教程中，您学习了如何在自定义数据集上为实例细分模型创建自己的训练管道。为此，您编写了一个`torch.utils.data.Dataset`类，该类返回图像，地面真相框和分割蒙版。您还利用了在COCO train2017上预先训练的Mask R-CNN模型，以便对该新数据集执行转移学习。
 
-对于更完整的示例（包括多机/多GPU训练），请检查`references/detection/train.py`在Torchvision存储库中存在的。
+对于更完整的示例(包括多机/多GPU训练），请检查`references/detection/train.py`在Torchvision存储库中存在的。
 
 您可以在[此处下载](https://pytorch.org/tutorials/_static/tv-training-code.py)本教程的完整源文件 。

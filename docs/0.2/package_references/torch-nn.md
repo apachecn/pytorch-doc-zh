@@ -16,7 +16,7 @@
 
 - requires_grad (bool, optional) – 默认为`True`，在`BP`的过程中会对其求微分。
 
-## Containers（容器）：
+## Containers(容器）：
 ### class torch.nn.Module
 所有网络的基类。
 
@@ -254,7 +254,7 @@ self.running_mean
 
 #### state_dict(destination=None, prefix='')[source]
 
-返回一个字典，保存着`module`的所有状态（`state`）。
+返回一个字典，保存着`module`的所有状态(`state`）。
 
 `parameters`和`persistent buffers`都会包含在字典中，字典的`key`就是`parameter`和`buffer`的 `names`。
 
@@ -388,7 +388,7 @@ class MyModule(nn.Module):
 
 ## 卷积层
 ### class torch.nn.Conv1d(in\_channels, out\_channels, kernel\_size, stride=1, padding=0, dilation=1, groups=1, bias=True)###
-一维卷积层，输入的尺度是(N, C_in,L)，输出尺度（ N,C_out,L_out）的计算方式：  
+一维卷积层，输入的尺度是(N, C_in,L)，输出尺度 (N,C_out,L_out）的计算方式：  
 
 $$
 out(N_i, C_{out_j})=bias(C _{out_j})+\sum^{C_{in}-1}_{k=0}weight(C_{out_j},k)\bigotimes input(N_i,k)
@@ -422,7 +422,7 @@ $$L_{out}=floor((L_{in}+2*padding-dilation*(kernerl\_size-1)-1)/stride+1)$$
 
 **变量:**  
 weight(`tensor`) - 卷积的权重，大小是(`out_channels`, `in_channels`, `kernel_size`)    
-bias(`tensor`) - 卷积的偏置系数，大小是（`out_channel`）  
+bias(`tensor`) - 卷积的偏置系数，大小是(`out_channel`）  
 
 **example:**
 ```python
@@ -432,7 +432,7 @@ bias(`tensor`) - 卷积的偏置系数，大小是（`out_channel`）
 ```
 
 ### class torch.nn.Conv2d(in\_channels, out\_channels, kernel\_size, stride=1, padding=0, dilation=1, groups=1, bias=True)###
-二维卷积层, 输入的尺度是(N, C_in,H,W)，输出尺度（N,C_out,H_out,W_out）的计算方式：  
+二维卷积层, 输入的尺度是(N, C_in,H,W)，输出尺度(N,C_out,H_out,W_out）的计算方式：  
 
 $$out(N_i, C_{out_j})=bias(C_{out_j})+\sum^{C_{in}-1}_{k=0}weight(C_{out_j},k)\bigotimes input(N_i,k)$$  
 
@@ -464,7 +464,7 @@ $$W_{out}=floor((W_{in}+2*padding[1]-dilation[1]*(kernerl\_size[1]-1)-1)/stride[
 
 **变量:**  
 weight(`tensor`) - 卷积的权重，大小是(`out_channels`, `in_channels`,`kernel_size`)  
-bias(`tensor`) - 卷积的偏置系数，大小是（`out_channel`）  
+bias(`tensor`) - 卷积的偏置系数，大小是(`out_channel`）  
 
 **example:**
 ```python
@@ -479,7 +479,7 @@ bias(`tensor`) - 卷积的偏置系数，大小是（`out_channel`）
 ```
 
 ### class torch.nn.Conv3d(in\_channels, out\_channels, kernel\_size, stride=1, padding=0, dilation=1, groups=1, bias=True)###
-三维卷积层, 输入的尺度是(N, C_in,D,H,W)，输出尺度（N,C_out,D_out,H_out,W_out）的计算方式：  
+三维卷积层, 输入的尺度是(N, C_in,D,H,W)，输出尺度(N,C_out,D_out,H_out,W_out）的计算方式：  
 $$out(N_i, C_{out_j})=bias(C_{out_j})+\sum^{C_{in}-1}_{k=0}weight(C_{out_j},k)\bigotimes input(N_i,k)$$
 
 **说明**  
@@ -512,7 +512,7 @@ $$W_{out}=floor((W_{in}+2*padding[2]-dilation[2]*(kernerl\_size[2]-1)-1)/stride[
 **变量:**  
 
 - weight(`tensor`) - 卷积的权重，shape是(`out_channels`, `in_channels`,`kernel_size`)`
-- bias(`tensor`) - 卷积的偏置系数，shape是（`out_channel`）  
+- bias(`tensor`) - 卷积的偏置系数，shape是(`out_channel`）  
 
 **example:**
 ```python
@@ -524,11 +524,11 @@ $$W_{out}=floor((W_{in}+2*padding[2]-dilation[2]*(kernerl\_size[2]-1)-1)/stride[
 >>> output = m(input)
 ```
 ### class torch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True)###
-1维的解卷积操作（`transposed convolution operator`，注意改视作操作可视作解卷积操作，但并不是真正的解卷积操作）
-该模块可以看作是`Conv1d`相对于其输入的梯度，有时（但不正确地）被称为解卷积操作。
+1维的解卷积操作(`transposed convolution operator`，注意改视作操作可视作解卷积操作，但并不是真正的解卷积操作）
+该模块可以看作是`Conv1d`相对于其输入的梯度，有时(但不正确地）被称为解卷积操作。
 
 **注意**  
-由于内核的大小，输入的最后的一些列的数据可能会丢失。因为输入和输出是不是完全的互相关。因此，用户可以进行适当的填充（padding操作）。  
+由于内核的大小，输入的最后的一些列的数据可能会丢失。因为输入和输出是不是完全的互相关。因此，用户可以进行适当的填充(padding操作）。  
 
 **参数**
 
@@ -552,8 +552,8 @@ $$L_{out}=(L_{in}-1)*stride-2*padding+kernel\_size+output\_padding$$
 - bias(`tensor`) - 卷积的偏置系数，大小是(`out_channel`)
 
 ### class torch.nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True)
-2维的转置卷积操作（`transposed convolution operator`，注意改视作操作可视作解卷积操作，但并不是真正的解卷积操作）
-该模块可以看作是`Conv2d`相对于其输入的梯度，有时（但不正确地）被称为解卷积操作。
+2维的转置卷积操作(`transposed convolution operator`，注意改视作操作可视作解卷积操作，但并不是真正的解卷积操作）
+该模块可以看作是`Conv2d`相对于其输入的梯度，有时(但不正确地）被称为解卷积操作。
 
 **说明**
 
@@ -563,10 +563,10 @@ $$L_{out}=(L_{in}-1)*stride-2*padding+kernel\_size+output\_padding$$
 
 参数`kernel_size`，`stride`，`padding`，`dilation`数据类型：
 可以是一个`int`类型的数据，此时卷积height和width值相同;
-也可以是一个`tuple`数组（包含来两个`int`类型的数据），第一个`int`数据表示`height`的数值，第二个`int`类型的数据表示width的数值
+也可以是一个`tuple`数组(包含来两个`int`类型的数据），第一个`int`数据表示`height`的数值，第二个`int`类型的数据表示width的数值
 
 **注意**  
-由于内核的大小，输入的最后的一些列的数据可能会丢失。因为输入和输出是不是完全的互相关。因此，用户可以进行适当的填充（`padding`操作）。
+由于内核的大小，输入的最后的一些列的数据可能会丢失。因为输入和输出是不是完全的互相关。因此，用户可以进行适当的填充(`padding`操作）。
 
 **参数：**
 
@@ -589,7 +589,7 @@ $$W_{out}=(W_{in}-1)*stride[1]-2*padding[1]+kernel\_size[1]+output\_padding[1]$$
 
 **变量:**     
 - weight(`tensor`) - 卷积的权重，大小是(`in_channels`, `in_channels`,`kernel_size`)    
-- bias(`tensor`) - 卷积的偏置系数，大小是（`out_channel`）  
+- bias(`tensor`) - 卷积的偏置系数，大小是(`out_channel`）  
 
 **Example**
 
@@ -614,10 +614,10 @@ torch.Size([1, 16, 12, 12])
 
 ### torch.nn.ConvTranspose3d(in\_channels, out\_channels, kernel\_size, stride=1, padding=0, output\_padding=0, groups=1, bias=True)
 
-3维的转置卷积操作（`transposed convolution operator`，注意改视作操作可视作解卷积操作，但并不是真正的解卷积操作）
+3维的转置卷积操作(`transposed convolution operator`，注意改视作操作可视作解卷积操作，但并不是真正的解卷积操作）
 转置卷积操作将每个输入值和一个可学习权重的卷积核相乘，输出所有输入通道的求和
 
-该模块可以看作是`Conv3d`相对于其输入的梯度，有时（但不正确地）被称为解卷积操作。
+该模块可以看作是`Conv3d`相对于其输入的梯度，有时(但不正确地）被称为解卷积操作。
 
 **说明**
 
@@ -627,10 +627,10 @@ torch.Size([1, 16, 12, 12])
 
 参数`kernel\_size`，`stride`, `padding`，`dilation`数据类型：
 一个`int`类型的数据，此时卷积height和width值相同;
-也可以是一个`tuple`数组（包含来两个`int`类型的数据），第一个`int`数据表示height的数值，tuple的第二个int类型的数据表示width的数值
+也可以是一个`tuple`数组(包含来两个`int`类型的数据），第一个`int`数据表示height的数值，tuple的第二个int类型的数据表示width的数值
 
 **注意**  
-由于内核的大小，输入的最后的一些列的数据可能会丢失。因为输入和输出是不是完全的互相关。因此，用户可以进行适当的填充（padding操作）。
+由于内核的大小，输入的最后的一些列的数据可能会丢失。因为输入和输出是不是完全的互相关。因此，用户可以进行适当的填充(padding操作）。
 
 **参数：**
 
@@ -655,7 +655,7 @@ $$W_{out}=(W_{in}-1)*stride[2]-2*padding[2]+kernel\_size[2]+output\_padding[2]$$
 
 **变量:**  
 - weight(`tensor`) - 卷积的权重，大小是(`in_channels`, `in_channels`,`kernel_size`)  
-- bias(`tensor`) - 卷积的偏置系数，大小是（`out_channel`）
+- bias(`tensor`) - 卷积的偏置系数，大小是(`out_channel`）
 
 **Example**
 ```python
@@ -671,7 +671,7 @@ $$W_{out}=(W_{in}-1)*stride[2]-2*padding[2]+kernel\_size[2]+output\_padding[2]$$
 
 ### class torch.nn.MaxPool1d(kernel\_size, stride=None, padding=0, dilation=1, return\_indices=False, ceil_mode=False)
 
-对于输入信号的输入通道，提供1维最大池化（`max pooling`）操作
+对于输入信号的输入通道，提供1维最大池化(`max pooling`）操作
 
 如果输入的大小是(N,C,L)，那么输出的大小是(N,C,L_out)的计算方式是：       
 $$out(N_i, C_j,k)=max^{kernel\_size-1}_{m=0}input(N_{i},C_j,stride*k+m)$$    
@@ -703,7 +703,7 @@ $$L_{out}=floor((L_{in} + 2*padding - dilation*(kernel\_size - 1) - 1)/stride + 
 
 ### class torch.nn.MaxPool2d(kernel\_size, stride=None, padding=0, dilation=1, return\_indices=False, ceil\_mode=False)
 
-对于输入信号的输入通道，提供2维最大池化（`max pooling`）操作
+对于输入信号的输入通道，提供2维最大池化(`max pooling`）操作
 
 如果输入的大小是(N,C,H,W)，那么输出的大小是(N,C,H_out,W_out)和池化窗口大小(kH,kW)的关系是：   
 $$out(N_i, C_j,k)=max^{kH-1}_{m=0}max^{kW-1}_{m=0}input(N_{i},C_j,stride[0]*h+m,stride[1]*w+n)$$   
@@ -713,7 +713,7 @@ $$out(N_i, C_j,k)=max^{kH-1}_{m=0}max^{kW-1}_{m=0}input(N_{i},C_j,stride[0]*h+m,
 
 参数`kernel_size`，`stride`, `padding`，`dilation`数据类型：
 可以是一个`int`类型的数据，此时卷积height和width值相同;
-也可以是一个`tuple`数组（包含来两个int类型的数据），第一个`int`数据表示height的数值，`tuple`的第二个int类型的数据表示width的数值
+也可以是一个`tuple`数组(包含来两个int类型的数据），第一个`int`数据表示height的数值，`tuple`的第二个int类型的数据表示width的数值
 
 **参数：**
 
@@ -743,7 +743,7 @@ $$W_{out}=floor((W_{in} + 2*padding[1] - dilation[1]*(kernel\_size[1] - 1) - 1)/
 
 ### class torch.nn.MaxPool3d(kernel\_size, stride=None, padding=0, dilation=1, return\_indices=False, ceil\_mode=False)
 
-对于输入信号的输入通道，提供3维最大池化（max pooling）操作
+对于输入信号的输入通道，提供3维最大池化(max pooling）操作
 
 如果输入的大小是(N,C,D,H,W)，那么输出的大小是(N,C,D,H_out,W_out)和池化窗口大小(kD,kH,kW)的关系是：    
 $$out(N_i,C_j,d,h,w)=max^{kD-1}_{m=0}max^{kH-1}_{m=0}max^{kW-1}_{m=0}$$   
@@ -755,7 +755,7 @@ $$input(N_{i},C_j,stride[0]*k+d,stride[1]*h+m,stride[2]*w+n)$$
 
 参数`kernel_size`，`stride`, `padding`，`dilation`数据类型：
 可以是`int`类型的数据，此时卷积height和width值相同;
-也可以是一个`tuple`数组（包含来两个`int`类型的数据），第一个`int`数据表示height的数值，`tuple`的第二个`int`类型的数据表示width的数值
+也可以是一个`tuple`数组(包含来两个`int`类型的数据），第一个`int`数据表示height的数值，`tuple`的第二个`int`类型的数据表示width的数值
 
 **参数：**
 
@@ -790,7 +790,7 @@ $$W_{out}=floor((W_{in} + 2*padding[2] - dilation[2]*(kernel\_size[2] - 1) - 1)/
 `MaxUnpool1d`输入`MaxPool1d`的输出，包括最大值的索引，并计算所有`maxpool1d`过程中非最大值被设置为零的部分的反向。
 
 **注意：**  
-`MaxPool1d`可以将多个输入大小映射到相同的输出大小。因此，反演过程可能会变得模棱两可。 为了适应这一点，可以在调用中将输出大小（`output_size`）作为额外的参数传入。 具体用法，请参阅下面的输入和示例
+`MaxPool1d`可以将多个输入大小映射到相同的输出大小。因此，反演过程可能会变得模棱两可。 为了适应这一点，可以在调用中将输出大小(`output_size`）作为额外的参数传入。 具体用法，请参阅下面的输入和示例
 
 **参数：**
 
@@ -841,7 +841,7 @@ $$H_{out}=(H_{in}-1)*stride[0]-2*padding[0]+kernel\_size[0]$$
 `MaxUnpool2d`的输入是`MaxPool2d`的输出，包括最大值的索引，并计算所有`maxpool2d`过程中非最大值被设置为零的部分的反向。
 
 **注意：**  
-`MaxPool2d`可以将多个输入大小映射到相同的输出大小。因此，反演过程可能会变得模棱两可。 为了适应这一点，可以在调用中将输出大小（`output_size`）作为额外的参数传入。具体用法，请参阅下面示例
+`MaxPool2d`可以将多个输入大小映射到相同的输出大小。因此，反演过程可能会变得模棱两可。 为了适应这一点，可以在调用中将输出大小(`output_size`）作为额外的参数传入。具体用法，请参阅下面示例
 
 **参数：**
 
@@ -899,7 +899,7 @@ $$W_{out}=(W_{in}-1)*stride[1]-2*padding[1]+kernel\_size[1]$$
 `MaxUnpool3d`的输入就是`MaxPool3d`的输出，包括最大值的索引，并计算所有`maxpool3d`过程中非最大值被设置为零的部分的反向。
 
 **注意：**    
-`MaxPool3d`可以将多个输入大小映射到相同的输出大小。因此，反演过程可能会变得模棱两可。为了适应这一点，可以在调用中将输出大小（`output_size`）作为额外的参数传入。具体用法，请参阅下面的输入和示例
+`MaxPool3d`可以将多个输入大小映射到相同的输出大小。因此，反演过程可能会变得模棱两可。为了适应这一点，可以在调用中将输出大小(`output_size`）作为额外的参数传入。具体用法，请参阅下面的输入和示例
 
 **参数：**
 
@@ -937,7 +937,7 @@ torch.Size([20, 16, 51, 33, 15])
 
 ### class torch.nn.AvgPool1d(kernel\_size, stride=None, padding=0, ceil\_mode=False, count\_include_pad=True)
 
-对信号的输入通道，提供1维平均池化（average pooling ）
+对信号的输入通道，提供1维平均池化(average pooling )
 输入信号的大小(N,C,L)，输出大小(N,C,L_out)和池化窗口大小k的关系是：    
 $$out(N_i,C_j,l)=1/k*\sum^{k}_{m=0}input(N_{i},C_{j},stride*l+m)$$     
 如果`padding`不是0，会在输入的每一边添加相应数目0
@@ -969,7 +969,7 @@ Variable containing:
 
 ### class torch.nn.AvgPool2d(kernel\_size, stride=None, padding=0, ceil\_mode=False, count\_include_pad=True)
 
-对信号的输入通道，提供2维的平均池化（average pooling ）  
+对信号的输入通道，提供2维的平均池化(average pooling )  
 输入信号的大小(N,C,H,W)，输出大小(N,C,H_out,W_out)和池化窗口大小(kH,kW)的关系是：          
 $$
 out(N_i,C_j,h,w)=1/(kH*kW)*\sum^{kH-1}_{m=0}\sum^{kW-1}_{n=0}input(N_{i},C_{j},stride[0]*h+m,stride[1]*w+n)$$       
@@ -1007,7 +1007,7 @@ $$
 
 ### class torch.nn.AvgPool3d(kernel\_size, stride=None)
 
-对信号的输入通道，提供3维的平均池化（`average pooling`）
+对信号的输入通道，提供3维的平均池化(`average pooling`）
 输入信号的大小(N,C,D,H,W)，输出大小(N,C,D_out,H_out,W_out)和池化窗口大小(kD,kH,kW)的关系是：    
 
 $$
@@ -1051,7 +1051,7 @@ $$
 
 **参数：**
 
-- kernel_size(`int` or `tuple`) - 最大池化操作时的窗口大小。可以是一个数字（表示`K*K`的窗口），也可以是一个元组（`kh*kw`）
+- kernel_size(`int` or `tuple`) - 最大池化操作时的窗口大小。可以是一个数字(表示`K*K`的窗口），也可以是一个元组(`kh*kw`）
 - output_size - 输出图像的尺寸。可以使用一个`tuple`指定(oH,oW)，也可以使用一个数字oH指定一个oH*oH的输出。
 - output_ratio – 将输入图像的大小的百分比指定为输出图片的大小，使用一个范围在(0,1)之间的数字指定   
 - return_indices - 默认值`False`，如果设置为`True`，会返回输出的索引，索引对  `nn.MaxUnpool2d`有用。
@@ -1077,7 +1077,7 @@ $$f(x)=pow(sum(X,p),1/p)$$
 参数`kernel_size`, `stride`的数据类型：
 
  - `int`，池化窗口的宽和高相等
- - `tuple`数组（两个数字的），一个元素是池化窗口的高，另一个是宽
+ - `tuple`数组(两个数字的），一个元素是池化窗口的高，另一个是宽
 
 
 **参数**
@@ -1128,7 +1128,7 @@ $$
 
 **参数：**
 
- - output_size: 输出信号的尺寸,可以用（H,W）表示`H*W`的输出，也可以使用数字`H`表示`H*H`大小的输出
+ - output_size: 输出信号的尺寸,可以用(H,W）表示`H*W`的输出，也可以使用数字`H`表示`H*H`大小的输出
  - return_indices: 如果设置为`True`，会返回输出的索引。对  `nn.MaxUnpool2d`有用，默认值是`False`
 
 **Example：**
@@ -1239,7 +1239,7 @@ shape：
 
 对输入的每一个元素运用函数$PReLU(x) = max(0,x) + a * min(0,x)$，`a`是一个可学习参数。当没有声明时，`nn.PReLU()`在所有的输入中只有一个参数`a`；如果是`nn.PReLU(nChannels)`，`a`将应用到每个输入。
 
-注意：当为了表现更佳的模型而学习参数`a`时不要使用权重衰减（weight decay）
+注意：当为了表现更佳的模型而学习参数`a`时不要使用权重衰减(weight decay）
 
 参数：
 
@@ -1493,7 +1493,7 @@ shape：
 ```
 > class torch.nn.Softmin [<font size=2>[source]</font>](https://pytorch.org/docs/_modules/torch/nn/modules/activation.html#Softmin)
 
-对n维输入张量运用Softmin函数，将张量的每个元素缩放到（0,1）区间且和为1。Softmin函数定义如下：
+对n维输入张量运用Softmin函数，将张量的每个元素缩放到(0,1）区间且和为1。Softmin函数定义如下：
 
 $$f_i(x) = \frac{e^{(-x_i - shift)}} { \sum^j e^{(-x_j - shift)}},shift = max (x_i)$$
 
@@ -1516,7 +1516,7 @@ shape：
 
 > class torch.nn.Softmax [<font size=2>[source]</font>](https://pytorch.org/docs/_modules/torch/nn/modules/activation.html#Softmax)
 
-对n维输入张量运用Softmax函数，将张量的每个元素缩放到（0,1）区间且和为1。Softmax函数定义如下：
+对n维输入张量运用Softmax函数，将张量的每个元素缩放到(0,1）区间且和为1。Softmax函数定义如下：
 
 $$f_i(x) = \frac{e^{(x_i - shift)}} { \sum^j e^{(x_j - shift)}},shift = max (x_i)$$
 
@@ -1525,7 +1525,7 @@ shape：
  - 输入：(N, L)
  - 输出：(N, L)
 
-返回结果是一个与输入维度相同的张量，每个元素的取值范围在（0,1）区间。
+返回结果是一个与输入维度相同的张量，每个元素的取值范围在(0,1）区间。
 
 例子：
 
@@ -1563,7 +1563,7 @@ shape：
 
 $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 
-在每一个小批量（mini-batch）数据中，计算输入各个维度的均值和标准差。gamma与beta是可学习的大小为C的参数向量（C为输入大小）
+在每一个小批量(mini-batch）数据中，计算输入各个维度的均值和标准差。gamma与beta是可学习的大小为C的参数向量(C为输入大小）
 
 在训练时，该层计算每次输入的均值与方差，并进行移动平均。移动平均默认的动量值为0.1。
 
@@ -1572,13 +1572,13 @@ $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 **参数：**
 
 - **num_features：** 来自期望输入的特征数，该期望输入的大小为'batch_size x num_features [x width]'
-- **eps：** 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。
+- **eps：** 为保证数值稳定性(分母不能趋近或取0）,给分母加上的值。默认为1e-5。
 - **momentum：** 动态均值和动态方差所使用的动量。默认为0.1。
 - **affine：** 一个布尔值，当设为true，给该层添加可学习的仿射变换参数。
 
 **Shape：**
-- 输入：（N, C）或者(N, C, L)
-- 输出：（N, C）或者（N，C，L）（输入输出相同）
+- 输入：(N, C）或者(N, C, L)
+- 输出：(N, C）或者(N，C，L）(输入输出相同）
 
 **例子**
 ```python
@@ -1597,7 +1597,7 @@ $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 
 $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 
-在每一个小批量（mini-batch）数据中，计算输入各个维度的均值和标准差。gamma与beta是可学习的大小为C的参数向量（C为输入大小）
+在每一个小批量(mini-batch）数据中，计算输入各个维度的均值和标准差。gamma与beta是可学习的大小为C的参数向量(C为输入大小）
 
 在训练时，该层计算每次输入的均值与方差，并进行移动平均。移动平均默认的动量值为0.1。
 
@@ -1606,13 +1606,13 @@ $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 **参数：**
 
 - **num_features：** 来自期望输入的特征数，该期望输入的大小为'batch_size x num_features x height x width'
-- **eps：** 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。
+- **eps：** 为保证数值稳定性(分母不能趋近或取0）,给分母加上的值。默认为1e-5。
 - **momentum：** 动态均值和动态方差所使用的动量。默认为0.1。
 - **affine：** 一个布尔值，当设为true，给该层添加可学习的仿射变换参数。
 
 **Shape：**
-- 输入：（N, C，H, W)
-- 输出：（N, C, H, W）（输入输出相同）
+- 输入：(N, C，H, W)
+- 输出：(N, C, H, W）(输入输出相同）
 
 **例子**
 ```python
@@ -1631,7 +1631,7 @@ $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 
 $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 
-在每一个小批量（mini-batch）数据中，计算输入各个维度的均值和标准差。gamma与beta是可学习的大小为C的参数向量（C为输入大小）
+在每一个小批量(mini-batch）数据中，计算输入各个维度的均值和标准差。gamma与beta是可学习的大小为C的参数向量(C为输入大小）
 
 在训练时，该层计算每次输入的均值与方差，并进行移动平均。移动平均默认的动量值为0.1。
 
@@ -1640,13 +1640,13 @@ $$ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta $$
 **参数：**
 
 - **num_features：** 来自期望输入的特征数，该期望输入的大小为'batch_size x num_features depth x height x width'
-- **eps：** 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。
+- **eps：** 为保证数值稳定性(分母不能趋近或取0）,给分母加上的值。默认为1e-5。
 - **momentum：** 动态均值和动态方差所使用的动量。默认为0.1。
 - **affine：** 一个布尔值，当设为true，给该层添加可学习的仿射变换参数。
 
 **Shape：**
-- 输入：（N, C，D, H, W)
-- 输出：（N, C, D, H, W）（输入输出相同）
+- 输入：(N, C，D, H, W)
+- 输出：(N, C, D, H, W）(输入输出相同）
 
 **例子**
 ```python
@@ -1742,7 +1742,7 @@ $h_t$是时刻$t$的隐状态,$c_t$是时刻$t$的细胞状态，$x_t$是上一�
 
 - hidden_size – 隐状态的特征维度
 
-- num_layers – 层数（和时序展开要区分开）
+- num_layers – 层数(和时序展开要区分开）
 
 - bias – 如果为`False`，那么`LSTM`将不会使用$b_{ih},b_{hh}$，默认为`True`。
 
@@ -2068,7 +2068,7 @@ class torch.nn.Dropout2d(p=0.5, inplace=False)
 
 *通常输入来自Conv2d模块。*
 
-像在论文[Efficient Object Localization Using Convolutional Networks](https://arxiv.org/abs/1411.4280)，如果特征图中相邻像素是强相关的（在前几层卷积层很常见），那么iid dropout不会归一化激活，而只会降低学习率。
+像在论文[Efficient Object Localization Using Convolutional Networks](https://arxiv.org/abs/1411.4280)，如果特征图中相邻像素是强相关的(在前几层卷积层很常见），那么iid dropout不会归一化激活，而只会降低学习率。
 
 在这种情形，`nn.Dropout2d()`可以提高特征图之间的独立程度，所以应该使用它。
 
@@ -2080,7 +2080,7 @@ class torch.nn.Dropout2d(p=0.5, inplace=False)
 **形状：**
 
 - **输入：**  \\((N, C, H, W)\\)
-- **输出：**  \\((N, C, H, W)\\)（与输入形状相同）
+- **输出：**  \\((N, C, H, W)\\)(与输入形状相同）
 
 **例子：**
 
@@ -2097,7 +2097,7 @@ class torch.nn.Dropout3d(p=0.5, inplace=False)
 
 *通常输入来自Conv3d模块。*
 
-像在论文[Efficient Object Localization Using Convolutional Networks](https://arxiv.org/abs/1411.4280)，如果特征图中相邻像素是强相关的（在前几层卷积层很常见），那么iid dropout不会归一化激活，而只会降低学习率。
+像在论文[Efficient Object Localization Using Convolutional Networks](https://arxiv.org/abs/1411.4280)，如果特征图中相邻像素是强相关的(在前几层卷积层很常见），那么iid dropout不会归一化激活，而只会降低学习率。
 
 在这种情形，`nn.Dropout3d()`可以提高特征图之间的独立程度，所以应该使用它。
 
@@ -2109,7 +2109,7 @@ class torch.nn.Dropout3d(p=0.5, inplace=False)
 **形状：**
 
 - **输入：**  \\(N, C, D, H, W)\\)
-- **输出：**  \\((N, C, D, H, W)\\)（与输入形状相同）
+- **输出：**  \\((N, C, D, H, W)\\)(与输入形状相同）
 
 **例子：**
 
@@ -2280,7 +2280,7 @@ $$
 
 如果提供的话，`weight`参数应该是一个`1-D`tensor，里面的值对应类别的权重。当你的训练集样本不均衡的话，使用这个参数是非常有用的。
 
-输入是一个包含类别`log-probabilities`的`2-D` tensor，形状是`（mini-batch， n）`
+输入是一个包含类别`log-probabilities`的`2-D` tensor，形状是`(mini-batch， n）`
 
 可以通过在最后一层加`LogSoftmax`来获得类别的`log-probabilities`。
 
@@ -2435,7 +2435,7 @@ x 和 y 可以是任何包含`n`个元素的tensor。默认情况下，求出来
 
 ### class torch.nn.SoftMarginLoss(size_average=True)[<font size=2>[source]</font>](https://pytorch.org/docs/_modules/torch/nn/modules/loss.html#SoftMarginLoss)
 
-创建一个标准，用来优化2分类的`logistic loss`。输入为 `x`（一个 2-D mini-batch Tensor）和 目标`y`（一个包含1或-1的Tensor）。
+创建一个标准，用来优化2分类的`logistic loss`。输入为 `x`(一个 2-D mini-batch Tensor）和 目标`y`(一个包含1或-1的Tensor）。
 $$
 loss(x, y) = \frac{1}{x.nelement()}\sum_i (log(1 + exp(-y[i]* x[i])))
 $$
@@ -2467,7 +2467,7 @@ $$
 如果`size_average=True` 求出的loss会对batch求均值，如果`size_average=False`的话，则会累加`loss`。默认情况`size_average=True`。
 
 ### class torch.nn.MultiMarginLoss(p=1, margin=1, weight=None, size_average=True)[<font size=2>[source]</font>](https://pytorch.org/docs/_modules/torch/nn/modules/loss.html#MultiMarginLoss)
-用来计算multi-class classification的hinge loss（magin-based loss）。输入是 `x`(2D mini-batch Tensor), `y`(1D Tensor)包含类别的索引， `0 <= y <= x.size(1))`。
+用来计算multi-class classification的hinge loss(magin-based loss）。输入是 `x`(2D mini-batch Tensor), `y`(1D Tensor)包含类别的索引， `0 <= y <= x.size(1))`。
 
 对每个mini-batch样本：
 $$
@@ -2597,13 +2597,13 @@ batch的大小应该大于所使用的GPU的数量。还应当是GPU个数的整
 
 请看: [Use nn.DataParallel instead of multiprocessing]()
 
-除了`Tensor`，任何位置参数和关键字参数都可以传到DataParallel中。所有的变量会通过指定的`dim`来划分（默认值为0）。原始类型将会被广播，但是所有的其它类型都会被浅复制。所以如果在模型的`forward`过程中写入的话，将会被损坏。
+除了`Tensor`，任何位置参数和关键字参数都可以传到DataParallel中。所有的变量会通过指定的`dim`来划分(默认值为0）。原始类型将会被广播，但是所有的其它类型都会被浅复制。所以如果在模型的`forward`过程中写入的话，将会被损坏。
 
 参数说明：
 
 - module – 要被并行的module
 - device_ids – CUDA设备，默认为所有设备。
-- output_device – 输出设备（默认为device_ids[0]）
+- output_device – 输出设备(默认为device_ids[0]）
 
 例子：
 ```python
@@ -2647,7 +2647,7 @@ All RNN modules accept packed sequences as inputs.
 ### torch.nn.utils.rnn.pack_padded_sequence(input, lengths, batch_first=False)[<font size=2>[source]</font>](https://pytorch.org/docs/_modules/torch/nn/utils/rnn.html#PackedSequence)
 
 这里的`pack`，理解成压紧比较好。
-将一个 填充过的变长序列 压紧。（填充时候，会有冗余，所以压紧一下）
+将一个 填充过的变长序列 压紧。(填充时候，会有冗余，所以压紧一下）
 
 输入的形状可以是(T×B×* )。`T`是最长序列长度，`B`是`batch size`，`*`代表任意维度(可以是0)。如果`batch_first=True`的话，那么相应的 `input size` 就是 `(B×T×*)`。
 

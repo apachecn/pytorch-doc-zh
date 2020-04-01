@@ -6,15 +6,18 @@
 <br/>
 <table>
   <tr align="center">
-    <td colspan="3"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">正在校验: 1.2 中文版本</font></a></td>
+    <td colspan="4"><a title="Pytorch 1.4 中文版本" href="https://pytorch.apachecn.org/docs/1.4/" target="_blank"><font size="5">正在校验: 1.4 中文版本</font></a></td>
   </tr>
   <tr align="center">
-    <td><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
-    <td><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
-    <td><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/master/" target="_blank"><font size="5">最新 英文文档</font></a></td>
+    <td colspan="2"><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
+    <td colspan="2"><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/master/" target="_blank"><font size="5">最新 英文文档</font></a></td>
   </tr>
   <tr align="center">
-    <td><a title="Pytorch 0.4 中文版本" href="https://pytorch.apachecn.org/docs/0.4/" target="_blank"><font size="5">0.4 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">1.2 中文版本</font></a></td>
+  </tr>
+  <tr align="center">
+    <td colspan="2"><a title="Pytorch 0.4 中文版本" href="https://pytorch.apachecn.org/docs/0.4/" target="_blank"><font size="5">0.4 中文版本</font></a></td>
     <td><a title="Pytorch 0.3 中文版本" href="https://pytorch.apachecn.org/docs/0.3/" target="_blank"><font size="5">0.3 中文版本</font></a></td>
     <td><a title="Pytorch 0.2 中文版本" href="https://pytorch.apachecn.org/docs/0.2/" target="_blank"><font size="5">0.2 中文版本</font></a></td>
   </tr>
@@ -31,6 +34,7 @@
 
 * [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
 * [PyTorch V1.3 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
+* [PyTorch V1.4 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4.html)
 
 > PyTorch 官方入口
 
@@ -40,13 +44,13 @@
 
 ## 贡献指南
 
-项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/422)中领取任务。
+项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/487)中领取任务。
 
-> 请您勇敢地去翻译和改进翻译。虽然我们追求卓越，但我们并不要求您做到十全十美，因此请不要担心因为翻译上犯错——在大部分情况下，我们的服务器已经记录所有的翻译，因此您不必担心会因为您的失误遭到无法挽回的破坏。（改编自维基百科）
+> 请您勇敢地去翻译和改进翻译。虽然我们追求卓越，但我们并不要求您做到十全十美，因此请不要担心因为翻译上犯错——在大部分情况下，我们的服务器已经记录所有的翻译，因此您不必担心会因为您的失误遭到无法挽回的破坏。(改编自维基百科）
 
 ## 项目看板
 
-> 项目 PyTorch 1.2 看板
+> 项目 PyTorch 1.4 看板
 
 * 负责人: 记得更新和优化
 * 地址: https://github.com/apachecn/pytorch-doc-zh/projects/2
@@ -60,7 +64,7 @@
 
 格式: GitHub + QQ
 
-> 第4期 1.2 (2019-09-17)
+> 第4期 1.2/1.4 (2019-09-17)
 
 * [片刻](https://github.com/jiangzhonglian): 529815144
 * [Alex](https://github.com/AlexJakin): 1272296763
@@ -105,6 +109,13 @@
 * 在我们的 [apachecn/pytorch-doc-zh](https://github.com/apachecn/pytorch-doc-zh) github 上提 issue.
 * 发邮件到 Email: `apachecn@163.com`.
 * 在我们的 [QQ群: 加入方式](https://docs.apachecn.org/join) 中联系群主/管理员即可.
+
+## 关于转载
+
+* **最近有很多人联系我们，关于内容授权问题！**
+* 开源是指知识应该重在传播和迭代（而不是禁止别人转载）
+* 不然你TM在GitHub开源，然后又说不让转载，你TM有病吧！
+* 禁止商业化，符合协议规范，备注地址来源，**重点: 不需要**发邮件给我们申请
 
 ## 赞助我们
 

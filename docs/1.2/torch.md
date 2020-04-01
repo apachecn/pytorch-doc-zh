@@ -2,7 +2,7 @@
 
 > 译者：[@那伊抹微笑](https://github.com/wangyangting)、@yudong、[@小瑶](https://github.com/chenyyx)、[@片刻](https://github.com/jiangzhonglian)、[@李雨龙](https://github.com/sawyer7246)、[@K](https://github.com/YaoSam) [@devin](https://github.com/EVYang1992)、[@张假飞](https://github.com/nothingcouldbebetter)、[@rickllyxu](https://github.com/rickllyxu)
 > 
-> 校对者：[@张假飞](https://github.com/nothingcouldbebetter)、[@飞龙](https://github.com/wizardforcel)
+> 校验者：[@张假飞](https://github.com/nothingcouldbebetter)、[@飞龙](https://github.com/wizardforcel)
 
 torch package 包含了多维张量的数据结构, 以及基于其上的多种数学操作. 此外, 它还提供了许多用于高效序列化 Tensor 和任意类型的实用工具包, 以及一起其它有用的实用工具包.
 
@@ -357,7 +357,7 @@ torch.range(start, end, step=1, out=None) → Tensor
 torch.zeros(*sizes, out=None) → Tensor
 ```
 
-返回填充了标量值为 `0` 的 Tensor, 其形状由可变参量 `sizes` 定义.
+返回填充了标量值为 `0` 的 Tensor, 其形状由可变参数 `sizes` 定义.
 
 参数：
 
@@ -720,7 +720,7 @@ torch.stack(sequence, dim=0, out=None)
 参数：
 
 *   `sequence (_Sequence_)` – 待连接的张量序列.
-*   `dim (int)` – 插入的维度.必须介于 0 与待连接的张量序列数（包含）之间.
+*   `dim (int)` – 插入的维度.必须介于 0 与待连接的张量序列数(包含）之间.
 
 
 

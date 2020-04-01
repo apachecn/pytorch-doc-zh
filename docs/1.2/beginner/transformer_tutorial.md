@@ -1,6 +1,10 @@
 # 序列对序列建模nn.Transformer和TorchText
 
- 本教程将会使用[ nn.Transformer ](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformer#torch.nn.Transformer)模块训练一个序列到序列模型。
+> 译者：[dabney777](https://github.com/dabney777)
+> 
+> 校验：[dabney777](https://github.com/dabney777)
+
+本教程将会使用[ nn.Transformer ](https://pytorch.org/docs/master/nn.html?highlight=nn%20transformer#torch.nn.Transformer)模块训练一个序列到序列模型。
 
 PyTorch 1.2 版本依据论文 [ Attention is All You Need ](https://arxiv.org/pdf/1706.03762.pdf)发布了标准的 transformer 模型。Transformer 模型已被证明在解决序列到序列问题时效果优异。
 
@@ -10,7 +14,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ## 定义模型
 
-在本教程中，我们训练 `nn.TransformerEncoder` 用于构建语言模型。语言模型的目标是对给定字/词序列打分，判断该字/词序列出现在文本中的概率。字符序列首先会被传进 embedding 层转化为向量，然后被传入位置编码层 （详见下段）。 `nn.TransformerEncoder` 由多个编码层[nn.TransformerEncoderLayer](https://pytorch.org/docs/master/nn.html?highlight=transformerencoderlayer#torch.nn.TransformerEncoderLayer)组成。对输入序列的每一维需要施加一个自注意力权重影响。`nn.TransformerEncoder` 的自注意力权重只影响序列中靠前的数据，不修改之后位置的数据。在本任务中，`nn.TransformerEncoder` 的输出将会被送至最终的线性层，该层为一个 log-Softmax 层。
+在本教程中，我们训练 `nn.TransformerEncoder` 用于构建语言模型。语言模型的目标是对给定字/词序列打分，判断该字/词序列出现在文本中的概率。字符序列首先会被传进 embedding 层转化为向量，然后被传入位置编码层 (详见下段）。 `nn.TransformerEncoder` 由多个编码层[nn.TransformerEncoderLayer](https://pytorch.org/docs/master/nn.html?highlight=transformerencoderlayer#torch.nn.TransformerEncoderLayer)组成。对输入序列的每一维需要施加一个自注意力权重影响。`nn.TransformerEncoder` 的自注意力权重只影响序列中靠前的数据，不修改之后位置的数据。在本任务中，`nn.TransformerEncoder` 的输出将会被送至最终的线性层，该层为一个 log-Softmax 层。
 
     
     
@@ -84,7 +88,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
 
 ## 加载和整合数据
 
-训练过程中使用的数据机是从 `torchtext` 中得到的wikitext的-2数据集。词典对象基于训练数据集进行构建。`batchify（）` 函数把数据集中的数据排到多个列中，在划分成多个大小为 `batch_size` 的集合后，剩下的少于 `batch_size` 个数据会被丢弃。例如，对于字母序列（长度为26, `batch_size` 为4），将按照以下方法划分：
+训练过程中使用的数据机是从 `torchtext` 中得到的wikitext的-2数据集。词典对象基于训练数据集进行构建。`batchify(）` 函数把数据集中的数据排到多个列中，在划分成多个大小为 `batch_size` 的集合后，剩下的少于 `batch_size` 个数据会被丢弃。例如，对于字母序列(长度为26, `batch_size` 为4），将按照以下方法划分：
 
 \\[\begin{split}\begin{bmatrix} \text{A} & \text{B} & \text{C} & \ldots &
 \text{X} & \text{Y} & \text{Z} \end{bmatrix} \Rightarrow \begin{bmatrix}
@@ -324,7 +328,7 @@ nn.Transformer 模块通过注意力机制([ nn.MultiheadAttention ](https://pyt
     =========================================================================================
     
 
-**脚本的总运行时间：** （5分钟38.763秒）
+**脚本的总运行时间：** (5分钟38.763秒）
 
 [`Download Python source code:transformer_tutorial.py`](../_downloads/f53285338820248a7c04a947c5110f7b/transformer_tutorial.py)
 

@@ -1,8 +1,8 @@
-# 4.（可选）从导出到PyTorch一个ONNX模型并使用运行它ONNX运行时
+# 4.(可选）从导出到PyTorch一个ONNX模型并使用运行它ONNX运行时
 
 在本教程中，我们将介绍如何在PyTorch定义的模型转换成ONNX格式，然后用ONNX运行时运行它。
 
-ONNX运行时是ONNX模型，跨多个平台和硬件（在Windows，Linux和Mac和两个CPU和GPU）有效地推论一个注重性能的发动机。
+ONNX运行时是ONNX模型，跨多个平台和硬件(在Windows，Linux和Mac和两个CPU和GPU）有效地推论一个注重性能的发动机。
 ONNX运行时已被证明大大增加了多种型号的性能，解释[此处](https://cloudblogs.microsoft.com/opensource/2019/05/22/onnx-
 runtime-machine-learning-inferencing-0-4-release)
 
@@ -68,9 +68,9 @@ source)
     torch_model = SuperResolutionNet(upscale_factor=3)
     
 
-通常情况下，你现在会训练这个模型;然而，在本教程中，我们反而会下载一些预训练的权重。请注意，这种模式并没有良好的精度全面培训，在这里仅用于演示目的。
+通常情况下，你现在会训练这个模型;然而，在本教程中，我们反而会下载一些预训练的权重。请注意，这种模式并没有良好的精度全面训练，在这里仅用于演示目的。
 
-它调用`torch_model.eval（） `或`torch_model.train（假）
+它调用`torch_model.eval(） `或`torch_model.train(假）
 `导出模型前，把该模型是非常重要的推论模式。既然喜欢在不同的推断和训练模式辍学或batchnorm运营商的行为，这是必需的。
 
     
@@ -89,10 +89,10 @@ source)
     torch_model.eval()
     
 
-导出在PyTorch模型通过跟踪或脚本作品。这个教程将作为一个例子使用由跟踪导出的模型。要导出模型，我们称之为`torch.onnx.export（）
+导出在PyTorch模型通过跟踪或脚本作品。这个教程将作为一个例子使用由跟踪导出的模型。要导出模型，我们称之为`torch.onnx.export(）
 `功能。这将执行模式，记录的是什么运营商来计算输出跟踪。因为`出口 `运行模型，我们需要提供一个输入张量`×
 [HTG11。只要它是正确的类型和尺寸在此的值可以是随机的。注意，输入尺寸将被固定在导出ONNX图形用于将输入的所有维的，除非指定为动态轴。在这个例子中，我们用的batch_size
-1的输入导出模型，但然后指定所述第一尺寸为动态在`dynamic_axes`参数`torch.onnx.export （）
+1的输入导出模型，但然后指定所述第一尺寸为动态在`dynamic_axes`参数`torch.onnx.export (）
 `。由此导出的模型将接受尺寸的输入[batch_size时，1，224，224]，其中的batch_size可以是可变的。`
 
 要了解PyTorch的出口接口的详细信息，请查看[
@@ -120,10 +120,10 @@ torch.onnx文献[HTG1。](https://pytorch.org/docs/master/onnx.html)
 我们还计算`torch_out`，该模型，我们将用它来验证ONNX运行中运行时，我们出口的模型计算相同的值后输出。
 
 但在验证模型与ONNX运行时输出之前，我们将检查与ONNX的API的ONNX模型。首先，`
-onnx.load（“super_resolution.onnx”）
-`将加载保存的模型和将输出一个onnx.ModelProto结构（用于捆绑一个ML一个顶层文件/容器格式模型。详细信息[
+onnx.load(“super_resolution.onnx”）
+`将加载保存的模型和将输出一个onnx.ModelProto结构(用于捆绑一个ML一个顶层文件/容器格式模型。详细信息[
 onnx.proto文档](https://github.com/onnx/onnx/blob/master/onnx/onnx.proto)）。然后，`
-onnx.checker.check_model（onnx_model）HTG8]
+onnx.checker.check_model(onnx_model）HTG8]
 `将验证模型的结构，并确认该模型有一个有效的模式。所述ONNX图表的有效性是通过检查模型的版本，图的结构，以及作为节点，其输入和输出验证。
 
     
@@ -136,7 +136,7 @@ onnx.checker.check_model（onnx_model）HTG8]
 
 现在，让我们计算使用ONNX运行的Python的API的输出。这一部分通常可以在一个单独的进程或另一台机器上完成，但我们会继续以同样的过程，使我们可以验证ONNX运行和PyTorch被计算为网络相同的值。
 
-为了运行与ONNX运行模式，我们需要与所选择的配置参数（在这里我们使用默认配置）创建模型推断会话。一旦会话创建，我们评估使用的run（）API模型。这个调用的输出是含有ONNX运行时计算出的模型的输出列表。
+为了运行与ONNX运行模式，我们需要与所选择的配置参数(在这里我们使用默认配置）创建模型推断会话。一旦会话创建，我们评估使用的run(）API模型。这个调用的输出是含有ONNX运行时计算出的模型的输出列表。
 
     
     
@@ -157,7 +157,7 @@ onnx.checker.check_model（onnx_model）HTG8]
     print("Exported model has been tested with ONNXRuntime, and the result looks good!")
     
 
-我们应该看到，PyTorch和ONNX运行时的输出数值上运行，与之相匹配的给定精度（RTOL = 1E-03和蒂=
+我们应该看到，PyTorch和ONNX运行时的输出数值上运行，与之相匹配的给定精度(RTOL = 1E-03和蒂=
 1E-05）。作为一个侧面说明，如果他们不匹配，则有在ONNX出口的问题，请与我们联系在这种情况下。
 
 ## 运行使用图像上的模型ONNX运行时
@@ -168,9 +168,9 @@ onnx.checker.check_model（onnx_model）HTG8]
 
 ![cat](img/cat_224x224.jpg)
 
-首先，让我们使用标准的PIL Python库加载图像，预先对其进行处理。请注意，这是预处理的数据处理培训/测试神经网络的标准做法。
+首先，让我们使用标准的PIL Python库加载图像，预先对其进行处理。请注意，这是预处理的数据处理训练/测试神经网络的标准做法。
 
-我们首先调整图像的大小，以适应模型的输入（224x224）的大小。然后我们图象分成了Y，Cb和Cr分量。这些组件代表灰度图像（Y）和蓝色差（Cb）和红色差（Cr）的色度分量。
+我们首先调整图像的大小，以适应模型的输入(224x224）的大小。然后我们图象分成了Y，Cb和Cr分量。这些组件代表灰度图像(Y）和蓝色差(Cb）和红色差(Cr）的色度分量。
 Y分量是对人眼更敏感，我们感兴趣的是这部分，我们将改造。提取Y分量后，我们把它转换成这将是我们模型的输入张量。
 
     
@@ -230,7 +230,7 @@ performance)更多信息。
 
 有关ONNX运行[此处](https://github.com/microsoft/onnxruntime)更多信息。
 
-**脚本的总运行时间：** （0分钟0.000秒）
+**脚本的总运行时间：** (0分钟0.000秒）
 
 [`Download Python source code:
 super_resolution_with_onnxruntime.py`](../_downloads/58ce6e85b9b9e9647d302d6b48feccb0/super_resolution_with_onnxruntime.py)
@@ -261,7 +261,7 @@ Thank you
 
 
 
-  * [HTG0 （可选）将模型从PyTorch导出到ONNX并使用ONNX Runtime运行	
+  * [HTG0 (可选）将模型从PyTorch导出到ONNX并使用ONNX Runtime运行	
     * 运行使用ONNX运行时的图像上的模型
 
 ![](https://www.facebook.com/tr?id=243028289693773&ev=PageView

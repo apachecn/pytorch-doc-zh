@@ -8,7 +8,7 @@
 
 本教程将介绍如何是`seq2seq`模型转换为PyTorch可用的前端混合Torch脚本。 我们要转换的模型是来自于聊天机器人教程 [Chatbot tutorial](https://pytorch.org/tutorials/beginner/chatbot_tutorial.html). 你可以把这个教程当做Chatbot tutorial的第二篇章,并且部署你的预训练模型，或者你也可以依据本文使用我们采取的预训练模型。就后者而言，你可以从原始的Chatbot tutorial参考更详细的数据预处理，模型理论和定义以及模型训练。
 
-## 什么是混合前端（Hybrid Frontend）?
+## 什么是混合前端(Hybrid Frontend）?
 
 在一个基于深度学习项目的研发阶段, 使用像PyTorch这样**即时**`eager`、命令式的界面进行交互能带来很大便利。 这使用户能够在使用Python数据结构、控制流操作、打印语句和调试实用程序时通过熟悉的、惯用的Python脚本编写。尽管即时性界面对于研究和试验应用程序是一个有用的工具，但是对于生产环境中部署模型时，使用**基于图形**`graph-based`的模型表示将更加适用的。 一个延迟的图型展示意味着可以优化，比如无序执行操作，以及针对高度优化的硬件架构的能力。 此外，基于图形的表示支持框架无关的模型导出。PyTorch提供了将即时模式的代码增量转换为Torch脚本的机制，Torch脚本是一个在Python中的静态可分析和可优化的子集，Torch使用它来在Python运行时独立进行深度学习。
 

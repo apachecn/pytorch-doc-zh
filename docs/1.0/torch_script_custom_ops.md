@@ -4,17 +4,17 @@
 > 
 > 译者：[ApacheCN](https://github.com/apachecn)
 
-PyTorch1.0版本向 PyTorch 引入了一个名为 [TorchScript]（https://pytorch.org/docs/master/jit.html）的新编程模型。TorchScript是Python编程语言的一个子集，可以通过TorchScript编译器进行解析，编译和优化。此外，已编译的TorchScript模型可以选择序列化为磁盘文件格式，您可以随后从纯C++（以及Python）程序进行加载和运行以进行推理。
+PyTorch1.0版本向 PyTorch 引入了一个名为 [TorchScript](https://pytorch.org/docs/master/jit.html）的新编程模型。TorchScript是Python编程语言的一个子集，可以通过TorchScript编译器进行解析，编译和优化。此外，已编译的TorchScript模型可以选择序列化为磁盘文件格式，您可以随后从纯C++(以及Python）程序进行加载和运行以进行推理。
 
-TorchScript支持由`torch`包提供的大量操作，允许您将多种复杂模型纯粹表示为PyTorch的“标准库”中的一系列张量运算。然而，有时您可能会发现需要使用自定义C ++或CUDA函数扩展TorchScript。虽然我们建议您使用此这个选项时只在您的想法无法（足够有效）表达为一个简单的Python函数时，我们确实提供了一个非常友好和简单的界面，使用[ATen](https//pytorch.org/cppdocs/#aten) 定义自定义C++ 和 CUDA 内核，PyTorch 的高性能C ++张量库。一旦绑定到TorchScript，您可以将这些自定义内核(或“ops”)嵌入到您的TorchScript模型中，并以Python和c++的序列化形式直接执行它们。
+TorchScript支持由`torch`包提供的大量操作，允许您将多种复杂模型纯粹表示为PyTorch的“标准库”中的一系列张量运算。然而，有时您可能会发现需要使用自定义C ++或CUDA函数扩展TorchScript。虽然我们建议您使用此这个选项时只在您的想法无法(足够有效）表达为一个简单的Python函数时，我们确实提供了一个非常友好和简单的界面，使用[ATen](https//pytorch.org/cppdocs/#aten) 定义自定义C++ 和 CUDA 内核，PyTorch 的高性能C ++张量库。一旦绑定到TorchScript，您可以将这些自定义内核(或“ops”)嵌入到您的TorchScript模型中，并以Python和c++的序列化形式直接执行它们。
 
-以下段落给出了一个编写TorchScript自定义操作的示例，以调用[OpenCV]（https://www.opencv.org），这是一个用C ++编写的计算机视觉库。我们将讨论如何在C ++中使用张量，如何有效地将它们转换为第三方张量格式（在这种情况下，OpenCV [``]（＃id1）Mat``s），如何在TorchScript运行时注册运算符，最后如何编译运算符并在Python和C ++中使用它。
+以下段落给出了一个编写TorchScript自定义操作的示例，以调用[OpenCV](https://www.opencv.org），这是一个用C ++编写的计算机视觉库。我们将讨论如何在C ++中使用张量，如何有效地将它们转换为第三方张量格式(在这种情况下，OpenCV [``](＃id1）Mat``s），如何在TorchScript运行时注册运算符，最后如何编译运算符并在Python和C ++中使用它。
 
-本教程假设您通过`pip`或`conda`安装了PyTorch 1.0的_preview release_。有关获取最新版PyTorch 1.0 \的说明，请参阅 [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally）。或者，您可以从源代码编译PyTorch。[此文件]（https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md）中的文档将为您提供帮助。
+本教程假设您通过`pip`或`conda`安装了PyTorch 1.0的_preview release_。有关获取最新版PyTorch 1.0 \的说明，请参阅 [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally）。或者，您可以从源代码编译PyTorch。[此文件](https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md）中的文档将为您提供帮助。
 
 ##在C ++中实现自定义运算符
 
-对于本教程，我们将公开[warpPerspective]（https://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective）函数，该函数将透视变换应用于图像， OpenCV to TorchScript作为自定义运算符。第一步是用C ++编写自定义运算符的实现。让我们调用这个实现`op.cpp`的文件，并使它看起来像这样：
+对于本教程，我们将公开[warpPerspective](https://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective）函数，该函数将透视变换应用于图像， OpenCV to TorchScript作为自定义运算符。第一步是用C ++编写自定义运算符的实现。让我们调用这个实现`op.cpp`的文件，并使它看起来像这样：
 
 ```py
 #include <opencv2/opencv.hpp>
@@ -40,11 +40,11 @@ torch::Tensor warp_perspective(torch::Tensor image, torch::Tensor warp) {
 ```
 
 
-该运算符的代码很短。在文件的顶部，我们包含OpenCV头文件 `opencv2/opencv.hpp`，以及 `torch/script.h` 头文件，它展示了我们需要编写自定义TorchScript运算符的 PyTorch C++ API所需的所有好东西.我们的函数 `warp_perspective` 有两个参数：输入`image`和我们希望应用于图像的`warp`变换矩阵。这些输入的类型是`torch::Tensor`，PyTorch在C++中的张量类型（它也是Python中所有张量的基础类型）。我们的`warp_perspective`函数的返回类型也将是`torch::Tensor`。
+该运算符的代码很短。在文件的顶部，我们包含OpenCV头文件 `opencv2/opencv.hpp`，以及 `torch/script.h` 头文件，它展示了我们需要编写自定义TorchScript运算符的 PyTorch C++ API所需的所有好东西.我们的函数 `warp_perspective` 有两个参数：输入`image`和我们希望应用于图像的`warp`变换矩阵。这些输入的类型是`torch::Tensor`，PyTorch在C++中的张量类型(它也是Python中所有张量的基础类型）。我们的`warp_perspective`函数的返回类型也将是`torch::Tensor`。
 
 提示
 
-有关ATen的更多信息，请参阅[本说明]（https://pytorch.org/cppdocs/notes/tensor_basics.html），ATen是为PyTorch提供`Tensor`类的库。此外，[本教程]（https://pytorch.org/cppdocs/notes/tensor_creation.html）描述了如何在C ++中分配和初始化新的张量对象（此运算符不需要）。
+有关ATen的更多信息，请参阅[本说明](https://pytorch.org/cppdocs/notes/tensor_basics.html），ATen是为PyTorch提供`Tensor`类的库。此外，[本教程](https://pytorch.org/cppdocs/notes/tensor_creation.html）描述了如何在C ++中分配和初始化新的张量对象(此运算符不需要）。
 
 注意
 
@@ -60,7 +60,7 @@ cv::Mat image_mat(/*rows=*/image.size(0),
 
 ```
 
-我们正在调用OpenCV `Mat` 类的 [这个构造函数](https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e) 将我们的张量转换为`Mat`对象。我们传递原始`image` tensor的行数和列数，数据类型（我们将在本例中将其定义为`float32`），最后是一个指向底层数据的原始指针 - 一个`float *`。`Mat`类的这个构造函数的特殊之处在于它不复制输入数据。相反，它将简单地为在“Mat”上执行的所有操作引用该内存。如果对`image_mat`执行in-place操作，则这将反映在原始`image`张量中（反之亦然）。这允许我们使用库的本机矩阵类型调用后续的OpenCV例程，即使我们实际上将数据存储在PyTorch张量中。我们重复此过程将`warp` PyTorch张量转换为`warp_mat` OpenCV矩阵：
+我们正在调用OpenCV `Mat` 类的 [这个构造函数](https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e) 将我们的张量转换为`Mat`对象。我们传递原始`image` tensor的行数和列数，数据类型(我们将在本例中将其定义为`float32`），最后是一个指向底层数据的原始指针 - 一个`float *`。`Mat`类的这个构造函数的特殊之处在于它不复制输入数据。相反，它将简单地为在“Mat”上执行的所有操作引用该内存。如果对`image_mat`执行in-place操作，则这将反映在原始`image`张量中(反之亦然）。这允许我们使用库的本机矩阵类型调用后续的OpenCV例程，即使我们实际上将数据存储在PyTorch张量中。我们重复此过程将`warp` PyTorch张量转换为`warp_mat` OpenCV矩阵：
 
 ```
 cv::Mat warp_mat(/*rows=*/warp.size(0),
@@ -70,7 +70,7 @@ cv::Mat warp_mat(/*rows=*/warp.size(0),
 
 ```
 
-接下来，我们准备调用我们非常渴望在TorchScript中使用的OpenCV函数：`warpPerspective`。为此，我们传递OpenCV函数`image_mat`和`warp_mat`矩阵，以及一个名为`output_mat`的空输出矩阵。我们还指定了我们想要输出矩阵（图像）的大小`dsize`。对于此示例，它被硬编码为`8 x 8`：
+接下来，我们准备调用我们非常渴望在TorchScript中使用的OpenCV函数：`warpPerspective`。为此，我们传递OpenCV函数`image_mat`和`warp_mat`矩阵，以及一个名为`output_mat`的空输出矩阵。我们还指定了我们想要输出矩阵(图像）的大小`dsize`。对于此示例，它被硬编码为`8 x 8`：
 
 ```
 cv::Mat output_mat;
@@ -85,7 +85,7 @@ torch::from_blob(output_mat.ptr<float>(), /*sizes=*/{8, 8})
 
 ```
 
-我们在OpenCV `Mat`类上使用`.ptr&lt;float&gt;()`方法来获取指向底层数据的原始指针（就像之前的PyTorch张量的`.data&lt;float&gt;()`一样）。我们还指定了张量的输出形状，我们将其硬编码为`8 x 8`。然后`torch::from_blob`的输出为`torch::Tensor`，指向OpenCV矩阵拥有的内存。
+我们在OpenCV `Mat`类上使用`.ptr&lt;float&gt;()`方法来获取指向底层数据的原始指针(就像之前的PyTorch张量的`.data&lt;float&gt;()`一样）。我们还指定了张量的输出形状，我们将其硬编码为`8 x 8`。然后`torch::from_blob`的输出为`torch::Tensor`，指向OpenCV矩阵拥有的内存。
 
 在从运算符实现返回此张量之前，我们必须在张量上调用`.clone()`来执行基础数据的内存复制。原因是`torch::from_blob`返回不拥有其数据的张量。此时，数据仍归OpenCV矩阵所有。但是，此OpenCV矩阵将超出范围并在函数末尾取消分配。如果我们按原样返回`output`张量，那么当我们在函数外部使用它时，它将指向无效的内存。调用`.clone()`返回一个新的张量，其中包含新张量所拥有的原始数据的副本。因此返回外部世界是安全的。
 
@@ -99,7 +99,7 @@ static auto registry =
 
 ```
 
-在我们的`op.cpp`文件的全局范围内的某个地方。这将创建一个全局变量`registry`，它将在其构造函数中使用TorchScript注册我们的运算符（即每个程序只注册一次）。我们指定运算符的名称，以及指向其实现的指针（我们之前编写的函数）。该名称由两部分组成：_namespace_（`my_ops`）和我们正在注册的特定运算符的名称（`warp_perspective`）。命名空间和运算符名称由两个冒号（`::`）分隔。
+在我们的`op.cpp`文件的全局范围内的某个地方。这将创建一个全局变量`registry`，它将在其构造函数中使用TorchScript注册我们的运算符(即每个程序只注册一次）。我们指定运算符的名称，以及指向其实现的指针(我们之前编写的函数）。该名称由两部分组成：_namespace_(`my_ops`）和我们正在注册的特定运算符的名称(`warp_perspective`）。命名空间和运算符名称由两个冒号(`::`）分隔。
 
 注意
 
@@ -113,11 +113,11 @@ static auto registry =
 
 ```
 
-在后台，`RegisterOperators`将执行一些相当复杂的C++模板元编程魔术技巧来推断我们传递它的函数指针的参数和返回值类型（`&warp_perspective`）。该信息用于为我们的运营商形成 _function schema_。函数模式是运算符的结构化表示 - 一种“签名”或“原型” - 由 TorchScript 编译器用于验证 TorchScript程序中的正确性。
+在后台，`RegisterOperators`将执行一些相当复杂的C++模板元编程魔术技巧来推断我们传递它的函数指针的参数和返回值类型(`&warp_perspective`）。该信息用于为我们的运营商形成 _function schema_。函数模式是运算符的结构化表示 - 一种“签名”或“原型” - 由 TorchScript 编译器用于验证 TorchScript程序中的正确性。
 
 ## 构建自定义运算符
 
-现在我们已经用C++ 实现了我们的自定义运算符并编写了它的注册代码，现在是时候将运算符构建到一个（共享）库中，我们可以将它加载到Python中进行研究和实验，或者加载到C ++中以便在非Python中进行推理环境。使用纯CMake或像`setuptools`这样的Python替代方法，存在多种构建运算符的方法。为简洁起见，以下段落仅讨论CMake方法。本教程的附录深入研究了基于Python的替代方案。
+现在我们已经用C++ 实现了我们的自定义运算符并编写了它的注册代码，现在是时候将运算符构建到一个(共享）库中，我们可以将它加载到Python中进行研究和实验，或者加载到C ++中以便在非Python中进行推理环境。使用纯CMake或像`setuptools`这样的Python替代方法，存在多种构建运算符的方法。为简洁起见，以下段落仅讨论CMake方法。本教程的附录深入研究了基于Python的替代方案。
 
 ### 用CMake建设
 
@@ -239,7 +239,7 @@ tensor([[0.0000, 0.3218, 0.4611,  ..., 0.4636, 0.4636, 0.4636],
 
 注意
 
-幕后发生的事情是，第一次在Python中访问`torch.ops.namespace.function`时，TorchScript编译器（在C ++版本中）将查看是否已注册函数`namespace::function`，如果已注册，则返回此函数的Python句柄，我们随后可以使用从Python调用我们的C ++运算符实现。这是TorchScript自定义运算符和C ++扩展之间的一个值得注意的区别：C ++扩展使用pybind11手动绑定，而TorchScript自定义ops由PyTorch本身绑定。 Pybind11为您提供了更多关于可以绑定到Python的类型和类的灵活性，因此建议用于纯粹的热切代码，但TorchScript操作不支持它。
+幕后发生的事情是，第一次在Python中访问`torch.ops.namespace.function`时，TorchScript编译器(在C ++版本中）将查看是否已注册函数`namespace::function`，如果已注册，则返回此函数的Python句柄，我们随后可以使用从Python调用我们的C ++运算符实现。这是TorchScript自定义运算符和C ++扩展之间的一个值得注意的区别：C ++扩展使用pybind11手动绑定，而TorchScript自定义ops由PyTorch本身绑定。 Pybind11为您提供了更多关于可以绑定到Python的类型和类的灵活性，因此建议用于纯粹的热切代码，但TorchScript操作不支持它。
 
 从这里开始，您可以在脚本或跟踪代码中使用自定义运算符，就像使用`torch`包中的其他函数一样。实际上，像`torch.matmul`这样的“标准库”函数与自定义运算符的注册路径大致相同，这使得自定义运算符在TorchScript中的使用方式和位置方面确实是一流公民。
 
@@ -310,7 +310,7 @@ graph(%x.1 : Float(4, 8)
 
 ### 使用自定义操作符和脚本
 
-除了跟踪之外，另一种获得PyTorch程序的TorchScript表示的方法是直接在 TorchScript中编写代码_。 TorchScript在很大程度上是Python语言的一个子集，但有一些限制使得TorchScript编译器更容易推理程序。通过使用`@torch.jit.script`为自由函数和`@torch.jit.script_method`为类中的方法（必须也从`torch.jit.ScriptModule`派生）注释，将常规PyTorch代码转换为TorchScript。有关TorchScript注释的更多详细信息，请参见[此处](https://pytorch.org/docs/master/jit.html)
+除了跟踪之外，另一种获得PyTorch程序的TorchScript表示的方法是直接在 TorchScript中编写代码_。 TorchScript在很大程度上是Python语言的一个子集，但有一些限制使得TorchScript编译器更容易推理程序。通过使用`@torch.jit.script`为自由函数和`@torch.jit.script_method`为类中的方法(必须也从`torch.jit.ScriptModule`派生）注释，将常规PyTorch代码转换为TorchScript。有关TorchScript注释的更多详细信息，请参见[此处](https://pytorch.org/docs/master/jit.html)
 
 使用TorchScript而不是跟踪的一个特殊原因是跟踪无法捕获PyTorch代码中的控制流。因此，让我们考虑一下这个使用控制流程的功能：
 
@@ -584,7 +584,7 @@ target_compile_features(example_app PRIVATE cxx_range_for)
 
 注意
 
-上面的例子中嵌入了一个关键细节：`warp_perspective`链接线的`-Wl,--no-as-needed`前缀。这是必需的，因为我们实际上不会在应用程序代码中从`warp_perspective`共享库中调用任何函数。我们只需要运行全局`RegisterOperators`对象的构造函数。不方便的是，这会使链接器混乱并使其认为它可以完全跳过与库的链接。在Linux上，`-Wl,--no-as-needed`标志强制链接发生（注意：此标志特定于Linux！）。还有其他解决方法。最简单的是在运算符库中定义_某些函数_，您需要从主应用程序调用它。这可以像在某个头中声明的函数`void init();`一样简单，然后在运算符库中将其定义为`void init() { }`。在主应用程序中调用此`init()`函数将使链接器感觉这是一个值得链接的库。不幸的是，这超出了我们的控制范围，我们宁愿让您知道原因和简单的解决方法，而不是将一些不透明的宏交给您的代码中的plop。
+上面的例子中嵌入了一个关键细节：`warp_perspective`链接线的`-Wl,--no-as-needed`前缀。这是必需的，因为我们实际上不会在应用程序代码中从`warp_perspective`共享库中调用任何函数。我们只需要运行全局`RegisterOperators`对象的构造函数。不方便的是，这会使链接器混乱并使其认为它可以完全跳过与库的链接。在Linux上，`-Wl,--no-as-needed`标志强制链接发生(注意：此标志特定于Linux！）。还有其他解决方法。最简单的是在运算符库中定义_某些函数_，您需要从主应用程序调用它。这可以像在某个头中声明的函数`void init();`一样简单，然后在运算符库中将其定义为`void init() { }`。在主应用程序中调用此`init()`函数将使链接器感觉这是一个值得链接的库。不幸的是，这超出了我们的控制范围，我们宁愿让您知道原因和简单的解决方法，而不是将一些不透明的宏交给您的代码中的plop。
 
 现在，由于我们现在在最上层找到`Torch`包，`warp_perspective`子目录中的`CMakeLists.txt`文件可以缩短一点。它应该如下所示：
 
@@ -664,13 +664,13 @@ $ ./example_app example.pt
 
 本教程向您介绍了如何在C ++中实现自定义TorchScript运算符，如何将其构建到共享库中，如何在Python中使用它来定义TorchScript模型，以及最后如何将其加载到C ++应用程序中以进行推理工作负载。现在，您已准备好使用与第三方C ++库连接的C ++运算符扩展TorchScript模型，编写自定义高性能CUDA内核，或实现需要Python，TorchScript和C ++之间的界线平滑混合的任何其他用例。
 
-与往常一样，如果您遇到任何问题或有疑问，您可以使用我们的[论坛](https://discuss.pytorch.org/)或 [GitHub问题](https://github.com/pytorch/pytorch/issues)取得联系。此外，我们的[常见问题解答（FAQ）页面](https://pytorch.org/cppdocs/notes/faq.html)可能会提供有用的信息。
+与往常一样，如果您遇到任何问题或有疑问，您可以使用我们的[论坛](https://discuss.pytorch.org/)或 [GitHub问题](https://github.com/pytorch/pytorch/issues)取得联系。此外，我们的[常见问题解答(FAQ）页面](https://pytorch.org/cppdocs/notes/faq.html)可能会提供有用的信息。
 
 ## 附录A：构建自定义运算符的更多方法
 
-“构建自定义运算符”部分介绍了如何使用CMake将自定义运算符构建到共享库中。本附录概述了另外两种编译方法。它们都使用Python作为编译过程的“驱动程序”或“接口”。此外，两者都重复使用，这是相当于TorchScript自定义运算符的香草（渴望）PyTorch，它依赖于 [pybind11](https://github.com/pybind/pybind11) 来实现从C ++到Python的“显式”绑定。
+“构建自定义运算符”部分介绍了如何使用CMake将自定义运算符构建到共享库中。本附录概述了另外两种编译方法。它们都使用Python作为编译过程的“驱动程序”或“接口”。此外，两者都重复使用，这是相当于TorchScript自定义运算符的香草(渴望）PyTorch，它依赖于 [pybind11](https://github.com/pybind/pybind11) 来实现从C ++到Python的“显式”绑定。
 
-第一种方法使用C ++扩展'[方便的即时（JIT）编译接口](https://pytorch.org/docs/stable/cpp_extension.html#torch.utils.cpp_extension.load)，在第一次运行时在PyTorch脚本的后台编译代码。第二种方法依赖于古老的`setuptools`包，并涉及编写单独的`setup.py`文件。这允许更高级的配置以及与其他基于`setuptools`的项目的集成。我们将在下面详细探讨这两种方法。
+第一种方法使用C ++扩展'[方便的即时(JIT）编译接口](https://pytorch.org/docs/stable/cpp_extension.html#torch.utils.cpp_extension.load)，在第一次运行时在PyTorch脚本的后台编译代码。第二种方法依赖于古老的`setuptools`包，并涉及编写单独的`setup.py`文件。这允许更高级的配置以及与其他基于`setuptools`的项目的集成。我们将在下面详细探讨这两种方法。
 
 ### 使用JIT编译构建
 
@@ -680,7 +680,7 @@ PyTorch C ++扩展工具包提供的JIT编译功能允许将自定义运算符�
 
 这里的“JIT编译”与TorchScript编译器中的JIT编译无关，以优化您的程序。它只是意味着您的自定义操作符C ++代码将在您第一次导入时在系统的`/tmp`目录下的文件夹中编译，就像您事先已经自己编译它一样。
 
-这个JIT编译功能有两种形式。首先，您仍然将运算符实现保存在单独的文件（`op.cpp`）中，然后使用`torch.utils.cpp_extension.load()`编译扩展。通常，此函数将返回公开C ++扩展的Python模块。但是，由于我们没有将自定义运算符编译到自己的Python模块中，因此我们只想编译普通的共享库。幸运的是，`torch.utils.cpp_extension.load()`有一个参数`is_python_module`我们可以设置为`False`来表示我们只对构建共享库而不是Python模块感兴趣。然后`torch.utils.cpp_extension.load()`将编译并将共享库加载到当前进程中，就像之前`torch.ops.load_library`所做的那样：
+这个JIT编译功能有两种形式。首先，您仍然将运算符实现保存在单独的文件(`op.cpp`）中，然后使用`torch.utils.cpp_extension.load()`编译扩展。通常，此函数将返回公开C ++扩展的Python模块。但是，由于我们没有将自定义运算符编译到自己的Python模块中，因此我们只想编译普通的共享库。幸运的是，`torch.utils.cpp_extension.load()`有一个参数`is_python_module`我们可以设置为`False`来表示我们只对构建共享库而不是Python模块感兴趣。然后`torch.utils.cpp_extension.load()`将编译并将共享库加载到当前进程中，就像之前`torch.ops.load_library`所做的那样：
 
 ```
 import torch.utils.cpp_extension
@@ -751,7 +751,7 @@ print(torch.ops.my_ops.warp_perspective)
 
 ### 使用Setuptools构建
 
-从Python独家构建自定义运算符的第二种方法是使用`setuptools`。这样做的好处是`setuptools`具有非常强大和广泛的接口，用于构建用C ++编写的Python模块。但是，由于`setuptools`实际上是用于构建Python模块而不是普通的共享库（它没有Python期望从模块中获得的必要入口点），因此这条路线可能有点古怪。也就是说，你只需要一个`setup.py`文件代替`CMakeLists.txt`，如下所示：
+从Python独家构建自定义运算符的第二种方法是使用`setuptools`。这样做的好处是`setuptools`具有非常强大和广泛的接口，用于构建用C ++编写的Python模块。但是，由于`setuptools`实际上是用于构建Python模块而不是普通的共享库(它没有Python期望从模块中获得的必要入口点），因此这条路线可能有点古怪。也就是说，你只需要一个`setup.py`文件代替`CMakeLists.txt`，如下所示：
 
 请注意，我们在底部的`BuildExtension`中启用了`no_python_abi_suffix`选项。这指示`setuptools`在生成的共享库的名称中省略任何Python-3特定的ABI后缀。否则，在Python 3.7上，例如，库可能被称为`warp_perspective.cpython-37m-x86_64-linux-gnu.so`，其中`cpython-37m-x86_64-linux-gnu`是ABI标签，但我们真的只是想要它被称为`warp_perspective.so`
 

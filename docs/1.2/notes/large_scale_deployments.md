@@ -24,7 +24,7 @@ PyTorch自带`torch.autograd.profiler
 `能够测量按需采取个体经营者时间的。人们可以使用相同的机制做“永远在线”的三围运行PyTorch任何进程。这可能是收集有关在给定的过程或整组机器的运行PyTorch工作负荷的信息是有用的。
 
 对于任何运营商调用回调新可以用`添加Torch :: autograd ::探查:: pushCallback  [HTG3。钩将与`被称为Torch ::
-autograd ::探查:: RecordFunction`结构描述调用上下文（例如，名称）。如果启用，`RecordFunction ::输入（）
+autograd ::探查:: RecordFunction`结构描述调用上下文(例如，名称）。如果启用，`RecordFunction ::输入(）
 `包含表示为`torch:: IValue`变体类型的函数的自变量。请注意，该输入记录是比较昂贵的，因此，必须明确启用。`
 
 调用回调增加了一些开销，所以通常它只是随机采样操作调用有用。这可以在每个回调基础上通过Torch :: autograd ::探查::
@@ -75,16 +75,16 @@ python.import  [HTG7用于PyTorch延长进口或`torch.script.compile
     });
     
 
-注意为开发新的API的触发点可以在代码被添加与`C10_LOG_API_USAGE_ONCE（ “my_api”） `在C ++或`
-torch._C._log_api_usage_once（“我的。 API“） `在Python。
+注意为开发新的API的触发点可以在代码被添加与`C10_LOG_API_USAGE_ONCE (“my_api”） `在C ++或`
+torch._C._log_api_usage_once(“我的。 API“） `在Python。
 
 ## 将元数据附加到保存TorchScript模型
 
-TorchScript模块可以保存为捆绑串行化参数和模块代码作为TorchScript存档文件（见[ `torch.jit.save（） `
+TorchScript模块可以保存为捆绑串行化参数和模块代码作为TorchScript存档文件(见[ `torch.jit.save(） `
 ](../jit.html#torch.jit.save
 "torch.jit.save")）。这是很方便的与该模型一起捆绑的其他信息，例如，模型制作者或辅助的工件的描述。
 
-它可以通过使`_extra_files`参数为[ `torch.jit.save（） `](../jit.html#torch.jit.save
+它可以通过使`_extra_files`参数为[ `torch.jit.save(） `](../jit.html#torch.jit.save
 "torch.jit.save")和[HTG10来实现] Torch :: JIT ::负载
 存储和保存过程中检索任意的二进制块。由于TorchScript文件定期ZIP档案，额外的信息被存储作为普通的文件归档的`额外/`目录内。
 

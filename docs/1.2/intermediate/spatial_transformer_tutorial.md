@@ -1,13 +1,17 @@
-# 空间变压器网络教程
+# 空间转换器网络教程
 
-> **作者**: [Ghassen HAMROUNI](https://github.com/GHamrouni)
+> **作者**：[Ghassen HAMROUNI](https://github.com/GHamrouni)
+> 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 ![https://pytorch.org/tutorials/_images/FSeq.png](https://pytorch.org/tutorials/_images/FSeq.png)
 
 
 在本教程中，您将学习如何使用称为空间变换器网络的视觉注意力机制来扩充网络。 您可以在[DeepMind论文](https://arxiv.org/abs/1506.02025)中阅读有关空间变换器网络的更多信息。
 
-空间变换器网络是对任何空间变换的可区别关注的概括。空间变换器网络（简称STN）允许神经网络学习如何对输入图像执行空间变换，以增强模型的几何不变性。例如，它可以裁剪感兴趣的区域，缩放并校正图像的方向。这可能是一个有用的机制，因为CNN不会对旋转和缩放以及更一般的仿射变换保持不变。
+空间变换器网络是对任何空间变换的可区别关注的概括。空间变换器网络(简称STN）允许神经网络学习如何对输入图像执行空间变换，以增强模型的几何不变性。例如，它可以裁剪感兴趣的区域，缩放并校正图像的方向。这可能是一个有用的机制，因为CNN不会对旋转和缩放以及更一般的仿射变换保持不变。
 
 关于STN的最好的事情之一就是能够将其简单地插入到任何现有的CNN中，而无需进行任何修改。
 
@@ -63,7 +67,7 @@ Out:
 
 ## 描绘空间变换器网络
 
-空间变压器网络可归结为三个主要组成部分：
+空间转换器网络可归结为三个主要组成部分：
 
 * 定位网络是常规的CNN，可以对转换参数进行回归。永远不会从该数据集中显式学习变换，而是网络会自动学习增强全局精度的空间变换。
 * 网格生成器在输入图像中生成与来自输出图像的每个像素相对应的坐标网格。
@@ -337,7 +341,7 @@ Out:
     Test set: Average loss: 0.0445, Accuracy: 9869/10000 (99%)
     
 
-**脚本的总运行时间：** （1分钟44.448秒）
+**脚本的总运行时间：** (1分钟44.448秒）
 
 [`Download Python source code:
 spatial_transformer_tutorial.py`](../_downloads/8aa31a122008b8db8bbe28365db9ea47/spatial_transformer_tutorial.py)

@@ -1,4 +1,4 @@
-# 基与字符级RNN（Char-RNN）的人名生成
+# 基与字符级RNN(Char-RNN）的人名生成
 
 > 译者：[@jianchengss](https://github.com/jianchengss)
 
@@ -29,7 +29,7 @@ Iun
 
 ```
 
-我们仍然手工搭建一个包含几个线性层的小的RNN. 这次的最大的不同是输入一个类别, 每次输出一个字母, 而不是读入所有名字的字母来预测一个类别. 循环的预测每一个字母来构成语言（也可以用文 字或者其他更高级的结构完成）, 通常被称为“语言模型”.
+我们仍然手工搭建一个包含几个线性层的小的RNN. 这次的最大的不同是输入一个类别, 每次输出一个字母, 而不是读入所有名字的字母来预测一个类别. 循环的预测每一个字母来构成语言(也可以用文 字或者其他更高级的结构完成）, 通常被称为“语言模型”.
 
 **推荐阅读: **
 
@@ -104,7 +104,7 @@ print(unicodeToAscii("O'Néàl"))
 
 我们将输出解释成为下一个字母的概率, 采样的时候, 最有可能的输出被当做下一个输入.
 
-为了让网络更加有效工作, 我添加了第二个线性层 `o2o` （在合并了隐藏层和输出层的后面）. 还有一个 Dropout 层, [使输入的部分值以给定的概率值随机的变成 0](https://arxiv.org/abs/1207.0580) （这里概率取0.1）, 这样做通常是为了模糊输入以防止过拟合. 这里我们在网络的最末端使用它, 从而故意添加一些混乱和增加采样的多样化.
+为了让网络更加有效工作, 我添加了第二个线性层 `o2o` (在合并了隐藏层和输出层的后面）. 还有一个 Dropout 层, [使输入的部分值以给定的概率值随机的变成 0](https://arxiv.org/abs/1207.0580) (这里概率取0.1）, 这样做通常是为了模糊输入以防止过拟合. 这里我们在网络的最末端使用它, 从而故意添加一些混乱和增加采样的多样化.
 
 ![](img/28a4f1426695fb55f1f6bc86278f6547.jpg)
 
@@ -143,7 +143,7 @@ class RNN(nn.Module):
 
 ### 训练前的准备
 
-首先, 利用辅助函数产生随机的（category, line）对:
+首先, 利用辅助函数产生随机的(category, line）对:
 
 ```py
 import random
@@ -160,7 +160,7 @@ def randomTrainingPair():
 
 ```
 
-对每一个时间点（也就是说在训练集中词的每个字母）网络的输入是 `(类别, 当前字母, 隐藏层状态)` , 输出是 `(下一个字母, 下一个隐藏层状态)` . 对于每一个训练集, 我们需要的是类别、输入的字母集、输出/目标字母集.
+对每一个时间点(也就是说在训练集中词的每个字母）网络的输入是 `(类别, 当前字母, 隐藏层状态)` , 输出是 `(下一个字母, 下一个隐藏层状态)` . 对于每一个训练集, 我们需要的是类别、输入的字母集、输出/目标字母集.
 
 因为在每一步, 我们从当前的字母预测下一个字母, 这样的字母对是在原有行中连续字母的集合, 例如, 对于 `"ABCD&lt;EOS&gt;"` 将会产生 (“A”, “B”), (“B”, “C”), (“C”, “D”), (“D”, “EOS”).
 
@@ -176,7 +176,7 @@ def categoryTensor(category):
     tensor[0][li] = 1
     return tensor
 
-# 输入串从第一个字母到最后一个字母（不包括 EOS ）的 one-hot 矩阵
+# 输入串从第一个字母到最后一个字母(不包括 EOS )的 one-hot 矩阵
 def inputTensor(line):
     tensor = torch.zeros(len(line), 1, n_letters)
     for li in range(len(line)):
@@ -184,7 +184,7 @@ def inputTensor(line):
         tensor[li][0][all_letters.find(letter)] = 1
     return tensor
 
-# 目标的第二个字母到结尾（EOS）的 LongTensor
+# 目标的第二个字母到结尾(EOS）的 LongTensor
 def targetTensor(line):
     letter_indexes = [all_letters.find(line[li]) for li in range(1, len(line))]
     letter_indexes.append(n_letters - 1) # EOS
@@ -195,7 +195,7 @@ def targetTensor(line):
 为了训练过程的便利, 添加一个 `randomTrainingExample` 函数, 获取随机的 (category, line) 对, 并把他们转换成需要的 (category, input, target) 张量.
 
 ```py
-# 从随机的（category, line）对中生成 category, input, and target 张量
+# 从随机的(category, line）对中生成 category, input, and target 张量
 def randomTrainingExample():
     category, line = randomTrainingPair()
     category_tensor = Variable(categoryTensor(category))
@@ -209,7 +209,7 @@ def randomTrainingExample():
 
 与分类相比, 分类只用到了最后的输出, 而这里每个步都会产生一个预测, 所以我们需要计算每一步的损失.
 
-自动求导（autograd）的魔力就在于, 它允许将每一步的损失简单的加和, 并在最后调用 backward
+自动求导(autograd）的魔力就在于, 它允许将每一步的损失简单的加和, 并在最后调用 backward
 
 ```py
 criterion = nn.NLLLoss()

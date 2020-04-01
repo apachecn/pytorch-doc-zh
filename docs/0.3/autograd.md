@@ -41,7 +41,7 @@ torch.autograd.grad(outputs, inputs, grad_outputs=None, retain_graph=None, creat
 *   `retain_graph (bool, 可选)`: 如果是 `False`, 用于计算 grad 的图将被释放. 几乎所有情况都设置为``True`` 并不是必须的并且能够高效地运行. 默认与 `create_graph` 参数一样.
 *   `create_graph (bool, 可选)`: 如果是 `True`, 梯度图将会被建立,用来求解高阶导数. 默认为 `False` , 除非参数 `grad_variables` 包含不只一个变量.
 *   `only_inputs (bool, 可选)`: 如果是 `True`, 叶子节点的导数将会在图中, 但是不会出现在参数 `inputs` 也不会被计算以及累加. 默认为 `True`.
-*   `allow_unused (bool, 可选)`: 如果是 `False`, 指定计算输出时未使用的输入（因此它们的 grad 始终为零）是错误的. 默认为 `False`.
+*   `allow_unused (bool, 可选)`: 如果是 `False`, 指定计算输出时未使用的输入(因此它们的 grad 始终为零）是错误的. 默认为 `False`.
 
 ## Variable (变量)
 
@@ -88,7 +88,7 @@ backward(gradient=None, retain_graph=None, create_graph=None, retain_variables=N
 
 给定图叶子节点计算导数.
 
-该图使用链式规则进行计算. 如果变量是非标量（即其数据具有多个元素）并且需要 改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量 微分函数的梯度w.r.t. `self` .
+该图使用链式规则进行计算. 如果变量是非标量(即其数据具有多个元素）并且需要 改变,该功能另外需要指定“梯度”.它应该是一个包含匹配类型和位置的张量 微分函数的梯度w.r.t. `self` .
 
 这个功能在叶子上累积梯度 - 你可能需要调用之前将它们置零.
 
@@ -294,7 +294,7 @@ nvprof --profile-from-start off -o trace_name.prof -- <regular command here>
 
 ```
 
-不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler（nvvp）来显示时间轴,或者 `torch.autograd.profiler.load_nvprof()` 可以加载检查结果.
+不幸的是,没有办法强制nvprof刷新收集到的数据到磁盘,因此对于 CUDA 分析,必须使用此上下文管理器进行注释 nvprof 跟踪并等待进程在检查之前退出. 然后,可以使用NVIDIA Visual Profiler(nvvp）来显示时间轴,或者 `torch.autograd.profiler.load_nvprof()` 可以加载检查结果.
 
 参数：`enabled (bool, 可选)` – 如果设置为 False ,则没有评价指标. 默认: `True`.
 

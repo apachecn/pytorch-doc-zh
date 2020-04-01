@@ -1,5 +1,9 @@
 # torch.utils.tensorboard
 
+> 译者：[shuziP](https://github.com/shuziP)
+> 
+> 校验：[shuziP](https://github.com/shuziP)
+
 在进一步讨论之前，可以在[https://www.tensorflow.org/tensorboard/](https://www.tensorflow.org/tensorboard/)上找到有关TensorBoard的更多详细信息。
 
 一旦你安装TensorBoard，这些工具让您登录PyTorch模型和指标纳入了TensorBoard
@@ -79,7 +83,7 @@ Parameters
 * **comment** (*string*)  - 添加到默认log_dir后缀的注释log_dir。如果分配了log_dir，则此参数无效
 * **purge_step** ([*int*](https://docs.python.org/3/library/functions.html#int))  -当日志记录在步骤T+XT+X崩溃并在步骤TT重新启动时，global_step大于或等于TT的任何事件将被清除并从TensorBoard中隐藏。注意，崩溃和恢复的实验应该具有相同的log_dir。
 * **max_queue** ([*int*](https://docs.python.org/3/library/functions.html#int))  - 在其中一个“add”调用强制刷新到磁盘之前，挂起事件和摘要的队列大小。默认为10项。
-* **flush_secs** ([*int*](https://docs.python.org/3/library/functions.html#int))   - 将事件挂起和将摘要刷新到磁盘的频率（秒）。默认值是每两分钟一次。
+* **flush_secs** ([*int*](https://docs.python.org/3/library/functions.html#int))   - 将事件挂起和将摘要刷新到磁盘的频率(秒）。默认值是每两分钟一次。
 * **filename_suffix** (*string*)   - 添加到日志目录中所有事件文件名的后缀。在tensorboard.summary.writer.event_file_writer.EventFileWriter中有更多细节。
 
 例子：
@@ -223,7 +227,7 @@ Parameters
 
   * **tag** ( _string_ ) – Data identifier
 
-  * **img_tensor** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor") _，_ _numpy.array_ _或_ _串/ blobname_ ） - 图像数据
+  * **img_tensor** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor") _，_ _numpy.array_ _或_ _串/ blobname_ ) - 图像数据
 
   * **global_step** ([ _int_](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")) – Global step value to record
 
@@ -285,13 +289,13 @@ Parameters
 
   * **walltime** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)")) – Optional override default walltime (time.time()) seconds after epoch of event
 
-  * **dataformats** （ _串_ ） - 形式的NCHW，NHWC，CHW，HWC，HW，WH等的图像数据格式规范
+  * **dataformats**  (_串_ ) - 形式的NCHW，NHWC，CHW，HWC，HW，WH等的图像数据格式规范
 
 Shape:
 
 ​    
 
-img_tensor：默认为 （ N  ， 3  ， H  ， W  ） （N，3，H，W）  （ N  ， 3  ， H  ， W  ） 。如果`
+img_tensor：默认为  (N  ， 3  ， H  ， W  ) (N，3，H，W）   (N  ， 3  ， H  ， W  ) 。如果`
 dataformats`被指定，其他形状将被接受。例如NCHW或NHWC。
 
 Examples:
@@ -332,11 +336,11 @@ Parameters
 
   * **tag** ( _string_ ) – Data identifier
 
-  * [HTG0图（ _matplotlib.pyplot.figure_ ） - 图或数字的列表
+  * [HTG0图 (_matplotlib.pyplot.figure_ ) - 图或数字的列表
 
   * **global_step** ([ _int_](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")) – Global step value to record
 
-  * **关闭** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 标志自动关闭该图
+  * **关闭** ([ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 标志自动关闭该图
 
   * **walltime** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)")) – Optional override default walltime (time.time()) seconds after epoch of event
 
@@ -364,7 +368,7 @@ Shape:
 
 ​    
 
-vid_tensor： （ N  ， T  ， C  ， H  ， W  ） （N，T，C，H，W） （ N  ， T  ， C  ， H  ， W  ）
+vid_tensor：  (N  ， T  ， C  ， H  ， W  ) (N，T，C，H，W）  (N  ， T  ， C  ， H  ， W  )
 。的值应该位于[0,255]为式 UINT8 或[0,1]类型浮动。
 
 `add_audio`( _tag_ , _snd_tensor_ , _global_step=None_ , _sample_rate=44100_ ,
@@ -381,11 +385,11 @@ Parameters
 
   * **tag** ( _string_ ) – Data identifier
 
-  * **snd_tensor** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 声音数据
+  * **snd_tensor** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 声音数据
 
   * **global_step** ([ _int_](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")) – Global step value to record
 
-  * **SAMPLE_RATE** （[ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")） - 以Hz采样率
+  * **SAMPLE_RATE** ([ _INT_ ](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")） - 以Hz采样率
 
   * **walltime** ([ _float_](https://docs.python.org/3/library/functions.html#float "\(in Python v3.7\)")) – Optional override default walltime (time.time()) seconds after epoch of event
 
@@ -393,7 +397,7 @@ Shape:
 
 ​    
 
-snd_tensor： （ 1  ， L  ） （1，L） （ 1  ， L  ） 。值应该[-1,1]之间。
+snd_tensor：  (1  ， L  ) (1，L）  (1  ， L  ) 。值应该[-1,1]之间。
 
 `add_text`( _tag_ , _text_string_ , _global_step=None_ , _walltime=None_
 )[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter.add_text)
@@ -408,7 +412,7 @@ Parameters
 
   * **tag** ( _string_ ) – Data identifier
 
-  * **text_string的** （ _串_ ） - 字符串，以节省
+  * **text_string的**  (_串_ ) - 字符串，以节省
 
   * **global_step** ([ _int_](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")) – Global step value to record
 
@@ -433,11 +437,11 @@ Parameters
 
 ​    
 
-  * **模型** （[ _torch.nn.Module_ ](nn.html#torch.nn.Module "torch.nn.Module")） - 模型绘制。
+  * **模型** ([ _torch.nn.Module_ ](nn.html#torch.nn.Module "torch.nn.Module")） - 模型绘制。
 
-  * **input_to_model** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ _torch.Tensor_ 的列表中） - 的变量或变量的元组被输送。
+  * **input_to_model** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ _torch.Tensor_ 的列表中） - 的变量或变量的元组被输送。
 
-  * **冗长** （[ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 是否打印图形结构在控制台。
+  * **冗长** ([ _布尔_ ](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 是否打印图形结构在控制台。
 
 `add_embedding`( _mat_ , _metadata=None_ , _label_img=None_ ,
 _global_step=None_ , _tag='default'_ , _metadata_header=None_
@@ -451,23 +455,23 @@ Parameters
 
 ​    
 
-  * **垫** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ _numpy.array_ ） - 甲矩阵，每一行都是特征向量数据点
+  * **垫** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor") _或_ _numpy.array_ ) - 甲矩阵，每一行都是特征向量数据点
 
-  * **元数据** （[ _列表_ ](https://docs.python.org/3/library/stdtypes.html#list "\(in Python v3.7\)")） - 标签的列表，每个元件将转换为串
+  * **元数据** ([ _列表_ ](https://docs.python.org/3/library/stdtypes.html#list "\(in Python v3.7\)")） - 标签的列表，每个元件将转换为串
 
-  * **label_img** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 图像对应于每个数据点
+  * **label_img** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 图像对应于每个数据点
 
   * **global_step** ([ _int_](https://docs.python.org/3/library/functions.html#int "\(in Python v3.7\)")) – Global step value to record
 
-  * **标记** （ _串_ ） - 名称为嵌入
+  * **标记**  (_串_ ) - 名称为嵌入
 
 Shape:
 
 ​    
 
-垫： （ N  ， d  ） （N，d） （ N  ， d  ） ，其中N是数据的数和d是特征尺寸
+垫：  (N  ， d  ) (N，d）  (N  ， d  ) ，其中N是数据的数和d是特征尺寸
 
-label_img： （ N  ， C  ， H  ， W  ） （N，C，H，W） （ N  ， C  ， H  ， W  ）
+label_img：  (N  ， C  ， H  ， W  ) (N，C，H，W）  (N  ， C  ， H  ， W  )
 
 Examples:
 
@@ -499,7 +503,7 @@ _num_thresholds=127_ , _weights=None_ , _walltime=None_
 
 
 
-添加精确召回曲线。绘制精确召回曲线可以了解模型在不同阈值设置下的性能。使用此函数，可以为每个目标提供基本真实值标记 (T/F) 和预测置信度（通常是模型的输出）TensorBoard UI将允许您交互地选择阈值。
+添加精确召回曲线。绘制精确召回曲线可以了解模型在不同阈值设置下的性能。使用此函数，可以为每个目标提供基本真实值标记 (T/F) 和预测置信度(通常是模型的输出）TensorBoard UI将允许您交互地选择阈值。
 
 Parameters
 
@@ -534,7 +538,7 @@ writer.close()
 
 `add_custom_scalars`( _layout_)[[source]](_modules/torch/utils/tensorboard/writer.html#SummaryWriter.add_custom_scalars)
 
-通过收集“scalars”中的图表标记创建特殊图表。请注意，对于每个summarywriter（）对象，此函数只能调用一次。因为它只向tensorboard提供元数据，所以可以在训练循环之前或之后调用该函数。
+通过收集“scalars”中的图表标记创建特殊图表。请注意，对于每个summarywriter(）对象，此函数只能调用一次。因为它只向tensorboard提供元数据，所以可以在训练循环之前或之后调用该函数。
 
 Parameters
 
@@ -566,11 +570,11 @@ Parameters
 
   * **tag** ( _string_ ) – Data identifier
 
-  * **顶点** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 三维坐标列表的顶点。
+  * **顶点** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 三维坐标列表的顶点。
 
-  * **颜色** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 为每个顶点的色彩
+  * **颜色** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 为每个顶点的色彩
 
-  * **面** （[ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 每个三角形内的顶点指数。 （可选的）
+  * **面** ([ _torch.Tensor_ ](tensors.html#torch.Tensor "torch.Tensor")） - 每个三角形内的顶点指数。 (可选的）
 
   * **config_dict** \- 字典与ThreeJS类的名称和结构。
 
@@ -582,12 +586,12 @@ Shape:
 
 ​    
 
-vertices: (B, N, 3) （ B  ， N  ， 3  ） （B，N，3） （ B  ， N  ， 3  ） 。 （分批，number_of_vertices，通道）
+vertices: (B, N, 3)  (B  ， N  ， 3  ) (B，N，3）  (B  ， N  ， 3  ) 。 (分批，number_of_vertices，通道）
 
-colors: (B, N, 3) （ B  ， N  ， 3  ） （B，N，3） （ B  ， N  ， 3  ） 。的值应该位于[0,255]为式 UINT8
+colors: (B, N, 3)  (B  ， N  ， 3  ) (B，N，3）  (B  ， N  ， 3  ) 。的值应该位于[0,255]为式 UINT8
 或[0,1]类型浮动。
 
-faces: (B, N, 3)（ B  ， N  ， 3  ） （B，N，3） （ B  ， N  ， 3  ） 。的值应该位于[0，number_of_vertices]为式
+faces: (B, N, 3) (B  ， N  ， 3  ) (B，N，3）  (B  ， N  ， 3  ) 。的值应该位于[0，number_of_vertices]为式
 UINT8 。
 
 Examples:

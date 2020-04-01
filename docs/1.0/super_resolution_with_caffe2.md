@@ -2,7 +2,7 @@
 
 > 译者：[冯宝宝](https://github.com/PEGASUS1993)  
 
-在本教程中，我们将介绍如何使用ONNX将PyTorch中定义的模型转换为ONNX格式，然后将其加载到Caffe2中。一旦进入Caffe2，我们就可以运行模型来仔细检查它是否正确导出，然后我们展示了如何使用Caffe2功能（如移动导出器）在移动设备上执行模型。  
+在本教程中，我们将介绍如何使用ONNX将PyTorch中定义的模型转换为ONNX格式，然后将其加载到Caffe2中。一旦进入Caffe2，我们就可以运行模型来仔细检查它是否正确导出，然后我们展示了如何使用Caffe2功能(如移动导出器）在移动设备上执行模型。  
 
 在本教程中，你需要安装onnx和Caffe2。您可以使用pip install onnx获取onnx的二进制版本。  
 
@@ -76,7 +76,7 @@ torch_model.train(False)
 
 ```
 
-在PyTorch中导出模型通过跟踪工作。要导出模型，请调用torch.onnx._export（）函数。这将执行模型，记录运算符用于计算输出的轨迹。因为_export运行模型，我们需要提供输入张量x。这个张量的值并不重要; 它可以是图像或随机张量，只要它是正确的大小。  
+在PyTorch中导出模型通过跟踪工作。要导出模型，请调用torch.onnx._export(）函数。这将执行模型，记录运算符用于计算输出的轨迹。因为_export运行模型，我们需要提供输入张量x。这个张量的值并不重要; 它可以是图像或随机张量，只要它是正确的大小。  
 
 要了解有关PyTorch导出界面的更多详细信息，请查看[torch.onnx documentation](https://pytorch.org/docs/master/onnx.html)文档。
 
@@ -130,7 +130,7 @@ print("Exported model has been executed on Caffe2 backend, and the result looks 
 
 ## 使用ONNX转换SRResNET  
 
-使用与上述相同的过程，我们参考[本文](https://arxiv.org/pdf/1609.04802.pdf)中提出的超分辨率转移了一个有趣的新模型“SRResNet”（感谢Twitter上的作者为本教程的目的提供了代码和预训练参数）。可在[此处](https://gist.github.com/prigoyal/b245776903efbac00ee89699e001c9bd)找到模型定义和预训练模型。下面是SRResNet模型输入，输出的样子。![SRResNet](img/b532c99eb24925fb30c040b3af3f71d0.jpg)  
+使用与上述相同的过程，我们参考[本文](https://arxiv.org/pdf/1609.04802.pdf)中提出的超分辨率转移了一个有趣的新模型“SRResNet”(感谢Twitter上的作者为本教程的目的提供了代码和预训练参数）。可在[此处](https://gist.github.com/prigoyal/b245776903efbac00ee89699e001c9bd)找到模型定义和预训练模型。下面是SRResNet模型输入，输出的样子。![SRResNet](img/b532c99eb24925fb30c040b3af3f71d0.jpg)  
 
 ## 在移动设备上运行模型  
 
@@ -211,7 +211,7 @@ print(net_printer.to_string(predict_net))
 ```   
 `备注`： [YCbCr](https://baike.baidu.com/item/YCbCr/10012133?fr=aladdin) 
 
-从上面的输出中，我们可以看到输入名为“9”，输出名为“27”（我们将数字作为blob名称有点奇怪，但这是因为跟踪JIT为模型生成了编号条目）。有点问题 后续校正。  
+从上面的输出中，我们可以看到输入名为“9”，输出名为“27”(我们将数字作为blob名称有点奇怪，但这是因为跟踪JIT为模型生成了编号条目）。有点问题 后续校正。  
 
 
 ```py
@@ -282,7 +282,7 @@ final_img.save("./_static/img/cat_superres_mobile.jpg")
 
 ```
 
-现在，您可以比较图像cat_superres.jpg（来自纯caffe2后端执行的模型输出）和cat_superres_mobile.jpg（来自移动执行的模型输出），并看到两个图像看起来相同。 如果它们看起来不一样，那么在移动设备上执行会出现问题，在这种情况下，请联系Caffe2社区。你应该期望看到输出图像如下所示：  
+现在，您可以比较图像cat_superres.jpg(来自纯caffe2后端执行的模型输出）和cat_superres_mobile.jpg(来自移动执行的模型输出），并看到两个图像看起来相同。 如果它们看起来不一样，那么在移动设备上执行会出现问题，在这种情况下，请联系Caffe2社区。你应该期望看到输出图像如下所示：  
 
 ![output\_cat](img/7afef7064c414bbb62bcbe068eca19a0.jpg)  
 

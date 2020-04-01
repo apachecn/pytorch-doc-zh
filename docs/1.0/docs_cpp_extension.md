@@ -9,7 +9,7 @@ torch.utils.cpp_extension.CppExtension(name, sources, *args, **kwargs)
 
 创建一个C++的setuptools.Extension。
 
-便捷地创建一个setuptools.Extension具有最小（但通常是足够）的参数来构建C++扩展的方法。
+便捷地创建一个setuptools.Extension具有最小(但通常是足够）的参数来构建C++扩展的方法。
 
 所有参数都被转发给setuptools.Extension构造函数。
 
@@ -38,7 +38,7 @@ torch.utils.cpp_extension.CUDAExtension(name, sources, *args, **kwargs)
 
 为CUDA/C++创建一个`setuptools.Extension`。
 
-创建一个setuptools.Extension用于构建CUDA/C ++扩展的最少参数（但通常是足够的）的便捷方法。这里包括CUDA路径，库路径和运行库。 所有参数都被转发给setuptools.Extension构造函数。
+创建一个setuptools.Extension用于构建CUDA/C ++扩展的最少参数(但通常是足够的）的便捷方法。这里包括CUDA路径，库路径和运行库。 所有参数都被转发给setuptools.Extension构造函数。
 
 所有参数都被转发给setuptools.Extension构造函数。
 
@@ -68,9 +68,9 @@ torch.utils.cpp_extension.BuildExtension(*args, **kwargs)
 
 自定义setuptools构建扩展。
 
-`setuptools.build_ext`子类负责传递所需的最小编译器参数（例如`-std=c++11`）以及混合的C ++/CUDA编译（以及一般对CUDA文件的支持）。
+`setuptools.build_ext`子类负责传递所需的最小编译器参数(例如`-std=c++11`）以及混合的C ++/CUDA编译(以及一般对CUDA文件的支持）。
 
-当使用[`BuildExtension`](#torch.utils.cpp_extension.BuildExtension "torch.utils.cpp_extension.BuildExtension")时，它将提供一个用于`extra_compile_args`（不是普通列表）的词典，通过语言（`cxx`或`cuda`）映射到参数列表提供给编译器。这样可以在混合编译期间为C ++和CUDA编译器提供不同的参数。
+当使用[`BuildExtension`](#torch.utils.cpp_extension.BuildExtension "torch.utils.cpp_extension.BuildExtension")时，它将提供一个用于`extra_compile_args`(不是普通列表）的词典，通过语言(`cxx`或`cuda`）映射到参数列表提供给编译器。这样可以在混合编译期间为C ++和CUDA编译器提供不同的参数。
 
 ```py
 torch.utils.cpp_extension.load(name, sources, extra_cflags=None, extra_cuda_cflags=None, extra_ldflags=None, extra_include_paths=None, build_directory=None, verbose=False, with_cuda=None, is_python_module=True)
@@ -82,9 +82,9 @@ torch.utils.cpp_extension.load(name, sources, extra_cflags=None, extra_cuda_cfla
 
 默认情况下，构建文件创建的目录以及编译结果库是`&lt;tmp&gt;/torch_extensions/&lt;name&gt;`，其中`&lt;tmp&gt;`是当前平台上的临时文件夹以及`&lt;name&gt;`为扩展名。这个位置可以通过两种方式被覆盖。首先，如果`TORCH_EXTENSIONS_DIR`设置了环境变量，它将替换`&lt;tmp&gt;/torch_extensions`并将所有扩展编译到此目录的子文件夹中。其次，如果`build_directory`函数设置了参数，它也将覆盖整个路径，即,库将直接编译到该文件夹中。
 
-要编译源文件，使用默认的系统编译器（`c++`），可以通过设置`CXX`环境变量来覆盖它。将其他参数传递给编译过程，`extra_cflags`或者`extra_ldflags`可以提供。例如，要通过优化来编译您的扩展，你可以传递`extra_cflags=['-O3']`，也可以使用 `extra_cflags`传递进一步包含目录。
+要编译源文件，使用默认的系统编译器(`c++`），可以通过设置`CXX`环境变量来覆盖它。将其他参数传递给编译过程，`extra_cflags`或者`extra_ldflags`可以提供。例如，要通过优化来编译您的扩展，你可以传递`extra_cflags=['-O3']`，也可以使用 `extra_cflags`传递进一步包含目录。
 
-提供了混合编译的CUDA支持。只需将CUDA源文件（.cu或.cuh）与其他源一起传递即可。这些文件将被检测，并且使用nvcc而不是C ++编译器进行编译。包括将CUDA lib64目录作为库目录传递并进行cudart链接。您可以将其他参数传递给nvcc extra_cuda_cflags，就像使用C ++的extra_cflags一样。使用了各种原始方法来查找CUDA安装目录，通常情况下可以正常运行。如果不可以，最好设置CUDA_HOME环境变量。
+提供了混合编译的CUDA支持。只需将CUDA源文件(.cu或.cuh）与其他源一起传递即可。这些文件将被检测，并且使用nvcc而不是C ++编译器进行编译。包括将CUDA lib64目录作为库目录传递并进行cudart链接。您可以将其他参数传递给nvcc extra_cuda_cflags，就像使用C ++的extra_cflags一样。使用了各种原始方法来查找CUDA安装目录，通常情况下可以正常运行。如果不可以，最好设置CUDA_HOME环境变量。
 
 
 参数:
@@ -177,7 +177,7 @@ torch.utils.cpp_extension.check_compiler_abi_compatibility(compiler)
 
 
 *   参数：compiler([_str_](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.7)")) - 要检查可执行的编译器文件名(例如`g++`),必须在`shell`进程中可执行。
-*   返回：如果编译器（可能）与`PyTorch`ABI不兼容，则为`False`，否则返回`True`。
+*   返回：如果编译器(可能）与`PyTorch`ABI不兼容，则为`False`，否则返回`True`。
 
 ```py
 torch.utils.cpp_extension.verify_ninja_availability()

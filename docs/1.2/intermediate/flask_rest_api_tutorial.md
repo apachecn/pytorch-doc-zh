@@ -113,7 +113,7 @@ DenseNet模型需要图像是尺寸224 X
         return my_transforms(image).unsqueeze(0)
     
 
-上述方法需要图像数据以字节为单位，应用一系列的变换，并返回一个张量。为了检验上述方法，读取字节模式下的图像文件（第一替换
+上述方法需要图像数据以字节为单位，应用一系列的变换，并返回一个张量。为了检验上述方法，读取字节模式下的图像文件(第一替换
 ../_static/img/sample_file.jpeg 的实际路径到计算机上的文件），看看如果你得到一个张量背部：
 
     
@@ -179,7 +179,7 @@ DenseNet模型需要图像是尺寸224 X
 预测的类ID的张量`y_hat
 `将包含索引。然而，我们需要人类可读的类名。为此，我们需要一个等级ID名称映射。下载[这个文件](https://s3.amazonaws.com/deep-
 learning-models/image-models/imagenet_class_index.json)为`
-imagenet_class_index.json`，并记住您保存它（或者，如果你是以下在本教程中的具体步骤，它保存在教程/ _static
+imagenet_class_index.json`，并记住您保存它(或者，如果你是以下在本教程中的具体步骤，它保存在教程/ _static
 ）。此文件包含ImageNet类ID来ImageNet类名的映射。我们将加载这个JSON文件，并得到预测指数的类名。
 
     
@@ -316,7 +316,7 @@ Note
                          files={"file": open('<PATH/TO/.jpg/FILE>/cat.jpg','rb')})
     
 
-印刷 resp.json（）现在会显示以下内容：
+印刷 resp.json(）现在会显示以下内容：
 
     
     
@@ -335,4 +335,4 @@ Note
   * 在本教程中，我们只展示了如何构建，可以在同一时间返回预测单个图像服务。我们可以修改我们的服务能马上回家多个图像的预测。此外，[服务流光](https://github.com/ShannonAI/service-streamer)库自动排队请求您的服务和样品它们变成可被送入模型迷你批次。您可以检查出[本教程[HTG3。](https://github.com/ShannonAI/service-streamer/wiki/Vision-Recognition-Service-with-Flask-and-service-streamer)
   * 最后，我们建议您检查出部署PyTorch模型链接到页面的顶部我们的其他教程。
 
-**脚本的总运行时间：** （0分钟0.925秒）
+**脚本的总运行时间：** (0分钟0.925秒）

@@ -245,7 +245,7 @@ at::Tensor output = module->forward(inputs).toTensor();
 std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/5) << '\n';
 
 ```
-前两行设置我们模型的输入。 创建了一个 `torch::jit::IValue` (`script::Module` 对象可接受和返回的一种数据类型) 的向量和添加一个输入。要创建输入张量，我们使用`torch::ones()`（C++ API）和python中的`torch.ones` 一样。 然后我们运行`script::Module`的`forward`方法，传入我们创建的输入向量，返回一个新的`IValue`，通过调用`toTensor()`可将其转换为张量。
+前两行设置我们模型的输入。 创建了一个 `torch::jit::IValue` (`script::Module` 对象可接受和返回的一种数据类型) 的向量和添加一个输入。要创建输入张量，我们使用`torch::ones()`(C++ API）和python中的`torch.ones` 一样。 然后我们运行`script::Module`的`forward`方法，传入我们创建的输入向量，返回一个新的`IValue`，通过调用`toTensor()`可将其转换为张量。
 
 
 >小贴士

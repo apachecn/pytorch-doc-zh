@@ -30,7 +30,7 @@ torchvision.utils.make_grid(tensor, nrow=8, padding=2, normalize=False, range=No
 torchvision.utils.save_image(tensor, filename, nrow=8, padding=2, normalize=False, range=None, scale_each=False, pad_value=0)
 ```
 
-将一个给定的 Tensor 保存为 image（图像）文件.
+将一个给定的 Tensor 保存为 image(图像）文件.
 
 参数：
 

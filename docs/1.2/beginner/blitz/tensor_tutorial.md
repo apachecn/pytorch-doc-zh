@@ -2,7 +2,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 >
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/fonttian)
 
 **作者**： [Soumith Chintala](http://soumith.ch/)
 
@@ -15,7 +15,7 @@ PyTorch是一个基于python的科学计算包，主要针对两类人群：
 
 ### 张量
 
-`Tensor`（张量）类似于`NumPy`的`ndarray`，但还可以在GPU上使用来加速计算。
+`Tensor`(张量）类似于`NumPy`的`ndarray`，但还可以在GPU上使用来加速计算。
 
 ```python
 from __future__ import print_function
@@ -185,7 +185,7 @@ tensor([[ 2.5541,  0.0943,  0.9835],
         [-0.3251, -0.2236,  0.7653]])
 ```
 
-加法：原位/原地操作（in-place）
+加法：原位/原地操作(in-place）
 
 ```python
 # adds x to y
@@ -330,7 +330,7 @@ CPU上的所有张量(CharTensor除外)都支持与Numpy的相互转换。
 
 ## CUDA上的张量
 
-张量可以使用`.to`方法移动到任何设备（device）上：
+张量可以使用`.to`方法移动到任何设备(device）上：
 
 ```python
 # 当GPU可用时,我们可以运行以下代码

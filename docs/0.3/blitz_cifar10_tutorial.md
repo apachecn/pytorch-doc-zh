@@ -285,7 +285,7 @@ inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
 ## 我下一步去哪里?
 
 *   [训练神经网络玩电子游戏](../../intermediate/reinforcement_q_learning.html)
-*   `在 imagenet 上培训最先进的 ResNet 网络`
+*   `在 imagenet 上训练最先进的 ResNet 网络`
 *   `利用生成对抗网络训练人脸生成器`
 *   `使用 Recurrent LSTM 网络训练单词语言模型`
 *   `更多的例子`

@@ -1,8 +1,12 @@
 # 使用PyTorch进行神经网络传递
 
-> **作者**: [Alexis Jacq](https://alexis-jacq.github.io)
+> **作者**：[Alexis Jacq](https://alexis-jacq.github.io)
 >
-> **编辑**: [Winston Herring](https://github.com/winston6)
+> **编辑**：[Winston Herring](https://github.com/winston6)
+> 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
 
 ## 简介
 
@@ -18,12 +22,12 @@
 
 以下是实现神经传递所需的软件包列表。
 
-* `torch`，`torch.nn`，`numpy`（与PyTorch神经网络包赛前必读）
-* `torch.optim` （有效的梯度下降）
-* `PIL`，`PIL.Image`，`matplotlib.pyplot`（加载和显示图像）
-* `torchvision.transforms` （将PIL图像转换为张量）
-* `torchvision.models` （训练或加载预训练模型）
-* `copy` （以深层复制模型；系统包）
+* `torch`，`torch.nn`，`numpy`(与PyTorch神经网络包赛前必读）
+* `torch.optim` (有效的梯度下降）
+* `PIL`，`PIL.Image`，`matplotlib.pyplot`(加载和显示图像）
+* `torchvision.transforms` (将PIL图像转换为张量）
+* `torchvision.models` (训练或加载预训练模型）
+* `copy` (以深层复制模型；系统包）
 
     
     from __future__ import print_function
@@ -99,14 +103,14 @@
     imshow(content_img, title='Content Image')
     
 
-  * ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png)
-  * ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png)
+   ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_001.png)
+   ![https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png](https://pytorch.org/tutorials/_images/sphx_glr_neural_style_tutorial_002.png)
 
 ## 损失函数
 
 ### 内容损失
 
-内容损失是代表单个图层内容距离的加权版本的函数。该功能获取特征图$$F_{XL}$$ 一层$$L$$在网络中处理输入$$X$$并返回加权内容距离$$w_{CL}.D_C^L(X,C)$$图像之间$$X$$和内容图片$$C$$。内容图像的特征图（$$F_{CL}$$函数必须知道）才能计算内容距离。我们将此函数作为带有构造函数的火炬模块来实现$$F_{CL}$$作为输入。距离$$\|F_{XL} - F_{CL}\|^2$$是两组要素图之间的均方误差，可以使用进行计算`nn.MSELoss`。
+内容损失是代表单个图层内容距离的加权版本的函数。该功能获取特征图$$F_{XL}$$ 一层$$L$$在网络中处理输入$$X$$并返回加权内容距离$$w_{CL}.D_C^L(X,C)$$图像之间$$X$$和内容图片$$C$$。内容图像的特征图($$F_{CL}$$函数必须知道）才能计算内容距离。我们将此函数作为带有构造函数的torch模块来实现$$F_{CL}$$作为输入。距离$$\|F_{XL} - F_{CL}\|^2$$是两组要素图之间的均方误差，可以使用进行计算`nn.MSELoss`。
 
 我们将直接在用于计算内容距离的卷积层之后添加此内容丢失模块。这样，每次向网络提供输入图像时，都会在所需层上计算内容损失，并且由于自动渐变，将计算所有梯度。现在，为了使内容丢失层透明，我们必须定义一种`forward`方法来计算内容丢失，然后返回该层的输入。计算出的损耗将保存为模块的参数。
     
@@ -132,7 +136,7 @@
 
 风格损失模块类似地实现对内容的损失模块。它将作为其计算该层的风格损失的网络中的透明层。为了计算的样式的损失，我们需要计算克矩阵$$G_{XL}$$。甲克矩阵是通过它的转置矩阵的给定矩阵相乘的结果。在本申请中给出的矩阵是特征的重整的版本映射$$F_{XL}$$层$$L$$。$$F_{XL}$$重塑形成$$\hat{F}_{XL}$$，$$K$$ X $$N$$矩阵，其中 $$K$$ 是特征图中的层$$L$$和数$$N$$是任何量化特征地图$$F_{XL}^ķ$$的长度。例如，的第一行 $$\hat{F}_{XL}$$ 对应于第一量化特征地图 $$F_{XL}^1$$。
 
-最后，克矩阵必须由在矩阵元素的总数量除以每个元素进行归一化。这种归一化是为了抵消这一事实$$\hat{F}_{XL}$$具有大$$N$$维产量较大的革兰氏矩阵值的矩阵。这些较大的值将导致第一层（池层之前），以具有梯度下降期间产生更大的影响。风格特征往往是在网络的更深层所以这归一化步骤是至关重​​要的。
+最后，克矩阵必须由在矩阵元素的总数量除以每个元素进行归一化。这种归一化是为了抵消这一事实$$\hat{F}_{XL}$$具有大$$N$$维产量较大的革兰氏矩阵值的矩阵。这些较大的值将导致第一层(池层之前），以具有梯度下降期间产生更大的影响。风格特征往往是在网络的更深层所以这归一化步骤是至关重​​要的。
 
 
     def gram_matrix(input):
@@ -165,7 +169,7 @@
 
 现在我们需要导入一个预训练的神经网络。我们将使用19层VGG网络，就像本文中使用的那样。
 
-PyTorch的VGG实现是一个模块，分为两个子 `Sequential`模块：（`features`包含卷积和池化层）和`classifier`（包含完全连接的层）。我们将使用该`features`模块，因为我们需要各个卷积层的输出来测量内容和样式损失。某些层在训练期间的行为与评估不同，因此我们必须使用将网络设置为评估模式`.eval()`。
+PyTorch的VGG实现是一个模块，分为两个子 `Sequential`模块：(`features`包含卷积和池化层）和`classifier`(包含完全连接的层）。我们将使用该`features`模块，因为我们需要各个卷积层的输出来测量内容和样式损失。某些层在训练期间的行为与评估不同，因此我们必须使用将网络设置为评估模式`.eval()`。
 
     cnn = models.vgg19(pretrained=True).features.to(device).eval()
     
@@ -189,7 +193,7 @@ PyTorch的VGG实现是一个模块，分为两个子 `Sequential`模块：（`fe
             # normalize img
             return (img - self.mean) / self.std
 
-`Sequential`模块包含子模块的有序列表。 例如，`vgg19.features`包含以正确的深度顺序对齐的序列（Conv2d，ReLU，MaxPool2d，Conv2d，ReLU…）。 我们需要在检测到的卷积层之后立即添加内容丢失层和样式丢失层。 为此，我们必须创建一个新`Sequential`模块，该模块具有正确插入的内容丢失和样式丢失模块。   
+`Sequential`模块包含子模块的有序列表。 例如，`vgg19.features`包含以正确的深度顺序对齐的序列(Conv2d，ReLU，MaxPool2d，Conv2d，ReLU…）。 我们需要在检测到的卷积层之后立即添加内容丢失层和样式丢失层。 为此，我们必须创建一个新`Sequential`模块，该模块具有正确插入的内容丢失和样式丢失模块。   
 
     # desired depth layers to compute style/content losses :
     content_layers_default = ['conv_4']
@@ -369,7 +373,7 @@ Out:
     Style Loss : 0.263698 Content Loss: 2.358449
     
 
-**脚本的总运行时间：** （1分钟9.573秒）
+**脚本的总运行时间：** (1分钟9.573秒）
 
 [`Download Python source code:
 neural_style_tutorial.py`](../_downloads/7d103bc16c40d35006cd24e65cf978d0/neural_style_tutorial.py)

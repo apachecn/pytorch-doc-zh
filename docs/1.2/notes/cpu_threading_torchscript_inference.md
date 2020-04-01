@@ -27,7 +27,7 @@ TorchScript原语发起异步任务。在一次分叉几个操作导致在并行
 PyTorch使用单个线程池的-OP间并行性，这个线程池是由在应用过程中的分叉的所有任务进行推演共享。
 
 除了-
-OP间并行性，也PyTorch可以利用OPS（帧内运算并行）内的多个线程。这可能是在许多情况下，包括大张量等元素方面的OPS，卷积，GEMMS，嵌入查找和有用的。
+OP间并行性，也PyTorch可以利用OPS(帧内运算并行）内的多个线程。这可能是在许多情况下，包括大张量等元素方面的OPS，卷积，GEMMS，嵌入查找和有用的。
 
 ## 构建选项
 
@@ -37,7 +37,7 @@ PyTorch使用内部ATEN库来实现欢声笑语。除此之外，PyTorch还可�
 
 ATEN，MKL和MRL-DNN支持内部运算的并行和取决于以下并行库来实现它：
 
->   * [的OpenMP ](https://www.openmp.org/) \- 一个标准（和图书馆，通常有一个编译器运），广泛用于外部库;
+>   * [的OpenMP ](https://www.openmp.org/) \- 一个标准(和图书馆，通常有一个编译器运），广泛用于外部库;
 
 >
 
@@ -80,7 +80,7 @@ ATEN
 
 |
 
-`OMP`（默认），`TBB`
+`OMP`(默认），`TBB`
 
 |  
   
@@ -92,7 +92,7 @@ MKL
 
 |
 
-（相同）
+(相同）
 
 |
 
@@ -114,8 +114,8 @@ MRL-DNN
   
 强烈建议不要一个构建中混合使用OpenMP和TBB。
 
-任何`TBB`值的上述要求`USE_TBB = 1`建立设定（缺省值：OFF）。一个单独的设置`USE_OPENMP = 1
-`（默认值：ON）需要将OpenMP并行。
+任何`TBB`值的上述要求`USE_TBB = 1`建立设定(缺省值：OFF）。一个单独的设置`USE_OPENMP = 1
+`(默认值：ON）需要将OpenMP并行。
 
 ## 运行时API
 
@@ -137,9 +137,9 @@ Notes
 
 |
 
-`在:: set_num_interop_threads`，`在:: get_num_interop_threads`（C ++）
+`在:: set_num_interop_threads`，`在:: get_num_interop_threads`(C ++）
 
-`set_num_interop_threads`，`get_num_interop_threads`（Python中，[ `torch `
+`set_num_interop_threads`，`get_num_interop_threads`(Python中，[ `torch `
 ](../torch.html#module-torch "torch")模块）
 
 |
@@ -152,8 +152,8 @@ Notes
 
 |
 
-`在:: set_num_threads`，`在:: get_num_threads`（C ++）`set_num_threads``
-get_num_threads`（Python中，[ `torch `](../torch.html#module-torch "torch")模块）
+`在:: set_num_threads`，`在:: get_num_threads`(C ++）`set_num_threads``
+get_num_threads`(Python中，[ `torch `](../torch.html#module-torch "torch")模块）
 
 环境变量：`OMP_NUM_THREADS`和`MKL_NUM_THREADS` 
   
@@ -163,7 +163,7 @@ MKL_NUM_THREADS`变量优先于`OMP_NUM_THREADS`。
 注意
 
 `可用于调试parallel_info`关于线程设置和工具打印信息。类似的输出也可以在Python与`
-torch.__配置得到__。parallel_info`（）调用。
+torch.__配置得到__。parallel_info`(）调用。
 
 [Next ![](../_static/images/chevron-right-orange.svg)](cuda.html "CUDA
 semantics") [![](../_static/images/chevron-right-orange.svg)

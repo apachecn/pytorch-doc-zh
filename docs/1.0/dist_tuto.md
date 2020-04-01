@@ -8,9 +8,9 @@
 
 ## 开始
 
-PyTorch中包含的分布式软件包（即torch.distributed）使研究人员和从业人员能够轻松地跨进程和计算机集群并行化他们的计算。 为此，它利用消息传递语义，允许每个进程将数据传递给任何其他进程。 与多处理（torch.multiprocessing）包相反，进程可以使用不同的通信后端，并且不限于在同一台机器上执行。
+PyTorch中包含的分布式软件包(即torch.distributed）使研究人员和从业人员能够轻松地跨进程和计算机集群并行化他们的计算。 为此，它利用消息传递语义，允许每个进程将数据传递给任何其他进程。 与并行处理(torch.multiprocessing）包相反，进程可以使用不同的通信后端，并且不限于在同一台机器上执行。
 
-开始我们需要能够同时运行多个进程。 如果您有权访问计算群集，则应使用本地sysadmin进行检查，或使用您喜欢的协调工具。 （例如，pdsh，clustershell或其他）为了本教程的目的，我们将使用单个机器并使用以下模板建立多个进程。
+开始我们需要能够同时运行多个进程。 如果您有权访问计算群集，则应使用本地sysadmin进行检查，或使用您喜欢的协调工具。 (例如，pdsh，clustershell或其他）为了本教程的目的，我们将使用单个机器并使用以下模板建立多个进程。
 
 ```python
 """run.py:"""
@@ -43,9 +43,9 @@ if __name__ == "__main__":
         p.join()
 ```
 
-上面的脚本产生了两个进程，每个进程将设置分布式环境，初始化进程组（dist.init_process_group），最后执行给定的运行函数。
+上面的脚本产生了两个进程，每个进程将设置分布式环境，初始化进程组(dist.init_process_group），最后执行给定的运行函数。
 
-我们来看看init_processes函数。 它确保每个进程都能够使用相同的IP地址和端口通过主站进行协调。 请注意，我们使用了TCP后端，但我们可以使用MPI或Gloo。 （参见5.1节）我们将在本教程结束时讨论dist.init_process_group中产生的特效，但它实质上允许进程通过共享其位置来相互通信。
+我们来看看init_processes函数。 它确保每个进程都能够使用相同的IP地址和端口通过主站进行协调。 请注意，我们使用了TCP后端，但我们可以使用MPI或Gloo。 (参见5.1节）我们将在本教程结束时讨论dist.init_process_group中产生的特效，但它实质上允许进程通过共享其位置来相互通信。
 
 ## 点对点通信
 
@@ -72,7 +72,7 @@ def run(rank, size):
 
 在上面的例子中，两个进程都以零张量开始，然后进程0递增张量并将其发送到进程1，以便它们都以1.0结束。 请注意，进程1需要分配内存以存储它将接收的数据。
 
-另请注意，send / recv正在阻塞：两个进程都会停止，直到通信完成。 另一方面，immediates是非阻塞的; 脚本继续执行，方法返回一个DistributedRequest对象，我们可以选择wait（）。
+另请注意，send / recv正在阻塞：两个进程都会停止，直到通信完成。 另一方面，immediates是非阻塞的; 脚本继续执行，方法返回一个DistributedRequest对象，我们可以选择wait(）。
 
 ```python
 """Non-blocking point-to-point communication."""
@@ -93,14 +93,14 @@ def run(rank, size):
     print('Rank ', rank, ' has data ', tensor[0])
 ```
 
-当使用immediates时，我们必须小心使用发送和接收的张量。 由于我们不知道何时将数据传递给另一个进程，因此我们不应该在req.wait（）完成之前修改发送的张量或访问接收的张量。 换一种说法，
+当使用immediates时，我们必须小心使用发送和接收的张量。 由于我们不知道何时将数据传递给另一个进程，因此我们不应该在req.wait(）完成之前修改发送的张量或访问接收的张量。 换一种说法，
 
-- 在dist.isend（）之后写入张量将导致未定义的行为。
-- 在dist.irecv（）之后读取张量将导致未定义的行为。
+- 在dist.isend(）之后写入张量将导致未定义的行为。
+- 在dist.irecv(）之后读取张量将导致未定义的行为。
 
-但是，在执行req.wait（）之后，我们保证发生通信，并且存储在tensor [0]中的值为1.0。
+但是，在执行req.wait(）之后，我们保证发生通信，并且存储在tensor [0]中的值为1.0。
 
-当我们想要对流程的通信进行细粒度控制时，点对点通信非常有用。 它们可用于实现奇妙的算法，例如百度DeepSpeech或Facebook的大规模实验中使用的算法。（参见4.1节）
+当我们想要对流程的通信进行细粒度控制时，点对点通信非常有用。 它们可用于实现奇妙的算法，例如百度DeepSpeech或Facebook的大规模实验中使用的算法。(参见4.1节）
 
 ## 集体通信
 
@@ -128,7 +128,7 @@ def run(rank, size):
 
 **All_gather**
 
-与点对点通信相反，在集体中允许通信模式跨越组中所有进程。 组是我们所有进程的子集。 要创建组，我们可以将队列列表传递给dist.new_group（组）。 默认情况下，集合体在所有进程（也称为world）上执行。 例如，为了获得所有过程中所有张量的总和，我们可以使用dist.all_reduce（tensor，op，group）集合。
+与点对点通信相反，在集体中允许通信模式跨越组中所有进程。 组是我们所有进程的子集。 要创建组，我们可以将队列列表传递给dist.new_group(组）。 默认情况下，集合体在所有进程(也称为world）上执行。 例如，为了获得所有过程中所有张量的总和，我们可以使用dist.all_reduce(tensor，op，group）集合。
 
 ```python
 """ All-Reduce example."""
@@ -147,7 +147,7 @@ def run(rank, size):
 - `dist.reduce_op.MAX`,
 - `dist.reduce_op.MIN`.
 
-除了dist.all_reduce（tensor，op，group）之外，PyTorch目前共有6个集体。
+除了dist.all_reduce(tensor，op，group）之外，PyTorch目前共有6个集体。
 
 - `dist.broadcast(tensor, src, group)`: Copies `tensor` from `src` to all other processes.
 - `dist.reduce(tensor, dst, op, group)`: Applies `op` to all `tensor` and stores the result in `dst`.
@@ -164,7 +164,7 @@ def run(rank, size):
 
 现在我们已经了解了分布式模块的工作原理，让我们编写一些有用的东西。 我们的目标是复制[DistributedDataParallel](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel)的功能。 当然，这将是一个教学示例，在现实世界中，您应该使用上面链接的官方，经过良好测试和优化的版本。
 
-很简单，我们想要实现随机梯度下降的分布式版本。 我们的脚本将允许所有进程在其批量数据上计算其模型的梯度，然后平均其渐变。 为了在更改进程数时确保类似的收敛结果，我们首先必须对数据集进行分区。 （您也可以使用[tnt.dataset.SplitDataset](https://github.com/pytorch/tnt/blob/master/torchnet/dataset/splitdataset.py#L4)，而不是下面的代码段。）
+很简单，我们想要实现随机梯度下降的分布式版本。 我们的脚本将允许所有进程在其批量数据上计算其模型的梯度，然后平均其渐变。 为了在更改进程数时确保类似的收敛结果，我们首先必须对数据集进行分区。 (您也可以使用[tnt.dataset.SplitDataset](https://github.com/pytorch/tnt/blob/master/torchnet/dataset/splitdataset.py#L4)，而不是下面的代码段。）
 
 ```python
 """ Dataset partitioning helper """
@@ -224,7 +224,7 @@ def partition_dataset():
 
 假设我们有2个副本，那么每个进程将具有60000/2 = 30000个样本的train_set。 我们还将批量大小除以副本数量，以保持总批量大小为128。
 
-我们现在可以编写我们通常的前向后向优化训练代码，并添加一个函数调用来平均我们模型的渐变。 （以下内容主要来自官方的[PyTorch MNIST](https://github.com/pytorch/examples/blob/master/mnist/main.py)示例。）
+我们现在可以编写我们通常的前向后向优化训练代码，并添加一个函数调用来平均我们模型的渐变。 (以下内容主要来自官方的[PyTorch MNIST](https://github.com/pytorch/examples/blob/master/mnist/main.py)示例。）
 
 ```python
 """ Distributed Synchronous SGD Example """
@@ -250,7 +250,7 @@ def run(rank, size):
               epoch, ': ', epoch_loss / num_batches)
 ```
 
-它仍然是实现average_gradients（模型）函数，它只是简单地接受一个模型并在整个空间中平均其渐变。
+它仍然是实现average_gradients(模型）函数，它只是简单地接受一个模型并在整个空间中平均其渐变。
 
 ```python
 """ Gradient averaging. """
@@ -297,14 +297,14 @@ def allreduce(send, recv):
     recv[:] = accum[:]
 ```
 
-在上面的脚本中，allreduce（send，recv）函数的签名与PyTorch中的签名略有不同。 它需要一个recv张量，并将所有发送张量的总和存储在其中。 作为练习留给读者，我们的版本和DeepSpeech中的版本之间仍然存在一个区别：它们的实现将梯度张量划分为块，以便最佳地利用通信带宽。 （提示：[torch.chunk](https://pytorch.org/docs/stable/torch.html#torch.chunk)）
+在上面的脚本中，allreduce(send，recv）函数的签名与PyTorch中的签名略有不同。 它需要一个recv张量，并将所有发送张量的总和存储在其中。 作为练习留给读者，我们的版本和DeepSpeech中的版本之间仍然存在一个区别：它们的实现将梯度张量划分为块，以便最佳地利用通信带宽。 (提示：[torch.chunk](https://pytorch.org/docs/stable/torch.html#torch.chunk)）
 
 ## 高级主题
 
 我们现在准备发现torch.distributed的一些更高级的功能。 由于有很多内容需要介绍，本节分为两个小节：
 
 1. 通信后端：我们学习如何使用MPI和Gloo进行GPU-GPU通信。
-2. 初始化方法：我们了解如何在dist.init_process_group（）中最好地设置初始协调阶段。
+2. 初始化方法：我们了解如何在dist.init_process_group(）中最好地设置初始协调阶段。
 
 ### 通信后端
 
@@ -318,18 +318,18 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
 
 [Gloo后端](https://github.com/facebookincubator/gloo)为CPU和GPU提供了集体通信程序的优化实现。 它特别适用于GPU，因为它可以执行通信而无需使用[GPUDirect](https://developer.nvidia.com/gpudirect)将数据传输到CPU的内存。 它还能够使用[NCCL](https://github.com/NVIDIA/nccl)执行快速的节点内通信，并实现其自己的节点间[例程算法](https://github.com/facebookincubator/gloo/blob/master/docs/algorithms.md)。
 
-从版本0.2.0开始，Gloo后端自动包含在PyTorch的预编译二进制文件中。 正如您已经注意到的那样，如果您将模型放在GPU上，我们的分布式SGD示例将不起作用。 让我们通过首先替换init_processes中的backend ='gloo'来修复它（rank，size，fn，backend ='tcp'）。 此时，脚本仍将在CPU上运行，但在幕后使用Gloo后端。 为了使用多个GPU，我们还要进行以下修改：
+从版本0.2.0开始，Gloo后端自动包含在PyTorch的预编译二进制文件中。 正如您已经注意到的那样，如果您将模型放在GPU上，我们的分布式SGD示例将不起作用。 让我们通过首先替换init_processes中的backend ='gloo'来修复它(rank，size，fn，backend ='tcp'）。 此时，脚本仍将在CPU上运行，但在幕后使用Gloo后端。 为了使用多个GPU，我们还要进行以下修改：
 
 1. `init_processes(rank, size, fn, backend='tcp')` $$\rightarrow$$ `init_processes(rank, size, fn, backend='gloo')`
 2. Use `device = torch.device("cuda:{}".format(rank))`
 3. `model = Net()` $$\rightarrow$$ `model = Net().to(device)`
 4. Use `data, target = data.to(device), target.to(device)`
 
-通过上述修改，我们的模型现在在两个GPU上进行培训，您可以通过运行nvidia-smi监控它们的使用情况。
+通过上述修改，我们的模型现在在两个GPU上进行训练，您可以通过运行nvidia-smi监控它们的使用情况。
 
 **MPI后端**
 
-消息传递接口（MPI）是高性能计算领域的标准化工具。 它允许进行点对点和集体通信，并且是torch.distributed的API的主要灵感。 存在MPI的若干实现（例如，[Open-MPI](https://www.open-mpi.org/)，[MVAPICH2](http://mvapich.cse.ohio-state.edu/)，[Intel MPI](https://software.intel.com/en-us/intel-mpi-library)），每个实现针对不同目的而优化。 使用MPI后端的优势在于MPI在大型计算机集群上的广泛可用性和高级优化。 最近的一些[实现](https://www.open-mpi.org/)也能够利用CUDA IPC和GPU Direct技术，以避免通过CPU进行内存复制。
+消息传递接口(MPI）是高性能计算领域的标准化工具。 它允许进行点对点和集体通信，并且是torch.distributed的API的主要灵感。 存在MPI的若干实现(例如，[Open-MPI](https://www.open-mpi.org/)，[MVAPICH2](http://mvapich.cse.ohio-state.edu/)，[Intel MPI](https://software.intel.com/en-us/intel-mpi-library)），每个实现针对不同目的而优化。 使用MPI后端的优势在于MPI在大型计算机集群上的广泛可用性和高级优化。 最近的一些[实现](https://www.open-mpi.org/)也能够利用CUDA IPC和GPU Direct技术，以避免通过CPU进行内存复制。
 
 不幸的是，PyTorch的二进制文件不能包含MPI实现，我们必须手动重新编译它。 幸运的是，这个过程非常简单，因为在编译时，PyTorch会自行查看可用的MPI实现。 以下步骤通过从源安装PyTorch来安装MPI后端。
 
@@ -339,37 +339,37 @@ torch.distributed最优雅的方面之一是它能够在不同的后端之上进
 
 为了测试我们新安装的后端，需要进行一些修改。
 
-1. 使用init_processes（0,0，run，backend ='mpi'）替换if __name__ =='__ main__'下的内容：
+1. 使用init_processes(0,0，run，backend ='mpi'）替换if __name__ =='__ main__'下的内容：
 2. 运行mpirun -n 4 python myscript.py。
 
-这些更改的原因是MPI需要在生成流程之前创建自己的环境。 MPI还将生成自己的进程并执行[初始化方法](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)中描述的握手，使得init_process_group的rankand size参数变得多余。 这实际上非常强大，因为您可以将其他参数传递给mpirun，以便为每个进程定制计算资源。 （例如每个进程的内核数量，将机器分配给特定的等级，以及[更多内容](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)）这样做，您应该获得与其他通信后端相同的熟悉输出。
+这些更改的原因是MPI需要在生成流程之前创建自己的环境。 MPI还将生成自己的进程并执行[初始化方法](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)中描述的握手，使得init_process_group的rankand size参数变得多余。 这实际上非常强大，因为您可以将其他参数传递给mpirun，以便为每个进程定制计算资源。 (例如每个进程的内核数量，将机器分配给特定的等级，以及[更多内容](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/dist_tuto.md#initialization-methods)）这样做，您应该获得与其他通信后端相同的熟悉输出。
 
 ### 初始化方法
 
-为了完成本教程，我们来谈谈我们调用的第一个函数：dist.init_process_group（backend，init_method）。 特别是，我们将讨论不同的初始化方法，这些方法负责每个进程之间的初始协调步骤。 这些方法允许您定义如何完成此协调。 根据您的硬件设置，其中一种方法应该比其他方法更合适。 除了以下部分，您还应该查看[官方文档](https://pytorch.org/docs/stable/distributed.html#initialization)。
+为了完成本教程，我们来谈谈我们调用的第一个函数：dist.init_process_group(backend，init_method）。 特别是，我们将讨论不同的初始化方法，这些方法负责每个进程之间的初始协调步骤。 这些方法允许您定义如何完成此协调。 根据您的硬件设置，其中一种方法应该比其他方法更合适。 除了以下部分，您还应该查看[官方文档](https://pytorch.org/docs/stable/distributed.html#initialization)。
 
 在深入研究初始化方法之前，让我们从C / C ++的角度快速了解init_process_group背后的情况。
 
 1. 首先，解析和验证参数。
 
-2. 后端通过name2channel.at（）函数解析。 返回Channel类，将用于执行数据传输。
+2. 后端通过name2channel.at(）函数解析。 返回Channel类，将用于执行数据传输。
 
-3. GIL被删除，并调用THDProcessGroupInit（）。 这会实例化通道并添加主节点的地址。
+3. GIL被删除，并调用THDProcessGroupInit(）。 这会实例化通道并添加主节点的地址。
 
 4. 等级0的过程将执行主过程，而所有其他等级将是工作进程。
 
 5. 主进程
 
-   （1）为所有工作进程创建套接字。
-   （2）等待所有工作进程连接。
-   （3）向他们发送有关其他进程位置的信息。
+   (1）为所有工作进程创建套接字。
+   (2）等待所有工作进程连接。
+   (3）向他们发送有关其他进程位置的信息。
 
 6. 每个工作进程
 
-   （1）为主进程创建一个套接字。
-    （2）发送自己的位置信息。
-    （3）接收有关其他工作进程的信息。
-    （4）打开套接字并与所有其他工作进程握手。
+   (1）为主进程创建一个套接字。
+    (2）发送自己的位置信息。
+    (3）接收有关其他工作进程的信息。
+    (4）打开套接字并与所有其他工作进程握手。
 7. 初始化完成，每个进程都相互建立连接。
 
 **环境变量**
@@ -403,7 +403,7 @@ dist.init_process_group(init_method='file:///mnt/nfs/sharedfile', world_size=4,
 dist.init_process_group(init_method='tcp://10.1.1.20:23456', rank=args.rank, world_size=4)
 ```
 
-在第二种情况下，多播地址指定可能处于活动状态的节点组，并且可以通过允许每个进程在执行上述过程之前进行初始握手来处理协调。 此外，TCP多播初始化还支持group_name参数（与共享文件方法一样），允许在同一群集上调度多个作业。
+在第二种情况下，多播地址指定可能处于活动状态的节点组，并且可以通过允许每个进程在执行上述过程之前进行初始握手来处理协调。 此外，TCP多播初始化还支持group_name参数(与共享文件方法一样），允许在同一群集上调度多个作业。
 
 ```python
 dist.init_process_group(init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b0a7]:23456',

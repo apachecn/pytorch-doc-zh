@@ -1,0 +1,152 @@
+# <center>PyTorch 1.4 中文文档 & 教程</center>
+
+![](../../docs/img/logo.svg)
+
+<center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库)</center>
+<br/>
+<table>
+  <tr align="center">
+    <td colspan="4"><a title="Pytorch 1.4 中文版本" href="https://pytorch.apachecn.org/docs/1.4/" target="_blank"><font size="5">正在校验: 1.4 中文版本</font></a></td>
+  </tr>
+  <tr align="center">
+    <td colspan="2"><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
+    <td colspan="2"><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/master/" target="_blank"><font size="5">最新 英文文档</font></a></td>
+  </tr>
+  <tr align="center">
+    <td colspan="2"><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 1.2 中文版本" href="https://pytorch.apachecn.org/docs/1.2/" target="_blank"><font size="5">1.2 中文版本</font></a></td>
+  </tr>
+  <tr align="center">
+    <td colspan="2"><a title="Pytorch 0.4 中文版本" href="https://pytorch.apachecn.org/docs/0.4/" target="_blank"><font size="5">0.4 中文版本</font></a></td>
+    <td><a title="Pytorch 0.3 中文版本" href="https://pytorch.apachecn.org/docs/0.3/" target="_blank"><font size="5">0.3 中文版本</font></a></td>
+    <td><a title="Pytorch 0.2 中文版本" href="https://pytorch.apachecn.org/docs/0.2/" target="_blank"><font size="5">0.2 中文版本</font></a></td>
+  </tr>
+</table>
+<br/>
+
+
+> 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
+
++ [在线阅读](http://pytorch.apachecn.org)
++ [ApacheCN 学习资源](http://www.apachecn.org/)
++ [PyTorch 中文翻译组 | ApacheCN 713436582](http://shang.qq.com/wpa/qunwpa?idkey=349eb1bbaeeff1cf20408899cbe75669132ef145ff5ee6599f78a77dd144c367)
+
+## 目录结构
+
+* [PyTorch 1.4 教程&文档](README.md)
+*  入门
+    * [使用 PyTorch 进行深度学习：60 分钟的闪电战](4.md)
+        * [什么是PyTorch？](blitz/tensor_tutorial.md)
+        * [Autograd：自动求导](blitz/autograd_tutorial.md)
+        * [神经网络](blitz/neural_networks_tutorial.md)
+        * [训练分类器](blitz/cifar10_tutorial.md)
+        * [可选：数据并行](blitz/data_parallel_tutorial.md)
+    * [编写自定义数据集，数据加载器和转换](5.md)
+    * [使用 TensorBoard 可视化模型，数据和训练](6.md)
+*  图片
+    * [TorchVision 对象检测微调教程](8.md)
+    * [转移学习的计算机视觉教程](9.md)
+    * [空间变压器网络教程](10.md)
+    * [使用 PyTorch 进行神经传递](11.md)
+    * [对抗示例生成](12.md)
+    * [DCGAN 教程](13.md)
+*  音频
+    * [torchaudio 教程](15.md)
+*  文本
+    * [NLP From Scratch: 使用char-RNN对姓氏进行分类](17.md)
+    * [NLP From Scratch: 生成名称与字符级RNN](18.md)
+    * [NLP From Scratch: 基于注意力机制的 seq2seq 神经网络翻译](19.md)
+    * [使用 TorchText 进行文本分类](20.md)
+    * [使用 TorchText 进行语言翻译](21.md)
+    * [使用 nn.Transformer 和 TorchText 进行序列到序列建模](22.md)
+*  命名为 Tensor(实验性）
+    * [(实验性）PyTorch 中的命名张量简介](24.md)
+*  强化学习
+    * [强化学习(DQN）教程](26.md)
+*  在生产中部署 PyTorch 模型
+    * [通过带有 Flask 的 REST API 在 Python 中部署 PyTorch](28.md)
+    * [TorchScript 简介](29.md)
+    * [在 C ++中加载 TorchScript 模型](30.md)
+    * [(可选）将模型从 PyTorch 导出到 ONNX 并使用 ONNX Runtime 运行](31.md)
+*  并行和分布式训练
+    * [单机模型并行最佳实践](33.md)
+    * [分布式数据并行入门](34.md)
+    * [用 PyTorch 编写分布式应用程序](35.md)
+    * [分布式 RPC 框架入门](36.md)
+    * [(高级）带有 Amazon AWS 的 PyTorch 1.0 分布式训练师](37.md)
+*  扩展 PyTorch
+    * [使用自定义 C ++运算符扩展 TorchScript](39.md)
+    * [使用自定义 C ++类扩展 TorchScript](40.md)
+    * [使用 numpy 和 scipy 创建扩展](41.md)
+    * [自定义 C ++和 CUDA 扩展](42.md)
+*  模型优化
+    * [LSTM Word 语言模型上的(实验）动态量化](44.md)
+    * [(实验性）在 PyTorch 中使用 Eager 模式进行静态量化](45.md)
+    * [(实验性）计算机视觉教程的量化转移学习](46.md)
+    * [(实验）BERT 上的动态量化](47.md)
+    * [修剪教程](48.md)
+*  PyTorch 用其他语言
+    * [使用 PyTorch C ++前端](50.md)
+*  PyTorch 基础知识
+    * [通过示例学习 PyTorch](52.md)
+    * [torch.nn 到底是什么？](53.md)
+*  文件
+*  笔记
+    * [自动毕业力学](56.md)
+    * [广播语义](57.md)
+    * [CPU 线程和 TorchScript 推断](58.md)
+    * [CUDA 语义](59.md)
+    * [分布式 Autograd 设计](60.md)
+    * [扩展 PyTorch](61.md)
+    * [经常问的问题](62.md)
+    * [大规模部署的功能](63.md)
+    * [并行处理最佳实践](64.md)
+    * [重现性](65.md)
+    * [远程参考协议](66.md)
+    * [序列化语义](67.md)
+    * [Windows 常见问题](68.md)
+    * [XLA 设备上的 PyTorch](69.md)
+*  语言绑定
+    * [PyTorch C ++ API](71.md)
+    * [PyTorch Java API](72.md)
+*  Python API
+    * [torch](74.md)
+    * [torch.nn](75.md)
+    * [torch功能](76.md)
+    * [torch张量](77.md)
+    * [张量属性](78.md)
+    * [自动差分包-Torch.Autograd](79.md)
+    * [torch.cuda](80.md)
+    * [分布式通讯包-Torch.Distributed](81.md)
+    * [概率分布-torch分布](82.md)
+    * [torch.hub](83.md)
+    * [torch脚本](84.md)
+    * [torch.nn.init](85.md)
+    * [torch.onnx](86.md)
+    * [torch.optim](87.md)
+    * [量化](88.md)
+    * [分布式 RPC 框架](89.md)
+    * [torch随机](90.md)
+    * [torch稀疏](91.md)
+    * [torch存储](92.md)
+    * [torch.utils.bottleneck](93.md)
+    * [torch.utils.checkpoint](94.md)
+    * [torch.utils.cpp_extension](95.md)
+    * [torch.utils.data](96.md)
+    * [torch.utils.dlpack](97.md)
+    * [torch.utils.model_zoo](98.md)
+    * [torch.utils.tensorboard](99.md)
+    * [类型信息](100.md)
+    * [命名张量](101.md)
+    * [命名为 Tensors 操作员范围](102.md)
+    * [糟糕！](103.md)
+*  torchvision参考
+    * [torchvision](105.md)
+*  音频参考
+    * [torchaudio](107.md)
+*  torchtext参考
+    * [torchtext](109.md)
+*  社区
+    * [PyTorch 贡献指南](111.md)
+    * [PyTorch 治理](112.md)
+    * [PyTorch 治理| 感兴趣的人](113.md)

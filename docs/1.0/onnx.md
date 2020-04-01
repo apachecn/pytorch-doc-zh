@@ -30,13 +30,13 @@ graph(%actual_input_1 : Float(10, 3, 224, 224)
       # ---- 为了简介可以省略 ----
       %learned_14 : Float(1000, 4096)
       %learned_15 : Float(1000)) {
-  # 每个声明都包含了一些输出张量以及他们的类型，以及即将运行的操作符（并且包含它的属性，例如核部分，步长等等）它的输入张量（%actual_input_1, %learned_0, %learned_1）
+  # 每个声明都包含了一些输出张量以及他们的类型，以及即将运行的操作符(并且包含它的属性，例如核部分，步长等等）它的输入张量(%actual_input_1, %learned_0, %learned_1）
   %17 : Float(10, 64, 55, 55) = onnx::Conv[dilations=[1, 1], group=1, kernel_shape=[11, 11], pads=[2, 2, 2, 2], strides=[4, 4]](%actual_input_1, %learned_0, %learned_1), scope: AlexNet/Sequential[features]/Conv2d[0]
   %18 : Float(10, 64, 55, 55) = onnx::Relu(%17), scope: AlexNet/Sequential[features]/ReLU[1]
   %19 : Float(10, 64, 27, 27) = onnx::MaxPool[kernel_shape=[3, 3], pads=[0, 0, 0, 0], strides=[2, 2]](%18), scope: AlexNet/Sequential[features]/MaxPool2d[2]
   # ---- 为了简洁可以省略 ----
   %29 : Float(10, 256, 6, 6) = onnx::MaxPool[kernel_shape=[3, 3], pads=[0, 0, 0, 0], strides=[2, 2]](%28), scope: AlexNet/Sequential[features]/MaxPool2d[12]
-  #动态意味着它的形状是未知的。这可能是因为我们的执行操作或者其形状大小是否确实为动态的而受到了限制。（这一点我们想在将来的版本中修复）
+  #动态意味着它的形状是未知的。这可能是因为我们的执行操作或者其形状大小是否确实为动态的而受到了限制。(这一点我们想在将来的版本中修复）
   %30 : Dynamic = onnx::Shape(%29), scope: AlexNet
   %31 : Dynamic = onnx::Slice[axes=[0], ends=[1], starts=[0]](%30), scope: AlexNet
   %32 : Long() = onnx::Squeeze[axes=[0]](%31), scope: AlexNet
@@ -80,7 +80,7 @@ rep = backend.prepare(model, device="CUDA:0") #或者 "CPU"
 #后台运行Caffe2：
 #rep.predict_net是该网络的Caffe2 protobuf
 #rep.workspace是该网络的Caffe2 workspace
-#（详见类“onnx_caffe2.backend.Workspace”）
+#(详见类“onnx_caffe2.backend.Workspace”）
 outputs = rep.run(np.random.randn(10, 3, 224, 224).astype(np.float32))
 #为了多输入地运行该网络，应该传递元组而不是一个单元格。
 print(outputs[0])
@@ -170,7 +170,7 @@ print(outputs[0])
 *   VGG
 * [word_language_model](https://github.com/pytorch/examples/tree/master/word_language_model)
 
-为操作符增加导出支持是一种 _提前的用法_。为了实现这一点，开发者需要掌握PyTorch的源代码。请按照这个[网址链接](https://github.com/pytorch/pytorch#from-source) 去下载PyTorch。如果您想要的运算符已经在ONNX标准化了，那么支持对导出此类运算符的操作（为运算符添加符号函数）就很容易了。为了确认运算符是否已经被标准化，请检查[ONNX 操作符列表](https://github.com/onnx/onnx/blob/master/docs/Operators.md).如果这个操作符是ATen操作符，这就意味着你可以在 `torch/csrc/autograd/generated/VariableType.h`找到它的定义。(在PyTorch安装文件列表的合成码中可见)，你应该在 `torch/onnx/symbolic.py`里面加上符号并且遵循下面的指令：
+为操作符增加导出支持是一种 _提前的用法_。为了实现这一点，开发者需要掌握PyTorch的源代码。请按照这个[网址链接](https://github.com/pytorch/pytorch#from-source) 去下载PyTorch。如果您想要的运算符已经在ONNX标准化了，那么支持对导出此类运算符的操作(为运算符添加符号函数）就很容易了。为了确认运算符是否已经被标准化，请检查[ONNX 操作符列表](https://github.com/onnx/onnx/blob/master/docs/Operators.md).如果这个操作符是ATen操作符，这就意味着你可以在 `torch/csrc/autograd/generated/VariableType.h`找到它的定义。(在PyTorch安装文件列表的合成码中可见)，你应该在 `torch/onnx/symbolic.py`里面加上符号并且遵循下面的指令：
 *   在 [torch/onnx/symbolic.py](https://github.com/pytorch/pytorch/blob/master/torch/onnx/symbolic.py)里面定义符号。确保该功能与在ATen操作符在`VariableType.h`的功能相同。
 *   第一个参数总是ONNX图形参数，参数的名字必须与 `VariableType.h`里的匹配，因为调度是依赖于关键字参数完成的。
 *   参数排序不需要严格与`VariableType.h`匹配，首先的张量一定是输入的张量，然后是非张量参数。
@@ -217,7 +217,7 @@ class Graph(object):
  opname (字符串)：ONNX操作符的名字，例如`Abs`或者`Add`。
  args (值...)：该操作符的输入经常被作为`symbolic`定义参数输入。
  kwargs：该ONNX操作符的属性键名根据以下约定：`alpha_f` 代表着`alpha`具有`f`的属性。有效的类型说明符是
-  `f`（float），`i`（int），`s`（string）或`t`（Tensor）。使用float类型指定的属性接受单个float或float列表（例如，对于带有整数列表的`dims`属性，你可以称其为'dims_i`）。
+  `f`(float），`i`(int），`s`(string）或`t`(Tensor）。使用float类型指定的属性接受单个float或float列表(例如，对于带有整数列表的`dims`属性，你可以称其为'dims_i`）。
  outputs (证书，可选)：这个运算符返回的输出参数的数量，默认情况下，假定运算符返回单个输出。
  如果`输出`不止一个，这个功能将会返回一个输出值的元组，代表着每个ONNX操作符的输出的位置。
  """
@@ -234,7 +234,7 @@ RuntimeError: ONNX export failed: Couldn't export operator elu
 
 ```
 
-导出失败，因为PyTorch不支持导出`elu`操作符。 我们发现`virtual Tensor elu（const Tensor＆input，Scalar alpha，bool inplace）const override;```VariableType.h`。 这意味着`elu`是一个ATen操作符。
+导出失败，因为PyTorch不支持导出`elu`操作符。 我们发现`virtual Tensor elu(const Tensor＆input，Scalar alpha，bool inplace）const override;```VariableType.h`。 这意味着`elu`是一个ATen操作符。
 我们可以参考[ONNX操作运算符列表](http://https://github.com/onnx/onnx/blob/master/docs/Operators.md)，并且确认 `Elu` 在ONNX中已经被标准化。我们将以下行添加到`symbolic.py`：
 
 ```py

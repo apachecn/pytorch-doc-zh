@@ -10,7 +10,7 @@ python3 src/script.py "home" "gitalk"
 gitbook build ./ _book
 # python3 src/script.py "home" "index"
 
-versions="0.2 0.3 0.4 1.0 1.2 LatestChanges"
+versions="0.2 0.3 0.4 1.0 1.2 1.4 LatestChanges"
 for version in $versions;do
     loginfo "==========================================================="
     loginfo "开始", ${version}, "版本编译"
@@ -22,8 +22,9 @@ for version in $versions;do
     echo "python3 src/script.py ${version} book"
     python3 src/script.py ${version} "book"
 
-    echo "rm -rf docs/${version}/node_modules/gitbook-plugin-tbfed-pagefooter"
-    rm -rf docs/${version}/node_modules/gitbook-plugin-tbfed-pagefooter
+    echo "cp -r node_modules docs/${version}"
+    rm -rf docs/${version}/node_modules
+    cp -r node_modules docs/${version}
 
     echo "gitbook install docs/${version}"
     gitbook install docs/${version}

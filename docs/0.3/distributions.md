@@ -39,7 +39,7 @@ log_prob(value)
 
 返回在`value`处的概率密度函数的对数.
 
-参数：`value (Tensor 或 Variable)` – （基类的参数,没有实际用处）
+参数：`value (Tensor 或 Variable)` – (基类的参数,没有实际用处）
 
 
 ```py
@@ -114,7 +114,7 @@ class torch.distributions.Categorical(probs)
 class torch.distributions.Normal(mean, std)
 ```
 
-创建以 `mean` 和 `std` 为参数的正态分布（也称为高斯分布）.
+创建以 `mean` 和 `std` 为参数的正态分布(也称为高斯分布）.
 
 例:
 

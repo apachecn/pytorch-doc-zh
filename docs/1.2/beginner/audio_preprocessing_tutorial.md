@@ -1,5 +1,9 @@
 # torchaudio教程
 
+> 译者：[片刻](https://github.com/jiangzhonglian)
+> 
+> 校验：[片刻](https://github.com/jiangzhonglian)
+
 PyTorch是一个开源深度学习平台，提供了从研究原型到具有GPU支持的生产部署的无缝路径。
 
 解决机器学习问题的巨大努力在于数据准备。torchaudio利用PyTorch的GPU支持，并提供许多工具来简化数据加载并使其更具可读性。在本教程中，我们将看到如何从简单的数据集中加载和预处理数据。
@@ -227,9 +231,9 @@ Out:
 
 ## 结论
 
-我们使用示例原始音频信号或波形来说明如何使用torchaudio打开音频文件，以及如何预处理和转换此类波形。鉴于torchaudio是基于PyTorch构建的，则这些技术可在利用GPU的同时用作更高级音频应用（例如语音识别）的构建块。
+我们使用示例原始音频信号或波形来说明如何使用torchaudio打开音频文件，以及如何预处理和转换此类波形。鉴于torchaudio是基于PyTorch构建的，则这些技术可在利用GPU的同时用作更高级音频应用(例如语音识别）的构建块。
 
-**脚本的总运行时间：** （0分钟2.343秒）
+**脚本的总运行时间：** (0分钟2.343秒）
 
 [`Download Python source code:
 audio_preprocessing_tutorial.py`](https://pytorch.org/tutorials/_downloads/5ffe15ce830e55b3a9e9c294d04ab41c/audio_preprocessing_tutorial.py)

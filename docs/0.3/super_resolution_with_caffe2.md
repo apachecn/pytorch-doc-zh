@@ -2,7 +2,7 @@
 
 > 译者：[@片刻](https://github.com/jiangzhonglian)
 
-在本教程中, 我们将介绍如何使用 ONNX 将 PyTorch 中定义的模型转换为 ONNX 格式, 然后将其加载到 Caffe2 中. 一旦进入 Caffe2 , 我们可以运行该模型以仔细检查它是否正确导出, 然后演示如何使用 Caffe2 功能（例如移动导出器）在移动设备上执行模型.
+在本教程中, 我们将介绍如何使用 ONNX 将 PyTorch 中定义的模型转换为 ONNX 格式, 然后将其加载到 Caffe2 中. 一旦进入 Caffe2 , 我们可以运行该模型以仔细检查它是否正确导出, 然后演示如何使用 Caffe2 功能(例如移动导出器）在移动设备上执行模型.
 
 在本教程中, 您需要安装 [onnx](https://github.com/onnx/onnx), [onnx-caffe2](https://github.com/onnx/onnx-caffe2) 和 [Caffe2](https://caffe2.ai/). 你可以通过 `conda install -c ezyang onnx onnx-caffe2` 用 onnx 和 onnx-caffe2 获得二进制版本.
 

@@ -24,7 +24,7 @@
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glrsequencemodels_tutorial_thumb.png](img/d039aef9c9fb8610d9dcaa67c63a2a8e.jpg)
 
-[序列模型和 LSTM 网络（长短记忆网络）](nlp/sequence_models_tutorial.html#sphx-glr-beginner-nlp-sequence-models-tutorial-py)
+[序列模型和 LSTM 网络(长短记忆网络）](nlp/sequence_models_tutorial.html#sphx-glr-beginner-nlp-sequence-models-tutorial-py)
 
 ![http://pytorch.apachecn.org/cn/tutorials/_images/sphx_glr_advanced_tutorial_thumb.png](img/602c0e119f456abdd0a45bf6dfcc4405.jpg)
 

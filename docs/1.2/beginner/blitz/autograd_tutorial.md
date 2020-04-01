@@ -2,11 +2,11 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/fonttian)
 
 PyTorch中，所有神经网络的核心是 `autograd` 包。先简单介绍一下这个包，然后训练我们的第一个的神经网络。
 
-`autograd` 包为张量上的所有操作提供了自动求导机制。它是一个在运行时定义（define-by-run）的框架，这意味着反向传播是根据代码如何运行来决定的，并且每次迭代可以是不同的.
+`autograd` 包为张量上的所有操作提供了自动求导机制。它是一个在运行时定义(define-by-run）的框架，这意味着反向传播是根据代码如何运行来决定的，并且每次迭代可以是不同的.
 
 让我们用一些简单的例子来看看吧。
 
@@ -16,13 +16,13 @@ PyTorch中，所有神经网络的核心是 `autograd` 包。先简单介绍一�
 
 要阻止一个张量被跟踪历史，可以调用 `.detach()` 方法将其与计算历史分离，并阻止它未来的计算记录被跟踪。
 
-为了防止跟踪历史记录（和使用内存），可以将代码块包装在 `with torch.no_grad():` 中。在评估模型时特别有用，因为模型可能具有 `requires_grad = True` 的可训练的参数，但是我们不需要在此过程中对他们进行梯度计算。
+为了防止跟踪历史记录(和使用内存），可以将代码块包装在 `with torch.no_grad():` 中。在评估模型时特别有用，因为模型可能具有 `requires_grad = True` 的可训练的参数，但是我们不需要在此过程中对他们进行梯度计算。
 
 还有一个类对于autograd的实现非常重要：`Function`。
 
-`Tensor` 和 `Function` 互相连接生成了一个无圈图(acyclic graph)，它编码了完整的计算历史。每个张量都有一个 `.grad_fn` 属性，该属性引用了创建 `Tensor` 自身的`Function`（除非这个张量是用户手动创建的，即这个张量的 `grad_fn` 是 `None` ）。
+`Tensor` 和 `Function` 互相连接生成了一个无圈图(acyclic graph)，它编码了完整的计算历史。每个张量都有一个 `.grad_fn` 属性，该属性引用了创建 `Tensor` 自身的`Function`(除非这个张量是用户手动创建的，即这个张量的 `grad_fn` 是 `None` )。
 
-如果需要计算导数，可以在 `Tensor` 上调用 `.backward()`。如果 `Tensor` 是一个标量（即它包含一个元素的数据），则不需要为 `backward()` 指定任何参数，但是如果它有更多的元素，则需要指定一个 `gradient` 参数，该参数是形状匹配的张量。
+如果需要计算导数，可以在 `Tensor` 上调用 `.backward()`。如果 `Tensor` 是一个标量(即它包含一个元素的数据），则不需要为 `backward()` 指定任何参数，但是如果它有更多的元素，则需要指定一个 `gradient` 参数，该参数是形状匹配的张量。
 
 
 ```python
@@ -160,7 +160,7 @@ J^{T}\cdot v=\left(\begin{array}{ccc}
    \end{array}\right)
 $$
 
-（注意：行向量的$$ v^{T}\cdot J$$也可以被视作列向量的$$J^{T}\cdot v$$)
+(注意：行向量的$$ v^{T}\cdot J$$也可以被视作列向量的$$J^{T}\cdot v$$)
 
 雅可比向量积的这一特性使得将外部梯度输入到具有非标量输出的模型中变得非常方便。
 

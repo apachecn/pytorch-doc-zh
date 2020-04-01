@@ -113,15 +113,15 @@ marketing@fb.com [HTG1对于营销支持。](http://mailto:pytorch-marketing@fb.
 
 ## 常见的错误，以避免
 
-  * **你添加的测试？** （或者如果改变是很难测试，你描述你如何测试你的改变？）
+  * **你添加的测试？** (或者如果改变是很难测试，你描述你如何测试你的改变？）
 
     * 我们有我们为什么要求测试的几个动机：
 
       1. 帮助我们告诉我们，如果以后打破它
 
-      2. 帮助我们告诉我们，如果补丁是在第一时间正确的（是的，我们没有审查，但克努特说，“当心下面的代码，因为我还没有运行它，只是证明了它正确”）
+      2. 帮助我们告诉我们，如果补丁是在第一时间正确的(是的，我们没有审查，但克努特说，“当心下面的代码，因为我还没有运行它，只是证明了它正确”）
 
-    * 什么时候确定不添加测试？有时变化不能方便地进行测试，或者改变是如此明显正确的（且不太可能被打破），它是确定不进行测试。相反，如果一个变化很可能（或者被称为是有可能的）被意外打破，它把在制定测试策略的时间是非常重要的。
+    * 什么时候确定不添加测试？有时变化不能方便地进行测试，或者改变是如此明显正确的(且不太可能被打破），它是确定不进行测试。相反，如果一个变化很可能(或者被称为是有可能的）被意外打破，它把在制定测试策略的时间是非常重要的。
 
   * **是你的PR过长？**
 
@@ -157,7 +157,7 @@ PyTorch文档从蟒源使用[斯芬克斯](http://www.sphinx-
 doc.org/en/master/)生成。生成的HTML被复制到文档文件夹中的[ pytorch.github.io
 ](https://github.com/pytorch/pytorch.github.io/tree/master/docs)主分支，并且经由GitHub的页供应。
 
-  * 网站：HTG0] http://pytorch.org/docs 
+  * 网站：http://pytorch.org/docs 
 
   * GitHub的：[ https://github.com/pytorch/pytorch/tree/master/docs ](https://github.com/pytorch/pytorch/tree/master/docs)
 
@@ -169,7 +169,7 @@ doc.org/en/master/)生成。生成的HTML被复制到文档文件夹中的[ pyto
 https://github.com/pytorch/cppdocs
 ](https://github.com/pytorch/cppdocs)回购，并从GitHub页面服务。
 
-  * 网站：HTG0] http://pytorch.org/cppdocs 
+  * 网站：http://pytorch.org/cppdocs 
 
   * GitHub的：[ https://github.com/pytorch/pytorch/tree/master/docs/cpp ](https://github.com/pytorch/pytorch/tree/master/docs/cpp)
 
@@ -178,9 +178,9 @@ https://github.com/pytorch/cppdocs
 ## 教程
 
 PyTorch教程是用于帮助了解使用PyTorch完成特定任务或要了解更全面的概念文件。教程使用[狮身人面像，画廊](https://sphinx-
-gallery.readthedocs.io/en/latest/index.html)从Python可执行文件的来源，或重组文本（RST）文件建立。
+gallery.readthedocs.io/en/latest/index.html)从Python可执行文件的来源，或重组文本(RST）文件建立。
 
-  * 网站：HTG0] http://pytorch.org/tutorials 
+  * 网站：http://pytorch.org/tutorials 
 
   * GitHub的：[ http://github.com/pytorch/tutorials ](http://github.com/pytorch/tutorials)
 

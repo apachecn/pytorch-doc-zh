@@ -1,5 +1,9 @@
 # 文本分类与TorchText
 
+> 译者：[PengboLiu](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.2/beginner/text_sentiment_ngrams_tutorial.md)
+> 
+> 校验：[PengboLiu](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.2/beginner/text_sentiment_ngrams_tutorial.md)
+
 本教程将说明如何在*torchtext*中使用文本分类数据集，其中包括：
 
     - AG_NEWS,
@@ -41,7 +45,7 @@
 
 ## 定义模型
 
-该模型是由[ EmbeddingBag](https://pytorch.org/docs/stable/nn.html?highlight=embeddingbag#torch.nn.EmbeddingBag)层和线性层（参见下图）组成的。
+该模型是由[ EmbeddingBag](https://pytorch.org/docs/stable/nn.html?highlight=embeddingbag#torch.nn.EmbeddingBag)层和线性层(参见下图）组成的。
 
 `nn.EmbeddingBag`计算“袋”中embeddings的平均值。此处的文本具有不同的长度。nn.EmbeddingBag不需要填充，因为文本长度会以偏移量保存。
 
@@ -78,7 +82,7 @@ AG_NEWS数据集有四个标签，也就是一共有四类。分别如下：
     3 : Business
     4 : Sci/Tec
 
-VOCAB_SIZE等于词汇表的长度（包括单个单词和ngrams）。NUN_CLASS等于标签的数量，在AG_NEWS情况下为4。    
+VOCAB_SIZE等于词汇表的长度(包括单个单词和ngrams）。NUN_CLASS等于标签的数量，在AG_NEWS情况下为4。    
 
 
 
@@ -90,8 +94,8 @@ VOCAB_SIZE等于词汇表的长度（包括单个单词和ngrams）。NUN_CLASS�
 
 ## 生成批数据的方法
 
-由于文本条目的长度不同，因此使用自定义函数`generate_batch（）`被用于生成批量数据和偏移量。该函数在`torch.utils.data.DataLoader`中传递给`collate_fn`在`
-`。`collate_fn`的输入是batch_size大小的张量列表，`collat​​e_fn`函数把它们打包成一个小规模的批处理（mini-batch）。请注意将`collate_fn`在程序顶层声明。 这样可以确保该功能在每个程序中均可用。
+由于文本条目的长度不同，因此使用自定义函数`generate_batch(）`被用于生成批量数据和偏移量。该函数在`torch.utils.data.DataLoader`中传递给`collate_fn`在`
+`。`collate_fn`的输入是batch_size大小的张量列表，`collat​​e_fn`函数把它们打包成一个小规模的批处理(mini-batch）。请注意将`collate_fn`在程序顶层声明。 这样可以确保该功能在每个程序中均可用。
 
 原始数据批处理输入中的文本条目打包到一个列表中，并作为单个张量串联在一起，作为`nn.EmbeddingBag`的输入。 偏移量是分解符的张量，表示文本张量中各个序列的起始索引。 Label是一个保存单个文本条目的标签张量。
 
@@ -112,7 +116,7 @@ VOCAB_SIZE等于词汇表的长度（包括单个单词和ngrams）。NUN_CLASS�
 
 ## 定义功能训练模型和评估结果。
 
-建议PyTorch用户使用[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)，它使数据并行加载变得容易（此处有一个[教程](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html)）。 我们在这里使用`DataLoader`加载AG_NEWS数据集并将其发送到模型以进行训练/验证。
+建议PyTorch用户使用[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)，它使数据并行加载变得容易(此处有一个[教程](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html)）。 我们在这里使用`DataLoader`加载AG_NEWS数据集并将其发送到模型以进行训练/验证。
 
 
 
@@ -157,9 +161,9 @@ VOCAB_SIZE等于词汇表的长度（包括单个单词和ngrams）。NUN_CLASS�
 
 ## 拆分数据集和运行模型
 
-由于原始AG_NEWS数据没有验证集，我们用的0.95（训练集）和0.05（验证集）的比例分割训练数据集。在这里，我们使用PyTorch核心库中的[torch.utils.data.dataset.random_split](https://pytorch.org/docs/stable/data.html?highlight=random_split#torch.utils.data.random_split)函数。
+由于原始AG_NEWS数据没有验证集，我们用的0.95(训练集）和0.05(验证集）的比例分割训练数据集。在这里，我们使用PyTorch核心库中的[torch.utils.data.dataset.random_split](https://pytorch.org/docs/stable/data.html?highlight=random_split#torch.utils.data.random_split)函数。
 
-[ CrossEntropyLoss](https://pytorch.org/docs/stable/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss)将nn.LogSoftmax（）和nn.NLLLoss（）合并到一个类中。在训练多分类模型时很有用。 [ SGD](https://pytorch.org/docs/stable/_modules/torch/optim/sgd.html)将随机梯度下降方法用作优化程序。 初始学习率设置为4.0。[ StepLR](https://pytorch.org/docs/master/_modules/torch/optim/lr_scheduler.html#StepLR)用于每轮调整学习率。
+[ CrossEntropyLoss](https://pytorch.org/docs/stable/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss)将nn.LogSoftmax(）和nn.NLLLoss(）合并到一个类中。在训练多分类模型时很有用。 [ SGD](https://pytorch.org/docs/stable/_modules/torch/optim/sgd.html)将随机梯度下降方法用作优化程序。 初始学习率设置为4.0。[ StepLR](https://pytorch.org/docs/master/_modules/torch/optim/lr_scheduler.html#StepLR)用于每轮调整学习率。
 
     import time
     from torch.utils.data.dataset import random_split
@@ -318,4 +322,4 @@ Out:
 
 你可以在[此处](https://github.com/pytorch/text/tree/master/examples/text_classification)找到对应的代码示例。
 
-**脚本的总运行时间：** （1分钟26.424秒）
+**脚本的总运行时间：** (1分钟26.424秒）

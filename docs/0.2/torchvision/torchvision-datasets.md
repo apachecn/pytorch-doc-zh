@@ -2,7 +2,7 @@
 `torchvision.datasets`中包含了以下数据集
 
 - MNIST
-- COCO（用于图像标注和目标检测）(Captioning and Detection)
+- COCO(用于图像标注和目标检测）(Captioning and Detection)
 - LSUN Classification
 - ImageFolder
 - Imagenet-12
@@ -14,14 +14,14 @@
 `__getitem__`
 `__len__`
 
-由于以上`Datasets`都是 `torch.utils.data.Dataset`的子类，所以，他们也可以通过`torch.utils.data.DataLoader`使用多线程（python的多进程）。
+由于以上`Datasets`都是 `torch.utils.data.Dataset`的子类，所以，他们也可以通过`torch.utils.data.DataLoader`使用多线程(python的多进程）。
 
 举例说明：
 `torch.utils.data.DataLoader(coco_cap, batch_size=args.batchSize, shuffle=True, num_workers=args.nThreads)`
 
 在构造函数中，不同的数据集直接的构造函数会有些许不同，但是他们共同拥有 `keyword` 参数。
 In the constructor, each dataset has a slightly different API as needed, but they all take the keyword args:
-- `transform`： 一个函数，原始图片作为输入，返回一个转换后的图片。（详情请看下面关于`torchvision-tranform`的部分）
+- `transform`： 一个函数，原始图片作为输入，返回一个转换后的图片。(详情请看下面关于`torchvision-tranform`的部分）
 
 - `target_transform` - 一个函数，输入为`target`，输出对其的转换。例子，输入的是图片标注的`string`，输出为`word`的索引。
 ## MNIST
@@ -31,7 +31,7 @@ dset.MNIST(root, train=True, transform=None, target_transform=None, download=Fal
 参数说明：
 - root : `processed/training.pt` 和 `processed/test.pt` 的主目录
 - train : `True` = 训练集, `False` = 测试集
-- download : `True` = 从互联网上下载数据集，并把数据集放在`root`目录下. 如果数据集之前下载过，将处理过的数据（minist.py中有相关函数）放在`processed`文件夹下。
+- download : `True` = 从互联网上下载数据集，并把数据集放在`root`目录下. 如果数据集之前下载过，将处理过的数据(minist.py中有相关函数）放在`processed`文件夹下。
 
 ## COCO
 需要安装[COCO API](https://github.com/pdollar/coco/tree/master/PythonAPI)

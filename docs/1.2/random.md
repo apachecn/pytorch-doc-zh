@@ -7,9 +7,9 @@
 
   参数
 
-    * **devices** （可迭代CUDA编号） - CUDA设备针对其叉的RNG。 CPU RNG状态始终分叉。默认情况下， `fork_rng（） `运行在所有设备上，但会发出警告，如果你的机器有很多的设备，因为该功能将运行非常缓慢在这种情况下。如果您明确指定的设备，这个警告将被抑制
+    * **devices** (可迭代CUDA编号） - CUDA设备针对其叉的RNG。 CPU RNG状态始终分叉。默认情况下， `fork_rng(） `运行在所有设备上，但会发出警告，如果你的机器有很多的设备，因为该功能将运行非常缓慢在这种情况下。如果您明确指定的设备，这个警告将被抑制
 
-    * **enabled** （[bool](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 如果`假 `时，RNG没有分叉。这是很容易禁用上下文管理，而不必删除它，并在它之下取消缩进Python代码便利的说法。
+    * **enabled** ([bool](https://docs.python.org/3/library/functions.html#bool "\(in Python v3.7\)")） - 如果`假 `时，RNG没有分叉。这是很容易禁用上下文管理，而不必删除它，并在它之下取消缩进Python代码便利的说法。
 
 
 `torch.random.get_rng_state()`[[source]](_modules/torch/random.html#get_rng_state)
@@ -28,7 +28,7 @@
 
   参数
 
-    **seed** （[int](https://docs.python.org/3/library/functions.html#int） - 所需的种子。
+    **seed** ([int](https://docs.python.org/3/library/functions.html#int） - 所需的种子。
 
 `torch.random.seed()`[[source]](_modules/torch/random.html#seed)
 

@@ -127,8 +127,8 @@ state_dict()
 
 它包含两部分内容:
 
-*   state - 一个包含当前优化状态的字典（dict）, 字典里的内容因优化器的不同而变换.
-*   param_groups - 一个包含所有参数组的字典（dict）.
+*   state - 一个包含当前优化状态的字典(dict）, 字典里的内容因优化器的不同而变换.
+*   param_groups - 一个包含所有参数组的字典(dict）.
 
 ```py
 step(closure)
@@ -267,7 +267,7 @@ class torch.optim.LBFGS(params, lr=1, max_iter=20, max_eval=None, tolerance_grad
 
 警告：
 
-这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组（只能有一个）.
+这个 optimizer 不支持为每个参数单独设置选项以及不支持参数组(只能有一个）.
 
 警告：
 
@@ -334,7 +334,7 @@ step(closure=None)
 class torch.optim.SGD(params, lr=<object object>, momentum=0, dampening=0, weight_decay=0, nesterov=False)
 ```
 
-实现随机梯度下降算法（ momentum 可选）.
+实现随机梯度下降算法 (momentum 可选）.
 
 Nesterov 动量基于 [On the importance of initialization and momentum in deep learning](http://www.cs.toronto.edu/%7Ehinton/absps/momentum.pdf) 中的公式.
 

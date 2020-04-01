@@ -1,6 +1,6 @@
 # DCGAN 教程
 
-> **作者**: [Nathan Inkawhich](https://github.com/inkawhich)
+> **作者**：[Nathan Inkawhich](https://github.com/inkawhich)
 >
 > 译者：[wangshuai9517](https://github.com/wangshuai9517)
 >
@@ -8,7 +8,7 @@
 
 ## 介绍
 
-本教程将通过一个例子来介绍DCGAN。我们将使用很多真正的名人照片训练一个生成对抗网络（GAN）后，生成新的假名人照片。这里的大多数代码来自于[pytorch/examples](https://github.com/pytorch/examples)中对DCGAN的实现，并且本文档将对DCGAN的实现进行全面解释，并阐明该模型是怎样工作的以及为什么能工作。但是不要担心，我们并不需要你事先了解GAN，但是可能需要先花一些时间来弄明白实际发生了什么。此外，为了节省时间，安装一两个GPU也将有所帮助。让我们从头开始吧。
+本教程将通过一个例子来介绍DCGAN。我们将使用很多真正的名人照片训练一个生成对抗网络(GAN）后，生成新的假名人照片。这里的大多数代码来自于[pytorch/examples](https://github.com/pytorch/examples)中对DCGAN的实现，并且本文档将对DCGAN的实现进行全面解释，并阐明该模型是怎样工作的以及为什么能工作。但是不要担心，我们并不需要你事先了解GAN，但是可能需要先花一些时间来弄明白实际发生了什么。此外，为了节省时间，安装一两个GPU也将有所帮助。让我们从头开始吧。
 
 ## 生成对抗网络
 
@@ -18,7 +18,7 @@ GAN是用于教授DL模型以捕获训练数据分布的框架，因此我们可
 
 现在，让我们从判别器开始定义一些在整个教程中使用的符号。 $$x$$ 表示图像数据。$$D(x)$$ 表示判别网络，它的输出表示数据 $$x$$ 来自与训练数据，而不是生成器。在这里，由于我们正在处理图像，因此输入 $$D(x)$$是CHW大小为3x64x64图像。 直观地说，当 $$x$$ 来自训练数据时，$$D(x)$$的值应当是大的；而当 $$x$$ 来自生成器时，$$D(x)$$ 的值应为小的。 $$D(x)$$ 也可以被认为是传统的二元分类器。
 
-对于生成器 $$z$$ 表示从标准正态分布中采样的空间矢量（本征向量）。 $$G(z)$$ 表示将本征向量 $$z$$ 映射到数据空间的生成器函数。 $$G$$ 的目标是估计训练数据来自的分布 $$p_{data}$$ ，这样就可以从估计的分布 $$p_g$$ 中生成假样本。
+对于生成器 $$z$$ 表示从标准正态分布中采样的空间矢量(本征向量）。 $$G(z)$$ 表示将本征向量 $$z$$ 映射到数据空间的生成器函数。 $$G$$ 的目标是估计训练数据来自的分布 $$p_{data}$$ ，这样就可以从估计的分布 $$p_g$$ 中生成假样本。
 
 因此，$$D(G(z))$$ 表示生成器输出$$G$$是真实图片的概率。就像在 [Goodfellow’s paper](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)中描述的那样，$$D$$ 和 $$G$$ 在玩一个极大极小游戏。在这个游戏中 $$D$$ 试图最大化正确分类真假图片的概率 $$logD(x)$$ ，$$G$$ 试图最小化 $$D$$ 预测其输出为假图片的概率  $$log(1-D(G(x)))$$ 。文章中GAN的损失函数是
 
@@ -28,7 +28,7 @@ $$\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim p_
 
 ### 什么是DCGAN?
 
-DCGAN是对上述的GAN的直接扩展，除了它分别在判别器和生成器中明确地使用卷积和卷积转置层。DCGAN是在Radford等的文章[Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf)中首次被提出的。判别器由[卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d)层、[批标准化](https://pytorch.org/docs/stable/nn.html#torch.nn.BatchNorm2d) 层以及[LeakyReLU](https://pytorch.org/docs/stable/nn.html#torch.nn.LeakyReLU) 激活层组成。输入是3x64x64的图像，输出是输入图像来自实际数据的概率。生成器由[转置卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.ConvTranspose2d)层，批标准化层以及[ReLU](https://pytorch.org/docs/stable/nn.html#relu) 激活层组成。 输入是一个本征向量（latent vector） $$z$$，它是从标准正态分布中采样得到的，输出是一个3x64x64 的RGB图像。 转置卷积层能够把本征向量转换成和图像具有相同大小。 在本文中，作者还提供了一些有关如何设置优化器，如何计算损失函数以及如何初始化模型权重的建议，所有这些都将在后面的章节中进行说明。
+DCGAN是对上述的GAN的直接扩展，除了它分别在判别器和生成器中明确地使用卷积和卷积转置层。DCGAN是在Radford等的文章[Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf)中首次被提出的。判别器由[卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d)层、[批标准化](https://pytorch.org/docs/stable/nn.html#torch.nn.BatchNorm2d) 层以及[LeakyReLU](https://pytorch.org/docs/stable/nn.html#torch.nn.LeakyReLU) 激活层组成。输入是3x64x64的图像，输出是输入图像来自实际数据的概率。生成器由[转置卷积](https://pytorch.org/docs/stable/nn.html#torch.nn.ConvTranspose2d)层，批标准化层以及[ReLU](https://pytorch.org/docs/stable/nn.html#relu) 激活层组成。 输入是一个本征向量(latent vector） $$z$$，它是从标准正态分布中采样得到的，输出是一个3x64x64 的RGB图像。 转置卷积层能够把本征向量转换成和图像具有相同大小。 在本文中，作者还提供了一些有关如何设置优化器，如何计算损失函数以及如何初始化模型权重的建议，所有这些都将在后面的章节中进行说明。
 
 ```py
 from __future__ import print_function
@@ -168,7 +168,7 @@ plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=
 
 ![https://pytorch.org/tutorials/_images/sphx_glr_dcgan_faces_tutorial_001.png](img/04fb3a8ed8e63cf7cffb5f29224decca.jpg)
 
-## 实现（implementation）
+## 实现(implementation）
 
 设置好输入参数并准备好数据集后，我们现在可以进入实现了。我们将从Weigth初始化策略开始，然后详细讨论生成器，判别器，损失函数和训练循环。
 
@@ -190,11 +190,11 @@ def weights_init(m):
 
 ### 生成器
 
-生成器 $$G$$ 用于将本征向量 $$z$$ 映射到数据空间。 由于我们的数据是图像，因此将 $$z$$ 转换为数据空间意味着最终创建一个与训练图像大小相同的RGB图像（即3x64x64）。 实际上，这是通过一系列跨步的二维卷积转置层实现的，每个转换层与二维批标准化层和relu激活层配对。 生成器的输出通过tanh层，使其输出数据范围和输入图片一样，在 $$[-1, 1]$$ 之间。 值得注意的是在转换层之后存在批标准化函数，因为这是DCGAN论文的关键贡献。 这些层有助于训练期间的梯度传播。 DCGAN论文中的生成器图片如下所示。
+生成器 $$G$$ 用于将本征向量 $$z$$ 映射到数据空间。 由于我们的数据是图像，因此将 $$z$$ 转换为数据空间意味着最终创建一个与训练图像大小相同的RGB图像(即3x64x64）。 实际上，这是通过一系列跨步的二维卷积转置层实现的，每个转换层与二维批标准化层和relu激活层配对。 生成器的输出通过tanh层，使其输出数据范围和输入图片一样，在 $$[-1, 1]$$ 之间。 值得注意的是在转换层之后存在批标准化函数，因为这是DCGAN论文的关键贡献。 这些层有助于训练期间的梯度传播。 DCGAN论文中的生成器图片如下所示。
 
 ![https://pytorch.org/tutorials/_images/dcgan_generator.png](https://pytorch.org/tutorials/_images/dcgan_generator.png)
 
-请注意，我们在变量定义部分 `(nz, ngf 和 nc)` 中设置的输入如何影响代码中的生成器体系结构。 `nz`是`z`输入向量的长度，`ngf`生成器要生成的特征图个数大小，`nc`是输出图像中的通道数（对于RGB图像，设置为3）。 下面是生成器的代码。
+请注意，我们在变量定义部分 `(nz, ngf 和 nc)` 中设置的输入如何影响代码中的生成器体系结构。 `nz`是`z`输入向量的长度，`ngf`生成器要生成的特征图个数大小，`nc`是输出图像中的通道数(对于RGB图像，设置为3）。 下面是生成器的代码。
 
 ```py
 # 生成器代码
@@ -276,7 +276,7 @@ Generator(
 
 ### 判别器
 
-如上所述，判别器 $$D$$ 是一个二分类网络，它将图像作为输入并输出输入图像是真实的概率（而不是假的）。 这里，$$D$$ 采用3x64x64输入图像，通过一系列Conv2d，BatchNorm2d和LeakyReLU层处理它，并通过Sigmoid激活函数输出最终概率。 如果问题需要，可以使用更多层扩展此体系结构，但使用跨步卷积，BatchNorm和LeakyReLU具有重要意义。 DCGAN论文提到使用跨步卷积而不是使用pooling下采样是一种很好的做法，因为它可以让网络学习自己的pooling功能。批标准化和LeakyReLU函数也促进了健康的梯度流动，这对于 $$G$$ 和 $$D$$ 的学习过程至关重要。
+如上所述，判别器 $$D$$ 是一个二分类网络，它将图像作为输入并输出输入图像是真实的概率(而不是假的）。 这里，$$D$$ 采用3x64x64输入图像，通过一系列Conv2d，BatchNorm2d和LeakyReLU层处理它，并通过Sigmoid激活函数输出最终概率。 如果问题需要，可以使用更多层扩展此体系结构，但使用跨步卷积，BatchNorm和LeakyReLU具有重要意义。 DCGAN论文提到使用跨步卷积而不是使用pooling下采样是一种很好的做法，因为它可以让网络学习自己的pooling功能。批标准化和LeakyReLU函数也促进了健康的梯度流动，这对于 $$G$$ 和 $$D$$ 的学习过程至关重要。
 
 判别器代码
 
@@ -359,7 +359,7 @@ Discriminator(
 
 $$\ell(x, y) = L = \{l_1,\dots,l_N\}^\top, \quad l_n = - \left[ y_n \cdot \log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]$$
 
-需要注意的是目标函数中两个log部分是怎么提供计算的(i.e. $$log(D(x))$$ 和 $$log(1-D(G(z)))$$ 。 即将介绍的训练循环中我们将详细的介绍BCE公式的怎么使用输入 $$y$$ 的。但重要的是要了解我们如何通过改变 $$y$$（即GT标签）来选择我们想要计算的部分损失。
+需要注意的是目标函数中两个log部分是怎么提供计算的(i.e. $$log(D(x))$$ 和 $$log(1-D(G(z)))$$ 。 即将介绍的训练循环中我们将详细的介绍BCE公式的怎么使用输入 $$y$$ 的。但重要的是要了解我们如何通过改变 $$y$$(即GT标签）来选择我们想要计算的部分损失。
 
 下一步，我们定义真实图片标记为1，假图片标记为0。这个标记将在计算 $$D$$ 和 $$G$$ 的损失函数的时候使用，这是在原始的GAN文献中使用的惯例。最后我们设置两个单独的优化器，一个给判别器 $$D$$ 使用，一个给生成器 $$G$$ 使用。 就像DCGAN文章中说的那样，两个Adam优化算法都是用学习率为0.0002以及Beta1为0.5。为了保存追踪生成器学习的过程，我们将生成一个批固定不变的来自于高斯分布的本征向量(例如 fixed_noise)。在训练的循环中，我们将周期性的输入这个fixed_noise到生成器 $$G$$ 中， 在训练都完成后我们将看一下由fixed_noise生成的图片。 
 
@@ -386,17 +386,17 @@ optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
 **Part 1 - 训练判别器**
 
-回想一下，训练判别器的目的是最大化将给定输入正确分类为真实或假的概率。 就Goodfellow而言，我们希望“通过提升其随机梯度来更新判别器”。 实际上，我们想要最大化损失$$log(D(x))+ log(1-D(G(z)))$$。 由于ganhacks的单独小批量建议，我们将分两步计算。 首先，我们将从训练集中构造一批实际样本，向前通过 $$D$$，计算损失（$$log(D(x))$$），然后计算梯度 向后传递。 其次，我们将用当前的生成器构造一批假样本，通过$$D $$转发该批次，计算损失（$$log(1-D(G(z)))$$）和  _accumulate_ 带有向后传递。 现在，随着从全真实和全假批量累积的梯度，我们称之为Discriminator优化器的一步。 
+回想一下，训练判别器的目的是最大化将给定输入正确分类为真实或假的概率。 就Goodfellow而言，我们希望“通过提升其随机梯度来更新判别器”。 实际上，我们想要最大化损失$$log(D(x))+ log(1-D(G(z)))$$。 由于ganhacks的单独小批量建议，我们将分两步计算。 首先，我们将从训练集中构造一批实际样本，向前通过 $$D$$，计算损失($$log(D(x))$$），然后计算梯度 向后传递。 其次，我们将用当前的生成器构造一批假样本，通过$$D $$转发该批次，计算损失($$log(1-D(G(z)))$$）和  _accumulate_ 带有向后传递。 现在，随着从全真实和全假批量累积的梯度，我们称之为Discriminator优化器的一步。 
 
 **Part 2 - 训练生成器**
 
-正如原始论文所述，我们希望通过最小化 $$log(1-D(G(z)))$$ 来训练生成器Generator，以便产生更好的假样本。 如上所述，Goodfellow表明这不会提供足够的梯度，尤其是在学习过程的早期阶段。 作为修改，我们希望最大化 $$log(D(G(z)))$$。 在代码中，我们通过以下方式实现此目的：使用 Discriminator 对第1部分的 Generator 输出进行分类，使用真实标签作为 `GT`计算`G`的损失，在反向传递中计算`G`的梯度，最后使用优化器步骤更新`G`的参数。使用真实标签作为损失函数的`GT`标签似乎是违反直觉的，但这允许我们使用BCELoss的 $$log(x)$$ 部分（而不是 $$log(1-x)$$ 这部分）这正是我们想要的。
+正如原始论文所述，我们希望通过最小化 $$log(1-D(G(z)))$$ 来训练生成器Generator，以便产生更好的假样本。 如上所述，Goodfellow表明这不会提供足够的梯度，尤其是在学习过程的早期阶段。 作为修改，我们希望最大化 $$log(D(G(z)))$$。 在代码中，我们通过以下方式实现此目的：使用 Discriminator 对第1部分的 Generator 输出进行分类，使用真实标签作为 `GT`计算`G`的损失，在反向传递中计算`G`的梯度，最后使用优化器步骤更新`G`的参数。使用真实标签作为损失函数的`GT`标签似乎是违反直觉的，但这允许我们使用BCELoss的 $$log(x)$$ 部分(而不是 $$log(1-x)$$ 这部分）这正是我们想要的。
 
 最后，我们将进行一些统计报告，在每个循环结束时，我们将通过生成器推送我们的fixed_noise批次，以直观地跟踪G训练的进度。 报告的训练统计数据是：
 
 *   **Loss_D** - 判别器损失是所有真实样本批次和所有假样本批次的损失之和  $$log(D(x)) + log(D(G(z)))$$ .
 *   **Loss_G** - 生成器损失 $$log(D(G(z)))$$
-*   **D(x)** - 所有真实批次的判别器的平均输出（整批）。 这应该从接近1开始，然后当G变好时理论上收敛到0.5。 想想为什么会这样。
+*   **D(x)** - 所有真实批次的判别器的平均输出(整批）。 这应该从接近1开始，然后当G变好时理论上收敛到0.5。 想想为什么会这样。
 *   **D(G(z))** - 所有假批次的平均判别器输出。 第一个数字是在D更新之前，第二个数字是在D更新之后。 当G变好时，这些数字应该从0开始并收敛到0.5。 想想为什么会这样。
 
 **Note:** 此步骤可能需要一段时间，具体取决于您运行的循环数以及是否从数据集中删除了一些数据。
@@ -727,4 +727,4 @@ plt.show()
 *   看看[这里](https://github.com/nashory/gans-awesome-applications)其他一些很酷的GAN项目
 *   创建一个能够产生[音乐](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)的GAN模型
 
-**脚本的总运行时间：**（ 27分钟53.743秒）
+**脚本的总运行时间：** (27分钟53.743秒）

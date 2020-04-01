@@ -2,7 +2,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 校对者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/fonttian)
 
 可以使用`torch.nn`包来构建神经网络.
 
@@ -12,14 +12,14 @@
 
 ![convnet](https://pytorch.org/tutorials/_images/mnist.png)
 
-这是一个简单的前馈神经网络（feed-forward network）。它接受一个输入，然后将它送入下一层，一层接一层的传递，最后给出输出。
+这是一个简单的前馈神经网络(feed-forward network）。它接受一个输入，然后将它送入下一层，一层接一层的传递，最后给出输出。
 
 一个神经网络的典型训练过程如下：
 
-* 定义包含一些可学习参数（或者叫权重）的神经网络
+* 定义包含一些可学习参数(或者叫权重）的神经网络
 * 在输入数据集上迭代
 * 通过网络处理输入
-* 计算损失（输出和正确答案的距离）
+* 计算损失(输出和正确答案的距离）
 * 将梯度反向传播给网络的参数
 * 更新网络的权重，一般使用一个简单的规则：`weight = weight - learning_rate * gradient`
 
@@ -98,7 +98,7 @@ print(params[0].size())  # conv1's .weight
 torch.Size([6, 1, 5, 5])
 ```
 
-让我们尝试一个随机的32x32的输入。注意:这个网络（LeNet）的期待输入是32x32。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
+让我们尝试一个随机的32x32的输入。注意:这个网络(LeNet）的期待输入是32x32。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
 
 
 ```python
@@ -123,7 +123,7 @@ out.backward(torch.randn(1, 10))
 
 > 注意：
 >
-> `torch.nn`只支持小批量处理（mini-batches）。整个`torch.nn`包只支持小批量样本的输入，不支持单个样本。
+> `torch.nn`只支持小批量处理(mini-batches）。整个`torch.nn`包只支持小批量样本的输入，不支持单个样本。
 >
 > 比如，`nn.Conv2d` 接受一个4维的张量，即`nSamples x nChannels x Height x Width`
 >
@@ -159,7 +159,7 @@ out.backward(torch.randn(1, 10))
 
 一个损失函数接受一对(output, target)作为输入，计算一个值来估计网络的输出和目标值相差多少。
 
-nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html)。`nn.MSELoss`是比较简单的一种，它计算输出和目标的均方误差（mean-squared error）。
+nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html)。`nn.MSELoss`是比较简单的一种，它计算输出和目标的均方误差(mean-squared error）。
 
 例如：
 
@@ -210,10 +210,10 @@ print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
 
 我们只需要调用`loss.backward()`来反向传播权重。我们需要清零现有的梯度，否则梯度将会与已有的梯度累加。
 
-现在，我们将调用`loss.backward()`，并查看conv1层的偏置（bias）在反向传播前后的梯度。
+现在，我们将调用`loss.backward()`，并查看conv1层的偏置(bias）在反向传播前后的梯度。
 
 ```python
-net.zero_grad()     # 清零所有参数（parameter）的梯度缓存
+net.zero_grad()     # 清零所有参数(parameter）的梯度缓存
 
 print('conv1.bias.grad before backward')
 print(net.conv1.bias.grad)
@@ -245,7 +245,7 @@ tensor([ 0.0084,  0.0019, -0.0179, -0.0212,  0.0067, -0.0096])
 
 ## 更新权重
 
-最简单的更新规则是随机梯度下降法（SGD）:
+最简单的更新规则是随机梯度下降法(SGD）:
 
 `weight = weight - learning_rate * gradient`
 
@@ -264,7 +264,7 @@ for f in net.parameters():
 ```python
 import torch.optim as optim
 
-# 创建优化器（optimizer）
+# 创建优化器(optimizer）
 optimizer = optim.SGD(net.parameters(), lr=0.01)
 
 # 在训练的迭代中：

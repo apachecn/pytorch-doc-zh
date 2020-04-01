@@ -1,10 +1,10 @@
 # NLP From Scratch: 基于注意力机制的 seq2seq 神经网络翻译
 
->翻译：[DrDavidS](https://github.com/DrDavidS)
+> **作者**：[Sean Robertson](https://github.com/spro)
+> 
+> 译者：[DrDavidS](https://github.com/DrDavidS)、[mengfu188](https://github.com/mengfu188)
 >
->翻译：[mengfu188](https://github.com/mengfu188)
-
-**作者** ：[Sean Robertson](https://github.com/spro)
+> 校验：[DrDavidS](https://github.com/DrDavidS)
 
 这是第三篇也是最后一篇“从零开始NLP”教程，我们会在其中编写自己的类与函数来处理数据，从而完成我们的NLP建模任务。我们希望在你完成本篇教程后，你可以紧接着在其后的三篇教程中继续学习 torchtext 是如何帮你完成大量的此类预处理的。
 
@@ -33,7 +33,7 @@
 
 … 取得了不同程度的成功
 
-这是通过[seq2seq](https://arxiv.org/abs/1409.3215)网络来进行实现的，在这个网络中使用两个递归的神经网络（编码器网络和解码器网络）一起工作使得一段序列变成另一段序列。 编码器网络将输入序列变成一个向量，解码器网络将该向量展开为新的序列。
+这是通过[seq2seq](https://arxiv.org/abs/1409.3215)网络来进行实现的，在这个网络中使用两个递归的神经网络(编码器网络和解码器网络）一起工作使得一段序列变成另一段序列。 编码器网络将输入序列变成一个向量，解码器网络将该向量展开为新的序列。
 
 ![](https://pytorch.org/tutorials/_images/seq2seq.png)
 
@@ -90,7 +90,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 [这个问题在 Open Data Stack Exchange 上](https://opendata.stackexchange.com/questions/3888/dataset-of-sentences-translated-into-many-languages) 点我打开翻译网址 [https://tatoeba.org/](https://tatoeba.org/) 这个网站的下载地址 [https://tatoeba.org/eng/downloads](https://tatoeba.org/eng/downloads) - 更棒的是，有人将这些语言切分成单个文件: [https://www.manythings.org/anki/](https://www.manythings.org/anki/)
 
-由于翻译文件太大而不能放到repo中，请在继续往下阅读前，下载数据到 `data/eng-fra.txt`。该文件是一个使用制表符（table）分割的翻译列表:
+由于翻译文件太大而不能放到repo中，请在继续往下阅读前，下载数据到 `data/eng-fra.txt`。该文件是一个使用制表符(table）分割的翻译列表:
 
     
 ```py
@@ -183,7 +183,7 @@ def readLangs(lang1, lang2, reverse=False):
 
 ```
     
-由于有很多例句，而且我们想要快速训练模型，因此我们将数据集修剪为长度相对较短且简单的句子。在这里，最大长度是十个单词（包括结尾标点符号），而且我们会对翻译为"I am" 或者 "He is" 形式的句子进行过滤（考虑到之前我们清理过撇号 → `'`）。
+由于有很多例句，而且我们想要快速训练模型，因此我们将数据集修剪为长度相对较短且简单的句子。在这里，最大长度是十个单词(包括结尾标点符号），而且我们会对翻译为"I am" 或者 "He is" 形式的句子进行过滤(考虑到之前我们清理过撇号 → `'`）。
     
 ```py
 MAX_LENGTH = 10
@@ -253,9 +253,9 @@ eng 2803
 
 ## Seq2Seq模型
 
-归神经网络（RNN）是一种对序列进行操作并利用自己的输出作为后序输入的网络
+归神经网络(RNN）是一种对序列进行操作并利用自己的输出作为后序输入的网络
 
-[序列到序列网络](https://arxiv.org/abs/1409.3215)（[Sequence to Sequence network](https://arxiv.org/abs/1409.3215)）, 也叫做 seq2seq 网络, 又或者是 [编码器解码器网络](https://arxiv.org/pdf/1406.1078v3.pdf)（[Encoder Decoder network](https://arxiv.org/pdf/1406.1078v3.pdf)）, 是一个由两个称为编码器解码器的RNN组成的模型。编码器读取输入序列并输出一个矢量，解码器读取该矢量并产生输出序列。
+[序列到序列网络](https://arxiv.org/abs/1409.3215)([Sequence to Sequence network](https://arxiv.org/abs/1409.3215)）, 也叫做 seq2seq 网络, 又或者是 [编码器解码器网络](https://arxiv.org/pdf/1406.1078v3.pdf)([Encoder Decoder network](https://arxiv.org/pdf/1406.1078v3.pdf)）, 是一个由两个称为编码器解码器的RNN组成的模型。编码器读取输入序列并输出一个矢量，解码器读取该矢量并产生输出序列。
 
 ![](https://pytorch.org/tutorials/_images/seq2seq.png)
 
@@ -337,7 +337,7 @@ class DecoderRNN(nn.Module):
 
 注意力机制允许解码器网络针对解码器自身输出的每一步”聚焦”编码器输出的不同部分. 首先我们计算一组注意力权重. 这些将被乘以编码器输出矢量获得加权的组合. 结果(在代码中为``attn_applied``) 应该包含关于输入序列的特定部分的信息, 从而帮助解码器选择正确的输出单词.
 
-注意权值的计算是用另一个前馈层`attn`进行的, 将解码器的输入和隐藏层状态作为输入. 由于训练数据中的输入序列（语句）长短不一,为了实际创建和训练此层, 我们必须选择最大长度的句子(输入长度,用于编码器输出),以适用于此层. 最大长度的句子将使用所有注意力权重,而较短的句子只使用前几个.
+注意权值的计算是用另一个前馈层`attn`进行的, 将解码器的输入和隐藏层状态作为输入. 由于训练数据中的输入序列(语句）长短不一,为了实际创建和训练此层, 我们必须选择最大长度的句子(输入长度,用于编码器输出),以适用于此层. 最大长度的句子将使用所有注意力权重,而较短的句子只使用前几个.
 
 ![](https://pytorch.org/tutorials/_images/attention-decoder-network.png)
 
@@ -786,7 +786,7 @@ output = he s a talented young player . <EOS>
 ## 练习题
 
 *   尝试使用不同的数据集
-    *   另一种语言对（language pair）
+    *   另一种语言对(language pair）
     *   人 → 机器 (例如 IOT 命令)
     *   聊天 → 响应
     *   问题 → 回答
@@ -797,5 +797,5 @@ output = he s a talented young player . <EOS>
     *   只保存编码器网络
     *   训练一种新的翻译解码器
 
-**脚本的总运行时间：** （ 27 minutes 13.758 seconds）
+**脚本的总运行时间：**  (27 minutes 13.758 seconds）
 

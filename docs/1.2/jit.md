@@ -15,7 +15,7 @@
    
 Torch脚本是一种从PyTorch代码创建可序列化和可优化模型的方法。用Torch脚本编写的代码可以从Python进程中保存，并在没有Python依赖的进程中加载。
 
-我们提供了一些工具帮助我们将模型从纯Python程序逐步转换为可以独立于Python运行的Torch脚本程序。Torch脚本程序可以在其他语言的程序中运行（例如，在独立的C ++程序中）。这使得我们可以使用熟悉的工具在PyTorch中训练模型，而将模型导出到出于性能和多线程原因不能将模型作为Python程序运行的生产环境中去。
+我们提供了一些工具帮助我们将模型从纯Python程序逐步转换为可以独立于Python运行的Torch脚本程序。Torch脚本程序可以在其他语言的程序中运行(例如，在独立的C ++程序中）。这使得我们可以使用熟悉的工具在PyTorch中训练模型，而将模型导出到出于性能和多线程原因不能将模型作为Python程序运行的生产环境中去。
 
 ```py
 class torch.jit.ScriptModule(optimize=True)
@@ -54,7 +54,7 @@ ScriptModule与其内部的Torch脚本函数可以通过两种方式创建：
 > 注意
 >
 > 追踪仅记录在给定张量上运行给定函数时执行的操作。因此，返回的`ScriptModule`在任何输入上将运行相同的追踪图。当你的模块需要根据输入和/或模块状态运行不同的操作集时，这会产生一些重要的影响。例如，
-> &gt;* 追踪不会记录if语句或循环之类的控制流。当这个控制流在你的模块中保持不变时，这很好，它通常只是内联配置决策。但有时控制流实际上是模型本身的一部分。例如，序列到序列转换中的beam搜索是对（可变）输入序列长度的循环。
+> &gt;* 追踪不会记录if语句或循环之类的控制流。当这个控制流在你的模块中保持不变时，这很好，它通常只是内联配置决策。但有时控制流实际上是模型本身的一部分。例如，序列到序列转换中的beam搜索是对(可变）输入序列长度的循环。
 > 
 > &gt;*在返回的`ScriptModule`中，在`training`和`eval`模式中具有不同行为的操作将始终表现为处于追踪期间的模式。
 >
@@ -63,7 +63,7 @@ ScriptModule与其内部的Torch脚本函数可以通过两种方式创建：
 
 **脚本化**
 
-> 你可以使用Python语法直接编写Torch脚本代码。你可以使用`torch.jit.script`注释（对于函数）或`torch.jit.script_method`注释（对于ScriptModule子类的方法）来编写Torch脚本代码。通过注释，被注释函数的主体将直接转换为Torch脚本。 Torch脚本本身只是Python语言的一个子集，因此不是python中的所有特性都可以使用，但我们提供了足够的功能来计算张量并执行与控制相关的操作。
+> 你可以使用Python语法直接编写Torch脚本代码。你可以使用`torch.jit.script`注释(对于函数）或`torch.jit.script_method`注释(对于ScriptModule子类的方法）来编写Torch脚本代码。通过注释，被注释函数的主体将直接转换为Torch脚本。 Torch脚本本身只是Python语言的一个子集，因此不是python中的所有特性都可以使用，但我们提供了足够的功能来计算张量并执行与控制相关的操作。
 > 
 > 例:
 > 
@@ -125,7 +125,7 @@ ScriptModule与其内部的Torch脚本函数可以通过两种方式创建：
 save(filename)
 ```
 
-保存离线版本的模块，以便将来在其他的进程中使用。保存的模块会序列化当前模块的所有方法和参数。保存的模块可以使用`torch :: jit :: load（filename）`加载到C ++ API中，也可以使用`torch.jit.load（filename）`加载到Python API中。
+保存离线版本的模块，以便将来在其他的进程中使用。保存的模块会序列化当前模块的所有方法和参数。保存的模块可以使用`torch :: jit :: load(filename）`加载到C ++ API中，也可以使用`torch.jit.load(filename）`加载到Python API中。
 
 为了能够保存模块，当前模块不能调用原生python函数。也就是说要保存模块的所有子模块也必须是ScriptModules的子类。
 
@@ -140,12 +140,12 @@ torch.jit.load(f, map_location=None)
 
 使用`load`加载之前用`save`保存的`ScriptModule`。
 
-所有先前保存的模块，不论其设备，首先加载到CPU上，然后移动到之前保存它们的设备上。如果此操作失败（例如，运行时系统没有某些设备），则会引发异常。此时可以使用`map_location`参数将存储重新映射到另一组设备。与`torch.load()`相比，此函数中的`map_location`被简化为只接受字符串（例如'cpu'，'cuda：0'）或torch.device（例如，torch.device（'cpu'））
+所有先前保存的模块，不论其设备，首先加载到CPU上，然后移动到之前保存它们的设备上。如果此操作失败(例如，运行时系统没有某些设备），则会引发异常。此时可以使用`map_location`参数将存储重新映射到另一组设备。与`torch.load()`相比，此函数中的`map_location`被简化为只接受字符串(例如'cpu'，'cuda：0'）或torch.device(例如，torch.device('cpu'））
 
 参数：
 
-*   **f** – 文件类对象（必须实现read，readline，tell和seek），或为文件名的字符串
-*   **map_location** – 可以是一个字符串（例如，'cpu'，'cuda：0'），一个设备（例如，torch.device（'cpu'））
+*   **f** – 文件类对象(必须实现read，readline，tell和seek），或为文件名的字符串
+*   **map_location** – 可以是一个字符串(例如，'cpu'，'cuda：0'），一个设备(例如，torch.device('cpu'））
 
 
 | 返回值: |  `ScriptModule` 对象. |
@@ -175,11 +175,11 @@ torch.jit.trace(func, example_inputs, optimize=True, check_trace=True, check_inp
 
 警告
 
-追踪仅正确记录不依赖于数据的函数和模块（例如，对张量中的数据进行条件判断），并且没有任何未追踪的外部依赖性（例如，执行输入/输出或访问全局变量）。如果你追踪此类模型，则可能会在随后的模型调用中静默获取不正确的结果。当执行可能生成错误追踪的内容时，追踪器将尝试发出警告。
+追踪仅正确记录不依赖于数据的函数和模块(例如，对张量中的数据进行条件判断），并且没有任何未追踪的外部依赖性(例如，执行输入/输出或访问全局变量）。如果你追踪此类模型，则可能会在随后的模型调用中静默获取不正确的结果。当执行可能生成错误追踪的内容时，追踪器将尝试发出警告。
 
 参数： 
 
-*   **func** (_callable_ _or_ [_torch.nn.Module_](nn.html#torch.nn.Module "torch.nn.Module")) – 将使用example_inputs作为输入运行的python函数或torch.nn.Module。参数和返回值必须是Tensor或（嵌套的）包含张量的元组。
+*   **func** (_callable_ _or_ [_torch.nn.Module_](nn.html#torch.nn.Module "torch.nn.Module")) – 将使用example_inputs作为输入运行的python函数或torch.nn.Module。参数和返回值必须是Tensor或(嵌套的）包含张量的元组。
 *   **example_inputs** ([_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")) – 在追踪时将传递给函数的示例输入元组。假设被追踪操作支持这些类型和形状的情况下，生成的追踪可以在不同类型和形状的输入下运行。 example_inputs也可以是单个Tensor，这种情况下，它会自动包装到元组中。
 
 
@@ -267,11 +267,11 @@ class MyScriptModule(torch.jit.ScriptModule):
 
 ```
 
-Torch脚本是Python的一个子集，可以直接编写（使用@script注释），也可以通过追踪从Python代码自动生成。使用追踪时，代码会自动转换为Python的这个子集，方法是仅记录和执行张量上的实际运算符，并丢弃其他Python代码。
+Torch脚本是Python的一个子集，可以直接编写(使用@script注释），也可以通过追踪从Python代码自动生成。使用追踪时，代码会自动转换为Python的这个子集，方法是仅记录和执行张量上的实际运算符，并丢弃其他Python代码。
 
 使用@script注释直接编写Torch脚本时，程序员必须只使用Torch脚本支持的Python子集。本节以语言参考的形式介绍Torch脚本支持的功能。本参考中未提及的Python的其他功能都不是Torch脚本的一部分。
 
-作为Python的一个子集，任何有效的Torch脚本函数也是一个有效的Python函数。因此你可以删除@script注释后使用标准Python工具（如pdb）调试函数。反之则不然：有许多有效的python程序不是有效的Torch脚本程序。Torch脚本专注于在Torch中表示神经网络模型所需的Python特性。
+作为Python的一个子集，任何有效的Torch脚本函数也是一个有效的Python函数。因此你可以删除@script注释后使用标准Python工具(如pdb）调试函数。反之则不然：有许多有效的python程序不是有效的Torch脚本程序。Torch脚本专注于在Torch中表示神经网络模型所需的Python特性。
 
 
 
@@ -294,7 +294,7 @@ Tensor
 Tuple[T0, T1, ...]
 ```
 
-包含子类型`T0`，`T1`等的元组（例如`Tuple [Tensor，Tensor]`）。
+包含子类型`T0`，`T1`等的元组(例如`Tuple [Tensor，Tensor]`）。
 
 
 ```py
@@ -356,7 +356,7 @@ Torch脚本支持以下Python表达式
 字面常量
 ```
 
-`True`, `False`, `None`, `'string literals'`, `"string literals"`,  字面值`3`（解释为int）`3.4`（解释为float）
+`True`, `False`, `None`, `'string literals'`, `"string literals"`,  字面值`3`(解释为int）`3.4`(解释为float）
 
 ```py
 变量
@@ -443,7 +443,7 @@ def bar(x):
 
 在ScriptModule中定义Script方法时，使用`@script_method`批注。Script方法可以调用模块内其他方法或子模块的方法。
 
-直接调用子模块（例如`self.resnet（input）`）等同于调用其`forward`方法（例如`self.resnet.forward（input）`）
+直接调用子模块(例如`self.resnet(input）`）等同于调用其`forward`方法(例如`self.resnet.forward(input）`）
 
 ```py
 import torch
@@ -540,7 +540,7 @@ While 循环
 > 
 > 注意
 > 
-> 脚本目前不支持对一般可迭代对象（如列表或张量）进行迭代，也不支持range起始与增量参数，这些将在未来版本中添加。
+> 脚本目前不支持对一般可迭代对象(如列表或张量）进行迭代，也不支持range起始与增量参数，这些将在未来版本中添加。
 
 对元组的for循环：
 
@@ -596,7 +596,7 @@ Return 语句
 
 return语句必须作为函数的最后一个成员，而不能出现在函数的其他位置。此限制将在以后删除。
 
-Torch脚本支持Python变量解析（即作用域）规则的子集。局部变量的行为与Python中的相同，但变量必须在函数的所有路径中具有相同类型。如果变量在if语句的不同侧具有不同的类型，则在if语句结束后使用它会抱错。
+Torch脚本支持Python变量解析(即作用域）规则的子集。局部变量的行为与Python中的相同，但变量必须在函数的所有路径中具有相同类型。如果变量在if语句的不同侧具有不同的类型，则在if语句结束后使用它会抱错。
 
 类似地，如果仅在函数的某些执行路径上定义变量也会出错。
 
@@ -685,7 +685,7 @@ Torch脚本还提供了使用Python常量的方法。这可用于将超参数硬
 禁用JIT以方便调试
 ```
 
-可以通过将`PYTORCH_JIT`环境变量值设置为`0`禁用所有`JIT`模式（追踪和脚本化）以便在原始Python中调试程序。下面是一个示例脚本：
+可以通过将`PYTORCH_JIT`环境变量值设置为`0`禁用所有`JIT`模式(追踪和脚本化）以便在原始Python中调试程序。下面是一个示例脚本：
 
 ```py
 @torch.jit.script
@@ -718,7 +718,7 @@ $ PYTORCH_JIT=0 python disable_jit_example.py
 解释图
 ```
 
-TorchScript使用静态单一指派（SSA）中间表示（IR）来表示计算。这种格式的指令包括ATen（PyTorch的C ++后端）运算符和其他原始运算符，包括循环和条件的控制流运算符。举个例子：
+TorchScript使用静态单一指派(SSA）中间表示(IR）来表示计算。这种格式的指令包括ATen(PyTorch的C ++后端）运算符和其他原始运算符，包括循环和条件的控制流运算符。举个例子：
 
 ```py
 @torch.jit.script
@@ -774,7 +774,7 @@ graph(%len : int) {
 
 ```
 
-以指令`％rv.1：Dynamic = aten :: zeros（％3，％4，％5，％6）`为例。` ％rv.1：Dynamic`将输出分配给名为`rv.1`的（唯一）值，该值是动态类型，即我们不知道它的具体形状。` aten :: zeros`是运算符（相当于`torch.zeros`），它的输入列表`（％3，％4，％5，％6）`指定范围中的哪些值应作为输入传递。内置函数（如`aten :: zeros`）的模式可以在[内置函数](#builtin-functions)中找到。
+以指令`％rv.1：Dynamic = aten :: zeros(％3，％4，％5，％6）`为例。` ％rv.1：Dynamic`将输出分配给名为`rv.1`的(唯一）值，该值是动态类型，即我们不知道它的具体形状。` aten :: zeros`是运算符(相当于`torch.zeros`），它的输入列表`(％3，％4，％5，％6）`指定范围中的哪些值应作为输入传递。内置函数(如`aten :: zeros`）的模式可以在[内置函数](#builtin-functions)中找到。
 
 注意，运算符也可以有关联的`block`，如`prim :: Loop`和`prim :: If`运算符。在图形打印输出中，这些运算符被格式化以反映与其等价的源代码形式，以便于调试。
 
@@ -786,8 +786,8 @@ graph(%len : int) {
 
 在一些边缘情况下一些Python函数/模块的追踪不能代表底层代码。这些情况可以包括：
 
-*   追踪依赖于输入的控制流（例如张量形状）
-*   追踪张量视图的就地操作（例如，在分配的左侧进行索引）
+*   追踪依赖于输入的控制流(例如张量形状）
+*   追踪张量视图的就地操作(例如，在分配的左侧进行索引）
 
 请注意，这些情况在将来版本中可能是可追踪的。
 
@@ -892,7 +892,7 @@ graph(%x : Dynamic) {
 追踪器警告
 ```
 
-追踪器会在追踪计算中对有问题的模式生成警告。例如，追踪包含在Tensor的切片（视图）上就地赋值操作的函数：
+追踪器会在追踪计算中对有问题的模式生成警告。例如，追踪包含在Tensor的切片(视图）上就地赋值操作的函数：
 
 ```py
 def fill_row_zero(x):
