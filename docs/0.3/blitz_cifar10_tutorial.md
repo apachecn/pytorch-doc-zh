@@ -162,7 +162,7 @@ for epoch in range(2):  # 循环遍历数据集多次
         optimizer.step()
 
         # 打印信息
-        running_loss += loss.data[0]
+        running_loss += loss.item()
         if i % 2000 == 1999:    # 每2000个小批量打印一次
             print('[%d, %5d] loss: %.3f' %
                   (epoch + 1, i + 1, running_loss / 2000))
