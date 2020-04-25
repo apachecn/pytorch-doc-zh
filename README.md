@@ -70,6 +70,8 @@
 * [Alex](https://github.com/AlexJakin): 1272296763
 * [Holly](https://github.com/kunwuz): 514397511
 * [N!no](https://github.com/lovelybuggies): 1352899627
+* [qiwei_ji](https://github.com/GG-yuki): 1390867192
+
 
 > 第3期 1.0 (2019-06-10)
 
