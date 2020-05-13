@@ -1,10 +1,9 @@
 # 训练分类器
 
 > 原文： [https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html)
-
-
+> 
 > 译者：[bat67](https://github.com/bat67)
-
+> 
 > 校验者：[FontTian](https://github.com/FontTian)，[yearing017](https://github.com/yearing1017)
 
 目前为止，我们已经看到了如何定义网络，计算损失，并更新网络的权重。所以你现在可能会想,

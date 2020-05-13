@@ -1,7 +1,6 @@
 # 可选: 数据并行处理
 
 > 原文： [https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html](https://pytorch.org/tutorials/beginner/blitz/data_parallel_tutorial.html)
-
 > **作者**: [Sung Kim](https://github.com/hunkim)  [Jenny Kang](https://github.com/jennykang)
 >
 > 译者: [bat67](https://github.com/bat67)
