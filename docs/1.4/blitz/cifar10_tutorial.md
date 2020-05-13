@@ -1,13 +1,12 @@
 # 训练分类器
 
 > 原文： [https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html)
-
-
+> 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 校验者：[FontTian](https://github.com/fonttian)
+> 校验者：[FontTian](https://github.com/FontTian)，[yearing017](https://github.com/yearing1017)
 
-目前为止，我们以及看到了如何定义网络，计算损失，并更新网络的权重。所以你现在可能会想,
+目前为止，我们已经看到了如何定义网络，计算损失，并更新网络的权重。所以你现在可能会想,
 
 ## 数据应该怎么办呢？
 
@@ -17,11 +16,11 @@
 * 对于音频，有scipy和librosa等包可以使用
 * 对于文本，不管是原生python的或者是基于Cython的文本，可以使用NLTK和SpaCy
 
-特别对于视觉方面，我们创建了一个包，名字叫`torchvision`，其中包含了针对Imagenet、CIFAR10、MNIST等常用数据集的数据加载器(data loaders），还有对图片数据变形的操作，即`torchvision.datasets`和`torch.utils.data.DataLoader`。
+特别对于视觉方面，我们创建了一个包，名字叫`torchvision`，其中包含了针对Imagenet、CIFAR10、MNIST等常用数据集的数据加载器(data loaders），还有对图像数据转换的操作，即`torchvision.datasets`和`torch.utils.data.DataLoader`。
 
 这提供了极大的便利，可以避免编写样板代码。
 
-在这个教程中，我们将使用CIFAR10数据集，它有如下的分类：“飞机”，“汽车”，“鸟”，“猫”，“鹿”，“狗”，“青蛙”，“马”，“船”，“卡车”等。在CIFAR-10里面的图片数据大小是3x32x32，即三通道彩色图，图片大小是32x32像素。
+在这个教程中，我们将使用CIFAR10数据集，它有如下的分类：“飞机”，“汽车”，“鸟”，“猫”，“鹿”，“狗”，“青蛙”，“马”，“船”，“卡车”等。在CIFAR-10里面的图片数据大小是3x32x32，即：三通道彩色图像，图像大小是32x32像素。
 
 ![cifar10](img/ae800707f2489607d51d67499071db16.jpg)
 
@@ -78,8 +77,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 输出图像的函数
-
-
 def imshow(img):
     img = img / 2 + 0.5     # unnormalize
     npimg = img.numpy()
@@ -105,7 +102,7 @@ print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 horse horse horse   car
 ```
 
-### 2.定义卷积神经网络
+### 2.定义一个卷积神经网络
 
 将之前神经网络章节定义的神经网络拿过来，并将其修改成输入为3通道图像(替代原来定义的单通道图像）。
 
@@ -139,7 +136,7 @@ net = Net()
 
 ### 3.定义损失函数和优化器
 
-我们使用分类的交叉熵损失和随机梯度下降(使用momentum）。
+我们使用多分类的交叉熵损失函数和随机梯度下降优化器(使用momentum）。
 
 ```python
 import torch.optim as optim
@@ -195,13 +192,20 @@ print('Finished Training')
 Finished Training
 ```
 
+让我们赶紧保存已训练得到的模型：
+```python
+PATH = './cifar_net.pth'
+torch.save(net.state_dict(), PATH)
+```
+看[这里](https://pytorch.org/docs/stable/notes/serialization.html)熟悉更多PyTorch保存模型的细节
+
 ### 5.使用测试数据测试网络
 
 我们已经在训练集上训练了2遍网络。但是我们需要检查网络是否学到了一些东西。
 
 我们将通过预测神经网络输出的标签来检查这个问题，并和正确样本进行(ground-truth）对比。如果预测是正确的，我们将样本添加到正确预测的列表中。
 
-ok，第一步。让我们显示测试集中的图像来熟悉一下。
+ok，第一步。让我们展示测试集中的图像来熟悉一下。
 
 ```python
 dataiter = iter(testloader)
@@ -216,6 +220,12 @@ print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
 
 ```python
 GroundTruth:    cat  ship  ship plane
+```
+
+下一步，让我们加载保存的模型（注意：在这里保存和加载模型不是必要的，我们只是为了解释如何去做这件事）
+```python
+net = Net()
+net.load_state_dict(torch.load(PATH))
 ```
 
 ok，现在让我们看看神经网络认为上面的例子是:
