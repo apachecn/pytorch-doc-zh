@@ -5,7 +5,7 @@
 >
 > 译者: [bat67](https://github.com/bat67)
 >
-> 校验者: [FontTian](https://github.com/fonttian)  [片刻](https://github.com/jiangzhonglian)
+> 校验者: [FontTian](https://github.com/fonttian)  [片刻](https://github.com/jiangzhonglian)  [yearing1017](https://github.com/yearing1017)
 
 在这个教程里，我们将学习如何使用数据并行(`DataParallel`）来使用多GPU。
 
@@ -22,9 +22,9 @@ model.to(device)
 mytensor = my_tensor.to(device)
 ```
 
-请注意，调用`my_tensor.to(device)`返回一个GPU上的`my_tensor`副本，而不是重写`my_tensor`。我们需要把它赋值给一个新的张量并在GPU上使用这个张量。
+请注意，调用`my_tensor.to(device)`返回一个GPU上的`my_tensor`副本，而不是重写`my_tensor`。你需要把它赋值给一个新的张量并在GPU上使用这个张量。
 
-在多GPU上执行前向和反向传播是自然而然的事。然而，PyTorch默认将只是用一个GPU。你可以使用`DataParallel`让模型并行运行来轻易的让你的操作在多个GPU上运行。
+在多GPU上执行正向和反向传播是自然而然的事。然而，PyTorch默认将只是用一个GPU。你可以使用`DataParallel`让模型并行运行来轻易的在多个GPU上运行你的操作。
 
 ```python
 model = nn.DataParallel(model)
@@ -57,7 +57,7 @@ device = torch.device("cuda: 0" if torch.cuda.is_available() else "cpu")
 
 ## 虚拟数据集
 
-要制作一个虚拟(随机）数据集，只需实现`__getitem__`。
+要制作一个虚拟(随机）数据集，你只需实现`__getitem__`。
 
 ```python
 class RandomDataset(Dataset):
@@ -149,7 +149,7 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 ## 结果
 
-当我们对30个输入和输出进行批处理时，我们和期望的一样得到30个输入和30个输出，但是若有多个GPU，会得到如下的结果。
+如果没有GPU或只有1个GPU，当我们对30个输入和输出进行批处理时，我们和期望的一样得到30个输入和30个输出，但是若有多个GPU，会得到如下的结果。
 
 ### 2个GPU
 
@@ -238,6 +238,6 @@ Outside: input size torch.Size([10, 5]) output_size torch.Size([10, 2])
 
 ## 总结
 
-`DataParallel`自动的划分数据，并将作业发送到多个GPU上的多个模型。`DataParallel`会在每个模型完成作业后，收集与合并结果然后返回给你。
+`DataParallel`自动的划分数据，并将作业顺序发送到多个GPU上的多个模型。`DataParallel`会在每个模型完成作业后，收集与合并结果然后返回给你。
 
 更多信息，请参考: https://pytorch.org/tutorials/beginner/former_torchies/parallelism_tutorial.html
