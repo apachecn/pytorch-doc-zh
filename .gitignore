@@ -127,3 +127,6 @@ docs/1.0/book.json
 docs/1.2/book.json
 docs/1.4/book.json
 docs/LatestChanges/book.json
+
+# vscode Local History
+/.history/
