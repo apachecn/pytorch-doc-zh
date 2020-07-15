@@ -31,7 +31,7 @@ images.select(dim=1, index=0)
 
 但是命名显式地导致了更具可读性和可维护性的代码：
 ```
-NCHW = [‘N’, ‘C’, ‘H’, ‘W’]
+NCHW = ['N', 'C', 'H', 'W']
 images = torch.randn(32, 3, 56, 56, names=NCHW)
 images.sum('C')
 images.select('C', index=0)

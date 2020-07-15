@@ -408,7 +408,7 @@ torch.autograd.gradgradcheck(func, inputs, grad_outputs=None, eps=1e-06, atol=1e
 
 *   **func** (_function_) – 一个Python函数，输入是张量，返回一个张量或张量元组
 *   **inputs** (_张量元组_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – func函数输入
-*   **grad_outputs** (_tuple of Tensor_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选_) – The gradients with respect to the function’s outputs.
+*   **grad_outputs** (_tuple of Tensor_ _or_ [_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _可选_) – The gradients with respect to the function's outputs.
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 有限差分的扰动
 *   **atol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 绝对容差
 *   **rtol** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _可选_) – 相对容差

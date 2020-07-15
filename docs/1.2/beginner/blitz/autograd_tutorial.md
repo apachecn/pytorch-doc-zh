@@ -128,7 +128,7 @@ tensor([[4.5000, 4.5000],
 
 我们的得到的是一个数取值全部为`4.5`的矩阵。
 
-让我们来调用 `out` 张量 $$“o”$$。
+让我们来调用 `out` 张量 `o`。
 
 就可以得到 $$o = \frac{1}{4}\sum_i z_i$$，$$z_i = 3(x_i+2)^2$$ 和 $$z_i\bigr\rvert_{x_i=1} = 27$$ 因此, $$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$$，因而 $$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$$。
 

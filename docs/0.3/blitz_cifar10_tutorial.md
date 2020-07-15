@@ -20,7 +20,7 @@
 
 这提供了巨大的便利, 避免了编写重复代码.
 
-在本教程中, 我们将使用 CIFAR10 数据集. 它有: ‘airplane’, ‘automobile’, ‘bird’, ‘cat’, ‘deer’,‘dog’, ‘frog’, ‘horse’, ‘ship’, ‘truck’ 这些类别. CIFAR10 中的图像大小为 3x32x32 , 即 32x32 像素的 3 通道彩色图像.
+在本教程中, 我们将使用 CIFAR10 数据集. 它有: 'airplane', 'automobile', 'bird', 'cat', 'deer','dog', 'frog', 'horse', 'ship', 'truck' 这些类别. CIFAR10 中的图像大小为 3x32x32 , 即 32x32 像素的 3 通道彩色图像.
 
 ![cifar10](img/cb805abc7e02147df7cad524404cecf6.jpg)
 

@@ -971,7 +971,7 @@ torch.multinomial(input, num_samples, replacement=False, out=None) → LongTenso
 
 如果 `input` 是一个向量, 则 `out` 是一个大小为 `num_samples` 的向量.
 
-如果 `input` 是一个 `m` 行的矩阵, 则 `out` 是一个 `m × n` 的矩阵.
+如果 `input` 是一个 `m` 行的矩阵, 则 `out` 是一个 `m * n` 的矩阵.
 
 如果参数 `replacement` 是 `True`, 则可重复取样. 否则, 样本在每行不能被重复取样.
 
@@ -1237,7 +1237,7 @@ torch.load(f, map_location=None, pickle_module=<module 'cPickle' from '/usr/lib6
 
 它们首先在 CPU 上反序列化, 然后移动到所保存的设备上. 如果这个过程失败了 (例如, 因为运行时的系统没有确定的设备), 将会抛出异常. 然而, 使用 map_location 参数, 存储可以被动态地重新映射到另一组设备上.
 
-如果 map_location 是可调用对象, 则对于每个序列化存储, 它都将以两个参数调用一次: storage 和 location. 参数 storage 是驻留在 CPU 上的存储的初始反序列化. 每个序列化后的存储都有一个与之关联的位置标签, 它标识了保存它的设备, 而此标签是传递给 map_location 的第二个参数. 对于 CPU 张量, 内建的位置标签是 ‘cpu’, 对于 CUDA 张量, 内建的位置标签是 ‘cuda:device_id’ (例如 ‘cuda:2’). map_location 要么返回 None , 要么返回一个存储. 如果 map_location 返回存储, 它将用作已移动到正确设备上的, 最终反序列化的对象. 否则, 如果没有指明 map_location, 即返回 None, `torch.load` 会回落到默认的行为.
+如果 map_location 是可调用对象, 则对于每个序列化存储, 它都将以两个参数调用一次: storage 和 location. 参数 storage 是驻留在 CPU 上的存储的初始反序列化. 每个序列化后的存储都有一个与之关联的位置标签, 它标识了保存它的设备, 而此标签是传递给 map_location 的第二个参数. 对于 CPU 张量, 内建的位置标签是 'cpu', 对于 CUDA 张量, 内建的位置标签是 'cuda:device_id' (例如 'cuda:2'). map_location 要么返回 None , 要么返回一个存储. 如果 map_location 返回存储, 它将用作已移动到正确设备上的, 最终反序列化的对象. 否则, 如果没有指明 map_location, 即返回 None, `torch.load` 会回落到默认的行为.
 
 如果 map_location 是一个字典, 它用于将出现在文件 (键) 中的位置标签, 重新映射到另一个位置标签, 它出现在值中并指明在哪里存放存储.
 
@@ -2003,7 +2003,7 @@ torch.FloatTensor([1.0, 0.5, 0.0, 1.0, 0.5])
 
 See also
 
-`torch.remainder()`, 其计算等价于 Python’s `%` 操作符的元素余数
+`torch.remainder()`, 其计算等价于 Python's `%` 操作符的元素余数
 
 ```py
 torch.frac(tensor, out=None) → Tensor
@@ -3333,7 +3333,7 @@ torch.std(input, unbiased=True) → float
 
 返回输入张量 `input` 所有元素的标准差.
 
-如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计计算.否则, Bessel’s correction 将被使用.
+如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计计算.否则, Bessel's correction 将被使用.
 
 参数：
 
@@ -3364,7 +3364,7 @@ torch.std(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()` ), 导致输出张量减少一维.
 
-如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计来计算. 否则, Bessel’s correction 将被使用.
+如果 `unbiased` 是 `False` , 那么标准差将通过有偏估计来计算. 否则, Bessel's correction 将被使用.
 
 参数：
 
@@ -3474,7 +3474,7 @@ torch.var(input, unbiased=True) → float
 
 返回输入张量 `input` 的方差.
 
-如果 `unbiased` 是 `False` , 方差的计算将通过有偏估计计算. 否则, Bessel’s correction 将会被使用.
+如果 `unbiased` 是 `False` , 方差的计算将通过有偏估计计算. 否则, Bessel's correction 将会被使用.
 
 参数：
 
@@ -3505,7 +3505,7 @@ torch.var(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 如果 `keepdim` 是 `True`, 输出张量的大小与输入张量 `input` 相同, 除了维度 `dim` 是 1. 另外, `dim` 被挤压 (参看 `torch.squeeze()`), 导致输出张量减少一维.
 
-如果 `unbiased` 是``False``, 方差的计算将通过有偏估计计算. 否则, Bessel’s correction 将会被使用.
+如果 `unbiased` 是``False``, 方差的计算将通过有偏估计计算. 否则, Bessel's correction 将会被使用.
 
 参数：
 
@@ -4860,7 +4860,7 @@ torch.geqrf(input, out=None) -> (Tensor, Tensor)
 
 计算 `input` 的 QR 分解, 但不构造 `Q` 和 `R` 作为显示分开的矩阵.
 
-然而, 这样直接调用 LAPACK 的底层函数 `?geqrf`, 会产生一连串的 ‘elementary reflectors’.
+然而, 这样直接调用 LAPACK 的底层函数 `?geqrf`, 会产生一连串的 'elementary reflectors'.
 
 更多信息请参见 [LAPACK documentation](https://software.intel.com/en-us/node/521004) .
 
@@ -5449,7 +5449,7 @@ torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor
 
 `input` 和 `V` 是 `m x m` 矩阵, `e` 是一个 `m` 维的向量.
 
-这个函数计算矩阵 `input` 的所有特征值 (和向量), 使得 `input = V diag(e) V’`.
+这个函数计算矩阵 `input` 的所有特征值 (和向量), 使得 `input = V diag(e) V'`.
 
 布尔参数 `eigenvectors` 定义了是否计算特征向量. 如果它为 `False`, 那么只有特征值会被计算. 如果它为 `True`, 特征值和特征向量都会被计算.
 

@@ -51,5 +51,5 @@ torchvision.set_image_backend(backend)
 
 指定用于载入图片的包
 
-| 参数: | **backend** (_string_) – 图片处理后端的名称，须为{‘PIL’, ‘accimage’}中的一个。`accimage`包使用了英特尔IPP库。这个库通常比PIL快，但是支持的操作比PIL要少。|
+| 参数: | **backend** (_string_) – 图片处理后端的名称，须为{'PIL', 'accimage'}中的一个。`accimage`包使用了英特尔IPP库。这个库通常比PIL快，但是支持的操作比PIL要少。|
 | --- | --- |

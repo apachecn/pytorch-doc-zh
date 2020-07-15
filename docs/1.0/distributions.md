@@ -1243,7 +1243,7 @@ class torch.distributions.laplace.Laplace(loc, scale, validate_args=None)
 
 基类: [`torch.distributions.distribution.Distribution`](#torch.distributions.distribution.Distribution "torch.distributions.distribution.Distribution")
 
-创建参数化的拉普拉斯分布, 参数是 `loc` 和 :attr:’scale’.
+创建参数化的拉普拉斯分布, 参数是 `loc` 和 :attr:'scale'.
 
 例子:
 

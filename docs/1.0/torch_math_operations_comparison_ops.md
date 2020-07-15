@@ -458,7 +458,7 @@ torch.min(input, other, out=None) → Tensor
 
 将张量`input`的每个元素与张量`other`的对应元素进行比较，并采用逐元素最小值。返回结果张量。
 
-The shapes of `input` and `other` don’t need to match, but they must be [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics).
+The shapes of `input` and `other` don't need to match, but they must be [broadcastable](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/notes/broadcasting.html#broadcasting-semantics).
 
 [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/173d7b4bb5cacbc18349fb16cd6130ab.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/173d7b4bb5cacbc18349fb16cd6130ab.jpg)
 

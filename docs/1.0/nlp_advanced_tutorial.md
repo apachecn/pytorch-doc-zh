@@ -33,22 +33,22 @@ Pytorch是一种 _动态_ 神经网络套件。另一个动态套件的例子是
 
 如果你可以做这三件事，你应该能够理解下面的代码。回想一下，CRF计算条件概率。设 $$y$$ 为标签序列，$$x$$ 为字的输入序列。然后我们计算
 
-$$P(y|x)=\frac{\exp{(\text {Score}(x，y）})} {\sum_ {y'} \exp {(\text {Score}(x，y')})} $$
+$$P(y|x)=\frac{\exp{(\text {Score}(x, y)})} {\sum_ {y} \exp {(\text {Score}(x, y)})} $$
 
 通过定义一些对数电位 $$\log\psi_i(x,y)$$ 来确定得分
 
-$$\text {Score}(x，y)= \sum_i\log\psi_i(x，y)$$
+$$\text {Score}(x, y)= \sum_i\log\psi_i(x, y)$$
 
 为了使分区功能易于处理，电位必须仅查看局部特征。
 
 在Bi-LSTM CRF中，我们定义了两种潜力：发射和过渡。索引 $$i$$ 处的单词的发射电位来自时间步长 $$i$$ 处的Bi-LSTM的隐藏状态。转换分数存储在 $$|T|x|T|$$ 矩阵 $$\textbf{P}$$ 中，其中 $$T$$ 是标记集。在我的实现中，$$\textbf{P}_{j,k}$$ 是从标签 $$  $$ 转换到标签 $$ j $$ 的分数。所以：
 
-$$
+\\(
 \begin{align}
-\text{Score}(x,y) &= \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)\\
-&= \sum_i h_i[y_i] + \textbf{P}_{y_i, y_{i-1}}\\
+\text{Score}(x, y) &= \sum_i \log \psi_\text{EMIT}(y_i \rightarrow x_i) + \log \psi_\text{TRANS}(y_{i-1} \rightarrow y_i)\\
+&= \sum_i h_i[y_i] + \textbf{P}_{y_i, y_{i-1}}
 \end{align}
-$$
+\\)
 
 在第二个表达式中，我们将标记视为分配了唯一的非负索引。
 

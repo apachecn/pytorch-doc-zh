@@ -48,7 +48,7 @@ unzip libtorch-shared-with-deps-latest.zip
 
 ```
 
-接下来，让我们编写一个名为 `dcgan.cpp` 的小型C++文件，它包括 `torch/torch.h` ，现在只需打印出三×三的身份矩阵：
+接下来，让我们编写一个名为 `dcgan.cpp` 的小型C++文件，它包括 `torch/torch.h` ，现在只需打印出三*三的身份矩阵：
 
 ```py
 #include <torch/torch.h>

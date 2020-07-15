@@ -51,7 +51,7 @@ return output
 **不要使用太大的线性图层。** 线性层nn.Linear(m，n）使用O(nm)存储器：也就是说，权重的存储器需求与特征的数量成比例。 以这种方式很容易占用你的存储(并且记住，你将至少需要两倍存储权值的内存量，因为你还需要存储梯度。）
 
 
-## My GPU memory isn’t freed properly  
+## My GPU memory isn't freed properly  
 
 PyTorch使用缓存内存分配器来加速内存分配。 因此，`nvidia-smi`中显示的值通常不会反映真实的内存使用情况。 有关GPU内存管理的更多详细信息，请参阅[内存管理](cuda.html#cuda-memory-management) 。
 
@@ -61,7 +61,7 @@ PyTorch使用缓存内存分配器来加速内存分配。 因此，`nvidia-smi`
 
 您可能正在数据集中使用其他库来生成随机数。 例如，当通过`fork`启动工作程序子进程时，NumPy的RNG会重复。有关如何使用`worker_init_fn`选项在工作程序中正确设置随机种子的文档，请参阅torch.utils.data.DataLoader文档。  
 
-## My recurrent network doesn’t work with data parallelism  
+## My recurrent network doesn't work with data parallelism  
 
 在具有`DataParallel`或`data_parallel()`的模块中使用`pack sequence -> recurrent network -> unpack sequence`模式时有一个非常微妙的地方。每个设备上的`forward()`的输入只会是整个输入的一部分。由于默认情况下，解包操作`torch.nn.utils.rnn.pad_packed_sequence()`仅填充到其所见的最长输入，即该特定设备上的最长输入，所以在将结果收集在一起时会发生尺寸的不匹配。因此，您可以利用`pad_packed_sequence()`的 `total_length`参数来确保`forward()`调用返回相同长度的序列。例如，你可以写：
 

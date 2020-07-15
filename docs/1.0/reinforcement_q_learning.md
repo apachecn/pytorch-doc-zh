@@ -118,7 +118,14 @@ $$\delta = Q(s, a) - (r + \gamma \max_a Q(s', a))$$
 
 $$\mathcal{L} = \frac{1}{|B|}\sum_{(s, a, s', r) \ \in \ B} \mathcal{L}(\delta)$$
 
-$$\begin{split}\text{where} \quad \mathcal{L}(\delta) = \begin{cases} \frac{1}{2}{\delta^2} & \text{for } |\delta| \le 1, \\ |\delta| - \frac{1}{2} & \text{otherwise.} \end{cases}\end{split}$$
+\\(
+\begin{split}
+\text{where} 
+\quad \mathcal{L}(\delta) = \begin{cases} \frac{1}{2}{\delta^2} & \text{for } |\delta| \le 1, \\
+|\delta| - \frac{1}{2} & \text{otherwise.} 
+\end{cases}
+\end{split}
+\\)
 
 ### Q-网络
 

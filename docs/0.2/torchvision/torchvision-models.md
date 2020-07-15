@@ -103,4 +103,4 @@ VGG 19-layer model (configuration “E”)
 
 - pretrained (bool) – `True`, 返回在ImageNet上训练好的模型。
 ## torchvision.models.vgg19_bn(** kwargs)
-VGG 19-layer model (configuration ‘E’) with batch normalization
+VGG 19-layer model (configuration 'E') with batch normalization

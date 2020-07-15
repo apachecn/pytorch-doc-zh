@@ -59,4 +59,4 @@ Specifies the package used to load images.
 
 Parameters
 
-backend (string) – Name of the image backend. one of {‘PIL’, ‘accimage’}. The accimage package uses the Intel IPP library. It is generally faster than PIL, but does not support as many operations.
+backend (string) – Name of the image backend. one of {'PIL', 'accimage'}. The accimage package uses the Intel IPP library. It is generally faster than PIL, but does not support as many operations.

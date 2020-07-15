@@ -481,7 +481,7 @@ torch.std(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension `dim` where it is of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the output tensor having 1 fewer dimension than `input`.
 
-If `unbiased` is `False`, then the standard-deviation will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
+If `unbiased` is `False`, then the standard-deviation will be calculated via the biased estimator. Otherwise, Bessel's correction will be used.
 
 Parameters:
 
@@ -643,7 +643,7 @@ torch.var(input, dim, keepdim=False, unbiased=True, out=None) → Tensor
 
 If `keepdim` is `True`, the output tensors are of the same size as `input` except in the dimension `dim` where they are of size 1\. Otherwise, `dim` is squeezed (see [`torch.squeeze()`](#torch.squeeze "torch.squeeze")), resulting in the outputs tensor having 1 fewer dimension than `input`.
 
-If `unbiased` is `False`, then the variance will be calculated via the biased estimator. Otherwise, Bessel’s correction will be used.
+If `unbiased` is `False`, then the variance will be calculated via the biased estimator. Otherwise, Bessel's correction will be used.
 
 Parameters:
 

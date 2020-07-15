@@ -418,7 +418,7 @@ state_dict(destination=None, prefix='', keep_vars=False)
 参数：
 
 *   `destination (dict, 可选)` – 如果不是 None, 该返回的字典应该被存储到 destination 中. Default: None
-*   `prefix (string, 可选)` – 向结果字典中的每个参数和缓冲区的 key(名称）添加一个前缀. Default: ‘’
+*   `prefix (string, 可选)` – 向结果字典中的每个参数和缓冲区的 key(名称）添加一个前缀. Default: ''
 *   `keep_vars (bool, 可选)` – 如果为 `True`, 为每一个参数返回一个 Variable. 如果为 `False`, 为每一个参数返回一个 Tensor. Default: `False`
 
 
@@ -2396,11 +2396,11 @@ class torch.nn.BatchNorm1d(num_features, eps=1e-05, momentum=0.1, affine=True)
 
 在验证时,训练得到的均值/方差,用于标准化验证数据.
 
-BatchNorm 在 ‘C’ 维上处理,即 ‘(N,L)’ 部分运行,被称作 ‘Temporal BatchNorm’
+BatchNorm 在 'C' 维上处理,即 '(N,L)' 部分运行,被称作 'Temporal BatchNorm'
 
 参数：
 
-*   `num_features` – 预期输入的特征数,大小为 ‘batch_size x num_features [x width]’
+*   `num_features` – 预期输入的特征数,大小为 'batch_size x num_features [x width]'
 *   `eps` – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   `momentum` – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   `affine` – 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
@@ -2440,11 +2440,11 @@ class torch.nn.BatchNorm2d(num_features, eps=1e-05, momentum=0.1, affine=True)
 
 在验证时,训练得到的均值/方差,用于标准化验证数据.
 
-BatchNorm 在 ‘C’ 维上处理,即 ‘(N, H, W)’ 部分运行,被称作 ‘Spatial BatchNorm’.
+BatchNorm 在 'C' 维上处理,即 '(N, H, W)' 部分运行,被称作 'Spatial BatchNorm'.
 
 参数：
 
-*   `num_features` – 预期输入的特征数,大小为 ‘batch_size x num_features x height x width’
+*   `num_features` – 预期输入的特征数,大小为 'batch_size x num_features x height x width'
 *   `eps` – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   `momentum` – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   `affine` – 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
@@ -2484,11 +2484,11 @@ class torch.nn.BatchNorm3d(num_features, eps=1e-05, momentum=0.1, affine=True)
 
 在验证时,训练得到的均值/方差,用于标准化验证数据.
 
-BatchNorm 在 ‘C’ 维上处理,即 ‘(N, D, H, W)’ 部分运行,被称作 ‘Volumetric BatchNorm’ 或者 ‘Spatio-temporal BatchNorm’
+BatchNorm 在 'C' 维上处理,即 '(N, D, H, W)' 部分运行,被称作 'Volumetric BatchNorm' 或者 'Spatio-temporal BatchNorm'
 
 参数：
 
-*   `num_features` – 预期输入的特征数,大小为 ‘batch_size x num_features x depth x height x width’
+*   `num_features` – 预期输入的特征数,大小为 'batch_size x num_features x depth x height x width'
 *   `eps` – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   `momentum` – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   `affine` – 布尔值,设为 True 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 True
@@ -2533,7 +2533,7 @@ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
 参数：
 
-*   `num_features` – 预期输入的特征数,大小为 ‘batch_size x num_features x width’
+*   `num_features` – 预期输入的特征数,大小为 'batch_size x num_features x width'
 *   `eps` – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   `momentum` – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   `affine` – 布尔值,设为 `True` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 `False`
@@ -2578,7 +2578,7 @@ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
 参数：
 
-*   `num_features` – 预期输入的特征数,大小为 ‘batch_size x num_features x height x width’
+*   `num_features` – 预期输入的特征数,大小为 'batch_size x num_features x height x width'
 *   `eps` – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   `momentum` – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   `affine` – 布尔值,设为 `True` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 `False`
@@ -2623,7 +2623,7 @@ y = \frac{x - mean[x]}{ \sqrt{Var[x]} + \epsilon} * gamma + beta
 
 参数：
 
-*   `num_features` – 预期输入的特征数,大小为 ‘batch_size x num_features x depth x height x width’
+*   `num_features` – 预期输入的特征数,大小为 'batch_size x num_features x depth x height x width'
 *   `eps` – 给分母加上的值,保证数值稳定(分母不能趋近0或取0),默认为 1e-5
 *   `momentum` – 动态均值和动态方差使用的移动动量值,默认为 0.1
 *   `affine` – 布尔值,设为 `True` 时,表示该层添加可学习,可改变的仿射参数,即 gamma 和 beta,默认为 `False`
@@ -2668,7 +2668,7 @@ class torch.nn.RNN(*args, **kwargs)
 *   `input_size` – 输入 x 的特征数量
 *   `hidden_size` – 隐状态 `h` 中的特征数量
 *   `num_layers` – RNN 的层数
-*   `nonlinearity` – 指定非线性函数使用 [‘tanh’&#124;’relu’]. 默认: ‘tanh’
+*   `nonlinearity` – 指定非线性函数使用 ['tanh'&#124;'relu']. 默认: 'tanh'
 *   `bias` – 如果是 `False` , 那么 RNN 层就不会使用偏置权重 b_ih 和 b_hh, 默认: `True`
 *   `batch_first` – 如果 `True`, 那么输入 `Tensor` 的 shape 应该是 (batch, seq, feature),并且输出也是一样
 *   `dropout` – 如果值非零, 那么除了最后一层外, 其它层的输出都会套上一个 `dropout` 层
@@ -2828,14 +2828,14 @@ class torch.nn.RNNCell(input_size, hidden_size, bias=True, nonlinearity='tanh')
 
 ![h' = \tanh(w_{ih} * x + b_{ih} + w_{hh} * h + b_{hh})](img/tex-209461341961969b0f0807545f76affd.gif)
 
-如果 nonlinearity=’relu’, 那么将会使用 ReLU 来代替 tanh .
+如果 nonlinearity='relu', 那么将会使用 ReLU 来代替 tanh .
 
 参数：
 
 *   `input_size` – 输入的特征维度
 *   `hidden_size` – 隐状态的特征维度
 *   `bias` – 如果为 `False`, 那么RNN层将不会使用偏置权重 b_ih 和 b_hh. 默认: `True`
-*   `nonlinearity` – 用于选择非线性激活函数 [‘tanh’&#124;’relu’]. 默认: ‘tanh’
+*   `nonlinearity` – 用于选择非线性激活函数 ['tanh'&#124;'relu']. 默认: 'tanh'
 
 
 
@@ -2844,9 +2844,9 @@ Inputs: input, hidden
 *   `input (batch, input_size)`: 包含输入特征的 `tensor` .
 *   `hidden (batch, hidden_size)`: 包含 batch 中每个元素的初始化隐状态的 `tensor`.
 
-Outputs: h’
+Outputs: h'
 
-*   h’ (batch, hidden_size): 保存着 batch 中每个元素的下一层隐状态的 `tensor` .
+*   h' (batch, hidden_size): 保存着 batch 中每个元素的下一层隐状态的 `tensor` .
 
 变量：
 
@@ -2945,9 +2945,9 @@ Inputs: input, hidden
 *   `input (batch, input_size)`: 包含输入特征的 `tensor` .
 *   `hidden (batch, hidden_size)`: 包含 batch 中每个元素的初始化隐状态的 `tensor`.
 
-Outputs: h’
+Outputs: h'
 
-*   h’: (batch, hidden_size): 保存着 batch 中每个元素的下一层隐状态的 `tensor`
+*   h': (batch, hidden_size): 保存着 batch 中每个元素的下一层隐状态的 `tensor`
 
 变量：
 
@@ -3099,7 +3099,7 @@ Dropout2d 将输入张量的所有通道随机地置为 0.被置为 0 的通道�
 > 
 > 在这样的情况下, 应该使用函数函数 nn.Dropout2d , 它能够提升特征映射之间的独立性.
 > 
-> Args: p (float,optional): 元素被置0的概率 inplace(bool, 可选）: 如果被设为’True’, 置0操作将直接作用在输入元素上 Shape:
+> Args: p (float,optional): 元素被置0的概率 inplace(bool, 可选）: 如果被设为'True', 置0操作将直接作用在输入元素上 Shape:
 > 
 > *   输入：math:(N, C, H, W)
 > *   输出：math:(N, C, H, W) (与输入相同）
@@ -3262,7 +3262,7 @@ Variable containing:
 class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_type=2, scale_grad_by_freq=False, mode='mean')
 ```
 
-计算一 个’bags’ 里的 embedding s的均值或和, 不用实例化中间的 embeddings
+计算一 个'bags' 里的 embedding s的均值或和, 不用实例化中间的 embeddings
 
 对于固定长度的 bags
 
@@ -3278,7 +3278,7 @@ class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_t
 *   `max_norm (float, 可选)` – 如果给出, 重新归一化 embeddings, 使其范数小于该值
 *   `norm_type (float, 可选)` – 为 max_norm 选项计算 p 范数时的 P
 *   `scale_grad_by_freq (boolean, 可选)` – 如果给出, 会根据 words 在 mini-batch 中的频率缩放梯度
-*   `mode (string, 可选)` – ‘sum’ &#124; ‘mean’. 指定减少 bag 的方式. 默认: ‘mean’
+*   `mode (string, 可选)` – 'sum' &#124; 'mean'. 指定减少 bag 的方式. 默认: 'mean'
 
 
 | Variables: | **weight** (Tensor) – shape 为 (num_embeddings, embedding_dim) 的模块的可学习权重 |

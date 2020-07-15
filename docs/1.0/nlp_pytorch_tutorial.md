@@ -230,9 +230,12 @@ tensor(21., grad_fn=<SumBackward0>)
 那么这个计算和对x的第一个分量的导数等于多少? 在数学上,我们求   
 
 $$\frac{\partial s}{\partial x_0}$$
+
 s是被作为张量z的和创建的。张量z是x+y的和
 
-$$s = \overbrace{x_0 + y_0}^\text{$z_0$} + \overbrace{x_1 + y_1}^\text{$z_1$} + \overbrace{x_2 + y_2}^\text{$z_2$}$$
+\\( 
+s = \overbrace{x_0 + y_0}^\text{$z_0$} + \overbrace{x_1 + y_1}^\text{$z_1$} + \overbrace{x_2 + y_2}^\text{$z_2$}
+\\)
 
 并且s包含了足够的信息去决定我们需要的导数为1!
 

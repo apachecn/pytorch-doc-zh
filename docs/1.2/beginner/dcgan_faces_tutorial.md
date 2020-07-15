@@ -20,9 +20,11 @@ GAN是用于教授DL模型以捕获训练数据分布的框架，因此我们可
 
 对于生成器 $$z$$ 表示从标准正态分布中采样的空间矢量(本征向量）。 $$G(z)$$ 表示将本征向量 $$z$$ 映射到数据空间的生成器函数。 $$G$$ 的目标是估计训练数据来自的分布 $$p_{data}$$ ，这样就可以从估计的分布 $$p_g$$ 中生成假样本。
 
-因此，$$D(G(z))$$ 表示生成器输出$$G$$是真实图片的概率。就像在 [Goodfellow’s paper](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)中描述的那样，$$D$$ 和 $$G$$ 在玩一个极大极小游戏。在这个游戏中 $$D$$ 试图最大化正确分类真假图片的概率 $$logD(x)$$ ，$$G$$ 试图最小化 $$D$$ 预测其输出为假图片的概率  $$log(1-D(G(x)))$$ 。文章中GAN的损失函数是
+因此，$$D(G(z))$$ 表示生成器输出$$G$$是真实图片的概率。就像在 [Goodfellow's paper](https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf)中描述的那样，$$D$$ 和 $$G$$ 在玩一个极大极小游戏。在这个游戏中 $$D$$ 试图最大化正确分类真假图片的概率 $$logD(x)$$ ，$$G$$ 试图最小化 $$D$$ 预测其输出为假图片的概率  $$log(1-D(G(x)))$$ 。文章中GAN的损失函数是
 
-$$\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim p_{data}(x)}\big[logD(x)\big] + \mathbb{E}_{z\sim p_{z}(z)}\big[log(1-D(G(z)))\big]$$
+\\(
+\underset{G}{\text{min}} \underset{D}{\text{max}}V(D,G) = \mathbb{E}_{x\sim p_{data}(x)}\big[logD(x)\big] + \mathbb{E}_{z\sim p_{z}(z)}\big[log(1-D(G(z)))\big]
+\\)
 
 理论上，这个极小极大游戏的目标是 $$p_g=p_{data}$$，如果输入是真实的或假的，则判别器会随机猜测。 然而，GAN的收敛理论仍在积极研究中，实际上，模型并不总是能达到此目的。
 
@@ -357,7 +359,9 @@ Discriminator(
 
 随着对判别器 $$D$$ 和生成器 $$G$$ 完成了设置， 我们能够详细的叙述它们怎么通过损失函数和优化器来进行学习的。我们将使用Binary Cross Entropy loss ([BCELoss](https://pytorch.org/docs/stable/nn.html#torch.nn.BCELoss)) 函数，其在pyTorch中的定义如下：
 
-$$\ell(x, y) = L = \{l_1,\dots,l_N\}^\top, \quad l_n = - \left[ y_n \cdot \log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]$$
+\\(
+\ell(x, y) = L = \{l_1,\dots,l_N\}^\top, \quad l_n = - \left[ y_n \cdot \log x_n + (1 - y_n) \cdot \log (1 - x_n) \right]
+\\)
 
 需要注意的是目标函数中两个log部分是怎么提供计算的(i.e. $$log(D(x))$$ 和 $$log(1-D(G(z)))$$ 。 即将介绍的训练循环中我们将详细的介绍BCE公式的怎么使用输入 $$y$$ 的。但重要的是要了解我们如何通过改变 $$y$$(即GT标签）来选择我们想要计算的部分损失。
 

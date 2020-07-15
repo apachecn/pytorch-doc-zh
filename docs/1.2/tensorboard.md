@@ -79,7 +79,7 @@ Parameters
 
 ​    
 
-  * **log_dir** (*string*) - 保存目录位置。缺省值是运行/ **CURRENT_DATETIME_HOSTNAME** ，在每次运行后，其改变。采用分层文件夹结构容易运行之间的比较。例如通过在 ‘runs/exp1’, ‘runs/exp2’等，对每一个新实验进行比较。
+  * **log_dir** (*string*) - 保存目录位置。缺省值是运行/ **CURRENT_DATETIME_HOSTNAME** ，在每次运行后，其改变。采用分层文件夹结构容易运行之间的比较。例如通过在 'runs/exp1', 'runs/exp2'等，对每一个新实验进行比较。
 * **comment** (*string*)  - 添加到默认log_dir后缀的注释log_dir。如果分配了log_dir，则此参数无效
 * **purge_step** ([*int*](https://docs.python.org/3/library/functions.html#int))  -当日志记录在步骤T+XT+X崩溃并在步骤TT重新启动时，global_step大于或等于TT的任何事件将被清除并从TensorBoard中隐藏。注意，崩溃和恢复的实验应该具有相同的log_dir。
 * **max_queue** ([*int*](https://docs.python.org/3/library/functions.html#int))  - 在其中一个“add”调用强制刷新到磁盘之前，挂起事件和摘要的队列大小。默认为10项。
@@ -189,7 +189,7 @@ Parameters
   * **tag** (*string*) – 数据标识符
 * **values** ([*torch.Tensor*](https://pytorch.org/docs/stable/tensors.html#torch.Tensor)*,* *numpy.array**, or* *string/blobname*) – 值构建直方图
 * **global_step** ([*int*](https://docs.python.org/3/library/functions.html#int)) – 要记录的全局步长值
-* **bins** (*string*) – One of {‘tensorflow’,’auto’, ‘fd’, …}. 这决定了bins的制作方式。您可以在以下地址找到其他选项: https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+* **bins** (*string*) – One of {'tensorflow','auto', 'fd', …}. 这决定了bins的制作方式。您可以在以下地址找到其他选项: https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
 * **walltime** ([*float*](https://docs.python.org/3/library/functions.html#float)) – 可选覆盖默认的walltime (time.time())事件历元后的
 
 Examples:

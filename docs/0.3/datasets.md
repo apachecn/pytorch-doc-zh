@@ -173,7 +173,7 @@ class torchvision.datasets.LSUN(db_path, classes='train', transform=None, target
 参数：
 
 *   `db_path (string)` – 数据集文件存放的主目录.
-*   `classes (string 或 list)` – {‘train’, ‘val’, ‘test’} 中的一个, 或者是一个要载入种类的列表. e,g. [‘bedroom_train’, ‘church_train’].
+*   `classes (string 或 list)` – {'train', 'val', 'test'} 中的一个, 或者是一个要载入种类的列表. e,g. ['bedroom_train', 'church_train'].
 *   `transform (callable, 可选)` – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
 *   `target_transform (callable, 可选)` – 一个 transform 函数, 输入 target 并且 转换它.
 
@@ -280,7 +280,7 @@ class torchvision.datasets.STL10(root, split='train', transform=None, target_tra
 参数：
 
 *   `root (string)` – `stl10_binary`数据集存放的主目录.
-*   `split (string)` – {‘train’, ‘test’, ‘unlabeled’, ‘train+unlabeled’} 中的一个. 它是根据数据集选择的.
+*   `split (string)` – {'train', 'test', 'unlabeled', 'train+unlabeled'} 中的一个. 它是根据数据集选择的.
 *   `transform (callable, 可选)` – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
 *   `target_transform (callable, 可选)` – 一个 transform 函数, 输入 target 并且 转换它.
 *   `download (bool, 可选)` – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.
@@ -308,7 +308,7 @@ class torchvision.datasets.SVHN(root, split='train', transform=None, target_tran
 参数：
 
 *   `root (string)` – `SVHN`数据集存放的主目录.
-*   `split (string)` – {‘train’, ‘test’, ‘extra’} 中的一个. 它是根据数据集选择的. ‘extra’ 是一个额外的训练集.
+*   `split (string)` – {'train', 'test', 'extra'} 中的一个. 它是根据数据集选择的. 'extra' 是一个额外的训练集.
 *   `transform (callable, 可选)` – 一个 transform 函数, 它输入 PIL image 并且返回 转换后的版本. E.g, `transforms.RandomCrop`
 *   `target_transform (callable, 可选)` – 一个 transform 函数, 输入 target 并且 转换它.
 *   `download (bool, 可选)` – 如果 true, 就从网上下载数据集并且放到 root 目录下. 如果数据集已经下载, 那么不会再次下载.

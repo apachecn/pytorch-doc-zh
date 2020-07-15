@@ -427,6 +427,6 @@ Currently only 2D and 3D padding supported.
 
 - pad (tuple) – 4元素 或 6-元素  `tuple`
 
-- mode – ‘constant’, ‘reflect’ or ‘replicate’
+- mode – 'constant', 'reflect' or 'replicate'
 
 - value – 用于`constant padding` 的值.

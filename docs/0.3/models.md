@@ -155,7 +155,7 @@ VGG 19层模型 (configuration “E”)
 torchvision.models.vgg19_bn(pretrained=False, **kwargs)
 ```
 
-带有批标准化(batch normalization) 的 VGG 19层模型 (configuration ‘E’)
+带有批标准化(batch normalization) 的 VGG 19层模型 (configuration 'E')
 
 参数：`pretrained (bool)` – True, 返回一个在 ImageNet 上预训练的模型.
 
