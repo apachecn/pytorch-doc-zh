@@ -89,7 +89,7 @@ PyTorch张量转换为`warp_mat`OpenCV的矩阵：
 
 接下来，我们准备调用，我们是如此渴望在TorchScript使用OpenCV的函数：`warpPerspective
 [HTG3。为此，我们通过OpenCV的函数中的`image_mat`和`warp_mat`矩阵，以及被称为空输出矩阵`output_mat
-`。我们还指定大小`DSIZE`我们要输出矩阵(图像）是。它是硬编码为`8  × 8`在这个例子中：`
+`。我们还指定大小`DSIZE`我们要输出矩阵(图像）是。它是硬编码为`8  * 8`在这个例子中：`
 
     
     
@@ -108,7 +108,7 @@ from_blob`调用看起来是这样的：`
     
 
 我们使用`.ptr & LT ;浮子& GT ;(） `上OpenCV的`垫[方法HTG6] `类来获得原始指针到底层数据(就像`。数据& LT
-;浮子& GT ;(） `为PyTorch张量更早）。我们还指定张量的输出的形状，这我们硬编码为`8  × 8`。的`输出torch:: from_blob
+;浮子& GT ;(） `为PyTorch张量更早）。我们还指定张量的输出的形状，这我们硬编码为`8  * 8`。的`输出torch:: from_blob
 `于是为`torch::张量 `，指向由OpenCV的基质所拥有的存储器。
 
 从我们的运营商实现返回，这个张量之前，我们必须调用`.clone(） `对张进行基础数据的内存拷贝。这样做的原因是，`Torch :: from_blob
@@ -897,7 +897,7 @@ CPython的-37M-x86_64的-linux-GNU`是ABI标签，但我们真的只是希望它
     creating build
     creating build/temp.linux-x86_64-3.7
     gcc -pthread -B /root/local/miniconda/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/root/local/miniconda/lib/python3.7/site-packages/torch/lib/include -I/root/local/miniconda/lib/python3.7/site-packages/torch/lib/include/torch/csrc/api/include -I/root/local/miniconda/lib/python3.7/site-packages/torch/lib/include/TH -I/root/local/miniconda/lib/python3.7/site-packages/torch/lib/include/THC -I/root/local/miniconda/include/python3.7m -c op.cpp -o build/temp.linux-x86_64-3.7/op.o -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=warp_perspective -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++11
-    cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+    cc1plus: warning: command line option '-Wstrict-prototypes' is valid for C/ObjC but not for C++
     creating build/lib.linux-x86_64-3.7
     g++ -pthread -shared -B /root/local/miniconda/compiler_compat -L/root/local/miniconda/lib -Wl,-rpath=/root/local/miniconda/lib -Wl,--no-as-needed -Wl,--sysroot=/ build/temp.linux-x86_64-3.7/op.o -lopencv_core -lopencv_imgproc -o build/lib.linux-x86_64-3.7/warp_perspective.so
     running develop

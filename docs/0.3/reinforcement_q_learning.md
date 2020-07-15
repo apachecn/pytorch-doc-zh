@@ -18,7 +18,7 @@
 
 **包**
 
-首先, 我们导入一些需要用到的包. 第一, 我们需要 [gym包](https://gym.openai.com/docs) 环境需要这个包(使用 ‘pip install gym’ 安装该包). 我们也会使用来自于 PyTorch 的以下包:
+首先, 我们导入一些需要用到的包. 第一, 我们需要 [gym包](https://gym.openai.com/docs) 环境需要这个包(使用 'pip install gym' 安装该包). 我们也会使用来自于 PyTorch 的以下包:
 
 *   神经网络 neural networks (`torch.nn`)
 *   优化 optimization (`torch.optim`)

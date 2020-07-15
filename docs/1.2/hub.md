@@ -10,7 +10,7 @@ torch.hub.load(github, model, force_reload=False, *args, **kwargs)
 
 参数: 
 
-*   **github** – 必需，一个字符串对象，格式为“repo_owner/repo_name[:tag_name]”，可选 tag/branch。如果未做指定，默认的 branch 是 `master` 。比方说: ‘pytorch/vision[:hub]’
+*   **github** – 必需，一个字符串对象，格式为“repo_owner/repo_name[:tag_name]”，可选 tag/branch。如果未做指定，默认的 branch 是 `master` 。比方说: 'pytorch/vision[:hub]'
 *   **model** – 必须，一个字符串对象，名字在hubconf.py中定义。
 *   **force_reload** – 可选， 是否丢弃现有缓存并强制重新下载。默认是：`False`。
 *   ***args** – 可选， 可调用的`model`的相关args参数。

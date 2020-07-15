@@ -108,8 +108,8 @@ class torchvision.transforms.Pad(padding, fill=0, padding_mode='constant')
 参数： 
 
 *   **padding**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")）– 在每条边上展开的宽度。如果传入的是单个int，就在所有边展开。如果传入长为2的元组，则指定左右和上下的展开宽度。如果传入长为4的元组，则依次指定为左、上、右、下的展开宽度。
-*   **fill**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是‘constant’时指定有效。
-*  **padding_mode**([_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是‘constant’，‘edge’，‘reflect’或‘symmetric’之一。默认为‘constant’。
+*   **fill**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是'constant'时指定有效。
+*  **padding_mode**([_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是'constant'，'edge'，'reflect'或'symmetric'之一。默认为'constant'。
    * constant：用常数扩展，这个值由fill参数指定。
    * edge：用图像边缘上的指填充。
    * reflect：以边缘为对称轴进行轴对称填充(边缘值不重复）。
@@ -165,8 +165,8 @@ class torchvision.transforms.RandomCrop(size, padding=0, pad_if_needed=False)
 *   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 想要裁剪出的图片的形状。如果size是int，按照正方形(size, size）裁剪； 如果size是序列(h, w），裁剪为矩形。
 *   **padding**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ _序列_ _,_ _可选_）– 在图像的边缘进行填充，默认0，即不做填充。如果指定长为4的序列，则分别指定左、上、右、下的填充宽度。
 *   **pad_if_needed**(_boolean_）– 如果设置为True，若图片小于目标形状，将进行填充以避免报异常。
-*   **fill**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是‘constant’时指定有效。
-*  **padding_mode**([_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是‘constant’，‘edge’，‘reflect’或‘symmetric’之一。默认为‘constant’。
+*   **fill**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)") _或_ [_tuple_](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.7)")） – 像素填充值。默认是0。如果指定长度为3的元组，表示分别填充R, G, B通道。这个参数仅在padding_mode是'constant'时指定有效。
+*  **padding_mode**([_str_](https://docs.python.org/3/library/functions.html#func-str "(in Python v3.7)")）– 展开类型。应当是'constant'，'edge'，'reflect'或'symmetric'之一。默认为'constant'。
    * constant：用常数扩展，这个值由fill参数指定。
    * edge：用图像边缘上的指填充。
    * reflect：以边缘为对称轴进行轴对称填充(边缘值不重复）。
@@ -697,7 +697,7 @@ torchvision.transforms.functional.resize(img, size, interpolation=2)
 参数： 
 
 *   **img**(_PIL图像_）– 要调整形状的图像。
-*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 输出图像的形状。如果size指定为序列(h, w)，输出矩形。如果size指定为int图片的短边将调整为这个数，长边按照相同的长宽比进行调整。即，如果高度&gt;宽度，则图片形状将调整为 $$(size\times\frac{高度}{宽度}, size)$$
+*   **size**(_序列_ _或_ [_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")）– 输出图像的形状。如果size指定为序列(h, w)，输出矩形。如果size指定为int图片的短边将调整为这个数，长边按照相同的长宽比进行调整。即，如果高度>宽度，则图片形状将调整为 \\( (size\times\frac{ 高度 }{ 宽度 }, size) \\)
 *   **interpolation**([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _可选_）– 插值方式，默认是`PIL.Image.BILINEAR`。
 
 

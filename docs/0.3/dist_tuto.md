@@ -4,7 +4,7 @@
 
 **Author**: [Séb Arnold](http://seba1511.com)
 
-In this short tutorial, we will be going over the distributed package of PyTorch. We’ll see how to set up the distributed setting, use the different communication strategies, and go over some the internals of the package.
+In this short tutorial, we will be going over the distributed package of PyTorch. We'll see how to set up the distributed setting, use the different communication strategies, and go over some the internals of the package.
 
 ## Setup
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
 The above script spawns two processes who will each setup the distributed environment, initialize the process group (`dist.init_process_group`), and finally execute the given `run` function.
 
-Let’s have a look at the `init_processes` function. It ensures that every process will be able to coordinate through a master, using the same ip address and port. Note that we used the TCP backend, but we could have used MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) or [Gloo](http://github.com/facebookincubator/gloo) instead. (c.f. [Section 5.1) We will go over the magic happening in `dist.init_process_group` at the end of this tutorial, but it essentially allows processes to communicate with each other by sharing their locations.
+Let's have a look at the `init_processes` function. It ensures that every process will be able to coordinate through a master, using the same ip address and port. Note that we used the TCP backend, but we could have used MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) or [Gloo](http://github.com/facebookincubator/gloo) instead. (c.f. [Section 5.1) We will go over the magic happening in `dist.init_process_group` at the end of this tutorial, but it essentially allows processes to communicate with each other by sharing their locations.
 
 ## Point-to-Point Communication
 
@@ -103,7 +103,7 @@ When using immediates we have to be careful about with our usage of the sent and
 
 However, after `req.wait()` has been executed we are guaranteed that the communication took place, and that the value stored in `tensor[0]` is 1.0.
 
-Point-to-point communication is useful when we want a fine-grained control over the communication of our processes. They can be used to implement fancy algorithms, such as the one used in Baidu’s DeepSpeech](https://github.com/baidu-research/baidu-allreduce) or [Facebook’s large-scale experiments](https://research.fb.com/publications/imagenet1kin1h/).(c.f. [Section 4.1)
+Point-to-point communication is useful when we want a fine-grained control over the communication of our processes. They can be used to implement fancy algorithms, such as the one used in Baidu's DeepSpeech](https://github.com/baidu-research/baidu-allreduce) or [Facebook's large-scale experiments](https://research.fb.com/publications/imagenet1kin1h/).(c.f. [Section 4.1)
 
 ## Collective Communication
 
@@ -278,7 +278,7 @@ _Et voilà_! We successfully implemented distributed synchronous SGD and could t
 
 ### Our Own Ring-Allreduce
 
-As an additional challenge, imagine that we wanted to implement DeepSpeech’s efficient ring allreduce. This is fairly easily implemented using point-to-point collectives.
+As an additional challenge, imagine that we wanted to implement DeepSpeech's efficient ring allreduce. This is fairly easily implemented using point-to-point collectives.
 
 ```py
 """ Implementation of a ring-reduce with addition. """
@@ -328,9 +328,9 @@ So far we have made extensive usage of the TCP backend. It is quite handy as a d
 
 **Gloo Backend**
 
-The [Gloo backend](https://github.com/facebookincubator/gloo) provides an optimized implementation of _collective_ communication procedures, both for CPUs and GPUs. It particularly shines on GPUs as it can perform communication without transferring data to the CPU’s memory using [GPUDirect](https://developer.nvidia.com/gpudirect). It is also capable of using [NCCL](https://github.com/NVIDIA/nccl) to perform fast intra-node communication and implements its [own algorithms](https://github.com/facebookincubator/gloo/blob/master/docs/algorithms.md) for inter-node routines.
+The [Gloo backend](https://github.com/facebookincubator/gloo) provides an optimized implementation of _collective_ communication procedures, both for CPUs and GPUs. It particularly shines on GPUs as it can perform communication without transferring data to the CPU's memory using [GPUDirect](https://developer.nvidia.com/gpudirect). It is also capable of using [NCCL](https://github.com/NVIDIA/nccl) to perform fast intra-node communication and implements its [own algorithms](https://github.com/facebookincubator/gloo/blob/master/docs/algorithms.md) for inter-node routines.
 
-Since version 0.2.0, the Gloo backend is automatically included with the pre-compiled binaries of PyTorch. As you have surely noticed, our distributed SGD example does not work if you put `model` on the GPU. Let’s fix it by first replacing `backend='gloo'` in `init_processes(rank, size, fn, backend='tcp')`. At this point, the script will still run on CPU but uses the Gloo backend behind the scenes. In order to use multiple GPUs, let us also do the following modifications:
+Since version 0.2.0, the Gloo backend is automatically included with the pre-compiled binaries of PyTorch. As you have surely noticed, our distributed SGD example does not work if you put `model` on the GPU. Let's fix it by first replacing `backend='gloo'` in `init_processes(rank, size, fn, backend='tcp')`. At this point, the script will still run on CPU but uses the Gloo backend behind the scenes. In order to use multiple GPUs, let us also do the following modifications:
 
 1.  `init_processes(rank, size, fn, backend='tcp')` ![\rightarrow](img/tex-0a183ed5142c1166275da8fb1cbbd43f.gif) `init_processes(rank, size, fn, backend='gloo')`
 2.  `model = Net()` ![\rightarrow](img/tex-0a183ed5142c1166275da8fb1cbbd43f.gif) `model = Net().cuda(rank)`
@@ -340,12 +340,12 @@ With the above modifications, our model is now training on two GPUs and you can 
 
 **MPI Backend**
 
-The Message Passing Interface (MPI) is a standardized tool from the field of high-performance computing. It allows to do point-to-point and collective communications and was the main inspiration for the API of `torch.distributed`. Several implementations of MPI exist (e.g. [Open-MPI](https://www.open-mpi.org/), [MVAPICH2](http://mvapich.cse.ohio-state.edu/), [Intel MPI](https://software.intel.com/en-us/intel-mpi-library)) each optimized for different purposes. The advantage of using the MPI backend lies in MPI’s wide availability - and high-level of optimization - on large computer clusters. [Some](https://developer.nvidia.com/mvapich) [recent](https://developer.nvidia.com/ibm-spectrum-mpi) [implementations](http://www.open-mpi.org/) are also able to take advantage of CUDA IPC and GPU Direct technologies in order to avoid memory copies through the CPU.
+The Message Passing Interface (MPI) is a standardized tool from the field of high-performance computing. It allows to do point-to-point and collective communications and was the main inspiration for the API of `torch.distributed`. Several implementations of MPI exist (e.g. [Open-MPI](https://www.open-mpi.org/), [MVAPICH2](http://mvapich.cse.ohio-state.edu/), [Intel MPI](https://software.intel.com/en-us/intel-mpi-library)) each optimized for different purposes. The advantage of using the MPI backend lies in MPI's wide availability - and high-level of optimization - on large computer clusters. [Some](https://developer.nvidia.com/mvapich) [recent](https://developer.nvidia.com/ibm-spectrum-mpi) [implementations](http://www.open-mpi.org/) are also able to take advantage of CUDA IPC and GPU Direct technologies in order to avoid memory copies through the CPU.
 
-Unfortunately, PyTorch’s binaries can not include an MPI implementation and we’ll have to recompile it by hand. Fortunately, this process is fairly simple given that upon compilation, PyTorch will look _by itself_ for an available MPI implementation. The following steps install the MPI backend, by installing PyTorch [from sources](https://github.com/pytorch/pytorch#from-source).
+Unfortunately, PyTorch's binaries can not include an MPI implementation and we'll have to recompile it by hand. Fortunately, this process is fairly simple given that upon compilation, PyTorch will look _by itself_ for an available MPI implementation. The following steps install the MPI backend, by installing PyTorch [from sources](https://github.com/pytorch/pytorch#from-source).
 
 1.  Create and activate your Anaconda environment, install all the pre-requisites following [the guide](https://github.com/pytorch/pytorch#from-source), but do **not** run `python setup.py install` yet.
-2.  Choose and install your favorite MPI implementation. Note that enabling CUDA-aware MPI might require some additional steps. In our case, we’ll stick to Open-MPI _without_ GPU support: `conda install -c conda-forge openmpi`
+2.  Choose and install your favorite MPI implementation. Note that enabling CUDA-aware MPI might require some additional steps. In our case, we'll stick to Open-MPI _without_ GPU support: `conda install -c conda-forge openmpi`
 3.  Now, go to your cloned PyTorch repo and execute `python setup.py install`.
 
 In order to test our newly installed backend, a few modifications are required.
@@ -357,9 +357,9 @@ The reason for these changes is that MPI needs to create its own environment bef
 
 ### Initialization Methods
 
-To finish this tutorial, let’s talk about the very first function we called: `dist.init_process_group(backend, init_method)`. In particular, we will go over the different initialization methods which are responsible for the initial coordination step between each process. Those methods allow you to define how this coordination is done. Depending on your hardware setup, one of these methods should be naturally more suitable than the others. In addition to the following sections, you should also have a look at the [official documentation](https://pytorch.org/docs/master/distributed.html#initialization).
+To finish this tutorial, let's talk about the very first function we called: `dist.init_process_group(backend, init_method)`. In particular, we will go over the different initialization methods which are responsible for the initial coordination step between each process. Those methods allow you to define how this coordination is done. Depending on your hardware setup, one of these methods should be naturally more suitable than the others. In addition to the following sections, you should also have a look at the [official documentation](https://pytorch.org/docs/master/distributed.html#initialization).
 
-Before diving into the initialization methods, let’s have a quick look at what happens behind `init_process_group` from the C/C++ perspective.
+Before diving into the initialization methods, let's have a quick look at what happens behind `init_process_group` from the C/C++ perspective.
 
 1.  First, the arguments are parsed and validated.
 2.  The backend is resolved via the `name2channel.at()` function. A `Channel` class is returned, and will be used to perform the data transmission.
@@ -423,4 +423,4 @@ dist.init_process_group(init_method='tcp://[ff15:1e18:5d4c:4cf0:d02d:b659:53ba:b
 
 </center>
 
-I’d like to thank the PyTorch developers for doing such a good job on their implementation, documentation, and tests. When the code was unclear, I could always count on the [docs](https://pytorch.org/docs/master/distributed.html) or the [tests](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py) to find an answer. In particular, I’d like to thank Soumith Chintala, Adam Paszke, and Natalia Gimelshein for providing insightful comments and answering questions on early drafts.
+I'd like to thank the PyTorch developers for doing such a good job on their implementation, documentation, and tests. When the code was unclear, I could always count on the [docs](https://pytorch.org/docs/master/distributed.html) or the [tests](https://github.com/pytorch/pytorch/blob/master/test/test_distributed.py) to find an answer. In particular, I'd like to thank Soumith Chintala, Adam Paszke, and Natalia Gimelshein for providing insightful comments and answering questions on early drafts.

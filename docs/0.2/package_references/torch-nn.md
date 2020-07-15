@@ -223,7 +223,7 @@ for param in model.parameters():
 给`module`添加一个`persistent buffer`。
 
 `persistent buffer`通常被用在这么一种情况：我们需要保存一个状态，但是这个状态不能看作成为模型参数。
-例如：, `BatchNorm’s` running_mean 不是一个 `parameter`, 但是它也是需要保存的状态之一。
+例如：, `BatchNorm's` running_mean 不是一个 `parameter`, 但是它也是需要保存的状态之一。
 
 `Buffers`可以通过注册时候的`name`获取。
 
@@ -915,12 +915,14 @@ $$W_{out}=(W_{in}-1)*stride[1]-2*padding[1]+kernel\_size[1]$$
 **大小:**     
 `input`: (N,C,D_in,H_in,W_in)    
 `outpu`t:(N,C,D_out,H_out,W_out)  
+
 $$
 \begin{aligned}
-D_{out}=(D_{in}-1)*stride[0]-2*padding[0]+kernel\_size[0]\\  
-H_{out}=(H_{in}-1)*stride[1]-2*padding[0]+kernel\_size[1]\\   W_{out}=(W_{in}-1)*stride[2]-2*padding[2]+kernel\_size[2]  
+&D_{out}=(D_{in}-1)*stride[0]-2*padding[0]+kernel\_size[0]\\
+&H_{out}=(H_{in}-1)*stride[1]-2*padding[0]+kernel\_size[1]\\ 
+&W_{out}=(W_{in}-1)*stride[2]-2*padding[2]+kernel\_size[2]\\
 \end{aligned}
-$$     
+$$
 
 也可以使用`output_size`指定输出的大小
 
@@ -988,9 +990,11 @@ out(N_i,C_j,h,w)=1/(kH*kW)*\sum^{kH-1}_{m=0}\sum^{kW-1}_{n=0}input(N_{i},C_{j},s
 **shape：**  
 `input`: (N,C,H_in,W_in)  
 `output`: (N,C,H_out,W_out)  
-$$\begin{aligned}
-H_{out}=floor((H_{in}+2*padding[0]-kernel\_size[0])/stride[0]+1)\\  
-W_{out}=floor((W_{in}+2*padding[1]-kernel\_size[1])/stride[1]+1)
+
+$$
+\begin{aligned}
+&H_{out}=floor((H_{in}+2*padding[0]-kernel\_size[0])/stride[0]+1)\\  
+&W_{out}=floor((W_{in}+2*padding[1]-kernel\_size[1])/stride[1]+1)\\
 \end{aligned}
 $$    
 
@@ -1026,7 +1030,9 @@ $$
 **shape：**     
 输入大小:(N,C,D_in,H_in,W_in)  
 输出大小:(N,C,D_out,H_out,W_out)
-$$\begin{aligned}
+
+$$
+\begin{aligned}
 D_{out}=floor((D_{in}+2*padding[0]-kernel\_size[0])/stride[0]+1)\\  
 H_{out}=floor((H_{in}+2*padding[1]-kernel\_size[1])/stride[1]+1)\\  
 W_{out}=floor((W_{in}+2*padding[2]-kernel\_size[2])/stride[2]+1)  
@@ -1089,8 +1095,10 @@ $$f(x)=pow(sum(X,p),1/p)$$
 **shape**
 
  - 输入：(N,C,H_in,W_in)  
- - 输出：(N,C,H_out,W_out)  
-$$\begin{aligned}
+ - 输出：(N,C,H_out,W_out) 
+
+$$
+\begin{aligned}
 H_{out} = floor((H_{in}+2*padding[0]-dilation[0]*(kernel\_size[0]-1)-1)/stride[0]+1)\\
 W_{out} = floor((W_{in}+2*padding[1]-dilation[1]*(kernel\_size[1]-1)-1)/stride[1]+1)
 \end{aligned}
@@ -1286,10 +1294,10 @@ shape：
 
 Threshold定义：
 
-$$
-y =  x ,if\ x >= threshold\\
-y = value,if\ x <  threshold
-$$
+```
+y = x, if x >= threshold
+y = value, if x < threshold
+```
 
 参数：
 
@@ -1315,11 +1323,11 @@ shape：
 
 对每个元素，
 
-$$
-f(x) = +1, if\ x  >  1;\\
-f(x) = -1, if\ x  < -1;\\
+```
+f(x) = +1, if\ x  >  1
+f(x) = -1, if\ x  < -1
 f(x) =  x,  otherwise
-$$
+```
 
 线性区域的范围[-1,1]可以被调整
 
@@ -1429,11 +1437,11 @@ shape：
 
 对每个元素运用Softshrink函数，Softshrink函数定义如下：
 
-$$
-f(x) = x-lambda, if\ x > lambda\\
-f(x) = x+lambda, if\ x < -lambda\\
+```
+f(x) = x-lambda, if\ x > lambda
+f(x) = x+lambda, if\ x < -lambda
 f(x) = 0, otherwise
-$$
+```
 
 参数：
 
@@ -1728,10 +1736,10 @@ $$
 \begin{aligned}
 i_t &= sigmoid(W_{ii}x_t+b_{ii}+W_{hi}h_{t-1}+b_{hi}) \\
 f_t &= sigmoid(W_{if}x_t+b_{if}+W_{hf}h_{t-1}+b_{hf}) \\
-o_t &= sigmoid(W_{io}x_t+b_{io}+W_{ho}h_{t-1}+b_{ho})\\
-g_t &= tanh(W_{ig}x_t+b_{ig}+W_{hg}h_{t-1}+b_{hg})\\
-c_t &= f_t*c_{t-1}+i_t*g_t\\
-h_t &= o_t*tanh(c_t)
+o_t &= sigmoid(W_{io}x_t+b_{io}+W_{ho}h_{t-1}+b_{ho}) \\
+g_t &= tanh(W_{ig}x_t+b_{ig}+W_{hg}h_{t-1}+b_{hg}) \\
+c_t &= f_t*c_{t-1}+i_t*g_t \\
+h_t &= o_t*tanh(c_t) \\
 \end{aligned}
 $$
 $h_t$是时刻$t$的隐状态,$c_t$是时刻$t$的细胞状态，$x_t$是上一层的在时刻$t$的隐状态或者是第一层在时刻$t$的输入。$i_t, f_t, g_t, o_t$ 分别代表 输入门，遗忘门，细胞和输出门。
@@ -1796,9 +1804,9 @@ output, hn = lstm(input, (h0, c0))
 
 $$
 \begin{aligned}
-r_t&=sigmoid(W_{ir}x_t+b_{ir}+W_{hr}h_{(t-1)}+b_{hr})\\
-i_t&=sigmoid(W_{ii}x_t+b_{ii}+W_{hi}h_{(t-1)}+b_{hi})\\
-n_t&=tanh(W_{in}x_t+b_{in}+rt*(W_{hn}h_{(t-1)}+b_{hn}))\\
+r_t&=sigmoid(W_{ir}x_t+b_{ir}+W_{hr}h_{(t-1)}+b_{hr}) \\
+i_t&=sigmoid(W_{ii}x_t+b_{ii}+W_{hi}h_{(t-1)}+b_{hi}) \\
+n_t&=tanh(W_{in}x_t+b_{in}+rt*(W_{hn}h_{(t-1)}+b_{hn})) \\
 h_t&=(1-i_t)* nt+i_t*h(t-1)
 \end{aligned}
 $$
@@ -1872,9 +1880,9 @@ input, hidden
 
 - hidden (batch, hidden_size): 保存着初始隐状态值的`tensor`。
 
-输出： h’
+输出： h'
 
-- h’ (batch, hidden_size):下一个时刻的隐状态。
+- h' (batch, hidden_size):下一个时刻的隐状态。
 
 变量：
 
@@ -1901,13 +1909,14 @@ for i in range(6):
 ### class torch.nn.LSTMCell(input_size, hidden_size, bias=True)[source]
 
 `LSTM cell`。
+
 $$
 \begin{aligned}
 i &= sigmoid(W_{ii}x+b_{ii}+W_{hi}h+b_{hi}) \\
 f &= sigmoid(W_{if}x+b_{if}+W_{hf}h+b_{hf}) \\
-o &= sigmoid(W_{io}x+b_{io}+W_{ho}h+b_{ho})\\
-g &= tanh(W_{ig}x+b_{ig}+W_{hg}h+b_{hg})\\
-c' &= f_t*c_{t-1}+i_t*g_t\\
+o &= sigmoid(W_{io}x+b_{io}+W_{ho}h+b_{ho}) \\
+g &= tanh(W_{ig}x+b_{ig}+W_{hg}h+b_{hg}) \\
+c' &= f_t*c_{t-1}+i_t*g_t \\
 h' &= o_t*tanh(c')
 \end{aligned}
 $$
@@ -2009,7 +2018,7 @@ for i in range(6):
 class torch.nn.Linear(in_features, out_features, bias=True)
 ```
 
-对输入数据做线性变换：\\(y = Ax + b\\)
+对输入数据做线性变换： $$y = Ax + b$$ 
 
 **参数：**
 
@@ -2019,8 +2028,8 @@ class torch.nn.Linear(in_features, out_features, bias=True)
 
 **形状：**
 
-- **输入:** \\((N, in\\_features)\\)
-- **输出：** \\((N, out\\_features)\\)
+- **输入:**  $$(N, in\_features)$$ 
+- **输出：**  $$(N, out\_features)$$ 
 
 **变量：**
 
@@ -2079,8 +2088,8 @@ class torch.nn.Dropout2d(p=0.5, inplace=False)
 
 **形状：**
 
-- **输入：**  \\((N, C, H, W)\\)
-- **输出：**  \\((N, C, H, W)\\)(与输入形状相同）
+- **输入：**   $$(N, C, H, W)$$ 
+- **输出：**   $$(N, C, H, W)$$ (与输入形状相同）
 
 **例子：**
 
@@ -2108,8 +2117,8 @@ class torch.nn.Dropout3d(p=0.5, inplace=False)
 
 **形状：**
 
-- **输入：**  \\(N, C, D, H, W)\\)
-- **输出：**  \\((N, C, D, H, W)\\)(与输入形状相同）
+- **输入：**   $$N, C, D, H, W)$$ 
+- **输出：**   $$(N, C, D, H, W)$$ (与输入形状相同）
 
 **例子：**
 
@@ -2200,8 +2209,8 @@ $$\Vert x \Vert _p := \left( \sum\_{i=1}^n  \vert x_i \vert ^ p \right) ^ {1/p}$
 
 **形状：**
 
-- **输入：**  \\((N, D)\\)，其中D=向量维数
-- **输出：**  \\((N, 1)\\)
+- **输入：**   $$(N, D)$$ ，其中D=向量维数
+- **输出：**   $$(N, 1)$$ 
 
 ```python
 >>> pdist = nn.PairwiseDistance(2)
@@ -2527,7 +2536,7 @@ torch.Size([1, 1, 12, 12])
 形状：
 
 - Input: (N,C,H_in,W_in)
-- Output: (N,C,H_out,W_out)  Hout=floor(H_in∗scale_factor) Wout=floor(W_in∗scale_factor)
+- Output: (N,C,H_out,W_out)  Hout=floor(H_in*scale_factor) Wout=floor(W_in*scale_factor)
 
 例子：
 ```python
@@ -2565,7 +2574,7 @@ Variable containing:
 形状：
 
 - Input: (N,C,H_in,W_in)
-- Output: (N,C,H_out,W_out)  Hout=floor(H_in∗scale_factor) Wout=floor(W_in∗scale_factor)
+- Output: (N,C,H_out,W_out)  Hout=floor(H_in*scale_factor) Wout=floor(W_in*scale_factor)
 
 例子：
 ```python
@@ -2649,7 +2658,7 @@ All RNN modules accept packed sequences as inputs.
 这里的`pack`，理解成压紧比较好。
 将一个 填充过的变长序列 压紧。(填充时候，会有冗余，所以压紧一下）
 
-输入的形状可以是(T×B×* )。`T`是最长序列长度，`B`是`batch size`，`*`代表任意维度(可以是0)。如果`batch_first=True`的话，那么相应的 `input size` 就是 `(B×T×*)`。
+输入的形状可以是(T*B** )。`T`是最长序列长度，`B`是`batch size`，`*`代表任意维度(可以是0)。如果`batch_first=True`的话，那么相应的 `input size` 就是 `(B*T**)`。
 
 `Variable`中保存的序列，应该按序列长度的长短排序，长的在前，短的在后。即`input[:,0]`代表的是最长的序列，`input[:, B-1]`保存的是最短的序列。
 
@@ -2674,7 +2683,7 @@ All RNN modules accept packed sequences as inputs.
 
 上面提到的函数的功能是将一个填充后的变长序列压紧。 这个操作和pack_padded_sequence()是相反的。把压紧的序列再填充回来。
 
-返回的Varaible的值的`size`是 `T×B×*`, `T` 是最长序列的长度，`B` 是 batch_size,如果 `batch_first=True`,那么返回值是`B×T×*`。
+返回的Varaible的值的`size`是 `T*B**`, `T` 是最长序列的长度，`B` 是 batch_size,如果 `batch_first=True`,那么返回值是`B*T**`。
 
 Batch中的元素将会以它们长度的逆序排列。
 
@@ -2683,7 +2692,7 @@ Batch中的元素将会以它们长度的逆序排列。
 
 - sequence (PackedSequence) – 将要被填充的 batch
 
-- batch_first (bool, optional) – 如果为True，返回的数据的格式为 `B×T×*`。
+- batch_first (bool, optional) – 如果为True，返回的数据的格式为 `B*T**`。
 
 返回值:
 一个tuple，包含被填充后的序列，和batch中序列的长度列表。

@@ -209,7 +209,7 @@ BrokenPipeError: [Errno 32] Broken pipe
 ### 多进程处理错误“驱动程序关闭”  
 
 ```
-Couldn’t open shared file mapping: <torch_14808_1591070686>, error code: <1455> at torch\lib\TH\THAllocator.c:154
+Couldn't open shared file mapping: <torch_14808_1591070686>, error code: <1455> at torch\lib\TH\THAllocator.c:154
 
 [windows] driver shut down
 ```

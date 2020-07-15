@@ -61,7 +61,7 @@ PyTorch数据加载程序的核心是 `torch.utils.data.DataLoader` 类。它表
 
 本节的其余部分涉及[map-style datasets](https://pytorch.org/docs/stable/data.html#map-style-datasets)。[`torch.utils.data.Sampler`](https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler) 类用于指定数据加载中使用的索引/键的顺序。它们表示数据集索引上的可迭代对象。例如，在随机梯度像样(SGD)的常见情况下，一个 [`Sampler`](https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler) 可以随机排列一个索引列表，并一次产生一个，或产生一小部分用于小型批量SGD的索引。
 
-顺序采样器或打乱采样器将根据 DataLoader 的' shuffle '参数自动构建。或者，用户可以使用‘sampler’参数来指定一个自定义的[`Sampler`](https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler) 对象，该对象每次都会生成下一个要获取的索引/键。
+顺序采样器或打乱采样器将根据 DataLoader 的' shuffle '参数自动构建。或者，用户可以使用'sampler'参数来指定一个自定义的[`Sampler`](https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler) 对象，该对象每次都会生成下一个要获取的索引/键。
 
 一个自定义的 [`Sampler`](https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler) ，一次生成一批索引的列表，可以作为' batch_sampler '参数传递。自动批处理也可以通过“batch_size”和“drop_last”参数启用。参见[下一节](https://pytorch.org/docs/stable/data.html#loading-batched-and-non-batched-data) 获得更多的细节。
 
@@ -168,11 +168,11 @@ for data in iter(dataset):
 
 在这种模式下，每次创建[' DataLoader '](https://pytorch.org/docs/stable/data.html# torch.utils.dataloader)的迭代器(例如，当您调用' enumerate(DataLoader) ')时，就会创建' num_workers '工作者进程。此时，' dataset '、' collate_fn '和' worker_init_fn '被传递给每个worker，它们用于初始化和获取数据。这意味着数据集访问及其内部IO、转换(包括' collate_fn ')在工作进程中运行。
 
-[`torch.utils.data.get_worker_info()`](https://pytorch.org/docs/stable/data.html#torch.utils.data.get_worker_info)返回工作进程中的各种有用信息(包括工作进程id、数据集副本、初始种子等)，并在主进程中返回' None '。用户可以在数据集代码和/或‘worker_init_fn’中使用这个函数来单独配置每个数据集副本，并确定代码是否在工作进程中运行。例如，这对于数据集分片特别有帮助。
+[`torch.utils.data.get_worker_info()`](https://pytorch.org/docs/stable/data.html#torch.utils.data.get_worker_info)返回工作进程中的各种有用信息(包括工作进程id、数据集副本、初始种子等)，并在主进程中返回' None '。用户可以在数据集代码和/或'worker_init_fn'中使用这个函数来单独配置每个数据集副本，并确定代码是否在工作进程中运行。例如，这对于数据集分片特别有帮助。
 
 对于 map-style 数据集，主进程使用 `sampler` 生成索引并将它们发送给工作者。因此，任何随机洗牌都是在主进程中完成的，它通过为load分配索引来引导装载。
 
-For iterable-style datasets, since each worker process gets a replica of the `dataset` object, naive multi-process loading will often result in duplicated data. Using [`torch.utils.data.get_worker_info()`](https://pytorch.org/docs/stable/data.html#torch.utils.data.get_worker_info) and/or `worker_init_fn`, users may configure each replica independently. (See [`IterableDataset`](https://pytorch.org/docs/stable/data.html#torch.utils.data.IterableDataset) documentations for how to achieve this. ) For similar reasons, in multi-process loading, the `drop_last` argument drops the last non-full batch of each worker’s iterable-style dataset replica.
+For iterable-style datasets, since each worker process gets a replica of the `dataset` object, naive multi-process loading will often result in duplicated data. Using [`torch.utils.data.get_worker_info()`](https://pytorch.org/docs/stable/data.html#torch.utils.data.get_worker_info) and/or `worker_init_fn`, users may configure each replica independently. (See [`IterableDataset`](https://pytorch.org/docs/stable/data.html#torch.utils.data.IterableDataset) documentations for how to achieve this. ) For similar reasons, in multi-process loading, the `drop_last` argument drops the last non-full batch of each worker's iterable-style dataset replica.
 
 对于迭代风格的数据集，由于每个工作进程都获得一个“dataset”对象的副本，所以简单的多进程加载通常会导致重复的数据。使用[`torch.utils.data.get_worker_info()`](https://pytorch.org/docs/stable/data.html#torch.utils.data.get_worker_info)'](https://pytorch.org/docs/stable/data.html# torch.utille/get_worker_info)或 `worker_init_fn`,，用户可以独立配置每个副本。(参见 [`IterableDataset`](https://pytorch.org/docs/stable/data.html#torch.utils.data.IterableDataset) 出于类似的原因，在多进程加载过程中，' drop_last '参数会删除每个worker的迭代式数据集副本的最后一批非完整数据。
 

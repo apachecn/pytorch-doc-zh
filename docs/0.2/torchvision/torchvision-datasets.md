@@ -74,8 +74,8 @@ dset.LSUN(db_path, classes='train', [transform, target_transform])
 ```
 参数说明：
 - db_path = 数据集文件的根目录
-- classes = ‘train’ (所有类别, 训练集), ‘val’ (所有类别, 验证集), ‘test’ (所有类别, 测试集)
-[‘bedroom\_train’, ‘church\_train’, …] : a list of categories to load
+- classes = 'train' (所有类别, 训练集), 'val' (所有类别, 验证集), 'test' (所有类别, 测试集)
+['bedroom\_train', 'church\_train', …] : a list of categories to load
 ## ImageFolder
 一个通用的数据加载器，数据集中的数据以以下方式组织
 ```

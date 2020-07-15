@@ -125,7 +125,7 @@ new_tensor(data, dtype=None, device=None, requires_grad=False) → Tensor
 
 警告
 
-当 data 是一个 tensor `x`, [`new_tensor()`](#torch.Tensor.new_tensor "torch.Tensor.new_tensor") 读取 x 的 ‘data’ 并且创建一个叶子变量. 因此 `tensor.new_tensor(x)` 等价于 `x.clone().detach()` 并且 `tensor.new_tensor(x, requires_grad=True)` 等价于 `x.clone().detach().requires_grad_(True)`. 推荐使用 `clone()` 和 `detach()`.
+当 data 是一个 tensor `x`, [`new_tensor()`](#torch.Tensor.new_tensor "torch.Tensor.new_tensor") 读取 x 的 'data' 并且创建一个叶子变量. 因此 `tensor.new_tensor(x)` 等价于 `x.clone().detach()` 并且 `tensor.new_tensor(x, requires_grad=True)` 等价于 `x.clone().detach().requires_grad_(True)`. 推荐使用 `clone()` 和 `detach()`.
 
 参数: 
 
@@ -1636,7 +1636,7 @@ qr() -> (Tensor, Tensor)
 random_(from=0, to=None, *, generator=None) → Tensor
 ```
 
-  用离散均匀分布介于  `[from, to - 1]` 采样的数字填充 `self` tensor. 如果没有特别指定, 这些采样的数值被 `self` tensor’s 数据类型界定. 然而, 对于浮点型, 如果没有特别指定, 范围将是 `[0, 2^mantissa]` 来确保每一个值是可表示的. 例如, `torch.tensor(1, dtype=torch.double).random_()` 将会被设为 `[0, 2^53]`.
+  用离散均匀分布介于  `[from, to - 1]` 采样的数字填充 `self` tensor. 如果没有特别指定, 这些采样的数值被 `self` tensor's 数据类型界定. 然而, 对于浮点型, 如果没有特别指定, 范围将是 `[0, 2^mantissa]` 来确保每一个值是可表示的. 例如, `torch.tensor(1, dtype=torch.double).random_()` 将会被设为 `[0, 2^53]`.
 
 ```py
 reciprocal() → Tensor

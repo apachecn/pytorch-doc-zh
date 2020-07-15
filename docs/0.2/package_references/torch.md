@@ -1,6 +1,4 @@
-__<font size=6>torch</font>__
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
-
+# torch
 
 包 `torch` 包含了多维张量的数据结构以及基于其上的多种数学操作。另外，它也提供了多种工具，其中一些可以更有效地对张量和任意类型进行序列化。
 
@@ -160,7 +158,7 @@ torch.linspace(start, end, steps=100, out=None) → Tensor
 ```python
 torch.logspace(start, end, steps=100, out=None) → Tensor
 ```
-返回一个1维张量，包含在区间 \\(10^{start}\\) 和 \\( 10^{end} \\)上以对数刻度均匀间隔的`steps`个点。
+返回一个1维张量，包含在区间  $$10^{start}$$  和  $$ 10^{end} $$ 上以对数刻度均匀间隔的`steps`个点。
 输出1维张量的长度为`steps`。 
 
 参数:
@@ -304,7 +302,7 @@ torch.randperm(n, out=None) → LongTensor
 ```python
 torch.arange(start, end, step=1, out=None) → Tensor
 ```
-返回一个1维张量，长度为 \\( floor((end−start)/step) \\)。包含从`start`到`end`，以`step`为步长的一组序列值(默认步长为1)。
+返回一个1维张量，长度为  $$ floor((end - start)/step) $$ 。包含从`start`到`end`，以`step`为步长的一组序列值(默认步长为1)。
 
 参数:
 
@@ -335,7 +333,7 @@ torch.arange(start, end, step=1, out=None) → Tensor
 ```python
 torch.range(start, end, step=1, out=None) → Tensor
 ```
-返回一个1维张量，有 \\( floor((end−start)/step)+1  \\) 个元素。包含在半开区间`[start, end）`从`start`开始，以`step`为步长的一组值。 `step` 是两个值之间的间隔，即 \\( x_{i+1}=x_i+step \\) 
+返回一个1维张量，有  $$ floor((end - start)/step)+1 $$  个元素。包含在半开区间`[start, end）`从`start`开始，以`step`为步长的一组值。 `step` 是两个值之间的间隔，即  $$ x_{i+1}=x_i+step $$  
 
 **警告**：建议使用函数 `torch.arange()`
 
@@ -618,9 +616,9 @@ torch.split(tensor, split_size, dim=0)
 torch.squeeze(input, dim=None, out=None)
 ```
 将输入张量形状中的`1` 去除并返回。
-如果输入是形如\\((A \times 1\times B \times 1 \times C \times 1 \times D) \\)，那么输出形状就为： \\((A \times B \times C \times D) \\)
+如果输入是形如 $$(A \times 1\times B \times 1 \times C \times 1 \times D) $$ ，那么输出形状就为：  $$(A \times B \times C \times D) $$ 
 
-当给定`dim`时，那么挤压操作只在给定维度上。例如，输入形状为: \\((A \times 1 \times B) \\), `squeeze(input, 0)` 将会保持张量不变，只有用 `squeeze(input, 1)`，形状会变成 \\( (A \times B )\\)。
+当给定`dim`时，那么挤压操作只在给定维度上。例如，输入形状为:  $$(A \times 1 \times B) $$ , `squeeze(input, 0)` 将会保持张量不变，只有用 `squeeze(input, 1)`，形状会变成  $$ (A \times B )$$ 。
 
 注意： 返回张量与输入张量共享内存，所以改变其中一个的内容会改变另一个。
 
@@ -739,7 +737,7 @@ torch.unsqueeze(input, dim, out=None)
 
 注意： 返回张量与输入张量共享内存，所以改变其中一个的内容会改变另一个。
 
-如果`dim`为负，则将会被转化\\(  dim+input.dim()+1 \\)
+如果`dim`为负，则将会被转化 $$  dim+input.dim()+1 $$ 
 
 参数:
 
@@ -802,7 +800,7 @@ torch.bernoulli(input, out=None) → Tensor
 ```
 从伯努利分布中抽取二元随机数(0 或者 1)。
 
-输入张量须包含用于抽取上述二元随机值的概率。 因此，输入中的所有值都必须在［0,1］区间，即 \\( 0<=input_i<=1 \\)
+输入张量须包含用于抽取上述二元随机值的概率。 因此，输入中的所有值都必须在［0,1］区间，即  $$ 0<=input_i<=1 $$ 
 
 输出张量的第*`i`*个元素值， 将会以输入张量的第*`i`*个概率值等于`1`。
 
@@ -858,7 +856,7 @@ torch.multinomial(input, num_samples,replacement=False, out=None) → LongTensor
 
 当抽取样本时，依次从左到右排列(第一个样本对应第一列)。
 
-如果输入`input`是一个向量，输出`out`也是一个相同长度`num_samples`的向量。如果输入`input`是有 \\(m \\)行的矩阵，输出`out`是形如\\( m \times n \\)的矩阵。
+如果输入`input`是一个向量，输出`out`也是一个相同长度`num_samples`的向量。如果输入`input`是有  $$m $$ 行的矩阵，输出`out`是形如 $$ m \times n $$ 的矩阵。
 
 如果参数`replacement` 为 *True*, 则样本抽取可以重复。否则，一个样本在每行不能被重复抽取。
 
@@ -995,7 +993,7 @@ torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/home/jenk
 ```
 从磁盘文件中读取一个通过`torch.save()`保存的对象。
 `torch.load()` 可通过参数`map_location` 动态地进行内存重映射，使其能从不动设备中读取文件。一般调用时，需两个参数: storage 和 location tag. 返回不同地址中的storage，或着返回None (此时地址可以通过默认方法进行解析). 如果这个参数是字典的话，意味着其是从文件的地址标记到当前系统的地址标记的映射。
-默认情况下， location tags中 "cpu"对应host tensors，‘cuda:device_id’ (e.g. ‘cuda:2’) 对应cuda tensors。
+默认情况下， location tags中 "cpu"对应host tensors，'cuda:device_id' (e.g. 'cuda:2') 对应cuda tensors。
 用户可以通过register_package进行扩展，使用自己定义的标记和反序列化方法。
 
 参数:
@@ -1079,7 +1077,7 @@ torch.acos(input, out=None) → Tensor
 ```python 
 torch.add(input, value, out=None)
 ```
-对输入张量`input`逐元素加上标量值`value`，并返回结果到一个新的张量`out`，即 \\( out = tensor + value \\)。
+对输入张量`input`逐元素加上标量值`value`，并返回结果到一个新的张量`out`，即  $$ out = tensor + value $$ 。
 
 如果输入`input`是FloatTensor or DoubleTensor类型，则`value` 必须为实数，否则须为整数。【译注：似乎并非如此，无关输入类型，`value`取整数、实数皆可。】
 
@@ -1109,7 +1107,7 @@ torch.add(input, value, out=None)
 ```python 
 torch.add(input, value=1, other, out=None)
 ```
- `other` 张量的每个元素乘以一个标量值`value`，并加到`iput` 张量上。返回结果到输出张量`out`。即，\\( out=input+(other∗value ) \\) 
+ `other` 张量的每个元素乘以一个标量值`value`，并加到`iput` 张量上。返回结果到输出张量`out`。即， $$ out=input+(other*value ) $$
 
 两个张量 `input` and `other`的尺寸不需要匹配，但元素总数必须一样。
 
@@ -1335,7 +1333,7 @@ torch.ceil(input, out=None) → Tensor
 torch.clamp(input, min, max, out=None) → Tensor
 ```
 
-将输入`input`张量每个元素的夹紧到区间 \\([min, max] \\)，并返回结果到一个新张量。
+将输入`input`张量每个元素的夹紧到区间  $$[min, max] $$ ，并返回结果到一个新张量。
 
 操作定义如下：
 ``` 
@@ -1504,7 +1502,7 @@ torch.cosh(input, out=None) → Tensor
 torch.div(input, value, out=None)
 ```
 将`input`逐元素除以标量值`value`，并返回结果到输出张量`out`。
-即 \\( out=tensor/value \\)
+即  $$ out=tensor/value $$ 
 
 如果输入是FloatTensor or DoubleTensor类型，则参数 `value` 必须为实数，否则须为整数。【译注：似乎并非如此，无关输入类型，`value`取整数、实数皆可。】
 
@@ -1539,7 +1537,7 @@ torch.div(input, value, out=None)
 ```python 
 torch.div(input, other, out=None)
 ```
-两张量`input`和`other`逐元素相除，并将结果返回到输出。即， \\( out_i= input_i / other_i \\)
+两张量`input`和`other`逐元素相除，并将结果返回到输出。即，  $$ out_i= input_i / other_i $$ 
 
 两张量形状不须匹配，但元素数须一致。
 
@@ -1669,7 +1667,7 @@ torch.lerp(start, end, weight, out=None)
 ```
 对两个张量以`start`，`end`做线性插值， 将结果返回到输出张量。
 
-即，\\( out_i=start_i+weight∗(end_i−start_i)   \\)
+即， $$ out_i=start_i+weight*(end_i-start_i)   $$ 
 
 
 
@@ -1746,8 +1744,8 @@ torch.log(input, out=None) → Tensor
 ```python
 torch.log1p(input, out=None) → Tensor
 ```
-计算 \\( input +1 \\)的自然对数
-\\( y_i=log(x_i+1)    \\)
+计算  $$ input +1 $$ 的自然对数
+ $$ y_i=log(x_i+1)    $$ 
 
 注意：对值比较小的输入，此函数比`torch.log()`更准确。
 
@@ -1786,7 +1784,7 @@ torch.log1p(input, out=None) → Tensor
 torch.mul(input, value, out=None)
 ```
 用标量值`value`乘以输入`input`的每个元素，并返回一个新的结果张量。
-\\( out=tensor ∗ value    \\)
+ $$ out=tensor * value    $$ 
 
 如果输入是FloatTensor or DoubleTensor类型，则`value` 必须为实数，否则须为整数。【译注：似乎并非如此，无关输入类型，`value`取整数、实数皆可。】
 
@@ -1816,7 +1814,7 @@ torch.mul(input, value, out=None)
 ```python 
 torch.mul(input, other, out=None)
 ```
-两个张量`input`,`other`按元素进行相乘，并返回到输出张量。即计算\\( out_i=input_i ∗ other_i  \\)
+两个张量`input`,`other`按元素进行相乘，并返回到输出张量。即计算 $$ out_i=input_i * other_i  $$ 
 
 两计算张量形状不须匹配，但总元素数须一致。
 **注意**：当形状不匹配时，`input`的形状作为输入张量的形状。
@@ -1861,7 +1859,7 @@ torch.mul(input, other, out=None)
 torch.neg(input, out=None) → Tensor
 ```
 返回一个新张量，包含输入`input` 张量按元素取负。
-即， \\( out=−1∗input \\)
+即，  $$ out=-1*input $$ 
 
 参数：
 
@@ -2350,7 +2348,7 @@ torch.trunc(input, out=None) → Tensor
 ```python
 torch.cumprod(input, dim, out=None) → Tensor
 ```
-返回输入沿指定维度的累积积。例如，如果输入是一个N 元向量，则结果也是一个N 元向量，第`i` 个输出元素值为\\( yi=x1∗x2∗x3∗...∗xi \\)
+返回输入沿指定维度的累积积。例如，如果输入是一个N 元向量，则结果也是一个N 元向量，第`i` 个输出元素值为 $$ yi=x1*x2*x3*...*xi $$ 
 
 参数：
 
@@ -2409,7 +2407,7 @@ torch.cumprod(input, dim, out=None) → Tensor
 ```python
 torch.cumsum(input, dim, out=None) → Tensor
 ```
-返回输入沿指定维度的累积和。例如，如果输入是一个N元向量，则结果也是一个N元向量，第`i` 个输出元素值为 \\( yi=x1+x2+x3+...+xi\\)
+返回输入沿指定维度的累积和。例如，如果输入是一个N元向量，则结果也是一个N元向量，第`i` 个输出元素值为  $$ yi=x1+x2+x3+...+xi$$ 
 
 参数：
 
@@ -2985,7 +2983,7 @@ True
 torch.ge(input, other, out=None) → Tensor
 ```
 
-逐元素比较`input`和`other`，即是否 \\( input >= other \\)。
+逐元素比较`input`和`other`，即是否  $$ input >= other $$ 。
 
 如果两个张量有相同的形状和元素值，则返回`True` ，否则 `False`。
 第二个参数可以为一个数或与第一个参数相同形状和类型的张量
@@ -3012,7 +3010,7 @@ torch.ge(input, other, out=None) → Tensor
 ```python 
 torch.gt(input, other, out=None) → Tensor
 ```
-逐元素比较`input`和`other` ， 即是否\\( input > other \\) 
+逐元素比较`input`和`other` ， 即是否 $$ input > other $$  
 如果两个张量有相同的形状和元素值，则返回`True` ，否则 `False`。
 第二个参数可以为一个数或与第一个参数相同形状和类型的张量
 
@@ -3077,7 +3075,7 @@ torch.kthvalue(input, k, dim=None, out=None) -> (Tensor, LongTensor)
 ```python 
 torch.le(input, other, out=None) → Tensor
 ```
-逐元素比较`input`和`other` ， 即是否\\( input <= other \\)
+逐元素比较`input`和`other` ， 即是否 $$ input <= other $$ 
 第二个参数可以为一个数或与第一个参数相同形状和类型的张量
 
 参数:
@@ -3102,7 +3100,7 @@ torch.le(input, other, out=None) → Tensor
 ```python 
 torch.lt(input, other, out=None) → Tensor
 ```
-逐元素比较`input`和`other` ， 即是否 \\( input < other \\) 
+逐元素比较`input`和`other` ， 即是否  $$ input < other $$  
 
 第二个参数可以为一个数或与第一个参数相同形状和类型的张量
 
@@ -3191,7 +3189,7 @@ torch.FloatTensor of size 4x4]
 torch.max(input, other, out=None) → Tensor
 ```
 返回输入张量给定维度上每行的最大值，并同时返回每个最大值的位置索引。
-即，\\( out_i=max(input_i,other_i)  \\)
+即， $$ out_i=max(input_i,other_i)  $$ 
 
 输出形状中，将`dim`维设定为1，其它与输入形状保持一致。
 
@@ -3296,7 +3294,7 @@ torch.LongTensor of size 4x1]
 ```python 
 torch.min(input, other, out=None) → Tensor
 ```
-`input`中逐元素与`other`相应位置的元素对比，返回最小值到输出张量。即，\\( out_i = min(tensor_i, other_i)\\)
+`input`中逐元素与`other`相应位置的元素对比，返回最小值到输出张量。即， $$ out_i = min(tensor_i, other_i)$$ 
 
 两张量形状不需匹配，但元素数须相同。
 
@@ -3342,7 +3340,7 @@ torch.min(input, other, out=None) → Tensor
 ```python 
 torch.ne(input, other, out=None) → Tensor
 ```
-逐元素比较`input`和`other` ， 即是否 \\( input != other \\)。 
+逐元素比较`input`和`other` ， 即是否  $$ input != other $$ 。 
 第二个参数可以为一个数或与第一个参数相同形状和类型的张量
 
 参数:
@@ -3787,7 +3785,7 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```
 对两个批`batch1`和`batch2`内存储的矩阵进行批矩阵乘操作，附带reduced add 步骤( 所有矩阵乘结果沿着第一维相加)。矩阵`mat`加到最终结果。
 `batch1`和 `batch2`都为包含相同数量矩阵的3维张量。
-如果`batch1`是形为\\(b\times n \times m  \\)的张量，`batch1`是形为\\(b\times m \times p  \\)的张量，则`out`和`mat`的形状都是\\(n \times p  \\)，即 \\( res=(beta∗M)+(alpha∗sum(batch1_i@batch2_i,i=0,b)) \\)
+如果`batch1`是形为 $$b\times n \times m  $$ 的张量，`batch1`是形为 $$b\times m \times p  $$ 的张量，则`out`和`mat`的形状都是 $$n \times p  $$ ，即  $$ res=(beta*M)+(alpha*sum(batch1_i@batch2_i,i=0,b)) $$ 
 
 对类型为 _FloatTensor_ 或 _DoubleTensor_ 的输入，`alpha`and `beta`必须为实数，否则两个参数须为整数。
 
@@ -3796,7 +3794,7 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 - beta (Number, optional) – 用于`mat`的乘子
 - mat (Tensor) – 相加矩阵
-- alpha (Number, optional) – 用于\\(batch1 @ batch2 \\)的乘子 
+- alpha (Number, optional) – 用于 $$batch1 @ batch2 $$ 的乘子 
 - batch1 (Tensor) – 第一批相乘矩阵
 - batch2 (Tensor) – 第二批相乘矩阵
 - out (Tensor, optional) – 输出张量
@@ -3818,8 +3816,8 @@ torch.addbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 ```python
 torch.addmm(beta=1, mat, alpha=1, mat1, mat2, out=None) → Tensor
 ```
-对矩阵`mat1`和`mat2`进行矩阵乘操作。矩阵`mat`加到最终结果。如果`mat1` 是一个 \\(n \times m \\)张量，`mat2` 是一个 \\(m \times p \\)张量，那么`out`和`mat`的形状为\\(n \times p \\)。
-_alpha_ 和 _beta_ 分别是两个矩阵 \\(mat1 @ mat2 \\)和\\(mat \\)的比例因子，即， \\(out=(beta∗M)+(alpha∗mat1@mat2) \\) 
+对矩阵`mat1`和`mat2`进行矩阵乘操作。矩阵`mat`加到最终结果。如果`mat1` 是一个  $$n \times m $$ 张量，`mat2` 是一个  $$m \times p $$ 张量，那么`out`和`mat`的形状为 $$n \times p $$ 。
+_alpha_ 和 _beta_ 分别是两个矩阵  $$mat1 @ mat2 $$ 和 $$mat $$ 的比例因子，即，  $$out=(beta*M)+(alpha*mat1@mat2) $$  
 
 对类型为 _FloatTensor_ 或 _DoubleTensor_ 的输入，`beta`and `alpha`必须为实数，否则两个参数须为整数。
 
@@ -3827,7 +3825,7 @@ _alpha_ 和 _beta_ 分别是两个矩阵 \\(mat1 @ mat2 \\)和\\(mat \\)的比�
 
 - beta (Number, optional) – 用于`mat`的乘子
 - mat (Tensor) – 相加矩阵
-- alpha (Number, optional) – 用于\\(mat1 @ mat2 \\)的乘子 
+- alpha (Number, optional) – 用于 $$mat1 @ mat2 $$ 的乘子 
 - mat1 (Tensor) – 第一个相乘矩阵
 - mat2 (Tensor) – 第二个相乘矩阵
 - out (Tensor, optional) – 输出张量
@@ -3848,8 +3846,8 @@ _alpha_ 和 _beta_ 分别是两个矩阵 \\(mat1 @ mat2 \\)和\\(mat \\)的比�
 ```python
 torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 ```
-对矩阵`mat`和向量`vec`对进行相乘操作。向量`tensor`加到最终结果。如果`mat` 是一个 \\(n \times m \\)维矩阵，`vec` 是一个 \\(m \\)维向量，那么`out`和`mat`的为\\(n \\)元向量。
-可选参数_alpha_ 和 _beta_ 分别是 \\(mat * vec \\)和\\(mat \\)的比例因子，即， \\( out=(beta∗tensor)+(alpha∗(mat@vec)) \\) 
+对矩阵`mat`和向量`vec`对进行相乘操作。向量`tensor`加到最终结果。如果`mat` 是一个  $$n \times m $$ 维矩阵，`vec` 是一个  $$m $$ 维向量，那么`out`和`mat`的为 $$n $$ 元向量。
+可选参数_alpha_ 和 _beta_ 分别是  $$mat * vec $$ 和 $$mat $$ 的比例因子，即，  $$ out=(beta*tensor)+(alpha*(mat@vec)) $$  
 
 对类型为_FloatTensor_或_DoubleTensor_的输入，`alpha`and `beta`必须为实数，否则两个参数须为整数。
 
@@ -3858,7 +3856,7 @@ torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 
 - beta (Number, optional) – 用于`mat`的乘子
 - mat (Tensor) – 相加矩阵
-- alpha (Number, optional) – 用于\\(mat1 @ vec \\)的乘子 
+- alpha (Number, optional) – 用于 $$mat1 @ vec $$ 的乘子 
 - mat (Tensor) – 相乘矩阵
 - vec (Tensor) – 相乘向量
 - out (Tensor, optional) – 输出张量
@@ -3879,8 +3877,8 @@ torch.addmv(beta=1, tensor, alpha=1, mat, vec, out=None) → Tensor
 ```python
 torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 ```
-对向量`vec1`和`vec2`对进行张量积操作。矩阵`mat`加到最终结果。如果`vec1` 是一个 \\(n \\)维向量，`vec2` 是一个 \\(m \\)维向量，那么矩阵`mat`的形状须为\\(n \times m \\)。
-可选参数_beta_ 和 _alpha_ 分别是两个矩阵 \\(mat \\)和 \\(vec1 @ vec2 \\)的比例因子，即，\\( resi=(beta∗Mi)+(alpha∗batch1i×batch2i)\\) 
+对向量`vec1`和`vec2`对进行张量积操作。矩阵`mat`加到最终结果。如果`vec1` 是一个  $$ n $$ 维向量，`vec2` 是一个  $$m $$ 维向量，那么矩阵`mat`的形状须为 $$n \times m $$ 。
+可选参数_beta_ 和 _alpha_ 分别是两个矩阵  $$mat $$ 和  $$vec1 @ vec2 $$ 的比例因子，即， $$ resi=(beta*Mi)+(alpha*batch1i*batch2i)$$  
 
 
 对类型为_FloatTensor_或_DoubleTensor_的输入，`alpha`and `beta`必须为实数，否则两个参数须为整数。
@@ -3890,7 +3888,7 @@ torch.addr(beta=1, mat, alpha=1, vec1, vec2, out=None) → Tensor
 
 - beta (Number, optional) – 用于`mat`的乘子
 - mat (Tensor) – 相加矩阵
-- alpha (Number, optional) – 用于两向量\\(vec1， vec2 \\)外积的乘子 
+- alpha (Number, optional) – 用于两向量 $$vec1, vec2 $$ 外积的乘子 
 - vec1 (Tensor) – 第一个相乘向量
 - vec2 (Tensor) – 第二个相乘向量
 - out (Tensor, optional) – 输出张量
@@ -3913,7 +3911,7 @@ torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 对两个批`batch1`和`batch2`内存储的矩阵进行批矩阵乘操作，矩阵`mat`加到最终结果。
 `batch1`和 `batch2`都为包含相同数量矩阵的3维张量。
-如果`batch1`是形为\\(b\times n \times m  \\)的张量，`batch1`是形为\\(b\times m \times p  \\)的张量，则`out`和`mat`的形状都是\\(n \times p  \\)，即 \\( resi=(beta∗M_i)+(alpha∗batch1_i×batch2_i) \\)
+如果`batch1`是形为 $$b\times n \times m  $$ 的张量，`batch1`是形为 $$b\times m \times p  $$ 的张量，则`out`和`mat`的形状都是 $$n \times p  $$ ，即  $$ resi=(beta*M_i)+(alpha*batch1_i*batch2_i) $$ 
 
 对类型为_FloatTensor_或_DoubleTensor_的输入，`alpha`and `beta`必须为实数，否则两个参数须为整数。
 
@@ -3922,7 +3920,7 @@ torch.baddbmm(beta=1, mat, alpha=1, batch1, batch2, out=None) → Tensor
 
 - beta (Number, optional) – 用于`mat`的乘子
 - mat (Tensor) – 相加矩阵
-- alpha (Number, optional) – 用于\\(batch1 @ batch2 \\)的乘子 
+- alpha (Number, optional) – 用于 $$batch1 @ batch2 $$ 的乘子 
 - batch1 (Tensor) – 第一批相乘矩阵
 - batch2 (Tensor) – 第二批相乘矩阵
 - out (Tensor, optional) – 输出张量
@@ -3940,7 +3938,7 @@ torch.Size([10, 3, 5])
 torch.bmm(batch1, batch2, out=None) → Tensor
 ```
 对存储在两个批`batch1`和`batch2`内的矩阵进行批矩阵乘操作。`batch1`和 `batch2`都为包含相同数量矩阵的3维张量。
-如果`batch1`是形为\\(b\times n \times m  \\)的张量，`batch1`是形为\\(b\times m \times p  \\)的张量，则`out`和`mat`的形状都是\\(n \times p  \\)，即 \\( res=(beta∗M)+(alpha∗sum(batch1_i@batch2_i,i=0,b)) \\)
+如果`batch1`是形为 $$b\times n \times m  $$ 的张量，`batch1`是形为 $$b\times m \times p  $$ 的张量，则`out`和`mat`的形状都是 $$n \times p  $$ ，即  $$ res=(beta*M)+(alpha*sum(batch1_i@batch2_i,i=0,b)) $$ 
 
 对类型为 _FloatTensor_ 或 _DoubleTensor_ 的输入，`alpha`and `beta`必须为实数，否则两个参数须为整数。
 
@@ -3976,7 +3974,7 @@ torch.btrifact(A, info=None) → Tensor, IntTensor
 ```python
 torch.btrisolve(b, LU_data, LU_pivots) → Tensor
 ```
-返回线性方程组\\( Ax = b \\)的LU解。
+返回线性方程组 $$ Ax = b $$ 的LU解。
 
 参数：
 
@@ -4029,14 +4027,14 @@ torch.eig(a, eigenvectors=False, out=None) -> (Tensor, Tensor)
 ```python
 torch.gels(B, A, out=None) → Tensor
 ```
-对形如\\( m \times n \\)的满秩矩阵`a`计算其最小二乘和最小范数问题的解。
-如果\\( m >= n \\),`gels`对最小二乘问题进行求解，即：
-$$minimize  	  \qquad    ‖AX - B‖_F     $$
+对形如 $$ m \times n $$ 的满秩矩阵`a`计算其最小二乘和最小范数问题的解。
+如果 $$ m >= n $$ ,`gels`对最小二乘问题进行求解，即：
+$$minimize \qquad ||AX - B||_F $$
 
-如果\\( m < n \\),`gels`求解最小范数问题，即：
-$$minimize    	 \qquad   ‖ X ‖_F   \qquad   subject \ to  \quad	a \quad b	AX=B $$
+如果 $$ m < n $$ ,`gels`求解最小范数问题，即：
+$$minimize \qquad || X ||_F \qquad subject \ to  \quad	a \quad b	AX=B $$
 
-返回矩阵\\(X \\)的前\\(n \\) 行包含解。余下的行包含以下残差信息: 相应列从第n 行开始计算的每列的欧式距离。
+返回矩阵 $$ X $$ 的前 $$ n $$ 行包含解。余下的行包含以下残差信息: 相应列从第n 行开始计算的每列的欧式距离。
 
 注意： 返回矩阵总是被转置，无论输入矩阵的原始布局如何，总会被转置；即，总是有  stride (1, m) 而不是 (m, 1).
 
@@ -4044,7 +4042,7 @@ $$minimize    	 \qquad   ‖ X ‖_F   \qquad   subject \ to  \quad	a \quad b	AX
 参数：
 
 - B (Tensor) – 矩阵B
-- A (Tensor) – \\( m \times n \\)矩阵
+- A (Tensor) –  $$ m \times n $$ 矩阵
 - out (tuple, optional) – 输出元组
 
 返回值： 元组，包括：
@@ -4081,7 +4079,7 @@ torch.geqrf(input, out=None) -> (Tensor, Tensor)
 一般使用` torch.qr() `
 
 计算输入的QR 分解，但是并不会分别创建Q,R两个矩阵，而是直接调用LAPACK 函数 
-Rather, this directly calls the underlying LAPACK function ?geqrf which produces a sequence of ‘elementary reflectors’.
+Rather, this directly calls the underlying LAPACK function ?geqrf which produces a sequence of 'elementary reflectors'.
 
 参考 [LAPACK文档](https://software.intel.com/en-us/node/521004)获取更详细信息。
 
@@ -4122,15 +4120,15 @@ torch.ger(vec1, vec2, out=None) → Tensor
 ```python 
 torch.gesv(B, A, out=None) -> (Tensor, Tensor)
 ```
-\\( X, LU = torch.gesv(B, A) \\)，返回线性方程组\\(AX=B \\)的解。
+ $$ X, LU = torch.gesv(B, A) $$ ，返回线性方程组 $$AX=B $$ 的解。
 
-LU 包含两个矩阵L，U。A须为非奇异方阵，如果A是一个\\( m \times m \\)矩阵，B 是\\( m \times k \\)矩阵，则LU 是\\( m \times m \\)矩阵， X为\\( m \times k \\)矩阵
+LU 包含两个矩阵L，U。A须为非奇异方阵，如果A是一个 $$ m \times m $$ 矩阵，B 是 $$ m \times k $$ 矩阵，则LU 是 $$ m \times m $$ 矩阵， X为 $$ m \times k $$ 矩阵
 
 参数：
 
-- B (Tensor) – \\( m \times k \\)矩阵
-- A (Tensor) – \\( m \times m \\)矩阵
-- out (Tensor, optional) – 可选地输出矩阵\\( X \\)
+- B (Tensor) –  $$ m \times k $$ 矩阵
+- A (Tensor) –  $$ m \times m $$ 矩阵
+- out (Tensor, optional) – 可选地输出矩阵 $$ X $$ 
 
 例子: 
 ```python 
@@ -4204,7 +4202,7 @@ torch.inverse(input, out=None) → Tensor
 torch.mm(mat1, mat2, out=None) → Tensor
 ```
 
-对矩阵`mat1`和`mat2`进行相乘。 如果`mat1` 是一个\\( n \times m \\)  张量，`mat2` 是一个 \\( m \times p \\) 张量，将会输出一个 \\( n \times p \\)  张量`out`。
+对矩阵`mat1`和`mat2`进行相乘。 如果`mat1` 是一个 $$ n \times m $$   张量，`mat2` 是一个  $$ m \times p $$  张量，将会输出一个  $$ n \times p $$   张量`out`。
 
 
 参数 ：
@@ -4228,7 +4226,7 @@ torch.mm(mat1, mat2, out=None) → Tensor
 torch.mv(mat, vec, out=None) → Tensor
 ```
 
-对矩阵`mat`和向量`vec`进行相乘。 如果`mat` 是一个\\( n \times m \\)张量，`vec` 是一个\\( m \\)元 1维张量，将会输出一个\\( n \\) 元 1维张量。
+对矩阵`mat`和向量`vec`进行相乘。 如果`mat` 是一个 $$ n \times m $$ 张量，`vec` 是一个 $$ m $$ 元 1维张量，将会输出一个 $$ n $$  元 1维张量。
 
 
 参数 ：
@@ -4275,7 +4273,7 @@ torch.pstrf()
 ```python 
 torch.qr(input, out=None) -> (Tensor, Tensor)
 ```
-计算输入矩阵的QR分解：返回两个矩阵\\( q \\) ,\\( r \\)， 使得 \\( x=q∗r \\) ，这里\\( q \\)  是一个半正交矩阵与 \\( r \\) 是一个上三角矩阵
+计算输入矩阵的QR分解：返回两个矩阵 $$ q $$  , $$ r $$ ， 使得  $$ x=q*r $$  ，这里 $$ q $$   是一个半正交矩阵与  $$ r $$  是一个上三角矩阵
 
 本函数返回一个thin(reduced)QR分解。 
 
@@ -4330,8 +4328,8 @@ Irrespective of the original strides, the returned matrix q will be transposed, 
 torch.svd(input, some=True, out=None) -> (Tensor, Tensor, Tensor)
 ```
 
-\\(U, S, V = torch.svd(A) \\)。 返回对形如 \\(n \times m \\)的实矩阵 A 进行奇异值分解的结果，使得 \\(A=USV′∗ \\)。
-\\(U \\) 形状为 \\(n \times n \\)，\\(S \\) 形状为 \\(n \times m \\) ，\\(V \\) 形状为 \\(m \times m \\) 
+ $$U, S, V = torch.svd(A) $$ 。 返回对形如  $$n \times m $$ 的实矩阵 A 进行奇异值分解的结果，使得  $$A=USV\prime* $$ 。
+ $$U $$  形状为  $$n \times n $$ ， $$S $$  形状为  $$n \times m $$  ， $$V $$  形状为  $$m \times m $$  
 
 `some` 代表了需要计算的奇异值数目。如果 `some=True`, it computes some and some=False computes all.
 
@@ -4397,12 +4395,12 @@ Irrespective of the original strides, the returned matrix U will be transposed, 
 ```python 
 torch.symeig(input, eigenvectors=False, upper=True, out=None) -> (Tensor, Tensor)
 ```
-\\(e, V = torch.symeig(input)\\) 返回实对称矩阵`input`的特征值和特征向量。 
+ $$e, V = torch.symeig(input)$$  返回实对称矩阵`input`的特征值和特征向量。 
 
-\\(input\\) 和 \\(V\\) 为 \\(m \times m\\) 矩阵，\\(e \\) 是一个\\(m\\) 维向量。
-此函数计算`intput`的所有特征值(和特征向量)，使得 \\(input = V diag(e) V’\\)  
+ $$input$$  和  $$V$$  为  $$m \times m$$  矩阵， $$e $$  是一个 $$m$$  维向量。
+此函数计算`intput`的所有特征值(和特征向量)，使得  $$input = V diag(e) V\prime$$   
 布尔值参数`eigenvectors` 规定是否只计算特征向量。如果为`False`，则只计算特征值；若设为`True`，则两者都会计算。
-因为输入矩阵 \\( input\\) 是对称的，所以默认只需要上三角矩阵。如果参数`upper`为 `False`，下三角矩阵部分也被利用。
+因为输入矩阵  $$ input$$  是对称的，所以默认只需要上三角矩阵。如果参数`upper`为 `False`，下三角矩阵部分也被利用。
 
 **注意**: 不管原来Irrespective of the original strides, the returned matrix V will be transposed, i.e. with strides (1, m) instead of (m, 1) 
 

@@ -38,7 +38,7 @@ plt.ion()   # interactive mode
 
 注意
 
-从[这里](https://download.pytorch.org/tutorial/faces.zip)下载数据集并把它放置在 ‘data/faces/’路径下。这个数据集实际上是对ImageNet中的人脸图像使用表现出色的DLIB姿势估计模型([dlib’s pose estimation](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)) 生成的。
+从[这里](https://download.pytorch.org/tutorial/faces.zip)下载数据集并把它放置在 'data/faces/'路径下。这个数据集实际上是对ImageNet中的人脸图像使用表现出色的DLIB姿势估计模型([dlib's pose estimation](https://blog.dlib.net/2014/08/real-time-face-pose-estimation.html)) 生成的。
 
 数据集是按如下规则打包成的csv文件:
 
@@ -420,7 +420,7 @@ root/bees/asd932_.png
 
 ```
 
-其中 ‘ants’, ‘bees’ 等是分类标签。 在 `PIL.Image` 中你也可以使用类似的转换 (transforms) 例如 `RandomHorizontalFlip`, `Scale`。利用这些你可以按如下的方式创建一个数据加载器 (dataloader) :
+其中 'ants', 'bees' 等是分类标签。 在 `PIL.Image` 中你也可以使用类似的转换 (transforms) 例如 `RandomHorizontalFlip`, `Scale`。利用这些你可以按如下的方式创建一个数据加载器 (dataloader) :
 
 ```py
 import torch

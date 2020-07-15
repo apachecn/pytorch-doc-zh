@@ -307,17 +307,17 @@ http://www.cs.toronto.edu/~h`int`on/absps/momentum.pdf)中的公式.
 
 考虑动量的具体情况，更新可以写成
 
-v=ρ∗v+g
+v=ρ*v+g
 
-p=p−lr∗v
+p=p-lr*v
 
 其中，p、g、v和ρ分别是参数、梯度、速度和动量。
 
 这跟Sutskever等人以及其他框架的实现是相反的，它们采用这样的更新
 
-v=ρ∗v+lr∗g
+v=ρ*v+lr*g
 
-p=p−v
+p=p-v
 
 Nesterov的版本也类似地被修改了。
 

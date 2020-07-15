@@ -11,7 +11,7 @@ torch.multiprocessing 是一个本地 [`multiprocessing`](https://docs.python.or
 
 警告
 
-如果主进程意外退出 (比如 因为一个信号的到来), Python’s `multiprocessing` 有时候会无法请理它的子进程. 这是一个众所周知的警告, 因此，如果你在中断解释器后发现任何资源泄漏，这可能意味着你刚刚发生了这种情况.
+如果主进程意外退出 (比如 因为一个信号的到来), Python's `multiprocessing` 有时候会无法请理它的子进程. 这是一个众所周知的警告, 因此，如果你在中断解释器后发现任何资源泄漏，这可能意味着你刚刚发生了这种情况.
 
 ## 策略管理
 

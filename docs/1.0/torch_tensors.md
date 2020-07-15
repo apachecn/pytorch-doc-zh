@@ -169,7 +169,7 @@ Warning
 
 Warning
 
-当 data 为一个名为 `x` 的张量， [`torch.tensor()`](#torch.tensor "torch.tensor") 读取 ‘the data’ (无论传输了什么), 都会构建一个 leaf variable(计算图模型中事先创建的、而非运算得到的变量). 因此 `torch.tensor(x)` 等价于 `x.clone().detach()` ，同时 `torch.tensor(x, requires_grad=True)` 等价于 `x.clone().detach().requires_grad_(True)`. 我们推荐这种使用 `clone()` and `detach()` 的写法.
+当 data 为一个名为 `x` 的张量， [`torch.tensor()`](#torch.tensor "torch.tensor") 读取 'the data' (无论传输了什么), 都会构建一个 leaf variable(计算图模型中事先创建的、而非运算得到的变量). 因此 `torch.tensor(x)` 等价于 `x.clone().detach()` ，同时 `torch.tensor(x, requires_grad=True)` 等价于 `x.clone().detach().requires_grad_(True)`. 我们推荐这种使用 `clone()` and `detach()` 的写法.
 
 Parameters: 
 
@@ -837,7 +837,7 @@ torch.masked_select(input, mask, out=None) → Tensor
 
 Returns a new 1-D tensor which indexes the `input` tensor according to the binary mask `mask` which is a `ByteTensor`.
 
-The shapes of the `mask` tensor and the `input` tensor don’t need to match, but they must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
+The shapes of the `mask` tensor and the `input` tensor don't need to match, but they must be [broadcastable](notes/broadcasting.html#broadcasting-semantics).
 
 Note
 
@@ -940,7 +940,7 @@ Returns a tensor with the same data and number of elements as `input`, but with 
 
 See [`torch.Tensor.view()`](tensors.html#torch.Tensor.view "torch.Tensor.view") on when it is possible to return a view.
 
-A single dimension may be -1, in which case it’s inferred from the remaining dimensions and the number of elements in `input`.
+A single dimension may be -1, in which case it's inferred from the remaining dimensions and the number of elements in `input`.
 
 Parameters: 
 
@@ -1090,7 +1090,7 @@ torch.transpose(input, dim0, dim1) → Tensor
 
 Returns a tensor that is a transposed version of `input`. The given dimensions `dim0` and `dim1` are swapped.
 
-The resulting `out` tensor shares it’s underlying storage with the `input` tensor, so changing the content of one would change the content of the other.
+The resulting `out` tensor shares it's underlying storage with the `input` tensor, so changing the content of one would change the content of the other.
 
 Parameters: 
 

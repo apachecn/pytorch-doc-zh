@@ -45,7 +45,7 @@ torch.load(f, map_location=None, pickle_module=<module 'pickle' from '/scratch/r
 
 [`torch.load()`](#torch.load "torch.load") 使用Python的unpickling设施，但特别是处理作为张量传感器的存储器。它们首先在CPU上反序列化，然后移动到它们保存的设备上。如果此操作失败(例如，因为运行时系统没有某些设备），则会引发异常。但是，可以使用`map_location`参数将存储重新映射到另一组设备。
 
-如果`map_location`是可调用的，则每个序列化存储器将调用一次，其中包含两个参数：存储和位置。存储参数将是驻留在CPU上的存储的初始反序列化。每个序列化存储都有一个与之关联的位置标记，用于标识从中保存的设备，此标记是传递给map_location的第二个参数。内置位置标签是CPU张量的`‘cpu’`和CUDA张量的`‘cuda:device_id’`(例如`‘cuda:2’`）。 `map_location`应返回None或存储。如果`map_location`返回存储，它将用作最终反序列化对象，已移动到正确的设备。否则， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg) 将回退到默认行为，就像未指定`map_location`一样。
+如果`map_location`是可调用的，则每个序列化存储器将调用一次，其中包含两个参数：存储和位置。存储参数将是驻留在CPU上的存储的初始反序列化。每个序列化存储都有一个与之关联的位置标记，用于标识从中保存的设备，此标记是传递给map_location的第二个参数。内置位置标签是CPU张量的`'cpu'`和CUDA张量的`'cuda:device_id'`(例如`'cuda:2'`）。 `map_location`应返回None或存储。如果`map_location`返回存储，它将用作最终反序列化对象，已移动到正确的设备。否则， [![](/apachecn/pytorch-doc-zh/raw/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg)](/apachecn/pytorch-doc-zh/blob/master/docs/1.0/img/b69f1ef0735e18ff4ee132790112ce0d.jpg) 将回退到默认行为，就像未指定`map_location`一样。
 
 如果`map_location`是一个字符串，它应该是一个设备标签，应该加载所有张量。
 
@@ -61,7 +61,7 @@ Parameters:
 
 注意
 
-当您在包含GPU张量的文件上调用 [`torch.load()`](#torch.load "torch.load") 时，默认情况下这些张量将被加载到GPU。在加载模型检查点时，可以调用`torch.load(.., map_location=’cpu’)`然后调用`load_state_dict()`以避免GPU RAM激增。
+当您在包含GPU张量的文件上调用 [`torch.load()`](#torch.load "torch.load") 时，默认情况下这些张量将被加载到GPU。在加载模型检查点时，可以调用`torch.load(.., map_location='cpu')`然后调用`load_state_dict()`以避免GPU RAM激增。
 
 Example
 

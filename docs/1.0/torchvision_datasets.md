@@ -189,7 +189,7 @@ class torchvision.datasets.LSUN(root, classes='train', transform=None, target_tr
 参数：
 
 *   **root**(_string_）– 存放数据文件的根目录。
-*   **classes**(_string_ _或_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")）– {‘train’, ‘val’, ‘test’}之一，或要加载类别的列表，如[‘bedroom_train’, ‘church_train’]。
+*   **classes**(_string_ _或_ [_list_](https://docs.python.org/3/library/stdtypes.html#list "(in Python v3.7)")）– {'train', 'val', 'test'}之一，或要加载类别的列表，如['bedroom_train', 'church_train']。
 *   **transform**(_可被调用_ _,_ _可选_) – 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
 *   **target_transform**(_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 
@@ -337,7 +337,7 @@ class torchvision.datasets.STL10(root, split='train', transform=None, target_tra
 参数：
 
 *   **root**(_string_）– 数据集根目录，应该包含`stl10_binary`文件夹。
-*   **split**(_string_）– {‘train’, ‘test’, ‘unlabeled’, ‘train+unlabeled’}之一，选择相应的数据集。
+*   **split**(_string_）– {'train', 'test', 'unlabeled', 'train+unlabeled'}之一，选择相应的数据集。
 *   **transform**(_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
 *   **target_transform**(_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 *   **download**([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。
@@ -366,7 +366,7 @@ class torchvision.datasets.SVHN(root, split='train', transform=None, target_tran
 参数：
 
 *   **root**(_string_）– 数据集根目录，应包含`SVHN`文件夹。
-*   **split**(_string_）– {‘train’, ‘test’, ‘extra’}之一，相应的数据集会被选择。‘extra’是extra训练集。
+*   **split**(_string_）– {'train', 'test', 'extra'}之一，相应的数据集会被选择。'extra'是extra训练集。
 *   **transform**(_可被调用_ _,_ _可选_）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：`transforms.RandomCrop`。
 *   **target_transform**(_可被调用_ _,_ _可选_）– 一种函数或变换，输入目标，进行变换。
 *   **download**([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _可选_）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。

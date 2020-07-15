@@ -3433,7 +3433,7 @@ Shape:
 
 Note
 
-This module doesn’t work directly with NLLLoss, which expects the Log to be computed between the Softmax and itself. Use `LogSoftmax` instead (it’s faster and has better numerical properties).
+This module doesn't work directly with NLLLoss, which expects the Log to be computed between the Softmax and itself. Use `LogSoftmax` instead (it's faster and has better numerical properties).
 
 Examples:
 
@@ -3513,7 +3513,7 @@ class torch.nn.AdaptiveLogSoftmaxWithLoss(in_features, n_classes, cutoffs, div_v
 
 Efficient softmax approximation as described in [Efficient softmax approximation for GPUs](https://arxiv.org/abs/1609.04309) by Edouard Grave, Armand Joulin, Moustapha Cissé, David Grangier, and Hervé Jégou.
 
-Adaptive softmax is an approximate strategy for training models with large output spaces. It is most effective when the label distribution is highly imbalanced, for example in natural language modelling, where the word frequency distribution approximately follows the [Zipf’s law](https://en.wikipedia.org/wiki/Zipf%27s_law).
+Adaptive softmax is an approximate strategy for training models with large output spaces. It is most effective when the label distribution is highly imbalanced, for example in natural language modelling, where the word frequency distribution approximately follows the [Zipf's law](https://en.wikipedia.org/wiki/Zipf%27s_law).
 
 Adaptive softmax partitions the labels into several clusters, according to their frequency. These clusters may contain different number of targets each. Additionally, clusters containing less frequent labels assign lower dimensional embeddings to those labels, which speeds up the computation. For each minibatch, only clusters for which at least one target is present are evaluated.
 
@@ -3521,9 +3521,9 @@ The idea is that the clusters which are accessed frequently (like the first one,
 
 We highly recommend taking a look at the original paper for more details.
 
-*   `cutoffs` should be an ordered Sequence of integers sorted in the increasing order. It controls number of clusters and the partitioning of targets into clusters. For example setting `cutoffs = [10, 100, 1000]` means that first `10` targets will be assigned to the ‘head’ of the adaptive softmax, targets `11, 12, …, 100` will be assigned to the first cluster, and targets `101, 102, …, 1000` will be assigned to the second cluster, while targets `1001, 1002, …, n_classes - 1` will be assigned to the last, third cluster
+*   `cutoffs` should be an ordered Sequence of integers sorted in the increasing order. It controls number of clusters and the partitioning of targets into clusters. For example setting `cutoffs = [10, 100, 1000]` means that first `10` targets will be assigned to the 'head' of the adaptive softmax, targets `11, 12, …, 100` will be assigned to the first cluster, and targets `101, 102, …, 1000` will be assigned to the second cluster, while targets `1001, 1002, …, n_classes - 1` will be assigned to the last, third cluster
 *   `div_value` is used to compute the size of each additional cluster, which is given as ![](img/32071c42affaaf731df4e3398b16de10.jpg), where ![](img/5df73ea97de3a7712b50ce2fecfea1a7.jpg) is the cluster index (with clusters for less frequent words having larger indices, and indices starting from ![](img/a3ea24a1f2a3549d3e5b0cacf3ecb7c7.jpg)).
-*   `head_bias` if set to True, adds a bias term to the ‘head’ of the adaptive softmax. See paper for details. Set to False in the official implementation.
+*   `head_bias` if set to True, adds a bias term to the 'head' of the adaptive softmax. See paper for details. Set to False in the official implementation.
 
 Warning
 
@@ -3623,7 +3623,7 @@ Note
 
 This `momentum` argument is different from one used in optimizer classes and the conventional notion of momentum. Mathematically, the update rule for running statistics here is ![](img/05beed2a6202dfed2f2c4d1ddf9f445f.jpg), where ![](img/9d834e987d38585c39d150fe8f46bc74.jpg) is the estimated statistic and ![](img/22c5ed7653e3fae804006a00210327fc.jpg) is the new observed value.
 
-Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, L)` slices, it’s common terminology to call this Temporal Batch Normalization.
+Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, L)` slices, it's common terminology to call this Temporal Batch Normalization.
 
 Parameters: 
 
@@ -3674,7 +3674,7 @@ Note
 
 This `momentum` argument is different from one used in optimizer classes and the conventional notion of momentum. Mathematically, the update rule for running statistics here is ![](img/05beed2a6202dfed2f2c4d1ddf9f445f.jpg), where ![](img/9d834e987d38585c39d150fe8f46bc74.jpg) is the estimated statistic and ![](img/22c5ed7653e3fae804006a00210327fc.jpg) is the new observed value.
 
-Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, H, W)` slices, it’s common terminology to call this Spatial Batch Normalization.
+Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, H, W)` slices, it's common terminology to call this Spatial Batch Normalization.
 
 Parameters: 
 
@@ -3725,7 +3725,7 @@ Note
 
 This `momentum` argument is different from one used in optimizer classes and the conventional notion of momentum. Mathematically, the update rule for running statistics here is ![](img/05beed2a6202dfed2f2c4d1ddf9f445f.jpg), where ![](img/9d834e987d38585c39d150fe8f46bc74.jpg) is the estimated statistic and ![](img/22c5ed7653e3fae804006a00210327fc.jpg) is the new observed value.
 
-Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, D, H, W)` slices, it’s common terminology to call this Volumetric Batch Normalization or Spatio-temporal Batch Normalization.
+Because the Batch Normalization is done over the `C` dimension, computing statistics on `(N, D, H, W)` slices, it's common terminology to call this Volumetric Batch Normalization or Spatio-temporal Batch Normalization.
 
 Parameters: 
 
@@ -3823,7 +3823,7 @@ This `momentum` argument is different from one used in optimizer classes and the
 
 Note
 
-[`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") is applied on each channel of channeled data like multidimensional time series, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") usually don’t apply affine transform.
+[`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") is applied on each channel of channeled data like multidimensional time series, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm1d`](#torch.nn.InstanceNorm1d "torch.nn.InstanceNorm1d") usually don't apply affine transform.
 
 Parameters: 
 
@@ -3876,7 +3876,7 @@ This `momentum` argument is different from one used in optimizer classes and the
 
 Note
 
-[`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") is applied on each channel of channeled data like RGB images, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") usually don’t apply affine transform.
+[`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") is applied on each channel of channeled data like RGB images, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm2d`](#torch.nn.InstanceNorm2d "torch.nn.InstanceNorm2d") usually don't apply affine transform.
 
 Parameters: 
 
@@ -3929,7 +3929,7 @@ This `momentum` argument is different from one used in optimizer classes and the
 
 Note
 
-[`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") is applied on each channel of channeled data like 3D models with RGB color, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") usually don’t apply affine transform.
+[`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") and [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") are very similar, but have some subtle differences. [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") is applied on each channel of channeled data like 3D models with RGB color, but [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") is usually applied on entire sample and often in NLP tasks. Additionaly, [`LayerNorm`](#torch.nn.LayerNorm "torch.nn.LayerNorm") applies elementwise affine transform, while [`InstanceNorm3d`](#torch.nn.InstanceNorm3d "torch.nn.InstanceNorm3d") usually don't apply affine transform.
 
 Parameters: 
 
@@ -4068,14 +4068,14 @@ For each element in the input sequence, each layer computes the following functi
 
 ![](img/1d1bd72124738a26685d33ce01c89beb.jpg)
 
-where ![](img/a048a5bfcc0242b6427d15ed11ef7e23.jpg) is the hidden state at time `t`, ![](img/22c5ed7653e3fae804006a00210327fc.jpg) is the input at time `t`, and ![](img/722edd552cee200694a3bfccd4f755df.jpg) is the hidden state of the previous layer at time `t-1` or the initial hidden state at time `0`. If `nonlinearity` is `‘relu’`, then `ReLU` is used instead of `tanh`.
+where ![](img/a048a5bfcc0242b6427d15ed11ef7e23.jpg) is the hidden state at time `t`, ![](img/22c5ed7653e3fae804006a00210327fc.jpg) is the input at time `t`, and ![](img/722edd552cee200694a3bfccd4f755df.jpg) is the hidden state of the previous layer at time `t-1` or the initial hidden state at time `0`. If `nonlinearity` is `'relu'`, then `ReLU` is used instead of `tanh`.
 
 Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
 *   **num_layers** – Number of recurrent layers. E.g., setting `num_layers=2` would mean stacking two RNNs together to form a `stacked RNN`, with the second RNN taking in outputs of the first RNN and computing the final results. Default: 1
-*   **nonlinearity** – The non-linearity to use. Can be either ‘tanh’ or ‘relu’. Default: ‘tanh’
+*   **nonlinearity** – The non-linearity to use. Can be either 'tanh' or 'relu'. Default: 'tanh'
 *   **bias** – If `False`, then the layer does not use bias weights `b_ih` and `b_hh`. Default: `True`
 *   **batch_first** – If `True`, then the input and output tensors are provided as `(batch, seq, feature)`. Default: `False`
 *   **dropout** – If non-zero, introduces a `Dropout` layer on the outputs of each RNN layer except the last layer, with dropout probability equal to `dropout`. Default: 0
@@ -4295,14 +4295,14 @@ An Elman RNN cell with tanh or ReLU non-linearity.
 
 ![](img/e748fe354d996221dbfa5f8e3412451e.jpg)
 
-If `nonlinearity` is `‘relu’`, then ReLU is used in place of tanh.
+If `nonlinearity` is `'relu'`, then ReLU is used in place of tanh.
 
 Parameters: 
 
 *   **input_size** – The number of expected features in the input `x`
 *   **hidden_size** – The number of features in the hidden state `h`
 *   **bias** – If `False`, then the layer does not use bias weights `b_ih` and `b_hh`. Default: `True`
-*   **nonlinearity** – The non-linearity to use. Can be either ‘tanh’ or ‘relu’. Default: ‘tanh’
+*   **nonlinearity** – The non-linearity to use. Can be either 'tanh' or 'relu'. Default: 'tanh'
 
 
 
@@ -4314,10 +4314,10 @@ Inputs: input, hidden
 *   **hidden** of shape `(batch, hidden_size)`: tensor containing the initial hidden state for each element in the batch. Defaults to zero if not provided.
 
 ```py
-Outputs: h’
+Outputs: h'
 ```
 
-*   **h’** of shape `(batch, hidden_size)`: tensor containing the next hidden state for each element in the batch
+*   **h'** of shape `(batch, hidden_size)`: tensor containing the next hidden state for each element in the batch
 
 | Variables: | 
 
@@ -4439,10 +4439,10 @@ Inputs: input, hidden
 *   **hidden** of shape `(batch, hidden_size)`: tensor containing the initial hidden state for each element in the batch. Defaults to zero if not provided.
 
 ```py
-Outputs: h’
+Outputs: h'
 ```
 
-*   **h’** of shape `(batch, hidden_size)`: tensor containing the next hidden state for each element in the batch
+*   **h'** of shape `(batch, hidden_size)`: tensor containing the next hidden state for each element in the batch
 
 | Variables: | 
 
@@ -4739,7 +4739,7 @@ Shape:
 
 Note
 
-Keep in mind that only a limited number of optimizers support sparse gradients: currently it’s `optim.SGD` (`CUDA` and `CPU`), `optim.SparseAdam` (`CUDA` and `CPU`) and `optim.Adagrad` (`CPU`)
+Keep in mind that only a limited number of optimizers support sparse gradients: currently it's `optim.SGD` (`CUDA` and `CPU`), `optim.SparseAdam` (`CUDA` and `CPU`) and `optim.Adagrad` (`CPU`)
 
 Note
 
@@ -4782,7 +4782,7 @@ Creates Embedding instance from given 2-dimensional FloatTensor.
 
 Parameters: 
 
-*   **embeddings** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – FloatTensor containing weights for the Embedding. First dimension is being passed to Embedding as ‘num_embeddings’, second as ‘embedding_dim’.
+*   **embeddings** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")) – FloatTensor containing weights for the Embedding. First dimension is being passed to Embedding as 'num_embeddings', second as 'embedding_dim'.
 *   **freeze** (_boolean__,_ _optional_) – If `True`, the tensor does not get updated in the learning process. Equivalent to `embedding.weight.requires_grad = False`. Default: `True`
 *   **sparse** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – if `True`, gradient w.r.t. weight matrix will be a sparse tensor. See Notes for more details regarding sparse gradients.
 
@@ -4807,7 +4807,7 @@ tensor([[ 4.0000,  5.1000,  6.3000]])
 class torch.nn.EmbeddingBag(num_embeddings, embedding_dim, max_norm=None, norm_type=2.0, scale_grad_by_freq=False, mode='mean', sparse=False)
 ```
 
-Computes sums or means of ‘bags’ of embeddings, without instantiating the intermediate embeddings.
+Computes sums or means of 'bags' of embeddings, without instantiating the intermediate embeddings.
 
 For bags of constant length, this class
 
@@ -4963,7 +4963,7 @@ Parameters:
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5012,7 +5012,7 @@ Parameters:
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5068,7 +5068,7 @@ Parameters:
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets.
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5114,7 +5114,7 @@ The Connectionist Temporal Classification loss.
 Parameters: 
 
 *   **blank** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – blank label. Default ![](img/28256dd5af833c877d63bfabfaa7b301.jpg).
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the output losses will be divided by the target lengths and then the mean over the batch is taken. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the output losses will be divided by the target lengths and then the mean over the batch is taken. Default: 'mean'
 
 
 
@@ -5207,7 +5207,7 @@ Parameters:
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **ignore_index** ([_int_](https://docs.python.org/3/library/functions.html#int "(in Python v3.7)")_,_ _optional_) – Specifies a target value that is ignored and does not contribute to the input gradient. When `size_average` is `True`, the loss is averaged over non-ignored targets.
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5284,7 +5284,7 @@ Parameters:
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **eps** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Small value to avoid evaluation of ![](img/f6dcd4f69520c309a6d71002bd330cb8.jpg) when `log_input == False`. Default: 1e-8
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5321,19 +5321,19 @@ where the index ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) spans all dimensio
 
 ![](img/d88944e162eff94bddc1b9a94bcaa3a6.jpg)
 
-In default reduction mode ‘mean’, the losses are averaged for each minibatch over observations **as well as** over dimensions. ‘batchmean’ mode gives the correct KL divergence where losses are averaged over batch dimension only. ‘mean’ mode’s behavior will be changed to the same as ‘batchmean’ in the next major release.
+In default reduction mode 'mean', the losses are averaged for each minibatch over observations **as well as** over dimensions. 'batchmean' mode gives the correct KL divergence where losses are averaged over batch dimension only. 'mean' mode's behavior will be changed to the same as 'batchmean' in the next major release.
 
 Parameters: 
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘batchmean’ &#124; ‘sum’ &#124; ‘mean’. ‘none’: no reduction will be applied. ‘batchmean’: the sum of the output will be divided by batchsize. ‘sum’: the output will be summed. ‘mean’: the output will be divided by the number of elements in the output. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'batchmean' &#124; 'sum' &#124; 'mean'. 'none': no reduction will be applied. 'batchmean': the sum of the output will be divided by batchsize. 'sum': the output will be summed. 'mean': the output will be divided by the number of elements in the output. Default: 'mean'
 
 
 
-:param .. note:: `size_average` and `reduce` are in the process of being deprecated,: and in the meantime, specifying either of those two args will override `reduction`. :param .. note:: `reduction=’mean’` doesn’t return the true kl divergence value, please use: `reduction=’batchmean’` which aligns with KL math definition.
+:param .. note:: `size_average` and `reduce` are in the process of being deprecated,: and in the meantime, specifying either of those two args will override `reduction`. :param .. note:: `reduction='mean'` doesn't return the true kl divergence value, please use: `reduction='batchmean'` which aligns with KL math definition.
 
-> In the next major release, ‘mean’ will be changed to be the same as ‘batchmean’.
+> In the next major release, 'mean' will be changed to be the same as 'batchmean'.
 
 ```py
 Shape:
@@ -5370,7 +5370,7 @@ Parameters:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to the loss of each batch element. If given, has to be a Tensor of size “nbatch”.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5412,7 +5412,7 @@ where ![](img/9341d9048ac485106d2b2ee8de14876f.jpg) is the batch size. If reduce
 
 This is used for measuring the error of a reconstruction in for example an auto-encoder. Note that the targets `t[i]` should be numbers between 0 and 1.
 
-It’s possible to trade off recall and precision by adding weights to positive examples. In this case the loss can be described as:
+It's possible to trade off recall and precision by adding weights to positive examples. In this case the loss can be described as:
 
 ![](img/d5ca42e0ee1490d1dea4d5f38cc120d7.jpg)
 
@@ -5425,7 +5425,7 @@ Parameters:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to the loss of each batch element. If given, has to be a Tensor of size “nbatch”.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 *   **pos_weight** – a weight of positive examples. Must be a vector with length equal to the number of classes.
 
 
@@ -5449,7 +5449,7 @@ Parameters:
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Has a default value of `0`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5484,7 +5484,7 @@ Parameters:
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Has a default value of `1`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5518,7 +5518,7 @@ Parameters:
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5552,7 +5552,7 @@ Parameters:
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5578,7 +5578,7 @@ Parameters:
 
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5607,7 +5607,7 @@ Parameters:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, it has to be a Tensor of size `C`. Otherwise, it is treated as if having all ones.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5636,7 +5636,7 @@ Parameters:
 *   **margin** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – Should be a number from `-1` to `1`, `0` to `0.5` is suggested. If `margin` is missing, the default value is `0`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5667,7 +5667,7 @@ Parameters:
 *   **weight** ([_Tensor_](tensors.html#torch.Tensor "torch.Tensor")_,_ _optional_) – a manual rescaling weight given to each class. If given, it has to be a Tensor of size `C`. Otherwise, it is treated as if having all ones.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5696,7 +5696,7 @@ Parameters:
 *   **swap** ([_float_](https://docs.python.org/3/library/functions.html#float "(in Python v3.7)")_,_ _optional_) – The distance swap is described in detail in the paper `Learning shallow convolutional feature descriptors with triplet losses` by V. Balntas, E. Riba et al. Default: `False`.
 *   **size_average** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged over each loss element in the batch. Note that for some losses, there multiple elements per sample. If the field `size_average` is set to `False`, the losses are instead summed for each minibatch. Ignored when reduce is `False`. Default: `True`
 *   **reduce** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")_,_ _optional_) – Deprecated (see `reduction`). By default, the losses are averaged or summed over observations for each minibatch depending on `size_average`. When `reduce` is `False`, returns a loss per batch element instead and ignores `size_average`. Default: `True`
-*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: ‘none’ &#124; ‘mean’ &#124; ‘sum’. ‘none’: no reduction will be applied, ‘mean’: the sum of the output will be divided by the number of elements in the output, ‘sum’: the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: ‘mean’
+*   **reduction** (_string__,_ _optional_) – Specifies the reduction to apply to the output: 'none' &#124; 'mean' &#124; 'sum'. 'none': no reduction will be applied, 'mean': the sum of the output will be divided by the number of elements in the output, 'sum': the output will be summed. Note: `size_average` and `reduce` are in the process of being deprecated, and in the meantime, specifying either of those two args will override `reduction`. Default: 'mean'
 
 
 
@@ -5790,7 +5790,7 @@ Shape:
 
 Warning
 
-With `align_corners = True`, the linearly interpolating modes (`linear`, `bilinear`, and `trilinear`) don’t proportionally align the output and input pixels, and thus the output values can depend on the input size. This was the default behavior for these modes up to version 0.3.1\. Since then, the default behavior is `align_corners = False`. See below for concrete examples on how this affects the outputs.
+With `align_corners = True`, the linearly interpolating modes (`linear`, `bilinear`, and `trilinear`) don't proportionally align the output and input pixels, and thus the output values can depend on the input size. This was the default behavior for these modes up to version 0.3.1\. Since then, the default behavior is `align_corners = False`. See below for concrete examples on how this affects the outputs.
 
 Note
 
@@ -5866,7 +5866,7 @@ class torch.nn.UpsamplingNearest2d(size=None, scale_factor=None)
 
 Applies a 2D nearest neighbor upsampling to an input signal composed of several input channels.
 
-To specify the scale, it takes either the `size` or the `scale_factor` as it’s constructor argument.
+To specify the scale, it takes either the `size` or the `scale_factor` as it's constructor argument.
 
 When `size` is given, it is the output size of the image `(h, w)`.
 
@@ -5917,7 +5917,7 @@ class torch.nn.UpsamplingBilinear2d(size=None, scale_factor=None)
 
 Applies a 2D bilinear upsampling to an input signal composed of several input channels.
 
-To specify the scale, it takes either the `size` or the `scale_factor` as it’s constructor argument.
+To specify the scale, it takes either the `size` or the `scale_factor` as it's constructor argument.
 
 When `size` is given, it is the output size of the image `(h, w)`.
 
@@ -5976,7 +5976,7 @@ The batch size should be larger than the number of GPUs used.
 
 See also: [Use nn.DataParallel instead of multiprocessing](notes/cuda.html#cuda-nn-dataparallel-instead)
 
-Arbitrary positional and keyword inputs are allowed to be passed into DataParallel EXCEPT Tensors. All tensors will be scattered on dim specified (default 0). Primitive types will be broadcasted, but all other types will be a shallow copy and can be corrupted if written to in the model’s forward pass.
+Arbitrary positional and keyword inputs are allowed to be passed into DataParallel EXCEPT Tensors. All tensors will be scattered on dim specified (default 0). Primitive types will be broadcasted, but all other types will be a shallow copy and can be corrupted if written to in the model's forward pass.
 
 The parallelized `module` must have its parameters and buffers on `device_ids[0]` before running this [`DataParallel`](#torch.nn.DataParallel "torch.nn.DataParallel") module.
 
@@ -5994,7 +5994,7 @@ When `module` returns a scalar (i.e., 0-dimensional tensor) in `forward()`, this
 
 Note
 
-There is a subtlety in using the `pack sequence -&gt; recurrent network -&gt; unpack sequence` pattern in a [`Module`](#torch.nn.Module "torch.nn.Module") wrapped in [`DataParallel`](#torch.nn.DataParallel "torch.nn.DataParallel"). See [My recurrent network doesn’t work with data parallelism](notes/faq.html#pack-rnn-unpack-with-data-parallelism) section in FAQ for details.
+There is a subtlety in using the `pack sequence -&gt; recurrent network -&gt; unpack sequence` pattern in a [`Module`](#torch.nn.Module "torch.nn.Module") wrapped in [`DataParallel`](#torch.nn.DataParallel "torch.nn.DataParallel"). See [My recurrent network doesn't work with data parallelism](notes/faq.html#pack-rnn-unpack-with-data-parallelism) section in FAQ for details.
 
 Parameters: 
 
@@ -6034,7 +6034,7 @@ Creation of this class requires that `torch.distributed` to be already initializ
 
 1.  Single-Process Multi-GPU
 
-In this case, a single process will be spawned on each host/node and each process will operate on all the GPUs of the node where it’s running. To use `DistributedDataParallel` in this way, you can simply construct the model as the following:
+In this case, a single process will be spawned on each host/node and each process will operate on all the GPUs of the node where it's running. To use `DistributedDataParallel` in this way, you can simply construct the model as the following:
 
 ```py
 >>> torch.distributed.init_process_group(backend="nccl")
@@ -6081,7 +6081,7 @@ This module assumes all parameters are registered in the model by the time it is
 
 Warning
 
-This module assumes all parameters are registered in the model of each distributed processes are in the same order. The module itself will conduct gradient all-reduction following the reverse order of the registered parameters of the model. In other wise, it is users’ responsibility to ensure that each distributed process has the exact same model and thus the exact parameter registeration order.
+This module assumes all parameters are registered in the model of each distributed processes are in the same order. The module itself will conduct gradient all-reduction following the reverse order of the registered parameters of the model. In other wise, it is users' responsibility to ensure that each distributed process has the exact same model and thus the exact parameter registeration order.
 
 Warning
 
@@ -6089,19 +6089,19 @@ This module assumes all buffers and gradients are dense.
 
 Warning
 
-This module doesn’t work with [`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad") (i.e. it will only work if gradients are to be accumulated in `.grad` attributes of parameters).
+This module doesn't work with [`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad") (i.e. it will only work if gradients are to be accumulated in `.grad` attributes of parameters).
 
 Warning
 
-If you plan on using this module with a `nccl` backend or a `gloo` backend (that uses Infiniband), together with a DataLoader that uses multiple workers, please change the multiprocessing start method to `forkserver` (Python 3 only) or `spawn`. Unfortunately Gloo (that uses Infiniband) and NCCL2 are not fork safe, and you will likely experience deadlocks if you don’t change this setting.
+If you plan on using this module with a `nccl` backend or a `gloo` backend (that uses Infiniband), together with a DataLoader that uses multiple workers, please change the multiprocessing start method to `forkserver` (Python 3 only) or `spawn`. Unfortunately Gloo (that uses Infiniband) and NCCL2 are not fork safe, and you will likely experience deadlocks if you don't change this setting.
 
 Warning
 
-Forward and backward hooks defined on `module` and its submodules won’t be invoked anymore, unless the hooks are initialized in the `forward()` method.
+Forward and backward hooks defined on `module` and its submodules won't be invoked anymore, unless the hooks are initialized in the `forward()` method.
 
 Warning
 
-You should never try to change your model’s parameters after wrapping up your model with DistributedDataParallel. In other words, when wrapping up your model with DistributedDataParallel, the constructor of DistributedDataParallel will register the additional gradient reduction functions on all the parameters of the model itself at the time of construction. If you change the model’s parameters after the DistributedDataParallel construction, this is not supported and unexpected behaviors can happen, since some parameters’ gradient reduction functions might not get called.
+You should never try to change your model's parameters after wrapping up your model with DistributedDataParallel. In other words, when wrapping up your model with DistributedDataParallel, the constructor of DistributedDataParallel will register the additional gradient reduction functions on all the parameters of the model itself at the time of construction. If you change the model's parameters after the DistributedDataParallel construction, this is not supported and unexpected behaviors can happen, since some parameters' gradient reduction functions might not get called.
 
 Note
 
@@ -6115,7 +6115,7 @@ Parameters:
 *   **broadcast_buffers** ([_bool_](https://docs.python.org/3/library/functions.html#bool "(in Python v3.7)")) – flag that enables syncing (broadcasting) buffers of the module at beginning of the forward function. (default: True)
 *   **process_group** – the process group to be used for distributed data all-reduction. If None, the default process group, which is created by ``torch.distributed.init_process_group``, will be used. (default: None)
 *   **bucket_cap_mb** – DistributedDataParallel will bucket parameters into multiple buckets so that gradient reduction of each bucket can potentially overlap with backward computation. bucket_cap_mb controls the bucket size in MegaBytes (MB) (default: 25)
-*   **check_reduction** – when setting to True, it enables DistributedDataParallel to automatically check if the previous iteration’s backward reductions were successfully issued at the beginning of every iteration’s forward function. You normally don’t need this option enabled unless you are observing weird behaviors such as different ranks are getting different gradients, which should not happen if DistributedDataParallel is corrected used. (default: False)
+*   **check_reduction** – when setting to True, it enables DistributedDataParallel to automatically check if the previous iteration's backward reductions were successfully issued at the beginning of every iteration's forward function. You normally don't need this option enabled unless you are observing weird behaviors such as different ranks are getting different gradients, which should not happen if DistributedDataParallel is corrected used. (default: False)
 
 
 | Variables: | **module** ([_Module_](#torch.nn.Module "torch.nn.Module")) – the module to be parallelized |
@@ -6169,11 +6169,11 @@ This module assumes all gradients are dense.
 
 Warning
 
-This module doesn’t work with [`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad") (i.e. it will only work if gradients are to be accumulated in `.grad` attributes of parameters).
+This module doesn't work with [`torch.autograd.grad()`](autograd.html#torch.autograd.grad "torch.autograd.grad") (i.e. it will only work if gradients are to be accumulated in `.grad` attributes of parameters).
 
 Warning
 
-Forward and backward hooks defined on `module` and its submodules won’t be invoked anymore, unless the hooks are initialized in the `forward()` method.
+Forward and backward hooks defined on `module` and its submodules won't be invoked anymore, unless the hooks are initialized in the `forward()` method.
 
 Note
 
@@ -6436,7 +6436,7 @@ Pads a packed batch of variable length sequences.
 
 It is an inverse operation to [`pack_padded_sequence()`](#torch.nn.utils.rnn.pack_padded_sequence "torch.nn.utils.rnn.pack_padded_sequence").
 
-The returned Tensor’s data will be of size `T x B x *`, where `T` is the length of the longest sequence and `B` is the batch size. If `batch_first` is True, the data will be transposed into `B x T x *` format.
+The returned Tensor's data will be of size `T x B x *`, where `T` is the length of the longest sequence and `B` is the batch size. If `batch_first` is True, the data will be transposed into `B x T x *` format.
 
 Batch elements will be ordered decreasingly by their length.
 
