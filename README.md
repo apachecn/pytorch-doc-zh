@@ -24,10 +24,25 @@
 </table>
 <br/>
 
-> 欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
+---
 
-+ [在线阅读](http://pytorch.apachecn.org)
-+ [ApacheCN 学习资源](http://www.apachecn.org/)
+## 介绍
+
+欢迎任何人参与和完善：一个人可以走的很快，但是一群人却可以走的更远。
+
+> 组织构建[网站]
+
++ GitHub Pages(国外): https://pytorch.apachecn.org
++ Gitee Pages(国内): https://apachecn.gitee.io/pytorch
+
+> 第三方站长[网站]
+
++ pytorch 中文文档: https://www.bookstack.cn/search/result?wd=pytorch
++ 地址A: xxx (欢迎留言，我们完善补充)
+
+> 其他补充
+
++ [ApacheCN 学习资源](http://www.apachecn.org)
 + [PyTorch 中文翻译组 | ApacheCN 713436582](http://shang.qq.com/wpa/qunwpa?idkey=349eb1bbaeeff1cf20408899cbe75669132ef145ff5ee6599f78a77dd144c367)
 
 > 版本特性
