@@ -33,7 +33,7 @@
 > 组织构建[网站]
 
 + GitHub Pages(国外): https://pytorch.apachecn.org
-+ Gitee Pages(国内): https://apachecn.gitee.io/pytorch
++ Gitee Pages(国内): https://apachecn.gitee.io/pytorch-doc-zh
 
 > 第三方站长[网站]
 
