@@ -57,6 +57,24 @@
 
 ![](docs/img/resources.jpg)
 
+## 下载
+
+### PYPI
+
+```
+pip install pytorch-doc-zh
+pytorch-doc-zh <port>
+# 访问 http://localhost:{port} 查看文档
+```
+
+### NPM
+
+```
+npm install -g pytorch-doc-zh
+pytorch-doc-zh <port>
+# 访问 http://localhost:{port} 查看文档
+```
+
 ## 贡献指南
 
 项目当前处于校对阶段，请查看[贡献指南](CONTRIBUTING.md)，并在[整体进度](https://github.com/apachecn/pytorch-doc-zh/issues/487)中领取任务。
