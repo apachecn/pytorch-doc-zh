@@ -6,11 +6,8 @@
 
 +   [最新 英文文档](https://pytorch.org/docs/)
 +   [最新 英文教程](https://pytorch.org/tutorials/)
-+   [1.2 中文教程 & 文档](https://pytorch.apachecn.org/docs/1.2/)
 +   [1.0 中文教程 & 文档](https://pytorch.apachecn.org/docs/1.0/)
 +   [0.3 中文教程 & 文档](https://pytorch.apachecn.org/docs/0.3/)
-+   [0.4 中文文档](https://pytorch.apachecn.org/docs/0.4/)
-+   [0.3 和 1.0 之间的 DIFF 文件](diff/0.3-1.0)
 +   [公式问题如何解决](https://github.com/apachecn/pytorch-doc-zh/issues/360)
 +   [模版文章](https://github.com/apachecn/pytorch-doc-zh/blob/master/docs/1.0/chatbot_tutorial.md)
 +   [知乎中文专栏](https://zhuanlan.zhihu.com/c_1141766027527385088)
