@@ -138,10 +138,10 @@ tensor([[4.5000, 4.5000],
 
 $$
 J=\left(\begin{array}{ccc}
-   \frac{\partial y_{1}}{\partial x_{1}} & \cdots & \frac{\partial y_{m}}{\partial x_{1}}\\
-   \vdots & \ddots & \vdots\\
-   \frac{\partial y_{1}}{\partial x_{n}} & \cdots & \frac{\partial y_{m}}{\partial x_{n}}
-   \end{array}\right)
+ \frac{\partial y_{1}}{\partial x_{1}} & \cdots & \frac{\partial y_{1}}{\partial x_{n}}\\
+ \vdots & \ddots & \vdots\\
+ \frac{\partial y_{m}}{\partial x_{1}} & \cdots & \frac{\partial y_{m}}{\partial x_{n}}
+ \end{array}\right)
 $$
 
 通常来说，`torch.autograd` 是计算雅可比向量积的一个“引擎”。也就是说，给定任意向量 $$v=\left(\begin{array}{cccc} v_{1} & v_{2} & \cdots & v_{m}\end{array}\right)^{T}$$，计算乘积 $$v^{T}\cdot J$$。如果 $$v$$ 恰好是一个标量函数 $$l=g\left(\vec{y}\right)$$ 的导数，即 $$v=\left(\begin{array}{ccc}\frac{\partial l}{\partial y_{1}} & \cdots & \frac{\partial l}{\partial y_{m}}\end{array}\right)^{T}$$，那么根据链式法则，雅可比向量积应该是 $$l$$ 对 $$\vec{x}$$ 的导数：
