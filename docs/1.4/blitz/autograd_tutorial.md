@@ -138,6 +138,12 @@ tensor([[4.5000, 4.5000],
 
 $$
 J=\left(\begin{array}{ccc}
+   \frac{\partial y_{1}}{\partial x_{1}} & \cdots & \frac{\partial y_{1}}{\partial x_{n}}\\
+   \vdots & \ddots & \vdots\\
+   \frac{\partial y_{m}}{\partial x_{1}} & \cdots & \frac{\partial y_{m}}{\partial x_{n}}
+   \end{array}\right)
+，即：
+J^{T}=\left(\begin{array}{ccc}
    \frac{\partial y_{1}}{\partial x_{1}} & \cdots & \frac{\partial y_{m}}{\partial x_{1}}\\
    \vdots & \ddots & \vdots\\
    \frac{\partial y_{1}}{\partial x_{n}} & \cdots & \frac{\partial y_{m}}{\partial x_{n}}
