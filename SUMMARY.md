@@ -1,6 +1,7 @@
 # Summary
 
 * [Introduction](README.md)
+* [PyTorch 1.7 中文文档 & 教程](https://pytorch.apachecn.org/docs/1.7/)
 * [PyTorch 1.4 中文文档 & 教程](https://pytorch.apachecn.org/docs/1.4/)
 * [PyTorch 1.0 中文文档 & 教程](https://pytorch.apachecn.org/docs/1.0/)
 * [PyTorch 0.3 中文文档 & 教程](https://pytorch.apachecn.org/docs/0.3/)
