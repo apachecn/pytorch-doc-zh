@@ -10,7 +10,7 @@ python3 src/script.py "home" "gitalk"
 gitbook build ./ _book
 # python3 src/script.py "home" "index"
 
-versions="0.2 0.3 1.0 1.4 LatestChanges"
+versions="0.2 0.3 1.0 1.4 1.7 LatestChanges"
 for version in $versions;do
     loginfo "==========================================================="
     loginfo "开始", ${version}, "版本编译"
