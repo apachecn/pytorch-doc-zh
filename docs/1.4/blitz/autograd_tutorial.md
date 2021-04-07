@@ -4,7 +4,7 @@
 
 > 译者：[bat67](https://github.com/bat67)
 > 
-> 校验者：[FontTian](https://github.com/fonttian)
+> 校验者：[GZYZG](https://github.com/GZYZG)
 
 PyTorch中，所有神经网络的核心是 `autograd` 包。先简单介绍一下这个包，然后训练我们的第一个的神经网络。
 
@@ -14,7 +14,7 @@ PyTorch中，所有神经网络的核心是 `autograd` 包。先简单介绍一�
 
 ## 张量
 
-`torch.Tensor` 是这个包的核心类。如果设置它的属性 `.requires_grad` 为 `True`，那么它将会追踪对于该张量的所有操作。当完成计算后可以通过调用 `.backward()`，来自动计算所有的梯度。这个张量的所有梯度将会自动累加到`.grad`属性.
+`torch.Tensor` 是这个包的核心类。如果设置它的属性 `.requires_grad` 为 `True`，那么`autograd`将会追踪对于该张量的所有操作。当完成计算后可以通过调用 `.backward()`，来自动计算所有的梯度。这个张量的所有梯度将会自动累加到`.grad`属性.
 
 要阻止一个张量被跟踪历史，可以调用 `.detach()` 方法将其与计算历史分离，并阻止它未来的计算记录被跟踪。
 
@@ -115,7 +115,7 @@ True
 out.backward()
 ```
 
-输出导数 `d(out)/dx`
+输出导数$\frac{d(out)}{dx}$
 
 ```python
 print(x.grad)
@@ -130,9 +130,9 @@ tensor([[4.5000, 4.5000],
 
 我们的得到的是一个数取值全部为`4.5`的矩阵。
 
-让我们来调用 `out` 张量 `o`。
+让我们来推导 `out` 在`x`上的梯度张量 `o`。
 
-就可以得到 $$o = \frac{1}{4}\sum_i z_i$$，$$z_i = 3(x_i+2)^2$$ 和 $$z_i\bigr\rvert_{x_i=1} = 27$$ 因此, $$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$$，因而 $$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$$。
+可以得到 $$o = \frac{1}{4}\sum_i z_i$$，$$z_i = 3(x_i+2)^2$$ 和 $$z_i\bigr\rvert_{x_i=1} = 27$$ 因此, $$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$$，因而 $$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$$。
 
 数学上，若有向量值函数 $$\vec{y}=f(\vec{x})$$，那么 $$\vec{y}$$ 相对于 $$\vec{x}$$ 的梯度是一个雅可比矩阵：
 
@@ -166,7 +166,7 @@ $$
 
 雅可比向量积的这一特性使得将外部梯度输入到具有非标量输出的模型中变得非常方便。
 
-现在我们来看一个雅可比向量积的例子:
+现在我们来看一个雅可比向量积（vector-Jacobian product）的例子:
 
 ```python
 x = torch.randn(3, requires_grad=True)
@@ -200,7 +200,7 @@ print(x.grad)
 tensor([4.0960e+02, 4.0960e+03, 4.0960e-01])
 ```
 
-也可以通过将代码块包装在 `with torch.no_grad():` 中，来阻止autograd跟踪设置了 `.requires_grad=True` 的张量的历史记录。
+也可以通过将代码块包装在 `with torch.no_grad():` 中，来阻止autograd跟踪 `.requires_grad=True` 的张量的历史记录。
 
 
 ```python
