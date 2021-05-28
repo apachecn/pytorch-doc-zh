@@ -22,7 +22,6 @@
         "hide-element",
         "page-toc-button",
         "tbfed-pagefooter",
-        "sitemap",
         "advanced-emoji",
         "expandable-chapters",
         "splitter",
@@ -76,9 +75,6 @@
             "copyright":"Copyright &copy ibooker.org.cn 2019",
             "modify_label": "该文件修订时间： ",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
-        },
-        "sitemap": {
-            "hostname": "http://pytorch.apachecn.org"
         }
     },
     "my_links" : {
@@ -171,6 +167,9 @@
             "copyright":"Copyright &copy ibooker.org.cn 2019",
             "modify_label": "该文件修订时间： ",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
+        },
+        "sitemap": {
+            "hostname": "http://pytorch.apachecn.org"
         }
     }
 }
