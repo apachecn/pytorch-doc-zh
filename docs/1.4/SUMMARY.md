@@ -1,5 +1,3 @@
-# Summary
-
 * [PyTorch 1.4 教程&文档](README.md)
 *  入门
     * [使用 PyTorch 进行深度学习：60 分钟的闪电战](4.md)

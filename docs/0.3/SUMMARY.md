@@ -1,5 +1,3 @@
-# Summary
-
 * [PyTorch 0.3 中文文档 & 教程](README.md)
 * [中文教程](tut.md)
     * [初学者教程](beginner_tutorials.md)

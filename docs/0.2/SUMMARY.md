@@ -1,5 +1,3 @@
-# Summary
-
 * [PyTorch 0.2 中文文档](README.md)
 * 说明
     * [自动求导机制](notes/autograd.md)

@@ -1,5 +1,3 @@
-# Summary
-
 +   [PyTorch 中文官方教程 1.7](README.md)
 +   [学习 PyTorch](01.md)
     +   [PyTorch 深度学习：60 分钟的突击](02.md)

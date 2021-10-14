@@ -1,5 +1,3 @@
-# Summary
-
 +   [PyTorch 中文教程 & 文档](README.md)
 +   [PyTorch 中文官方教程 1.7](docs/1.7/README.md)
 	+   [学习 PyTorch](docs/1.7/01.md)
