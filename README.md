@@ -1,4 +1,4 @@
-# <center>PyTorch 中文教程</center>
+# <center>PyTorch 中文教程 & 文档</center>
 
 ![](docs/img/logo.svg)
 
