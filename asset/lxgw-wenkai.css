@@ -1,0 +1,10 @@
+@font-face
+{
+    font-family: lxgw-wenkai;
+    src: url('LXGWWenKaiScreen.ttf');
+}
+
+body
+{
+    font-family: lxgw-wenkai !important;
+}
