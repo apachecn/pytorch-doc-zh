@@ -42,7 +42,7 @@
 > 其他补充
 
 + [ApacheCN 学习资源](http://www.apachecn.org)
-+ [PyTorch 中文翻译组 | ApacheCN 713436582](http://shang.qq.com/wpa/qunwpa?idkey=349eb1bbaeeff1cf20408899cbe75669132ef145ff5ee6599f78a77dd144c367)
+* [ApacheCN 翻译校对兼职群 713436582](https://jq.qq.com/?_wv=1027&k=VSNtgpjb)
 
 > 版本特性
 
