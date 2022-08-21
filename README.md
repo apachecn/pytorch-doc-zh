@@ -46,9 +46,9 @@
 
 > 版本特性
 
-* [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
-* [PyTorch V1.3 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
-* [PyTorch V1.4 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4.html)
+* [PyTorch V1.2 新特性](https://pytorch.apachecn.org/#/docs/LatestChanges/PyTorch_V1.2)
+* [PyTorch V1.3 新特性](https://pytorch.apachecn.org/#/docs/LatestChanges/PyTorch_V1.3)
+* [PyTorch V1.4 新特性](https://pytorch.apachecn.org/#/docs/LatestChanges/PyTorch_V1.4)
 
 > PyTorch 官方入口
 
