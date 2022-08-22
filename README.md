@@ -6,19 +6,19 @@
 <br/>
 <table>
   <tr align="center">
-    <td colspan="4"><a title="Pytorch 1.7 中文版本" href="https://pytorch.apachecn.org/docs/1.7/" target="_blank"><font size="5">正在校验: 1.7 中文版本</font></a></td>
+    <td colspan="4"><a title="Pytorch 1.7 中文版本" href="https://pytorch.apachecn.org/#/docs/1.7/README" target="_blank"><font size="5">正在校验: 1.7 中文版本</font></a></td>
   </tr>
   <tr align="center">
     <td colspan="2"><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
     <td colspan="2"><a title="Pytorch 最新 英文文档" href="https://pytorch.org/docs/master/" target="_blank"><font size="5">最新 英文文档</font></a></td>
   </tr>
   <tr align="center">
-    <td colspan="2"><a title="Pytorch 1.4 中文版本" href="https://pytorch.apachecn.org/docs/1.4/" target="_blank"><font size="5">1.4 中文版本</font></a></td>
-    <td colspan="2"><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/docs/1.0/" target="_blank"><font size="5">1.0 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 1.4 中文版本" href="https://pytorch.apachecn.org/#/docs/1.4/README" target="_blank"><font size="5">1.4 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 1.0 中文版本" href="https://pytorch.apachecn.org/#/docs/1.0/README" target="_blank"><font size="5">1.0 中文版本</font></a></td>
   </tr>
   <tr align="center">
-    <td colspan="2"><a title="Pytorch 0.3 中文版本" href="https://pytorch.apachecn.org/docs/0.3/" target="_blank"><font size="5">0.3 中文版本</font></a></td>
-    <td colspan="2"><a title="Pytorch 0.2 中文版本" href="https://pytorch.apachecn.org/docs/0.2/" target="_blank"><font size="5">0.2 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 0.3 中文版本" href="https://pytorch.apachecn.org/#/docs/0.3/README" target="_blank"><font size="5">0.3 中文版本</font></a></td>
+    <td colspan="2"><a title="Pytorch 0.2 中文版本" href="https://pytorch.apachecn.org/#/docs/0.2/README" target="_blank"><font size="5">0.2 中文版本</font></a></td>
   </tr>
 </table>
 <br/>
@@ -46,9 +46,9 @@
 
 > 版本特性
 
-* [PyTorch V1.2 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
-* [PyTorch V1.3 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
-* [PyTorch V1.4 新特性](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4.html)
+* [PyTorch V1.2 新特性](https://pytorch.apachecn.org/#/docs/LatestChanges/PyTorch_V1.2)
+* [PyTorch V1.3 新特性](https://pytorch.apachecn.org/#/docs/LatestChanges/PyTorch_V1.3)
+* [PyTorch V1.4 新特性](https://pytorch.apachecn.org/#/docs/LatestChanges/PyTorch_V1.4)
 
 > PyTorch 官方入口
 
