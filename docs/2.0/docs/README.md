@@ -1,5 +1,11 @@
 # PyTorch 文档
 
+> 译者：[LordQ](https://github.com/lordqyxz)
+>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs>
+>
+> 原始地址：<https://pytorch.org/docs/2.0/>
+
 PyTorch 是一个针对深度学习，基于 GPU 和 CPU 的优化张量库。
 
 本文档中描述的功能按发布状态分类：
