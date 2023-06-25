@@ -28,6 +28,11 @@ extra_javascript:
 
 nav:
   - "PyTorch 中文文档 & 教程": "index.md"
+  - "PyTorch 2.0 中文文档 & 教程":
+    - "中文教程":
+      - "介绍": "2.0/tutorials/README.md"
+    - "中文文档": 
+      - "介绍": "2.0/docs/README.md"
   - "PyTorch 1.7 中文文档":
     - "学习 PyTorch":
       - "PyTorch 深度学习：60 分钟的突击":
