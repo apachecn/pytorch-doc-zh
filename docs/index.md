@@ -1,12 +1,12 @@
 # <center>PyTorch 中文文档 & 教程</center>
 
-![](docs/img/logo.svg)
+![](img/logo.svg)
 
 <center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库)</center>
 <br/>
 <table>
   <tr align="center">
-    <td colspan="3"><a title="Pytorch 2.0 中文版本" href="https://github.com/apachecn/pytorch-doc-zh/discussions/583" target="_blank"><font size="5">正在翻译: 2.0 中文版本</font></a></td>
+    <td colspan="3"><a title="Pytorch 2.0 中文版本" href="https://github.com/apachecn/pytorch-doc-zh/discussions/583" target="_blank"><font size="5">正在翻译: 2.0 中文版本(贡献者登记地址)</font></a></td>
   </tr>
   <tr align="center">
     <td colspan="1"><a title="Pytorch 最新 英文教程" href="https://pytorch.org/tutorials/" target="_blank"><font size="5">最新 英文教程</font></a></td>
@@ -46,7 +46,7 @@
 
 * 中文文档: <https://pytorch.org/resources>
 
-![](docs/img/resources.jpg)
+![](img/resources.jpg)
 
 ## 建议反馈
 

@@ -2,6 +2,8 @@
 
 > 发布: 2020年01月15日
 > 
+> 译者：[@片刻](https://github.com/jiangzhonglian)
+> 
 > 原文: [PyTorch](https://pytorch.org/blog/pytorch-1-dot-4-released-and-domain-libraries-updated/)
 > 
 > 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4.html)
