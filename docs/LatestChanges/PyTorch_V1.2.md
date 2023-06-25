@@ -2,6 +2,8 @@
 
 > 发布: 2019年8月8日
 > 
+> 译者：[@片刻](https://github.com/jiangzhonglian)
+> 
 > 原文: [PyTorch](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/)
 > 
 > 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)

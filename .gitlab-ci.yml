@@ -1,0 +1,15 @@
+image: python:alpine
+
+before_script:
+  - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple mkdocs && mkdocs --version
+  - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple mkdocs-material
+
+pages:
+  script:
+  - mkdocs build --clean
+  - mv site public
+  artifacts:
+    paths:
+    - public
+  only:
+  - main

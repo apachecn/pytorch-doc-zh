@@ -1,5 +1,3 @@
-# Summary
-
 * [Introduction](README.md)
 * 中文教程
     * [起步](tut_getting_started.md)
