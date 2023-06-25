@@ -1,6 +1,6 @@
 # <center>PyTorch 中文文档 & 教程</center>
 
-![](img/logo.svg)
+![](docs/img/logo.svg)
 
 <center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库)</center>
 <br/>
@@ -46,7 +46,7 @@
 
 * 中文文档: <https://pytorch.org/resources>
 
-![](img/resources.jpg)
+![](docs/img/resources.jpg)
 
 ## 建议反馈
 
