@@ -2,6 +2,8 @@
 
 > 发布: 2019年10月10日
 > 
+> 译者：[@片刻](https://github.com/jiangzhonglian)
+> 
 > 原文: [PyTorch](https://pytorch.org/blog/pytorch-1-dot-3-adds-mobile-privacy-quantization-and-named-tensors/)
 > 
 > 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
