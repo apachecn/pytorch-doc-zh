@@ -2,9 +2,9 @@
 
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：https://pytorch.apachecn.org/2.0/tutorials/learn_the_basics
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/learn_the_basics/>
 >
-> 原始地址：https://pytorch.org/tutorials/beginner/basics/intro.html
+> 原始地址：<https://pytorch.org/tutorials/beginner/basics/intro.html>
 
 
 大多数机器学习工作流程包括处理数据、创建模型、优化模型参数和保存已训练的模型。本教程向您介绍了在 PyTorch 中实现的一个完整的 ML 工作流，并提供了了解这些概念的更多链接。
