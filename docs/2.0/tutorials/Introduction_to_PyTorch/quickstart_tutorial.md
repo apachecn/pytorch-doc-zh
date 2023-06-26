@@ -1,9 +1,9 @@
 # 快速入门
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：https://pytorch.apachecn.org/2.0/tutorials/quickstart_tutorial
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/quickstart_tutorial/>
 >
-> 原始地址：https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
+> 原始地址：<https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html>
 
 
 本节介绍机器学习中常见任务的 API。请参考每个部分中的链接，以便进一步深入。
