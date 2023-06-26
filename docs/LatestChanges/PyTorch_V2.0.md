@@ -6,7 +6,7 @@
 > 
 > 原文: <https://pytorch.org/blog/pytorch-2.0-release>
 > 
-> 翻译: <https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V2.0>
+> 翻译: <https://pytorch.apachecn.org/LatestChanges/PyTorch_V2.0>
 
 **来自 PyTorch团队**
 

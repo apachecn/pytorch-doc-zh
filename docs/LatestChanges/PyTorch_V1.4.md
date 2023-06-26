@@ -6,7 +6,7 @@
 > 
 > 原文: <https://pytorch.org/blog/pytorch-1-dot-4-released-and-domain-libraries-updated>
 > 
-> 翻译: <https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4>
+> 翻译: <https://pytorch.apachecn.org/LatestChanges/PyTorch_V1.4>
 
 **来自 PyTorch团队**
 

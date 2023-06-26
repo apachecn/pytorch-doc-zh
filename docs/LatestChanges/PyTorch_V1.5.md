@@ -6,7 +6,7 @@
 > 
 > 原文: <https://pytorch.org/blog/pytorch-1-dot-5-released-with-new-and-updated-apis>
 > 
-> 翻译: <https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.5>
+> 翻译: <https://pytorch.apachecn.org/LatestChanges/PyTorch_V1.5>
 
 **来自 PyTorch团队**
 
