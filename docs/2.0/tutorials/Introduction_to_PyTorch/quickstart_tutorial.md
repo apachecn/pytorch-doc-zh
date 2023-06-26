@@ -11,7 +11,7 @@
 
 
 ## 处理数据
-PyTorch有两个[处理数据的基本操作](https://pytorch.org/docs/stable/data.html) ：``torch.utils.data.DataLoader``和``torch.utils.data.Dataset``。``Dataset``存储样本及其相应的标签，而``Dataset``则围绕``Dataset``包装了一个可迭代的数据。
+PyTorch有两个[处理数据的基本操作](https://pytorch.org/docs/stable/data.html)：``torch.utils.data.DataLoader``和``torch.utils.data.Dataset``。``Dataset``存储样本及其相应的标签，而``Dataset``则围绕``Dataset``包装了一个可迭代的数据。
 
 ```py
 import torch
