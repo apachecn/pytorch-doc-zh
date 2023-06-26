@@ -9,7 +9,7 @@ Tensors是一种特殊的数据结构，与数组和矩阵非常相似。在 PyT
 
 
 
-Tensors类似于 [NumPy’s](https://numpy.org/) 的 ndarrays，只不过tensors可以在 GPU 或其他硬件加速器上运行。事实上，tensors和NumPy 数组通常可以共享相同的底层内存，这样就不需要复制数据了(参见使用 NumPy 的 Bridge)。
+Tensors 类似于 [NumPy’s](https://numpy.org/) 的 ndarrays，只不过tensors可以在 GPU 或其他硬件加速器上运行。事实上，tensors和NumPy 数组通常可以共享相同的底层内存，这样就不需要复制数据了(参见使用 NumPy 的 Bridge)。
 Tensors也针对自动微分进行了优化(我们将在后面的 [Autograd](autogradqs_tutorial.html)部分中看到更多)。如果您熟悉 ndarray，那么您就会熟悉 Tensor API。如果不熟悉，那么请跟我来！
 ```py
 import torch
