@@ -4,11 +4,11 @@
 > 
 > 译者：[@片刻](https://github.com/jiangzhonglian)
 > 
-> 原文: [PyTorch](https://pytorch.org/blog/pytorch-1-dot-4-released-and-domain-libraries-updated/)
+> 原文: <https://pytorch.org/blog/pytorch-1-dot-4-released-and-domain-libraries-updated>
 > 
-> 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4.html)
+> 翻译: <https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.4>
 
-通过PyTorch团队
+**来自 PyTorch团队**
 
 今天，我们宣布PyTorch 1.4的可用性以及PyTorch域库的更新。这些版本以[NeurIPS 2019](https://pytorch.org/blog/pytorch-adds-new-tools-and-libraries-welcomes-preferred-networks-to-its-community/)的公告为[基础](https://pytorch.org/blog/pytorch-adds-new-tools-and-libraries-welcomes-preferred-networks-to-its-community/)，在此我们共享了PyTorch Elastic的可用性，新的图像和视频分类框架以及PyTorch社区中添加了Preferred Networks。对于参加NeurIPS研讨会的人员，请在[此处](https://research.fb.com/neurips-2019-expo-workshops/)找到内容。
 

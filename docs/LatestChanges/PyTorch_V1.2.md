@@ -4,9 +4,9 @@
 > 
 > 译者：[@片刻](https://github.com/jiangzhonglian)
 > 
-> 原文: [PyTorch](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/)
+> 原文: <https://pytorch.org/blog/pytorch-1.2-and-domain-api-release>
 > 
-> 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.2.html)
+> 翻译: <https://pytorch.apachecn.org/LatestChanges/PyTorch_V1.2>
 
 
 自PyTorch 1.0发布以来，我们已经看到社区扩展到添加新工具，为PyTorch Hub中可用的越来越多的模型做出贡献，并不断增加研究和生产中的使用。

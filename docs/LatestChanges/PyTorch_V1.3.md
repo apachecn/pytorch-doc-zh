@@ -4,9 +4,9 @@
 > 
 > 译者：[@片刻](https://github.com/jiangzhonglian)
 > 
-> 原文: [PyTorch](https://pytorch.org/blog/pytorch-1-dot-3-adds-mobile-privacy-quantization-and-named-tensors/)
+> 原文: <https://pytorch.org/blog/pytorch-1-dot-3-adds-mobile-privacy-quantization-and-named-tensors>
 > 
-> 翻译: [ApacheCN](https://pytorch.apachecn.org/docs/LatestChanges/PyTorch_V1.3.html)
+> 翻译: <https://pytorch.apachecn.org/LatestChanges/PyTorch_V1.3>
 
 PyTorch继续获得动力，这是因为其专注于满足研究人员的需求，其简化的生产使用工作流程，并且最重要的是，由于它得到了AI社区的热情支持。正如[O'Reilly所指出的那样，仅在2019年上半年，PyTorch在ArXiv上的引用就增长了194％](https://www.oreilly.com/ideas/one-simple-graphic-researchers-love-pytorch-and-tensorflow?fbclid=IwAR3kYmlyD7zky37IYFu0cafQn7yemhl8P-7MNyB30z0q5RDzxcTOrP8kxDk) ，该平台的贡献者数量在去年增长了50％以上，达到近1200个。Facebook，Microsoft，Uber和其他行业的组织越来越多地将其用作最重要的机器学习(ML）研究和生产工作负载的基础。
 
