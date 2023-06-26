@@ -1,4 +1,11 @@
 # 快速入门
+> 译者：[Daydaylight](https://github.com/Daydaylight)
+>
+> 项目地址：https://pytorch.apachecn.org/2.0/tutorials/quickstart_tutorial
+>
+> 原始地址：https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
+
+
 本节介绍机器学习中常见任务的 API。请参考每个部分中的链接，以便进一步深入。
 
 
@@ -120,11 +127,14 @@ Shape of y: torch.Size([64]) torch.int64
 
 
 ## 创建模型
+To define a neural network in PyTorch, we create a class that inherits
+from [nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html). We define the layers of the network
+in the ``__init__`` function and specify how data will pass through the network in the ``forward`` function. To accelerate
+operations in the neural network, we move it to the GPU or MPS if available.
 
 
 
-
-为了在 PyTorch 中定义一个神经网络，我们创建了一个继承自  [nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html)的类。我们在 ``__init__``函数中定义网络的层，并在 ``forward`` 函数中指定数据将如何通过网络。为了加速神经网络中的操作，我们将其移动到 GPU 或 MPS (如果有的话)。
+为了在 PyTorch 中定义一个神经网络，我们创建了一个继承自  [nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html)的类。我们在 ``__init__``函数中定义网络的层，并在 forward 函数中指定数据将如何通过网络。为了加速神经网络中的操作，我们将其移动到 GPU 或 MPS (如果有的话)。
 ```py
 # Get cpu, gpu or mps device for training.
 device = (
@@ -175,205 +185,3 @@ NeuralNetwork(
 
 ```
 了解更多关于[在 PyTorch 中构建神经网络](buildmodel_tutorial.html)的信息。
-
-
-## 模型参数的优化
-为了训练一个模型，我们需要一个[损失函数](https://pytorch.org/docs/stable/nn.html#loss-functions)和一个[优化器](https://pytorch.org/docs/stable/optim.html)。
-
-
-
-```py
-loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
-```
-
-在单个训练循环中，模型对训练数据集进行预测(分批进行) ，并反向传播预测误差以调整模型的参数。
-```py
-def train(dataloader, model, loss_fn, optimizer):
-    size = len(dataloader.dataset)
-    model.train()
-    for batch, (X, y) in enumerate(dataloader):
-        X, y = X.to(device), y.to(device)
-
-        # Compute prediction error
-        pred = model(X)
-        loss = loss_fn(pred, y)
-
-        # Backpropagation
-        loss.backward()
-        optimizer.step()
-        optimizer.zero_grad()
-
-        if batch % 100 == 0:
-            loss, current = loss.item(), (batch + 1) * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-```
-
-我们还根据测试数据集检查模型的性能，以确保它正在学习。
-
-
-
-
-
-
-
-
-
-```py
-def test(dataloader, model, loss_fn):
-    size = len(dataloader.dataset)
-    num_batches = len(dataloader)
-    model.eval()
-    test_loss, correct = 0, 0
-    with torch.no_grad():
-        for X, y in dataloader:
-            X, y = X.to(device), y.to(device)
-            pred = model(X)
-            test_loss += loss_fn(pred, y).item()
-            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
-    test_loss /= num_batches
-    correct /= size
-    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
-```
-训练过程是在几个迭代(epochs)中进行的。在每个epochs过程中，模型可以学习并更新参数，以便做出更好的预测。我们打印模型的准确性和损失在每个epochs， 我们希望看到在每个epochs中准确度的提高和损失的降低。
-
-```py
-epochs = 5
-for t in range(epochs):
-    print(f"Epoch {t+1}\n-------------------------------")
-    train(train_dataloader, model, loss_fn, optimizer)
-    test(test_dataloader, model, loss_fn)
-print("Done!")
-```
-
-输出：
-```py
-Epoch 1
--------------------------------
-loss: 2.303494  [   64/60000]
-loss: 2.294637  [ 6464/60000]
-loss: 2.277102  [12864/60000]
-loss: 2.269977  [19264/60000]
-loss: 2.254234  [25664/60000]
-loss: 2.237145  [32064/60000]
-loss: 2.231056  [38464/60000]
-loss: 2.205036  [44864/60000]
-loss: 2.203239  [51264/60000]
-loss: 2.170890  [57664/60000]
-Test Error:
- Accuracy: 53.9%, Avg loss: 2.168587
-
-Epoch 2
--------------------------------
-loss: 2.177784  [   64/60000]
-loss: 2.168083  [ 6464/60000]
-loss: 2.114908  [12864/60000]
-loss: 2.130411  [19264/60000]
-loss: 2.087470  [25664/60000]
-loss: 2.039667  [32064/60000]
-loss: 2.054271  [38464/60000]
-loss: 1.985452  [44864/60000]
-loss: 1.996019  [51264/60000]
-loss: 1.917239  [57664/60000]
-Test Error:
- Accuracy: 60.2%, Avg loss: 1.920371
-
-Epoch 3
--------------------------------
-loss: 1.951699  [   64/60000]
-loss: 1.919513  [ 6464/60000]
-loss: 1.808724  [12864/60000]
-loss: 1.846544  [19264/60000]
-loss: 1.740612  [25664/60000]
-loss: 1.698728  [32064/60000]
-loss: 1.708887  [38464/60000]
-loss: 1.614431  [44864/60000]
-loss: 1.646473  [51264/60000]
-loss: 1.524302  [57664/60000]
-Test Error:
- Accuracy: 61.4%, Avg loss: 1.547089
-
-Epoch 4
--------------------------------
-loss: 1.612693  [   64/60000]
-loss: 1.570868  [ 6464/60000]
-loss: 1.424729  [12864/60000]
-loss: 1.489538  [19264/60000]
-loss: 1.367247  [25664/60000]
-loss: 1.373463  [32064/60000]
-loss: 1.376742  [38464/60000]
-loss: 1.304958  [44864/60000]
-loss: 1.347153  [51264/60000]
-loss: 1.230657  [57664/60000]
-Test Error:
- Accuracy: 62.7%, Avg loss: 1.260888
-
-Epoch 5
--------------------------------
-loss: 1.337799  [   64/60000]
-loss: 1.313273  [ 6464/60000]
-loss: 1.151835  [12864/60000]
-loss: 1.252141  [19264/60000]
-loss: 1.123040  [25664/60000]
-loss: 1.159529  [32064/60000]
-loss: 1.175010  [38464/60000]
-loss: 1.115551  [44864/60000]
-loss: 1.160972  [51264/60000]
-loss: 1.062725  [57664/60000]
-Test Error:
- Accuracy: 64.6%, Avg loss: 1.087372
-
-Done!
-```
-
-阅读更多关于[训练你的模型](optimization_tutorial.html)。
-
-
-## 保存模型
-保存模型的一种常见方法是序列化内部状态字典(包含模型参数)。
-
-```py
-torch.save(model.state_dict(), "model.pth")
-print("Saved PyTorch Model State to model.pth")
-```
-## 加载模型
-加载模型的过程包括重新创建模型结构并将状态字典加载到其中。
-
-```py
-model = NeuralNetwork().to(device)
-model.load_state_dict(torch.load("model.pth"))
-```
-输出：
-```py
-<All keys matched successfully>
-```
-这个模型现在可以用来做预测。
-```py
-classes = [
-    "T-shirt/top",
-    "Trouser",
-    "Pullover",
-    "Dress",
-    "Coat",
-    "Sandal",
-    "Shirt",
-    "Sneaker",
-    "Bag",
-    "Ankle boot",
-]
-
-model.eval()
-x, y = test_data[0][0], test_data[0][1]
-with torch.no_grad():
-    x = x.to(device)
-    pred = model(x)
-    predicted, actual = classes[pred[0].argmax(0)], classes[y]
-    print(f'Predicted: "{predicted}", Actual: "{actual}"')
-```
-输出：
-```py
-Predicted: "Ankle boot", Actual: "Ankle boot"
-```
-阅读更多关于[保存和加载模型的内容](saveloadrun_tutorial.html)。
-
-脚本的总运行时间: (0分钟42.070秒)
