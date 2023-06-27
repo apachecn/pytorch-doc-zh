@@ -6,12 +6,12 @@ repo_name: apachecn/pytorch-doc-zh
 repo_url: https://github.com/apachecn/pytorch-doc-zh
 
 theme:
-  name: material
+  名字: material
   custom_dir: themes
   locale: zh_CN
   analytics:
     gtag: G-8DP4GX97XY
-  features:
+  功能:
     - content.code.copy
     - content.action.edit
     - content.action.view
@@ -37,6 +37,10 @@ nav:
   - "PyTorch 2.0 中文文档 & 教程":
     - "中文教程":
       - "介绍": "2.0/tutorials/README.md"
+      - "PyTorch简介"
+        - "学习基本知识": "2.0/tutorials/Introduction_to_PyTorch/learn_the_basics.md"
+        - "快速入门": "2.0/tutorials/Introduction_to_PyTorch/quickstart_tutorial.md"
+        - "Tensors介绍": "2.0/tutorials/Introduction_to_PyTorch/tensors.md”
     - "中文文档": 
       - "介绍": "2.0/docs/README.md"
   - "PyTorch 1.7 中文文档":
