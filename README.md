@@ -35,13 +35,6 @@
 + [ApacheCN 学习资源](https://docs.apachecn.org)
 * [ApacheCN 中文翻译组 713436582](https://jq.qq.com/?_wv=1027&k=VSNtgpjb)
 
-> 版本特性
-
-* [PyTorch V1.2 新特性](docs/LatestChanges/PyTorch_V1.2)
-* [PyTorch V1.3 新特性](docs/LatestChanges/PyTorch_V1.3)
-* [PyTorch V1.4 新特性](docs/LatestChanges/PyTorch_V1.4)
-* [PyTorch V1.5 新特性](docs/LatestChanges/PyTorch_V1.5)
-
 > PyTorch 官方入口
 
 * 中文文档: <https://pytorch.org/resources>
