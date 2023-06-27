@@ -29,11 +29,12 @@ extra_javascript:
 nav:
   - "PyTorch 中文文档 & 教程": "index.md"
   - "PyTorch 新特性":
-    - "V2.0": "LatestChanges/PyTorch_V2.0.md"
-    - "V1.5": "LatestChanges/PyTorch_V1.5.md"
-    - "V1.4": "LatestChanges/PyTorch_V1.4.md"
-    - "V1.3": "LatestChanges/PyTorch_V1.3.md"
-    - "V1.2": "LatestChanges/PyTorch_V1.2.md"
+    - "V2.0":  "LatestChanges/PyTorch_V2.0.md"
+    - "V1.13": "LatestChanges/PyTorch_V1.13.md"
+    - "V1.5":  "LatestChanges/PyTorch_V1.5.md"
+    - "V1.4":  "LatestChanges/PyTorch_V1.4.md"
+    - "V1.3":  "LatestChanges/PyTorch_V1.3.md"
+    - "V1.2":  "LatestChanges/PyTorch_V1.2.md"
   - "PyTorch 2.0 中文文档 & 教程":
     - "中文教程":
       - "介绍": "2.0/tutorials/README.md"
