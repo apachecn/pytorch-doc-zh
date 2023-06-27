@@ -37,7 +37,7 @@ nav:
   - "PyTorch 2.0 中文文档 & 教程":
     - "中文教程":
       - "介绍": "2.0/tutorials/README.md"
-      - "PyTorch简介"
+      - "PyTorch简介":
         - "学习基本知识": "2.0/tutorials/Introduction_to_PyTorch/learn_the_basics.md"
         - "快速入门": "2.0/tutorials/Introduction_to_PyTorch/quickstart_tutorial.md"
         - "Tensors介绍": "2.0/tutorials/Introduction_to_PyTorch/tensors.md”
