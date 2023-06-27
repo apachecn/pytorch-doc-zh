@@ -6,12 +6,12 @@ repo_name: apachecn/pytorch-doc-zh
 repo_url: https://github.com/apachecn/pytorch-doc-zh
 
 theme:
-  名字: material
+  name: material
   custom_dir: themes
   locale: zh_CN
   analytics:
     gtag: G-8DP4GX97XY
-  功能:
+  features:
     - content.code.copy
     - content.action.edit
     - content.action.view
