@@ -4,7 +4,7 @@
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/build_the_neural_network/>
 >
-> 原始地址：<https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html>
+> 原始地址：[https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html>
 
 神经网络由在数据上完成操作的层/模块构成。[`torch.nn`](https://pytorch.org/docs/stable/nn.html)命名空间提供了所有你用来构建你自己的神经网络所需的的东西。PyTorch中每个模块都是[`nn.Module`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html)的子类。一个由其他模块(层)组成的神经网络自身也是一个模块。这种嵌套的结构让构建和管理复杂的结构更轻松。
 
@@ -106,7 +106,8 @@ Predicted class: tensor([7], device='cuda:0')
 
 让我们拆解这个FashionMNIST模型层。为了说明，我们会取一个由3章28x28的图片数据组成的样例微批数据，并看看当我们将它传递给模型后会发生什么。
 
-```pyinput_image = torch.rand(3,28,28)
+```py
+input_image = torch.rand(3,28,28)
 print(input_image.size())
 ```
 
