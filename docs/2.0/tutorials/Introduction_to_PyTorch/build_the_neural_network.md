@@ -4,8 +4,7 @@
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/build_the_neural_network/>
 >
-> 原始地址：<[https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html)>
->
+> 原始地址：<https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html>
 
 神经网络由在数据上完成操作的层/模块构成。[`torch.nn`](https://pytorch.org/docs/stable/nn.html)命名空间提供了所有你用来构建你自己的神经网络所需的的东西。PyTorch中每个模块都是[`nn.Module`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html)的子类。一个由其他模块(层)组成的神经网络自身也是一个模块。这种嵌套的结构让构建和管理复杂的结构更轻松。
 
