@@ -42,6 +42,8 @@ nav:
         - "学习基本知识": "2.0/tutorials/Introduction_to_PyTorch/learn_the_basics.md"
         - "快速入门": "2.0/tutorials/Introduction_to_PyTorch/quickstart_tutorial.md"
         - "Tensors介绍": "2.0/tutorials/Introduction_to_PyTorch/tensors.md"
+        - "数据集和数据加载器": "2.0/tutorials/Introduction_to_PyTorch/datasets_dataloaders.md"
+        - "Transforms介绍": "2.0/tutorials/Introduction_to_PyTorch/transforms.md"
         - "构建神经网络模型": "2.0/tutorials/Introduction_to_PyTorch/build_the_neural_network.md"
         - "自动微分运算 - Torch.AutoGrad": "2.0/tutorials/Introduction_to_PyTorch/automatic_differentation_with_torch_autograd.md"
         - "优化模型参数": "2.0/tutorials/Introduction_to_PyTorch/optimizing_model_parameters.md"
