@@ -76,7 +76,7 @@ for i in range(1, cols * rows + 1):
 plt.show()
 ```
 
-![https://pytorch.apachecn.org/2.0/img/fashion_mnist.png](https://pytorch.apachecn.org/2.0/img/fashion_mnist.png)
+![fashion_mnist.png](../../img/fashion_mnist.png)
 
 ## 为你的文件创建一个自定义数据集
 
@@ -190,7 +190,7 @@ print(f"Label: {label}")
 
 输出：
 
-![https://pytorch.apachecn.org/2.0/img/fashion_mnist2.png](https://pytorch.apachecn.org/2.0/img/fashion_mnist2.png)
+![fashion_mnist2.png](../../img/fashion_mnist2.png)
 
 ```py
 Feature batch shape: torch.Size([64, 1, 28, 28])
