@@ -2,7 +2,7 @@
 
 > 译者：[runzhi214](https://github.com/runzhi214)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/automatic_differentation_with_torch_autograd/>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/automatic_differentiation_with_torch_autograd/>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html>
 
@@ -125,9 +125,68 @@ False
 - 应用链式法则，一路传播到叶子张量。
 
 > 注意:
-> **PyTorch中的有向无环图是动态的**。
+> **PyTorch中的有向无环图是动态的**: 一个重要的观察是这个图是从零重建的；每次`.backward()`调用之后，autograd都会开始构建一张新图。这一点允许你在模型中使用流控制语句；如果需要的话，你可以在每次迭代中改变结构、大小和和运算。
 
 ## 选读: 张量梯度和Jacobian乘积
 
+在许多场景中，我们有一个标量损失函数，且我们需要对某些参数计算梯度。然而，也有场景下输出函数是一个任意的张量。在这种场景下，PyTorch允许你计算一个Jacobian乘积，而不是真实的梯度。
+
+对于一个向量函数 $\vec y = f(\vec x)$ - 给定 $\vec x = < x_1,...,x_n >$ 且 $\vec y = < y_1,...,y_n >$ 一个 $\vec y$ 对 $\vec x$ 的梯度可以用Jacobian矩阵表示为: 
+
+**J =**
+
+$$
+  \begin{matrix}
+  \frac{\partial y_1}{\partial x1} & ... & \frac{\partial y_1}{\partial x_n} \\
+  ... & ... & .. \\
+  \frac{\partial y_m}{\partial x1} & ... & \frac{\partial y_m}{\partial x_n}
+  \end{matrix}\tag{1}
+$$
+
+PyTorch允许你对一个给定的输入向量 $v = < v_1,...,v_m >$ 计算Jacobian乘积 $v^T \cdot J$。这可以通过把 $v$ 作为调用`backward`时的参数来实现的。$v$ 的大小应该和我们想要计算乘积的原始张量一致：
+
+```py
+inp = torch.eye(4, 5, requires_grad=True)
+out = (inp+1).pow(2).t()
+out.backward(torch.ones_like(out), retain_graph=True)
+print(f"First call\n{inp.grad}")
+out.backward(torch.ones_like(out), retain_graph=True)
+print(f"\nSecond call\n{inp.grad}")
+inp.grad.zero_()
+out.backward(torch.ones_like(out), retain_graph=True)
+print(f"\nCall after zeroing gradients\n{inp.grad}")
+```
+
+Out:
+
+```py
+First call
+tensor([[4., 2., 2., 2., 2.],
+        [2., 4., 2., 2., 2.],
+        [2., 2., 4., 2., 2.],
+        [2., 2., 2., 4., 2.]])
+
+Second call
+tensor([[8., 4., 4., 4., 4.],
+        [4., 8., 4., 4., 4.],
+        [4., 4., 8., 4., 4.],
+        [4., 4., 4., 8., 4.]])
+
+Call after zeroing gradients
+tensor([[4., 2., 2., 2., 2.],
+        [2., 4., 2., 2., 2.],
+        [2., 2., 4., 2., 2.],
+        [2., 2., 2., 4., 2.]])
+```
+
+请注意当我们用相同的参数第二次调用`backward`的时候，梯度值是不一样的。这是因为在执行`backward`传播的时候，PyTorch**累计了梯度**,也就是说计算的梯度被加到计算图中所有叶子节点的`grad`属性中。如果你想计算正确的梯度，你需要显清零`grad`属性。在真实工作中训练一个*优化器*可以帮我们做到这一点。
+
+> 注意:
+> 之前我们调用`backward()`函数的时候没有加参数。这实际上相当于调用`backward(torch.tensor(1.0))` -- 是一个计算标量值函数（比如神经网络训练过程中的损失）的梯度的好方法。
+
 ## 进一步阅读:
+
+* [Autograd Mechanics (自动梯度技术)](https://pytorch.org/docs/stable/notes/autograd.html)
+
+**脚本总运行时间**: 0分2.032秒
 
