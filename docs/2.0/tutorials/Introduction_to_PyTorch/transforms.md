@@ -2,16 +2,16 @@
 
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：https://pytorch.apachecn.org/2.0/tutorials/transforms
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/transforms>
 >
-> 原始地址：https://pytorch.org/tutorials/beginner/basics/transforms_tutorial.html
-
+> 原始地址：<https://pytorch.org/tutorials/beginner/basics/transforms_tutorial.html>
 
 数据并不总是以训练机器学习算法所需的最终处理形式出现。我们使用变换来对数据进行一些处理，使其适合训练。
 
 所有的TorchVision数据集都有两个参数-``transform``用于修改特征和``target_transform``用于修改标签,它们接受包含转换逻辑的callables。[torchvision.transforms](https://pytorch.org/vision/stable/transforms.html)模块提供了几个常用的转换，开箱即用。
 FashionMNIST的特征是PIL图像格式，而标签是整数。对于训练，我们需要将特征作为归一化的张量，将标签作为一热编码的张量。
 为了进行这些转换，我们使用 "ToTensor "和 "Lambda"。
+
 ```py
 import torch
 from torchvision import datasets
@@ -27,6 +27,7 @@ ds = datasets.FashionMNIST(
 ```
 
 输出：
+
 ```py
 Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
 Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz to data/FashionMNIST/raw/train-images-idx3-ubyte.gz
@@ -76,10 +77,12 @@ Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labe
 Extracting data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/raw
 ```
 
-
 ## ToTensor()
+
 [ToTensor](https://pytorch.org/vision/stable/transforms.html#torchvision.transforms.ToTensor)将PIL图像或NumPy的``ndarray``转换为``FloatTensor``。图像的像素强度值在[0., 1.]范围内缩放。
+
 ## Lambda Transforms
+
 Lambda transforms 应用任何用户定义的lambda函数。在这里，我们定义了一个函数来把整数变成一个单热编码的张量。
 它首先创建一个大小为10（我们数据集中的标签数量）的零张量，然后调用[scatter_](https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html) ,指定了一个``value=1``在标签``y``所给的索引上。
 
@@ -87,5 +90,6 @@ Lambda transforms 应用任何用户定义的lambda函数。在这里，我们�
 target_transform = Lambda(lambda y: torch.zeros(
     10, dtype=torch.float).scatter_(dim=0, index=torch.tensor(y), value=1))
 ```
+
 ### 阅读更多
 - [torchvision.transforms API](https://pytorch.org/vision/stable/transforms.html)
