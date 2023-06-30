@@ -6,9 +6,9 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html>
 
-在训练神经网络的时候，最常用的算法就是反向传播算法。在这个算法中，模型参数根据针对每个给定参数的损失函数的梯度来调整。
+在训练神经网络的时候，最常用的算法就是反向传播算法。在这个算法中，模型参数根据相对于每个给定参数的损失函数的梯度来调整。
 
-为了计算这些梯度，PyTorch有一个内置的微分运算引擎叫`torch.autograd`。它支持对与任何计算图自动计算梯度。
+为了计算这些梯度，PyTorch有一个内置的微分运算引擎叫`torch.autograd`。它支持对任何计算图自动计算梯度。
 
 考虑一个最简单的单层神经网络，它有输入值`x`、参数`x`和`b`、和一些损失函数。它可以在PyTorch中这么定义：
 
@@ -27,7 +27,7 @@ loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
 
 这个代码会定义下面的计算图:
 
-[图片]
+![../../docs/img/automatic_differentiation_with_torch_autograd.png](../../docs/img/automatic_differentiation_with_torch_autograd.png)
 
 在这个网络中，`w`和`b`都是我们需要优化的参数。因此，我们需要能够对这些变量分别计算损失函数的梯度。为了这么做，我们设置这些张量的`requires_grad`属性。
 
@@ -50,7 +50,7 @@ Gradient function for loss = <BinaryCrossEntropyWithLogitsBackward0 object at 0x
 
 ## 计算梯度
 
-为了优化神经网络中的参数，我们需要对参数计算损失函数的导数，也就是，我们需要在给定`x`和`y`下的 $\frac{\partial loss}{\partial w}$ 和 $\frac{\partial loss}{\partial b}$ 。要计算着洗的导数，我们调用`loss.backward()`，然后从`w.grad`和`b.grad`中获取值。
+为了优化神经网络中的参数，我们需要对参数计算损失函数的导数，也就是，我们需要在给定`x`和`y`下的 $\frac{\partial loss}{\partial w}$ 和 $\frac{\partial loss}{\partial b}$ 。要计算这些导数，我们调用`loss.backward()`，然后从`w.grad`和`b.grad`中获取值。
 
 ```py
 loss.backward()
@@ -75,7 +75,7 @@ tensor([0.3313, 0.0626, 0.2530])
 
 ## 禁用梯度追踪
 
-默认情况下，所有设置`requires_grad=True`的张量会追踪它的计算历史并支持梯度计算。但是也有我们并不需要这么多的场景，比如，当我们已经训练了模型且只想对一些输入数据应用的时候，比如我们只想做沿着网络的*前向*计算。我们可以通过用`torch.no_grad`包裹我们的计算代码块来停止追踪计算。
+默认情况下，所有设置`requires_grad=True`的张量会追踪它的计算历史并支持梯度计算。但是也有我们并不需要这么做的场景，比如，当我们已经训练了模型且只想对一些输入数据应用的时候，比如我们只想做沿着网络的*前向*计算。我们可以通过用`torch.no_grad`包裹我们的计算代码块来停止追踪计算。
 
 ```py
 z = torch.matmul(x, w)+b
@@ -108,10 +108,10 @@ False
 ```
 
 你想要禁用梯度追踪的原因可能是：
-- 把你神经网络中的某些参数标记为**冻结参数(frozen parameters)**
-- 在你只做前向传递的时候加快计算速度，因为在不追踪梯度的张量进行的计算会更加高效。
+- 为了把你神经网络中的某些参数标记为**冻结参数(frozen parameters)**
+- 为了在你只做前向传递的时候加快计算速度，因为在不追踪梯度的张量上进行的运算会更加高效。
 
-## 梯度计算的更多内容
+## 计算图的更多内容
 
 概念上来说，autograd在一个用[函数(Function)对象](https://pytorch.org/docs/stable/autograd.html#torch.autograd.Function)构成的有向无环图中保持一份数据（张量）的记录以及全部执行的操作（以及产生的新张量）。在这个有向无环图(**DAG**)中，叶子节点是输入张量，根节点是输出张量。通过从根节点到叶子节点地追踪这个图，你可以用链式法自动计算梯度。
 
