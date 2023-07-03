@@ -2,7 +2,7 @@
 
 > 译者：[runzhi214](https://github.com/runzhi214)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Learning_PyTorch/learning_pytorch_with_examples.md/>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Learning_PyTorch/learning_pytorch_with_examples/>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/pytorch_with_examples.html>
 
