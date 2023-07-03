@@ -62,7 +62,7 @@ except ImportError:
 print(x_train.shape)
 ```
 
-![]()
+![what_is_torchnn_really_01.png](../../img/what_is_torchnn_really_01.png)
 
 Out:
 
