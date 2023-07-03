@@ -2,7 +2,7 @@
 
 > 译者：[runzhi214](https://github.com/runzhi214)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Learning_PyTorch/what_is_torchnn_really.md/>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Learning_PyTorch/what_is_torchnn_really/>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/nn_tutorial.html>
 
