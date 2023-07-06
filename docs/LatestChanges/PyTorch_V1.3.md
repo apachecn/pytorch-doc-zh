@@ -1,4 +1,4 @@
-# 新版本: PyTorch 1.3 添加 mobile, privacy, quantization 和 named tensors
+# 新版本: PyTorch 1.3 版本，添加 mobile, privacy, quantization 和 named tensors
 
 > 发布: 2019年10月10日
 > 
