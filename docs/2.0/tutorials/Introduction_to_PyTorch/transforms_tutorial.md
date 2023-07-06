@@ -2,7 +2,7 @@
 
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/transforms>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/transforms_tutorial>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/transforms_tutorial.html>
 
