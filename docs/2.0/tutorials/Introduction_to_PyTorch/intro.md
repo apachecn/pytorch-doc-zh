@@ -2,7 +2,7 @@
 
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/learn_the_basics/>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/intro>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/intro.html>
 

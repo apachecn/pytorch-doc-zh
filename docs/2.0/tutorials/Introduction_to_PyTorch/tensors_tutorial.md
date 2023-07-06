@@ -1,9 +1,9 @@
 # Tensors
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/tensors>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/tensors_tutorial>
 >
-> 原始地址：<https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html>
+> 原始地址：<https://pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html>
 
 Tensors是一种特殊的数据结构，与数组和矩阵非常相似。在 PyTorch 中，我们使用tensors对模型的输入和输出以及模型的参数进行编码。
 

@@ -41,15 +41,15 @@ nav:
     - "中文教程":
       - "介绍": "2.0/tutorials/README.md"
       - "PyTorch简介":
-        - "学习基本知识": "2.0/tutorials/Introduction_to_PyTorch/learn_the_basics.md"
+        - "学习基本知识": "2.0/tutorials/Introduction_to_PyTorch/intro.md"
         - "快速入门": "2.0/tutorials/Introduction_to_PyTorch/quickstart_tutorial.md"
-        - "Tensors介绍": "2.0/tutorials/Introduction_to_PyTorch/tensors.md"
-        - "数据集和数据加载器": "2.0/tutorials/Introduction_to_PyTorch/datasets_dataloaders.md"
-        - "Transforms介绍": "2.0/tutorials/Introduction_to_PyTorch/transforms.md"
-        - "构建神经网络模型": "2.0/tutorials/Introduction_to_PyTorch/build_the_neural_network.md"
-        - "自动微分运算 - Torch.AutoGrad": "2.0/tutorials/Introduction_to_PyTorch/automatic_differentation_with_torch_autograd.md"
-        - "优化模型参数": "2.0/tutorials/Introduction_to_PyTorch/optimizing_model_parameters.md"
-        - "模型保存和加载": "2.0/tutorials/Introduction_to_PyTorch/save_and_load_the_model.md"
+        - "Tensors介绍": "2.0/tutorials/Introduction_to_PyTorch/tensors_tutorial.md"
+        - "数据集和数据加载器": "2.0/tutorials/Introduction_to_PyTorch/data_tutorial.md"
+        - "Transforms介绍": "2.0/tutorials/Introduction_to_PyTorch/transforms_tutorial.md"
+        - "构建神经网络模型": "2.0/tutorials/Introduction_to_PyTorch/buildmodel_tutorial.md"
+        - "自动微分运算 - Torch.AutoGrad": "2.0/tutorials/Introduction_to_PyTorch/autogradqs_tutorial.md"
+        - "优化模型参数": "2.0/tutorials/Introduction_to_PyTorch/optimization_tutorial.md"
+        - "模型保存和加载": "2.0/tutorials/Introduction_to_PyTorch/saveloadrun_tutorial.md"
     - "学习PyTorch":
         - "通过示例学习 PyTorch": "2.0/tutorials/Learning_PyTorch/learning_pytorch_with_examples.md"
         - "究竟什么是 TORCH.NN": "2.0/tutorials/Learning_PyTorch/what_is_torchnn_really.md"
