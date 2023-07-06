@@ -2,7 +2,7 @@
 
 > 译者：[runzhi214](https://github.com/runzhi214)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/automatic_differentiation_with_torch_autograd/>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch/autogradqs_tutorial/>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html>
 
