@@ -1,4 +1,4 @@
-# 新版本: PyTorch 1.12：TorchArrow，模块和nvFuser的功能API，现已可用
+# 新版本: PyTorch 1.12 版本，TorchArrow，模块和nvFuser的功能API，现已可用
 
 > 发布: 2022年06月28日
 > 

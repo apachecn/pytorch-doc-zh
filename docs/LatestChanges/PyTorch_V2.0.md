@@ -1,4 +1,4 @@
-# 新版本: PyTorch 2.0 我们的下一代版本比以往更快、更 Pythonic 和动态
+# 新版本: PyTorch 2.0 版本，我们的下一代版本比以往更快、更 Pythonic 和动态
 
 > 发布: 2023年03月15日
 > 
@@ -46,7 +46,7 @@
 
 ### [Stable] 加速 PyTorch 2 Transformers
 
-PyTorch 2.0 版本包含 PyTorch Transformer API 的新高性能实现。在发布 Accelerated PT2 Transformers 时，我们的目标是让整个行业都能负担得起最先进 Transformer 模型的培训和部署。此版本引入了对训练和推理的高性能支持，使用定制内核架构进行扩展点积注意力（SPDA），扩展了推理“快速路径”架构，以前称为“更好的变压器”。
+PyTorch 2.0 版本包含 PyTorch Transformer API 的新高性能实现。在发布 Accelerated PT2 Transformers 时，我们的目标是让整个行业都能负担得起最先进 Transformer 模型的训练和部署。此版本引入了对训练和推理的高性能支持，使用定制内核架构进行扩展点积注意力（SPDA），扩展了推理“快速路径”架构，以前称为“更好的变压器”。
 
 与“fastpath”架构类似，自定义内核完全集成到 PyTorch Transformer API 中 - 因此，使用本机 Transformer 和 MultiHeadAttention API 将使用户能够：
 
@@ -208,7 +208,7 @@ PyTorch 2.0 包含多项关键优化，可提高 CPU 上的 GNN 推理和训练�
 | 全批量稀疏 | 4.07倍 |
 | GCN-蛋白质（训练） | 3-32 | 1.67倍 |
 | GCN-REDDIT-二进制（训练） | 3-32 | 1.67倍 |
-| GCN-Reddit（培训） | 512-2-64-密集 | 1.20倍 |
+| GCN-Reddit（训练） | 512-2-64-密集 | 1.20倍 |
 | 1024-3-128-密集 | 1.12倍 |
 
 了解更多：[PyG CPU 性能优化](https://www.pyg.org/ns-newsarticle-accelerating-pyg-on-intel-cpus)。
@@ -269,7 +269,7 @@ PyTorch [DistributedTensor](https://github.com/pytorch/pytorch/blob/master/torc
 
 此版本提供对具有动态形状的 PT2 编译的实验支持。支持简单模型的电感器推理编译，但有很多限制：
 
-*   未来版本中提供培训（这在夜间版本中已部分修复！）
+*   未来版本中提供训练（这在夜间版本中已部分修复！）
 *   未来版本中将提供缩小器。
 *   无论如何，很容易导致您想要动态的维度变得专门化。其中一些问题在夜间解决了，另一些则没有。
 *   我们没有适当地将电感器防护传播到顶层，这在[#96296](https://github.com/pytorch/pytorch/issues/96296)中进行跟踪。
