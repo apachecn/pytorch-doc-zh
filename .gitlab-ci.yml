@@ -5,6 +5,10 @@ before_script:
   - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple mkdocs && mkdocs --version
   - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple mkdocs-material
 
+# CI 拉取 submodules
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 pages:
   script:
   - mkdocs build --clean
