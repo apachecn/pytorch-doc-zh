@@ -7,7 +7,7 @@ repo_url: https://github.com/apachecn/pytorch-doc-zh
 
 theme:
   name: material
-  custom_dir: themes
+  custom_dir: themes_material
   locale: zh_CN
   analytics:
     gtag: G-8DP4GX97XY
