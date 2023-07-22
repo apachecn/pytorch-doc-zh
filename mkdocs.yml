@@ -7,7 +7,7 @@ repo_url: https://github.com/apachecn/pytorch-doc-zh
 
 theme:
   name: material
-  custom_dir: themes
+  custom_dir: themes_material
   locale: zh_CN
   analytics:
     gtag: G-8DP4GX97XY
@@ -22,7 +22,7 @@ markdown_extensions:
       generic: true
 
 extra_javascript:
-  - javascripts/mathjax.js
+  # - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 

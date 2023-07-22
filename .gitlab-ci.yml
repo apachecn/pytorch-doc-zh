@@ -1,3 +1,4 @@
+# 编译脚本 - 当前使用
 image: python:alpine
 
 before_script:
