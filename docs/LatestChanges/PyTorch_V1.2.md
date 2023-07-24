@@ -13,11 +13,11 @@
 
 从核心角度来看，PyTorch不断添加功能以支持研究和生产使用，包括通过[TorchScript](https://pytorch.org/docs/stable/jit.html)连接这两个世界的能力。今天，我们很高兴地宣布我们有四个新版本，包括PyTorch 1.2，torchvision 0.4，torchaudio 0.3和torchtext 0.4。您现在可以在[pytorch.org上](https://pytorch.org/get-started/locally/)开始使用这些版本。
 
-# PyTorch 1.2
+## PyTorch 1.2
 
 使用PyTorch 1.2，开源ML框架在生产使用方面向前迈出了一大步，增加了一个改进的，更加完善的TorchScript环境。这些改进使得更容易发布生产模型，扩展对导出ONNX格式模型的支持，并增强对 Transformers 的模块级支持。除了这些新功能之外，[TensorBoard](https://pytorch.org/docs/stable/tensorboard.html) 现在不再具有实验性 - 您只需键入`from torch.utils.tensorboard import SummaryWriter`即可开始使用。
 
-## [TORCHSCRIPT 改进](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#torchscript-improvements)
+### TORCHSCRIPT 改进
 
 自从在PyTorch 1.0中发布以来，TorchScript已经为热切的PyTorch模型提供了生产途径。TorchScript编译器将PyTorch模型转换为静态类型的图形表示，为Python不可用的受限环境中的优化和执行提供了机会。您可以将模型逐步转换为TorchScript，将编译后的代码与Python无缝混合。
 
@@ -48,7 +48,7 @@ my_script_module.save("my_script_module.pt")
 
 要了解更多信息，请参阅我们的[TorchScript简介](https://pytorch.org/tutorials/beginner/Intro_to_TorchScript.html)和[在C ++中加载PyTorch模型](https://pytorch.org/tutorials/advanced/cpp_export.html)教程。
 
-## [扩展了ONNX EXPORT](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#expanded-onnx-export)
+### 扩展了ONNX EXPORT
 
 该[ONNX](http://onnx.ai/)社会继续以开放的成长[治理结构](https://github.com/onnx/onnx/wiki/Expanded-ONNX-Steering-Committee-Announced!)和额外的指导委员会成员，特殊兴趣小组(SIG）和工作组(WGS）。与Microsoft合作，我们增加了对导出ONNX Opset版本7(v1.2)，8(v1.3)，9(v1.4)和10(v1.5)的全面支持。我们还增强了常量折叠传递，以支持最新版本的ONNX Opset 10。ScriptModule也得到了改进，包括支持多输出，张量工厂和元组作为输入和输出。此外，用户现在可以注册自己的符号来导出自定义操作，并在导出期间指定输入的动态尺寸。以下是所有主要改进的摘要：
 
@@ -59,7 +59,7 @@ my_script_module.save("my_script_module.pt")
 
 您可以[在这里](https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html)试用最新的教程，由@ lara-hdr在Microsoft提供。非常感谢整个Microsoft团队为完成此版本所做的所有努力！
 
-## [NN.TRANSFORMER](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#nntransformer)
+### NN.TRANSFORMER
 
 在PyTorch 1.2中，我们现在包含一个标准的[nn.Transformer](https://pytorch.org/docs/stable/nn.html?highlight=transformer#torch.nn.Transformer)模块，基于“ [注意就是你所需要的](https://arxiv.org/abs/1706.03762) ” 这篇论文。该`nn.Transformer`模块完全依赖于[注意机制](https://pytorch.org/docs/stable/nn.html?highlight=nn%20multiheadattention#torch.nn.MultiheadAttention)来绘制输入和输出之间的全局依赖关系。`nn.Transformer`模块的各个组件经过精心设计，可以独立使用。例如，[nn.TransformerEncoder](https://pytorch.org/docs/stable/nn.html?highlight=nn%20transformerencoder#torch.nn.TransformerEncoder)可以单独使用，不需要更大`nn.Transformer`。新API包括：
 
@@ -71,11 +71,11 @@ my_script_module.save("my_script_module.pt")
 
 有关更多信息，请参阅[Transformer Layers](https://pytorch.org/docs/stable/nn.html#transformer-layers)文档。有关完整的PyTorch 1.2发行说明，请参见[此处](https://github.com/pytorch/pytorch/releases)。
 
-# 域API库更新
+## 域API库更新
 
 PyTorch域库(如torchvision，torchtext和torchaudio）提供了对常用数据集，模型和变换的便捷访问，可用于快速创建最先进的基线。此外，它们还提供了常见的抽象，以减少用户可能不得不重复写入的样板代码。由于研究领域有不同的要求，围绕PyTorch出现了一个称为域API(DAPI）的专业库生态系统，以简化许多领域中新算法和现有算法的开发。我们很高兴发布三个更新的DAPI库，用于支持PyTorch 1.2核心版本的文本，音频和视觉。
 
-## [TORCHAUDIO 0.3与KALDI兼容性，新变换](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#torchaudio-03-with-kaldi-compatibility-new-transforms)
+### TORCHAUDIO 0.3与KALDI兼容性，新变换
 
 ![](img/spectrograms.png)
 
@@ -83,7 +83,7 @@ Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关�
 
 我们很高兴地宣布torchaudio 0.3.0的可用性，重点是标准化和复数，转换(重新采样）和两个新的功能(phase_vocoder，ISTFT），Kaldi兼容性和新教程。Torchaudio经过重新设计，是PyTorch的扩展，也是域API(DAPI）生态系统的一部分。
 
-### [标准化](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#standardization)
+#### 标准化
 
 解决机器学习问题的重要工作是数据准备。在这个新版本中，我们更新了torchaudio的转换接口，以便围绕以下词汇和约定进行标准化。
 
@@ -95,7 +95,7 @@ Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关�
 
 [README](https://github.com/pytorch/audio/blob/v0.3.0/README.md#Conventions)中提供了标准化的详细信息。
 
-### [功能，转换和Kaldi兼容性](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#functionals-transformations-and-kaldi-compatibility)
+#### 功能，转换和Kaldi兼容性
 
 在标准化之前，我们将状态和计算分成了`torchaudio.transforms`和`torchaudio.functional`。
 
@@ -105,13 +105,13 @@ Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关�
 
 我们现在还提供与Kaldi的兼容接口，以简化入门并减少用户对Kaldi的代码依赖性。我们现在有一个接口`spectrogram`，`fbank`和`resample_waveform`。
 
-### [新教程](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#new-tutorial)
+#### 新教程
 
-为了展示新的约定和转换，我们有一个[新的教程，](https://pytorch.org/tutorials/beginner/audio_preprocessing_tutorial.html)演示如何使用torchaudio预处理波形。本教程将介绍加载波形并对其应用一些可用转换的示例。
+为了展示新的约定和转换，我们有一个[新的教程](https://pytorch.org/tutorials/beginner/audio_preprocessing_tutorial.html)，演示如何使用torchaudio预处理波形。本教程将介绍加载波形并对其应用一些可用转换的示例。
 
 我们很高兴看到torchaudio周围的活跃社区，并渴望进一步发展和支持它。我们鼓励您继续使用本教程和可用的两个数据集进行实验：VCTK和YESNO！他们有一个界面来下载数据集并以方便的格式预处理它们。您可以在[此处](https://github.com/pytorch/audio/releases)的发行说明中找到详细信息。
 
-## [带有监督学习数据集的TORCHTEXT 0.4](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#torchtext-04-with-supervised-learning-datasets)
+## 带有监督学习数据集的TORCHTEXT 0.4
 
 torchtext的一个关键重点领域是提供有助于加速NLP研究的基本要素。这包括轻松访问常用数据集和基本预处理管道，以处理基于原始文本的数据。torchtext 0.4.0版本包括几个受欢迎的监督学习基线，带有“一个命令”的数据加载。包含一个[教程](https://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)，以说明如何使用新数据集进行文本分类分析。我们还添加并改进了一些函数，例如[get_tokenizer](https://pytorch.org/text/data.html?highlight=get_tokenizer#torchtext.data.get_tokenizer)和[build_vocab_from_iterator](https://pytorch.org/text/vocab.html#build-vocab-from-iterator)，以便更容易实现未来的数据集。其他示例可以在[这里](https://github.com/pytorch/text/tree/master/examples/text_classification)找到。
 
@@ -142,7 +142,7 @@ data = DataLoader(train_dataset, collate_fn=generate_batch)
 
 查看[此处](https://github.com/pytorch/text/releases)的发行说明以了解更多信息并在[此处](http://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)试用本[教程](http://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)。
 
-## TORCHVISION 0.4支持视频[](https://pytorch.org/blog/pytorch-1.2-and-domain-api-release/#torchvision-04-with-support-for-video)
+### TORCHVISION 0.4支持视频
 
 视频现在是torchvision的一流公民，支持数据加载，数据集，预训练模型和变换。Torch 的0.4版本包括：
 
