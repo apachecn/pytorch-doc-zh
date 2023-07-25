@@ -74,7 +74,7 @@ PyTorch 1.9还为许多索引操作添加了确定性实现，包括*index_add*�
 
 这也包含PyTorch 1.9的`spectral_norm`参数化的新实现。此功能将添加更多参数化（weight_norm、矩阵约束和部分修剪），使该功能在1.10中变得稳定。有关更多详细信息，请参阅[文档](https://pytorch.org/docs/1.9.0/generated/torch.nn.utils.parametrizations.spectral_norm.html?highlight=parametrize)和[教程](https://pytorch.org/tutorials/intermediate/parametrizations.html)。
 
-# PyTorch Mobile
+## PyTorch Mobile
 
 ### （Beta）Mobile Interpreter
 
@@ -92,7 +92,7 @@ Mobile Interpreter是PyTorch Mobile的首选功能之一。与当前设备上的
 
 ![](img/android-demo-app.png)
 
-# 分布式训练
+## 分布式训练
 
 ### （Beta）TorchElastic 现在是核心的一部分
 
@@ -111,7 +111,7 @@ Mobile Interpreter是PyTorch Mobile的首选功能之一。与当前设备上的
 *   **（Beta）支持分析分布式集体**：PyTorch的分析器工具，*torch.profiler*和*torch.autograd.profiler*，能够分析分布式集合体和点对点通信原语，包括allreduce，alltoall，allgather，send/recv等。这为PyTorch原生支持的所有后端启用：gloo、mpi和nccl。这可用于调试性能问题，分析包含分布式通信的痕迹，并深入了解使用分布式训练的应用程序的性能。要了解更多信息，请参阅[此文档](https://pytorch.org/docs/1.9.0/distributed.html#profiling-collective-communication)。
     
 
-# 性能优化和工具
+## 性能优化和工具
 
 ### （Stable）Freezing API
 
