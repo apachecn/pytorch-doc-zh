@@ -13,8 +13,8 @@
 我们很高兴地宣布PyTorch 1.9的发布。自1.8以来，该版本由398名贡献者提交的3400多个提交组成。发布说明可以[在这里](https://github.com/pytorch/pytorch/releases)找到。亮点包括：
 
 1.  支持科学计算的重大改进，包括*torch.linalg*、*torch.special*和Complex Autograd
-2.  使用移动解释器对设备上二进制大小进行了重大改进
-3.  通过将TorchElastic上游化到PyTorch Core，原生支持弹性容错训练
+2.  使用Mobile Interpreter对设备上二进制大小进行了重大改进
+3.  通过将 TorchElastic 上游到 PyTorch Core 来原生支持弹性容错训练
 4.  PyTorch RPC框架的重大更新，以支持GPU支持大规模分布式训练
 5.  新的API用于优化模型推理部署的性能和打包
 6.  支持PyTorch Profiler中的分布式训练、GPU利用率和SM效率
@@ -76,11 +76,11 @@ PyTorch 1.9还为许多索引操作添加了确定性实现，包括*index_add*�
 
 # PyTorch Mobile
 
-### （Beta）Mobile 解释器
+### （Beta）Mobile Interpreter
 
-我们正在发布测试版的 Mobile 解释器，这是PyTorch运行时的简化版本。解释器将在边缘设备中执行PyTorch程序，并减少二进制大小的占用空间。
+我们正在发布测试版的 Mobile Interpreter，这是PyTorch运行时的简化版本。解释器将在边缘设备中执行PyTorch程序，并减少二进制大小的占用空间。
 
-Mobile 解释器是PyTorch Mobile的首选功能之一。与当前设备上的运行时相比，这个新版本将显著减少二进制大小。为了让您通过我们的解释器获得二进制大小改进（对于典型应用程序，二进制大小可以减少到~75%），请按照以下说明操作。例如，使用移动解释器，我们可以在arm64-v7a Android中使用MobileNetV2压缩到2.6 MB。通过这个最新版本，我们通过为iOS和Android提供预构建库，使集成解释器变得更加简单。
+Mobile Interpreter是PyTorch Mobile的首选功能之一。与当前设备上的运行时相比，这个新版本将显著减少二进制大小。为了让您通过我们的解释器获得二进制大小改进（对于典型应用程序，二进制大小可以减少到~75%），请按照以下说明操作。例如，使用Mobile Interpreter，我们可以在arm64-v7a Android中使用MobileNetV2压缩到2.6 MB。通过这个最新版本，我们通过为iOS和Android提供预构建库，使集成解释器变得更加简单。
 
 ### TorchVision图书馆
 
