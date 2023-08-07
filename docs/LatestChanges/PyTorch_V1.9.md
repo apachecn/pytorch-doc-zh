@@ -1,6 +1,6 @@
 # 新版本: PyTorch 1.9版本，包括torch.linalg 和 Mobile Interpreter
 
-> 发布: 2021年6月15日
+> 发布: 2021年06月15日
 > 
 > 译者：[@片刻](https://github.com/jiangzhonglian)
 > 

@@ -1,6 +1,6 @@
 # 新版本: PyTorch 1.2 版本，torchtext 0.4，torchaudio 0.3 和 torchvision 0.4
 
-> 发布: 2019年8月8日
+> 发布: 2019年08月08日
 > 
 > 译者：[@片刻](https://github.com/jiangzhonglian)
 > 
