@@ -56,7 +56,9 @@ nav:
       - "学习PyTorch":
         - "通过示例学习 PyTorch": "2.0/tutorials/Learning_PyTorch/learning_pytorch_with_examples.md"
         - "究竟什么是 TORCH.NN": "2.0/tutorials/Learning_PyTorch/what_is_torchnn_really.md"
-    - "中文文档": 
+      - "在生产中部署 PyTorch 模型":
+        - "通过带有 Flask 的 REST API 在 Python 中部署 PyTorch": "2.0/tutorials/Deploying_PyTorch_Models_in_Production/flask_rest_api_tutorial.md"
+    - "中文文档":
       - "介绍": "2.0/docs/README.md"
   - "PyTorch 1.7 中文文档":
     - "学习 PyTorch":
