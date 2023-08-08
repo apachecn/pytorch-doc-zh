@@ -1,12 +1,10 @@
-# 学习基本知识
+# PyTorch 入门 - YouTube 系列
 
 > 译者：[Fadegentle](https://github.com/Fadegentle)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/introyt.html>
-
-# PyTorch 入门 - YouTube 系列
 
 作者：[Brad Heinzt](https://github.com/fbbradheintz)
 
