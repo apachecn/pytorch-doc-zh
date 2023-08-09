@@ -379,7 +379,7 @@ Extracting ./data/cifar-10-python.tar.gz to ./data
 ```
 
 !!! note "注意"
-    当你运行上面的单元格时，可能需要一些时间下载数据集。
+    当您运行上面的单元格时，可能需要一些时间下载数据集。
 
 这是一个在 PyTorch 中创建数据集对象的示例。可下载数据集（如上文的 CIFAR-10）是 `torch.utils.data.Dataset` 的子类。PyTorch 中的 `Dataset` 类包括 TorchVision、Torchtext 和 TorchAudio 中的可下载数据集，以及像 `torchvision.datasets.ImageFolder` 般的实用数据集类，它可以读取带有标签的图像文件夹。您也可以创建自己的 `Dataset` 子类。
 
@@ -397,7 +397,7 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
                                           shuffle=True, num_workers=2)
 ```
 
-`Dataset` 子类封装了对数据的访问权限，并专门针对所服务的数据类型。 `DataLoader` 对数据一无所知，但会根据你指定的参数将 `Dataset` 提供的输入张量组织成批。
+`Dataset` 子类封装了对数据的访问权限，并专门针对所服务的数据类型。 `DataLoader` 对数据一无所知，但会根据您指定的参数将 `Dataset` 提供的输入张量组织成批。
 
 在上面的示例中，我们要求 `DataLoader` 从 `trainset` 中批量加载 4 幅图像，并随机调整它们的顺序（`shuffle=True`），我们还告诉它启动两个工作者从磁盘加载数据。
 

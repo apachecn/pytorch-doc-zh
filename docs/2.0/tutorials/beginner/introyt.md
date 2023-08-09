@@ -16,7 +16,7 @@
 您可以通过以下几种方式运行本教程:
 
 - **云端**: 这是最简单的入门方法! 每个部分顶部都有一个 Colab 链接，点击后会在完全托管的环境中打开一个代码笔记本。专业提示: 以 GPU 运行时使用 Colab 能加速操作 `代码执行程序(Runtime) > 更改运行时类型(Change runtime type) > GPU`
-- **本地**: 这个方式要求您先在本地电脑上安装 PyTorch 和 torchvision（[安装说明](https://pytorch.org/get-started/locally/)）。下载 notebook 或将代码复制到你喜欢的 IDE 中。
+- **本地**: 这个方式要求您先在本地电脑上安装 PyTorch 和 torchvision（[安装说明](https://pytorch.org/get-started/locally/)）。下载 notebook 或将代码复制到您喜欢的 IDE 中。
 
 <br>
 
