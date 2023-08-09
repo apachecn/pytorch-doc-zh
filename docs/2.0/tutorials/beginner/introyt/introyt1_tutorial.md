@@ -2,7 +2,7 @@
 
 > 译者：[Fadegentle](https://github.com/Fadegentle)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt1_tutorial>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/introyt/introyt1_tutorial>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/introyt/introyt1_tutorial.html>
 
