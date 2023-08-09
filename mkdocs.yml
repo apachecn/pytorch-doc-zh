@@ -20,6 +20,11 @@ theme:
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - admonition
 
 extra_javascript:
   # - javascripts/mathjax.js
@@ -53,6 +58,15 @@ nav:
         - "自动微分运算 - Torch.AutoGrad": "2.0/tutorials/Introduction_to_PyTorch/autogradqs_tutorial.md"
         - "优化模型参数": "2.0/tutorials/Introduction_to_PyTorch/optimization_tutorial.md"
         - "模型保存和加载": "2.0/tutorials/Introduction_to_PyTorch/saveloadrun_tutorial.md"
+      - "用 YouTube 入门 PyTorch":
+        - "PyTorch 入门 - YouTube 系列": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt.md"
+        - "PyTorch 入门": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt1_tutorial.md"
+        - "PyTorch 张量入门": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/tensors_deeper_tutorial.md"
+        - "自动微分的基础知识": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/autogradyt_tutorial.md"
+        - "使用 PyTorch 构建模型": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/modelsyt_tutorial.md"
+        - "PyTorch 的 TensorBoard 支持": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/tensorboardyt_tutorial.md"
+        - "使用 PyTorch 训练": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/trainingyt.md"
+        - "使用 Captum 进行模型理解": "2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/captumyt.md"
       - "学习PyTorch":
         - "通过示例学习 PyTorch": "2.0/tutorials/Learning_PyTorch/learning_pytorch_with_examples.md"
         - "究竟什么是 TORCH.NN": "2.0/tutorials/Learning_PyTorch/what_is_torchnn_really.md"
