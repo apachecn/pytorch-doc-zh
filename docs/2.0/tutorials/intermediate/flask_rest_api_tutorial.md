@@ -2,7 +2,7 @@
 
 > 译者：[masteryi-0018](https://github.com/masteryi-0018)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Deploying_PyTorch_Models_in_Production/flask_rest_api_tutorial>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/flask_rest_api_tutorial>
 >
 > 原始地址：<https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html>
 

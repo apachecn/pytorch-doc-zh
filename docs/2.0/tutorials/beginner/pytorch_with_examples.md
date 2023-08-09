@@ -2,14 +2,14 @@
 
 > 译者：[runzhi214](https://github.com/runzhi214)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/Learning_PyTorch/learning_pytorch_with_examples/>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/pytorch_with_examples>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/pytorch_with_examples.html>
 
 **作者**：[Justin Johnson](https://github.com/jcjohnson/pytorch-examples)
 
 > 注意:
-> 这是我们老版本PyTorch的教程。你可以在[学习基本知识](../Introduction_to_PyTorch/learn_the_basics.md)中查看我们最新的初学者内容
+> 这是我们老版本PyTorch的教程。你可以在[学习基本知识](../beginner/basics/learn_the_basics.md)中查看我们最新的初学者内容
 
 本教程通过独立的示例介绍 [PyTorch](https://github.com/pytorch/pytorch) 的基本概念。
 
