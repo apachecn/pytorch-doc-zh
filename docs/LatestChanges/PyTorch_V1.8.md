@@ -18,7 +18,7 @@
 
 除了1.8，我们还发布了PyTorch库的重大更新，包括[TorchCSPRNG](https://github.com/pytorch/csprng)、[TorchVision](https://github.com/pytorch/vision)、[TorchText](https://github.com/pytorch/text)和[TorchAudio](https://github.com/pytorch/audio)。有关图书馆版本的更多信息，请参阅[此处](http://pytorch.org/blog/pytorch-1.8-new-library-releases)的帖子。如前所述，PyTorch版本中的功能分为稳定、测试版和原型。您可以在[此处](https://pytorch.org/blog/pytorch-feature-classification-changes/)的帖子中了解有关定义的更多信息。
 
-# 新的和更新的API
+## 新的和更新的API
 
 PyTorch 1.8版本带来了大量新的和更新的API表面，包括NumPy兼容性的其他API，还支持在推理和训练时间改进和扩展代码性能的方法。以下是此版本中主要功能的简要摘要：
 
@@ -29,13 +29,13 @@ PyTorch 1.8版本带来了大量新的和更新的API表面，包括NumPy兼容�
 *   有关更多详细信息，请参阅此[博客文章](https://pytorch.org/blog/the-torch.fft-module-accelerated-fast-fourier-transforms-with-autograd-in-pyTorch/)
 *   [文稿](https://pytorch.org/docs/1.8.0/fft.html)
 
-### \[Beta\]支持NumPy风格的线性代数函数`torch.linalg`
+### \[Beta\] 支持NumPy风格的线性代数函数`torch.linalg`
 
 `torch.linalg`模块以NumPy的[np.linalg](https://numpy.org/doc/stable/reference/routines.linalg.html?highlight=linalg#module-numpy.linalg)模块为模型，为常见的线性代数运算带来了NumPy风格的支持，包括Cholesky分解、行列式、特征值和许多其他运算。
 
 *   [文稿](https://pytorch.org/docs/1.8.0/linalg.html)
 
-## \[BETA\]使用FX进行PYTHON代码转换
+### \[BETA\] 使用FX进行PYTHON代码转换
 
 FX允许您编写表单`transform(input_module : nn.Module)`\-> `nn.Module`的转换，您可以在其中输入`Module`实例并从中获取转换后的`Module`实例。
 
@@ -47,11 +47,11 @@ FX允许您编写表单`transform(input_module : nn.Module)`\-> `nn.Module`的�
 
 我们感谢[TorchScript](https://pytorch.org/docs/stable/jit.html)跟踪、[Apache MXNet](https://mxnet.apache.org/versions/1.7.0/)杂交以及最近的[JAX](https://github.com/google/jax)对通过跟踪进行程序获取的影响。我们还想感谢[Caffe2](https://caffe2.ai/)、[JAX](https://github.com/google/jax)和[TensorFlow](https://www.tensorflow.org/)作为简单、有向的数据流图形程序表示和转换对这些表示的值的启发。
 
-# 分布式训练
+## 分布式训练
 
 PyTorch 1.8版本增加了许多新功能，并改进了可靠性和可用性。具体来说，支持：添加了[稳定级别的异步错误/超时处理](https://pytorch.org/docs/stable/distributed.html?highlight=init_process_group#torch.distributed.init_process_group)，以提高NCCL的可靠性；以及对[基于RPC的剖析](https://pytorch.org/docs/stable/rpc.html)的稳定支持。此外，我们通过使用DDP中的通信钩子，增加了对管道并行性以及梯度压缩的支持。详情如下：
 
-### \[Beta\]管道并行性
+### \[Beta\] 管道并行性
 
 随着机器学习模型的规模不断扩大，传统的分布式数据并行（DDP）训练不再扩展，因为这些模型不适合单个GPU设备。新的管道并行功能提供了一个易于使用的PyTorch API，以利用管道并行作为训练循环的一部分。
 
@@ -74,7 +74,7 @@ DDP通信钩子是一个通用接口，通过覆盖DistributedDataParallel中的
 *   **(Prototype) 使用TensorPipe在RPC中支持CUDA**\-此功能应为具有多GPU机器的PyTorch RPC用户带来随之而来的速度改进，因为TensorPipe将在可用时自动利用NVLink，并在进程之间交换GPU张量时避免往返于主机内存的昂贵副本。当不在同一台机器上时，TensorPipe将退回到将张量复制到主机内存，并将其作为常规CPU张量发送。这也将改善用户体验，因为用户将能够在代码中将GPU张量视为常规CPU张量。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/1.8.0/rpc.html)。
 *   **(Prototype) 远程模块**\-此功能允许用户在远程工作者上操作模块，就像使用本地模块一样，其中RPC对用户是透明的。过去，此功能是以临时方式实现的，总体而言，此功能将提高PyTorch上模型并行性的可用性。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/rpc.html#remotemodule)。
 
-# PyTorch Mobile
+## PyTorch Mobile
 
 对PyTorch Mobile的支持正在扩大，增加了一套新的教程，以帮助新用户更快地在设备上启动模型，并为现有用户提供一个工具，以从我们的框架中获得更多。这些包括：
 
@@ -92,13 +92,13 @@ DDP通信钩子是一个通用接口，通过覆盖DistributedDataParallel中的
 
 最后，我们将推出PyTorch Mobile Lite Interpreter作为此版本的原型功能。Lite Interpreter允许用户减少运行时二进制大小。请尝试这些，并向我们发送您对[PyTorch论坛的](https://discuss.pytorch.org/c/mobile/)反馈。我们的所有最新更新都可以在[PyTorch Mobile页面上](https://pytorch.org/mobile/home/)找到
 
-### \[Prototype\]PyTorch Mobile Lite interpreter
+### \[Prototype\] PyTorch Mobile Lite interpreter
 
 PyTorch Lite Interpreter是PyTorch运行时的简化版本，可以在资源受限的设备上执行PyTorch程序，并减少二进制大小占用。与当前版本中的当前设备运行时相比，此原型功能将二进制大小减少了高达70%。
 
 *   [iOS/Android教程](https://pytorch.org/tutorials/prototype/lite_interpreter.html)
 
-# 性能优化
+## 性能优化
 
 在1.8中，我们将发布对基准实用程序的支持，使用户能够更好地监控性能。我们还在开放一个新的自动量化API。详情请参阅以下内容：
 
@@ -148,9 +148,9 @@ FX图形模式量化是PyTorch中新的自动量化API。它通过添加对功�
     *   [(Prototype) FX图形模式训练后静态Qunatization](https://pytorch.org/tutorials/prototype/fx_graph_mode_ptq_static.html)
     *   [(Prototype) FX图形模式量化用户指南](https://pytorch.org/tutorials/prototype/fx_graph_mode_quant_guide.html)
 
-# 硬件支持
+## 硬件支持
 
-### \[Beta\]在C++中为新后端扩展PyTorch Dispatcher的能力
+### \[Beta\] 在C++中为新后端扩展PyTorch Dispatcher的能力
 
 In PyTorch 1.8, you can now create new out-of-tree devices that live outside the `pytorch/pytorch` repo. The tutorial linked below shows how to register your device and keep it in sync with native PyTorch devices.
 
