@@ -195,7 +195,7 @@ import torch.nn as nn            # for torch.nn.Module, the parent object for Py
 import torch.nn.functional as F  # for the activation function
 ```
 
-![le-net-5 diagram](../../img/mnist.png)
+![le-net-5 diagram](../../../img/mnist.png)
 _图片: LeNet-5_
 
 上面是 LeNet-5 的示意图，它是最早的卷积神经网络之一，也是深度学习爆发的推动因素之一。它被设计用于识别手写数字的小图像（MNIST 数据集），并正确分类图像中所代表的数字。
@@ -426,7 +426,7 @@ imshow(torchvision.utils.make_grid(images))
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 ```
 
-![sphx_glr_introyt1_tutorial_001](../../img/sphx_glr_introyt1_tutorial_001.png)
+![sphx_glr_introyt1_tutorial_001](../../../img/sphx_glr_introyt1_tutorial_001.png)
 
 输出：
 ```shell
@@ -511,7 +511,7 @@ imshow(torchvision.utils.make_grid(images))
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 ```
 
-![sphx_glr_introyt1_tutorial_002](../../img/sphx_glr_introyt1_tutorial_002.png)
+![sphx_glr_introyt1_tutorial_002](../../../img/sphx_glr_introyt1_tutorial_002.png)
 
 输出：
 ```shell

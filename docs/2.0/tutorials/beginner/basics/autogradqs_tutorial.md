@@ -27,7 +27,7 @@ loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
 
 这个代码会定义下面的计算图:
 
-![automatic_differentiation_with_torch_autograd_1.png](../../img/automatic_differentiation_with_torch_autograd_1.png)
+![automatic_differentiation_with_torch_autograd_1.png](../../../img/automatic_differentiation_with_torch_autograd_1.png)
 
 在这个网络中，`w`和`b`都是我们需要优化的参数。因此，我们需要能够对这些变量分别计算损失函数的梯度。为了这么做，我们设置这些张量的`requires_grad`属性。
 
