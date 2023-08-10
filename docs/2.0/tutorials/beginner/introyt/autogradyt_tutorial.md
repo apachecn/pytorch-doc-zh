@@ -481,7 +481,7 @@ Self CUDA time total: 32.583ms
 
 ## 进阶主题：更多的自动微分细节和高级 API
 
-如果您有一个 `n` 维输入和 `m` 维输出的函数，$\vec{y}=f(\vec{x})$，完整梯度是各输出关于各输入的导数矩阵，称为雅可比（Jacobian）：
+如果您有一个 `n` 维输入和 `m` 维输出的函数，$\vec{y}=f(\vec{x})$，完整梯度是各输出关于各输入的导数矩阵，称为 Jacobian：
 
 $$
 J=\begin{pmatrix}
@@ -491,11 +491,11 @@ J=\begin{pmatrix}
 \end{pmatrix}
 $$
 
-如果您有第二个函数，$l=g(\vec{y})$，它接受 `m` 维输入（即与上述输出维度相同）并返回标量输出，那么您可以用列向量 $v=\begin{pmatrix}\frac{\partial l}{\partial y_1} & \cdots & \frac{\partial l}{\partial y_m}\end{pmatrix}^T$ 来表示它相对于 $\vec{y}$ 的梯度——这实际上只是一个单列雅可比。
+如果您有第二个函数，$l=g(\vec{y})$，它接受 `m` 维输入（即与上述输出维度相同）并返回标量输出，那么您可以用列向量 $v=\begin{pmatrix}\frac{\partial l}{\partial y_1} & \cdots & \frac{\partial l}{\partial y_m}\end{pmatrix}^T$ 来表示它相对于 $\vec{y}$ 的梯度——这实际上只是一个单列 Jacobian 。
 
 更具体地说，想象一下，第一个函数是您的 PyTorch 模型（可能有许多输入输出），第二个函数是一个损失函数（模型的输出作为输入，损失值作为标量输出）。
 
-如果将第一个函数的雅可比矩阵乘以第二个函数的梯度，然后应用链式法则，就可以得到：
+如果将第一个函数的 Jacobian 矩阵乘以第二个函数的梯度，然后应用链式法则，就可以得到：
 
 $$
 J^T \cdot b=\begin{pmatrix}
@@ -519,7 +519,7 @@ $$
 
 **`torch.autograd` 是计算这些乘积的引擎**，我们就是这样在后向传递过程中累积学习权重的梯度的。
 
-因此，`backward()` 调用也可以接受一个可选的向量输入。该向量代表一组张量上的梯度，并与前面自动微分跟踪张量的雅可比相乘。让我们用一个小向量举个具体例子：
+因此，`backward()` 调用也可以接受一个可选的向量输入。该向量代表一组张量上的梯度，并与前面自动微分跟踪张量的 Jacobian 相乘。让我们用一个小向量举个具体例子：
 
 ```python
 x = torch.randn(3, requires_grad=True)
@@ -536,7 +536,7 @@ print(y)
 tensor([  299.4868,   425.4009, -1082.9885], grad_fn=<MulBackward0>)
 ```
 
-如果我们现在尝试调用 `y.backward()`，会出现运行时错误，并提示只能对标量输出 _隐式_ 计算梯度。对于多维输出，自动微分希望我们提供这三个输出的梯度，以便能与雅可比相乘：
+如果我们现在尝试调用 `y.backward()`，会出现运行时错误，并提示只能对标量输出 _隐式_ 计算梯度。对于多维输出，自动微分希望我们提供这三个输出的梯度，以便能与 Jacobian 相乘：
 
 ```python
 v = torch.tensor([0.1, 1.0, 0.0001], dtype=torch.float) # stand-in for gradients
@@ -554,9 +554,9 @@ tensor([1.0240e+02, 1.0240e+03, 1.0240e-01])
 
 ### 高级 API
 
-自动微分有一个 API 能让您直接访问重要的微分矩阵和向量操作。特别是，它允许您计算特定输入的特定函数的雅可比矩阵和 _Hessian_ 矩阵。（ Hessian 矩阵与雅可比矩阵类似，但表达的是所有部分 _二阶_ 导数）。它还提供了与这些矩阵进行向量乘积的方法。
+自动微分有一个 API 能让您直接访问重要的微分矩阵和向量操作。特别是，它允许您计算特定输入的特定函数的 Jacobian 矩阵和 _Hessian_ 矩阵。（ Hessian 矩阵与 Jacobian 矩阵类似，但表达的是所有部分 _二阶_ 导数）。它还提供了与这些矩阵进行向量乘积的方法。
 
-让我们以一个简单函数的雅可比为例，对 2 个单元素输入进行评估：
+让我们以一个简单函数的 Jacobian 为例，对 2 个单元素输入进行评估：
 
 ```python
 def exp_adder(x, y):
@@ -597,7 +597,7 @@ torch.autograd.functional.jacobian(exp_adder, inputs)
 
 `torch.autograd.functional.hessian()`方法的工作原理与此相同（假设函数是二次微分的），但返回的是所有二阶导数的矩阵。
 
-如果您提供向量，还有一个函数可以直接计算向量与雅可比积：
+如果您提供向量，还有一个函数可以直接计算向量与 Jacobian 的积：
 
 ```python
 def do_some_doubling(x):
