@@ -554,7 +554,7 @@ tensor([1.0240e+02, 1.0240e+03, 1.0240e-01])
 
 ### 高级 API
 
-自动微分有一个 API 能让您直接访问重要的微分矩阵和向量操作。特别是，它允许您计算特定输入的特定函数的雅可比矩阵和 _黑塞（ Hessian ）_ 矩阵。（黑塞矩阵与雅可比矩阵类似，但表达的是所有部分 _二阶_ 导数）。它还提供了与这些矩阵进行向量乘积的方法。
+自动微分有一个 API 能让您直接访问重要的微分矩阵和向量操作。特别是，它允许您计算特定输入的特定函数的雅可比矩阵和 _Hessian_ 矩阵。（ Hessian 矩阵与雅可比矩阵类似，但表达的是所有部分 _二阶_ 导数）。它还提供了与这些矩阵进行向量乘积的方法。
 
 让我们以一个简单函数的雅可比为例，对 2 个单元素输入进行评估：
 
@@ -616,6 +616,6 @@ torch.autograd.functional.vjp(do_some_doubling, inputs, v=my_gradients)
 (tensor([-665.7186, -866.7054,  -58.4194]), tensor([1.0240e+02, 1.0240e+03, 1.0240e-01]))
 ```
 
-`torch.autograd.functional.jvp()` 方法执行与 `vjp()` 相同的矩阵乘法，但操作数相反。`vhp()` 和 `hvp()` 方法也是对向量和黑塞乘积执行相同的操作。
+`torch.autograd.functional.jvp()` 方法执行与 `vjp()` 相同的矩阵乘法，但操作数相反。`vhp()` 和 `hvp()` 方法也是对向量和 Hessian 乘积执行相同的操作。
 
 更多相关信息，请参阅[功能 API 文档](https://pytorch.org/docs/stable/autograd.html#functional-higher-level-api)。
