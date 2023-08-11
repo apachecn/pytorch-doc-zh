@@ -73,6 +73,8 @@ nav:
         - "究竟什么是 TORCH.NN":       "2.0/tutorials/beginner/nn_tutorial.md"
       - "在生产中部署PyTorch模型":
         - "通过带有Flask的REST API在Python中部署PyTorch": "2.0/tutorials/intermediate/flask_rest_api_tutorial.md"
+      - "强化学习":
+        - "强化学习 （DQN）教程": "2.0/tutorials/intermediate/ReinforcementLearning(DQN)Tutorial.md"
     - "中文文档":
       - "介绍": "2.0/docs/README.md"
   - "PyTorch 1.7 中文文档":
