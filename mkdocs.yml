@@ -64,17 +64,19 @@ nav:
         - "PyTorch 入门":               "2.0/tutorials/beginner/introyt/introyt1_tutorial.md"
         - "PyTorch 张量入门":            "2.0/tutorials/beginner/introyt/tensors_deeper_tutorial.md"
         - "自动微分的基础知识":            "2.0/tutorials/beginner/introyt/autogradyt_tutorial.md"
-        - "使用PyTorch构建模型":         "2.0/tutorials/beginner/introyt/modelsyt_tutorial.md"
-        - "PyTorch的TensorBoard 支持":  "2.0/tutorials/beginner/introyt/tensorboardyt_tutorial.md"
-        - "使用PyTorch训练":            "2.0/tutorials/beginner/introyt/trainingyt.md"
-        - "使用Captum进行模型理解":      "2.0/tutorials/beginner/introyt/captumyt.md"
+        - "使用 PyTorch 构建模型":         "2.0/tutorials/beginner/introyt/modelsyt_tutorial.md"
+        - "PyTorch 的 TensorBoard 支持":  "2.0/tutorials/beginner/introyt/tensorboardyt_tutorial.md"
+        - "使用 PyTorch 训练":            "2.0/tutorials/beginner/introyt/trainingyt.md"
+        - "使用 Captum 进行模型理解":      "2.0/tutorials/beginner/introyt/captumyt.md"
       - "学习PyTorch":
         - "通过示例学习PyTorch":        "2.0/tutorials/beginner/pytorch_with_examples.md"
         - "究竟什么是 TORCH.NN":       "2.0/tutorials/beginner/nn_tutorial.md"
+      - "强化学习":
+        - "强化学习 （DQN）教程": "2.0/tutorials/intermediate/reinforcement_q_learning.md"
       - "在生产中部署PyTorch模型":
         - "通过带有Flask的REST API在Python中部署PyTorch": "2.0/tutorials/intermediate/flask_rest_api_tutorial.md"
-      - "强化学习":
-        - "强化学习 （DQN）教程": "2.0/tutorials/intermediate/ReinforcementLearning(DQN)Tutorial.md"
+        - "TorchScript 简介": "2.0/tutorials/beginner/Intro_to_TorchScript_tutorial.md"
+        - "在C++中加载 TorchScript 模型": "2.0/tutorials/advanced/cpp_export.md"  
     - "中文文档":
       - "介绍": "2.0/docs/README.md"
   - "PyTorch 1.7 中文文档":
