@@ -120,18 +120,18 @@ nav:
     - "在生产中部署 PyTorch 模型":
       - "通过使用 Flask 的 REST API 在 Python 中部署 PyTorch": "1.7/37.md"
       - "TorchScript 简介": "1.7/38.md"
-      - "在 C-- 中加载 TorchScript 模型": "1.7/39.md"
+      - "在 C++ 中加载 TorchScript 模型": "1.7/39.md"
       - "将模型从 PyTorch 导出到 ONNX 并使用 ONNX 运行时运行它（可选）": "1.7/40.md"
     - "前端 API":
       - "PyTorch 中的命名张量简介（原型）": "1.7/42.md"
       - "PyTorch 中通道在最后的内存格式（beta）": "1.7/43.md"
-      - "使用 PyTorch C-- 前端": "1.7/44.md"
-      - "自定义 C-- 和 CUDA 扩展": "1.7/45.md"
-      - "使用自定义 C-- 运算符扩展 TorchScript": "1.7/46.md"
-      - "使用自定义 C-- 类扩展 TorchScript": "1.7/47.md"
+      - "使用 PyTorch C++ 前端": "1.7/44.md"
+      - "自定义 C++ 和 CUDA 扩展": "1.7/45.md"
+      - "使用自定义 C++ 运算符扩展 TorchScript": "1.7/46.md"
+      - "使用自定义 C++ 类扩展 TorchScript": "1.7/47.md"
       - "TorchScript 中的动态并行性": "1.7/48.md"
-      - "C-- 前端中的 Autograd": "1.7/49.md"
-      - "在 C-- 中注册调度运算符": "1.7/50.md"
+      - "C++ 前端中的 Autograd": "1.7/49.md"
+      - "在 C++ 中注册调度运算符": "1.7/50.md"
     - "模型优化":
       - "分析您的 PyTorch 模块": "1.7/52.md"
       - "使用 Ray Tune 的超参数调整": "1.7/53.md"
@@ -308,15 +308,15 @@ nav:
         - "Reinforcement Learning (DQN) Tutorial": "1.0/reinforcement_q_learning.md"
       - "扩展 PyTorch":
         - "用 numpy 和 scipy 创建扩展": "1.0/numpy_extensions_tutorial.md"
-        - "Custom C-- and CUDA Extensions": "1.0/cpp_extension.md"
-        - "Extending TorchScript with Custom C-- Operators": "1.0/torch_script_custom_ops.md"
+        - "Custom C++ and CUDA Extensions": "1.0/cpp_extension.md"
+        - "Extending TorchScript with Custom C++ Operators": "1.0/torch_script_custom_ops.md"
       - "生产性使用":
         - "Writing Distributed Applications with PyTorch": "1.0/dist_tuto.md"
         - "使用 Amazon AWS 进行分布式训练": "1.0/aws_distributed_training_tutorial.md"
         - "ONNX 现场演示教程": "1.0/ONNXLive.md"
-        - "在 C-- 中加载 PYTORCH 模型": "1.0/cpp_export.md"
+        - "在 C++ 中加载 PYTORCH 模型": "1.0/cpp_export.md"
       - "其它语言中的 PyTorch":
-        - "使用 PyTorch C-- 前端": "1.0/cpp_frontend.md"
+        - "使用 PyTorch C++ 前端": "1.0/cpp_frontend.md"
     - "中文文档":
       - "注解":
         - "自动求导机制": "1.0/notes_autograd.md"
