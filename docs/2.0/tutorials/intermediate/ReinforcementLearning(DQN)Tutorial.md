@@ -1,10 +1,10 @@
-#强化学习
+# 强化学习
 
 > 译者：[Noahs212](https://github.com/Noahs212)
 >
-> project address：<https://pytorch.apachecn.org/2.0/tutorials/intermediate//>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/reinforcement_q_learning>
 >
-> 原始地址：<https://pytorch.org/tutorials/intermediate/Reinforcement_Learning_(DQN)_Tutorial.html>
+> 原始地址：<https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html>
 
 **作者**：
     -[Adam Paszke](https://github.com/apaszke)
