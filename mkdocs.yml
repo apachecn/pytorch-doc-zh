@@ -73,6 +73,7 @@ nav:
         - "究竟什么是 TORCH.NN":       "2.0/tutorials/beginner/nn_tutorial.md"
       - "强化学习":
         - "强化学习 （DQN）教程": "2.0/tutorials/intermediate/reinforcement_q_learning.md"
+        - "训练玩马里奥的 RL 智能体": "2.0/tutorials/intermediate/TrainaMarioPlayingRLAgent.md"
       - "在生产中部署PyTorch模型":
         - "通过带有Flask的REST API在Python中部署PyTorch": "2.0/tutorials/intermediate/flask_rest_api_tutorial.md"
         - "TorchScript 简介": "2.0/tutorials/beginner/Intro_to_TorchScript_tutorial.md"
