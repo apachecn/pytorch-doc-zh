@@ -10,7 +10,7 @@
 
 尽管本教程不需要任何有关 RL 的先验知识，但是您可以熟悉这些 RL [概念](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html)，并将此方便的[备忘单](https://colab.research.google.com/drive/1eN33dPVtdPViiS1njTW_-r-IYCDTFU7N)作为您的伴侣。[完整代码可在此处获得](https://github.com/yuansongFeng/MadMario/)。
 
-![mario](img/e46d7dbb0cc58ac0895589bf255444be.png)
+![mario](../../img/e46d7dbb0cc58ac0895589bf255444be.png)
 
 ```bash
 %%bash
@@ -171,7 +171,7 @@ else:
 
 将上述包装纸应用于环境后，最终的包装状态由 4 个灰度连续的帧堆叠在一起组成，如左图所示。 每次马里奥采取行动时，环境都会以这种结构的状态做出响应。 该结构由大小为`[4, 84, 84]`的 3D 数组表示。
 
-![picture](img/ad48ffbd1cfc0475d744b8b89a0d962a.png)
+![picture](../../img/ad48ffbd1cfc0475d744b8b89a0d962a.png)
 
 ## 智能体
 
@@ -643,8 +643,6 @@ for e in range(episodes):
     if e % 20 == 0:
         logger.record(episode=e, epsilon=mario.exploration_rate, step=mario.curr_step)
 ```
-
-![../_img/sphx_glr_mario_rl_tutorial_001.png](img/4d4a02b1af752dcb28b536a50d0f9ee4.png)
 
 出：
 
