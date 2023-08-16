@@ -6,8 +6,6 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/advanced/cpp_export.html>
 
-# 在C++中加载 TORCHSCRIPT 模型
-
 顾名思义，PyTorch的主要接口是Python程序设计语言。虽然Python是一种适合许多需要动态性和易于迭代的场景的首选语言，但同样有很多是Python的这些属性恰恰不利的情况。后者经常适用的环境是生产——需要低延迟和严格的部署要求。对于生产方案，C++ 通常是首选的语言，即使只是将其绑定到另一种语言中，像Java，Rust或Go这样的语言。以下段落将概述使用现有的Python语言从PyTorch提供的模型到序列化的模型，可以纯粹从C++加载和执行的表示，没有对Python的依赖。
 
 ## 步骤 1：将 PyTorch 模型转换为 Torch 脚本
