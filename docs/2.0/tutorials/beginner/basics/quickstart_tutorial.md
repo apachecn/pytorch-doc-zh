@@ -11,7 +11,7 @@
 
 
 ## 处理数据
-PyTorch有两个[处理数据的基本操作](https://pytorch.org/docs/stable/data.html)：``torch.utils.data.DataLoader``和``torch.utils.data.Dataset``。``Dataset``存储样本及其相应的标签，而``Dataset``则围绕``Dataset``包装了一个可迭代的数据。
+PyTorch有两个[处理数据的基本操作](https://pytorch.org/docs/stable/data.html)：``torch.utils.data.DataLoader``和``torch.utils.data.Dataset``。``Dataset``用于存储样本及其对应的标签，而``DataLoader``则围绕``Dataset``包装了一个可迭代的数据加载器。
 
 ```py
 import torch
@@ -22,7 +22,7 @@ from torchvision.transforms import ToTensor
 ```
 
 PyTorch 提供特定于领域的库，如 [TorchText](https://pytorch.org/text/stable/index.html),
-[TorchVision](https://pytorch.org/vision/stable/index.html) 和 [TorchAudio](https://pytorch.org/audio/stable/index.html),所有这些库都包含数据集。对于本教程，我们将使用 TorchVision 数据集。
+[TorchVision](https://pytorch.org/vision/stable/index.html) 和 [TorchAudio](https://pytorch.org/audio/stable/index.html)，所有这些库都包含数据集。对于本教程，我们将使用 TorchVision 数据集。
 
 ``torchvision.datasets``模块包含了许多真实世界视觉数据的 ``Dataset``对象，比如 CIFAR、 COCO ([完整列表在这里](https://pytorch.org/vision/stable/datasets.html))。在本教程中，我们使用 FashionMNIST 数据集。每个 TorchVision ``Dataset``都包含两个参数: ``transform`` 和 ``target_transform``，分别用于转换样本和标签。
 
@@ -99,15 +99,15 @@ automatic batching, sampling, shuffling and multiprocess data loading. Here we d
 in the dataloader iterable will return a batch of 64 features and labels.
 
 
-我们将``Dataset``作为参数传递给``DataLoader``。这在我们的数据集上包裹了一个可迭代的数据集，并支持自动批处理、采样、随机打乱和多进程数据加载。
-在这里，我们定义了一个大小为64的批处理，即dataloader迭代器中的每个元素都会返回一个由64个特征和标签组成的批次数据。
+我们将``Dataset``作为参数传递给``DataLoader``。这将在我们的数据集上包装一个迭代器，并支持自动批处理、采样、随机打乱和多进程数据加载。
+在这里，我们定义了一个大小为64的批处理，即 ``DataLoader`` 迭代器中的每个元素都会返回一个由64个特征和标签组成的批次数据。
 
 
 
 ```py
 batch_size = 64
 
-# Create data loaders.
+# 创建数据加载器
 train_dataloader = DataLoader(training_data, batch_size=batch_size)
 test_dataloader = DataLoader(test_data, batch_size=batch_size)
 
@@ -123,7 +123,7 @@ Shape of X [N, C, H, W]: torch.Size([64, 1, 28, 28])
 Shape of y: torch.Size([64]) torch.int64
 ```
 
-阅读有关[在 PyTorch 中加载数据](data_tutorial.html).的更多信息。
+阅读有关[在 PyTorch 中加载数据](data_tutorial.html)的更多信息。
 
 
 ## 创建模型
@@ -134,9 +134,9 @@ operations in the neural network, we move it to the GPU or MPS if available.
 
 
 
-为了在 PyTorch 中定义一个神经网络，我们创建了一个继承自  [nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html)的类。我们在 ``__init__``函数中定义网络的层，并在 forward 函数中指定数据将如何通过网络。为了加速神经网络中的操作，我们将其移动到 GPU 或 MPS (如果有的话)。
+为了在 PyTorch 中定义一个神经网络，我们需要创建了一个继承自  [nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html) 的自定义类。我们在 ``__init__`` 方法中定义网络的层次结构，并在 ``forward`` 方法中指定数据将如何通过网络的各个层。为了加速神经网络中的操作，我们将其移动到 GPU 或 MPS (如果有的话)。
 ```py
-# Get cpu, gpu or mps device for training.
+# 获取 cpu, gpu 或 mps 设备用于加速训练.
 device = (
     "cuda"
     if torch.cuda.is_available()
@@ -146,7 +146,7 @@ device = (
 )
 print(f"Using {device} device")
 
-# Define model
+# 定义神经网络
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()

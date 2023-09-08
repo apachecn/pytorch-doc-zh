@@ -15,14 +15,14 @@ import torchvision.models as models
 
 ## 模型权重的保存和加载
 
-PyTorch模型将学习到的参数存储在一个内部状态字典中，叫`state_dict`。它们可以通过`torch.save`方法来持久化。
+PyTorch 将模型学习到的参数存储在一个内部状态字典中，叫 `state_dict`。它们可以通过 `torch.save` 方法来持久化。
 
 ```py
 model = models.vgg16(weights='IMAGENET1K_V1')
 torch.save(model.state_dict(), 'model_weights.pth')
 ```
 
-Out:
+输出:
 
 ```py
 Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /var/lib/jenkins/.cache/torch/hub/checkpoints/vgg16-397923af.pth
@@ -53,7 +53,7 @@ Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /var/li
 100%|##########| 528M/528M [00:02<00:00, 251MB/s]
 ```
 
-要加载模型权重，你需要首先创建一个模型（和要加载权重的模型一样）然后使用`load_state_dict()`方法加载参数。
+要加载模型权重，你需要先创建一个跟要加载权重的模型结构一样的模型，然后使用 `load_state_dict()` 方法加载参数。
 
 ```py
 model = models.vgg16() # we do not specify ``weights``, i.e. create untrained model
@@ -62,17 +62,17 @@ model.eval()
 ```
 
 > 注意：
-> 请确保在进行推理前调用`model.eval()`方法来将dropout层和batch normalization层设置为评估模式(evaluation模式)。如果不这么做的话会产生并不一致的推理结果。
+> 请确保在进行推理前调用 `model.eval()` 方法来将 dropout 层和 batch normalization 层设置为评估模式(evaluation模式)。如果不这么做的话会产生并不一致的推理结果。
 
 ## 保存和加载模型结构
 
-在加载模型权重的时候，我们需要首先实例化一个模型类，因为类定义了神经网络的结构。我们也想把类结构和模型一起保存，那就可以通过将`model`传递给保存函数(而不是`model.state_dict())。
+在加载模型权重的时候，我们需要首先实例化一个模型类，因为模型类定义了神经网络的结构。我们也想把模型类结构和模型一起保存，那就可以通过将 `model` 传递给保存函数(而不是 `model.state_dict()`)。
 
 ```py
 torch.save(model, 'model.pth')
 ```
 
-然后我们可以这么载入模型:
+然后我们可以这样载入模型:
 
 ```py
 model = torch.load('model.pth')
@@ -81,5 +81,3 @@ model = torch.load('model.pth')
 ## 关联的教程
 
 [在PyTorch中保存、加载一个Checkpoint](https://pytorch.org/tutorials/recipes/recipes/saving_and_loading_a_general_checkpoint.html) -- 译者注：该文档目前未完成翻译
-
-**脚本总运行时间**: (0分7.704秒)
