@@ -7,7 +7,7 @@
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/optimization_tutorial.html>
 
 
-既然我们已经有了模型和数据，现在现在应该训练、验证、测试我们的模型(基于我们的数据来优化参数)。训练一个模型也是一个遍历的过程；在每次遍历中，模型会对输出中进行一次猜想，计算这个猜想的错误程度(损失值),收集这些错误相对于参数的导数（像我们前面一章说的），然后通过梯度下降的方式来**优化**这些参数。关于这个过程的更详细的介绍，可以看3Blue1Brown制作的[《反向传播演算》](https://www.youtube.com/watch?v=tIeHLnjs5U8)这个视频。
+既然我们已经有了模型和数据，现在应该训练、验证、测试我们的模型(基于我们的数据来优化参数)。训练一个模型也是一个遍历的过程；在每次遍历中，模型会对输出中进行一次预测，计算这个预测的错误程度(损失值)，收集这些错误相对于参数的导数（像我们前面一章说的），然后通过梯度下降的方式来**优化**这些参数。关于这个过程的更详细的介绍，可以看3Blue1Brown制作的[《反向传播演算》](https://www.youtube.com/watch?v=tIeHLnjs5U8)这个视频。
 
 ## 前提代码
 
@@ -57,7 +57,7 @@ class NeuralNetwork(nn.Module):
 model = NeuralNetwork()
 ```
 
-Out:
+输出:
 
 ```py
 Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
@@ -114,9 +114,9 @@ Extracting data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/
 
 我们定义以下用于训练的超参数:
 
-- **Number of Epochs** - (时期、纪元) - 遍历数据集次数
+- **Number of Epochs** - 遍历数据集的次数
 - **Batch Size** - 在参数更新之前通过网络传播的数据样本数量。
-- **Learning Rate** - 学习率 - 每个Batch/Epoch更新模型参数的幅度。较小的值会产生较慢的学习速度，较大的值可能会在训练过程中产生无法预料的行为。
+- **Learning Rate** - 学习率， 每 Batch/Epoch 次更新模型参数的幅度。较小的值会产生较慢的学习速度，较大的值可能会在训练过程中产生无法预料的行为。
 
 ```py
 learning_rate = 1e-3
@@ -133,24 +133,24 @@ epochs = 5
 - **训练循环** 在训练数据集上遍历，尝试收敛到最优的参数。
 - **验证/测试循环** 在测试数据集上遍历，来检查模型效果是否在提升。
 
-我让我们大致的熟悉一下一些在训练循环中使用的概念。完整的优化循环代码可以直接跳到: [完整实现](#完整实现)
+让我们大致的熟悉一下一些在训练循环中使用的概念。完整的优化循环代码可以直接跳到: [完整实现](#完整实现)
 
 ## 损失函数
 
 拿到一些训练数据的时候，我们的模型不太可能给出正确答案。**损失函数**能测量获得的结果相对于目标值的偏离程度，我们希望在训练中能够最小化这个损失函数。我们对给定的数据样本做出预测然后和真实标签数据对比来计算损失。
 
-常见的损失函数包括给回归任务用的`nn.MSELoss`(Mean Square Error,均方差)、给分类任务使用的`nn.NLLLoss`(Negative Log Likelihood,负对数似然)、`nn.CrossEntropyLoss`(交叉熵损失函数)结合了`nn.LogSoftmax`和`nn.NLLLoss`.
+常见的损失函数包括给回归任务用的 `nn.MSELoss`(Mean Square Error,均方差)、给分类任务使用的 `nn.NLLLoss`(Negative Log Likelihood,负对数似然)、`nn.CrossEntropyLoss`(交叉熵损失函数)结合了 `nn.LogSoftmax` 和 `nn.NLLLoss`.
 
-我们把模型输出的logits传递给 `nn.CrossEntropyLoss` -- 它会正则化llogits并计算预测误差。
+我们把模型输出的 logits 传递给 `nn.CrossEntropyLoss`， 它会正则化 logits 并计算预测误差。
 
 ```py
-# Initialize the loss function
+# 初始货损失函数
 loss_fn = nn.CrossEntropyLoss()
 ```
 
 ## 优化器
 
-优化是在每一个训练步骤中调整模型参数来减小模型误差的过程。**优化算法**定义了这个过程应该如何进行（在这个例子中，我们使用Stochastic Gradient Descent-即SGD，随机梯度下降）。所有优化的逻辑都被封装在这个`optimizer`对象中。这里，我们使用SGD优化器。除此之外，在PyTorch中还有很多[其他可用的优化器](https://pytorch.org/docs/stable/optim.html)，比如ADAM和RMSProp -- 在不同类型的模型和数据上表现得更好。
+优化是在每一个训练步骤中调整模型参数来减小模型误差的过程。**优化算法**定义了这个过程应该如何进行（在这个例子中，我们使用 Stochastic Gradient Descent-即SGD，随机梯度下降）。所有优化的逻辑都被封装在 `optimizer` 这个对象中。这里，我们使用 SGD 优化器。除此之外，在 PyTorch 中还有很多[其他可用的优化器](https://pytorch.org/docs/stable/optim.html)，比如 ADAM 和 RMSProp 在不同类型的模型和数据上表现得更好。
 
 我们通过注册需要训练的模型参数、然后传递学习率这个超参数来初始化优化器。
 
@@ -160,13 +160,13 @@ optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
 在训练循环内部, 优化在三个步骤上发生：
 
-* 调用`optimizer.zero_grad()`来重置模型参数的梯度。梯度会默认累加，为了防止重复计算（梯度），我们在每次遍历中显式的清空（梯度累加值）。
-* 调用`loss.backward()`来反向传播预测误差。PyTorch对每个参数分别存储损失梯度。
-* 我们获取到梯度后，调用`optimizer.step()`来根据反向传播中收集的梯度来调整参数。
+* 调用 `optimizer.zero_grad()` 来重置模型参数的梯度。梯度会默认累加，为了防止重复计算（梯度），我们在每次遍历中显式的清空（梯度累加值）。
+* 调用 `loss.backward()` 来反向传播预测误差。PyTorch 对每个参数分别存储损失梯度。
+* 我们获取到梯度后，调用 `optimizer.step()` 来根据反向传播中收集的梯度来调整参数。
 
 ## 完整实现
 
-我们定义`train_loop`为优化循环的代码，`test_loop` 为根据测试数据来评估模型表现的代码
+我们定义 `train_loop` 为优化循环的代码，`test_loop` 为根据测试数据来评估模型表现的代码
 
 ```py
 def train_loop(dataloader, model, loss_fn, optimizer):
@@ -210,9 +210,9 @@ def test_loop(dataloader, model, loss_fn):
     print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
 ```
 
-我们初始化了损失函数和优化器，传递给`train_loop`和`test_loop`。你可以随意地修改epochs的数量来跟踪模型表现的进步情况。
+我们初始化了损失函数和优化器，传递给 `train_loop` 和 `test_loop`。你可以随意地修改 epochs 的数量来跟踪模型表现的进步情况。
 
-Out:
+输出:
 
 ```py
 Epoch 1
