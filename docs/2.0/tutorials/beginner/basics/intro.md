@@ -19,16 +19,14 @@
 
 您可以通过以下几种方式运行本教程:
 
-You can run this tutorial in a couple of ways:
 
-- **In the cloud**: 这是最简单的入门方法! 每个部分的顶部都有一个 "在Microsoft Learn中运行 "和 "在Google Colab中运行 "的链接，分别在Microsoft Learn或Google Colab中打开一个notebook，在一个完全托管的环境中运行代码。
+- **云端运行**: 这是最简单的入门方法! 每个部分的顶部都有一个 "在 Microsoft Learn 中运行" 和 "在 Google Colab 中运行" 的链接，分别在 Microsoft Learn 或 Google Colab 中打开一个 notebook，在一个完全托管的环境中运行代码。
 
-- **Locally**: 这个选项要求你首先在本地电脑上设置PyTorch和TorchVision（安装说明）。下载notebook或将代码复制到你喜欢的IDE中。
-This option requires you to setup PyTorch and TorchVision first on your local machine ([installation instructions](https://pytorch.org/get-started/locally/)). Download the notebook or copy the code into your favorite IDE.
+- **本地运行**: 这个选项要求你首先在本地电脑上安装 PyTorch 和 TorchVision（[安装说明](https://pytorch.org/get-started/locally/)）。下载 notebook 或将代码复制到你喜欢的IDE中运行。
 
 
-## 如何使用本指南 
-如果你熟悉其他深度学习框架，可以先看看[0. Quickstart](quickstart_tutorial.html) ，以快速熟悉PyTorch的API。
+## 如何使用本指南
+如果你熟悉其他深度学习框架，可以先看看[0. Quickstart](quickstart_tutorial.html) ，以快速熟悉 PyTorch 的 API。
 
-如果你是深度学习框架的新手，请直接进入我们的分步指南的第一部分: [1. Tensors](tensor_tutorial.html) 1。张量。
+如果你是深度学习框架的新手，请直接进入我们的分步指南的第一部分: [1. Tensors](tensor_tutorial.html) 。
 
