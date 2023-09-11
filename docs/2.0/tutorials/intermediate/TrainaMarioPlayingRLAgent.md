@@ -1,8 +1,10 @@
 # 训练玩马里奥的 RL 智能体
 
-> 原文：<https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html>
-
 > 译者：[Noahs212](https://github.com/Noahs212)
+>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/mario_rl_tutorial>
+>
+> 原始地址：<https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html>
 
 **作者**： [Yuansong Feng](https://github.com/YuansongFeng) , [Suraj Subramanian](https://github.com/suraj813) , [Howard Wang](https://github.com/hw26) , [Steven Guo](https://github.com/GuoYuzhang) .
 
