@@ -257,11 +257,13 @@ n: [2. 2. 2. 2. 2.]
 ```py
 n = np.ones(5)
 t = torch.from_numpy(n)
+print(f"t: {t}")
+print(f"n: {n}")
 ```
 输出：
 ```py
-t: tensor([2., 2., 2., 2., 2.])
-n: [2. 2. 2. 2. 2.]
+t: tensor([1., 1., 1., 1., 1.])
+n: [1. 1. 1. 1. 1.]
 ```
 NumPy 数组中的更改反映到 tensor 中。
 ```py
