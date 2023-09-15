@@ -19,10 +19,11 @@ Fashion-MNIST是一个由 60,000 个训练实例和 10,000 个测试实例组成
 每个例子包括一个28×28的灰度图像和10个类别中的一个相关标签。
 
 我们加载 [FashionMNIST Dataset](https://pytorch.org/vision/stable/datasets.html#fashion-mnist) 参数如下：
- - ``root`` 是存储训练/测试数据的路径,
- - ``train`` 指定训练或测试数据集,
- - ``download=True`` 如果 ``root`` 指定的目录没有数据，就自动从网上下载数据。
- - ``transform`` 和 ``target_transform`` 指定特征和标签的转换。
+
+- ``root`` 是存储训练/测试数据的路径,
+- ``train`` 指定训练或测试数据集,
+- ``download=True`` 如果 ``root`` 指定的目录没有数据，就自动从网上下载数据。
+- ``transform`` 和 ``target_transform`` 指定特征和标签的转换。
 
 ```py
 import torch
@@ -164,7 +165,7 @@ def __getitem__(self, idx):
 
  ``Dataset`` 每次加载一组我们数据集的特征和标签样本。在训练一个模型时，我们通常希望以 "小批量" 的方式传递样本，在每个训练周期重新打乱数据以减少模型的过拟合，并使用 Python 的 ``multiprocessing`` 来加快数据的加载速度。
 
-`DataLoader` 是一个可迭代的，它用一个简单的API为我们抽象出这种复杂性。
+`DataLoader` 是一个可迭代的对象，它用一个简单的API为我们抽象出这种复杂性。
 
 ```py
 from torch.utils.data import DataLoader
