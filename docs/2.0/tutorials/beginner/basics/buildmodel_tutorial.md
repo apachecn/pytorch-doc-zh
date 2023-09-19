@@ -6,7 +6,7 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html>
 
-神经网络由在数据上完成操作的层/模块构成。[`torch.nn`](https://pytorch.org/docs/stable/nn.html) 命名空间提供了所有你用来构建你自己的神经网络所需的的东西。PyTorch 中每个模块都是 [`nn.Module`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html) 的子类。一个由其他模块(层)组成的神经网络自身也是一个模块。这种嵌套的结构让构建和管理复杂的结构更轻松。
+神经网络由在数据上进行操作的层/模块构成。[`torch.nn`](https://pytorch.org/docs/stable/nn.html) 命名空间提供了所有你用来构建你自己的神经网络所需的组件。PyTorch 中每个模块都是 [`nn.Module`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html) 的子类。一个由其他模块(层)组成的神经网络自身也是一个模块。这种嵌套的结构让构建和管理复杂的结构更轻松。
 
 在下面的章节中，我们将构建一个神经网络来给 FashionMNIST 数据集的图片分类。
 
@@ -84,7 +84,7 @@ NeuralNetwork(
 )
 ```
 
-为了使用这个模型，我们给它传递输入数据。这将会执行模型的 `forward`，伴随着一些[幕后工作](https://github.com/pytorch/pytorch/blob/270111b7b611d174967ed204776985cefca9c144/torch/nn/modules/module.py#L866)。不要直接调用 `model.forward()` !
+为了使用这个模型，我们给它传递输入数据。这将会执行模型的 `forward` 函数，以及一些[后台操作](https://github.com/pytorch/pytorch/blob/270111b7b611d174967ed204776985cefca9c144/torch/nn/modules/module.py#L866)。请不要直接调用 `model.forward()` !
 
 将数据传递给模型并调用后返回一个 2 维张量（第0维对应一组 10 个代表每种类型的原始预测值，第1维对应该类型对应的原始预测值）。我们将它传递给一个 `nn.Softmax` 模块的实例来来获得预测概率。
 
@@ -104,7 +104,7 @@ Predicted class: tensor([7], device='cuda:0')
 
 ## 模型层
 
-让我们分析这个 FashionMNIST 模型层。为了说明，我们会取一个由 3 张 28x28 的图片数据组成的样例数据，并看看当我们将它传递给模型后会发生什么。
+让我们分析这个 FashionMNIST 模型的各层。为了说明，我们会取一个由 3 张 28x28 的图片数据组成的样例数据，并看看当我们将它传递给模型后会发生什么。
 
 ```py
 input_image = torch.rand(3,28,28)
@@ -151,7 +151,7 @@ torch.Size([3, 20])
 
 ### nn.ReLU
 
-非线性的激活函数创造了模型的输入值和输出值之间的复杂映射。它们在线性转换之后应用来引入*非线性*，帮助神经网络学习更广阔范围的现象。
+非线性的激活函在模型的输入和输出之间数创造了复杂的映射关系。它们在线性转换之后引入*非线性*，帮助神经网络学习更广阔范围的现象。
 
 在这个模型中，我们在线性层之间使用 [`nn.ReLU`](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html)，不过还有其他的激活函数可以用在你的模型中引入非线性。
 
@@ -205,7 +205,7 @@ logits = seq_modules(input_image)
 
 ### nn.Softmax
 
-模型的最后一层返回 *logits*(介于[负无穷,正无穷]之间的原始值)，然后被传递给 [`nn.Softmax`](https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html) 模块。这些 logits 值被缩放到 [0,1]，代表模型对与每种类型的预测概率. `dim` 参数代表沿着该维度数值应该加总为 1.
+模型的最后一层返回 *logits*(介于[负无穷,正无穷]之间的原始值)，然后被传递给 [`nn.Softmax`](https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html) 模块。这些 logits 值被缩放到 [0,1]，代表模型对每种类型的预测概率， `dim` 参数代表沿着该维度数值应该加总为 1.
 
 ```py
 softmax = nn.Softmax(dim=1)
@@ -214,9 +214,9 @@ pred_probab = softmax(logits)
 
 ## 模型参数
 
-神经网络内的许多层都是参数化的，比如有可以在训练中优化的关联的权重值和偏差值。子类化 `nn.Module` 会自动追踪所有你定义在模型对象中的字段，并通过你模型的 `parameters()` 或者 `named_parameters()` 访问所有参数。
+神经网络内的许多层都是参数化的，比如可以在训练中与层相关的可优化权重和偏置。 `nn.Module` 的子类会自动追踪所有你定义在模型对象中的字段，并通过你模型的 `parameters()` 或者 `named_parameters()` 方法访问所有参数。
 
-在这个例子中，我们在每个参数上遍历，然后打印出它的大小(size)并预测数值。
+在这个例子中，我们在每个参数上遍历，然后打印出它的大小(size)与数值。
 
 ```py
 print(f"Model structure: {model}\n\n")
