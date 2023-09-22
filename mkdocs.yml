@@ -80,6 +80,11 @@ nav:
         - "在C++中加载 TorchScript 模型": "2.0/tutorials/advanced/cpp_export.md"
         - "（可选）将模型从 PYTORCH 导出到 ONNX 并使用 ONNX 运行时运行它": "2.0/tutorials/advanced/super_resolution_with_onnxruntime.md"
         - "树莓派 4 上的实时推理 （30 FPS！）": "2.0/tutorials/intermediate/realtime_rpi.md"
+      - "推荐系统":
+        - "Torchec 介绍": "2.0/tutorials/intermediate/torchrec_tutorial.md"
+        - "一步步探索 TorchRec": "2.0/tutorials/advanced/sharding.md"
+      - "多模式":
+        - "TorchMultimodal 教程：微调 Flava": "2.0/tutorials/beginner/flava_finetuning_tutorial.md"
     - "中文文档":
       - "介绍": "2.0/docs/README.md"
   - "PyTorch 1.7 中文文档":
