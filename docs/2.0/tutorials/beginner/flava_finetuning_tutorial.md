@@ -89,7 +89,7 @@
    plt.show()
    ```
 
-   ![flava finetuning tutorial](flava_finetuning_tutorial/sphx_glr_flava_finetuning_tutorial_001-16953610831373.png)
+   ![sphx_glr_flava_finetuning_tutorial_001](../../img/sphx_glr_flava_finetuning_tutorial_001.png)
 
    **Out:**
 
