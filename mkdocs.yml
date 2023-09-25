@@ -80,6 +80,9 @@ nav:
         - "在C++中加载 TorchScript 模型": "2.0/tutorials/advanced/cpp_export.md"
         - "（可选）将模型从 PYTORCH 导出到 ONNX 并使用 ONNX 运行时运行它": "2.0/tutorials/advanced/super_resolution_with_onnxruntime.md"
         - "树莓派 4 上的实时推理 （30 FPS！）": "2.0/tutorials/intermediate/realtime_rpi.md"
+      - "使用FX进行代码转换":
+        - "（测试版）在FX中构建一个卷积/BATCH NORM 融合器": "2.0/tutorials/intermediate/fx_conv_bn_fuser.md"
+        - "（测试版）用FX构建一个简单的CPU性能分析器": "2.0/tutorials/intermediate/fx_profiling_tutorial.md"
       - "推荐系统":
         - "Torchec 介绍": "2.0/tutorials/intermediate/torchrec_tutorial.md"
         - "一步步探索 TorchRec": "2.0/tutorials/advanced/sharding.md"
