@@ -1,4 +1,11 @@
-# TORCH.CUDA
+# torch.cuda
+
+> 译者：[sci-m-wang](https://github.com/sci-m-wang)
+>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/cuda>
+>
+> 原始地址：<https://pytorch.org/docs/stable/cuda.html>
+
 > *斜体表示译者添加的解释或想法。*
 
 这个包添加了对 CUDA 张量类型的支持，这些类型实现了与 CPU 张量相同的功能，但它们利用 GPU 进行计算。

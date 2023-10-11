@@ -90,6 +90,7 @@ nav:
         - "TorchMultimodal 教程：微调 Flava": "2.0/tutorials/beginner/flava_finetuning_tutorial.md"
     - "中文文档":
       - "介绍": "2.0/docs/README.md"
+      - "torch.cuda": "2.0/docs/cuda.md"
   - "PyTorch 1.7 中文文档":
     - "学习 PyTorch":
       - "PyTorch 深度学习：60 分钟的突击":
