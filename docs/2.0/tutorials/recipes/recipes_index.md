@@ -117,7 +117,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 ### 使用 Captum 进行模型解释
 
-<img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/model-interpretability-using-captum.PNG" width=20% />
+<img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/model-interpretability-using-captum.png" width=20% />
 
 [了解如何使用 Captum 将图像分类器的预测归因于其相应的图像特征，并可视化归因结果](https://pytorch.org/tutorials/recipes/recipes/Captum_Recipe.html)
 
