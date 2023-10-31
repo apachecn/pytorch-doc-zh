@@ -1,8 +1,8 @@
 > 翻译任务
 
 * 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
+* 翻译奖励: <https://github.com/orgs/apachecn/discussions/243>
+* 任务认领: <https://github.com/apachecn/pytorch-doc-zh/discussions/583>
 
 <!-- 
 请参考这个模版来写内容:
@@ -42,7 +42,8 @@ $\sqrt{w^T*w}$
 
 2) 需要换行的写法：
 $$
-max_{lpha} \left( \sum_{i=1}^{m} lpha_i - rac{1}{2} \sum_{i, j=1}^{m} label_i st label_j st lpha_i st lpha_j st <x_i, x_j> ight)
+max_{lpha} \left( \sum_{i=1}^{m} lpha_i - rac{1}{2} \sum_{i, j=1}^{m} label_i st label_j st lpha_i st lpha_j st <x_i, x_j> 
+ight)
 $$
 
 3. 图片参考:
