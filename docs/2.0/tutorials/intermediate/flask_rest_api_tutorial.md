@@ -103,10 +103,10 @@ def transform_image(image_bytes):
     return my_transforms(image).unsqueeze(0)
 ```
 
-上面的方法以字节为单位获取图像数据，应用一系列转换并返回一个张量。要测试上述方法，请在字节模式（首先替换 *../_static/img/sample_file.jpeg* 为实际计算机上文件的路径），然后查看是否返回张量：
+上面的方法以字节为单位获取图像数据，应用一系列转换并返回一个张量。要测试上述方法，请在字节模式（首先替换 *https://pytorch.org/tutorials/_static/img/sample_file.jpeg* 为实际计算机上文件的路径），然后查看是否返回张量：
 
 ```
-with open("../_static/img/sample_file.jpeg", 'rb') as f:
+with open("https://pytorch.org/tutorials/_static/img/sample_file.jpeg", 'rb') as f:
     image_bytes = f.read()
     tensor = transform_image(image_bytes=image_bytes)
     print(tensor)
@@ -137,7 +137,7 @@ def get_prediction(image_bytes):
 ```
 import json
 
-imagenet_class_index = json.load(open('../_static/imagenet_class_index.json'))
+imagenet_class_index = json.load(open('https://pytorch.org/tutorials/_static/imagenet_class_index.json'))
 
 def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes)
@@ -150,7 +150,7 @@ def get_prediction(image_bytes):
 在使用`imagenet_class_index`字典之前，首先我们将转换张量值为字符串值，因为`imagenet_class_index`字典中的键是字符串。我们将测试我们上面的方法：
 
 ```
-with open("../_static/img/sample_file.jpeg", 'rb') as f:
+with open("https://pytorch.org/tutorials/_static/img/sample_file.jpeg", 'rb') as f:
     image_bytes = f.read()
     print(get_prediction(image_bytes=image_bytes))
 ```

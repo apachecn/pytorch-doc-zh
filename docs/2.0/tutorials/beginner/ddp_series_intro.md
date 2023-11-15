@@ -1,14 +1,23 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: <https://github.com/orgs/apachecn/discussions/243>
-* 任务认领: <https://github.com/apachecn/pytorch-doc-zh/discussions/583>
-
-<!-- 
-请参考这个模版来写内容:
 
 
-# PyTorch 某某页面
+**简介** 
+ ||
+ [什么是 DDP](ddp_series_theory.html) 
+ ||
+ [单节点多 GPU 训练](ddp_series_multigpu.html) 
+ ||\ n [容错](ddp_series_fault_tolerance.html) 
+ ||
+ [多节点训练](../intermediate/ddp_series_multinode.html) 
+ ||
+ [minGPT 训练](../intermediate/ddp_series_minGPT. html)
+
+
+
+
+
+ PyTorch 中的分布式数据并行 - 视频教程
+ [¶](#distributed-data-parallel-in-pytorch-video-tutorials "永久链接到此标题")
+================================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -16,37 +25,96 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/ddp_series_intro.html>
 
-开始写原始页面的翻译内容(翻译完后请删除这个模版注释就行)
 
 
 
-注意事项: 
+ 作者：
+ [Suraj Subramanian](https://github.com/suraj813)
 
-1. 代码参考:
 
-```py
-import torch
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
 
-2. 公式参考:
+ 请观看下面或 [youtube](https://www.youtube.com/watch/-K3bZYHYHEA) 上的视频
+ 。
 
-1) 无需换行的写法: 
-$\sqrt{w^T*w}$
 
-2) 需要换行的写法：
-$$
-max_{lpha} \left( \sum_{i=1}^{m} lpha_i - rac{1}{2} \sum_{i, j=1}^{m} label_i st label_j st lpha_i st lpha_j st <x_i, x_j> 
-ight)
-$$
 
-3. 图片参考:
 
-<img src='https://pytorch.org/tutorials/_static/img/thumbnails/cropped/profiler.png' width=20% />
--->
+
+
+
+
+ 本系列视频教程将引导您通过 DDP 在 PyTorch 中完成
+分布式训练。
+
+
+
+
+ 本系列从简单的非分布式训练作业开始，到
+在集群中的多台机器上部署训练作业结束。
+在此过程中，您还将了解
+ [torchrun](https://pytorch.org/docs/stable/elastic/run.html)
+ 用于
+容错分布式训练。
+
+
+
+
+ 本教程假设您基本熟悉 PyTorch 中的模型训练。
+
+
+
+
+
+ 运行代码
+ [¶](#running-the-code "固定链接到此标题")
+----------------------------------------------------------------------- -
+
+
+
+ 您将需要多个 CUDA GPU 来运行教程代码。通常，
+这可以在具有多个 GPU 的云实例上完成（教程
+使用具有 4 个 GPU 的 Amazon EC2 P3 实例）。
+
+
+
+
+ 教程代码托管在此
+ [github 存储库](https://github.com/pytorch/examples/tree/main/distributed/ddp-tutorial-series) 
+ 。
+克隆存储库并按照说明进行操作!
+
+
+
+
+
+
+ 教程部分
+ [¶](#tutorial-sections "此标题的永久链接")
+---------------------------------------------------------------------------------------------------
+
+
+0. 简介（本页）
+1. [什么是DDP？](ddp_series_theory.html) 
+ 轻轻介绍DDP 的底层原理
+2. [单节点多GPU训练](ddp_series_multigpu.html)
+在单台机器上使用多个GPU
+训练模型
+3. [容错分布式训练](ddp_series_fault_tolerance.html) 
+ 使用 torchrun 让分布式训练作业更加稳健
+4。 [多节点训练](../intermediate/ddp_series_multinode.html)
+在多台机器上使用
+多个 GPU 训练模型
+5. [使用 DDP 训练 GPT 模型](../intermediate/ddp_series_minGPT.html) 
+ “Real-world”
+训练示例
+ [minGPT](https://github.com/karpathy/minGPT) 
+ 具有 DDP 的模型
+
+
+
+
+
+
+
+
