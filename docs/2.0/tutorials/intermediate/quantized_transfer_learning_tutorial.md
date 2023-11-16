@@ -1,9 +1,8 @@
 
 
 
- （测试版）计算机视觉量化迁移学习教程
- [¶](#beta-quantized-transfer-learning-for-computer-vision-tutorial "永久链接到此标题")
-===================================================================================================================================================================
+# （测试版）计算机视觉量化迁移学习教程 [¶](#beta-quantized-transfer-learning-for-computer-vision-tutorial "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -96,9 +95,8 @@
 
 
 
- 第 0 部分。先决条件
- [¶](#part-0-preventions "永久链接到此标题")
-----------------------------------------------------------------------------------
+## 第 0 部分。先决条件 [¶](#part-0-preventions "永久链接到此标题")
+
 
 
 
@@ -125,9 +123,7 @@ plt.ion()
 
 
 
-### 
- 安装 Nightly Build
- [¶](#installing-the-nightly-build“永久链接到此标题”)
+### 安装 Nightly Build [¶](#installing-the-nightly-build“永久链接到此标题”)
 
 
 
@@ -157,9 +153,7 @@ pip install --pre torch torchvision -f https://download.pytorch.org/whl/nightly/
 
 
 
-### 
- 加载数据
- [¶](#load-data "永久链接到此标题")
+### 加载数据 [¶](#load-data "永久链接到此标题")
 
 
 
@@ -259,9 +253,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 
-### 
- 可视化一些图像
- [¶](#visualize-a-few-images "此标题的固定链接")
+### 可视化一些图像 [¶](#visualize-a-few-images "此标题的固定链接")
 
 
 
@@ -306,9 +298,7 @@ imshow(out, title=[class_names[x] for x in classes], ax=ax)
 
 
 
-### 
- 模型训练支持函数
- [¶](#support-function-for-model-training "永久链接到此标题")
+### 模型训练支持函数 [¶](#support-function-for-model-training "永久链接到此标题")
 
 
 
@@ -410,9 +400,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25, device='c
 
 
 
-### 
- 用于可视化模型预测的支持函数
- [¶](#support-function-for-visualizing-the-model-predictions "永久链接到此标题")
+### 用于可视化模型预测的支持函数 [¶](#support-function-for-visualizing-the-model-predictions "永久链接到此标题")
 
 
 
@@ -458,11 +446,8 @@ def visualize_model(model, rows=3, cols=3):
 
 
 
+## 第 1 部分：基于量化特征提取器训练自定义分类器 [¶](#part-1-training-a-custom-classifier-based-on-a-quantized-feature-extractor “此标题的永久链接”）
 
-
- 第 1 部分：基于量化特征提取器训练自定义分类器
- [¶](#part-1-training-a-custom-classifier-based-on-a-quantized-feature-extractor “此标题的永久链接”）
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -609,9 +594,7 @@ exp_lr_scheduler = optim.lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.
 
 
 
-### 
- 训练和评估
- [¶](#train-and-evaluate "永久链接到此标题")
+### 训练和评估 [¶](#train-and-evaluate "永久链接到此标题")
 
 
 
@@ -635,11 +618,8 @@ plt.tight_layout()
 
 
 
+## 第 2 部分. 微调可量化模型 [¶](#part-2-finetuning-the-quantible-model "永久链接到此标题")
 
-
- 第 2 部分. 微调可量化模型
- [¶](#part-2-finetuning-the-quantible-model "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------------------
 
 
 在这一部分中，我们微调用于迁移学习的特征提取器，并对特征提取器进行量化。请注意，在第 1 部分和第 2 部分中，特征提取器都是量化的。不同之处在于，在第 1 部分中，我们使用预训练的量化模型。在这一部分中，我们在对感兴趣的数据集进行微调后创建了一个量化特征提取器，因此这是一种通过迁移学习获得更高准确性同时具有量化优势的方法。请注意，在我们的具体示例中，训练集非常小（120 个图像），因此微调整个模型的好处并不明显。不过，
@@ -771,9 +751,7 @@ model_ft = torch.quantization.prepare_qat(model_ft, inplace=True)
 
 
 
-### 
- 微调模型
- [¶](#finetuning-the-model "永久链接到此标题")
+### 微调模型 [¶](#finetuning-the-model "永久链接到此标题")
 
 
 

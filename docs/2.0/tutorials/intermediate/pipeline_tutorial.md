@@ -1,7 +1,5 @@
+# 使用管道并行性训练 Transformer 模型 [¶](#training-transformer-models-using-pipeline-parallelism "永久链接到此标题")
 
- 使用管道并行性训练 Transformer 模型
- [¶](#training-transformer-models-using-pipeline-parallelism "永久链接到此标题")
-==================================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -41,11 +39,8 @@
 >
 
 
-
-
- 定义模型
- [¶](#define-the-model "永久链接到此标题")
------------------------------------------------------------------------ -
+## 定义模型 [¶](#define-the-model "永久链接到此标题")
+ -
 
 
 
@@ -170,10 +165,8 @@ class PositionalEncoding(nn.Module):
 
 
 
+## 加载并批处理数据 [¶](#load-and-batch-data "固定链接到此标题")
 
- 加载并批处理数据
- [¶](#load-and-batch-data "固定链接到此标题")
---------------------------------------------------------------------------------
 
 
 
@@ -264,9 +257,7 @@ test_data = batchify(test_data, eval_batch_size)
 
 
 
-### 
- 生成输入和目标序列的函数
- [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
+### 生成输入和目标序列的函数 [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
 
 
 
@@ -315,11 +306,8 @@ def get_batch(source, i):
 
 
 
+## 模型比例和管道初始化 [¶](#model-scale-and-pipe-in​​itialization "永久链接到此标题")
 
-
- 模型比例和管道初始化
- [¶](#model-scale-and-pipe-in​​itialization "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -445,10 +433,8 @@ Total parameters in model: 1,444,261,998
 
 
 
+## 运行模型 [¶](#run-the-model "永久链接到此标题")
 
- 运行模型
- [¶](#run-the-model "永久链接到此标题")
---------------------------------------------------------------------
 
 
 
@@ -600,10 +586,8 @@ To get the last learning rate computed by the scheduler, please use `get_last_lr
 
 
 
+## 使用测试数据集评估模型 [¶](#evaluate-the-model-with-the-test-dataset "永久链接到此标题")
 
- 使用测试数据集评估模型
- [¶](#evaluate-the-model-with-the-test-dataset "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------------
 
 
 

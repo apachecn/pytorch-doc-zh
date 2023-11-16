@@ -1,9 +1,8 @@
 
 
 
- 使用连接上下文管理器进行不均匀输入的分布式训练
- [¶](#distributed-training-with-uneven-inputs-using-the-join-context-manager "永久链接到此标题")
-==================================================================================================================================================================================
+# 使用连接上下文管理器进行不均匀输入的分布式训练 [¶](#distributed-training-with-uneven-inputs-using-the-join-context-manager "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -67,11 +66,8 @@ API 可能会更改。
 * 展示如何使玩具类与上下文管理器兼容。
 
 
+## 要求 [¶](#requirements "永久链接到此标题")
 
-
- 要求
- [¶](#requirements "永久链接到此标题")
--------------------------------------------------------------------------
 
 
 * PyTorch 1.10+
@@ -82,11 +78,10 @@ API 可能会更改。
 
 
 
- 什么是
+## 什么是
  `Join`
- ？
- [¶](#what-is-join "永久链接到此标题")
-----------------------------------------------------------------------
+ ？ [¶](#what-is-join "永久链接到此标题")
+
 
 
 
@@ -109,13 +104,11 @@ API 可能会更改。
 
 
 
-
- 使用
+## 使用
  `Join`
  和
- `DistributedDataParallel`
-[¶](#using-join-with-distributeddataparallel "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------------------
+ `DistributedDataParallel` [¶](#using-join-with-distributeddataparallel "永久链接到此标题")
+
 
 
 
@@ -223,16 +216,13 @@ Rank 1 has exhausted all 6 of its inputs!
 
 
 
-
-
- 使用
+## 使用
  `Join`
  与
  `DistributedDataParallel`
  和
- `ZeroRedundancyOptimizer`
-[¶](#using-join-with-distributeddataparallel-and-zeroredundancyoptimizer "此标题的永久链接")
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ `ZeroRedundancyOptimizer` [¶](#using-join-with-distributeddataparallel-and-zeroredundancyoptimizer "此标题的永久链接")
+
 
 
 
@@ -295,10 +285,8 @@ def worker(rank):
 
 
 
+## 传递关键字参数 [¶](#passing-keyword-arguments "永久链接到此标题")
 
- 传递关键字参数
- [¶](#passing-keyword-arguments "永久链接到此标题")
---------------------------------------------------------------------------------------------------------
 
 
 
@@ -336,13 +324,9 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
+## `Join`
+ 如何工作？ [¶](#how-does-join-work "永久链接到此标题")
 
-
- 
- `Join`
- 如何工作？
- [¶](#how-does-join-work "永久链接到此标题")
-----------------------------------------------------------------------------------
 
 
 
@@ -359,9 +343,7 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
-### 
-`Joinable`
-[¶](#joinable "永久链接到此标题")
+### `Joinable` [¶](#joinable "永久链接到此标题")
 
 
 
@@ -486,9 +468,7 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
-### 
-`JoinHook`
-[¶](#joinhook "此标题的永久链接")
+### `JoinHook` [¶](#joinhook "此标题的永久链接")
 
 
 
@@ -558,9 +538,7 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
-### 
-`加入`
-[¶](#join "此标题的永久链接")
+### `加入` [¶](#join "此标题的永久链接")
 
 
 
@@ -684,10 +662,9 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
- 使玩具类与
- `Join` 一起工作
-[¶](#making-a-toy-class-work-with-join "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------
+## 使玩具类与
+ `Join` 一起工作 [¶](#making-a-toy-class-work-with-join "永久链接到此标题")
+
 
 
 

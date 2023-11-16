@@ -1,9 +1,8 @@
 
 
 
- 从第一原理了解 PyTorch Intel CPU 性能
- [¶](#grokking-pytorch-intel-cpu-performance-from-first-principles "固定链接到此标题")
-==============================================================================================================================================================
+# 从第一原理了解 PyTorch Intel CPU 性能 [¶](#grokking-pytorch-intel-cpu-performance-from-first-principles "固定链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -141,11 +140,8 @@
  显式启用该功能。
 
 
+## 避免深度学习的逻辑核心 [¶](#avoid-logic-cores-for-deep-learning "永久链接到此标题")
 
-
- 避免深度学习的逻辑核心
- [¶](#avoid-logic-cores-for-deep-learning "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -287,10 +283,8 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
+## 本地内存访问始终比远程内存访问快 [¶](#local-memory-access-is-always-faster-than-remote-memory-access "永久链接到此标题")
 
- 本地内存访问始终比远程内存访问快
- [¶](#local-memory-access-is-always-faster-than-remote-memory-access "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -453,10 +447,8 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
-
- 通过核心固定实现多工作线程推理的高效 CPU 使用率
- [¶](#efficient-cpu-usage-with-core-pinning-for-multi-worker-inference "永久链接到此标题")
-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 通过核心固定实现多工作线程推理的高效 CPU 使用率 [¶](#efficient-cpu-usage-with-core-pinning-for-multi-worker-inference "永久链接到此标题")
+- 
 
 
 
@@ -524,10 +516,8 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
+## 1. 默认 TorchServe 设置（无核心固定） [¶](#default-torchserve-setting-no-core-pinning "永久链接到此标题")
 
- 1. 默认 TorchServe 设置（无核心固定）
- [¶](#default-torchserve-setting-no-core-pinning "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -611,8 +601,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
-
- 2. torch.set_num_threads =
+## 2. torch.set_num_threads =
  `数量
  
 
@@ -632,9 +621,8 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
  
 
  个工作线程的数量`
-（无核心固定）
- [¶](#torch-set-num-threads-number-of-physical-cores-number -of-workers-no-core-pinning“此标题的永久链接”）
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+（无核心固定） [¶](#torch-set-num-threads-number-of-physical-cores-number -of-workers-no-core-pinning“此标题的永久链接”）
+
 
 
 
@@ -713,10 +701,8 @@ torch.set_num_threads(num_physical_cores/num_workers)
 
 
 
+## 3. 启动器核心固定 [¶](#launcher-core-pinning "永久链接到此标题")
 
- 3. 启动器核心固定
- [¶](#launcher-core-pinning "永久链接到此标题")
-------------------------------------------------------------------------------------
 
 
 
@@ -787,10 +773,8 @@ torch.set_num_threads(num_physical_cores/num_workers)
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
- 结论
- [¶](#conclusion "此标题的永久链接")
----------------------------------------------------------------------
 
 
 
@@ -841,10 +825,8 @@ torch.set_num_threads(num_physical_cores/num_workers)
 
 
 
+## 确认 [¶](#acknowledgement "永久链接到此标题")
 
- 确认
- [¶](#acknowledgement "永久链接到此标题")
---------------------------------------------------------------------------------
 
 
 

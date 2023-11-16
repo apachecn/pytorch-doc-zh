@@ -1,9 +1,8 @@
 
 
 
- 使用自定义 C++ 运算符扩展 TorchScript
- [¶](#extending-torchscript-with-custom-c-operators "固定链接到此标题")
-================================================================================================================================
+# 使用自定义 C++ 运算符扩展 TorchScript [¶](#extending-torchscript-with-custom-c-operators "固定链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -51,9 +50,8 @@ Python 中执行它们，并直接在 C++ 中以序列化形式执行它们。
 
 
 
- 在 C++ 中实现自定义运算符
- [¶](#implementing-the-custom-operator-in-c "固定链接到此标题")
----------------------------------------------------------------------------------------------------------------------
+## 在 C++ 中实现自定义运算符 [¶](#implementing-the-custom-operator-in-c "固定链接到此标题")
+
 
 
 
@@ -349,10 +347,8 @@ PyTorch 中进一步使用它。这与我们之前在另一个方向上进行的
 
 
 
+## 使用 TorchScript 注册自定义运算符 [¶](#registering-the-custom-operator-with-torchscript "永久链接到此标题")
 
- 使用 TorchScript 注册自定义运算符
- [¶](#registering-the-custom-operator-with-torchscript "永久链接到此标题")
------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -414,10 +410,8 @@ TORCH_LIBRARY(my_ops, m) {
 
 
 
+## 构建自定义运算符 [¶](#building-the-custom-operator "永久链接到此标题")
 
- 构建自定义运算符
- [¶](#building-the-custom-operator "永久链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -431,9 +425,7 @@ TORCH_LIBRARY(my_ops, m) {
 
 
 
-### 
- 环境设置
- [¶](#environment-setup "永久链接到此标题")
+### 环境设置 [¶](#environment-setup "永久链接到此标题")
 
 
 
@@ -454,9 +446,7 @@ conda install opencv
 
 
 
-### 
- 使用 CMake 构建
- [¶](#building-with-cmake "永久链接到此标题")
+### 使用 CMake 构建 [¶](#building-with-cmake "永久链接到此标题")
 
 
 
@@ -617,11 +607,8 @@ print(torch.ops.my_ops.warp_perspective)
 
 
 
+## 在 Python 中使用 TorchScript 自定义运算符 [¶](#using-the-torchscript-custom-operator-in-python "永久链接到此标题")
 
-
- 在 Python 中使用 TorchScript 自定义运算符
- [¶](#using-the-torchscript-custom-operator-in-python "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -731,9 +718,7 @@ library” 函数如
 
 
 
-### 
- 使用自定义运算符进行跟踪
- [¶](#using-the-custom-operator-with-tracing "永久链接到此标题")
+### 使用自定义运算符进行跟踪 [¶](#using-the-custom-operator-with-tracing "永久链接到此标题")
 
 
 
@@ -870,9 +855,7 @@ graph(%x.1 : Float(4:8, 8:1),
 
 
 
-### 
- 将自定义运算符与脚本一起使用
- [¶](#using-the-custom-operator-with-script "永久链接到此标题")
+### 将自定义运算符与脚本一起使用 [¶](#using-the-custom-operator-with-script "永久链接到此标题")
 
 
 
@@ -1083,11 +1066,8 @@ graph(%x.1 : Dynamic
 
 
 
+## 在 C++ 中使用 TorchScript 自定义运算符 [¶](#using-the-torchscript-custom-operator-in-c "永久链接到此标题")
 
-
- 在 C++ 中使用 TorchScript 自定义运算符
- [¶](#using-the-torchscript-custom-operator-in-c "永久链接到此标题")
---------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -1524,10 +1504,8 @@ $ ./example_app example.pt
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
- 结论
- [¶](#conclusion "此标题的永久链接")
----------------------------------------------------------------------
 
 
 
@@ -1550,10 +1528,8 @@ TorchScript 模型以及最后如何将其加载到 C++ 应用程序中
 
 
 
+## 附录 A：构建自定义运算符的更多方法 [¶](#appendix-a-more-ways-of-building-custom-operators "永久链接到此标题")
 
- 附录 A：构建自定义运算符的更多方法
- [¶](#appendix-a-more-ways-of-building-custom-operators "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -1592,9 +1568,7 @@ TorchScript 模型以及最后如何将其加载到 C++ 应用程序中
 
 
 
-### 
- 使用 JIT 编译进行构建
- [¶](#building-with-jit-compilation "永久链接到此标题")
+### 使用 JIT 编译进行构建 [¶](#building-with-jit-compilation "永久链接到此标题")
 
 
 PyTorch C++ 扩展工具包提供的 JIT 编译功能允许将自定义运算符的编译直接嵌入到 Python 代码中，例如在训练脚本的顶部。
@@ -1747,9 +1721,7 @@ print(torch.ops.my_ops.warp_perspective)
 
 
 
-### 
- 使用安装工具构建
- [¶](#building-with-setuptools "此标题的永久链接")
+### 使用安装工具构建 [¶](#building-with-setuptools "此标题的永久链接")
 
 
 

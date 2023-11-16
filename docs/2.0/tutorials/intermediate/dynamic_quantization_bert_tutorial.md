@@ -1,9 +1,8 @@
 
 
 
- (beta) BERT 上的动态量化
- [¶](#beta-dynamic-quantization-on-bert "永久链接到此标题")
-=========================================================================================================
+# (beta) BERT 上的动态量化 [¶](#beta-dynamic-quantization-on-bert "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -50,9 +49,8 @@
 
 
 
- 简介
- [¶](#introduction "此标题的永久链接")
---------------------------------------------------------------------------
+## 简介 [¶](#introduction "此标题的永久链接")
+
 
 
 
@@ -90,16 +88,12 @@ MRPC 是语言对分类的常见 NLP 任务，如下所示
 ![https://pytorch.org/tutorials/_images/bert.png](https://pytorch.org/tutorials/_images/bert.png)
 
 
-
- 1. 设置
- [¶](#setup "固定链接到此标题")
--------------------------------------------------------------------
+## 1. 设置 [¶](#setup "固定链接到此标题")
 
 
 
-### 
- 1.1 安装 PyTorch 和 HuggingFace Transformers
- [¶](#install-pytorch-and-huggingface-transformers "永久链接到此标题")
+
+### 1.1 安装 PyTorch 和 HuggingFace Transformers [¶](#install-pytorch-and-huggingface-transformers "永久链接到此标题")
 
 
 
@@ -148,9 +142,7 @@ yes y | pip install --pre torch -f https://download.pytorch.org/whl/nightly/cu10
 
 
 
-### 
- 1.2 导入必要的模块
- [¶](#import-the-necessary-modules "永久链接到此标题")
+### 1.2 导入必要的模块 [¶](#import-the-necessary-modules "永久链接到此标题")
 
 
 
@@ -214,9 +206,7 @@ print(torch.__config__.parallel_info())
 
 
 
-### 
- 1.3 了解辅助函数
- [¶](#learn-about-helper-functions "永久链接到此标题")
+### 1.3 了解辅助函数 [¶](#learn-about-helper-functions "永久链接到此标题")
 
 
 
@@ -259,9 +249,7 @@ print(torch.__config__.parallel_info())
 
 
 
-### 
- 1.4 下载数据集
- [¶](#download-the-dataset "永久链接到此标题")
+### 1.4 下载数据集 [¶](#download-the-dataset "永久链接到此标题")
 
 
 
@@ -287,11 +275,8 @@ python download_glue_data.py --data_dir='glue_data' --tasks='MRPC'
 
 
 
+## 2. 微调 BERT 模型 [¶](#fine-tune-the-bert-model "Permalink to this header")
 
-
- 2. 微调 BERT 模型
- [¶](#fine-tune-the-bert-model "Permalink to this header")
-------------------------------------------------------------------------------------------
 
 
 BERT 的精神是预训练语言表示，然后以最小的任务相关参数对各种任务上的深度双向表示进行微调，并实现状态艺术成果。在本教程中，我们将重点关注
@@ -349,9 +334,7 @@ python ./run_glue.py \
 
 
 
-### 
- 2.1 设置全局配置
- [¶](#set-global-configurations "永久链接到此标题")
+### 2.1 设置全局配置 [¶](#set-global-configurations "永久链接到此标题")
 
 
 
@@ -406,9 +389,7 @@ set_seed(42)
 
 
 
-### 
- 2.2 加载微调后的 BERT 模型
- [¶](#load-the-fine-tuned-bert-model "永久链接到此标题")
+### 2.2 加载微调后的 BERT 模型 [¶](#load-the-fine-tuned-bert-model "永久链接到此标题")
 
 
 
@@ -435,9 +416,7 @@ model.to(configs.device)
 
 
 
-### 
- 2.3 定义标记化和评估函数
- [¶](#define-the-tokenize-and-evaluation-function "Permalink to this header")
+### 2.3 定义标记化和评估函数 [¶](#define-the-tokenize-and-evaluation-function "Permalink to this header")
 
 
 
@@ -591,11 +570,8 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
 
 
 
+## 3. 应用动态量化 [¶](#apply-the-dynamic-quantization "永久链接到此标题")
 
-
- 3. 应用动态量化
- [¶](#apply-the-dynamic-quantization "永久链接到此标题")
---------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -626,9 +602,7 @@ print(quantized_model)
 
 
 
-### 
- 3.1 检查模型大小
- [¶](#check-the-model-size "永久链接到此标题")
+### 3.1 检查模型大小 [¶](#check-the-model-size "永久链接到此标题")
 
 
 
@@ -665,9 +639,7 @@ print_size_of_model(quantized_model)
 
 
 
-### 
- 3.2 评估推理精度和时间
- [¶](#evaluate-the-inference-accuracy-and-time "Permalink to this header")
+### 3.2 评估推理精度和时间 [¶](#evaluate-the-inference-accuracy-and-time "Permalink to this header")
 
 
 
@@ -738,9 +710,7 @@ tra-op 并行化线程的数量）。启用操作内并行化支持的一个初�
 
 
 
-### 
- 3.3 序列化量化模型
- [¶](#serialize-the-quantized-model "永久链接到此标题")
+### 3.3 序列化量化模型 [¶](#serialize-the-quantized-model "永久链接到此标题")
 
 
 
@@ -791,11 +761,8 @@ loaded_quantized_model = torch.jit.load("bert_traced_eager_quant.pt")
 
 
 
+## 结论 [¶](#conclusion "永久链接到此标题")
 
-
- 结论
- [¶](#conclusion "永久链接到此标题")
-----------------------------------------------------------
 
 
 
@@ -815,10 +782,8 @@ loaded_quantized_model = torch.jit.load("bert_traced_eager_quant.pt")
 
 
 
+## 参考文献 [¶](#references "此标题的永久链接")
 
- 参考文献
- [¶](#references "此标题的永久链接")
-----------------------------------------------------------------------
 
 
 

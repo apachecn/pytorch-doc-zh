@@ -1,10 +1,8 @@
-
- 使用
+# 使用
  `nn.Transformer`
  和 torchtext
- 进行语言翻译
- [¶](#language-translation-with-nn-transformer-and-torchtext "此标题的永久链接")
- =====================================================================================================================================================
+ 进行语言翻译 [¶](#language-translation-with-nn-transformer-and-torchtext "此标题的永久链接")
+ 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -28,10 +26,8 @@
 
 
 
+## 数据来源和处理 [¶](#data-commerce-and-processing "固定链接到此标题")
 
- 数据来源和处理
- [¶](#data-commerce-and-processing "固定链接到此标题")
---------------------------------------------------------------------------------------------------
 
 
 
@@ -136,10 +132,8 @@ for ln in [SRC_LANGUAGE, TGT_LANGUAGE]:
 
 
 
+## 使用 Transformer 的 Seq2Seq 网络 [¶](#seq2seq-network-using-transformer "永久链接到此标题")
 
- 使用 Transformer 的 Seq2Seq 网络
- [¶](#seq2seq-network-using-transformer "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -317,10 +311,8 @@ optimizer = torch.optim.Adam(transformer.parameters(), lr=0.0001, betas=(0.9, 0.
 
 
 
+## 排序规则 [¶](#collat​​ion "此标题的永久链接")
 
- 排序规则
- [¶](#collat​​ion "此标题的永久链接")
----------------------------------------------------------------------
 
 
 
@@ -522,10 +514,8 @@ print(translate(transformer, "Eine Gruppe von Menschen steht vor einem Iglu ."))
 
 
 
+## 参考文献 [¶](#references "此标题的永久链接")
 
- 参考文献
- [¶](#references "此标题的永久链接")
-------------------------------------------------------------------------------------
 
 
 1. 注意就是您所需要的纸张。

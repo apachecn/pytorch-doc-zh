@@ -1,7 +1,5 @@
+# 电感器 CPU 后端调试和分析 [¶](#inductor-cpu-backend-debugging-and-profiling "永久链接到此标题")
 
- 电感器 CPU 后端调试和分析
- [¶](#inductor-cpu-backend-debugging-and-profiling "永久链接到此标题")
-============================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -26,9 +24,8 @@
 
 
 
- 概述
- [¶](#overview "此标题的永久链接")
-------------------------------------------------------
+## 概述 [¶](#overview "此标题的永久链接")
+
 
 
 
@@ -82,10 +79,8 @@
 
 
 
+## 调试 [¶](#debugging "此标题的永久链接")
 
- 调试
- [¶](#debugging "此标题的永久链接")
--------------------------------------------------------------------------
 
 
 
@@ -142,9 +137,7 @@ def neg1(x):
 
 
 
-### 
- 获取更多日志记录信息
- [¶](#get-more-logging-information "永久链接到此标题")
+### 获取更多日志记录信息 [¶](#get-more-logging-information "永久链接到此标题")
 
 
 
@@ -297,9 +290,7 @@ extern "C" void kernel(const unsigned char* in_ptr0,
 
 
 
-### 
- 确定错误的组成部分
- [¶](#define-component-of-error "永久链接到此标题")
+### 确定错误的组成部分 [¶](#define-component-of-error "永久链接到此标题")
 
 
 
@@ -359,9 +350,7 @@ extern "C" void kernel(const unsigned char* in_ptr0,
 
 
 
-### 
- 编译错误
- [¶](#compilation-error "永久链接到此标题")
+### 编译错误 [¶](#compilation-error "永久链接到此标题")
 
 
 
@@ -547,9 +536,7 @@ class buf0_loop_body:
 
 
 
-### 
- 精度调试
- [¶](#accuracy-debugging "永久链接到此标题")
+### 精度调试 [¶](#accuracy-debugging "永久链接到此标题")
 
 
 
@@ -707,11 +694,8 @@ def forward2(self, arg0_1):
 
 
 
+## 性能分析 [¶](#performance-profiling "永久链接到此标题")
 
-
- 性能分析
- [¶](#performance-profiling "永久链接到此标题")
-----------------------------------------------------------------------------------
 
 
 
@@ -1157,10 +1141,8 @@ output_code.py
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
- 结论
- [¶](#conclusion "此标题的永久链接")
-------------------------------------------------------------------------------------
 
 
 

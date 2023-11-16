@@ -1,9 +1,8 @@
 
 
 
- 使用自定义 C++ 类扩展 TorchScript
- [¶](#extending-torchscript-with-custom-c-classes "永久链接到此标题")
-============================================================================================================================
+# 使用自定义 C++ 类扩展 TorchScript [¶](#extending-torchscript-with-custom-c-classes "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -20,11 +19,8 @@
  和 Python 而构建的 API’。该 API 与 [pybind11](https://github.com/pybind/pybind11) 非常相似，如果您熟悉该系统，大多数概念都会转移。\ n
 
 
+## 在 C++ 中实现和绑定类 [¶](#implementing-and-binding-the-class-in-c "永久链接到此标题")
 
-
- 在 C++ 中实现和绑定类
- [¶](#implementing-and-binding-the-class-in-c "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -165,10 +161,8 @@ TORCH_LIBRARY(my_classes, m) {
 
 
 
+## 使用 CMake 将示例构建为 C++ 项目 [¶](#building-the-example-as-a-c-project-with-cmake "永久链接到此标题")
 
- 使用 CMake 将示例构建为 C++ 项目
- [¶](#building-the-example-as-a-c-project-with-cmake "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -301,10 +295,8 @@ custom_class_project/
 
 
 
+## 使用 Python 和 TorchScript 中的 C++ 类 [¶](#using-the-c-class-from-python-and-torchscript "永久链接到此标题")
 
- 使用 Python 和 TorchScript 中的 C++ 类
- [¶](#using-the-c-class-from-python-and-torchscript "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -385,10 +377,8 @@ assert top == "wow"
 
 
 
-
- 使用自定义类保存、加载和运行 TorchScript 代码
- [¶](# saving-loading-and-running-torchscript-code-using-custom-classes "永久链接到此标题")
-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 使用自定义类保存、加载和运行 TorchScript 代码 [¶](# saving-loading-and-running-torchscript-code-using-custom-classes "永久链接到此标题")
+- 
 
 
 我们还可以使用 libtorch 在 C++ 进程中使用自定义注册的 C++ 类。例如，让’s 定义一个简单
@@ -625,10 +615,8 @@ $ ./infer
 
 
 
+## 将自定义类移入/移出 IValues [¶](#moving-custom-classes-to-from-ivalues "永久链接到此标题")
 
- 将自定义类移入/移出 IValues
- [¶](#moving-custom-classes-to-from-ivalues "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -759,9 +747,8 @@ TorchScript。
 
 
 
- 为自定义 C++ 类定义序列化/反序列化方法
- [¶](#defining-serialization-deserialization-methods-for-custom-c-classes "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 为自定义 C++ 类定义序列化/反序列化方法 [¶](#defining-serialization-deserialization-methods-for-custom-c-classes "永久链接到此标题")
+
 
 
 
@@ -939,10 +926,8 @@ testing
 
 
 
-
- 定义采用或返回绑定 C++ 类的自定义运算符
- [¶](#defining-custom-operators-that-take-or-return-bound-c-classes "此标题的永久链接")
- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 定义采用或返回绑定 C++ 类的自定义运算符 [¶](#defining-custom-operators-that-take-or-return-bound-c-classes "此标题的永久链接")
+ 
 
 
 
@@ -1030,11 +1015,8 @@ class TryCustomOp(torch.nn.Module):
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
-
- 结论
- [¶](#conclusion "此标题的永久链接")
-------------------------------------------------------------------------------------
 
 
 

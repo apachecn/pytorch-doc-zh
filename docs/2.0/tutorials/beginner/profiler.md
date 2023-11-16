@@ -1,7 +1,5 @@
+# 分析您的 PyTorch 模块 [¶](#profiling-your-pytorch-module "永久链接到此标题")
 
- 分析您的 PyTorch 模块
- [¶](#profiling-your-pytorch-module "永久链接到此标题")
-===============================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -73,9 +71,8 @@ import torch.autograd.profiler as profiler
 
 
 
- 使用 Profiler 进行性能调试
- [¶](#performance-debugging-using-profiler "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------
+## 使用 Profiler 进行性能调试 [¶](#performance-debugging-using-profiler "永久链接到此标题")
+
 
 
 
@@ -129,10 +126,8 @@ class MyModule(nn.Module):
 
 
 
+## 分析正向传递 [¶](#profile-the-forward-pass "永久链接到此标题")
 
- 分析正向传递
- [¶](#profile-the-forward-pass "永久链接到此标题")
-----------------------------------------------------------------------------------------
 
 
 
@@ -185,10 +180,8 @@ with profiler.profile(with_stack=True, profile_memory=True) as prof:
 
 
 
+## 打印探查器结果 [¶](#print-profiler-results "永久链接到此标题")
 
- 打印探查器结果
- [¶](#print-profiler-results "永久链接到此标题")
-------------------------------------------------------------------------------------
 
 
 
@@ -291,10 +284,8 @@ Self CPU time total: 5.931s
 
 
 
+## 提高内存性能 [¶](#improve-memory-performance "永久链接到此标题")
 
- 提高内存性能
- [¶](#improve-memory-performance "永久链接到此标题")
------------------------------------------------------------------------------------------------
 
 
 
@@ -387,10 +378,8 @@ Self CPU time total: 5.347s
 
 
 
+## 提高时间性能 [¶](#improve-time-performance "永久链接到此标题")
 
- 提高时间性能
- [¶](#improve-time-performance "永久链接到此标题")
------------------------------------------------------------------------------------------
 
 
 
@@ -498,10 +487,8 @@ Self CPU time total: 225.801ms
 
 
 
+## 进一步阅读 [¶](#further-reading "此标题的永久链接")
 
- 进一步阅读
- [¶](#further-reading "此标题的永久链接")
----------------------------------------------------------------------------------
 
 
 

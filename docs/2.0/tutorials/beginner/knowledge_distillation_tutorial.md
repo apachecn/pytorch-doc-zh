@@ -1,7 +1,5 @@
+# 知识蒸馏教程 [¶](#knowledge-distillation-tutorial "永久链接到此标题")
 
- 知识蒸馏教程
- [¶](#knowledge-distillation-tutorial "永久链接到此标题")
-=================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -48,11 +46,8 @@
 * 如何改进通过使用更复杂的模型作为教师来提高轻量级模型的性能
 
 
+## 先决条件 [¶](#preconditions "永久链接到此标题")
 
-
- 先决条件
- [¶](#preconditions "永久链接到此标题")
---------------------------------------------------------------------------------
 
 
 * 1 个 GPU，4GB 内存
@@ -80,9 +75,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 
-### 
- 正在加载 CIFAR-10
- [¶](#loading-cifar-10 "此标题的永久链接")
+### 正在加载 CIFAR-10 [¶](#loading-cifar-10 "此标题的永久链接")
 
 
 
@@ -95,8 +88,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
  CIFAR-10 图像示例
- 
-[¶](#id1 "此图像的永久链接")
+  [¶](#id1 "此图像的永久链接")
 
 
 
@@ -220,9 +212,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=128, shuffle=
 
 
 
-### 
- 定义模型类和实用函数
- [¶](#defining-model-classes-and-utility-functions "永久链接到此标题")
+### 定义模型类和实用函数 [¶](#defining-model-classes-and-utility-functions "永久链接到此标题")
 
 
 
@@ -328,8 +318,7 @@ class LightNN(nn.Module):
 
 
  使用交叉熵训练两个网络。学生将用作基线：
- 
-[¶](#id2 "Permalink to this image")
+  [¶](#id2 "Permalink to this image")
 
 
 
@@ -391,9 +380,7 @@ def test(model, test_loader, device):
 
 
 
-### 
- 交叉熵运行
- [¶](#cross-entropy-runs "永久链接到此标题")
+### 交叉熵运行 [¶](#cross-entropy-runs "永久链接到此标题")
 
 
 
@@ -581,9 +568,7 @@ Student accuracy: 69.86%
 
 
 
-### 
- 知识蒸馏运行
- [¶](#knowledge-distillation-run "永久链接到此标题")
+### 知识蒸馏运行 [¶](#knowledge-distillation-run "永久链接到此标题")
 
 
 
@@ -623,8 +608,7 @@ t往往非常小，以至于传播的梯度不会有意义地改变构建此所�
 
 
  蒸馏损失是根据网络的对数计算的。它只向学生返回渐变：
- 
-[¶](#id3 "Permalink to this image")
+  [¶](#id3 "Permalink to this image")
 
 
 
@@ -712,9 +696,7 @@ Student accuracy with CE + KD: 70.80%
 
 
 
-### 
- 余弦损失最小化运行
- [¶](#cosine-loss-minimization-run "永久链接到此标题")
+### 余弦损失最小化运行 [¶](#cosine-loss-minimization-run "永久链接到此标题")
 
 
 
@@ -744,8 +726,7 @@ Student accuracy with CE + KD: 70.80%
 
 
  CosineEmbeddingLoss 的公式
- 
-[¶](#id4 "此图像的永久链接")
+  [¶](#id4 "此图像的永久链接")
 
 
 
@@ -922,8 +903,7 @@ it 是其分类器的输入。对于老师来说也是
 
 
  在余弦损失最小化中，我们希望通过向学生返回梯度来最大化两个表示的余弦相似度：
- 
-[¶](#id5 "Permalink to this image")
+  [¶](#id5 "Permalink to this image")
 
 
 
@@ -1048,9 +1028,7 @@ Test Accuracy: 71.50%
 
 
 
-### 
- 中间回归器运行
- [¶](#intermediate-regressor-run "永久链接到此标题")
+### 中间回归器运行 [¶](#intermediate-regressor-run "永久链接到此标题")
 
 
 
@@ -1110,8 +1088,7 @@ Teacher's feature extractor output shape:  torch.Size([128, 32, 8, 8])
 
 
  可训练层与中间张量的形状相匹配，并且均方误差 (MSE) 已正确定义：
- 
-[¶](#id6 "Permalink to this image")
+  [¶](#id6 "Permalink to this image")
 
 
 
@@ -1312,9 +1289,7 @@ Student accuracy with CE + RegressorMSE: 70.82%
 
 
 
-### 
- 结论
- [¶](#conclusion "此标题的永久链接")
+### 结论 [¶](#conclusion "此标题的永久链接")
 
 
 

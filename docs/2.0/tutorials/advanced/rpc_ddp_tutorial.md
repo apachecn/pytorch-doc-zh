@@ -1,9 +1,8 @@
 
 
 
- 将分布式 DataParallel 与分布式 RPC 框架相结合
- [¶](#combining-distributed-dataparallel-with-distributed-rpc-framework "永久链接到此标题")
-=========================================================================================================================================================================
+# 将分布式 DataParallel 与分布式 RPC 框架相结合 [¶](#combining-distributed-dataparallel-with-distributed-rpc-framework "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >

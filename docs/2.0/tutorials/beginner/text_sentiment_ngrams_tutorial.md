@@ -1,7 +1,5 @@
+# 使用 torchtext 库进行文本分类 [¶](#text-classification-with-the-torchtext-library "固定链接到此标题")
 
- 使用 torchtext 库进行文本分类
- [¶](#text-classification-with-the-torchtext-library "固定链接到此标题")
-================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -31,11 +29,8 @@
 >
 
 
+## 先决条件 [¶](#preconditions "永久链接到此标题")
 
-
- 先决条件
- [¶](#preconditions "永久链接到此标题")
---------------------------------------------------------------------------------
 
 
 
@@ -56,9 +51,7 @@
 
 
 
-### 
- 访问原始数据集迭代器
- [¶](#access-to-the-raw-dataset-iterators "永久链接到此标题")
+### 访问原始数据集迭代器 [¶](#access-to-the-raw-dataset-iterators "永久链接到此标题")
 
 
 
@@ -116,9 +109,7 @@ building blocks of proteins.')
 
 
 
-### 
- 准备数据处理管道
- [¶](#prepare-data-processing-pipelines "永久链接到此标题")
+### 准备数据处理管道 [¶](#prepare-data-processing-pipelines "永久链接到此标题")
 
 
 
@@ -211,9 +202,7 @@ label_pipeline('10')
 
 
 
-### 
- 生成数据批次和迭代器
- [¶](#generate-data-batch-and-iterator "永久链接到此标题")
+### 生成数据批次和迭代器 [¶](#generate-data-batch-and-iterator "永久链接到此标题")
 
 
 
@@ -288,9 +277,7 @@ dataloader = DataLoader(
 
 
 
-### 
- 定义模型
- [¶](#define-the-model "永久链接到此标题")
+### 定义模型 [¶](#define-the-model "永久链接到此标题")
 
 
 
@@ -345,9 +332,7 @@ class TextClassificationModel(nn.Module):
 
 
 
-### 
- 启动实例
- [¶](#initiate-an-instance "永久链接到此标题")
+### 启动实例 [¶](#initiate-an-instance "永久链接到此标题")
 
 
 
@@ -390,9 +375,7 @@ model = TextClassificationModel(vocab_size, emsize, num_class).to(device)
 
 
 
-### 
- 定义函数来训练模型并评估结果。
- [¶](#define-functions-to-train-the-model-and-evaluate-results "永久链接到此标题")
+### 定义函数来训练模型并评估结果。 [¶](#define-functions-to-train-the-model-and-evaluate-results "永久链接到此标题")
 
 
 
@@ -447,9 +430,7 @@ def evaluate(dataloader):
 
 
 
-### 
- 拆分数据集并运行模型
- [¶](#split-the-dataset-and-run-the-model "永久链接到此标题")
+### 拆分数据集并运行模型 [¶](#split-the-dataset-and-run-the-model "永久链接到此标题")
 
 
 
@@ -604,9 +585,7 @@ for epoch in range(1, EPOCHS + 1):
 
 
 
-### 
- 使用测试数据集评估模型
- [¶](#evaluate-the-model-with-test-dataset "永久链接到此标题")
+### 使用测试数据集评估模型 [¶](#evaluate-the-model-with-test-dataset "永久链接到此标题")
 
 
 
@@ -639,9 +618,7 @@ test accuracy    0.907
 
 
 
-### 
- 对随机新闻进行测试
- [¶](#test-on-a-random-news "固定链接到此标题")
+### 对随机新闻进行测试 [¶](#test-on-a-random-news "固定链接到此标题")
 
 
 

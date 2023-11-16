@@ -1,9 +1,8 @@
 
 
 
- PyTorch 分布式概述
- [¶](#pytorch-distributed-overview "此标题的永久链接")
-===========================================================================================
+# PyTorch 分布式概述 [¶](#pytorch-distributed-overview "此标题的永久链接")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -44,9 +43,8 @@
 
 
 
- 简介
- [¶](#introduction "此标题的永久链接")
------------------------------------------------------------------------------------------
+## 简介 [¶](#introduction "此标题的永久链接")
+
 
 
 
@@ -88,9 +86,8 @@
 
 
 
- 数据并行训练
- [¶](#data-parallel-training "永久链接到此标题")
--------------------------------------------------------------------------------------------------
+## 数据并行训练 [¶](#data-parallel-training "永久链接到此标题")
+
 
 
 PyTorch 提供了多种数据并行训练选项。对于从简单到复杂、从原型到生产逐渐发展的应用程序，
@@ -132,9 +129,7 @@ PyTorch 提供了多种数据并行训练选项。对于从简单到复杂、从
 
 
 
-### 
-`torch.nn.DataParallel`
-[¶](#torch-nn-dataparallel "此标题的永久链接")
+### `torch.nn.DataParallel` [¶](#torch-nn-dataparallel "此标题的永久链接")
 
 
 
@@ -158,9 +153,7 @@ PyTorch 提供了多种数据并行训练选项。对于从简单到复杂、从
 
 
 
-### 
-`torch.nn.parallel.DistributedDataParallel`
-[¶](#torch-nn-parallel-distributeddataparallel "此标题的永久链接")
+### `torch.nn.parallel.DistributedDataParallel` [¶](#torch-nn-parallel-distributeddataparallel "此标题的永久链接")
 
 
 
@@ -197,9 +190,7 @@ DDP 使用多进程并行性，因此模型副本之间不存在 GIL 争用。�
 
 
 
-### 
- torch.distributed.elastic
- [¶](#torch-distributed-elastic "此标题的永久链接")
+### torch.distributed.elastic [¶](#torch-distributed-elastic "此标题的永久链接")
 
 
 
@@ -220,11 +211,8 @@ DDP 使用多进程并行性，因此模型副本之间不存在 GIL 争用。�
 
 
 
+## 基于 RPC 的分布式训练 [¶](#rpc-based-distributed-training "永久链接到此标题")
 
-
- 基于 RPC 的分布式训练
- [¶](#rpc-based-distributed-training "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------
 
 
 
@@ -288,9 +276,8 @@ DDP 使用多进程并行性，因此模型副本之间不存在 GIL 争用。�
 
 
 
- PyTorch 分布式开发人员
- [¶](#pytorch-distributed-developers "此标题的永久链接")
-----------------------------------------------------------------------------------------------------------------
+## PyTorch 分布式开发人员 [¶](#pytorch-distributed-developers "此标题的永久链接")
+
 
 
 

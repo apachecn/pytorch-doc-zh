@@ -1,7 +1,5 @@
+# （测试版）通过缩放点积注意力 (SDPA) 实现高性能 Transformer [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa“此标题的永久链接”）
 
-（测试版）通过缩放点积注意力 (SDPA) 实现高性能 Transformer
- [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa“此标题的永久链接”）
-==========================================================================================================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -19,9 +17,8 @@
 
 
 
- 摘要
- [¶](#summary "此标题的永久链接")
-----------------------------------------------------------------
+## 摘要 [¶](#summary "此标题的永久链接")
+
 
 
 
@@ -43,10 +40,8 @@
 
 
 
+## 概述 [¶](#overview "此标题的永久链接")
 
- 概述
- [¶](#overview "此标题的永久链接")
-------------------------------------------------------
 
 
 
@@ -60,10 +55,8 @@
 
 
 
+## 融合实现 [¶](#fused-implementations "永久链接到此标题")
 
- 融合实现
- [¶](#fused-implementations "永久链接到此标题")
---------------------------------------------------------------------------------
 
 
 
@@ -130,10 +123,8 @@ tensor([[[-1.3321, -0.3489,  0.3015, -0.3912,  0.9867,  0.3137, -0.0691,
 
 
 
+## 显式调度程序控制 [¶](#explicit-dispatcher-control "永久链接到此标题")
 
- 显式调度程序控制
- [¶](#explicit-dispatcher-control "永久链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -220,10 +211,8 @@ The memory efficient implementation runs in 4193.383 microseconds
 
 
 
+## 硬件依赖性 [¶](#hardware-dependence "永久链接到此标题")
 
- 硬件依赖性
- [¶](#hardware-dependence "永久链接到此标题")
-------------------------------------------------------------------------------
 
 
 
@@ -236,10 +225,8 @@ The memory efficient implementation runs in 4193.383 microseconds
 
 
 
+## 因果自注意力 [¶](#causal-self-attention "永久链接到此标题")
 
- 因果自注意力
- [¶](#causal-self-attention "永久链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -323,10 +310,8 @@ CausalSelfAttention(
 
 
 
-### 
-`NestedTensor`
- 和密集张量支持
- [¶](#nestedtensor-and-dense-tensor-support "永久链接到此标题")
+### `NestedTensor`
+ 和密集张量支持 [¶](#nestedtensor-and-dense-tensor-support "永久链接到此标题")
 
 
 
@@ -423,10 +408,9 @@ Random Dense runs in 1183.933 microseconds
 
 
 
- 使用 SDPA 与
- `torch.compile`
-[¶](#using-sdpa-with-torch-compile "永久链接到此标题")
-================================================================================================
+# 使用 SDPA 与
+ `torch.compile` [¶](#using-sdpa-with-torch-compile "永久链接到此标题")
+
 
 
  随着 PyTorch 2.0 的发布，引入了一项名为
@@ -588,10 +572,8 @@ Self CUDA time total: 11.281ms
 
 
 
+# 结论 [¶](#conclusion "永久链接到此标题")
 
- 结论
- [¶](#conclusion "永久链接到此标题")
-=======================================================
 
 
  在本教程中，我们演示了 

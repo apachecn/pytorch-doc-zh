@@ -1,9 +1,8 @@
 
 
 
- 入门 - 使用 nvFuser 加速脚本
- [¶](#getting-started-accelerate-your-scripts-with-nvfuser "永久链接到此标题")
-================================================================================================================================================
+# 入门 - 使用 nvFuser 加速脚本 [¶](#getting-started-accelerate-your-scripts-with-nvfuser "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >

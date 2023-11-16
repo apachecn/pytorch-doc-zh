@@ -1,9 +1,8 @@
 
 
 
- 与 Wav2Vec2 强制对齐
- [¶](#forced-alignment-with-wav2vec2 "永久链接到此标题")
-================================================================================================
+# 与 Wav2Vec2 强制对齐 [¶](#forced-alignment-with-wav2vec2 "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >

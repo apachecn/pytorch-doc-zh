@@ -1,9 +1,8 @@
 
 
 
- 分布式 RPC 框架入门
- [¶](#getting-started-with-distributed-rpc-framework "永久链接到此标题")
-================================================================================================================================
+# 分布式 RPC 框架入门 [¶](#getting-started-with-distributed-rpc-framework "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -89,9 +88,8 @@
 
 
 
- 使用 RPC 和 RRef 的分布式强化学习
- [¶](#distributed-reinforcement-learning-using-rpc-and-rref "永久链接到此标题")
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 使用 RPC 和 RRef 的分布式强化学习 [¶](#distributed-reinforcement-learning-using-rpc-and-rref "永久链接到此标题")
+
 
 
 
@@ -516,10 +514,8 @@ Solved! Running reward is now 475.3163778435275!
 
 
 
+## 使用分布式 Autograd 和分布式优化器的分布式 RNN [¶](#distributed-rnn-using-distributed-autograd-and-distributed-optimizer "永久链接到此标题")
 
- 使用分布式 Autograd 和分布式优化器的分布式 RNN
- [¶](#distributed-rnn-using-distributed-autograd-and-distributed-optimizer "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

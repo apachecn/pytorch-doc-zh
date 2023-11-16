@@ -1,9 +1,8 @@
 
 
 
- TorchScript 中的动态并行性
- [¶](#dynamic-parallelism-in-torchscript "永久链接到此标题")
-========================================================================================================
+# TorchScript 中的动态并行性 [¶](#dynamic-parallelism-in-torchscript "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -26,11 +25,8 @@
  不同，后者涉及拆分各个运算符并并行运行运算符’ 的子集。
 
 
+## 基本语法 [¶](#basic-syntax "此标题的永久链接")
 
-
- 基本语法
- [¶](#basic-syntax "此标题的永久链接")
------------------------------------------------------------------------------
 
 
 
@@ -209,10 +205,8 @@ print(example(torch.ones([])))
 
 
 
+## 应用示例：双向 LSTM 集成 [¶](#applied-example-ensemble-of-bi Direction-lstms "永久链接到此标题")
 
- 应用示例：双向 LSTM 集成
- [¶](#applied-example-ensemble-of-bi Direction-lstms "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -301,10 +295,8 @@ print('Inference took', time.time() - s, ' seconds')
 
 
 
+## 并行化前向和后向层 [¶](#parallelizing-forward-and-backward-layers "永久链接到此标题")
 
- 并行化前向和后向层
- [¶](#parallelizing-forward-and-backward-layers "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -367,10 +359,8 @@ def forward(self, x : torch.Tensor) -> torch.Tensor:
 
 
 
+## 旁白：可视化并行性 [¶](#aside-visualizing-parallelism "永久链接到此标题")
 
- 旁白：可视化并行性
- [¶](#aside-visualizing-parallelism "永久链接到此标题")
-----------------------------------------------------------------------------------------------------
 
 
 
@@ -423,10 +413,8 @@ prof.export_chrome_trace('parallel.json')
 
 
 
+## 在集成中并行化模型 [¶](#parallelizing-models-in-the-ensemble "永久链接到此标题")
 
- 在集成中并行化模型
- [¶](#parallelizing-models-in-the-ensemble "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -509,10 +497,8 @@ def forward(self, x : torch.Tensor) -> torch.Tensor:
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
- 结论
- [¶](#conclusion "此标题的永久链接")
----------------------------------------------------------------------
 
 
 

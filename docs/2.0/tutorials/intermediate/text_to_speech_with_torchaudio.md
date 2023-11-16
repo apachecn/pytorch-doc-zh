@@ -1,9 +1,8 @@
 
 
 
- 使用 Tacotron2 进行文本转语音
- [¶](#text-to-speech-with-tacotron2 "固定链接到此标题")
-=============================================================================================
+# 使用 Tacotron2 进行文本转语音 [¶](#text-to-speech-with-tacotron2 "固定链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >

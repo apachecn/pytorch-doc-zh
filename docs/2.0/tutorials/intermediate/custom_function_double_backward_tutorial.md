@@ -1,9 +1,8 @@
 
 
 
- 使用自定义函数的双重向后
- [¶](#double-backward-with-custom-functions "永久链接到此标题")
-===============================================================================================================
+# 使用自定义函数的双重向后 [¶](#double-backward-with-custom-functions "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -59,9 +58,8 @@
 
 
 
- 保存输入
- [¶](# saving-the-inputs "固定链接到此标题")
----------------------------------------------------------------------------
+## 保存输入 [¶](# saving-the-inputs "固定链接到此标题")
+
 
 
 
@@ -133,10 +131,8 @@ torchviz.make_dot((grad_x, x, out), {"grad_x": grad_x, "x": x, "out": out})
 [![https://user-images.githubusercontent.com/13428986/126559699-e04f3cb1-aaf2-4a9a-a83d-b8767d04fbd9.png](https://user-images.githubusercontent.com/13428986/126559699-e04f3cb1- aaf2-4a9a-a83d-b8767d04fbd9.png)](https://user-images.githubusercontent.com/13428986/126559699-e04f3cb1-aaf2-4a9a-a83d-b8767d04fbd9.png)
 
 
+## 保存输出 [¶](# saving-the-outputs "固定链接到此标题")
 
- 保存输出
- [¶](# saving-the-outputs "固定链接到此标题")
----------------------------------------------------------------------------
 
 
 
@@ -194,10 +190,8 @@ torchviz.make_dot((grad_x, x, out), {"grad_x": grad_x, "x": x, "out": out})
 [![https://user-images.githubusercontent.com/13428986/126559780-d141f2ba-1ee8-4c33-b4eb-c9877b27a954.png](https://user-images.githubusercontent.com/13428986/126559780- d141f2ba-1ee8-4c33-b4eb-c9877b27a954.png)](https://user-images.githubusercontent.com/13428986/126559780-d141f2ba-1ee8-4c33-b4eb-c9877b27a954.png)
 
 
+## 保存中间结果 [¶](# saving-intermediate-results "永久链接到此标题")
 
- 保存中间结果
- [¶](# saving-intermediate-results "永久链接到此标题")
---------------------------------------------------------------------------------------------
 
 
 
@@ -289,10 +283,8 @@ torchviz.make_dot((grad_x, x, out), params={"grad_x": grad_x, "x": x, "out": out
 [![https://user-images.githubusercontent.com/13428986/126560494-e48eba62-be84-4b29-8c90-a7f6f40b1438.png](https://user-images.githubusercontent.com/13428986/126560494- e48eba62-be84-4b29-8c90-a7f6f40b1438.png)](https://user-images.githubusercontent.com/13428986/126560494-e48eba62-be84-4b29-8c90-a7f6f40b1438.png)
 
 
+## 保存中间结果：不应该做什么 [¶](# saving-intermediate-results-what-not-to-do "永久链接到此标题")
 
- 保存中间结果：不应该做什么
- [¶](# saving-intermediate-results-what-not-to-do "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -364,10 +356,8 @@ torchviz.make_dot((grad_x, x, out), params={"grad_x": grad_x, "x": x, "out": out
 [![https://user-images.githubusercontent.com/13428986/126565889-13992f01-55bc-411a-8aee-05b721fe064a.png](https://user-images.githubusercontent.com/13428986/126565889- 13992f01-55bc-411a-8aee-05b721fe064a.png)](https://user-images.githubusercontent.com/13428986/126565889-13992f01-55bc-411a-8aee-05b721fe064a.png)
 
 
+## 当不跟踪向后时 [¶](#when-backward-is-not-tracked "固定链接到此标题")
 
- 当不跟踪向后时
- [¶](#when-backward-is-not-tracked "固定链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 

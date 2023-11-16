@@ -1,9 +1,8 @@
 
 
 
- 使用 Better Transformer 进行快速变压器推理
- [¶](#fast-transformer-inference-with-better-transformer "永久链接到此标题")
-========================================================================================================================================
+# 使用 Better Transformer 进行快速变压器推理 [¶](#fast-transformer-inference-with-better-transformer "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -69,9 +68,8 @@ PyTorch 核心
 
 
 
- 本教程中更好的 Transformer 功能
- [¶](#better-transformer-features-in-this-tutorial "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------------
+## 本教程中更好的 Transformer 功能 [¶](#better-transformer-features-in-this-tutorial "永久链接到此标题")
+
 
 
 * 加载预训练模型（在 PyTorch 版本 1.12 之前创建，没有 Better Transformer）
@@ -84,9 +82,8 @@ PyTorch 核心
 
 
 
- 附加信息
- [¶](#additional-information "此标题的永久链接")
---------------------------------------------------------------------------------------------------
+## 附加信息 [¶](#additional-information "此标题的永久链接")
+
 
 
 
@@ -429,10 +426,8 @@ print(prof)
 
 
 
+## 摘要 [¶](#summary "此标题的永久链接")
 
- 摘要
- [¶](#summary "此标题的永久链接")
------------------------------------------------------------------
 
 
 

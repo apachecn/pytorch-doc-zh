@@ -1,9 +1,8 @@
 
 
 
- 使用 TensorBoard 可视化模型、数据和训练
- [¶](#visualizing-models-data-and-training-with-tensorboard "永久链接到此标题")
-===================================================================================================================================================
+# 使用 TensorBoard 可视化模型、数据和训练 [¶](#visualizing-models-data-and-training-with-tensorboard "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -192,9 +191,8 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
 
 
- 1. TensorBoard 设置
- [¶](#tensorboard-setup "永久链接到此标题")
---------------------------------------------------------------------------- -
+## 1. TensorBoard 设置 [¶](#tensorboard-setup "永久链接到此标题")
+ -
 
 
 
@@ -230,10 +228,8 @@ writer = SummaryWriter('runs/fashion_mnist_experiment_1')
 
 
 
+## 2. 写入 TensorBoard [¶](#writing-to-tensorboard "永久链接到此标题")
 
- 2. 写入 TensorBoard
- [¶](#writing-to-tensorboard "永久链接到此标题")
-------------------------------------------------------------------------------------------
 
 
 
@@ -296,10 +292,8 @@ tensorboard --logdir=runs
 
 
 
+## 3. 使用 TensorBoard 检查模型 [¶](#inspect-the-model-using-tensorboard "固定链接到此标题")
 
- 3. 使用 TensorBoard 检查模型
- [¶](#inspect-the-model-using-tensorboard "固定链接到此标题")
-------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -339,10 +333,8 @@ TensorBoard 有一个非常方便的功能，可以可视化高维数据，例�
 
 
 
+## 4. 添加 “Projector” 到 TensorBoard [¶](#adding-a-projector-to-tensorboard "永久链接到此标题")
 
- 4. 添加 “Projector” 到 TensorBoard
- [¶](#adding-a-projector-to-tensorboard "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------
 
 
 我们可以通过 [add_embedding](https://pytorch.org/docs/stable/tensorboard.html#torch.utils.tensorboard.writer.SummaryWriter 可视化高维数据的低维表示.add_embedding) 
@@ -397,10 +389,8 @@ writer.close()
 
 
 
+## 5. 使用 TensorBoard 跟踪模型训练 [¶](#tracking-model-training-with-tensorboard "固定链接到此标题")
 
- 5. 使用 TensorBoard 跟踪模型训练
- [¶](#tracking-model-training-with-tensorboard "固定链接到此标题")
------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -541,10 +531,8 @@ print('Finished Training')
 
 
 
+## 6. 使用 TensorBoard 评估经过训练的模型 [¶](#assessing-trained-models-with-tensorboard "永久链接到此标题")
 
- 6. 使用 TensorBoard 评估经过训练的模型
- [¶](#assessing-trained-models-with-tensorboard "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------------------
 
 
 

@@ -1,9 +1,8 @@
 
 
 
- Android 上的图像分割 DeepLabV3
- [¶](#image-segmentation-deeplabv3-on-android "永久链接到此标题")
-===================================================================================================================
+# Android 上的图像分割 DeepLabV3 [¶](#image-segmentation-deeplabv3-on-android "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -29,9 +28,8 @@
 
 
 
- 简介
- [¶](#introduction "此标题的永久链接")
---------------------------------------------------------------------------
+## 简介 [¶](#introduction "此标题的永久链接")
+
 
 
 
@@ -67,11 +65,8 @@
 
 
 
+## 学习目标 [¶](#learning-objectives "永久链接到此标题")
 
-
- 学习目标
- [¶](#learning-objectives "永久链接到此标题")
-------------------------------------------------------------------------------
 
 
 
@@ -89,9 +84,8 @@
 
 
 
- 先决条件
- [¶](#preconditions "永久链接到此标题")
-----------------------------------------------------------------------------
+## 先决条件 [¶](#preconditions "永久链接到此标题")
+
 
 
 * PyTorch 1.6 或 1.7
@@ -102,15 +96,12 @@
 
 
 
- 步骤
- [¶](#steps "永久链接到此标题")
-------------------------------------------------
+## 步骤 [¶](#steps "永久链接到此标题")
 
 
 
-### 
- 1. 转换 DeepLabV3 模型以进行 Android 部署
- [¶](#convert-the-deeplabv3-model-for-android-deployment "永久链接到此标题")
+
+### 1. 转换 DeepLabV3 模型以进行 Android 部署 [¶](#convert-the-deeplabv3-model-for-android-deployment "永久链接到此标题")
 
 
 
@@ -175,9 +166,7 @@ torch.jit.save(scriptedm, "deeplabv3_scripted.pt")
 
 
 
-### 
- 2. 在 Python 中获取模型的示例输入和输出
- [¶](#get-example-input-and-output-of-the-model-in-python “此标题的永久链接”）
+### 2. 在 Python 中获取模型的示例输入和输出 [¶](#get-example-input-and-output-of-the-model-in-python “此标题的永久链接”）
 
 
 
@@ -242,9 +231,7 @@ torch.Size([21, 400, 400])
 
 
 
-### 
- 3. 构建新的 Android 应用程序或重用示例应用程序并加载模型
- [¶](#build-a-new-android-app-or-reuse-an -example-app-and-load-the-model“此标题的永久链接”）
+### 3. 构建新的 Android 应用程序或重用示例应用程序并加载模型 [¶](#build-a-new-android-app-or-reuse-an -example-app-and-load-the-model“此标题的永久链接”）
 
 
 
@@ -304,9 +291,7 @@ try {
 
 
 
-### 
- 4. 处理模型输入和输出以进行模型推理
- [¶](#process-the-model-input-and-output-for-model-inference "Permalink to这个标题”）
+### 4. 处理模型输入和输出以进行模型推理 [¶](#process-the-model-input-and-output-for-model-inference "Permalink to这个标题”）
 
 
 
@@ -401,9 +386,7 @@ int height = bitmap.getHeight();
 
 
 
-### 
- 5. 完成 UI、重构、构建并运行应用程序
- [¶](#complete-the-ui-refactor-build-and-run-the-app "此标题的永久链接”）
+### 5. 完成 UI、重构、构建并运行应用程序 [¶](#complete-the-ui-refactor-build-and-run-the-app "此标题的永久链接”）
 
 
 
@@ -530,11 +513,8 @@ imageView.setImageBitmap(outputBitmap);
 [![https://pytorch.org/tutorials/_images/deeplabv3_android2.png](.. /_images/deeplabv3_android2.png)](https://pytorch.org/tutorials/_images/deeplabv3_android2.png)
 
 
+## 回顾 [¶](#recap "此标题的永久链接")
 
-
- 回顾
- [¶](#recap "此标题的永久链接")
-------------------------------------------------
 
 
 
@@ -551,10 +531,8 @@ imageView.setImageBitmap(outputBitmap);
 
 
 
+## 了解更多 [¶](#learn-more "此标题的永久链接")
 
- 了解更多
- [¶](#learn-more "此标题的永久链接")
--------------------------------------------------------------------------
 
 
 1. [PyTorch 移动网站](https://pytorch.org/mobile)

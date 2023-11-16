@@ -1,7 +1,5 @@
+# 参数化教程 [¶](#parametrizations-tutorial "永久链接到此标题")
 
- 参数化教程
- [¶](#parametrizations-tutorial "永久链接到此标题")
-====================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -70,9 +68,8 @@
 
 
 
- 手动实现参数化
- [¶](#implementing-parametrizations-by-hand "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------------
+## 手动实现参数化 [¶](#implementing-parametrizations-by-hand "永久链接到此标题")
+
 
 
 
@@ -171,9 +168,8 @@ out = layer(torch.rand(8, 3))
 
 
 
- 参数化简介
- [¶](#introduction-to-parametrizations "此标题的永久链接")
---------------------------------------------------------------------------------------------------------------------
+## 参数化简介 [¶](#introduction-to-parametrizations "此标题的永久链接")
+
 
 
 
@@ -267,10 +263,8 @@ print(cnn.weight[2, 2])
 
 
 
+## 检查参数化模块 [¶](#inspecting-a-parametrized-module "固定链接到此标题")
 
- 检查参数化模块
- [¶](#inspecting-a-parametrized-module "固定链接到此标题")
-----------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -429,10 +423,8 @@ print(torch.dist(layer.weight, symmetric(weight_orig)))
 
 
 
+## 参数化是一等公民 [¶](#parametrizations-are-first-class-citizens "永久链接到此标题")
 
- 参数化是一等公民
- [¶](#parametrizations-are-first-class-citizens "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -456,10 +448,8 @@ print(torch.dist(layer.weight, symmetric(weight_orig)))
 
 
 
+## 缓存参数化的值 [¶](#caching-the-value-of-a-parametrization "永久链接到此标题")
 
- 缓存参数化的值
- [¶](#caching-the-value-of-a-parametrization "永久链接到此标题")
---------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -493,10 +483,8 @@ with parametrize.cached():
 
 
 
+## 连接参数化 [¶](#concatenating-parametrizations "永久链接到此标题")
 
- 连接参数化
- [¶](#concatenating-parametrizations "永久链接到此标题")
-----------------------------------------------------------------------------------------------------
 
 
 
@@ -569,10 +557,8 @@ print((torch.linalg.eigvalsh(X) > 0.).all())  # X is positive definite
 
 
 
+## 初始化参数化 [¶](#initializing-parametrizations "永久链接到此标题")
 
- 初始化参数化
- [¶](#initializing-parametrizations "永久链接到此标题")
---------------------------------------------------------------------------------------------------
 
 
 
@@ -772,10 +758,8 @@ print(f"Initialized weight:{layer.weight}")
 
 
 
+## 正在删除参数化 [¶](#removing-parametrizations "永久链接到此标题")
 
- 正在删除参数化
- [¶](#removing-parametrizations "永久链接到此标题")
-------------------------------------------------------------------------------------------
 
 
 
