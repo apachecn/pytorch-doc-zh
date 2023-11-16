@@ -1,13 +1,12 @@
 # Tensors
+
 > 译者：[Daydaylight](https://github.com/Daydaylight)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/basics/tensors_tutorial>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/basics/tensorqs_tutorial>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html>
 
 Tensors 是一种特殊的数据结构，与数组和矩阵非常相似。在 PyTorch 中，我们使用 tensors 对模型的输入和输出以及模型的参数进行编码。
-
-
 
 Tensors 类似于 [NumPy’s](https://numpy.org/) 的 ndarrays，不同的是 tensors 可以在 GPU 或其他硬件加速器上运行。事实上，tensors 和 NumPy 数组通常可以共享相同的底层内存，这样就不需要复制数据了(参见使用 NumPy 的 Bridge)。
 Tensors 也针对自动微分进行了优化(我们将在后面的 [Autograd](autogradqs_tutorial.html) 部分中看到更多细节介绍)。如果您熟悉 ndarray，那么您就会熟悉 Tensor API。如果不熟悉，那么请跟我来！

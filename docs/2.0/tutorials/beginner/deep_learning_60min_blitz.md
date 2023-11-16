@@ -1,14 +1,9 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: <https://github.com/orgs/apachecn/discussions/243>
-* 任务认领: <https://github.com/apachecn/pytorch-doc-zh/discussions/583>
-
-<!-- 
-请参考这个模版来写内容:
 
 
-# PyTorch 某某页面
+
+ 使用 PyTorch 进行深度学习：60 分钟闪电战
+ [¶](#deep-learning-with-pytorch-a-60-month-blitz "永久链接到此标题")
+=============================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -16,37 +11,189 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html>
 
-开始写原始页面的翻译内容(翻译完后请删除这个模版注释就行)
 
 
 
-注意事项: 
+**作者** 
+ :
+ [Soumith Chintala](http://soumith.ch)
 
-1. 代码参考:
 
-```py
-import torch
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
 
-2. 公式参考:
 
-1) 无需换行的写法: 
-$\sqrt{w^T*w}$
 
-2) 需要换行的写法：
-$$
-max_{lpha} \left( \sum_{i=1}^{m} lpha_i - rac{1}{2} \sum_{i, j=1}^{m} label_i st label_j st lpha_i st lpha_j st <x_i, x_j> 
-ight)
-$$
 
-3. 图片参考:
 
-<img src='https://pytorch.org/tutorials/_static/img/thumbnails/cropped/profiler.png' width=20% />
--->
+
+ 什么是 PyTorch？
+ [¶](#what-is-pytorch "此标题的永久链接")
+----------------------------------------------------------------------
+
+
+
+ PyTorch 是一个基于 Python 的科学计算包，有两个广泛的用途：
+
+
+
+* NumPy 的替代品，可利用 GPU 和其他加速器的功能。
+* 一个自动微分库，可用于实现神经网络。
+
+
+
+
+
+ 本教程的目标：
+ [¶](#goal-of-this-tutorial "永久链接到此标题")
+------------------------------------------------------------------------------------
+
+
+* 深入了解 PyTorch’s 张量库和神经网络。
+* 训练小型神经网络来对图像进行分类
+
+
+
+ 要运行下面的教程，请确保您拥有
+ [torch](https://github.com/pytorch/pytorch) 
+ ,
+ [torchvision](https://github.com/pytorch/Vision) 
+ 、
+和
+ [matplotlib](https://github.com/matplotlib/matplotlib) 
+ 已安装软件包。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 张量
+ 
+
+ 在本教程中，您将学习 PyTorch 张量的基础知识。
+
+
+
+
+
+
+
+
+
+
+ 代码
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ torch.autograd 简要介绍
+ 
+
+ 了解 autograd。
+
+
+
+
+
+
+
+
+
+
+ 代码
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 神经网络
+ 
+
+ 本教程演示如何在 PyTorch 中训练神经网络。
+
+
+
+
+
+
+
+
+
+
+ 代码
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 训练分类器
+ 
+
+ 了解如何使用
+CIFAR10 数据集在 PyTorch 中训练图像分类器。
+
+
+
+
+
+
+
+
+
+
+ 代码
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
