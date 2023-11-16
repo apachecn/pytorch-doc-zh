@@ -53,7 +53,7 @@
 
 
 
-![经典内存格式](https://pytorch.org/tutorials/_images/经典内存格式.png)
+![classic_memory_format](https://pytorch.org/tutorials/_images/classic_memory_format.png)
 
 
  通道最后的内存格式对数据的排序不同:
