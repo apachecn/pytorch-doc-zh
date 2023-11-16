@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-forward-ad-usage-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  正向模式自动微分（测试版）
  [¶](#forward-mode-automatic-differiation-beta "固定链接到此标题")
 ============================================================================================================================
@@ -428,54 +411,3 @@ We've integrated functorch into PyTorch. As the final step of the integration, f
 
 **脚本总运行时间:** 
  ( 0 分 0.146 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
-forward_ad_usage.py`](../_downloads/3a285734c191abde60d7db0362f294b1/forward_ad_usage.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
-forward_ad_usage.ipynb`](../_downloads/31e117c487018c27130cd7b1fd3e3cad/forward_ad_usage.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

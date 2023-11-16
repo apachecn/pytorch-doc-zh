@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-spatial-transformer-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  空间变压器网络教程
  [¶](#spatial-transformer-networks-tutorial "永久链接到此标题")
 ==============================================================================================================
@@ -537,54 +520,3 @@ Test set: Average loss: 0.0489, Accuracy: 9851/10000 (99%)
 
 **脚本的总运行时间:** 
  ( 2 分 4.495 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- Spatial_transformer_tutorial.py`](../_downloads/a4f07fecba75b5e84fe9e56cac0c7b71/Spatial_transformer_tutorial.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- Spatial_transformer_tutorial.ipynb`](../_downloads/a5513958454950ed22df8da4c47f6429/spatial_transformer_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

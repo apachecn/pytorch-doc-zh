@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-fgsm-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  对抗性示例生成
  [¶](#adversarial-example- Generation "永久链接到此标题")
 ===============================================================================================
@@ -822,54 +805,3 @@ vs 在上面针对每个
 
 **脚本总运行时间:** 
  ( 3 分 56.768 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- fgsm_tutorial.py`](../_downloads/377bf4a7b1761e5f081e057385870d8e/fgsm_tutorial.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- fgsm_tutorial.ipynb`](../_downloads/56c122e1c18e5e07666673e900acaed5/fgsm_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

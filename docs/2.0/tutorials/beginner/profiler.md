@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-profiler-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  分析您的 PyTorch 模块
  [¶](#profiling-your-pytorch-module "永久链接到此标题")
 ===============================================================================================
@@ -535,54 +518,3 @@ Self CPU time total: 225.801ms
 
 **脚本的总运行时间:** 
  ( 0 分 0.000 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- profiler.py`](../_downloads/1df539a85371bf035ce170fb872b4f7f/profiler.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- profiler.ipynb`](../_downloads/9fc6c90b1bbbfd4201d66c498708f33f/profiler.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

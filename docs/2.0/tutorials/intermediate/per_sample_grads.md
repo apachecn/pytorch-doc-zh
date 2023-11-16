@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-per-sample-grads-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  每个样本梯度
  [¶](#per-sample-gradients "永久链接到此标题")
 ===========================================================================
@@ -498,54 +481,3 @@ Performance delta: 928.0958 percent improvement with vmap
 
 **脚本的总运行时间:** 
  ( 0 分 10.457 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- per_sample_grads.py`](../_downloads/bb0e78bec4d7a6e9b86b2e285cd06671/per_sample_grads.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- per_sample_grads.ipynb`](../_downloads/df89b8f78d7ed3520a0f632afae4a5b9/per_sample_grads.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

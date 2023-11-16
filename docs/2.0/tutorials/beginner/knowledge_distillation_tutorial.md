@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-knowledge-distillation-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  知识蒸馏教程
  [¶](#knowledge-distillation-tutorial "永久链接到此标题")
 =================================================================================================
@@ -1357,55 +1340,4 @@ Student accuracy with CE + RegressorMSE: 70.82%
 
 **脚本总运行时间:** 
  ( 7 分 32.811 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
-源
- 
-
-代码：
- 
-
-知识_distillation_tutorial.py`](../_downloads/19879e6777280194639314bd79851483/Knowledge_distillation_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- Knowledge_distillation_tutorial.ipynb`](../_downloads/a19d8941b0ebb13c102e41c7e24bc5fb/knowledge_distillation_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-
 

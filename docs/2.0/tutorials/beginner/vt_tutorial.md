@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-vt-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  优化 Vision Transformer 模型以进行部署
  [¶](#optimizing-vision-transformer-model-for-deployment "永久链接到此标题")
 ========================================================================================================================================
@@ -609,55 +592,4 @@ print(df)
 
 **脚本的总运行时间:** 
  ( 0 分 19.846 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- vt_tutorial.py`](../_downloads/82714b1145e891e2eba191bec427b2dd/vt_tutorial.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- vt_tutorial.ipynb`](../_downloads/b4e406d3f9b5f0552ca1010014ca4164/vt_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-
 

@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-translation-transformer-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用
  `nn.Transformer`
  和 torchtext
@@ -554,54 +537,3 @@ print(translate(transformer, "Eine Gruppe von Menschen steht vor einem Iglu ."))
 
 **脚本的总运行时间:** 
  ( 0 分 0.000 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- Translation_transformer.py`](../_downloads/65562063b0d7441578a041b5a568eaf2/translation_transformer.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- Translation_transformer.ipynb`](../_downloads/c64c91cf87c13c0e83586b8e66e4d74e/translation_transformer.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-ensembling-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  模型集成
  [¶](#model-ensembling "此标题的固定链接")
 ====================================================================
@@ -415,54 +398,3 @@ vmap(fmodel)(params, buffers, minibatches)
 
 **脚本的总运行时间:** 
  ( 0 分 0.794 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- ensembling.py`](../_downloads/626f23350a6d0b457ded1932a69ec7eb/ensembling.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- ensembling.ipynb`](../_downloads/1342193c7104875f1847417466d1417c/ensembling.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

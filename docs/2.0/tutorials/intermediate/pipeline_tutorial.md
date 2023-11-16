@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-pipeline-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用管道并行性训练 Transformer 模型
  [¶](#training-transformer-models-using-pipeline-parallelism "永久链接到此标题")
 ==================================================================================================================================================
@@ -648,22 +631,8 @@ print('=' * 89)
 ```
 ===================================================================================
 
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/pipeline_tutorial>
->
-> 原始地址：<https://pytorch.org/tutorials/intermediate/pipeline_tutorial.html>
-
 | End of training | test loss  0.21 | test ppl     1.23
 ===================================================================================
-
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/pipeline_tutorial>
->
-> 原始地址：<https://pytorch.org/tutorials/intermediate/pipeline_tutorial.html>
-
-
 ```
 
 
@@ -671,54 +640,3 @@ print('=' * 89)
 
 **脚本总运行时间：** 
 （8分15.341秒）
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- pipeline_tutorial.py`](../_downloads/b4afbcfb1c1ac5f5cd7da108c2236f09/pipeline_tutorial.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- pipeline_tutorial.ipynb`](../_downloads/4cefa4723023eb5d85ed047dadc7f491/pipeline_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

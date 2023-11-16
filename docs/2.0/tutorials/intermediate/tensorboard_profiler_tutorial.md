@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-tensorboard-profiler-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  带有 TensorBoard 的 PyTorch Profiler
  [¶](#pytorch-profiler-with-tensorboard "永久链接到此标题")
 ======================================================================================================
@@ -791,54 +774,3 @@ tensorboard --logdir=https://torchtbprofiler.blob.core.windows.net/torchtbprofil
 
 **脚本的总运行时间:** 
  ( 0 分 0.000 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- tensorboard_profiler_tutorial.py`](../_downloads/67e47b6d6793c700666471b688068f72/张量板_profiler_tutorial.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- tensorboard_profiler_tutorial.ipynb`](../_downloads/0aec568a42e89122e5ca293c86289287/tensorboard_profiler_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

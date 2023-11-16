@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-char-rnn- Generation-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  NLP 从头开始​​：使用字符级 RNN 生成名称
  [¶](#nlp-from-scratch-generate-names-with-a-character-level-rnn "此标题的永久链接")
 ================================================================================================================================================================
@@ -775,54 +758,3 @@ Ion
 
 **脚本总运行时间:** 
  ( 12 分 58.984 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- char_rnn_ Generation_tutorial.py`](../_downloads /322506af160d5e2056afd75de1fd34ee/char_rnn_ Generation_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- char_rnn_ Generation_tutorial.ipynb`](../_downloads/a75cfadf4fa84dd594874d4c53b62820/char_rnn_ Generation_tutorial. ipynb）
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

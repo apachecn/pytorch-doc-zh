@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-custom-function-conv-bn-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用自定义函数融合卷积和批归一化
  [¶](#fusing-volving-and-batch-norm-using-custom-function "永久链接到此标题")
 ====================================================================================================================================================
@@ -731,54 +714,3 @@ fused: 0.99GB, unfused: 1.37GB
 
 **脚本的总运行时间:** 
  ( 0 分 21.041 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码：
- 
-
- custom_function_conv_bn_tutorial.py`](../_downloads/187aea79daf1552dd05cdde1f4b4e34d/custom_function_conv_bn_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- custom_function_conv_bn_tutorial.ipynb`](../_downloads/e42651bf8aa9a118fc1867c909799393 /custom_function_conv_bn_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-
