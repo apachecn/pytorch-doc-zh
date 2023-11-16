@@ -231,9 +231,7 @@ print(category_lines['Italian'][:5])
 ```
 
 
-
-
-###  将名称转换为张量 [¶](#turning-names-into-tensors "永久链接到此标题")
+ [¶](#turning-names-into-tensors "永久链接到此标题")
 
 
 
@@ -478,9 +476,7 @@ tensor([[-2.9083, -2.9270, -2.9167, -2.9590, -2.9108, -2.8332, -2.8906, -2.8325,
 ## 训练 [¶](#training "固定链接到此标题")
 
 
-
-
-###  准备训练 [¶](#preparing-for-training "永久链接到此标题")
+ [¶](#preparing-for-training "永久链接到此标题")
 
 
 
@@ -855,9 +851,7 @@ set_ticklabels() should only be used with a fixed number of ticks, i.e. after se
 。它似乎对希腊语表现很好，但对英语表现不佳（可能是因为与其他语言重叠）。
 
 
-
-
-###  根据用户输入运行 [¶](#running-on-user-input "永久链接到此标题")
+ [¶](#running-on-user-input "永久链接到此标题")
 
 
 

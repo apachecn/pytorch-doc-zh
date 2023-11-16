@@ -1,7 +1,5 @@
+# 带有 TensorBoard 的 PyTorch Profiler [¶](#pytorch-profiler-with-tensorboard "永久链接到此标题")
 
- 带有 TensorBoard 的 PyTorch Profiler
- [¶](#pytorch-profiler-with-tensorboard "永久链接到此标题")
-======================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -19,9 +17,8 @@
 
 
 
- 简介
- [¶](#introduction "此标题的永久链接")
------------------------------------------------------------------------------------------
+## 简介 [¶](#introduction "此标题的永久链接")
+
 
 
 
@@ -39,10 +36,8 @@
 
 
 
+## 设置 [¶](#setup "此标题的永久链接")
 
- 设置
- [¶](#setup "此标题的永久链接")
-----------------------------------------------------------------
 
 
 
@@ -66,10 +61,8 @@ pip install torch torchvision
 
 
 
+## 步骤 [¶](#steps "此标题的永久链接")
 
- 步骤
- [¶](#steps "此标题的永久链接")
--------------------------------------------------------------
 
 
 1. 准备数据和模型
@@ -81,9 +74,7 @@ pip install torch torchvision
 
 
 
-### 
- 1. 准备数据和模型
- [¶](#prepare-the-data-and-model "永久链接到此标题")
+### 1. 准备数据和模型 [¶](#prepare-the-data-and-model "永久链接到此标题")
 
 
 
@@ -174,9 +165,7 @@ def train(data):
 
 
 
-### 
- 2. 使用探查器记录执行事件
- [¶](#use-profiler-to-record-execution-events "Permalink to this header")
+### 2. 使用探查器记录执行事件 [¶](#use-profiler-to-record-execution-events "Permalink to this header")
 
 
 
@@ -296,9 +285,7 @@ prof.stop()
 
 
 
-### 
- 3. 运行探查器
- [¶](#run-the-profiler "永久链接到此标题")
+### 3. 运行探查器 [¶](#run-the-profiler "永久链接到此标题")
 
 
 
@@ -310,9 +297,7 @@ prof.stop()
 
 
 
-### 
- 4. 使用 TensorBoard 查看结果并分析模型性能
- [¶](#use-tensorboard-to-view-results-and-analyze-model-performance "Permalink to这个标题”）
+### 4. 使用 TensorBoard 查看结果并分析模型性能 [¶](#use-tensorboard-to-view-results-and-analyze-model-performance "Permalink to这个标题”）
 
 
 
@@ -537,9 +522,7 @@ http://localhost:6006/#pytorch_profiler
 
 
 
-### 
- 5. 在分析器的帮助下提高性能
- [¶](#improve-performance-with-the-help-of-profiler "Permalink to this header")
+### 5. 在分析器的帮助下提高性能 [¶](#improve-performance-with-the-help-of-profiler "Permalink to this header")
 
 
 
@@ -603,9 +586,7 @@ GPU 利用率增加了。
 
 
 
-### 
- 6. 使用其他高级功能分析性能
- [¶](#analyze-performance-with-other-advanced-features "永久链接到此标题")
+### 6. 使用其他高级功能分析性能 [¶](#analyze-performance-with-other-advanced-features "永久链接到此标题")
 
 
 * 内存视图
@@ -751,11 +732,8 @@ tensorboard --logdir=https://torchtbprofiler.blob.core.windows.net/torchtbprofil
 
 
 
+## 了解更多 [¶](#learn-more "此标题的永久链接")
 
-
- 了解更多
- [¶](#learn-more "此标题的永久链接")
------------------------------------------------------------
 
 
 

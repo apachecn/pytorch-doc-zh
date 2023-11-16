@@ -1,7 +1,5 @@
+# NLP 从头开始​​：使用序列到序列网络和注意力进行翻译 [¶](#nlp-from-scratch-translation-with-a-sequence-to-sequence-network-and-attention “此标题的永久链接”）
 
- NLP 从头开始​​：使用序列到序列网络和注意力进行翻译
- [¶](#nlp-from-scratch-translation-with-a-sequence-to-sequence-network-and-attention “此标题的永久链接”）
-========================================================================================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -159,9 +157,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 
- 正在加载数据文件
- [¶](#loading-data-files "固定链接到此标题")
---------------------------------------------------------------------------- -
+## 正在加载数据文件 [¶](#loading-data-files "固定链接到此标题")
+ -
 
 
 
@@ -433,10 +430,8 @@ eng 2991
 
 
 
-
- Seq2Seq 模型
- [¶](#the-seq2seq-model "永久链接到此标题")
---------------------------------------------------------------------------- -
+## Seq2Seq 模型 [¶](#the-seq2seq-model "永久链接到此标题")
+ -
 
 
 
@@ -530,9 +525,7 @@ seq2seq网络，或
 
 
 
-### 
- 编码器
- [¶](#the-encoder "此标题的永久链接")
+### 编码器 [¶](#the-encoder "此标题的永久链接")
 
 
 seq2seq 网络的编码器是一个 RNN，它为输入句子中的每个单词输出一些值。对于每个输入单词，编码器
@@ -568,9 +561,7 @@ class EncoderRNN(nn.Module):
 
 
 
-### 
- 解码器
- [¶](#the-decoder "此标题的永久链接")
+### 解码器 [¶](#the-decoder "此标题的永久链接")
 
 
 
@@ -580,9 +571,7 @@ class EncoderRNN(nn.Module):
 
 
 
-#### 
- 简单解码器
- [¶](#simple-decoder "此标题的永久链接")
+#### 简单解码器 [¶](#simple-decoder "此标题的永久链接")
 
 
 
@@ -659,9 +648,7 @@ class DecoderRNN(nn.Module):
 
 
 
-#### 
- 注意力解码器
- [¶](#attention-decoder "永久链接到此标题")
+#### 注意力解码器 [¶](#attention-decoder "永久链接到此标题")
 
 
 
@@ -808,16 +795,12 @@ attention” 的内容。
 
 
 
-
- 训练
- [¶](#training "固定链接到此标题")
------------------------------------------------------
+## 训练 [¶](#training "固定链接到此标题")
 
 
 
-### 
- 准备训练数据
- [¶](#preparing-training-data "永久链接到此标题")
+
+### 准备训练数据 [¶](#preparing-training-data "永久链接到此标题")
 
 
 为了训练，对于每一对，我们需要一个输入张量（输入句子中单词的索引）和目标张量（目标句子中单词的索引）。创建这些向量时，我们会将
@@ -870,9 +853,7 @@ def get_dataloader(batch_size):
 
 
 
-### 
- 训练模型
- [¶](#training-the-model "永久链接到此标题")
+### 训练模型 [¶](#training-the-model "永久链接到此标题")
 
 
 为了训练，我们通过编码器运行输入句子，并跟踪每个输出和最新的隐藏状态。然后，解码器被赋予
@@ -1029,9 +1010,7 @@ def train(train_dataloader, encoder, decoder, n_epochs, learning_rate=0.001,
 
 
 
-### 
- 绘制结果
- [¶](#plotting-results "此标题的固定链接")
+### 绘制结果 [¶](#plotting-results "此标题的固定链接")
 
 
 
@@ -1064,11 +1043,8 @@ def showPlot(points):
 
 
 
+## 评估 [¶](#evaluation "此标题的永久链接")
 
-
- 评估
- [¶](#evaluation "此标题的永久链接")
---------------------------------------------------------------------------
 
 
 
@@ -1131,10 +1107,8 @@ def evaluateRandomly(encoder, decoder, n=10):
 
 
 
+## 训练和评估 [¶](#training-and-evaluating "永久链接到此标题")
 
- 训练和评估
- [¶](#training-and-evaluating "永久链接到此标题")
--------------------------------------------------------------------------------------
 
 
 
@@ -1286,9 +1260,7 @@ evaluateRandomly(encoder, decoder)
 
 
 
-### 
- 可视化注意力
- [¶](#visualizing-attention "永久链接到此标题")
+### 可视化注意力 [¶](#visualizing-attention "永久链接到此标题")
 
 
 
@@ -1404,11 +1376,8 @@ set_ticklabels() should only be used with a fixed number of ticks, i.e. after se
 
 
 
+## 练习 [¶](#exercises "永久链接到此标题")
 
-
- 练习
- [¶](#exercises "永久链接到此标题")
-------------------------------------------------------------------------------------
 
 
 * 尝试使用不同的数据集

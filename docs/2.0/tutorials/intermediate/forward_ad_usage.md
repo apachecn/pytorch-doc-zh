@@ -1,7 +1,5 @@
+# 正向模式自动微分（测试版） [¶](#forward-mode-automatic-differiation-beta "固定链接到此标题")
 
- 正向模式自动微分（测试版）
- [¶](#forward-mode-automatic-differiation-beta "固定链接到此标题")
-============================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -31,9 +29,8 @@
 
 
 
- 基本用法
- [¶](#basic-usage "永久链接到此标题")
----------------------------------------------------------------
+## 基本用法 [¶](#basic-usage "永久链接到此标题")
+
 
 
 
@@ -106,10 +103,8 @@ assert fwAD.unpack_dual(dual_output).tangent is None
 
 
 
+## 与模块一起使用 [¶](#usage-with-modules "永久链接到此标题")
 
- 与模块一起使用
- [¶](#usage-with-modules "永久链接到此标题")
----------------------------------------------------------------------------
 
 
 
@@ -149,10 +144,8 @@ with fwAD.dual_level():
 
 
 
+## 使用功能模块 API（测试版） [¶](#using-the-function-module-api-beta "永久链接到此标题")
 
- 使用功能模块 API（测试版）
- [¶](#using-the-function-module-api-beta "永久链接到此标题")
--------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -188,10 +181,8 @@ assert torch.allclose(jvp, jvp2)
 
 
 
+## 自定义 autograd 函数 [¶](#custom-autograd-function "永久链接到此标题")
 
- 自定义 autograd 函数
- [¶](#custom-autograd-function "永久链接到此标题")
-----------------------------------------------------------------------------------------
 
 
 
@@ -263,10 +254,8 @@ True
 
 
 
+## 功能 API（测试版） [¶](#function-api-beta "此标题的永久链接")
 
- 功能 API（测试版）
- [¶](#function-api-beta "此标题的永久链接")
----------------------------------------------------------------------------------
 
 
 
@@ -342,10 +331,8 @@ We've integrated functorch into PyTorch. As the final step of the integration, f
 
 
 
+## 将功能 API 与模块结合使用 [¶](#using-the-function-api-with-modules "永久链接到此标题")
 
- 将功能 API 与模块结合使用
- [¶](#using-the-function-api-with-modules "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------------
 
 
 

@@ -1,9 +1,8 @@
 
 
 
- TorchVision 对象检测微调教程
- [¶](#torchvision-object-detection-finetuning-tutorial "永久链接到此标题")
-=====================================================================================================================================
+# TorchVision 对象检测微调教程 [¶](#torchvision-object-detection-finetuning-tutorial "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -55,10 +54,8 @@
 
 
 
+## 定义数据集 [¶](#defining-the-dataset "永久链接到此标题")
 
- 定义数据集
- [¶](#defining-the-dataset "永久链接到此标题")
----------------------------------------------------------------------------------------------
 
 
 用于训练对象检测、实例分割和人物关键点检测的参考脚本可以轻松支持添加新的自定义数据集。数据集应继承自标准
@@ -275,9 +272,7 @@ a 自定义方法慢已提供。
 
 
 
-### 
- 为 PennFudan 编写自定义数据集
- [¶](#writing-a-custom-dataset-for-pennfudan "永久链接到此标题")
+### 为 PennFudan 编写自定义数据集 [¶](#writing-a-custom-dataset-for-pennfudan "永久链接到此标题")
 
 
 
@@ -428,11 +423,8 @@ class PennFudanDataset(torch.utils.data.Dataset):
 
 
 
+## 定义您的模型 [¶](#defining-your-model "永久链接到此标题")
 
-
- 定义您的模型
- [¶](#defining-your-model "永久链接到此标题")
------------------------------------------------------------------------------
 
 
 
@@ -470,9 +462,7 @@ R-CNN](https://arxiv.org/abs/1703.06870)
 
 
 
-### 
- 1 - 从预训练模型进行微调
- [¶](#finetuning-from-a-pretrained-model "永久链接到此标题")
+### 1 - 从预训练模型进行微调 [¶](#finetuning-from-a-pretrained-model "永久链接到此标题")
 
 
 
@@ -505,9 +495,7 @@ model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
 
 
-### 
- 2 - 修改模型以添加不同的主干
- [¶](#modifying-the-model-to-add-a- different-backbone "永久链接到此标题")
+### 2 - 修改模型以添加不同的主干 [¶](#modifying-the-model-to-add-a- different-backbone "永久链接到此标题")
 
 
 
@@ -563,9 +551,7 @@ model = FasterRCNN(
 
 
 
-### 
- PennFudan 数据集的对象检测和实例分割模型
- [¶](#object-detection-and-instance-segmentation-model-for-pennfudan-dataset "永久链接到此标题")
+### PennFudan 数据集的对象检测和实例分割模型 [¶](#object-detection-and-instance-segmentation-model-for-pennfudan-dataset "永久链接到此标题")
 
 
 
@@ -623,11 +609,8 @@ def get_model_instance_segmentation(num_classes):
 
 
 
+## 将所有内容放在一起 [¶](#putting-everything-together "永久链接到此标题")
 
-
- 将所有内容放在一起
- [¶](#putting-everything-together "永久链接到此标题")
---------------------------------------------------------------------------------------------
 
 
 
@@ -692,12 +675,10 @@ def get_transform(train):
 
 
 
-
- 测试
+## 测试
  `forward()`
- 方法（可选）
- [¶](#testing-forward-method-optional "固定链接到此标题")
---------------------------------------------------------------------------------------------------------------
+ 方法（可选） [¶](#testing-forward-method-optional "固定链接到此标题")
+
 
 
 
@@ -990,10 +971,8 @@ plt.imshow(output_image.permute(1, 2, 0))
 
 
 
+## 结束 [¶](#wrapping-up "此标题的固定链接")
 
- 结束
- [¶](#wrapping-up "此标题的固定链接")
----------------------------------------------------------------------------
 
 
 

@@ -1,7 +1,5 @@
+# 计算机视觉迁移学习教程 [¶](#transfer-learning-for-computer-vision-tutorial "永久链接到此标题")
 
- 计算机视觉迁移学习教程
- [¶](#transfer-learning-for-computer-vision-tutorial "永久链接到此标题")
-================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -93,9 +91,8 @@ plt.ion()   # interactive mode
 
 
 
- 加载数据
- [¶](#load-data "此标题的永久链接")
------------------------------------------------------------------------
+## 加载数据 [¶](#load-data "此标题的永久链接")
+
 
 
 
@@ -172,9 +169,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 
-### 
- 可视化一些图像
- [¶](#visualize-a-few-images "此标题的固定链接")
+### 可视化一些图像 [¶](#visualize-a-few-images "此标题的固定链接")
 
 
 
@@ -215,11 +210,8 @@ imshow(out, title=[class_names[x] for x in classes])
 ![['蚂蚁', '蚂蚁', '蚂蚁', '蚂蚁']](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png)
 
 
+## 训练模型 [¶](#training-the-model "永久链接到此标题")
 
-
- 训练模型
- [¶](#training-the-model "永久链接到此标题")
------------------------------------------------------------------------------
 
 
 
@@ -320,9 +312,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
 
 
-### 
- 可视化模型预测
- [¶](#visualizing-the-model-predictions "永久链接到此标题")
+### 可视化模型预测 [¶](#visualizing-the-model-predictions "永久链接到此标题")
 
 
 
@@ -366,11 +356,8 @@ def visualize_model(model, num_images=6):
 
 
 
+## 微调 ConvNet [¶](#finetuning-the-convnet "固定链接到此标题")
 
-
- 微调 ConvNet
- [¶](#finetuning-the-convnet "固定链接到此标题")
--------------------------------------------------------------------------------------
 
 
 
@@ -419,9 +406,7 @@ Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /var
 
 
 
-### 
- 训练和评估
- [¶](#train-and-evaluate "永久链接到此标题")
+### 训练和评估 [¶](#train-and-evaluate "永久链接到此标题")
 
 
 
@@ -590,11 +575,8 @@ visualize_model(model_ft)
 ![预测：蚂蚁，预测：蜜蜂，预测：蚂蚁，预测：蜜蜂，预测：蜜蜂，预测：蚂蚁](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png)
 
 
+## ConvNet 作为固定特征提取器 [¶](#convnet-as-fixed-feature-extractor "永久链接到此标题")
 
-
- ConvNet 作为固定特征提取器
- [¶](#convnet-as-fixed-feature-extractor "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------
 
 
 
@@ -649,9 +631,7 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
 
 
-### 
- 训练和评估
- [¶](#id1 "此标题的永久链接")
+### 训练和评估 [¶](#id1 "此标题的永久链接")
 
 
 
@@ -824,11 +804,8 @@ plt.show()
 ![预测：蜜蜂，预测：蚂蚁，预测：蜜蜂，预测：蜜蜂，预测：蚂蚁，预测：蚂蚁](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png)
 
 
+## 自定义图像推断 [¶](#inference-on-custom-images "此标题的固定链接")
 
-
- 自定义图像推断
- [¶](#inference-on-custom-images "此标题的固定链接")
---------------------------------------------------------------------------------------------
 
 
 
@@ -884,10 +861,8 @@ plt.show()
 ![预测：蜜蜂](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_004.png)
 
 
+## 进一步学习 [¶](#further-learning "永久链接到此标题")
 
- 进一步学习
- [¶](#further-learning "永久链接到此标题")
------------------------------------------------------------------------------------
 
 
 

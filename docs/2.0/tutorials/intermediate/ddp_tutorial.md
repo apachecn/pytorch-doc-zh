@@ -1,9 +1,8 @@
 
 
 
- 分布式数据并行入门
- [¶](#getting-started-with-distributed-data-parallel "永久链接到此标题")
-================================================================================================================================
+# 分布式数据并行入门 [¶](#getting-started-with-distributed-data-parallel "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -80,13 +79,10 @@
 
 
 
-
- 
- `DataParallel`
+## `DataParallel`
  和 
- `DistributedDataParallel` 之间的比较
-[¶](#comparison- Between-dataparallel-and-distributeddataparallel "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ `DistributedDataParallel` 之间的比较 [¶](#comparison- Between-dataparallel-and-distributeddataparallel "永久链接到此标题")
+
 
 
 
@@ -133,9 +129,8 @@
 
 
 
- 基本用例
- [¶](#basic-use-case "永久链接到此标题")
---------------------------------------------------------------------
+## 基本用例 [¶](#basic-use-case "永久链接到此标题")
+
 
 
 
@@ -247,10 +242,8 @@ def run_demo(demo_fn, world_size):
 
 
 
+## 倾斜的处理速度 [¶](#skewed-processing-speeds "永久链接到此标题")
 
- 倾斜的处理速度
- [¶](#skewed-processing-speeds "永久链接到此标题")
------------------------------------------------------------------------------------------------------
 
 
 
@@ -268,10 +261,8 @@ def run_demo(demo_fn, world_size):
 
 
 
+## 保存和加载检查点 [¶](#save-and-load-checkpoints "永久链接到此标题")
 
- 保存和加载检查点
- [¶](#save-and-load-checkpoints "永久链接到此标题")
-------------------------------------------------------------------------------------------
 
 
 
@@ -350,10 +341,8 @@ def demo_checkpoint(rank, world_size):
 
 
 
+## 将 DDP 与模型并行性相结合 [¶](#combining-ddp-with-model-parallelism "永久链接到此标题")
 
- 将 DDP 与模型并行性相结合
- [¶](#combining-ddp-with-model-parallelism "永久链接到此标题")
-----------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -438,10 +427,8 @@ if __name__ == "__main__":
 
 
 
+## 使用 torch.distributed.run/torchrun 初始化 DDP [¶](#initialize-ddp-with-torch-distributed-run-torchrun "永久链接到此标题")
 
- 使用 torch.distributed.run/torchrun 初始化 DDP
- [¶](#initialize-ddp-with-torch-distributed-run-torchrun "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

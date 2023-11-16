@@ -1,9 +1,8 @@
 
 
 
- 自定义 C++ 和 CUDA 扩展
- [¶](#custom-c-and-cuda-extensions "永久链接到此标题")
-=============================================================================================
+# 自定义 C++ 和 CUDA 扩展 [¶](#custom-c-and-cuda-extensions "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -60,9 +59,8 @@ PyTorch 提供了一种非常简单的方法来编写自定义
 
 
 
- 动机和示例
- [¶](#motivation-and-example "永久链接到此标题")
--------------------------------------------------------------------------------------
+## 动机和示例 [¶](#motivation-and-example "永久链接到此标题")
+
 
 
 
@@ -215,10 +213,8 @@ LLTM。我们’ 将首先使用普通 C++ 编写它，使用
 
 
 
+## 编写 C++ 扩展 [¶](#writing-a-c-extension "永久链接到此标题")
 
- 编写 C++ 扩展
- [¶](#writing-a-c-extension "永久链接到此标题")
---------------------------------------------------------------------------------------
 
 
 
@@ -232,10 +228,8 @@ LLTM。我们’ 将首先使用普通 C++ 编写它，使用
 
 
 
-### 
- 使用
- `setuptools`构建
-[¶](#building-with-setuptools "永久链接到此标题")
+### 使用
+ `setuptools`构建 [¶](#building-with-setuptools "永久链接到此标题")
 
 
 
@@ -298,9 +292,7 @@ Extension(
 
 
 
-### 
- 编写 C++ Op
- [¶](#writing-the-c-op "此标题的永久链接")
+### 编写 C++ Op [¶](#writing-the-c-op "此标题的永久链接")
 
 
 
@@ -399,9 +391,7 @@ torch::Tensor SigmoidAlphaBlendForwardCuda(...)
 
 
 
-#### 
- 正向传递
- [¶](#forward-pass "永久链接到此标题")
+#### 正向传递 [¶](#forward-pass "永久链接到此标题")
 
 
 
@@ -448,9 +438,7 @@ std::vector<at::Tensor> lltm_forward(
 
 
 
-#### 
- 向后传递
- [¶](#backward-pass "永久链接到此标题")
+#### 向后传递 [¶](#backward-pass "永久链接到此标题")
 
 
 
@@ -527,9 +515,7 @@ std::vector<torch::Tensor> lltm_backward(
 
 
 
-### 
- 绑定到 Python
- [¶](#binding-to-python "永久链接到此标题")
+### 绑定到 Python [¶](#binding-to-python "永久链接到此标题")
 
 
 
@@ -576,9 +562,7 @@ build 会将其定义为您在
 
 
 
-### 
- 使用您的扩展
- [¶](#using-your-extension "永久链接到此标题")
+### 使用您的扩展 [¶](#using-your-extension "永久链接到此标题")
 
 
 
@@ -784,9 +768,7 @@ class LLTM(torch.nn.Module):
 
 
 
-#### 
- 性能比较
- [¶](#performance-comparison "永久链接到此标题")
+#### 性能比较 [¶](#performance-comparison "永久链接到此标题")
 
 
 现在我们可以从 PyTorch 使用和调用 C++ 代码，我们可以运行一个小型基准测试来看看我们通过用 C++ 重写操作获得了多少性能。我们’ 将前后运行 LLTM 几次并测量
@@ -875,9 +857,7 @@ Forward: 349.335 us | Backward 443.523 us
 
 
 
-#### 
- GPU 设备上的性能
- [¶](#performance-on-gpu-devices "此标题的永久链接")
+#### GPU 设备上的性能 [¶](#performance-on-gpu-devices "此标题的永久链接")
 
 
 
@@ -974,9 +954,7 @@ Forward: 149.802 us | Backward 393.458 us
 
 
 
-### 
- JIT 编译扩展
- [¶](#jit-compiling-extensions "永久链接到此标题")
+### JIT 编译扩展 [¶](#jit-compiling-extensions "永久链接到此标题")
 
 
 
@@ -1061,11 +1039,8 @@ it 将需要一些时间，因为扩展正在后台编译。由于
 
 
 
+## 编写混合 C++/CUDA 扩展 [¶](#writing-a-mixed-c-cuda-extension "永久链接到此标题")
 
-
- 编写混合 C++/CUDA 扩展
- [¶](#writing-a-mixed-c-cuda-extension "永久链接到此标题")
------------------------------------------------------------------------------------------------------------
 
 
 为了真正将我们的实现提升到一个新的水平，我们可以使用自定义 CUDA 内核手写部分前向和后向传递。对于 LLTM，这有望特别有效，因为存在大量按顺序进行的逐点操作，这些操作都可以在单个 CUDA 内核中融合和并行化。让’s 看看我们如何编写这样的 CUDA 内核并
@@ -1451,9 +1426,7 @@ __global__ void lltm_cuda_forward_kernel(
 
 
 
-### 
- 使用访问器
- [¶](#using-accessors "永久链接到此标题")
+### 使用访问器 [¶](#using-accessors "永久链接到此标题")
 
 
 
@@ -1783,9 +1756,7 @@ std::vector<torch::Tensor> lltm_cuda_backward(
 
 
 
-### 
- 将 C++/CUDA 操作与 PyTorch 集成
- [¶](#integrating-a-c-cuda-operation-with-pytorch "永久链接到此标题")
+### 将 C++/CUDA 操作与 PyTorch 集成 [¶](#integrating-a-c-cuda-operation-with-pytorch "永久链接到此标题")
 
 
 
@@ -1848,9 +1819,7 @@ lltm = load(name='lltm', sources=['lltm_cuda.cpp', 'lltm_cuda_kernel.cu'])
 
 
 
-#### 
- 性能比较
- [¶](#id4 "此标题的永久链接")
+#### 性能比较 [¶](#id4 "此标题的永久链接")
 
 
 
@@ -1896,9 +1865,8 @@ Forward: 129.431 us | Backward 304.641 us
 
 
 
- 结论
- [¶](#conclusion "永久链接到此标题")
-----------------------------------------------------------
+## 结论 [¶](#conclusion "永久链接到此标题")
+
 
 
 

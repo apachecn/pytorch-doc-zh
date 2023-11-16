@@ -1,7 +1,5 @@
+# TorchRL 强化学习 (PPO) 教程 [¶](#reinforcement-learning-ppo-with-torchrl-tutorial "永久链接到此标题")
 
- TorchRL 强化学习 (PPO) 教程
- [¶](#reinforcement-learning-ppo-with-torchrl-tutorial "永久链接到此标题")
-======================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -34,8 +32,7 @@
 
 
  倒立摆
- 
-[¶](#id1 "此图像的永久链接")
+  [¶](#id1 "此图像的永久链接")
 
 
 
@@ -191,9 +188,8 @@ from tqdm import tqdm
 
 
 
- 定义超参数
- [¶](#define-hyperparameters "永久链接到此标题")
-----------------------------------------------------------------------------------
+## 定义超参数 [¶](#define-hyperparameters "永久链接到此标题")
+
 
 
 
@@ -224,9 +220,7 @@ max_grad_norm = 1.0
 
 
 
-### 
- 数据收集参数
- [¶](#data-collection-parameters "永久链接到此标题")
+### 数据收集参数 [¶](#data-collection-parameters "永久链接到此标题")
 
 
 
@@ -274,9 +268,7 @@ total_frames = 50_000 // frame_skip
 
 
 
-### 
- PPO 参数
- [¶](#ppo-parameters "此标题的永久链接")
+### PPO 参数 [¶](#ppo-parameters "此标题的永久链接")
 
 
 
@@ -316,11 +308,8 @@ entropy_eps = 1e-4
 
 
 
+## 定义环境 [¶](#define-an-environment "永久链接到此标题")
 
-
- 定义环境
- [¶](#define-an-environment "永久链接到此标题")
-------------------------------------------------------------------------------------
 
 
 
@@ -373,9 +362,7 @@ base_env = GymEnv("InvertedDoublePendulum-v4", device=device, frame_skip=frame_s
 
 
 
-### 
- 转换
- [¶](#transforms "永久链接到此标题")
+### 转换 [¶](#transforms "永久链接到此标题")
 
 
 
@@ -391,9 +378,7 @@ base_env = GymEnv("InvertedDoublePendulum-v4", device=device, frame_skip=frame_s
 
 
 
-### 
- 标准化
- [¶](#normalization "永久链接到此标题")
+### 标准化 [¶](#normalization "永久链接到此标题")
 
 
 
@@ -724,11 +709,8 @@ Shape of the rollout TensorDict: torch.Size([3])
 
 
 
+## 策略 [¶](#policy "此标题的永久链接")
 
-
- 策略
- [¶](#policy "此标题的永久链接")
-----------------------------------------------------------------
 
 
 
@@ -904,10 +886,8 @@ policy_module = ProbabilisticActor(
 
 
 
+## 价值网络 [¶](#value-network "此标题的永久链接")
 
- 价值网络
- [¶](#value-network "此标题的永久链接")
------------------------------------------------------------------------------
 
 
 
@@ -1012,10 +992,8 @@ Running value: TensorDict(
 
 
 
+## 数据收集器 [¶](#data-collector "永久链接到此标题")
 
- 数据收集器
- [¶](#data-collector "永久链接到此标题")
--------------------------------------------------------------------
 
 
 
@@ -1097,10 +1075,8 @@ collector = SyncDataCollector(
 
 
 
+## 重播缓冲区 [¶](#replay-buffer "永久链接到此标题")
 
- 重播缓冲区
- [¶](#replay-buffer "永久链接到此标题")
------------------------------------------------------------------------------
 
 
 
@@ -1139,10 +1115,8 @@ replay_buffer = ReplayBuffer(
 
 
 
+## 损失函数 [¶](#loss-function "永久链接到此标题")
 
- 损失函数
- [¶](#loss-function "永久链接到此标题")
------------------------------------------------------------------------------
 
 
 
@@ -1209,10 +1183,8 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
 
 
 
+## 训练循环 [¶](#training-loop "永久链接到此标题")
 
- 训练循环
- [¶](#training-loop "永久链接到此标题")
------------------------------------------------------------------------------
 
 
 
@@ -1425,10 +1397,8 @@ eval cumulative reward:  980.9490 (init:  82.5343), eval step-count: 104, averag
 
 
 
+## 结果 [¶](#results "此标题的永久链接")
 
- 结果
- [¶](#results "此标题的永久链接")
------------------------------------------------------------------
 
 
 
@@ -1464,10 +1434,8 @@ plt.show()
 ![训练奖励（平均）、最大步数（训练）、回报（测试）、最大步数（测试）](https://pytorch.org/tutorials/_images/sphx_glr_reinforcement_ppo_001.png)
 
 
+## 结论和后续步骤 [¶](#conclusion-and-next-steps "永久链接到此标题")
 
- 结论和后续步骤
- [¶](#conclusion-and-next-steps "永久链接到此标题")
-------------------------------------------------------------------------------------------
 
 
 

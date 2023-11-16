@@ -1,7 +1,5 @@
+# Jacobian、Hessians、hvp、vhp 等：组合函数变换 [¶](#jacobians-hessians-hvp-vhp-and-more-composition-function-transforms "此标题的永久链接")
 
- Jacobian、Hessians、hvp、vhp 等：组合函数变换
- [¶](#jacobians-hessians-hvp-vhp-and-more-composition-function-transforms "此标题的永久链接")
-==============================================================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -38,10 +36,8 @@
 
 
 
+## 计算雅可比行列式 [¶](#computing-the-jacobian "此标题的固定链接")
 
- 计算雅可比行列式
- [¶](#computing-the-jacobian "此标题的固定链接")
--------------------------------------------------------------------------------------------------
 
 
 
@@ -351,14 +347,12 @@ ft_jac_weight, ft_jac_bias = jacrev(predict, argnums=(0, 1))(weight, bias, x)
 
 
 
-
- 反向模式雅可比行列式 (
+## 反向模式雅可比行列式 (
  `jacrev`
  ) 与正向模式雅可比行列式 (
  `jacfwd`
- )
- [¶](#reverse-mode-jacobian-jacrev-vs-forward -mode-jacobian-jacfwd "此标题的永久链接")
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ) [¶](#reverse-mode-jacobian-jacrev-vs-forward -mode-jacobian-jacfwd "此标题的永久链接")
+
 
 
 
@@ -576,10 +570,8 @@ Performance delta: 647.4179 percent improvement with jacfwd
 
 
 
+## 使用 functorch.hessian 进行 Hessian 计算 [¶](#hessian-computation-with-functorch-hessian "永久链接到此标题")
 
- 使用 functorch.hessian 进行 Hessian 计算
- [¶](#hessian-computation-with-functorch-hessian "永久链接到此标题")
------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -666,10 +658,8 @@ True
 
 
 
+## 批量雅可比矩阵和批量海森矩阵 [¶](#batch-jacobian-and-batch-hessian "永久链接到此标题")
 
- 批量雅可比矩阵和批量海森矩阵
- [¶](#batch-jacobian-and-batch-hessian "永久链接到此标题")
---------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -807,10 +797,8 @@ torch.Size([64, 33, 31, 31])
 
 
 
+## 计算 Hessian 向量积 [¶](#computing-hessian-vector-products "固定链接到此标题")
 
- 计算 Hessian 向量积
- [¶](#computing-hessian-vector-products "固定链接到此标题")
----------------------------------------------------------------------------------------------------------------------
 
 
 

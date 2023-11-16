@@ -1,9 +1,8 @@
 
 
 
- 通过 PrivateUse 促进新后端集成1
- [¶](#facilitating-new-backend-integration-by-privateuse1 "永久链接到此标题")
-==========================================================================================================================================
+# 通过 PrivateUse 促进新后端集成1 [¶](#facilitating-new-backend-integration-by-privateuse1 "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -40,10 +39,8 @@
 
 
 
+## 什么是 PrivateUse1？ [¶](#what-is-privateuse1 "此标题的永久链接")
 
- 什么是 PrivateUse1？
- [¶](#what-is-privateuse1 "此标题的永久链接")
----------------------------------------------------------------------------------
 
 
 
@@ -109,10 +106,8 @@
 
 
 
-
- 如何通过 PrivateUse1
- [¶](#how-to-integrate-new-backend-via-privateuse1 "永久链接到此标题")
------------- 集成新后端----------------------------------------------------------------------------------------------------------------------
+## 如何通过 PrivateUse1 [¶](#how-to-integrate-new-backend-via-privateuse1 "永久链接到此标题")
+ 集成新后端
 
 
 
@@ -130,9 +125,7 @@
 
 
 
-### 
- 为新后端注册内核
- [¶](#register-kernels-for-the-new-backend "永久链接到此标题")
+### 为新后端注册内核 [¶](#register-kernels-for-the-new-backend "永久链接到此标题")
 
 
 
@@ -336,9 +329,7 @@ TORCH_LIBRARY_IMPL(_, AutocastPrivateUse1, m) {
 
 
 
-### 
- 为新后端注册生成器
- [¶](#register-generator-for-the-new-backend "永久链接到此标题")
+### 为新后端注册生成器 [¶](#register-generator-for-the-new-backend "永久链接到此标题")
 
 
 
@@ -386,9 +377,7 @@ REGISTER_GENERATOR_PRIVATEUSE1(make_cumstom_generator)
 
 
 
-### 
- 为新后端注册设备防护
- [¶](#register-device-guard-for-the-new-backend "永久链接到此标题")
+### 为新后端注册设备防护 [¶](#register-device-guard-for-the-new-backend "永久链接到此标题")
 
 
 
@@ -425,9 +414,7 @@ C10_REGISTER_GUARD_IMPL(PrivateUse1, CustomGuardImpl);
 
 
 
-### 
- 为新后端元数据注册序列化和反序列化函数
- [¶](#register-serialization-and-deserialization-functions-for-new-backend-metadata "永久链接到此标题")
+### 为新后端元数据注册序列化和反序列化函数 [¶](#register-serialization-and-deserialization-functions-for-new-backend-metadata "永久链接到此标题")
 
 
 
@@ -485,9 +472,7 @@ TensorBackendMetaRegistry(c10::DeviceType::PrivateUse1, &for_serialization, &for
 
 
 
-### 
- 其他模块
- [¶](#other-modules "此标题的永久链接")
+### 其他模块 [¶](#other-modules "此标题的永久链接")
 
 
 
@@ -518,11 +503,8 @@ TensorBackendMetaRegistry(c10::DeviceType::PrivateUse1, &for_serialization, &for
 
 
 
+## 如何通过 Privateuse1 改善用户体验 [¶](#how-to-improve-user-experience-with-privateuse1 "永久链接到此标题")
 
-
- 如何通过 Privateuse1 改善用户体验
- [¶](#how-to-improve-user-experience-with-privateuse1 "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -537,9 +519,7 @@ TensorBackendMetaRegistry(c10::DeviceType::PrivateUse1, &for_serialization, &for
 
 
 
-### 
- 将新后端模块注册到 Pytorch
- [¶](#register-new-backend-module-to-pytorch "永久链接到此标题")
+### 将新后端模块注册到 Pytorch [¶](#register-new-backend-module-to-pytorch "永久链接到此标题")
 
 
 
@@ -581,9 +561,7 @@ torch._register_device_module('npu', torch_npu.npu)
 
 
 
-### 
- 将 PrivateUse1 重命名为新后端的自定义名称
- [¶](#rename-privateuse1-to-a-custom-name-for-the-new-backend "永久链接到此标题" ）
+### 将 PrivateUse1 重命名为新后端的自定义名称 [¶](#rename-privateuse1-to-a-custom-name-for-the-new-backend "永久链接到此标题" ）
 
 
 
@@ -659,9 +637,7 @@ c10::register_privateuse1_backend("npu")
 
 
 
-### 
- 生成与新后端相关的方法和属性
- [¶](#generate-methods-and-properties-lated-to-the-new-backend "此标题的永久链接”）
+### 生成与新后端相关的方法和属性 [¶](#generate-methods-and-properties-lated-to-the-new-backend "此标题的永久链接”）
 
 
 
@@ -722,11 +698,8 @@ torch.Storage.is_npu
 
 
 
+## 未来的工作 [¶](#future-work "永久链接到此标题")
 
-
- 未来的工作
- [¶](#future-work "永久链接到此标题")
----------------------------------------------------------------
 
 
 
@@ -757,9 +730,8 @@ torch.Storage.is_npu
 
 
 
- 结论
- [¶](#conclusion "此标题的永久链接")
----------------------------------------------------------------------
+## 结论 [¶](#conclusion "此标题的永久链接")
+
 
 
 

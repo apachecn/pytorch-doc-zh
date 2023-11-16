@@ -289,9 +289,7 @@ def run_worker(rank, world_size):
 ```
 
 
-
-
-###  生成输入和目标序列的函数 [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
+ [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
 
 
 

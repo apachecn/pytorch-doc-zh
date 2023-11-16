@@ -1,7 +1,5 @@
+# 使用 Ray Tune 进行超参数调整 [¶](#hyperparameter-tuning-with-ray-tune "永久链接到此标题")
 
- 使用 Ray Tune 进行超参数调整
- [¶](#hyperparameter-tuning-with-ray-tune "永久链接到此标题")
-===========================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -65,11 +63,8 @@
  : 用于数据转换器
 
 
+## 设置/导入 [¶](#setup-imports "永久链接到此标题")
 
-
- 设置/导入
- [¶](#setup-imports "永久链接到此标题")
----------------------------------------------------------------------------------
 
 
 
@@ -106,10 +101,8 @@ from ray.tune.schedulers import ASHAScheduler
 
 
 
+## 数据加载器 [¶](#data-loaders "此标题的固定链接")
 
- 数据加载器
- [¶](#data-loaders "此标题的固定链接")
--------------------------------------------------------------------------
 
 
 
@@ -143,10 +136,8 @@ def load_data(data_dir="./data"):
 
 
 
+## 可配置神经网络 [¶](#configurable-neural-network "永久链接到此标题")
 
- 可配置神经网络
- [¶](#configurable-neural-network "永久链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -185,10 +176,8 @@ class Net(nn.Module):
 
 
 
+## 训练函数 [¶](#the-train-function "永久链接到此标题")
 
- 训练函数
- [¶](#the-train-function "永久链接到此标题")
----------------------------------------------------------------------------
 
 
 
@@ -258,9 +247,7 @@ optimizer = optim.SGD(net.parameters(), lr=config["lr"], momentum=0.9)
 
 
 
-### 
- 使用 DataParallel 添加（多）GPU 支持
- [¶](#adding-multi-gpu-support-with-dataparallel "永久链接到此标题")
+### 使用 DataParallel 添加（多）GPU 支持 [¶](#adding-multi-gpu-support-with-dataparallel "永久链接到此标题")
 
 
 
@@ -317,9 +304,7 @@ for i, data in enumerate(trainloader, 0):
 
 
 
-### 
- 与 Ray Tune 通信
- [¶](#communicating-with-ray-tune "永久链接到此标题")
+### 与 Ray Tune 通信 [¶](#communicating-with-ray-tune "永久链接到此标题")
 
 
 
@@ -368,9 +353,7 @@ s调度程序，例如
 
 
 
-### 
- 完整训练函数
- [¶](#full-training-function "永久链接到此标题")
+### 完整训练函数 [¶](#full-training-function "永久链接到此标题")
 
 
 
@@ -489,11 +472,8 @@ def train_cifar(config, data_dir=None):
 
 
 
-
-
- 测试集精度
- [¶](#test-set-accuracy "永久链接到此标题")
------------------------------------------------------------------------ -
+## 测试集精度 [¶](#test-set-accuracy "永久链接到此标题")
+ -
 
 
 
@@ -540,10 +520,8 @@ def test_accuracy(net, device="cpu"):
 
 
 
+## 配置搜索空间 [¶](#configuring-the-search-space "固定链接到此标题")
 
- 配置搜索空间
- [¶](#configuring-the-search-space "固定链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 

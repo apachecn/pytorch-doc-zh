@@ -1,10 +1,8 @@
-
- 使用
+# 使用
  `nn.Transformer`
  和 torchtext
- 进行语言建模
- [¶](#language-modeling-with-nn-transformer-and-torchtext "永久链接到此标题")
- ===============================================================================================================================================
+ 进行语言建模 [¶](#language-modeling-with-nn-transformer-and-torchtext "永久链接到此标题")
+ 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -43,9 +41,8 @@
 ![https://pytorch.org/tutorials/_images/transformer_architecture.jpg](https://pytorch.org/tutorials/_images/transformer_architecture.jpg)
 
 
- 定义模型
- [¶](#define-the-model "永久链接到此标题")
-------------------------------------------------------------------------------------
+## 定义模型 [¶](#define-the-model "永久链接到此标题")
+
 
 
 
@@ -176,10 +173,8 @@ class PositionalEncoding(nn.Module):
 
 
 
+## 加载并批处理数据 [¶](#load-and-batch-data "固定链接到此标题")
 
- 加载并批处理数据
- [¶](#load-and-batch-data "固定链接到此标题")
---------------------------------------------------------------------------------
 
 
 
@@ -311,9 +306,7 @@ test_data = batchify(test_data, eval_batch_size)
 
 
 
-### 
- 生成输入和目标序列的函数
- [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
+### 生成输入和目标序列的函数 [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
 
 
 
@@ -370,11 +363,8 @@ def get_batch(source: Tensor, i: int) -> Tuple[Tensor, Tensor]:
 
 
 
+## 启动实例 [¶](#initiate-an-instance "永久链接到此标题")
 
-
- 启动实例
- [¶](#initiate-an-instance "永久链接到此标题")
----------------------------------------------------------------------------------
 
 
 
@@ -415,10 +405,8 @@ enable_nested_tensor is True, but self.use_nested_tensor is False because encode
 
 
 
+## 运行模型 [¶](#run-the-model "永久链接到此标题")
 
- 运行模型
- [¶](#run-the-model "永久链接到此标题")
---------------------------------------------------------------------
 
 
 
@@ -591,10 +579,8 @@ with TemporaryDirectory() as tempdir:
 
 
 
+## 评估测试数据集上的最佳模型 [¶](#evaluate-the-best-model-on-the-test-dataset "永久链接到此标题")
 
- 评估测试数据集上的最佳模型
- [¶](#evaluate-the-best-model-on-the-test-dataset "永久链接到此标题")
---------------------------------------------------------------------------------------------------------------------------------
 
 
 

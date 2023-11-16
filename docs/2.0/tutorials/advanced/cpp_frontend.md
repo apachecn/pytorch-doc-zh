@@ -1,9 +1,8 @@
 
 
 
- 使用 PyTorch C++ 前端
- [¶](#using-the-pytorch-c-frontend "永久链接到此标题")
-=============================================================================================
+# 使用 PyTorch C++ 前端 [¶](#using-the-pytorch-c-frontend "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -73,10 +72,8 @@ API 级文档。
 
 
 
+## 动机 [¶](#motivation "此标题的永久链接")
 
- 动机
- [¶](#motivation "此标题的永久链接")
----------------------------------------------------------------------
 
 
 
@@ -125,11 +122,8 @@ Neuroevolution](https://eng.uber.com/deep-neuroevolution/) 中使用的模型，
 
 
 
+## 编写基本应用程序 [¶](#writing-a-basic-application "永久链接到此标题")
 
-
- 编写基本应用程序
- [¶](#writing-a-basic-application "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------
 
 
 
@@ -398,10 +392,8 @@ root@fa350df05ecf:/home/build# ./dcgan
 
 
 
+## 定义神经网络模型 [¶](#defining-the-neural-network-models "永久链接到此标题")
 
- 定义神经网络模型
- [¶](#defining-the-neural-network-models "永久链接到此标题")
-------------------------------------------------------------------------------------------------------------
 
 
 
@@ -414,9 +406,7 @@ root@fa350df05ecf:/home/build# ./dcgan
 
 
 
-### 
- 模块 API 基础知识
- [¶](#module-api-basics "此标题的永久链接")
+### 模块 API 基础知识 [¶](#module-api-basics "此标题的永久链接")
 
 
 
@@ -460,9 +450,7 @@ PyTorch API 允许嵌套模块。嵌套模块称为
 
 
 
-#### 
- 定义模块并注册参数
- [¶](#defining-a-module-and-registering-parameters "永久链接到此标题")
+#### 定义模块并注册参数 [¶](#defining-a-module-and-registering-parameters "永久链接到此标题")
 
 
 
@@ -539,9 +527,7 @@ API 可以检测到某个属性的类型为 `torch.nn.Parameter`
 
 
 
-#### 
- 注册子模块并遍历模块层次结构
- [¶](#registering-submodules-and-traversing-the-module-hierarchy "永久链接到此标题")
+#### 注册子模块并遍历模块层次结构 [¶](#registering-submodules-and-traversing-the-module-hierarchy "永久链接到此标题")
 
 
 
@@ -787,9 +773,7 @@ linear.bias: -0.0250
 
 
 
-#### 
- 以转发模式运行网络
- [¶](#running-the-network-in-forward-mode "永久链接到此标题")
+#### 以转发模式运行网络 [¶](#running-the-network-in-forward-mode "永久链接到此标题")
 
 
 
@@ -832,9 +816,7 @@ root@fa350df05ecf:/home/build# ./dcgan
 
 
 
-#### 
- 模块所有权
- [¶](#module-ownership "此标题的永久链接")
+#### 模块所有权 [¶](#module-ownership "此标题的永久链接")
 
 
 
@@ -1154,9 +1136,7 @@ C++ 前端’s API 最好地支持模块持有者提供的所有权模型。
 
 
 
-### 
- 定义 DCGAN 模块
- [¶](#defining-the-dcgan-modules "此标题的永久链接")
+### 定义 DCGAN 模块 [¶](#defining-the-dcgan-modules "此标题的永久链接")
 
 
 我们现在有了必要的背景和介绍来定义我们想要在本文中解决的机器学习任务的模块。回顾一下：我们的任务是从 [MNIST 数据集](http://yann.lecun.com/exdb/mnist/) 生成数字图像。我们希望使用
@@ -1184,9 +1164,7 @@ C++ 前端’s API 最好地支持模块持有者提供的所有权模型。
 
 
 
-#### 
- 什么是 GAN aGAN？
- [¶](#what-was-a-gan-agan "此标题的永久链接")
+#### 什么是 GAN aGAN？ [¶](#what-was-a-gan-agan "此标题的永久链接")
 
 
 
@@ -1214,9 +1192,7 @@ C++ 前端’s API 最好地支持模块持有者提供的所有权模型。
 
 
 
-#### 
- 生成器模块
- [¶](#the-generator-module "永久链接到此标题")
+#### 生成器模块 [¶](#the-generator-module "永久链接到此标题")
 
 
 
@@ -1356,9 +1332,7 @@ DCGANGenerator generator(kNoiseSize);
 
 
 
-#### 
- 鉴别器模块
- [¶](#the-discriminator-module "永久链接到此标题")
+#### 鉴别器模块 [¶](#the-discriminator-module "永久链接到此标题")
 
 
 
@@ -1438,10 +1412,8 @@ nn::Sequential discriminator(
 
 
 
+## 正在加载数据 [¶](#loading-data "此标题的固定链接")
 
- 正在加载数据
- [¶](#loading-data "此标题的固定链接")
------------------------------------------------------------------------------------------
 
 
 现在我们已经定义了生成器和判别器模型，我们需要一些可以用来训练这些模型的数据。 C++ 前端与 Python 前端一样，
@@ -1663,10 +1635,8 @@ Batch size: 64 | Labels: 7 6 5 7 7 5 2 2 4 9 9 4 8 7 4 8 9 4 5 7 1 2 6 9 8 5 1 2
 
 
 
+## 编写训练循环 [¶](#writing-the-training-loop "永久链接到此标题")
 
- 编写训练循环
- [¶](#writing-the-training-loop "永久链接到此标题")
-------------------------------------------------------------------------------------------
 
 
 
@@ -1839,10 +1809,8 @@ Scanning dependencies of target dcgan
 
 
 
+## 移动到 GPU [¶](#moving-to-the-gpu "固定链接到此标题")
 
- 移动到 GPU
- [¶](#moving-to-the-gpu "固定链接到此标题")
---------------------------------------------------------------------------
 
 
 
@@ -2025,10 +1993,8 @@ torch::Device device(torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 
 
 
+## 检查点并恢复训练状态 [¶](#checkpointing-and-recovering-the-training-state "永久链接到此标题")
 
- 检查点并恢复训练状态
- [¶](#checkpointing-and-recovering-the-training-state "永久链接到此标题")
----------------------------------------------------------------------------------------------------------------------------------------
 
 
 我们应该对训练脚本进行的最后一个增强是定期保存模型参数的状态、优化器的状态以及一些生成的图像样本。如果我们的计算机在训练过程中
@@ -2125,10 +2091,8 @@ for (int64_t epoch = 1; epoch <= kNumberOfEpochs; ++epoch) {
 
 
 
+## 检查生成的图像 [¶](#inspecting- generated-images "此标题的永久链接")
 
- 检查生成的图像
- [¶](#inspecting- generated-images "此标题的永久链接")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -2237,10 +2201,8 @@ Saved out.png
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
- 结论
- [¶](#conclusion "此标题的永久链接")
----------------------------------------------------------------------
 
 
 

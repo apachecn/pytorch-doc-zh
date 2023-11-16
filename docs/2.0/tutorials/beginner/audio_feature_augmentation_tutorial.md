@@ -1,9 +1,8 @@
 
 
 
- 音频功能增强
- [¶](#audio-feature-augmentation "此标题的固定链接")
-=========================================================================================
+# 音频功能增强 [¶](#audio-feature-augmentation "此标题的固定链接")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >

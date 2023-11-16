@@ -1,9 +1,8 @@
 
 
 
- 完全分片数据并行入门 (FSDP)
- [¶](#getting-started-with-complete-sharded-data-parallel-fsdp "此标题的永久链接")
-==================================================================================================================================================
+# 完全分片数据并行入门 (FSDP) [¶](#getting-started-with-complete-sharded-data-parallel-fsdp "此标题的永久链接")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -60,9 +59,8 @@
 
 
 
- FSDP 的工作原理
- [¶](#how-fsdp-works "永久链接到此标题")
---------------------------------------------------------------------------------
+## FSDP 的工作原理 [¶](#how-fsdp-works "永久链接到此标题")
+
 
 
 
@@ -82,8 +80,7 @@
 
 
  FSDP 工作流程
- 
-[¶](#id1“此图像的永久链接”)
+  [¶](#id1“此图像的永久链接”)
 
 
 
@@ -132,18 +129,14 @@
 
 
  FSDP Allreduce
- 
-[¶](#id2“此图像的永久链接”)
+  [¶](#id2“此图像的永久链接”)
 
 
 
 
 
+## 如何使用 FSDP [¶](#how-to-use-fsdp "永久链接到此标题")
 
-
- 如何使用 FSDP
- [¶](#how-to-use-fsdp "永久链接到此标题")
-----------------------------------------------------------------------
 
 
 
@@ -542,8 +535,7 @@ CUDA event elapsed time on training loop 40.67462890625sec
 
 
  FSDP 峰值内存使用
- 
-[¶](#id3“此图像的永久链接”)
+  [¶](#id3“此图像的永久链接”)
 
 
 
@@ -641,8 +633,7 @@ CUDA event elapsed time on training loop 41.89130859375sec
 
 
  使用 Auto_wrap 策略的 FSDP 峰值内存使用
- 
-[¶](#id4“永久链接到此图像”)
+  [¶](#id4“永久链接到此图像”)
 
 
 
@@ -723,8 +714,7 @@ CUDA event elapsed time on training loop 39.77766015625sec
 
 
  使用 Auto_wrap 策略的 DDP 峰值内存使用
- 
-[¶](#id5 "永久链接到此图像")
+  [¶](#id5 "永久链接到此图像")
 
 
 

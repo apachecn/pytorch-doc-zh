@@ -1,9 +1,8 @@
 
 
 
- 使用分布式 RPC 框架实现参数服务器
- [¶](#implementing-a-parameter-server-using-distributed-rpc-framework "永久链接到此标题")
-=====================================================================================================================================================================
+# 使用分布式 RPC 框架实现参数服务器 [¶](#implementing-a-parameter-server-using-distributed-rpc-framework "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >

@@ -1,9 +1,8 @@
 
 
 
- 使用 PyTorch 编写分布式应用程序
- [¶](#writing-distributed-applications-with-pytorch "永久链接到此标题")
-================================================================================================================================
+# 使用 PyTorch 编写分布式应用程序 [¶](#writing-distributed-applications-with-pytorch "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -51,9 +50,8 @@
 
 
 
- 设置
- [¶](#setup "此标题的永久链接")
-------------------------------------------------
+## 设置 [¶](#setup "此标题的永久链接")
+
 
 
 PyTorch 中包含的分布式软件包（即“torch.distributed”）使研究人员和从业者能够轻松跨进程和机器集群并行化计算。为此，它利用消息传递语义
@@ -145,10 +143,8 @@ if __name__ == "__main__":
 
 
 
+## 点对点通信 [¶](#point-to-point-communication "固定链接到此标题")
 
- 点对点通信
- [¶](#point-to-point-communication "固定链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -156,8 +152,7 @@ if __name__ == "__main__":
 
 
  发送和接收
- 
-[¶](#id1“此图像的永久链接”)
+  [¶](#id1“此图像的永久链接”)
 
 
 
@@ -295,10 +290,8 @@ DeepSpeech](https://github.com/baidu-research/baidu-allreduce)
 
 
 
+## 集体通信 [¶](#collective-communication "永久链接到此标题")
 
- 集体通信
- [¶](#collective-communication "永久链接到此标题")
---------------------------------------------------------------------------------------
 
 
 
@@ -311,16 +304,14 @@ DeepSpeech](https://github.com/baidu-research/baidu-allreduce)
 
 
  分散
- 
-[¶](#id2 "此图像的永久链接") 
+  [¶](#id2 "此图像的永久链接") 
 
  | 
 [收集](https://pytorch.org/tutorials/_images/gather.png)
 
 
  收集
- 
-[¶](#id3 "此图像的永久链接") 
+  [¶](#id3 "此图像的永久链接") 
 
  |
 | 
@@ -328,16 +319,14 @@ DeepSpeech](https://github.com/baidu-research/baidu-allreduce)
 
 
  减少
- 
-[¶](#id4 "此图像的永久链接") 
+  [¶](#id4 "此图像的永久链接") 
 
  | 
 [All-Reduce](https://pytorch.org/tutorials/_images/all_reduce.png)
 
 
  All-Reduce
- 
-[¶](#id5 "此图像的永久链接") 
+  [¶](#id5 "此图像的永久链接") 
 
  |
 | 
@@ -345,16 +334,14 @@ DeepSpeech](https://github.com/baidu-research/baidu-allreduce)
 
 
  广播
- 
-[¶](#id6 "此图像的永久链接") 
+  [¶](#id6 "此图像的永久链接") 
 
  | 
 [全收集](https://pytorch.org/tutorials/_images/all_gather.png)
 
 
  All-Gather
- 
-[¶](#id7 "此图像的永久链接") 
+  [¶](#id7 "此图像的永久链接") 
 
  |
 
@@ -523,9 +510,8 @@ PyTorch 开箱即用地附带 4 个这样的运算符，
 
 
 
- 分布式训练
- [¶](#distributed-training "固定链接到此标题")
-----------------------------------------------------------------------------------------------
+## 分布式训练 [¶](#distributed-training "固定链接到此标题")
+
 
 
 
@@ -720,9 +706,7 @@ def average_gradients(model):
 
 
 
-### 
- 我们自己的 Ring-Allreduce
- [¶](#our-own-ring-allreduce "永久链接到此标题")
+### 我们自己的 Ring-Allreduce [¶](#our-own-ring-allreduce "永久链接到此标题")
 
 
 
@@ -786,11 +770,8 @@ def allreduce(send, recv):
 
 
 
+## 高级主题 [¶](#advanced-topics "此标题的永久链接")
 
-
- 高级主题
- [¶](#advanced-topics "此标题的永久链接")
----------------------------------------------------------------------------------
 
 
 
@@ -808,9 +789,7 @@ GPU-GPU 通信。
 
 
 
-### 
- 通信后端
- [¶](#communication-backends "此标题的永久链接")
+### 通信后端 [¶](#communication-backends "此标题的永久链接")
 
 
 
@@ -1052,9 +1031,7 @@ NCCL 后端包含在具有 CUDA 支持的预构建二进制文件中。
 
 
 
-### 
- 初始化方法
- [¶](#initialization-methods "永久链接到此标题")
+### 初始化方法 [¶](#initialization-methods "永久链接到此标题")
 
 
 

@@ -1,9 +1,8 @@
 
 
 
- (beta) PyTorch 中使用 Eager 模式的静态量化
- [¶](#beta-static-quantization-with-eager-mode-in-pytorch "永久链接到此标题")
-==============================================================================================================================================
+# (beta) PyTorch 中使用 Eager 模式的静态量化 [¶](#beta-static-quantization-with-eager-mode-in-pytorch "永久链接到此标题")
+
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -82,9 +81,8 @@ torch.manual_seed(191009)
 
 
 
- 1. 模型架构
- [¶](#model-architecture "永久链接到此标题")
--------------------------------------------------------------------------------
+## 1. 模型架构 [¶](#model-architecture "永久链接到此标题")
+
 
 
 
@@ -273,10 +271,8 @@ class MobileNetV2(nn.Module):
 
 
 
-
- 2. 辅助函数
- [¶](#helper-functions "固定链接到此标题")
---------------------------------------------------------------------------- -
+## 2. 辅助函数 [¶](#helper-functions "固定链接到此标题")
+ -
 
 
 
@@ -367,10 +363,8 @@ def print_size_of_model(model):
 
 
 
+## 3. 定义数据集和数据加载器 [¶](#define-dataset-and-data-loaders "固定链接到此标题")
 
- 3. 定义数据集和数据加载器
- [¶](#define-dataset-and-data-loaders "固定链接到此标题")
---------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -379,9 +373,7 @@ def print_size_of_model(model):
 
 
 
-### 
- ImageNet 数据
- [¶](#imagenet-data "此标题的永久链接")
+### ImageNet 数据 [¶](#imagenet-data "此标题的永久链接")
 
 
 
@@ -512,11 +504,8 @@ torch.jit.save(torch.jit.script(float_model), saved_model_dir + scripted_float_m
 
 
 
+## 4. 训练后静态量化 [¶](#post-training-static-quantization "固定链接到此标题")
 
-
- 4. 训练后静态量化
- [¶](#post-training-static-quantization "固定链接到此标题")
--------------------------------------------------------------------------------------------------------------
 
 
 
@@ -613,10 +602,8 @@ torch.jit.save(torch.jit.script(per_channel_quantized_model), saved_model_dir + 
 
 
 
+## 5. 量化感知训练 [¶](#quantization-aware-training "永久链接到此标题")
 
- 5. 量化感知训练
- [¶](#quantization-aware-training "永久链接到此标题")
-------------------------------------------------------------------------------------------------
 
 
 
@@ -778,9 +765,7 @@ for nepoch in range(8):
 
 
 
-### 
- 量化加速
- [¶](#speedup-from-quantization "固定链接到此标题")
+### 量化加速 [¶](#speedup-from-quantization "固定链接到此标题")
 
 
 
@@ -828,11 +813,8 @@ run_benchmark(saved_model_dir + scripted_quantized_model_file, data_loader_test)
 
 
 
+## 结论 [¶](#conclusion "此标题的永久链接")
 
-
- 结论
- [¶](#conclusion "此标题的永久链接")
-------------------------------------------------------------------------------------
 
 
 
