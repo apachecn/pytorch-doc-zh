@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-jacobians-hessians-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  Jacobian、Hessians、hvp、vhp 等：组合函数变换
  [¶](#jacobians-hessians-hvp-vhp-and-more-composition-function-transforms "此标题的永久链接")
 ==============================================================================================================================================================================
@@ -905,54 +888,3 @@ assert torch.allclose(result, result_hvp_revrev[0])
 
 **脚本的总运行时间:** 
  ( 0 分 11.911 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- jacobians_hessians.py`](../_downloads/089b69a49b6eb4080d35c4b983b939a5/jacobians_hessians.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- jacobians_hessians.ipynb`](../_downloads/748f25c58a5ac0f57235c618e51c869b/jacobians_hessians.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

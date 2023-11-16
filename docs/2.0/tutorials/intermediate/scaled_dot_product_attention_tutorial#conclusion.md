@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-scaled-dot-product-attention-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
 （测试版）通过缩放点积注意力 (SDPA) 实现高性能 Transformer
  [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa“此标题的永久链接”）
 ==========================================================================================================================================================================================================================
@@ -445,14 +428,6 @@ Random Dense runs in 1183.933 microseconds
 [¶](#using-sdpa-with-torch-compile "永久链接到此标题")
 ================================================================================================
 
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#conclusion>
->
-> 原始地址：<https://pytorch.org/tutorials/intermediate/scaled_dot_product_attention_tutorial#conclusion.html>
-
-
-
 
  随着 PyTorch 2.0 的发布，引入了一项名为
  `torch.compile()`
@@ -618,14 +593,6 @@ Self CUDA time total: 11.281ms
  [¶](#conclusion "永久链接到此标题")
 =======================================================
 
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#conclusion>
->
-> 原始地址：<https://pytorch.org/tutorials/intermediate/scaled_dot_product_attention_tutorial#conclusion.html>
-
-
-
 
  在本教程中，我们演示了 
  `torch.nn.function.scaled_dot_product_attention`
@@ -641,53 +608,3 @@ Self CUDA time total: 11.281ms
 
 **脚本的总运行时间:** 
  ( 0 分 8.239 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码：
- 
-
- 缩放_dot_product_attention_tutorial.py`](../_downloads/e40ced94a143a49f0f8745e10c981139/scaled_dot_product_attention_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- 缩放的_dot_product_attention_tutorial.ipynb`](../_downloads/fc133e4ffc6275f9d1c3a74ddd10e0a2 /scaled_dot_product_attention_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-

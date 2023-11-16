@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-char-rnn-classification-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  NLP 从头开始​​：使用字符级 RNN 对名称进行分类
  [¶](#nlp-from-scratch-classifying-names-with-a-character-level-rnn "此标题的永久链接")
 ==================================================================================================================================================================
@@ -1043,54 +1026,3 @@ $ python predict.py Hazaki
 
 **脚本的总运行时间：** 
 （1 分 38.442 秒）
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- char_rnn_classification_tutorial.py`](../_downloads /37c8905519d3fd3f437b783a48d06eac/char_rnn_classification_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- char_rnn_classification_tutorial.ipynb`](../_downloads/13b143c2380f4768d9432d808ad50799/char_rnn_classification_tutorial. ipynb）
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

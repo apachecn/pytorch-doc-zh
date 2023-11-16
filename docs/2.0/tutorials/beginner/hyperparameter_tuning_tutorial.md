@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-hyperparameter-tuning-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用 Ray Tune 进行超参数调整
  [¶](#hyperparameter-tuning-with-ray-tune "永久链接到此标题")
 ===========================================================================================================
@@ -3579,54 +3562,3 @@ Best trial test set accuracy: 0.4737
 
 **脚本的总运行时间:** 
  ( 10 分钟 0.422 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- 超参数_tuning_tutorial.py`](../_downloads/b2e3bdbf14ea1e9b3a80770f0a498037/hyperparameter_tuning_tutorial.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- hyperparameter_tuning_tutorial.ipynb`](../_downloads/30bcc2970bf630097b13789b5cdcea48/hyperparameter_tuning_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

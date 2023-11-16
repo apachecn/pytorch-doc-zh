@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-model-parallel-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  单机模型并行最佳实践
  [¶](#single-machine-model-parallel-best-practices "固定链接到此标题")
 =============================================================================================================================
@@ -500,54 +483,3 @@ plt.close(fig)
 
 **脚本总运行时间:** 
  ( 5 分 49.881 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- model_parallel_tutorial.py`](../_downloads/84ab670fda2216116ac8e3ecd5805f0b/model_parallel_tutorial.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- model_parallel_tutorial.ipynb`](../_downloads/03a48646520c277662581e858e680809/model_parallel_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

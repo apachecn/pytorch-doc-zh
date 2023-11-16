@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-torch-compile-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  torch.compile 教程
  [¶](#torch-compile-tutorial "永久链接到此标题")
 ================================================================================
@@ -2112,54 +2095,3 @@ TorchDynamo 及其与 FX 图的交互
 
 **脚本的总运行时间：** 
 （6 分 50.110 秒）
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- torch_compile_tutorial.py`](../_downloads/6b019e0b5f84b568fcca1120bd28e230/torch_compile_tutorial.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- torch_compile_tutorial.ipynb`](../_downloads/96ad88eb476f41a5403dcdade086afb8/torch_compile_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-transformer-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用
  `nn.Transformer`
  和 torchtext
@@ -635,22 +618,8 @@ print('=' * 89)
 ```
 ===================================================================================
 
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/transformer_tutorial>
->
-> 原始地址：<https://pytorch.org/tutorials/beginner/transformer_tutorial.html>
-
 | End of training | test loss  5.52 | test ppl   249.27
 ===================================================================================
-
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/transformer_tutorial>
->
-> 原始地址：<https://pytorch.org/tutorials/beginner/transformer_tutorial.html>
-
-
 ```
 
 
@@ -658,54 +627,3 @@ print('=' * 89)
 
 **脚本总运行时间:** 
  ( 4 分 29.085 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- Transformer_tutorial.py`](../_downloads/aa3898eb04d468790e00cb42405b1c23/transformer_tutorial.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- Transformer_tutorial.ipynb`](../_downloads/9cf2d4ead514e661e20d2070c9bf7324/transformer_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-advanced-ddp-pipeline-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用分布式数据并行和管道并行训练 Transformer 模型
  [¶](#training-transformer-models-using-distributed-data-parallel-and-pipeline-parallelism "永久链接到此标题") 
 =================================================================================================================================================================================================================
@@ -695,39 +678,13 @@ if __name__=="__main__":
 [RANK 1]: -----------------------------------------------------------------------------------------
 [RANK 0]: ===================================================================================
 
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/advanced/ddp_pipeline>
->
-> 原始地址：<https://pytorch.org/tutorials/advanced/ddp_pipeline.html>
-
 [RANK 0]: | End of training | test loss  0.33 | test ppl     1.39
 [RANK 0]: ===================================================================================
 
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/advanced/ddp_pipeline>
->
-> 原始地址：<https://pytorch.org/tutorials/advanced/ddp_pipeline.html>
-
 [RANK 1]: ===================================================================================
-
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/advanced/ddp_pipeline>
->
-> 原始地址：<https://pytorch.org/tutorials/advanced/ddp_pipeline.html>
 
 [RANK 1]: | End of training | test loss  0.33 | test ppl     1.39
 [RANK 1]: ===================================================================================
-
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
->
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/advanced/ddp_pipeline>
->
-> 原始地址：<https://pytorch.org/tutorials/advanced/ddp_pipeline.html>
-
-
 ```
 
 
@@ -735,54 +692,3 @@ if __name__=="__main__":
 
 **脚本的总运行时间:** 
  ( 0 分 0.000 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- ddp_pipeline.py`](../_downloads/a4d9c51b5b801ca67ec48cde53047460/ddp_pipeline.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- ddp_pipeline.ipynb`](../_downloads/9c42ef95b5e306580f45ed7f652191bf/ddp_pipeline.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

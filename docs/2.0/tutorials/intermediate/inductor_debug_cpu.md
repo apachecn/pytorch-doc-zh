@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-inductor-debug-cpu-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  电感器 CPU 后端调试和分析
  [¶](#inductor-cpu-backend-debugging-and-profiling "永久链接到此标题")
 ============================================================================================================================
@@ -1206,54 +1189,3 @@ output_code.py
 
 **脚本总运行时间:** 
  ( 10 分钟 49.837 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- 电感器_debug_cpu.py`](../_downloads/864b90f09a798ba06b420b737cd463b1/电感器_调试_cpu.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- detector_debug_cpu.ipynb`](../_downloads/57fbbe6265e9c97da47580b6e60037ac/inductor_debug_cpu.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

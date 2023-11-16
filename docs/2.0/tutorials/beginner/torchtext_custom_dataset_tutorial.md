@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-torchtext-custom-dataset-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用 Torchtext 预处理自定义文本数据集
  [¶](#preprocess-custom-text-dataset-using-torchtext "永久链接到此标题")
 ================================================================================================================================
@@ -950,54 +933,3 @@ Traget:  <sos> Verstanden ! <eos> <pad>
 
 **脚本总运行时间：** 
 （4 分 27.354 秒）
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- torchtext_custom_dataset_tutorial.py`](../_downloads /e80c8c5b8a71514d0905366c448448c0/torchtext_custom_dataset_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- torchtext_custom_dataset_tutorial.ipynb`](../_downloads/627c3342e113b9762abb19cc5568a16a/torchtext_custom_dataset_tutorial. ipynb）
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

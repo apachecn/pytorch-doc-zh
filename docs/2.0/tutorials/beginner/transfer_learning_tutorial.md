@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-transfer-learning-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  计算机视觉迁移学习教程
  [¶](#transfer-learning-for-computer-vision-tutorial "永久链接到此标题")
 ================================================================================================================================
@@ -918,54 +901,3 @@ plt.show()
 
 **脚本总运行时间:** 
  (1 分 40.858 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源码
- 
-
- 代码:
- 
-
- 转_learning_tutorial.py`](../_downloads/d923ca53b1bfbeb3c222ae46d65d485e/转移学习教程.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- Transfer_learning_tutorial.ipynb`](../_downloads/74249e7f9f1f398f57ccd094a4f3021b/transfer_learning_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

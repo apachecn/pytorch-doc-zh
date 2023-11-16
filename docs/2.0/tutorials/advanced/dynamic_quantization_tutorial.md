@@ -1,23 +1,7 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-advanced-dynamic-quantization-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
-（测试版）LSTM Word 语言模型上的动态量化
- [¶](#beta-dynamic-quantization-on-an-lstm-word-language-model "永久链接到此标题")\ n==========================================================================================================================================================
+ （测试版）LSTM Word 语言模型上的动态量化
+ [¶](#beta-dynamic-quantization-on-an-lstm-word-language-model "永久链接到此标题")
+==========================================================================================================================================================
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -605,54 +589,3 @@ elapsed time (seconds): 111.7
 
 **脚本总运行时间:** 
  ( 5 分 20.298 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
-源
- 
-
-代码：
- 
-
-动态_quantization_tutorial.py`](../_downloads/256861ec2cab5f0dc50c523f520dfefd/动态量化教程.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
-dynamic_quantization_tutorial.ipynb`](../_downloads/9a0e851f5cb70c78bfde07b9bd268569/dynamic_quantization_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-memory-format-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  (beta) PyTorch 中的通道最后内存格式
  [¶](#beta-channels-last-memory-format-in-pytorch "永久链接到此标题")
 =============================================================================================================================
@@ -1028,54 +1011,3 @@ for (m, attrs) in old_attrs.items():
 
 **脚本总运行时间:** 
  ( 0 分 0.158 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- memory_format_tutorial.py`](../_downloads/591028d309d0401740cd71eb6b14bf93/内存_格式_教程.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- memory_format_tutorial.ipynb`](../_downloads/f11c58c36c9b8a5daf09d3f9a792ef84/memory_format_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

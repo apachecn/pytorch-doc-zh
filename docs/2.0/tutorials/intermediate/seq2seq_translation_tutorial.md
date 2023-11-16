@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-seq2seq-translation-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  NLP 从头开始​​：使用序列到序列网络和注意力进行翻译
  [¶](#nlp-from-scratch-translation-with-a-sequence-to-sequence-network-and-attention “此标题的永久链接”）
 ========================================================================================================================================================================================================
@@ -1476,54 +1459,3 @@ set_ticklabels() should only be used with a fixed number of ticks, i.e. after se
 
 **脚本的总运行时间：** 
 （7 分 19.245 秒）
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- seq2seq_translation_tutorial.py`](../_downloads/3baf9960a4be104931872ff3ffda07b7/seq2seq_translation_tutorial.py）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- seq2seq_translation_tutorial.ipynb`](../_downloads/032d653a4f5a9c1ec32b9fc7c989ffe1/seq2seq_translation_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

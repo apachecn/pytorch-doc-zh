@@ -1,28 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-onnx-intro-onnx-py)
- 下载完整的示例代码
-
-
-
-
-
-**ONNX 简介** 
- ||
- [将 PyTorch 模型导出到 ONNX](export_simple_model_to_onnx_tutorial.html) 
- ||
- [扩展 ONNX 注册表](onnx_registry_tutorial.html)
-
-
-
-
-
  ONNX 简介
  [¶](#introduction-to-onnx "此标题的永久链接")
 =============================================================================
@@ -213,54 +189,3 @@ print(onnxruntime.__version__)
 
 **脚本的总运行时间:** 
  ( 0 分 0.000 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- intro_onnx.py`](../../_downloads/ea6986634c1fca7a6c0eaddbfd7f799c/简介_onnx.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- intro_onnx.ipynb`](../../_downloads/33f8140bedc02273a55c752fe79058e5/intro_onnx.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

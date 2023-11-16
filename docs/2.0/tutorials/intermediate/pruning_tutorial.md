@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-pruning-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  修剪教程
  [¶](#pruning-tutorial "永久链接到此标题")
 ====================================================================
@@ -1533,54 +1516,3 @@ tensor([0., 1., 0., 1., 0., 1., 0., 1., 0., 1.])
 
 **脚本的总运行时间:** 
  ( 0 分 0.366 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- pruning_tutorial.py`](../_downloads/ef3541eb2ef78e22efa65b3d6f4ba737/pruning_tutorial.py ）
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- pruning_tutorial.ipynb`](../_downloads/7126bf7beed4c4c3a05bcc2dac8baa3c/pruning_tutorial.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

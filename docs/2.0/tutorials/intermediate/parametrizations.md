@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-intermediate-parametrizations-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  参数化教程
  [¶](#parametrizations-tutorial "永久链接到此标题")
 ====================================================================================
@@ -853,54 +836,3 @@ print(layer.weight)
 
 **脚本的总运行时间:** 
  ( 0 分 0.000 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源
- 
-
- 代码:
- 
-
- parametrizations.py`](../_downloads/621174a140b9f76910c50ed4afb0e621/parametrizations.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- parametrizations.ipynb`](../_downloads/c9153ca254003481aecc7a760a7b046f/parametrizations.ipynb)
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-

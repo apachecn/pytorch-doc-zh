@@ -1,21 +1,4 @@
 
-
-
- 没有10
-
-
-
- 单击
- [此处](#sphx-glr-download-beginner-text-sentiment-ngrams-tutorial-py)
- 下载完整的示例代码
-
-
-
-
-
-
-
-
  使用 torchtext 库进行文本分类
  [¶](#text-classification-with-the-torchtext-library "固定链接到此标题")
 ================================================================================================================================
@@ -713,55 +696,4 @@ This is a Sports news
 
 **脚本总运行时间:** 
  ( 1 分 58.358 秒)
-
-
-
-
-
-
-[`下载
- 
-
- Python
- 
-
- 源代码
- 
-
- 代码:
- 
-
- text_sentiment_ngrams_tutorial.py`](../_downloads /f003f262713c341f497ab4d8dd9be880/text_sentiment_ngrams_tutorial.py)
-
-
-
-
-
-
-[`下载
- 
-
- Jupyter
- 
-
- 笔记本:
- 
-
- text_sentiment_ngrams_tutorial.ipynb`](../_downloads/b5fa995b1432ebc93ea7bfe7ec9daed1/text_sentiment_ngrams_tutorial. ipynb）
-
-
-
-
-
-
-[Sphinx-Gallery 生成的图库](https://sphinx-gallery.github.io)
-
-
-
-
-
-
-
-
-
 
