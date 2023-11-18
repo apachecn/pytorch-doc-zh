@@ -166,7 +166,7 @@ torch.jit.save(scriptedm, "deeplabv3_scripted.pt")
 
 
 
-### 2. 在 Python 中获取模型的示例输入和输出 [¶](#get-example-input-and-output-of-the-model-in-python “此标题的永久链接”）
+### 2. 在 Python 中获取模型的示例输入和输出 [¶](#get-example-input-and-output-of-the-model-in-python "此标题的永久链接")
 
 
 
@@ -231,7 +231,7 @@ torch.Size([21, 400, 400])
 
 
 
-### 3. 构建新的 iOS 应用程序或重用示例应用程序并加载模型 [¶](#build-a-new-ios-app-or-reuse-an -example-app-and-load-the-model“此标题的永久链接”）
+### 3. 构建新的 iOS 应用程序或重用示例应用程序并加载模型 [¶](#build-a-new-ios-app-or-reuse-an-example-app-and-load-the-model "此标题的永久链接")
 
 
 
@@ -300,7 +300,7 @@ class ViewController: UIViewController {
 
 
  在上一步中加载模型后，让’s 验证它是否适用于预期输入并可以生成预期输出。由于 DeepLabV3 模型的模型输入是图像，与 Hello World 示例中的 MobileNet v2 相同，因此我们将重用
- [TorchModule.mm](https://github.com /pytorch/ios-demo-app/blob/master/HelloWorld/HelloWorld/HelloWorld/TorchBridge/TorchModule.mm) 
+ [TorchModule.mm](https://github.com/pytorch/ios-demo-app/blob/master/HelloWorld/HelloWorld/HelloWorld/TorchBridge/TorchModule.mm) 
  来自 Hello World 的文件用于输入处理。将
  
  TorchModule.mm
@@ -394,7 +394,7 @@ class ViewController: UIViewController {
 
 
 
-### 5. 完成 UI、重构、构建并运行应用程序 [¶](#complete-the-ui-refactor-build-and-run-the-app "此标题的永久链接”）
+### 5. 完成 UI、重构、构建并运行应用程序 [¶](#complete-the-ui-refactor-build-and-run-the-app "此标题的永久链接")
 
 
 

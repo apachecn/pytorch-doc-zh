@@ -166,7 +166,7 @@ torch.jit.save(scriptedm, "deeplabv3_scripted.pt")
 
 
 
-### 2. 在 Python 中获取模型的示例输入和输出 [¶](#get-example-input-and-output-of-the-model-in-python “此标题的永久链接”）
+### 2. 在 Python 中获取模型的示例输入和输出 [¶](#get-example-input-and-output-of-the-model-in-python "此标题的永久链接")
 
 
 
@@ -231,7 +231,7 @@ torch.Size([21, 400, 400])
 
 
 
-### 3. 构建新的 Android 应用程序或重用示例应用程序并加载模型 [¶](#build-a-new-android-app-or-reuse-an -example-app-and-load-the-model“此标题的永久链接”）
+### 3. 构建新的 Android 应用程序或重用示例应用程序并加载模型 [¶](#build-a-new-android-app-or-reuse-an -example-app-and-load-the-model"此标题的永久链接")
 
 
 
@@ -386,7 +386,7 @@ int height = bitmap.getHeight();
 
 
 
-### 5. 完成 UI、重构、构建并运行应用程序 [¶](#complete-the-ui-refactor-build-and-run-the-app "此标题的永久链接”）
+### 5. 完成 UI、重构、构建并运行应用程序 [¶](#complete-the-ui-refactor-build-and-run-the-app "此标题的永久链接")
 
 
 

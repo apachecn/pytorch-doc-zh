@@ -1,4 +1,4 @@
-# NLP 从头开始​​：使用序列到序列网络和注意力进行翻译 [¶](#nlp-from-scratch-translation-with-a-sequence-to-sequence-network-and-attention “此标题的永久链接”）
+# NLP 从头开始​​：使用序列到序列网络和注意力进行翻译 [¶](#nlp-from-scratch-translation-with-a-sequence-to-sequence-network-and-attention "此标题的永久链接")
 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)

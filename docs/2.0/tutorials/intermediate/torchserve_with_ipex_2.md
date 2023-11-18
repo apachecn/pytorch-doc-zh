@@ -1,7 +1,7 @@
 
 
 
-# 从第一原理了解 PyTorch Intel CPU 性能（第 2 部分） [¶](#grokking-pytorch-intel-cpu-performance-from-first-principles-part-2“此标题的永久链接”)
+# 从第一原理了解 PyTorch Intel CPU 性能（第 2 部分） [¶](#grokking-pytorch-intel-cpu-performance-from-first-principles-part-2"此标题的永久链接")
  
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
@@ -126,7 +126,7 @@
 
 
 
-### Intel® VTune™ Profiler’s 检测和跟踪技术 (ITT) [¶](#intel-vtune-profiler-s-instrumentation -and-tracing-technology-itt“此标题的永久链接”）
+### Intel® VTune™ Profiler’s 检测和跟踪技术 (ITT) [¶](#intel-vtune-profiler-s-instrumentation -and-tracing-technology-itt"此标题的永久链接")
 
 
 
@@ -409,7 +409,7 @@ cpu_launcher_args=--node_id 0 --enable_jemalloc
 
 
 
-### PyTorch 的英特尔® 扩展* [¶](#id1“此标题的永久链接”)
+### PyTorch 的英特尔® 扩展* [¶](#id1"此标题的永久链接")
 
 
 

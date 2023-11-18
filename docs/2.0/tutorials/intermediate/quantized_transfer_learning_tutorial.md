@@ -446,7 +446,7 @@ def visualize_model(model, rows=3, cols=3):
 
 
 
-## 第 1 部分：基于量化特征提取器训练自定义分类器 [¶](#part-1-training-a-custom-classifier-based-on-a-quantized-feature-extractor “此标题的永久链接”）
+## 第 1 部分：基于量化特征提取器训练自定义分类器 [¶](#part-1-training-a-custom-classifier-based-on-a-quantized-feature-extractor "此标题的永久链接")
 
 
 
