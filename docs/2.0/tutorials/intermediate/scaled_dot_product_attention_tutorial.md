@@ -1,4 +1,4 @@
-# （测试版）通过缩放点积注意力 (SDPA) 实现高性能 Transformer [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa“此标题的永久链接”）
+# （测试版）通过缩放点积注意力 (SDPA) 实现高性能 Transformer [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa"此标题的永久链接")
 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)

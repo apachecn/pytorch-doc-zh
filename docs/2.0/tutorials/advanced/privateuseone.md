@@ -637,7 +637,7 @@ c10::register_privateuse1_backend("npu")
 
 
 
-### 生成与新后端相关的方法和属性 [¶](#generate-methods-and-properties-lated-to-the-new-backend "此标题的永久链接”）
+### 生成与新后端相关的方法和属性 [¶](#generate-methods-and-properties-lated-to-the-new-backend "此标题的永久链接")
 
 
 

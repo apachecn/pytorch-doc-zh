@@ -621,7 +621,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
  
 
  个工作线程的数量`
-（无核心固定） [¶](#torch-set-num-threads-number-of-physical-cores-number -of-workers-no-core-pinning“此标题的永久链接”）
+（无核心固定） [¶](#torch-set-num-threads-number-of-physical-cores-number -of-workers-no-core-pinning"此标题的永久链接")
 
 
 
