@@ -297,7 +297,7 @@ prof.stop()
 
 
 
-### 4. 使用 TensorBoard 查看结果并分析模型性能 [¶](#use-tensorboard-to-view-results-and-analyze-model-performance "Permalink to这个标题”）
+### 4. 使用 TensorBoard 查看结果并分析模型性能 [¶](#use-tensorboard-to-view-results-and-analyze-model-performance "Permalink to这个标题"）
 
 
 
