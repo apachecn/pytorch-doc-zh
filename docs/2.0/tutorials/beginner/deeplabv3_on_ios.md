@@ -295,7 +295,7 @@ class ViewController: UIViewController {
 
 
 
-### 4. 处理模型输入和输出以进行模型推理 [¶](#process-the-model-input-and-output-for-model-inference "Permalink to这个标题"）
+### 4. 处理模型输入和输出以进行模型推理 [¶](#process-the-model-input-and-output-for-model-inference "Permalink to这个标题")
 
 
 
