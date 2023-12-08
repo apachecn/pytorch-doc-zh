@@ -10,7 +10,7 @@
 
 这个包添加了对 CUDA 张量类型的支持，这些类型实现了与 CPU 张量相同的功能，但它们利用 GPU 进行计算。
 
-初始化比较简单，可以随时导入，可以使用 [is_available()](https://pytorch.org/docs/stable/generated/torch.cuda.is_available.html#torch.cuda.is_available) 来确定系统是否支持 CUDA。
+初始化比较简单，可以随时导入，可以使用 [torch.cuda.is_available()](https://pytorch.org/docs/stable/generated/torch.cuda.is_available.html#torch.cuda.is_available) 来确定系统是否支持 CUDA。
 
 [CUDA semantics](https://pytorch.org/docs/stable/notes/cuda.html#cuda-semantics) 提供了有关使用 CUDA 的更多详细信息。
 
