@@ -10,7 +10,7 @@
 
 所有的 TorchVision 数据集都有两个参数: ``transform`` 用于修改特征和 ``target_transform`` 用于修改标签，它们接受包含转换逻辑的 callables。[torchvision.transforms](https://pytorch.org/vision/stable/transforms.html) 模块提供了几个常用的转换算法，开箱即用。
 
-FashionMNIST 的特征是 PIL 图像格式，而标签是整数。对于训练，我们需要将特征作为归一化的张量，将标签作为独热编码的张量。
+FashionMNIST 的特征是 PIL 图像格式，而标签是整数。对于训练，我们需要将特征作为归一化的张量，将标签作为独特编码的张量。
 为了进行这些转换，我们使用 ``ToTensor`` 和 ``Lambda``。
 
 ```py
