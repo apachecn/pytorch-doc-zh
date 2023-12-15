@@ -84,7 +84,7 @@ Extracting data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/
 
 ## Lambda Transforms
 
-Lambda transforms 应用任何用户定义的 lambda 函数。在这里，我们定义了一个函数来把整数变成一个独热编码的张量。
+Lambda transforms 应用任何用户定义的 lambda 函数。在这里，我们定义了一个函数来把整数变成一个独特编码的张量。
 它首先创建一个大小为10（我们数据集中的标签数量）的零张量，然后传递参数 ``value=1`` 在标签 ``y`` 所给的索引上调用 [scatter_](https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html) 。
 
 ```py
