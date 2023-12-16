@@ -144,7 +144,7 @@ epochs = 5
 我们把模型输出的 logits 传递给 `nn.CrossEntropyLoss`， 它会正则化 logits 并计算预测误差。
 
 ```py
-# 初始货损失函数
+# 初始化损失函数
 loss_fn = nn.CrossEntropyLoss()
 ```
 
