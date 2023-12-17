@@ -1,82 +1,24 @@
-# 使用
- `nn.Transformer`
- 和 torchtext
- 进行语言建模 [¶](#language-modeling-with-nn-transformer-and-torchtext "永久链接到此标题")
- 
+# 使用 `nn.Transformer` 和 torchtext 进行语言建模 [¶](#language-modeling-with-nn-transformer-and-torchtext "永久链接到此标题")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
+> 人工校正：[xiaoxstz](https://github.com/xiaoxstz)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/transformer_tutorial>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/transformer_tutorial.html>
 
+ 这是一个关于训练模型以使用 [nn.Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html) 预测序列中下一个单词的教程模块。
 
-
-
- 这是一个关于训练模型以使用 [nn.Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html) 预测序列中下一个单词的教程
- 模块。
-
-
-
-
- PyTorch 1.2 版本包含一个基于
-论文的标准转换器模块
- [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
-.
-与循环神经网络相比 ( RNN）中，Transformer 模型已被证明对于许多序列到序列任务来说质量优越，同时具有更强的可并行性。 
- `nn.Transformer`
- 模块完全依赖于
-注意力机制（实现为
- [nn.MultiheadAttention](https://pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html ) 
- )
-绘制输入和输出之间的全局依赖关系。 
- `nn.Transformer`
- 模块是高度模块化的，因此单个组件（例如，
- [nn.TransformerEncoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoder. html) 
- )
-可以轻松改编/组合。
-
-
+ PyTorch 1.2 版本包含一个基于论文的标准转换器模块 [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf).与循环神经网络相比 ( RNN）中，Transformer 模型已被证明对于许多序列到序列任务来说质量优越，同时具有更强的可并行性。 `nn.Transformer` 模块完全依赖于注意力机制（实现为 [nn.MultiheadAttention](https://pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html ) )绘制输入和输出之间的全局依赖关系。 `nn.Transformer` 模块是高度模块化的，因此单个组件（例如， [nn.TransformerEncoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoder. html) )可以轻松改编/组合。
 
 ![https://pytorch.org/tutorials/_images/transformer_architecture.jpg](https://pytorch.org/tutorials/_images/transformer_architecture.jpg)
 
-
 ## 定义模型 [¶](#define-the-model "永久链接到此标题")
 
+ 在本教程中，我们在因果语言建模任务上训练 `nn.TransformerEncoder` 模型。请注意，本教程不涵盖 [nn.TransformerDecoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerDecoder.html#torch.nn.TransformerDecoder) 的训练 ，如上图右半部分所示。语言建模任务是为给定单词（或单词序列）跟随单词序列的可能性分配概率。首先将标记序列传递到嵌入层，然后是位置编码层来解释单词的顺序（有关更多详细信息，请参阅下一段）。 `nn.TransformerEncoder` 由多个层组成 [nn.TransformerEncoderLayer](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html).
+对于输入序列，需要一个方形注意掩码，因为“nn.TransformerDecoder”中的自注意层只允许出现序列中较早的位置。对于语言建模任务，未来位置上的任何标记都应该被屏蔽。这种掩蔽与输出嵌入与后面位置偏移的事实相结合，确保位置 i 的预测只能依赖于小于 i 的位置处的已知输出。为了生成输出词的概率分布，的输出 `nn.TransformerEncoder` 模型通过线性层来输出非归一化 logits。由于稍后使用了 [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) ，这要求输入是非标准化的 logits。
 
-
-
- 在本教程中，我们在因果语言建模任务上训练
- `nn.TransformerEncoder`
- 模型。请注意，本教程不涵盖
- [nn.TransformerDecoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerDecoder.html#torch.nn.TransformerDecoder) 的训练
- ，如上图右半部分所示。语言建模任务是为给定单词（或单词序列）
-跟随单词序列的可能性分配
-概率。首先将标记序列传递到嵌入层，然后是位置编码层来解释单词的顺序（有关更多详细信息，请参阅下一段）。 
- `nn.TransformerEncoder`
- 由多个层组成
- [nn.TransformerEncoderLayer](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html) 
-.
-对于输入序列，需要一个方形注意掩码，因为
-“nn.TransformerDecoder”中的自注意层只允许出现
-序列中较早的位置。对于语言建模任务，未来位置上的任何标记都应该被屏蔽。这种掩蔽与
-输出嵌入与后面位置偏移的事实相结合，确保
-位置 i 的预测只能依赖于小于 i 的位置处的已知输出。
-为了生成输出词的概率分布，
-的输出
- `nn.TransformerEncoder`
- 模型通过线性层来输出非归一化 logits。
-由于稍后使用了
- [CrossEntropyLoss](https，因此此处未应用 log-softmax 函数’ ://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) 
- ，
-这要求输入是非标准化的 logits。
-
-
-
-
-
-
-```
+```python
 import math
 import os
 from tempfile import TemporaryDirectory
@@ -130,22 +72,9 @@ class TransformerModel(nn.Module):
 
 ```
 
+`PositionalEncoding` 模块注入一些有关序列中标记的相对或绝对位置的信息。位置编码与嵌入具有相同的维度，因此可以将两者相加。在这里，我们使用不同频率的 `sine` 和 `cosine` 函数。
 
-
-
-`PositionalEncoding`
- 模块注入一些有关序列中标记的相对或绝对位置的信息。位置编码与嵌入具有相同的维度，因此可以将两者相加。在这里，我们使用不同频率的
- `sine`
- 和
- `cosine`
- 函数。
-
-
-
-
-
-
-```
+```python
 class PositionalEncoding(nn.Module):
 
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
@@ -169,93 +98,36 @@ class PositionalEncoding(nn.Module):
 
 ```
 
-
-
-
-
 ## 加载并批处理数据 [¶](#load-and-batch-data "固定链接到此标题")
 
+ 本教程使用 `torchtext` 生成 Wikitext-2 数据集。要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata <https://github.com/pytorch/data> 。
 
-
-
- 本教程使用
- `torchtext`
- 生成 Wikitext-2 数据集。
-要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata
- <https://github.com/pytorch/data>
- 。\ n%%
-
-
-
-
-> 
-> 
-> 
-> 
-> 
-> ```
-> %%bash
-> pip install portalocker
-> pip install torchdata
-> 
-> ```
-> 
-> 
-> 
-> 
-> 
-
-
-
- vocab 对象是基于训练数据集构建的，用于将 token 数值化为张量。 Wikitext-2 represents rare tokens as
- 
- <unk>
- 
-.
-
-
-
-
- 给定一个连续数据的一维向量，
- `batchify()`
- 将数据
- 排列到
- 
- `batch_size`
- 列。如果数据没有均匀地分为
- `batch_size`
- 列，则数据将被修剪以适合。例如，以字母表作为数据（总长度为 26）和 `batch_size=4`
- ，我们将
-将字母表划分为长度为 6 的序列，从而得到 4 个这样的序列。\ n
-
-
-
- \[\开始{bmatrix}
-\文本{A} & \文本{B} & \文本{C} & \ldots & \文本{X} & \文本{Y } & \text{Z}
-\end{bmatrix}
-\Rightarrow
-\begin{bmatrix}
-\begin{bmatrix}\text{A} \\ \text {B} \\ \text{C} \\ \text{D} \\ \text{E} \\ \text{F}\end{bmatrix} & 
-\begin{bmatrix}\text{G} \\ \text{H} \\ \text{I} \\ \text{J} \\ \文本{K} \\ \文本{L}\结束{bmatrix} &
-\开始{bmatrix}\文本{M} \\ \文本{N} \\ \ 	ext{O} \\ \text{P} \\ \text{Q} \\ \text{R}\end{bmatrix} &
-\begin{bmatrix} \文本{S} \\ \文本{T} \\ \文本{U} \\ \文本{V} \\ \文本{W} \\ \text{X}\end{bmatrix}
-\end{bmatrix}
-
-\]
- 
-
- 批处理可实现更多并行处理。然而，批处理意味着模型独立处理每一列；例如，在上面的示例中无法学习
- `G`
- 和
- `F`
- 的依赖关系。
-
-
-
-
-
-
+```python
+%%bash
+pip install portalocker
+pip install torchdata
 ```
+
+ vocab 对象是基于训练数据集构建的，用于将 token 数值化为张量。 Wikitext-2 代表 rare tokens `<unk>`
+
+ 给定一个连续数据的一维向量， `batchify()` 将数据 排列到 `batch_size` 列。如果数据没有均匀地分为 `batch_size` 列，则数据将被修剪以适合。例如，以字母表作为数据（总长度为 26）和 `batch_size=4`，我们将将字母表划分为长度为 6 的序列，从而得到 4 个这样的序列.
+
+$$
+\begin{align}\begin{bmatrix}
+  \text{A} & \text{B} & \text{C} & \ldots & \text{X} & \text{Y} & \text{Z}
+  \end{bmatrix}
+  \Rightarrow
+  \begin{bmatrix}
+  \begin{bmatrix}\text{A} \\ \text{B} \\ \text{C} \\ \text{D} \\ \text{E} \\ \text{F}\end{bmatrix} &
+  \begin{bmatrix}\text{G} \\ \text{H} \\ \text{I} \\ \text{J} \\ \text{K} \\ \text{L}\end{bmatrix} &
+  \begin{bmatrix}\text{M} \\ \text{N} \\ \text{O} \\ \text{P} \\ \text{Q} \\ \text{R}\end{bmatrix} &
+  \begin{bmatrix}\text{S} \\ \text{T} \\ \text{U} \\ \text{V} \\ \text{W} \\ \text{X}\end{bmatrix}
+  \end{bmatrix}\end{align}
+$$
+
+ 批处理可实现更多并行处理。然而，批处理意味着模型独立处理每一列；例如，在上面的示例中无法学习 `G` 和 `F` 的依赖关系。
+
+```python
 from torchtext.datasets import WikiText2
 from torchtext.data.utils import get_tokenizer
 from torchtext.vocab import build_vocab_from_iterator
@@ -303,44 +175,15 @@ test_data = batchify(test_data, eval_batch_size)
 
 ```
 
-
-
-
 ### 生成输入和目标序列的函数 [¶](#functions-to-generate-input-and-target-sequence "永久链接到此标题")
 
-
-
-`get_batch()`
- 为变压器模型生成一对输入目标序列。它将源数据细分为
-length
- `bptt`
- 的块。对于语言建模任务，模型需要
-以下单词作为
- `Target`
- 。例如，
- `bptt`
- 值为 2，
-we’d 会为
- `i`
- = 0 获取以下两个变量：
-
-
+`get_batch()` 为变压器模型生成一对输入目标序列。它将源数据细分为length `bptt` 的块。对于语言建模任务，模型需要以下单词作为 `Target` 。例如， `bptt` 值为 2，we’d 会为 `i` = 0 获取以下两个变量：
 
 ![https://pytorch.org/tutorials/_images/transformer_input_target.png](https://pytorch.org/tutorials/_images/transformer_input_target.png)
 
- 需要注意的是，块沿着维度 0，与
-中的
- `S`
- 维度一致变压器模型。批次维度
- `N`
- 沿维度 1。
+ 需要注意的是，块沿着维度 0，与中的 `S` 维度一致变压器模型。批次维度 `N` 沿维度 1。
 
-
-
-
-
-
-```
+```python
 bptt = 35
 def get_batch(source: Tensor, i: int) -> Tuple[Tensor, Tensor]:
  """
@@ -359,26 +202,11 @@ def get_batch(source: Tensor, i: int) -> Tuple[Tensor, Tensor]:
 
 ```
 
-
-
-
-
 ## 启动实例 [¶](#initiate-an-instance "永久链接到此标题")
 
+ 模型超参数定义如下。 `vocab` 大小等于 vocab 对象的长度。
 
-
-
- 模型超参数定义如下。 
- `vocab`
- 大小等于
- vocab 对象的长度。
-
-
-
-
-
-
-```
+```python
 ntokens = len(vocab)  # size of vocabulary
 emsize = 200  # embedding dimension
 d_hid = 200  # dimension of the feedforward network model in ``nn.TransformerEncoder``
@@ -389,44 +217,20 @@ model = TransformerModel(ntokens, emsize, nhead, d_hid, nlayers, dropout).to(dev
 
 ```
 
+输出：
 
-
-
-
-
-```
+```txt
 /opt/conda/envs/py_3.10/lib/python3.10/site-packages/torch/nn/modules/transformer.py:282: UserWarning:
 
 enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
 
 ```
 
-
-
-
-
 ## 运行模型 [¶](#run-the-model "永久链接到此标题")
 
+ 我们使用 [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) 和 [SGD](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html) （随机梯度下降）优化器。学习率最初设置为5.0，并遵循 [StepLR](https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.StepLR.html) 时间表。在训练过程中，我们使用 [nn.utils.clip_grad_norm_](https://pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html)以防止梯度爆炸。
 
-
-
- 我们使用
- [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) 
- 和
- [SGD](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html) 
- （随机梯度下降）优化器。学习率最初设置为
-5.0，并遵循
- [StepLR](https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.StepLR.html)
- 时间表。在训练过程中，我们使用
- [nn.utils.clip_grad_norm_](https://pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html)
-以防止梯度爆炸。
-
-
-
-
-
-
-```
+```python
 import time
 
 criterion = nn.CrossEntropyLoss()
@@ -478,17 +282,9 @@ def evaluate(model: nn.Module, eval_data: Tensor) -> float:
 
 ```
 
-
-
-
  循环纪元。如果验证损失是迄今为止我们’见过的最好的，则保存模型。在每个时期后调整学习率。
 
-
-
-
-
-
-```
+```python
 best_val_loss = float('inf')
 epochs = 3
 
@@ -515,12 +311,9 @@ with TemporaryDirectory() as tempdir:
 
 ```
 
+输出：
 
-
-
-
-
-```
+```txt
 | epoch   1 |   200/ 2928 batches | lr 5.00 | ms/batch 31.82 | loss  8.19 | ppl  3613.91
 | epoch   1 |   400/ 2928 batches | lr 5.00 | ms/batch 28.69 | loss  6.88 | ppl   970.94
 | epoch   1 |   600/ 2928 batches | lr 5.00 | ms/batch 28.53 | loss  6.43 | ppl   621.40
@@ -575,18 +368,9 @@ with TemporaryDirectory() as tempdir:
 
 ```
 
-
-
-
-
 ## 评估测试数据集上的最佳模型 [¶](#evaluate-the-best-model-on-the-test-dataset "永久链接到此标题")
 
-
-
-
-
-
-```
+```python
 test_loss = evaluate(model, test_data)
 test_ppl = math.exp(test_loss)
 print('=' * 89)
@@ -596,20 +380,14 @@ print('=' * 89)
 
 ```
 
+输出：
 
-
-
-
-
-```
+```txt
 ===================================================================================
 
 | End of training | test loss  5.52 | test ppl   249.27
 ===================================================================================
 ```
 
-
-
-
-**脚本总运行时间:** 
+**脚本总运行时间:**
  ( 4 分 29.085 秒)
