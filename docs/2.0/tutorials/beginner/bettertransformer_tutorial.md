@@ -2,6 +2,7 @@
 # 使用 Better Transformer 进行快速变压器推理 [¶](#fast-transformer-inference-with-better-transformer "永久链接到此标题")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
+
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/bettertransformer_tutorial>
 >

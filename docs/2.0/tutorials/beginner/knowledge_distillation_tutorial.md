@@ -1,6 +1,7 @@
 # 知识蒸馏教程 [¶](#knowledge-distillation-tutorial "永久链接到此标题")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
+> 人工校正：[xiaoxstz](https://github.com/xiaoxstz)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/knowledge_distillation_tutorial>
 >

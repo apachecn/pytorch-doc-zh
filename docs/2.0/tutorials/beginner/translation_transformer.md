@@ -1,6 +1,7 @@
 # 使用 `nn.Transformer` 和 torchtext 进行语言翻译 [¶](#language-translation-with-nn-transformer-and-torchtext "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
+> 人工校正：[xiaoxstz](https://github.com/xiaoxstz)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/translation_transformer>
 >
