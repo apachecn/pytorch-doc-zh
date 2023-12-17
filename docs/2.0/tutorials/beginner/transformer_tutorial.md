@@ -1,5 +1,4 @@
-# 使用
- `nn.Transformer` 和 torchtext 进行语言建模 [¶](#language-modeling-with-nn-transformer-and-torchtext "永久链接到此标题")
+# 使用 `nn.Transformer` 和 torchtext 进行语言建模 [¶](#language-modeling-with-nn-transformer-and-torchtext "永久链接到此标题")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
