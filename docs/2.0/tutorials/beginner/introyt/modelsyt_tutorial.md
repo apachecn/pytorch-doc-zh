@@ -273,12 +273,12 @@ class LSTMTagger(torch.nn.Module):
 
 这个构造函数有四个参数：
 
-- `vocab_size` 是输入词汇的字数。每个单词都是 `vocab_size` 维空间中的独热（one-hot）向量（或单位向量）。
+- `vocab_size` 是输入词汇的字数。每个单词都是 `vocab_size` 维空间中的独特（one-hot）向量（或单位向量）。
 - `tagset_size` 是输出集合中标签的数量。
 - `embedding_dim` 是词汇 _嵌入（embedding）_ 空间的大小。嵌入空间将词汇映射到一个低维空间中，在这个空间中，词义相近的词会靠得很近。
 - `hidden_dim` 是 LSTM 内存的大小。
 
-输入将是一个句子，其中的单词表示为独热向量的索引。然后，嵌入层会将这些词映射到一个 `embedding_dim` 维空间。LSTM 获取嵌入序列并对其进行迭代，得到长度为 `hidden_dim` 的输出向量。最后的线性层充当分类器，对最后一层的输出应用 `log_softmax()`，可将输出转换为一组归一化的估计概率，表示指定单词映射到指定标签的概率。
+输入将是一个句子，其中的单词表示为独特向量的索引。然后，嵌入层会将这些词映射到一个 `embedding_dim` 维空间。LSTM 获取嵌入序列并对其进行迭代，得到长度为 `hidden_dim` 的输出向量。最后的线性层充当分类器，对最后一层的输出应用 `log_softmax()`，可将输出转换为一组归一化的估计概率，表示指定单词映射到指定标签的概率。
 
 如果您想看看这个网络的实际应用，请查看 pytorch.org 上的[序列模型和 LSTM 网络教程](https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html)。
 

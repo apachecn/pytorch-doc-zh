@@ -29,7 +29,7 @@ Captum 采用 _归因（Attribution）法_ 来实现模型的可解释性。Capt
 每种归因类型都有多种相关的**归因算法**。许多归因算法可分为两大类：
 
 - **基于梯度的算法**：这些算法计算模型输出、层输出或神经元激活相对于输入的反向梯度。**Integrated Gradients**（用于特征）、**Layer Gradient * Activation** 和 **Neuron Conductance（神经传导）** 都属此类。
-- **基于扰动的算法**：这些算法检查模型输出、层输出或神经元输出相对于输入的变化。输入扰动可以是有指向性的或随机的。**Occlusion（遮挡法）、 Feature Ablation（特征消融）和 Feature Permutation（特征排列）**都属此类。
+- **基于扰动的算法**：这些算法检查模型输出、层输出或神经元输出相对于输入的变化。输入扰动可以是有指向性的或随机的。**Occlusion（遮挡法）、 Feature Ablation（特征消融）和 Feature Permutation（特征排列）** 都属此类。
 
 下面我们要研究这两种类型的算法。
 

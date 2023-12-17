@@ -442,8 +442,6 @@ Clipping input data to the valid range for imshow with RGB data ([0..1] for floa
 让我们把所有的部分都放在一起，训练一个模型：
 
 ```python
-
-```python
 #%matplotlib inline
 
 import torch

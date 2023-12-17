@@ -1,57 +1,24 @@
-# 使用
- `nn.Transformer`
- 和 torchtext
- 进行语言翻译 [¶](#language-translation-with-nn-transformer-and-torchtext "此标题的永久链接")
- 
+# 使用 `nn.Transformer` 和 torchtext 进行语言翻译 [¶](#language-translation-with-nn-transformer-and-torchtext "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
+> 人工校正：[xiaoxstz](https://github.com/xiaoxstz)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/translation_transformer>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/translation_transformer.html>
 
-
-
-
-
  本教程展示：
- 
 
 * 如何使用 Transformer 从头开始​​训练翻译模型。
-* 使用 torchtext 库访问
- [Multi30k](http://www.statmt.org/wmt16/multimodal-task.html#task1) 
- 用于训练德语到英语翻译模型的数据集。
-
-
-
-
+* 使用 torchtext 库访问 [Multi30k](http://www.statmt.org/wmt16/multimodal-task.html#task1) 用于训练德语到英语翻译模型的数据集。
 
 ## 数据来源和处理 [¶](#data-commerce-and-processing "固定链接到此标题")
 
+[torchtext 库](https://pytorch.org/text/stable/) 具有用于创建数据集的实用程序，可以轻松地通过这些数据集来创建语言翻译模型。在此示例中，我们展示了如何使用 torchtext’s 内置数据集、对原始文本句子进行标记、构建词汇表以及将标记数字化为张量。我们将使用 [torchtext 库中的 Multi30k 数据集](https://pytorch.org/text/stable/datasets.html#multi30k) 生成一对源-目标原始句子。
 
+ 要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata <https://github.com/pytorch/data> 。
 
-
-[torchtext 库](https://pytorch.org/text/stable/)
- 具有用于创建数据集的实用程序，可以轻松地
-通过这些数据集来创建语言翻译
-模型。在此示例中，我们展示了如何使用 torchtext’s 内置数据集、
-对原始文本句子进行标记、构建词汇表以及将标记数字化为张量。我们将使用
- [torchtext 库中的 Multi30k 数据集](https://pytorch.org/text/stable/datasets.html#multi30k) 
- 生成一对源-目标原始句子。
-
-
-
-
- 要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata
- <https://github.com/pytorch/data>
- 。
-
-
-
-
-
-
-```
+```python
 from torchtext.data.utils import get_tokenizer
 from torchtext.vocab import build_vocab_from_iterator
 from torchtext.datasets import multi30k, Multi30k
@@ -72,17 +39,9 @@ vocab_transform = {}
 
 ```
 
-
-
-
  创建源语言和目标语言分词器。确保安装依赖项。
 
-
-
-
-
-
-```
+```bash
 pip install -U torchdata
 pip install -U spacy
 python -m spacy download en_core_web_sm
@@ -90,12 +49,7 @@ python -m spacy download de_core_news_sm
 
 ```
 
-
-
-
-
-
-```
+```python
 token_transform[SRC_LANGUAGE] = get_tokenizer('spacy', language='de_core_news_sm')
 token_transform[TGT_LANGUAGE] = get_tokenizer('spacy', language='en_core_web_sm')
 
@@ -128,31 +82,12 @@ for ln in [SRC_LANGUAGE, TGT_LANGUAGE]:
 
 ```
 
-
-
-
-
 ## 使用 Transformer 的 Seq2Seq 网络 [¶](#seq2seq-network-using-transformer "永久链接到此标题")
 
+ Transformer 是在 [“Attention is all you need”](https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) 用于解决机器翻译任务的论文。下面，我们将创建一个使用 Transformer 的 Seq2Seq 网络。该网络由三部分组成。第一部分是嵌入层。该层将输入索引的张量转换为输入嵌入的相应张量。这些嵌入通过位置编码进一步增强，以向模型提供输入标记的位置信息。第二部分是实际 [Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html)
+模型。最后传递Transformer模型的输出通过线性层给出目标语言中每个标记的非标准化概率。
 
-
-
- Transformer 是在
- [“Attention is all you need”](https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) 
- 用于解决机器翻译任务的论文。
-下面，我们将创建一个使用 Transformer 的 Seq2Seq 网络。该网络由三部分组成。第一部分是嵌入层。该层将输入索引的张量转换为输入嵌入的相应张量。这些嵌入通过位置编码进一步增强，以向模型提供输入标记的位置信息。第二部分是
-实际
- [Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html)
-模型。
-最后传递Transformer模型的输出通过线性层
-给出目标语言中每个标记的非标准化概率。
-
-
-
-
-
-
-```
+```python
 from torch import Tensor
 import torch
 import torch.nn as nn
@@ -239,18 +174,9 @@ class Seq2SeqTransformer(nn.Module):
 
 ```
 
+ 在训练期间，我们需要一个后续的单词掩码，以防止模型在进行预测时查看未来的单词。我们还需要掩码来隐藏源和目标填充标记。下面，让我们定义一个函数来处理这两个问题。
 
-
-
- 在训练期间，我们需要一个后续的单词掩码，以防止模型在进行预测时
-查看未来的单词。我们还需要掩码来隐藏源和目标填充标记。下面，让’s 定义一个函数来处理这两个问题。
-
-
-
-
-
-
-```
+```python
 def generate_square_subsequent_mask(sz):
     mask = (torch.triu(torch.ones((sz, sz), device=DEVICE)) == 1).transpose(0, 1)
     mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
@@ -270,17 +196,9 @@ def create_mask(src, tgt):
 
 ```
 
+ 现在让我们定义我们模型的参数并实例化它。下面，我们还定义了损失函数，即交叉熵损失和用于训练的优化器。
 
-
-
- 现在让’s 定义我们模型的参数并实例化它。下面，我们还定义了损失函数，即交叉熵损失和用于训练的优化器。
-
-
-
-
-
-
-```
+```python
 torch.manual_seed(0)
 
 SRC_VOCAB_SIZE = len(vocab_transform[SRC_LANGUAGE])
@@ -307,39 +225,12 @@ optimizer = torch.optim.Adam(transformer.parameters(), lr=0.0001, betas=(0.9, 0.
 
 ```
 
-
-
-
-
 ## 排序规则 [¶](#collat​​ion "此标题的永久链接")
 
-
-
-
- 如
- `数据
- 
-
- 源
- 
-
- 和
- 
-
- 处理`
- 部分所示，我们的数据迭代器生成一对原始字符串。
-我们需要将这些字符串对转换为可以由我们之前定义的
- `Seq2Seq`
- 网络
-处理的批处理张量。下面我们定义了整理函数，该函数将一批原始字符串转换为批量张量，
+ 如 `数据源和处理` 部分所示，我们的数据迭代器生成一对原始字符串。我们需要将这些字符串对转换为可以由我们之前定义的 `Seq2Seq` 网络处理的批处理张量。下面我们定义了整理函数，该函数将一批原始字符串转换为批量张量，
 可以直接将其输入到我们的模型中。
 
-
-
-
-
-
-```
+```python
 from torch.nn.utils.rnn import pad_sequence
 
 # helper function to club together sequential operations
@@ -377,18 +268,9 @@ def collate_fn(batch):
 
 ```
 
+ 让我们定义将为每个epoch 调用的训练和评估循环。
 
-
-
- 让’s 定义将为每个
-epoch 调用的训练和评估循环。
-
-
-
-
-
-
-```
+```python
 from torch.utils.data import DataLoader
 
 def train_epoch(model, optimizer):
@@ -444,15 +326,9 @@ def evaluate(model):
 
 ```
 
+现在我们拥有了训练模型的所有要素。让我们来做吧！
 
-现在我们拥有了训练模型的所有要素。让’s 来做吧！
-
-
-
-
-
-
-```
+```python
 from timeit import default_timer as timer
 NUM_EPOCHS = 18
 
@@ -464,66 +340,52 @@ for epoch in range(1, NUM_EPOCHS+1):
     print((f"Epoch: {epoch}, Train loss: {train_loss:.3f}, Val loss: {val_loss:.3f}, "f"Epoch time = {(end_time - start_time):.3f}s"))
 
 
-# 使用贪婪算法生成输出序列的函数
-def gredy_decode(model, src, src_mask, max_len, start_symbol):
- src = src.to(DEVICE)
- src\ \_mask = src_mask.to(DEVICE)
+# function to generate output sequence using greedy algorithm
+def greedy_decode(model, src, src_mask, max_len, start_symbol):
+    src = src.to(DEVICE)
+    src_mask = src_mask.to(DEVICE)
 
- 内存 = model.encode(src, src_mask)
- ys = [torch.ones](https://pytorch.org/docs/stable /generated/torch.ones.html#torch.ones "torch.ones")(1, 1).fill_(start_symbol).type(torch.long).to(DEVICE)
- for i在范围（max_len-1）：
-内存=内存.to（DEVICE）
- tgt_mask =（生成_square_subsequent_mask（ys.size（0））
-。 type(torch.bool)).to(DEVICE)
- out = model.decode(ys, memory, tgt_mask)
- out = out.transpose(0, 1)
- prob = model.generator(out [:, -1])
- _, next_word = [torch.max](https://pytorch.org/docs/stable/generated/torch.max.html#torch.max "火炬. max")(prob, dim=1)
- next_word = next_word.item()
+    memory = model.encode(src, src_mask)
+    ys = torch.ones(1, 1).fill_(start_symbol).type(torch.long).to(DEVICE)
+    for i in range(max_len-1):
+        memory = memory.to(DEVICE)
+        tgt_mask = (generate_square_subsequent_mask(ys.size(0))
+                    .type(torch.bool)).to(DEVICE)
+        out = model.decode(ys, memory, tgt_mask)
+        out = out.transpose(0, 1)
+        prob = model.generator(out[:, -1])
+        _, next_word = torch.max(prob, dim=1)
+        next_word = next_word.item()
 
- ys = [torch.cat](https://pytorch.org/docs/stable/generated /torch.cat.html#torch.cat "torch.cat")([ys,
- [torch.ones](https://pytorch.org/docs/stable/generated/torch.ones.html#torch.一个 "torch.ones")(1, 1).type_as(src.data).fill_(next_word)], dim=0)
- 如果 next_word == EOS\ \_IDX:
- 中断
- 返回 ys
+        ys = torch.cat([ys,
+                        torch.ones(1, 1).type_as(src.data).fill_(next_word)], dim=0)
+        if next_word == EOS_IDX:
+            break
+    return ys
 
 
 # actual function to translate input sentence into target language
 def translate(model: torch.nn.Module, src_sentence: str):
     model.eval()
-    src = text_transformSRC_LANGUAGE.view(-1, 1)
+    src = text_transform[SRC_LANGUAGE](src_sentence).view(-1, 1)
     num_tokens = src.shape[0]
     src_mask = (torch.zeros(num_tokens, num_tokens)).type(torch.bool)
     tgt_tokens = greedy_decode(
         model,  src, src_mask, max_len=num_tokens + 5, start_symbol=BOS_IDX).flatten()
     return " ".join(vocab_transform[TGT_LANGUAGE].lookup_tokens(list(tgt_tokens.cpu().numpy()))).replace("<bos>", "").replace("<eos>", "")
-
 ```
 
-
-
-
-
-
-```
+```python
 print(translate(transformer, "Eine Gruppe von Menschen steht vor einem Iglu ."))
 
 ```
 
-
-
-
-
 ## 参考文献 [¶](#references "此标题的永久链接")
-
-
 
 1. 注意就是您所需要的纸张。
  <https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf>
 2.带注释的变压器。
  <https://nlp.seas.harvard.edu/2018/04/03/attention.html#positional-encoding>
 
-
-
-**脚本的总运行时间:** 
+**脚本的总运行时间:**
  ( 0 分 0.000 秒)
