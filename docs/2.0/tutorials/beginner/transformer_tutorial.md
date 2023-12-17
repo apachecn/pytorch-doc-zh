@@ -7,20 +7,15 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/transformer_tutorial.html>
 
- 这是一个关于训练模型以使用 [nn.Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html) 预测序列中下一个单词的教程
- 模块。
+ 这是一个关于训练模型以使用 [nn.Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html) 预测序列中下一个单词的教程模块。
 
- PyTorch 1.2 版本包含一个基于论文的标准转换器模块 [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf).
-与循环神经网络相比 ( RNN）中，Transformer 模型已被证明对于许多序列到序列任务来说质量优越，同时具有更强的可并行性。 `nn.Transformer` 模块完全依赖于注意力机制（实现为 [nn.MultiheadAttention](https://pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html )
- )绘制输入和输出之间的全局依赖关系。 `nn.Transformer` 模块是高度模块化的，因此单个组件（例如，
- [nn.TransformerEncoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoder. html) )可以轻松改编/组合。
+ PyTorch 1.2 版本包含一个基于论文的标准转换器模块 [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf).与循环神经网络相比 ( RNN）中，Transformer 模型已被证明对于许多序列到序列任务来说质量优越，同时具有更强的可并行性。 `nn.Transformer` 模块完全依赖于注意力机制（实现为 [nn.MultiheadAttention](https://pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html ) )绘制输入和输出之间的全局依赖关系。 `nn.Transformer` 模块是高度模块化的，因此单个组件（例如， [nn.TransformerEncoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoder. html) )可以轻松改编/组合。
 
 ![https://pytorch.org/tutorials/_images/transformer_architecture.jpg](https://pytorch.org/tutorials/_images/transformer_architecture.jpg)
 
 ## 定义模型 [¶](#define-the-model "永久链接到此标题")
 
- 在本教程中，我们在因果语言建模任务上训练 `nn.TransformerEncoder` 模型。请注意，本教程不涵盖 [nn.TransformerDecoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerDecoder.html#torch.nn.TransformerDecoder) 的训练 ，如上图右半部分所示。语言建模任务是为给定单词（或单词序列）跟随单词序列的可能性分配概率。首先将标记序列传递到嵌入层，然后是位置编码层来解释单词的顺序（有关更多详细信息，请参阅下一段）。
- `nn.TransformerEncoder` 由多个层组成 [nn.TransformerEncoderLayer](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html).
+ 在本教程中，我们在因果语言建模任务上训练 `nn.TransformerEncoder` 模型。请注意，本教程不涵盖 [nn.TransformerDecoder](https://pytorch.org/docs/stable/generated/torch.nn.TransformerDecoder.html#torch.nn.TransformerDecoder) 的训练 ，如上图右半部分所示。语言建模任务是为给定单词（或单词序列）跟随单词序列的可能性分配概率。首先将标记序列传递到嵌入层，然后是位置编码层来解释单词的顺序（有关更多详细信息，请参阅下一段）。 `nn.TransformerEncoder` 由多个层组成 [nn.TransformerEncoderLayer](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html).
 对于输入序列，需要一个方形注意掩码，因为“nn.TransformerDecoder”中的自注意层只允许出现序列中较早的位置。对于语言建模任务，未来位置上的任何标记都应该被屏蔽。这种掩蔽与输出嵌入与后面位置偏移的事实相结合，确保位置 i 的预测只能依赖于小于 i 的位置处的已知输出。为了生成输出词的概率分布，的输出 `nn.TransformerEncoder` 模型通过线性层来输出非归一化 logits。由于稍后使用了 [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) ，这要求输入是非标准化的 logits。
 
 ```python
@@ -105,8 +100,7 @@ class PositionalEncoding(nn.Module):
 
 ## 加载并批处理数据 [¶](#load-and-batch-data "固定链接到此标题")
 
- 本教程使用 `torchtext` 生成 Wikitext-2 数据集。要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata <https://github.com/pytorch/data>
- 。\ n%%
+ 本教程使用 `torchtext` 生成 Wikitext-2 数据集。要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata <https://github.com/pytorch/data> 。
 
 ```python
 %%bash
@@ -114,14 +108,9 @@ pip install portalocker
 pip install torchdata
 ```
 
- vocab 对象是基于训练数据集构建的，用于将 token 数值化为张量。 Wikitext-2 represents rare tokens as
+ vocab 对象是基于训练数据集构建的，用于将 token 数值化为张量。 Wikitext-2 代表 rare tokens `<unk>`
 
- <unk>
-
-.
-
- 给定一个连续数据的一维向量， `batchify()` 将数据 排列到 `batch_size` 列。如果数据没有均匀地分为
- `batch_size` 列，则数据将被修剪以适合。例如，以字母表作为数据（总长度为 26）和 `batch_size=4`，我们将将字母表划分为长度为 6 的序列，从而得到 4 个这样的序列.
+ 给定一个连续数据的一维向量， `batchify()` 将数据 排列到 `batch_size` 列。如果数据没有均匀地分为 `batch_size` 列，则数据将被修剪以适合。例如，以字母表作为数据（总长度为 26）和 `batch_size=4`，我们将将字母表划分为长度为 6 的序列，从而得到 4 个这样的序列.
 
 $$
 \begin{align}\begin{bmatrix}
@@ -237,9 +226,7 @@ enable_nested_tensor is True, but self.use_nested_tensor is False because encode
 
 ## 运行模型 [¶](#run-the-model "永久链接到此标题")
 
- 我们使用 [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) 和 [SGD](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html)
- （随机梯度下降）优化器。学习率最初设置为5.0，并遵循 [StepLR](https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.StepLR.html) 时间表。在训练过程中，我们使用 [nn.utils.clip_grad_norm_](https://pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html)
-以防止梯度爆炸。
+ 我们使用 [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) 和 [SGD](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html) （随机梯度下降）优化器。学习率最初设置为5.0，并遵循 [StepLR](https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.StepLR.html) 时间表。在训练过程中，我们使用 [nn.utils.clip_grad_norm_](https://pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html)以防止梯度爆炸。
 
 ```python
 import time
