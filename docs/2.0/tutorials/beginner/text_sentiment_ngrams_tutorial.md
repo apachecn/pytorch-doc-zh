@@ -9,24 +9,13 @@
 
  在本教程中，我们将展示如何使用 torchtext 库构建用于文本分类分析的数据集。用户可以灵活地
 
-> 
-> 
-> * 作为迭代器访问原始数据
-> * 构建数据处理管道，将原始文本字符串转换为
-> `torch.Tensor`
-> 可用于训练模型
-> * 使用
-> [torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)
-> 
-> 
-> 
->
+* 作为迭代器访问原始数据
+* 构建数据处理管道，将原始文本字符串转换为`torch.Tensor`可用于训练模型
+* 使用[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)
 
 ## 先决条件 [¶](#preconditions "永久链接到此标题")
 
- 在运行本教程之前，需要安装最新 2.x 版本的 `portalocker`
- 软件包。
-例如，在 Colab 环境中，可以通过在顶部添加以下行来完成脚本：
+ 在运行本教程之前，需要安装最新 2.x 版本的 `portalocker` 软件包。例如，在 Colab 环境中，可以通过在顶部添加以下行来完成脚本：
 
 ```python
 !pip install -U portalocker>=2.0.0`
@@ -35,12 +24,9 @@
 
 ### 访问原始数据集迭代器 [¶](#access-to-the-raw-dataset-iterators "永久链接到此标题")
 
- torchtext 库提供了一些原始数据集迭代器，可生成原始文本字符串。例如，
- `AG_NEWS`
- 数据集迭代器生成作为标签和文本元组形式的原始数据。
+ torchtext 库提供了一些原始数据集迭代器，可生成原始文本字符串。例如， `AG_NEWS` 数据集迭代器生成作为标签和文本元组形式的原始数据。
 
- 要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata
- <https://github.com/pytorch/data>
+ 要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata <https://github.com/pytorch/data>
  。
 
 ```python
@@ -51,7 +37,9 @@ train_iter = iter(AG_NEWS(split="train"))
 
 ```
 
-```
+输出：
+
+```txt
 next(train_iter)
 >>> (3, "Fears for T N pension after talks Unions representing workers at Turner
 Newall say they are 'disappointed' after talks with stricken parent firm Federal
@@ -76,12 +64,7 @@ building blocks of proteins.')
 
  我们重新审视了 torchtext 库的非常基本的组件，包括词汇、词向量、分词器。这些是原始文本字符串的基本数据处理构建块。
 
- 这是使用分词器和词汇进行典型 NLP 数据处理的示例。第一步是使用原始训练数据集构建词汇表。这里我们使用内置
-工厂函数
- 
- build_vocab_from_iterator
- 
- 接受生成列表或标记迭代器的迭代器。用户还可以传递要添加到词汇表中的任何特殊符号。
+ 这是使用分词器和词汇进行典型 NLP 数据处理的示例。第一步是使用原始训练数据集构建词汇表。这里我们使用内置工厂函数`build_vocab_from_iterator` 接受生成列表或标记迭代器的迭代器。用户还可以传递要添加到词汇表中的任何特殊符号。
 
 ```python
 from torchtext.data.utils import get_tokenizer
@@ -129,9 +112,7 @@ label_pipeline('10')
 
 ### 生成数据批次和迭代器 [¶](#generate-data-batch-and-iterator "永久链接到此标题")
 
-[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader) 
- 建议 PyTorch 用户使用（教程是[此处](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html) )。
-它适用于实现`getitem()`和的地图样式数据集n `len()`协议，表示从索引/键到数据样本的映射。它还适用于 shuffle 参数为`False`的可迭代数据集。
+[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)  建议 PyTorch 用户使用（教程是[此处](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html) )。它适用于实现`getitem()`和的地图样式数据集n `len()`协议，表示从索引/键到数据样本的映射。它还适用于 shuffle 参数为`False`的可迭代数据集。
 
  在发送到模型之前， `collat​​e_fn`函数会处理从 `DataLoader`生成的一批样本。 `collat​​e_fn`的输入是一批数据，其批量大小为 `DataLoader`，`collat​​e_fn`.根据数据处理管道对其进行处理之前声明过。请注意此处并确保`collat​​e_fn` 被声明为顶级定义。这可确保该函数在每个工作线程中都可用。
 
@@ -167,8 +148,7 @@ dataloader = DataLoader(
 
  该模型由 [nn.EmbeddingBag](https://pytorch.org/docs/stable/nn.html?highlight=embeddingbag#torch.nn.EmbeddingBag) 层加上一个线性层组成分类目的。 `nn.EmbeddingBag` 默认模式为 “mean” 计算 “bag” 嵌入的平均值。尽管此处的文本条目具有不同的长度， `nn.EmbeddingBag` 模块不需要此处填充，因为文本长度保存在偏移量中。
 
- 此外，由于 `nn.EmbeddingBag` 会动态累积嵌入的平均值， `nn.EmbeddingBag`
- 可以提高处理张量序列的性能和内存效率。
+ 此外，由于 `nn.EmbeddingBag` 会动态累积嵌入的平均值， `nn.EmbeddingBag` 可以提高处理张量序列的性能和内存效率。
 
 ![https://pytorch.org/tutorials/_images/text_sentiment_ngrams_model.png](https://pytorch.org/tutorials/_images/text_sentiment_ngrams_model.png)
 
@@ -323,7 +303,9 @@ for epoch in range(1, EPOCHS + 1):
 
 ```
 
-```
+输出：
+
+```txt
 | epoch   1 |   500/ 1782 batches | accuracy    0.694
 | epoch   1 |  1000/ 1782 batches | accuracy    0.856
 | epoch   1 |  1500/ 1782 batches | accuracy    0.877
@@ -398,7 +380,9 @@ print("test accuracy {:8.3f}".format(accu_test))
 
 ```
 
-```
+输出：
+
+```txt
 Checking the results of test dataset.
 test accuracy    0.907
 
@@ -437,7 +421,9 @@ print("This is a %s news" % ag_news_label[predict(ex_text_str, text_pipeline)])
 
 ```
 
-```
+输出：
+
+```txt
 This is a Sports news
 
 ```

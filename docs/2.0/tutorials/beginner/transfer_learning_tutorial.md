@@ -46,7 +46,9 @@ plt.ion()   # interactive mode
 
 ```
 
-```
+输出：
+
+```txt
 <contextlib.ExitStack object at 0x7f12e846ffd0>
 
 ```
@@ -265,7 +267,9 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 ```
 
-```
+输出：
+
+```txt
 Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /var/lib/jenkins/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
 
   0%|          | 0.00/44.7M [00:00<?, ?B/s]
@@ -286,7 +290,9 @@ model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
 
 ```
 
-```
+输出：
+
+```txt
 Epoch 0/24
 ----------
 train Loss: 0.4761 Acc: 0.7623
@@ -417,7 +423,7 @@ Best val Acc: 0.954248
 
 ```
 
-```
+```python
 visualize_model(model_ft)
 
 ```
@@ -462,7 +468,9 @@ model_conv = train_model(model_conv, criterion, optimizer_conv,
 
 ```
 
-```
+输出：
+
+```txt
 Epoch 0/24
 ----------
 train Loss: 0.6996 Acc: 0.6516
@@ -593,7 +601,7 @@ Best val Acc: 0.954248
 
 ```
 
-```
+```python
 visualize_model(model_conv)
 
 plt.ioff()

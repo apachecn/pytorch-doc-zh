@@ -119,15 +119,7 @@ ITERATIONS=10
 * 第一次运行使用传统的 (“slow path”) 执行。
 * 第二次运行通过使用模型将模型置于推理模式来启用 BT 快速路径执行 _model.eval()_,并使用 _torch.no_grad()_ 禁用梯度收集。
 
- 当模型在 CPU 上执行时，您可以看到改进（其幅度取决于 CPU 型号）。请注意，快速路径配置文件显示了本机
-
- TransformerEncoderLayer
-
- 实现
-
- aten::_transformer_encoder_layer_fwd
-
- 的大部分执行时间。\ n
+ 当模型在 CPU 上执行时，您可以看到改进（其幅度取决于 CPU 型号）。请注意，快速路径配置文件显示了本机 TransformerEncoderLayer 实现 aten::_transformer_encoder_layer_fwd 的大部分执行时间。
 
 ```python
 print("slow path:")
@@ -166,15 +158,7 @@ model.encoder.transformer.layers.enable_nested_tensor=False
  我们在 DEVICE 上运行模型，并收集 DEVICE 上本机 MHA 执行的配置文件信息:
 
 * 第一次运行使用传统的 (“slow path”) 执行。
-* 第二次运行通过使用模型将模型置于推理模式来启用 BT 快速路径执行
-
- model.eval()
-
- 并使用
-
- torch.no_grad()
-
- 禁用梯度收集。
+* 第二次运行通过使用模型将模型置于推理模式来启用 BT 快速路径执行 model.eval() 并使用 torch.no_grad() 禁用梯度收集。
 
  在 GPU 上执行时，您应该会看到显着的加速，特别是对于小输入批量设置：
 

@@ -217,7 +217,9 @@ model = TransformerModel(ntokens, emsize, nhead, d_hid, nlayers, dropout).to(dev
 
 ```
 
-```
+输出：
+
+```txt
 /opt/conda/envs/py_3.10/lib/python3.10/site-packages/torch/nn/modules/transformer.py:282: UserWarning:
 
 enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
@@ -309,7 +311,9 @@ with TemporaryDirectory() as tempdir:
 
 ```
 
-```
+输出：
+
+```txt
 | epoch   1 |   200/ 2928 batches | lr 5.00 | ms/batch 31.82 | loss  8.19 | ppl  3613.91
 | epoch   1 |   400/ 2928 batches | lr 5.00 | ms/batch 28.69 | loss  6.88 | ppl   970.94
 | epoch   1 |   600/ 2928 batches | lr 5.00 | ms/batch 28.53 | loss  6.43 | ppl   621.40
@@ -376,7 +380,9 @@ print('=' * 89)
 
 ```
 
-```
+输出：
+
+```txt
 ===================================================================================
 
 | End of training | test loss  5.52 | test ppl   249.27

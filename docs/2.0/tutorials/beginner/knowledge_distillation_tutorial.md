@@ -67,6 +67,8 @@ test_dataset = datasets.CIFAR10(root='./data', train=False, download=True, trans
 
 ```
 
+输出：
+
 ```txt
 Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/cifar-10-python.tar.gz
 
@@ -261,6 +263,8 @@ nn_light = LightNN(num_classes=10).to(device)
 
 ```
 
+输出：
+
 ```txt
 Epoch 1/10, Loss: 1.3308625350827756
 Epoch 2/10, Loss: 0.868983477582712
@@ -294,6 +298,8 @@ print("Norm of 1st layer of new_nn_light:", torch.norm(new_nn_light.features[0].
 
 ```
 
+输出：
+
 ```txt
 Norm of 1st layer of nn_light: 2.327361822128296
 Norm of 1st layer of new_nn_light: 2.327361822128296
@@ -310,6 +316,8 @@ print(f"LightNN parameters: {total_params_light}")
 
 ```
 
+输出：
+
 ```txt
 DeepNN parameters: 1,186,986
 LightNN parameters: 267,738
@@ -323,6 +331,8 @@ train(nn_light, train_loader, epochs=10, learning_rate=0.001, device=device)
 test_accuracy_light_ce = test(nn_light, test_loader, device)
 
 ```
+
+输出：
 
 ```txt
 Epoch 1/10, Loss: 1.4697845640694698
@@ -346,6 +356,8 @@ print(f"Teacher accuracy: {test_accuracy_deep:.2f}%")
 print(f"Student accuracy: {test_accuracy_light_ce:.2f}%")
 
 ```
+
+输出：
 
 ```txt
 Teacher accuracy: 75.10%
@@ -419,6 +431,8 @@ print(f"Student accuracy without teacher: {test_accuracy_light_ce:.2f}%")
 print(f"Student accuracy with CE + KD: {test_accuracy_light_ce_and_kd:.2f}%")
 
 ```
+
+输出：
 
 ```txt
 Epoch 1/10, Loss: 2.708952553132001
@@ -524,6 +538,8 @@ print("Norm of 1st layer:", torch.norm(modified_nn_light.features[0].weight).ite
 
 ```
 
+输出：
+
 ```txt
 Norm of 1st layer for deep_nn: 7.507150650024414
 Norm of 1st layer for modified_deep_nn: 7.507150650024414
@@ -552,6 +568,8 @@ print("Teacher logits shape:", logits.shape) # batch_size x total_classes
 print("Teacher hidden representation shape:", hidden_representation.shape) # batch_size x hidden_representation_size
 
 ```
+
+输出：
 
 ```txt
 Student logits shape: torch.Size([128, 10])
@@ -648,6 +666,8 @@ test_accuracy_light_ce_and_cosine_loss = test_multiple_outputs(modified_nn_light
 
 ```
 
+输出：
+
 ```txt
 Epoch 1/10, Loss: 1.3048383903015606
 Epoch 2/10, Loss: 1.0683175657716248
@@ -678,6 +698,8 @@ print("Student's feature extractor output shape: ", convolutional_fe_output_stud
 print("Teacher's feature extractor output shape: ", convolutional_fe_output_teacher.shape)
 
 ```
+
+输出：
 
 ```txt
 Student's feature extractor output shape:  torch.Size([128, 16, 8, 8])
@@ -812,6 +834,8 @@ test_accuracy_light_ce_and_mse_loss = test_multiple_outputs(modified_nn_light_re
 
 ```
 
+输出：
+
 ```txt
 Epoch 1/10, Loss: 1.7031925587398011
 Epoch 2/10, Loss: 1.3212134987496964
@@ -837,6 +861,8 @@ print(f"Student accuracy with CE + CosineLoss: {test_accuracy_light_ce_and_cosin
 print(f"Student accuracy with CE + RegressorMSE: {test_accuracy_light_ce_and_mse_loss:.2f}%")
 
 ```
+
+输出：
 
 ```txt
 Teacher accuracy: 75.10%
