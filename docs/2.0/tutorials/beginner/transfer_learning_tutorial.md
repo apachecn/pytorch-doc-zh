@@ -1,60 +1,28 @@
 # 计算机视觉迁移学习教程 [¶](#transfer-learning-for-computer-vision-tutorial "永久链接到此标题")
 
-
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/transfer_learning_tutorial>
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html>
 
-
-
-
-**作者** 
- :
- [Sasank Chilamkurthy](https://chsasank.github.io)
-
-
-
+**作者** :[Sasank Chilamkurthy](https://chsasank.github.io)
 
  在本教程中，您将学习如何使用迁移学习训练
 卷积神经网络以进行图像分类。您可以在 [cs231n 笔记](https://cs231n.github.io/transfer-learning/) 阅读有关迁移学习的更多信息
 
-
-
-
  引用这些注释，
 
-
-
-
-> 
-> 
-> 
-> 在实践中，很少有人从头开始训练整个卷积网络（随机初始化），因为拥有足够大小的数据集相对较少。相反，通常在非常大的数据集（例如 ImageNet，其中包含 120 万张图像，1000 个类别）上预训练 ConvNet，然后使用 ConvNet 作为初始化或固定特征感兴趣的任务的提取器。
-> 
-> 
-> 
-> 
 >
-
-
+> 在实践中，很少有人从头开始训练整个卷积网络（随机初始化），因为拥有足够大小的数据集相对较少。相反，通常在非常大的数据集（例如 ImageNet，其中包含 120 万张图像，1000 个类别）上预训练 ConvNet，然后使用 ConvNet 作为初始化或固定特征感兴趣的任务的提取器。
+>
 
  这两个主要的迁移学习场景如下所示：
 
+* **微调 ConvNet** ：我们使用预训练的网络（例如在 imagenet 1000 数据集上训练的网络）来初始化网络，而不是随机初始化。训练的其余部分看起来与平常一样。
+* **ConvNet 作为固定特征提取器**：在这里，我们将冻结除最终完全连接层之外的所有网络的权重。最后一个完全连接的层被替换为具有随机权重的新层，并且仅训练该层。
 
-
-* **微调 ConvNet** 
- ：我们使用预训练的网络（例如在 imagenet 1000 数据集上训练的网络）来初始化网络，而不是随机初始化。训练的其余部分看起来与平常一样。
-* **ConvNet 作为固定特征提取器** 
-：在这里，我们将冻结除最终完全连接层之外的所有网络的权重
-。最后一个完全连接的层被替换为具有随机权重的新层，并且仅训练该层。
-
-
-
-
-
-```
+```python
 # License: BSD
 # Author: Sasank Chilamkurthy
 
@@ -77,64 +45,25 @@ plt.ion()   # interactive mode
 
 ```
 
-
-
-
-
-
 ```
 <contextlib.ExitStack object at 0x7f12e846ffd0>
 
 ```
 
-
-
-
-
 ## 加载数据 [¶](#load-data "此标题的永久链接")
 
+ 我们将使用 torchvision 和 torch.utils.data 包来加载数据。
 
-
-
- 我们将使用 torchvision 和 torch.utils.data 包来加载
-数据。
-
-
-
-
- 我们今天’要解决的问题是训练一个模型来分类
- **蚂蚁** 
- 和
- **蜜蜂** 
- 。我们有大约 120 个蚂蚁和蜜蜂的训练图像。
-每个类别有 75 个验证图像。通常，如果从头开始训练，这是一个非常小的数据集，可以进行泛化。由于我们
-正在使用迁移学习，因此我们应该能够
-很好地进行合理的概括。
-
-
-
+ 我们今天’要解决的问题是训练一个模型来分类 **蚂蚁** 和 **蜜蜂** 。我们有大约 120 个蚂蚁和蜜蜂的训练图像。每个类别有 75 个验证图像。通常，如果从头开始训练，这是一个非常小的数据集，可以进行泛化。由于我们
+正在使用迁移学习，因此我们应该能够很好地进行合理的概括。
 
  该数据集是 imagenet 的一个非常小的子集。
 
-
-
-
-
  注意
 
+ 从 [此处](https://download.pytorch.org/tutorial/hymenoptera_data.zip) 下载数据并将其解压到当前目录。
 
-
-
- 从
- [此处](https://download.pytorch.org/tutorial/hymenoptera_data.zip) 下载数据并将其解压到当前目录。
-
-
-
-
-
-
-
-```
+```python
 # Data augmentation and normalization for training
 # Just normalization for validation
 data_transforms = {
@@ -166,22 +95,12 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 ```
 
-
-
-
 ### 可视化一些图像 [¶](#visualize-a-few-images "此标题的固定链接")
 
-
-
- 让’s 可视化一些训练图像，以便理解数据
+ 让我们可视化一些训练图像，以便理解数据
 augmentations。
 
-
-
-
-
-
-```
+```python
 def imshow(inp, title=None):
  """Display image for Tensor."""
     inp = inp.numpy().transpose((1, 2, 0))
@@ -205,38 +124,18 @@ imshow(out, title=[class_names[x] for x in classes])
 
 ```
 
-
-
 ![['蚂蚁', '蚂蚁', '蚂蚁', '蚂蚁']](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png)
-
 
 ## 训练模型 [¶](#training-the-model "永久链接到此标题")
 
-
-
-
- 现在，让’s 编写一个通用函数来训练模型。在这里，我们将
-说明：
-
-
+ 现在，让’s 编写一个通用函数来训练模型。在这里，我们将说明：
 
 * 调度学习率
 * 保存最佳模型
 
+ 在下面的内容中，参数 `scheduler` 是来自 `torch.optim.lr_scheduler` 的 LR 调度程序对象。
 
-
- 在下面的内容中，参数
- `scheduler`
- 是来自
- `torch.optim.lr_scheduler`
- 的 LR 调度程序对象。
-
-
-
-
-
-
-```
+```python
 def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     since = time.time()
 
@@ -309,21 +208,11 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
 ```
 
-
-
-
 ### 可视化模型预测 [¶](#visualizing-the-model-predictions "永久链接到此标题")
-
-
 
  显示一些图像的预测的通用函数
 
-
-
-
-
-
-```
+```python
 def visualize_model(model, num_images=6):
     was_training = model.training
     model.eval()
@@ -352,23 +241,11 @@ def visualize_model(model, num_images=6):
 
 ```
 
-
-
-
-
 ## 微调 ConvNet [¶](#finetuning-the-convnet "固定链接到此标题")
-
-
-
 
  加载预训练模型并重置最终的全连接层。
 
-
-
-
-
-
-```
+```python
 model_ft = models.resnet18(weights='IMAGENET1K_V1')
 num_ftrs = model_ft.fc.in_features
 # Here the size of each output sample is set to 2.
@@ -387,11 +264,6 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 ```
 
-
-
-
-
-
 ```
 Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /var/lib/jenkins/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
 
@@ -403,31 +275,15 @@ Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /var
 
 ```
 
-
-
-
 ### 训练和评估 [¶](#train-and-evaluate "永久链接到此标题")
 
+ CPU 大约需要 15-25 分钟。但在 GPU 上，所需时间不到一分钟。
 
-
- CPU 大约需要 15-25 分钟。但在 GPU 上，
-所需时间不到一分钟。
-
-
-
-
-
-
-```
+```python
 model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
                        num_epochs=25)
 
 ```
-
-
-
-
-
 
 ```
 Epoch 0/24
@@ -560,53 +416,20 @@ Best val Acc: 0.954248
 
 ```
 
-
-
-
-
-
 ```
 visualize_model(model_ft)
 
 ```
 
-
-
 ![预测：蚂蚁，预测：蜜蜂，预测：蚂蚁，预测：蜜蜂，预测：蜜蜂，预测：蚂蚁](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png)
-
 
 ## ConvNet 作为固定特征提取器 [¶](#convnet-as-fixed-feature-extractor "永久链接到此标题")
 
+ 在这里，我们需要冻结除最后一层之外的所有网络。我们需要设置 `requires_grad = False`来冻结参数，以便梯度不会在 `backward()`中计算.
 
+ 您可以在文档中阅读更多相关信息 [此处](https://pytorch.org/docs/notes/autograd.html#exclusion-subgraphs-from-backward).
 
-
- 在这里，我们需要冻结除最后一层之外的所有网络。我们需要
-设置
- `requires_grad
- 
-
- =
- 
-
- False`
-来冻结参数，以便
-梯度不会在
- `backward()`中计算
- n.
-
-
-
-
- 您可以在文档中阅读更多相关信息
- [此处](https://pytorch.org/docs/notes/autograd.html#exclusion-subgraphs-from-backward) 
-.
-
-
-
-
-
-
-```
+```python
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
 for param in model_conv.parameters():
     param.requires_grad = False
@@ -628,32 +451,15 @@ exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
 ```
 
-
-
-
 ### 训练和评估 [¶](#id1 "此标题的永久链接")
 
+ 在 CPU 上，与之前的场景相比，这将花费大约一半的时间。这是预期的，因为需要为大多数网络计算梯度 don’t。但是，确实需要计算前向。
 
-
- 在 CPU 上，与之前的场景相比，这将花费大约一半的时间。
-这是预期的，因为
-需要为大多数网络计算梯度 don’t。但是，确实需要计算前向。
-
-
-
-
-
-
-```
+```python
 model_conv = train_model(model_conv, criterion, optimizer_conv,
                          exp_lr_scheduler, num_epochs=25)
 
 ```
-
-
-
-
-
 
 ```
 Epoch 0/24
@@ -786,11 +592,6 @@ Best val Acc: 0.954248
 
 ```
 
-
-
-
-
-
 ```
 visualize_model(model_conv)
 
@@ -799,25 +600,13 @@ plt.show()
 
 ```
 
-
-
 ![预测：蜜蜂，预测：蚂蚁，预测：蜜蜂，预测：蜜蜂，预测：蚂蚁，预测：蚂蚁](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png)
-
 
 ## 自定义图像推断 [¶](#inference-on-custom-images "此标题的固定链接")
 
+ 使用经过训练的模型对自定义图像进行预测，并可视化预测的类标签和图像。
 
-
-
- 使用经过训练的模型对自定义图像进行预测，并可视化
-预测的类标签和图像。
-
-
-
-
-
-
-```
+```python
 def visualize_model_predictions(model,img_path):
     was_training = model.training
     model.eval()
@@ -840,12 +629,7 @@ def visualize_model_predictions(model,img_path):
 
 ```
 
-
-
-
-
-
-```
+```python
 visualize_model_predictions(
     model_conv,
     img_path='data/hymenoptera_data/val/bees/72100438_73de9f17af.jpg'
@@ -856,23 +640,11 @@ plt.show()
 
 ```
 
-
-
 ![预测：蜜蜂](https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_004.png)
-
 
 ## 进一步学习 [¶](#further-learning "永久链接到此标题")
 
+ 如果您想了解有关迁移学习应用的更多信息，请查看我们的 [计算机视觉量化迁移学习教程](https://pytorch.org/tutorials/intermediate/quantized_transfer_learning_tutorial.html) 。
 
-
-
- 如果您想了解有关迁移学习应用的更多信息，
-请查看我们的
- [计算机视觉量化迁移学习教程](https://pytorch.org/tutorials/intermediate/quantized_transfer_learning_tutorial.html) 
- 。 
-
-
-
-
-**脚本总运行时间:** 
+**脚本总运行时间:**
  (1 分 40.858 秒)
