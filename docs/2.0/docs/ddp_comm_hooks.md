@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/ddp_comm_hooks>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/ddp_comm_hooks>
 >
-> 原始地址：<https://pytorch.org/tutorials/ddp_comm_hooks.html>
+> 原始地址：<https://pytorch.org/docs/stable/ddp_comm_hooks.html>
 
 开始写原始页面的翻译内容
 

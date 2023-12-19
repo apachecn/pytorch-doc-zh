@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/notes/cpu_threading_torchscript_inference>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/notes/cpu_threading_torchscript_inference>
 >
-> 原始地址：<https://pytorch.org/tutorials/notes/cpu_threading_torchscript_inference.html>
+> 原始地址：<https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html>
 
 开始写原始页面的翻译内容
 

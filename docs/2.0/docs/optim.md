@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/optim>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/optim>
 >
-> 原始地址：<https://pytorch.org/tutorials/optim.html>
+> 原始地址：<https://pytorch.org/docs/stable/optim.html>
 
 开始写原始页面的翻译内容
 

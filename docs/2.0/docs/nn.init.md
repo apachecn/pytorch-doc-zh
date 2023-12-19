@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/nn.init>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/nn.init>
 >
-> 原始地址：<https://pytorch.org/tutorials/nn.init.html>
+> 原始地址：<https://pytorch.org/docs/stable/nn.init.html>
 
 开始写原始页面的翻译内容
 

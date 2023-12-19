@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/config_mod>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/config_mod>
 >
-> 原始地址：<https://pytorch.org/tutorials/config_mod.html>
+> 原始地址：<https://pytorch.org/docs/stable/config_mod.html>
 
 开始写原始页面的翻译内容
 

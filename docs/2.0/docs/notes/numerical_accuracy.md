@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/notes/numerical_accuracy>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/notes/numerical_accuracy>
 >
-> 原始地址：<https://pytorch.org/tutorials/notes/numerical_accuracy.html>
+> 原始地址：<https://pytorch.org/docs/stable/notes/numerical_accuracy.html>
 
 开始写原始页面的翻译内容
 

@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/notes/faq>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/notes/faq>
 >
-> 原始地址：<https://pytorch.org/tutorials/notes/faq.html>
+> 原始地址：<https://pytorch.org/docs/stable/notes/faq.html>
 
 开始写原始页面的翻译内容
 

@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/complex_numbers>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/complex_numbers>
 >
-> 原始地址：<https://pytorch.org/tutorials/complex_numbers.html>
+> 原始地址：<https://pytorch.org/docs/stable/complex_numbers.html>
 
 开始写原始页面的翻译内容
 

@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/notes/amp_examples>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/notes/amp_examples>
 >
-> 原始地址：<https://pytorch.org/tutorials/notes/amp_examples.html>
+> 原始地址：<https://pytorch.org/docs/stable/notes/amp_examples.html>
 
 开始写原始页面的翻译内容
 

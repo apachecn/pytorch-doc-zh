@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/notes/windows>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/notes/windows>
 >
-> 原始地址：<https://pytorch.org/tutorials/notes/windows.html>
+> 原始地址：<https://pytorch.org/docs/stable/notes/windows.html>
 
 开始写原始页面的翻译内容
 

@@ -11,9 +11,9 @@
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/torch.overrides>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/torch.overrides>
 >
-> 原始地址：<https://pytorch.org/tutorials/torch.overrides.html>
+> 原始地址：<https://pytorch.org/docs/stable/torch.overrides.html>
 
 开始写原始页面的翻译内容
 
