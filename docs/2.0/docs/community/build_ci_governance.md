@@ -1,53 +1,28 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# PyTorch 治理 | Build + CI [¶](#pytorch-governance-build-ci "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/community/build_ci_governance>
+> 项目地址：<https://pytorch.apachecn.org/2.0/docs/community/build_ci_governance>
 >
-> 原始地址：<https://pytorch.org/tutorials/community/build_ci_governance.html>
-
-开始写原始页面的翻译内容
+> 原始地址：<https://pytorch.org/docs/stable/community/build_ci_governance.html>
 
 
+## 如何添加新的维护者 [¶](#how-to-add-a-new-maintainer "永久链接到此标题")
 
-注意事项: 
 
-1. 代码参考:
+ 要成为维护者，一个人需要：
 
-```py
-import torch
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
 
-2. 公式参考:
+* 将至少六次提交提交到 PyTorch 存储库的相关部分
+* 必须在过去六个月内提交这些提交中的至少一项
 
-1) 无需换行的写法: 
 
-$\sqrt{w^T*w}$
+ 要将合格人员添加到维护者列表中，请创建一个 PR，将人员添加到 [感兴趣的人](https://pytorch.org/docs/main/community/persons_of_interest.html) 页面和 [merge_rules ](https://github.com/pytorch/pytorch/blob/main/.github/merge_rules.yaml) 文件。当前的维护者将投票支持。批准 PR 的决策标准：
 
-2) 需要换行的写法：
 
-$$
-\sqrt{w^T*w}
-$$
 
-3. 图片参考(用图片的实际地址就行):
-
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
-
-4. **翻译完后请删除上面所有模版内容就行**
+* 合并前不早于两个工作日(确保大多数贡献者已经看到)
+* PR 具有正确的标签(模块：ci )
+* 当前维护者没有反对
+* 至少有三个来自当前维护人员的净*赞数*（或者当模块的维护人员少于3个时，所有维护人员都投*赞成票*）。
