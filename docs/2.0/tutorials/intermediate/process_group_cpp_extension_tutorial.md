@@ -47,7 +47,7 @@
 
 * [PyTorch 分布式概述](../beginner/dist_overview.html)
 * [PyTorch 集体通信包](https://pytorch.org/docs/stable/distributed.html)
-* [PyTorch Cpp 扩展] (https://pytorch.org/docs/stable/cpp_extension.html)
+* [PyTorch Cpp 扩展](https://pytorch.org/docs/stable/cpp_extension.html)
 * [使用 PyTorch 编写分布式应用程序](https://pytorch.org/tutorials/intermediate/dist_tuto.html)
 
 

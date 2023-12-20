@@ -8,7 +8,7 @@
 
 **作者**：
     -[Adam Paszke](https://github.com/apaszke)
-    -[Mark Towers] (https://github.com/pseudo-rnd-thoughts)
+    -[Mark Towers](https://github.com/pseudo-rnd-thoughts)
 
 
 

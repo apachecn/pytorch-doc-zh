@@ -835,7 +835,7 @@ cpu_launcher_args=--node_id 0
 * 英特尔提供的更高效的内存分配器、运算符融合、内存布局格式优化® PyTorch 扩展 * 改善内存限制。
 * 关键深度学习原语，如卷积、矩阵乘法、点积等已由 Intel® Extension for PyTorch* 进行了很好的优化和 oneDNN 库，改进了 Core Bound。
 * Intel® Extension for PyTorch* 已通过易于使用的 API 集成到 TorchServe 中。
-* TorchServe 具有 Intel® Extension for PyTorch\ \* 显示 ResNet50 的吞吐量加速为 7.71 倍，BERT 的吞吐量加速为 2.20 倍。
+* TorchServe 具有 Intel® Extension for PyTorch * 显示 ResNet50 的吞吐量加速为 7.71 倍，BERT 的吞吐量加速为 2.20 倍。
 
 
 
