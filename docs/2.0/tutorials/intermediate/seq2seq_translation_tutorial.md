@@ -113,16 +113,11 @@
 * [使用 RNN 编码器-解码器进行统计机器翻译学习短语表示](https://arxiv.org/abs/1406.1078)
 * [使用神经网络进行序列到序列学习](https://arxiv.org /abs/1409.3215)
 * [通过联合学习对齐和翻译的神经机器翻译](https://arxiv.org/abs/1409.0473)
-* [神经会话模型](https://arxiv.组织/abs/1506.05869）
+* [神经会话模型](https://arxiv.org/abs/1506.05869)
 
 
 
- 您还可以找到之前的教程：
- [NLP From Scratch：使用字符级 RNN 分类名称](char_rnn_classification_tutorial.html)
- 和
- [NLP From Scratch：使用字符级 RNN 生成名称] (char_rnn_ Generation_tutorial.html)
- 很有帮助，因为这些概念分别与编码器和解码器
-模型非常相似。
+ 您还可以找到之前的教程： [NLP From Scratch：使用字符级 RNN 分类名称](char_rnn_classification_tutorial.html)和 [NLP From Scratch：使用字符级 RNN 生成名称](char_rnn_Generation_tutorial.html)很有帮助，因为这些概念分别与编码器和解码器模型非常相似。
 
 
 

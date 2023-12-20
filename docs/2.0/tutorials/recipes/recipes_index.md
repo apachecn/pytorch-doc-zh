@@ -233,11 +233,11 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 [了解如何利用英特尔® 高级矩阵扩展](https://pytorch.org/tutorials/recipes/amx.html)
 
-### 适用于 PyTorch\* 的英特尔® 扩展
+### 适用于 PyTorch 的英特尔® 扩展
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/profiler.png" width=20% />
 
-[推出适用于 PyTorch\* 的英特尔® 扩展](https://pytorch.org/tutorials/recipes/intel_extension_for_pytorch.html)
+[推出适用于 PyTorch* 的英特尔® 扩展](https://pytorch.org/tutorials/recipes/intel_extension_for_pytorch.html)
 
 ### 适用于 PyTorch 的英特尔® 神经压缩器
 

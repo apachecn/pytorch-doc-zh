@@ -369,12 +369,9 @@ int height = bitmap.getHeight();
 
 
 
- 警告
+!!! warning "警告"
 
-
-
-
- 由于某些 Android 模拟器’s 浮点实现问题，在 Android 模拟器上运行时，您可能会看到具有相同图像输入的不同模型输出。因此最好在真实的 Android 设备上测试该应用。
+    由于某些 Android 模拟器’s 浮点实现问题，在 Android 模拟器上运行时，您可能会看到具有相同图像输入的不同模型输出。因此最好在真实的 Android 设备上测试该应用。
 
 
 
