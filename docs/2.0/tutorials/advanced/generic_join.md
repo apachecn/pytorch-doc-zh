@@ -313,19 +313,15 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
- 警告
+!!! warning "警告"
 
-
-
-
- 传递到上下文管理器的关键字参数在所有参与的类之间共享。这不应该是一个限制，因为我们不希望出现多个“Joinable”需要同一参数的不同设置的情况。尽管如此，这一点值得牢记。
+    传递到上下文管理器的关键字参数在所有参与的类之间共享。这不应该是一个限制，因为我们不希望出现多个“Joinable”需要同一参数的不同设置的情况。尽管如此，这一点值得牢记。
 
 
 
 
 
-## `Join`
- 如何工作？ [¶](#how-does-join-work "永久链接到此标题")
+## `Join` 如何工作？ [¶](#how-does-join-work "永久链接到此标题")
 
 
 
@@ -637,12 +633,9 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
- 警告
+!!! warning "警告"
 
-
-
-
- 正如上面提到的
+    正如上面提到的
  `throw_on_early_termination`
  ，
  `Join` 上下文管理器与

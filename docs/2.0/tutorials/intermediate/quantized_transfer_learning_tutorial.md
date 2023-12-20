@@ -562,12 +562,9 @@ def create_combined_model(model_fe):
 
 
 
- 警告
+!!! warning "警告"
 
-
-
-
- 目前量化模型只能在 CPU 上运行。
+    目前量化模型只能在 CPU 上运行。
 但是，可以将模型的非量化部分发送到 GPU。
 
 
