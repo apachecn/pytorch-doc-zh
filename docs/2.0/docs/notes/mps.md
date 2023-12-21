@@ -1,13 +1,4 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# MPS 后端 [¶](#mps-backend "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +6,42 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/notes/mps.html>
 
-开始写原始页面的翻译内容
+
+“mps”设备支持使用 Metal 编程框架在 MacOS 设备上进行 GPU 高性能训练。它引入了一种新设备，可将机器学习计算图和基元分别映射到高效的 Metal Performance Shaders Graph 框架和 Metal Performance Shaders 框架提供的调整内核上。
 
 
+ 新的 MPS 后端扩展了 PyTorch 生态系统，并提供现有脚本功能来在 GPU 上设置和运行操作。
 
-注意事项: 
 
-1. 代码参考:
+ 首先，只需将张量和模块移动到“mps”设备：
 
-```py
-import torch
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
 ```
+# Check that MPS is available
+if not torch.backends.mps.is_available():
+    if not torch.backends.mps.is_built():
+        print("MPS not available because the current PyTorch install was not "
+              "built with MPS enabled.")
+    else:
+        print("MPS not available because the current MacOS version is not 12.3+ "
+              "and/or you do not have an MPS-enabled device on this machine.")
 
-2. 公式参考:
+else:
+    mps_device = torch.device("mps")
 
-1) 无需换行的写法: 
+    # Create a Tensor directly on the mps device
+    x = torch.ones(5, device=mps_device)
+    # Or
+    x = torch.ones(5, device="mps")
 
-$\sqrt{w^T*w}$
+    # Any operation happens on the GPU
+    y = x * 2
 
-2) 需要换行的写法：
+    # Move your model to mps just like any other device
+    model = YourFavoriteNet()
+    model.to(mps_device)
 
-$$
-\sqrt{w^T*w}
-$$
+    # Now every call runs on the GPU
+    pred = model(x)
 
-3. 图片参考(用图片的实际地址就行):
-
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
-
-4. **翻译完后请删除上面所有模版内容就行**
+```

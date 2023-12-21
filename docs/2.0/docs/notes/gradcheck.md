@@ -4,10 +4,11 @@
 * 翻译奖励: https://github.com/orgs/apachecn/discussions/243
 * 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
 
-请参考这个模版来写内容:
+
+"公式 - 改得头大，暂时放弃。。"
 
 
-# PyTorch 某某页面
+# Gradcheck 机制 [¶](#gradcheck-mechanics "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +16,29 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/notes/gradcheck.html>
 
-开始写原始页面的翻译内容
+
+ 本说明概述了 [`gradcheck()`](../generated/torch.autograd.gradcheck.html#torch.autograd.gradcheck "torch.autograd.gradcheck") 和 [`gradgradcheck()`](../generated/torch.autograd.gradgradcheck.html#torch.autograd.gradgradcheck "torch.autograd.gradgradcheck") 函数有效。
+
+
+ 它将涵盖实数和复数值函数以及高阶导数的前向和后向模式 AD。本注释还涵盖 gradcheck 的默认行为以及“fast_mode=True”参数为的情况通过(以下简称快速毕业检查)。
 
 
 
-注意事项: 
+* [符号和背景信息](#notations-and-background-information)
+* [默认向后模式梯度检查行为](#default-backward-mode-gradcheck-behavior)
+	+ [实数到实数函数](#real-to-real-functions) 
+	+ [复数到实数函数](#complex-to-real-functions) 
+	+ [具有复数输出的函数](#functions-with-complex-outputs)
+* [快速向后模式梯度检查](#fast-backward-mode-gradcheck)
+	+ [实数到实数函数的快速梯度检查](#fast-gradcheck-for-real-to-real-functions) 
+	+ [复数到实数函数的快速梯度检查](#fast-gradcheck-for-complex-to-real-functions) 
+	+ [具有复杂输出的函数的快速 gradcheck](#fast-gradcheck-for-functions-with-complex-outputs)
+* [Gradgradcheck 实现](#gradgradcheck-implementation)
 
-1. 代码参考:
 
-```py
-import torch
+## [符号和背景信息](#id2) [¶](#notations-and-background-information "此标题的固定链接")
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
 
-2. 公式参考:
+ 在本说明中，我们将使用以下约定：
 
-1) 无需换行的写法: 
-
-$\sqrt{w^T*w}$
-
-2) 需要换行的写法：
-
-$$
-\sqrt{w^T*w}
-$$
-
-3. 图片参考(用图片的实际地址就行):
-
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
-
-4. **翻译完后请删除上面所有模版内容就行**
+。。。
