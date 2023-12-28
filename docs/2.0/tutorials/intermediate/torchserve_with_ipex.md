@@ -70,7 +70,7 @@
 
 
 
-*GEMM（通用矩阵乘法）* 
+*GEMM(通用矩阵乘法)* 
  在融合乘加 (FMA) 或点积 (DP) 执行单元上运行，这将成为瓶颈并导致线程等待延迟/
  *同步旋转* \ n 启用
  *超线程* 
@@ -186,7 +186,7 @@
 
 
 
- 我们’ 将使用以下输入 ResNet50 虚拟张量的示例：
+ 我们’ 将使用以下输入 ResNet50 虚拟tensor的示例：
 
 
 
@@ -275,7 +275,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
- 通过不使用逻辑线程（而是每个物理核心使用 1 个线程），我们可以避免逻辑线程争用相同的核心资源。 “热门热点”部分还表明
+ 通过不使用逻辑线程(而是每个物理核心使用 1 个线程)，我们可以避免逻辑线程争用相同的核心资源。 “热门热点”部分还表明
  `__kmp_fork_barrier`
  时间从 4.589 秒相对改进到 3.530 秒。
 
@@ -301,7 +301,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
- 图 1 显示了典型的双插槽配置。请注意，每个套接字都有自己的本地内存。插槽通过英特尔超级路径互连 (UPI) 相互连接，允许每个插槽访问另一个插槽的本地内存（称为远程内存）。本地内存访问始终比远程内存访问快。
+ 图 1 显示了典型的双插槽配置。请注意，每个套接字都有自己的本地内存。插槽通过英特尔超级路径互连 (UPI) 相互连接，允许每个插槽访问另一个插槽的本地内存(称为远程内存)。本地内存访问始终比远程内存访问快。
 
 
 
@@ -318,7 +318,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
  `lscpu`
  命令来获取其 CPU 信息。图 2.1。显示了在具有两个 Intel(R) Xeon(R) Platinum 8180M CPU 的计算机上执行
  `lscpu`
- 的示例。请注意，每个插槽有 28 个核心，每个核心有 2 个线程（即启用了超线程）。换句话说，除了 28 个物理核心之外，还有 28 个逻辑核心，每个插槽总共有 56 个核心。并且有 2 个插槽，总共 112 个核心 (
+ 的示例。请注意，每个插槽有 28 个核心，每个核心有 2 个线程(即启用了超线程)。换句话说，除了 28 个物理核心之外，还有 28 个逻辑核心，每个插槽总共有 56 个核心。并且有 2 个插槽，总共 112 个核心 (
  `Thread(s)
  
 
@@ -349,7 +349,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
- 2 个套接字分别映射到 2 个 NUMA 节点（NUMA 节点 0、NUMA 节点 1）。物理核心的索引优先于逻辑核心。如图 2.2 所示，第一个插槽上的前 28 个物理核心 (0-27) 和前 28 个逻辑核心 (56-83) 位于 NUMA 节点 0 上。而第二个 28 个物理核心 (28-55) 和第二个插槽上的第二个 28 个逻辑核心 (84-111) 位于 NUMA 节点 1 上。同一插槽上的核心共享本地内存和末级缓存 (LLC)，这比通过 Intel UPI 的跨插槽通信快得多。
+ 2 个套接字分别映射到 2 个 NUMA 节点(NUMA 节点 0、NUMA 节点 1)。物理核心的索引优先于逻辑核心。如图 2.2 所示，第一个插槽上的前 28 个物理核心 (0-27) 和前 28 个逻辑核心 (56-83) 位于 NUMA 节点 0 上。而第二个 28 个物理核心 (28-55) 和第二个插槽上的第二个 28 个逻辑核心 (84-111) 位于 NUMA 节点 1 上。同一插槽上的核心共享本地内存和末级缓存 (LLC)，这比通过 Intel UPI 的跨插槽通信快得多。
 
 
 
@@ -377,12 +377,12 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 [![https://pytorch.org/tutorials/_images/9.gif](https://pytorch.org/tutorials/_images/9.gif)](https://pytorch.org/tutorials/_images/9.gif)
 
 
- 图 3. 非 NUMA 感知应用程序的 CPU 使用情况。启动了 1 个主工作线程，然后在所有核心（包括逻辑核心）上启动了物理核心数量 (56) 的线程。
+ 图 3. 非 NUMA 感知应用程序的 CPU 使用情况。启动了 1 个主工作线程，然后在所有核心(包括逻辑核心)上启动了物理核心数量 (56) 的线程。
 
 
 
 
- （旁白：如果线程数未通过 [torch.set_num_threads](https://pytorch.org/docs/stable/generated/torch.set_num_threads.html) 设置
+ (旁白：如果线程数未通过 [torch.set_num_threads](https://pytorch.org/docs/stable/generated/torch.set_num_threads.html) 设置
  ，默认的线程数是启用超线程的系统中的物理核心数。这可以通过
  [torch.get_num_threads](https://pytorch.org/docs/stable/generated /torch.get_num_threads.html) 
  。因此我们在上面看到大约一半的核心忙于运行示例脚本。)
@@ -452,7 +452,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
- 运行多工作线程推理时，工作线程之间的核心重叠（或共享），导致 CPU 使用效率低下。为了解决此问题，启动脚本将可用核心数除以工作线程数，以便每个工作线程在运行时都固定到分配的核心。
+ 运行多工作线程推理时，工作线程之间的核心重叠(或共享)，导致 CPU 使用效率低下。为了解决此问题，启动脚本将可用核心数除以工作线程数，以便每个工作线程在运行时都固定到分配的核心。
 
 
 
@@ -469,7 +469,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
- 我们’将使用ResNet50，有4个worker，并发100，请求10,000。所有其他参数（例如，batch_size、输入等）与
+ 我们’将使用ResNet50，有4个worker，并发100，请求10,000。所有其他参数(例如，batch_size、输入等)与
  [默认参数](https://github.com/pytorch/serve/blob/master/benchmarks/benchmark-ab.py #L18) 
 .
 
@@ -480,7 +480,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
-1. 默认 TorchServe 设置（无核心固定）
+1. 默认 TorchServe 设置(无核心固定)
 2. [torch.set_num_threads](https://pytorch.org/docs/stable/generated/torch.set_num_threads.html) 
  =
  `数量
@@ -505,8 +505,8 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
  
 
  工作人员`
-（无核心固定）
-3.通过启动脚本固定核心（所需 Torchserve>=0.6.1）
+(无核心固定)
+3.通过启动脚本固定核心(所需 Torchserve>=0.6.1)
 
 
 
@@ -516,7 +516,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 
 
 
-## 1. 默认 TorchServe 设置（无核心固定） [¶](#default-torchserve-setting-no-core-pinning "永久链接到此标题")
+## 1. 默认 TorchServe 设置(无核心固定) [¶](#default-torchserve-setting-no-core-pinning "永久链接到此标题")
 
 
 
@@ -525,7 +525,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
  没有’t 显式设置
  [ torch.set_num_threads](https://pytorch.org/docs/stable/generated/torch.set_num_threads.html) 
  。因此，默认线程数是物理 CPU 核心数，如[此处](https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html#runtime-api)所述。用户可以通过base_handler中的
- [torch.get_num_threads](https://pytorch.org/docs/stable/generated/torch.get_num_threads.html)检查线程数。 4个主工作线程分别启动物理核心数（56）个线程，总共启动56x4 = 224个线程，超过核心总数112。因此保证核心与高逻辑核心重度重叠利用率 - 多个工作人员同时使用多个核心。此外，由于线程不关联到特定的 CPU 核心，操作系统会定期将线程调度到位于不同套接字的核心。
+ [torch.get_num_threads](https://pytorch.org/docs/stable/generated/torch.get_num_threads.html)检查线程数。 4个主工作线程分别启动物理核心数(56)个线程，总共启动56x4 = 224个线程，超过核心总数112。因此保证核心与高逻辑核心重度重叠利用率 - 多个工作人员同时使用多个核心。此外，由于线程不关联到特定的 CPU 核心，操作系统会定期将线程调度到位于不同套接字的核心。
 
 
 
@@ -536,7 +536,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 [![https://pytorch.org/tutorials/_images/13.png](https://pytorch.org/tutorials/_images/13.png)](https://pytorch.org/tutorials/_images/13.png)
 
 
- 启动了 4 个主工作线程，然后每个线程在所有核心（包括逻辑核心）上启动了物理核心数量 (56) 的线程。
+ 启动了 4 个主工作线程，然后每个线程在所有核心(包括逻辑核心)上启动了物理核心数量 (56) 的线程。
 
 
 
@@ -576,7 +576,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 [![https://pytorch.org/tutorials/_images/17.png](https://pytorch.org/tutorials/_images/17.png)](https://pytorch.org/tutorials/_images/17.png)
 
 
- 一般来说，线程总数应小于或等于核心支持的线程总数。在上面的示例中，我们注意到在 core_51 上执行大量线程，而不是预期的 2 个线程（因为 Intel(R) Xeon(R) Platinum 8180 CPU 中启用了超线程）。这表明线程迁移。
+ 一般来说，线程总数应小于或等于核心支持的线程总数。在上面的示例中，我们注意到在 core_51 上执行大量线程，而不是预期的 2 个线程(因为 Intel(R) Xeon(R) Platinum 8180 CPU 中启用了超线程)。这表明线程迁移。
 
 
 
@@ -584,7 +584,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 [![https://pytorch.org/tutorials/_images/18.png](https://pytorch.org/tutorials/_images/18.png)](https://pytorch.org/tutorials/_images/18.png)
 
 
- 此外，请注意线程 (TID:97097) 正在大量 CPU 核心上执行，这表明发生了 CPU 迁移。例如，该线程在 cpu_81 上执行，然后迁移到 cpu_14，然后迁移到 cpu_5，依此类推。此外，请注意，该线程多次来回跨套接字迁移，导致内存访问效率非常低。例如，此线程在 cpu_70（NUMA 节点 0）上执行，然后迁移到 cpu_100（NUMA 节点 1），然后迁移到 cpu_24（NUMA 节点 0）。
+ 此外，请注意线程 (TID:97097) 正在大量 CPU 核心上执行，这表明发生了 CPU 迁移。例如，该线程在 cpu_81 上执行，然后迁移到 cpu_14，然后迁移到 cpu_5，依此类推。此外，请注意，该线程多次来回跨套接字迁移，导致内存访问效率非常低。例如，此线程在 cpu_70(NUMA 节点 0)上执行，然后迁移到 cpu_100(NUMA 节点 1)，然后迁移到 cpu_24(NUMA 节点 0)。
 
 
 
@@ -595,7 +595,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 [![https://pytorch.org/tutorials/_images/19.png](https://pytorch.org/tutorials/_images/19.png)](https://pytorch.org/tutorials/_images/19.png)
 
 
- 比较本地与远程内存访问随时间的变化。我们观察到大约一半（51.09%）的内存访问是远程访问，这表明 NUMA 配置不是最优的。
+ 比较本地与远程内存访问随时间的变化。我们观察到大约一半(51.09%)的内存访问是远程访问，这表明 NUMA 配置不是最优的。
 
 
 
@@ -621,12 +621,12 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
  
 
  个工作线程的数量`
-（无核心固定） [¶](#torch-set-num-threads-number-of-physical-cores-number -of-workers-no-core-pinning"此标题的永久链接")
+(无核心固定) [¶](#torch-set-num-threads-number-of-physical-cores-number -of-workers-no-core-pinning"此标题的永久链接")
 
 
 
 
- 为了与启动器’s 核心固定进行苹果之间的比较，我们’ 将线程数设置为核心数除以工作线程数（启动器在内部执行此操作） 。在
+ 为了与启动器’s 核心固定进行苹果之间的比较，我们’ 将线程数设置为核心数除以工作线程数(启动器在内部执行此操作) 。在
  [base_handler](https://github.com/pytorch/serve/blob/master/ts/torch_handler/base_handler.py)中添加以下代码片段
  :
 
@@ -654,7 +654,7 @@ torch.set_num_threads(num_physical_cores/num_workers)
 [![https://pytorch.org/tutorials/_images/20.gif](https://pytorch.org/tutorials/_images/20.gif)](https://pytorch.org/tutorials/_images/20.gif)
 
 
- 启动了 4 个主工作线程，然后每个线程在所有核心（包括逻辑核心）上启动
+ 启动了 4 个主工作线程，然后每个线程在所有核心(包括逻辑核心)上启动
  `num_physical_cores/num_workers`
  个 (14) 个线程。
 
@@ -684,7 +684,7 @@ torch.set_num_threads(num_physical_cores/num_workers)
 [![https://pytorch.org/tutorials/_images/24.png](https://pytorch.org/tutorials/_images/24.png)](https://pytorch.org/tutorials/_images/24.png)
 
 
- 与之前类似，没有核心固定线程（TID：94290）在大量CPU核心上执行，表明CPU迁移。我们再次注意到跨套接字线程迁移，导致内存访问效率非常低。例如，此线程在 cpu_78（NUMA 节点 0）上执行，然后迁移到 cpu_108（NUMA 节点 1）。
+ 与之前类似，没有核心固定线程(TID：94290)在大量CPU核心上执行，表明CPU迁移。我们再次注意到跨套接字线程迁移，导致内存访问效率非常低。例如，此线程在 cpu_78(NUMA 节点 0)上执行，然后迁移到 cpu_108(NUMA 节点 1)。
 
 
 
@@ -706,7 +706,7 @@ torch.set_num_threads(num_physical_cores/num_workers)
 
 
 
- Launcher内部会将物理核心平均分配给worker，并绑定到每个worker上。提醒一下，默认情况下启动器仅使用物理核心。在此示例中，启动器将工作线程 0 绑定到核心 0-13（NUMA 节点 0），将工作线程 1 绑定到核心 14-27（NUMA 节点 0），将工作线程 2 绑定到核心 28-41（NUMA 节点 1），将工作线程 3 绑定到核心 28-41（NUMA 节点 1）。核心 42-55（NUMA 节点 1）。这样做可以确保工作线程之间的核心不会重叠，并避免逻辑核心使用。
+ Launcher内部会将物理核心平均分配给worker，并绑定到每个worker上。提醒一下，默认情况下启动器仅使用物理核心。在此示例中，启动器将工作线程 0 绑定到核心 0-13(NUMA 节点 0)，将工作线程 1 绑定到核心 14-27(NUMA 节点 0)，将工作线程 2 绑定到核心 28-41(NUMA 节点 1)，将工作线程 3 绑定到核心 28-41(NUMA 节点 1)。核心 42-55(NUMA 节点 1)。这样做可以确保工作线程之间的核心不会重叠，并避免逻辑核心使用。
 
 
 
@@ -767,7 +767,7 @@ torch.set_num_threads(num_physical_cores/num_workers)
 [![https://pytorch.org/tutorials/_images/31.png](https://pytorch.org/tutorials/_images/31.png)](https://pytorch.org/tutorials/_images/31.png)
 
 
- 现在几乎所有（89.52%）内存访问都是本地访问。
+ 现在几乎所有(89.52%)内存访问都是本地访问。
 
 
 
@@ -813,7 +813,7 @@ torch.set_num_threads(num_physical_cores/num_workers)
 * 【自顶向下微架构分析方法】(https://www.intel.com/content/www/us/en /develop/documentation/vtune-cookbook/top/methodologies/top-down-microarchitecture-analysis-method.html)
 * [配置 oneDNN 进行基准测试](https://oneapi-src.github.io/oneDNN/dev_guide_performance_settings.html#benchmarking-settings)
 * [Intel® VTune™ Profiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html#gs.tcbgpa)
-* [Intel® VTune™ Profiler 用户指南](https://www.intel.com/content/www/us/en/develop /documentation/vtune-help/top.html）
+* [Intel® VTune™ Profiler 用户指南](https://www.intel.com/content/www/us/en/develop /documentation/vtune-help/top.html)
 
 
 
@@ -830,7 +830,7 @@ torch.set_num_threads(num_physical_cores/num_workers)
 
 
 
- 我们要感谢 Ashok Emani（英特尔）和 Jiong Kong（英特尔）在本博客的许多步骤中给予的大力指导和支持以及全面的反馈和审查。我们还要感谢 Hamid Shojanazeri (Meta)、李宁 (AWS) 和 Jing Xu (Intel) 在代码审查方面提供的有用反馈。 Suraj Subramanian (Meta) 和 Geeta Chauhan (Meta) 在博客上提供了有用的反馈。
+ 我们要感谢 Ashok Emani(英特尔)和 Jiong Kong(英特尔)在本博客的许多步骤中给予的大力指导和支持以及全面的反馈和审查。我们还要感谢 Hamid Shojanazeri (Meta)、李宁 (AWS) 和 Jing Xu (Intel) 在代码审查方面提供的有用反馈。 Suraj Subramanian (Meta) 和 Geeta Chauhan (Meta) 在博客上提供了有用的反馈。
 
 
 

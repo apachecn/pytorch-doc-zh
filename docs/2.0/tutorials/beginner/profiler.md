@@ -32,7 +32,7 @@ import torch.autograd.profiler as profiler
  探查器可用于识别模型中的性能瓶颈。在此示例中，我们构建一个执行两个子任务的自定义模块：
 
 * 对输入进行线性变换，并且
-* 使用变换结果来获取掩码张量的索引。
+* 使用变换结果来获取掩码tensor的索引。
 
  我们使用 `profiler.record_function("label")` 将每个子任务的代码包装在单独的标记上下文管理器中。。在探查器输出中，子任务中所有操作的聚合性能指标将显示在其相应的标签下。
 
@@ -59,7 +59,7 @@ class MyModule(nn.Module):
 
 ## 分析正向传递 [¶](#profile-the-forward-pass "永久链接到此标题")
 
- 我们初始化随机输入和掩码张量以及模型。
+ 我们初始化随机输入和掩码tensor以及模型。
 
  在运行探查器之前，我们会预热 CUDA 以确保准确的性能基准测试。我们将模块的前向传递包装在`profiler.profile`上下文管理器中。 `with_stack=True`参数附加跟踪中操作的文件和行号。
 
@@ -82,9 +82,9 @@ with profiler.profile(with_stack=True, profile_memory=True) as prof:
 
 ## 打印探查器结果 [¶](#print-profiler-results "永久链接到此标题")
 
- 最后，我们打印探查器结果。`profiler.key_averages`按运算符名称聚合结果，也可以选择按输入形状和/或堆栈跟踪事件聚合结果。按输入形状分组对于确定模型使用哪些张量形状。
+ 最后，我们打印探查器结果。`profiler.key_averages`按运算符名称聚合结果，也可以选择按输入形状和/或堆栈跟踪事件聚合结果。按输入形状分组对于确定模型使用哪些tensor形状。
 
- 在这里，我们使用`group_by_stack_n=5`它通过操作及其回溯（截断为最近的 5 个事件）聚合运行时，并在他们注册的顺序。该表还可以通过传递 `sort_by`参数进行排序（请参阅 [文档](https://pytorch.org/docs/stable/autograd.html#profiler) n 表示有效的排序键）。
+ 在这里，我们使用`group_by_stack_n=5`它通过操作及其回溯(截断为最近的 5 个事件)聚合运行时，并在他们注册的顺序。该表还可以通过传递 `sort_by`参数进行排序(请参阅 [文档](https://pytorch.org/docs/stable/autograd.html#profiler) n 表示有效的排序键)。
 
  注意
 
@@ -203,7 +203,7 @@ Self CPU time total: 5.347s
  虽然消耗的时间也减少了一点，但 ’s 仍然太高。事实证明，将矩阵从 CUDA 复制到 CPU 的成本相当昂贵！
 
  `aten::copy_` `forward(12)`中的运算符将`mask`复制到 CPU，以便它可以使用 NumPy`argwhere`
- 函数。` aten::copy_` at `forward(13)` 将数组作为张量复制回 CUDA。如果我们在这里使用 `torch`函数 `nonzero()` 来代替，我们就可以消除这两个问题。
+ 函数。` aten::copy_` at `forward(13)` 将数组作为tensor复制回 CUDA。如果我们在这里使用 `torch`函数 `nonzero()` 来代替，我们就可以消除这两个问题。
 
 ```python
 class MyModule(nn.Module):

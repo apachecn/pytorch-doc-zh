@@ -42,9 +42,9 @@ SELECTED_OP_LIST=MobileNetV2.yaml BUILD_PYTORCH_MOBILE=1 IOS_ARCH=arm64 scripts/
 
 ```
 
-### 分布式模型并行训练（实验性）
+### 分布式模型并行训练(实验性)
 
-随着模型的规模（例如RoBERTa）不断增加到数十亿个参数，模型并行训练对于帮助研究人员突破极限变得越来越重要。此版本提供了分布式RPC框架，以支持分布式模型并行训练。它允许远程运行功能和引用远程对象，而无需复制实际数据，并提供autograd和Optimizer API以透明地向后运行并跨RPC边界更新参数。
+随着模型的规模(例如RoBERTa)不断增加到数十亿个参数，模型并行训练对于帮助研究人员突破极限变得越来越重要。此版本提供了分布式RPC框架，以支持分布式模型并行训练。它允许远程运行功能和引用远程对象，而无需复制实际数据，并提供autograd和Optimizer API以透明地向后运行并跨RPC边界更新参数。
 
 要了解有关API和此功能设计的更多信息，请参见以下链接：
 
@@ -59,7 +59,7 @@ SELECTED_OP_LIST=MobileNetV2.yaml BUILD_PYTORCH_MOBILE=1 IOS_ARCH=arm64 scripts/
 
 与往常一样，您可以与社区成员联系并在[论坛](https://discuss.pytorch.org/c/distributed/distributed-rpc)上进行更多[讨论](https://discuss.pytorch.org/c/distributed/distributed-rpc)。
 
-### Java绑定（实验性）
+### Java绑定(实验性)
 
 除了支持Python和C ++，此版本还增加了对Java绑定的实验性支持。基于PyTorch Mobile中为Android开发的界面，新的绑定使您可以从任何Java程序调用TorchScript模型。请注意，Java绑定仅可用于此版本的Linux，并且仅用于推断。我们希望在以后的版本中扩展支持。有关如何在Java中使用PyTorch的信息，请参见下面的代码片段：
 
@@ -84,7 +84,7 @@ System.out.println("data: " + Arrays.toString(output.getDataAsFloatArray()));
 
 ## 域库
 
-PyTorch域库（例如torchvision，torchtext和torchaudio）使用常见的数据集，模型和转换对PyTorch进行了补充。我们很高兴与PyTorch 1.4核心版本一起共享所有三个域库的新版本。
+PyTorch域库(例如torchvision，torchtext和torchaudio)使用常见的数据集，模型和转换对PyTorch进行了补充。我们很高兴与PyTorch 1.4核心版本一起共享所有三个域库的新版本。
 
 ### torchvision 0.5
 
@@ -102,7 +102,7 @@ torchaudio 0.4的改进集中在增强当前可用的转换，数据集和后端
 
 * SoX现在是可选的，并且新的可扩展后端分派机制公开了SoundFile作为SoX的替代方法。
 * 数据集的界面已统一。这样可以添加两个大型数据集：LibriSpeech和Common Voice。
-* 现在提供了新滤波器，例如双二阶滤波器，数据增强（例如时间和频率屏蔽），变换（例如MFCC），增益和抖动以及新特征计算（例如增量）。
+* 现在提供了新滤波器，例如双二阶滤波器，数据增强(例如时间和频率屏蔽)，变换(例如MFCC)，增益和抖动以及新特征计算(例如增量)。
 * 转换现在支持批处理并且是jitable。
 * 具有语音活动检测功能的交互式语音识别演示可用于实验。
 

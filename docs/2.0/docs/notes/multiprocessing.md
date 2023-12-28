@@ -29,7 +29,7 @@
     可以通过使用`multiprocessing.get_context(...)`创建上下文或直接使用`multiprocessing.set_start_method(...)`来设置启动方法。
 
 
- 与 CPU 张量不同，发送进程需要保留原始张量，而接收进程则保留张量的副本。它是在后台实现的，但要求用户遵循最佳实践才能使程序正确运行。例如，只要消费者进程引用张量，发送进程就必须保持活动状态，并且如果消费者进程通过致命信号异常退出，则重新计数无法拯救您。请参阅[本节](../multiprocessing.html#multiprocessing-cuda-sharing-details)。
+ 与 CPU tensor不同，发送进程需要保留原始tensor，而接收进程则保留tensor的副本。它是在后台实现的，但要求用户遵循最佳实践才能使程序正确运行。例如，只要消费者进程引用tensor，发送进程就必须保持活动状态，并且如果消费者进程通过致命信号异常退出，则重新计数无法拯救您。请参阅[本节](../multiprocessing.html#multiprocessing-cuda-sharing-details)。
 
 
  另请参阅：[使用 nn.parallel.DistributedDataParallel 而不是多处理或 nn.DataParallel](cuda.html#cuda-nn-ddp-instead)
@@ -60,7 +60,7 @@
  使用 [`torch.multiprocessing`](../multiprocessing.html#module-torch.multiprocessing "torch.multiprocessing") ，可以异步训练模型，参数可以一直共享，也可以定期同步。在第一种情况下，我们建议发送整个模型对象，而在后者中，我们建议仅发送 [`state_dict()`](../generated/torch.nn.Module.html#torch.nn.Module.state_dict "torch.nn.Module.state_dict").
 
 
- 我们建议使用 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.12)") 在进程之间传递各种 PyTorch 对象。这是可能的，例如当使用“fork”启动方法时，继承共享内存中已有的张量和存储，但是它很容易出现错误，应该小心使用，并且只能由高级用户使用。队列虽然有时是一个不太优雅的解决方案，但在所有情况下都能正常工作。
+ 我们建议使用 [`multiprocessing.Queue`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Queue "(in Python v3.12)") 在进程之间传递各种 PyTorch 对象。这是可能的，例如当使用“fork”启动方法时，继承共享内存中已有的tensor和存储，但是它很容易出现错误，应该小心使用，并且只能由高级用户使用。队列虽然有时是一个不太优雅的解决方案，但在所有情况下都能正常工作。
 
 
 !!! warning "警告"

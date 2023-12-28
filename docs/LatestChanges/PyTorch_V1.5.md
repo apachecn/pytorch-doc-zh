@@ -14,21 +14,21 @@
 
 您可以在此处找到详细的发布说明。
 
-## C++前端API（稳定）
+## C++前端API(稳定)
 
-C++前端API现在与Python处于同等地位，整体功能已移至“稳定”（以前标记为实验性）。一些主要亮点包括：
+C++前端API现在与Python处于同等地位，整体功能已移至“稳定”(以前标记为实验性)。一些主要亮点包括：
 
 * 现在，有了~100%的C++ torch::nn模块/功能的覆盖率和文档，用户可以轻松地将他们的模型从Python API转换为C++ API，使模型创作体验更加流畅。
 * C++中的优化器偏离了Python的等价物：C++优化器不能将参数组作为输入，而Python的优化器可以。此外，步进函数的实现并不完全相同。* 在1.5版本中，C++优化器的行为将始终与Python的等效相同。
-* C++中缺少张量多维索引API是一个众所周知的问题，并在PyTorch Github问题跟踪器和论坛上发布了许多帖子。之前的解决方法是使用narrow / select / index_select / masked_selec 的组合，与Python 简明的API tensor[:, 0, ..., mask] 语法相比，这是笨重且容易出错的。在1.5版本中，用户可以使用 tensor.index({Slice(), 0, "...", mask}) 来达到同样的目的。
+* C++中缺少tensor多维索引API是一个众所周知的问题，并在PyTorch Github问题跟踪器和论坛上发布了许多帖子。之前的解决方法是使用narrow / select / index_select / masked_selec 的组合，与Python 简明的API tensor[:, 0, ..., mask] 语法相比，这是笨重且容易出错的。在1.5版本中，用户可以使用 tensor.index({Slice(), 0, "...", mask}) 来达到同样的目的。
 
-## 计算机视觉模型的“通道最后”内存格式（实验）
+## 计算机视觉模型的“通道最后”内存格式(实验)
 
-“通道最后”内存布局解锁了使用高性能卷积算法和硬件（NVIDIA的Tensor Cores、FBGEMM、QNNPACK）的能力。此外，它被设计为通过运算符自动传播，这允许在内存布局之间轻松切换。
+“通道最后”内存布局解锁了使用高性能卷积算法和硬件(NVIDIA的Tensor Cores、FBGEMM、QNNPACK)的能力。此外，它被设计为通过运算符自动传播，这允许在内存布局之间轻松切换。
 
 在这里了解有关如何编写内存格式感知运算符的更多信息。
 
-## 自定义C++类（实验）
+## 自定义C++类(实验)
 
 此版本添加了一个新的API，torch::class_，用于将自定义C++类同时绑定到TorchScript和Python中。这个API在语法上几乎与pybind11相同。它允许用户将他们的C++类及其方法公开给TorchScript类型系统和运行时系统，这样他们就可以从TorchScript和Python实例化和操作任意C++对象。C++绑定示例：
 
@@ -71,7 +71,7 @@ def do_stacks(s : torch.classes.myclasses.MyStackClass):
 
 你可以[在这里](https://pytorch.org/tutorials/advanced/torch_script_custom_classes.html)的教程中尝试一下。
 
-## 分布式RPC框架API（现在稳定）
+## 分布式RPC框架API(现在稳定)
 
 分布式[RPC框架](https://pytorch.org/docs/stable/rpc.html)在1.4版本中作为实验性推出，建议将分布式RPC框架标记为稳定且不再是实验性的。这项工作涉及许多增强和错误修复，以使分布式RPC框架总体上更加可靠和强大，并添加了一些新功能，包括分析支持，在RPC中使用TorchScript函数，以及一些易于使用的增强功能。以下是框架内各种API的概述：
 
@@ -81,7 +81,7 @@ RPC API允许用户指定要运行的函数和在远程节点上实例化的对�
 
 ## 分布式Autograd
 
-Distributed Autograd将autograd图连接到多个节点，并允许梯度在向后传递期间流动。梯度被累积到上下文中（与Autograd的.grad字段相反），用户必须在dist_autograd.context()管理器下指定其模型的正向传递，以确保正确记录所有RPC通信。目前，只实现了FAST模式（请参阅[此处](https://pytorch.org/docs/stable/rpc/distributed_autograd.html#distributed-autograd-design)了解FAST和SMART模式之间的区别）。
+Distributed Autograd将autograd图连接到多个节点，并允许梯度在向后传递期间流动。梯度被累积到上下文中(与Autograd的.grad字段相反)，用户必须在dist_autograd.context()管理器下指定其模型的正向传递，以确保正确记录所有RPC通信。目前，只实现了FAST模式(请参阅[此处](https://pytorch.org/docs/stable/rpc/distributed_autograd.html#distributed-autograd-design)了解FAST和SMART模式之间的区别)。
 
 ## 分布式优化器
 
@@ -89,7 +89,7 @@ Distributed Autograd将autograd图连接到多个节点，并允许梯度在向�
 
 [在此处](https://pytorch.org/docs/stable/rpc.html)了解有关分布式RPC框架API的更多信息。
 
-## 新的高级AUTOGRAD API（实验）
+## 新的高级AUTOGRAD API(实验)
 
 PyTorch 1.5为torch.autograd.functional子模块带来了包括jacobian、hessian、jvp、vjp、hvp和vhp在内的新功能。此功能基于当前的API，并允许用户轻松执行这些功能。
 
@@ -97,7 +97,7 @@ PyTorch 1.5为torch.autograd.functional子模块带来了包括jacobian、hessia
 
 ## 不再支持PYTHON 2
 
-从PyTorch 1.5.0开始，我们将不再支持Python 2，特别是2.7版本。今后对Python的支持将仅限于Python 3，特别是Python 3.5、3.6、3.7和3.8（在PyTorch 1.4.0中首次启用）。
+从PyTorch 1.5.0开始，我们将不再支持Python 2，特别是2.7版本。今后对Python的支持将仅限于Python 3，特别是Python 3.5、3.6、3.7和3.8(在PyTorch 1.4.0中首次启用)。
 
 我们要感谢整个PyTorch团队和社区对这项工作的所有贡献。
 

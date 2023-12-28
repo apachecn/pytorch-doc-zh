@@ -45,7 +45,7 @@
  ,
  [RRef.rpc_async()](https://pytorch.org/docs/master/rpc.html #torch.distributed.rpc.RRef.rpc_async) 
  和
- [RRef.remote()](https://pytorch.org/docs/master/rpc.html#torch.distributed.rpc.RRef.remote ）
+ [RRef.remote()](https://pytorch.org/docs/master/rpc.html#torch.distributed.rpc.RRef.remote )
 
 
 
@@ -203,7 +203,7 @@ class ResNetBase(nn.Module):
  `RRef`
 ，在本地获取数据，然后将其移动到预期的设备。
 将所有层应用到输入后，它将输出移至 CPU 并返回。
-这是因为 RPC API 要求张量驻留在 CPU 上，以避免当调用方和被调用方的设备数量不匹配时
+这是因为 RPC API 要求tensor驻留在 CPU 上，以避免当调用方和被调用方的设备数量不匹配时
 出现无效设备错误。
 
 
@@ -296,7 +296,7 @@ class ResNetShard2(ResNetBase):
 。请注意，`remote()` 和 `rpc_async()` 都会立即返回并异步运行。因此，整个循环是非阻塞的，并且会同时启动多个 RPC。两个模型部分上的一个微批次的执行顺序由中间输出保留。
  `y_rref`
  。微批次的执行顺序
-并不重要。最后，前向函数将所有微批次的输出连接成一个输出张量并返回。 
+并不重要。最后，前向函数将所有微批次的输出连接成一个输出tensor并返回。 
  `parameter_rrefs`
  函数是简化分布式优化器构造的帮助器，稍后将使用它。
 
@@ -360,7 +360,7 @@ class DistResNet50(nn.Module):
  `DistResNet50` 模块的
  实例。它指定每个批次的
 微批次数量，并提供两个 RPC 工作线程的名称
-（即 \xe2\x80\x9cworker1\xe2\x80\x9d 和 \xe2\x80\x9cworker2\xe2 \x80\x9d）。然后，它定义损失函数并使用
+(即 \xe2\x80\x9cworker1\xe2\x80\x9d 和 \xe2\x80\x9cworker2\xe2 \x80\x9d)。然后，它定义损失函数并使用
  `parameter_rrefs()`
  帮助器创建
 

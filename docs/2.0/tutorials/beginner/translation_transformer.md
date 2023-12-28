@@ -14,7 +14,7 @@
 
 ## 数据来源和处理 [¶](#data-commerce-and-processing "固定链接到此标题")
 
-[torchtext 库](https://pytorch.org/text/stable/) 具有用于创建数据集的实用程序，可以轻松地通过这些数据集来创建语言翻译模型。在此示例中，我们展示了如何使用 torchtext’s 内置数据集、对原始文本句子进行标记、构建词汇表以及将标记数字化为张量。我们将使用 [torchtext 库中的 Multi30k 数据集](https://pytorch.org/text/stable/datasets.html#multi30k) 生成一对源-目标原始句子。
+[torchtext 库](https://pytorch.org/text/stable/) 具有用于创建数据集的实用程序，可以轻松地通过这些数据集来创建语言翻译模型。在此示例中，我们展示了如何使用 torchtext’s 内置数据集、对原始文本句子进行标记、构建词汇表以及将标记数字化为tensor。我们将使用 [torchtext 库中的 Multi30k 数据集](https://pytorch.org/text/stable/datasets.html#multi30k) 生成一对源-目标原始句子。
 
  要访问 torchtext 数据集，请按照以下位置的说明安装 torchdata <https://github.com/pytorch/data> 。
 
@@ -84,7 +84,7 @@ for ln in [SRC_LANGUAGE, TGT_LANGUAGE]:
 
 ## 使用 Transformer 的 Seq2Seq 网络 [¶](#seq2seq-network-using-transformer "永久链接到此标题")
 
- Transformer 是在 [“Attention is all you need”](https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) 用于解决机器翻译任务的论文。下面，我们将创建一个使用 Transformer 的 Seq2Seq 网络。该网络由三部分组成。第一部分是嵌入层。该层将输入索引的张量转换为输入嵌入的相应张量。这些嵌入通过位置编码进一步增强，以向模型提供输入标记的位置信息。第二部分是实际 [Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html)
+ Transformer 是在 [“Attention is all you need”](https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) 用于解决机器翻译任务的论文。下面，我们将创建一个使用 Transformer 的 Seq2Seq 网络。该网络由三部分组成。第一部分是嵌入层。该层将输入索引的tensor转换为输入嵌入的相应tensor。这些嵌入通过位置编码进一步增强，以向模型提供输入标记的位置信息。第二部分是实际 [Transformer](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html)
 模型。最后传递Transformer模型的输出通过线性层给出目标语言中每个标记的非标准化概率。
 
 ```python
@@ -227,7 +227,7 @@ optimizer = torch.optim.Adam(transformer.parameters(), lr=0.0001, betas=(0.9, 0.
 
 ## 排序规则 [¶](#collat​​ion "此标题的永久链接")
 
- 如 `数据源和处理` 部分所示，我们的数据迭代器生成一对原始字符串。我们需要将这些字符串对转换为可以由我们之前定义的 `Seq2Seq` 网络处理的批处理张量。下面我们定义了整理函数，该函数将一批原始字符串转换为批量张量，
+ 如 `数据源和处理` 部分所示，我们的数据迭代器生成一对原始字符串。我们需要将这些字符串对转换为可以由我们之前定义的 `Seq2Seq` 网络处理的批处理tensor。下面我们定义了整理函数，该函数将一批原始字符串转换为批量tensor，
 可以直接将其输入到我们的模型中。
 
 ```python

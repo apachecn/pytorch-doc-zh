@@ -145,8 +145,8 @@ HF T5 预训练模型有四种不同的尺寸，从具有 6000 万个参数的�
 
 
 
- 我们将安装 PyTorch nightlies，因为一些功能（如激活
-检查点）在 nightlies 中可用，并将在 1.12 之后的下一个 PyTorch
+ 我们将安装 PyTorch nightlies，因为一些功能(如激活
+检查点)在 nightlies 中可用，并将在 1.12 之后的下一个 PyTorch
 版本中添加。
 
 
@@ -659,14 +659,14 @@ auto_wrap_policy 是 FSDP 功能之一，可以轻松实现这一点自动对给
 
 
 
-对于某些架构（例如 Transformer 编码器-解码器），模型的某些部分（例如嵌入表）与编码器和解码器共享。在这种情况下，我们需要将嵌入表放置在外部 FSDP 单元中，以便可以从编码器和解码器访问。此外，通过注册变压器的层类，可以使分片计划的通信效率更高。在 PyTorch 1.12 中，FSDP 添加了此支持，现在我们
+对于某些架构(例如 Transformer 编码器-解码器)，模型的某些部分(例如嵌入表)与编码器和解码器共享。在这种情况下，我们需要将嵌入表放置在外部 FSDP 单元中，以便可以从编码器和解码器访问。此外，通过注册变压器的层类，可以使分片计划的通信效率更高。在 PyTorch 1.12 中，FSDP 添加了此支持，现在我们
 为转换器提供了包装策略。
 
 
 
 
  可以按如下方式创建，其中 T5Block 代表 T5 转换器
-层类（包含 MHSA 和 FFN）。
+层类(包含 MHSA 和 FFN)。
 
 
 
@@ -702,7 +702,7 @@ model = FSDP(model,
 
 
 
-FSDP 支持灵活的混合精度训练，允许任意降低精度类型（例如 fp16 或 bfloat16）。目前BFloat16仅适用于Ampere GPU，因此在使用之前需要确认本机支持。例如，在 V100 上，BFloat16 仍然可以运行，但由于它非本机运行，
+FSDP 支持灵活的混合精度训练，允许任意降低精度类型(例如 fp16 或 bfloat16)。目前BFloat16仅适用于Ampere GPU，因此在使用之前需要确认本机支持。例如，在 V100 上，BFloat16 仍然可以运行，但由于它非本机运行，
 可能会导致速度显着降低。
 
 
@@ -768,7 +768,7 @@ fp32_policy = MixedPrecision(
 
 
 
- 请注意，如果未指定某种类型（参数、reduce、buffer），则它们根本不会被强制转换。
+ 请注意，如果未指定某种类型(参数、reduce、buffer)，则它们根本不会被强制转换。
 
 
 
@@ -858,8 +858,8 @@ torch.cuda.set_device(local_rank)
 
 
  FSDP 分片策略默认设置为完全分片模型参数，
-梯度和优化器状态在所有等级上进行分片。 （也称为 Zero3
-s 分片）。如果您对 Zero2 分片策略感兴趣，
+梯度和优化器状态在所有等级上进行分片。 (也称为 Zero3
+s 分片)。如果您对 Zero2 分片策略感兴趣，
 仅对优化器状态和梯度进行分片，FSDP 通过使用 \xe2\x80\x9cShardingStrategy.SHARD_GRAD_OP\xe2 传递分片策略来支持此功能\x80\x9d，\而不是 \xe2\x80\x9cShardingStrategy.FULL_SHARD\xe2\x80\x9d 到 FSDP 初始化，如下所示：
 
 
@@ -964,7 +964,7 @@ torch.cuda.set_device(local_rank)
 
 
 
- 为了使用 FULL_STATE_DICT 保存（以与本地模型相同的方式保存模型）来保存模型检查点，PyTorch 1.12 提供了一些实用程序来支持
+ 为了使用 FULL_STATE_DICT 保存(以与本地模型相同的方式保存模型)来保存模型检查点，PyTorch 1.12 提供了一些实用程序来支持
 较大模型的保存。
 
 
@@ -977,7 +977,7 @@ torch.cuda.set_device(local_rank)
 
 
  使用此配置时，FSDP 将全部收集模型参数，将它们一一卸载到 CPU，仅在 Rank 0 上。当 state_dict 最终
-保存时，它将仅在Rank 0 上填充并包含 CPU张量。这可以避免
+保存时，它将仅在Rank 0 上填充并包含 CPUtensor。这可以避免
 大于单个 GPU 内存的模型可能出现 OOM，并允许用户
 检查大小大致等于
 用户’s 计算机上的可用 CPU RAM 的模型。

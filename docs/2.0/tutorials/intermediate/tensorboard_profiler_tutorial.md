@@ -196,7 +196,7 @@ def train(data):
 分析器将跳过第一步/迭代，
 开始第二步预热，
 记录以下三个迭代，
-之后跟踪将变得可用，并调用 on_trace_ready（设置时）。
+之后跟踪将变得可用，并调用 on_trace_ready(设置时)。
 总共，该循环重复一次。每个周期在 TensorBoard 插件中称为 “span”。
 
 
@@ -227,9 +227,9 @@ def train(data):
 * `record_shapes`
  - 是否记录运算符输入的形状。
 * `profile_memory`
- - 跟踪张量内存分配/释放。注意，对于 1.10 之前版本的旧版本 pytorch，如果您的分析时间过长，请禁用它或升级到新版本。
+ - 跟踪tensor内存分配/释放。注意，对于 1.10 之前版本的旧版本 pytorch，如果您的分析时间过长，请禁用它或升级到新版本。
 * `with_stack`
- - 记录源信息（文件和行号） 
+ - 记录源信息(文件和行号) 
 如果 TensorBoard 在 VS Code 中启动 (
  [参考](https://code.visualstudio.com/docs/datascience/pytorch-support#_tensorboard-integration) 
  )，
@@ -346,9 +346,9 @@ tensorboard --logdir=./log
 
 
 
- 在 Google Chrome 浏览器或 Microsoft Edge 浏览器中打开 TensorBoard 配置文件 URL（
+ 在 Google Chrome 浏览器或 Microsoft Edge 浏览器中打开 TensorBoard 配置文件 URL(
  **不支持 Safari** 
- ）。
+ )。
 
 
 
@@ -377,7 +377,7 @@ http://localhost:6006/#pytorch_profiler
 
 
 
- “GPU 摘要” 面板显示 GPU 配置、GPU 使用情况和张量核心使用情况。
+ “GPU 摘要” 面板显示 GPU 配置、GPU 使用情况和tensor核心使用情况。
 在此示例中，GPU 利用率较低。
 这些指标的详细信息为
  [此处](https://github.com/pytorch/kineto/blob/main/tb_plugin/docs/gpu_utilization.md) 
@@ -462,7 +462,7 @@ http://localhost:6006/#pytorch_profiler
 
 [![https://pytorch.org/tutorials/_static/img/profiler_kernel_view.png](https://pytorch.org/tutorials/_static/img/profiler_kernel_view.png)](https://pytorch.org/tutorials/_static/img/profiler_kernel_view.png)
 
- 使用的张量核心:
+ 使用的tensor核心:
 是否内核使用 Tensor Core。
 
 
@@ -478,7 +478,7 @@ http://localhost:6006/#pytorch_profiler
 
  平均估计值已达到入住率：
 预计。达到的占用率在此列中定义’s 工具提示。
-对于大多数情况（例如内存带宽有限内核），越高越好。
+对于大多数情况(例如内存带宽有限内核)，越高越好。
 “Mean Est。达到的占用率” 是此内核名称的所有运行的加权平均值，
 使用每个运行’s 的持续时间作为权重。
 
@@ -636,7 +636,7 @@ tensorboard --logdir=https://torchtbprofiler.blob.core.windows.net/torchtbprofil
 
 
 
- 内存曲线显示内存消耗趋势。 “Allocation” 曲线显示实际使用的总内存，例如张量。在 PyTorch 中，CUDA 分配器和其他一些分配器采用了缓存机制。 
+ 内存曲线显示内存消耗趋势。 “Allocation” 曲线显示实际使用的总内存，例如tensor。在 PyTorch 中，CUDA 分配器和其他一些分配器采用了缓存机制。 
 “Reserved” 曲线显示分配器保留的总内存。您可以在图表上单击鼠标左键并拖动
 以选择所需范围内的事件:
 

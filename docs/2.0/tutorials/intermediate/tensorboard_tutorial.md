@@ -39,7 +39,7 @@ TensorBoard 是一种旨在可视化神经网络训练运行结果的工具。
 
 > 
 > 
-> 1. 读入数据并进行适当的转换（与之前的教程几乎相同）。
+> 1. 读入数据并进行适当的转换(与之前的教程几乎相同)。
 > 2. 设置 TensorBoard。
 > 3. 写入 TensorBoard。
 > 4.使用 TensorBoard 检查模型架构。
@@ -202,7 +202,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
  `tensorboard`
  并定义
  `SummaryWriter`
- ，这是我们用于将信息写入到的关键对象张量板。
+ ，这是我们用于将信息写入到的关键对象tensor板。
 
 
 
@@ -373,7 +373,7 @@ writer.close()
 
 
 现在，在 TensorBoard 的 \xe2\x80\x9cProjector\xe2\x80\x9d 选项卡中，您可以看到这 100 个
-图像（每个图像都是 784 维）向下投影到三维空间。此外，这是交互式的：您可以单击
+图像(每个图像都是 784 维)向下投影到三维空间。此外，这是交互式的：您可以单击
 并拖动来旋转三维投影。最后，有一些提示可以使可视化更容易查看：选择左上角的 \xe2\x80\x9ccolor: label\xe2\x80\x9d\，以及启用 \xe2\x80\x9cnight 模式\xe2\ x80\x9d，这将使
 图像更容易看到，因为它们的背景是白色的:
 
@@ -522,7 +522,7 @@ print('Finished Training')
 ![https://pytorch.org/tutorials/_static/img/tensorboard_images.png](https://pytorch.org/tutorials/_static/img/tensorboard_images.png)
 
  在之前的教程中，我们在模型训练完成后查看每类的准确度；在这里，我们’将使用TensorBoard绘制精度召回
-曲线（很好的解释
+曲线(很好的解释
 [此处](https://www.scikit-yb.org/en/latest/api/classifier/prcurve.html ) 
  )
 对于每个类。

@@ -15,24 +15,24 @@
 可在 CPU 和 GPU 上加速 Transformer 模型的部署，并具有高性能。
 快速路径功能对于直接基于 PyTorch 核心`nn.module`或使用 torchtext 的模型透明地工作。
 
- 可以通过 Better Transformer 快速路径执行加速的模型是那些使用以下 PyTorch 核心的`torch.nn.module`类 `TransformerEncoder`、`TransformerEncoderLayer` 和 `MultiHeadAttention`. 此外，torchtext 已更新为使用核心库模块，从而受益于快速路径加速。（将来可能会通过快速路径执行启用其他模块。）
+ 可以通过 Better Transformer 快速路径执行加速的模型是那些使用以下 PyTorch 核心的`torch.nn.module`类 `TransformerEncoder`、`TransformerEncoderLayer` 和 `MultiHeadAttention`. 此外，torchtext 已更新为使用核心库模块，从而受益于快速路径加速。(将来可能会通过快速路径执行启用其他模块。)
 
  Better Transformer 提供两种类型的加速：
 
 * 针对 CPU 和 GPU 的本机多头注意力 (MHA) 实现，以提高整体执行效率。
 * 利用 NLP 推理中的稀疏性。由于输入长度可变，输入令牌可能包含大量填充令牌，可能会跳过这些填充令牌，从而显着提高速度。
 
- 快速路径执行需要遵守一些标准。最重要的是，模型必须在推理模式下执行，并在不收集梯度带信息的输入张量上运行（例如，使用 torch.no_grad 运行）。
+ 快速路径执行需要遵守一些标准。最重要的是，模型必须在推理模式下执行，并在不收集梯度带信息的输入tensor上运行(例如，使用 torch.no_grad 运行)。
 
  要在 Google Colab 中遵循此示例，[单击此处](https://colab.research.google.com/drive/1KZnMJYhYkOMYtNIX5S3AGIYnjyG0AojN?usp=sharing).
 
 ## 本教程中更好的 Transformer 功能 [¶](#better-transformer-features-in-this-tutorial "永久链接到此标题")
 
-* 加载预训练模型（在 PyTorch 版本 1.12 之前创建，没有 Better Transformer）
-* 在具有或不具有 BT 快速路径的 CPU 上运行推理并进行基准测试（仅限本机 MHA）
-* 在具有或不具有 BT 快速路径的（可配置）设备上运行推理并进行基准测试（仅限本机 MHA）
+* 加载预训练模型(在 PyTorch 版本 1.12 之前创建，没有 Better Transformer)
+* 在具有或不具有 BT 快速路径的 CPU 上运行推理并进行基准测试(仅限本机 MHA)
+* 在具有或不具有 BT 快速路径的(可配置)设备上运行推理并进行基准测试(仅限本机 MHA)
 * 启用稀疏性支持
-* 在具有和不具有 BT 快速路径的（可配置）设备上运行和基准测试推理（本机 MHA + 稀疏性）
+* 在具有和不具有 BT 快速路径的(可配置)设备上运行和基准测试推理(本机 MHA + 稀疏性)
 
 ## 附加信息 [¶](#additional-information "此标题的永久链接")
 
@@ -42,7 +42,7 @@
 
  1.1 加载预训练模型
 
- 我们按照 [torchtext.models](https://pytorch.org/text/main/models.html) 中的说明从预定义的 torchtext 模型中下载 XLM-R 模型。我们还将设备设置为执行\非加速器测试。 （根据需要为您的环境启用 GPU 执行。）
+ 我们按照 [torchtext.models](https://pytorch.org/text/main/models.html) 中的说明从预定义的 torchtext 模型中下载 XLM-R 模型。我们还将设备设置为执行\非加速器测试。 (根据需要为您的环境启用 GPU 执行。)
 
 ```python
 import torch
@@ -112,14 +112,14 @@ ITERATIONS=10
 
 2.执行
 
- 2.1 在具有和不具有 BT 快速路径的 CPU 上运行和基准测试推理（仅限本机 MHA）
+ 2.1 在具有和不具有 BT 快速路径的 CPU 上运行和基准测试推理(仅限本机 MHA)
 
  我们在 CPU 上运行模型，并收集配置文件信息：
 
 * 第一次运行使用传统的 (“slow path”) 执行。
 * 第二次运行通过使用模型将模型置于推理模式来启用 BT 快速路径执行 _model.eval()_,并使用 _torch.no_grad()_ 禁用梯度收集。
 
- 当模型在 CPU 上执行时，您可以看到改进（其幅度取决于 CPU 型号）。请注意，快速路径配置文件显示了本机 TransformerEncoderLayer 实现 aten::_transformer_encoder_layer_fwd 的大部分执行时间。
+ 当模型在 CPU 上执行时，您可以看到改进(其幅度取决于 CPU 型号)。请注意，快速路径配置文件显示了本机 TransformerEncoderLayer 实现 aten::_transformer_encoder_layer_fwd 的大部分执行时间。
 
 ```python
 print("slow path:")
@@ -141,7 +141,7 @@ print(prof)
 
 ```
 
- 2.2 在具有和不具有 BT 快速路径的（可配置）设备上运行和基准测试推理（仅限本机 MHA）
+ 2.2 在具有和不具有 BT 快速路径的(可配置)设备上运行和基准测试推理(仅限本机 MHA)
 
  我们检查 BT 稀疏性设置：
 
@@ -184,7 +184,7 @@ with torch.autograd.profiler.profile(use_cuda=True) as prof:
 print(prof)
 ```
 
- 2.3 在具有和不具有 BT 快速路径的（可配置）设备上运行和基准测试推理（本机 MHA + 稀疏性）
+ 2.3 在具有和不具有 BT 快速路径的(可配置)设备上运行和基准测试推理(本机 MHA + 稀疏性)
 
  我们启用稀疏性支持：
 

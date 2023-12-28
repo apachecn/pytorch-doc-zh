@@ -162,7 +162,7 @@ out = layer(torch.rand(8, 3))
  。对于线性层来说这并不是什么大问题，但想象一下必须重新实现 CNN 或 Transformerxe2x80xa6n2。它不会将层和参数化分开。如果参数化
 更困难，我们将不得不为我们想要使用它的每一层重写其代码
 。
-3.每次我们使用该层时，它都会重新计算参数化。如果我们在前向传递过程中多次使用该层（想象一下 RNN 的循环内核），则每次调用该层时都会计算相同的“A”。
+3.每次我们使用该层时，它都会重新计算参数化。如果我们在前向传递过程中多次使用该层(想象一下 RNN 的循环内核)，则每次调用该层时都会计算相同的“A”。
 
 
 
@@ -488,7 +488,7 @@ with parametrize.cached():
 
 
 
- 连接两个参数化就像将它们注册在同一个张量上一样简单。
+ 连接两个参数化就像将它们注册在同一个tensor上一样简单。
 我们可以使用它从更简单的参数化创建更复杂的参数化。例如，
  [凯莱映射](https://en.wikipedia.org/wiki/Cayley_transform#Matrix_map)
  将斜对称矩阵映射到正行列式的正交矩阵。我们可以
@@ -578,7 +578,7 @@ def right_inverse(self, X: Tensor) -> Tensor
 
 
 
- 分配给参数化张量时将使用它。
+ 分配给参数化tensor时将使用它。
 
 
 
@@ -736,8 +736,8 @@ class PruningParametrization(nn.Module):
  是不正确的。\仅当矩阵
  `A`
  在与掩码相同的位置具有零时，这才是正确的。
-即使如此，如果我们将张量分配给修剪后的参数，也不会感到惊讶
-张量将是，事实上，已修剪
+即使如此，如果我们将tensor分配给修剪后的参数，也不会感到惊讶
+tensor将是，事实上，已修剪
 
 
 
@@ -792,7 +792,7 @@ print(layer.weight)
 
 
  删除参数化时，我们可以选择通过设置标志 
- `leave\ 来保留原始参数（即 `layer.parametriations.weight.original` 中的参数），而不是其参数化版本。 \_参数化=False`
+ `leave\ 来保留原始参数(即 `layer.parametriations.weight.original` 中的参数)，而不是其参数化版本。 \_参数化=False`
 
 
 

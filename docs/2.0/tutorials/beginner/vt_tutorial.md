@@ -132,7 +132,7 @@ Using cache found in /var/lib/jenkins/.cache/torch/hub/facebookresearch_deit_mai
 
 ## 量化 DeiT [¶](#quantizing-deit "此标题的固定链接")
 
- 为了显着减小训练模型的大小，同时保持推理精度大致相同，可以对模型应用量化。得益于 DeiT 中使用的 Transformer 模型，我们可以轻松地将动态量化应用于模型，因为动态量化最适合 LSTM 和 Transformer 模型（请参阅 [此处](https://pytorch.org/docs/stable/quantization.html?highlight=quantization#dynamic-quantization) 了解更多详细信息)。
+ 为了显着减小训练模型的大小，同时保持推理精度大致相同，可以对模型应用量化。得益于 DeiT 中使用的 Transformer 模型，我们可以轻松地将动态量化应用于模型，因为动态量化最适合 LSTM 和 Transformer 模型(请参阅 [此处](https://pytorch.org/docs/stable/quantization.html?highlight=quantization#dynamic-quantization) 了解更多详细信息)。
 
  现在运行以下代码：
 
@@ -217,7 +217,7 @@ ptl = torch.jit.load("fbdeit_optimized_scripted_quantized_lite.ptl")
 
 ## 比较推理速度 [¶](#comparing-inference-speed "永久链接到此标题")
 
- 要查看四种模型（原始模型、脚本化模型、量化和脚本化模型、优化量化和脚本化模型）的推理速度有何不同，请运行以下代码：
+ 要查看四种模型(原始模型、脚本化模型、量化和脚本化模型、优化量化和脚本化模型)的推理速度有何不同，请运行以下代码：
 
 ```python
 with torch.autograd.profiler.profile(use_cuda=False) as prof1:

@@ -85,7 +85,7 @@
  
 
  W]`
- ，纯张量，或大小为
+ ，纯tensor，或大小为
  `(H ,
  
 
@@ -163,7 +163,7 @@
 > 	
 > 	
 > 	 在评估过程中被忽略。
-> 	+（可选）
+> 	+(可选)
 > 	 `masks`
 > 	 ,
 > 	 [`torchvision.tv_tensors.Mask`](https://pytorch.org/vision/stable/generated/torchvision.tv_tensors.Mask.html#torchvision.tv_tensors.Mask "(在 Torchvision v0.16 中)")
@@ -243,16 +243,16 @@
  ，您可以
 定义
  `1`
- （而不是
+ (而不是
  `0`
- ）来表示\ n *cats* 
+ )来表示\ n *cats* 
  和
  `2`
  表示
  *dogs* 
  。因此，例如，如果其中一张图像具有这两个类，则您的
  `labels`
- 张量应类似于
+ tensor应类似于
  `[1,
  
 
@@ -262,7 +262,7 @@
 
 
 
- 另外，如果你想在训练过程中使用宽高比分组（以便每个批次只包含具有相似宽高比的图像），
+ 另外，如果你想在训练过程中使用宽高比分组(以便每个批次只包含具有相似宽高比的图像)，
 建议还实现一个
  `get_height_and\ \_width`
  方法，返回图像的高度和宽度。如果未提供此方法，我们会通过 `__getitem__`
@@ -320,11 +320,11 @@ s分段掩码，其中每种颜色对应于不同的实例。
 在在下面的代码中，我们将图像、边界框和遮罩包装到
  `torchvision.TVTensor`
  类中，以便我们能够应用 torchvision
-内置转换（
+内置转换(
  [新 Transforms API](https://pytorch.org/vision/stable/transforms.html) 
  )
 对于给定的对象检测和分割任务。
-即，图像张量将被
+即，图像tensor将被
  [`torchvision.tv_tensors.Image`](https ://pytorch.org/vision/stable/generated/torchvision.tv_tensors.Image.html#torchvision.tv_tensors.Image "(in Torchvision v0.16)")
  ，将边界框放入
  [`torchvision.tv\ \_tensors.BoundingBoxes`](https://pytorch.org/vision/stable/generated/torchvision.tv_tensors.BoundingBoxes.html#torchvision.tv_tensors.BoundingBoxes "(在 Torchvision v0.16 中)")
@@ -334,7 +334,7 @@ As
  `torchvision.TVTensor`
  是
  [`torch.Tensor`](https://pytorch.org/docs/stable/tensors.html#torch.Tensor "(在 PyTorch v2 中.1)")
- 子类，包装对象也是张量并继承普通
+ 子类，包装对象也是tensor并继承普通
  [`torch.Tensor`](https://pytorch.org/docs/stable/tensors.html#torch.Tensor "(in PyTorch v2.1)")
  API。有关 torchvision 的更多信息
  `tv_tensors`
@@ -452,7 +452,7 @@ R-CNN](https://arxiv.org/abs/1703.06870)
 情况下，人们可能需要
 修改其中之一TorchVision 模型动物园中的模型。第一个
 当我们想要从预先训练的模型开始，然后微调
-最后一层。另一种是当我们想要用不同的模型替换模型的主干时（例如，为了更快的预测）。
+最后一层。另一种是当我们想要用不同的模型替换模型的主干时(例如，为了更快的预测)。
 
 
 
@@ -677,7 +677,7 @@ def get_transform(train):
 
 ## 测试
  `forward()`
- 方法（可选） [¶](#testing-forward-method-optional "固定链接到此标题")
+ 方法(可选) [¶](#testing-forward-method-optional "固定链接到此标题")
 
 
 

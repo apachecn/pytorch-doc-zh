@@ -10,27 +10,27 @@
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/M0fX15_-xrY" title="The Fundamentals of Autograd" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-PyTorch 的自动微分（ Autograd ）特性使 PyTorch 在构建机器学习项目时更加灵活高效。它能快速简便地计算复杂计算中的多个偏导数（也称为梯度）。这个操作在基于反向传播的神经网络学习中起着核心作用。
+PyTorch 的自动微分( Autograd )特性使 PyTorch 在构建机器学习项目时更加灵活高效。它能快速简便地计算复杂计算中的多个偏导数(也称为梯度)。这个操作在基于反向传播的神经网络学习中起着核心作用。
 
 自动微分的强大之处在于它能在运行时动态跟踪计算，这意味着，如果您的模型具有决策分支或长度直到运行时才知道的循环，计算仍能被正确跟踪，并获得正确的梯度来进行学习。再加上模型是用 Python 构建，比起依赖静态分析结构僵化的模型来计算梯度的框架，提供了更大的灵活性。
 
 ## 为什么我们需要自动微分呢？
 
-一个机器学习模型就是一个有输入输出的 _函数_。在探讨中，我们将输入看作元素为 $x_i$ 的 _i_ 维向量 $\vec{x}$。我们可以将模型 $M$ 表述为输入的向量值函数：$\vec{y} = \vec{M}(\vec{x})$。（我们将 $M$ 的输出值看作一个向量，因为一般来说，一个模型可能有任意数量的输出。） 
+一个机器学习模型就是一个有输入输出的 _函数_。在探讨中，我们将输入看作元素为 $x_i$ 的 _i_ 维向量 $\vec{x}$。我们可以将模型 $M$ 表述为输入的向量值函数：$\vec{y} = \vec{M}(\vec{x})$。(我们将 $M$ 的输出值看作一个向量，因为一般来说，一个模型可能有任意数量的输出。) 
 
 由于我们主要是在训练的背景下讨论自动微分，因此我们要关注的输出是模型的损失。_损失函数_ $L(\vec{y}) = L(\vec{M}(\vec{x}))$ 是模型输出的单值标量函数。该函数表示模型预测与特定输入的理想输出相差多少。_注意：此后，我们一般会在上下文中清楚的情况下省略向量符号_——例如，使用 $y$ 而非 $\vec{y}$。
 
-在训练模型时，我们希望将损失降到最低。在理想化的完美模型中，这意味着调整其学习权重（即函数的可调参数），使所有输入的损失都为零。在现实世界中，这意味着通过迭代过程，微调学习权重，直到我们看到在各种输入下获得可接受的损失。。
+在训练模型时，我们希望将损失降到最低。在理想化的完美模型中，这意味着调整其学习权重(即函数的可调参数)，使所有输入的损失都为零。在现实世界中，这意味着通过迭代过程，微调学习权重，直到我们看到在各种输入下获得可接受的损失。。
 
 我们如何决定权重调整的大小和方向？我们希望将损失 _最小化_，也就是让损失对输入的一阶导数等于 0：$\frac{\partial L}{\partial x} = 0$。
 
-但请注意，损失并 _不是直接_ 来自输入，而是模型输出（直接输入的函数）的函数，$\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y} \frac{\partial y}{\partial x}$。根据微积分的链式法则，我们有 $\frac{\partial L(\vec{y})}{\partial x} = \frac{\partial L}{\partial y} \frac{\partial y}{\partial x} = \frac{\partial L}{\partial y} \frac{\partial M(x)}{\partial x}$。
+但请注意，损失并 _不是直接_ 来自输入，而是模型输出(直接输入的函数)的函数，$\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y} \frac{\partial y}{\partial x}$。根据微积分的链式法则，我们有 $\frac{\partial L(\vec{y})}{\partial x} = \frac{\partial L}{\partial y} \frac{\partial y}{\partial x} = \frac{\partial L}{\partial y} \frac{\partial M(x)}{\partial x}$。
 
-从 $\frac{\partial M(x)}{\partial x}$ 开始，事情复杂了起来。如果我们再次使用链式法则展开表达式，模型输出关于其输入的偏导数，将涉及到模型中每个乘以学习权重的局部偏导数、每个激活函数以及模型中的其他数学变换。每个局部导数的完整表达式都是计算图中每条 _可能路径_（欲测量梯度的变量结束的路径）的局部梯度乘积之和。
+从 $\frac{\partial M(x)}{\partial x}$ 开始，事情复杂了起来。如果我们再次使用链式法则展开表达式，模型输出关于其输入的偏导数，将涉及到模型中每个乘以学习权重的局部偏导数、每个激活函数以及模型中的其他数学变换。每个局部导数的完整表达式都是计算图中每条 _可能路径_(欲测量梯度的变量结束的路径)的局部梯度乘积之和。
 
 特别是，我们对学习权重的梯度很感兴趣——它们告诉我们应该 _朝哪个方向改变每个权重_，才能使损失函数趋近于零。
 
-由于这种局部导数（每个局部导数对应模型计算图中的一条单独路径）的数量会随着神经网络的深度呈指数级增长，因此计算它们的复杂度也会随之增加。这就是自动微分的作用所在： 它可以跟踪每次计算的历史。PyTorch 模型中的每一个计算张量都带有输入张量和创建函数的历史记录。再加上 PyTorch 中用于作用于张量的函数都有计算自身导数的内置实现，这就大大加快了学习所需的局部导数的计算速度。
+由于这种局部导数(每个局部导数对应模型计算图中的一条单独路径)的数量会随着神经网络的深度呈指数级增长，因此计算它们的复杂度也会随之增加。这就是自动微分的作用所在： 它可以跟踪每次计算的历史。PyTorch 模型中的每一个计算tensor都带有输入tensor和创建函数的历史记录。再加上 PyTorch 中用于作用于tensor的函数都有计算自身导数的内置实现，这就大大加快了学习所需的局部导数的计算速度。
 
 ## 一个简单的例子
 理论有很多——但在实践中使用自动微分又如何呢？
@@ -47,7 +47,7 @@ import matplotlib.ticker as ticker
 import math
 ```
 
-然后，我们将创建一个输入张量，内含均匀分布在 $[0, 2\pi]$ 的值，并指定 `requires_grad=True`。（和大多数创建张量的函数一样，`torch.linspace()` 也能选择 `requires_grad` 。）设置此标志意味着在随后的每次计算中，自动微分都会在该次计算的输出张量中累积计算历史。
+然后，我们将创建一个输入tensor，内含均匀分布在 $[0, 2\pi]$ 的值，并指定 `requires_grad=True`。(和大多数创建tensor的函数一样，`torch.linspace()` 也能选择 `requires_grad` 。)设置此标志意味着在随后的每次计算中，自动微分都会在该次计算的输出tensor中累积计算历史。
 
 ```python
 a = torch.linspace(0., 2. * math.pi, steps=25, requires_grad=True)
@@ -76,7 +76,7 @@ plt.plot(a.detach(), b.detach())
 [<matplotlib.lines.Line2D object at 0x7f598d0477c0>]
 ```
 
-让我们仔细看看张量 `b`。当我们打印它时，我们会看到一个指示器，表明它正在跟踪其计算历史：
+让我们仔细看看tensor `b`。当我们打印它时，我们会看到一个指示器，表明它正在跟踪其计算历史：
 
 ```python
 print(b)
@@ -92,7 +92,7 @@ tensor([ 0.0000e+00,  2.5882e-01,  5.0000e-01,  7.0711e-01,  8.6603e-01,
        grad_fn=<SinBackward0>)
 ```
 
-这个 `grad_fn` 告诉我们，当我们执行反向传播步骤并计算梯度时，我们要为所有张量输入计算 $\sin(x)$ 的导数。
+这个 `grad_fn` 告诉我们，当我们执行反向传播步骤并计算梯度时，我们要为所有tensor输入计算 $\sin(x)$ 的导数。
 
 让我们再进行一些计算：
 
@@ -120,7 +120,7 @@ tensor([ 1.0000e+00,  1.5176e+00,  2.0000e+00,  2.4142e+00,  2.7321e+00,
        grad_fn=<AddBackward0>)
 ```
 
-最后，我们来计算单元素输出。在没有参数的张量上调用 `.backward()` 时，它希望调用的张量只包含一个元素，计算损失函数时就是这种情况。
+最后，我们来计算单元素输出。在没有参数的tensor上调用 `.backward()` 时，它希望调用的tensor只包含一个元素，计算损失函数时就是这种情况。
 
 ```python
 out = d.sum()
@@ -128,7 +128,7 @@ print(out)
 tensor(25., grad_fn=<SumBackward0>)
 ```
 
-每个存储在张量中的 `grad_fn` 都可以通过 `next_functions` 属性追溯计算路径，直至输入。可以在下面看到，深入研究 `d` 的这一属性后，我们能看到之前所有张量的梯度函数。请注意，`a.grad_fn` 被报告为 `None`，表示这是一个没有自身历史记录的函数输入。
+每个存储在tensor中的 `grad_fn` 都可以通过 `next_functions` 属性追溯计算路径，直至输入。可以在下面看到，深入研究 `d` 的这一属性后，我们能看到之前所有tensor的梯度函数。请注意，`a.grad_fn` 被报告为 `None`，表示这是一个没有自身历史记录的函数输入。
 
 ```python
 print('d:')
@@ -328,7 +328,7 @@ tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
 
 有时，您需要对是否启用自动微分进行细粒度控制。根据情况，有多种方法可以做到这一点。
 
-最简单的方法是直接在张量上更改 `requires_grad` 标志：
+最简单的方法是直接在tensor上更改 `requires_grad` 标志：
 
 ```python
 a = torch.ones(2, 3, requires_grad=True)
@@ -352,7 +352,7 @@ tensor([[2., 2., 2.],
         [2., 2., 2.]])
 ```
 
-在上面的单元格中，我们看到 `b1` 有一个 `grad_fn`（即跟踪计算历史），这正是我们所期望的，因为它是由张量 `a` 派生的，而张量 `a` 已开启自动微分。当我们使用 `a.requires_grad = False` 显式地关闭自动微分时，计算历史将不再被跟踪，正如我们在计算 `b2` 时所看到的那样。
+在上面的单元格中，我们看到 `b1` 有一个 `grad_fn`(即跟踪计算历史)，这正是我们所期望的，因为它是由tensor `a` 派生的，而tensor `a` 已开启自动微分。当我们使用 `a.requires_grad = False` 显式地关闭自动微分时，计算历史将不再被跟踪，正如我们在计算 `b2` 时所看到的那样。
 
 如果您只需要暂时关闭自动微分，更好的方法是使用 `torch.no_grad()`：
 
@@ -413,7 +413,7 @@ tensor([[5., 5., 5.],
 
 有一个相似的上下文管理器 `torch.enable_grad()`，用于在自动微分尚未开启时开启自动微分。它也可以用作装饰器。
 
-最后，您可能有一个需要梯度跟踪的张量，但是您想要一个不需要梯度跟踪的副本。为此，我们可以使用 `Tensor` 的 `detach()` 方法——它会创建一个从计算历史中分离出来的张量副本：
+最后，您可能有一个需要梯度跟踪的tensor，但是您想要一个不需要梯度跟踪的副本。为此，我们可以使用 `Tensor` 的 `detach()` 方法——它会创建一个从计算历史中分离出来的tensor副本：
 
 ```python
 x = torch.rand(5, requires_grad=True)
@@ -429,7 +429,7 @@ tensor([0.0670, 0.3890, 0.7264, 0.3559, 0.6584], requires_grad=True)
 tensor([0.0670, 0.3890, 0.7264, 0.3559, 0.6584])
 ```
 
-当我们想要画些张量时，我们就这样做了。这是因为 `matplotlib` 期望一个 NumPy 数组作为输入，而 PyTorch 张量到 NumPy 数组的隐式转换对于 requires_grad=True 的张量是不可用的。创建一个分离的副本能让我们继续前进。
+当我们想要画些tensor时，我们就这样做了。这是因为 `matplotlib` 期望一个 NumPy 数组作为输入，而 PyTorch tensor到 NumPy 数组的隐式转换对于 requires_grad=True 的tensor是不可用的。创建一个分离的副本能让我们继续前进。
 
 ### 自动微分和原地操作
 
@@ -477,7 +477,7 @@ Self CPU time total: 12.331ms
 Self CUDA time total: 32.583ms
 ```
 
-分析器还可以标注代码的各个子块，按输入张量形状细分数据，并将数据导出为 Chrome 浏览器跟踪工具文件。有关 API 的详细信息，请参阅[文档](https://pytorch.org/docs/stable/autograd.html#profiler)。
+分析器还可以标注代码的各个子块，按输入tensor形状细分数据，并将数据导出为 Chrome 浏览器跟踪工具文件。有关 API 的详细信息，请参阅[文档](https://pytorch.org/docs/stable/autograd.html#profiler)。
 
 ## 进阶主题：更多的自动微分细节和高级 API
 
@@ -491,9 +491,9 @@ J=\begin{pmatrix}
 \end{pmatrix}
 $$
 
-如果您有第二个函数，$l=g(\vec{y})$，它接受 `m` 维输入（即与上述输出维度相同）并返回标量输出，那么您可以用列向量 $v=\begin{pmatrix}\frac{\partial l}{\partial y_1} & \cdots & \frac{\partial l}{\partial y_m}\end{pmatrix}^T$ 来表示它相对于 $\vec{y}$ 的梯度——这实际上只是一个单列 Jacobian 。
+如果您有第二个函数，$l=g(\vec{y})$，它接受 `m` 维输入(即与上述输出维度相同)并返回标量输出，那么您可以用列向量 $v=\begin{pmatrix}\frac{\partial l}{\partial y_1} & \cdots & \frac{\partial l}{\partial y_m}\end{pmatrix}^T$ 来表示它相对于 $\vec{y}$ 的梯度——这实际上只是一个单列 Jacobian 。
 
-更具体地说，想象一下，第一个函数是您的 PyTorch 模型（可能有许多输入输出），第二个函数是一个损失函数（模型的输出作为输入，损失值作为标量输出）。
+更具体地说，想象一下，第一个函数是您的 PyTorch 模型(可能有许多输入输出)，第二个函数是一个损失函数(模型的输出作为输入，损失值作为标量输出)。
 
 如果将第一个函数的 Jacobian 矩阵乘以第二个函数的梯度，然后应用链式法则，就可以得到：
 
@@ -519,7 +519,7 @@ $$
 
 **`torch.autograd` 是计算这些乘积的引擎**，我们就是这样在后向传递过程中累积学习权重的梯度的。
 
-因此，`backward()` 调用也可以接受一个可选的向量输入。该向量代表一组张量上的梯度，并与前面自动微分跟踪张量的 Jacobian 相乘。让我们用一个小向量举个具体例子：
+因此，`backward()` 调用也可以接受一个可选的向量输入。该向量代表一组tensor上的梯度，并与前面自动微分跟踪tensor的 Jacobian 相乘。让我们用一个小向量举个具体例子：
 
 ```python
 x = torch.randn(3, requires_grad=True)
@@ -550,11 +550,11 @@ print(x.grad)
 tensor([1.0240e+02, 1.0240e+03, 1.0240e-01])
 ```
 
-（请注意，输出梯度都与 2 的幂次有关——这与重复的倍增操作是一致的。）
+(请注意，输出梯度都与 2 的幂次有关——这与重复的倍增操作是一致的。)
 
 ### 高级 API
 
-自动微分有一个 API 能让您直接访问重要的微分矩阵和向量操作。特别是，它允许您计算特定输入的特定函数的 Jacobian 矩阵和 _Hessian_ 矩阵。（ Hessian 矩阵与 Jacobian 矩阵类似，但表达的是所有部分 _二阶_ 导数）。它还提供了与这些矩阵进行向量乘积的方法。
+自动微分有一个 API 能让您直接访问重要的微分矩阵和向量操作。特别是，它允许您计算特定输入的特定函数的 Jacobian 矩阵和 _Hessian_ 矩阵。( Hessian 矩阵与 Jacobian 矩阵类似，但表达的是所有部分 _二阶_ 导数)。它还提供了与这些矩阵进行向量乘积的方法。
 
 让我们以一个简单函数的 Jacobian 为例，对 2 个单元素输入进行评估：
 
@@ -574,9 +574,9 @@ torch.autograd.functional.jacobian(exp_adder, inputs)
 (tensor([[4.1137]]), tensor([[3.]]))
 ```
 
-如果您仔细看，第一个输出应该等于 $2e^x$（因为 $e^x$ 的导数是 $e^x$），第二个值应该是 3。
+如果您仔细看，第一个输出应该等于 $2e^x$(因为 $e^x$ 的导数是 $e^x$)，第二个值应该是 3。
 
-当然，您也可以用高阶张量来实现这一点：
+当然，您也可以用高阶tensor来实现这一点：
 
 ```python
 inputs = (torch.rand(3), torch.rand(3)) # arguments for the function
@@ -595,7 +595,7 @@ torch.autograd.functional.jacobian(exp_adder, inputs)
         [0., 0., 3.]]))
 ```
 
-`torch.autograd.functional.hessian()`方法的工作原理与此相同（假设函数是二次微分的），但返回的是所有二阶导数的矩阵。
+`torch.autograd.functional.hessian()`方法的工作原理与此相同(假设函数是二次微分的)，但返回的是所有二阶导数的矩阵。
 
 如果您提供向量，还有一个函数可以直接计算向量与 Jacobian 的积：
 

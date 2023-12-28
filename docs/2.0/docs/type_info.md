@@ -1,13 +1,4 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# 类型信息 [¶](#type-in​​fo "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +6,58 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/type_info.html>
 
-开始写原始页面的翻译内容
+
+ [`torch.dtype`](tensor_attributes.html#torch.dtype "torch.dtype") 的数值属性可以通过 [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 或 [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") 。
+
+
+## torch.finfo [¶](#torch-finfo "此标题的永久链接")
+
+
+> *Class* `torch.finfo` [¶](#torch.torch.finfo "此定义的永久链接")
+
+
+ [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 是一个表示浮点数值属性的对象 [`torch.dtype`](tensor_attributes.html#torch.dtype "torch.dtype") ，(即 `torch.float32` 、 `torch.float64` 、 `torch.float16` 和 `torch.bfloat16` )。这类似于 [numpy.finfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html) 。
+
+
+ [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 提供以下属性：
+
+
+| 	 Name	  | 	 Type	  | 	 Description	  |
+| --- | --- | --- |
+| 	 bits	  | 	 int	  | 	 The number of bits occupied by the type.	  |
+| 	 eps	  | 	 float	  | 	 The smallest representable number such that	 `1.0	 		 +	 		 eps	 		 !=	 		 1.0`	.	  |
+| 	 max	  | 	 float	  | 	 The largest representable number.	  |
+| 	 min	  | 	 float	  | 	 The smallest representable number (typically	 `-max`	 ).	  |
+| 	 tiny	  | 	 float	  | 	 The smallest positive normal number. Equivalent to	 `smallest_normal`	.	  |
+| 	 smallest_normal	  | 	 float	  | 	 The smallest positive normal number. See notes.	  |
+| 	 resolution	  | 	 float	  | 	 The approximate decimal resolution of this type, i.e.,	 `10**-precision`	.	  |
 
 
 
-注意事项: 
 
-1. 代码参考:
+!!! note "笔记"
 
-```py
-import torch
+    [`torch.finfo`](#torch.torch.finfo "torch.torch.finfo") 的构造函数可以在不带参数的情况下调用，在这种情况下，该类是为 pytorch 默认 dtype（由 [torch.get_default_dtype()](https://pytorch.org/docs/stable/generated/torch.get_default_dtype.html#torch.get_default_dtype "torch.get_default_dtype") 返回）创建的。
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
+!!! note "笔记"
 
-2. 公式参考:
+    smallest_normal 返回最小的正规数，但还有更小的次正规数。 请参阅 <https://en.wikipedia.org/wiki/Denormal_number> 了解更多信息。
 
-1) 无需换行的写法: 
 
-$\sqrt{w^T*w}$
+## torch.iinfo [¶](#torch-iinfo "此标题的永久链接")
 
-2) 需要换行的写法：
 
-$$
-\sqrt{w^T*w}
-$$
+> *CLASS* `torch.iinfo` [¶](#torch.torch.iinfo "此定义的永久链接")
 
-3. 图片参考(用图片的实际地址就行):
 
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
+ [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") 是一个表示整数数值属性的对象 [`torch.dtype`](tensor_attributes.html#torch.dtype " torch.dtype”)(即 `torch.uint8` 、 `torch.int8` 、 `torch.int16` 、 `torch.int32` 和 `torch.int64` )。这类似于 [numpy.iinfo](https://docs.scipy.org/doc/numpy/reference/generated/numpy.iinfo.html) 。
 
-4. **翻译完后请删除上面所有模版内容就行**
+
+ [`torch.iinfo`](#torch.torch.iinfo "torch.torch.iinfo") 提供以下属性：
+
+
+| 	 Name	  | 	 Type	  | 	 Description	  |
+| --- | --- | --- |
+| 	 bits	  | 	 int	  | 	 The number of bits occupied by the type.	  |
+| 	 max	  | 	 int	  | 	 The largest representable number.	  |
+| 	 min	  | 	 int	  | 	 The smallest representable number.	  |

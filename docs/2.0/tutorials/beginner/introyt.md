@@ -16,15 +16,15 @@
 您可以通过以下几种方式运行本教程:
 
 - **云端**: 这是最简单的入门方法! 每个部分顶部都有一个 Colab 链接，点击后会在完全托管的环境中打开一个代码笔记本。专业提示: 以 GPU 运行时使用 Colab 能加速操作 `代码执行程序(Runtime) > 更改运行时类型(Change runtime type) > GPU`
-- **本地**: 这个方式要求您先在本地电脑上安装 PyTorch 和 torchvision（[安装说明](https://pytorch.org/get-started/locally/)）。下载 notebook 或将代码复制到您喜欢的 IDE 中。
+- **本地**: 这个方式要求您先在本地电脑上安装 PyTorch 和 torchvision([安装说明](https://pytorch.org/get-started/locally/))。下载 notebook 或将代码复制到您喜欢的 IDE 中。
 
 <br>
 
 1. [PyTorch 入门](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/introyt1_tutorial)
-2. [PyTorch 张量入门](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/tensors_deeper_tutorial)
+2. [PyTorch tensor入门](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/tensors_deeper_tutorial)
 3. [自动微分的基础知识](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/autogradyt_tutorial)
 4. [使用 PyTorch 构建模型](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/modelsyt_tutorial)
 5. [PyTorch 的 TensorBoard 支持](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/tensorboardyt_tutorial)
 6. [使用 PyTorch 训练](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/trainingyt)
 7. [使用 Captum 进行模型理解](https://pytorch.apachecn.org/2.0/tutorials/Introduction_to_PyTorch_on_YouTube/introyt/captumyt)
-8. [使用 PyTorch 进行生产推理部署](https://www.youtube.com/watch?v=Dk88zv1KYMI)（仅视频）
+8. [使用 PyTorch 进行生产推理部署](https://www.youtube.com/watch?v=Dk88zv1KYMI)(仅视频)

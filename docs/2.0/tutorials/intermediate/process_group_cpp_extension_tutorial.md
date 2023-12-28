@@ -82,21 +82,21 @@
 为了使同一个集体通信 API 能够与
 不同的通信后端一起工作，分布式包将集体
 通信操作抽象为
- [后端] （https://github.com/pytorch/pytorch/blob/main/torch/csrc/distributed/c10d/Backend.hpp）
+ [后端] (https://github.com/pytorch/pytorch/blob/main/torch/csrc/distributed/c10d/Backend.hpp)
  类。然后可以使用首选第三方库将不同的后端实现为“后端”的子类。 PyTorch 分布式附带三个默认后端：
  `ProcessGroupNCCL`
  、
  `ProcessGroupGloo`
  和 
  `ProcessGroupMPI`
- 。然而，除了这三个后端之外，还有其他通信库（例如，[UCC](https://github.com/openucx/ucc)、[OneCCL](https://github.com/oneapi-src/oneCCL) 
+ 。然而，除了这三个后端之外，还有其他通信库(例如，[UCC](https://github.com/openucx/ucc)、[OneCCL](https://github.com/oneapi-src/oneCCL) 
  )，不同类型的硬件
-（例如，
+(例如，
  [TPU](https://cloud.google.com/tpu) 
  ,
  [Trainum]( https://aws.amazon.com/machine-learning/trainium/) 
  )，以及新兴的
-通信算法（例如，
+通信算法(例如，
  [Herring](https://www.amazon.science/publications/herring-rethinking -the-parameter-server-at-scale-for-the-cloud) 
  ,
  [缩减服务器](https://cloud.google.com/blog/topics/developers-practitioners/optimize-training-performance -reduction-server-vertex-ai) 
@@ -115,11 +115,11 @@
 正常运行的通信后端。因此，
  `dummy`
  后端仅覆盖 
-API 的一个子集（
+API 的一个子集(
  `all_reduce`
  和
  `all_gather`
- ），并简单地设置张量的值
+ )，并简单地设置tensor的值
 到 0。
 
 
@@ -430,7 +430,7 @@ setup(
 
 
 
- 要将所有张量发送到
+ 要将所有tensor发送到
  `dummy`
  后端，我们只需指定
  `dummy`

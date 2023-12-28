@@ -112,12 +112,12 @@ label_pipeline('10')
 
 ### 生成数据批次和迭代器 [¶](#generate-data-batch-and-iterator "永久链接到此标题")
 
-[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)  建议 PyTorch 用户使用（教程是[此处](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html) )。它适用于实现`getitem()`和的地图样式数据集n `len()`协议，表示从索引/键到数据样本的映射。它还适用于 shuffle 参数为`False`的可迭代数据集。
+[torch.utils.data.DataLoader](https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader)  建议 PyTorch 用户使用(教程是[此处](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html) )。它适用于实现`getitem()`和的地图样式数据集n `len()`协议，表示从索引/键到数据样本的映射。它还适用于 shuffle 参数为`False`的可迭代数据集。
 
  在发送到模型之前， `collat​​e_fn`函数会处理从 `DataLoader`生成的一批样本。 `collat​​e_fn`的输入是一批数据，其批量大小为 `DataLoader`，`collat​​e_fn`.根据数据处理管道对其进行处理之前声明过。请注意此处并确保`collat​​e_fn` 被声明为顶级定义。这可确保该函数在每个工作线程中都可用。
 
- 在此示例中，原始数据批量输入中的文本条目被打包到一个列表中，并连接为单个张量，用于
- `nn.EmbeddingBag`的输入。偏移量是分隔符张量，表示文本张量中各个序列的起始索引。标签是一个张量，保存各个文本条目的标签。
+ 在此示例中，原始数据批量输入中的文本条目被打包到一个列表中，并连接为单个tensor，用于
+ `nn.EmbeddingBag`的输入。偏移量是分隔符tensor，表示文本tensor中各个序列的起始索引。标签是一个tensor，保存各个文本条目的标签。
 
 ```python
 from torch.utils.data import DataLoader
@@ -148,7 +148,7 @@ dataloader = DataLoader(
 
  该模型由 [nn.EmbeddingBag](https://pytorch.org/docs/stable/nn.html?highlight=embeddingbag#torch.nn.EmbeddingBag) 层加上一个线性层组成分类目的。 `nn.EmbeddingBag` 默认模式为 “mean” 计算 “bag” 嵌入的平均值。尽管此处的文本条目具有不同的长度， `nn.EmbeddingBag` 模块不需要此处填充，因为文本长度保存在偏移量中。
 
- 此外，由于 `nn.EmbeddingBag` 会动态累积嵌入的平均值， `nn.EmbeddingBag` 可以提高处理张量序列的性能和内存效率。
+ 此外，由于 `nn.EmbeddingBag` 会动态累积嵌入的平均值， `nn.EmbeddingBag` 可以提高处理tensor序列的性能和内存效率。
 
 ![https://pytorch.org/tutorials/_images/text_sentiment_ngrams_model.png](https://pytorch.org/tutorials/_images/text_sentiment_ngrams_model.png)
 
@@ -247,7 +247,7 @@ def evaluate(dataloader):
 
 ### 拆分数据集并运行模型 [¶](#split-the-dataset-and-run-the-model "永久链接到此标题")
 
- 由于原始 `AG_NEWS` 没有有效数据集，因此我们将训练数据集分为训练集/有效集，分割比为 0.95（训练）和0.05（有效）。这里我们使用 [torch.utils.data.dataset.random_split](https://pytorch.org/docs/stable/data.html?highlight=random_split#torch.utils.data.random_split)  PyTorch 核心库中的函数。
+ 由于原始 `AG_NEWS` 没有有效数据集，因此我们将训练数据集分为训练集/有效集，分割比为 0.95(训练)和0.05(有效)。这里我们使用 [torch.utils.data.dataset.random_split](https://pytorch.org/docs/stable/data.html?highlight=random_split#torch.utils.data.random_split)  PyTorch 核心库中的函数。
 
 [CrossEntropyLoss](https://pytorch.org/docs/stable/nn.html?highlight=crossentropyloss#torch.nn.CrossEntropyLoss)  标准结合 `nn.LogSoftmax()`
  和 `nn.NLLLoss()` 在单个类中。在使用 C 类训练分类问题时非常有用。 [SGD](https://pytorch.org/docs/stable/_modules/torch/optim /sgd.html)  实现随机梯度下降法作为优化器。初始

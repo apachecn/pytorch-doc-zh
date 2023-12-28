@@ -1,13 +1,4 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# torch.__config__ [¶](#module-torch.__config__ "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +6,14 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/config_mod.html>
 
-开始写原始页面的翻译内容
+
+> `torch.__config__.show()` [[source]](_modules/torch/__config__.html#show)[¶](#torch.__config__.show "此定义的永久链接")
 
 
+ 返回一个人类可读的字符串，其中包含 PyTorch 配置的描述。
 
-注意事项: 
 
-1. 代码参考:
+> `torch.__config__.parallel_info()` [[source]](_modules/torch/__config__.html#parallel_info)[¶](#torch.__config__.parallel_info "此定义的永久链接")
 
-```py
-import torch
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
-
-2. 公式参考:
-
-1) 无需换行的写法: 
-
-$\sqrt{w^T*w}$
-
-2) 需要换行的写法：
-
-$$
-\sqrt{w^T*w}
-$$
-
-3. 图片参考(用图片的实际地址就行):
-
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
-
-4. **翻译完后请删除上面所有模版内容就行**
+ 返回带有并行化设置的详细字符串

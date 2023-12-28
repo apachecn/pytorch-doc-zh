@@ -32,7 +32,7 @@
 
 `Dataset` 负责访问和处理单个数据实例。
 
-`DataLoader` 从 `Dataset` 中提取数据实例（可自动提取，也可使用您定义的采样器），分批收集，并返回给训练循环使用。`DataLoader` 可以处理各种数据集，无论其中数据类型如何。
+`DataLoader` 从 `Dataset` 中提取数据实例(可自动提取，也可使用您定义的采样器)，分批收集，并返回给训练循环使用。`DataLoader` 可以处理各种数据集，无论其中数据类型如何。
 
 在本教程中，我们将使用 TorchVision 提供的 Fashion-MNIST 数据集。我们使用 `torchvision.transforms.Normalize()` 对图块内容的分布进行零中心化和归一化处理，并下载训练和验证数据分片。
 
@@ -225,7 +225,7 @@ Total loss for this batch: 2.428950071334839
 尝试这种优化方案的一些变式可能会有所启发：
 
 - 学习率决定了优化器的步长。不同的学习率会对训练结果的准确性和收敛时间产生什么影响？
-- 动量（Momentum）使优化器在多个步骤中朝着梯度最大的方向前进。改变这个值对结果有什么影响？
+- 动量(Momentum)使优化器在多个步骤中朝着梯度最大的方向前进。改变这个值对结果有什么影响？
 - 尝试一些不同的优化算法，如平均 SGD、Adagrad 或 Adam。结果有何不同？
 
 ```python
@@ -444,7 +444,7 @@ saved_model.load_state_dict(torch.load(PATH))
 
 ## 其它资源
 
-- pytorch.org 上关于[数据工具](https://pytorch.org/docs/stable/data.html)（包括 Dataset 和 DataLoader）的文档
+- pytorch.org 上关于[数据工具](https://pytorch.org/docs/stable/data.html)(包括 Dataset 和 DataLoader)的文档
 - 关于在 GPU 训练中[使用固定内存的说明](https://pytorch.org/docs/stable/notes/cuda.html#cuda-memory-pinning)
 - 关于 [TorchVision](https://pytorch.org/vision/stable/datasets.html)、[TorchText](https://pytorch.org/text/stable/datasets.html) 和 [TorchAudio](https://pytorch.org/audio/stable/datasets.html) 中可用数据集的文档
 - 关于 PyTorch 中可用[损失函数](https://pytorch.org/docs/stable/nn.html#loss-functions)的文档

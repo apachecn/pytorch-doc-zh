@@ -58,7 +58,7 @@
 
 
 **注意** 
- ：本教程介绍了分布式 RPC 框架的使用，该框架对于将模型分割到多台机器上，或者用于实现参数服务器训练策略（其中网络训练器获取托管在不同机器上的参数）非常有用。机器。如果您希望在多个 GPU 上复制模型，请参阅
+ ：本教程介绍了分布式 RPC 框架的使用，该框架对于将模型分割到多台机器上，或者用于实现参数服务器训练策略(其中网络训练器获取托管在不同机器上的参数)非常有用。机器。如果您希望在多个 GPU 上复制模型，请参阅
  [分布式数据并行教程](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) 
  。还有另一个
  [RPC 教程](https://pytorch.org/tutorials/intermediate/rpc_tutorial.html)
@@ -207,7 +207,7 @@ class ParameterServer(nn.Module):
 
 
 
- 接下来，我们’ 将定义我们的前向传播。请注意，无论模型输出的设备如何，我们都会将输出移动到 CPU，因为分布式 RPC 框架当前仅支持通过 RPC 发送 CPU 张量。由于调用方/被调用方可能会使用不同的设备 (CPU/GPU)，我们特意禁用了通过 RPC 发送 CUDA 张量，但可能会在未来版本中支持此功能。
+ 接下来，我们’ 将定义我们的前向传播。请注意，无论模型输出的设备如何，我们都会将输出移动到 CPU，因为分布式 RPC 框架当前仅支持通过 RPC 发送 CPU tensor。由于调用方/被调用方可能会使用不同的设备 (CPU/GPU)，我们特意禁用了通过 RPC 发送 CUDA tensor，但可能会在未来版本中支持此功能。
 
 
 
@@ -233,9 +233,9 @@ class ParameterServer(nn.Module):
  接下来，我们’ 将定义一些用于训练和验证目的的杂项函数。第一个 `get_dist_gradients`
  将接受分布式 Autograd 上下文 ID 并调用
  `dist_autograd.get_gradients`
- API 以检索梯度通过分布式 autograd 计算。更多信息可以在[分布式 autograd 文档](https://pytorch.org/docs/stable/rpc.html#distributed-autograd-framework) 中找到。请注意，我们还迭代结果字典并将每个张量转换为 CPU 张量，因为该框架当前仅支持通过 RPC 发送张量。接下来，
+ API 以检索梯度通过分布式 autograd 计算。更多信息可以在[分布式 autograd 文档](https://pytorch.org/docs/stable/rpc.html#distributed-autograd-framework) 中找到。请注意，我们还迭代结果字典并将每个tensor转换为 CPU tensor，因为该框架当前仅支持通过 RPC 发送tensor。接下来，
  `get_param_rrefs`
- 将迭代我们的模型参数并将它们包装为（本地）
+ 将迭代我们的模型参数并将它们包装为(本地)
  [RRef](https://pytorch.org/docs/stable/rpc.html #torch.distributed.rpc.RRef) 
  。该方法将由训练器节点通过 RPC 调用，并将返回要优化的参数列表。这是分布式优化器的输入所必需的，它需要将所有参数优化为
  `RRef` 列表。
@@ -271,7 +271,7 @@ def get_param_rrefs(self):
 
  最后，我们’ 将创建方法来初始化参数服务器。请注意，所有进程中只会有一个参数服务器实例，并且所有训练器都将与同一参数服务器通信并更新相同的存储模型。如
  `run_parameter_server`
- 所示，服务器本身不执行任何独立操作；它等待来自训练器的请求（尚未定义）并通过运行请求的函数来响应它们。
+ 所示，服务器本身不执行任何独立操作；它等待来自训练器的请求(尚未定义)并通过运行请求的函数来响应它们。
 
 
 
@@ -316,9 +316,9 @@ def run_parameter_server(rank, world_size):
 
  请注意，上面的
  `rpc.shutdown()`
- 不会立即关闭参数服务器。相反，它将等待所有工作人员（在本例中为训练人员）也调用
+ 不会立即关闭参数服务器。相反，它将等待所有工作人员(在本例中为训练人员)也调用
  `rpc.shutdown()`
- 。这为我们保证了在所有训练器（尚未定义）完成训练过程之前参数服务器不会离线。
+ 。这为我们保证了在所有训练器(尚未定义)完成训练过程之前参数服务器不会离线。
 
 
 
@@ -331,7 +331,7 @@ def run_parameter_server(rank, world_size):
  `__init__`
  方法将使用
  `rpc.remote`
-用于获取参数服务器的 RRef（或远程引用）的 API。请注意，这里我们没有将参数服务器复制到本地进程，相反，我们可以将
+用于获取参数服务器的 RRef(或远程引用)的 API。请注意，这里我们没有将参数服务器复制到本地进程，相反，我们可以将
  `self.param_server_rref`
  视为指向参数服务器的分布式共享指针，该指针位于单独的进程上进程。
 
@@ -405,7 +405,7 @@ class TrainerNet(nn.Module):
 
  现在，我们\xe2\x80\x99 已准备好定义
  `forward`
- 方法，该方法将调用（同步）RPC 来运行
+ 方法，该方法将调用(同步)RPC 来运行
  `ParameterServer` 上定义的网络的前向传递名词请注意，我们将
  `self.param_server_rref`
  传递给我们的RPC 调用，这是
@@ -444,7 +444,7 @@ class TrainerNet(nn.Module):
  `TrainerNet`
  并构建
  `DistributedOptimizer`
- 。请注意，如上所述，我们必须传入要优化的所有全局（参与分布式训练的所有节点）参数。此外，我们还传入要使用的本地优化器，在本例中为 SGD。请注意，我们可以以与创建本地优化器相同的方式配置底层优化器算法 - 
+ 。请注意，如上所述，我们必须传入要优化的所有全局(参与分布式训练的所有节点)参数。此外，我们还传入要使用的本地优化器，在本例中为 SGD。请注意，我们可以以与创建本地优化器相同的方式配置底层优化器算法 - 
  `optimizer.SGD`
  的所有参数都将被正确转发。例如，我们传入一个自定义学习率，该学习率将用作所有本地优化器的学习率。
 
@@ -588,7 +588,7 @@ def run_worker(rank, world_size, num_gpus, train_loader, test_loader):
  `run_parameter_server`
  ，
  `rpc.shutdown()`
- 默认情况下将等待所有工作人员（包括培训师和参数服务器）调用\ n `rpc.shutdown()`
+ 默认情况下将等待所有工作人员(包括培训师和参数服务器)调用\ n `rpc.shutdown()`
  在该节点退出之前。这可确保节点正常终止，并且不会有一个节点在另一个节点期望其联机时脱机。
 
 
@@ -598,7 +598,7 @@ def run_worker(rank, world_size, num_gpus, train_loader, test_loader):
  `world_size`
  对应于将参与训练的节点总数，并且是所有训练器和参数的总和服务器。我们还必须为每个单独的进程传递一个唯一的
  `rank`
-，从 0（我们将在其中运行单参数服务器）到
+，从 0(我们将在其中运行单参数服务器)到
  `world_size
  
 

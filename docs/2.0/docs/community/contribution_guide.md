@@ -7,7 +7,7 @@
 > 原始地址：<https://pytorch.org/docs/stable/community/contribution_guide.html>
 
 
- PyTorch 是一个 GPU 加速的 Python 张量计算包，用于使用基于磁带的 autograd 系统构建深度神经网络。
+ PyTorch 是一个 GPU 加速的 Python tensor计算包，用于使用基于磁带的 autograd 系统构建深度神经网络。
 
 
 ## 贡献过程 [¶](#contribution-process "此标题的固定链接")

@@ -8,7 +8,7 @@
 
 **作者**： [Yuansong Feng](https://github.com/YuansongFeng) , [Suraj Subramanian](https://github.com/suraj813) , [Howard Wang](https://github.com/hw26) , [Steven Guo](https://github.com/GuoYuzhang) .
 
-本教程将向您介绍深度强化学习的基础知识。 最后，您将实现一个 AI 驱动的马里奥（使用[双重深度 Q 网络](https://arxiv.org/pdf/1509.06461.pdf)），它可以自己玩游戏。
+本教程将向您介绍深度强化学习的基础知识。 最后，您将实现一个 AI 驱动的马里奥(使用[双重深度 Q 网络](https://arxiv.org/pdf/1509.06461.pdf))，它可以自己玩游戏。
 
 尽管本教程不需要任何有关 RL 的先验知识，但是您可以熟悉这些 RL [概念](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html)，并将此方便的[备忘单](https://colab.research.google.com/drive/1eN33dPVtdPViiS1njTW_-r-IYCDTFU7N)作为您的伴侣。[完整代码可在此处获得](https://github.com/yuansongFeng/MadMario/)。
 
@@ -62,7 +62,7 @@ from torchrl.data import TensorDictReplayBuffer, LazyMemmapStorage
 
 在马里奥，环境由试管，蘑菇和其他成分组成。
 
-当马里奥采取行动时，环境会以已更改的（下一个）状态，奖励和其他信息作为响应。
+当马里奥采取行动时，环境会以已更改的(下一个)状态，奖励和其他信息作为响应。
 
 ```py
 # Initialize Super Mario environment (in v0.26 change render mode to 'human' to see results on the screen)
@@ -179,8 +179,8 @@ else:
 
 我们创建一个类`Mario`来表示我们的智能体在游戏中。 马里奥应该能够：
 
-*   **根据（环境的）当前状态，执行最佳操作策略**。
-*   **记住**经验。 经验为（当前状态，当前动作，奖励，下一个状态）。 马里奥*缓存*并且后来*回忆起*他的经验来更新其行动策略。
+*   **根据(环境的)当前状态，执行最佳操作策略**。
+*   **记住**经验。 经验为(当前状态，当前动作，奖励，下一个状态)。 马里奥*缓存*并且后来*回忆起*他的经验来更新其行动策略。
 *   **逐步了解**更好的操作策略
 
 ```py
@@ -209,9 +209,9 @@ class Mario:
 
 ### 行动
 
-对于任何给定状态，智能体都可以选择执行最佳操作（**利用**）或执行随机操作（**探索**）。
+对于任何给定状态，智能体都可以选择执行最佳操作(**利用**)或执行随机操作(**探索**)。
 
-马里奥随机发掘并发`self.exploration_rate` 当他选择利用时，他依靠`MarioNet`（在`Learn`部分中实现）提供最佳操作。
+马里奥随机发掘并发`self.exploration_rate` 当他选择利用时，他依靠`MarioNet`(在`Learn`部分中实现)提供最佳操作。
 
 ```py
 class Mario:
@@ -315,7 +315,7 @@ class Mario(Mario):  # subclassing for continuity
 
 马里奥在后台使用 [DDQN 算法](https://arxiv.org/pdf/1509.06461)。 DDQN 使用两个 ConvNet-`Q_online`和`Q_target`-独立地逼近最佳作用值函数。
 
-在我们的实现中，我们在`Q_online`和`Q_target`之间共享特征生成器`features`，但是为每个特征维护单独的 FC 分类器。 `θ_target`（`Q_target`的参数）被冻结，以防止反向传播进行更新。 而是定期与`θ_online`同步（稍后会对此进行详细介绍）。
+在我们的实现中，我们在`Q_online`和`Q_target`之间共享特征生成器`features`，但是为每个特征维护单独的 FC 分类器。 `θ_target`(`Q_target`的参数)被冻结，以防止反向传播进行更新。 而是定期与`θ_online`同步(稍后会对此进行详细介绍)。
 
 #### 神经网络
 
@@ -376,7 +376,7 @@ $TD_t = r + \gamma Q^*_{\text{target}}(s',a')$
 
 由于我们不知道下一个动作`a'`是什么，因此我们在下一个状态`s'`中使用动作`a'`最大化`Q_online`。
 
-请注意，我们在`td_target()`上使用了[`@torch.no_grad()`](https://pytorch.org/docs/stable/generated/torch.no_grad.html#no-grad)装饰器来禁用梯度计算（因为我们无需在`θ_target`上进行反向传播。）
+请注意，我们在`td_target()`上使用了[`@torch.no_grad()`](https://pytorch.org/docs/stable/generated/torch.no_grad.html#no-grad)装饰器来禁用梯度计算(因为我们无需在`θ_target`上进行反向传播。)
 
 ```py
 class Mario(Mario):
@@ -402,7 +402,7 @@ class Mario(Mario):
 
 #### 更新模型
 
-当马里奥从其重播缓冲区中采样输入时，我们计算`TD_t`和`TD_e`并反向传播该损失`Q_online`以更新其参数`θ_online` ($\alpha$是传递给`optimizer`的学习率`lr`）
+当马里奥从其重播缓冲区中采样输入时，我们计算`TD_t`和`TD_e`并反向传播该损失`Q_online`以更新其参数`θ_online` ($\alpha$是传递给`optimizer`的学习率`lr`)
 
 $\theta_{\text{online}} \leftarrow \theta_{\text{online}} + \alpha \Delta(TD_e - TD_t)$
 
@@ -659,7 +659,7 @@ Episode 20 - Step 5007 - Epsilon 0.9987490329557962 - Mean Reward 667.429 - Mean
 
 在本教程中，我们看到了如何使用 PyTorch 来训练玩游戏的 AI。 您可以使用相同的方法训练 AI 在 [OpenAI Gym](https://gym.openai.com/)上玩任何游戏。 希望您喜欢本教程，请随时通过[我们的 Github](https://github.com/yuansongFeng/MadMario/) 与我们联系！
 
-**脚本的总运行时间**：（1 分钟 24.314 秒）
+**脚本的总运行时间**：(1 分钟 24.314 秒)
 
 
 [打开 Jupyter 笔记本：`mario_rl_tutorial.ipynb`](https://colab.research.google.com/github/pytorch/tutorials/blob/gh-pages/_downloads/c195adbae0504b6504c93e0fd18235ce/mario_rl_tutorial.ipynb#scrollTo=Dw6IU4IdlcmO)

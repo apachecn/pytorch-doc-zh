@@ -102,7 +102,7 @@ tensor 有超过100种操作，包括算术、线性代数、矩阵操作(转置
 
 这些操作都可以在 GPU 上运行(通常比在 CPU 上运行的速度更快)。如果你使用 Colab，通过 Runtime > Change runtime type > GPU 来分配一个GPU。
 
-默认情况下，tensors 是在 CPU 上创建的。我们需要使用 ``.to`` 方法显式地将 tensors 移动到 GPU 上（在检查GPU的可用性之后）。请记住，在不同的设备上复制大型的 tensors，在时间和内存上都是很昂贵的!
+默认情况下，tensors 是在 CPU 上创建的。我们需要使用 ``.to`` 方法显式地将 tensors 移动到 GPU 上(在检查GPU的可用性之后)。请记住，在不同的设备上复制大型的 tensors，在时间和内存上都是很昂贵的!
 
 
 ```py
@@ -137,7 +137,7 @@ tensor([[1., 0., 1., 1.],
 ```
 **连接 tensors**
 
-您可以使用 ``torch.cat`` 将一系列张量沿着给定的维数连接起来。另请参见 [torch.stack](https://pytorch.org/docs/stable/generated/torch.stack.html)，它是另一个张量连接运算符，与 ``torch.cat`` 略有不同。
+您可以使用 ``torch.cat`` 将一系列tensor沿着给定的维数连接起来。另请参见 [torch.stack](https://pytorch.org/docs/stable/generated/torch.stack.html)，它是另一个tensor连接运算符，与 ``torch.cat`` 略有不同。
 
 
 

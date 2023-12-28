@@ -25,12 +25,12 @@
 与
  `DataParallel`
  相比，它将单个模型分割到不同的 GPU 上，
-而不是复制整个模型在每个 GPU 上（具体来说，假设模型
+而不是复制整个模型在每个 GPU 上(具体来说，假设模型
  `m`
  包含 10 层：当使用
  `DataParallel`
  时，每个 GPU 将拥有这 10 层中每一层的副本，而使用模型时在两个 GPU 上并行，
-每个 GPU 可以托管 5 个层）。
+每个 GPU 可以托管 5 个层)。
 
 
 
@@ -101,8 +101,8 @@ class ToyModel(nn.Module):
 实现它的方式非常相似，
  除了四个
  `to(device)`
- 调用（用于放置线性层）
-和适当设备上的张量。这是模型中唯一需要更改的地方。 
+ 调用(用于放置线性层)
+和适当设备上的tensor。这是模型中唯一需要更改的地方。 
  `backward()`
  和
  `torch.optim`
@@ -293,7 +293,7 @@ rn_run_times = timeit.repeat(
 rn_mean, rn_std = np.mean(rn_run_times), np.std(rn_run_times)
 
 
-def 图（意思，stds，[标签]（https://pytorch.org/docs/stable/tensors.html#torch.Tensor "torch.Tensor"），fig_name）：
+def 图(意思，stds，[标签](https://pytorch.org/docs/stable/tensors.html#torch.Tensor "torch.Tensor")，fig_name)：
  Fig，ax = plt.subplots()
  ax.bar(np.arange(len(means)),means, yerr=stds,
 align='center', alpha=0.5, ecolor='red', capsize= 10, width=0.6)
@@ -321,7 +321,7 @@ plot([mp_mean, rn_mean],
 
  结果表明，模型并行实现的执行时间比现有单GPU实现长
  `4.02/3.75-1=7%`
-。因此我们可以得出结论，在 GPU 之间来回复制张量大约有 7% 的开销。还有改进的空间，因为我们知道
+。因此我们可以得出结论，在 GPU 之间来回复制tensor大约有 7% 的开销。还有改进的空间，因为我们知道
 两个 GPU 之一在整个执行过程中处于空闲状态。一种选择是将每个批次进一步划分为一个分割管道，这样当一个分割到达第二个子网络时，下一个分割就可以输入第一个子网络。这样，两个连续的分割就可以在两个
 GPU 上同时运行。
 
@@ -385,9 +385,9 @@ plot([mp_mean, rn_mean, pp_mean],
 
 
 
- 请注意，设备到设备的张量复制操作在源设备和目标设备上的当前流上同步。如果您创建
+ 请注意，设备到设备的tensor复制操作在源设备和目标设备上的当前流上同步。如果您创建
 多个流，则必须确保复制操作
-正确同步。在完成复制操作之前写入源张量或读取/写入目标张量可能会导致未定义的行为。
+正确同步。在完成复制操作之前写入源tensor或读取/写入目标tensor可能会导致未定义的行为。
 上述实现仅在源设备和目标设备上使用默认流，因此无需强制执行额外的同步。 
 
 
@@ -454,7 +454,7 @@ plt.close(fig)
  加速。仍有机会进一步加快培训进程。例如，
  `cuda:0` 上的所有操作都放在其默认流上。这意味着下一个分割的计算不能与上一个分割的复制操作重叠。然而，由于
  `上一个`
- 和下一个分割是不同的张量，
+ 和下一个分割是不同的tensor，
 将一个’s 计算与另一个’s 副本重叠是没有问题的。实现需要在两个GPU上使用多个流，并且不同的子网络结构需要不同的流管理策略。由于没有通用的多流解决方案适用于所有模型并行用例，因此我们不会在本教程中讨论它。
 
 

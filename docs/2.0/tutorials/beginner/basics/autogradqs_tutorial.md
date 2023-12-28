@@ -23,18 +23,18 @@ z = torch.matmul(x, w)+b
 loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
 ```
 
-## 张量、函数和计算图
+## tensor、函数和计算图
 
 这个代码会定义下面的计算图:
 
 ![automatic_differentiation_with_torch_autograd_1.png](../../../img/automatic_differentiation_with_torch_autograd_1.png)
 
-在这个网络中，`w` 和 `b` 都是我们需要优化的参数。因此，我们需要能够对这些变量分别计算损失函数的梯度。为了这么做，我们设置这些张量的 `requires_grad` 属性。
+在这个网络中，`w` 和 `b` 都是我们需要优化的参数。因此，我们需要能够对这些变量分别计算损失函数的梯度。为了这么做，我们设置这些tensor的 `requires_grad` 属性。
 
 > 注意:
-> 你可以在创建张量的时候就设置 `requires_grad` 的值、或者在创建之后用 `x.requires_grad_(True)` 方法来设置。
+> 你可以在创建tensor的时候就设置 `requires_grad` 的值、或者在创建之后用 `x.requires_grad_(True)` 方法来设置。
 
-我们对张量应用来创建计算图的函数事实上是一个 `Function` 类的对象。这个对象知道如何*前向*地计算函数，以及如何在*向后传播的步骤中*计算导数。反向传播函数的一个引用保存在张量的 `grad_fn` 的属性中。你可以在[文档](https://pytorch.org/docs/stable/autograd.html#function)中找到更多关于 `Function` 的信息。
+我们对tensor应用来创建计算图的函数事实上是一个 `Function` 类的对象。这个对象知道如何*前向*地计算函数，以及如何在*向后传播的步骤中*计算导数。反向传播函数的一个引用保存在tensor的 `grad_fn` 的属性中。你可以在[文档](https://pytorch.org/docs/stable/autograd.html#function)中找到更多关于 `Function` 的信息。
 
 ```py
 print(f"Gradient function for z = {z.grad_fn}")
@@ -76,7 +76,7 @@ tensor([0.3313, 0.0626, 0.2530])
 
 ## 禁用梯度追踪
 
-默认情况下，所有设置 `requires_grad=True` 的张量会追踪它的计算历史并支持梯度计算。但是也有我们并不需要这么做的场景，比如，当我们已经训练了模型且只想对一些输入数据应用的时候，比如我们只想做沿着网络的*前向*计算。我们可以通过用 `torch.no_grad` 包裹我们的计算代码块来停止追踪计算。
+默认情况下，所有设置 `requires_grad=True` 的tensor会追踪它的计算历史并支持梯度计算。但是也有我们并不需要这么做的场景，比如，当我们已经训练了模型且只想对一些输入数据应用的时候，比如我们只想做沿着网络的*前向*计算。我们可以通过用 `torch.no_grad` 包裹我们的计算代码块来停止追踪计算。
 
 ```py
 z = torch.matmul(x, w)+b
@@ -94,7 +94,7 @@ True
 False
 ```
 
-另一种取得同样效果的方法是在张量上使用 `detach()` 方法。
+另一种取得同样效果的方法是在tensor上使用 `detach()` 方法。
 
 ```py
 z = torch.matmul(x, w)+b
@@ -111,29 +111,29 @@ False
 你想要禁用梯度追踪的原因可能是：
 
 - 为了把你神经网络中的某些参数标记为**冻结参数(frozen parameters)**
-- 为了在你只做前向传递的时候加快计算速度，因为在不追踪梯度的张量上进行的运算会更加高效。
+- 为了在你只做前向传递的时候加快计算速度，因为在不追踪梯度的tensor上进行的运算会更加高效。
 
 ## 计算图的更多内容
 
-从概念上来说，autograd 在一个由[函数(Function)对象](https://pytorch.org/docs/stable/autograd.html#torch.autograd.Function)构成的有向无环图中保持一份数据（张量）以及全部执行的操作（以及产生的新张量）的记录。在这个有向无环图(**DAG**)中，叶子节点是输入张量，根节点是输出张量。通过从根节点到叶子节点地追踪这个图，你可以用链式法则自动计算梯度。
+从概念上来说，autograd 在一个由[函数(Function)对象](https://pytorch.org/docs/stable/autograd.html#torch.autograd.Function)构成的有向无环图中保持一份数据(tensor)以及全部执行的操作(以及产生的新tensor)的记录。在这个有向无环图(**DAG**)中，叶子节点是输入tensor，根节点是输出tensor。通过从根节点到叶子节点地追踪这个图，你可以用链式法则自动计算梯度。
 
 在前向传递中，autograd 同时做两件事：
 
-- 运行指定的操作来计算、生成一个张量
+- 运行指定的操作来计算、生成一个tensor
 - 维持这次运算在有向无环图中的*梯度函数*
 
 当对有向无环图的根节点调用 `.backward()` 方法时，反向传递就开始了。然后 `autograd` 会：
 
 - 从每个 `.grad_fn` 中计算梯度
-- 在对应张量的 `.grad` 属性中累计它们
-- 应用链式法则，一路传播到叶子张量。
+- 在对应tensor的 `.grad` 属性中累计它们
+- 应用链式法则，一路传播到叶子tensor。
 
 > 注意:
 > **PyTorch 中的有向无环图是动态的**: 一个重要的观察是这个图是从零重建的；每次 `.backward()` 调用之后，autograd 都会开始构建一张新图。这一点允许你在模型中使用流控制语句；如果需要的话，你可以在每次迭代中改变结构、大小和和运算。
 
-## 选读: 张量梯度和 Jacobian （译为：雅各布）乘积
+## 选读: tensor梯度和 Jacobian (译为：雅各布)乘积
 
-在许多场景中，我们有一个标量损失函数，且我们需要对某些参数计算梯度。然而，也有些场景下输出函数是一个任意的张量。在这种场景下，PyTorch 允许你计算一个 Jacobian 乘积，而不是真实的梯度。
+在许多场景中，我们有一个标量损失函数，且我们需要对某些参数计算梯度。然而，也有些场景下输出函数是一个任意的tensor。在这种场景下，PyTorch 允许你计算一个 Jacobian 乘积，而不是真实的梯度。
 
 对于一个向量函数 $\vec y = f(\vec x)$， 给定 $\vec x = < x_1,...,x_n >$ 且 $\vec y = < y_1,...,y_n >$， 一个 $\vec y$ 对 $\vec x$ 的梯度可以用 Jacobian 矩阵表示为:
 
@@ -147,7 +147,7 @@ $$
   \end{matrix}\tag{1}
 $$
 
-PyTorch 允许你对一个给定的输入向量 $v = < v_1,...,v_m >$ 计算 Jacobian 乘积 $v^T \cdot J$。这可以通过把 $v$ 作为调用 `backward` 时的参数来实现的。$v$ 的大小应该和我们想要计算乘积的原始张量一致：
+PyTorch 允许你对一个给定的输入向量 $v = < v_1,...,v_m >$ 计算 Jacobian 乘积 $v^T \cdot J$。这可以通过把 $v$ 作为调用 `backward` 时的参数来实现的。$v$ 的大小应该和我们想要计算乘积的原始tensor一致：
 
 ```py
 inp = torch.eye(4, 5, requires_grad=True)

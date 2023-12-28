@@ -1,4 +1,4 @@
-# （测试版）在FX中构建一个卷积/BATCH NORM 融合器
+# (测试版)在FX中构建一个卷积/BATCH NORM 融合器
 
 
 
@@ -12,15 +12,15 @@
 
 **作者**: [Horace He](https://github.com/chillee)
 
-在本教程中，我们将使用 FX（一个用于 PyTorch 的可组合函数转换的工具包）来执行以下操作： 
+在本教程中，我们将使用 FX(一个用于 PyTorch 的可组合函数转换的工具包)来执行以下操作： 
 
 1. 查找数据依赖项中的conv/batch norm。
 
 2. 对于 1) 中找到的模式，将批量范数统计数据折叠到卷积权重中。
 
- 请注意，此优化仅适用于推理模式下的模型（即 mode.eval()）。我们将构建此处存在的融合器：https://github.com/pytorch/pytorch/blob/orig/release/1.8/torch/fx/experimental/fuser.py。
+ 请注意，此优化仅适用于推理模式下的模型(即 mode.eval())。我们将构建此处存在的融合器：https://github.com/pytorch/pytorch/blob/orig/release/1.8/torch/fx/experimental/fuser.py。
 
-首先，让我们进行一些导入（稍后我们将在代码中使用所有这些）。
+首先，让我们进行一些导入(稍后我们将在代码中使用所有这些)。
 
 ```python
 from typing import Type, Dict, Any, Tuple, Iterable
@@ -231,7 +231,7 @@ print("Unfused time: ", benchmark(rn18))
 print("Fused time: ", benchmark(fused_rn18))
 ```
 
-正如我们之前看到的，我们的FX转换的输出是（“torchscriptable”）PyTorch代码，我们可以轻松地对输出进行**jit.script**，以尝试进一步提高我们的性能。通过这种方式，我们的FX模型转换与TorchScript完美结合。
+正如我们之前看到的，我们的FX转换的输出是(“torchscriptable”)PyTorch代码，我们可以轻松地对输出进行**jit.script**，以尝试进一步提高我们的性能。通过这种方式，我们的FX模型转换与TorchScript完美结合。
 
 ```python
 jit_rn18 = torch.jit.script(fused_rn18)

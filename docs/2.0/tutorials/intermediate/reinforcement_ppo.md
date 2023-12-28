@@ -62,9 +62,9 @@
 
 * [环境](https://pytorch.org/rl/reference/envs.html)
 * [变换](https://pytorch.org/rl/reference/envs.html#transforms)
-* [模型（策略和价值函数）](https://pytorch.org/rl/reference/modules.html)
+* [模型(策略和价值函数)](https://pytorch.org/rl/reference/modules.html)
 * [损失模块](https://pytorch.org/rl/reference/objectives.html)\ n* [数据收集器](https://pytorch.org/rl/reference/collectors.html)
-* [重播缓冲区](https://pytorch.org/rl/reference/data.html#replay-buffers ）
+* [重播缓冲区](https://pytorch.org/rl/reference/data.html#replay-buffers )
 
 
 
@@ -120,7 +120,7 @@ g(\epsilon, A^{\pi_{\theta_k}}(s,a))
 \right),\]
  
 \该损失有两个组成部分：在最小运算符的第一部分中，
-我们只是计算 REINFORCE 损失的重要性加权版本（例如，
+我们只是计算 REINFORCE 损失的重要性加权版本(例如，
 我们已针对当前策略的事实进行了纠正的 REINFORCE 损失
 配置滞后于用于数据收集的配置。
 最小运算符的第二部分是类似的损失，当比率超过或低于给定的一对阈值时，我们会剪裁
@@ -199,10 +199,10 @@ from tqdm import tqdm
 `frame_skip`
  将控制单个操作
 执行的帧数。计算帧数的其余参数
-必须针对此值进行更正（因为一个环境步骤
+必须针对此值进行更正(因为一个环境步骤
 实际上会返回
  `frame_skip`
- 帧）。
+ 帧)。
 
 
 
@@ -227,7 +227,7 @@ max_grad_norm = 1.0
  收集数据时，我们可以通过定义 
  `frames_per_batch`
  参数来选择每个批次的大小。我们还将定义我们允许自己使用的
-帧数（例如与模拟器的交互次数）。一般来说，RL 算法的目标是在环境交互方面尽可能快地学习解决任务：
+帧数(例如与模拟器的交互次数)。一般来说，RL 算法的目标是在环境交互方面尽可能快地学习解决任务：
  `total_frames`
  越低越好。
 我们还定义了
@@ -272,7 +272,7 @@ total_frames = 50_000 // frame_skip
 
 
 
- 在每次数据收集（或批量收集）时，我们将在一定数量的
+ 在每次数据收集(或批量收集)时，我们将在一定数量的
  *epochs* 
  上运行优化，每次都会消耗我们在嵌套训练循环中
 刚刚获取的整个数据。这里，
@@ -315,7 +315,7 @@ entropy_eps = 1e-4
 
  在强化学习中，
  *环境* 
- 通常是我们指代模拟器或控制系统的方式。各种库提供了用于强化学习的模拟环境，包括 Gymnasium（以前称为 OpenAI Gym）、DeepMind Control Suite 等。
+ 通常是我们指代模拟器或控制系统的方式。各种库提供了用于强化学习的模拟环境，包括 Gymnasium(以前称为 OpenAI Gym)、DeepMind Control Suite 等。
 作为通用库，TorchRL’s 的目标是提供一个可互换的接口
 大型 RL 模拟器面板，让您可以轻松地在一个环境与另一个环境之间切换
 。例如，只需几个字符即可创建一个包装式健身房环境：
@@ -407,11 +407,11 @@ base_env = GymEnv("InvertedDoublePendulum-v4", device=device, frame_skip=frame_s
  正如我们稍后将看到的，许多 TorchRL’s 类依赖
  `TensorDict`
  进行通信。您可以将其视为具有一些额外
-张量功能的 Python 字典。实际上，这意味着我们将要使用的许多模块
-需要被告知要读取什么键（
+tensor功能的 Python 字典。实际上，这意味着我们将要使用的许多模块
+需要被告知要读取什么键(
  `in_keys`
- ）以及要写入
-（
+ )以及要写入
+(
  `out_keys` 
  ) 在他们将收到的
  `tensordict`
@@ -521,7 +521,7 @@ normalization constant shape: torch.Size([11])
  `reward_spec`
  指示奖励域，最后是
  `input_spec`
- （其中包含
+ (其中包含
  `action_spec `
  ) 并代表
 环境执行单个步骤所需的一切。
@@ -639,8 +639,8 @@ check_env_specs succeeded!
 
 
 
-通常，在每一步，强化学习环境都会接收一个动作作为输入，并输出一个观察结果、一个奖励和一个完成状态。观测值可能是复合的，这意味着它可能由多个张量组成。对于 TorchRL 来说这不是问题，因为整个观察集会自动打包在输出中`TensorDict`
- 中。在给定的步骤数上执行 rollout（例如，一系列环境步骤和随机操作生成）后，我们将检索一个形状与轨迹长度匹配的“TensorDict”实例： 
+通常，在每一步，强化学习环境都会接收一个动作作为输入，并输出一个观察结果、一个奖励和一个完成状态。观测值可能是复合的，这意味着它可能由多个tensor组成。对于 TorchRL 来说这不是问题，因为整个观察集会自动打包在输出中`TensorDict`
+ 中。在给定的步骤数上执行 rollout(例如，一系列环境步骤和随机操作生成)后，我们将检索一个形状与轨迹长度匹配的“TensorDict”实例： 
 
 
 
@@ -703,7 +703,7 @@ Shape of the rollout TensorDict: torch.Size([3])
  
  与数据匹配at
  `t+1`
- ，但如果我们使用一些特定的转换（例如，多步），情况可能并非如此。
+ ，但如果我们使用一些特定的转换(例如，多步)，情况可能并非如此。
 
 
 
@@ -722,8 +722,8 @@ Shape of the rollout TensorDict: torch.Size([3])
  由于数据是连续的，我们使用 Tanh 正态分布来尊重
 动作空间边界。 TorchRL 提供了这样的分布，
 我们唯一需要关心的是构建一个神经网络，
-输出正确数量的参数供策略使用（位置或平均值，
-和比例）：
+输出正确数量的参数供策略使用(位置或平均值，
+和比例)：
 
 
 
@@ -759,7 +759,7 @@ Shape of the rollout TensorDict: torch.Size([3])
  。
 2.附加
  `NormalParamExtractor`
- 以提取位置和比例（例如，将输入分成两等份并对比例参数应用正变换）。
+ 以提取位置和比例(例如，将输入分成两等份并对比例参数应用正变换)。
 3.创建一个概率
  `TensorDictModule`
  可以生成此分布并从中采样。
@@ -837,10 +837,10 @@ policy_module = TensorDictModule(
 
 
  `in_keys`
- 的名称（以及上面的 
+ 的名称(以及上面的 
  `TensorDictModule`
  的 
- `out_keys` 的名称）不能设置为任何值一可能
+ `out_keys` 的名称)不能设置为任何值一可能
 喜欢，如
  [`TanhNormal`](https://pytorch.org/rl/reference/generated/torchrl.modules.TanhNormal.html#torchrl.modules.TanhNormal "(in torchrl vmain (0.2.1 ))")
  分发构造函数将需要
@@ -1002,19 +1002,19 @@ Running value: TensorDict(
  。
 简而言之，这些类执行三个操作：重置环境、
 计算操作根据最新的观察结果，在环境中执行一个步骤，
-并重复最后两个步骤，直到环境发出停止信号（或达到
-完成状态）。
+并重复最后两个步骤，直到环境发出停止信号(或达到
+完成状态)。
 
 
 
 
  它们允许您控制每次迭代时收集多少帧
-（通过
+(通过
  `frames_per_batch`
- 参数），
-何时重置环境（通过
+ 参数)，
+何时重置环境(通过
  `max\ \_frames_per_traj`
- 参数）、
+ 参数)、
  应执行哪个
  `设备`
  策略等。它们还
@@ -1092,7 +1092,7 @@ collector = SyncDataCollector(
  [`ReplayBuffer`](https://pytorch.org/rl/reference/generated/torchrl.data.ReplayBuffer.html#torchrl.data.ReplayBuffer "(in torchrl vmain (0.2.1 ))")
  它将缓冲区的组件
 作为参数：存储、写入器、采样器以及可能的一些转换。
-仅存储（指示重播）缓冲区容量）是强制性的。
+仅存储(指示重播)缓冲区容量)是强制性的。
 我们还指定一个不重复的采样器，以避免在一个 epoch 中对同一项目进行多次采样。
 对 PPO 使用重播缓冲区不是强制性的，我们可以简单地
 从收集到的子批次中进行采样批处理，但使用这些类
@@ -1120,7 +1120,7 @@ replay_buffer = ReplayBuffer(
 
 
 
- 为了方便起见，可以使用 [`ClipPPOLoss`](https://pytorch.org/rl/reference/generated/torchrl.objectives.ClipPPOLoss.html#torchrl.objectives.ClipPPOLoss) 直接从 TorchRL 导入 PPO 损失“（在 torchrl vmain (0.2.1 )) 中”)
+ 为了方便起见，可以使用 [`ClipPPOLoss`](https://pytorch.org/rl/reference/generated/torchrl.objectives.ClipPPOLoss.html#torchrl.objectives.ClipPPOLoss) 直接从 TorchRL 导入 PPO 损失“(在 torchrl vmain (0.2.1 )) 中”)
  类。这是利用 PPO 的最简单方法：
 它隐藏了 PPO 的数学运算以及随之而来的控制流。
 
@@ -1141,10 +1141,10 @@ GAE 模块将使用新的
  个条目。
 
  `"value_target"`
- 是一个无梯度张量，表示价值网络应使用输入观测表示的
+ 是一个无梯度tensor，表示价值网络应使用输入观测表示的
 经验值。
 这两者都将由
- [`ClipPPOLoss`]（https://pytorch.org/rl/reference/generated/torchrl.objectives.ClipPPOLoss.html#torchrl.objectives.ClipPPOLoss“（在torchrl vmain（0.2.1）中）使用")
+ [`ClipPPOLoss`](https://pytorch.org/rl/reference/generated/torchrl.objectives.ClipPPOLoss.html#torchrl.objectives.ClipPPOLoss“(在torchrl vmain(0.2.1)中)使用")
 
 退回保单和价值损失。
 
@@ -1431,7 +1431,7 @@ plt.show()
 
 
 
-![训练奖励（平均）、最大步数（训练）、回报（测试）、最大步数（测试）](https://pytorch.org/tutorials/_images/sphx_glr_reinforcement_ppo_001.png)
+![训练奖励(平均)、最大步数(训练)、回报(测试)、最大步数(测试)](https://pytorch.org/tutorials/_images/sphx_glr_reinforcement_ppo_001.png)
 
 
 ## 结论和后续步骤 [¶](#conclusion-and-next-steps "永久链接到此标题")
@@ -1470,4 +1470,4 @@ plt.show()
 
 
 **脚本的总运行时间：** 
-（4 分 40.737 秒）
+(4 分 40.737 秒)

@@ -221,7 +221,7 @@ def demo_basic(rank, world_size):
  loss_fn(outputs, labels).backward()
  optimizationr.step()
 
- cleanup( ）
+ cleanup( )
 
 
 def run_demo(demo_fn, world_size):
@@ -234,7 +234,7 @@ def run_demo(demo_fn, world_size):
 
 
 正如您所看到的，DDP 包装了较低级别的分布式通信细节，并提供了干净的 API，就像本地模型一样。梯度同步通信发生在向后传递期间，并与向后计算重叠。当 `backward()` 返回时，
- `param.grad` 已经包含同步的梯度张量。对于基本用例，DDP 仅
+ `param.grad` 已经包含同步的梯度tensor。对于基本用例，DDP 仅
 需要更多几个 LoC 来设置进程组。将 DDP 应用于更
 高级用例时，需要小心一些注意事项。
 
@@ -516,7 +516,7 @@ torchrun --nnodes=2 --nproc_per_node=8 --rdzv_id=100 --rdzv_backend=c10d --rdzv_
  这里 torchrun 将启动 8 个进程，并在其启动的节点上的每个进程上调用
  `elastic_ddp.py`
 ，但用户还需要应用集群
-管理工具（例如 slurm）来实际运行此命令在 2 个节点上。
+管理工具(例如 slurm)来实际运行此命令在 2 个节点上。
 
 
 

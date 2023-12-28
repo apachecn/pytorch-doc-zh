@@ -262,4 +262,4 @@ THCudaCheck FAIL file=torch\csrc\generic\StorageSharing.cpp line=252 error=63 : 
  1. 不要使用`multiprocessing`。将 [`DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader") 的 `num_worker` 设置为零。
 
 
- 2.改为共享CPU张量。确保您的自定义“DataSet”返回 CPU 张量。
+ 2.改为共享CPUtensor。确保您的自定义“DataSet”返回 CPU tensor。

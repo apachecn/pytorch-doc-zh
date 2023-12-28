@@ -8,7 +8,7 @@
 
 > *斜体表示译者添加的解释或想法。*
 
-这个包添加了对 CUDA 张量类型的支持，这些类型实现了与 CPU 张量相同的功能，但它们利用 GPU 进行计算。
+这个包添加了对 CUDA tensor类型的支持，这些类型实现了与 CPU tensor相同的功能，但它们利用 GPU 进行计算。
 
 初始化比较简单，可以随时导入，可以使用 [torch.cuda.is_available()](https://pytorch.org/docs/stable/generated/torch.cuda.is_available.html#torch.cuda.is_available) 来确定系统是否支持 CUDA。
 
@@ -43,8 +43,8 @@
 |synchronize|等待 CUDA 设备上所有数据流中的所有 GPU 核处理完成|
 |utilization|根据 nvidia-smi 提供的信息，返回在过去的采样周期内，一个或多个内核在 GPU 上执行的时间百分比|
 |temperature|返回 GPU 传感器的平均温度，单位为摄氏度|
-|power_draw|返回 GPU 传感器的平均耗电量，单位为 mW（毫瓦）|
-|clock_rate|根据 nvidia-smi 提供的数据，以 Hz （赫兹）为单位返回过去采样周期内 GPU 的时钟速度|
+|power_draw|返回 GPU 传感器的平均耗电量，单位为 mW(毫瓦)|
+|clock_rate|根据 nvidia-smi 提供的数据，以 Hz (赫兹)为单位返回过去采样周期内 GPU 的时钟速度|
 |OutOfMemoryError|抛出 CUDA 显存不足异常|
 
 
@@ -66,10 +66,10 @@
 |类或方法|功能描述|
 | ---- |----|
 |comm.broadcast|将一个tensor向指定设备广播|
-|comm.broadcast_coalesced|将一个tensor序列（tensors）向指定设备广播|
-|comm.reduce_add|对来自多个 GPU 的张量求和|
-|comm.scatter|将张量组播到多个 GPU 上|
-|comm.gather|聚集来自多个GPU设备上的张量|
+|comm.broadcast_coalesced|将一个tensor序列(tensors)向指定设备广播|
+|comm.reduce_add|对来自多个 GPU 的tensor求和|
+|comm.scatter|将tensor组播到多个 GPU 上|
+|comm.gather|聚集来自多个GPU设备上的tensor|
 
 
 ### Streams and events *数据流和事件*
@@ -87,7 +87,7 @@
 |graph_pool_handle|返回代表图形内存池 id 的不透明token，*利用该句柄提供了对图形资源池的操作和管理功能。使用它可以创建、销毁和管理图形资源池，以及在池中进行资源的分配和回收。这个句柄可以用于在GPU上执行图形任务，例如渲染、计算等*|
 |CUDAGraph|CUDA 图封装器|
 |graph|用于将 CUDA 工作捕获到 [torch.cuda.CUDAGraph](https://pytorch.org/docs/stable/generated/torch.cuda.CUDAGraph.html#torch.cuda.CUDAGraph) 对象中的上下文管理器|
-|make_graphed_callables|传入可调用的代码（函数或 [nn.Modules](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module)）并返回图版本。|
+|make_graphed_callables|传入可调用的代码(函数或 [nn.Modules](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module))并返回图版本。|
 
 
 ### Memory management *内存管理*
@@ -96,7 +96,7 @@
 |empty_cache|释放缓存分配器当前控制的所有未占用的缓存内存，以便这些内存可用于其他 GPU 应用程序，并在 nvidia-smi 中可见|
 |list_gpu_processes|返回指定设备的运行进程及其 GPU 内存使用情况，并以人类可读方式输出|
 |mem_get_info|使用 cudaMemGetInfo 返回指定设备的全局可用 GPU 内存和总内存|
-|memory_stats|统计指定设备上的 CUDA 内存分配器数据，并以字典形式返回。*PyTorch 中，内存分配器（Memory Allocator）是指用于管理和分配 GPU 内存的模块或组件。内存分配器负责在 GPU 上分配和释放内存*|
+|memory_stats|统计指定设备上的 CUDA 内存分配器数据，并以字典形式返回。*PyTorch 中，内存分配器(Memory Allocator)是指用于管理和分配 GPU 内存的模块或组件。内存分配器负责在 GPU 上分配和释放内存*|
 |memory_summary|统计指定设备上的 CUDA 内存分配器信息，并以可读形式打印输出|
 |memory_snapshot|返回所有设备的 CUDA 内存分配器状态快照|
 |memory_allocated|以字节为单位返回给定设备当前占用的 GPU 内存|
@@ -118,12 +118,12 @@
 ### NVIDIA Tools Extension (NVTX) *NVIDIA工具扩展*
 |类或方法|功能描述|
 |----|----|
-|nvtx.mark|描述某个时刻发生的瞬时事件，*用于在CUDA应用程序中添加一个标记（mark）。标记是一个命名的位置，表示在CUDA应用程序执行过程中的一个特定点。通过使用`nvtx.mark`函数添加标记，可以在CUDA应用程序中创建自定义的性能分析点，以便在分析和调试过程中更容易地识别和理解应用程序的不同阶段和执行路径*|
+|nvtx.mark|描述某个时刻发生的瞬时事件，*用于在CUDA应用程序中添加一个标记(mark)。标记是一个命名的位置，表示在CUDA应用程序执行过程中的一个特定点。通过使用`nvtx.mark`函数添加标记，可以在CUDA应用程序中创建自定义的性能分析点，以便在分析和调试过程中更容易地识别和理解应用程序的不同阶段和执行路径*|
 |nvtx.range_push|创建一个新的性能分析范围并入栈|
 |nvtx.range_pop|从性能分析范围堆栈中弹出一个范围|
 
 ### Jiterator (beta)
-*Jiterator是torch.utils.jit模块中的一个类，名为_JITIterator，它是PyTorch中的一个迭代器类，用于在JIT（Just-In-Time）编译模式下迭代数据。*
+*Jiterator是torch.utils.jit模块中的一个类，名为_JITIterator，它是PyTorch中的一个迭代器类，用于在JIT(Just-In-Time)编译模式下迭代数据。*
 |类或方法|功能描述|
 |----|----|
 |jiterator._create_jit_fn|为元素操作创建一个由 jiterator 生成的 cuda 内核|

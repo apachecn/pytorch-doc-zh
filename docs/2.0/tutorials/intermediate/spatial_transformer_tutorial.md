@@ -25,7 +25,7 @@
 
 
 空间变换网络是对任何空间变换的可微分注意力的概括。空间变换网络
-（简称 STN）允许神经网络学习如何对输入图像执行空间
+(简称 STN)允许神经网络学习如何对输入图像执行空间
 变换，以增强模型的几何
 方差。
 例如，它可以裁剪感兴趣的区域，缩放并纠正图像的方向。它可能是一种有用的机制，因为 CNN
@@ -276,8 +276,8 @@ def train(epoch):
  for batch_idx, (data, target) in enumerate([train_loader](https://pytorch.org/docs/stable/data.html#torch.utils.data. DataLoader "torch.utils.data.DataLoader")):
  data, target = data.to([device](https://pytorch.org/docs/stable/tensor_attributes.html#torch.device "torch.device ")), target.to([device](https://pytorch.org/docs/stable/tensor_attributes.html#torch.device "torch.device"))
 
- [optimizer.zero_grad] （https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD.zero_grad“torch.optim.SGD.zero_grad”）（）
-输出=模型（数据） 
+ [optimizer.zero_grad] (https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD.zero_grad“torch.optim.SGD.zero_grad”)()
+输出=模型(数据) 
  损失 = [F.nll_loss](https://pytorch.org/docs/stable/generated/torch.nn.function.nll_loss.html#torch.nn.function.nll_loss "torch.nn.function.nll_loss")(输出，目标)
  loss.backward()
  [optimizer.step](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim。 SGD.step "torch.optim.SGD.step")()

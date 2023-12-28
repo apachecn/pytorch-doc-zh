@@ -71,14 +71,14 @@ $ python predict.py Schmidhuber
 
 
  在开始本教程之前，建议您安装 PyTorch，
-并对 Python 编程语言和张量有基本的了解：
+并对 Python 编程语言和tensor有基本的了解：
 
 
 
 * <https://pytorch.org/>
  安装说明
 * [使用 PyTorch 进行深度学习：60 分钟闪电战](../beginner/deep_learning_60min_blitz.html)
- 一般开始使用 PyTorch\并学习张量的基础知识
+ 一般开始使用 PyTorch\并学习tensor的基础知识
 * [通过示例学习 PyTorch](../beginner/pytorch_with_examples.html)
  进行广泛而深入的概述
 * [针对前 Torch 用户的 PyTorch](../beginner/former_torchies_tutorial.html)
@@ -121,7 +121,7 @@ $ python predict.py Schmidhuber
  `data/names`
  目录中包含 18 个名为
  `[Language].txt`
- 的文本文件。每个文件包含一堆名称，每行一个名称，大部分是罗马化的（但我们仍然需要从 Unicode 转换为 ASCII）。
+ 的文本文件。每个文件包含一堆名称，每行一个名称，大部分是罗马化的(但我们仍然需要从 Unicode 转换为 ASCII)。
 
 
 
@@ -135,7 +135,7 @@ $ python predict.py Schmidhuber
 
 ...]}`
  。通用变量 “category” 和 “line”
-（在我们的例子中用于语言和名称）用于以后的扩展性。
+(在我们的例子中用于语言和名称)用于以后的扩展性。
 
 
 
@@ -203,9 +203,9 @@ Slusarski
  现在我们有了
  `category_lines`
  ，一个将每个类别
-（语言）映射到行（名称）列表的字典。我们还跟踪
+(语言)映射到行(名称)列表的字典。我们还跟踪
 “所有_类别”
-（只是语言列表）和
+(只是语言列表)和
 “n_类别”
 ，以供
 以后参考。
@@ -236,7 +236,7 @@ print(category_lines['Italian'][:5])
 
 
  现在我们已经组织好了所有名称，我们需要将它们转换为
-张量才能使用它们。
+tensor才能使用它们。
 
 
 
@@ -361,9 +361,9 @@ torch.Size([5, 1, 57])
 
 
 
- 这个 RNN 模块（大部分复制自 [the PyTorch for Torch users
+ 这个 RNN 模块(大部分复制自 [the PyTorch for Torch users
 tutorial](https://pytorch.org/tutorials/beginner/former_torchies/nn_tutorial.html#example-2-recurrent-net) 
- ） 
+ ) 
  只是 2 个线性层，它们对输入和隐藏状态进行操作，
 
  `LogSoftmax`
@@ -403,8 +403,8 @@ rnn = RNN(n_letters, n_hidden, n_categories)
 ```
 
 
-为了运行这个网络的一个步骤，我们需要传递一个输入（在我们的例子中，是当前字母的张量）和一个先前的隐藏状态（我们首先将其初始化为零）。我们’将得到输出（每种语言的概率）和下一个隐藏状态（我们为下一步保留
-）。
+为了运行这个网络的一个步骤，我们需要传递一个输入(在我们的例子中，是当前字母的tensor)和一个先前的隐藏状态(我们首先将其初始化为零)。我们’将得到输出(每种语言的概率)和下一个隐藏状态(我们为下一步保留
+)。
 
 
 
@@ -422,12 +422,12 @@ output, next_hidden = rnn(input, hidden)
 
 
 
- 为了提高效率，我们不想’ 每一步都创建一个新的张量，因此我们将使用
+ 为了提高效率，我们不想’ 每一步都创建一个新的tensor，因此我们将使用
  `lineToTensor`
  而不是
  `letterToTensor`
  并且使用切片。这可以通过
-预计算批量张量来进一步优化。
+预计算批量tensor来进一步优化。
 
 
 
@@ -466,8 +466,8 @@ tensor([[-2.9083, -2.9270, -2.9167, -2.9590, -2.9108, -2.8332, -2.8906, -2.8325,
  
 
  n_categories>`
- 张量，其中
-每个项目都是该类别的可能性（较高更有可能）。
+ tensor，其中
+每个项目都是该类别的可能性(较高更有可能)。
 
 
 
@@ -513,8 +513,8 @@ print(categoryFromOutput(output))
 
 
 
- 我们还需要一种快速获取训练示例的方法（名称及其
-语言）：
+ 我们还需要一种快速获取训练示例的方法(名称及其
+语言)：
 
 
 
@@ -597,7 +597,7 @@ criterion = nn.NLLLoss()
 
 
 
-* 创建输入和目标张量
+* 创建输入和目标tensor
 * 创建归零的初始隐藏状态
 * 读取 and 中的每个字母
 
@@ -769,8 +769,8 @@ plt.plot(all_losses)
 
 
  为了查看网络在不同类别上的表现，我们将
-创建一个混淆矩阵，指示每种实际语言（行）
-网络猜测哪种语言（列）。为了计算混淆矩阵，使用
+创建一个混淆矩阵，指示每种实际语言(行)
+网络猜测哪种语言(列)。为了计算混淆矩阵，使用
  `evaluate()`
  在网络中运行一堆样本，这与
  `train()`
@@ -848,7 +848,7 @@ set_ticklabels() should only be used with a fixed number of ticks, i.e. after se
 
  您可以从主轴上找出亮点，以显示它猜错的
 语言，例如韩语用中文，意大利语用西班牙语
-。它似乎对希腊语表现很好，但对英语表现不佳（可能是因为与其他语言重叠）。
+。它似乎对希腊语表现很好，但对英语表现不佳(可能是因为与其他语言重叠)。
 
 
  [¶](#running-on-user-input "永久链接到此标题")
@@ -913,18 +913,18 @@ repo 中](https://github.com/spro/practical-pytorch/tree/master/char-rnn-classif
 
 
 * `data.py`
-（加载文件）
+(加载文件)
 * `model.py`
-（定义 RNN）
+(定义 RNN)
 * `train.py`
-（运行训练）
-* `predict.py`\ n（使用命令行参数运行
+(运行训练)
+* `predict.py`\ n(使用命令行参数运行
  `predict()`
-）
+)
 * `server.py`
-（使用
+(使用
  `bottle.py`
- 将预测作为 JSON API 提供）
+ 将预测作为 JSON API 提供)
 
 
 
@@ -993,4 +993,4 @@ $ python predict.py Hazaki
 
 
 **脚本的总运行时间：** 
-（1 分 38.442 秒）
+(1 分 38.442 秒)

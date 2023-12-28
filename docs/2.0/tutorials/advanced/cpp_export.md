@@ -244,11 +244,11 @@ at::Tensor output = module.forward(inputs).toTensor();
 std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/5) << '\n';
 ```
 
-前两行设置了模型的输入。 我们创建一个`torch::jit::IValue`的向量（类型可擦除的值类型`script::Module`方法接受并返回），并添加单个输入。要创建输入张量，我们使用`torch::ones()`，等效于 python API 中的`torch.ones`。 然后，我们运行`script::Module`的`forward`方法，并将其传递给我们创建的输入向量。作为回报，我们得到了一个新的`IValue`，我们可以通过调用`toTensor()`将其转换为张量。
+前两行设置了模型的输入。 我们创建一个`torch::jit::IValue`的向量(类型可擦除的值类型`script::Module`方法接受并返回)，并添加单个输入。要创建输入tensor，我们使用`torch::ones()`，等效于 python API 中的`torch.ones`。 然后，我们运行`script::Module`的`forward`方法，并将其传递给我们创建的输入向量。作为回报，我们得到了一个新的`IValue`，我们可以通过调用`toTensor()`将其转换为tensor。
 
 > 提示
 >
-> 要总体上了解有关`torch::ones`和 PyTorch C++ API 之类的功能的更多信息，请参阅[文档](https://pytorch.org/cppdocs)上的文档。PyTorch C++ API 提供了与 Python API 几乎相同的功能，使您可以像在 Python 中一样进一步操纵和处理张量。
+> 要总体上了解有关`torch::ones`和 PyTorch C++ API 之类的功能的更多信息，请参阅[文档](https://pytorch.org/cppdocs)上的文档。PyTorch C++ API 提供了与 Python API 几乎相同的功能，使您可以像在 Python 中一样进一步操纵和处理tensor。
 
 在最后一行中，我们打印输出的前五个条目。由于我们在本教程前面的 Python 中为我们的模型提供了相同的输入，我们理想情况下，应该看到相同的输出。让我们通过重新编译我们的来尝试一下应用程序并使用相同的序列化模型运行它：
 
@@ -271,7 +271,7 @@ tensor([-0.2698, -0.0381,  0.4023, -0.3010, -0.0448], grad_fn=<SliceBackward>)
 
 > 提示
 >
-> 要将模型移至 GPU 内存，可以编写`model.to(at::kCUDA);`。 通过调用`tensor.to(at::kCUDA)`来确保模型的输入也位于 CUDA 内存中，这将在 CUDA 内存中返回新的张量。
+> 要将模型移至 GPU 内存，可以编写`model.to(at::kCUDA);`。 通过调用`tensor.to(at::kCUDA)`来确保模型的输入也位于 CUDA 内存中，这将在 CUDA 内存中返回新的tensor。
 
 ## 步骤 5：获取帮助并探索 API
 

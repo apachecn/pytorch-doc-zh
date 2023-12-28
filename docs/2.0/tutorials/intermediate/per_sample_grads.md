@@ -120,7 +120,7 @@ loss.backward()  # back propagate the 'average' gradient of this mini-batch
 
 
 * 对于数据的每个单独样本，执行前向和后向
-传递以获得单独的（每个样本）梯度。
+传递以获得单独的(每个样本)梯度。
 
 
 
@@ -224,7 +224,7 @@ torch.Size([64, 32, 1, 3, 3])
  `模型`
  提取到两个字典、
 参数和缓冲区中。我们’将分离它们，因为我们’不会使用
-常规的 PyTorch autograd（例如 Tensor.backward()、torch.autograd.grad）。
+常规的 PyTorch autograd(例如 Tensor.backward()、torch.autograd.grad)。
 
 
 
@@ -277,9 +277,9 @@ def compute_loss(params, buffers, sample, target):
  变换创建一个新函数，用于计算
 相对于
  `compute_loss` 第一个参数的梯度
- （即
+ (即
  `params`
- ）。
+ )。
 
 
 
@@ -296,7 +296,7 @@ ft_compute_grad = grad(compute_loss)
 
  `ft_compute_grad`
  函数计算单个
-（样本，目标）对的梯度。我们可以使用
+(样本，目标)对的梯度。我们可以使用
  `vmap`
  让它计算整批样本和目标的梯度。注意
  `in_dims=(None,
@@ -369,7 +369,7 @@ for per_sample_grad, ft_per_sample_grad in zip(per_sample_grads, ft_per_sample_g
  `vmap`
  可以转换的函数类型存在限制。最好的转换函数是
 纯函数：输出仅由输入决定的函数，
-并且没有副作用（例如突变）。
+并且没有副作用(例如突变)。
  `vmap`
  无法处理
 突变任意 Python 数据结构，但它能够处理许多
@@ -447,9 +447,9 @@ Performance delta: 928.0958 percent improvement with vmap
 
 
 
- 还有其他优化的解决方案（如 
+ 还有其他优化的解决方案(如 
  <https://github.com/pytorch/opacus>
- ）
+ )
  在 PyTorch 中计算每个样本的梯度，其性能也比朴素方法更好。但’ 很酷，组合
  `vmap`
  和
@@ -466,7 +466,7 @@ Performance delta: 928.0958 percent improvement with vmap
  运行函数更快，并且与手动批处理竞争。但也有一些例外，例如我们是否未’ 为特定操作实现
  `vmap`
  规则，或者底层内核’ 未针对较旧的硬件进行优化
- （GPU）。如果您发现任何此类情况，请通过在 GitHub 上
+ (GPU)。如果您发现任何此类情况，请通过在 GitHub 上
 提出问题来告知我们。
 
 

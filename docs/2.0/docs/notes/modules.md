@@ -62,7 +62,7 @@ class MyLinear(nn.Module):
 
 
 * **它继承自 Module 基类。** 所有模块都应该子类 [`Module`](../generated/torch.nn.Module.html#torch.nn.Module "torch.nn.Module")与其他模块的可组合性。
-* **它定义了一些在计算中使用的“状态”。** 这里，状态由定义仿射变换的随机初始化的“权重”和“偏差”张量组成。因为其中每个都被定义为 [`Parameter`](../generated/torch.nn.parameter.Parameter.html#torch.nn.parameter.Parameter "torch.nn.parameter.Parameter") ，所以它们是 *为模块注册*，并将自动跟踪并从调用 [`parameters()`](../generated/torch.nn.Module.html#torch.nn.Module.parameters "torch.nn.Module.parameters")。参数可以被视为模块计算的“可学习”方面(稍后会详细介绍)。请注意，模块不需要有状态，也可以是无状态的。
+* **它定义了一些在计算中使用的“状态”。** 这里，状态由定义仿射变换的随机初始化的“权重”和“偏差”tensor组成。因为其中每个都被定义为 [`Parameter`](../generated/torch.nn.parameter.Parameter.html#torch.nn.parameter.Parameter "torch.nn.parameter.Parameter") ，所以它们是 *为模块注册*，并将自动跟踪并从调用 [`parameters()`](../generated/torch.nn.Module.html#torch.nn.Module.parameters "torch.nn.Module.parameters")。参数可以被视为模块计算的“可学习”方面(稍后会详细介绍)。请注意，模块不需要有状态，也可以是无状态的。
 * **它定义了一个执行计算的forward()函数。** 对于这个仿射变换模块，输入是矩阵乘以“权重”参数(使用“@”简写符号)并添加到“bias”参数以生成输出。更一般地，模块的“forward()”实现可以执行涉及任意数量的输入和输出的任意计算。
 
 
@@ -402,7 +402,7 @@ print('evaluation mode output: {}'.format(m(x)))
 ## [模块状态](#id7) [¶](#module-state "此标题的永久链接")
 
 
- 在上一节中，我们演示了训练模块的“参数”，或者计算的可学习方面。 现在，如果我们想将训练后的模型保存到磁盘，我们可以通过保存其 state_dict （即“状态字典”）来实现：
+ 在上一节中，我们演示了训练模块的“参数”，或者计算的可学习方面。 现在，如果我们想将训练后的模型保存到磁盘，我们可以通过保存其 state_dict (即“状态字典”)来实现：
 
 
 ```
@@ -489,7 +489,7 @@ m.to(device='cuda', dtype=torch.float64)
 ```
 
 
- 模块的缓冲区可以使用 [`buffers()`](../generated/torch.nn.Module.html#torch.nn.Module.buffers "torch.nn.Module.buffers") 或 [`命名_buffers()`](../生成/torch.nn.Module.html#torch.nn.Module.named_buffers“torch.nn.Module.named_buffers”)。
+ 模块的缓冲区可以使用 [`buffers()`](../generated/torch.nn.Module.html#torch.nn.Module.buffers "torch.nn.Module.buffers") 或 [`命名_buffers()`](../generated/torch.nn.Module.html#torch.nn.Module.named_buffers“torch.nn.Module.named_buffers”)。
 
 
 ```
@@ -634,7 +634,7 @@ print(m.running_mean)
 
 
 
-* **前向钩子** 在前向传递过程中被调用。可以使用 [`register_forward_pre_hook()`](../generated/torch.nn.Module.html#torch.nn.Module.register_forward_pre_hook "torch.nn.Module. register_forward_pre_hook") 和 [`register_forward_hook()`](../generated/torch.nn.Module.html#torch.nn.Module.register_forward_hook "torch.nn.Module.register_forward_hook") 。这些钩子将分别在调用前向函数之前和调用之后调用。或者，可以使用类似的 [`register_module_forward_pre_hook()`](../生成/torch.nn.modules.module.register_module_forward_pre_hook.html#torch.nn.modules.module.register_module_forward_pre_hook "torch.nn.modules.module.register_module_forward_pre_hook") 和 [`register_module_forward_hook()`](../generated/torch.nn.modules.module.register_module_forward_hook.html#torch.nn.modules.module.register_module_forward_hook "torch.nn.modules.module.register_module_forward_hook") 函数。
+* **前向钩子** 在前向传递过程中被调用。可以使用 [`register_forward_pre_hook()`](../generated/torch.nn.Module.html#torch.nn.Module.register_forward_pre_hook "torch.nn.Module. register_forward_pre_hook") 和 [`register_forward_hook()`](../generated/torch.nn.Module.html#torch.nn.Module.register_forward_hook "torch.nn.Module.register_forward_hook") 。这些钩子将分别在调用前向函数之前和调用之后调用。或者，可以使用类似的 [`register_module_forward_pre_hook()`](../generated/torch.nn.modules.module.register_module_forward_pre_hook.html#torch.nn.modules.module.register_module_forward_pre_hook "torch.nn.modules.module.register_module_forward_pre_hook") 和 [`register_module_forward_hook()`](../generated/torch.nn.modules.module.register_module_forward_hook.html#torch.nn.modules.module.register_module_forward_hook "torch.nn.modules.module.register_module_forward_hook") 函数。
 * **向后钩子** 在向后传递期间被调用。 它们可以通过 [`register_full_backward_pre_hook()`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_pre_hook "torch.nn.Module.register_full_backward_pre_hook") 和 [`register_full_backward_hook()`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_hook "torch.nn.Module.register_full_backward_hook") 安装。 当计算出该模块的后向时，将调用这些钩子。 [`register_full_backward_pre_hook()`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_pre_hook "torch.nn.Module.register_full_backward_pre_hook") 将允许用户访问输出的梯度，而 [`register_full_backward_hook()`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_hook "torch.nn.Module.register_full_backward_hook") 将允许用户访问输入和输出的梯度。 或者，可以使用 [`register_module_full_backward_hook()`](https://pytorch.org/docs/stable/generated/torch.nn.modules.module.register_module_full_backward_hook.html#torch.nn.modules.module.register_module_full_backward_hook "torch.nn.modules.module.register_module_full_backward_hook") 和 [`register_module_full_backward_pre_hook()`](https://pytorch.org/docs/stable/generated/torch.nn.modules.module.register_module_full_backward_pre_hook.html#torch.nn.modules.module.register_module_full_backward_pre_hook "torch.nn.modules.module.register_module_full_backward_pre_hook") 为所有模块全局安装它们。
 
 

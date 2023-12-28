@@ -9,7 +9,7 @@
 
 **作者** : [Anupam Sharma](https://anp-scp.github.io/)
 
- 本教程说明了 torchtext 在非内置数据集上的用法。在本教程中，我们将预处理一个数据集，该数据集可进一步用于训练用于机器翻译的序列到序列模型（类似于本教程中的内容： [使用神经网络进行序列到序列学习](https://github.com/bentrevett/pytorch-seq2seq/blob/master/1%20-%20Sequence%20to%20Sequence%20Learning%20with%20Neural%20Networks.ipynb)) 但不使用 torchtext 的旧版本。
+ 本教程说明了 torchtext 在非内置数据集上的用法。在本教程中，我们将预处理一个数据集，该数据集可进一步用于训练用于机器翻译的序列到序列模型(类似于本教程中的内容： [使用神经网络进行序列到序列学习](https://github.com/bentrevett/pytorch-seq2seq/blob/master/1%20-%20Sequence%20to%20Sequence%20Learning%20with%20Neural%20Networks.ipynb)) 但不使用 torchtext 的旧版本。
 
  在本教程中，我们将学习如何：
 
@@ -307,7 +307,7 @@ print(temp_list[0])
 
 ```
 
-## 制作批次（使用存储桶批次） [¶](#make-batches-with-bucket-batch "永久链接到此标题")
+## 制作批次(使用存储桶批次) [¶](#make-batches-with-bucket-batch "永久链接到此标题")
 
  一般情况下，我们都是批量训练模型。在使用序列到序列模型时，
 建议保持批次中序列的长度相似。为此，我们将使用 bucketbatch 函数 data_pipe 。 让我们定义一些将由  bucketbatch 函数使用的函数。
@@ -445,4 +445,4 @@ Traget:  <sos> Verstanden ! <eos> <pad>
  本教程的某些部分的灵感来自 [本文](https://medium.com/@bitdribble/migrate-torchtext-to-the-new-0-9-0-api-1ff1472b5d71).
 
 **脚本总运行时间：**
-（4 分 27.354 秒）
+(4 分 27.354 秒)

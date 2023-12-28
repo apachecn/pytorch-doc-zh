@@ -44,7 +44,7 @@
 
 
 
- 在 Pytorch 2.0 之前，PyTorch 提供了三个保留的调度键（及其相应的 Autograd 键）
+ 在 Pytorch 2.0 之前，PyTorch 提供了三个保留的调度键(及其相应的 Autograd 键)
 用于对树外后端扩展进行原型设计，这三个调度键如下：
 
 
@@ -66,9 +66,9 @@
 
 
 * 每个新的后端集成都涉及大量文件修改
-* 目前对调度密钥的数量有硬性限制（
+* 目前对调度密钥的数量有硬性限制(
  `DispatchKeySet`
- 64 位限制）
+ 64 位限制)
 
 
 
@@ -133,7 +133,7 @@
 `TORCH_LIBRARY_IMPL`
  API 注册到调度程序
 
-[在 C++ 中注册调度操作符] （调度员）
+[在 C++ 中注册调度操作符] (调度员)
  。这涉及到
 几种情况：
 
@@ -561,7 +561,7 @@ torch._register_device_module('npu', torch_npu.npu)
 
 
 
-### 将 PrivateUse1 重命名为新后端的自定义名称 [¶](#rename-privateuse1-to-a-custom-name-for-the-new-backend "永久链接到此标题" ）
+### 将 PrivateUse1 重命名为新后端的自定义名称 [¶](#rename-privateuse1-to-a-custom-name-for-the-new-backend "永久链接到此标题" )
 
 
 

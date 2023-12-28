@@ -63,12 +63,12 @@
  超出
 机器边界。
 * [集体通信](https://pytorch.org/docs/stable/distributed.html) 
- (c10d) 库支持在组内跨进程发送张量。它提供了两种集体通信 API（例如，
+ (c10d) 库支持在组内跨进程发送tensor。它提供了两种集体通信 API(例如，
  [all_reduce](https://pytorch.org/docs/stable/distributed.html#torch.distributed.all_reduce) 
  和
  [all\ _gather](https://pytorch.org/docs/stable/distributed.html#torch.distributed.all_gather) 
  )
- 和 P2P 通信 API（例如，
+ 和 P2P 通信 API(例如，
  [send](https://pytorch.org/docs/stable/distributed.html#torch.distributed.send) 
  和
  [isend](https://pytorch.org/docs/stable/distributed.html#torch.distributed.isend) 
@@ -111,7 +111,7 @@ PyTorch 提供了多种数据并行训练选项。对于从简单到复杂、从
  [启动脚本](https://github.com/pytorch/examples/blob/master/distributed/ddp/README.md) 
  ，
 如果应用程序需要跨机器边界扩展。
-5.如果预计会出现错误（例如内存不足）或者如果
+5.如果预计会出现错误(例如内存不足)或者如果
 资源可以在训练期间动态加入和离开。
 
 
@@ -201,11 +201,11 @@ DDP 使用多进程并行性，因此模型副本之间不存在 GIL 争用。�
  `AllReduce`
  通信必须匹配。
 如果组中的一个进程
-抛出异常，它可能会导致不同步（不匹配
+抛出异常，它可能会导致不同步(不匹配
  `AllReduce`
- 操作），从而导致崩溃或挂起。
+ 操作)，从而导致崩溃或挂起。
  [torch.distributed.elastic](https://pytorch.org/docs/stable/distributed.elastic.html)
- 增加了容错能力和利用动态机器池的能力（弹性）。
+ 增加了容错能力和利用动态机器池的能力(弹性)。
 
 
 
@@ -261,7 +261,7 @@ DDP 使用多进程并行性，因此模型副本之间不存在 GIL 争用。�
  并将其应用于异步参数服务器 (PS) 训练应用程序。
 3. 
  [使用 RPC 的分布式管道并行性](../intermediate/dist_pipeline_parallel_tutorial.html) 
- 教程扩展了单机管道并行示例（在
+ 教程扩展了单机管道并行示例(在
  [单机模型并行最佳实践](../intermediate /model_parallel_tutorial.html) 
  )
 到分布式环境并展示如何使用 RPC 实现它。

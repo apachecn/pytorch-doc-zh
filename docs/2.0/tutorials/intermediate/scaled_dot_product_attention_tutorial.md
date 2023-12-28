@@ -1,4 +1,4 @@
-# （测试版）通过缩放点积注意力 (SDPA) 实现高性能 Transformer [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa"此标题的永久链接")
+# (测试版)通过缩放点积注意力 (SDPA) 实现高性能 Transformer [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa"此标题的永久链接")
 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
@@ -60,7 +60,7 @@
 
 
 
- 对于 CUDA 张量输入，该函数将分派到以下实现之一
+ 对于 CUDA tensor输入，该函数将分派到以下实现之一
 :
 
 
@@ -311,13 +311,13 @@ CausalSelfAttention(
 
 
 ### `NestedTensor`
- 和密集张量支持 [¶](#nestedtensor-and-dense-tensor-support "永久链接到此标题")
+ 和密集tensor支持 [¶](#nestedtensor-and-dense-tensor-support "永久链接到此标题")
 
 
 
  SDPA 支持
  `NestedTensor`
- 和密集张量输入。
+ 和密集tensor输入。
  `NestedTensor`
  处理输入是一批可变长度序列的情况
 无需将每个序列填充到最大长度批。有关 
@@ -553,7 +553,7 @@ Self CUDA time total: 11.281ms
 原因是
  `torch.compile`
 非常擅长消除
-与 PyTorch 相关的框架开销。如果您的模型正在启动大型、高效的 CUDA 内核（在本例中就是“CausalSelfAttention”），则可以隐藏 PyTorch 的开销。
+与 PyTorch 相关的框架开销。如果您的模型正在启动大型、高效的 CUDA 内核(在本例中就是“CausalSelfAttention”)，则可以隐藏 PyTorch 的开销。
 
 
 
