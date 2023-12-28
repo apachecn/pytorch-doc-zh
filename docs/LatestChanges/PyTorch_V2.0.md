@@ -12,7 +12,7 @@
 
 我们很高兴地宣布发布[PyTorch® 2.0](https://github.com/pytorch/pytorch/releases/tag/v2.0.0)，我们在2022 年 12 月 2 日的[PyTorch 会议](https://www.youtube.com/@PyTorch/playlists?view=50&sort=dd&shelf_id=2)上强调了这一点！PyTorch 2.0 提供相同的急切模式开发和用户体验，同时从根本上改变和增强 PyTorch 在编译器级别的运行方式，提供更快的性能并支持动态形状和分布式。
 
-这个下一代版本包括 Accelerated Transformers 的稳定版本（以前称为 Better Transformers）；Beta 版包括 torch.compile 作为 PyTorch 2.0 的主要 API、scaled_dot_product_attention 函数作为 torch.nn.function 的一部分、MPS 后端、torch.func 模块中的 functorch API；以及 GPU 和 CPU 上各种推理、性能和训练优化功能的其他 Beta/原型改进。有关 torch.compile 的全面介绍和技术概述，请访问 [2.0入门页面](https://pytorch.org/get-started/pytorch-2.0)。
+这个下一代版本包括 Accelerated Transformers 的稳定版本(以前称为 Better Transformers)；Beta 版包括 torch.compile 作为 PyTorch 2.0 的主要 API、scaled_dot_product_attention 函数作为 torch.nn.function 的一部分、MPS 后端、torch.func 模块中的 functorch API；以及 GPU 和 CPU 上各种推理、性能和训练优化功能的其他 Beta/原型改进。有关 torch.compile 的全面介绍和技术概述，请访问 [2.0入门页面](https://pytorch.org/get-started/pytorch-2.0)。
 
 除了 2.0 之外，我们还发布了 PyTorch 域库的一系列测试版更新，包括树内库以及单独的库，包括 TorchAudio、TorchVision 和 TorchText。随着 TorchX 转向社区支持模式，TorchX 的更新也随之发布。[更多详细信息可以在这个图书馆博客](https://pytorch.org/blog/new-library-updates-in-pytorch-2.0/)中找到。
 
@@ -20,8 +20,8 @@
 
 概括：
 
-*   torch.compile 是 PyTorch 2.0 的主要 API，它包装您的模型并返回编译后的模型。它是一个完全附加的（和可选的）功能，因此 2.0 根据定义是 100% 向后兼容的。
-*   作为 torch.compile 的基础技术，配备 Nvidia 和 AMD GPU 的 TorchInductor 将依靠 OpenAI Triton 深度学习编译器来生成高性能代码并隐藏底层硬件细节。OpenAI Triton 生成的内核可实现与手写内核和专用 cuda 库（如 cublas）相当的性能。
+*   torch.compile 是 PyTorch 2.0 的主要 API，它包装您的模型并返回编译后的模型。它是一个完全附加的(和可选的)功能，因此 2.0 根据定义是 100% 向后兼容的。
+*   作为 torch.compile 的基础技术，配备 Nvidia 和 AMD GPU 的 TorchInductor 将依靠 OpenAI Triton 深度学习编译器来生成高性能代码并隐藏底层硬件细节。OpenAI Triton 生成的内核可实现与手写内核和专用 cuda 库(如 cublas)相当的性能。
 *   Accelerated Transformers 使用定制内核架构为缩放点积注意力 (SPDA) 引入了对训练和推理的高性能支持。该API与torch.compile()集成，模型开发人员还可以通过调用新的scaled_dot_product_attention()运算符直接使用[缩放点积注意力内核。](https://pytorch.org/blog/pytorch-2.0-release/#beta-scaled-dot-product-attention-20)
 *   Metal Performance Shaders (MPS) 后端在 Mac 平台上提供 GPU 加速的 PyTorch 训练，并增加了对前 60 个最常用操作的支持，覆盖了 300 多个操作员。
 *   [Amazon AWS 在基于 AWS Graviton3 的C7g 实例](https://aws.amazon.com/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)上优化了 PyTorch CPU 推理。与之前的版本相比，PyTorch 2.0 提高了 Graviton 的推理性能，包括对 Resnet50 和 Bert 的改进。
@@ -46,7 +46,7 @@
 
 ### [Stable] 加速 PyTorch 2 Transformers
 
-PyTorch 2.0 版本包含 PyTorch Transformer API 的新高性能实现。在发布 Accelerated PT2 Transformers 时，我们的目标是让整个行业都能负担得起最先进 Transformer 模型的训练和部署。此版本引入了对训练和推理的高性能支持，使用定制内核架构进行扩展点积注意力（SPDA），扩展了推理“快速路径”架构，以前称为“更好的变压器”。
+PyTorch 2.0 版本包含 PyTorch Transformer API 的新高性能实现。在发布 Accelerated PT2 Transformers 时，我们的目标是让整个行业都能负担得起最先进 Transformer 模型的训练和部署。此版本引入了对训练和推理的高性能支持，使用定制内核架构进行扩展点积注意力(SPDA)，扩展了推理“快速路径”架构，以前称为“更好的变压器”。
 
 与“fastpath”架构类似，自定义内核完全集成到 PyTorch Transformer API 中 - 因此，使用本机 Transformer 和 MultiHeadAttention API 将使用户能够：
 
@@ -54,7 +54,7 @@ PyTorch 2.0 版本包含 PyTorch Transformer API 的新高性能实现。在发�
 *   支持更多用例，包括使用交叉注意力、Transformer 解码器的模型以及训练模型
 *   继续对固定和可变序列长度 Transformer Encoder 和 Self Attention 用例使用快速路径推理
 
-为了充分利用不同的硬件模型和 Transformer 用例，支持多个 SDPA 自定义内核（见下文），并具有自定义内核选择逻辑，可为给定模型和硬件类型选择最高性能的内核。除了现有的Transformer API之外，模型开发人员还可以通过调用新的 scaled_dot_product_attention() 运算符来直接使用[缩放后的点积注意力内核。](https://pytorch.org/blog/pytorch-2.0-release/#beta-scaled-dot-product-attention-20)Accelerated PyTorch 2 Transformers 与 torch.compile() 集成。要使用您的模型，同时受益于 PT2 编译的额外加速（用于推理或训练），请使用 预处理模型`model = torch.compile(model)`。
+为了充分利用不同的硬件模型和 Transformer 用例，支持多个 SDPA 自定义内核(见下文)，并具有自定义内核选择逻辑，可为给定模型和硬件类型选择最高性能的内核。除了现有的Transformer API之外，模型开发人员还可以通过调用新的 scaled_dot_product_attention() 运算符来直接使用[缩放后的点积注意力内核。](https://pytorch.org/blog/pytorch-2.0-release/#beta-scaled-dot-product-attention-20)Accelerated PyTorch 2 Transformers 与 torch.compile() 集成。要使用您的模型，同时受益于 PT2 编译的额外加速(用于推理或训练)，请使用 预处理模型`model = torch.compile(model)`。
 
 我们使用自定义内核和 torch.compile() 的组合，通过 Accelerated PyTorch 2 Transformers 实现了训练 Transformer 模型的显着加速，特别是大型语言模型。
 
@@ -66,7 +66,7 @@ PyTorch 2.0 版本包含 PyTorch Transformer API 的新高性能实现。在发�
 
 ### [Beta] torch.compile
 
-torch.compile 是 PyTorch 2.0 的主要 API，它包装您的模型并返回编译后的模型。它是一个完全附加的（和可选的）功能，因此 2.0 根据定义是 100% 向后兼容的。
+torch.compile 是 PyTorch 2.0 的主要 API，它包装您的模型并返回编译后的模型。它是一个完全附加的(和可选的)功能，因此 2.0 根据定义是 100% 向后兼容的。
 
 torch.compile 的基础是新技术——TorchDynamo、AOTAutograd、PrimTorch 和 TorchInductor：
 
@@ -106,19 +106,19 @@ PyTorch 2.0 将自动为您的用例选择最佳实现，但您也可以单独�
 
 ### [Beta] functorch -> torch.func
 
-functorch受到[Google JAX](https://github.com/google/jax)的启发，是一个提供可组合 vmap（矢量化）和 autodiff 转换的库。它支持高级自动比较用例，否则在 PyTorch 中表达起来会很棘手。示例包括：
+functorch受到[Google JAX](https://github.com/google/jax)的启发，是一个提供可组合 vmap(矢量化)和 autodiff 转换的库。它支持高级自动比较用例，否则在 PyTorch 中表达起来会很棘手。示例包括：
 
 *   [模型集成](https://pytorch.org/tutorials/intermediate/ensembling.html)
 *   [高效计算雅可比矩阵和粗麻布矩阵](https://pytorch.org/tutorials/intermediate/jacobians_hessians.html)
-*   [计算每个样本的梯度（或其他每个样本的数量）](https://pytorch.org/tutorials/intermediate/per_sample_grads.html)
+*   [计算每个样本的梯度(或其他每个样本的数量)](https://pytorch.org/tutorials/intermediate/per_sample_grads.html)
 
 我们很高兴地宣布，作为将 functorch 上游和集成到 PyTorch 的最后一步，funcctorch API 现在可以在 torch.func 模块中使用。我们的函数转换 API 与之前相同，但我们改变了与 NN 模块交互的方式。请参阅[文档](https://pytorch.org/docs/master/func.html)和[迁移指南](https://pytorch.org/docs/master/func.migrating.html)了解更多详细信息。
 
-此外，我们还[添加了对 torch.autograd.Function 的支持](https://pytorch.org/docs/master/notes/extending.func.html)：现在可以在 torch.autograd.Function 上应用函数转换（例如 vmap、grad、jvp）。
+此外，我们还[添加了对 torch.autograd.Function 的支持](https://pytorch.org/docs/master/notes/extending.func.html)：现在可以在 torch.autograd.Function 上应用函数转换(例如 vmap、grad、jvp)。
 
 ### [Beta] 可调度集体
 
-可调度集合是对现有 init_process_group() API 的改进，它将后端更改为可选参数。对于用户来说，此功能的主要优点是，它将允许他们编写可以在 GPU 和 CPU 机器上运行的代码，而无需更改后端规范。可调度性功能还将使用户更容易支持 GPU 和 CPU 集合，因为他们不再需要手动指定后端（例如“NCCL”或“GLOO”）。用户现有的后端规范将得到尊重，不需要更改。
+可调度集合是对现有 init_process_group() API 的改进，它将后端更改为可选参数。对于用户来说，此功能的主要优点是，它将允许他们编写可以在 GPU 和 CPU 机器上运行的代码，而无需更改后端规范。可调度性功能还将使用户更容易支持 GPU 和 CPU 集合，因为他们不再需要手动指定后端(例如“NCCL”或“GLOO”)。用户现有的后端规范将得到尊重，不需要更改。
 
 使用示例：
 
@@ -140,7 +140,7 @@ dist.all_reduce(...) # with CPU tensors works
 
 ### [Beta] torch.set_default_device 和 torch.device 作为上下文管理器
 
-torch.set_default_device 允许用户更改 PyTorch 中工厂函数分配的默认设备。例如，如果您 torch.set_default_device('cuda')，对 torch.empty(2) 的调用将在 CUDA（而不是 CPU）上分配。您还可以使用 torch.device 作为上下文管理器来更改本地的默认设备。这解决了 PyTorch 初始版本中长期以来对实现此目的的功能请求。
+torch.set_default_device 允许用户更改 PyTorch 中工厂函数分配的默认设备。例如，如果您 torch.set_default_device('cuda')，对 torch.empty(2) 的调用将在 CUDA(而不是 CPU)上分配。您还可以使用 torch.device 作为上下文管理器来更改本地的默认设备。这解决了 PyTorch 初始版本中长期以来对实现此目的的功能请求。
 
 [在这里](https://pytorch.org/tutorials/recipes/recipes/changing_default_device.html)了解更多信息。
 
@@ -187,28 +187,28 @@ quantized_model = convert_fx(prepared_model)
 
 ### \[Beta\] GNN 在 CPU 上的推理和训练优化[](https://pytorch.org/blog/pytorch-2.0-release/#beta-gnn-inference-and-training-optimization-on-cpu)
 
-PyTorch 2.0 包含多项关键优化，可提高 CPU 上的 GNN 推理和训练性能。在 2.0 之前，PyG 的 GNN 模型由于缺乏对几个关键内核（分散/聚集等）的性能调优以及缺乏与 GNN 相关的稀疏矩阵乘法运算，在 CPU 上效率较低。具体来说，优化包括：
+PyTorch 2.0 包含多项关键优化，可提高 CPU 上的 GNN 推理和训练性能。在 2.0 之前，PyG 的 GNN 模型由于缺乏对几个关键内核(分散/聚集等)的性能调优以及缺乏与 GNN 相关的稀疏矩阵乘法运算，在 CPU 上效率较低。具体来说，优化包括：
 
-*   scatter\_reduce：当边索引以坐标格式（COO）存储时，消息传递中的性能热点。
-*   Gather：scatter\_reduce 的后向，当索引是扩展张量时，专门针对 GNN 计算进行调整。
-*   带有reduce标志的torch.sparse.mm：当边缘索引存储在压缩稀疏行（CSR）中时消息传递中的性能热点。支持的归约标志：sum、mean、amax、amin。
+*   scatter\_reduce：当边索引以坐标格式(COO)存储时，消息传递中的性能热点。
+*   Gather：scatter\_reduce 的后向，当索引是扩展tensor时，专门针对 GNN 计算进行调整。
+*   带有reduce标志的torch.sparse.mm：当边缘索引存储在压缩稀疏行(CSR)中时消息传递中的性能热点。支持的归约标志：sum、mean、amax、amin。
 
-在 PyG 基准测试/示例、OGB 基准测试中，单节点推理和训练的性能加速比为 1.12 倍 - 4.07 倍（1.13.1 与 2.0 相比）。
+在 PyG 基准测试/示例、OGB 基准测试中，单节点推理和训练的性能加速比为 1.12 倍 - 4.07 倍(1.13.1 与 2.0 相比)。
 
 | **模型数据集** | **选项** | **加速比** |
 | --- | --- | --- |
-| GCN-Reddit（推理） | 512-2-64-密集 | 1.22倍 |
+| GCN-Reddit(推理) | 512-2-64-密集 | 1.22倍 |
 | 1024-3-128-密集 | 1.25倍 |
 | 512-2-64-稀疏 | 1.31倍 |
 | 1024-3-128-稀疏 | 1.68倍 |
 | 512-2-64-密集 | 1.22倍 |
-| GraphSage-ogbn-产品（推理） | 1024-3-128-密集 | 1.15倍 |
+| GraphSage-ogbn-产品(推理) | 1024-3-128-密集 | 1.15倍 |
 | 512-2-64-稀疏 | 1.20倍 |
 | 1024-3-128-稀疏 | 1.33倍 |
 | 全批量稀疏 | 4.07倍 |
-| GCN-蛋白质（训练） | 3-32 | 1.67倍 |
-| GCN-REDDIT-二进制（训练） | 3-32 | 1.67倍 |
-| GCN-Reddit（训练） | 512-2-64-密集 | 1.20倍 |
+| GCN-蛋白质(训练) | 3-32 | 1.67倍 |
+| GCN-REDDIT-二进制(训练) | 3-32 | 1.67倍 |
+| GCN-Reddit(训练) | 512-2-64-密集 | 1.20倍 |
 | 1024-3-128-密集 | 1.12倍 |
 
 了解更多：[PyG CPU 性能优化](https://www.pyg.org/ns-newsarticle-accelerating-pyg-on-intel-cpus)。
@@ -219,13 +219,13 @@ PyTorch 2.0 包含多项关键优化，可提高 CPU 上的 GNN 推理和训练�
 
 *   它自动识别要通过融合加速的图形分区。
 *   融合[模式](https://github.com/oneapi-src/oneDNN/blob/dev-graph/doc/programming_model/ops_and_patterns.md#fusion-patterns)侧重于融合计算密集型运算，例如卷积、矩阵乘法及其邻居运算，用于推理和训练用例。
-*   尽管将 oneDNN Graph 与 TorchDynamo 集成的工作仍在进行中，但它与 PyTorch JIT Fuser 的集成在 PyTorch 2.0 中获得了测试版状态，用于[Float32](https://github.com/pytorch/pytorch/tree/master/torch/csrc/jit/codegen/onednn#example-with-float)和[BFloat16](https://github.com/pytorch/pytorch/tree/master/torch/csrc/jit/codegen/onednn#example-with-bfloat16)推理（在支持 AVX512\_BF16 ISA 的计算机上）。
+*   尽管将 oneDNN Graph 与 TorchDynamo 集成的工作仍在进行中，但它与 PyTorch JIT Fuser 的集成在 PyTorch 2.0 中获得了测试版状态，用于[Float32](https://github.com/pytorch/pytorch/tree/master/torch/csrc/jit/codegen/onednn#example-with-float)和[BFloat16](https://github.com/pytorch/pytorch/tree/master/torch/csrc/jit/codegen/onednn#example-with-bfloat16)推理(在支持 AVX512\_BF16 ISA 的计算机上)。
 
 从开发人员/研究人员的角度来看，用法非常简单直观，代码中唯一的变化是 API 调用：
 
 *   利用 oneDNN Graph 和[JIT 跟踪](https://pytorch.org/docs/stable/generated/torch.jit.trace.html)，通过示例输入来分析模型。
 *   也可以使用*torch.jit.fuser(“fuser3”): 的*上下文管理器来代替调用*torch.jit.enable\_onednn\_fusion(True)*。
-*   为了加速[BFloat16 推理](https://github.com/pytorch/pytorch/tree/master/torch/csrc/jit/codegen/onednn#example-with-bfloat16)，我们依赖 PyTorch 中的 eager 模式 AMP（自动混合精度）支持并禁用 JIT 模式的 AMP，因为它们目前是不同的：
+*   为了加速[BFloat16 推理](https://github.com/pytorch/pytorch/tree/master/torch/csrc/jit/codegen/onednn#example-with-bfloat16)，我们依赖 PyTorch 中的 eager 模式 AMP(自动混合精度)支持并禁用 JIT 模式的 AMP，因为它们目前是不同的：
 
 ```
 # Assuming we have a model of the name 'model'
@@ -255,21 +255,21 @@ with torch.no_grad(), torch.cpu.amp.autocast():
 
 #### [Prototype] DTensor
 
-PyTorch [DistributedTensor](https://github.com/pytorch/pytorch/blob/master/torch/distributed/_tensor/README.md) (DTensor) 是一种使用分布式张量基元的原型设计工作，可以在 SPMD（单程序多设备）范例中更轻松地进行分布式计算创作。当使用分片和复制并行策略来表达张量分布时，这些原语很简单但功能强大。PyTorch DTensor 增强了 PyTorch[张量并行性](https://pytorch.org/docs/master/distributed.tensor.parallel.html)以及其他高级并行性探索。此外，它还提供了一种用于分布式检查点目的保存/加载 state\_dict 的统一方法，即使存在复杂的张量分布策略（例如将张量并行性与 FSDP 中的参数分片相结合）也是如此。[更多详细信息可以在此RFC](https://github.com/pytorch/pytorch/issues/88838)和[DTensor 示例笔记本](https://colab.research.google.com/drive/12Pl5fvh0eLPUrcVO7s6yY4n2_RZo8pLR#scrollTo=stYPKb9Beq4e)中找到[](https://colab.research.google.com/drive/12Pl5fvh0eLPUrcVO7s6yY4n2_RZo8pLR#scrollTo=stYPKb9Beq4e)。
+PyTorch [DistributedTensor](https://github.com/pytorch/pytorch/blob/master/torch/distributed/_tensor/README.md) (DTensor) 是一种使用分布式tensor基元的原型设计工作，可以在 SPMD(单程序多设备)范例中更轻松地进行分布式计算创作。当使用分片和复制并行策略来表达tensor分布时，这些原语很简单但功能强大。PyTorch DTensor 增强了 PyTorch[tensor并行性](https://pytorch.org/docs/master/distributed.tensor.parallel.html)以及其他高级并行性探索。此外，它还提供了一种用于分布式检查点目的保存/加载 state\_dict 的统一方法，即使存在复杂的tensor分布策略(例如将tensor并行性与 FSDP 中的参数分片相结合)也是如此。[更多详细信息可以在此RFC](https://github.com/pytorch/pytorch/issues/88838)和[DTensor 示例笔记本](https://colab.research.google.com/drive/12Pl5fvh0eLPUrcVO7s6yY4n2_RZo8pLR#scrollTo=stYPKb9Beq4e)中找到[](https://colab.research.google.com/drive/12Pl5fvh0eLPUrcVO7s6yY4n2_RZo8pLR#scrollTo=stYPKb9Beq4e)。
 
 #### [Prototype] TensorParallel
 
-我们现在支持基于 DTensor 的 Tensor Parallel，用户可以将模型参数分布在不同的 GPU 设备上。我们还支持 Pairwise Parallel，它以 col-wise 和 row-wise 的方式分别对两个串联的线性层进行分片，这样最终只需要一个集合（all-reduce/reduce-scatter）。[可以在此示例](https://github.com/pytorch/examples/blob/main/distributed/tensor_parallelism/example.py)中找到更多详细信息。
+我们现在支持基于 DTensor 的 Tensor Parallel，用户可以将模型参数分布在不同的 GPU 设备上。我们还支持 Pairwise Parallel，它以 col-wise 和 row-wise 的方式分别对两个串联的线性层进行分片，这样最终只需要一个集合(all-reduce/reduce-scatter)。[可以在此示例](https://github.com/pytorch/examples/blob/main/distributed/tensor_parallelism/example.py)中找到更多详细信息。
 
 #### [Prototype] 2D 并行
 
-我们将上述TP与FullyShardedDataParallel（FSDP）集成为2D并行，以进一步扩展大型模型训练。[更多详细信息可以在这张幻灯片](https://docs.google.com/presentation/d/17g6WqrO00rP3MsxbRENsPpjrlSkwiA_QB4r93_eB5is/edit?usp=sharing)和[代码示例](https://github.com/pytorch/pytorch/blob/master/test/distributed/tensor/parallel/test_2d_parallel.py)中找到。
+我们将上述TP与FullyShardedDataParallel(FSDP)集成为2D并行，以进一步扩展大型模型训练。[更多详细信息可以在这张幻灯片](https://docs.google.com/presentation/d/17g6WqrO00rP3MsxbRENsPpjrlSkwiA_QB4r93_eB5is/edit?usp=sharing)和[代码示例](https://github.com/pytorch/pytorch/blob/master/test/distributed/tensor/parallel/test_2d_parallel.py)中找到。
 
 #### [Prototype] torch.compile(dynamic=True)
 
 此版本提供对具有动态形状的 PT2 编译的实验支持。支持简单模型的电感器推理编译，但有很多限制：
 
-*   未来版本中提供训练（这在夜间版本中已部分修复！）
+*   未来版本中提供训练(这在夜间版本中已部分修复！)
 *   未来版本中将提供缩小器。
 *   无论如何，很容易导致您想要动态的维度变得专门化。其中一些问题在夜间解决了，另一些则没有。
 *   我们没有适当地将电感器防护传播到顶层，这在[#96296](https://github.com/pytorch/pytorch/issues/96296)中进行跟踪。
@@ -291,4 +291,4 @@ PyTorch [DistributedTensor](https://github.com/pytorch/pytorch/blob/master/torc
 
 ### 使用 AWS Graviton 处理器优化 PyTorch 推理
 
-优化集中在三个关键领域：GEMM 内核、bfloat16 支持、原始缓存和内存分配器。对于 aarch64 平台，PyTorch 通过 Mkldnn(OneDNN) 后端支持 Arm 计算库 (ACL) GEMM 内核。ACL 库提供适用于 fp32 和 bfloat16 格式的 Neon/SVE GEMM 内核。c7g 上的 bfloat16 支持允许高效部署 bfloat16 训练的、AMP（自动混合精度）训练的、甚至标准 fp32 训练的模型。标准 fp32 模型通过 OneDNN 快速数学模式利用 bfloat16 内核，无需任何模型量化。接下来，我们为 conv、matmul 和内积运算符实现了原始缓存。有关更新的 PyTorch 用户指南以及即将发布的 2.0 版本改进和 TorchBench 基准详细信息的更多信息，请参见[此处](https://github.com/aws/aws-graviton-getting-started)。
+优化集中在三个关键领域：GEMM 内核、bfloat16 支持、原始缓存和内存分配器。对于 aarch64 平台，PyTorch 通过 Mkldnn(OneDNN) 后端支持 Arm 计算库 (ACL) GEMM 内核。ACL 库提供适用于 fp32 和 bfloat16 格式的 Neon/SVE GEMM 内核。c7g 上的 bfloat16 支持允许高效部署 bfloat16 训练的、AMP(自动混合精度)训练的、甚至标准 fp32 训练的模型。标准 fp32 模型通过 OneDNN 快速数学模式利用 bfloat16 内核，无需任何模型量化。接下来，我们为 conv、matmul 和内积运算符实现了原始缓存。有关更新的 PyTorch 用户指南以及即将发布的 2.0 版本改进和 TorchBench 基准详细信息的更多信息，请参见[此处](https://github.com/aws/aws-graviton-getting-started)。

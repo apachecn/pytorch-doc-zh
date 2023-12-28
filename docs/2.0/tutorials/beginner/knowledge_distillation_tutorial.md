@@ -23,9 +23,9 @@
 
 * 1 个 GPU，4GB 内存
 * PyTorch v2.0 或更高版本
-* CIFAR-10 数据集（由脚本下载并保存在名为
+* CIFAR-10 数据集(由脚本下载并保存在名为
  `/data`
- 的目录中）
+ 的目录中)
 
 ```python
 import torch
@@ -49,7 +49,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
  输入图像为 RGB，因此它们有 3 个通道且为 32x32 像素。基本上，每个图像由 3 x 32 x 32 = 3072 个从 0 到 255 的数字来描述。
 神经网络中的常见做法是对输入进行归一化，这样做的原因有多种，包括避免常用激活函数中的饱和并提高数值稳定性。我们的归一化过程包括减去平均值并除以每个通道的标准差。
-张量 `mean=[0.485, 0.456, 0.406]` 和 `std=[0.229, 0.224, 0.225]` 已经计算出来，它们表示作为训练集的 CIFAR-10 预定义子集中每个通道的平均值和标准差。请注意我们如何将这些值用于测试集，而无需从头开始重新计算平均值和标准差。这是因为网络是根据上述数字的减法和除法产生的特征进行训练的，并且我们希望保持一致性。此外，在现实生活中，我们将无法计算测试集的平均值和标准差，因为根据我们的假设，此时无法访问该数据。
+tensor `mean=[0.485, 0.456, 0.406]` 和 `std=[0.229, 0.224, 0.225]` 已经计算出来，它们表示作为训练集的 CIFAR-10 预定义子集中每个通道的平均值和标准差。请注意我们如何将这些值用于测试集，而无需从头开始重新计算平均值和标准差。这是因为网络是根据上述数字的减法和除法产生的特征进行训练的，并且我们希望保持一致性。此外，在现实生活中，我们将无法计算测试集的平均值和标准差，因为根据我们的假设，此时无法访问该数据。
 
 作为结束点，我们通常将这个保留集称为验证集，并且在优化验证集上的模型’s 性能后，我们使用一个单独的集，
 称为测试集。这样做是为了避免根据单个指标的贪婪和偏差优化来选择模型。
@@ -185,7 +185,7 @@ class LightNN(nn.Module):
 
  我们使用 2 个函数来帮助我们生成和评估原始分类任务的结果。其中一个函数称为`train`,并采用以下参数：
 
-* `model`：通过此函数训练（更新其权重）的模型实例。
+* `model`：通过此函数训练(更新其权重)的模型实例。
 * `train_loader`：我们在上面定义了`train_loader`，及其工作是将数据输入到模型中。
 * `epochs`：我们循环数据集的次数。
 * `learning_rate`：学习率决定了我们收敛的步长应该。太大或太小的步长都可能有害。
@@ -547,7 +547,7 @@ Norm of 1st layer: 2.327361822128296
 
 ```
 
- 当然，我们需要更改训练循环，因为现在模型返回一个元组 `(logits,hide_representation)`。使用样本输入张量, 我们可以打印它们的形状。
+ 当然，我们需要更改训练循环，因为现在模型返回一个元组 `(logits,hide_representation)`。使用样本输入tensor, 我们可以打印它们的形状。
 
 ```python
 # Create a sample input tensor
@@ -712,7 +712,7 @@ Teacher's feature extractor output shape:  torch.Size([128, 32, 8, 8])
 
 ![https://pytorch.org/tutorials/_static/img/knowledge_distillation/fitnets_knowledge_distill.png](https://pytorch.org/tutorials/_static/img/knowledge_distillation/fitnets_knowledge_distill.png)
 
- 可训练层与中间张量的形状相匹配，并且均方误差 (MSE) 已正确定义：[¶](#id6 "Permalink to this image")
+ 可训练层与中间tensor的形状相匹配，并且均方误差 (MSE) 已正确定义：[¶](#id6 "Permalink to this image")
 
 ```python
 class ModifiedDeepNNRegressor(nn.Module):
@@ -775,7 +775,7 @@ class ModifiedLightNNRegressor(nn.Module):
 
 ```
 
- 之后，我们必须再次更新我们的火车循环。这次，我们提取学生的回归器输出，教师的特征图，我们计算这些张量的 `MSE`（它们具有完全相同的形状，因此’s被正确定义），然后我们根据该损失反向传播梯度，除了分类任务的常规交叉熵损失之外。
+ 之后，我们必须再次更新我们的火车循环。这次，我们提取学生的回归器输出，教师的特征图，我们计算这些tensor的 `MSE`(它们具有完全相同的形状，因此’s被正确定义)，然后我们根据该损失反向传播梯度，除了分类任务的常规交叉熵损失之外。
 
 ```python
 def train_mse_loss(teacher, student, train_loader, epochs, learning_rate, feature_map_weight, ce_loss_weight, device):
@@ -880,7 +880,7 @@ Student accuracy with CE + RegressorMSE: 70.82%
  有关详细信息，请参阅：
 
 * [Hinton, G.、Vinyals, O.、Dean, J.：在神经网络中提炼知识。见：神经信息处理系统深度学习研讨会 (2015)](https://arxiv.org/abs/1503.02531)
-* [Romero, A.、Ballas, N.、Kahou, S.E.、Chassang, A.、Gatta , C., Bengio, Y.：Fitnets：薄深网的提示。见：国际学习表征会议论文集（2015）](https://arxiv.org/abs/1412.6550)
+* [Romero, A.、Ballas, N.、Kahou, S.E.、Chassang, A.、Gatta , C., Bengio, Y.：Fitnets：薄深网的提示。见：国际学习表征会议论文集(2015)](https://arxiv.org/abs/1412.6550)
 
 **脚本总运行时间:**
  ( 7 分 32.811 秒)

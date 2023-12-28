@@ -71,8 +71,8 @@
 
 
  您将需要多个 CUDA GPU 来运行教程代码。通常，
-这可以在具有多个 GPU 的云实例上完成（教程
-使用具有 4 个 GPU 的 Amazon EC2 P3 实例）。
+这可以在具有多个 GPU 的云实例上完成(教程
+使用具有 4 个 GPU 的 Amazon EC2 P3 实例)。
 
 
 
@@ -90,7 +90,7 @@
 
 
 
-0. 简介（本页）
+0. 简介(本页)
 1. [什么是DDP？](ddp_series_theory.html) 
  轻轻介绍DDP 的底层原理
 2. [单节点多GPU训练](ddp_series_multigpu.html)

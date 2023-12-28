@@ -35,7 +35,7 @@
 
 
 * [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 是执行该操作的代码，它不应接受 `ctx` 对象。
-* `setup_context(ctx,inputs,output)` 是您可以在 `ctx` 上调用方法的代码。您应该在此处保存向后张量(通过调用 `ctx.save_for_backward(*tensors)` )，或保存非张量(通过将它们分配给 `ctx` 对象)。
+* `setup_context(ctx,inputs,output)` 是您可以在 `ctx` 上调用方法的代码。您应该在此处保存向后tensor(通过调用 `ctx.save_for_backward(*tensors)` )，或保存非tensor(通过将它们分配给 `ctx` 对象)。
 
 
  因为 `setup_context()` 只接受 `inputs` 和 `output` ，所以可以保存的唯一数量是输入或输出中的对象(例如 Tensors)或从它们派生的数量(例如 `Tensor.shape` ).如果您希望从 [`Function.forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd. Function.forward") 向后，那么您需要将其作为 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward " 的输出返回torch.autograd.Function.forward") 以便将其传递给 `setup_context()` 。
@@ -60,7 +60,7 @@
 ### 示例 1：autograd.Function 调用另一个系统 [¶](#example-1-autograd-function-calls-into-another-system "Permalink to this header")
 
 
- 常见的情况是 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 具有forward() 和backward() 调用另一个系统（如C++、CUDA、numpy、triton）。
+ 常见的情况是 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 具有forward() 和backward() 调用另一个系统(如C++、CUDA、numpy、triton)。
 
 
 ```
@@ -243,14 +243,14 @@ assert torch.allclose(ggx, 6 * x)
     请仔细阅读 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 与 torch.func 转换的这些限制。我们无法捕获许多这样的情况和错误，因此它们会导致未定义的行为。
 
 
- 请不要将正在转换的张量、haverequires_grad=True 或双张量捕获到 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function " 的方法中torch.autograd.Function") 。完全安全的方法是确保在 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 的任何方法中使用的 onlyTensors 必须直接作为输入传递(或通过 ctx 对象)，而不是来自 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 外部。
+ 请不要将正在转换的tensor、haverequires_grad=True 或双tensor捕获到 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function " 的方法中torch.autograd.Function") 。完全安全的方法是确保在 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 的任何方法中使用的 onlyTensors 必须直接作为输入传递(或通过 ctx 对象)，而不是来自 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 外部。
 
 
-[`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 不处理 pytree 中的张量(任意嵌套的 Python 数据结构，可能包含也可能不包含张量)。对于要由 autograd 跟踪的张量，必须将它们作为参数直接传递给 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 。这与 jax.{custom_vjp, custom_jvp} 形成对比，jax.{custom_vjp, custom_jvp} 接受 pytree。
+[`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 不处理 pytree 中的tensor(任意嵌套的 Python 数据结构，可能包含也可能不包含tensor)。对于要由 autograd 跟踪的tensor，必须将它们作为参数直接传递给 [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 。这与 jax.{custom_vjp, custom_jvp} 形成对比，jax.{custom_vjp, custom_jvp} 接受 pytree。
 
 
- 请仅使用 [`save_for_backward()`](../generated/torch.autograd.function.FunctionCtx.save_for_backward.html#torch.autograd.function.FunctionCtx.save_for_backward "torch.autograd.function.FunctionCtx. save_for_backward") 或 `save_for_forward()` 来保存张量。请不要将张量或张量集合直接分配到 ctx 对象上 
-- 这些张量将不会被跟踪
+ 请仅使用 [`save_for_backward()`](../generated/torch.autograd.function.FunctionCtx.save_for_backward.html#torch.autograd.function.FunctionCtx.save_for_backward "torch.autograd.function.FunctionCtx. save_for_backward") 或 `save_for_forward()` 来保存tensor。请不要将tensor或tensor集合直接分配到 ctx 对象上 
+- 这些tensor将不会被跟踪
 
 
 ## [`torch.vmap()`](../generated/torch.vmap.html#torch.vmap "torch.vmap") 支持 [¶](#torch-vmap-support "永久链接到此标题")
@@ -276,7 +276,7 @@ assert torch.allclose(ggx, 6 * x)
 
 
 
-* [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 的 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward")、[`backward()`](../generated/torch.autograd.Function.backward.html#torch.autograd.Function.backward "torch.autograd.Function.backward")（如果存在）和 [`jvp()`](../generated/torch.autograd.Function.jvp.html#torch.autograd.Function.jvp "torch.autograd.Function.jvp")（如果存在）静态方法必须可以通过 [torch.vmap()](https://pytorch.org/docs/stable/generated/torch.vmap.html#torch.vmap "torch.vmap") 进行转换。 也就是说，它们必须仅包含 PyTorch 操作（而不是例如 NumPy 或自定义 CUDA 内核）。
+* [`torch.autograd.Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 的 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward")、[`backward()`](../generated/torch.autograd.Function.backward.html#torch.autograd.Function.backward "torch.autograd.Function.backward")(如果存在)和 [`jvp()`](../generated/torch.autograd.Function.jvp.html#torch.autograd.Function.jvp "torch.autograd.Function.jvp")(如果存在)静态方法必须可以通过 [torch.vmap()](https://pytorch.org/docs/stable/generated/torch.vmap.html#torch.vmap "torch.vmap") 进行转换。 也就是说，它们必须仅包含 PyTorch 操作(而不是例如 NumPy 或自定义 CUDA 内核)。
 
 
  例子：

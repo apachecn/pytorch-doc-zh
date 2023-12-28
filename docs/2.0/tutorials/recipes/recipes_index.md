@@ -58,7 +58,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/saving-and-loading-models-across-devices.PNG" width=20% />
 
-[了解如何使用 PyTorch 相对简单地跨设备（CPU 和 GPU）保存和加载模型](https://pytorch.org/tutorials/recipes/recipes/save_load_across_devices.html)
+[了解如何使用 PyTorch 相对简单地跨设备(CPU 和 GPU)保存和加载模型](https://pytorch.org/tutorials/recipes/recipes/save_load_across_devices.html)
 
 
 ### 在 PyTorch 中将梯度归零
@@ -75,7 +75,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 [了解如何使用 PyTorch 的基准测试模块来测量和比较代码的性能](https://pytorch.org/tutorials/recipes/recipes/benchmark.html)
 
 
-### PyTorch 基准测试（快速入门）
+### PyTorch 基准测试(快速入门)
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/profiler.png" width=20% />
 
@@ -153,7 +153,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/mobile.png" width=20% />
 
-[在移动设备（Android 和 iOS）上使用 PyTorch 的性能优化方法列表](https://pytorch.org/tutorials/recipes/mobile_perf.html)
+[在移动设备(Android 和 iOS)上使用 PyTorch 的性能优化方法列表](https://pytorch.org/tutorials/recipes/mobile_perf.html)
 
 ### 制作使用 PyTorch Android 预构建库的 Android 本机应用程序
 
@@ -177,7 +177,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/mobile.png" width=20% />
 
-[了解如何将模型转换为 TorchScipt 并（可选）针对移动应用程序对其进行优化](https://pytorch.org/tutorials/recipes/script_optimized.html)
+[了解如何将模型转换为 TorchScipt 并(可选)针对移动应用程序对其进行优化](https://pytorch.org/tutorials/recipes/script_optimized.html)
 
 
 ### iOS Recipes 的模型准备
@@ -211,7 +211,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/mobile.png" width=20% />
 
-[在移动设备（Android 和 iOS）上使用 PyTorch 的性能优化方法列表](https://pytorch.org/tutorials/recipes/mobile_perf.html)
+[在移动设备(Android 和 iOS)上使用 PyTorch 的性能优化方法列表](https://pytorch.org/tutorials/recipes/mobile_perf.html)
 
 
 ### 自动混合精度
@@ -252,7 +252,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/using-flask-create-restful-api.png" width=20% />
 
-[了解如何使用 Flask（一种轻量级 Web 服务器）从经过训练的 PyTorch 模型快速设置 Web API](https://pytorch.org/tutorials/recipes/deployment_with_flask.html)
+[了解如何使用 Flask(一种轻量级 Web 服务器)从经过训练的 PyTorch 模型快速设置 Web API](https://pytorch.org/tutorials/recipes/deployment_with_flask.html)
 
 ### 分析基于 PyTorch RPC 的工作负载
 
@@ -310,7 +310,7 @@ Recipes 是关于如何使用特定 PyTorch 功能的简短、可操作的示例
 
 <img src="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/using-flask-create-restful-api.png" width=20% />
 
-[了解如何使用 Flask（一种轻量级 Web 服务器）从经过训练的 PyTorch 模型快速设置 Web API](https://pytorch.org/tutorials/recipes/deployment_with_flask.html)
+[了解如何使用 Flask(一种轻量级 Web 服务器)从经过训练的 PyTorch 模型快速设置 Web API](https://pytorch.org/tutorials/recipes/deployment_with_flask.html)
 
 
 ## Visualization

@@ -871,7 +871,7 @@ with profile(
 
 
 
- 我们得到以下 Eager-Mode 模型的性能分析表（省略一些列）：
+ 我们得到以下 Eager-Mode 模型的性能分析表(省略一些列)：
 
 
 
@@ -910,7 +910,7 @@ Self CPU time total: 810.920ms
 
 
 
- 同样，我们还得到了带有 Inductor 的编译模型的表格（省略了一些列）：
+ 同样，我们还得到了带有 Inductor 的编译模型的表格(省略了一些列)：
 
 
 
@@ -981,7 +981,7 @@ Self CPU time total: 336.642ms
  `mkl::_mkl_linear`
  的 CPU 总计为 231.573ms。这表明 “linear” 部分约为 1.63 倍。
 加速主要来自
- [将权重张量打包为块内存格式](https://www.intel.com /content/www/us/en/docs/onemkl/developer-reference-c/2023-1/cblas-gemm-pack-002.html) 
+ [将权重tensor打包为块内存格式](https://www.intel.com /content/www/us/en/docs/onemkl/developer-reference-c/2023-1/cblas-gemm-pack-002.html) 
  并调用
  [cblas_sgemm_compute](https ://www.intel.com/content/www/us/en/docs/onemkl/developer-reference-c/2023-1/cblas-gemm-compute-002.html)
  在电感器 CPU 后端

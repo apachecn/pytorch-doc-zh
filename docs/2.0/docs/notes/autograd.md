@@ -13,26 +13,26 @@
 ## autograd 如何编码历史记录 [¶](#how-autograd-encodes-the-history "永久链接到此标题")
 
 
- Autograd 是一种反向自动微分系统。从概念上讲，autograd 记录了一个图，记录了执行操作时创建数据的所有操作，为您提供一个有向无环图，其叶子是输入张量，根是输出张量。通过从根到叶子追踪该图，您可以自动计算使用链式法则的梯度。
+ Autograd 是一种反向自动微分系统。从概念上讲，autograd 记录了一个图，记录了执行操作时创建数据的所有操作，为您提供一个有向无环图，其叶子是输入tensor，根是输出tensor。通过从根到叶子追踪该图，您可以自动计算使用链式法则的梯度。
 
 
- 在内部，autograd 将此图表示为“Function”对象(实际上是表达式)的图，可以对其进行“apply()”编辑以计算评估该图的结果。在计算前向传递时，autograd 同时执行请求的计算并构建一个表示计算梯度的函数的图(每个 [`torch.Tensor`](../tensors.html#torch.张量“torch.Tensor”)是该图的入口点)。当前向传递完成时，我们在后向传递中评估该图以计算梯度。
+ 在内部，autograd 将此图表示为“Function”对象(实际上是表达式)的图，可以对其进行“apply()”编辑以计算评估该图的结果。在计算前向传递时，autograd 同时执行请求的计算并构建一个表示计算梯度的函数的图(每个 [`torch.Tensor`](../tensors.html#torch.tensor“torch.Tensor”)是该图的入口点)。当前向传递完成时，我们在后向传递中评估该图以计算梯度。
 
 
  需要注意的重要一点是，图形在每次迭代时都会从头开始重新创建，这正是允许使用任意 Python 控制流语句的原因，这些语句可以在每次迭代时更改图形的整体形状和大小。在启动训练之前，您不必对所有可能的路径进行编码 
 - 您运行的内容就是您所区分的。
 
 
-### 保存的张量 [¶](#saved-tensors "此标题的固定链接")
+### 保存的tensor [¶](#saved-tensors "此标题的固定链接")
 
 
  某些操作需要在前向传递期间保存中间结果，以便执行后向传递。例如，函数 $x ↦ x^2$ 保存输入 $x$ 来计算梯度。
 
 
- 定义自定义 Python [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 时，可以使用 `save_for_backward()` 在前向传递过程中保存张量和`saved_tensors`以在向后传递期间检索它们。有关更多信息，请参阅[扩展 PyTorch](extending.html)。
+ 定义自定义 Python [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 时，可以使用 `save_for_backward()` 在前向传递过程中保存tensor和`saved_tensors`以在向后传递期间检索它们。有关更多信息，请参阅[扩展 PyTorch](extending.html)。
 
 
- 对于 PyTorch 定义的操作(例如 [`torch.pow()`](../generated/torch.pow.html#torch.pow "torch.pow") )，张量会根据需要自动保存。您可以通过查找以前缀“_saved”开头的属性来探索(出于教育或调试目的)某个“grad_fn”保存了哪些张量。
+ 对于 PyTorch 定义的操作(例如 [`torch.pow()`](../generated/torch.pow.html#torch.pow "torch.pow") )，tensor会根据需要自动保存。您可以通过查找以前缀“_saved”开头的属性来探索(出于教育或调试目的)某个“grad_fn”保存了哪些tensor。
 
 
 ```
@@ -56,13 +56,13 @@ print(y is y.grad_fn._saved_result)  # False
 ```
 
 
- 在幕后，为了防止引用循环，PyTorch“打包”了保存的张量，并将其“解包”到不同的张量中以供读取。在这里，您通过访问“y.grad_fn._saved_result”获得的张量是与“y”不同的张量对象(但它们仍然共享相同的存储)。
+ 在幕后，为了防止引用循环，PyTorch“打包”了保存的tensor，并将其“解包”到不同的tensor中以供读取。在这里，您通过访问“y.grad_fn._saved_result”获得的tensor是与“y”不同的tensor对象(但它们仍然共享相同的存储)。
 
 
- 张量是否会被打包到不同的张量对象中取决于它是否是其自己的 grad_fn 的输出，这是一个可能会更改的实现细节，用户不应依赖。
+ tensor是否会被打包到不同的tensor对象中取决于它是否是其自己的 grad_fn 的输出，这是一个可能会更改的实现细节，用户不应依赖。
 
 
- 您可以使用 [保存张量的钩子](#saved-tensors-hooks-doc) 控制 PyTorch 如何打包/解包。
+ 您可以使用 [保存tensor的钩子](#saved-tensors-hooks-doc) 控制 PyTorch 如何打包/解包。
 
 
 ## 不可微函数的梯度 [¶](#gradients-for-non-Differentiable-functions "永久链接到此标题")
@@ -76,7 +76,7 @@ print(y is y.grad_fn._saved_result)  # False
 3. 如果函数是凹函数(至少是局部凹函数)，则使用最小范数的超梯度(考虑 -f(x) 并应用前一点)。
 4. 如果定义了函数，则通过连续性定义当前点的梯度(请注意，此处可以使用“inf”，例如“sqrt(0)”)。如果可能有多个值，请任意选择一个。
 5. 如果函数未定义(例如 `sqrt(-1)` 、 `log(-1)` 或输入为 `NaN` 时的大多数函数)，则用作梯度的值是任意的(我们也可以提出一个错误，但不能保证)。大多数函数将使用“NaN”作为梯度，但出于性能原因，某些函数将使用其他值(例如“log(-1)”)。
-6. 如果函数不是确定性映射(即它不是[数学函数](https://en.wikipedia.org/wiki/Function_(mathematics)))，它将被标记为不可微分。如果在“no_grad”环境之外需要 grad 的张量上使用，这将使其向后出错。
+6. 如果函数不是确定性映射(即它不是[数学函数](https://en.wikipedia.org/wiki/Function_(mathematics)))，它将被标记为不可微分。如果在“no_grad”环境之外需要 grad 的tensor上使用，这将使其向后出错。
 
 
 ## 本地禁用梯度计算 [¶](#locally-disabling-gradient-computation "永久链接到此标题")
@@ -85,7 +85,7 @@ print(y is y.grad_fn._saved_result)  # False
  Python 有多种机制可用于本地禁用梯度计算：
 
 
- 要禁用整个代码块的梯度，可以使用上下文管理器，例如无梯度模式和推理模式。为了更细粒度地从梯度计算中排除子图，可以设置张量的“requires_grad”字段。
+ 要禁用整个代码块的梯度，可以使用上下文管理器，例如无梯度模式和推理模式。为了更细粒度地从梯度计算中排除子图，可以设置tensor的“requires_grad”字段。
 
 
  下面，除了讨论上面的机制之外，我们还描述了评估模式(`nn.Module.eval()`)，这种方法不用于禁用梯度计算，但由于其名称，经常与这三种方法混淆。
@@ -98,10 +98,10 @@ print(y is y.grad_fn._saved_result)  # False
 * `nn.Parameter` 中，它允许从梯度计算中细粒度地排除子图。它在前向传播和后向传播中都有效：
 
 
- 在前向传递过程中，如果至少有一个输入张量需要 grad，则该操作仅记录在后向图中。在后向传递过程中( `.backward()` )，只有具有 `requires_grad=True` 的叶张量才会有梯度累积到它们的“.grad”字段中。
+ 在前向传递过程中，如果至少有一个输入tensor需要 grad，则该操作仅记录在后向图中。在后向传递过程中( `.backward()` )，只有具有 `requires_grad=True` 的叶tensor才会有梯度累积到它们的“.grad”字段中。
 
 
- 值得注意的是，即使每个张量都有这个标志，*设置*它只对叶张量有意义(没有 `grad_fn` 的张量，例如 `nn.Module` 的参数)。非叶张量(具有 `grad_fn` 的张量)是具有与之关联的后向图的张量。因此，它们的梯度将需要作为中间结果来计算需要梯度的叶张量的梯度。从这个定义可以清楚地看出，所有非叶张量将自动具有“require_grad=True”。
+ 值得注意的是，即使每个tensor都有这个标志，*设置*它只对叶tensor有意义(没有 `grad_fn` 的tensor，例如 `nn.Module` 的参数)。非叶tensor(具有 `grad_fn` 的tensor)是具有与之关联的后向图的tensor。因此，它们的梯度将需要作为中间结果来计算需要梯度的叶tensor的梯度。从这个定义可以清楚地看出，所有非叶tensor将自动具有“require_grad=True”。
 
 
  设置“requires_grad”应该是控制模型的哪些部分参与梯度计算的主要方式，例如，如果您需要在模型微调期间冻结预训练模型的部分。
@@ -141,7 +141,7 @@ print(y is y.grad_fn._saved_result)  # False
  无梯度模式下的计算行为就像没有输入需要梯度一样。换句话说，无梯度模式下的计算永远不会记录在后向图中，即使存在具有 `require_grad=True` 的输入。
 
 
- 当您需要执行不应该由自动分级记录的操作时，请启用无分级模式，但您仍希望稍后在分级模式下使用这些计算的输出。这个上下文管理器可以方便地禁用代码块或函数的梯度，而无需临时将张量设置为“requires_grad=False”，然后返回“True”。
+ 当您需要执行不应该由自动分级记录的操作时，请启用无分级模式，但您仍希望稍后在分级模式下使用这些计算的输出。这个上下文管理器可以方便地禁用代码块或函数的梯度，而无需临时将tensor设置为“requires_grad=False”，然后返回“True”。
 
 
  例如，在编写优化器时，无梯度模式可能很有用：当执行训练更新时，您希望就地更新参数，而不用自动梯度记录更新。您还打算在下一个向前传球。
@@ -153,13 +153,13 @@ print(y is y.grad_fn._saved_result)  # False
 ### 推理模式 [¶](#inference-mode "永久链接到此标题")
 
 
- 推理模式是无梯度模式的极端版本​​。就像在无梯度模式中一样，推理模式下的计算不会记录在后向图中，但是启用推理模式将使 PyTorch 能够进一步加速您的模型。这种更好的运行时有一个缺点：在推理模式下创建的张量将无法用于退出推理模式后由 autograd 记录的计算。
+ 推理模式是无梯度模式的极端版本​​。就像在无梯度模式中一样，推理模式下的计算不会记录在后向图中，但是启用推理模式将使 PyTorch 能够进一步加速您的模型。这种更好的运行时有一个缺点：在推理模式下创建的tensor将无法用于退出推理模式后由 autograd 记录的计算。
 
 
- 当您执行不需要记录在后向图中的计算时，启用推理模式，并且您不打算在稍后由 autograd 记录的任何计算中使用推理模式中创建的张量。
+ 当您执行不需要记录在后向图中的计算时，启用推理模式，并且您不打算在稍后由 autograd 记录的任何计算中使用推理模式中创建的tensor。
 
 
- 建议您在代码中不需要自动分级跟踪的部分尝试推理模式(例如，数据处理和模型评估)。如果它对于您的用例来说是开箱即用的，那么它就是免费的性能胜利。如果您在启用推理模式后遇到错误，请检查您是否未在退出推理模式后由 autograd 记录的计算中使用在推理模式中创建的张量。如果您无法避免在您的情况下使用这种情况，您可以随时切换回无梯度模式。
+ 建议您在代码中不需要自动分级跟踪的部分尝试推理模式(例如，数据处理和模型评估)。如果它对于您的用例来说是开箱即用的，那么它就是免费的性能胜利。如果您在启用推理模式后遇到错误，请检查您是否未在退出推理模式后由 autograd 记录的计算中使用在推理模式中创建的tensor。如果您无法避免在您的情况下使用这种情况，您可以随时切换回无梯度模式。
 
 
  有关推理模式的详细信息请参见[推理模式](https://pytorch.org/cppdocs/notes/inference_mode.html)。
@@ -192,13 +192,13 @@ print(y is y.grad_fn._saved_result)  # False
  限制就地操作的适用性的主要原因有两个：
 
 
-1. 就地操作可能会覆盖计算梯度所需的值。2.每个就地操作都需要实现重写计算图。异地版本只是分配新对象并保留对旧图的引用，而就地操作则需要将所有输入的创建者更改为表示此操作的“函数”。这可能很棘手，特别是如果有许多张量引用相同的存储(例如通过索引或转置创建)，并且如果修改后的输入的存储被任何其他“张量”引用，则就地函数将引发错误。
+1. 就地操作可能会覆盖计算梯度所需的值。2.每个就地操作都需要实现重写计算图。异地版本只是分配新对象并保留对旧图的引用，而就地操作则需要将所有输入的创建者更改为表示此操作的“函数”。这可能很棘手，特别是如果有许多tensor引用相同的存储(例如通过索引或转置创建)，并且如果修改后的输入的存储被任何其他“tensor”引用，则就地函数将引发错误。
 
 
 ### 就地正确性检查 [¶](#in-place-Correctness-checks "永久链接到此标题")
 
 
- 每个张量都保留一个版本计数器，每次在任何操作中被标记为脏时，该计数器都会递增。当函数保存任何向后张量时，也会保存其包含张量的版本计数器。一旦您访问 self.saved_tensors ，就会对其进行检查，如果它大于保存的值，则会引发错误。这确保了如果您使用就地函数并且没有看到任何错误，则可以确定计算的梯度是正确的。
+ 每个tensor都保留一个版本计数器，每次在任何操作中被标记为脏时，该计数器都会递增。当函数保存任何向后tensor时，也会保存其包含tensor的版本计数器。一旦您访问 self.saved_tensors ，就会对其进行检查，如果它大于保存的值，则会引发错误。这确保了如果您使用就地函数并且没有看到任何错误，则可以确定计算的梯度是正确的。
 
 
 ## 多线程 Autograd [¶](#multithreaded-autograd "此标题的永久链接")
@@ -14585,10 +14585,10 @@ ight) \ &= 1/2 * (c
 > >
 
 
-## 已保存张量的挂钩 [¶](#hooks-for-saved-tensors "此标题的固定链接")
+## 已保存tensor的挂钩 [¶](#hooks-for-saved-tensors "此标题的固定链接")
 
 
- 您可以通过定义一对 `pack_hook` /`unpack_hook` 钩子来控制[如何打包/解包保存的张量](#saved-tensors-doc)。 `pack_hook` 函数应该采用一个张量作为其单个参数，但可以返回任何 python 对象(例如另一个张量、一个元组，甚至包含文件名的字符串)。 `unpack_hook` 函数将 `pack_hook` 的输出作为其单个参数，并且应该返回一个用于向后传递的张量。 `unpack_hook` 返回的张量只需与作为输入传递给 `pack_hook` 的张量具有相同的内容。特别是，任何与 autograd 相关的元数据都可以忽略，因为它们将在解包过程中被覆盖。
+ 您可以通过定义一对 `pack_hook` /`unpack_hook` 钩子来控制[如何打包/解包保存的tensor](#saved-tensors-doc)。 `pack_hook` 函数应该采用一个tensor作为其单个参数，但可以返回任何 python 对象(例如另一个tensor、一个元组，甚至包含文件名的字符串)。 `unpack_hook` 函数将 `pack_hook` 的输出作为其单个参数，并且应该返回一个用于向后传递的tensor。 `unpack_hook` 返回的tensor只需与作为输入传递给 `pack_hook` 的tensor具有相同的内容。特别是，任何与 autograd 相关的元数据都可以忽略，因为它们将在解包过程中被覆盖。
 
 
  此类对的一个示例是：
@@ -14626,10 +14626,10 @@ def unpack_hook(temp_file):
     禁止对任何函数的输入执行就地操作，因为它们可能会导致意外的副作用。如果打包钩子的输入被就地修改，PyTorch 会抛出错误，但不会捕获解包钩子的输入被就地修改的情况。
 
 
-### 为已保存的张量注册钩子 [¶](#registering-hooks-for-a-saved-tensor "Permalink to this header")
+### 为已保存的tensor注册钩子 [¶](#registering-hooks-for-a-saved-tensor "Permalink to this header")
 
 
- 您可以通过在“SavedTensor”对象上调用“register_hooks()”方法在已保存的张量上注册一对钩子。这些对象作为“grad_fn”的属性公开，并以“_raw_saved_”前缀开头。
+ 您可以通过在“SavedTensor”对象上调用“register_hooks()”方法在已保存的tensor上注册一对钩子。这些对象作为“grad_fn”的属性公开，并以“_raw_saved_”前缀开头。
 
 
 ```
@@ -14640,18 +14640,18 @@ y.grad_fn._raw_saved_self.register_hooks(pack_hook, unpack_hook)
 ```
 
 
- 一旦注册对，就会调用“pack_hook”方法。每次需要通过“y.grad_fn._saved_self”访问保存的张量时，都会调用“unpack_hook”方法` 或在向后传递期间。
+ 一旦注册对，就会调用“pack_hook”方法。每次需要通过“y.grad_fn._saved_self”访问保存的tensor时，都会调用“unpack_hook”方法` 或在向后传递期间。
 
 
 !!! warning "警告"
 
-    如果在保存的张量被释放后(即调用后向功能后)保留对“SavedTensor”的引用，则禁止调用其“register_hooks()”。大多数情况下，PyTorch 会抛出错误，但可能无法执行因此在某些情况下可能会出现未定义的行为。
+    如果在保存的tensor被释放后(即调用后向功能后)保留对“SavedTensor”的引用，则禁止调用其“register_hooks()”。大多数情况下，PyTorch 会抛出错误，但可能无法执行因此在某些情况下可能会出现未定义的行为。
 
 
-### 为保存的张量注册默认钩子 [¶](#registering-default-hooks-for-saved-tensors "永久链接到此标题")
+### 为保存的tensor注册默认钩子 [¶](#registering-default-hooks-for-saved-tensors "永久链接到此标题")
 
 
- 或者，您可以使用上下文管理器 [`saved_tensors_hooks`](../autograd.html#torch.autograd.graph.saved_tensors_hooks "torch.autograd.graph.saved_tensors_hooks") 注册一对hooks，这将应用于在该上下文中创建的*所有*保存的张量。
+ 或者，您可以使用上下文管理器 [`saved_tensors_hooks`](../autograd.html#torch.autograd.graph.saved_tensors_hooks "torch.autograd.graph.saved_tensors_hooks") 注册一对hooks，这将应用于在该上下文中创建的*所有*保存的tensor。
 
 
  例子：
@@ -14710,7 +14710,7 @@ with torch.autograd.graph.saved_tensors_hooks(lambda x: x, lambda x: x):
 ```
 
 
- 如果没有钩子，`x`、`y.grad_fn._saved_self`和`y.grad_fn._saved_other`都引用同一个张量对象。有了钩子，PyTorch将打包和解包x 转换成两个新的张量对象，它们与原始 x 共享相同的存储(不执行复制)。
+ 如果没有钩子，`x`、`y.grad_fn._saved_self`和`y.grad_fn._saved_other`都引用同一个tensor对象。有了钩子，PyTorch将打包和解包x 转换成两个新的tensor对象，它们与原始 x 共享相同的存储(不执行复制)。
 
 
 ## 向后钩子执行 [¶](#backward-hooks-execution "永久链接到此标题")
@@ -14722,10 +14722,10 @@ with torch.autograd.graph.saved_tensors_hooks(lambda x: x, lambda x: x):
 ### 是否会触发特定的钩子 [¶](#whether-a-pspecial-hook-will-be-fired "Permalink to this header")
 
 
- 通过 [`torch.Tensor.register_hook()`](../generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook "torch.Tensor.register_hook") 注册到 Tensor 的 Hook 在渐变时执行正在计算该张量。 (请注意，这不需要执行张量的 grad_fn。例如，如果张量作为 `inputs` 参数的一部分传递给 [`torch.autograd.grad()`](../generated/torch. autograd.grad.html#torch.autograd.grad "torch.autograd.grad") ，Tensor 的 grad_fn 可能不会被执行，但该 Tensor 的钩子寄存器将始终被执行。)
+ 通过 [`torch.Tensor.register_hook()`](../generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook "torch.Tensor.register_hook") 注册到 Tensor 的 Hook 在渐变时执行正在计算该tensor。 (请注意，这不需要执行tensor的 grad_fn。例如，如果tensor作为 `inputs` 参数的一部分传递给 [`torch.autograd.grad()`](../generated/torch. autograd.grad.html#torch.autograd.grad "torch.autograd.grad") ，Tensor 的 grad_fn 可能不会被执行，但该 Tensor 的钩子寄存器将始终被执行。)
 
 
- 通过 [`torch.Tensor.register_post_accumulate_grad_hook()`](../generated/torch.Tensor.register_post_accumulate_grad_hook.html#torch.Tensor.register_post_accumulate_grad_hook "torch.Tensor.register_post_accumulate_grad_hook 注册到 Tensor 的 Hooks ") 在该张量的梯度累积后执行，这意味着张量的梯度字段已设置。而通过 [`torch.Tensor.register_hook()`](../generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook "torch.Tensor.register_hook") 注册的钩子在梯度正在运行时运行计算，通过 [`torch.Tensor.register_post_accumulate_grad_hook()`](../generated/torch.Tensor.register_post_accumulate_grad_hook.html#torch.Tensor.register_post_accumulate_grad_hook "torch.Tensor.register_post_accumulate_grad_hook" 注册的钩子)仅在后向传递结束时由 autograd 更新张量的 grad 字段后才会触发。因此，post-accumulate-grad hooks 只能为 leafTensors 注册。通过 [`torch.Tensor.register_post_accumulate_grad_hook()`](../generated/torch.Tensor.register_post_accumulate_grad_hook.html#torch.Tensor.register_post_accumulate_grad_hook "torch.Tensor.register_post_accumulate_grad_hook") 注册钩子即使您调用 back(retain_graph=True) ，在非叶张量上也会出错。
+ 通过 [`torch.Tensor.register_post_accumulate_grad_hook()`](../generated/torch.Tensor.register_post_accumulate_grad_hook.html#torch.Tensor.register_post_accumulate_grad_hook "torch.Tensor.register_post_accumulate_grad_hook 注册到 Tensor 的 Hooks ") 在该tensor的梯度累积后执行，这意味着tensor的梯度字段已设置。而通过 [`torch.Tensor.register_hook()`](../generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook "torch.Tensor.register_hook") 注册的钩子在梯度正在运行时运行计算，通过 [`torch.Tensor.register_post_accumulate_grad_hook()`](../generated/torch.Tensor.register_post_accumulate_grad_hook.html#torch.Tensor.register_post_accumulate_grad_hook "torch.Tensor.register_post_accumulate_grad_hook" 注册的钩子)仅在后向传递结束时由 autograd 更新tensor的 grad 字段后才会触发。因此，post-accumulate-grad hooks 只能为 leafTensors 注册。通过 [`torch.Tensor.register_post_accumulate_grad_hook()`](../generated/torch.Tensor.register_post_accumulate_grad_hook.html#torch.Tensor.register_post_accumulate_grad_hook "torch.Tensor.register_post_accumulate_grad_hook") 注册钩子即使您调用 back(retain_graph=True) ，在非叶tensor上也会出错。
 
 
  使用 [`torch.autograd.graph.Node.register_hook()`](../generated/torch.autograd.graph.Node.register_hook.html#torch. autograd.graph.Node.register_hook "torch.autograd.graph.Node.register_hook") 或 [`torch.autograd.graph.Node.register_prehook()`](../generated/torch.autograd.graph.Node.register_prehook.html#torch.autograd.graph.Node.register_prehook "torch.autograd.graph.Node.register_prehook") 仅在其注册的节点被执行时才会被触发。
@@ -14734,10 +14734,10 @@ with torch.autograd.graph.saved_tensors_hooks(lambda x: x, lambda x: x):
  是否执行特定节点可能取决于是否使用 [`torch.autograd.grad()`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") 或 [`torch.autograd.backward()`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") 。具体来说，你应该注意当您在与要传递给 [`torch.autograd.grad()`](../generated/torch.autograd.grad.html#torch.autograd.grad " torch.autograd.grad") 或 [`torch.autograd.backward()`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") 作为“输入”参数。
 
 
- 如果您使用 [`torch.autograd.backward()`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") ，上述所有钩子都会无论您是否指定“inputs”参数，都会被执行。这是因为.backward() 执行所有节点，即使它们对应于指定为输入的张量。(请注意，与作为“输入”传递的张量相对应的此附加节点的执行通常是不必要的，但无论如何都会完成。此行为是可能会发生变化；您不应该依赖它。)
+ 如果您使用 [`torch.autograd.backward()`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") ，上述所有钩子都会无论您是否指定“inputs”参数，都会被执行。这是因为.backward() 执行所有节点，即使它们对应于指定为输入的tensor。(请注意，与作为“输入”传递的tensor相对应的此附加节点的执行通常是不必要的，但无论如何都会完成。此行为是可能会发生变化；您不应该依赖它。)
 
 
- 另一方面，如果您使用 [`torch.autograd.grad()`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") ，则向后注册到与传递给“input”的张量对应的节点的钩子可能不会被执行，因为除非有另一个输入依赖于该节点的梯度结果，否则这些节点不会被执行。
+ 另一方面，如果您使用 [`torch.autograd.grad()`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") ，则向后注册到与传递给“input”的tensor对应的节点的钩子可能不会被执行，因为除非有另一个输入依赖于该节点的梯度结果，否则这些节点不会被执行。
 
 
 ### 不同钩子的触发顺序 [¶](#the-order-in-which-the
@@ -14747,7 +14747,7 @@ with torch.autograd.graph.saved_tensors_hooks(lambda x: x, lambda x: x):
  事情发生的顺序是：
 
 
-1. 执行注册到 Tensor 的钩子 2.注册到 Node 的预钩子被执行(如果 Node 被执行)。3.对于保留_grad4 的张量，“.grad”字段会更新。节点被执行(遵守上述规则)5。对于累积了“.grad”的叶张量，将执行 post-accumulate-grad 钩子6。注册到 Node 的 post-hooks 被执行(如果 Node 被执行)
+1. 执行注册到 Tensor 的钩子 2.注册到 Node 的预钩子被执行(如果 Node 被执行)。3.对于保留_grad4 的tensor，“.grad”字段会更新。节点被执行(遵守上述规则)5。对于累积了“.grad”的叶tensor，将执行 post-accumulate-grad 钩子6。注册到 Node 的 post-hooks 被执行(如果 Node 被执行)
 
 
  如果在同一个 Tensor 或 Node 上注册了多个相同类型的 hook，它们将按照注册的顺序执行。后面执行的 hook 可以观察到前面的 hook 对梯度的修改。
@@ -14756,22 +14756,22 @@ with torch.autograd.graph.saved_tensors_hooks(lambda x: x, lambda x: x):
 ### 特殊挂钩 [¶](#special-hooks "此标题的固定链接")
 
 
-[`torch.autograd.graph.register_multi_grad_hook()`](../autograd.html#torch.autograd.graph.register_multi_grad_hook "torch.autograd.graph.register_multi_grad_hook") 是使用注册到张量的钩子实现的。每个单独的张量钩子都按照上面定义的张量钩子顺序触发，并且在计算最后一个张量梯度时调用注册的多梯度钩子。
+[`torch.autograd.graph.register_multi_grad_hook()`](../autograd.html#torch.autograd.graph.register_multi_grad_hook "torch.autograd.graph.register_multi_grad_hook") 是使用注册到tensor的钩子实现的。每个单独的tensor钩子都按照上面定义的tensor钩子顺序触发，并且在计算最后一个tensor梯度时调用注册的多梯度钩子。
 
 
-[`torch.nn.modules.module.register_module_full_backward_hook()`](../生成/torch.nn.modules.module.register_module_full_backward_hook.html#torch.nn.modules.module.register_module_full_backward_hook “torch.nn.modules.module.register_module_full_backward_hook”)是使用注册到 Node 的 hooks 实现的。当计算前向时，钩子被注册到与模块的输入和输出相对应的 grad_fn 。因为一个模块可能需要多个输入并返回多个输出，所以在forward之前首先将一个虚拟的自定义autograd函数应用于模块的输入，并在返回forward的输出之前应用于模块的输出，以确保这些张量共享单个grad_fn，然后我们可以将钩子连接到上面。
+[`torch.nn.modules.module.register_module_full_backward_hook()`](../生成/torch.nn.modules.module.register_module_full_backward_hook.html#torch.nn.modules.module.register_module_full_backward_hook “torch.nn.modules.module.register_module_full_backward_hook”)是使用注册到 Node 的 hooks 实现的。当计算前向时，钩子被注册到与模块的输入和输出相对应的 grad_fn 。因为一个模块可能需要多个输入并返回多个输出，所以在forward之前首先将一个虚拟的自定义autograd函数应用于模块的输入，并在返回forward的输出之前应用于模块的输出，以确保这些tensor共享单个grad_fn，然后我们可以将钩子连接到上面。
 
 
-### 就地修改张量时张量钩子的行为 [¶](#behavior-of-tensor-hooks-when-tensor-is-modified-in-place "永久链接到此标题")
+### 就地修改tensor时tensor钩子的行为 [¶](#behavior-of-tensor-hooks-when-tensor-is-modified-in-place "永久链接到此标题")
 
 
- 通常注册到张量的钩子接收相对于该张量的输出梯度，其中张量的值被视为向后计算时的值。
+ 通常注册到tensor的钩子接收相对于该tensor的输出梯度，其中tensor的值被视为向后计算时的值。
 
 
- 但是，如果您将钩子注册到张量，然后就地修改该张量，则在就地修改之前注册的钩子类似地接收输出相对于张量的梯度，但张量的值被视为其之前的值 -地方修改。
+ 但是，如果您将钩子注册到tensor，然后就地修改该tensor，则在就地修改之前注册的钩子类似地接收输出相对于tensor的梯度，但tensor的值被视为其之前的值 -地方修改。
 
 
- 如果您更喜欢前一种情况的行为，则应该在对张量进行所有就地修改后将它们注册到张量。例如：
+ 如果您更喜欢前一种情况的行为，则应该在对tensor进行所有就地修改后将它们注册到tensor。例如：
 
 
 ```
@@ -14783,4 +14783,4 @@ t.backward()
 ```
 
 
- 此外，知道在幕后，当钩子注册到张量时，它们实际上会永久绑定到该张量的梯度_fn，因此如果随后就地修改该张量，即使张量现在有一个新的 grad_fn，在就地修改之前注册的钩子将继续与旧的 grad_fn 关联，例如当 autograd 引擎在图中达到张量的旧 grad_fn 时，它们就会触发。
+ 此外，知道在幕后，当钩子注册到tensor时，它们实际上会永久绑定到该tensor的梯度_fn，因此如果随后就地修改该tensor，即使tensor现在有一个新的 grad_fn，在就地修改之前注册的钩子将继续与旧的 grad_fn 关联，例如当 autograd 引擎在图中达到tensor的旧 grad_fn 时，它们就会触发。

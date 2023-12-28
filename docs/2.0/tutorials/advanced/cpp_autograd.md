@@ -34,14 +34,14 @@ autograd 有基本的了解。如果’不是这种情况，请先阅读
 
 
 
- （改编自
+ (改编自
  [本教程](https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#autograd-automatic-differiation) 
  )
 
 
 
 
- 创建一个张量并设置
+ 创建一个tensor并设置
  `torch::requires_grad()`
  用它来跟踪计算
 
@@ -76,7 +76,7 @@ std::cout << x << std::endl;
 
 
 
- 进行张量运算:
+ 进行tensor运算:
 
 
 
@@ -192,7 +192,7 @@ MeanBackward0
  
 
  )`
- 更改现有张量’s
+ 更改现有tensor’s
  `requires_grad `
  就地标记。
 
@@ -379,7 +379,7 @@ std::cout << x.grad() << std::endl;
 
  您还可以通过将
  `torch::NoGradGuard`
- 放入代码块中来阻止 autograd 跟踪需要梯度的张量的历史
+ 放入代码块中来阻止 autograd 跟踪需要梯度的tensor的历史
 
 
 
@@ -421,7 +421,7 @@ false
  或者使用
  `.detach()`
  获取具有相同内容但
-不需要梯度的新张量：
+不需要梯度的新tensor：
 
 
 
@@ -456,7 +456,7 @@ true
 
 
 
- 有关 C++ 张量自动求导 API 的更多信息，例如
+ 有关 C++ tensor自动求导 API 的更多信息，例如
  `grad`
  /
  `requires_grad`
@@ -562,7 +562,7 @@ and
 
 
 
- （改编自
+ (改编自
  [本教程](https://pytorch.org/docs/stable/notes/extending.html#extending-torch-autograd) 
  )
 
@@ -691,7 +691,7 @@ std::cout << weight.grad() << std::endl;
 
 
 
- 在这里，我们给出一个由非张量参数参数化的函数的附加示例：
+ 在这里，我们给出一个由非tensor参数参数化的函数的附加示例：
 
 
 

@@ -8,7 +8,7 @@
 
 作者： James Reed (jamesreed@fb.com), Michael Suo (suo@fb.com), 修订版2
 
-本教程是对 TorchScript 的介绍，是 PyTorch 模型`nn.Module`（的子类）的一个中级表示，该模型然后可以在高性能环境（如C++）中运行。
+本教程是对 TorchScript 的介绍，是 PyTorch 模型`nn.Module`(的子类)的一个中级表示，该模型然后可以在高性能环境(如C++)中运行。
 
 在本教程中，我们将介绍：
 
@@ -85,7 +85,7 @@ print(my_cell(x, h))
 
 1. 创建了一个`torch.nn.Module`的子类。
 
-2. 定义了一个构造函数。构造函数不做太多，只是调用super（父类）的构造函数。
+2. 定义了一个构造函数。构造函数不做太多，只是调用super(父类)的构造函数。
 
 3. 定义了一个`forward`函数，该函数接受两个输入并返回两个输出。`forward`函数的实际内容不是很重要，但它有点像假的 [RNN 单元](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) —— 意味着它是一个应用于循环的函数。
 
@@ -216,9 +216,9 @@ MyCell(
 
 我们回退了一点，并采用了我们教程的第二个版本`MyCell`。和以前一样，我们已经实例化了它，但这一次，我们调用了`torch.jit.trace`，传入了待trace的`Module`，并传入了示例网络可能看到的输入。
 
-这到底做了什么？它调用了`Module`，记录了运行`Module`时发生的操作，并创建了`torch.jit.ScriptModule`的实例（其中`TracedModule`是实例）
+这到底做了什么？它调用了`Module`，记录了运行`Module`时发生的操作，并创建了`torch.jit.ScriptModule`的实例(其中`TracedModule`是实例)
 
-TorchScript 以中间表示形式记录其定义（或IR），在深度学习中通常称为*图*。我们可以检查带有`.graph`属性的图：
+TorchScript 以中间表示形式记录其定义(或IR)，在深度学习中通常称为*图*。我们可以检查带有`.graph`属性的图：
 
 ```python
 print(traced_cell.graph)
@@ -391,7 +391,7 @@ print(scripted_cell(x, h))
 
 ### 混合Script and Trace
 
-在某些情况下需要使用Trace而不是Script（例如模块有许多基于常量的架构决策，我们希望不出现在 TorchScript 中的 Python 值）。在这种情况下，Script可以用Trace来组合：`torch.jit.script`将内联被跟踪模块的代码，而跟踪将内联脚本模块的代码。
+在某些情况下需要使用Trace而不是Script(例如模块有许多基于常量的架构决策，我们希望不出现在 TorchScript 中的 Python 值)。在这种情况下，Script可以用Trace来组合：`torch.jit.script`将内联被跟踪模块的代码，而跟踪将内联脚本模块的代码。
 
 第一种情况的示例：
 

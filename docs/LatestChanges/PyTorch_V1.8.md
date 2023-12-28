@@ -13,7 +13,7 @@
 我们很高兴地宣布PyTorch 1.8的可用性。自1.7以来，此版本由3000多个提交组成。它包括编译、代码优化、科学计算前端API的主要更新和新功能，以及通过pytorch.org提供的二进制文件支持AMD ROCm。它还为管道和模型并行性以及梯度压缩的大规模训练提供了改进的功能。一些亮点包括：
 
 1.  支持通过`torch.fx`进行python到python函数转换；
-2.  添加或稳定API以支持FFT（`torch.fft`）、线性代数函数（`torch.linalg`），增加了对复杂张量的autograd和支持，并进行了更新，以提高计算hessian和jacobians的性能；以及
+2.  添加或稳定API以支持FFT(`torch.fft`)、线性代数函数(`torch.linalg`)，增加了对复杂tensor的autograd和支持，并进行了更新，以提高计算hessian和jacobians的性能；以及
 3.  分布式训练的重大更新和改进包括：改进NCCL可靠性；管道并行支持；RPC分析；以及支持添加梯度压缩的通信钩子。在[此处](https://github.com/pytorch/pytorch/releases)查看完整的发布说明。
 
 除了1.8，我们还发布了PyTorch库的重大更新，包括[TorchCSPRNG](https://github.com/pytorch/csprng)、[TorchVision](https://github.com/pytorch/vision)、[TorchText](https://github.com/pytorch/text)和[TorchAudio](https://github.com/pytorch/audio)。有关图书馆版本的更多信息，请参阅[此处](http://pytorch.org/blog/pytorch-1.8-new-library-releases)的帖子。如前所述，PyTorch版本中的功能分为稳定、测试版和原型。您可以在[此处](https://pytorch.org/blog/pytorch-feature-classification-changes/)的帖子中了解有关定义的更多信息。
@@ -53,7 +53,7 @@ PyTorch 1.8版本增加了许多新功能，并改进了可靠性和可用性。
 
 ### \[Beta\] 管道并行性
 
-随着机器学习模型的规模不断扩大，传统的分布式数据并行（DDP）训练不再扩展，因为这些模型不适合单个GPU设备。新的管道并行功能提供了一个易于使用的PyTorch API，以利用管道并行作为训练循环的一部分。
+随着机器学习模型的规模不断扩大，传统的分布式数据并行(DDP)训练不再扩展，因为这些模型不适合单个GPU设备。新的管道并行功能提供了一个易于使用的PyTorch API，以利用管道并行作为训练循环的一部分。
 
 *   [RFC](https://github.com/pytorch/pytorch/issues/44827)
 *   [文稿](https://pytorch.org/docs/1.8.0/pipeline.html?highlight=pipeline#)
@@ -71,7 +71,7 @@ DDP通信钩子是一个通用接口，通过覆盖DistributedDataParallel中的
 
 *   **(Prototype) ZeroRedundancyOptimizer**\-基于并与Microsoft DeepSpeed团队合作，此功能通过在`ProcessGroup`集团的所有参与进程中分片优化器状态来帮助减少每个进程的内存占用。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/distributed.optim.html#torch.distributed.optim.ZeroRedundancyOptimizer)。
 *   **(Prototype) 进程组NCCL Send/Recv**\-NCCL send/recv API在v2.7中引入，此功能在NCCL进程组中增加了对它的支持。此功能将为用户提供在Python层而不是C++层实现集体操作的选项。请参阅此[文档](https://pytorch.org/docs/master/distributed.html#distributed-communication-package-torch-distributed)和[代码示例](https://github.com/pytorch/pytorch/blob/master/torch/distributed/distributed_c10d.py#L899)以了解更多信息。
-*   **(Prototype) 使用TensorPipe在RPC中支持CUDA**\-此功能应为具有多GPU机器的PyTorch RPC用户带来随之而来的速度改进，因为TensorPipe将在可用时自动利用NVLink，并在进程之间交换GPU张量时避免往返于主机内存的昂贵副本。当不在同一台机器上时，TensorPipe将退回到将张量复制到主机内存，并将其作为常规CPU张量发送。这也将改善用户体验，因为用户将能够在代码中将GPU张量视为常规CPU张量。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/1.8.0/rpc.html)。
+*   **(Prototype) 使用TensorPipe在RPC中支持CUDA**\-此功能应为具有多GPU机器的PyTorch RPC用户带来随之而来的速度改进，因为TensorPipe将在可用时自动利用NVLink，并在进程之间交换GPUtensor时避免往返于主机内存的昂贵副本。当不在同一台机器上时，TensorPipe将退回到将tensor复制到主机内存，并将其作为常规CPUtensor发送。这也将改善用户体验，因为用户将能够在代码中将GPUtensor视为常规CPUtensor。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/1.8.0/rpc.html)。
 *   **(Prototype) 远程模块**\-此功能允许用户在远程工作者上操作模块，就像使用本地模块一样，其中RPC对用户是透明的。过去，此功能是以临时方式实现的，总体而言，此功能将提高PyTorch上模型并行性的可用性。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/rpc.html#remotemodule)。
 
 ## PyTorch Mobile
@@ -102,7 +102,7 @@ PyTorch Lite Interpreter是PyTorch运行时的简化版本，可以在资源受�
 
 在1.8中，我们将发布对基准实用程序的支持，使用户能够更好地监控性能。我们还在开放一个新的自动量化API。详情请参阅以下内容：
 
-### （Beta）基准实用程序
+### (Beta)基准实用程序
 
 基准实用性允许用户进行准确的性能测量，并提供可组合工具来帮助基准制定和后期处理。这有望帮助PyTorch的贡献者快速了解他们的贡献如何影响PyTorch的性能。
 
@@ -140,7 +140,7 @@ for num_threads in [1, 2, 4]:
 
 ### (Prototype) FX图形模式量化
 
-FX图形模式量化是PyTorch中新的自动量化API。它通过添加对功能的支持和自动化量化过程来改进Eager模式量化，尽管人们可能需要重构模型以使模型与FX图形模式量化兼容（使用`torch.fx`进行符号跟踪）。
+FX图形模式量化是PyTorch中新的自动量化API。它通过添加对功能的支持和自动化量化过程来改进Eager模式量化，尽管人们可能需要重构模型以使模型与FX图形模式量化兼容(使用`torch.fx`进行符号跟踪)。
 
 *   [文稿](https://pytorch.org/docs/master/quantization.html#prototype-fx-graph-mode-quantization)
 *   教程：

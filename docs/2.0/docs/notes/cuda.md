@@ -7,13 +7,13 @@
 > 原始地址：<https://pytorch.org/docs/stable/notes/cuda.html>
 
 
-[`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") 用于设置和运行 CUDA 操作。它会跟踪当前选择的 GPU，并且默认情况下您分配的所有 CUDA 张量都将在该设备上创建。可以使用 [`torch.cuda.device`](../generated/torch.cuda.device.html#torch.cuda.device "torch.cuda.device") 上下文管理器更改所选设备。
+[`torch.cuda`](../cuda.html#module-torch.cuda "torch.cuda") 用于设置和运行 CUDA 操作。它会跟踪当前选择的 GPU，并且默认情况下您分配的所有 CUDA tensor都将在该设备上创建。可以使用 [`torch.cuda.device`](../generated/torch.cuda.device.html#torch.cuda.device "torch.cuda.device") 上下文管理器更改所选设备。
 
 
- 但是，一旦分配了张量，无论选择什么设备，都可以对其进行操作，并且结果将始终放置在与张量相同的设备上。
+ 但是，一旦分配了tensor，无论选择什么设备，都可以对其进行操作，并且结果将始终放置在与tensor相同的设备上。
 
 
- 默认情况下不允许跨 GPU 操作，但 [`copy_()`](../generated/torch.Tensor.copy_.html#torch.Tensor.copy_ "torch.Tensor.copy_") 除外以及其他具有类似复制功能的方法，例如 [`to()`](../generated/torch.Tensor.to.html#torch.Tensor.to "torch.Tensor.to") 和 [`cuda()` ](../generated/torch.Tensor.cuda.html#torch.Tensor.cuda "torch.Tensor.cuda") 。除非您启用点对点内存访问，否则任何启动操作张量的尝试都会分布在不同的设备上会引发错误。
+ 默认情况下不允许跨 GPU 操作，但 [`copy_()`](../generated/torch.Tensor.copy_.html#torch.Tensor.copy_ "torch.Tensor.copy_") 除外以及其他具有类似复制功能的方法，例如 [`to()`](../generated/torch.Tensor.to.html#torch.Tensor.to "torch.Tensor.to") 和 [`cuda()` ](../generated/torch.Tensor.cuda.html#torch.Tensor.cuda "torch.Tensor.cuda") 。除非您启用点对点内存访问，否则任何启动操作tensor的尝试都会分布在不同的设备上会引发错误。
 
 
  下面你可以找到一个展示这一点的小例子：
@@ -60,10 +60,10 @@ with torch.cuda.device(1):
 ## Ampere 设备上的 TensorFloat-32(TF32) [¶](#tensorfloat-32-tf32-on-ampere-devices“此标题的永久链接”)
 
 
- 从 PyTorch 1.7 开始，有一个名为 allowed_tf32 的新标志。此标志在 PyTorch 1.7 到 PyTorch 1.11 中默认为 True，在 PyTorch 1.12 及更高版本中默认为 False。此标志控制是否允许 PyTorch 使用 TensorFloat32 (TF32) 张量核心，自 Ampere 以来在新的 NVIDIA GPU 上可用，在内部计算 matmul(矩阵)乘法和批量矩阵乘法)和卷积。
+ 从 PyTorch 1.7 开始，有一个名为 allowed_tf32 的新标志。此标志在 PyTorch 1.7 到 PyTorch 1.11 中默认为 True，在 PyTorch 1.12 及更高版本中默认为 False。此标志控制是否允许 PyTorch 使用 TensorFloat32 (TF32) tensor核心，自 Ampere 以来在新的 NVIDIA GPU 上可用，在内部计算 matmul(矩阵)乘法和批量矩阵乘法)和卷积。
 
 
- TF32 张量核心旨在通过将输入数据舍入为 10 位尾数，并以 FP32 精度累加结果，从而保持 FP32 动态范围，从而在 torch.float32 张量上实现 matmul 和卷积方面的更好性能。
+ TF32 tensor核心旨在通过将输入数据舍入为 10 位尾数，并以 FP32 精度累加结果，从而保持 FP32 动态范围，从而在 torch.float32 tensor上实现 matmul 和卷积方面的更好性能。
 
 
  matmuls 和卷积是分开控制的，它们相应的标志可以在以下位置访问：
@@ -275,7 +275,7 @@ with torch.cuda.stream(s):
  每个向后 CUDA 操作都在用于其相应前向操作的同一流上运行。如果您的前向传递在不同流上并行运行独立操作，这有助于向后传递利用相同的并行性。
 
 
- 相对于周围操作的向后调用的流语义与任何其他调用相同。向后传递会插入内部同步，以确保即使向后操作在多个流上运行(如上一段所述)。更具体地说，当调用 [`autograd.backward`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") 、 [`autograd.grad`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") 或 [ `tensor.backward`](../generated/torch.Tensor.backward.html#torch.Tensor.backward "torch.Tensor.backward") ，并可选择提供 CUDA 张量作为初始梯度 (例如， [`autograd.backward(..., grad_tensors=initial_grads)`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") ， [`autograd.grad(..., grad_outputs=initial_grads)`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") ，或 [ `tensor.backward(...,gradient=initial_grad)`](../generated/torch.Tensor.backward.html#torch.Tensor.backward "torch.Tensor.backward") ),的行为
+ 相对于周围操作的向后调用的流语义与任何其他调用相同。向后传递会插入内部同步，以确保即使向后操作在多个流上运行(如上一段所述)。更具体地说，当调用 [`autograd.backward`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") 、 [`autograd.grad`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") 或 [ `tensor.backward`](../generated/torch.Tensor.backward.html#torch.Tensor.backward "torch.Tensor.backward") ，并可选择提供 CUDA tensor作为初始梯度 (例如， [`autograd.backward(..., grad_tensors=initial_grads)`](../generated/torch.autograd.backward.html#torch.autograd.backward "torch.autograd.backward") ， [`autograd.grad(..., grad_outputs=initial_grads)`](../generated/torch.autograd.grad.html#torch.autograd.grad "torch.autograd.grad") ，或 [ `tensor.backward(...,gradient=initial_grad)`](../generated/torch.Tensor.backward.html#torch.Tensor.backward "torch.Tensor.backward") ),的行为
 
 
 1. 可选择填充初始梯度，2.调用向后传递，以及 3．使用渐变
@@ -355,7 +355,7 @@ use grads
 ## 内存管理 [¶](#memory-management "此标题的永久链接")
 
 
- PyTorch 使用缓存内存分配器来加速内存分配。这允许快速内存释放而无需设备同步。但是，分配器管理的未使用内存仍将显示为在“nvidia-smi”中使用。您可以使用 [`memory_allocated()`](../generated/torch.cuda.memory_allocated.html#torch.cuda.memory_alulated "torch.cuda.memory_alulated") 和 [`max_memory_allocated()` ](../generated/torch.cuda.max_memory_alulated.html#torch.cuda.max_memory_alulated "torch.cuda.max_memory_alulated") 监视张量占用的内存，并使用 [`memory_reserved()`](../generated /torch.cuda.memory_reserved.html#torch.cuda.memory_reserved "torch.cuda.memory_reserved") 和 [`max_memory_reserved()`](../generated/torch.cuda.max_memory_reserved.html#torch. cuda.max_memory_reserved "torch.cuda.max_memory_reserved") 来监视缓存分配器管理的内存总量。调用 [`empty_cache()`](../generated/torch.cuda.empty_cache.html#torch.cuda.empty_cache "torch.cuda.empty_cache") 释放 PyTorch 中所有**未使用的**缓存内存，以便这些可以被其他 GPU 应用程序使用。但是，张量占用的 GPU 内存不会被释放，因此无法增加 PyTorch 可用的 GPU 内存量。
+ PyTorch 使用缓存内存分配器来加速内存分配。这允许快速内存释放而无需设备同步。但是，分配器管理的未使用内存仍将显示为在“nvidia-smi”中使用。您可以使用 [`memory_allocated()`](../generated/torch.cuda.memory_allocated.html#torch.cuda.memory_alulated "torch.cuda.memory_alulated") 和 [`max_memory_allocated()` ](../generated/torch.cuda.max_memory_alulated.html#torch.cuda.max_memory_alulated "torch.cuda.max_memory_alulated") 监视tensor占用的内存，并使用 [`memory_reserved()`](../generated /torch.cuda.memory_reserved.html#torch.cuda.memory_reserved "torch.cuda.memory_reserved") 和 [`max_memory_reserved()`](../generated/torch.cuda.max_memory_reserved.html#torch. cuda.max_memory_reserved "torch.cuda.max_memory_reserved") 来监视缓存分配器管理的内存总量。调用 [`empty_cache()`](../generated/torch.cuda.empty_cache.html#torch.cuda.empty_cache "torch.cuda.empty_cache") 释放 PyTorch 中所有**未使用的**缓存内存，以便这些可以被其他 GPU 应用程序使用。但是，tensor占用的 GPU 内存不会被释放，因此无法增加 PyTorch 可用的 GPU 内存量。
 
 
  为了更好地了解 CUDA 内存随时间的使用情况，[了解 CUDA 内存使用情况](../torch_cuda_memory.html#torch-cuda-memory) 描述了用于捕获和可视化内存使用痕迹的工具。
@@ -374,11 +374,11 @@ use grads
 
 
 * `backend` 允许选择底层分配器实现。 目前，有效的选项是 `native` ，它使用 PyTorch 的本机实现，以及 `cudaMallocAsync` ，它使用 [CUDA 的内置异步分配器](https://developer.nvidia.com/blog/using-cuda-stream-ordered-memory-allocator-part-1/) 。 `cudaMallocAsync` 需要 CUDA 11.4 或更高版本。 默认是 `native` 。 “backend”适用于进程使用的所有设备，并且不能针对每个设备进行指定。
-* `max_split_size_mb` 防止本机分配器分割大于此大小（以 MB 为单位）的块。 这可以减少碎片，并且可以允许完成一些边界工作负载而不会耗尽内存。 根据分配模式，性能成本可以从“零”到“大量”不等。 默认值是无限的，即所有块都可以拆分。 [`memory_stats()`](../generated/torch.cuda.memory_stats.html#torch.cuda.memory_stats "torch.cuda.memory_stats") 和 [`memory_summary()`](../generated/torch.cuda.memory_summary.html#torch.cuda.memory_summary "torch.cuda.memory_summary") 方法对于调整很有用。 对于由于“内存不足”而中止并显示大量非活动拆分块的工作负载，应将此选项用作最后的手段。 `max_split_size_mb` 仅对 `backend:native` 有意义。使用 `backend:cudaMallocAsync` 时，`max_split_size_mb` 将被忽略。
+* `max_split_size_mb` 防止本机分配器分割大于此大小(以 MB 为单位)的块。 这可以减少碎片，并且可以允许完成一些边界工作负载而不会耗尽内存。 根据分配模式，性能成本可以从“零”到“大量”不等。 默认值是无限的，即所有块都可以拆分。 [`memory_stats()`](../generated/torch.cuda.memory_stats.html#torch.cuda.memory_stats "torch.cuda.memory_stats") 和 [`memory_summary()`](../generated/torch.cuda.memory_summary.html#torch.cuda.memory_summary "torch.cuda.memory_summary") 方法对于调整很有用。 对于由于“内存不足”而中止并显示大量非活动拆分块的工作负载，应将此选项用作最后的手段。 `max_split_size_mb` 仅对 `backend:native` 有意义。使用 `backend:cudaMallocAsync` 时，`max_split_size_mb` 将被忽略。
 * `roundup_power2_divisions` 有助于将请求的分配大小舍入到最接近的 2 次幂除法并更好地利用块。 在本机 CUDACachingAllocator 中，大小以 512 块大小的倍数向上舍入，因此这对于较小的大小非常有效。 然而，这对于大型附近分配来说可能效率低下，因为每个分配都会分配到不同大小的块，并且这些块的重用被最小化。 这可能会创建大量未使用的块并浪费 GPU 内存容量。 此选项允许将分配大小舍入到最接近的 2 次方除法。 例如，如果我们需要对 1200 的大小进行向上舍入，并且除数为 4，则大小 1200 位于 1024 和 2048 之间，如果我们在它们之间进行 4 次除法，则值为 1024、1280、1536 和 1792。 因此，分配大小 1200 将四舍五入为 1280，作为最接近的 2 次方除法上限。 指定一个值以应用于所有分配大小，或指定一个键值对数组来为每个 2 的幂间隔单独设置 2 次幂除法。 例如，要为 256MB 以下的所有分配设置 1 个分区，为 256MB 和 512MB 之间的分配设置 2 个分区，为 512MB 到 1GB 之间的分配设置 4 个分区，为任何更大的分配设置 8 个分区，请将旋钮值设置为：[256:1,512:2,1024:4,>:8]。 `roundup_power2_divisions` 仅对 `backend:native` 有意义。 对于`backend:cudaMallocAsync`，`roundup_power2_divisions` 将被忽略。
-* `garbage_collection_threshold` 有助于主动回收未使用的 GPU 内存，以避免触发昂贵的同步和回收所有操作 (release_cached_blocks)，这可能不利于延迟关键的 GPU 应用程序（例如服务器）。 设置此阈值（例如 0.8）后，如果 GPU 内存容量使用量超过阈值（即分配给 GPU 应用程序的总内存的 80%），分配器将开始回收 GPU 内存块。 该算法更喜欢首先释放旧的和未使用的块，以避免释放正在积极重用的块。 阈值应介于大于 0.0 和小于 1.0 之间。 `garbage_collection_threshold` 仅对 `backend:native` 有意义。 对于`backend:cudaMallocAsync`，`garbage_collection_threshold` 将被忽略。
+* `garbage_collection_threshold` 有助于主动回收未使用的 GPU 内存，以避免触发昂贵的同步和回收所有操作 (release_cached_blocks)，这可能不利于延迟关键的 GPU 应用程序(例如服务器)。 设置此阈值(例如 0.8)后，如果 GPU 内存容量使用量超过阈值(即分配给 GPU 应用程序的总内存的 80%)，分配器将开始回收 GPU 内存块。 该算法更喜欢首先释放旧的和未使用的块，以避免释放正在积极重用的块。 阈值应介于大于 0.0 和小于 1.0 之间。 `garbage_collection_threshold` 仅对 `backend:native` 有意义。 对于`backend:cudaMallocAsync`，`garbage_collection_threshold` 将被忽略。
 
-* `expandable_segments` （实验性，默认值： False ）如果设置为 True ，此设置指示分配器创建 CUDA 分配，这些分配稍后可以扩展以更好地处理作业频繁更改分配大小的情况，例如更改批处理大小。 通常，对于大型 (>2MB) 分配，分配器会调用 cudaMalloc 来获取与用户请求大小相同的分配。 将来，如果这些分配的一部分是空闲的，则可以将其重新用于其他请求。 当程序发出许多大小完全相同或大小甚至是该大小的倍数的请求时，这种方法很有效。 许多深度学习模型都遵循这种行为。 然而，一个常见的例外是批量大小从一次迭代到下一次迭代略有变化，例如 在批量推理中。 当程序最初以批量大小 `N` 运行时，它将进行适合该大小的分配。如果将来它以大小 `N - 1` 运行，则现有分配仍然足够大。 但是，如果它以 `N + 1` 的大小运行，那么它将必须进行稍大的新分配。 并非所有张量的大小都相同。 有些可能是 `(N + 1)*A`，其他可能是 `(N + 1)*A*B`，其中 A 和 B 是模型中的一些非批量维度。 由于分配器会在现有分配足够大时重用现有分配，因此某些数量的 `(N + 1)*A` 分配实际上会适合已经存在的 `N*B*A` 段，尽管并不完美。 当模型运行时，它将部分填充所有这些段，在这些段的末尾留下不可用的空闲内存片。 分配器在某些时候需要 cudaMalloc 一个新的 `(N + 1)*A*B` 段。 如果没有足够的内存，那么现在无法恢复现有段末尾的空闲内存片。 对于 50 层以上深度的模型，此模式可能会重复 50 次以上，从而产生许多条子。
+* `expandable_segments` (实验性，默认值： False )如果设置为 True ，此设置指示分配器创建 CUDA 分配，这些分配稍后可以扩展以更好地处理作业频繁更改分配大小的情况，例如更改批处理大小。 通常，对于大型 (>2MB) 分配，分配器会调用 cudaMalloc 来获取与用户请求大小相同的分配。 将来，如果这些分配的一部分是空闲的，则可以将其重新用于其他请求。 当程序发出许多大小完全相同或大小甚至是该大小的倍数的请求时，这种方法很有效。 许多深度学习模型都遵循这种行为。 然而，一个常见的例外是批量大小从一次迭代到下一次迭代略有变化，例如 在批量推理中。 当程序最初以批量大小 `N` 运行时，它将进行适合该大小的分配。如果将来它以大小 `N - 1` 运行，则现有分配仍然足够大。 但是，如果它以 `N + 1` 的大小运行，那么它将必须进行稍大的新分配。 并非所有tensor的大小都相同。 有些可能是 `(N + 1)*A`，其他可能是 `(N + 1)*A*B`，其中 A 和 B 是模型中的一些非批量维度。 由于分配器会在现有分配足够大时重用现有分配，因此某些数量的 `(N + 1)*A` 分配实际上会适合已经存在的 `N*B*A` 段，尽管并不完美。 当模型运行时，它将部分填充所有这些段，在这些段的末尾留下不可用的空闲内存片。 分配器在某些时候需要 cudaMalloc 一个新的 `(N + 1)*A*B` 段。 如果没有足够的内存，那么现在无法恢复现有段末尾的空闲内存片。 对于 50 层以上深度的模型，此模式可能会重复 50 次以上，从而产生许多条子。
  
 
 
@@ -459,7 +459,7 @@ torch.cuda.memory.change_current_allocator(new_alloc)
 ## cuFFT 计划缓存 [¶](#cufft-plan-cache "此标题的永久链接")
 
 
- 对于每个 CUDA 设备，cuFFT 计划的 LRU 缓存用于加速重复运行的 FFT 方法(例如，[`torch.fft.fft()`](../generated/torch.fft.fft.html#torch.fft.fft "torch.fft.fft") ) 在具有相同配置的相同几何形状的 CUDA 张量上。由于某些 cuFFT 计划可能会分配 GPU 内存，因此这些缓存具有最大容量。
+ 对于每个 CUDA 设备，cuFFT 计划的 LRU 缓存用于加速重复运行的 FFT 方法(例如，[`torch.fft.fft()`](../generated/torch.fft.fft.html#torch.fft.fft "torch.fft.fft") ) 在具有相同配置的相同几何形状的 CUDA tensor上。由于某些 cuFFT 计划可能会分配 GPU 内存，因此这些缓存具有最大容量。
 
 
  您可以通过以下API控制和查询当前设备缓存的属性：
@@ -477,7 +477,7 @@ torch.cuda.memory.change_current_allocator(new_alloc)
 ## 即时编译 [¶](#just-in-time-compilation "永久链接到此标题")
 
 
- 当在 CUDA 张量上执行时，PyTorch 即时编译一些操作，例如 torch.special.zeta。此编译可能非常耗时(最多几秒钟，具体取决于您的硬件和软件)，并且对于单个运算符来说可能会发生多次，因为许多 PyTorch 运算符实际上从各种内核中进行选择，每个内核都必须编译一次，具体取决于它们的内核输入。此编译每个进程发生一次，或者如果使用内核缓存则仅发生一次。
+ 当在 CUDA tensor上执行时，PyTorch 即时编译一些操作，例如 torch.special.zeta。此编译可能非常耗时(最多几秒钟，具体取决于您的硬件和软件)，并且对于单个运算符来说可能会发生多次，因为许多 PyTorch 运算符实际上从各种内核中进行选择，每个内核都必须编译一次，具体取决于它们的内核输入。此编译每个进程发生一次，或者如果使用内核缓存则仅发生一次。
 
 
  默认情况下，如果定义了 XDG_CACHE_HOME，PyTorch 在 $XDG_CACHE_HOME/torch/kernels 中创建内核缓存，如果未定义，则在 $HOME/.cache/torch/kernels 中创建内核缓存(Windows 除外，其中没有内核缓存尚未支持)。缓存行为可以通过两个环境变量直接控制。如果 USE_PYTORCH_KERNEL_CACHE 设置为 0，则不会使用缓存，如果设置了 PYTORCH_KERNEL_CACHE_PATH，则该路径将用作内核缓存，而不是默认位置。
@@ -489,10 +489,10 @@ torch.cuda.memory.change_current_allocator(new_alloc)
 ### 与设备无关的代码 [¶](#device-agnostic-code "固定链接到此标题")
 
 
- 由于 PyTorch 的结构，您可能需要显式编写与设备无关(CPU 或 GPU)的代码；一个例子可能是创建一个新的张量作为循环神经网络的初始隐藏状态。
+ 由于 PyTorch 的结构，您可能需要显式编写与设备无关(CPU 或 GPU)的代码；一个例子可能是创建一个新的tensor作为循环神经网络的初始隐藏状态。
 
 
- 第一步是确定是否应该使用 GPU。一种常见的模式是使用 Python 的 argparse 模块读取用户参数，并有一个可用于禁用 CUDA 的标志，与 [`is_available()`](../generated/torch.cuda.is_available.html#torch.cuda.is_available "torch.cuda.is_available").在下文中，`args.device` 生成一个 [`torch.device`](../tensor_attributes.html#torch.device "torch.device") 对象，可用于将张量移动到 CPU 或 CUDA。
+ 第一步是确定是否应该使用 GPU。一种常见的模式是使用 Python 的 argparse 模块读取用户参数，并有一个可用于禁用 CUDA 的标志，与 [`is_available()`](../generated/torch.cuda.is_available.html#torch.cuda.is_available "torch.cuda.is_available").在下文中，`args.device` 生成一个 [`torch.device`](../tensor_attributes.html#torch.device "torch.device") 对象，可用于将tensor移动到 CPU 或 CUDA。
 
 
 ```
@@ -526,7 +526,7 @@ else:
  请注意，上述基于 NVML 的 CUDA 可用性评估提供的保证比默认的 CUDARuntime API 方法(需要 CUDA 初始化才能成功)更弱。在某些情况下，基于 NVML 的检查可能会成功，但随后的 CUDA 初始化会失败。
 
 
- 现在我们有了 `args.device` ，我们可以使用它在所需的设备上创建一个张量。
+ 现在我们有了 `args.device` ，我们可以使用它在所需的设备上创建一个tensor。
 
 
 ```
@@ -547,7 +547,7 @@ for i, x in enumerate(train_loader):
 ```
 
 
- 在系统上使用多个 GPU 时，您可以使用“CUDA_VISIBLE_DEVICES”环境标志来管理哪些 GPU 可用于 PyTorch。如上所述，要手动控制在哪个 GPU 上创建张量，最佳实践是使用 [`torch.cuda.device`](../generated/torch.cuda.device.html#torch.cuda.device "torch.cuda.device") 上下文管理器。
+ 在系统上使用多个 GPU 时，您可以使用“CUDA_VISIBLE_DEVICES”环境标志来管理哪些 GPU 可用于 PyTorch。如上所述，要手动控制在哪个 GPU 上创建tensor，最佳实践是使用 [`torch.cuda.device`](../generated/torch.cuda.device.html#torch.cuda.device "torch.cuda.device") 上下文管理器。
 
 
 ```
@@ -559,10 +559,10 @@ print("Outside device is still 0")  # On device 0
 ```
 
 
- 如果您有一个张量并且想在同一设备上创建相同类型的新张量，那么您可以使用 `torch.Tensor.new_*` 方法(请参阅 [`torch.Tensor`](../tensors.html#torch.Tensor "torch.Tensor") )。而前面提到的 `torch.*` 工厂函数( [Creation Ops](../torch.html#tensor-creation-ops) ) 取决于当前 GPU 上下文和您传入的属性参数，“torch.Tensor.new_*”方法保留设备和张量的其他属性。
+ 如果您有一个tensor并且想在同一设备上创建相同类型的新tensor，那么您可以使用 `torch.Tensor.new_*` 方法(请参阅 [`torch.Tensor`](../tensors.html#torch.Tensor "torch.Tensor") )。而前面提到的 `torch.*` 工厂函数( [Creation Ops](../torch.html#tensor-creation-ops) ) 取决于当前 GPU 上下文和您传入的属性参数，“torch.Tensor.new_*”方法保留设备和tensor的其他属性。
 
 
- 这是在创建需要在前向传播过程中内部创建新张量的模块时推荐的做法。
+ 这是在创建需要在前向传播过程中内部创建新tensor的模块时推荐的做法。
 
 
 ```
@@ -593,7 +593,7 @@ print(y_cpu_long)
 ```
 
 
- 如果要创建与另一个张量相同类型和大小的张量，并用 1 或 0 填充它， [`ones_like()`](../generated/torch.ones_like.html#torch.ones_like " torch.ones_like") 或 [`zeros_like()`](../generated/torch.zeros_like.html#torch.zeros_like "torch.zeros_like") 作为方便的辅助函数提供(也保留 [`torch.device张量的 `](../tensor_attributes.html#torch.device "torch.device") 和 [`torch.dtype`](../tensor_attributes.html#torch.dtype "torch.dtype")。
+ 如果要创建与另一个tensor相同类型和大小的tensor，并用 1 或 0 填充它， [`ones_like()`](../generated/torch.ones_like.html#torch.ones_like " torch.ones_like") 或 [`zeros_like()`](../generated/torch.zeros_like.html#torch.zeros_like "torch.zeros_like") 作为方便的辅助函数提供(也保留 [`torch.devicetensor的 `](../tensor_attributes.html#torch.device "torch.device") 和 [`torch.dtype`](../tensor_attributes.html#torch.dtype "torch.dtype")。
 
 
 ```
@@ -614,10 +614,10 @@ y_gpu = torch.zeros_like(x_gpu)
     这是一个高级提示。如果过度使用固定内存，则在 RAM 不足时可能会导致严重问题，并且您应该意识到固定通常是一项昂贵的操作。
 
 
- 当主机到 GPU 的副本源自固定(页面锁定)内存时，速度要快得多。 CPU 张量和存储公开了一个 [`pin_memory()`](../generated/torch.Tensor.pin_memory.html#torch.Tensor.pin_memory "torch.Tensor.pin_memory") 方法，该方法返回对象，数据放入固定区域。
+ 当主机到 GPU 的副本源自固定(页面锁定)内存时，速度要快得多。 CPU tensor和存储公开了一个 [`pin_memory()`](../generated/torch.Tensor.pin_memory.html#torch.Tensor.pin_memory "torch.Tensor.pin_memory") 方法，该方法返回对象，数据放入固定区域。
 
 
- 此外，一旦固定张量或存储，您就可以使用异步 GPU 副本。只需将额外的 `non_blocking=True` 参数传递给 [`to()`](../generated/torch.Tensor.to.html#torch.Tensor.to "torch.Tensor.to") 或 [`cuda()`](../generated/torch.Tensor.cuda.html#torch.Tensor.cuda "torch.Tensor.cuda" ) 称呼。这可用于将数据传输与计算重叠。
+ 此外，一旦固定tensor或存储，您就可以使用异步 GPU 副本。只需将额外的 `non_blocking=True` 参数传递给 [`to()`](../generated/torch.Tensor.to.html#torch.Tensor.to "torch.Tensor.to") 或 [`cuda()`](../generated/torch.Tensor.cuda.html#torch.Tensor.cuda "torch.Tensor.cuda" ) 称呼。这可用于将数据传输与计算重叠。
 
 
  您可以通过将 `pin_memory=True` 传递给 [`DataLoader`](../data.html#torch.utils.data.DataLoader "torch.utils.data.DataLoader") 返回放置在固定内存中的批次构造函数。
@@ -674,7 +674,7 @@ y_gpu = torch.zeros_like(x_gpu)
  PyTorch 通过原始的 [`torch.cuda.CUDAGraph`](../generated/torch.cuda.CUDAGraph.html#torch.cuda.CUDAGraph "torch.cuda.CUDAGraph") 类和两个方便的包装器 [`torch.cuda.graph`](../generated/torch.cuda.graph.html#torch.cuda.graph "torch.cuda.graph") 和 [`torch.cuda.make_graphed_callables`](../generated/torch.cuda.make_graphed_callables.html#torch.cuda.make_graphed_callables "torch.cuda.make_graphed_callables")。
 
 
-[`torch.cuda.graph`](../generated/torch.cuda.graph.html#torch.cuda.graph "torch.cuda.graph") 是一个简单、多功能的上下文管理器，可以在其上下文中捕获 CUDA 工作。在捕获之前，通过运行一些急切的迭代来预热要捕获的工作负载。预热必须发生在侧流上。由于图形在每次重播中读取和写入相同的内存地址，因此您必须维护对在捕获期间保存输入和输出数据的张量的长期引用。要在新输入数据上运行图形，请复制将新数据添加到捕获的输入张量，重播图形，然后从捕获的输出张量读取新输出。示例：
+[`torch.cuda.graph`](../generated/torch.cuda.graph.html#torch.cuda.graph "torch.cuda.graph") 是一个简单、多功能的上下文管理器，可以在其上下文中捕获 CUDA 工作。在捕获之前，通过运行一些急切的迭代来预热要捕获的工作负载。预热必须发生在侧流上。由于图形在每次重播中读取和写入相同的内存地址，因此您必须维护对在捕获期间保存输入和输出数据的tensor的长期引用。要在新输入数据上运行图形，请复制将新数据添加到捕获的输入tensor，重播图形，然后从捕获的输出tensor读取新输出。示例：
 
 
 ```
@@ -743,7 +743,7 @@ print(static_output)  # full of 4 * 2 = 8
 * 不会捕获 CPU 工作。如果捕获的操作包括 CPU 工作，则该工作将在重播期间被忽略。
 * 每个重播都会读取和写入相同的(虚拟)内存地址。
 * 禁止动态控制流(基于 CPU 或 GPU 数据)。
-* 动态形状被禁止。该图假设捕获的操作序列中的每个张量在每次重播中都具有相同的大小和布局。
+* 动态形状被禁止。该图假设捕获的操作序列中的每个tensor在每次重播中都具有相同的大小和布局。
 * 允许在捕获中使用多个流，但有[限制](#multistream-capture)。
 
 
@@ -994,7 +994,7 @@ with torch.cuda.stream(s):
 ### 图形内存管理 [¶](#graph-memory-management "永久链接到此标题")
 
 
- 捕获的图每次重放时都会作用于相同的虚拟地址。如果 PyTorch 释放内存，则稍后的重放可能会遇到非法内存访问。如果 PyTorch 将内存重新分配给新的张量，则重放可能会破坏这些张量看到的值。因此，必须为跨重放的图保留图使用的虚拟地址。 PyTorch 缓存分配器通过检测何时进行捕获并满足来自图形专用内存池的捕获分配来实现此目的。私有池将保持活动状态，直到其 [`CUDAGraph`](../generated/torch.cuda.CUDAGraph.html#torch.cuda.CUDAGraph "torch.cuda.CUDAGraph") 对象和在 capturego 期间创建的所有张量超出范围。
+ 捕获的图每次重放时都会作用于相同的虚拟地址。如果 PyTorch 释放内存，则稍后的重放可能会遇到非法内存访问。如果 PyTorch 将内存重新分配给新的tensor，则重放可能会破坏这些tensor看到的值。因此，必须为跨重放的图保留图使用的虚拟地址。 PyTorch 缓存分配器通过检测何时进行捕获并满足来自图形专用内存池的捕获分配来实现此目的。私有池将保持活动状态，直到其 [`CUDAGraph`](../generated/torch.cuda.CUDAGraph.html#torch.cuda.CUDAGraph "torch.cuda.CUDAGraph") 对象和在 capturego 期间创建的所有tensor超出范围。
 
 
  私人池是自动维护的。默认情况下，分配器为每个捕获创建单独的专用池。如果您捕获多个图形，这种保守的方法可确保图形重播不会破坏彼此的值，但有时会不必要地浪费内存。

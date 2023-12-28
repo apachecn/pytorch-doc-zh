@@ -73,7 +73,7 @@ my_script_module.save("my_script_module.pt")
 
 ## 域API库更新
 
-PyTorch域库(如torchvision，torchtext和torchaudio）提供了对常用数据集，模型和变换的便捷访问，可用于快速创建最先进的基线。此外，它们还提供了常见的抽象，以减少用户可能不得不重复写入的样板代码。由于研究领域有不同的要求，围绕PyTorch出现了一个称为域API(DAPI）的专业库生态系统，以简化许多领域中新算法和现有算法的开发。我们很高兴发布三个更新的DAPI库，用于支持PyTorch 1.2核心版本的文本，音频和视觉。
+PyTorch域库(如torchvision，torchtext和torchaudio)提供了对常用数据集，模型和变换的便捷访问，可用于快速创建最先进的基线。此外，它们还提供了常见的抽象，以减少用户可能不得不重复写入的样板代码。由于研究领域有不同的要求，围绕PyTorch出现了一个称为域API(DAPI)的专业库生态系统，以简化许多领域中新算法和现有算法的开发。我们很高兴发布三个更新的DAPI库，用于支持PyTorch 1.2核心版本的文本，音频和视觉。
 
 ### TORCHAUDIO 0.3与KALDI兼容性，新变换
 
@@ -87,7 +87,7 @@ Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关�
 
 解决机器学习问题的重要工作是数据准备。在这个新版本中，我们更新了torchaudio的转换接口，以便围绕以下词汇和约定进行标准化。
 
-假设tensor具有通道作为第一维度，时间作为最后维度(适用时)。这使得它与PyTorch的尺寸一致。对于大小名称，使用前缀`n_`(例如“大小(`n_freq`，`n_mel`)的tensor”)，而维度名称不具有该前缀(例如“维度tensor(通道，时间）”)。所有变换和函数的输入现在首先假定通道。这样做是为了与PyTorch保持一致，PyTorch具有通道，后跟样本数量。现在不推荐使用所有转换和函数的通道参数。
+假设tensor具有通道作为第一维度，时间作为最后维度(适用时)。这使得它与PyTorch的尺寸一致。对于大小名称，使用前缀`n_`(例如“大小(`n_freq`，`n_mel`)的tensor”)，而维度名称不具有该前缀(例如“维度tensor(通道，时间)”)。所有变换和函数的输入现在首先假定通道。这样做是为了与PyTorch保持一致，PyTorch具有通道，后跟样本数量。现在不推荐使用所有转换和函数的通道参数。
 
 输出`STFT`是(通道，频率，时间，2)，对于每个通道而言，列是特定窗口的傅里叶变换，因此当我们水平移动时，我们可以看到每列(傅里叶变换波形)随时间变化。这符合librosa的输出，使我们不再需要在我们的测试比较，转用`Spectrogram`，`MelScale`，`MelSpectrogram`，和`MFCC`。此外，由于这些新的惯例，我们弃用`LC2CL`并且`BLC2CBL`用于从一种信号形状转换到另一种形状。
 
@@ -126,7 +126,7 @@ torchtext的一个关键重点领域是提供有助于加速NLP研究的基本�
 * AmazonReviewPolarity
 * AmazonReviewFull
 
-每个数据集都有两个部分(训练与测试），并且可以使用单个命令轻松加载。数据集还支持ngrams功能，以捕获有关本地字顺序的部分信息。请查看[此处](https://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)的教程[，](https://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)以了解有关如何将新数据集用于监督问题(如文本分类分析）的更多信息。
+每个数据集都有两个部分(训练与测试)，并且可以使用单个命令轻松加载。数据集还支持ngrams功能，以捕获有关本地字顺序的部分信息。请查看[此处](https://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)的教程[，](https://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)以了解有关如何将新数据集用于监督问题(如文本分类分析)的更多信息。
 
 ```py
 from torchtext.datasets.text_classification import DATASETS
@@ -146,9 +146,9 @@ data = DataLoader(train_dataset, collate_fn=generate_batch)
 
 视频现在是torchvision的一流公民，支持数据加载，数据集，预训练模型和变换。Torch 的0.4版本包括：
 
-* 用于读/写视频文件(包括音频）的高效IO原语，支持任意编码和格式。
+* 用于读/写视频文件(包括音频)的高效IO原语，支持任意编码和格式。
 * 标准视频数据集，与`torch.utils.data.Dataset`和兼容`torch.utils.data.DataLoader`。
-* 基于Kinetics-400数据集构建的预训练模型，用于视频(包括训练脚本）的动作分类。
+* 基于Kinetics-400数据集构建的预训练模型，用于视频(包括训练脚本)的动作分类。
 * 用于训练您自己的视频模型的参考训练脚本。
 
 我们希望在PyTorch中处理视频数据尽可能简单，而不会影响性能。因此，我们避免了需要事先重新编码视频的步骤，因为它会涉及：

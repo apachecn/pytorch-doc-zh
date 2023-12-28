@@ -1,4 +1,4 @@
-# 正向模式自动微分（测试版） [¶](#forward-mode-automatic-differiation-beta "固定链接到此标题")
+# 正向模式自动微分(测试版) [¶](#forward-mode-automatic-differiation-beta "固定链接到此标题")
 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
@@ -11,13 +11,13 @@
 
 
  本教程演示如何使用前向模式 AD 来计算
-方向导数（或等效的雅可比向量积）。
+方向导数(或等效的雅可比向量积)。
 
 
 
 
  下面的教程使用一些仅在版本 >= 1.11
-（或夜间构建）中可用的 API。
+(或夜间构建)中可用的 API。
 
 
 
@@ -36,15 +36,15 @@
 
  与反向模式 AD 不同，正向模式 AD 在正向传递的同时急切地
 计算梯度。我们可以使用前向模式 AD 通过像以前一样执行前向传递来计算方向导数，
-除非我们首先将我们的输入与表示方向导数方向的另一个张量相关联（或者等效地，
- `v`\雅可比向量积中的 n）。当输入（我们称为 \xe2\x80\x9cprimal\xe2\x80\x9d）与 \xe2\x80\x9cdirection\xe2\x80\x9d 张量（我们称为 \xe2\x80\x9ctangent\xe2）相关联时\x80\x9d，
-生成的新张量对象被称为\xe2\x80\x9cdual 张量\xe2\x80\x9d，用于连接
+除非我们首先将我们的输入与表示方向导数方向的另一个tensor相关联(或者等效地，
+ `v`\雅可比向量积中的 n)。当输入(我们称为 \xe2\x80\x9cprimal\xe2\x80\x9d)与 \xe2\x80\x9cdirection\xe2\x80\x9d tensor(我们称为 \xe2\x80\x9ctangent\xe2)相关联时\x80\x9d，
+生成的新tensor对象被称为\xe2\x80\x9cdual tensor\xe2\x80\x9d，用于连接
 对偶数[0]。
 
 
 
 
- 执行前向传递时，如果任何输入张量是对偶张量，
+ 执行前向传递时，如果任何输入tensor是对偶tensor，
 将执行额外计算来传播函数的此“灵敏度”。
 
 
@@ -110,10 +110,10 @@ assert fwAD.unpack_dual(dual_output).tangent is None
 
  要将
  `nn.Module`
- 与前向 AD 一起使用，请在执行前向传递之前用双张量替换
-模型的参数。在撰写本文时，无法创建双张量
+ 与前向 AD 一起使用，请在执行前向传递之前用双tensor替换
+模型的参数。在撰写本文时，无法创建双tensor
  [`](#id1)
- nn.Parameter`s。作为解决方法，必须将双张量
+ nn.Parameter`s。作为解决方法，必须将双tensor
 注册为模块的非参数属性。
 
 
@@ -144,13 +144,13 @@ with fwAD.dual_level():
 
 
 
-## 使用功能模块 API（测试版） [¶](#using-the-function-module-api-beta "永久链接到此标题")
+## 使用功能模块 API(测试版) [¶](#using-the-function-module-api-beta "永久链接到此标题")
 
 
 
 
  将 `nn.Module` 与转发 AD 结合使用的另一种方法是利用
-功能模块 API（也称为无状态模块 API）。
+功能模块 API(也称为无状态模块 API)。
 
 
 
@@ -254,7 +254,7 @@ True
 
 
 
-## 功能 API（测试版） [¶](#function-api-beta "此标题的永久链接")
+## 功能 API(测试版) [¶](#function-api-beta "此标题的永久链接")
 
 
 
@@ -267,9 +267,9 @@ True
 
 
 
- 函数式 API 的好处是’ 不需要了解\或使用较低级别的双张量 API，并且您可以使用
+ 函数式 API 的好处是’ 不需要了解\或使用较低级别的双tensor API，并且您可以使用
 其他
- [functorch 变换（如 vmap）来组合它](https://pytorch.org/functorch/stable/notebooks/jacobians_hessians.html) 
+ [functorch 变换(如 vmap)来组合它](https://pytorch.org/functorch/stable/notebooks/jacobians_hessians.html) 
  ;
 缺点是它提供的控制较少。
 

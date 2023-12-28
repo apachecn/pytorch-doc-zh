@@ -57,7 +57,7 @@
 
 
 
-1. 如果我们有一个具有稀疏部分（大嵌入表）和密集部分（FC 层）的模型，我们可能希望将嵌入表放在参数服务器上，并使用
+1. 如果我们有一个具有稀疏部分(大嵌入表)和密集部分(FC 层)的模型，我们可能希望将嵌入表放在参数服务器上，并使用
 在多个训练器之间复制 FC 层[DistributedDataParallel](https://pytorch.org/docs/stable/nn.html#torch.nn.parallel.DistributedDataParallel) 
 .
 
@@ -68,7 +68,7 @@
 我们可以使用
  [分布式 RPC 框架](https://pytorch.org/docs/master/rpc.html)
  跨多个工作线程传输模型的各个阶段，并使用
- [DistributedDataParallel](https://pytorch.org/docs/stable/nn.html 复制每个阶段（如果需要） #torch.nn.parallel.DistributedDataParallel) 
+ [DistributedDataParallel](https://pytorch.org/docs/stable/nn.html 复制每个阶段(如果需要) #torch.nn.parallel.DistributedDataParallel) 
  。
 
 
@@ -147,7 +147,7 @@ FC 层。
  我们使用 TCP init_method 在所有 4 个工作线程上初始化 RPC 框架。
 一旦 RPC 初始化完成，主节点就会创建一个远程模块，其中包含
  [EmbeddingBag](https://pytorch.org/docs /master/generated/torch.nn.EmbeddingBag.html) 
- 使用 [RemoteModule] 在参数服务器上分层（https://pytorch.org/docs/master/rpc.html#torch.distributed.nn.api.remote_module.RemoteModule) 
+ 使用 [RemoteModule] 在参数服务器上分层(https://pytorch.org/docs/master/rpc.html#torch.distributed.nn.api.remote_module.RemoteModule) 
 .
 然后主程序循环遍历每个训练器，并通过使用
  [rpc_async]( 在每个训练器上调用
@@ -162,7 +162,7 @@ FC 层。
  训练器首先使用 [init_process_group](https://pytorch.org) 为 DDP 初始化一个
  `ProcessGroup`
 ，其中 world_size=2
-（对于两个训练器） /docs/stable/distributed.html#torch.distributed.init_process_group) 
+(对于两个训练器) /docs/stable/distributed.html#torch.distributed.init_process_group) 
 .
 接下来，他们使用 TCP init_method 初始化 RPC 框架。请注意
 RPC 初始化和 ProcessGroup 初始化中的端口不同。
@@ -321,7 +321,7 @@ class HybridModel(torch.nn.Module):
 
 
  现在，我们需要检索我们想要使用
-[DistributedOptimizer]（https://pytorch.org/docs/master/rpc.html#module-torch. Distribution.optim) 
+[DistributedOptimizer](https://pytorch.org/docs/master/rpc.html#module-torch. Distribution.optim) 
 .
 要从参数服务器检索嵌入表的参数，
 我们可以调用 RemoteModule’s

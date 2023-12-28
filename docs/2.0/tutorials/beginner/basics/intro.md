@@ -22,7 +22,7 @@
 
 - **云端运行**: 这是最简单的入门方法! 每个部分的顶部都有一个 "在 Microsoft Learn 中运行" 和 "在 Google Colab 中运行" 的链接，分别在 Microsoft Learn 或 Google Colab 中打开一个 notebook，在一个完全托管的环境中运行代码。
 
-- **本地运行**: 这个选项要求你首先在本地电脑上安装 PyTorch 和 TorchVision（[安装说明](https://pytorch.org/get-started/locally/)）。下载 notebook 或将代码复制到你喜欢的IDE中运行。
+- **本地运行**: 这个选项要求你首先在本地电脑上安装 PyTorch 和 TorchVision([安装说明](https://pytorch.org/get-started/locally/))。下载 notebook 或将代码复制到你喜欢的IDE中运行。
 
 
 ## 如何使用本指南

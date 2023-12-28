@@ -1,4 +1,4 @@
-# 树莓派 4 上的实时推理 （30 FPS！）
+# 树莓派 4 上的实时推理 (30 FPS！)
 
 > 译者：[masteryi-0018](https://github.com/masteryi-0018)
 > 
@@ -8,7 +8,7 @@
 
 作者：[Tristan Rice](https://github.com/d4l3k)
 
-PyTorch对Raspberry Pi 4有开箱即用的支持。本教程将指导您如何设置Raspberry Pi 4以运行PyTorch并在CPU上运行MobileNet v2 的实时分类模型 （30 fps+）。
+PyTorch对Raspberry Pi 4有开箱即用的支持。本教程将指导您如何设置Raspberry Pi 4以运行PyTorch并在CPU上运行MobileNet v2 的实时分类模型 (30 fps+)。
 
 这一切都在Raspberry Pi 4 Model B 4GB上进行了测试，但应该适用于2GB 变体以及性能降低的 3B。
 
@@ -22,17 +22,17 @@ PyTorch对Raspberry Pi 4有开箱即用的支持。本教程将指导您如何�
 
 - [树莓派相机模块](https://www.raspberrypi.com/products/camera-module-v2/)
 
-- 散热器和风扇（可选，但推荐）
+- 散热器和风扇(可选，但推荐)
 
 - 5V 3A USB-C 电源
 
-- SD 卡（至少 8GB）
+- SD 卡(至少 8GB)
 
 - SD 卡读/写器
 
 # 树莓派 4 设置
 
-PyTorch只为Arm 64位（aarch64）提供pip包，所以你需要在Raspberry Pi上安装64位版本的操作系统。
+PyTorch只为Arm 64位(aarch64)提供pip包，所以你需要在Raspberry Pi上安装64位版本的操作系统。
 
 您可以从 [https://downloads.raspberrypi.org/raspios_arm64/images/](https://downloads.raspberrypi.org/raspios_arm64/images/) 下载最新的arm64 Raspberry Pi OS，并通过rpi-imager进行安装。
 
@@ -87,7 +87,7 @@ $ python -c "import torch; print(torch.__version__)"
 
 对于视频捕获，我们将使用OpenCV来流式传输视频帧。而不是更常见的`picamera`，*.piCamera* 在 64 位Raspberry Pi OS上不可用，它比OpenCV慢得多。OpenCV直接访问设备`/dev/video0`以抓取帧。
 
-我们使用的模型（MobileNetV2）采用的图像大小是`224x224`，因此我们可以直接从 OpenCV 以 36fps 的速度请求。我们的目标是 30fps 模型，但我们要求比这略高的帧速率，所以总是有足够的帧。
+我们使用的模型(MobileNetV2)采用的图像大小是`224x224`，因此我们可以直接从 OpenCV 以 36fps 的速度请求。我们的目标是 30fps 模型，但我们要求比这略高的帧速率，所以总是有足够的帧。
 
 ```python
 import cv2
@@ -153,7 +153,7 @@ input_batch = input_tensor.unsqueeze(0)
 
 # MobileNetV2：量化和 JIT
 
-为了获得最佳性能，我们需要一个量化和融合的模型。量化意味着它使用 int8 进行计算，这比 float32 标准运算的性能要高得多。融合意味着连续操作，在可能的情况下融合在一起形成性能更高的版本。常见事物像激活（`ReLU`）可以合并到（`Conv2d`）之前的层中在推理过程中。
+为了获得最佳性能，我们需要一个量化和融合的模型。量化意味着它使用 int8 进行计算，这比 float32 标准运算的性能要高得多。融合意味着连续操作，在可能的情况下融合在一起形成性能更高的版本。常见事物像激活(`ReLU`)可以合并到(`Conv2d`)之前的层中在推理过程中。
 
 aarch64版本的pytorch需要使用`qnnpack`引擎。
 

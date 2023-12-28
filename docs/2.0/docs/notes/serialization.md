@@ -7,7 +7,7 @@
 > 原始地址：<https://pytorch.org/docs/stable/notes/serialization.html>
 
 
- 本说明介绍了如何在 Python 中保存和加载 PyTorch 张量和模块状态，以及如何序列化 Python 模块以便可以在 C++ 中加载它们。
+ 本说明介绍了如何在 Python 中保存和加载 PyTorch tensor和模块状态，以及如何序列化 Python 模块以便可以在 C++ 中加载它们。
 
 
  目录
@@ -15,8 +15,8 @@
 
 
 * [序列化语义](#serialization-semantics)
-  + [保存和加载张量](#saving-and-loading-tensors) 
-  + [保存和加载张量保留视图](#saving-and-loading-tensors-preserves-views) 
+  + [保存和加载tensor](#saving-and-loading-tensors) 
+  + [保存和加载tensor保留视图](#saving-and-loading-tensors-preserves-views) 
   + [保存和加载 torch.nn.Modules ](#saving-and-loading-torch-nn-modules) 
   + [序列化 torch.nn.Modules 并在 C++ 中加载它们](#serializing-torch-nn-modules-and-loading-them-in-c) 
   + [跨 PyTorch 版本保存和加载 ScriptModules](#saving-and-loading-scriptmodules-across-pytorch-versions) 
@@ -25,10 +25,10 @@
   + [实用函数](#utility-functions)
 
 
-## [保存和加载张量](#id3) [¶](#saving-and-loading-tensors "永久链接到此标题")
+## [保存和加载tensor](#id3) [¶](#saving-and-loading-tensors "永久链接到此标题")
 
 
-[`torch.save()`](../generated/torch.save.html#torch.save "torch.save") 和 [`torch.load()`](../generated/torch.load.html#torch.load "torch.load") 让您轻松保存和加载张量：
+[`torch.save()`](../generated/torch.save.html#torch.save "torch.save") 和 [`torch.load()`](../generated/torch.load.html#torch.load "torch.load") 让您轻松保存和加载tensor：
 
 
 ```
@@ -43,7 +43,7 @@ tensor([1., 2.])
  按照惯例，PyTorch 文件通常使用“.pt”或“.pth”扩展名编写。
 
 
-[`torch.save()`](../generated/torch.save.html#torch.save "torch.save") 和 [`torch.load()`](../generated/torch.load.html#torch.load "torch.load") 默认使用 Python 的 pickle，因此您还可以将多个张量保存为 Python 对象的一部分，例如元组、列表和字典：
+[`torch.save()`](../generated/torch.save.html#torch.save "torch.save") 和 [`torch.load()`](../generated/torch.load.html#torch.load "torch.load") 默认使用 Python 的 pickle，因此您还可以将多个tensor保存为 Python 对象的一部分，例如元组、列表和字典：
 
 
 ```
@@ -55,13 +55,13 @@ tensor([1., 2.])
 ```
 
 
- 如果数据结构是可pickle的，则还可以保存包含PyTorch张量的自定义数据结构。
+ 如果数据结构是可pickle的，则还可以保存包含PyTorchtensor的自定义数据结构。
 
 
-## [保存和加载张量保留视图](#id4) [¶](#saving-and-loading-tensors-preserves-views "永久链接到此标题")
+## [保存和加载tensor保留视图](#id4) [¶](#saving-and-loading-tensors-preserves-views "永久链接到此标题")
 
 
- 保存张量会保留它们的视图关系：
+ 保存tensor会保留它们的视图关系：
 
 
 ```
@@ -76,13 +76,13 @@ tensor([ 1, 4, 3, 8, 5, 12, 7, 16, 9])
 ```
 
 
- 在幕后，这些张量共享相同的“存储”。有关视图和存储的更多信息，请参阅[张量视图](https://pytorch.org/docs/main/tensor_view.html)。
+ 在幕后，这些tensor共享相同的“存储”。有关视图和存储的更多信息，请参阅[tensor视图](https://pytorch.org/docs/main/tensor_view.html)。
 
 
- 当 PyTorch 保存张量时，它会分别保存它们的存储对象和张量元数据。这是一个将来可能会改变的实现细节，但它通常可以节省空间，并让 PyTorch 轻松重建加载的张量之间的视图关系。例如，在上面的代码片段中，只有一个存储被写入“tensors.pt”。
+ 当 PyTorch 保存tensor时，它会分别保存它们的存储对象和tensor元数据。这是一个将来可能会改变的实现细节，但它通常可以节省空间，并让 PyTorch 轻松重建加载的tensor之间的视图关系。例如，在上面的代码片段中，只有一个存储被写入“tensors.pt”。
 
 
- 然而，在某些情况下，保存当前存储对象可能是不必要的，并且会创建过大的文件。在下面的代码片段中，比保存的张量大得多的存储被写入文件中：
+ 然而，在某些情况下，保存当前存储对象可能是不必要的，并且会创建过大的文件。在下面的代码片段中，比保存的tensor大得多的存储被写入文件中：
 
 
 ```
@@ -96,10 +96,10 @@ tensor([ 1, 4, 3, 8, 5, 12, 7, 16, 9])
 ```
 
 
- 与仅将小张量中的五个值保存到“small.pt”不同，它与大张量共享的存储中的 999 个值被保存并加载。
+ 与仅将小tensor中的五个值保存到“small.pt”不同，它与大tensor共享的存储中的 999 个值被保存并加载。
 
 
- 当保存元素少于其存储对象的张量时，可以通过首先克隆张量来减小保存的文件的大小。克隆张量会生成一个新张量，其中包含一个仅包含张量中的值的新存储对象：
+ 当保存元素少于其存储对象的tensor时，可以通过首先克隆tensor来减小保存的文件的大小。克隆tensor会生成一个新tensor，其中包含一个仅包含tensor中的值的新存储对象：
 
 
 ```
@@ -113,7 +113,7 @@ tensor([ 1, 4, 3, 8, 5, 12, 7, 16, 9])
 ```
 
 
- 然而，由于克隆张量彼此独立，因此它们没有原始张量所具有的视图关系。如果在保存小于其存储对象的张量时文件大小和视图关系都很重要，则必须注意构造新的张量，以最小化其存储对象的大小，但在保存之前仍然具有所需的视图关系。
+ 然而，由于克隆tensor彼此独立，因此它们没有原始tensor所具有的视图关系。如果在保存小于其存储对象的tensor时文件大小和视图关系都很重要，则必须注意构造新的tensor，以最小化其存储对象的大小，但在保存之前仍然具有所需的视图关系。
 
 
 ## [保存和加载 torch.nn.Modules](#id5) [¶](#saving-and-loading-torch-nn-modules "永久链接到此标题")
@@ -312,7 +312,7 @@ tensor(1.6667)
 ### [torch.full 总是推断 float dtype](#id9) [¶](#torch-full-always-inferring-a-float-dtype "永久链接到此标题")
 
 
- 在 PyTorch 1.5 及更早版本中，[`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 始终返回浮点张量，无论给出的填充值如何：
+ 在 PyTorch 1.5 及更早版本中，[`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 始终返回浮点tensor，无论给出的填充值如何：
 
 
 ```
@@ -323,7 +323,7 @@ tensor([1., 1., 1.])     # ...but float tensor!
 ```
 
 
- 然而，在 PyTorch 1.7 中，[`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 将从填充值推断返回的张量的 dtype：
+ 然而，在 PyTorch 1.7 中，[`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 将从填充值推断返回的tensor的 dtype：
 
 
 ```
@@ -343,7 +343,7 @@ tensor([1.+1.j, 1.+1.j, 1.+1.j])
 ```
 
 
- [`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 的行为保留在序列化的 ScriptModule 中。也就是说，使用 1.6 之前的 PyTorch 版本序列化的 ScriptModule 将继续默认情况下 seeto​​rch.full 返回浮点张量，即使给定 bool 或整数填充值也是如此。使用 [`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 并在 PyTorch 1.6 及更高版本上序列化的 ScriptModule 无法在早期版本的 PyTorch 中加载，但是，因为那些早期版本不理解新行为。
+ [`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 的行为保留在序列化的 ScriptModule 中。也就是说，使用 1.6 之前的 PyTorch 版本序列化的 ScriptModule 将继续默认情况下 seeto​​rch.full 返回浮点tensor，即使给定 bool 或整数填充值也是如此。使用 [`torch.full()`](../generated/torch.full.html#torch.full "torch.full") 并在 PyTorch 1.6 及更高版本上序列化的 ScriptModule 无法在早期版本的 PyTorch 中加载，但是，因为那些早期版本不理解新行为。
 
 
 ## [实用功能](#id10) [¶](#utility-functions "此标题的永久链接")

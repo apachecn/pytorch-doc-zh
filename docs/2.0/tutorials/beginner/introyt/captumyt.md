@@ -10,32 +10,32 @@
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Am2EF9CLu-g" title="Model Understanding with Captum" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-[Captum](https://captum.ai/)（拉丁语中的“comprehension〔理解〕”）是一个开源、可扩展的模型解释库，基于 PyTorch 构建。
+[Captum](https://captum.ai/)(拉丁语中的“comprehension〔理解〕”)是一个开源、可扩展的模型解释库，基于 PyTorch 构建。
 
-随着模型复杂性的增加以及由此导致的透明度的缺乏，模型可解释性方法变得越来越重要。模型理解既是一个活跃的研究领域，也是使用机器学习的各行业实际应用的重点。Captum 提供了最先进的算法，包括 Integrated Gradients（积分梯度），为研究人员和开发人员提供了一种简便的方法来了解哪些特征对模型的输出有贡献。
+随着模型复杂性的增加以及由此导致的透明度的缺乏，模型可解释性方法变得越来越重要。模型理解既是一个活跃的研究领域，也是使用机器学习的各行业实际应用的重点。Captum 提供了最先进的算法，包括 Integrated Gradients(积分梯度)，为研究人员和开发人员提供了一种简便的方法来了解哪些特征对模型的输出有贡献。
 
 [captum.ai](https://captum.ai/) 网站上可以获取完整的文档、API 参考资料和一系列关于特定主题的教程 。
 
 ## 入门
 
-Captum 采用 _归因（Attribution）法_ 来实现模型的可解释性。Captum 提供三种归因：
+Captum 采用 _归因(Attribution)法_ 来实现模型的可解释性。Captum 提供三种归因：
 
-- **特征归因（Feature Attribution）**：寻求通过输入数据的特征来解释模型的特定输出。例如，通过某些影评中的特定词语来解释影评是正面还是负面的。
-- **层归因（Layer Attribution）**：分析模型在特定输入后的隐藏层的活动。例如，分析卷积层在输入图像后的空间映射输出。
-- **神经元归因（Neuron Attribution）**：类似于层归因，但集中在单个神经元的活动上。
+- **特征归因(Feature Attribution)**：寻求通过输入数据的特征来解释模型的特定输出。例如，通过某些影评中的特定词语来解释影评是正面还是负面的。
+- **层归因(Layer Attribution)**：分析模型在特定输入后的隐藏层的活动。例如，分析卷积层在输入图像后的空间映射输出。
+- **神经元归因(Neuron Attribution)**：类似于层归因，但集中在单个神经元的活动上。
 
 在这个交互式笔记本中，我们将着重介绍特征归因和层归因。
 
 每种归因类型都有多种相关的**归因算法**。许多归因算法可分为两大类：
 
-- **基于梯度的算法**：这些算法计算模型输出、层输出或神经元激活相对于输入的反向梯度。**Integrated Gradients**（用于特征）、**Layer Gradient * Activation** 和 **Neuron Conductance（神经传导）** 都属此类。
-- **基于扰动的算法**：这些算法检查模型输出、层输出或神经元输出相对于输入的变化。输入扰动可以是有指向性的或随机的。**Occlusion（遮挡法）、 Feature Ablation（特征消融）和 Feature Permutation（特征排列）** 都属此类。
+- **基于梯度的算法**：这些算法计算模型输出、层输出或神经元激活相对于输入的反向梯度。**Integrated Gradients**(用于特征)、**Layer Gradient * Activation** 和 **Neuron Conductance(神经传导)** 都属此类。
+- **基于扰动的算法**：这些算法检查模型输出、层输出或神经元输出相对于输入的变化。输入扰动可以是有指向性的或随机的。**Occlusion(遮挡法)、 Feature Ablation(特征消融)和 Feature Permutation(特征排列)** 都属此类。
 
 下面我们要研究这两种类型的算法。
 
 特别是在涉及大模型的情况下，将归因数据与正在检查的输入特征以易关联的方式可视化，是非常有价值的。虽然可以使用 Matplotlib、Plotly 或类似的工具创建自己的可视化，但 Captum 提供了针对其归因的增强工具：
 
-- `captum.attr.visualization` 模块（如下所示导入为 `viz`）提供了用于可视化与图像相关的归因的有用函数。
+- `captum.attr.visualization` 模块(如下所示导入为 `viz`)提供了用于可视化与图像相关的归因的有用函数。
 - **Captum Insights** 是 Captum 上一个易于使用的 API，它提供了一个可视化组件，可为图像、文本和任意模型类型提供现成的可视化。
 
 本笔记本将演示这两种可视化工具集。前几个示例将侧重于计算机视觉用例，但最后的 Captum Insights 部分将演示多模型、视觉问答模型中归因的可视化。
@@ -45,10 +45,10 @@ Captum 采用 _归因（Attribution）法_ 来实现模型的可解释性。Capt
 在开始之前，您需要一个符合以下内容的 Python 环境：
 
 - Python 3.6 以上版本
-- 对于 Captum Insights 示例，Flask 1.1 以上版本及 Flask-Compress（推荐使用最新版本）
-- PyTorch 1.2 以上版本（推荐使用最新版本）
-- TorchVision 0.6 以上版本（推荐使用最新版本）
-- Captum（推荐使用最新版本）
+- 对于 Captum Insights 示例，Flask 1.1 以上版本及 Flask-Compress(推荐使用最新版本)
+- PyTorch 1.2 以上版本(推荐使用最新版本)
+- TorchVision 0.6 以上版本(推荐使用最新版本)
+- Captum(推荐使用最新版本)
 - Matplotlib 3.3.4 版本，因为 Captum 目前使用了 Matplotlib 的一个函数，其参数在后续版本中已更名
 
 要在 Anaconda 或 pip 虚拟环境中安装 Captum，请使用以下适用于您的环境的命令：
@@ -150,7 +150,7 @@ print('Predicted:', predicted_label, '(', prediction_score.squeeze().item(), ')'
 
 ## 特征归因：Integrated Gradients
 
-**特征归因**将特定的输出归因于输入特征。它使用特定的输入（这里是我们的测试图像）来生成每个输入特征对特定输出特征的相对重要度图。
+**特征归因**将特定的输出归因于输入特征。它使用特定的输入(这里是我们的测试图像)来生成每个输入特征对特定输出特征的相对重要度图。
 
 [Integrated Gradients](https://captum.ai/api/integrated_gradients.html) 是 Captum 提供的特征归因算法之一。Integrated Gradients 通过计算模型输出相对于输入的梯度近似积分，为每个输入特征分配重要度分数。
 
@@ -219,7 +219,7 @@ _ = viz.visualize_image_attr_multiple(np.transpose(attributions_occ.squeeze().cp
 
 **层归因**可以将模型中隐藏层的活动归因于输入特征。下面，我们将使用层归因算法来检查模型中一个卷积层的活动。
 
-GradCAM 会计算目标输出相对于给定层的梯度，每个输出通道（输出的维度 2）的平均值，并将每个通道的平均梯度乘以层激活。然后将所有通道的结果相加。GradCAM 专为卷积网络而设计，由于卷积层的活动通常空间映射到输入，因此 GradCAM 的归因通常会进行上采样并用于屏蔽输入。
+GradCAM 会计算目标输出相对于给定层的梯度，每个输出通道(输出的维度 2)的平均值，并将每个通道的平均梯度乘以层激活。然后将所有通道的结果相加。GradCAM 专为卷积网络而设计，由于卷积层的活动通常空间映射到输入，因此 GradCAM 的归因通常会进行上采样并用于屏蔽输入。
 
 层归因的设置与输入归因类似，但除了模型外，还必须指定模型中要检查的隐藏层。如上所述，在调用 `attribute()` 时，我们要指定感兴趣的目标类别。
 
@@ -281,7 +281,7 @@ for img in imgs:
 
 我们使用以下参数配置 `AttributionVisualizer`：
 
-- 要检查的模型数组（在我们的例子中，就一个模型）
+- 要检查的模型数组(在我们的例子中，就一个模型)
 - 一个评分函数，允许 Captum Insights 从一个模型中提取前 k 个预测值
 - 一个有序的、人类可读的模型训练类列表
 - 一个要探索的特征列表——在我们的例子中，一个 `ImageFeature`

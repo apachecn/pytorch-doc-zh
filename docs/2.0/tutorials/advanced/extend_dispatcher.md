@@ -51,15 +51,15 @@
 
 * 如果您对现有 PyTorch 运算符有新算法，请向 PyTorch 发送 PR。
 * 如果您想提议新运算符，请向 PyTorch 发送功能请求/PR。
-* 如果您想添加对某个运算符的支持新设备/硬件（例如 Google TPU 和定制芯片）通常需要使用
+* 如果您想添加对某个运算符的支持新设备/硬件(例如 Google TPU 和定制芯片)通常需要使用
 特定于硬件的 API 来编写内核，请按照本教程向 PyTorch 添加树外后端。
-* 如果您想添加对现有的支持运算符，但具有不同的张量布局/表示
+* 如果您想添加对现有的支持运算符，但具有不同的tensor布局/表示
 例如稀疏和量化，这强制您的内核以更高效’s的方式编写
 考虑到布局/表示限制，请按照本教程并添加输出 - PyTorch 的 of-tree 后端。
 
 
 
- 在本教程中，我们’ll 主要关注在下面添加一个新的树外设备。为不同的张量布局添加树外支持可能会与设备共享许多常见步骤，但我们还没有看到此类集成的示例，因此可能需要 PyTorch 进行额外的工作来支持它。 
+ 在本教程中，我们’ll 主要关注在下面添加一个新的树外设备。为不同的tensor布局添加树外支持可能会与设备共享许多常见步骤，但我们还没有看到此类集成的示例，因此可能需要 PyTorch 进行额外的工作来支持它。 
 
 
 
@@ -79,8 +79,8 @@ PyTorch 调度程序将运算符的实现划分为多个内核，每个内核
 
 
 
- 调度密钥是您在调度系统中的标识符。调度程序查看输入张量上携带的调度键并相应地调用正确的内核。 PyTorch 提供了三个保留的调度键
-（及其相应的 Autograd 键），用于对树外后端扩展进行原型设计：
+ 调度密钥是您在调度系统中的标识符。调度程序查看输入tensor上携带的调度键并相应地调用正确的内核。 PyTorch 提供了三个保留的调度键
+(及其相应的 Autograd 键)，用于对树外后端扩展进行原型设计：
 
 
 
@@ -180,13 +180,13 @@ Tensor sgn(const Tensor & self); // {"schema": "aten::sgn(Tensor self) -> Tensor
 
 
 
-* `张量
+* `tensor
  
 
  &
  
 
- abs_out(张量
+ abs_out(tensor
  
 
  &
@@ -216,7 +216,7 @@ Tensor sgn(const Tensor & self); // {"schema": "aten::sgn(Tensor self) -> Tensor
  *,
  
 
- 张量(a!)
+ tensor(a!)
  
 
  out)
@@ -248,7 +248,7 @@ Tensor sgn(const Tensor & self); // {"schema": "aten::sgn(Tensor self) -> Tensor
 
  要将内核注册到 PyTorch 调度程序，您可以使用 
  `TORCH_LIBRARY_IMPL`
- API（在 C++ 中注册调度操作符）
+ API(在 C++ 中注册调度操作符)
  中描述的 API 
  :
 
@@ -281,7 +281,7 @@ TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
 
  幸运的是，一些本机 PyTorch 内核的编写方式可以分解为
 几个已知运算符的组合。换句话说，您只需要实现
-一组已知运算符（需要在下面注册的操作），而不是所有 PyTorch 运算符。
+一组已知运算符(需要在下面注册的操作)，而不是所有 PyTorch 运算符。
 
 
 
@@ -410,8 +410,8 @@ TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
  在少数
  *罕见* 
  情况下，某些运算符的 PyTorch’s 梯度公式可能会假设不’t 泛化
-所有后端。在这些情况下，后端扩展程序可以选择通过将 torch::autograd::Function 中的内核注册到相应的调度键来覆盖 PyTorch Autograd 层（例如，如果您
-you’ 在后端使用 PrivateUse1，则为 AutogradPrivateUse1）： 
+所有后端。在这些情况下，后端扩展程序可以选择通过将 torch::autograd::Function 中的内核注册到相应的调度键来覆盖 PyTorch Autograd 层(例如，如果您
+you’ 在后端使用 PrivateUse1，则为 AutogradPrivateUse1)： 
 
 
 
@@ -525,7 +525,7 @@ setup(
 
  您的新后端应该与 [Python 中扩展的自定义运算符](https://pytorch.org/docs/stable/notes/extending.html) 无缝协作 
  只要自定义运算符，就无需编写任何新内核由现有的
-PyTorch 运算符组成（您的后端已支持这些运算符）。
+PyTorch 运算符组成(您的后端已支持这些运算符)。
 
 
 
@@ -588,7 +588,7 @@ JIT 跟踪/脚本前端配合使用，就像 CPU 或 CUDA 等树内后端一样�
  使用您的设备类型运行 PyTorch’s 现有测试套件对于确保正确性非常重要，
 但并非每种设备类型都支持所有 PyTorch 功能。通用设备类型测试
 框架允许进行大量自定义，以便设备类型可以选择要运行的测试、
-它们支持的数据类型，甚至在比较张量是否相等时使用哪些精度。
+它们支持的数据类型，甚至在比较tensor是否相等时使用哪些精度。
 
 
 
@@ -617,8 +617,8 @@ JIT 跟踪/脚本前端配合使用，就像 CPU 或 CUDA 等树内后端一样�
 可以根据需要添加/修改/删除运算符及其架构。注册的
 内核必须
  *完全* 
- 与 PyTorch 版本相同。如果 PyTorch 为操作员添加更多参数（
-即使使用默认值），您的旧注册将’ 无法工作，直到’ 更新
+ 与 PyTorch 版本相同。如果 PyTorch 为操作员添加更多参数(
+即使使用默认值)，您的旧注册将’ 无法工作，直到’ 更新
 以匹配 PyTorch’ 的新签名。
 
 
@@ -661,8 +661,8 @@ JIT 跟踪/脚本前端配合使用，就像 CPU 或 CUDA 等树内后端一样�
  [PyTorch Tensor __reduce_ex__方法](https://github.com/pytorch/pytorch/blob/5640b79bf8a5412a0209a919c05c811d5427cc12/torch/tensor.py#L83-L150) 
  或在树外存储库中进行猴子修补。
 * 如果您的后端’t 不允许直接内存访问，则应额外注意支持
-视图操作，因为他们’应该共享存储。对视图张量的更改需要传播到其
-基张量，反之亦然。
+视图操作，因为他们’应该共享存储。对视图tensor的更改需要传播到其
+基tensor，反之亦然。
 * 如果您的后端’ 不能与本机 PyTorch 一起使用，则优化器的 C++ 中’ 没有扩展点
 优化器，例如需要像 torch-xla 一样向后携带要更新的状态。目前，此类用例只能通过在树外存储库中添加自定义 API 或猴子修补来完成。
 
@@ -712,9 +712,9 @@ PyTorch’s 代码生成器。
 
 
 
- 如果您’ 有兴趣帮助完成上述任何未来工作项目（例如为 C++ 中的 PyTorch 运算符添加更多
+ 如果您’ 有兴趣帮助完成上述任何未来工作项目(例如为 C++ 中的 PyTorch 运算符添加更多
  `Math`
- 内核），请通过 Github 或 Slack 与我们联系！ 
+ 内核)，请通过 Github 或 Slack 与我们联系！ 
 
 
 

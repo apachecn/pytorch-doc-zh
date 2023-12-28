@@ -37,7 +37,7 @@
  如果您需要维护状态，即可训练参数，您应该(也)使用自定义模块。有关扩展 [`torch.nn`](../nn.html#module-torch.nn "torch.nn") 的更多信息，请参阅下面的部分。
 
 
- 如果您想在向后传递过程中改变梯度或执行副作用，请考虑注册一个[张量](https://pytorch.org/docs/stable/generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook) 或 [模块](https://pytorch.org/docs/stable/notes/modules.html#module-hooks) 钩子。
+ 如果您想在向后传递过程中改变梯度或执行副作用，请考虑注册一个[tensor](https://pytorch.org/docs/stable/generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook) 或 [模块](https://pytorch.org/docs/stable/notes/modules.html#module-hooks) 钩子。
 
 
 ### 如何使用 [¶](#how-to-use "此标题的永久链接")
@@ -50,19 +50,19 @@
 
 
 
-* [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 是执行该操作的代码。它可以接受任意数量的参数，如果您指定默认值，其中一些参数是可选的。这里接受所有类型的 Python 对象。跟踪历史记录的“Tensor”参数(即使用“requires_grad=True”)将在调用之前转换为不跟踪历史记录的参数，并且它们的使用将在图中注册。请注意，此逻辑不会遍历列表/字典/任何其他数据结构，并且只会考虑作为调用的直接参数的张量。您可以返回单个 `Tensor` 输出，或者返回一个 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.12)") 常量(如果存在)是多个输出。另外，请参阅 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 的文档来查找只能从 [`forward()` 调用的有用方法的描述](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward").
+* [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 是执行该操作的代码。它可以接受任意数量的参数，如果您指定默认值，其中一些参数是可选的。这里接受所有类型的 Python 对象。跟踪历史记录的“Tensor”参数(即使用“requires_grad=True”)将在调用之前转换为不跟踪历史记录的参数，并且它们的使用将在图中注册。请注意，此逻辑不会遍历列表/字典/任何其他数据结构，并且只会考虑作为调用的直接参数的tensor。您可以返回单个 `Tensor` 输出，或者返回一个 [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple "(in Python v3.12)") 常量(如果存在)是多个输出。另外，请参阅 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 的文档来查找只能从 [`forward()` 调用的有用方法的描述](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward").
 * `setup_context()` (可选)。人们可以编写一个“组合”[`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward")，它接受`ctx` 对象或(从 PyTorch 2.0 开始)单独的 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward")，不接受 `ctx` 和发生 `ctx` 修改的 `setup_context()` 方法。 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 应该有计算，而 `setup_context()` 应该只负责 `ctx` 修改(并且没有任何计算)。一般来说单独的 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 和 `setup_context()` 是更接近PyTorch本机操作的工作方式，因此更适合与各种PyTorch子系统组合。有关更多详细信息，请参阅[组合或单独的forward()和setup_context()](#combining-forward-context)。
-* [`backward()`](../generated/torch.autograd.Function.backward.html#torch.autograd.Function.backward "torch.autograd.Function.backward") (或 `vjp()` ) 定义梯度公式。它将给出“Tensor”参数与输出一样多，每个参数代表梯度 w.r.t。那个输出。重要的是切勿就地修改这些内容。它应该返回与输入一样多的张量，每个张量都包含梯度。其相应的输入。如果您的输入不需要梯度(“needs_input_grad”是一个布尔元组，指示每个输入是否需要梯度计算)，或者是非“Tensor”对象，则可以返回“python:None”。另外，如果您有 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 的可选参数，您可以返回梯度比输入更多，只要它们都是 [`None`](https://docs.python.org/3/library/constants.html#None "(in Python v3.12)") 。
+* [`backward()`](../generated/torch.autograd.Function.backward.html#torch.autograd.Function.backward "torch.autograd.Function.backward") (或 `vjp()` ) 定义梯度公式。它将给出“Tensor”参数与输出一样多，每个参数代表梯度 w.r.t。那个输出。重要的是切勿就地修改这些内容。它应该返回与输入一样多的tensor，每个tensor都包含梯度。其相应的输入。如果您的输入不需要梯度(“needs_input_grad”是一个布尔元组，指示每个输入是否需要梯度计算)，或者是非“Tensor”对象，则可以返回“python:None”。另外，如果您有 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 的可选参数，您可以返回梯度比输入更多，只要它们都是 [`None`](https://docs.python.org/3/library/constants.html#None "(in Python v3.12)") 。
 
 
 **步骤 2：** 您有责任正确使用 `ctx` 中的函数，以确保新的 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.函数")与 autograd 引擎一起正常工作。
 
 
 
-* [`save_for_backward()`](../generated/torch.autograd.function.FunctionCtx.save_for_backward.html#torch.autograd.function.FunctionCtx.save_for_backward "torch.autograd.function.FunctionCtx.save_for_backward" ) 必须用于保存要在向后传递中使用的任何张量。非张量应直接存储在 ctx 上。如果既不是输入也不是输出的张量被保存为后向，您的 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 可能不支持双后向(请参阅步骤 3)。
+* [`save_for_backward()`](../generated/torch.autograd.function.FunctionCtx.save_for_backward.html#torch.autograd.function.FunctionCtx.save_for_backward "torch.autograd.function.FunctionCtx.save_for_backward" ) 必须用于保存要在向后传递中使用的任何tensor。非tensor应直接存储在 ctx 上。如果既不是输入也不是输出的tensor被保存为后向，您的 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 可能不支持双后向(请参阅步骤 3)。
 * [`mark_dirty()`](../generated/torch.autograd.function.FunctionCtx.mark_dirty.html#torch.autograd.function.FunctionCtx.mark_dirty "torch.autograd.function.FunctionCtx.mark_dirty") 必须是用于标记由前向函数就地修改的任何输入。
-* [`mark_non_Differentiable()`](../generated/torch.autograd.function.FunctionCtx.mark_non_Differentiable.html#torch.autograd.function.FunctionCtx.mark_non_Differentiable "torch.autograd.function.FunctionCtx.mark_non_Differentiable") 必须用于告诉引擎输出是否不可微分。默认情况下，所有可微分类型的输出张量都将设置为需要梯度。不可微分类型(即整数类型)的张量永远不会被标记为需要梯度。
-* [`set_materialize_grads()`](../generated/torch.autograd.function.FunctionCtx.set_materialize_grads.html#torch.autograd.function.FunctionCtx.set_materialize_grads "torch.autograd.function.FunctionCtx.set_materialize_grads") 可用于告诉 autograd 引擎在输出不依赖于输入的情况下优化梯度计算，方法是不具体化给予向后函数的梯度张量。也就是说，如果设置为 False，Python 中的 None 对象或 C++ 中的“未定义张量”(x.define() 为 False 的张量 x)在向后调用之前不会转换为用零填充的张量，因此您的代码将需要像处理充满零的张量一样处理此类对象。此设置的默认值为 True。
+* [`mark_non_Differentiable()`](../generated/torch.autograd.function.FunctionCtx.mark_non_Differentiable.html#torch.autograd.function.FunctionCtx.mark_non_Differentiable "torch.autograd.function.FunctionCtx.mark_non_Differentiable") 必须用于告诉引擎输出是否不可微分。默认情况下，所有可微分类型的输出tensor都将设置为需要梯度。不可微分类型(即整数类型)的tensor永远不会被标记为需要梯度。
+* [`set_materialize_grads()`](../generated/torch.autograd.function.FunctionCtx.set_materialize_grads.html#torch.autograd.function.FunctionCtx.set_materialize_grads "torch.autograd.function.FunctionCtx.set_materialize_grads") 可用于告诉 autograd 引擎在输出不依赖于输入的情况下优化梯度计算，方法是不具体化给予向后函数的梯度tensor。也就是说，如果设置为 False，Python 中的 None 对象或 C++ 中的“未定义tensor”(x.define() 为 False 的tensor x)在向后调用之前不会转换为用零填充的tensor，因此您的代码将需要像处理充满零的tensor一样处理此类对象。此设置的默认值为 True。
 
 
 **步骤 3：** 如果你的 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") 不支持双向后，你应该通过用 ` 向后装饰来显式声明这一点一次_可微分()` 。使用此装饰器，尝试通过函数执行双向后操作将产生错误。有关双向后操作的更多信息，请参阅我们的双向后教程。
@@ -137,7 +137,7 @@ def linear(input, weight, bias=None):
 ```
 
 
- 在这里，我们给出了由非张量参数参数化的函数的另一个示例：
+ 在这里，我们给出了由非tensor参数参数化的函数的另一个示例：
 
 
 ```
@@ -191,7 +191,7 @@ class MulConstant(Function):
 ```
 
 
- 如果您需要在 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 中计算任何“中间”张量要保存，它们必须作为输出返回，或者组合 `forward` 和 `setup_context()` (请参阅[组合或单独的forward() 和 setup_context()](#combining-forward-context) )请注意，这意味着如果您希望渐变流过这些中间值，则需要为它们定义渐变公式(另请参阅[双向后教程](https://pytorch.org/tutorials/intermediate/custom_function_double_backward_tutorial.html) )：
+ 如果您需要在 [`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 中计算任何“中间”tensor要保存，它们必须作为输出返回，或者组合 `forward` 和 `setup_context()` (请参阅[组合或单独的forward() 和 setup_context()](#combining-forward-context) )请注意，这意味着如果您希望渐变流过这些中间值，则需要为它们定义渐变公式(另请参阅[双向后教程](https://pytorch.org/tutorials/intermediate/custom_function_double_backward_tutorial.html) )：
 
 
 ```
@@ -229,7 +229,7 @@ def my_cube(x):
 
 !!! note "笔记"
 
-    `backward` 的输入，即 `grad_output` ，也可以是跟踪历史的张量。因此，如果使用可微分操作实现“向后”(例如，调用另一个自定义 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") )，则高阶导数将起作用在这种情况下，用 `save_for_backward` 保存的张量也可以在向后使用，并且有梯度回流，但保存在 `ctx` 中的张量不会有梯度回流。如果你需要梯度对于保存在 `ctx` 中的 Tensor 的流回，您应该将其作为自定义 `Function` 的输出，并使用 `save_for_backward` 保存它。
+    `backward` 的输入，即 `grad_output` ，也可以是跟踪历史的tensor。因此，如果使用可微分操作实现“向后”(例如，调用另一个自定义 [`Function`](../autograd.html#torch.autograd.Function "torch.autograd.Function") )，则高阶导数将起作用在这种情况下，用 `save_for_backward` 保存的tensor也可以在向后使用，并且有梯度回流，但保存在 `ctx` 中的tensor不会有梯度回流。如果你需要梯度对于保存在 `ctx` 中的 Tensor 的流回，您应该将其作为自定义 `Function` 的输出，并使用 `save_for_backward` 保存它。
 
 
  您可能想检查您实现的后向方法是否实际计算了函数的导数。通过使用小的有限差分与数值近似进行比较是可能的：
@@ -306,7 +306,7 @@ class LinearFunction(Function):
  覆盖正向模式 AD 公式具有非常相似的 API，但有一些不同的微妙之处。您可以实现 [`jvp()`](../generated/torch.autograd.Function.jvp.html#torch.autograd.Function.jvp "torch.autograd.Function.jvp") 函数。
 
 
- 它将被给予与输入一样多的“Tensor”参数，每个参数代表梯度 w.r.t。该输入。它应该返回与输出一样多的张量，每个张量都包含梯度。其相应的输出。 [`jvp()`](../generated/torch.autograd.Function.jvp.html#torch.autograd.Function.jvp "torch.autograd.Function.jvp") 将在之后调用[`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 方法，在 `apply()` 之前返回。
+ 它将被给予与输入一样多的“Tensor”参数，每个参数代表梯度 w.r.t。该输入。它应该返回与输出一样多的tensor，每个tensor都包含梯度。其相应的输出。 [`jvp()`](../generated/torch.autograd.Function.jvp.html#torch.autograd.Function.jvp "torch.autograd.Function.jvp") 将在之后调用[`forward()`](../generated/torch.autograd.Function.forward.html#torch.autograd.Function.forward "torch.autograd.Function.forward") 方法，在 `apply()` 之前返回。
 
 
 [`jvp()`](../generated/torch.autograd.Function.jvp.html#torch.autograd.Function.jvp "torch.autograd.Function.jvp") 与 [`forward()`](../generated/torch.autograd.Function.backward.html#torch.autograd.Function.backward "torch.autograd.Function.backward") 函数：
@@ -408,7 +408,7 @@ class Linear(nn.Module):
     此功能受到 NumPy `__array_function__` 协议的启发。请参阅 [NumPy 文档](https://numpy.org/doc/stable/user/basics.dispatch.html#basics-dispatch) 和 [NEP-0018](https://numpy.org/neps/nep-0018-array-function-protocol.html)了解更多详细信息。
 
 
- 为了具体说明这一点，让我们从一个简单的示例开始，说明 API 调度机制。我们将创建一个表示 2D 标量张量的自定义类型，由阶数“N”和沿对角线条目的值“value”进行参数化：
+ 为了具体说明这一点，让我们从一个简单的示例开始，说明 API 调度机制。我们将创建一个表示 2D 标量tensor的自定义类型，由阶数“N”和沿对角线条目的值“value”进行参数化：
 
 
 ```
@@ -426,7 +426,7 @@ class ScalarTensor(object):
 ```
 
 
- 设计的第一次迭代并不是很有用。 `ScalarTensor` 的主要功能是提供比基本张量类更紧凑的标量张量字符串表示形式：
+ 设计的第一次迭代并不是很有用。 `ScalarTensor` 的主要功能是提供比基本tensor类更紧凑的标量tensor字符串表示形式：
 
 
 ```
@@ -530,7 +530,7 @@ def mean(input):
 ```
 
 
- 当然，“torch.mean”是最简单的重写函数示例，因为它只需要一个操作数。我们可以使用相同的机制来重写需要多个操作数的函数，其中任何一个都可能是定义 `__torch_function__` 的张量或类张量，例如 [`torch.add ()`](../generated/torch.add.html#torch.add "torch.add") :
+ 当然，“torch.mean”是最简单的重写函数示例，因为它只需要一个操作数。我们可以使用相同的机制来重写需要多个操作数的函数，其中任何一个都可能是定义 `__torch_function__` 的tensor或类tensor，例如 [`torch.add ()`](../generated/torch.add.html#torch.add "torch.add") :
 
 
 ```
@@ -552,7 +552,7 @@ def add(input, other):
 ```
 
 
- 当两个操作数都是“ScalarTensor”实例时，此版本有一个快速路径，当两个操作数不是“ScalarTensor”时，该版本还有一个较慢的路径，该路径会降级为将数据转换为张量。当任一操作数是“ScalarTensor”或常规“Tensor”时，这使得重写函数正确：
+ 当两个操作数都是“ScalarTensor”实例时，此版本有一个快速路径，当两个操作数不是“ScalarTensor”时，该版本还有一个较慢的路径，该路径会降级为将数据转换为tensor。当任一操作数是“ScalarTensor”或常规“Tensor”时，这使得重写函数正确：
 
 
 ```
@@ -613,7 +613,7 @@ def __torch_function__(cls, func, types, args=(), kwargs=None):
 ```
 
 
- 然后 [`torch.mul()`](../generated/torch.mul.html#torch.mul "torch.mul") 将正常工作，尽管返回类型始终是 `Tensor` 而不是 `ScalarTensor ` ，即使两个操作数都是 `ScalarTensor` 实例：
+ 然后 [`torch.mul()`](../generated/torch.mul.html#torch.mul "torch.mul") 将正常工作，尽管Return type始终是 `Tensor` 而不是 `ScalarTensor ` ，即使两个操作数都是 `ScalarTensor` 实例：
 
 
 ```
@@ -664,7 +664,7 @@ TypeError: no implementation found for 'torch.add' on types that implement __tor
 ```
 
 
- 如果希望对所有张量方法进行全局覆盖，可以使用 `__torch_function__` 。这是一个记录所有函数/方法调用的示例：
+ 如果希望对所有tensor方法进行全局覆盖，可以使用 `__torch_function__` 。这是一个记录所有函数/方法调用的示例：
 
 
 ```
@@ -798,7 +798,7 @@ tensor([[1, 4],
  虽然 `__torch_function__` 允许人们有效地扩展 PyTorch 的纯 Python 组件的行为，但它不允许人们扩展用 C++ 实现的 PyTorch 部分。 为此，Tensor 子类还可以定义 `__torch_dispatch__` ，它将能够覆盖 C++ 级别的行为。
 
 
- 为了有效地使用此功能，了解 PyTorch 的本机部分是如何实现的非常重要。 最重要的组件是我们所说的“调度程序”（最好的描述可以在这篇[博客文章](http://blog.ezyang.com/2020/09/lets-talk-about-the-pytorch-dispatcher/)，尽管它有点过时了）。 正如其名称所暗示的，它负责为特定的函数调用调用正确的后端函数。 例如，当调用 torch.add(a, b) 时，调度程序将检查两个参数，找出哪个“功能”（autograd、autocast、功能化等）和哪个“后端”（CPU、CUDA、MPS 等） 应该用于此特定调用并最终调用所有正确的内核。 内核所做的一个非常常见的事情是“重新调度”。 例如，当使用 autocast 在 GPU 上运行神经网络时，第一个调用将是 autocast 内核，它将处理任何潜在的 autocast 逻辑并向下重新调度。 下一个功能将是 autograd，它将正确创建 autograd 图，然后重新调度。 最后，我们到达 CUDA 的后端内核，它将启动正确的 CUDA 内核并返回最终结果。 在退出时，autograd 会将图形附加到输出，最后，autocast 将有机会在退出时进行所需的任何更新。
+ 为了有效地使用此功能，了解 PyTorch 的本机部分是如何实现的非常重要。 最重要的组件是我们所说的“调度程序”(最好的描述可以在这篇[博客文章](http://blog.ezyang.com/2020/09/lets-talk-about-the-pytorch-dispatcher/)，尽管它有点过时了)。 正如其名称所暗示的，它负责为特定的函数调用调用正确的后端函数。 例如，当调用 torch.add(a, b) 时，调度程序将检查两个参数，找出哪个“功能”(autograd、autocast、功能化等)和哪个“后端”(CPU、CUDA、MPS 等) 应该用于此特定调用并最终调用所有正确的内核。 内核所做的一个非常常见的事情是“重新调度”。 例如，当使用 autocast 在 GPU 上运行神经网络时，第一个调用将是 autocast 内核，它将处理任何潜在的 autocast 逻辑并向下重新调度。 下一个功能将是 autograd，它将正确创建 autograd 图，然后重新调度。 最后，我们到达 CUDA 的后端内核，它将启动正确的 CUDA 内核并返回最终结果。 在退出时，autograd 会将图形附加到输出，最后，autocast 将有机会在退出时进行所需的任何更新。
 
 
  调度程序的一种配置是调用所有这些功能和后端键的顺序。 最新列表及其顺序可以在 DispatchKey 枚举内的 DispatchKey.h 中找到。 为了扩展 torch 的目的，本次讨论的重要顺序子集是：`vmap -> Autocast -> Autograd -> ZeroTensor -> Neg/Conj -> Functionize -> Python -> Backends`。 就本次讨论而言，最重要的关键是 Python，因为定义了 `__torch_dispatch__` 方法的每个 Tensor 子类都会调用此功能。 从那里调用用户定义的方法，并且可以任意覆盖行为。 从那里，再次调用提供的函数将执行“重新调度”。
@@ -806,13 +806,13 @@ tensor([[1, 4],
  
 此实现的一些重要含义是： 
  
-- 此代码在“所有功能之下”运行。 因此，它只负责生成每个张量的输出值，就像常规后端一样（并且可以并且应该忽略所有高级功能，例如 autograd、autocast 等）。 
+- 此代码在“所有功能之下”运行。 因此，它只负责生成每个tensor的输出值，就像常规后端一样(并且可以并且应该忽略所有高级功能，例如 autograd、autocast 等)。 
 - 如果任何高级功能在不重新分派的情况下实现给定函数，则它将永远不会到达 Python 键，因此 `__torch_dispatch__` 回调将永远不会被触发。 这种情况尤其发生在 CompositeImplicitAutograd 函数中，这些函数在 Autograd 级别进行评估而无需重新分派。 这是因为 CompositeImplicitAutograd 函数通过隐式调用其他本机操作来指定其 autograd 公式，因此在 Autograd 级别，该函数被分解为其本机操作，并对这些操作进行评估。 
-- 回调 Python 以及包装结果时，将使用与常规 PyTorch Python/C++ 绑定相同的转换。 特别是，某些对象无法用 Python 表示，需要特殊处理（例如，未定义的张量变为 None）。 
+- 回调 Python 以及包装结果时，将使用与常规 PyTorch Python/C++ 绑定相同的转换。 特别是，某些对象无法用 Python 表示，需要特殊处理(例如，未定义的tensor变为 None)。 
 - 我们的本机函数被延迟填充为 torch.ops.{namespace}.{func_name}.{overload_name} 作为可调用的 Python 对象，以便能够从 Python 轻松地与它们交互。 赋予 `__torch_dispatch__ `的 func 对象始终是此命名空间中的一个条目。 该命名空间可用于直接调用本机操作并绕过常用的 Python API 和绑定代码。
 
 
- 与 `__torch_function__` 能够插入所有 torch 的 Python API 和 Tensor 方法类似， `__torch_dispatch__` 能够拦截对 aten 本机 API 的所有调用。 请注意，张量上的所有方法在进入调度程序之前都会转换为函数调用，因此将在此处显示为函数调用：torch.add(a, 2) 和 a + 2 将导致完全相同的 aten 调用。 大多数这些函数都在 native_functions.yaml 中定义，它指定了这些函数的属性及其后端实现。 然后，它们的实现以及指定的功能将通过 codegen 自动注册。 一些更奇特的函数或特性也在 C++ 代码库或用户定义的 C++ 扩展中的其他位置注册。
+ 与 `__torch_function__` 能够插入所有 torch 的 Python API 和 Tensor 方法类似， `__torch_dispatch__` 能够拦截对 aten 本机 API 的所有调用。 请注意，tensor上的所有方法在进入调度程序之前都会转换为函数调用，因此将在此处显示为函数调用：torch.add(a, 2) 和 a + 2 将导致完全相同的 aten 调用。 大多数这些函数都在 native_functions.yaml 中定义，它指定了这些函数的属性及其后端实现。 然后，它们的实现以及指定的功能将通过 codegen 自动注册。 一些更奇特的函数或特性也在 C++ 代码库或用户定义的 C++ 扩展中的其他位置注册。
 
 
 还可以使用 torch.library 添加新的本机函数。 此 Python 功能允许定义和/或添加新的实现到本机函数。 这可用于添加缺少的内核、替换现有内核或定义全新的本机函数。
@@ -824,7 +824,7 @@ tensor([[1, 4],
 ## 使用模式扩展所有 [`torch`](../torch.html#module-torch "torch") API [¶](#extending-all-torch-api-with-modes "永久链接到此标题")
 
 
- TODO 问：不接受张量输入的函数怎么样？
+ TODO 问：不接受tensor输入的函数怎么样？
 
 
  TODO 模式概念介绍

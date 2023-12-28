@@ -54,7 +54,7 @@
 
 
 
-PyTorch 中包含的分布式软件包（即“torch.distributed”）使研究人员和从业者能够轻松跨进程和机器集群并行化计算。为此，它利用消息传递语义
+PyTorch 中包含的分布式软件包(即“torch.distributed”)使研究人员和从业者能够轻松跨进程和机器集群并行化计算。为此，它利用消息传递语义
 允许每个进程与任何其他进程通信数据。
 与多处理 (
  `torch.multiprocessing`
@@ -65,7 +65,7 @@ PyTorch 中包含的分布式软件包（即“torch.distributed”）使研究�
 
 
 
- 为了开始，我们需要能够同时运行多个进程。如果您有权访问计算集群，则应咨询本地系统管理员或使用您最喜欢的协调工具（例如，
+ 为了开始，我们需要能够同时运行多个进程。如果您有权访问计算集群，则应咨询本地系统管理员或使用您最喜欢的协调工具(例如，
  [pdsh](https://linux.die.net/man/1/pdsh)
  ,\ n [clustershell](https://cea-hpc.github.io/clustershell/) 
  或
@@ -194,8 +194,8 @@ def run(rank, size):
 
 
 
- 在上面的示例中，两个进程都以零张量开始，然后
-进程 0 递增张量并将其发送到进程 1，以便它们
+ 在上面的示例中，两个进程都以零tensor开始，然后
+进程 0 递增tensor并将其发送到进程 1，以便它们
 最终都为 1.0。请注意，进程 1 需要分配内存
 以便存储它将接收到的数据。
 
@@ -246,9 +246,9 @@ def run(rank, size):
 
 
 
- 使用立即数时，我们必须小心如何使用发送和接收的张量。
+ 使用立即数时，我们必须小心如何使用发送和接收的tensor。
 由于我们不知道数据何时会传递到其他进程，
-我们不应该修改发送的张量，也不应该访问在`req.wait()`完成之前接收到张量。
+我们不应该修改发送的tensor，也不应该访问在`req.wait()`完成之前接收到tensor。
 换句话说，
 
 
@@ -354,7 +354,7 @@ DeepSpeech](https://github.com/baidu-research/baidu-allreduce)
  `dist.new_group(group)`
  。默认情况下，集合体在所有进程中执行，也称为
  **world** 
- 。例如，为了获得所有进程上所有张量的总和，我们可以使用
+ 。例如，为了获得所有进程上所有tensor的总和，我们可以使用
  `dist.all_reduce(tensor,
  
 
@@ -383,7 +383,7 @@ def run(rank, size):
 
 
 
- 由于我们想要组中所有张量的总和，因此我们使用 
+ 由于我们想要组中所有tensor的总和，因此我们使用 
  `dist.ReduceOp.SUM`
  作为归约运算符。一般来说，任何
 可交换的数学运算都可以用作运算符。
@@ -439,7 +439,7 @@ PyTorch 开箱即用地附带 4 个这样的运算符，
  : 将
  `op`
  应用于每个
- `张量`
+ `tensor`
  并将结果存储在
  `dst`
  中。
@@ -466,7 +466,7 @@ PyTorch 开箱即用地附带 4 个这样的运算符，
  
  \(i^{\text{th}}\)
  
- 张量
+ tensor
  `scatter_list[i]`
  复制到
  \ n \(i^{\text{th}}\)
@@ -490,7 +490,7 @@ PyTorch 开箱即用地附带 4 个这样的运算符，
 * `dist.all_gather(tensor_list, 
  
 
- 张量，
+ tensor，
  
 
  组)`
@@ -533,9 +533,9 @@ GitHub 存储库](https://github.com/seba-1511/dist_tuto.pth/) 中找到本节�
 
 很简单，我们想要实现随机梯度下降的分布式版本。我们的脚本将让所有进程根据其批量数据计算其模型的梯度，然后对其梯度进行平均。为了确保在更改进程数时
 获得相似的收敛结果，我们首先必须对数据集进行分区。
-（您也可以使用
+(您也可以使用
  [tnt.dataset.SplitDataset](https://github.com/pytorch /tnt/blob/master/torchnet/dataset/splitdataset.py#L4) 
- ，\而不是下面的代码片段。）
+ ，\而不是下面的代码片段。)
 
 
 
@@ -622,11 +622,11 @@ def partition_dataset():
 
 
 
-我们现在可以编写通常的前向-后向优化训练代码，并添加一个函数调用来平均模型的梯度。 （
+我们现在可以编写通常的前向-后向优化训练代码，并添加一个函数调用来平均模型的梯度。 (
 以下内容很大程度上受到官方
  [PyTorch MNIST
 示例](https://github.com/pytorch/examples/blob/master/mnist/main.py) 
- 的启发。）
+ 的启发。)
 
 
 
@@ -757,12 +757,12 @@ def allreduce(send, recv):
  recv)`
  函数的签名与 PyTorch 中的签名略有不同。它需要一个
  `recv`
- 张量，并将在其中存储所有
+ tensor，并将在其中存储所有
  `send`
- 张量的总和。作为留给读者的练习，我们的版本与 DeepSpeech 中的版本之间仍然存在一个差异：它们的实现将梯度张量划分为
+ tensor的总和。作为留给读者的练习，我们的版本与 DeepSpeech 中的版本之间仍然存在一个差异：它们的实现将梯度tensor划分为
  *块* 
  ，以便最佳地利用
-通信带宽。 （提示：
+通信带宽。 (提示：
  [torch.chunk](https://pytorch.org/docs/stable/torch.html#torch.chunk)
  )
 
@@ -810,9 +810,9 @@ GPU-GPU 通信。
  [Gloo 后端](https://github.com/facebookincubator/gloo) 
  。
 作为一个开发平台，它非常方便，因为它包含在
-预编译的 PyTorch 二进制文件可在 Linux（自 0.2 起）
-和 macOS（自 1.3 起）上运行。它支持CPU上的所有点对点和集体操作，以及GPU上的所有集体操作。 
-CUDA 张量的集体运算的实现不如
+预编译的 PyTorch 二进制文件可在 Linux(自 0.2 起)
+和 macOS(自 1.3 起)上运行。它支持CPU上的所有点对点和集体操作，以及GPU上的所有集体操作。 
+CUDA tensor的集体运算的实现不如
 NCCL 后端提供的那样优化。
 
 
@@ -887,7 +887,7 @@ NCCL 后端提供的那样优化。
  消息传递接口 (MPI) 是高性能计算领域的标准化工具。它允许进行点对点和
 集体通信，并且是
  `torch.distributed`
- API 的主要灵感。 MPI 存在多种实现（例如
+ API 的主要灵感。 MPI 存在多种实现(例如
  [Open-MPI](https://www.open-mpi.org/) 
  、
  [MVAPICH2](http://mvapich.cse.ohio-state.edu /) 
@@ -1006,9 +1006,9 @@ source](https://github.com/pytorch/pytorch#from-source)
  `rank`
  和
  `size`
- 参数
+ Parameters
  n `init_process_group`
- 多余。这实际上非常强大，因为您可以将附加参数传递给“mpirun”，以便为每个进程定制计算资源。 （例如每个进程的核心数、手动将计算机分配到特定等级，以及[一些更多](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile) 
+ 多余。这实际上非常强大，因为您可以将附加参数传递给“mpirun”，以便为每个进程定制计算资源。 (例如每个进程的核心数、手动将计算机分配到特定等级，以及[一些更多](https://www.open-mpi.org/faq/?category=running#mpirun-hostfile) 
  )
 这样做，您应该获得与其他
 通信后端相同的熟悉输出。
@@ -1023,7 +1023,7 @@ source](https://github.com/pytorch/pytorch#from-source)
 
  [NCCL 后端](https://github.com/nvidia/nccl)
  提供针对 CUDA
-张量的集体操作的优化实现。如果您仅使用 CUDA 张量进行集体操作，
+tensor的集体操作的优化实现。如果您仅使用 CUDA tensor进行集体操作，
 请考虑使用此后端以获得一流的性能。 
 NCCL 后端包含在具有 CUDA 支持的预构建二进制文件中。
 

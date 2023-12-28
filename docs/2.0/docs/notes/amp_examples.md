@@ -197,7 +197,7 @@ for epoch in epochs:
 ```
 
 
- 为了通过梯度缩放实现梯度惩罚，“输出”张量传递给 [`torch.autograd.grad()`](../generated/torch.autograd.grad.html#torch.autograd. grad“torch.autograd.grad”)应该缩放。因此，生成的梯度将被缩放，并且在组合以创建惩罚值之前应该取消缩放。
+ 为了通过梯度缩放实现梯度惩罚，“输出”tensor传递给 [`torch.autograd.grad()`](../generated/torch.autograd.grad.html#torch.autograd. grad“torch.autograd.grad”)应该缩放。因此，生成的梯度将被缩放，并且在组合以创建惩罚值之前应该取消缩放。
 
 
  此外，惩罚项计算是前向传递的一部分，因此应该位于 [`autocast`](../amp.html#torch.cuda.amp.autocast "torch.cuda.amp.autocast") 上下文中。
@@ -334,7 +334,7 @@ with autocast(device_type='cuda', dtype=torch.float16):
 
 
 
-* 接受多个浮点张量输入，
+* 接受多个浮点tensor输入，
 * 包装任何可自动转换的操作(请参阅 [自动转换操作参考](../amp.html#autocast-op-reference) )，或者
 * 需要特定的“dtype”(例如，如果它包装了仅针对 `dtype` 编译的 [CUDA 扩展](https://pytorch.org/tutorials/advanced/cpp_extension.html)。
 

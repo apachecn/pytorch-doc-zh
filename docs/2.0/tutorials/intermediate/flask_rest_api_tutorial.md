@@ -82,7 +82,7 @@ def predict():
 
 ### 准备图像
 
-DenseNet 模型要求的输入为 3 通道 RGB 分辨率为224 x 224 图像。我们还将使用所需的平均值和标准差对图像张量进行归一化。您可以[在此处](https://pytorch.org/vision/stable/models.html)阅读有关它的更多信息。
+DenseNet 模型要求的输入为 3 通道 RGB 分辨率为224 x 224 图像。我们还将使用所需的平均值和标准差对图像tensor进行归一化。您可以[在此处](https://pytorch.org/vision/stable/models.html)阅读有关它的更多信息。
 
 我们将使用`torchvision`中的`transforms`库中的函数并构建一个转换流程，根据需要转换我们的图像。你可以[在此处](https://pytorch.org/vision/stable/transforms.html)阅读有关转换的更多信息。
 
@@ -103,7 +103,7 @@ def transform_image(image_bytes):
     return my_transforms(image).unsqueeze(0)
 ```
 
-上面的方法以字节为单位获取图像数据，应用一系列转换并返回一个张量。要测试上述方法，请在字节模式（首先替换 *https://pytorch.org/tutorials/_static/img/sample_file.jpeg* 为实际计算机上文件的路径），然后查看是否返回张量：
+上面的方法以字节为单位获取图像数据，应用一系列转换并返回一个tensor。要测试上述方法，请在字节模式(首先替换 *https://pytorch.org/tutorials/_static/img/sample_file.jpeg* 为实际计算机上文件的路径)，然后查看是否返回tensor：
 
 ```
 with open("https://pytorch.org/tutorials/_static/img/sample_file.jpeg", 'rb') as f:
@@ -132,7 +132,7 @@ def get_prediction(image_bytes):
     return y_hat
 ```
 
-张量将包含预测类 id 的索引。但是，我们需要一个人类可读的类名。为此，我们需要一个类 ID 到名称映射。下载[此文件](https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json)并记住您保存它的位置（或者，如果您正在按照本教程中的确切步骤进行操作，将其保存在 *tutorials/_static* ）。此文件包含 ImageNet 类 ID 到`y_hat`的映射 ImageNet 类名。我们将加载这个`imagenet_class_index.json` JSON 文件并获取预测的索引。
+tensor将包含预测类 id 的索引。但是，我们需要一个人类可读的类名。为此，我们需要一个类 ID 到名称映射。下载[此文件](https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json)并记住您保存它的位置(或者，如果您正在按照本教程中的确切步骤进行操作，将其保存在 *tutorials/_static* )。此文件包含 ImageNet 类 ID 到`y_hat`的映射 ImageNet 类名。我们将加载这个`imagenet_class_index.json` JSON 文件并获取预测的索引。
 
 ```
 import json
@@ -147,7 +147,7 @@ def get_prediction(image_bytes):
     return imagenet_class_index[predicted_idx]
 ```
 
-在使用`imagenet_class_index`字典之前，首先我们将转换张量值为字符串值，因为`imagenet_class_index`字典中的键是字符串。我们将测试我们上面的方法：
+在使用`imagenet_class_index`字典之前，首先我们将转换tensor值为字符串值，因为`imagenet_class_index`字典中的键是字符串。我们将测试我们上面的方法：
 
 ```
 with open("https://pytorch.org/tutorials/_static/img/sample_file.jpeg", 'rb') as f:

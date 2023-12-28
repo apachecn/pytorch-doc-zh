@@ -7,7 +7,7 @@
 > 原始地址：<https://pytorch.org/tutorials/beginner/basics/optimization_tutorial.html>
 
 
-既然我们已经有了模型和数据，现在应该训练、验证、测试我们的模型(基于我们的数据来优化参数)。训练一个模型也是一个迭代的过程；在每次迭代中（又称为 epoch），模型会对输出中进行一次预测，计算这个预测的误差(损失值)，收集这些误差相对于参数的导数（像我们前面一章说的），然后通过梯度下降的方式来**优化**这些参数。关于这个过程的更详细的介绍，可以看3Blue1Brown制作的[《反向传播演算》](https://www.youtube.com/watch?v=tIeHLnjs5U8)这个视频。
+既然我们已经有了模型和数据，现在应该训练、验证、测试我们的模型(基于我们的数据来优化参数)。训练一个模型也是一个迭代的过程；在每次迭代中(又称为 epoch)，模型会对输出中进行一次预测，计算这个预测的误差(损失值)，收集这些误差相对于参数的导数(像我们前面一章说的)，然后通过梯度下降的方式来**优化**这些参数。关于这个过程的更详细的介绍，可以看3Blue1Brown制作的[《反向传播演算》](https://www.youtube.com/watch?v=tIeHLnjs5U8)这个视频。
 
 ## 前提代码
 
@@ -150,7 +150,7 @@ loss_fn = nn.CrossEntropyLoss()
 
 ## 优化器
 
-优化是在每一个训练步骤中调整模型参数来减小模型误差的过程。**优化算法**定义了这个过程应该如何进行（在这个例子中，我们使用 Stochastic Gradient Descent-即SGD，随机梯度下降）。所有优化的逻辑都被封装在 `optimizer` 这个对象中。这里，我们使用 SGD 优化器。除此之外，在 PyTorch 中还有很多[其他可用的优化器](https://pytorch.org/docs/stable/optim.html)，比如 ADAM 和 RMSProp 在不同类型的模型和数据上表现得更好。
+优化是在每一个训练步骤中调整模型参数来减小模型误差的过程。**优化算法**定义了这个过程应该如何进行(在这个例子中，我们使用 Stochastic Gradient Descent-即SGD，随机梯度下降)。所有优化的逻辑都被封装在 `optimizer` 这个对象中。这里，我们使用 SGD 优化器。除此之外，在 PyTorch 中还有很多[其他可用的优化器](https://pytorch.org/docs/stable/optim.html)，比如 ADAM 和 RMSProp 在不同类型的模型和数据上表现得更好。
 
 我们通过注册需要训练的模型参数、然后传递学习率这个超参数来初始化优化器。
 
@@ -160,7 +160,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
 在训练循环内部, 优化在三个步骤上发生：
 
-* 调用 `optimizer.zero_grad()` 来重置模型参数的梯度。梯度会默认累加，为了防止重复计算（梯度），我们在每次迭代中显式的清空（梯度累加值）。
+* 调用 `optimizer.zero_grad()` 来重置模型参数的梯度。梯度会默认累加，为了防止重复计算(梯度)，我们在每次迭代中显式的清空(梯度累加值)。
 * 调用 `loss.backward()` 来反向传播预测误差。PyTorch 对每个参数分别存储损失梯度。
 * 我们获取到梯度后，调用 `optimizer.step()` 来根据反向传播中收集的梯度来调整参数。
 

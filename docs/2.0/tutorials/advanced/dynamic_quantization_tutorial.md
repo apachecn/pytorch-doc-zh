@@ -1,4 +1,4 @@
-# （测试版）LSTM Word 语言模型上的动态量化 [¶](#beta-dynamic-quantization-on-an-lstm-word-language-model "永久链接到此标题")
+# (测试版)LSTM Word 语言模型上的动态量化 [¶](#beta-dynamic-quantization-on-an-lstm-word-language-model "永久链接到此标题")
 
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
@@ -569,7 +569,7 @@ elapsed time (seconds): 111.7
 
 感谢您的阅读！一如既往，我们欢迎任何反馈，因此请在[此处](https://github.com/pytorch/pytorch/issues)
  创建问题
-（如果有任何反馈）。
+(如果有任何反馈)。
 
 
 

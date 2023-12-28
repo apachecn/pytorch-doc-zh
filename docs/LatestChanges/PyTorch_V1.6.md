@@ -14,10 +14,10 @@
 
 PyTorch 1.6 版本包括许多新的 API、用于性能改进和分析的工具，以及基于分布式数据并行 (DDP) 和远程过程调用 (RPC) 的分布式训练的重大更新。其中一些亮点包括：
 
-1.  现在原生支持自动混合精度 (AMP) 训练并且是一个稳定的功能（更多详细信息请参见[此处](https://pytorch.org/blog/accelerating-training-on-nvidia-gpus-with-pytorch-automatic-mixed-precision/)）——感谢 NVIDIA 的贡献；
-2.  现在添加了原生 TensorPipe 支持，用于专门为机器学习构建的张量感知、点对点通信原语；
-3.  向前端 API 界面添加了对复杂张量的支持；
-4.  新的分析工具提供张量级内存消耗信息；
+1.  现在原生支持自动混合精度 (AMP) 训练并且是一个稳定的功能(更多详细信息请参见[此处](https://pytorch.org/blog/accelerating-training-on-nvidia-gpus-with-pytorch-automatic-mixed-precision/))——感谢 NVIDIA 的贡献；
+2.  现在添加了原生 TensorPipe 支持，用于专门为机器学习构建的tensor感知、点对点通信原语；
+3.  向前端 API 界面添加了对复杂tensor的支持；
+4.  新的分析工具提供tensor级内存消耗信息；
 5.  针对分布式数据并行 (DDP) 训练和远程过程调用 (RPC) 包的大量改进和新功能。
 
 此外，从该版本开始，功能将分为稳定版、测试版和原型版。原型功能不包含在二进制发行版中，而是可以通过从源代码构建、使用 nightlies 或通过编译器标志来获得。[您可以在此处的](https://pytorch.org/blog/pytorch-feature-classification-changes/)帖子中详细了解此更改的含义。[您还可以在此处](https://github.com/pytorch/pytorch/releases)找到完整的发行说明。
@@ -26,15 +26,15 @@ PyTorch 1.6 版本包括许多新的 API、用于性能改进和分析的工具�
 
 ### \[STABLE\] 自动混合精度 (AMP) 训练
 
-AMP 允许用户轻松启用自动混合精度训练，从而在 Tensor Core GPU 上实现更高的性能和高达 50% 的内存节省。使用本机支持的`torch.cuda.amp`​​API，AMP 提供了混合精度的便捷方法，其中某些操作使用`torch.float32 (float)`数据类型，其他操作使用`torch.float16 (half)`. 一些操作，如线性层和卷积，在`float16`. 其他操作（例如缩减）通常需要 的动态范围`float32`。混合精度尝试将每个操作与其适当的数据类型相匹配。
+AMP 允许用户轻松启用自动混合精度训练，从而在 Tensor Core GPU 上实现更高的性能和高达 50% 的内存节省。使用本机支持的`torch.cuda.amp`​​API，AMP 提供了混合精度的便捷方法，其中某些操作使用`torch.float32 (float)`数据类型，其他操作使用`torch.float16 (half)`. 一些操作，如线性层和卷积，在`float16`. 其他操作(例如缩减)通常需要 的动态范围`float32`。混合精度尝试将每个操作与其适当的数据类型相匹配。
 
-*   设计文档（[链接](https://github.com/pytorch/pytorch/issues/25081)）
-*   文档（[链接](https://pytorch.org/docs/stable/amp.html)）
-*   使用示例（[链接](https://pytorch.org/docs/stable/notes/amp_examples.html)）
+*   设计文档([链接](https://github.com/pytorch/pytorch/issues/25081))
+*   文档([链接](https://pytorch.org/docs/stable/amp.html))
+*   使用示例([链接](https://pytorch.org/docs/stable/notes/amp_examples.html))
 
 ### \[BETA\] FORK/JOIN 并行性
 
-此版本增加了对语言级构造的支持以及对 TorchScript 代码中粗粒度并行性的运行时支持。这种支持对于并行运行集成中的模型或并行运行循环网络的双向组件等情况非常有用，并且允许释放并行架构（例如多核CPU）的计算能力以实现任务级并行。
+此版本增加了对语言级构造的支持以及对 TorchScript 代码中粗粒度并行性的运行时支持。这种支持对于并行运行集成中的模型或并行运行循环网络的双向组件等情况非常有用，并且允许释放并行架构(例如多核CPU)的计算能力以实现任务级并行。
 
 TorchScript 程序的并行执行是通过两个原语启用的：`torch.jit.fork`和`torch.jit.wait`。在下面的示例中，我们并行执行`foo`：
 
@@ -54,11 +54,11 @@ def example(x):
 print(example(torch.ones([])))
 ```
 
-*   文档（[链接](https://pytorch.org/docs/stable/jit.html)）
+*   文档([链接](https://pytorch.org/docs/stable/jit.html))
 
 ### \[BETA\] 内存分析器
 
-该`torch.autograd.profiler`API 现在包含一个内存分析器，可让您检查 CPU 和 GPU 模型内不同运算符的张量内存成本。
+该`torch.autograd.profiler`API 现在包含一个内存分析器，可让您检查 CPU 和 GPU 模型内不同运算符的tensor内存成本。
 
 以下是 API 的使用示例：
 
@@ -85,14 +85,14 @@ print(prof.key_averages().table(sort_by="self_cpu_memory_usage", row_limit=10))
 # ---------------------------  ---------------  ---------------  ---------------
 ```
 
-*   公关（[链接](https://github.com/pytorch/pytorch/pull/37775)）
-*   文档（[链接](https://pytorch.org/docs/stable/autograd.html#profiler)）
+*   公关([链接](https://github.com/pytorch/pytorch/pull/37775))
+*   文档([链接](https://pytorch.org/docs/stable/autograd.html#profiler))
 
 ## 分布式训练和 RPC
 
 ### \[BETA\] 用于 RPC 的 TensorPipe 后端
 
-PyTorch 1.6 引入了 RPC 模块的新后端，该模块利用 TensorPipe 库，这是一种针对机器学习的张量感知点对点通信原语，旨在补充 PyTorch 中分布式训练的当前原语（Gloo、MPI 等）这是集体性和阻塞性的。TensorPipe 的成对和异步性质使其适合超越数据并行的新网络范例：客户端-服务器方法（例如，用于嵌入的参数服务器、Impala 式 RL 中的参与者-学习者分离等）以及模型和管道并行训练（想想 GPipe）、八卦 SGD 等。
+PyTorch 1.6 引入了 RPC 模块的新后端，该模块利用 TensorPipe 库，这是一种针对机器学习的tensor感知点对点通信原语，旨在补充 PyTorch 中分布式训练的当前原语(Gloo、MPI 等)这是集体性和阻塞性的。TensorPipe 的成对和异步性质使其适合超越数据并行的新网络范例：客户端-服务器方法(例如，用于嵌入的参数服务器、Impala 式 RL 中的参与者-学习者分离等)以及模型和管道并行训练(想想 GPipe)、八卦 SGD 等。
 
 ```
 # One-line change needed to opt in
@@ -105,8 +105,8 @@ torch.distributed.rpc.init_rpc(
 torch.distributed.rpc.rpc_sync(...)
 ```
 
-*   设计文档（[链接](https://github.com/pytorch/pytorch/issues/35251)）
-*   文档（[链接](https://pytorch.org/docs/stable/rpc/index.html)）
+*   设计文档([链接](https://github.com/pytorch/pytorch/issues/35251))
+*   文档([链接](https://pytorch.org/docs/stable/rpc/index.html))
 
 ### \[BETA\] DDP+RPC
 
@@ -127,13 +127,13 @@ for data in batch:
       torch.distributed.autograd.backward([loss])
 ```
 
-*   DDP+RPC教程（[链接](https://pytorch.org/tutorials/advanced/rpc_ddp_tutorial.html)）
-*   文档（[链接](https://pytorch.org/docs/stable/rpc/index.html)）
-*   使用示例（[链接](https://github.com/pytorch/examples/pull/800)）
+*   DDP+RPC教程([链接](https://pytorch.org/tutorials/advanced/rpc_ddp_tutorial.html))
+*   文档([链接](https://pytorch.org/docs/stable/rpc/index.html))
+*   使用示例([链接](https://github.com/pytorch/examples/pull/800))
 
 ### \[BETA\] RPC - 异步用户函数
 
-RPC 异步用户函数支持执行用户定义函数时在服务器端产生和恢复的能力。在此功能之前，当被调用者处理请求时，一个 RPC 线程会等待，直到用户函数返回。如果用户函数包含 IO（例如，嵌套 RPC）或信令（例如，等待另一个请求解除阻塞），则相应的 RPC 线程将闲置等待这些事件。因此，某些应用程序必须使用大量线程并发送额外的 RPC 请求，这可能会导致性能下降。要使用户函数在此类事件上屈服，应用程序需要： 1) 使用装饰器装饰函数`@rpc.functions.async_execution`；2) 让函数返回 a`torch.futures.Future`并将恢复逻辑安装为回调`Future`目的。请参阅下面的示例：
+RPC 异步用户函数支持执行用户定义函数时在服务器端产生和恢复的能力。在此功能之前，当被调用者处理请求时，一个 RPC 线程会等待，直到用户函数返回。如果用户函数包含 IO(例如，嵌套 RPC)或信令(例如，等待另一个请求解除阻塞)，则相应的 RPC 线程将闲置等待这些事件。因此，某些应用程序必须使用大量线程并发送额外的 RPC 请求，这可能会导致性能下降。要使用户函数在此类事件上屈服，应用程序需要： 1) 使用装饰器装饰函数`@rpc.functions.async_execution`；2) 让函数返回 a`torch.futures.Future`并将恢复逻辑安装为回调`Future`目的。请参阅下面的示例：
 
 ```
 @rpc.functions.async_execution
@@ -151,15 +151,15 @@ ret = rpc.rpc_sync(
 print(ret)  # prints tensor([3., 3.])
 ```
 
-*   使用异步用户函数的高性能批处理 RPC 教程（[链接](https://github.com/pytorch/tutorials/blob/release/1.6/intermediate_source/rpc_async_execution.rst)）
-*   文档（[链接](https://pytorch.org/docs/stable/rpc.html#torch.distributed.rpc.functions.async_execution)）
-*   使用示例（[链接](https://github.com/pytorch/examples/tree/master/distributed/rpc/batch)）
+*   使用异步用户函数的高性能批处理 RPC 教程([链接](https://github.com/pytorch/tutorials/blob/release/1.6/intermediate_source/rpc_async_execution.rst))
+*   文档([链接](https://pytorch.org/docs/stable/rpc.html#torch.distributed.rpc.functions.async_execution))
+*   使用示例([链接](https://github.com/pytorch/examples/tree/master/distributed/rpc/batch))
 
 ## 前端 API 更新
 
 ### \[BETA\] 复数
 
-PyTorch 1.6 版本为复杂张量（包括 torch.complex64 和 torch.complex128 dtypes）提供了 beta 级支持。复数是可以用 a + bj 形式表示的数字，其中 a 和 b 是实数，j 是方程 x^2 = −1 的解。复数经常出现在数学和工程中，特别是在信号处理中，而复数神经网络领域是一个活跃的研究领域。复杂张量的测试版将支持常见的 PyTorch 和复杂张量功能，以及 Torchaudio、ESPnet 等所需的功能。虽然这是此功能的早期版本，我们预计它会随着时间的推移而改进，
+PyTorch 1.6 版本为复杂tensor(包括 torch.complex64 和 torch.complex128 dtypes)提供了 beta 级支持。复数是可以用 a + bj 形式表示的数字，其中 a 和 b 是实数，j 是方程 x^2 = −1 的解。复数经常出现在数学和工程中，特别是在信号处理中，而复数神经网络领域是一个活跃的研究领域。复杂tensor的测试版将支持常见的 PyTorch 和复杂tensor功能，以及 Torchaudio、ESPnet 等所需的功能。虽然这是此功能的早期版本，我们预计它会随着时间的推移而改进，
 
 ## 移动更新
 
@@ -178,15 +178,15 @@ PyTorch 1.6 为移动设备上的推理带来了更高的性能和总体稳定�
 
 ### torchvision 0.7
 
-torchvision 0.7 引入了两个新的预训练语义分割模型：[FCN ResNet50](https://arxiv.org/abs/1411.4038)和[DeepLabV3 ResNet50](https://arxiv.org/abs/1706.05587)，两者都在 COCO 上进行训练，并且使用比 ResNet101 主干网更小的内存占用。我们还为 torchvision 模型和算子引入了对 AMP（自动混合精度）自动转换的支持，它可以自动为不同的 GPU 操作选择浮点精度，以在保持准确性的同时提高性能。
+torchvision 0.7 引入了两个新的预训练语义分割模型：[FCN ResNet50](https://arxiv.org/abs/1411.4038)和[DeepLabV3 ResNet50](https://arxiv.org/abs/1706.05587)，两者都在 COCO 上进行训练，并且使用比 ResNet101 主干网更小的内存占用。我们还为 torchvision 模型和算子引入了对 AMP(自动混合精度)自动转换的支持，它可以自动为不同的 GPU 操作选择浮点精度，以在保持准确性的同时提高性能。
 
-*   发行说明（[链接](https://github.com/pytorch/vision/releases)）
+*   发行说明([链接](https://github.com/pytorch/vision/releases))
 
 ### torchaudio 0.6
 
-torchaudio 现在正式支持 Windows。此版本还引入了新的模型模块（包括 wav2letter）、新函数（contrast、cvm、dcshift、overdrive、vad、phaser、flanger、biquad）、数据集（GTZAN、CMU）以及新的可选 sox 后端，支持火炬脚本。
+torchaudio 现在正式支持 Windows。此版本还引入了新的模型模块(包括 wav2letter)、新函数(contrast、cvm、dcshift、overdrive、vad、phaser、flanger、biquad)、数据集(GTZAN、CMU)以及新的可选 sox 后端，支持火炬脚本。
 
-*   发行说明（[链接](https://github.com/pytorch/audio/releases)）
+*   发行说明([链接](https://github.com/pytorch/audio/releases))
 
 ## 额外更新
 

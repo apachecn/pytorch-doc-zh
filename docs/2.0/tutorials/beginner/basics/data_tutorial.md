@@ -10,7 +10,7 @@
 PyTorch 提供了两个数据基类： ``torch.utils.data.DataLoader`` 和 ``torch.utils.data.Dataset``。允许你使用预加载的数据集以及你自己的数据集。
 ``Dataset`` 存储样本和它们相应的标签，``DataLoader`` 在 ``Dataset`` 基础上添加了一个迭代器，迭代器可以迭代数据集，以便能够轻松地访问 ``Dataset`` 中的样本。
 
-PyTorch 领域库提供了一些预加载的数据集（如FashionMNIST），这些数据集是 ``torch.utils.data.Dataset`` 的子类，并实现特定数据的功能。它们可以被用来为你的模型制作原型和基准。你可以在这里找到它们：[Image Datasets](https://pytorch.org/vision/stable/datasets.html)、[Text Datasets](https://pytorch.org/text/stable/datasets.html)、[Audio Datasets](https://pytorch.org/audio/stable/datasets.html)
+PyTorch 领域库提供了一些预加载的数据集(如FashionMNIST)，这些数据集是 ``torch.utils.data.Dataset`` 的子类，并实现特定数据的功能。它们可以被用来为你的模型制作原型和基准。你可以在这里找到它们：[Image Datasets](https://pytorch.org/vision/stable/datasets.html)、[Text Datasets](https://pytorch.org/text/stable/datasets.html)、[Audio Datasets](https://pytorch.org/audio/stable/datasets.html)
 
 ## 加载一个数据集
 
@@ -115,7 +115,7 @@ class CustomImageDataset(Dataset):
 
 ### __init__
 
-在实例化数据集对象时，`__init__` 函数会运行一次，用于初始化图像目录、标签文件和图像转换属性（下一节将详细介绍）。
+在实例化数据集对象时，`__init__` 函数会运行一次，用于初始化图像目录、标签文件和图像转换属性(下一节将详细介绍)。
 
 标签 csv 文件看起来像：
 
@@ -147,7 +147,7 @@ def __len__(self):
 ```
 ### __getitem__
 
-函数 `__getitem__` 从数据集中给定的索引 ``idx`` 处加载并返回一个样本。根据索引可以确定图像在硬盘上的位置，用 ``read_image`` 将其转换为张量，从 ``self.img_labels`` 的csv数据中获取相应的标签，最对它们调用 transform 函数（如果适用），并返回张量图像和相应的标签的元组。
+函数 `__getitem__` 从数据集中给定的索引 ``idx`` 处加载并返回一个样本。根据索引可以确定图像在硬盘上的位置，用 ``read_image`` 将其转换为tensor，从 ``self.img_labels`` 的csv数据中获取相应的标签，最对它们调用 transform 函数(如果适用)，并返回tensor图像和相应的标签的元组。
 
 ```py
 def __getitem__(self, idx):
@@ -176,7 +176,7 @@ test_dataloader = DataLoader(test_data, batch_size=64, shuffle=True)
 
 ## 遍历 DataLoader
 
-我们已经将该数据集加载到 ``DataLoader`` 中，并可以根据需要迭代该数据集。每次迭代都会返回一批 ``train_features`` 和 ``train_labels`` （分别包含 ``batch_size=64`` 个特征和标签）。因为我们指定了 ``shuffle=True``，在我们遍历所有批次后，数据会被打乱（为了更精细地控制数据加载顺序，请看[Samplers](https://pytorch.org/docs/stable/data.html#data-loading-order-and-sampler)）。
+我们已经将该数据集加载到 ``DataLoader`` 中，并可以根据需要迭代该数据集。每次迭代都会返回一批 ``train_features`` 和 ``train_labels`` (分别包含 ``batch_size=64`` 个特征和标签)。因为我们指定了 ``shuffle=True``，在我们遍历所有批次后，数据会被打乱(为了更精细地控制数据加载顺序，请看[Samplers](https://pytorch.org/docs/stable/data.html#data-loading-order-and-sampler))。
 
 ```py
 # 显示图像和标签。

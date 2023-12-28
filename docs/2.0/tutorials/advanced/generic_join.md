@@ -72,7 +72,7 @@ API 可能会更改。
 
 * PyTorch 1.10+
 * [分布式数据并行入门](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)
-* [使用 ZeroRedundancyOptimizer 的分片优化器状态](https://pytorch.org /tutorials/recipes/zero_redundancy_optimizer.html）
+* [使用 ZeroRedundancyOptimizer 的分片优化器状态](https://pytorch.org /tutorials/recipes/zero_redundancy_optimizer.html)
 
 
 
@@ -89,7 +89,7 @@ API 可能会更改。
  [分布式数据并行入门 - 基本用例](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html#basic-use-case) 
  中，您看到
 的一般框架使用 [DistributedDataParallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html) 执行数据并行训练。这隐式地在每个向后传递中安排全归约，以同步跨等级的梯度。这种[集体通信](https://pytorch.org/docs/stable/distributed.html)需要进程组中所有等级的参与，因此如果一个等级的输入较少，那么其他等级的
-将挂起或出错（取决于后端）。更一般而言，对于执行每次迭代同步集体通信的任何类，
+将挂起或出错(取决于后端)。更一般而言，对于执行每次迭代同步集体通信的任何类，
 此问题都会持续存在。
 
 
@@ -97,7 +97,7 @@ API 可能会更改。
 
 `Join`
  是一个上下文管理器，用于每个等级的训练循环，
-以促进输入不均匀的训练。上下文管理器允许尽早耗尽其输入的队列（即尽早加入*加入）来隐藏尚未加入的群体所执行的集体通信。隐藏通信的方式
+以促进输入不均匀的训练。上下文管理器允许尽早耗尽其输入的队列(即尽早加入*加入)来隐藏尚未加入的群体所执行的集体通信。隐藏通信的方式
 由挂钩指定。
 
 
@@ -164,10 +164,10 @@ if __name__ == "__main__":
 
 
 
- 这会产生以下输出（其中 
+ 这会产生以下输出(其中 
  `print()`
  的排名 0 和
-排名 1 可以任意排序）：
+排名 1 可以任意排序)：
 
 
 
@@ -294,7 +294,7 @@ def worker(rank):
  `DistributedDataParallel`
  提供了
  `divide_by_initial_world_size`
- ，它确定梯度是除以初始世界大小还是除以有效大小世界规模（即未加入队伍的数量）。此类关键字参数可以直接传递到
+ ，它确定梯度是除以初始世界大小还是除以有效大小世界规模(即未加入队伍的数量)。此类关键字参数可以直接传递到
 上下文管理器。
 
 
@@ -487,7 +487,7 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
 
 
- 当存在尚未加入的排名时，每个加入的排名都会重复调用此挂钩。它的目的是在每次训练迭代中（例如，在一次前向传递、后向传递和优化器步骤中）
+ 当存在尚未加入的排名时，每个加入的排名都会重复调用此挂钩。它的目的是在每次训练迭代中(例如，在一次前向传递、后向传递和优化器步骤中)
  隐藏由
 “Joinable”
  执行的集体通信。
@@ -512,7 +512,7 @@ with Join([model, optim], divide_by_initial_world_size=False):
 
  一旦所有队伍加入，就会调用这个钩子。它被传递一个额外的
  `bool`
- 参数
+ Parameters
  `is_last_joiner`
  ，它指示该排名是否是最后加入的
 之一。该参数对于同步可能有用。
@@ -836,7 +836,7 @@ if __name__ == "__main__":
  方法的
  开头调用
  `Join.notify_join_context()`
- 方法，因为这是一个位于其每迭代集体通信（即其全归约）之前。
+ 方法，因为这是一个位于其每迭代集体通信(即其全归约)之前。
 * `is_last_joiner`
  参数用于确定后挂钩中的
 广播源。\ n* 我们将

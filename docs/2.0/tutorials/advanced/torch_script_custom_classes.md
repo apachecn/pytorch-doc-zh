@@ -90,7 +90,7 @@ struct MyStackClass : torch::CustomClassHolder {
  视为像
  `std::shared_ptr`
  一样的智能指针，但引用计数
-直接存储在对象中，而不是单独的元数据块（如
+直接存储在对象中，而不是单独的元数据块(如
  `std::shared_ptr`
  中所做的那样。
  `torch::Tensor`
@@ -272,7 +272,7 @@ $ make -j
 
 
 
- 您将发现’ 现在（除其他外）在构建目录中存在一个动态库
+ 您将发现’ 现在(除其他外)在构建目录中存在一个动态库
 文件。在 Linux 上，这可能被命名为
  `libcustom_class.so`
  。因此文件树应如下所示：
@@ -362,7 +362,7 @@ def do_stacks(s: MyStackClass): # 我们可以传递自定义类实例
  s2.merge(s) # 我们可以调用类上的方法
  # 我们还可以返回类的实例
  # 从 TorchScript 函数/方法
- return s2。克隆（），s2.top（）
+ return s2。克隆()，s2.top()
 
 
 stack, top = do_stacks(torch.classes.my_classes.MyStackClass(["wow"]))
@@ -908,7 +908,7 @@ RuntimeError: Cannot serialize custom bound C++ class __torch__.torch.classes.my
 
 
 
- 一旦我们以这种方式定义了（反）序列化行为，我们的脚本
+ 一旦我们以这种方式定义了(反)序列化行为，我们的脚本
 现在就可以成功运行：
 
 
@@ -931,7 +931,7 @@ testing
 
 
 
- 一旦您’ 定义了自定义 C++ 类，您还可以将该类用作参数或从自定义运算符（即自由函数）返回。假设
+ 一旦您’ 定义了自定义 C++ 类，您还可以将该类用作参数或从自定义运算符(即自由函数)返回。假设
 您有以下自由函数:
 
 
@@ -1021,7 +1021,7 @@ class TryCustomOp(torch.nn.Module):
 
 
  本教程向您介绍了如何向 TorchScript
-（以及扩展 Python）公开 C++ 类、如何注册其方法、如何从 Python 和 TorchScript 使用该类
+(以及扩展 Python)公开 C++ 类、如何注册其方法、如何从 Python 和 TorchScript 使用该类
 以及如何使用
 保存和加载代码类并在独立的 C++ 进程中运行该代码。您现在已准备好
 使用与第三方 C++ 库交互的 C++ 类来扩展您的 TorchScript 模型，

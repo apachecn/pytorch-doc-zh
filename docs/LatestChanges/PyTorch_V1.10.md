@@ -23,25 +23,25 @@ PyTorch 1.10更新专注于提高PyTorch的训练和性能，以及开发人员�
 
 ## 前端API
 
-### （Stable）使用FX进行Python代码转换
+### (Stable)使用FX进行Python代码转换
 
 FX提供了一个Python平台，用于转换和降低PyTorch程序。这是一个用于传递编写者的工具套件，用于促进函数和nn.Module实例的Python到Python转换。该工具包旨在支持Python语言语义的子集，而不是整个Python语言，以促进转换的实现。有了1.10，外汇正在走向稳定。
 
 您可以在[官方文档](https://pytorch.org/docs/master/fx.html)和使用`torch.fx`实现的程序转换的GitHub[示例](https://github.com/pytorch/examples/tree/master/fx)中了解有关FX的更多信息。
 
-### （Stable）*torch.special*
+### (Stable)*torch.special*
 
-一个类似于[SciPy的特殊模块的](https://docs.scipy.org/doc/scipy/reference/special.html)`torch.special module`，现在稳定可用。该模块有30个操作，包括伽马、贝塞尔和（高斯）错误函数。
+一个类似于[SciPy的特殊模块的](https://docs.scipy.org/doc/scipy/reference/special.html)`torch.special module`，现在稳定可用。该模块有30个操作，包括伽马、贝塞尔和(高斯)错误函数。
 
 有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/special.html)。
 
-### （Stable）nn.Module 参数化
+### (Stable)nn.Module 参数化
 
-`nn.Module`parametrizaton是一个功能，允许用户在不修改`nn.Module`本身的情况下对`nn.Module`的任何参数或缓冲区进行参数化，在稳定中可用。此版本增加了重量归一化（`weight_norm`）、正交参数化（矩阵约束和部分修剪）以及在创建自己的参数化时更大的灵活性。
+`nn.Module`parametrizaton是一个功能，允许用户在不修改`nn.Module`本身的情况下对`nn.Module`的任何参数或缓冲区进行参数化，在稳定中可用。此版本增加了重量归一化(`weight_norm`)、正交参数化(矩阵约束和部分修剪)以及在创建自己的参数化时更大的灵活性。
 
 有关更多详细信息，请参阅本[教程](https://pytorch.org/tutorials/intermediate/parametrizations.html)和一般[文档](https://pytorch.org/docs/master/generated/torch.nn.utils.parametrizations.spectral_norm.html?highlight=parametrize)。
 
-### （Beta）CUDA图形API集成
+### (Beta)CUDA图形API集成
 
 PyTorch现在集成了CUDA Graphs API，以减少CUDA工作负载的CPU开销。
 
@@ -53,7 +53,7 @@ CUDA图形大大减少了CPU绑定的cuda工作负载的CPU开销，从而通过
 
 ### \[Beta\]共轭视图
 
-PyTorch对复张量（[torch.conj()](https://pytorch.org/docs/1.10.0/generated/torch.conj.html?highlight=conj#torch.conj)）的共轭现在是一个常数时间操作，并返回具有共轭位集的输入张量的视图，可以通过调用[torch.is\_conj()](https://pytorch.org/docs/1.10.0/generated/torch.is_conj.html?highlight=is_conj#torch.is_conj)看到。这已经在矩阵乘法、点积等其他各种PyTorch操作中得到了利用，将共轭与操作融合，从而在CPU和CUDA上实现显著的性能增益和内存节省。
+PyTorch对复tensor([torch.conj()](https://pytorch.org/docs/1.10.0/generated/torch.conj.html?highlight=conj#torch.conj))的共轭现在是一个常数时间操作，并返回具有共轭位集的输入tensor的视图，可以通过调用[torch.is\_conj()](https://pytorch.org/docs/1.10.0/generated/torch.is_conj.html?highlight=is_conj#torch.is_conj)看到。这已经在矩阵乘法、点积等其他各种PyTorch操作中得到了利用，将共轭与操作融合，从而在CPU和CUDA上实现显著的性能增益和内存节省。
 
 ## 分布式训练
 
@@ -61,24 +61,24 @@ PyTorch对复张量（[torch.conj()](https://pytorch.org/docs/1.10.0/generated/t
 
 在1.10中，分布式软件包中有许多功能正在从测试版转向稳定：
 
-*   **（Stable）远程模块**：此功能允许用户在远程工作者上操作模块，就像使用本地模块一样，其中RPC对用户是透明的。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/rpc.html#remotemodule)。
-*   **（Stable）DDP通信钩子**：此功能允许用户覆盖DDP跨进程同步梯度的方式。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/rpc.html#remotemodule)。
-*   **（Stable）ZeroRedundancyOptimizer**：此功能可以与DistributedDataParallel一起使用，以减少每个进程优化器状态的大小。有了这个稳定版本，它现在可以处理不同数据并行工人的不均匀输入。查看本[教程](https://pytorch.org/tutorials/advanced/generic_join.html)。我们还改进了参数分区算法，以更好地平衡跨进程的内存和计算开销。请参阅本[文档](https://pytorch.org/docs/master/distributed.optim.html)和本[教程](https://pytorch.org/tutorials/recipes/zero_redundancy_optimizer.html)以了解更多信息。
+*   **(Stable)远程模块**：此功能允许用户在远程工作者上操作模块，就像使用本地模块一样，其中RPC对用户是透明的。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/rpc.html#remotemodule)。
+*   **(Stable)DDP通信钩子**：此功能允许用户覆盖DDP跨进程同步梯度的方式。有关更多详细信息，请参阅此[文档](https://pytorch.org/docs/master/rpc.html#remotemodule)。
+*   **(Stable)ZeroRedundancyOptimizer**：此功能可以与DistributedDataParallel一起使用，以减少每个进程优化器状态的大小。有了这个稳定版本，它现在可以处理不同数据并行工人的不均匀输入。查看本[教程](https://pytorch.org/tutorials/advanced/generic_join.html)。我们还改进了参数分区算法，以更好地平衡跨进程的内存和计算开销。请参阅本[文档](https://pytorch.org/docs/master/distributed.optim.html)和本[教程](https://pytorch.org/tutorials/recipes/zero_redundancy_optimizer.html)以了解更多信息。
 
 ## 性能优化和工具
 
 ### \[Beta\]在TorchScript中进行配置文件定向输出
 
-TorchScript硬性要求源代码具有类型注释，以便编译成功。长期以来，只能通过反复试验（即通过逐一修复torch.jit.script生成的类型检查错误）来添加缺失或不正确的类型注释，这是低效和耗时的。
+TorchScript硬性要求源代码具有类型注释，以便编译成功。长期以来，只能通过反复试验(即通过逐一修复torch.jit.script生成的类型检查错误)来添加缺失或不正确的类型注释，这是低效和耗时的。
 
 现在，我们通过利用MonkeyType等现有工具为 torch.jit.script 启用了配置文件定向键入，这使得该过程更简单、更快、更高效。有关更多详细信息，请参阅[文档](https://pytorch.org/docs/1.9.0/jit.html)。
 
-### （Beta）CPU融合
+### (Beta)CPU融合
 
 在PyTorch 1.10中，我们为CPU添加了一个基于LLVM的JIT编译器，该编译器可以将`torch`库调用的序列融合在一起，以提高性能。虽然我们在GPU上拥有这种功能已经有一段时间了，但这个版本是我们第一次将编译带到CPU。  
 您可以在这本[Colab笔记本](https://colab.research.google.com/drive/1xaH-L0XjsxUcS15GG220mtyrvIgDoZl6?usp=sharing)中为自己查看一些性能结果。
 
-### （Beta）PyTorch分析器
+### (Beta)PyTorch分析器
 
 PyTorch Profiler的目标是针对时间和/或内存成本最高的执行步骤，并可视化GPU和CPU之间的工作负载分布。PyTorch 1.10包括以下关键功能：
 
@@ -87,7 +87,7 @@ PyTorch Profiler的目标是针对时间和/或内存成本最高的执行步骤
 *   **增强的内核视图**：其他列显示网格和块大小，以及每个线程的共享内存使用和寄存器。
 *   **分布式训练**：现在支持Gloo进行分布式训练工作。
 *   **向前和向后通道中的相关运算符**：这有助于在跟踪视图中将向前通道中找到的运算符映射到向后通道，反之亦然。
-*   **TensorCore**：此工具显示Tensor Core（TC）的使用情况，并为数据科学家和框架开发人员提供建议。
+*   **TensorCore**：此工具显示Tensor Core(TC)的使用情况，并为数据科学家和框架开发人员提供建议。
 *   **NVTX**：对NVTX标记的支持是从传统的autograd分析器移植的。
 *   **支持移动设备上的分析**：PyTorch分析器现在与TorchScript和移动后端具有更好的集成，可以为移动工作负载进行跟踪收集。
 
@@ -95,9 +95,9 @@ PyTorch Profiler的目标是针对时间和/或内存成本最高的执行步骤
 
 ## PyTorch手机
 
-### （Beta）测试版中的Android NNAPI支持
+### (Beta)测试版中的Android NNAPI支持
 
-去年，我们[发布了](https://medium.com/pytorch/pytorch-mobile-now-supports-android-nnapi-e2a2aeb74534)对Android神经网络API（NNAPI）的[原型支持](https://medium.com/pytorch/pytorch-mobile-now-supports-android-nnapi-e2a2aeb74534)。NNAPI允许Android应用程序在为手机供电的芯片中最强大、最高效的部件上运行计算密集型神经网络，包括GPU（图形处理单元）和NPU（专业神经处理单元）。
+去年，我们[发布了](https://medium.com/pytorch/pytorch-mobile-now-supports-android-nnapi-e2a2aeb74534)对Android神经网络API(NNAPI)的[原型支持](https://medium.com/pytorch/pytorch-mobile-now-supports-android-nnapi-e2a2aeb74534)。NNAPI允许Android应用程序在为手机供电的芯片中最强大、最高效的部件上运行计算密集型神经网络，包括GPU(图形处理单元)和NPU(专业神经处理单元)。
 
 自原型以来，我们增加了更多的操作覆盖范围，增加了对加载时灵活形状的支持，以及在主机上运行模型进行测试的能力。使用[教程](https://pytorch.org/tutorials/prototype/nnapi_mobilenetv2.html)尝试此功能。
 

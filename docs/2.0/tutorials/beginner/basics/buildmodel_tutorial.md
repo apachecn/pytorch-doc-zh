@@ -20,7 +20,7 @@ from torchvision import datasets, transforms
 
 ## 获取训练的设备
 
-我们希望能够在一个硬件加速设备比如 GPU 或者 MPS 上（如果有的话）训练我们的模型。让我们检查 `torch.cuda` 和 `torch.backend.mps` 是否可用，否则我们使用 CPU。
+我们希望能够在一个硬件加速设备比如 GPU 或者 MPS 上(如果有的话)训练我们的模型。让我们检查 `torch.cuda` 和 `torch.backend.mps` 是否可用，否则我们使用 CPU。
 
 ```py
 device = (
@@ -86,7 +86,7 @@ NeuralNetwork(
 
 为了使用这个模型，我们给它传递输入数据。这将会执行模型的 `forward` 函数，以及一些[后台操作](https://github.com/pytorch/pytorch/blob/270111b7b611d174967ed204776985cefca9c144/torch/nn/modules/module.py#L866)。请不要直接调用 `model.forward()` !
 
-将数据传递给模型并调用后返回一个 2 维张量（第0维对应一组 10 个代表每种类型的原始预测值，第1维对应该类型对应的原始预测值）。我们将它传递给一个 `nn.Softmax` 模块的实例来来获得预测概率。
+将数据传递给模型并调用后返回一个 2 维tensor(第0维对应一组 10 个代表每种类型的原始预测值，第1维对应该类型对应的原始预测值)。我们将它传递给一个 `nn.Softmax` 模块的实例来来获得预测概率。
 
 ```py
 X = torch.rand(1, 28, 28, device=device)
@@ -119,7 +119,7 @@ torch.Size([3, 28, 28])
 
 ### nn.Flatten
 
-我们初始化 [`nn.Flatten`(展平层)](https://pytorch.org/docs/stable/generated/torch.nn.Flatten.html) 层来将每个 2 维的 28x28 图像转换成一个包含 784 像素值的连续数组（微批数据的维度(第0维)保留了）.
+我们初始化 [`nn.Flatten`(展平层)](https://pytorch.org/docs/stable/generated/torch.nn.Flatten.html) 层来将每个 2 维的 28x28 图像转换成一个包含 784 像素值的连续数组(微批数据的维度(第0维)保留了).
 
 ```py
 flatten = nn.Flatten()
@@ -135,7 +135,7 @@ torch.Size([3, 784])
 
 ### nn.Linear
 
-nn.Linear（线性层）是一个对输入值使用自己存储的权重 (w) 和偏差 (b) 来做线性转换的模块。
+nn.Linear(线性层)是一个对输入值使用自己存储的权重 (w) 和偏差 (b) 来做线性转换的模块。
 
 ```py
 layer1 = nn.Linear(in_features=28*28, out_features=20)

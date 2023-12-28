@@ -138,7 +138,7 @@
  
  \(abla_{x} J(\mathbf{\theta}, \mathbf{x}, y)\ \)
 
- 。然后，它将输入数据调整一小步（
+ 。然后，它将输入数据调整一小步(
 
  \(\epsilon\)
  
@@ -147,7 +147,7 @@
  \(0.007\)
 
 图片中的
- ) 方向（即
+ ) 方向(即
  
  \(sign(abla_{x} J(\mathbf{\theta}, \mathbf{x}, y))\)
  

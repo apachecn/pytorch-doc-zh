@@ -65,20 +65,20 @@ Transformers 示例](https://github.com/huggingface/transformers) 中的 BERT �
 * BERT，即来自 Transformers 的双向嵌入表示，
 是一种预训练语言表示的新方法，
 可在许多流行的
-自然语言处理 (NLP) 任务（例如问答）上实现最先进的准确度结果、
+自然语言处理 (NLP) 任务(例如问答)上实现最先进的准确度结果、
 文本分类等。原始论文可以在
  [此处](https://arxiv.org/pdf/1810.04805.pdf)
 .
 * PyTorch 中的动态量化支持将浮点模型转换为具有静态 int8 或
-的量化模型用于激活权重和动态量化的 float16 数据类型。当权重量化为 int8 时，激活会动态（每批次）量化为 int8。在 PyTorch 中，我们有
+的量化模型用于激活权重和动态量化的 float16 数据类型。当权重量化为 int8 时，激活会动态(每批次)量化为 int8。在 PyTorch 中，我们有
  [torch.quantization.quantize_dynamic API](https://pytorch.org/docs/stable/quantization.html#torch.quantization.quantize_dynamic) 
  ，
 它将指定的模块替换为动态仅权重量化版本并输出量化模型。
 * 我们在 [Microsoft Research Paraphrase Corpus (MRPC) 任务](https://www.microsoft.com/en) 上演示了准确性和推理性能结果-us/download/details.aspx?id=52398) 
  通用语言理解评估基准
  [(GLUE)](https://gluebenchmark.com/) 
- 。 MRPC（Dolan 和 Brockett，2005）是从在线新闻源中自动提取的句子对语料库，并由人工注释该对中的句子是否在语义上等效。由于类别不平衡（68%
-正，32% 负），我们遵循常见做法并报告
+ 。 MRPC(Dolan 和 Brockett，2005)是从在线新闻源中自动提取的句子对语料库，并由人工注释该对中的句子是否在语义上等效。由于类别不平衡(68%
+正，32% 负)，我们遵循常见做法并报告
  [F1 分数](https://scikit-learn.org/stable/modules/generated/sklearn.metrics。 f1_score.html) 
 .
 MRPC 是语言对分类的常见 NLP 任务，如下所示
@@ -286,10 +286,10 @@ BERT 的精神是预训练语言表示，然后以最小的任务相关参数对
 
 
 
- 要针对 MRPC 任务微调预训练的 BERT 模型（
+ 要针对 MRPC 任务微调预训练的 BERT 模型(
  HuggingFace 转换器中的 
  `bert-base-uncased`
- 模型），您可以按照命令
+ 模型)，您可以按照命令
 
  [示例](https://github.com/huggingface/transformers/tree/master/examples#mrpc) 
  :
@@ -607,7 +607,7 @@ print(quantized_model)
 
 
  让’s 首先检查模型大小。我们可以观察到模型大小显着减小
-（FP32 总大小：438 MB；INT8 总大小：181 MB）：
+(FP32 总大小：438 MB；INT8 总大小：181 MB)：
 
 
 
@@ -630,10 +630,10 @@ print_size_of_model(quantized_model)
 
  本教程中使用的 BERT 模型 (
  `bert-base-uncased`
- ) 的词汇大小 V 为 30522。嵌入大小为 768，词嵌入表的总大小为~ 4（字节/FP32）* 30522 * 768 =
+ ) 的词汇大小 V 为 30522。嵌入大小为 768，词嵌入表的总大小为~ 4(字节/FP32)* 30522 * 768 =
 90 MB。因此，借助量化，
-非嵌入表部分的模型大小从 350 MB（FP32 模型）减少到 90 MB
-（INT8 模型）。
+非嵌入表部分的模型大小从 350 MB(FP32 模型)减少到 90 MB
+(INT8 模型)。
 
 
 
@@ -672,7 +672,7 @@ time_model_evaluation(quantized_model, configs, tokenizer)
 
 
  在 MacBook Pro 上本地运行此程序，不进行量化、推理
-（对于 MRPC 数据集中的所有 408 个示例）大约需要 160 秒，而
+(对于 MRPC 数据集中的所有 408 个示例)大约需要 160 秒，而
 进行量化则只需要大约 90 秒。我们将在 Macbook Pro 上运行量化 BERT 模型推理的结果总结如下：
 
 
@@ -688,7 +688,7 @@ time_model_evaluation(quantized_model, configs, tokenizer)
 ```
 
 
-在 MRPC 任务的微调 BERT 模型上应用训练后动态量化后，我们的 F1 分数准确度降低了 0.6%。作为比较，在[最近的论文](https://arxiv.org/pdf/1910.06188.pdf)（表 1）中，通过应用训练后动态量化实现了 0.8788，通过应用训练后动态量化实现了 0.8956通过应用量化感知训练。主要区别在于我们在 PyTorch 中支持对称量化，而该论文仅支持对称量化。
+在 MRPC 任务的微调 BERT 模型上应用训练后动态量化后，我们的 F1 分数准确度降低了 0.6%。作为比较，在[最近的论文](https://arxiv.org/pdf/1910.06188.pdf)(表 1)中，通过应用训练后动态量化实现了 0.8788，通过应用训练后动态量化实现了 0.8956通过应用量化感知训练。主要区别在于我们在 PyTorch 中支持对称量化，而该论文仅支持对称量化。
 
 
 
@@ -696,10 +696,10 @@ time_model_evaluation(quantized_model, configs, tokenizer)
  请注意，在本教程中，我们将线程数设置为 1 以进行单线程
 比较。我们还支持这些量化 INT8 运算符的运算内并行化。用户现在可以通过
  `torch.set_num_threads(N)`
- 设置多线程（
+ 设置多线程(
  `N`
  是
-tra-op 并行化线程的数量）。启用操作内并行化支持的一个初步要求是使用正确的[后端](https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html#build-options)构建 PyTorch，例如作为 OpenMP、Native 或 TBB。
+tra-op 并行化线程的数量)。启用操作内并行化支持的一个初步要求是使用正确的[后端](https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html#build-options)构建 PyTorch，例如作为 OpenMP、Native 或 TBB。
 您可以使用
  `torch.__config__.parallel_info()`
  检查并行化设置。在使用 PyTorch 和本机后端进行并行化的同一台 MacBook Pro 上，
@@ -775,8 +775,8 @@ loaded_quantized_model = torch.jit.load("bert_traced_eager_quant.pt")
 
 感谢您的阅读！一如既往，我们欢迎任何反馈，因此请在[此处](https://github.com/pytorch/pytorch/issues)创建
 问题
-（如果您有
-任何问题）。
+(如果您有
+任何问题)。
 
 
 

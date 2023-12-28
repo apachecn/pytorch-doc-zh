@@ -111,7 +111,7 @@ RuntimeError: index_add_cuda_ does not have a deterministic implementation, but 
 ```
 
 
- 当使用稀疏密集 CUDA 张量调用 [`torch.bmm()`](../generated/torch.bmm.html#torch.bmm "torch.bmm") 时，它通常使用非确定性算法，但是当确定性标志打开时，将使用其替代确定性实现：
+ 当使用稀疏密集 CUDA tensor调用 [`torch.bmm()`](../generated/torch.bmm.html#torch.bmm "torch.bmm") 时，它通常使用非确定性算法，但是当确定性标志打开时，将使用其替代确定性实现：
 
 
 ```
@@ -126,13 +126,13 @@ tensor([[[ 1.1900, -2.3409],
 ```
 
 
- 此外，如果您使用 CUDA 张量，并且 CUDA 版本为 10.2 或更高版本，则应根据 CUDA 文档设置环境变量 CUBLAS_WORKSPACE_CONFIG：<https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility>
+ 此外，如果您使用 CUDA tensor，并且 CUDA 版本为 10.2 或更高版本，则应根据 CUDA 文档设置环境变量 CUBLAS_WORKSPACE_CONFIG：<https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility>
 
 
 ### CUDA 卷积决定论 [¶](#cuda-volving-determinism "永久链接到此标题")
 
 
- 虽然禁用 CUDA 卷积基准测试（如上所述）可确保 CUDA 在每次运行应用程序时选择相同的算法，但该算法本身可能是不确定的，除非设置 `torch.use_definistic_algorithms(True)` 或 `torch.backends.cudnn.definistic = True` 。 后一个设置仅控制此行为，与 [`torch.use_definistic_algorithms()`](https://pytorch.org/docs/stable/generated/torch.use_deterministic_algorithms.html#torch.use_deterministic_algorithms "torch.use_deterministic_algorithms") 不同，它将使其他 PyTorch 操作也具有确定性行为。
+ 虽然禁用 CUDA 卷积基准测试(如上所述)可确保 CUDA 在每次运行应用程序时选择相同的算法，但该算法本身可能是不确定的，除非设置 `torch.use_definistic_algorithms(True)` 或 `torch.backends.cudnn.definistic = True` 。 后一个设置仅控制此行为，与 [`torch.use_definistic_algorithms()`](https://pytorch.org/docs/stable/generated/torch.use_deterministic_algorithms.html#torch.use_deterministic_algorithms "torch.use_deterministic_algorithms") 不同，它将使其他 PyTorch 操作也具有确定性行为。
 
 
 ### CUDA RNN 和 LSTM [¶](#cuda-rnn-and-lstm "此标题的永久链接")

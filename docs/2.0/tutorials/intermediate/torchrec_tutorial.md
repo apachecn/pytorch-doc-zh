@@ -103,7 +103,7 @@ print(model.plan)
 
 ### 查询vanilla nn.EmbeddingBag的输入与偏移
 
-我们用“输入”和“偏移”来查询[' nn.Embedding '](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html)和[' nn.EmbeddingBag '](https://pytorch.org/docs/stable/generated/torch.nn.EmbeddingBag.html)。输入是一个包含查找值的一维张量。偏移量是一个一维张量，其中序列是每个示例要池的值的数量的累积和。
+我们用“输入”和“偏移”来查询[' nn.Embedding '](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html)和[' nn.EmbeddingBag '](https://pytorch.org/docs/stable/generated/torch.nn.EmbeddingBag.html)。输入是一个包含查找值的一维tensor。偏移量是一个一维tensor，其中序列是每个示例要池的值的数量的累积和。
 
 让我们看一个例子，重新创建上面的产品EmbeddingBag: GPU。
 
@@ -158,7 +158,7 @@ print(mb.to(torch.device("cpu")))
 
 最后，我们可以使用我们的产品和用户的小批量查询我们的模型。
 
-结果查找将包含一个KeyedTensor，其中每个键(或特征)包含一个大小为3x64 (batch_size x embedding_dim)的2D张量。
+结果查找将包含一个KeyedTensor，其中每个键(或特征)包含一个大小为3x64 (batch_size x embedding_dim)的2Dtensor。
 
 ```python
 pooled_embeddings = model(mb)

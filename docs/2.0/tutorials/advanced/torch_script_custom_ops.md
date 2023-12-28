@@ -17,7 +17,7 @@
  [TorchScript](https://pytorch.org/docs/master/jit.html) 
  。 TorchScript 是 Python 编程语言的子集，可以由 TorchScript 编译器解析、编译和优化。此外，已编译的 TorchScript 模型
 可以选择序列化为磁盘文件格式，
-您随后可以从纯 C++（以及 Python）加载并运行该文件格式以进行推理。
+您随后可以从纯 C++(以及 Python)加载并运行该文件格式以进行推理。
 
 
 
@@ -25,13 +25,13 @@
  TorchScript 支持 `torch`
  包提供的大量操作子集，允许您将多种复杂模型纯粹表达为 PyTorch
 
-一系列张量操作\xe2\x80\x99s \xe2\x80 \x9c标准库\xe2\x80\x9d。尽管如此，有时您可能会发现自己需要使用自定义 C++ 或 CUDA 函数来扩展 TorchScript。虽然我们建议您仅在
-您的想法无法（足够有效）表达为简单的 Python 函数时才使用此选项，
+一系列tensor操作\xe2\x80\x99s \xe2\x80 \x9c标准库\xe2\x80\x9d。尽管如此，有时您可能会发现自己需要使用自定义 C++ 或 CUDA 函数来扩展 TorchScript。虽然我们建议您仅在
+您的想法无法(足够有效)表达为简单的 Python 函数时才使用此选项，
 我们确实提供了一个非常友好且简单的界面，用于使用
 [ATen]定义自定义 C++ 和
 CUDA 内核](https://pytorch.org/cppdocs/#aten) 
- ，PyTorch\xe2\x80\x99s 高性能 C++ 张量库。绑定到 TorchScript 后，您可以将这些
-自定义内核（或 \xe2\x80\x9cops\xe2\x80\x9d）嵌入到您的 TorchScript 模型中，并在
+ ，PyTorch\xe2\x80\x99s 高性能 C++ tensor库。绑定到 TorchScript 后，您可以将这些
+自定义内核(或 \xe2\x80\x9cops\xe2\x80\x9d)嵌入到您的 TorchScript 模型中，并在
 Python 中执行它们，并直接在 C++ 中以序列化形式执行它们。
 
 
@@ -39,10 +39,10 @@ Python 中执行它们，并直接在 C++ 中以序列化形式执行它们。
 
  以下段落给出了编写 TorchScript 自定义操作以调用 
  [OpenCV](https://www.opencv.org) 
- 的示例，这是一个用 C++ 编写的计算机视觉库。我们将讨论如何在 C++ 中使用张量、如何有效
-将它们转换为第三方张量格式（在本例中为 OpenCV
+ 的示例，这是一个用 C++ 编写的计算机视觉库。我们将讨论如何在 C++ 中使用tensor、如何有效
+将它们转换为第三方tensor格式(在本例中为 OpenCV
  `Mat`
- ）、
+ )、
 如何向 TorchScript 运行时注册您的运算符以及最后如何
 编译该运算符并在 Python 和 C++ 中使用它。
 
@@ -113,9 +113,9 @@ torch::Tensor warp_perspective(torch::Tensor image, torch::Tensor warp) {
  变换矩阵。这些输入的类型是
  `torch::Tensor`
  、
-PyTorch\xe2\x80\x99s C++ 中的张量类型（这也是 Python 中所有张量的基础类型）。我们的
+PyTorch\xe2\x80\x99s C++ 中的tensor类型(这也是 Python 中所有tensor的基础类型)。我们的
  `warp_perspective`
- 函数的返回类型也将是
+ 函数的Return type也将是
  `torch::Tensor`
  。
 
@@ -136,8 +136,8 @@ PyTorch\xe2\x80\x99s C++ 中的张量类型（这也是 Python 中所有张量�
  nPyTorch。此外，
  [本教程](https://pytorch.org/cppdocs/notes/tensor_creation.html)
  描述了如何在 C++ 中
-分配和初始化新的张量对象（此运算符
-不需要）。
+分配和初始化新的tensor对象(此运算符
+不需要)。
 
 
 
@@ -184,7 +184,7 @@ PyTorch\xe2\x80\x99s C++ 中的张量类型（这也是 Python 中所有张量�
 
 
  在我们的函数内部，我们需要做的第一件事是将 PyTorch
-张量转换为 OpenCV 矩阵，如 OpenCV’s
+tensor转换为 OpenCV 矩阵，如 OpenCV’s
  `warpPerspective`
  需要 
  `cv::Mat` 
@@ -212,26 +212,26 @@ PyTorch\xe2\x80\x99s C++ 中的张量类型（这也是 Python 中所有张量�
  我们正在调用 OpenCV
  `Mat`
  类的
- [此构造函数](https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e)将我们的张量转换为
+ [此构造函数](https://docs.opencv.org/trunk/d3/d63/classcv_1_1Mat.html#a922de793eabcec705b3579c5f95a643e)将我们的tensor转换为
  `Mat`
  对象。我们传递
 原始
  `image`
-张量的行数和列数、数据类型
-（我们’将在本例中将其修复为
+tensor的行数和列数、数据类型
+(我们’将在本例中将其修复为
  `float32`
-），以及最后是指向底层数据 – a
+)，以及最后是指向底层数据 – a
  `float*`
  的原始指针。 `Mat` 类的这个构造函数的特殊之处在于它不复制输入数据。相反，它会简单地引用此内存以执行在 `Mat` 上执行的所有操作。如果对 
  `image_mat`
  执行就地操作，这将反映在
 原始
  `image`
- 张量中（反之亦然）。这允许我们使用库’s 本机矩阵类型调用
+ tensor中(反之亦然)。这允许我们使用库’s 本机矩阵类型调用
 后续 OpenCV 例程，即使
-我们’ 实际上将数据存储在 PyTorch 张量中。我们重复此过程，将
+我们’ 实际上将数据存储在 PyTorch tensor中。我们重复此过程，将
  `warp`
- PyTorch 张量转换为
+ PyTorch tensor转换为
  `warp_mat`
  OpenCV 矩阵：
 
@@ -259,7 +259,7 @@ PyTorch\xe2\x80\x99s C++ 中的张量类型（这也是 Python 中所有张量�
  `warp_mat`
  矩阵，以及一个空的输出矩阵
 称为
- `output_mat`\名词我们还指定了我们想要的输出矩阵（图像）的大小。对于此示例，它被硬编码为
+ `output_mat`\名词我们还指定了我们想要的输出矩阵(图像)的大小。对于此示例，它被硬编码为
  `8
  
 
@@ -285,13 +285,13 @@ PyTorch\xe2\x80\x99s C++ 中的张量类型（这也是 Python 中所有张量�
 
  自定义运算符实现的最后一步是将 
  `output_mat`
- 转换回 PyTorch 张量，以便我们可以在 
+ 转换回 PyTorch tensor，以便我们可以在 
 PyTorch 中进一步使用它。这与我们之前在另一个方向上进行的转换惊人地相似。在这种情况下，PyTorch 提供了
  `torch::from_blob`
  方法。在这种情况下，A
  *blob* 
  旨在表示一些不透明的、指向内存的平面指针，
-我们希望将其解释为 PyTorch 张量。对
+我们希望将其解释为 PyTorch tensor。对
 `torch::from_blob`的调用
 看起来像这样：
 
@@ -314,10 +314,10 @@ PyTorch 中进一步使用它。这与我们之前在另一个方向上进行的
  类上的
  `.ptr<float>()`
  方法来获取指向底层数据的原始
-指针（就像
+指针(就像
  `.data _ptr<float>()`
  用于之前的 PyTorch
-张量）。我们还指定张量的输出形状，
+tensor)。我们还指定tensor的输出形状，
 将其硬编码为
  `8
  
@@ -335,12 +335,12 @@ PyTorch 中进一步使用它。这与我们之前在另一个方向上进行的
 
 
 
- 在从运算符实现返回此张量之前，我们必须在张量上调用
+ 在从运算符实现返回此tensor之前，我们必须在tensor上调用
  `.clone()`
- 以执行底层数据的内存复制。原因是 `torch::from_blob` 返回一个不拥有数据的张量。此时，数据仍归 OpenCV 矩阵所有。然而，这个 OpenCV 矩阵将超出范围并在函数结束时被释放。如果我们按原样返回“输出”张量，那么当我们在函数外部使用它时，它会指向无效的内存。调用
+ 以执行底层数据的内存复制。原因是 `torch::from_blob` 返回一个不拥有数据的tensor。此时，数据仍归 OpenCV 矩阵所有。然而，这个 OpenCV 矩阵将超出范围并在函数结束时被释放。如果我们按原样返回“输出”tensor，那么当我们在函数外部使用它时，它会指向无效的内存。调用
  `.clone()`
  返回
-新张量以及新张量本身拥有的原始数据的副本。
+新tensor以及新tensor本身拥有的原始数据的副本。
 因此可以安全地返回到外部世界。
 
 
@@ -382,7 +382,7 @@ TORCH_LIBRARY(my_ops, m) {
  `TORCH_LIBRARY`
  宏创建一个在程序启动时调用的函数。您的库的名称 (
  `my_ops`
- ) 作为第一个参数给出（不应包含在引号中）。第二个参数 (
+ ) 作为第一个参数给出(不应包含在引号中)。第二个参数 (
  `m`
  ) 定义类型为
  `torch::Library`
@@ -416,9 +416,9 @@ TORCH_LIBRARY(my_ops, m) {
 
 
  现在我们已经在 C++ 中实现了自定义运算符并编写了其
-注册代码，是时候将该运算符构建到（共享）库中
+注册代码，是时候将该运算符构建到(共享)库中
 我们可以将其加载到 Python 中进行研究和实验，或者加载到 C++ 中进行
-推理在没有Python的环境中。有多种方法可以使用纯 CMake 或 Python 替代方案（例如 `setuptools`）来构建我们的运算符。
+推理在没有Python的环境中。有多种方法可以使用纯 CMake 或 Python 替代方案(例如 `setuptools`)来构建我们的运算符。
 为简洁起见，下面的段落仅讨论 CMake 方法。本教程的附录
 深入探讨了其他替代方案。
 
@@ -643,7 +643,7 @@ TorchScript 代码中使用运算符。
  。
 虽然此函数可以在脚本化或跟踪的 TorchScript 模块中使用，但我们
 也可以在普通的 eager PyTorch 中使用它并传递常规 PyTorch
-张量：
+tensor：
 
 
 
@@ -688,8 +688,8 @@ tensor([[0.0000, 0.3218, 0.4611,  ..., 0.4636, 0.4636, 0.4636],
 
  幕后发生的事情是，当您第一次在 Python 中访问
  `torch.ops.namespace.function`
- 时，TorchScript 编译器（在 C++
-land 中）将查看是否有一个函数
+ 时，TorchScript 编译器(在 C++
+land 中)将查看是否有一个函数
  `namespace::函数`
  已注册，
 如果是这样，则返回此函数的 Python 句柄，我们随后可以使用该句柄从 Python 调用
@@ -710,10 +710,10 @@ library” 函数如
  与自定义操作符的注册路径基本相同
 ，这使得自定义操作符
 真正成为一等公民当谈到如何以及在何处可以在TorchScript 中使用它们时。
- （但是，一个区别是标准库函数
+ (但是，一个区别是标准库函数
 具有与
  `torch.ops`
- 参数解析不同的自定义编写的 Python 参数解析逻辑。）
+ 参数解析不同的自定义编写的 Python 参数解析逻辑。)
 
 
 
@@ -864,12 +864,12 @@ graph(%x.1 : Float(4:8, 8:1),
  TorchScript。 TorchScript 很大程度上是 Python 语言的子集，有一些限制使得 TorchScript 编译器更容易推理程序。您可以将
 常规 PyTorch 代码转换为 TorchScript，方法是使用
  `@torch.jit.script`
- 注释它（对于自由函数），
+ 注释它(对于自由函数)，
  `@torch.jit.script_method`
  对于类中的方法
- （也必须源自
+ (也必须源自
  `torch.jit.ScriptModule`
- ）。有关 TorchScript 注释的更多详细信息，请参阅
+ )。有关 TorchScript 注释的更多详细信息，请参阅
  [此处](https://pytorch.org/docs/master/jit.html)。
 
 
@@ -1360,7 +1360,7 @@ target_compile_features(example_app PRIVATE cxx_range_for)
  `TORCH_LIBRARY`
  函数即可运行。不方便的是，这会使链接器感到困惑，并使其认为可以完全跳过对库的链接。在 Linux 上，
  `-Wl,--no-as-needed`
- 标志强制链接发生（注意：此标志特定于 Linux！）。 
+ 标志强制链接发生(注意：此标志特定于 Linux！)。 
 对此还有其他解决方法。最简单的方法是在运算符库中定义
 *某些函数*
 ，您需要从主应用程序调用该函数。这可以像在某个标头中声明的
@@ -1734,8 +1734,8 @@ print(torch.ops.my_ops.warp_perspective)
 强大且广泛的接口，用于构建用 C++ 编写的 Python 模块。
 但是，
  
- `setuptools` 实际上是用于构建 Python 模块，而不是简单的共享库（没有 Python
-期望的模块所需的入口点），这条路线可能有点奇怪。也就是说，您
+ `setuptools` 实际上是用于构建 Python 模块，而不是简单的共享库(没有 Python
+期望的模块所需的入口点)，这条路线可能有点奇怪。也就是说，您
 需要的只是一个
  `setup.py`
  文件来代替

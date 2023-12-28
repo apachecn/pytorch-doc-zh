@@ -13,10 +13,10 @@
 ## 批量计算或切片计算 [¶](#batched-computations-or-slice-computations "永久链接到此标题")
 
 
- PyTorch 中的许多操作支持批量计算，其中对批量输入的元素执行相同的操作。一个例子是 [`torch.mm()`](../generated/torch.mm.html#torch.mm "torch.mm") 和 [`torch.bmm()`](../generated/torch.bmm.html#torch.bmm "torch.bmm") 。可以将批处理计算实现为批处理元素上的循环，并对各个批处理元素应用必要的数学运算，出于效率原因，我们不这样做，并且通常对整个批处理执行计算。在这种情况下，与非批处理计算相比，我们调用的数学库和 PyTorch 内部运算实现可能会产生略有不同的结果。特别是，让“A”和“B”是尺寸适合批量矩阵乘法的3D张量。然后“(A@B)[0]”(批量结果的第一个元素)不能保证按位相同`A[0]@B[0]` (输入批次的第一个元素的矩阵乘积)即使在数学上它是相同的计算。
+ PyTorch 中的许多操作支持批量计算，其中对批量输入的元素执行相同的操作。一个例子是 [`torch.mm()`](../generated/torch.mm.html#torch.mm "torch.mm") 和 [`torch.bmm()`](../generated/torch.bmm.html#torch.bmm "torch.bmm") 。可以将批处理计算实现为批处理元素上的循环，并对各个批处理元素应用必要的数学运算，出于效率原因，我们不这样做，并且通常对整个批处理执行计算。在这种情况下，与非批处理计算相比，我们调用的数学库和 PyTorch 内部运算实现可能会产生略有不同的结果。特别是，让“A”和“B”是尺寸适合批量矩阵乘法的3Dtensor。然后“(A@B)[0]”(批量结果的第一个元素)不能保证按位相同`A[0]@B[0]` (输入批次的第一个元素的矩阵乘积)即使在数学上它是相同的计算。
 
 
- 类似地，应用于张量切片的操作不能保证产生与应用于完整张量的相同操作的结果切片相同的结果。例如。令“A”为二维张量。 `A.sum(-1)[0]` 不保证按位等于 `A[:,0].sum()` 。
+ 类似地，应用于tensor切片的操作不能保证产生与应用于完整tensor的相同操作的结果切片相同的结果。例如。令“A”为二维tensor。 `A.sum(-1)[0]` 不保证按位等于 `A[:,0].sum()` 。
 
 
 ## 极值 [¶](#extremal-values "此标题的固定链接")
@@ -40,7 +40,7 @@ a.double().norm() # produces tensor(1.4142e+20, dtype=torch.float64), representa
 ### 非有限值 [¶](#non-finite-values "永久链接到此标题")
 
 
- 当输入具有诸如“inf”或“NaN”之类的非有限值时，“torch.linalg”使用的外部库(后端)无法保证其行为。因此，PyTorch 也不会。操作可能会返回具有非有限值的张量，或者引发异常，甚至出现段错误。
+ 当输入具有诸如“inf”或“NaN”之类的非有限值时，“torch.linalg”使用的外部库(后端)无法保证其行为。因此，PyTorch 也不会。操作可能会返回具有非有限值的tensor，或者引发异常，甚至出现段错误。
 
 
  在调用这些函数来检测这种情况之前，请考虑使用 [`torch.isfinite()`](../generated/torch.isfinite.html#torch.isfinite "torch.isfinite")。
@@ -64,7 +64,7 @@ a.double().norm() # produces tensor(1.4142e+20, dtype=torch.float64), representa
 ## Nvidia Ampere 设备上的 TensorFloat-32(TF32) [¶](#tensorfloat-32-tf32-on-nvidia-ampere-devices“此标题的永久链接”)
 
 
- 在 Ampere Nvidia GPU 上，PyTorch 可以使用 TensorFloat32 (TF32) 来加速数学密集型运算，特别是矩阵乘法和卷积。当使用 TF32 张量核心执行运算时，仅读取输入尾数的前 10 位。这可能降低准确性并产生令人惊讶的结果(例如，将矩阵乘以单位矩阵可能会产生与输入不同的结果)。默认情况下，TF32 张量核心禁用矩阵乘法并启用卷积，尽管大多数神经网络工作负载都具有使用 TF32 时的收敛行为与使用 fp32 时的收敛行为相同。如果您的网络不需要完整的 float32 精度，我们建议使用`torch.backends.cuda.matmul.allow_tf32 = True`启用 TF32 张量核心进行矩阵乘法。如果您的网络矩阵乘法和卷积都需要完整的 float32 精度，那么也可以通过 `torch.backends.cudnn.allow_tf32 = False` 禁用 TF32 张量核心进行卷积。
+ 在 Ampere Nvidia GPU 上，PyTorch 可以使用 TensorFloat32 (TF32) 来加速数学密集型运算，特别是矩阵乘法和卷积。当使用 TF32 tensor核心执行运算时，仅读取输入尾数的前 10 位。这可能降低准确性并产生令人惊讶的结果(例如，将矩阵乘以单位矩阵可能会产生与输入不同的结果)。默认情况下，TF32 tensor核心禁用矩阵乘法并启用卷积，尽管大多数神经网络工作负载都具有使用 TF32 时的收敛行为与使用 fp32 时的收敛行为相同。如果您的网络不需要完整的 float32 精度，我们建议使用`torch.backends.cuda.matmul.allow_tf32 = True`启用 TF32 tensor核心进行矩阵乘法。如果您的网络矩阵乘法和卷积都需要完整的 float32 精度，那么也可以通过 `torch.backends.cudnn.allow_tf32 = False` 禁用 TF32 tensor核心进行卷积。
 
 
  有关更多信息，请参阅 [TensorFloat32](cuda.html#tf32-on-ampere) 。

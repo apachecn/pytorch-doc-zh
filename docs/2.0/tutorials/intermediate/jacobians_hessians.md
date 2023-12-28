@@ -16,7 +16,7 @@
  `Tensor.backward()`
  ,
  `torch.autograd.grad`
- 有效地计算这些数量是很困难（或烦人）的。 ）。 PyTorch’s
+ 有效地计算这些数量是很困难(或烦人)的。 )。 PyTorch’s
  [JAX 启发](https://github.com/google/jax) 
 [函数转换 API](https://pytorch.org/docs/master/func.html ) 
  提供了高效计算各种高阶自动微分量的方法。
@@ -217,8 +217,8 @@ assert torch.allclose(ft_jacobian, jacobian)
 
 
  让’s 比较计算雅可比的两种方法的性能。
-函数变换版本要快得多（并且
-输出越多，速度就越快）。
+函数变换版本要快得多(并且
+输出越多，速度就越快)。
 
 
 
@@ -330,7 +330,7 @@ Performance delta: 64.0151 percent improvement with vmap
 
 
  此外，’s 很容易翻转问题并说我们想要
-计算模型参数的雅可比行列式（权重、偏差）而不是输入
+计算模型参数的雅可比行列式(权重、偏差)而不是输入
 
 
 
@@ -392,11 +392,11 @@ ft_jac_weight, ft_jac_bias = jacrev(predict, argnums=(0, 1))(weight, bias, x)
  
  \(R^N \to R^M\)
  
- 函数的雅可比，并且有输出多于输入（例如，
+ 函数的雅可比，并且有输出多于输入(例如，
  
  \(M > N\)
  
- ），那么
+ )，那么
  `jacfwd`
  是首选，否则使用
  `jacrev`
@@ -406,7 +406,7 @@ ft_jac_weight, ft_jac_bias = jacrev(predict, argnums=(0, 1))(weight, bias, x)
 
 
 
- 在反向模式 AD 中，我们逐行计算雅可比矩阵，而在正向模式 AD（计算雅可比向量积）中，我们逐列计算
+ 在反向模式 AD 中，我们逐行计算雅可比矩阵，而在正向模式 AD(计算雅可比向量积)中，我们逐列计算
 。雅可比矩阵有 M 行和 N 列，因此如果它
 更高或更宽，我们可能更喜欢处理更少
 行或列的方法。
@@ -578,8 +578,8 @@ Performance delta: 647.4179 percent improvement with jacfwd
  我们提供了一个方便的 API 来计算 hessians：
  `torch.func.hessiani`
  。
-Hessians 是雅可比矩阵的雅可比矩阵（或者
-偏导数的偏导数，也称为二阶）。
+Hessians 是雅可比矩阵的雅可比矩阵(或者
+偏导数的偏导数，也称为二阶)。
 
 
 
@@ -804,15 +804,15 @@ torch.Size([64, 33, 31, 31])
 
  计算 Hessian 向量积 (hvp) 的简单方法是具体化
 完整的 Hessian 矩阵并与向量执行点积。我们可以做得更好：事实证明我们不需要具体化完整的 Hessian 矩阵来做到这一点。我们’ll
-通过两种（许多）不同的策略来计算 Hessian 向量积：
+通过两种(许多)不同的策略来计算 Hessian 向量积：
 - 用反向模式 AD 组合反向模式 AD
 - 用正向模式 AD 组合反向模式 AD 
 
 
 
 
- 将反向模式 AD 与正向模式 AD 组合（而不是反向模式
-与反向模式）通常是计算 a
+ 将反向模式 AD 与正向模式 AD 组合(而不是反向模式
+与反向模式)通常是计算 a
 hvp 的更有效的内存方式，因为正向模式 AD 不需要’构建 Autograd 图并
 保存向后的中间值:
 

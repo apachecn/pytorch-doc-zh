@@ -10,21 +10,21 @@
 
 **来自 PyTorch团队**
 
-今天，我们宣布PyTorch 1.7以及更新的域库的可用性。PyTorch 1.7版本包括许多新的API，包括支持NumPy兼容FFT操作、分析工具以及对分布式数据并行（DDP）和基于远程过程调用（RPC）的分布式训练的重大更新。此外，一些功能移动到[stable](https://pytorch.org/docs/stable/index.html#pytorch-documentation)，包括自定义C++类、内存分析器、通过自定义类似张量对象的扩展、RPC中的用户异步函数以及torch.distributed中的一些其他功能，如Per-RPC超时、DDP动态桶和RRef helper。
+今天，我们宣布PyTorch 1.7以及更新的域库的可用性。PyTorch 1.7版本包括许多新的API，包括支持NumPy兼容FFT操作、分析工具以及对分布式数据并行(DDP)和基于远程过程调用(RPC)的分布式训练的重大更新。此外，一些功能移动到[stable](https://pytorch.org/docs/stable/index.html#pytorch-documentation)，包括自定义C++类、内存分析器、通过自定义类似tensor对象的扩展、RPC中的用户异步函数以及torch.distributed中的一些其他功能，如Per-RPC超时、DDP动态桶和RRef helper。
 
 一些亮点包括：
 
 *   CUDA 11现在正式支持[PyTorch.org](http://pytorch.org/)上的二进制文件
 *   在autograd分析器中更新和添加RPC、torchscript和Stack跟踪的剖析和性能
-*   （Beta）通过torch.fft支持NumPy兼容的快速傅里叶变换（FFT）
-*   （Prototype）支持Nvidia A100代GPU和原生TF32格式
-*   （Prototype）现在支持Windows上的分布式训练
+*   (Beta)通过torch.fft支持NumPy兼容的快速傅里叶变换(FFT)
+*   (Prototype)支持Nvidia A100代GPU和原生TF32格式
+*   (Prototype)现在支持Windows上的分布式训练
 *   torchvision
-    *   （Stable）转换现在支持张量输入、批处理计算、GPU和torchscript
-    *   （Stable）JPEG和PNG格式的原生图像I/O
-    *   （Beta）新视频阅读器API
+    *   (Stable)转换现在支持tensor输入、批处理计算、GPU和torchscript
+    *   (Stable)JPEG和PNG格式的原生图像I/O
+    *   (Beta)新视频阅读器API
 *   torchaudio
-    *   （Stable）增加了对语音rec（wav2letter）、文本到语音（WaveRNN）和源分离（ConvTasNet）的支持
+    *   (Stable)增加了对语音rec(wav2letter)、文本到语音(WaveRNN)和源分离(ConvTasNet)的支持
 
 重申一下，从PyTorch 1.6开始，功能现在被归类为稳定、测试版和原型。你可以[在这里](https://pytorch.org/blog/pytorch-feature-classification-changes/)看到详细的公告。请注意，本博客中列出的原型功能可作为此版本的一部分使用。
 
@@ -36,7 +36,7 @@
 
 FFT相关功能通常用于各种科学领域，如信号处理。虽然PyTorch历来支持一些与FFT相关的功能，但1.7版本增加了一个新的torch.fft模块，该模块使用与NumPy相同的API实现FFT相关功能。
 
-这个新模块必须导入才能在1.7版本中使用，因为它的名称与历史（现已弃用）torch.fft函数冲突。
+这个新模块必须导入才能在1.7版本中使用，因为它的名称与历史(现已弃用)torch.fft函数冲突。
 
 **示例用法：**
 
@@ -64,12 +64,12 @@ tensor([12.+16.j, -8.+0.j, -4.-4.j,  0.-8.j])
 
 ### \[BETA\] torch.set_deterministic
 
-可重现性（位对位确定性）可能有助于在调试或测试程序时识别错误。为了促进可重现性，PyTorch 1.7添加了`torch.set_deterministic(bool)`函数，该函数可以指导PyTorch操作员在可用时选择确定性算法，并在操作可能导致非确定性行为时抛出运行时错误。默认情况下，此函数控制的标志为假，行为没有变化，这意味着默认情况下，PyTorch可以非确定性地实现其操作。
+可重现性(位对位确定性)可能有助于在调试或测试程序时识别错误。为了促进可重现性，PyTorch 1.7添加了`torch.set_deterministic(bool)`函数，该函数可以指导PyTorch操作员在可用时选择确定性算法，并在操作可能导致非确定性行为时抛出运行时错误。默认情况下，此函数控制的标志为假，行为没有变化，这意味着默认情况下，PyTorch可以非确定性地实现其操作。
 
 更确切地说，当这面旗帜是真的时：
 
 *   已知没有确定性实现的操作会抛出运行时错误；
-*   使用确定性变体的操作使用这些变体（通常与非确定性版本相比具有性能惩罚）；以及
+*   使用确定性变体的操作使用这些变体(通常与非确定性版本相比具有性能惩罚)；以及
 *   `torch.backends.cudnn.deterministic = True`设置好了。
 
 请注意，对于**PyTorch程序的单个运行中的**确定性来说，这是必要的，**但还不够**。其他随机性来源，如随机数生成器、未知操作或异步或分布式计算，仍可能导致非确定性行为。
@@ -92,7 +92,7 @@ tensor([12.+16.j, -8.+0.j, -4.-4.j,  0.-8.j])
 
 ### \[STABLE\] torchelastic 现在捆绑到 pytorch docker 图像中
 
-Torchelastic 提供了当前 `torch.distributed.launch` CLI 的严格超集，并添加了容错和弹性功能。 如果用户对容错不感兴趣，他们可以通过设置 `max_restarts=0` 来获得准确的功能/行为奇偶校验，并增加自动分配的 `RANK` 和 `MASTER_ADDR|PORT` 的便利（与在 `torch.distributed.launch` 中手动指定相比）。
+Torchelastic 提供了当前 `torch.distributed.launch` CLI 的严格超集，并添加了容错和弹性功能。 如果用户对容错不感兴趣，他们可以通过设置 `max_restarts=0` 来获得准确的功能/行为奇偶校验，并增加自动分配的 `RANK` 和 `MASTER_ADDR|PORT` 的便利(与在 `torch.distributed.launch` 中手动指定相比)。
 
 通过将`torchelastic`捆绑在与PyTorch相同的docker图像中，用户可以立即开始尝试TorchElastic，而无需单独安装`torchelastic`。除了方便之外，在现有的Kubeflow分布式PyTorch运算符中添加对弹性参数的支持时，这项工作也不错。
 
@@ -107,21 +107,21 @@ PyTorch 1.7引入了一个新的上下文管理器，与使用`torch.nn.parallel
 
 ### \[BETA\] NCCL可靠性-异步错误/超时处理
 
-过去，由于集体陷入困境，NCCL的训练运行会无限期地挂起，给用户带来非常不愉快的体验。如果检测到潜在的挂起，此功能将中止卡住的集体，并抛出异常/崩溃过程。当与torchelastic（可以从最后一个检查点恢复训练过程）一起使用时，用户可以在分布式训练中具有更大的可靠性。此功能完全选择加入，位于需要显式设置的环境变量后面，以启用此功能（否则用户将看到与以前相同的行为）。
+过去，由于集体陷入困境，NCCL的训练运行会无限期地挂起，给用户带来非常不愉快的体验。如果检测到潜在的挂起，此功能将中止卡住的集体，并抛出异常/崩溃过程。当与torchelastic(可以从最后一个检查点恢复训练过程)一起使用时，用户可以在分布式训练中具有更大的可靠性。此功能完全选择加入，位于需要显式设置的环境变量后面，以启用此功能(否则用户将看到与以前相同的行为)。
 
 *   [RFC](https://github.com/pytorch/pytorch/issues/46874)
 *   [文稿](https://pytorch.org/docs/stable/distributed.html?highlight=init_process_group#torch.distributed.init_process_group)
 
 ### \[BETA\] torchscript `RPC_REMOTE`和`RPC_SYNC`
 
-`torch.distributed.rpc.rpc_async`在之前的版本中已在torchscript中可用。对于PyTorch 1.7，此功能将扩展到其余两个核心RPC API，`torch.distributed.rpc.rpc_sync`和`torch.distributed.rpc.remote`。这将完成torchscript中支持的主要RPC API，它允许用户在torchscript中使用现有的python RPC API（在脚本函数或脚本方法中，它释放了python全局解释器锁），并可能提高多线程环境中的应用程序性能。
+`torch.distributed.rpc.rpc_async`在之前的版本中已在torchscript中可用。对于PyTorch 1.7，此功能将扩展到其余两个核心RPC API，`torch.distributed.rpc.rpc_sync`和`torch.distributed.rpc.remote`。这将完成torchscript中支持的主要RPC API，它允许用户在torchscript中使用现有的python RPC API(在脚本函数或脚本方法中，它释放了python全局解释器锁)，并可能提高多线程环境中的应用程序性能。
 
 *   [文稿](https://pytorch.org/docs/stable/rpc.html#rpc)
 *   [例句](https://github.com/pytorch/pytorch/blob/58ed60c259834e324e86f3e3118e4fcbbfea8dd1/torch/testing/_internal/distributed/rpc/jit/rpc_test.py#L505-L525)
 
 ### \[BETA\] 支持 torchscript 的分布式优化器
 
-PyTorch为训练算法提供了广泛的优化器，这些优化器已作为python API的一部分被反复使用。然而，用户通常希望使用多线程训练而不是多进程训练，因为它在大规模分布式训练中提供了更好的资源利用率和效率（例如分布式模型并行）或任何基于RPC的训练应用程序）。用户以前无法使用分布式优化器执行此操作，因为我们需要摆脱python全局解释器锁（GIL）限制来实现这一目标。
+PyTorch为训练算法提供了广泛的优化器，这些优化器已作为python API的一部分被反复使用。然而，用户通常希望使用多线程训练而不是多进程训练，因为它在大规模分布式训练中提供了更好的资源利用率和效率(例如分布式模型并行)或任何基于RPC的训练应用程序)。用户以前无法使用分布式优化器执行此操作，因为我们需要摆脱python全局解释器锁(GIL)限制来实现这一目标。
 
 在PyTorch 1.7中，我们正在分布式优化器中启用torchscript支持，以删除GIL，并使在多线程应用程序中运行优化器成为可能。新的分布式优化器具有与以前完全相同的界面，但它会自动将每个工人中的优化器转换为torchscript，使每个GIL都免费。这是通过利用功能优化器概念来完成的，并允许分布式优化器将优化器的计算部分转换为torchscript。这将有助于分布式模型并行训练等用例，并使用多线程提高性能。
 
@@ -161,7 +161,7 @@ PyTorch 1.6中首次引入了将PyTorch分析器与RPC框架结合使用的支�
 
 *   在RPC上实现了对分析torchscript函数的更好支持
 *   在与RPC配合使用的情况分析器功能方面实现了奇偶校验
-*   添加了对服务器端异步RPC函数的支持（withrpc`rpc.functions.async_execution)`装饰的功能）。
+*   添加了对服务器端异步RPC函数的支持(withrpc`rpc.functions.async_execution)`装饰的功能)。
 
 用户现在可以使用熟悉的分析工具，如`torch.autograd.profiler.profile()`和`with torch.autograd.profiler.record_function`，这与具有完整功能支持的RPC框架、配置文件异步函数和torchscript函数透明地工作。
 
@@ -190,7 +190,7 @@ model = DistributedDataParallel(local_model, device_ids=[rank])
 
 *   [设计文档](https://github.com/pytorch/pytorch/issues/42095)
 *   [文稿](https://pytorch.org/docs/master/distributed.html#backends-that-come-with-pytorch)
-*   鸣谢（[gunandrose4u](https://github.com/gunandrose4u)）
+*   鸣谢([gunandrose4u](https://github.com/gunandrose4u))
 
 ## Mobile
 
@@ -198,7 +198,7 @@ PyTorch Mobile支持[iOS](https://pytorch.org/mobile/ios)和[Android](https://py
 
 ### \[BETA\] PYTORCH移动缓存分配器用于性能改进
 
-在一些移动平台上，如Pixel，我们观察到内存被更积极地返回到系统中。这导致频繁的页面故障，因为PyTorch是一个功能框架，无法为运营商保持状态。因此，对于大多数操作，每次执行时都会动态分配输出。为了改善由此导致的性能惩罚，PyTorch 1.7为CPU提供了一个简单的缓存分配器。分配器按张量大小缓存分配，目前只能通过PyTorch C++ API使用。缓存分配器本身由客户端拥有，因此分配器的生命周期也由客户端代码维护。然后，这种客户端拥有的缓存分配器可以与作用域保护`c10::WithCPUCachingAllocatorGuard`一起使用，以便在该范围内使用缓存分配。**示例用法：**
+在一些移动平台上，如Pixel，我们观察到内存被更积极地返回到系统中。这导致频繁的页面故障，因为PyTorch是一个功能框架，无法为运营商保持状态。因此，对于大多数操作，每次执行时都会动态分配输出。为了改善由此导致的性能惩罚，PyTorch 1.7为CPU提供了一个简单的缓存分配器。分配器按tensor大小缓存分配，目前只能通过PyTorch C++ API使用。缓存分配器本身由客户端拥有，因此分配器的生命周期也由客户端代码维护。然后，这种客户端拥有的缓存分配器可以与作用域保护`c10::WithCPUCachingAllocatorGuard`一起使用，以便在该范围内使用缓存分配。**示例用法：**
 
 ```
 #include <c10/mobile/CPUCachingAllocator.h>
@@ -227,7 +227,7 @@ c10::CPUCachingAllocator caching_allocator;
 
 ### \[STABLE\] 变换现在支持 Tensor 输入、批处理计算、GPU和torchscript
 
-torchvision变换现在从`nn.Module`继承，可以进行火炬脚本并应用于火炬张量输入以及PIL图像。它们还支持具有批处理尺寸的Tensors，并在CPU/GPU设备上无缝工作：
+torchvision变换现在从`nn.Module`继承，可以进行火炬脚本并应用于火炬tensor输入以及PIL图像。它们还支持具有批处理尺寸的Tensors，并在CPU/GPU设备上无缝工作：
 
 ```
 import torch
@@ -264,12 +264,12 @@ out_image2 = scripted_transforms(tensor_image)
 
 *   支持GPU加速
 *   批量转换，例如根据视频的需要
-*   转换多波段火炬张量图像（超过3-4个通道）
-*   torchscript与您的模型一起转换，用于部署**注意：**torchscript支持的例外情况包括`Compose`、`RandomChoice`、`RandomOrder`、`Lambda`以及应用于PIL图像（如`ToPILImage`）。
+*   转换多波段火炬tensor图像(超过3-4个通道)
+*   torchscript与您的模型一起转换，用于部署**注意：**torchscript支持的例外情况包括`Compose`、`RandomChoice`、`RandomOrder`、`Lambda`以及应用于PIL图像(如`ToPILImage`)。
 
 ### \[STABLE\] 用于JPEG和PNG格式的原生图像IO
 
-torchvision 0.8.0引入了JPEG和PNG格式的原生图像读写操作。这些运算符支持torchscript，并以`uint8`格式返回`CxHxW`张量，因此现在可以成为您在C++环境中部署模型的一部分。
+torchvision 0.8.0引入了JPEG和PNG格式的原生图像读写操作。这些运算符支持torchscript，并以`uint8`格式返回`CxHxW`tensor，因此现在可以成为您在C++环境中部署模型的一部分。
 
 ```
 from torchvision.io import read_image

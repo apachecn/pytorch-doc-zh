@@ -173,7 +173,7 @@ class InvertedResidual(nn.Module):
  如果 self.use_res_connect:
  返回 self.skip_add.add(x, self.conv(x))
  else:
- 返回 self.conv （X）
+ 返回 self.conv (X)
 
 
 class MobileNetV2(nn.Module):
@@ -512,7 +512,7 @@ torch.jit.save(torch.jit.script(float_model), saved_model_dir + scripted_float_m
  训练后静态量化不仅涉及动态量化中将权重从 float 转换为 int，
  还需要执行额外的步骤：首先通过网络馈送
 数据并计算不同激活的结果分布
- （具体来说，这是通过在记录此数据的不同点插入观察者模块来完成的）。然后，使用这些分布来确定在推理时应如何具体量化不同的激活（一种简单的技术是将整个激活范围简单地分为 256 个级别，但我们也支持更复杂的方法）。重要的是，这个额外的步骤允许我们在操作之间传递量化值，而不是在每个操作之间将这些值转换为浮点数，然后再转换回整数，从而显着提高速度。
+ (具体来说，这是通过在记录此数据的不同点插入观察者模块来完成的)。然后，使用这些分布来确定在推理时应如何具体量化不同的激活(一种简单的技术是将整个激活范围简单地分为 256 个级别，但我们也支持更复杂的方法)。重要的是，这个额外的步骤允许我们在操作之间传递量化值，而不是在每个操作之间将这些值转换为浮点数，然后再转换回整数，从而显着提高速度。
 
 
 
@@ -716,7 +716,7 @@ print('Inverted Residual Block: After preparation for QAT, note fake-quantizatio
 
 * 在训练结束时切换批量归一化以使用运行均值和方差，以更好
 匹配推理数值。
-* 我们还冻结量化器参数（比例和零点）并微调权重。
+* 我们还冻结量化器参数(比例和零点)并微调权重。
 
 
 
@@ -826,7 +826,7 @@ run_benchmark(saved_model_dir + scripted_quantized_model_file, data_loader_test)
 
 感谢您的阅读！一如既往，我们欢迎任何反馈，因此请在[此处](https://github.com/pytorch/pytorch/issues)
  创建问题
-（如果有任何反馈）。
+(如果有任何反馈)。
 
 
 

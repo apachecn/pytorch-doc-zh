@@ -1,7 +1,7 @@
 
 
 
-# 从第一原理了解 PyTorch Intel CPU 性能（第 2 部分） [¶](#grokking-pytorch-intel-cpu-performance-from-first-principles-part-2"此标题的永久链接")
+# 从第一原理了解 PyTorch Intel CPU 性能(第 2 部分) [¶](#grokking-pytorch-intel-cpu-performance-from-first-principles-part-2"此标题的永久链接")
  
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
@@ -49,7 +49,7 @@
 
  在本教程中，我们将使用
  [自顶向下微架构分析 (TMA)](https://www.intel.com/content/www/us/en/develop/documentation/vtune-cookbook/top/methodologies/top-down-microarchitecture-analysis-method.html) 
- 分析并显示后端限制（内存限制、核心限制）通常是未优化或调整不足的深度学习工作负载的主要瓶颈，以及演示通过 Intel® Extension for PyTorch* 改进后端绑定的优化技术。我们将使用 
+ 分析并显示后端限制(内存限制、核心限制)通常是未优化或调整不足的深度学习工作负载的主要瓶颈，以及演示通过 Intel® Extension for PyTorch* 改进后端绑定的优化技术。我们将使用 
  [toplev](https://github.com/andikleen/pmu-tools/wiki/toplev-manual) 
  ，它是 
  [pmu-tools](https://github.com/pmu-tools) 的工具部分。 com/andikleen/pmu-tools) 
@@ -107,7 +107,7 @@
 
 
 
- 内存限制停顿的原因与内存子系统有关。例如，最后一级高速缓存（LLC 或 L3 高速缓存）未命中导致对 DRAM 的访问。扩展深度学习模型通常需要大量计算。高计算利用率要求当执行单元需要数据来执行 uOp 时数据可用。这需要预取数据并重用缓存中的数据，而不是从主内存多次获取相同的数据，这会导致返回数据时执行单元处于饥饿状态。在本教程中，我们将展示更高效的内存分配器、运算符融合、内存布局格式优化，通过更好的缓存局部性减少内存绑定的开销。
+ 内存限制停顿的原因与内存子系统有关。例如，最后一级高速缓存(LLC 或 L3 高速缓存)未命中导致对 DRAM 的访问。扩展深度学习模型通常需要大量计算。高计算利用率要求当执行单元需要数据来执行 uOp 时数据可用。这需要预取数据并重用缓存中的数据，而不是从主内存多次获取相同的数据，这会导致返回数据时执行单元处于饥饿状态。在本教程中，我们将展示更高效的内存分配器、运算符融合、内存布局格式优化，通过更好的缓存局部性减少内存绑定的开销。
 
 
 
@@ -297,7 +297,7 @@ print('Inference took {:.2f} ms in average'.format((end-start)/100*1000))
 [![https://pytorch.org/tutorials/_images/61.png](https://pytorch.org/tutorials/_images/61.png)](https://pytorch.org/tutorials/_images/61.png)
 
 
- 每个步骤都在时间线图中追踪。最后一步（步骤_99）的模型推理持续时间从 304.308 毫秒减少到 261.843 毫秒。
+ 每个步骤都在时间线图中追踪。最后一步(步骤_99)的模型推理持续时间从 304.308 毫秒减少到 261.843 毫秒。
 
 
 
@@ -546,7 +546,7 @@ print(model)
 
  强烈建议用户利用 Intel® Extension for PyTorch* 和
  [TorchScript](https://pytorch.org/docs/stable/jit.html) 
- 进一步了解图形优化。为了进一步优化 TorchScript 的性能，Intel® Extension for PyTorch* 支持常用 FP32/BF16 运算符模式的 oneDNN 融合，例如 Conv2D+ReLU、Linear+ReLU 等，以减少运算符/内核调用开销，并且为了更好的缓存局部性。一些运算符融合允许维护临时计算、数据类型转换、数据布局，以获得更好的缓存局部性。与 INT8 一样，Intel® Extension for PyTorch* 具有内置量化配方，可为流行的深度学习工作负载（包括 CNN、NLP 和推荐模型）提供良好的统计准确性。然后使用 oneDNN 融合支持优化量化模型。
+ 进一步了解图形优化。为了进一步优化 TorchScript 的性能，Intel® Extension for PyTorch* 支持常用 FP32/BF16 运算符模式的 oneDNN 融合，例如 Conv2D+ReLU、Linear+ReLU 等，以减少运算符/内核调用开销，并且为了更好的缓存局部性。一些运算符融合允许维护临时计算、数据类型转换、数据布局，以获得更好的缓存局部性。与 INT8 一样，Intel® Extension for PyTorch* 具有内置量化配方，可为流行的深度学习工作负载(包括 CNN、NLP 和推荐模型)提供良好的统计准确性。然后使用 oneDNN 融合支持优化量化模型。
 
 
 
@@ -621,7 +621,7 @@ with torch.no_grad():
 [![https://pytorch.org/tutorials/_images/151.png](https://pytorch.org/tutorials/_images/151.png)](https://pytorch.org/tutorials/_images/151.png)
 
 
- 请注意，使用 Intel® Extension for PyTorch* Conv + ReLU 运算符进行融合，CPU 时间从 803 us 减少到 248 us – 3.2 倍加速。 oneDNN eltwise post-op 可以将基元与元素基元融合。这是最流行的融合类型之一：带有前面的卷积或内积的 eltwise（通常是激活函数，例如 ReLU）。查看下一节中显示的 oneDNN 详细日志。
+ 请注意，使用 Intel® Extension for PyTorch* Conv + ReLU 运算符进行融合，CPU 时间从 803 us 减少到 248 us – 3.2 倍加速。 oneDNN eltwise post-op 可以将基元与元素基元融合。这是最流行的融合类型之一：带有前面的卷积或内积的 eltwise(通常是激活函数，例如 ReLU)。查看下一节中显示的 oneDNN 详细日志。
 
 
 
@@ -634,12 +634,12 @@ with torch.no_grad():
 
  在模型上调用
  *ipex.optimize* 
- 时，Intel® Extension for PyTorch* 会自动将模型转换为优化的内存格式，最后是通道。 Channels Last是一种对Intel架构更加友好的内存格式。与 PyTorch 默认通道优先 NCHW（批量、通道、高度、宽度）内存格式相比，通道最后 NHWC（批量、高度、宽度、通道）内存格式通常可以通过更好的缓存局部性来加速卷积神经网络。
+ 时，Intel® Extension for PyTorch* 会自动将模型转换为优化的内存格式，最后是通道。 Channels Last是一种对Intel架构更加友好的内存格式。与 PyTorch 默认通道优先 NCHW(批量、通道、高度、宽度)内存格式相比，通道最后 NHWC(批量、高度、宽度、通道)内存格式通常可以通过更好的缓存局部性来加速卷积神经网络。
 
 
 
 
- 需要注意的一件事是转换内存格式的成本很高。因此，最好在部署之前转换一次内存格式，并在部署期间保持最小的内存格式转换。当数据通过 model’s 层传播时，通道最后的内存格式将通过连续通道最后支持的层（例如，Conv2d -> ReLU -> Conv2d）保留，并且仅在通道最后不支持的层之间进行转换。请参阅
+ 需要注意的一件事是转换内存格式的成本很高。因此，最好在部署之前转换一次内存格式，并在部署期间保持最小的内存格式转换。当数据通过 model’s 层传播时，通道最后的内存格式将通过连续通道最后支持的层(例如，Conv2d -> ReLU -> Conv2d)保留，并且仅在通道最后不支持的层之间进行转换。请参阅
  [内存格式传播](https://www.intel.com/content/www/us/en/develop/documentation/onednn-developer-guide-and-reference/top/programming-model/memory-format -propagation.html) 
  了解更多详细信息。
 
@@ -692,7 +692,7 @@ with torch.no_grad():
 
  我们将使用
  [oneDNN 详细模式](https://oneapi-src.github.io/oneDNN/dev_guide_verbose.html) 
- ，一个帮助收集 oneDNN 图级别信息（例如算子融合）的工具，执行 oneDNN 原语所花费的内核执行时间。有关更多信息，请参阅
+ ，一个帮助收集 oneDNN 图级别信息(例如算子融合)的工具，执行 oneDNN 原语所花费的内核执行时间。有关更多信息，请参阅
  [oneDNN 文档](https://oneapi-src.github.io/oneDNN/index.html)
  。
 
@@ -721,7 +721,7 @@ with torch.no_grad():
 
 
 
-### 使用适用于 PyTorch 的 Intel® 扩展实现性能提升* [¶](#performance-boost-with-intel-extension-for-pytorch "永久链接到此标题" ）
+### 使用适用于 PyTorch 的 Intel® 扩展实现性能提升* [¶](#performance-boost-with-intel-extension-for-pytorch "永久链接到此标题" )
 
 
 
@@ -867,7 +867,7 @@ cpu_launcher_args=--node_id 0
 
 
 
- 我们要感谢 Ashok Emani（英特尔）和 Jiong Kong（英特尔）在本教程的许多步骤中提供的巨大指导和支持以及全面的反馈和审查。我们还要感谢 Hamid Shojanazeri (Meta) 和 Li Ning (AWS) 在代码审查和教程中提供的有用反馈。
+ 我们要感谢 Ashok Emani(英特尔)和 Jiong Kong(英特尔)在本教程的许多步骤中提供的巨大指导和支持以及全面的反馈和审查。我们还要感谢 Hamid Shojanazeri (Meta) 和 Li Ning (AWS) 在代码审查和教程中提供的有用反馈。
 
 
 
