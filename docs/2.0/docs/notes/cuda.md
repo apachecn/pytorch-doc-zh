@@ -713,7 +713,7 @@ print(static_output)  # full of 4 * 2 = 8
  请参阅[全网络捕获](#whole-network-capture)、[与 torch.cuda.amp 一起使用](#graphs-with-amp) 和[与多个流一起使用](#multistream-capture) 以了解实际情况和高级模式。
 
 
-[`make_graphed_callables`](../generated/torch.cuda.make_graphed_callables.html#torch.cuda.make_graphed_callables "torch.cuda.make_graphed_callables") 更复杂。 [`make_graphed_callables`](../generated/torch.cuda.make_graphed_callables.html#torch.cuda.make_graphed_callables "torch.cuda.make_graphed_callables") 接受 Python 函数和 [`torch.nn.Module`](../生成/torch.nn.Module.html#torch.nn.Module“torch.nn.Module”)s。对于每个传递的函数或模块，它都会创建前向传递和反向传递工作的单独图表。请参阅[部分网络捕获](#partial-network-capture)。
+[`make_graphed_callables`](../generated/torch.cuda.make_graphed_callables.html#torch.cuda.make_graphed_callables "torch.cuda.make_graphed_callables") 更复杂。 [`make_graphed_callables`](../generated/torch.cuda.make_graphed_callables.html#torch.cuda.make_graphed_callables "torch.cuda.make_graphed_callables") 接受 Python 函数和 [`torch.nn.Module`](../generated/torch.nn.Module.html#torch.nn.Module“torch.nn.Module”)s。对于每个传递的函数或模块，它都会创建前向传递和反向传递工作的单独图表。请参阅[部分网络捕获](#partial-network-capture)。
 
 
 #### 约束 [¶](#constraints "此标题的永久链接")

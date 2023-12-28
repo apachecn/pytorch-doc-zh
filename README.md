@@ -2,7 +2,7 @@
 
 ![](docs/img/logo.svg)
 
-<center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (张量库)</center>
+<center>PyTorch 是一个针对深度学习, 并且使用 GPU 和 CPU 来优化的 tensor library (tensor库)</center>
 <br/>
 <table>
   <tr align="center">
@@ -50,7 +50,7 @@
 ## 关于转载
 
 * **最近有很多人联系我们，关于内容授权问题！**
-* 开源是指知识应该重在传播和迭代（而不是禁止别人转载）
+* 开源是指知识应该重在传播和迭代(而不是禁止别人转载)
 * 不然你TM在GitHub开源，然后又说不让转载，你TM有病吧！
 * 禁止商业化，符合协议规范，备注地址来源，**重点: 不需要**发邮件给我们申请
 

@@ -1,13 +1,4 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# torch.signal [¶](#module-torch.signal "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +6,23 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/signal.html>
 
-开始写原始页面的翻译内容
+
+ torch.signal 模块，以 SciPy 的 [signal](https://docs.scipy.org/doc/scipy/reference/signal.html) 模块为模型。
 
 
+## torch.signal.windows [¶](#module-torch.signal.windows "此标题的永久链接") 
 
-注意事项: 
 
-1. 代码参考:
-
-```py
-import torch
-
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
-
-2. 公式参考:
-
-1) 无需换行的写法: 
-
-$\sqrt{w^T*w}$
-
-2) 需要换行的写法：
-
-$$
-\sqrt{w^T*w}
-$$
-
-3. 图片参考(用图片的实际地址就行):
-
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
-
-4. **翻译完后请删除上面所有模版内容就行**
+|  |  |
+| --- | --- |
+| [`bartlett`](generated/torch.signal.windows.bartlett.html#torch.signal.windows.bartlett“torch.signal.windows.bartlett”) |计算 Bartlett 窗口。 |
+| [`blackman`](generated/torch.signal.windows.blackman.html#torch.signal.windows.blackman“torch.signal.windows.blackman”) |计算布莱克曼窗。 |
+| [`余弦`](generated/torch.signal.windows.cosine.html#torch.signal.windows.cosine "torch.signal.windows.cosine") |使用简单的余弦波形计算窗口。 |
+| [`exponential`](generated/torch.signal.windows.exponential.html#torch.signal.windows.exponential“torch.signal.windows.exponential”) |计算具有指数波形的窗口。 |
+| [`gaussian`](generated/torch.signal.windows.gaussian.html#torch.signal.windows.gaussian "torch.signal.windows.gaussian") |计算具有高斯波形的窗口。 |
+| [`general_cosine`](generated/torch.signal.windows.general_cosine.html#torch.signal.windows.general_cosine "torch.signal.windows.general_cosine") |计算一般余弦窗口。 |
+| [`general_hamming`](generated/torch.signal.windows.general_hamming.html#torch.signal.windows.general_hamming "torch.signal.windows.general_hamming") |计算一般汉明窗。 |
+| [`汉明`](generated/torch.signal.windows.hamming.html#torch.signal.windows.hamming“torch.signal.windows.hamming”)|计算汉明窗。 |
+| [`hann`](generated/torch.signal.windows.hann.html#torch.signal.windows.hann“torch.signal.windows.hann”) |计算 Hann 窗。 |
+| [`kaiser`](generated/torch.signal.windows.kaiser.html#torch.signal.windows.kaiser "torch.signal.windows.kaiser") |计算 Kaiser 窗。 |
+| [`nuttall`](generated/torch.signal.windows.nuttall.html#torch.signal.windows.nuttall“torch.signal.windows.nuttall”)|根据 Nuttall 计算最小 4 项 Blackman-Harris 窗。 |

@@ -14759,7 +14759,7 @@ with torch.autograd.graph.saved_tensors_hooks(lambda x: x, lambda x: x):
 [`torch.autograd.graph.register_multi_grad_hook()`](../autograd.html#torch.autograd.graph.register_multi_grad_hook "torch.autograd.graph.register_multi_grad_hook") 是使用注册到tensor的钩子实现的。每个单独的tensor钩子都按照上面定义的tensor钩子顺序触发，并且在计算最后一个tensor梯度时调用注册的多梯度钩子。
 
 
-[`torch.nn.modules.module.register_module_full_backward_hook()`](../生成/torch.nn.modules.module.register_module_full_backward_hook.html#torch.nn.modules.module.register_module_full_backward_hook “torch.nn.modules.module.register_module_full_backward_hook”)是使用注册到 Node 的 hooks 实现的。当计算前向时，钩子被注册到与模块的输入和输出相对应的 grad_fn 。因为一个模块可能需要多个输入并返回多个输出，所以在forward之前首先将一个虚拟的自定义autograd函数应用于模块的输入，并在返回forward的输出之前应用于模块的输出，以确保这些tensor共享单个grad_fn，然后我们可以将钩子连接到上面。
+[`torch.nn.modules.module.register_module_full_backward_hook()`](../generated/torch.nn.modules.module.register_module_full_backward_hook.html#torch.nn.modules.module.register_module_full_backward_hook “torch.nn.modules.module.register_module_full_backward_hook”)是使用注册到 Node 的 hooks 实现的。当计算前向时，钩子被注册到与模块的输入和输出相对应的 grad_fn 。因为一个模块可能需要多个输入并返回多个输出，所以在forward之前首先将一个虚拟的自定义autograd函数应用于模块的输入，并在返回forward的输出之前应用于模块的输出，以确保这些tensor共享单个grad_fn，然后我们可以将钩子连接到上面。
 
 
 ### 就地修改tensor时tensor钩子的行为 [¶](#behavior-of-tensor-hooks-when-tensor-is-modified-in-place "永久链接到此标题")

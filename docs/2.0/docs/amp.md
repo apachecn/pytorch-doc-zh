@@ -52,7 +52,7 @@
  在这些区域中，操作以 autocast 选择的操作特定数据类型运行，以提高性能，同时保持准确性。有关详细信息，请参阅 [Autocast Op 参考](#autocast-op-reference)。
 
 
- 当进入启用自动转换的区域时，张量可以是任何类型。使用自动转换时，不应在模型或输入上调用“half()”或“bfloat16()”。
+ 当进入启用自动转换的区域时，tensor可以是任何类型。使用自动转换时，不应在模型或输入上调用“half()”或“bfloat16()”。
 
 
 [`autocast`](#torch.autocast "torch.autocast") 应仅包装网络的前向传递，包括损失计算。不建议在自动转换下向后传递。向后操作的运行类型与自动转换用于相应前向操作的类型相同。
@@ -97,7 +97,7 @@ class AutocastModel(nn.Module):
 ```
 
 
- 在启用自动转换的区域中生成的浮点张量可能是“float16”。返回到禁用自动转换的区域后，将它们与不同数据类型的浮点张量一起使用可能会导致类型不匹配错误。如果是这样，则将自动转换区域中生成的张量转换回“float32”(或其他需要的数据类型)。如果自动转换区域中的张量已经是“float32”，则转换是无操作，并且会产生没有额外的开销。CUDA示例：
+ 在启用自动转换的区域中生成的浮点tensor可能是“float16”。返回到禁用自动转换的区域后，将它们与不同数据类型的浮点tensor一起使用可能会导致类型不匹配错误。如果是这样，则将自动转换区域中生成的tensor转换回“float32”(或其他需要的数据类型)。如果自动转换区域中的tensor已经是“float32”，则转换是无操作，并且会产生没有额外的开销。CUDA示例：
 
 
 ```
@@ -220,7 +220,7 @@ with torch.autocast(device_type="cuda"):
 
  Parameters
 
-* **device_type** ( [*str*](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.12)")*, *required* ) – 要使用的设备类型。 可能的值为：“cuda”、“cpu”、“xpu”和“hpu”。 该类型与 [`torch.device`](tensor_attributes.html#torch.device "torch.device") 的 type 属性相同。 因此，您可以使用 Tensor.device.type 获取张量的设备类型。
+* **device_type** ( [*str*](https://docs.python.org/3/library/stdtypes.html#str "(in Python v3.12)")*, *required* ) – 要使用的设备类型。 可能的值为：“cuda”、“cpu”、“xpu”和“hpu”。 该类型与 [`torch.device`](tensor_attributes.html#torch.device "torch.device") 的 type 属性相同。 因此，您可以使用 Tensor.device.type 获取tensor的设备类型。
 * **enabled** ( [*bool*](https://docs.python.org/3/library/functions.html#bool "(in Python v3.12)"), *optional* ) – 是否应在该区域启用自动广播。 默认值：`True`
 * **dtype** ( *torch_dtype*, *optional* ) – 是否使用 torch.float16 或 torch.bfloat16。
 * **cache_enabled** ( [*bool*](https://docs.python.org/3/library/functions.html#bool "(in Python v3.12)"), *optional* ) – 是否应启用自动投射内的权重缓存。 默认值：`True`
@@ -240,7 +240,7 @@ with torch.autocast(device_type="cuda"):
  Parameters
 
 
-* **cast_inputs** ( [`torch.dtype`](tensor_attributes.html#torch.dtype "torch.dtype") 或 None，optional，default=None) – 如果不是 `None` ，则当 `forward` 运行时在启用自动转换的区域中，将传入的浮点 CUDA 张量转换为目标 dtype(非浮点张量不受影响)，然后在禁用自动转换的情况下执行 `forward`。如果 `None` ，则 `forward` 的内部操作以当前自动施放状态执行。
+* **cast_inputs** ( [`torch.dtype`](tensor_attributes.html#torch.dtype "torch.dtype") 或 None，optional，default=None) – 如果不是 `None` ，则当 `forward` 运行时在启用自动转换的区域中，将传入的浮点 CUDA tensor转换为目标 dtype(非浮点tensor不受影响)，然后在禁用自动转换的情况下执行 `forward`。如果 `None` ，则 `forward` 的内部操作以当前自动施放状态执行。
 
 
 !!! note "笔记"
@@ -334,7 +334,7 @@ with torch.autocast(device_type="cuda"):
 >> scale( *outputs* ) [[source]](_modules/torch/cuda/amp/grad_scaler.html#GradScaler.scale)[¶](#torch.cuda.amp.GradScaler.scale "此定义的永久链接")
 
 
- 将张量或张量列表乘以(“缩放”)缩放因子。
+ 将tensor或tensor列表乘以(“缩放”)缩放因子。
 
 
  返回缩放后的输出。如果未启用 [`GradScaler`](#torch.cuda.amp.GradScaler "torch.cuda.amp.GradScaler") 的此实例，则返回未修改的输出。
@@ -427,7 +427,7 @@ with torch.autocast(device_type="cuda"):
 >> unscale_ ( *optimizer* ) [[source]](_modules/torch/cuda/amp/grad_scaler.html#GradScaler.unscale_)[¶](#torch.cuda.amp.GradScaler.unscale_ "此定义的永久链接")
 
 
- 将优化器的梯度张量除以比例因子(“取消缩放”)。
+ 将优化器的梯度tensor除以比例因子(“取消缩放”)。
 
 
 unscale_() 是可选的，适用于需要修改或检查向后传递和 step() 之间的梯度的情况。 如果未显式调用 unscale_()，则梯度将在 step() 期间自动取消缩放。
@@ -480,7 +480,7 @@ scaler.update()
  如果跳过任何优化器步骤，则比例将乘以“backoff_factor”以减少它。如果连续发生“growth_interval”未跳过的迭代，则将比例乘以“growth_factor”来增加它。
 
 
- 传递 `new_scale` 手动设置新的比例值。 ( `new_scale` 不直接使用，它用于填充 GradScaler 的内部尺度张量。因此，如果 `new_scale` 是一个张量，以后对该张量的就地更改不会进一步影响 GradScaler 内部使用的尺度。)
+ 传递 `new_scale` 手动设置新的比例值。 ( `new_scale` 不直接使用，它用于填充 GradScaler 的内部尺度tensor。因此，如果 `new_scale` 是一个tensor，以后对该tensor的就地更改不会进一步影响 GradScaler 内部使用的尺度。)
 
 
  Parameters
@@ -508,7 +508,7 @@ scaler.update()
  在“float64”或非浮点数据类型中运行的操作不符合条件，并且无论是否启用自动转换都将以这些类型运行。
 
 
- 只有异地操作和张量方法才符合资格。在启用自动转换的区域中允许显式提供“out=...”张量的就地变体和调用，但不会经过自动转换。例如，启用自动投射的区域 `a.addmm(b, c)` 可以自动投射，但 `a.addmm_(b, c)` 和 `a.addmm(b, c, out=d)` 不能自动投射。最好性能和稳定性，更喜欢在启用自动施放的区域中进行异地操作。
+ 只有异地操作和tensor方法才符合资格。在启用自动转换的区域中允许显式提供“out=...”tensor的就地变体和调用，但不会经过自动转换。例如，启用自动投射的区域 `a.addmm(b, c)` 可以自动投射，但 `a.addmm_(b, c)` 和 `a.addmm(b, c, out=d)` 不能自动投射。最好性能和稳定性，更喜欢在启用自动施放的区域中进行异地操作。
 
 
  使用显式“dtype=...”参数调用的操作不符合条件，并且将产生尊重“dtype”参数的输出。
@@ -517,7 +517,7 @@ scaler.update()
 ### [CUDA Op 特定行为](#id8) [¶](#cuda-op-specific-behavior "永久链接到此标题")
 
 
- 以下列表描述了启用自动转换的区域中合格操作的行为。这些操作始终会经过自动转换，无论它们是作为 [`torch.nn.Module`]( generated/torch.nn.Module.html#torch 的一部分被调用).nn.Module "torch.nn.Module") ，作为函数，或作为 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 方法。如果函数在多个命名空间中公开，则无论命名空间如何，它们都会经历自动转换。
+ 以下列表描述了启用自动转换的区域中合格操作的行为。这些操作始终会经过自动转换，无论它们是作为 [`torch.nn.Module`](generated/torch.nn.Module.html#torch 的一部分被调用).nn.Module "torch.nn.Module") ，作为函数，或作为 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 方法。如果函数在多个命名空间中公开，则无论命名空间如何，它们都会经历自动转换。
 
 
  下面未列出的操作不会经过自动施放。它们按照输入定义的类型运行。但是，如果未列出的操作位于自动转换操作的下游，自动转换仍可能会更改其运行的类型。
@@ -553,16 +553,16 @@ scaler.update()
 #### [首选 `binary_cross_entropy_with_logits` 而不是 `binary_cross_entropy`](#id12)[¶](#prefer-binary-cross-entropy-with-logits-over-binary -交叉熵"此标题的永久链接")
 
 
- [`torch.nn.function.binary_cross_entropy()`]( generated/torch.nn.function.binary_cross_entropy.html#torch.nn.function.binary_cross_entropy "torch.nn.function.binary_cross_entropy" 的向后传递)(和 [`torch.nn.BCELoss`]( generated/torch.nn.BCELoss.html#torch.nn.BCELoss "torch.nn.BCELoss") ，它包装它)可以产生无法在`float16` 。在启用自动转换的区域中，前向输入可能是“float16”，这意味着后向梯度必须可以用“float16”表示(将“float16”前向输入自动转换为“float32”没有帮助，因为该转换必须在向后反转)。因此，“binary_cross_entropy”和“BCELoss”在启用自动转换的区域中会引发错误。
+ [`torch.nn.function.binary_cross_entropy()`](generated/torch.nn.function.binary_cross_entropy.html#torch.nn.function.binary_cross_entropy "torch.nn.function.binary_cross_entropy" 的向后传递)(和 [`torch.nn.BCELoss`](generated/torch.nn.BCELoss.html#torch.nn.BCELoss "torch.nn.BCELoss") ，它包装它)可以产生无法在`float16` 。在启用自动转换的区域中，前向输入可能是“float16”，这意味着后向梯度必须可以用“float16”表示(将“float16”前向输入自动转换为“float32”没有帮助，因为该转换必须在向后反转)。因此，“binary_cross_entropy”和“BCELoss”在启用自动转换的区域中会引发错误。
 
 
- 许多模型在二元交叉熵层之前使用 sigmoid 层。 在这种情况下，使用 [`torch.nn.function.binary_cross_entropy_with_logits()`](generated/torch.nn.functional.binary_cross_entropy_with_logits.html#torch.nn.functional.binary_cross_entropy_with_logits "torch.nn.function.binary_cross_entropy_with_logits") 或 [`torch.nn.BCEWithLogitsLoss`](生成/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss "torch.nn.BCEWithLogitsLoss") 组合两个层。 `binary_cross_entropy_with_logits` 和 `BCEWithLogits` 可以安全地自动转换。
+ 许多模型在二元交叉熵层之前使用 sigmoid 层。 在这种情况下，使用 [`torch.nn.function.binary_cross_entropy_with_logits()`](generated/torch.nn.functional.binary_cross_entropy_with_logits.html#torch.nn.functional.binary_cross_entropy_with_logits "torch.nn.function.binary_cross_entropy_with_logits") 或 [`torch.nn.BCEWithLogitsLoss`](generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss "torch.nn.BCEWithLogitsLoss") 组合两个层。 `binary_cross_entropy_with_logits` 和 `BCEWithLogits` 可以安全地自动转换。
 
 
 ### [CPU Op 特定行为](#id13) [¶](#cpu-op-specific-behavior "永久链接到此标题")
 
 
- 以下列表描述了启用自动转换的区域中合格操作的行为。这些操作始终会经过自动转换，无论它们是作为 [`torch.nn.Module`]( generated/torch.nn.Module.html#torch 的一部分被调用).nn.Module "torch.nn.Module") ，作为函数，或作为 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 方法。如果函数在多个命名空间中公开，则无论命名空间如何，它们都会经历自动转换。
+ 以下列表描述了启用自动转换的区域中合格操作的行为。这些操作始终会经过自动转换，无论它们是作为 [`torch.nn.Module`](generated/torch.nn.Module.html#torch 的一部分被调用).nn.Module "torch.nn.Module") ，作为函数，或作为 [`torch.Tensor`](tensors.html#torch.Tensor "torch.Tensor") 方法。如果函数在多个命名空间中公开，则无论命名空间如何，它们都会经历自动转换。
 
 
  下面未列出的操作不会经过自动施放。它们按照输入定义的类型运行。但是，如果未列出的操作位于自动转换操作的下游，自动转换仍可能会更改其运行的类型。

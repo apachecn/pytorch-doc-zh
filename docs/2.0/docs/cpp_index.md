@@ -38,13 +38,13 @@
 ## C++ 中的 Tensor 和 Autograd [¶](#tensor-and-autograd-in-c "此标题的永久链接")
 
 
- PyTorch Python API 中的大多数张量和 autograd 操作也可以在 C++ API 中使用。这些包括：
+ PyTorch Python API 中的大多数tensor和 autograd 操作也可以在 C++ API 中使用。这些包括：
 
 
 
 * `torch::Tensor` 方法，例如 `add` /`reshape` /`clone` 。有关可用方法的完整列表，请参阅：<https://pytorch.org/cppdocs/api/classat_1_1_tensor.html>
-* C++ 张量索引 API，其外观和行为与 Python API 相同。有关其用法的详细信息，请参阅：<https://pytorch.org/cppdocs/notes/tensor_indexing.html>
-* 张量 autograd API 和 `torch::autograd` 包对于用 C++ 构建动态神经网络至关重要前端。更多详情请参见：<https://pytorch.org/tutorials/advanced/cpp_autograd.html>
+* C++ tensor索引 API，其外观和行为与 Python API 相同。有关其用法的详细信息，请参阅：<https://pytorch.org/cppdocs/notes/tensor_indexing.html>
+* tensor autograd API 和 `torch::autograd` 包对于用 C++ 构建动态神经网络至关重要前端。更多详情请参见：<https://pytorch.org/tutorials/advanced/cpp_autograd.html>
 
 
 ## 用 C++ 创作模型 [¶](#authoring-models-in-c "此标题的永久链接")
