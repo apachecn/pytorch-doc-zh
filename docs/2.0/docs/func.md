@@ -1,13 +1,4 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# torch.func [¶](#torch-func "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +6,62 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/func.html>
 
-开始写原始页面的翻译内容
+
+ torch.func，以前称为“functorch”，是 PyTorch 的[类似 JAX](https://github.com/google/jax) 可组合函数转换。
 
 
 
-注意事项: 
 
-1. 代码参考:
+!!! note "笔记"
 
-```py
-import torch
+    该库目前处于[测试阶段](https://pytorch.org/blog/pytorch-feature-classification-changes/#beta)。这意味着这些功能通常可以工作(除非另有说明)并且我们(PyTorch团队)致力于推动这个图书馆的发展。但是，API 可能会根据用户反馈进行更改，并且我们无法全面覆盖 PyTorch 操作。
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
 
-2. 公式参考:
+ 如果您对希望涵盖的 API 或用例有建议，请打开 GitHub 问题或联系我们。我们很想听听您如何使用图书馆。
 
-1) 无需换行的写法: 
 
-$\sqrt{w^T*w}$
+## 什么是可组合函数变换？ [¶](#what-are-composable-function-transforms"此标题的永久链接")
 
-2) 需要换行的写法：
 
-$$
-\sqrt{w^T*w}
-$$
 
-3. 图片参考(用图片的实际地址就行):
+* “函数变换”是一个高阶函数，它接受数值函数并返回计算不同数量的新函数。
+* [`torch.func`](func.api.html#module-torch.func "torch. func") 具有自动微分变换( `grad(f)` 返回一个计算“f”梯度的函数)，一个矢量化/批处理变换( `vmap(f)` 返回一个在批次上计算 `f` 的函数输入)，以及其他。*这些函数变换可以任意组合。例如，组合`vmap(grad(f))`会计算一个称为“每个样本梯度”的量，而 PyTorch 目前无法有效计算该量。
 
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
 
-4. **翻译完后请删除上面所有模版内容就行**
+## 为什么可组合函数会发生变换？ [¶](#why-composable-function-transforms"永久链接到此标题")
+
+
+ 如今，PyTorch 中有许多用例很难实现：
+
+
+
+* 计算每个样本的梯度(或其他每个样本的量)
+* 在单台机器上运行模型集合
+* 在 MAML 内循环中高效地将任务批量组合在一起
+* 高效计算雅克比矩阵和海森矩阵
+* 高效计算批量雅克比矩阵和海森矩阵
+
+
+ 编写 [`vmap()`]( generated/torch.func.vmap.html#torch.func.vmap "torch.func.vmap") 、 [`grad()`](generated/torch.func.grad.html#torch.func.grad "torch.func.grad") 和 [`vjp()`](generated/torch.func.vjp.html#torch.func.vjp "torch.func.vjp") 转换允许我们来表达上述内容，而不需要为每个设计单独的子系统。这种可组合函数转换的想法来自 [JAX 框架](https://github.com/google/jax) 。
+
+
+## 阅读更多内容 [¶](#read-more "此标题的永久链接")
+
+
+
+* [torch.func 旋风之旅](func.whirlwind_tour.html) 
+    + [什么是 torch.func？](func.whirlwind_tour.html#what-is-torch-func) 
+    + [为什么可组合函数会转换？](func.Whirlwind_tour.html#why-composable-function-transforms) 
+    + [什么是变换？](func.whirlwind_tour.html#what-are-the-transforms)
+* [torch.func API 参考](func.api.html) 
+    + [函数转换](func.api.html#function-transforms) 
+    + [使用 torch.nn.Modules 的实用程序](func.api.html#utilities-for-working-with-torch-nn-modules)
+* [UX 限制](func.ux_limitations.html) 
+    + [一般限制](func.ux_limitations.html#general-limitations) 
+    + [torch.autograd API](func.ux_limitations.html#torch-autograd-apis) 
+    + [vmap限制](func.ux_limitations.html#vmap-limitations) 
+    + [随机性](func.ux_limitations.html#randomness)
+* [从 functorch 迁移到 torch.func](func.migration.html) 
+    + [函数转换](func.migration.html#function-transforms) 
+    + [NN 模块实用程序](func.migration.html#nn-module-utilities) 
+    + [functorch.compile](func.migration.html#functorch-compile)

@@ -50,10 +50,10 @@ my_script_module.save("my_script_module.pt")
 
 ### 扩展了ONNX EXPORT
 
-该[ONNX](http://onnx.ai/)社会继续以开放的成长[治理结构](https://github.com/onnx/onnx/wiki/Expanded-ONNX-Steering-Committee-Announced!)和额外的指导委员会成员，特殊兴趣小组(SIG）和工作组(WGS）。与Microsoft合作，我们增加了对导出ONNX Opset版本7(v1.2)，8(v1.3)，9(v1.4)和10(v1.5)的全面支持。我们还增强了常量折叠传递，以支持最新版本的ONNX Opset 10。ScriptModule也得到了改进，包括支持多输出，张量工厂和元组作为输入和输出。此外，用户现在可以注册自己的符号来导出自定义操作，并在导出期间指定输入的动态尺寸。以下是所有主要改进的摘要：
+该[ONNX](http://onnx.ai/)社会继续以开放的成长[治理结构](https://github.com/onnx/onnx/wiki/Expanded-ONNX-Steering-Committee-Announced!)和额外的指导委员会成员，特殊兴趣小组(SIG)和工作组(WGS)。与Microsoft合作，我们增加了对导出ONNX Opset版本7(v1.2)，8(v1.3)，9(v1.4)和10(v1.5)的全面支持。我们还增强了常量折叠传递，以支持最新版本的ONNX Opset 10。ScriptModule也得到了改进，包括支持多输出，tensor工厂和元组作为输入和输出。此外，用户现在可以注册自己的符号来导出自定义操作，并在导出期间指定输入的动态尺寸。以下是所有主要改进的摘要：
 
 * 支持多种Opset，包括在Opset 10中导出丢失，切片，翻转和插值的功能。
-* ScriptModule的改进，包括支持多输出，张量工厂和元组作为输入和输出。
+* ScriptModule的改进，包括支持多输出，tensor工厂和元组作为输入和输出。
 * 支持了十几个额外的PyTorch运营商，包括导出自定义运营商的能力。
 * 许多重大修复和测试基础改进。
 
@@ -79,19 +79,19 @@ PyTorch域库(如torchvision，torchtext和torchaudio）提供了对常用数据
 
 ![](img/spectrograms.png)
 
-Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关的信号处理功能(但不是一般的信号处理库）。它利用PyTorch的GPU支持为波形提供了许多工具和转换，使数据加载和标准化更容易，更易读。例如，它为使用sox的波形提供数据加载器，并为频谱图，重采样和mu-law编码和解码等转换提供数据加载器。
+Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关的信号处理功能(但不是一般的信号处理库)。它利用PyTorch的GPU支持为波形提供了许多工具和转换，使数据加载和标准化更容易，更易读。例如，它为使用sox的波形提供数据加载器，并为频谱图，重采样和mu-law编码和解码等转换提供数据加载器。
 
-我们很高兴地宣布torchaudio 0.3.0的可用性，重点是标准化和复数，转换(重新采样）和两个新的功能(phase_vocoder，ISTFT），Kaldi兼容性和新教程。Torchaudio经过重新设计，是PyTorch的扩展，也是域API(DAPI）生态系统的一部分。
+我们很高兴地宣布torchaudio 0.3.0的可用性，重点是标准化和复数，转换(重新采样)和两个新的功能(phase_vocoder，ISTFT)，Kaldi兼容性和新教程。Torchaudio经过重新设计，是PyTorch的扩展，也是域API(DAPI)生态系统的一部分。
 
 #### 标准化
 
 解决机器学习问题的重要工作是数据准备。在这个新版本中，我们更新了torchaudio的转换接口，以便围绕以下词汇和约定进行标准化。
 
-假设张量具有通道作为第一维度，时间作为最后维度(适用时）。这使得它与PyTorch的尺寸一致。对于大小名称，使用前缀`n_`(例如“大小(`n_freq`，`n_mel`）的张量”），而维度名称不具有该前缀(例如“维度张量(通道，时间）”）。所有变换和函数的输入现在首先假定通道。这样做是为了与PyTorch保持一致，PyTorch具有通道，后跟样本数量。现在不推荐使用所有转换和函数的通道参数。
+假设tensor具有通道作为第一维度，时间作为最后维度(适用时)。这使得它与PyTorch的尺寸一致。对于大小名称，使用前缀`n_`(例如“大小(`n_freq`，`n_mel`)的tensor”)，而维度名称不具有该前缀(例如“维度tensor(通道，时间）”)。所有变换和函数的输入现在首先假定通道。这样做是为了与PyTorch保持一致，PyTorch具有通道，后跟样本数量。现在不推荐使用所有转换和函数的通道参数。
 
-输出`STFT`是(通道，频率，时间，2），对于每个通道而言，列是特定窗口的傅里叶变换，因此当我们水平移动时，我们可以看到每列(傅里叶变换波形）随时间变化。这符合librosa的输出，使我们不再需要在我们的测试比较，转用`Spectrogram`，`MelScale`，`MelSpectrogram`，和`MFCC`。此外，由于这些新的惯例，我们弃用`LC2CL`并且`BLC2CBL`用于从一种信号形状转换到另一种形状。
+输出`STFT`是(通道，频率，时间，2)，对于每个通道而言，列是特定窗口的傅里叶变换，因此当我们水平移动时，我们可以看到每列(傅里叶变换波形)随时间变化。这符合librosa的输出，使我们不再需要在我们的测试比较，转用`Spectrogram`，`MelScale`，`MelSpectrogram`，和`MFCC`。此外，由于这些新的惯例，我们弃用`LC2CL`并且`BLC2CBL`用于从一种信号形状转换到另一种形状。
 
-作为此版本的一部分，我们还通过尺寸张量(...，2）引入对复数的支持，并提供`magphase`将这样的张量转换为其幅度和相位，以及类似`complex_norm`和`angle`。
+作为此版本的一部分，我们还通过尺寸tensor(...，2)引入对复数的支持，并提供`magphase`将这样的tensor转换为其幅度和相位，以及类似`complex_norm`和`angle`。
 
 [README](https://github.com/pytorch/audio/blob/v0.3.0/README.md#Conventions)中提供了标准化的详细信息。
 
@@ -101,7 +101,7 @@ Torchaudio专注于机器理解音频波形。它是一个ML库，提供相关�
 
 作为转换的一部分，我们在0.3.0中添加了一个新的转换：`Resample`。`Resample`可以将波形上采样或下采样到不同的频率。
 
-作为功​​能的一部分，我们将介绍：`phase_vocoder`一个相位声码器，用于改变波形的速度而不改变其音调，并且`ISTFT`反向`STFT`实现与PyTorch提供的STFT兼容。这种分离允许我们使函数弱脚本化并在0.3.0中使用JIT。因此，我们有以下的转换JIT和CUDA支持：`Spectrogram`，`AmplitudeToDB`(原名`SpectrogramToDB`）`MelScale`， `MelSpectrogram`，`MFCC`，`MuLawEncoding`，`MuLawDecoding`(原名`MuLawExpanding`）。
+作为功​​能的一部分，我们将介绍：`phase_vocoder`一个相位声码器，用于改变波形的速度而不改变其音调，并且`ISTFT`反向`STFT`实现与PyTorch提供的STFT兼容。这种分离允许我们使函数弱脚本化并在0.3.0中使用JIT。因此，我们有以下的转换JIT和CUDA支持：`Spectrogram`，`AmplitudeToDB`(原名`SpectrogramToDB`) `MelScale`， `MelSpectrogram`，`MFCC`，`MuLawEncoding`，`MuLawDecoding`(原名`MuLawExpanding`)。
 
 我们现在还提供与Kaldi的兼容接口，以简化入门并减少用户对Kaldi的代码依赖性。我们现在有一个接口`spectrogram`，`fbank`和`resample_waveform`。
 

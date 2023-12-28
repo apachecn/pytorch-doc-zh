@@ -1,13 +1,4 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
+# Torch 分布式弹性 [¶](#torch-distributed-elastic "此标题的永久链接")
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
@@ -15,39 +6,40 @@
 >
 > 原始地址：<https://pytorch.org/docs/stable/distributed.elastic.html>
 
-开始写原始页面的翻译内容
+
+ 使分布式 PyTorch 具有容错性和弹性。
 
 
+## 开始使用 [¶](#get-started "此标题的永久链接")
 
-注意事项: 
 
-1. 代码参考:
+ Usage
+ 
+* [快速入门](elastic/quickstart.html)
+* [训练脚本](elastic/train_script.html)
+* [示例](elastic/examples.html)
 
-```py
-import torch
 
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
+## 文档 [¶](#documentation "此标题的永久链接")
 
-2. 公式参考:
 
-1) 无需换行的写法: 
+ API
+ 
+* [torchrun(弹性启动)](elastic/run.html)
+* [弹性代理](elastic/agent.html)
+* [多重处理](elastic/multiprocessing.html)
+* [错误传播](elastic/errors.html) 
+* [Rendezvous](elastic/rendezvous.html)
+* [过期计时器](elastic/timer.html)
+* [指标](elastic/metrics.html)
+* [事件](elastic/events.html)
 
-$\sqrt{w^T*w}$
 
-2) 需要换行的写法：
+ Advanced
 
-$$
-\sqrt{w^T*w}
-$$
+* [定制](elastic/customization.html)
 
-3. 图片参考(用图片的实际地址就行):
 
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
+ Plugins
 
-4. **翻译完后请删除上面所有模版内容就行**
+* [TorchElastic Kubernetes](elastic/kubernetes.html)
