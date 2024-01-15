@@ -39,7 +39,12 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.superfences
   - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
   - admonition
+  - tables
+  - attr_list
+  - md_in_html
 
 extra_javascript:
   # - javascripts/mathjax.js
