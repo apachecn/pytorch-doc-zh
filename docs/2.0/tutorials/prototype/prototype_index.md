@@ -6,7 +6,7 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/prototype/prototype_index.html>
 
-Prototype 功能不作为 PyPI 或 Conda 等二进制发行版的一部分提供(除了可能在运行时标志后面)。为了测试这些功能，我们建议根据功能从 master 构建或使用 <pytorch.org> 上提供的 nightlywheel 进行构建。
+Prototype 功能不作为 PyPI 或 Conda 等二进制发行版的一部分提供(除了可能在运行时标志后面)。为了测试这些功能，我们建议根据功能从 master 构建或使用 <pytorch.org> 上提供的 nightly wheels 进行构建。
 
 承诺程度：我们承诺仅收集有关这些功能的高带宽反馈。根据这些反馈和社区成员之间潜在的进一步参与，我们作为一个社区将决定是否要提高承诺水平或快速失败。
 
