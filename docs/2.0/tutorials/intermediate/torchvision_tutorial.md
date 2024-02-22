@@ -11,7 +11,7 @@
 > 原始地址：<https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html>
 
 
->提示：为了充分利用本教程，我们建议使用此[Colab 版本](https://colab.research.google.com/github/pytorch/tutorials/blob/gh-pages/_downloads/torchvision_finetuning_instance_segmentation.ipynb)。这将允许您尝试下面提供的信息。
+> 提示：为了充分利用本教程，我们建议使用此[Colab 版本](https://colab.research.google.com/github/pytorch/tutorials/blob/gh-pages/_downloads/torchvision_finetuning_instance_segmentation.ipynb)。这将允许您尝试下面提供的信息。
 
 对于本教程，我们将在[Penn-Fudan\用于行人检测和分割的数据库](https://www.cis.upenn.edu/~jshi/ped_html/)。它包含170 个图像和 345 个行人实例，我们将使用它说明如何使用 torchvision 中的新功能，在自定义数据集上训练对象检测和实例分割模型。
 
@@ -64,7 +64,9 @@ PennFudanPed/
         FudanPed00003.png
         FudanPed00004.png
 ```
+
 这是一对图像和分割掩模的一个示例
+
 ```python
 import matplotlib.pyplot as plt
 from torchvision.io import read_image
@@ -153,6 +155,7 @@ class PennFudanDataset(torch.utils.data.Dataset):
         return len(self.imgs)
 
 ```
+
 这就是数据集的全部内容。现在让我们定义一个可以对此数据集执行预测的模型。
 
 ## 定义您的模型 [¶](#defining-your-model "永久链接到此标题")
@@ -357,12 +360,14 @@ x = [torch.rand(3, 300, 400), torch.rand(3, 500, 400)]
 predictions = model(x)  # Returns predictions
 print(predictions[0])
 ```
+
 ```
 输出结果：
 {'loss_classifier': tensor(0.0820, grad_fn=<NllLossBackward0>), 'loss_box_reg': tensor(0.0278, grad_fn=<DivBackward0>), 'loss_objectness': tensor(0.0027, grad_fn=<BinaryCrossEntropyWithLogitsBackward0>), 'loss_rpn_box_reg': tensor(0.0036, grad_fn=<DivBackward0>)}
 {'boxes': tensor([], size=(0, 4), grad_fn=<StackBackward0>), 'labels': tensor([], dtype=torch.int64), 'scores': tensor([], grad_fn=<IndexBackward0>)}
 
 ```
+
 现在让我们编写执行训练和验证的主函数：
 
 ```python
@@ -532,6 +537,7 @@ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.827
 That's it!
 
 ```
+
 因此，经过一轮训练后，我们获得了 COCO 风格的 mAP > 50，并且掩模 mAP 为 65。
 
 但预测结果是怎样的呢？让我们以数据集中的一张图片为例进行验证
@@ -566,6 +572,7 @@ plt.figure(figsize=(12, 12))
 plt.imshow(output_image.permute(1, 2, 0))
 
 ```
+
 ![https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image06.png](https://pytorch.org/tutorials/_static/img/tv_tutorial/tv_image06.png)
 
 结果看起来不错！
@@ -576,8 +583,7 @@ plt.imshow(output_image.permute(1, 2, 0))
 
 有关包括多机器/多GPU 训练在内的更完整示例，请查看 torchvision 储存库中的 `references/detection/train.py`。
 
-您可以在[此处](https://pytorch.org/tutorials/_static/tv-training-code.py)下载本教程的完整源文件
-。
+您可以在[此处](https://pytorch.org/tutorials/_static/tv-training-code.py)下载本教程的完整源文件。
 
 
 
