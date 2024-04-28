@@ -1,6 +1,6 @@
 # 音频数据增强 [¶](#audio-data-augmentation "此标题的固定链接")
 
-> 译者：[龙琰](https://github.com/jiangzhonglian)
+> 译者：[龙琰](https://github.com/bellongyan)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/beginner/audio_data_augmentation_tutorial>
 >
