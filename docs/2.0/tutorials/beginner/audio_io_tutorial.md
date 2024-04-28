@@ -6,7 +6,7 @@
 >
 > 原始地址：<https://pytorch.org/tutorials/beginner/audio_io_tutorial.html>
 
-**作者**: Moto Hira
+**作者**: [Moto Hira](moto@meta.com)
 
 本教程展示了如何使用 TorchAudio 的基本 I/O API 来检查音频数据，
 将它们加载到 PyTorch 张量中并保存 PyTorch 张量。
@@ -395,7 +395,7 @@ Source: /tmp/tmpo_4z9s1q/save_example_PCM_S16.wav
  - AudioMetaData(sample_rate=16000, num_frames=54400, num_channels=1, bits_per_sample=16, encoding=PCM_S)
 ```
 
-[`torchaudio.save`](https://pytorch.org/audio/stable/generated/torchaudio.save.html#torchaudio.save) 也可以处理其他格式。
+[`torchaudio.save()`](https://pytorch.org/audio/stable/generated/torchaudio.save.html#torchaudio.save) 也可以处理其他格式。
 
 举几个例子:
 
