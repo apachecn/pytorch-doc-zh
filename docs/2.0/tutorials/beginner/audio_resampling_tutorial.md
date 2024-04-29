@@ -140,7 +140,7 @@ Audio(waveform.numpy()[0], rate=sample_rate)
 
 <img src="https://pytorch.org/audio/stable/_images/sphx_glr_audio_resampling_tutorial_001.png" srcset="https://pytorch.org/audio/stable/_images/sphx_glr_audio_resampling_tutorial_001.png" alt="Original Waveform (sample rate: 48000 Hz)" class="sphx-glr-single-img" width=661 height=331>
 
-<audio controls="controls" src="./audio/resampling_audio_01.wav">
+<audio controls="controls" src="https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/2.0/tutorials/beginner/audio/resampling_audio_01.wav">
     Your browser does not support the audio element.
 </audio>
 
@@ -159,7 +159,7 @@ Audio(resampled_waveform.numpy()[0], rate=resample_rate)
 
 <img src="https://pytorch.org/audio/stable/_images/sphx_glr_audio_resampling_tutorial_002.png" srcset="https://pytorch.org/audio/stable/_images/sphx_glr_audio_resampling_tutorial_002.png" alt="Original Waveform (sample rate: 48000 Hz)" class="sphx-glr-single-img" width=661 height=331>
 
-<audio controls="controls" src="./audio/resampling_audio_02.wav">
+<audio controls="controls" src="https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/2.0/tutorials/beginner/audio/resampling_audio_01.wav">
     Your browser does not support the audio element.
 </audio>
 
