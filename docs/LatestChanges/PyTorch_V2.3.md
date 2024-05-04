@@ -16,7 +16,7 @@
 
 | **Beta** | **Prototype** | **Performance Improvements** |
 | --- | --- | --- |
-| torch.compile 中用户定义的 Triton内核 | torch.export 添加了新的API来指定 dynamic_shapes | 仅重量量化引入 inductor CPU后端 |
+| torch.compile 中用户定义的 Triton内核 | torch.export 添加了新的API来指定 dynamic_shapes | 仅权重量化化引入 inductor CPU后端 |
 | PyTorch分布式中的 Tensor 并行性 | 异步 checkpoint 生成 | |
 | 支持半结构化稀疏性 | | |
 
@@ -64,7 +64,7 @@
 
 ## 性能改进
 
-### [PROTOTYPE]在 inductor CPU后端引入仅重量量化
+### [PROTOTYPE]在 inductor CPU后端引入仅权重量化
 
 PyTorch 2.3增强了火炬电感CPU后端的LLM推理性能。该项目[gpt-fast](https://github.com/pytorch-labs/gpt-fast)为使用*torch.compile*的变压器文本生成提供了简单高效的PyTorch原生加速。在2.3之前，只支持CUDA设备，此功能通过为int4和int8权重仅量化线性提供高度优化的内核来支持CPU对应。
 
