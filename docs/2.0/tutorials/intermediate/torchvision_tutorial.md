@@ -1,8 +1,4 @@
-
-
-
 # TorchVision 对象检测微调教程 [¶](#torchvision-object-detection-finetuning-tutorial "永久链接到此标题")
-
 
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
