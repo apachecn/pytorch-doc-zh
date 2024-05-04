@@ -267,12 +267,12 @@ PyTorch [DistributedTensor](https://github.com/pytorch/pytorch/blob/master/torc
 
 #### [Prototype] torch.compile(dynamic=True)
 
-此版本提供对具有动态形状的 PT2 编译的实验支持。支持简单模型的电感器推理编译，但有很多限制：
+此版本提供对具有动态形状的 PT2 编译的实验支持。支持简单模型的 inductor 推理编译，但有很多限制：
 
 *   未来版本中提供训练(这在夜间版本中已部分修复！)
 *   未来版本中将提供缩小器。
 *   无论如何，很容易导致您想要动态的维度变得专门化。其中一些问题在夜间解决了，另一些则没有。
-*   我们没有适当地将电感器防护传播到顶层，这在[#96296](https://github.com/pytorch/pytorch/issues/96296)中进行跟踪。
+*   我们没有适当地将 inductor 防护传播到顶层，这在[#96296](https://github.com/pytorch/pytorch/issues/96296)中进行跟踪。
 *   像非零这样的数据相关操作仍然需要图形中断。
 *   动态不适用于非标准模式，例如减少开销或最大自动调整。
 *   Inductor编译存在很多bug。要跟踪已知错误，请检查PyTorch 问题跟踪器上的[动态形状标签。](https://github.com/pytorch/pytorch/issues?q=is%3Aopen+is%3Aissue+label%3A%22module%3A+dynamic+shapes%22)
