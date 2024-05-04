@@ -37,7 +37,7 @@ FX提供了一个Python平台，用于转换和降低PyTorch程序。这是一�
 
 ### (Stable)nn.Module 参数化
 
-`nn.Module`parametrizaton是一个功能，允许用户在不修改`nn.Module`本身的情况下对`nn.Module`的任何参数或缓冲区进行参数化，在稳定中可用。此版本增加了重量归一化(`weight_norm`)、正交参数化(矩阵约束和部分修剪)以及在创建自己的参数化时更大的灵活性。
+`nn.Module`parametrizaton是一个功能，允许用户在不修改`nn.Module`本身的情况下对`nn.Module`的任何参数或缓冲区进行参数化，在稳定中可用。此版本增加了权重归一化(`weight_norm`)、正交参数化(矩阵约束和部分修剪)以及在创建自己的参数化时更大的灵活性。
 
 有关更多详细信息，请参阅本[教程](https://pytorch.org/tutorials/intermediate/parametrizations.html)和一般[文档](https://pytorch.org/docs/master/generated/torch.nn.utils.parametrizations.spectral_norm.html?highlight=parametrize)。
 
