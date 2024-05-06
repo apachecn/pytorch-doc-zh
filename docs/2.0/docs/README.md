@@ -1,4 +1,4 @@
-# PyTorch 文档
+# Docs 文档介绍
 
 > 译者：[LordQ](https://github.com/lordqyxz)
 >
@@ -6,12 +6,30 @@
 >
 > 原始地址：<https://pytorch.org/docs/2.0/>
 
-PyTorch 是一个针对深度学习，基于 GPU 和 CPU 的优化tensor库。
 
-本文档中描述的功能按发布状态分类：
+要求如下：（相当于介绍页面包含：名称 + 链接 + 介绍）
 
-- *稳定版:* 这些功能将长期维护，并且文档中通常不会有主要性能限制或差距。我们还希望保持向后兼容性(尽管可能会发生破坏性更改，但是会提前一个版本会给出通知)。
+1. 需要介绍： 每一个链接 需要 1～3句话 来介绍它是什么、有什么作用
+2. 要包含下面的内容，展现形式可以调整，怎么美观怎么来。
 
-- *Beta 版:* 这些功能被标记为 Beta 版，因为 API 可能会根据用户反馈而更改，因为性能需要改进，或者因为操作覆盖范围尚不完整。对于 Beta 版功能，我们承诺将该功能推进到稳定版。但是，我们不承诺向后兼容性。
+- "Pytorch"     : "https://pytorch.org/docs/stable/index.html"
+- "Torchaudio"  : "https://pytorch.org/audio/stable/index.html"
+- "TorchText"   : "https://pytorch.org/text/stable/index.html"
+- "TorchVision" : "https://pytorch.org/vision/stable/index.html"
+- "TorchArrow"  : "https://pytorch.org/torcharrow/beta/index.html"
+- "TorchRec"    : "https://pytorch.org/torchrec/"
+- "TorchServe"  : "https://pytorch.org/serve/"
+- "TorchX"      : "https://pytorch.org/torchx/latest/"
+- "PyTorch on XLA Devices": "https://pytorch.org/xla/release/2.3/index.html"
 
-- *原型版:* 这些功能通常不作为 PyPI 或 Conda 等二进制发行版的一部分提供，除非有时在运行时标志后面，并且处于反馈和测试的早期阶段。
+例如: 
+
+## Pytorch
+
+> docs 访问链接：<https://pytorch.org/docs/stable/index.html>
+
+这个网站内容介绍的是xxx，他的用途是...方便用户查阅类里面的方法xxx
+
+--- 
+
+* 原翻译的历史 docs-Pytorch 打包下载地址: <https://pytorch.apachecn.org/2.0/docs/docs.zip>
