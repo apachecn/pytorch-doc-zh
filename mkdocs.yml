@@ -106,6 +106,7 @@ nav:
         - "DCGAN Tutorial": "2.0/tutorials/beginner/dcgan_faces_tutorial.md"
         - "Spatial Transformer Networks Tutorial": "2.0/tutorials/intermediate/spatial_transformer_tutorial.md"
         - "Optimizing Vision Transformer Model for Deployment": "2.0/tutorials/beginner/vt_tutorial.md"
+        - "Whole Slide Image Classification Using PyTorch and TIAToolbox": "2.0/tutorials/intermediate/tiatoolbox_tutorial.md"
       - "Audio":
         - "Audio I/O": "2.0/tutorials/beginner/audio_io_tutorial.md"
         - "Audio Resampling": "2.0/tutorials/beginner/audio_resampling_tutorial.md"
@@ -117,7 +118,6 @@ nav:
         - "Text-to-speech with Tacotron2": "2.0/tutorials/intermediate/text_to_speech_with_torchaudio.md"
         - "Forced Alignment with Wav2Vec2": "2.0/tutorials/intermediate/forced_alignment_with_torchaudio_tutorial.md"
       - "Text":
-        - "Language Modeling with nn.Transformer and torchtext": "2.0/tutorials/beginner/transformer_tutorial.md"
         - "Fast Transformer Inference with Better Transformer": "2.0/tutorials/beginner/bettertransformer_tutorial.md"
         - "NLP From Scratch: Classifying Names with a Character-Level RNN": "2.0/tutorials/intermediate/char_rnn_classification_tutorial.md"
         - "NLP From Scratch: Generating Names with a Character-Level RNN": "2.0/tutorials/intermediate/char_rnn_generation_tutorial.md"
@@ -131,6 +131,7 @@ nav:
         - "Reinforcement Learning (DQN) Tutorial": "2.0/tutorials/intermediate/reinforcement_q_learning.md"
         - "Reinforcement Learning (PPO) with TorchRL Tutorial": "2.0/tutorials/intermediate/reinforcement_ppo.md"
         - "Train a Mario-playing RL Agent": "2.0/tutorials/intermediate/mario_rl_tutorial.md"
+        - "Pendulum: Writing your environment and transforms with TorchRL": "2.0/tutorials/advanced/pendulum.md"
       - "Deploying PyTorch Models in Production":
         - "Introduction to ONNX": "2.0/tutorials/beginner/onnx/intro_onnx.md"
         - "Deploying PyTorch in Python via a REST API with Flask": "2.0/tutorials/intermediate/flask_rest_api_tutorial.md"
@@ -138,6 +139,10 @@ nav:
         - "Loading a TorchScript Model in C++": "2.0/tutorials/advanced/cpp_export.md"
         - "(optional) Exporting a Model from PyTorch to ONNX and Running it using ONNX Runtime": "2.0/tutorials/advanced/super_resolution_with_onnxruntime.md"
         - "Real Time Inference on Raspberry Pi 4 (30 fps!)": "2.0/tutorials/intermediate/realtime_rpi.md"
+      - "Profiling PyTorch":
+        - "Profiling your PyTorch Module": "2.0/tutorials/beginner/profiler.md"
+        - "Introduction to Holistic Trace Analysis": "2.0/tutorials/beginner/hta_intro_tutorial.md"
+        - "Trace Diff using Holistic Trace Analysis": "2.0/tutorials/beginner/hta_trace_diff_tutorial.md"
       - "Code Transforms with FX":
         - "(beta) Building a Convolution/Batch Norm fuser in FX": "2.0/tutorials/intermediate/fx_conv_bn_fuser.md"
         - "(beta) Building a Simple CPU Performance Profiler with FX": "2.0/tutorials/intermediate/fx_profiling_tutorial.md"
@@ -174,10 +179,11 @@ nav:
         - "Grokking PyTorch Intel CPU performance from first principles (Part 2)": "2.0/tutorials/intermediate/torchserve_with_ipex_2.md"
         - "Getting Started - Accelerate Your Scripts with nvFuser": "2.0/tutorials/intermediate/nvfuser_intro_tutorial.md"
         - "Multi-Objective NAS with Ax": "2.0/tutorials/intermediate/ax_multiobjective_nas_tutorial.md"
-        - "torch.compile Tutorial": "2.0/tutorials/intermediate/torch_compile_tutorial.md"
+        - "Introduction to torch.compile": "2.0/tutorials/intermediate/torch_compile_tutorial.md"
         - "Inductor CPU backend debugging and profiling": "2.0/tutorials/intermediate/inductor_debug_cpu.md"
         - "(Beta) Implementing High-Performance Transformers with Scaled Dot Product Attention (SDPA)": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial.md"
         - "Using SDPA with torch.compile": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-torch-compile.md"
+        - "Using SDPA with attn_bias subclasses`": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses.md"
         - "Conclusion": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#conclusion.md"
         - "Knowledge Distillation Tutorial": "2.0/tutorials/beginner/knowledge_distillation_tutorial.md"
       - "Parallel and Distributed Training":
@@ -189,18 +195,22 @@ nav:
         - "Writing Distributed Applications with PyTorch": "2.0/tutorials/intermediate/dist_tuto.md"
         - "Getting Started with Fully Sharded Data Parallel(FSDP)": "2.0/tutorials/intermediate/FSDP_tutorial.md"
         - "Advanced Model Training with Fully Sharded Data Parallel (FSDP)": "2.0/tutorials/intermediate/FSDP_adavnced_tutorial.md"
+        - "Large Scale Transformer model training with Tensor Parallel (TP)": "2.0/tutorials/intermediate/TP_tutorial.md"
         - "Customize Process Group Backends Using Cpp Extensions": "2.0/tutorials/intermediate/process_group_cpp_extension_tutorial.md"
         - "Getting Started with Distributed RPC Framework": "2.0/tutorials/intermediate/rpc_tutorial.md"
         - "Implementing a Parameter Server Using Distributed RPC Framework": "2.0/tutorials/intermediate/rpc_param_server_tutorial.md"
         - "Distributed Pipeline Parallelism Using RPC": "2.0/tutorials/intermediate/dist_pipeline_parallel_tutorial.md"
         - "Implementing Batch RPC Processing Using Asynchronous Executions": "2.0/tutorials/intermediate/rpc_async_execution.md"
         - "Combining Distributed DataParallel with Distributed RPC Framework": "2.0/tutorials/advanced/rpc_ddp_tutorial.md"
-        - "Training Transformer models using Pipeline Parallelism": "2.0/tutorials/intermediate/pipeline_tutorial.md"
         - "Training Transformer models using Distributed Data Parallel and Pipeline Parallelism": "2.0/tutorials/advanced/ddp_pipeline.md"
         - "Distributed Training with Uneven Inputs Using the Join Context Manager": "2.0/tutorials/advanced/generic_join.md"
-      - "Mobile":
-        - "Image Segmentation DeepLabV3 on iOS": "2.0/tutorials/beginner/deeplabv3_on_ios.md"
-        - "Image Segmentation DeepLabV3 on Android": "2.0/tutorials/beginner/deeplabv3_on_android.md"
+      - "Edge with ExecuTorch":
+        - "Exporting to ExecuTorch Tutorial": "https://pytorch.org/executorch/stable/tutorials/export-to-executorch-tutorial.html"
+        - "Running an ExecuTorch Model in C++ Tutorial": "https://pytorch.org/executorch/stable/running-a-model-cpp-tutorial.html"
+        - "Using the ExecuTorch SDK to Profile a Model": "https://pytorch.org/executorch/stable/tutorials/sdk-integration-tutorial.html"
+        - "Building an ExecuTorch iOS Demo App": "https://pytorch.org/executorch/stable/demo-apps-ios.html"
+        - "Building an ExecuTorch Android Demo App": "https://pytorch.org/executorch/stable/demo-apps-android.html"
+        - "Lowering a Model as a Delegate": "https://pytorch.org/executorch/stable/examples-end-to-end-to-lower-model-to-delegate.html"
       - "Recommendation Systems":
         - "Introduction to TorchRec": "2.0/tutorials/intermediate/torchrec_tutorial.md"
         - "Exploring TorchRec sharding": "2.0/tutorials/advanced/sharding.md"
