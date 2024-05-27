@@ -147,7 +147,7 @@ def __len__(self):
 ```
 ### __getitem__
 
-函数 `__getitem__` 从数据集中给定的索引 ``idx`` 处加载并返回一个样本。根据索引可以确定图像在硬盘上的位置，用 ``read_image`` 将其转换为tensor，从 ``self.img_labels`` 的csv数据中获取相应的标签，最对它们调用 transform 函数(如果适用)，并返回tensor图像和相应的标签的元组。
+函数 `__getitem__` 从数据集中给定的索引 ``idx`` 处加载并返回一个样本。根据索引可以确定图像在硬盘上的位置，用 ``read_image`` 将其转换为tensor，从 ``self.img_labels`` 的csv数据中获取相应的标签，再对它们调用 transform 函数(如果适用)，并返回tensor图像和相应的标签的元组。
 
 ```py
 def __getitem__(self, idx):
