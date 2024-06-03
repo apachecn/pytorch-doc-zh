@@ -32,7 +32,6 @@ query, key, value = torch.randn(2, 3, 8, device=device), torch.randn(2, 3, 8, de
 F.scaled_dot_product_attention(query, key, value)
 ```
 
-# out
 ```
 tensor([[[-1.3321, -0.3489,  0.3015, -0.3912,  0.9867,  0.3137, -0.0691,
           -1.2593],
@@ -51,7 +50,7 @@ tensor([[[-1.3321, -0.3489,  0.3015, -0.3912,  0.9867,  0.3137, -0.0691,
 
 # 显式调度器控制
 虽然该函数会隐式地分派到三种实现之一，但用户也可以通过使用上下文管理器（context manager）来显式控制分派。这个上下文管理器允许用户显式禁用某些实现。如果用户想确保函数确实针对他们的特定输入使用最快的实现，可以使用上下文管理器来遍历并测量性能。
-```
+```py
 # Lets define a helpful benchmarking function:
 import torch.utils.benchmark as benchmark
 def benchmark_torch_function_in_microseconds(f, *args, **kwargs):
@@ -97,7 +96,7 @@ with sdpa_kernel(SDPBackend.EFFICIENT_ATTENTION):
         print("EfficientAttention is not supported. See warnings for reasons.")
 ```
 
-out
+
 ```
 The default implementation runs in 2304.977 microseconds
 The math implementation runs in 19249.369 microseconds
@@ -166,7 +165,7 @@ model = CausalSelfAttention(num_heads=num_heads, embed_dimension=embed_dimension
 print(model)
 ```
 
-out
+
 ```
 CausalSelfAttention(
   (c_attn): Linear(in_features=512, out_features=1536, bias=False)
@@ -231,7 +230,7 @@ with sdpa_kernel(SDPBackend.FLASH_ATTENTION):
         print("FlashAttention is not supported. See warnings for reasons.")
 ```
 
-out
+
 ```
 /opt/conda/envs/py_3.10/lib/python3.10/site-packages/torch/nested/__init__.py:166: UserWarning:
 
@@ -260,7 +259,7 @@ print(
     f"The compiled module runs in  {benchmark_torch_function_in_microseconds(compiled_model, x):.3f} microseconds")
 ```
 
-out
+
 ```
 The non compiled module runs in  408.207 microseconds
 The compiled module runs in  516.612 microseconds
@@ -294,7 +293,7 @@ print(prof.key_averages().table(sort_by="cuda_time_total", row_limit=10))
 #    prof.export_chrome_trace("compiled_causal_attention_trace.json").
 ```
 
-out
+
 ```
 -------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
                                                    Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls
@@ -399,7 +398,7 @@ compiled_sdpa = torch.compile(F.scaled_dot_product_attention, fullgraph=True)
 out_upper_left = compiled_sdpa(query, key, value, upper_left_bias)
 ```
 
-out
+
 ```py
 <class 'torch.nn.attention.bias.CausalBias'>
 <class 'torch.nn.attention.bias.CausalBias'>
