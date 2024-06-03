@@ -1,60 +1,11 @@
-> 翻译任务
-
-* 目前该页面无人翻译，期待你的加入
-* 翻译奖励: https://github.com/orgs/apachecn/discussions/243
-* 任务认领: https://github.com/apachecn/pytorch-doc-zh/discussions/583
-
-请参考这个模版来写内容:
-
-
-# PyTorch 某某页面
-
 > 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses>
 >
 > 原始地址：<https://pytorch.org/tutorials//intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses.html>
 
-开始写原始页面的翻译内容
 
-
-
-注意事项: 
-
-1. 代码参考:
-
-```py
-import torch
-
-x = torch.ones(5)  # input tensor
-y = torch.zeros(3)  # expected output
-w = torch.randn(5, 3, requires_grad=True)
-b = torch.randn(3, requires_grad=True)
-z = torch.matmul(x, w)+b
-loss = torch.nn.functional.binary_cross_entropy_with_logits(z, y)
-```
-
-2. 公式参考:
-
-1) 无需换行的写法: 
-
-$\sqrt{w^T*w}$
-
-2) 需要换行的写法：
-
-$$
-\sqrt{w^T*w}
-$$
-
-3. 图片参考(用图片的实际地址就行):
-
-<img src='http://data.apachecn.org/img/logo/logo_green.png' width=20% />
-
-4. **翻译完后请删除上面所有模版内容就行**
-
-
-
-# 概要
+# 摘要
 在本教程中，我们将介绍一个新的torch.nn.functional函数，它对于实现机器翻译架构非常有帮助。这个函数名为torch.nn.functional.scaled_dot_product_attention。有关该函数的详细描述，请参阅PyTorch文档。此函数已经被整合到torch.nn.MultiheadAttention和torch.nn.TransformerEncoderLayer中。
 
 # 概述
@@ -70,7 +21,7 @@ $$
 本教程需要PyTorch 2.0.0或更高版本。
 ```
 
-```
+```py
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -162,7 +113,7 @@ The memory efficient implementation runs in 4197.082 microseconds
 # 因果自注意力（Causal Self Attention）
 下面是一个因果自注意力（multi-headed causal self attention）块的示例实现，灵感来源于Andrej Karpathy的NanoGPT仓库。
 
-```
+```py
 class CausalSelfAttention(nn.Module):
 
     def __init__(self, num_heads: int, embed_dimension: int, bias: bool=False, is_causal: bool=False, dropout:float=0.0):
@@ -227,7 +178,7 @@ CausalSelfAttention(
 # NestedTensor 和 Dense 张量支持
 SDPA支持NestedTensor和Dense张量输入。NestedTensors处理的情况是输入是一个不等长序列的批次，而无需将每个序列填充到批次中的最大长度。有关NestedTensors的更多信息，请参阅torch.nested和NestedTensors教程。
 
-```
+```py
 import random
 def generate_rand_batch(
     batch_size,
@@ -317,7 +268,7 @@ The compiled module runs in  516.612 microseconds
 
 具体的执行时间取决于机器，但我的结果是：未编译的模块运行时间为166.616微秒，编译后的模块运行时间为166.726微秒。这并不是我们期望的结果。让我们深入探究一下。PyTorch内置了一个惊人的性能分析器（profiler），您可以使用它来检查代码的性能特征。
 
-```
+```py
 from torch.profiler import profile, record_function, ProfilerActivity
 activities = [ProfilerActivity.CPU]
 if device == 'cuda':
@@ -394,7 +345,7 @@ Self CUDA time total: 20.514ms
 The current argument is_causal in torch.nn.functional.scaled_dot_product_attention is the same as using torch.nn.attention.bias.causal_upper_left.
 ```
 
-```
+```py
 from torch.nn.attention.bias import causal_lower_right, causal_upper_left
 
 batch_size = 32
@@ -449,7 +400,7 @@ out_upper_left = compiled_sdpa(query, key, value, upper_left_bias)
 ```
 
 out
-```
+```py
 <class 'torch.nn.attention.bias.CausalBias'>
 <class 'torch.nn.attention.bias.CausalBias'>
 tensor([[ True, False, False, False, False, False, False, False, False, False],
