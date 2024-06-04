@@ -1,4 +1,4 @@
-> 译者：[片刻小哥哥](https://github.com/jiangzhonglian)
+> 译者：[liuenci](https://github.com/liuenci)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses>
 >
