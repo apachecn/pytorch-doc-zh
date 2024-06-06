@@ -1,17 +1,20 @@
+# （测试版）使用缩放点积注意力（SDPA）实现高性能Transformers [¶](#beta-implementing-high-performance-transformers-with-scaled-dot-product-attention- sdpa"此标题的永久链接")
+
 > 译者：[liuenci](https://github.com/liuenci)
 >
-> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses>
+> 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial>
 >
-> 原始地址：<https://pytorch.org/tutorials//intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses.html>
+> 原始地址：<https://pytorch.org/tutorials//intermediate/scaled_dot_product_attention_tutorial>
 
+**作者**: [Driss Guessous](https://github.com/drisspg)
 
-# 摘要
-在本教程中，我们将介绍一个新的torch.nn.functional函数，它对于实现机器翻译架构非常有帮助。这个函数名为torch.nn.functional.scaled_dot_product_attention。有关该函数的详细描述，请参阅PyTorch文档。此函数已经被整合到torch.nn.MultiheadAttention和torch.nn.TransformerEncoderLayer中。
+# 摘要 [¶](#summary "此标题的永久链接")
+在本教程中，我们将介绍一个新的torch.nn.functional函数，它对于实现 Transformers 架构非常有帮助。这个函数名为torch.nn.functional.scaled_dot_product_attention。有关该函数的详细描述，请参阅[PyTorch 文档](https://pytorch.org/docs/master/generated/torch.nn.function.scaled_dot_product_attention.html#torch.nn.function.scaled_dot_product_attention) 。此函数已经被整合到torch.nn.MultiheadAttention和torch.nn.TransformerEncoderLayer中。
 
-# 概述
+# 概述 [¶](#overview "此标题的永久链接")
 从深层次来看，这个PyTorch函数根据论文《Attention is all you need》中的定义，计算查询（query）、键（key）和值（value）之间的缩放点积注意力（SDPA）。虽然这个函数可以使用现有的PyTorch函数编写，但一个融合实现（fused implementation）可以比朴素实现提供更大的性能优势。
 
-# 融合实现
+# 融合实现 [¶](#fused-implementations "永久链接到此标题")
 对于CUDA张量输入，该函数将分派到以下实现之一：
 1. **FlashAttention**：这是一种快速且内存高效的精确注意力机制，具有IO感知能力。这种实现优化了计算速度，并考虑到输入/输出操作对性能的影响。
 2. **内存高效注意力**：这种实现旨在减少在执行缩放点积注意力时所需的内存占用，这对于处理大型模型或长序列尤为重要。
@@ -48,7 +51,7 @@ tensor([[[-1.3321, -0.3489,  0.3015, -0.3912,  0.9867,  0.3137, -0.0691,
            0.1037]]], device='cuda:0')
 ```
 
-# 显式调度器控制
+# 显式调度器控制 [¶](#explicit-dispatcher-control "永久链接到此标题")
 虽然该函数会隐式地分派到三种实现之一，但用户也可以通过使用上下文管理器（context manager）来显式控制分派。这个上下文管理器允许用户显式禁用某些实现。如果用户想确保函数确实针对他们的特定输入使用最快的实现，可以使用上下文管理器来遍历并测量性能。
 ```py
 # Lets define a helpful benchmarking function:
@@ -104,12 +107,12 @@ The flash attention implementation runs in 2304.600 microseconds
 The memory efficient implementation runs in 4197.082 microseconds
 ```
 
-# 硬件依赖性
+# 硬件依赖性 [¶](#hardware-dependence "永久链接到此标题")
 根据您在上面代码单元运行的机器以及可用的硬件，您得到的结果可能会有所不同：
 - 如果您没有GPU并且是在CPU上运行，那么上下文管理器将不起作用，三次运行应该返回相似的时间。
 - 根据您的显卡支持的计算能力，FlashAttention或内存高效注意力可能会失败。
 
-# 因果自注意力（Causal Self Attention）
+# 因果自注意力[¶](#causal-self-attention "永久链接到此标题")
 下面是一个因果自注意力（multi-headed causal self attention）块的示例实现，灵感来源于Andrej Karpathy的NanoGPT仓库。
 
 ```py
@@ -240,7 +243,7 @@ Random NT runs in 558.517 microseconds
 Random Dense runs in 936.630 microseconds
 ```
 
-# 使用 torch.compile 与 SDPA
+# 使用 torch.compile 与 SDPA [¶](#using-sdpa-with-torch-compile "永久链接到此标题")
 随着PyTorch 2.0的发布，引入了一个名为torch.compile()的新特性，它可以在急切模式（eager mode）上提供显著性能提升。缩放点积注意力（SDPA）与torch.compile()完全兼容。为了演示这一点，我们将使用torch.compile()编译CausalSelfAttention模块，并观察由此带来的性能提升。
 
 ```
@@ -333,7 +336,7 @@ Self CUDA time total: 20.514ms
 之前的代码片段生成了编译和未编译模块在GPU执行时间上消耗最多的前10个PyTorch函数的报告。分析显示，对于两个模块，在GPU上花费的大部分时间集中在同一组函数上。这里的原因是torch.compile非常擅长消除与PyTorch相关的高级框架开销。如果您的模型正在启动大型、高效的CUDA内核，正如本例中的CausalSelfAttention，那么PyTorch的开销可以被隐藏。
 实际上，您的模块通常不仅仅包含一个CausalSelfAttention块。在尝试Andrej Karpathy的NanoGPT仓库时，编译模块将每步训练时间从6090.49毫秒减少到3273.17毫秒！这是在NanoGPT的Shakespeare数据集训练的ae3a8d5提交上完成的。
 
-# 使用 SDPA 与 attn_bias 子类
+# 使用 SDPA 与 attn_bias 子类 [¶](#using-sdpa-with-attn-bias-subclass "永久链接到此标题")
 截至PyTorch 2.3版本，我们增加了一个新的子模块，其中包含了张量的子类。这些子类被设计用于与torch.nn.functional.scaled_dot_product_attention一起使用。该模块名为torch.nn.attention.bias，并包含以下两个用于生成因果注意力变体的工具：
 * torch.nn.attention.bias.causal_upper_left
 
