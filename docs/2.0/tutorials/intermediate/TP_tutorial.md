@@ -1,6 +1,6 @@
 # 大规模Transformer模型训练使用张量并行（TP）
 
-> 译者：[BrightLi](https://github.com/jiangzhonglian)
+> 译者：[BrightLi](https://github.com/brightli)
 >
 > 项目地址：<https://pytorch.apachecn.org/2.0/tutorials/intermediate/TP_tutorial>
 >
@@ -206,7 +206,7 @@ model = parallelize_module(
 )
 ```
 
-###应用损失并行
+### 应用损失并行
 
 损失并行是一种相关的技术，用于在计算损失函数时节省内存和通信，因为模型输出通常非常大。在损失并行中，当模型输出在（通常很大）词汇维度上分片时，可以高效地计算交叉熵损失，而无需将所有模型输出聚集到每个GPU上。这不仅显著减少了内存消耗，而且通过减少通信开销并进行分片并行计算来提高训练速度。下面的图片简要说明了损失并行如何通过进行分片计算来避免将所有模型输出聚集到每个GPU上。
 
