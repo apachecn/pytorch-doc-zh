@@ -182,9 +182,9 @@ nav:
         - "Introduction to torch.compile": "2.0/tutorials/intermediate/torch_compile_tutorial.md"
         - "Inductor CPU backend debugging and profiling": "2.0/tutorials/intermediate/inductor_debug_cpu.md"
         - "(Beta) Implementing High-Performance Transformers with Scaled Dot Product Attention (SDPA)": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial.md"
-        - "Using SDPA with torch.compile": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-torch-compile.md"
-        - "Using SDPA with attn_bias subclasses`": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#using-sdpa-with-attn-bias-subclasses.md"
-        - "Conclusion": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial#conclusion.md"
+        - "Using SDPA with torch.compile": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial.md"
+        - "Using SDPA with attn_bias subclasses`": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial.md"
+        - "Conclusion": "2.0/tutorials/intermediate/scaled_dot_product_attention_tutorial.md"
         - "Knowledge Distillation Tutorial": "2.0/tutorials/beginner/knowledge_distillation_tutorial.md"
       - "Parallel and Distributed Training":
         - "Distributed and Parallel Training Tutorials": "2.0/tutorials/distributed/home.md"
