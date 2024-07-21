@@ -46,53 +46,11 @@
 
 
 
+For simplicity, in this tutorial we hardcode bias=False, stride=1, padding=0, dilation=1, and groups=1 for Conv2D. For BatchNorm2D, we hardcode eps=1e-3, momentum=0.1, affine=False, and track_running_statistics=False. 
 
- 为简单起见，在本教程中我们硬编码
+ 为简单起见，在本教程中， 对于 Conv2D，我们硬编码 bias=False、 stride=1 、 padding=0 、 dilation=1 和 groups=1 。对于 BatchNorm2D，我们硬编码 eps=1e-3 、momentum=0.1 、 affine=False 和 track_running_statistics=False 。另一个小差异是我们在批量范数的计算中在平方根之外的分母中添加了epsilon。 
  
- bias=False
- 
- 、
- 
- stride=1
- 
- 、
- 
- padding=0
- 
- 、
- 
- Conv2D 的 dilation=1
- 
- 、
-and
- 
- groups=1
- 
- 。对于 BatchNorm2D，我们硬编码
- 
- eps=1e-3
- 
- 、
- 
-动量=0.1
- 
- 、
- 
- affine=False
- 
- 和
- 
- track\ \_running_statistics=False
- 
- 。另一个小差异
-是我们在批量范数的计算中
-在平方根之外的分母中添加了epsilon。
-
-
-
-
- [0]
- <https://nenadmarkus.com/p/fusing-batchnorm-and-conv/>
+ [0] <https://nenadmarkus.com/p/fusing-batchnorm-and-conv/>
 
 
 
@@ -105,7 +63,7 @@ and
 
  实现自定义函数需要我们自己实现向后的
 。在这种情况下，我们需要 Conv2D
- 和 BatchNorm2D 的后向公式。最终我们’d 在统一的
+ 和 BatchNorm2D 的后向公式。最终我们 在统一的
 后向函数中将它们链接在一起，但下面我们首先将它们实现为自己的
 自定义函数，以便我们可以单独验证它们的正确性
 
