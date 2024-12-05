@@ -141,7 +141,7 @@ epochs = 5
 
 常见的损失函数包括给回归任务用的 `nn.MSELoss`(Mean Square Error, 均方误差)、给分类任务使用的 `nn.NLLLoss`(Negative Log Likelihood, 负对数似然)、`nn.CrossEntropyLoss`(交叉熵损失函数)结合了 `nn.LogSoftmax` 和 `nn.NLLLoss`.
 
-我们把模型输出的 logits 传递给 `nn.CrossEntropyLoss`， 它会正则化 logits 并计算预测误差。
+我们把模型输出的 logits 传递给 `nn.CrossEntropyLoss`， 它会归一化 logits 并计算预测误差。
 
 ```py
 # 初始化损失函数
