@@ -141,7 +141,7 @@ epochs = 5
 
 常见的损失函数包括给回归任务用的 `nn.MSELoss`(Mean Square Error, 均方误差)、给分类任务使用的 `nn.NLLLoss`(Negative Log Likelihood, 负对数似然)、`nn.CrossEntropyLoss`(交叉熵损失函数)结合了 `nn.LogSoftmax` 和 `nn.NLLLoss`.
 
-我们把模型输出的 logits 传递给 `nn.CrossEntropyLoss`， 它会正则化 logits 并计算预测误差。
+我们把模型输出的 logits 传递给 `nn.CrossEntropyLoss`， 它会归一化 logits 并计算预测误差。
 
 ```py
 # 初始化损失函数
@@ -211,6 +211,18 @@ def test_loop(dataloader, model, loss_fn):
 ```
 
 我们初始化了损失函数和优化器，传递给 `train_loop` 和 `test_loop`。你可以随意地修改 epochs 的数量来跟踪模型表现的进步情况。
+
+```py
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+
+epochs = 10
+for t in range(epochs):
+    print(f"Epoch {t+1}\n-------------------------------")
+    train_loop(train_dataloader, model, loss_fn, optimizer)
+    test_loop(test_dataloader, model, loss_fn)
+print("Done!")
+```
 
 输出:
 
