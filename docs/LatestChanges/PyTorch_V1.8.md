@@ -22,20 +22,20 @@
 
 PyTorch 1.8版本带来了大量新的和更新的API表面，包括NumPy兼容性的其他API，还支持在推理和训练时间改进和扩展代码性能的方法。以下是此版本中主要功能的简要摘要：
 
-### \[Stable\] `Torch.fft`支持高性能NumPy风格的FFT
+### [Stable] `Torch.fft`支持高性能NumPy风格的FFT
 
 作为PyTorch支持科学计算的目标的一部分，我们投资改善了FFT支持，通过PyTorch 1.8，我们发布了`torch.fft`模块。该模块实现了与NumPy的`np.fft`模块相同的功能，但支持硬件加速和自动升级。
 
 *   有关更多详细信息，请参阅此[博客文章](https://pytorch.org/blog/the-torch.fft-module-accelerated-fast-fourier-transforms-with-autograd-in-pyTorch/)
 *   [文稿](https://pytorch.org/docs/1.8.0/fft.html)
 
-### \[Beta\] 支持NumPy风格的线性代数函数`torch.linalg`
+### [Beta] 支持NumPy风格的线性代数函数`torch.linalg`
 
 `torch.linalg`模块以NumPy的[np.linalg](https://numpy.org/doc/stable/reference/routines.linalg.html?highlight=linalg#module-numpy.linalg)模块为模型，为常见的线性代数运算带来了NumPy风格的支持，包括Cholesky分解、行列式、特征值和许多其他运算。
 
 *   [文稿](https://pytorch.org/docs/1.8.0/linalg.html)
 
-### \[BETA\] 使用FX进行PYTHON代码转换
+### [Beta] 使用FX进行PYTHON代码转换
 
 FX允许您编写表单`transform(input_module : nn.Module)`\-> `nn.Module`的转换，您可以在其中输入`Module`实例并从中获取转换后的`Module`实例。
 
@@ -51,14 +51,14 @@ FX允许您编写表单`transform(input_module : nn.Module)`\-> `nn.Module`的�
 
 PyTorch 1.8版本增加了许多新功能，并改进了可靠性和可用性。具体来说，支持：添加了[稳定级别的异步错误/超时处理](https://pytorch.org/docs/stable/distributed.html?highlight=init_process_group#torch.distributed.init_process_group)，以提高NCCL的可靠性；以及对[基于RPC的剖析](https://pytorch.org/docs/stable/rpc.html)的稳定支持。此外，我们通过使用DDP中的通信钩子，增加了对管道并行性以及梯度压缩的支持。详情如下：
 
-### \[Beta\] 管道并行性
+### [Beta] 管道并行性
 
 随着机器学习模型的规模不断扩大，传统的分布式数据并行(DDP)训练不再扩展，因为这些模型不适合单个GPU设备。新的管道并行功能提供了一个易于使用的PyTorch API，以利用管道并行作为训练循环的一部分。
 
 *   [RFC](https://github.com/pytorch/pytorch/issues/44827)
 *   [文稿](https://pytorch.org/docs/1.8.0/pipeline.html?highlight=pipeline#)
 
-### \[Beta\] DDP通信挂钩
+### [Beta] DDP通信挂钩
 
 DDP通信钩子是一个通用接口，通过覆盖DistributedDataParallel中的香草allreduce来控制如何在工人之间通信梯度。提供了一些内置通信钩子，包括PowerSGD，用户可以轻松应用这些钩子中的任何一个来优化通信。此外，通信钩子接口还可以支持更高级用例的用户定义通信策略。
 
@@ -92,7 +92,7 @@ DDP通信钩子是一个通用接口，通过覆盖DistributedDataParallel中的
 
 最后，我们将推出PyTorch Mobile Lite Interpreter作为此版本的原型功能。Lite Interpreter允许用户减少运行时二进制大小。请尝试这些，并向我们发送您对[PyTorch论坛的](https://discuss.pytorch.org/c/mobile/)反馈。我们的所有最新更新都可以在[PyTorch Mobile页面上](https://pytorch.org/mobile/home/)找到
 
-### \[Prototype\] PyTorch Mobile Lite interpreter
+### [Prototype] PyTorch Mobile Lite interpreter
 
 PyTorch Lite Interpreter是PyTorch运行时的简化版本，可以在资源受限的设备上执行PyTorch程序，并减少二进制大小占用。与当前版本中的当前设备运行时相比，此原型功能将二进制大小减少了高达70%。
 
@@ -150,13 +150,13 @@ FX图形模式量化是PyTorch中新的自动量化API。它通过添加对功�
 
 ## 硬件支持
 
-### \[Beta\] 在C++中为新后端扩展PyTorch Dispatcher的能力
+### [Beta] 在C++中为新后端扩展PyTorch Dispatcher的能力
 
 In PyTorch 1.8, you can now create new out-of-tree devices that live outside the `pytorch/pytorch` repo. The tutorial linked below shows how to register your device and keep it in sync with native PyTorch devices.
 
 *   [辅导课](https://pytorch.org/tutorials/advanced/extend_dispatcher.html)
 
-### \[Beta\] AMD GPU二进制文件现已推出
+### [Beta] AMD GPU二进制文件现已推出
 
 从PyTorch 1.8开始，我们增加了对ROCm车轮的支持，可以轻松使用AMD GPU。您只需转到标准的[PyTorch安装选择器](https://pytorch.org/get-started/locally/)，选择ROCm作为安装选项，然后执行提供的命令。
 
