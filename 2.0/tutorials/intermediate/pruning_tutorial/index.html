@@ -1,0 +1,6184 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://pytorch.apachecn.org/2.0/tutorials/intermediate/pruning_tutorial/">
+      
+      
+        <link rel="prev" href="../parametrizations/">
+      
+      
+        <link rel="next" href="../../advanced/dynamic_quantization_tutorial/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>Pruning Tutorial - 【布客】PyTorch 中文翻译</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.d7758b05.min.css">
+      
+      
+  
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775m1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2.5 1.75v11.5c0 .138.112.25.25.25h3.17a.75.75 0 0 1 0 1.5H2.75A1.75 1.75 0 0 1 1 13.25V1.75C1 .784 1.784 0 2.75 0h8.5C12.216 0 13 .784 13 1.75v7.736a.75.75 0 0 1-1.5 0V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25m13.274 9.537zl-4.557 4.45a.75.75 0 0 1-1.055-.008l-1.943-1.95a.75.75 0 0 1 1.062-1.058l1.419 1.425 4.026-3.932a.75.75 0 1 1 1.048 1.074M4.75 4h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5M4 7.75A.75.75 0 0 1 4.75 7h2a.75.75 0 0 1 0 1.5h-2A.75.75 0 0 1 4 7.75"/></svg>');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75M8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/></svg>');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.499.75a.75.75 0 0 1 1.5 0v.996C5.9 2.903 6.793 3.65 7.662 4.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873 10.794-.045 12.622.26 14.408.558 16 1.94 16 4.25c0 1.278-.954 2.575-2.44 2.734l.146.508.065.22c.203.701.412 1.455.476 2.226.142 1.707-.4 3.03-1.487 3.898C11.714 14.671 10.27 15 8.75 15h-6a.75.75 0 0 1 0-1.5h1.376a4.5 4.5 0 0 1-.563-1.191 3.84 3.84 0 0 1-.05-2.063 4.65 4.65 0 0 1-2.025-.293.75.75 0 0 1 .525-1.406c1.357.507 2.376-.006 2.698-.318l.009-.01a.747.747 0 0 1 1.06 0 .75.75 0 0 1-.012 1.074c-.912.92-.992 1.835-.768 2.586.221.74.745 1.337 1.196 1.621H8.75c1.343 0 2.398-.296 3.074-.836.635-.507 1.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4 2.4 0 0 1-.507-.441 3.1 3.1 0 0 1-.633-1.248.75.75 0 0 1 1.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738 0 1.25-.615 1.25-1.25 0-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706 1.345-.46.92-.27 1.774.019 3.062l.042.19.01.05c.348.443.666.949.94 1.553a.75.75 0 1 1-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7 5.527c-.814-.68-1.75-1.462-2.692-2.619a3.7 3.7 0 0 0-1.023.88c-.406.495-.663 1.036-.722 1.508.116.122.306.21.591.239.388.038.797-.06 1.032-.19a.75.75 0 0 1 .728 1.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75 5.677V5.5c0-.984.48-1.94 1.077-2.664.46-.559 1.05-1.055 1.673-1.353z"/></svg>');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 .018-1.042.75.75 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0"/></svg>');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M6.92 6.085h.001a.749.749 0 1 1-1.342-.67c.169-.339.436-.701.849-.977C6.845 4.16 7.369 4 8 4a2.76 2.76 0 0 1 1.637.525c.503.377.863.965.863 1.725 0 .448-.115.83-.329 1.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6 6 0 0 0-.26.16 1 1 0 0 0-.276.245.75.75 0 0 1-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1 1 0 0 0 .277-.245C8.96 6.514 9 6.427 9 6.25a.61.61 0 0 0-.262-.525A1.27 1.27 0 0 0 8 5.5c-.369 0-.595.09-.74.187a1 1 0 0 0-.34.398M9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0M9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2.344 2.343za8 8 0 0 1 11.314 11.314A8.002 8.002 0 0 1 .234 10.089a8 8 0 0 1 2.11-7.746m1.06 10.253a6.5 6.5 0 1 0 9.108-9.275 6.5 6.5 0 0 0-9.108 9.275M6.03 4.97 8 6.94l1.97-1.97a.749.749 0 0 1 1.275.326.75.75 0 0 1-.215.734L9.06 8l1.97 1.97a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215L8 9.06l-1.97 1.97a.749.749 0 0 1-1.275-.326.75.75 0 0 1 .215-.734L6.94 8 4.97 6.03a.75.75 0 0 1 .018-1.042.75.75 0 0 1 1.042-.018"/></svg>');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9.504.43a1.516 1.516 0 0 1 2.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 0 1-.871.354h-.302a1.25 1.25 0 0 1-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004zm1.047 1.074L3.286 8.571A.25.25 0 0 0 3.462 9H6.75a.75.75 0 0 1 .694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0 0 12.538 7H9.25a.75.75 0 0 1-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005 0-.009.004"/></svg>');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4.72.22a.75.75 0 0 1 1.06 0l1 .999a3.5 3.5 0 0 1 2.441 0l.999-1a.748.748 0 0 1 1.265.332.75.75 0 0 1-.205.729l-.775.776c.616.63.995 1.493.995 2.444v.327q0 .15-.025.292c.408.14.764.392 1.029.722l1.968-.787a.75.75 0 0 1 .556 1.392L13 7.258V9h2.25a.75.75 0 0 1 0 1.5H13v.5q-.002.615-.141 1.186l2.17.868a.75.75 0 0 1-.557 1.392l-2.184-.873A5 5 0 0 1 8 16a5 5 0 0 1-4.288-2.427l-2.183.873a.75.75 0 0 1-.558-1.392l2.17-.868A5 5 0 0 1 3 11v-.5H.75a.75.75 0 0 1 0-1.5H3V7.258L.971 6.446a.75.75 0 0 1 .558-1.392l1.967.787c.265-.33.62-.583 1.03-.722a1.7 1.7 0 0 1-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72 1.28a.75.75 0 0 1 0-1.06m.53 6.28a.75.75 0 0 0-.75.75V11a3.5 3.5 0 1 0 7 0V7.25a.75.75 0 0 0-.75-.75ZM6.173 5h3.654A.17.17 0 0 0 10 4.827V4.5a2 2 0 1 0-4 0v.327c0 .096.077.173.173.173"/></svg>');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5 5.782V2.5h-.25a.75.75 0 0 1 0-1.5h6.5a.75.75 0 0 1 0 1.5H11v3.282l3.666 5.76C15.619 13.04 14.543 15 12.767 15H3.233c-1.776 0-2.852-1.96-1.899-3.458Zm-2.4 6.565a.75.75 0 0 0 .633 1.153h9.534a.75.75 0 0 0 .633-1.153L12.225 10.5h-8.45ZM9.5 2.5h-3V6c0 .143-.04.283-.117.403L4.73 9h6.54L9.617 6.403A.75.75 0 0 1 9.5 6Z"/></svg>');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1.75 2.5h10.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5m4 5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5m0 5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5M2.5 7.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 1.5 0"/></svg>');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="【布客】PyTorch 中文翻译" class="md-header__button md-logo" aria-label="【布客】PyTorch 中文翻译" data-md-component="logo">
+      
+  <img src="https://data.dafeiyang.cn/images/logo/logo_green.webp" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            【布客】PyTorch 中文翻译
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pruning Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/apachecn/pytorch-doc-zh" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    apachecn/pytorch-doc-zh
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="【布客】PyTorch 中文翻译" class="md-nav__button md-logo" aria-label="【布客】PyTorch 中文翻译" data-md-component="logo">
+      
+  <img src="https://data.dafeiyang.cn/images/logo/logo_green.webp" alt="logo">
+
+    </a>
+    【布客】PyTorch 中文翻译
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/apachecn/pytorch-doc-zh" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    apachecn/pytorch-doc-zh
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 中文文档 & 教程
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    PyTorch 新特性
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            PyTorch 新特性
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V2.0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V2.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.13
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.12
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.11
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.9
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.8
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LatestChanges/PyTorch_V1.2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V1.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    PyTorch 2.x 中文文档 & 教程
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            PyTorch 2.x 中文文档 & 教程
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    中文教程
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            中文教程
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    PyTorch Recipes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            PyTorch Recipes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recipes/recipes_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    See All Recipes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../prototype/prototype_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    See All Prototype Recipes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Introduction to PyTorch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Introduction to PyTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Learn the Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/quickstart_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/tensorqs_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/data_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Datasets & DataLoaders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/transforms_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transforms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/buildmodel_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Build the Neural Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/autogradqs_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Automatic Differentiation with torch.autograd
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/optimization_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Optimizing Model Parameters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/basics/saveloadrun_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Save and Load the Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_3" id="__nav_3_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Introduction to PyTorch on YouTube
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Introduction to PyTorch on YouTube
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to PyTorch - YouTube Series
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/introyt1_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to PyTorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/tensors_deeper_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to PyTorch Tensors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/autogradyt_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The Fundamentals of Autograd
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/modelsyt_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building Models with PyTorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/tensorboardyt_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch TensorBoard Support
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/trainingyt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Training with PyTorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/introyt/captumyt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Model Understanding with Captum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_4" id="__nav_3_1_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning PyTorch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Learning PyTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/deep_learning_60min_blitz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deep Learning with PyTorch: A 60 Minute Blitz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/pytorch_with_examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Learning PyTorch with Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/nn_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is torch.nn really?
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorboard_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Visualizing Models, Data, and Training with TensorBoard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_5" id="__nav_3_1_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Image and Video
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Image and Video
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torchvision_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchVision Object Detection Finetuning Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/transfer_learning_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transfer Learning for Computer Vision Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/fgsm_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Adversarial Example Generation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/dcgan_faces_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DCGAN Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_transformer_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spatial Transformer Networks Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/vt_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Optimizing Vision Transformer Model for Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tiatoolbox_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Whole Slide Image Classification Using PyTorch and TIAToolbox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_6" id="__nav_3_1_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Audio
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Audio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/audio_io_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audio I/O
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/audio_resampling_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audio Resampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/audio_data_augmentation_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audio Data Augmentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/audio_feature_extractions_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audio Feature Extractions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/audio_feature_augmentation_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audio Feature Augmentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/audio_datasets_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audio Datasets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speech_recognition_pipeline_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Speech Recognition with Wav2Vec2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../text_to_speech_with_torchaudio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Text-to-speech with Tacotron2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../forced_alignment_with_torchaudio_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Forced Alignment with Wav2Vec2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_7" id="__nav_3_1_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Text
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            Text
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/bettertransformer_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fast Transformer Inference with Better Transformer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../char_rnn_classification_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NLP From Scratch: Classifying Names with a Character-Level RNN
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../char_rnn_generation_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NLP From Scratch: Generating Names with a Character-Level RNN
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seq2seq_translation_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NLP From Scratch: Translation with a Sequence to Sequence Network and Attention
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/text_sentiment_ngrams_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Text classification with the torchtext library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/translation_transformer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Language Translation with nn.Transformer and torchtext
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/torchtext_custom_dataset_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preprocess custom text dataset using Torchtext
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_8" id="__nav_3_1_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Backends
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_8">
+            <span class="md-nav__icon md-icon"></span>
+            Backends
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/onnx/intro_onnx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to ONNX
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_9" id="__nav_3_1_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reinforcement Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_9">
+            <span class="md-nav__icon md-icon"></span>
+            Reinforcement Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reinforcement_q_learning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reinforcement Learning (DQN) Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reinforcement_ppo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reinforcement Learning (PPO) with TorchRL Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mario_rl_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Train a Mario-playing RL Agent
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/pendulum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pendulum: Writing your environment and transforms with TorchRL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_10" id="__nav_3_1_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Deploying PyTorch Models in Production
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_10">
+            <span class="md-nav__icon md-icon"></span>
+            Deploying PyTorch Models in Production
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/onnx/intro_onnx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to ONNX
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flask_rest_api_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deploying PyTorch in Python via a REST API with Flask
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/Intro_to_TorchScript_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to TorchScript
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/cpp_export/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Loading a TorchScript Model in C++
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/super_resolution_with_onnxruntime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (optional) Exporting a Model from PyTorch to ONNX and Running it using ONNX Runtime
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../realtime_rpi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Real Time Inference on Raspberry Pi 4 (30 fps!)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_11" id="__nav_3_1_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Profiling PyTorch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_11">
+            <span class="md-nav__icon md-icon"></span>
+            Profiling PyTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/profiler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Profiling your PyTorch Module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/hta_intro_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to Holistic Trace Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/hta_trace_diff_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trace Diff using Holistic Trace Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_12" id="__nav_3_1_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Code Transforms with FX
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_12">
+            <span class="md-nav__icon md-icon"></span>
+            Code Transforms with FX
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fx_conv_bn_fuser/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Building a Convolution/Batch Norm fuser in FX
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fx_profiling_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Building a Simple CPU Performance Profiler with FX
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_13" id="__nav_3_1_13_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Frontend APIs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_13">
+            <span class="md-nav__icon md-icon"></span>
+            Frontend APIs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memory_format_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Channels Last Memory Format in PyTorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../forward_ad_usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Forward-mode Automatic Differentiation (Beta)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jacobians_hessians/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jacobians, Hessians, hvp, vhp, and more: composing function transforms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ensembling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Model ensembling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per_sample_grads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per-sample-gradients
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/cpp_frontend/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using the PyTorch C++ Frontend
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/torch-script-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dynamic Parallelism in TorchScript
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/cpp_autograd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Autograd in C++ Frontend
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_14" id="__nav_3_1_14_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Extending PyTorch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_14">
+            <span class="md-nav__icon md-icon"></span>
+            Extending PyTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom_function_double_backward_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Double Backward with Custom Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom_function_conv_bn_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fusing Convolution and Batch Norm using Custom Function
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/cpp_extension/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Custom C++ and CUDA Extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/torch_script_custom_ops/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Extending TorchScript with Custom C++ Operators
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/torch_script_custom_classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Extending TorchScript with Custom C++ Classes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/dispatcher/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Registering a Dispatched Operator in C++
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/extend_dispatcher/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Extending dispatcher for a new backend in C++
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/privateuseone/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Facilitating New Backend Integration by PrivateUse1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_15" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_15" id="__nav_3_1_15_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Model Optimization
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_15_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_15">
+            <span class="md-nav__icon md-icon"></span>
+            Model Optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/profiler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Profiling your PyTorch Module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorboard_profiler_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch Profiler With TensorBoard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/hyperparameter_tuning_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hyperparameter tuning with Ray Tune
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/vt_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Optimizing Vision Transformer Model for Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parametrizations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parametrizations Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Pruning Tutorial
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Pruning Tutorial
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      要求 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建模型 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      检查模块 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      修剪模块 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      迭代修剪 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      序列化修剪后的模型 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      删除修剪重新参数化 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      修剪模型中的多个参数 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      全局修剪 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用自定义修剪函数扩展
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/dynamic_quantization_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Dynamic Quantization on an LSTM Word Language Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_quantization_bert_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Dynamic Quantization on BERT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantized_transfer_learning_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Quantized Transfer Learning for Computer Vision Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/static_quantization_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (beta) Static Quantization with Eager Mode in PyTorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torchserve_with_ipex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grokking PyTorch Intel CPU performance from first principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torchserve_with_ipex_2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grokking PyTorch Intel CPU performance from first principles (Part 2)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nvfuser_intro_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started - Accelerate Your Scripts with nvFuser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ax_multiobjective_nas_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi-Objective NAS with Ax
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch_compile_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to torch.compile
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inductor_debug_cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inductor CPU backend debugging and profiling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaled_dot_product_attention_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (Beta) Implementing High-Performance Transformers with Scaled Dot Product Attention (SDPA)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaled_dot_product_attention_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (Beta) Implementing High-Performance Transformers with Scaled Dot Product Attention (SDPA)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaled_dot_product_attention_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (Beta) Implementing High-Performance Transformers with Scaled Dot Product Attention (SDPA)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaled_dot_product_attention_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    (Beta) Implementing High-Performance Transformers with Scaled Dot Product Attention (SDPA)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/knowledge_distillation_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Knowledge Distillation Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_16" id="__nav_3_1_16_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Parallel and Distributed Training
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_16">
+            <span class="md-nav__icon md-icon"></span>
+            Parallel and Distributed Training
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../distributed/home/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Distributed and Parallel Training Tutorials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/dist_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch Distributed Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/ddp_series_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Distributed Data Parallel in PyTorch - Video Tutorials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_parallel_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Single-Machine Model Parallel Best Practices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ddp_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Distributed Data Parallel
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dist_tuto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Writing Distributed Applications with PyTorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FSDP_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Fully Sharded Data Parallel(FSDP)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FSDP_adavnced_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Model Training with Fully Sharded Data Parallel (FSDP)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TP_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Large Scale Transformer model training with Tensor Parallel (TP)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../process_group_cpp_extension_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customize Process Group Backends Using Cpp Extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rpc_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Distributed RPC Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rpc_param_server_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementing a Parameter Server Using Distributed RPC Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dist_pipeline_parallel_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Distributed Pipeline Parallelism Using RPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rpc_async_execution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementing Batch RPC Processing Using Asynchronous Executions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/rpc_ddp_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Combining Distributed DataParallel with Distributed RPC Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/ddp_pipeline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Training Transformer models using Distributed Data Parallel and Pipeline Parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/generic_join/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Distributed Training with Uneven Inputs Using the Join Context Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_17" id="__nav_3_1_17_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Edge with ExecuTorch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_17">
+            <span class="md-nav__icon md-icon"></span>
+            Edge with ExecuTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/executorch/stable/tutorials/export-to-executorch-tutorial.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exporting to ExecuTorch Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/executorch/stable/running-a-model-cpp-tutorial.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running an ExecuTorch Model in C++ Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/executorch/stable/tutorials/sdk-integration-tutorial.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using the ExecuTorch SDK to Profile a Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/executorch/stable/demo-apps-ios.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building an ExecuTorch iOS Demo App
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/executorch/stable/demo-apps-android.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building an ExecuTorch Android Demo App
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/executorch/stable/examples-end-to-end-to-lower-model-to-delegate.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lowering a Model as a Delegate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_18" id="__nav_3_1_18_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Recommendation Systems
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_18">
+            <span class="md-nav__icon md-icon"></span>
+            Recommendation Systems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torchrec_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to TorchRec
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/sharding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exploring TorchRec sharding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_19" id="__nav_3_1_19_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Multimodality
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_19">
+            <span class="md-nav__icon md-icon"></span>
+            Multimodality
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginner/flava_finetuning_tutorial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchMultimodal Tutorial: Finetuning FLAVA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    中文文档
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            中文文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../docs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    介绍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/docs/stable/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pytorch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/audio/stable/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Torchaudio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/text/stable/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchText
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/vision/stable/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchVision
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/torcharrow/beta/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchArrow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/torchrec/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchRec
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/serve/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchServe
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/torchx/latest/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TorchX
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch.org/xla/release/2.3/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch on XLA Devices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch1x.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 1.7 中文文档
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch1x.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 1.4 中文文档 & 教程
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch1x.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 1.0 中文文档 & 教程
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch0x.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 0.4 中文文档
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch0x.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 0.3 中文文档 & 教程
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://pytorch0x.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch 0.2 中文文档
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../contrib/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    贡献指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://www.apachecn.org/about" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    关于我们
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://www.apachecn.org/join" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    加入我们
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.apachecn.org" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中文资源合集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      要求 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建模型 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      检查模块 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      修剪模块 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      迭代修剪 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      序列化修剪后的模型 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      删除修剪重新参数化 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      修剪模型中的多个参数 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      全局修剪 ¶
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用自定义修剪函数扩展
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/apachecn/pytorch-doc-zh/edit/master/docs/2.0/tutorials/intermediate/pruning_tutorial.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/apachecn/pytorch-doc-zh/raw/master/docs/2.0/tutorials/intermediate/pruning_tutorial.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">修剪教程 <a href="#pruning-tutorial" title="永久链接到此标题">¶</a></h1>
+<blockquote>
+<p>译者：<a href="https://github.com/jiangzhonglian">片刻小哥哥</a></p>
+<p>项目地址：<a href="https://pytorch.apachecn.org/2.0/tutorials/intermediate/pruning_tutorial">https://pytorch.apachecn.org/2.0/tutorials/intermediate/pruning_tutorial</a></p>
+<p>原始地址：<a href="https://pytorch.org/tutorials/intermediate/pruning_tutorial.html">https://pytorch.org/tutorials/intermediate/pruning_tutorial.html</a></p>
+</blockquote>
+<p><strong>作者</strong> 
+ :
+ <a href="https://github.com/mickypaganini">米歇拉·帕格尼尼</a></p>
+<p>最先进的深度学习技术依赖于难以部署的过度参数化模型。相反，生物神经网络已知使用有效的稀疏连接。为了在不牺牲准确性的情况下减少内存、电池和硬件消耗，
+通过减少模型中参数的数量来识别
+最佳压缩模型的技术非常重要。这反过来又允许您在设备上部署轻量级模型，并通过私有设备上计算来保证
+隐私。在研究前沿，剪枝被
+用来研究参数化网络和参数化不足网络之间学习动态的差异，研究幸运
+s稀疏子网络和初始化的作用
+(“
+ <a href="https://arxiv.org/abs/1803.03635">彩票</a> 
+ ”) 作为一种破坏性的
+神经架构搜索技术，等等。</p>
+<p>在本教程中，您将学习如何使用
+ <code>torch.nn.utils.prune</code>
+ 来解析您的神经网络，以及如何扩展它以实现
+您自己的自定义修剪技术。</p>
+<h2 id="_2">要求 <a href="#requirements" title="永久链接到此标题">¶</a></h2>
+<p><code>"火炬&gt;=1.4.0a0+8e8a5e0"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>import torch
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>from torch import nn
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>import torch.nn.utils.prune as prune
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>import torch.nn.functional as F
+</code></pre></div>
+<h2 id="_3">创建模型 <a href="#create-a-model" title="永久链接到此标题">¶</a></h2>
+<p>在本教程中，我们使用 
+ LeCun 等人，1998 年的 
+ <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf">LeNet</a> 架构。\ n</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>class LeNet(nn.Module):
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    def __init__(self):
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        super(LeNet, self).__init__()
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        # 1 input image channel, 6 output channels, 5x5 square conv kernel
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        self.conv1 = nn.Conv2d(1, 6, 5)
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        self.conv2 = nn.Conv2d(6, 16, 5)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        self.fc1 = nn.Linear(16 * 5 * 5, 120)  # 5x5 image dimension
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        self.fc2 = nn.Linear(120, 84)
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        self.fc3 = nn.Linear(84, 10)
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    def forward(self, x):
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        x = F.max_pool2d(F.relu(self.conv2(x)), 2)
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        x = x.view(-1, int(x.nelement() / x.shape[0]))
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        x = F.relu(self.fc1(x))
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        x = F.relu(self.fc2(x))
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>        x = self.fc3(x)
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        return x
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>model = LeNet().to(device=device)
+</code></pre></div>
+<h2 id="_4">检查模块 <a href="#inspect-a-module" title="此标题的固定链接">¶</a></h2>
+<p>让’s 检查 LeNet 模型中的(未修剪的)
+ <code>conv1</code>
+ 层。它将包含两个
+参数
+ <code>weight</code>
+ 和
+ <code>bias</code>
+ ，并且暂时没有缓冲区。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>module = model.conv1
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>print(list(module.named_parameters()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[(&#39;weight&#39;, Parameter containing:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>tensor([[[[ 0.1529,  0.1660, -0.0469,  0.1837, -0.0438],
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>          [ 0.0404, -0.0974,  0.1175,  0.1763, -0.1467],
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>          [ 0.1738,  0.0374,  0.1478,  0.0271,  0.0964],
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>          [-0.0282,  0.1542,  0.0296, -0.0934,  0.0510],
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>          [-0.0921, -0.0235, -0.0812,  0.1327, -0.1579]]],
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a> [[[-0.0922, -0.0565, -0.1203, 0.0189, -0.1975],
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a> [ 0.1806, -0.1699, 0.1544, 0.0333, -0.0649],
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a> [ 0.1236, 0.0312, 0.1616, 0.0219 ，-0.0631]，\ n [ 0.0537, -0.0542, 0.0842, 0.1786, 0.1156],
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a> [-0.0874, 0.1155, 0.0358, 0.1016, -0.1219]]],
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a> [[[-0.1980, -0.0773, -0.1534, 0.1641, 0.0576],
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a> [ 0.0828, 0.0633, -0.0035, 0.1565, -0.1421],
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a> [ 0.1799, 0.0667, 0.1925, -0.1651, -0.1984]]],
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a> [-0.1033, -0.1363, 0.1061, -0.0808, 0.1214],
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a> [-0.0475, 0.1144, -0.1554, -0.1009 , 0.0610], 
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a> [ 0.0423, -0.0510, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a> [-0.1068, 0.1831, -0.0675, -0.0709, -0.1935]]],
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a> [[[-0.1145, 0.0500, -0.0264, -0.1452, 0.0047],
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a> [-0.1366, -0.1697, -0.1101, -0.1750, -0.1273],
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a> [ 0.1999, 0.0378, 0.0616, -0.1865 , -0.1314 ],
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a> [-0.0666, 0.0313, -0.1760, -0.0862, -0.1197],
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a> [ 0.0006, -0.0744, -0.0139, -0.1355, -0.1373]]],
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>        [[[-0.1167, -0.0685, -0.1579,  0.1677, -0.0397],
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>          [ 0.1721,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>          [-0.0767, -0.1660, -0.1988,  0.0572, -0.0437],
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>          [ 0.0418,  0.1033,  0.1615,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>       requires_grad=True)), (&#39;bias&#39;, Parameter containing:
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>tensor([ 0.0503, -0.0860, -0.0219, -0.1497,  0.1822, -0.1468], device=&#39;cuda:0&#39;,
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>       requires_grad=True))]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>print(list(module.named_buffers()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[]
+</code></pre></div>
+<h2 id="_5">修剪模块 <a href="#pruning-a-module" title="永久链接到此标题">¶</a></h2>
+<p>要修剪模块(在本例中，是 LeNet 架构的 
+ <code>conv1</code>
+ 层)，首先在 
+​​ <code>torch.nn.utils.prune</code> 中选择一种修剪技术
+ (或
+ <a href="#extending-torch-nn-utils-pruning-with-custom-pruning-functions">实现</a> 
+ 通过子类化
+ <code>BasePruningMethod</code>
+ 来实现你自己的。然后，指定模块以及要在该模块内修剪的参数名称。最后，使用所选修剪技术
+所需的适当关键字参数指定修剪参数。</p>
+<p>在此示例中，我们将随机修剪
+<code>conv1</code>
+ 层中名为
+ <code>weight</code>
+ 的参数中的 30% 连接。
+该模块作为第一个参数传递给function;
+ <code>name</code>
+ 使用其字符串标识符标识该模块内的参数； 
+ <code>amount</code>
+ 表示要修剪的连接的百分比(如果它是 0 和 1 之间的浮点数)，或者要修剪的连接的绝对数量(如果它是非负整数).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>prune.random_unstructured(module, name=&quot;weight&quot;, amount=0.3)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+</code></pre></div>
+<p>修剪的方式是从参数中删除
+ <code>weight</code>
+ 并将其替换为
+名为
+ <code>weight_orig</code>
+ 的新参数(即附加
+ <code>"_orig"</code>\ n 到
+初始参数
+ <code>name</code>
+ )。
+ <code>weight_orig</code>
+ 存储tensor的未剪枝版本。 
+ <code>偏差</code>
+ 未被修剪，因此它将保持不变。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>print(list(module.named_parameters()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>[(&#39;bias&#39;, Parameter containing:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>tensor([ 0.0503, -0.0860, -0.0219, -0.1497,  0.1822, -0.1468], device=&#39;cuda:0&#39;,
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>       requires_grad=True)), (&#39;weight_orig&#39;, Parameter containing:
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>tensor([[[[ 0.1529,  0.1660, -0.0469,  0.1837, -0.0438],
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>          [ 0.0404, -0.0974,  0.1175,  0.1763, -0.1467],
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>          [ 0.1738,  0.0374,  0.1478,  0.0271,  0.0964],
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>          [-0.0282,  0.1542,  0.0296, -0.0934,  0.0510],
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>          [-0.0921, -0.0235, -0.0812,  0.1327, -0.1579]]],
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a> [[[-0.0922, -0.0565, -0.1203, 0.0189, -0.1975],
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a> [ 0.1806, -0.1699, 0.1544, 0.0333, -0.0649],
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a> [ 0.1236, 0.0312, 0.1616, 0.0219 ，-0.0631]，\ n [ 0.0537, -0.0542, 0.0842, 0.1786, 0.1156],
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a> [-0.0874, 0.1155, 0.0358, 0.1016, -0.1219]]],
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a> [[[-0.1980, -0.0773, -0.1534, 0.1641, 0.0576],
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a> [ 0.0828, 0.0633, -0.0035, 0.1565, -0.1421],
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a> [ 0.1799, 0.0667, 0.1925, -0.1651, -0.1984]]],
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a> [-0.1033, -0.1363, 0.1061, -0.0808, 0.1214],
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a> [-0.0475, 0.1144, -0.1554, -0.1009 , 0.0610], 
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a> [ 0.0423, -0.0510, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a> [-0.1068, 0.1831, -0.0675, -0.0709, -0.1935]]],
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a> [[[-0.1145, 0.0500, -0.0264, -0.1452, 0.0047],
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a> [-0.1366, -0.1697, -0.1101, -0.1750, -0.1273],
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a> [ 0.1999, 0.0378, 0.0616, -0.1865 , -0.1314 ],
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a> [-0.0666, 0.0313, -0.1760, -0.0862, -0.1197],
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a> [ 0.0006, -0.0744, -0.0139, -0.1355, -0.1373]]],
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a>
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>        [[[-0.1167, -0.0685, -0.1579,  0.1677, -0.0397],
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>          [ 0.1721,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>          [-0.0767, -0.1660, -0.1988,  0.0572, -0.0437],
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>          [ 0.0418,  0.1033,  0.1615,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>       requires_grad=True))]
+</code></pre></div>
+<p>通过上面选择的修剪技术生成的修剪掩码被保存
+为一个名为
+<code>weight_mask</code>
+的模块缓冲区(即附加
+<code>"_mask"</code>
+到
+初始参数
+ <code>名称</code>
+ )。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>print(list(module.named_buffers()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>[(&#39;weight_mask&#39;, tensor([[[[1., 1., 1., 1., 1.],
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>          [1., 0., 1., 1., 1.],
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>          [1., 0., 0., 1., 1.],
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>          [1., 0., 1., 1., 1.],
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>          [1., 0., 0., 1., 1.]]],
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a> [[[1., 1., 1., 0., 1.],
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a> [0., 1., 1., 1., 0.],
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a> [1., 1., 0., 1., 0.],
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a> [0., 1., 0., 1., 1.]]],
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a> [[[1., 0., 0., 0., 1.],
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a> [1., 0., 1., 1., 0.],
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a> [1., 0., 1., 1., 0.]]],
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a> [[[1., 1., 1., 1., 1.],
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a> [0., 1., 1., 1., 0.],
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a> [1., 1., 1., 0., 1.],
+<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a> [0., 0., 1., 1., 1.],
+<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a> [1., 1., 0., 1., 1.]]],
+<a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>
+<a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>
+<a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a> [[[1., 0., 1., 1., 1.],
+<a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a> [1., 1., 0., 0., 0.],
+<a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a> [1., 1., 0., 0., 0.],
+<a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a> [0., 1., 1., 0., 1.],
+<a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a> [1., 0., 0., 0., 1.]]],
+<a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>
+<a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>
+<a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>        [[[1., 0., 1., 0., 1.],
+<a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>          [0., 1., 1., 1., 1.],
+<a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>          [1., 1., 0., 1., 0.],
+<a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>          [1., 1., 1., 1., 1.],
+<a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>          [1., 0., 0., 1., 1.]]]], device=&#39;cuda:0&#39;))]
+</code></pre></div>
+<p>为了使前向传播无需修改即可工作，
+ <code>weight</code>
+ 属性
+需要存在。 <code>torch.nn.utils.prune</code> 中实现的剪枝技术计算权重的剪枝版本(通过将掩码与原始参数组合)并将其存储在属性
+ <code>weight</code>
+ 中。请注意，这不再是
+ <code>module</code>
+ 的参数，
+ 现在只是一个属性。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>print(module.weight)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>tensor([[[[ 0.1529,  0.1660, -0.0469,  0.1837, -0.0438],
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>          [ 0.0404, -0.0000,  0.1175,  0.1763, -0.1467],
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>          [ 0.1738,  0.0000,  0.0000,  0.0271,  0.0964],
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>          [-0.0282,  0.0000,  0.0296, -0.0934,  0.0510],
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>          [-0.0921, -0.0000, -0.0000,  0.1327, -0.1579]]],
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a> [[[-0.0922, -0.0565, -0.1203, 0.0000, -0.1975],
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a> [ 0.1806, -0.1699, 0.1544, 0.0333, -0.0649],
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a> [ 0.0000, 0.0312, 0.1616, 0.0219 ，-0.0000]，\ n [ 0.0537, -0.0542, 0.0000, 0.1786, 0.0000],
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a> [-0.0000, 0.1155, 0.0000, 0.1016, -0.1219]]],
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a> [[[-0.1980, -0.0000, -0.0000, 0.0000, 0.0576],
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a> [ 0.0828, 0.0000, -0.0035, 0.1565, -0.0000],
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a> [ 0.1799, 0.0000, 0.1925, -0.1651, -0.0000]]],
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a> [-0.0000, -0.1363, 0.1061, -0.0808, 0.0000],
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a> [-0.0475, 0.1144, -0.1554, -0.0000 , 0.0610], 
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a> [ 0.0000, -0.0000, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a> [-0.1068, 0.1831, -0.0000, -0.0709, -0.1935]]],
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a> [[[-0.1145, 0.0000, -0.0264, -0.1452, 0.0047],
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a> [-0.1366, -0.1697, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a> [ 0.1999, 0.0378, 0.0000, -0.0000 , -0.0000 ],
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a> [-0.0000, 0.0313, -0.1760, -0.0000, -0.1197],
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a> [ 0.0006, -0.0000, -0.0000, -0.0000, -0.1373]]],
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>        [[[-0.1167, -0.0000, -0.1579,  0.0000, -0.0397],
+<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>          [ 0.0000,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>          [-0.0767, -0.1660, -0.0000,  0.0572, -0.0000],
+<a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>          [ 0.0418,  0.0000,  0.0000,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a>       grad_fn=&lt;MulBackward0&gt;)
+</code></pre></div>
+<p>最后，在每次前向传递之前使用 PyTorch’s
+ <code>forward_pre_hooks</code>
+ 进行修剪。具体来说，当“模块”被修剪时，正如我们在此处所做的那样，它将为与其相关的每个被修剪的参数获取一个“forward_pre_hook”。在这种情况下，由于我们到目前为止
+只修剪了名为
+ <code>weight</code>
+ 的原始参数，因此
+仅存在一个钩子。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>print(module._forward_pre_hooks)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>OrderedDict([(0, &lt;torch.nn.utils.prune.RandomUnstructured object at 0x7f4d3635f700&gt;)])
+</code></pre></div>
+<p>为了完整起见，我们现在也可以修剪
+ <code>bias</code>
+，以查看 
+ <code>module</code> 的
+参数、缓冲区、挂钩和属性如何变化。
+只是为了方便起见为了尝试另一种修剪技术，这里我们按照 L1 范数修剪
+偏差中的 3 个最小条目，如 
+ <code>l1_unstructed</code>
+ 修剪函数中实现的那样。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>prune.l1_unstructured(module, name=&quot;bias&quot;, amount=3)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+</code></pre></div>
+<p>我们现在期望命名参数包含
+ <code>weight_orig</code>
+ (来自
+之前)和
+ <code>bias_orig</code>
+ 。缓冲区将包括
+ <code>weight_mask</code>
+ 和
+ <code>bias_mask</code>
+ 。两个tensor的修剪版本将作为
+模块属性存在，并且该模块现在将有两个
+ <code>forward_pre_hooks</code>
+ 。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>print(list(module.named_parameters()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>[(&#39;weight_orig&#39;, Parameter containing:
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>tensor([[[[ 0.1529,  0.1660, -0.0469,  0.1837, -0.0438],
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>          [ 0.0404, -0.0974,  0.1175,  0.1763, -0.1467],
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>          [ 0.1738,  0.0374,  0.1478,  0.0271,  0.0964],
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>          [-0.0282,  0.1542,  0.0296, -0.0934,  0.0510],
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>          [-0.0921, -0.0235, -0.0812,  0.1327, -0.1579]]],
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a> [[[-0.0922, -0.0565, -0.1203, 0.0189, -0.1975],
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a> [ 0.1806, -0.1699, 0.1544, 0.0333, -0.0649],
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a> [ 0.1236, 0.0312, 0.1616, 0.0219 ，-0.0631]，\ n [ 0.0537, -0.0542, 0.0842, 0.1786, 0.1156],
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a> [-0.0874, 0.1155, 0.0358, 0.1016, -0.1219]]],
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a> [[[-0.1980, -0.0773, -0.1534, 0.1641, 0.0576],
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a> [ 0.0828, 0.0633, -0.0035, 0.1565, -0.1421],
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a> [ 0.1799, 0.0667, 0.1925, -0.1651, -0.1984]]],
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a> [-0.1033, -0.1363, 0.1061, -0.0808, 0.1214],
+<a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a> [-0.0475, 0.1144, -0.1554, -0.1009 , 0.0610], 
+<a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a> [ 0.0423, -0.0510, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a> [-0.1068, 0.1831, -0.0675, -0.0709, -0.1935]]],
+<a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>
+<a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>
+<a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a> [[[-0.1145, 0.0500, -0.0264, -0.1452, 0.0047],
+<a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a> [-0.1366, -0.1697, -0.1101, -0.1750, -0.1273],
+<a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a> [ 0.1999, 0.0378, 0.0616, -0.1865 , -0.1314 ],
+<a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a> [-0.0666, 0.0313, -0.1760, -0.0862, -0.1197],
+<a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a> [ 0.0006, -0.0744, -0.0139, -0.1355, -0.1373]]],
+<a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>
+<a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>
+<a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a>        [[[-0.1167, -0.0685, -0.1579,  0.1677, -0.0397],
+<a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a>          [ 0.1721,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>          [-0.0767, -0.1660, -0.1988,  0.0572, -0.0437],
+<a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>          [ 0.0418,  0.1033,  0.1615,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a>       requires_grad=True)), (&#39;bias_orig&#39;, Parameter containing:
+<a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a>tensor([ 0.0503, -0.0860, -0.0219, -0.1497,  0.1822, -0.1468], device=&#39;cuda:0&#39;,
+<a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a>       requires_grad=True))]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>print(list(module.named_buffers()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>[(&#39;weight_mask&#39;, tensor([[[[1., 1., 1., 1., 1.],
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>          [1., 0., 1., 1., 1.],
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>          [1., 0., 0., 1., 1.],
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>          [1., 0., 1., 1., 1.],
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>          [1., 0., 0., 1., 1.]]],
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a> [[[1., 1., 1., 0., 1.],
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a> [0., 1., 1., 1., 0.],
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a> [1., 1., 0., 1., 0.],
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a> [0., 1., 0., 1., 1.]]],
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a> [[[1., 0., 0., 0., 1.],
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a> [1., 0., 1., 1., 0.],
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a> [1., 0., 1., 1., 0.]]],
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a> [[[1., 1., 1., 1., 1.],
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a> [0., 1., 1., 1., 0.],
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a> [1., 1., 1., 0., 1.],
+<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a> [0., 0., 1., 1., 1.],
+<a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a> [1., 1., 0., 1., 1.]]],
+<a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a>
+<a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a>
+<a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a> [[[1., 0., 1., 1., 1.],
+<a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a> [1., 1., 0., 0., 0.],
+<a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a> [1., 1., 0., 0., 0.],
+<a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a> [0., 1., 1., 0., 1.],
+<a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a> [1., 0., 0., 0., 1.]]],
+<a id="__codelineno-21-34" name="__codelineno-21-34" href="#__codelineno-21-34"></a>
+<a id="__codelineno-21-35" name="__codelineno-21-35" href="#__codelineno-21-35"></a>
+<a id="__codelineno-21-36" name="__codelineno-21-36" href="#__codelineno-21-36"></a>        [[[1., 0., 1., 0., 1.],
+<a id="__codelineno-21-37" name="__codelineno-21-37" href="#__codelineno-21-37"></a>          [0., 1., 1., 1., 1.],
+<a id="__codelineno-21-38" name="__codelineno-21-38" href="#__codelineno-21-38"></a>          [1., 1., 0., 1., 0.],
+<a id="__codelineno-21-39" name="__codelineno-21-39" href="#__codelineno-21-39"></a>          [1., 1., 1., 1., 1.],
+<a id="__codelineno-21-40" name="__codelineno-21-40" href="#__codelineno-21-40"></a>          [1., 0., 0., 1., 1.]]]], device=&#39;cuda:0&#39;)), (&#39;bias_mask&#39;, tensor([0., 0., 0., 1., 1., 1.], device=&#39;cuda:0&#39;))]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>print(module.bias)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>tensor([ 0.0000, -0.0000, -0.0000, -0.1497,  0.1822, -0.1468], device=&#39;cuda:0&#39;,
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>       grad_fn=&lt;MulBackward0&gt;)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>print(module._forward_pre_hooks)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>OrderedDict([(0, &lt;torch.nn.utils.prune.RandomUnstructured object at 0x7f4d3635f700&gt;), (1, &lt;torch.nn.utils.prune.L1Unstructured object at 0x7f4d3635fa90&gt;)])
+</code></pre></div>
+<h2 id="_6">迭代修剪 <a href="#iterative-pruning" title="永久链接到此标题">¶</a></h2>
+<p>模块中的同一参数可以多次修剪，
+各种修剪调用的效果等于
+串联应用的各种掩码的组合。
+处理新掩码与旧掩码的组合通过
+ <code>PruningContainer</code>
+ ’s
+ <code>compute_mask</code>
+ 方法。</p>
+<p>举例来说，我们现在想要进一步剪枝
+ <code>module.weight</code>
+ ，这次
+沿tensor的第 0 个轴使用结构化剪枝(第 0 个轴
+对应于卷积神经网络的输出通道)层，并且基于通道’ L2 范数，
+ <code>conv1</code>
+ 的维数为 6。这可以使用
+ <code>ln_structed</code>
+ 函数以及
+ <code>n=2</code>
+ 和
+ <code>dim=0</code>
+ 来实现。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>prune.ln_structured(module, name=&quot;weight&quot;, amount=0.5, n=2, dim=0)
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a># As we can verify, this will zero out all the connections corresponding to
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a># 50% (3 out of 6) of the channels, while preserving the action of the
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a># previous mask.
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>print(module.weight)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>tensor([[[[ 0.0000,  0.0000, -0.0000,  0.0000, -0.0000],
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>          [ 0.0000, -0.0000,  0.0000,  0.0000, -0.0000],
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>          [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>          [-0.0000,  0.0000,  0.0000, -0.0000,  0.0000],
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>          [-0.0000, -0.0000, -0.0000,  0.0000, -0.0000]]],
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a> [[[-0.0000, -0.0000, -0.0000, 0.0000, -0.0000],
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a> [ 0.0000, -0.0000, 0.0000, 0.0000, -0.0000],
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a> [ 0.0000, 0.0000, 0.0000, 0.0000 ，-0.0000]，\ n [ 0.0000, -0.0000, 0.0000, 0.0000, 0.0000],
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a> [-0.0000, 0.0000, 0.0000, 0.0000, -0.0000]]],
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a> [[[-0.1980, -0.0000, -0.0000, 0.0000, 0.0576],
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a> [ 0.0828, 0.0000, -0.0035, 0.1565, -0.0000],
+<a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a> [ 0.1799, 0.0000, 0.1925, -0.1651, -0.0000]]],
+<a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a>
+<a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a>
+<a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a> [-0.0000, -0.1363, 0.1061, -0.0808, 0.0000],
+<a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a> [-0.0475, 0.1144, -0.1554, -0.0000 , 0.0610], 
+<a id="__codelineno-27-23" name="__codelineno-27-23" href="#__codelineno-27-23"></a> [ 0.0000, -0.0000, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-27-24" name="__codelineno-27-24" href="#__codelineno-27-24"></a> [-0.1068, 0.1831, -0.0000, -0.0709, -0.1935]]],
+<a id="__codelineno-27-25" name="__codelineno-27-25" href="#__codelineno-27-25"></a>
+<a id="__codelineno-27-26" name="__codelineno-27-26" href="#__codelineno-27-26"></a>
+<a id="__codelineno-27-27" name="__codelineno-27-27" href="#__codelineno-27-27"></a> [[[-0.0000, 0.0000, -0.0000, -0.0000, 0.0000],
+<a id="__codelineno-27-28" name="__codelineno-27-28" href="#__codelineno-27-28"></a> [-0.0000, -0.0000, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-27-29" name="__codelineno-27-29" href="#__codelineno-27-29"></a> [ 0.0000, 0.0000, 0.0000, -0.0000 , -0.0000 ],
+<a id="__codelineno-27-30" name="__codelineno-27-30" href="#__codelineno-27-30"></a> [-0.0000, 0.0000, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-27-31" name="__codelineno-27-31" href="#__codelineno-27-31"></a> [ 0.0000, -0.0000, -0.0000, -0.0000, -0.0000]]],
+<a id="__codelineno-27-32" name="__codelineno-27-32" href="#__codelineno-27-32"></a>
+<a id="__codelineno-27-33" name="__codelineno-27-33" href="#__codelineno-27-33"></a>
+<a id="__codelineno-27-34" name="__codelineno-27-34" href="#__codelineno-27-34"></a>        [[[-0.1167, -0.0000, -0.1579,  0.0000, -0.0397],
+<a id="__codelineno-27-35" name="__codelineno-27-35" href="#__codelineno-27-35"></a>          [ 0.0000,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-27-36" name="__codelineno-27-36" href="#__codelineno-27-36"></a>          [-0.0767, -0.1660, -0.0000,  0.0572, -0.0000],
+<a id="__codelineno-27-37" name="__codelineno-27-37" href="#__codelineno-27-37"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-27-38" name="__codelineno-27-38" href="#__codelineno-27-38"></a>          [ 0.0418,  0.0000,  0.0000,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-27-39" name="__codelineno-27-39" href="#__codelineno-27-39"></a>       grad_fn=&lt;MulBackward0&gt;)
+</code></pre></div>
+<p>相应的挂钩现在的类型为
+ <code>torch.nn.utils.prune.PruningContainer</code>
+ ，并将存储
+应用于
+ <code>weight</code>
+ 参数的剪枝历史记录。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>for hook in module._forward_pre_hooks.values():
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    if hook._tensor_name == &quot;weight&quot;:  # select out the correct hook
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>        break
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>print(list(hook))  # pruning history in the container
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>[&lt;torch.nn.utils.prune.RandomUnstructured object at 0x7f4d3635f700&gt;, &lt;torch.nn.utils.prune.LnStructured object at 0x7f4d3635c0d0&gt;]
+</code></pre></div>
+<h2 id="_7">序列化修剪后的模型 <a href="#serializing-a-pruned-model" title="永久链接到此标题">¶</a></h2>
+<p>所有相关tensor，包括掩码缓冲区和用于计算修剪tensor的原始参数
+都存储在模型’s
+ <code>state_dict</code>
+ 中，因此可以轻松序列化和保存，如果需要的话。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>print(model.state_dict().keys())
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>odict_keys([&#39;conv1.weight_orig&#39;, &#39;conv1.bias_orig&#39;, &#39;conv1.weight_mask&#39;, &#39;conv1.bias_mask&#39;, &#39;conv2.weight&#39;, &#39;conv2.bias&#39;, &#39;fc1.weight&#39;, &#39;fc1.bias&#39;, &#39;fc2.weight&#39;, &#39;fc2.bias&#39;, &#39;fc3.weight&#39;, &#39;fc3.bias&#39;])
+</code></pre></div>
+<h2 id="_8">删除修剪重新参数化 <a href="#remove-pruning-re-parametrization" title="永久链接到此标题">¶</a></h2>
+<p>要使修剪永久化，请删除<code>weight_orig</code>
+ 和
+ <code>weight_mask</code>
+ 术语的重新参数化，并删除
+ <code>forward_pre\ \_hook</code>
+ ，
+我们可以使用
+ <code>torch.nn.utils.prune</code>
+ 中的
+ <code>remove</code>
+ 功能。
+请注意，这不会’ 撤消修剪，因为如果它从未发生过。它只是
+通过将参数
+“权重”
+ 重新分配给
+模型参数(在其修剪版本中)来使其永久化。</p>
+<p>在删除重新参数化之前：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>print(list(module.named_parameters()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>[(&#39;weight_orig&#39;, Parameter containing:
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>tensor([[[[ 0.1529,  0.1660, -0.0469,  0.1837, -0.0438],
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>          [ 0.0404, -0.0974,  0.1175,  0.1763, -0.1467],
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>          [ 0.1738,  0.0374,  0.1478,  0.0271,  0.0964],
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>          [-0.0282,  0.1542,  0.0296, -0.0934,  0.0510],
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>          [-0.0921, -0.0235, -0.0812,  0.1327, -0.1579]]],
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a> [[[-0.0922, -0.0565, -0.1203, 0.0189, -0.1975],
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a> [ 0.1806, -0.1699, 0.1544, 0.0333, -0.0649],
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a> [ 0.1236, 0.0312, 0.1616, 0.0219 ，-0.0631]，\ n [ 0.0537, -0.0542, 0.0842, 0.1786, 0.1156],
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a> [-0.0874, 0.1155, 0.0358, 0.1016, -0.1219]]],
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>
+<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a> [[[-0.1980, -0.0773, -0.1534, 0.1641, 0.0576],
+<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a> [ 0.0828, 0.0633, -0.0035, 0.1565, -0.1421],
+<a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a> [ 0.1799, 0.0667, 0.1925, -0.1651, -0.1984]]],
+<a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a>
+<a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a>
+<a id="__codelineno-33-21" name="__codelineno-33-21" href="#__codelineno-33-21"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-33-22" name="__codelineno-33-22" href="#__codelineno-33-22"></a> [-0.1033, -0.1363, 0.1061, -0.0808, 0.1214],
+<a id="__codelineno-33-23" name="__codelineno-33-23" href="#__codelineno-33-23"></a> [-0.0475, 0.1144, -0.1554, -0.1009 , 0.0610], 
+<a id="__codelineno-33-24" name="__codelineno-33-24" href="#__codelineno-33-24"></a> [ 0.0423, -0.0510, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-33-25" name="__codelineno-33-25" href="#__codelineno-33-25"></a> [-0.1068, 0.1831, -0.0675, -0.0709, -0.1935]]],
+<a id="__codelineno-33-26" name="__codelineno-33-26" href="#__codelineno-33-26"></a>
+<a id="__codelineno-33-27" name="__codelineno-33-27" href="#__codelineno-33-27"></a>
+<a id="__codelineno-33-28" name="__codelineno-33-28" href="#__codelineno-33-28"></a> [[[-0.1145, 0.0500, -0.0264, -0.1452, 0.0047],
+<a id="__codelineno-33-29" name="__codelineno-33-29" href="#__codelineno-33-29"></a> [-0.1366, -0.1697, -0.1101, -0.1750, -0.1273],
+<a id="__codelineno-33-30" name="__codelineno-33-30" href="#__codelineno-33-30"></a> [ 0.1999, 0.0378, 0.0616, -0.1865 , -0.1314 ],
+<a id="__codelineno-33-31" name="__codelineno-33-31" href="#__codelineno-33-31"></a> [-0.0666, 0.0313, -0.1760, -0.0862, -0.1197],
+<a id="__codelineno-33-32" name="__codelineno-33-32" href="#__codelineno-33-32"></a> [ 0.0006, -0.0744, -0.0139, -0.1355, -0.1373]]],
+<a id="__codelineno-33-33" name="__codelineno-33-33" href="#__codelineno-33-33"></a>
+<a id="__codelineno-33-34" name="__codelineno-33-34" href="#__codelineno-33-34"></a>
+<a id="__codelineno-33-35" name="__codelineno-33-35" href="#__codelineno-33-35"></a>        [[[-0.1167, -0.0685, -0.1579,  0.1677, -0.0397],
+<a id="__codelineno-33-36" name="__codelineno-33-36" href="#__codelineno-33-36"></a>          [ 0.1721,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-33-37" name="__codelineno-33-37" href="#__codelineno-33-37"></a>          [-0.0767, -0.1660, -0.1988,  0.0572, -0.0437],
+<a id="__codelineno-33-38" name="__codelineno-33-38" href="#__codelineno-33-38"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-33-39" name="__codelineno-33-39" href="#__codelineno-33-39"></a>          [ 0.0418,  0.1033,  0.1615,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-33-40" name="__codelineno-33-40" href="#__codelineno-33-40"></a>       requires_grad=True)), (&#39;bias_orig&#39;, Parameter containing:
+<a id="__codelineno-33-41" name="__codelineno-33-41" href="#__codelineno-33-41"></a>tensor([ 0.0503, -0.0860, -0.0219, -0.1497,  0.1822, -0.1468], device=&#39;cuda:0&#39;,
+<a id="__codelineno-33-42" name="__codelineno-33-42" href="#__codelineno-33-42"></a>       requires_grad=True))]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>print(list(module.named_buffers()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>[(&#39;weight_mask&#39;, tensor([[[[0., 0., 0., 0., 0.],
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>          [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>          [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>          [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>          [0., 0., 0., 0., 0.]]],
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a> [[[0., 0., 0., 0., 0.],
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a> [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a> [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a> [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a> [0., 0., 0., 0., 0.]]],
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a>
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a> [[[1., 0., 0., 0., 1.],
+<a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a> [1., 0., 1., 1., 0.],
+<a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a> [1., 1., 1., 1., 1.],
+<a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a> [1., 0., 1., 1., 0.]]],
+<a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a>
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a>
+<a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a> [[[1., 1., 1., 1., 1.],
+<a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a> [0., 1., 1., 1., 0.],
+<a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a> [1., 1., 1., 0., 1.],
+<a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a> [0., 0., 1., 1., 1.],
+<a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a> [1., 1., 0., 1., 1.]]],
+<a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a>
+<a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a>
+<a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a> [[[0., 0., 0., 0., 0.],
+<a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a> [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a> [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a> [0., 0., 0., 0., 0.],
+<a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a> [0., 0., 0., 0., 0.]]],
+<a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a>
+<a id="__codelineno-35-35" name="__codelineno-35-35" href="#__codelineno-35-35"></a>
+<a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a>        [[[1., 0., 1., 0., 1.],
+<a id="__codelineno-35-37" name="__codelineno-35-37" href="#__codelineno-35-37"></a>          [0., 1., 1., 1., 1.],
+<a id="__codelineno-35-38" name="__codelineno-35-38" href="#__codelineno-35-38"></a>          [1., 1., 0., 1., 0.],
+<a id="__codelineno-35-39" name="__codelineno-35-39" href="#__codelineno-35-39"></a>          [1., 1., 1., 1., 1.],
+<a id="__codelineno-35-40" name="__codelineno-35-40" href="#__codelineno-35-40"></a>          [1., 0., 0., 1., 1.]]]], device=&#39;cuda:0&#39;)), (&#39;bias_mask&#39;, tensor([0., 0., 0., 1., 1., 1.], device=&#39;cuda:0&#39;))]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>print(module.weight)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>tensor([[[[ 0.0000,  0.0000, -0.0000,  0.0000, -0.0000],
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>          [ 0.0000, -0.0000,  0.0000,  0.0000, -0.0000],
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>          [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>          [-0.0000,  0.0000,  0.0000, -0.0000,  0.0000],
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>          [-0.0000, -0.0000, -0.0000,  0.0000, -0.0000]]],
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a> [[[-0.0000, -0.0000, -0.0000, 0.0000, -0.0000],
+<a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a> [ 0.0000, -0.0000, 0.0000, 0.0000, -0.0000],
+<a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a> [ 0.0000, 0.0000, 0.0000, 0.0000 ，-0.0000]，\ n [ 0.0000, -0.0000, 0.0000, 0.0000, 0.0000],
+<a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a> [-0.0000, 0.0000, 0.0000, 0.0000, -0.0000]]],
+<a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a>
+<a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a>
+<a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a> [[[-0.1980, -0.0000, -0.0000, 0.0000, 0.0576],
+<a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a> [ 0.0828, 0.0000, -0.0035, 0.1565, -0.0000],
+<a id="__codelineno-37-16" name="__codelineno-37-16" href="#__codelineno-37-16"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-37-17" name="__codelineno-37-17" href="#__codelineno-37-17"></a> [ 0.1799, 0.0000, 0.1925, -0.1651, -0.0000]]],
+<a id="__codelineno-37-18" name="__codelineno-37-18" href="#__codelineno-37-18"></a>
+<a id="__codelineno-37-19" name="__codelineno-37-19" href="#__codelineno-37-19"></a>
+<a id="__codelineno-37-20" name="__codelineno-37-20" href="#__codelineno-37-20"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-37-21" name="__codelineno-37-21" href="#__codelineno-37-21"></a> [-0.0000, -0.1363, 0.1061, -0.0808, 0.0000],
+<a id="__codelineno-37-22" name="__codelineno-37-22" href="#__codelineno-37-22"></a> [-0.0475, 0.1144, -0.1554, -0.0000 , 0.0610], 
+<a id="__codelineno-37-23" name="__codelineno-37-23" href="#__codelineno-37-23"></a> [ 0.0000, -0.0000, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-37-24" name="__codelineno-37-24" href="#__codelineno-37-24"></a> [-0.1068, 0.1831, -0.0000, -0.0709, -0.1935]]],
+<a id="__codelineno-37-25" name="__codelineno-37-25" href="#__codelineno-37-25"></a>
+<a id="__codelineno-37-26" name="__codelineno-37-26" href="#__codelineno-37-26"></a>
+<a id="__codelineno-37-27" name="__codelineno-37-27" href="#__codelineno-37-27"></a> [[[-0.0000, 0.0000, -0.0000, -0.0000, 0.0000],
+<a id="__codelineno-37-28" name="__codelineno-37-28" href="#__codelineno-37-28"></a> [-0.0000, -0.0000, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-37-29" name="__codelineno-37-29" href="#__codelineno-37-29"></a> [ 0.0000, 0.0000, 0.0000, -0.0000 , -0.0000 ],
+<a id="__codelineno-37-30" name="__codelineno-37-30" href="#__codelineno-37-30"></a> [-0.0000, 0.0000, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-37-31" name="__codelineno-37-31" href="#__codelineno-37-31"></a> [ 0.0000, -0.0000, -0.0000, -0.0000, -0.0000]]],
+<a id="__codelineno-37-32" name="__codelineno-37-32" href="#__codelineno-37-32"></a>
+<a id="__codelineno-37-33" name="__codelineno-37-33" href="#__codelineno-37-33"></a>
+<a id="__codelineno-37-34" name="__codelineno-37-34" href="#__codelineno-37-34"></a>        [[[-0.1167, -0.0000, -0.1579,  0.0000, -0.0397],
+<a id="__codelineno-37-35" name="__codelineno-37-35" href="#__codelineno-37-35"></a>          [ 0.0000,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-37-36" name="__codelineno-37-36" href="#__codelineno-37-36"></a>          [-0.0767, -0.1660, -0.0000,  0.0572, -0.0000],
+<a id="__codelineno-37-37" name="__codelineno-37-37" href="#__codelineno-37-37"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-37-38" name="__codelineno-37-38" href="#__codelineno-37-38"></a>          [ 0.0418,  0.0000,  0.0000,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-37-39" name="__codelineno-37-39" href="#__codelineno-37-39"></a>       grad_fn=&lt;MulBackward0&gt;)
+</code></pre></div>
+<p>删除重新参数化后：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>prune.remove(module, &#39;weight&#39;)
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>print(list(module.named_parameters()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>[(&#39;bias_orig&#39;, Parameter containing:
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>tensor([ 0.0503, -0.0860, -0.0219, -0.1497,  0.1822, -0.1468], device=&#39;cuda:0&#39;,
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>       requires_grad=True)), (&#39;weight&#39;, Parameter containing:
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>tensor([[[[ 0.0000,  0.0000, -0.0000,  0.0000, -0.0000],
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>          [ 0.0000, -0.0000,  0.0000,  0.0000, -0.0000],
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>          [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>          [-0.0000,  0.0000,  0.0000, -0.0000,  0.0000],
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>          [-0.0000, -0.0000, -0.0000,  0.0000, -0.0000]]],
+<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a>
+<a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a>
+<a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a> [[[-0.0000, -0.0000, -0.0000, 0.0000, -0.0000],
+<a id="__codelineno-39-12" name="__codelineno-39-12" href="#__codelineno-39-12"></a> [ 0.0000, -0.0000, 0.0000, 0.0000, -0.0000],
+<a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a> [ 0.0000, 0.0000, 0.0000, 0.0000 ，-0.0000]，\ n [ 0.0000, -0.0000, 0.0000, 0.0000, 0.0000],
+<a id="__codelineno-39-14" name="__codelineno-39-14" href="#__codelineno-39-14"></a> [-0.0000, 0.0000, 0.0000, 0.0000, -0.0000]]],
+<a id="__codelineno-39-15" name="__codelineno-39-15" href="#__codelineno-39-15"></a>
+<a id="__codelineno-39-16" name="__codelineno-39-16" href="#__codelineno-39-16"></a>
+<a id="__codelineno-39-17" name="__codelineno-39-17" href="#__codelineno-39-17"></a> [[[-0.1980, -0.0000, -0.0000, 0.0000, 0.0576],
+<a id="__codelineno-39-18" name="__codelineno-39-18" href="#__codelineno-39-18"></a> [ 0.0828, 0.0000, -0.0035, 0.1565, -0.0000],
+<a id="__codelineno-39-19" name="__codelineno-39-19" href="#__codelineno-39-19"></a> [ 0.0126, -0.1365, 0.0617, -0.0689 , 0.0613],\ n [-0.0417, 0.1659, -0.1185, -0.1193, -0.1193],
+<a id="__codelineno-39-20" name="__codelineno-39-20" href="#__codelineno-39-20"></a> [ 0.1799, 0.0000, 0.1925, -0.1651, -0.0000]]],
+<a id="__codelineno-39-21" name="__codelineno-39-21" href="#__codelineno-39-21"></a>
+<a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a>
+<a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a> [[[-0.1565, -0.1345, 0.0810, 0.0716, 0.1662],
+<a id="__codelineno-39-24" name="__codelineno-39-24" href="#__codelineno-39-24"></a> [-0.0000, -0.1363, 0.1061, -0.0808, 0.0000],
+<a id="__codelineno-39-25" name="__codelineno-39-25" href="#__codelineno-39-25"></a> [-0.0475, 0.1144, -0.1554, -0.0000 , 0.0610], 
+<a id="__codelineno-39-26" name="__codelineno-39-26" href="#__codelineno-39-26"></a> [ 0.0000, -0.0000, 0.1192, 0.1360, -0.1450],
+<a id="__codelineno-39-27" name="__codelineno-39-27" href="#__codelineno-39-27"></a> [-0.1068, 0.1831, -0.0000, -0.0709, -0.1935]]],
+<a id="__codelineno-39-28" name="__codelineno-39-28" href="#__codelineno-39-28"></a>
+<a id="__codelineno-39-29" name="__codelineno-39-29" href="#__codelineno-39-29"></a>
+<a id="__codelineno-39-30" name="__codelineno-39-30" href="#__codelineno-39-30"></a> [[[-0.0000, 0.0000, -0.0000, -0.0000, 0.0000],
+<a id="__codelineno-39-31" name="__codelineno-39-31" href="#__codelineno-39-31"></a> [-0.0000, -0.0000, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-39-32" name="__codelineno-39-32" href="#__codelineno-39-32"></a> [ 0.0000, 0.0000, 0.0000, -0.0000 , -0.0000 ],
+<a id="__codelineno-39-33" name="__codelineno-39-33" href="#__codelineno-39-33"></a> [-0.0000, 0.0000, -0.0000, -0.0000, -0.0000],
+<a id="__codelineno-39-34" name="__codelineno-39-34" href="#__codelineno-39-34"></a> [ 0.0000, -0.0000, -0.0000, -0.0000, -0.0000]]],
+<a id="__codelineno-39-35" name="__codelineno-39-35" href="#__codelineno-39-35"></a>
+<a id="__codelineno-39-36" name="__codelineno-39-36" href="#__codelineno-39-36"></a>
+<a id="__codelineno-39-37" name="__codelineno-39-37" href="#__codelineno-39-37"></a>        [[[-0.1167, -0.0000, -0.1579,  0.0000, -0.0397],
+<a id="__codelineno-39-38" name="__codelineno-39-38" href="#__codelineno-39-38"></a>          [ 0.0000,  0.0623, -0.1694,  0.1384, -0.0550],
+<a id="__codelineno-39-39" name="__codelineno-39-39" href="#__codelineno-39-39"></a>          [-0.0767, -0.1660, -0.0000,  0.0572, -0.0000],
+<a id="__codelineno-39-40" name="__codelineno-39-40" href="#__codelineno-39-40"></a>          [ 0.0779, -0.1641,  0.1485, -0.1468, -0.0345],
+<a id="__codelineno-39-41" name="__codelineno-39-41" href="#__codelineno-39-41"></a>          [ 0.0418,  0.0000,  0.0000,  0.1822, -0.1586]]]], device=&#39;cuda:0&#39;,
+<a id="__codelineno-39-42" name="__codelineno-39-42" href="#__codelineno-39-42"></a>       requires_grad=True))]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>print(list(module.named_buffers()))
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>[(&#39;bias_mask&#39;, tensor([0., 0., 0., 1., 1., 1.], device=&#39;cuda:0&#39;))]
+</code></pre></div>
+<h2 id="_9">修剪模型中的多个参数 <a href="#pruning-multiple-parameters-in-a-model" title="永久链接到此标题">¶</a></h2>
+<p>通过指定所需的修剪技术和参数，我们可以轻松
+修剪网络中的多个tensor，也许根据它们的类型，如我们
+将在本示例中看到的那样。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>new_model = LeNet()
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>for name, module in new_model.named_modules():
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>    # prune 20% of connections in all 2D-conv layers
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>    if isinstance(module, torch.nn.Conv2d):
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>        prune.l1_unstructured(module, name=&#39;weight&#39;, amount=0.2)
+<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>    # prune 40% of connections in all linear layers
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>    elif isinstance(module, torch.nn.Linear):
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>        prune.l1_unstructured(module, name=&#39;weight&#39;, amount=0.4)
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>
+<a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>print(dict(new_model.named_buffers()).keys())  # to verify that all masks exist
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>dict_keys([&#39;conv1.weight_mask&#39;, &#39;conv2.weight_mask&#39;, &#39;fc1.weight_mask&#39;, &#39;fc2.weight_mask&#39;, &#39;fc3.weight_mask&#39;])
+</code></pre></div>
+<h2 id="_10">全局修剪 <a href="#global-pruning" title="永久链接到此标题">¶</a></h2>
+<p>到目前为止，我们只研究了通常所说的 “local” 剪枝，
+i.e.通过将每个条目的统计数据(权重大小、激活、梯度等)与该tensor中的其他条目进行专门比较，逐一修剪模型中的tensor。然而，一种常见且可能更强大的技术是一次性修剪模型，例如删除整个模型中最低 20% 的连接，而不是删除每个模型中最低 20% 的连接。 n层。这可能会导致每层的修剪百分比不同。
+让’s 看看如何使用
+ 来自
+ <code>torch.nn.utils.prune</code>的
+ <code>global_unstructed</code>
+ 来做到这一点
+.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>model = LeNet()
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>parameters_to_prune = (
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>    (model.conv1, &#39;weight&#39;),
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>    (model.conv2, &#39;weight&#39;),
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>    (model.fc1, &#39;weight&#39;),
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>    (model.fc2, &#39;weight&#39;),
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>    (model.fc3, &#39;weight&#39;),
+<a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>)
+<a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a>
+<a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a>prune.global_unstructured(
+<a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a>    parameters_to_prune,
+<a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a>    pruning_method=prune.L1Unstructured,
+<a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a>    amount=0.2,
+<a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a>)
+</code></pre></div>
+<p>现在我们可以检查每个剪枝参数中引入的稀疏性，每层中的稀疏性不等于 20%。但是，全局稀疏度
+将为(大约)20%。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>print(
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>    &quot;Sparsity in conv1.weight: {:.2f}%&quot;.format(
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>        100. * float(torch.sum(model.conv1.weight == 0))
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>        / float(model.conv1.weight.nelement())
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>    )
+<a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>)
+<a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>print(
+<a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a>    &quot;Sparsity in conv2.weight: {:.2f}%&quot;.format(
+<a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a>        100. * float(torch.sum(model.conv2.weight == 0))
+<a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a>        / float(model.conv2.weight.nelement())
+<a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a>    )
+<a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a>)
+<a id="__codelineno-45-13" name="__codelineno-45-13" href="#__codelineno-45-13"></a>print(
+<a id="__codelineno-45-14" name="__codelineno-45-14" href="#__codelineno-45-14"></a>    &quot;Sparsity in fc1.weight: {:.2f}%&quot;.format(
+<a id="__codelineno-45-15" name="__codelineno-45-15" href="#__codelineno-45-15"></a>        100. * float(torch.sum(model.fc1.weight == 0))
+<a id="__codelineno-45-16" name="__codelineno-45-16" href="#__codelineno-45-16"></a>        / float(model.fc1.weight.nelement())
+<a id="__codelineno-45-17" name="__codelineno-45-17" href="#__codelineno-45-17"></a>    )
+<a id="__codelineno-45-18" name="__codelineno-45-18" href="#__codelineno-45-18"></a>)
+<a id="__codelineno-45-19" name="__codelineno-45-19" href="#__codelineno-45-19"></a>print(
+<a id="__codelineno-45-20" name="__codelineno-45-20" href="#__codelineno-45-20"></a>    &quot;Sparsity in fc2.weight: {:.2f}%&quot;.format(
+<a id="__codelineno-45-21" name="__codelineno-45-21" href="#__codelineno-45-21"></a>        100. * float(torch.sum(model.fc2.weight == 0))
+<a id="__codelineno-45-22" name="__codelineno-45-22" href="#__codelineno-45-22"></a>        / float(model.fc2.weight.nelement())
+<a id="__codelineno-45-23" name="__codelineno-45-23" href="#__codelineno-45-23"></a>    )
+<a id="__codelineno-45-24" name="__codelineno-45-24" href="#__codelineno-45-24"></a>)
+<a id="__codelineno-45-25" name="__codelineno-45-25" href="#__codelineno-45-25"></a>print(
+<a id="__codelineno-45-26" name="__codelineno-45-26" href="#__codelineno-45-26"></a>    &quot;Sparsity in fc3.weight: {:.2f}%&quot;.format(
+<a id="__codelineno-45-27" name="__codelineno-45-27" href="#__codelineno-45-27"></a>        100. * float(torch.sum(model.fc3.weight == 0))
+<a id="__codelineno-45-28" name="__codelineno-45-28" href="#__codelineno-45-28"></a>        / float(model.fc3.weight.nelement())
+<a id="__codelineno-45-29" name="__codelineno-45-29" href="#__codelineno-45-29"></a>    )
+<a id="__codelineno-45-30" name="__codelineno-45-30" href="#__codelineno-45-30"></a>)
+<a id="__codelineno-45-31" name="__codelineno-45-31" href="#__codelineno-45-31"></a>print(
+<a id="__codelineno-45-32" name="__codelineno-45-32" href="#__codelineno-45-32"></a>    &quot;Global sparsity: {:.2f}%&quot;.format(
+<a id="__codelineno-45-33" name="__codelineno-45-33" href="#__codelineno-45-33"></a>        100. * float(
+<a id="__codelineno-45-34" name="__codelineno-45-34" href="#__codelineno-45-34"></a>            torch.sum(model.conv1.weight == 0)
+<a id="__codelineno-45-35" name="__codelineno-45-35" href="#__codelineno-45-35"></a>            + torch.sum(model.conv2.weight == 0)
+<a id="__codelineno-45-36" name="__codelineno-45-36" href="#__codelineno-45-36"></a>            + torch.sum(model.fc1.weight == 0)
+<a id="__codelineno-45-37" name="__codelineno-45-37" href="#__codelineno-45-37"></a>            + torch.sum(model.fc2.weight == 0)
+<a id="__codelineno-45-38" name="__codelineno-45-38" href="#__codelineno-45-38"></a>            + torch.sum(model.fc3.weight == 0)
+<a id="__codelineno-45-39" name="__codelineno-45-39" href="#__codelineno-45-39"></a>        )
+<a id="__codelineno-45-40" name="__codelineno-45-40" href="#__codelineno-45-40"></a>        / float(
+<a id="__codelineno-45-41" name="__codelineno-45-41" href="#__codelineno-45-41"></a>            model.conv1.weight.nelement()
+<a id="__codelineno-45-42" name="__codelineno-45-42" href="#__codelineno-45-42"></a>            + model.conv2.weight.nelement()
+<a id="__codelineno-45-43" name="__codelineno-45-43" href="#__codelineno-45-43"></a>            + model.fc1.weight.nelement()
+<a id="__codelineno-45-44" name="__codelineno-45-44" href="#__codelineno-45-44"></a>            + model.fc2.weight.nelement()
+<a id="__codelineno-45-45" name="__codelineno-45-45" href="#__codelineno-45-45"></a>            + model.fc3.weight.nelement()
+<a id="__codelineno-45-46" name="__codelineno-45-46" href="#__codelineno-45-46"></a>        )
+<a id="__codelineno-45-47" name="__codelineno-45-47" href="#__codelineno-45-47"></a>    )
+<a id="__codelineno-45-48" name="__codelineno-45-48" href="#__codelineno-45-48"></a>)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>Sparsity in conv1.weight: 4.67%
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>Sparsity in conv2.weight: 13.92%
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>Sparsity in fc1.weight: 22.16%
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>Sparsity in fc2.weight: 12.10%
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>Sparsity in fc3.weight: 11.31%
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>Global sparsity: 20.00%
+</code></pre></div>
+<h2 id="_11">使用自定义修剪函数扩展</h2>
+<p><code>torch.nn.utils.prune</code>
+  <a href="#extending-torch-nn-utils-prune-with-custom-pruning-functions" title="永久链接到这个标题">¶</a></p>
+<p>要实现您自己的修剪功能，您可以通过子类化
+ <code>BasePruningMethod</code>
+ 基类来扩展
+ <code>nn.utils.prune</code>
+ 模块，就像所有其他修剪方法一样。基类
+为您实现以下方法:
+ <code>__call__</code>
+ ,
+ <code>apply_mask</code>
+ ,
+ <code>apply</code>
+ ,\ n <code>修剪</code>
+ 和
+ <code>删除</code>
+ 。除了一些特殊情况之外，您应该’t
+必须为新的修剪技术重新实现这些方法。
+但是，您必须实现
+ <code>__init__</code> 
+(构造函数)，
+和
+ <code>compute_mask</code>
+(有关如何根据剪枝技术的逻辑计算给定tensor的掩码的说明)。此外，您必须指定此技术实现的剪枝类型(支持的选项有“全局”、“结构化”和“非结构化”)。这需要确定
+在迭代应用修剪的情况下如何组合掩码。换句话说，当剪枝预剪枝参数时，当前剪枝技术预计作用于参数的未剪枝部分。指定
+ <code>PRUNING_TYPE</code>
+ 将启用</p>
+<p><code>PruningContainer</code>(处理修剪掩码的迭代应用)
+以正确识别
+要修剪的参数切片。</p>
+<p>让\xe2\x80\x99s 假设，例如，您想要实现一种修剪
+技术，修剪tensor中的每个其他条目(或
+xe2\x80\x93，如果
+tensor之前已被修剪\xe2\tensor剩余未剪枝部分中的 x80\x93)。这将是
+ <code>PRUNING_TYPE='非结构化'</code>
+ 因为它作用于层中的各个连接，而不是作用于整个
+单元/通道(
+ <code>'结构化'</code>
+ )，或跨不同的连接参数
+(
+ <code>'全局'</code>
+ )。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>class FooBarPruningMethod(prune.BasePruningMethod):
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a> &quot;&quot;&quot;Prune every other entry in a tensor
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a> &quot;&quot;&quot;
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>    PRUNING_TYPE = &#39;unstructured&#39;
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>    def compute_mask(self, t, default_mask):
+<a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>        mask = default_mask.clone()
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>        mask.view(-1)[::2] = 0
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>        return mask
+</code></pre></div>
+<p>现在，要将其应用于
+ <code>nn.Module</code>
+ 中的参数，您还应该
+提供一个简单的函数来实例化该方法并
+应用它。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>def foobar_unstructured(module, name):
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a> &quot;&quot;&quot;Prunes tensor corresponding to parameter called `name` in `module`
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a> by removing every other entry in the tensors.
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a> Modifies module in place (and also return the modified module)
+<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a> by:
+<a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a> 1) adding a named buffer called `name+&#39;_mask&#39;` corresponding to the
+<a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a> binary mask applied to the parameter `name` by the pruning method.
+<a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a> The parameter `name` is replaced by its pruned version, while the
+<a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a> original (unpruned) parameter is stored in a new parameter named
+<a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a> `name+&#39;_orig&#39;`.
+<a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a>
+<a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a> Args:
+<a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a> module (nn.Module): module containing the tensor to prune
+<a id="__codelineno-48-14" name="__codelineno-48-14" href="#__codelineno-48-14"></a> name (string): parameter name within `module` on which pruning
+<a id="__codelineno-48-15" name="__codelineno-48-15" href="#__codelineno-48-15"></a> will act.
+<a id="__codelineno-48-16" name="__codelineno-48-16" href="#__codelineno-48-16"></a>
+<a id="__codelineno-48-17" name="__codelineno-48-17" href="#__codelineno-48-17"></a> Returns:
+<a id="__codelineno-48-18" name="__codelineno-48-18" href="#__codelineno-48-18"></a> module (nn.Module): modified (i.e. pruned) version of the input
+<a id="__codelineno-48-19" name="__codelineno-48-19" href="#__codelineno-48-19"></a> module
+<a id="__codelineno-48-20" name="__codelineno-48-20" href="#__codelineno-48-20"></a>
+<a id="__codelineno-48-21" name="__codelineno-48-21" href="#__codelineno-48-21"></a> Examples:
+<a id="__codelineno-48-22" name="__codelineno-48-22" href="#__codelineno-48-22"></a> &gt;&gt;&gt; m = nn.Linear(3, 4)
+<a id="__codelineno-48-23" name="__codelineno-48-23" href="#__codelineno-48-23"></a> &gt;&gt;&gt; foobar_unstructured(m, name=&#39;bias&#39;)
+<a id="__codelineno-48-24" name="__codelineno-48-24" href="#__codelineno-48-24"></a> &quot;&quot;&quot;
+<a id="__codelineno-48-25" name="__codelineno-48-25" href="#__codelineno-48-25"></a>    FooBarPruningMethod.apply(module, name)
+<a id="__codelineno-48-26" name="__codelineno-48-26" href="#__codelineno-48-26"></a>    return module
+</code></pre></div>
+<p>让’s 尝试一下！</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>model = LeNet()
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>foobar_unstructured(model.fc3, name=&#39;bias&#39;)
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>print(model.fc3.bias_mask)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>tensor([0., 1., 0., 1., 0., 1., 0., 1., 0., 1.])
+</code></pre></div>
+<p><strong>脚本的总运行时间:</strong> 
+ ( 0 分 0.366 秒)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../parametrizations/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Parametrizations Tutorial">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Parametrizations Tutorial
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../advanced/dynamic_quantization_tutorial/" class="md-footer__link md-footer__link--next" aria-label="Next: (beta) Dynamic Quantization on an LSTM Word Language Model">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                (beta) Dynamic Quantization on an LSTM Word Language Model
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.copy", "content.action.edit", "content.action.view", "navigation.footer"], "search": "../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
