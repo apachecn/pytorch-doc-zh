@@ -53,6 +53,9 @@ extra_javascript:
 nav:
   - "PyTorch 中文文档 & 教程": "index.md"
   - "PyTorch 新特性":
+    - "V2.6":  "LatestChanges/PyTorch_V2.6.md"
+    - "V2.5":  "LatestChanges/PyTorch_V2.5.md"
+    - "V2.4":  "LatestChanges/PyTorch_V2.4.md"
     - "V2.3":  "LatestChanges/PyTorch_V2.3.md"
     - "V2.2":  "LatestChanges/PyTorch_V2.2.md"
     - "V2.1":  "LatestChanges/PyTorch_V2.1.md"

@@ -50,13 +50,13 @@
 
 ## 原型功能
 
-### [PROTOTYPE] *torch.export*添加了新的API来指定*dynamic_shapes*
+### [Prototype] *torch.export*添加了新的API来指定*dynamic_shapes*
 
 您现在可以使用*torch.export.Dim*更好地表示动态形状，方法是允许开发人员指定范围（最小和最大值），这些范围可以在不同的输入维度上重复使用，这些维度被限制为相等。
 
 要了解有关*torch.export.Dim*的更多信息，以及如何使用它来表达更有趣的关系（如线性算术表达式），请查看[此处](https://pytorch.org/tutorials/intermediate/torch_export_tutorial.html#constraints-dynamic-shapes)的教程。
 
-### [PROTOTYPE]异步检查点生成
+### [Prototype]异步检查点生成
 
 异步检查点生成允许用户在生成检查点时继续他们的训练循环，基本上卸载了大部分检查点成本。
 
@@ -64,7 +64,7 @@
 
 ## 性能改进
 
-### [PROTOTYPE]在 inductor CPU后端引入仅权重量化
+### [Prototype]在 inductor CPU后端引入仅权重量化
 
 PyTorch 2.3增强了火炬电感CPU后端的LLM推理性能。该项目[gpt-fast](https://github.com/pytorch-labs/gpt-fast)为使用*torch.compile*的变压器文本生成提供了简单高效的PyTorch原生加速。在2.3之前，只支持CUDA设备，此功能通过为int4和int8权重仅量化线性提供高度优化的内核来支持CPU对应。
 

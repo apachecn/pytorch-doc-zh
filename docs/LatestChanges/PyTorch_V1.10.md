@@ -51,9 +51,9 @@ CUDA图形大大减少了CPU绑定的cuda工作负载的CPU开销，从而通过
 
 阅读[说明](https://pytorch.org/docs/master/notes/cuda.html#cuda-graphs)以了解更多详细信息和示例，并参考一般[文档](https://pytorch.org/docs/master/generated/torch.cuda.CUDAGraph.html#torch.cuda.CUDAGraph)以获取更多信息。
 
-### \[Beta\]共轭视图
+### [Beta]共轭视图
 
-PyTorch对复tensor([torch.conj()](https://pytorch.org/docs/1.10.0/generated/torch.conj.html?highlight=conj#torch.conj))的共轭现在是一个常数时间操作，并返回具有共轭位集的输入tensor的视图，可以通过调用[torch.is\_conj()](https://pytorch.org/docs/1.10.0/generated/torch.is_conj.html?highlight=is_conj#torch.is_conj)看到。这已经在矩阵乘法、点积等其他各种PyTorch操作中得到了利用，将共轭与操作融合，从而在CPU和CUDA上实现显著的性能增益和内存节省。
+PyTorch对复tensor([torch.conj()](https://pytorch.org/docs/1.10.0/generated/torch.conj.html?highlight=conj#torch.conj))的共轭现在是一个常数时间操作，并返回具有共轭位集的输入tensor的视图，可以通过调用[torch.is_conj()](https://pytorch.org/docs/1.10.0/generated/torch.is_conj.html?highlight=is_conj#torch.is_conj)看到。这已经在矩阵乘法、点积等其他各种PyTorch操作中得到了利用，将共轭与操作融合，从而在CPU和CUDA上实现显著的性能增益和内存节省。
 
 ## 分布式训练
 
@@ -67,7 +67,7 @@ PyTorch对复tensor([torch.conj()](https://pytorch.org/docs/1.10.0/generated/tor
 
 ## 性能优化和工具
 
-### \[Beta\]在TorchScript中进行配置文件定向输出
+### [Beta]在TorchScript中进行配置文件定向输出
 
 TorchScript硬性要求源代码具有类型注释，以便编译成功。长期以来，只能通过反复试验(即通过逐一修复torch.jit.script生成的类型检查错误)来添加缺失或不正确的类型注释，这是低效和耗时的。
 

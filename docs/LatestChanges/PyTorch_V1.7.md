@@ -32,7 +32,7 @@
 
 ## 前端API
 
-### \[BETA\] NumPy 兼容 torch.fft模块
+### [Beta] NumPy 兼容 torch.fft模块
 
 FFT相关功能通常用于各种科学领域，如信号处理。虽然PyTorch历来支持一些与FFT相关的功能，但1.7版本增加了一个新的torch.fft模块，该模块使用与NumPy相同的API实现FFT相关功能。
 
@@ -56,13 +56,13 @@ tensor([12.+16.j, -8.+0.j, -4.-4.j,  0.-8.j])
 
 *   [文稿](https://pytorch.org/docs/stable/fft.html#torch-fft)
 
-### \[BETA\] C++支持变压器NN模块
+### [Beta] C++支持变压器NN模块
 
 自[PyTorch 1.5以来](https://pytorch.org/blog/pytorch-1-dot-5-released-with-new-and-updated-apis/)，我们继续保持python和C++前端API之间的奇偶校验。此更新允许开发人员使用来自C++前端的nn.transformer模块抽象。此外，开发人员不再需要从python/JIT中保存模块并加载到C++中，因为它现在可以直接在C++中使用。
 
 *   [文稿](https://pytorch.org/cppdocs/api/classtorch_1_1nn_1_1_transformer_impl.html#_CPPv4N5torch2nn15TransformerImplE)
 
-### \[BETA\] torch.set_deterministic
+### [Beta] torch.set_deterministic
 
 可重现性(位对位确定性)可能有助于在调试或测试程序时识别错误。为了促进可重现性，PyTorch 1.7添加了`torch.set_deterministic(bool)`函数，该函数可以指导PyTorch操作员在可用时选择确定性算法，并在操作可能导致非确定性行为时抛出运行时错误。默认情况下，此函数控制的标志为假，行为没有变化，这意味着默认情况下，PyTorch可以非确定性地实现其操作。
 
@@ -81,7 +81,7 @@ tensor([12.+16.j, -8.+0.j, -4.-4.j,  0.-8.j])
 
 ## 性能评测
 
-### \[BETA\] 堆栈跟踪已添加到分析器
+### [Beta] 堆栈跟踪已添加到分析器
 
 用户现在不仅可以在分析器输出表中看到运算符名称/输入，还可以看到运算符在代码中的位置。工作流程几乎不需要改变就能利用这种能力。用户像以前一样使用[autograd分析器](https://pytorch.org/docs/stable/autograd.html#profiler)，但具有可选的新参数：`with_stack`和`group_by_stack_n`。注意：定期分析运行不应使用此功能，因为它增加了大量开销。
 
@@ -90,7 +90,7 @@ tensor([12.+16.j, -8.+0.j, -4.-4.j,  0.-8.j])
 
 ## 分布式训练和RPC
 
-### \[STABLE\] torchelastic 现在捆绑到 pytorch docker 图像中
+### [Stable] torchelastic 现在捆绑到 pytorch docker 图像中
 
 Torchelastic 提供了当前 `torch.distributed.launch` CLI 的严格超集，并添加了容错和弹性功能。 如果用户对容错不感兴趣，他们可以通过设置 `max_restarts=0` 来获得准确的功能/行为奇偶校验，并增加自动分配的 `RANK` 和 `MASTER_ADDR|PORT` 的便利(与在 `torch.distributed.launch` 中手动指定相比)。
 
@@ -98,28 +98,28 @@ Torchelastic 提供了当前 `torch.distributed.launch` CLI 的严格超集，�
 
 *   [用法示例以及如何开始](https://pytorch.org/elastic/0.2.0/examples.html)
 
-### \[BETA\] 支持DDP中不均匀的数据集输入
+### [Beta] 支持DDP中不均匀的数据集输入
 
 PyTorch 1.7引入了一个新的上下文管理器，与使用`torch.nn.parallel.DistributedDataParallel`训练的模型一起使用，以便在不同进程中进行数据集大小不均匀的训练。此功能在使用DDP时具有更大的灵活性，并防止用户必须手动确保数据集大小在不同过程中相同。使用此上下文管理器，DDP将自动处理不均匀的数据集大小，这可以防止在训练结束时出现错误或挂起。
 
 *   [RFC](https://github.com/pytorch/pytorch/issues/38174)
 *   [文稿](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel.join)
 
-### \[BETA\] NCCL可靠性-异步错误/超时处理
+### [Beta] NCCL可靠性-异步错误/超时处理
 
 过去，由于集体陷入困境，NCCL的训练运行会无限期地挂起，给用户带来非常不愉快的体验。如果检测到潜在的挂起，此功能将中止卡住的集体，并抛出异常/崩溃过程。当与torchelastic(可以从最后一个检查点恢复训练过程)一起使用时，用户可以在分布式训练中具有更大的可靠性。此功能完全选择加入，位于需要显式设置的环境变量后面，以启用此功能(否则用户将看到与以前相同的行为)。
 
 *   [RFC](https://github.com/pytorch/pytorch/issues/46874)
 *   [文稿](https://pytorch.org/docs/stable/distributed.html?highlight=init_process_group#torch.distributed.init_process_group)
 
-### \[BETA\] torchscript `RPC_REMOTE`和`RPC_SYNC`
+### [Beta] torchscript `RPC_REMOTE`和`RPC_SYNC`
 
 `torch.distributed.rpc.rpc_async`在之前的版本中已在torchscript中可用。对于PyTorch 1.7，此功能将扩展到其余两个核心RPC API，`torch.distributed.rpc.rpc_sync`和`torch.distributed.rpc.remote`。这将完成torchscript中支持的主要RPC API，它允许用户在torchscript中使用现有的python RPC API(在脚本函数或脚本方法中，它释放了python全局解释器锁)，并可能提高多线程环境中的应用程序性能。
 
 *   [文稿](https://pytorch.org/docs/stable/rpc.html#rpc)
 *   [例句](https://github.com/pytorch/pytorch/blob/58ed60c259834e324e86f3e3118e4fcbbfea8dd1/torch/testing/_internal/distributed/rpc/jit/rpc_test.py#L505-L525)
 
-### \[BETA\] 支持 torchscript 的分布式优化器
+### [Beta] 支持 torchscript 的分布式优化器
 
 PyTorch为训练算法提供了广泛的优化器，这些优化器已作为python API的一部分被反复使用。然而，用户通常希望使用多线程训练而不是多进程训练，因为它在大规模分布式训练中提供了更好的资源利用率和效率(例如分布式模型并行)或任何基于RPC的训练应用程序)。用户以前无法使用分布式优化器执行此操作，因为我们需要摆脱python全局解释器锁(GIL)限制来实现这一目标。
 
@@ -155,7 +155,7 @@ with dist_autograd.context() as context_id:
 *   [RFC](https://github.com/pytorch/pytorch/issues/46883)
 *   [文稿](https://pytorch.org/docs/stable/rpc.html#module-torch.distributed.optim)
 
-### \[BETA\] 基于RPC的剖析增强
+### [Beta] 基于RPC的剖析增强
 
 PyTorch 1.6中首次引入了将PyTorch分析器与RPC框架结合使用的支持。在PyTorch 1.7中，进行了以下增强：
 
@@ -168,7 +168,7 @@ PyTorch 1.6中首次引入了将PyTorch分析器与RPC框架结合使用的支�
 *   [设计文档](https://github.com/pytorch/pytorch/issues/39675)
 *   [例句](https://pytorch.org/tutorials/recipes/distributed_rpc_profiling.html)
 
-### \[Prototype\] WINDOWS支持分布式训练
+### [Prototype] WINDOWS支持分布式训练
 
 PyTorch 1.7为Windows平台上的`DistributedDataParallel`和集体通信提供了原型支持。在此版本中，支持仅涵盖基于Gloo的`ProcessGroup`和`FileStore`。
 
@@ -196,7 +196,7 @@ model = DistributedDataParallel(local_model, device_ids=[rank])
 
 PyTorch Mobile支持[iOS](https://pytorch.org/mobile/ios)和[Android](https://pytorch.org/mobile/android/)，[Cocoapods](https://cocoapods.org/)和[JCenter](https://mvnrepository.com/repos/jcenter)分别提供二进制包。您可以在[此处](https://pytorch.org/mobile/home/)了解有关PyTorch Mobile的更多信息。
 
-### \[BETA\] PYTORCH移动缓存分配器用于性能改进
+### [Beta] PYTORCH移动缓存分配器用于性能改进
 
 在一些移动平台上，如Pixel，我们观察到内存被更积极地返回到系统中。这导致频繁的页面故障，因为PyTorch是一个功能框架，无法为运营商保持状态。因此，对于大多数操作，每次执行时都会动态分配输出。为了改善由此导致的性能惩罚，PyTorch 1.7为CPU提供了一个简单的缓存分配器。分配器按tensor大小缓存分配，目前只能通过PyTorch C++ API使用。缓存分配器本身由客户端拥有，因此分配器的生命周期也由客户端代码维护。然后，这种客户端拥有的缓存分配器可以与作用域保护`c10::WithCPUCachingAllocatorGuard`一起使用，以便在该范围内使用缓存分配。**示例用法：**
 
@@ -225,7 +225,7 @@ c10::CPUCachingAllocator caching_allocator;
 
 ## torchvision
 
-### \[STABLE\] 变换现在支持 Tensor 输入、批处理计算、GPU和torchscript
+### [Stable] 变换现在支持 Tensor 输入、批处理计算、GPU和torchscript
 
 torchvision变换现在从`nn.Module`继承，可以进行火炬脚本并应用于火炬tensor输入以及PIL图像。它们还支持具有批处理尺寸的Tensors，并在CPU/GPU设备上无缝工作：
 
@@ -267,7 +267,7 @@ out_image2 = scripted_transforms(tensor_image)
 *   转换多波段火炬tensor图像(超过3-4个通道)
 *   torchscript与您的模型一起转换，用于部署**注意：**torchscript支持的例外情况包括`Compose`、`RandomChoice`、`RandomOrder`、`Lambda`以及应用于PIL图像(如`ToPILImage`)。
 
-### \[STABLE\] 用于JPEG和PNG格式的原生图像IO
+### [Stable] 用于JPEG和PNG格式的原生图像IO
 
 torchvision 0.8.0引入了JPEG和PNG格式的原生图像读写操作。这些运算符支持torchscript，并以`uint8`格式返回`CxHxW`tensor，因此现在可以成为您在C++环境中部署模型的一部分。
 
@@ -288,11 +288,11 @@ tensor_image = decode_image(raw_data)
 scripted_read_image = torch.jit.script(read_image)
 ```
 
-### \[STABLE\] 视网膜检测模型
+### [Stable] 视网膜检测模型
 
 此版本为视网膜网添加了预训练的模型，该模型具有来自[密集物体检测](https://arxiv.org/abs/1708.02002)的[焦距损失](https://arxiv.org/abs/1708.02002)的ResNet50主干。
 
-### \[BETA\] 新视频阅读器API
+### [Beta] 新视频阅读器API
 
 此版本引入了新的视频阅读抽象，可以对视频的迭代进行更精细的控制。它支持图像和音频，并实现了迭代器接口，以便与迭代工具等其他python库互操作。
 
@@ -330,15 +330,15 @@ for frame in takewhile(lambda x: x["pts"] < 5, reader):
 
 随着这个版本，torchaudio正在扩大对模型和[端到端应用程序](https://github.com/pytorch/audio/tree/master/examples)的支持，增加了wav2letter训练管道和端到端文本到语音和源分离管道。请在[github](https://github.com/pytorch/audio/issues/new?template=questions-help-support.md)上提交问题，以提供有关他们的反馈。
 
-### \[STABLE\] 语音识别
+### [Stable] 语音识别
 
 在上一个版本中添加了用于语音识别的wav2letter模型的基础上，我们现在添加了一个带有LibriSpeech数据集的[wav2letter训练管道示例](https://github.com/pytorch/audio/tree/master/examples/pipeline_wav2letter)。
 
-### \[STABLE\] 文本到语音
+### [Stable] 文本到语音
 
 为了支持文本到语音应用程序，我们根据[该存储库](https://github.com/fatchord/WaveRNN)的实现，添加了一个基于WaveRNN模型的声码器。最初的实现是在“高效的神经音频合成”中引入的。我们还提供了一个[WaveRNN训练管道示例](https://github.com/pytorch/audio/tree/master/examples/pipeline_wavernn)，该[管道](https://github.com/pytorch/audio/tree/master/examples/pipeline_wavernn)使用本版本中添加到torchaudio的LibriTTS数据集。
 
-### \[STABLE\] 源头分离
+### [Stable] 源头分离
 
 随着ConvTasNet模型的加入，基于论文“Conv-TasNet：超越语音分离的理想时间频率大小屏蔽”，torchiaudio现在也支持源分离。wsj-mix数据集提供了[ConvTasNet训练管道示例](https://github.com/pytorch/audio/tree/master/examples/source_separation)。
 
