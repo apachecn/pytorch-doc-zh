@@ -57,3 +57,13 @@
 ## 赞助我们
 
 <img src="https://data.apachecn.org/img/about/donate.jpg" alt="微信&支付宝" />
+
+> UCloud赞助
+
+<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+    <a href="https://passport.compshare.cn/register?referral_code=AFuUGld8bEgDILMmbs2Yna" target="_blank" rel="noopener noreferrer">
+        <img src="https://data.dafeiyang.cn/coo/UCloud/UCloud_1860_160.jpg" 
+            alt="Ad" 
+            style="max-width: 900px; max-height: 60px; width: auto; height: auto;">
+    </a>
+</div>
