@@ -61,7 +61,7 @@
 > UCloud赞助
 
 <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-    <a href="https://passport.compshare.cn/register?referral_code=AFuUGld8bEgDILMmbs2Yna" target="_blank" rel="noopener noreferrer">
+    <a href="https://passport.compshare.cn/register?referral_code=AFuUGld8bEgDILMmbs2Yna&ytag=GPU_yy_pytorch-doc-zh" target="_blank" rel="noopener noreferrer">
         <img src="https://data.dafeiyang.cn/coo/UCloud/UCloud_1860_160.jpg" 
             alt="Ad" 
             style="max-width: 900px; max-height: 60px; width: auto; height: auto;">
